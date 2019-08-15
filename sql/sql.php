@@ -16,7 +16,7 @@ public function sql()
     //
     // foreach ($query as $key => $value)
     // {
-    // 	$value['data'] = json_decode($this->crypted->openssl('decrypt', $value['data']), true);
+    // 	$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
     //
     // 	// if (!isset($value['data']['assigned_users']) OR empty($value['data']['assigned_users']))
     // 	// 	$value['data']['assigned_users'] = [];
@@ -51,7 +51,7 @@ public function sql()
     // 	print_r($value);
     //
     // 	// $this->database->update('voxes', [
-    // 	// 	'data' => $this->crypted->openssl('encrypt', json_encode($value['data']))
+    // 	// 	'data' => Functions::get_openssl('encrypt', json_encode($value['data']))
     // 	// ], [
     // 	// 	'id' => $value['id']
     // 	// ]);
@@ -71,7 +71,7 @@ public function sql()
     //
     // foreach ($query as $key => $value)
     // {
-    // 	$value['data'] = json_decode($this->crypted->openssl('decrypt', $value['data']), true);
+    // 	$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
     //
     // 	// print_r($value);
     //
@@ -111,7 +111,7 @@ public function sql()
     // 	// print_r($value);
     //
     // 	$this->database->update('voxes', [
-    // 		'data' => $this->crypted->openssl('encrypt', json_encode($value['data']))
+    // 		'data' => Functions::get_openssl('encrypt', json_encode($value['data']))
     // 	], [
     // 		'id' => $value['id']
     // 	]);

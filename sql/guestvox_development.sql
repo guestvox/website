@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-07-2019 a las 06:22:01
+-- Tiempo de generación: 08-08-2019 a las 18:10:43
 -- Versión del servidor: 10.1.30-MariaDB
 -- Versión de PHP: 7.0.27
 
@@ -32,6 +32,7 @@ CREATE TABLE `accounts` (
   `id` bigint(20) NOT NULL,
   `name` text CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `signup_date` date NOT NULL,
+  `type` set('administrator','hotel','association') CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -39,8 +40,8 @@ CREATE TABLE `accounts` (
 -- Volcado de datos para la tabla `accounts`
 --
 
-INSERT INTO `accounts` (`id`, `name`, `signup_date`, `status`) VALUES
-(1, 'GuestVox', '2019-07-16', 1);
+INSERT INTO `accounts` (`id`, `name`, `signup_date`, `type`, `status`) VALUES
+(1, 'GuestVox', '2019-07-16', 'administrator,hotel,association', 1);
 
 -- --------------------------------------------------------
 
@@ -106,6 +107,485 @@ CREATE TABLE `com_payment_verified` (
   `data` longtext CHARACTER SET latin1 NOT NULL,
   `status_payment` text COLLATE utf8_unicode_ci
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `countries`
+--
+
+CREATE TABLE `countries` (
+  `id` bigint(20) NOT NULL,
+  `name` text COLLATE utf8_spanish_ci NOT NULL,
+  `code` varchar(4) COLLATE utf8_spanish_ci NOT NULL,
+  `lada` varchar(4) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `countries`
+--
+
+INSERT INTO `countries` (`id`, `name`, `code`, `lada`) VALUES
+(1, '{\"es\":\"Afganistán\",\"en\":\"Afganistán\"}', 'AFG', '93'),
+(2, '{\"es\":\"Albania\",\"en\":\"Albania\"}', 'ALB', '355'),
+(3, '{\"es\":\"Alemania\",\"en\":\"Alemania\"}', 'DEU', '49'),
+(4, '{\"es\":\"Argelia\",\"en\":\"Argelia\"}', 'DZA', '213'),
+(5, '{\"es\":\"Andorra\",\"en\":\"Andorra\"}', 'AND', '376'),
+(6, '{\"es\":\"Angola\",\"en\":\"Angola\"}', 'AGO', '244'),
+(7, '{\"es\":\"Anguila\",\"en\":\"Anguila\"}', 'AIA', '264'),
+(8, '{\"es\":\"Antártida\",\"en\":\"Antártida\"}', 'ATA', '672'),
+(9, '{\"es\":\"Antigua y Barbuda\",\"en\":\"Antigua y Barbuda\"}', 'ATG', '268'),
+(10, '{\"es\":\"Antillas Neerlandesas\",\"en\":\"Antillas Neerlandesas\"}', 'ANT', '599'),
+(11, '{\"es\":\"Arabia Saudita\",\"en\":\"Arabia Saudita\"}', 'SAU', '966'),
+(12, '{\"es\":\"Argentina\",\"en\":\"Argentina\"}', 'ARG', '54'),
+(13, '{\"es\":\"Armenia\",\"en\":\"Armenia\"}', 'ARM', '374'),
+(14, '{\"es\":\"Aruba\",\"en\":\"Aruba\"}', 'ABW', '297'),
+(15, '{\"es\":\"Australia\",\"en\":\"Australia\"}', 'AUS', '61'),
+(16, '{\"es\":\"Austria\",\"en\":\"Austria\"}', 'AUT', '43'),
+(17, '{\"es\":\"Azerbayán\",\"en\":\"Azerbayán\"}', 'AZE', '994'),
+(18, '{\"es\":\"Bahamas\",\"en\":\"Bahamas\"}', 'BHS', '242'),
+(19, '{\"es\":\"Bahrein\",\"en\":\"Bahrein\"}', 'BHR', '973'),
+(20, '{\"es\":\"Bangladesh\",\"en\":\"Bangladesh\"}', 'BGD', '880'),
+(21, '{\"es\":\"Barbados\",\"en\":\"Barbados\"}', 'BRB', '246'),
+(22, '{\"es\":\"Bélgica\",\"en\":\"Bélgica\"}', 'BEL', '32'),
+(23, '{\"es\":\"Belice\",\"en\":\"Belice\"}', 'BLZ', '501'),
+(24, '{\"es\":\"Ben\\u00edn\",\"en\":\"Ben\\u00edn\"}', 'BEN', '229'),
+(25, '{\"es\":\"Bhut\\u00e1n\",\"en\":\"Bhut\\u00e1n\"}', 'BTN', '975'),
+(26, '{\"es\":\"Bielorrusia\",\"en\":\"Bielorrusia\"}', 'BLR', '375'),
+(27, '{\"es\":\"Birmania\",\"en\":\"Birmania\"}', 'MMR', '95'),
+(28, '{\"es\":\"Bolivia\",\"en\":\"Bolivia\"}', 'BOL', '591'),
+(29, '{\"es\":\"Bosnia y Herzegovina\",\"en\":\"Bosnia y Herzegovina\"}', 'BIH', '387'),
+(30, '{\"es\":\"Botsuana\",\"en\":\"Botsuana\"}', 'BWA', '267'),
+(31, '{\"es\":\"Brasil\",\"en\":\"Brasil\"}', 'BRA', '55'),
+(32, '{\"es\":\"Brun\\u00e9i\",\"en\":\"Brun\\u00e9i\"}', 'BRN', '673'),
+(33, '{\"es\":\"Bulgaria\",\"en\":\"Bulgaria\"}', 'BGR', '359'),
+(34, '{\"es\":\"Burkina Faso\",\"en\":\"Burkina Faso\"}', 'BFA', '226'),
+(35, '{\"es\":\"Burundi\",\"en\":\"Burundi\"}', 'BDI', '257'),
+(36, '{\"es\":\"Cabo Verde\",\"en\":\"Cabo Verde\"}', 'CPV', '238'),
+(37, '{\"es\":\"Camboya\",\"en\":\"Camboya\"}', 'KHM', '855'),
+(38, '{\"es\":\"Camer\\u00fan\",\"en\":\"Camer\\u00fan\"}', 'CMR', '237'),
+(39, '{\"es\":\"Canad\\u00e1\",\"en\":\"Canad\\u00e1\"}', 'CAN', '1'),
+(40, '{\"es\":\"Chad\",\"en\":\"Chad\"}', 'TCD', '235'),
+(41, '{\"es\":\"Chile\",\"en\":\"Chile\"}', 'CHL', '56'),
+(42, '{\"es\":\"China\",\"en\":\"China\"}', 'CHN', '86'),
+(43, '{\"es\":\"Chipre\",\"en\":\"Chipre\"}', 'CYP', '357'),
+(44, '{\"es\":\"Ciudad del Vaticano\",\"en\":\"Ciudad del Vaticano\"}', 'VAT', '39'),
+(45, '{\"es\":\"Colombia\",\"en\":\"Colombia\"}', 'COL', '57'),
+(46, '{\"es\":\"Comoras\",\"en\":\"Comoras\"}', 'COM', '269'),
+(47, '{\"es\":\"Congo\",\"en\":\"Congo\"}', 'COG', '242'),
+(48, '{\"es\":\"Corea del Norte\",\"en\":\"Corea del Norte\"}', 'PRK', '850'),
+(49, '{\"es\":\"Corea del Sur\",\"en\":\"Corea del Sur\"}', 'KOR', '82'),
+(50, '{\"es\":\"Costa de Marfil\",\"en\":\"Costa de Marfil\"}', 'CIV', '225'),
+(51, '{\"es\":\"Costa Rica\",\"en\":\"Costa Rica\"}', 'CRI', '506'),
+(52, '{\"es\":\"Croacia\",\"en\":\"Croacia\"}', 'HRV', '385'),
+(53, '{\"es\":\"Cuba\",\"en\":\"Cuba\"}', 'CUB', '53'),
+(54, '{\"es\":\"Dinamarca\",\"en\":\"Dinamarca\"}', 'DNK', '45'),
+(55, '{\"es\":\"Dominica\",\"en\":\"Dominica\"}', 'DMA', '767'),
+(56, '{\"es\":\"Ecuador\",\"en\":\"Ecuador\"}', 'ECU', '593'),
+(57, '{\"es\":\"Egipto\",\"en\":\"Egipto\"}', 'EGY', '20'),
+(58, '{\"es\":\"El Salvador\",\"en\":\"El Salvador\"}', 'SLV', '503'),
+(59, '{\"es\":\"Emiratos \\u00c1rabes Unidos\",\"en\":\"Emiratos \\u00c1rabes Unidos\"}', 'ARE', '971'),
+(60, '{\"es\":\"Eritrea\",\"en\":\"Eritrea\"}', 'ERI', '291'),
+(61, '{\"es\":\"Eslovaquia\",\"en\":\"Eslovaquia\"}', 'SVK', '421'),
+(62, '{\"es\":\"Eslovenia\",\"en\":\"Eslovenia\"}', 'SVN', '386'),
+(63, '{\"es\":\"Espa\\u00f1a\",\"en\":\"Espa\\u00f1a\"}', 'ESP', '34'),
+(64, '{\"es\":\"Estados Unidos de Am\\u00e9rica\",\"en\":\"Estados Unidos de Am\\u00e9rica\"}', 'USA', '1'),
+(65, '{\"es\":\"Estonia\",\"en\":\"Estonia\"}', 'EST', '372'),
+(66, '{\"es\":\"Etiop\\u00eda\",\"en\":\"Etiop\\u00eda\"}', 'ETH', '251'),
+(67, '{\"es\":\"Filipinas\",\"en\":\"Filipinas\"}', 'PHL', '63'),
+(68, '{\"es\":\"Finlandia\",\"en\":\"Finlandia\"}', 'FIN', '358'),
+(69, '{\"es\":\"Fiyi\",\"en\":\"Fiyi\"}', 'FJI', '679'),
+(70, '{\"es\":\"Francia\",\"en\":\"Francia\"}', 'FRA', '33'),
+(71, '{\"es\":\"Gab\\u00f3n\",\"en\":\"Gab\\u00f3n\"}', 'GAB', '241'),
+(72, '{\"es\":\"Gambia\",\"en\":\"Gambia\"}', 'GMB', '220'),
+(73, '{\"es\":\"Georgia\",\"en\":\"Georgia\"}', 'GEO', '995'),
+(74, '{\"es\":\"Ghana\",\"en\":\"Ghana\"}', 'GHA', '233'),
+(75, '{\"es\":\"Gibraltar\",\"en\":\"Gibraltar\"}', 'GIB', '350'),
+(76, '{\"es\":\"Granada\",\"en\":\"Granada\"}', 'GRD', '473'),
+(77, '{\"es\":\"Grecia\",\"en\":\"Grecia\"}', 'GRC', '30'),
+(78, '{\"es\":\"Groenlandia\",\"en\":\"Groenlandia\"}', 'GRL', '299'),
+(79, '{\"es\":\"Guadalupe\",\"en\":\"Guadalupe\"}', 'GLP', '0'),
+(80, '{\"es\":\"Guam\",\"en\":\"Guam\"}', 'GUM', '671'),
+(81, '{\"es\":\"Guatemala\",\"en\":\"Guatemala\"}', 'GTM', '502'),
+(82, '{\"es\":\"Guayana Francesa\",\"en\":\"Guayana Francesa\"}', 'GUF', '0'),
+(83, '{\"es\":\"Guernsey\",\"en\":\"Guernsey\"}', 'GGY', '0'),
+(84, '{\"es\":\"Guinea\",\"en\":\"Guinea\"}', 'GIN', '224'),
+(85, '{\"es\":\"Guinea Ecuatorial\",\"en\":\"Guinea Ecuatorial\"}', 'GNQ', '240'),
+(86, '{\"es\":\"Guinea-Bissau\",\"en\":\"Guinea-Bissau\"}', 'GNB', '245'),
+(87, '{\"es\":\"Guyana\",\"en\":\"Guyana\"}', 'GUY', '592'),
+(88, '{\"es\":\"Hait\\u00ed\",\"en\":\"Hait\\u00ed\"}', 'HTI', '509'),
+(89, '{\"es\":\"Honduras\",\"en\":\"Honduras\"}', 'HND', '504'),
+(90, '{\"es\":\"Hong kong\",\"en\":\"Hong kong\"}', 'HKG', '852'),
+(91, '{\"es\":\"Hungr\\u00eda\",\"en\":\"Hungr\\u00eda\"}', 'HUN', '36'),
+(92, '{\"es\":\"India\",\"en\":\"India\"}', 'IND', '91'),
+(93, '{\"es\":\"Indonesia\",\"en\":\"Indonesia\"}', 'IDN', '62'),
+(94, '{\"es\":\"Irak\",\"en\":\"Irak\"}', 'IRQ', '964'),
+(95, '{\"es\":\"Ir\\u00e1n\",\"en\":\"Ir\\u00e1n\"}', 'IRN', '98'),
+(96, '{\"es\":\"Irlanda\",\"en\":\"Irlanda\"}', 'IRL', '353'),
+(97, '{\"es\":\"Isla Bouvet\",\"en\":\"Isla Bouvet\"}', 'BVT', '0'),
+(98, '{\"es\":\"Isla de Man\",\"en\":\"Isla de Man\"}', 'IMN', '44'),
+(99, '{\"es\":\"Isla de Navidad\",\"en\":\"Isla de Navidad\"}', 'CXR', '61'),
+(100, '{\"es\":\"Isla Norfolk\",\"en\":\"Isla Norfolk\"}', 'NFK', '0'),
+(101, '{\"es\":\"Islandia\",\"en\":\"Islandia\"}', 'ISL', '354'),
+(102, '{\"es\":\"Islas Bermudas\",\"en\":\"Islas Bermudas\"}', 'BMU', '441'),
+(103, '{\"es\":\"Islas Caim\\u00e1n\",\"en\":\"Islas Caim\\u00e1n\"}', 'CYM', '345'),
+(104, '{\"es\":\"Islas Cocos (Keeling)\",\"en\":\"Islas Cocos (Keeling)\"}', 'CCK', '61'),
+(105, '{\"es\":\"Islas Cook\",\"en\":\"Islas Cook\"}', 'COK', '682'),
+(106, '{\"es\":\"Islas de \\u00c5land\",\"en\":\"Islas de \\u00c5land\"}', 'ALA', '0'),
+(107, '{\"es\":\"Islas Feroe\",\"en\":\"Islas Feroe\"}', 'FRO', '298'),
+(108, '{\"es\":\"Islas Georgias del Sur y Sandwich del Sur\",\"en\":\"Islas Georgias del Sur y Sandwich del Sur\"}', 'SGS', '0'),
+(109, '{\"es\":\"Islas Heard y McDonald\",\"en\":\"Islas Heard y McDonald\"}', 'HMD', '0'),
+(110, '{\"es\":\"Islas Maldivas\",\"en\":\"Islas Maldivas\"}', 'MDV', '960'),
+(111, '{\"es\":\"Islas Malvinas\",\"en\":\"Islas Malvinas\"}', 'FLK', '500'),
+(112, '{\"es\":\"Islas Marianas del Norte\",\"en\":\"Islas Marianas del Norte\"}', 'MNP', '670'),
+(113, '{\"es\":\"Islas Marshall\",\"en\":\"Islas Marshall\"}', 'MHL', '692'),
+(114, '{\"es\":\"Islas Pitcairn\",\"en\":\"Islas Pitcairn\"}', 'PCN', '870'),
+(115, '{\"es\":\"Islas Salom\\u00f3n\",\"en\":\"Islas Salom\\u00f3n\"}', 'SLB', '677'),
+(116, '{\"es\":\"Islas Turcas y Caicos\",\"en\":\"Islas Turcas y Caicos\"}', 'TCA', '649'),
+(117, '{\"es\":\"Islas Ultramarinas Menores de Estados Unidos\",\"en\":\"Islas Ultramarinas Menores de Estados Unidos\"}', 'UMI', '0'),
+(118, '{\"es\":\"Islas V\\u00edrgenes Brit\\u00e1nicas\",\"en\":\"Islas V\\u00edrgenes Brit\\u00e1nicas\"}', 'VG', '284'),
+(119, '{\"es\":\"Islas V\\u00edrgenes de los Estados Unidos\",\"en\":\"Islas V\\u00edrgenes de los Estados Unidos\"}', 'VIR', '340'),
+(120, '{\"es\":\"Israel\",\"en\":\"Israel\"}', 'ISR', '972'),
+(121, '{\"es\":\"Italia\",\"en\":\"Italia\"}', 'ITA', '39'),
+(122, '{\"es\":\"Jamaica\",\"en\":\"Jamaica\"}', 'JAM', '876'),
+(123, '{\"es\":\"Jap\\u00f3n\",\"en\":\"Jap\\u00f3n\"}', 'JPN', '81'),
+(124, '{\"es\":\"Jersey\",\"en\":\"Jersey\"}', 'JEY', '0'),
+(125, '{\"es\":\"Jordania\",\"en\":\"Jordania\"}', 'JOR', '962'),
+(126, '{\"es\":\"Kazajist\\u00e1n\",\"en\":\"Kazajist\\u00e1n\"}', 'KAZ', '7'),
+(127, '{\"es\":\"Kenia\",\"en\":\"Kenia\"}', 'KEN', '254'),
+(128, '{\"es\":\"Kirgizst\\u00e1n\",\"en\":\"Kirgizst\\u00e1n\"}', 'KGZ', '996'),
+(129, '{\"es\":\"Kiribati\",\"en\":\"Kiribati\"}', 'KIR', '686'),
+(130, '{\"es\":\"Kuwait\",\"en\":\"Kuwait\"}', 'KWT', '965'),
+(131, '{\"es\":\"Laos\",\"en\":\"Laos\"}', 'LAO', '856'),
+(132, '{\"es\":\"Lesoto\",\"en\":\"Lesoto\"}', 'LSO', '266'),
+(133, '{\"es\":\"Letonia\",\"en\":\"Letonia\"}', 'LVA', '371'),
+(134, '{\"es\":\"L\\u00edbano\",\"en\":\"L\\u00edbano\"}', 'LBN', '961'),
+(135, '{\"es\":\"Liberia\",\"en\":\"Liberia\"}', 'LBR', '231'),
+(136, '{\"es\":\"Libia\",\"en\":\"Libia\"}', 'LBY', '218'),
+(137, '{\"es\":\"Liechtenstein\",\"en\":\"Liechtenstein\"}', 'LIE', '423'),
+(138, '{\"es\":\"Lituania\",\"en\":\"Lituania\"}', 'LTU', '370'),
+(139, '{\"es\":\"Luxemburgo\",\"en\":\"Luxemburgo\"}', 'LUX', '352'),
+(140, '{\"es\":\"Macao\",\"en\":\"Macao\"}', 'MAC', '853'),
+(141, '{\"es\":\"Maced\\u00f4nia\",\"en\":\"Maced\\u00f4nia\"}', 'MKD', '389'),
+(142, '{\"es\":\"Madagascar\",\"en\":\"Madagascar\"}', 'MDG', '261'),
+(143, '{\"es\":\"Malasia\",\"en\":\"Malasia\"}', 'MYS', '60'),
+(144, '{\"es\":\"Malawi\",\"en\":\"Malawi\"}', 'MWI', '265'),
+(145, '{\"es\":\"Mali\",\"en\":\"Mali\"}', 'MLI', '223'),
+(146, '{\"es\":\"Malta\",\"en\":\"Malta\"}', 'MLT', '356'),
+(147, '{\"es\":\"Marruecos\",\"en\":\"Marruecos\"}', 'MAR', '212'),
+(148, '{\"es\":\"Martinica\",\"en\":\"Martinica\"}', 'MTQ', '0'),
+(149, '{\"es\":\"Mauricio\",\"en\":\"Mauricio\"}', 'MUS', '230'),
+(150, '{\"es\":\"Mauritania\",\"en\":\"Mauritania\"}', 'MRT', '222'),
+(151, '{\"es\":\"Mayotte\",\"en\":\"Mayotte\"}', 'MYT', '262'),
+(152, '{\"es\":\"M\\u00e9xico\",\"en\":\"M\\u00e9xico\"}', 'MEX', '52'),
+(153, '{\"es\":\"Micronesia\",\"en\":\"Micronesia\"}', 'FSM', '691'),
+(154, '{\"es\":\"Moldavia\",\"en\":\"Moldavia\"}', 'MDA', '373'),
+(155, '{\"es\":\"M\\u00f3naco\",\"en\":\"M\\u00f3naco\"}', 'MCO', '377'),
+(156, '{\"es\":\"Mongolia\",\"en\":\"Mongolia\"}', 'MNG', '976'),
+(157, '{\"es\":\"Montenegro\",\"en\":\"Montenegro\"}', 'MNE', '382'),
+(158, '{\"es\":\"Montserrat\",\"en\":\"Montserrat\"}', 'MSR', '664'),
+(159, '{\"es\":\"Mozambique\",\"en\":\"Mozambique\"}', 'MOZ', '258'),
+(160, '{\"es\":\"Namibia\",\"en\":\"Namibia\"}', 'NAM', '264'),
+(161, '{\"es\":\"Nauru\",\"en\":\"Nauru\"}', 'NRU', '674'),
+(162, '{\"es\":\"Nepal\",\"en\":\"Nepal\"}', 'NPL', '977'),
+(163, '{\"es\":\"Nicaragua\",\"en\":\"Nicaragua\"}', 'NIC', '505'),
+(164, '{\"es\":\"Niger\",\"en\":\"Niger\"}', 'NER', '227'),
+(165, '{\"es\":\"Nigeria\",\"en\":\"Nigeria\"}', 'NGA', '234'),
+(166, '{\"es\":\"Niue\",\"en\":\"Niue\"}', 'NIU', '683'),
+(168, '{\"es\":\"Noruega\",\"en\":\"Noruega\"}', 'NOR', '47'),
+(169, '{\"es\":\"Nueva Caledonia\",\"en\":\"Nueva Caledonia\"}', 'NCL', '687'),
+(170, '{\"es\":\"Nueva Zelanda\",\"en\":\"Nueva Zelanda\"}', 'NZL', '64'),
+(171, '{\"es\":\"Om\\u00e1n\",\"en\":\"Om\\u00e1n\"}', 'OMN', '968'),
+(172, '{\"es\":\"Pa\\u00edses Bajos\",\"en\":\"Pa\\u00edses Bajos\"}', 'NLD', '31'),
+(173, '{\"es\":\"Pakist\\u00e1n\",\"en\":\"Pakist\\u00e1n\"}', 'PAK', '92'),
+(174, '{\"es\":\"Palau\",\"en\":\"Palau\"}', 'PLW', '680'),
+(175, '{\"es\":\"Palestina\",\"en\":\"Palestina\"}', 'PSE', '0'),
+(176, '{\"es\":\"Panam\\u00e1\",\"en\":\"Panam\\u00e1\"}', 'PAN', '507'),
+(177, '{\"es\":\"Pap\\u00faa Nueva Guinea\",\"en\":\"Pap\\u00faa Nueva Guinea\"}', 'PNG', '675'),
+(178, '{\"es\":\"Paraguay\",\"en\":\"Paraguay\"}', 'PRY', '595'),
+(179, '{\"es\":\"Per\\u00fa\",\"en\":\"Per\\u00fa\"}', 'PER', '51'),
+(180, '{\"es\":\"Polinesia Francesa\",\"en\":\"Polinesia Francesa\"}', 'PYF', '689'),
+(181, '{\"es\":\"Polonia\",\"en\":\"Polonia\"}', 'POL', '48'),
+(182, '{\"es\":\"Portugal\",\"en\":\"Portugal\"}', 'PRT', '351'),
+(183, '{\"es\":\"Puerto Rico\",\"en\":\"Puerto Rico\"}', 'PRI', '787'),
+(184, '{\"es\":\"Qatar\",\"en\":\"Qatar\"}', 'QAT', '974'),
+(185, '{\"es\":\"Reino Unido\",\"en\":\"Reino Unido\"}', 'GBR', '44'),
+(186, '{\"es\":\"Rep\\u00fablica Centroafricana\",\"en\":\"Rep\\u00fablica Centroafricana\"}', 'CAF', '236'),
+(187, '{\"es\":\"Rep\\u00fablica Checa\",\"en\":\"Rep\\u00fablica Checa\"}', 'CZE', '420'),
+(188, '{\"es\":\"Rep\\u00fablica Dominicana\",\"en\":\"Rep\\u00fablica Dominicana\"}', 'DOM', '809'),
+(189, '{\"es\":\"Reuni\\u00f3n\",\"en\":\"Reuni\\u00f3n\"}', 'REU', '0'),
+(190, '{\"es\":\"Ruanda\",\"en\":\"Ruanda\"}', 'RWA', '250'),
+(191, '{\"es\":\"Ruman\\u00eda\",\"en\":\"Ruman\\u00eda\"}', 'ROU', '40'),
+(192, '{\"es\":\"Rusia\",\"en\":\"Rusia\"}', 'RUS', '7'),
+(193, '{\"es\":\"Sahara Occidental\",\"en\":\"Sahara Occidental\"}', 'ESH', '0'),
+(194, '{\"es\":\"Samoa\",\"en\":\"Samoa\"}', 'WSM', '685'),
+(195, '{\"es\":\"Samoa Americana\",\"en\":\"Samoa Americana\"}', 'ASM', '684'),
+(196, '{\"es\":\"San Bartolom\\u00e9\",\"en\":\"San Bartolom\\u00e9\"}', 'BLM', '590'),
+(197, '{\"es\":\"San Crist\\u00f3bal y Nieves\",\"en\":\"San Crist\\u00f3bal y Nieves\"}', 'KNA', '869'),
+(198, '{\"es\":\"San Marino\",\"en\":\"San Marino\"}', 'SMR', '378'),
+(199, '{\"es\":\"San Mart\\u00edn (Francia)\",\"en\":\"San Mart\\u00edn (Francia)\"}', 'MAF', '599'),
+(200, '{\"es\":\"San Pedro y Miquel\\u00f3n\",\"en\":\"San Pedro y Miquel\\u00f3n\"}', 'SPM', '508'),
+(201, '{\"es\":\"San Vicente y las Granadinas\",\"en\":\"San Vicente y las Granadinas\"}', 'VCT', '784'),
+(202, '{\"es\":\"Santa Elena\",\"en\":\"Santa Elena\"}', 'SHN', '290'),
+(203, '{\"es\":\"Santa Luc\\u00eda\",\"en\":\"Santa Luc\\u00eda\"}', 'LCA', '758'),
+(204, '{\"es\":\"Santo Tom\\u00e9 y Pr\\u00edncipe\",\"en\":\"Santo Tom\\u00e9 y Pr\\u00edncipe\"}', 'STP', '239'),
+(205, '{\"es\":\"Senegal\",\"en\":\"Senegal\"}', 'SEN', '221'),
+(206, '{\"es\":\"Serbia\",\"en\":\"Serbia\"}', 'SRB', '381'),
+(207, '{\"es\":\"Seychelles\",\"en\":\"Seychelles\"}', 'SYC', '248'),
+(208, '{\"es\":\"Sierra Leona\",\"en\":\"Sierra Leona\"}', 'SLE', '232'),
+(209, '{\"es\":\"Singapur\",\"en\":\"Singapur\"}', 'SGP', '65'),
+(210, '{\"es\":\"Siria\",\"en\":\"Siria\"}', 'SYR', '963'),
+(211, '{\"es\":\"Somalia\",\"en\":\"Somalia\"}', 'SOM', '252'),
+(212, '{\"es\":\"Sri lanka\",\"en\":\"Sri lanka\"}', 'LKA', '94'),
+(213, '{\"es\":\"Sud\\u00e1frica\",\"en\":\"Sud\\u00e1frica\"}', 'ZAF', '27'),
+(214, '{\"es\":\"Sud\\u00e1n\",\"en\":\"Sud\\u00e1n\"}', 'SDN', '249'),
+(215, '{\"es\":\"Suecia\",\"en\":\"Suecia\"}', 'SWE', '46'),
+(216, '{\"es\":\"Suiza\",\"en\":\"Suiza\"}', 'CHE', '41'),
+(217, '{\"es\":\"Surin\\u00e1m\",\"en\":\"Surin\\u00e1m\"}', 'SUR', '597'),
+(218, '{\"es\":\"Svalbard y Jan Mayen\",\"en\":\"Svalbard y Jan Mayen\"}', 'SJM', '0'),
+(219, '{\"es\":\"Swazilandia\",\"en\":\"Swazilandia\"}', 'SWZ', '268'),
+(220, '{\"es\":\"Tadjikist\\u00e1n\",\"en\":\"Tadjikist\\u00e1n\"}', 'TJK', '992'),
+(221, '{\"es\":\"Tailandia\",\"en\":\"Tailandia\"}', 'THA', '66'),
+(222, '{\"es\":\"Taiw\\u00e1n\",\"en\":\"Taiw\\u00e1n\"}', 'TWN', '886'),
+(223, '{\"es\":\"Tanzania\",\"en\":\"Tanzania\"}', 'TZA', '255'),
+(224, '{\"es\":\"Territorio Brit\\u00e1nico del Oc\\u00e9ano \\u00cdndico\",\"en\":\"Territorio Brit\\u00e1nico del Oc\\u00e9ano \\u00cdndico\"}', 'IOT', '0'),
+(225, '{\"es\":\"Territorios Australes y Ant\\u00e1rticas Franceses\",\"en\":\"Territorios Australes y Ant\\u00e1rticas Franceses\"}', 'ATF', '0'),
+(226, '{\"es\":\"Timor Oriental\",\"en\":\"Timor Oriental\"}', 'TLS', '670'),
+(227, '{\"es\":\"Togo\",\"en\":\"Togo\"}', 'TGO', '228'),
+(228, '{\"es\":\"Tokelau\",\"en\":\"Tokelau\"}', 'TKL', '690'),
+(229, '{\"es\":\"Tonga\",\"en\":\"Tonga\"}', 'TON', '676'),
+(230, '{\"es\":\"Trinidad y Tobago\",\"en\":\"Trinidad y Tobago\"}', 'TTO', '868'),
+(231, '{\"es\":\"Tunez\",\"en\":\"Tunez\"}', 'TUN', '216'),
+(232, '{\"es\":\"Turkmenist\\u00e1n\",\"en\":\"Turkmenist\\u00e1n\"}', 'TKM', '993'),
+(233, '{\"es\":\"Turqu\\u00eda\",\"en\":\"Turqu\\u00eda\"}', 'TUR', '90'),
+(234, '{\"es\":\"Tuvalu\",\"en\":\"Tuvalu\"}', 'TUV', '688'),
+(235, '{\"es\":\"Ucrania\",\"en\":\"Ucrania\"}', 'UKR', '380'),
+(236, '{\"es\":\"Uganda\",\"en\":\"Uganda\"}', 'UGA', '256'),
+(237, '{\"es\":\"Uruguay\",\"en\":\"Uruguay\"}', 'URY', '598'),
+(238, '{\"es\":\"Uzbekist\\u00e1n\",\"en\":\"Uzbekist\\u00e1n\"}', 'UZB', '998'),
+(239, '{\"es\":\"Vanuatu\",\"en\":\"Vanuatu\"}', 'VUT', '678'),
+(240, '{\"es\":\"Venezuela\",\"en\":\"Venezuela\"}', 'VEN', '58'),
+(241, '{\"es\":\"Vietnam\",\"en\":\"Vietnam\"}', 'VNM', '84'),
+(242, '{\"es\":\"Wallis y Futuna\",\"en\":\"Wallis y Futuna\"}', 'WLF', '681'),
+(243, '{\"es\":\"Yemen\",\"en\":\"Yemen\"}', 'YEM', '967'),
+(244, '{\"es\":\"Yibuti\",\"en\":\"Yibuti\"}', 'DJI', '253'),
+(245, '{\"es\":\"Zambia\",\"en\":\"Zambia\"}', 'ZMB', '260'),
+(246, '{\"es\":\"Zimbabue\",\"en\":\"Zimbabue\"}', 'ZWE', '263');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `currencies`
+--
+
+CREATE TABLE `currencies` (
+  `id` bigint(20) NOT NULL,
+  `name` text COLLATE utf8_spanish_ci NOT NULL,
+  `code` varchar(4) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `currencies`
+--
+
+INSERT INTO `currencies` (`id`, `name`, `code`) VALUES
+(1, '{\"es\":\"Afgani afgano\",\"en\":\"Afgani afgano\"}', 'AFN'),
+(2, '{\"es\":\"Lek alban\\u00e9s\",\"en\":\"Lek alban\\u00e9s\"}', 'ALL'),
+(3, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(4, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(5, '{\"es\":\"Kwanza angole\\u00f1o\",\"en\":\"Kwanza angole\\u00f1o\"}', 'AOA'),
+(6, '{\"es\":\"D\\u00f3lar del Caribe Oriental\",\"en\":\"D\\u00f3lar del Caribe Oriental\"}', 'XCD'),
+(7, '{\"es\":\"Riyal saud\\u00ed\",\"en\":\"Riyal saud\\u00ed\"}', 'SAR'),
+(8, '{\"es\":\"Dinar argelino\",\"en\":\"Dinar argelino\"}', 'DZD'),
+(9, '{\"es\":\"Peso\",\"en\":\"Peso\"}', 'ARS'),
+(10, '{\"es\":\"Dram armenio\",\"en\":\"Dram armenio\"}', 'AMD'),
+(11, '{\"es\":\"D\\u00f3lar australiano\",\"en\":\"D\\u00f3lar australiano\"}', 'AUD'),
+(12, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(13, '{\"es\":\"Manat azer\\u00ed\",\"en\":\"Manat azer\\u00ed\"}', 'AZN'),
+(14, '{\"es\":\"D\\u00f3lar bahame\\u00f1o\",\"en\":\"D\\u00f3lar bahame\\u00f1o\"}', 'BSD'),
+(15, '{\"es\":\"Taka bangladesh\\u00ed\",\"en\":\"Taka bangladesh\\u00ed\"}', 'BDT'),
+(16, '{\"es\":\"D\\u00f3lar de Barbados\",\"en\":\"D\\u00f3lar de Barbados\"}', 'BBD'),
+(17, '{\"es\":\"Dinar bahrein\\u00ed\",\"en\":\"Dinar bahrein\\u00ed\"}', 'BHD'),
+(18, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(19, '{\"es\":\"D\\u00f3lar belice\\u00f1o\",\"en\":\"D\\u00f3lar belice\\u00f1o\"}', 'BZD'),
+(20, '{\"es\":\"Franco CFA de \\u00c1frica Occidental\",\"en\":\"Franco CFA de \\u00c1frica Occidental\"}', 'XOF'),
+(21, '{\"es\":\"Rublo bielorruso\",\"en\":\"Rublo bielorruso\"}', 'BYN'),
+(22, '{\"es\":\"Kyat birmano\",\"en\":\"Kyat birmano\"}', 'MMK'),
+(23, '{\"es\":\"Boliviano\",\"en\":\"Boliviano\"}', 'BOB'),
+(24, '{\"es\":\"Marco convertible\",\"en\":\"Marco convertible\"}', 'BAM'),
+(25, '{\"es\":\"Pula\",\"en\":\"Pula\"}', 'BWP'),
+(26, '{\"es\":\"Real brasile\\u00f1o\",\"en\":\"Real brasile\\u00f1o\"}', 'BRL'),
+(27, '{\"es\":\"D\\u00f3lar de Brun\\u00e9i\",\"en\":\"D\\u00f3lar de Brun\\u00e9i\"}', 'BND'),
+(28, '{\"es\":\"Lev b\\u00falgaro\",\"en\":\"Lev b\\u00falgaro\"}', 'BGN'),
+(29, '{\"es\":\"Franco CFA de \\u00c1frica Occidental\",\"en\":\"Franco CFA de \\u00c1frica Occidental\"}', 'XOF'),
+(30, '{\"es\":\"Franco de Burundi\",\"en\":\"Franco de Burundi\"}', 'BIF'),
+(31, '{\"es\":\"Ngultrum butan\\u00e9s\",\"en\":\"Ngultrum butan\\u00e9s\"}', 'BTN'),
+(32, '{\"es\":\"Escudo caboverdiano\",\"en\":\"Escudo caboverdiano\"}', 'CVE'),
+(33, '{\"es\":\"Riel camboyano\",\"en\":\"Riel camboyano\"}', 'KHR'),
+(34, '{\"es\":\"Franco CFA de \\u00c1frica Central\",\"en\":\"Franco CFA de \\u00c1frica Central\"}', 'XAF'),
+(35, '{\"es\":\"D\\u00f3lar canadiense\",\"en\":\"D\\u00f3lar canadiense\"}', 'CAD'),
+(36, '{\"es\":\"Riyal qatar\\u00ed\",\"en\":\"Riyal qatar\\u00ed\"}', 'QAR'),
+(37, '{\"es\":\"Franco CFA de \\u00c1frica Central\",\"en\":\"Franco CFA de \\u00c1frica Central\"}', 'XAF'),
+(38, '{\"es\":\"Peso chileno\",\"en\":\"Peso chileno\"}', 'CLP'),
+(39, '{\"es\":\"Yuan chino\",\"en\":\"Yuan chino\"}', 'CNY'),
+(40, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(41, '{\"es\":\"Peso colombiano\",\"en\":\"Peso colombiano\"}', 'COP'),
+(42, '{\"es\":\"Franco comorano\",\"en\":\"Franco comorano\"}', 'KMF'),
+(43, '{\"es\":\"Franco CFA de \\u00c1frica Central\",\"en\":\"Franco CFA de \\u00c1frica Central\"}', 'XAF'),
+(44, '{\"es\":\"Won norcoreano\",\"en\":\"Won norcoreano\"}', 'KPW'),
+(45, '{\"es\":\"Won surcoreano\",\"en\":\"Won surcoreano\"}', 'KRW'),
+(46, '{\"es\":\"Franco CFA de \\u00c1frica Occidental\",\"en\":\"Franco CFA de \\u00c1frica Occidental\"}', 'XOF'),
+(47, '{\"es\":\"Col\\u00f3n costarricense\",\"en\":\"Col\\u00f3n costarricense\"}', 'CRC'),
+(48, '{\"es\":\"Kuna croata\",\"en\":\"Kuna croata\"}', 'HRK'),
+(49, '{\"es\":\"Peso cubano\",\"en\":\"Peso cubano\"}', 'CUP'),
+(50, '{\"es\":\"Corona danesa\",\"en\":\"Corona danesa\"}', 'DKK'),
+(51, '{\"es\":\"D\\u00f3lar del Caribe Oriental\",\"en\":\"D\\u00f3lar del Caribe Oriental\"}', 'XCD'),
+(52, '{\"es\":\"D\\u00f3lar estadounidense\",\"en\":\"D\\u00f3lar estadounidense\"}', 'USD'),
+(53, '{\"es\":\"Libra egipcia\",\"en\":\"Libra egipcia\"}', 'EGP'),
+(54, '{\"es\":\"D\\u00f3lar estadounidense\",\"en\":\"D\\u00f3lar estadounidense\"}', 'USD'),
+(55, '{\"es\":\"Dirham de los Emiratos \\u00c1rabes Unidos\",\"en\":\"Dirham de los Emiratos \\u00c1rabes Unidos\"}', 'AED'),
+(56, '{\"es\":\"Nakfa\",\"en\":\"Nakfa\"}', 'ERN'),
+(57, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(58, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(59, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(60, '{\"es\":\"D\\u00f3lar estadounidense\",\"en\":\"D\\u00f3lar estadounidense\"}', 'USD'),
+(61, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(62, '{\"es\":\"Birr et\\u00edope\",\"en\":\"Birr et\\u00edope\"}', 'ETB'),
+(63, '{\"es\":\"Peso filipino\",\"en\":\"Peso filipino\"}', 'PHP'),
+(64, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(65, '{\"es\":\"D\\u00f3lar fiyiano\",\"en\":\"D\\u00f3lar fiyiano\"}', 'FJD'),
+(66, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(67, '{\"es\":\"Franco CFA de \\u00c1frica Central\",\"en\":\"Franco CFA de \\u00c1frica Central\"}', 'XAF'),
+(68, '{\"es\":\"Dalasi\",\"en\":\"Dalasi\"}', 'GMD'),
+(69, '{\"es\":\"Lari georgiano\",\"en\":\"Lari georgiano\"}', 'GEL'),
+(70, '{\"es\":\"Cedi\",\"en\":\"Cedi\"}', 'GHS'),
+(71, '{\"es\":\"D\\u00f3lar del Caribe Oriental\",\"en\":\"D\\u00f3lar del Caribe Oriental\"}', 'XCD'),
+(72, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(73, '{\"es\":\"Quetzal guatemalteco\",\"en\":\"Quetzal guatemalteco\"}', 'GTQ'),
+(74, '{\"es\":\"Franco guineano\",\"en\":\"Franco guineano\"}', 'GNF'),
+(75, '{\"es\":\"Franco CFA de \\u00c1frica Central\",\"en\":\"Franco CFA de \\u00c1frica Central\"}', 'XAF'),
+(76, '{\"es\":\"Franco CFA de \\u00c1frica Occidental\",\"en\":\"Franco CFA de \\u00c1frica Occidental\"}', 'XOF'),
+(77, '{\"es\":\"D\\u00f3lar guyan\\u00e9s\",\"en\":\"D\\u00f3lar guyan\\u00e9s\"}', 'GYD'),
+(78, '{\"es\":\"Gourde haitiano\",\"en\":\"Gourde haitiano\"}', 'HTG'),
+(79, '{\"es\":\"Lempira hondure\\u00f1o\",\"en\":\"Lempira hondure\\u00f1o\"}', 'HNL'),
+(80, '{\"es\":\"Forinto h\\u00fangaro\",\"en\":\"Forinto h\\u00fangaro\"}', 'HUF'),
+(81, '{\"es\":\"Rupia india\",\"en\":\"Rupia india\"}', 'INR'),
+(82, '{\"es\":\"Rupia indonesia\",\"en\":\"Rupia indonesia\"}', 'IDR'),
+(83, '{\"es\":\"Dinar iraqu\\u00ed\",\"en\":\"Dinar iraqu\\u00ed\"}', 'IQD'),
+(84, '{\"es\":\"Rial iran\\u00ed\",\"en\":\"Rial iran\\u00ed\"}', 'IRR'),
+(85, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(86, '{\"es\":\"Corona islandes\",\"en\":\"Corona islandes\"}', 'ISK'),
+(87, '{\"es\":\"D\\u00f3lar estadounidense\",\"en\":\"D\\u00f3lar estadounidense\"}', 'USD'),
+(88, '{\"es\":\"D\\u00f3lar de las Islas Salom\\u00f3n\",\"en\":\"D\\u00f3lar de las Islas Salom\\u00f3n\"}', 'SBD'),
+(89, '{\"es\":\"Nuevo sh\\u00e9quel\",\"en\":\"Nuevo sh\\u00e9quel\"}', 'ILS'),
+(90, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(91, '{\"es\":\"D\\u00f3lar jamaiquino\",\"en\":\"D\\u00f3lar jamaiquino\"}', 'JMD'),
+(92, '{\"es\":\"Yen\",\"en\":\"Yen\"}', 'JPY'),
+(93, '{\"es\":\"Dinar jordano\",\"en\":\"Dinar jordano\"}', 'JOD'),
+(94, '{\"es\":\"Tenge kazajo\",\"en\":\"Tenge kazajo\"}', 'KZT'),
+(95, '{\"es\":\"Chel\\u00edn keniano\",\"en\":\"Chel\\u00edn keniano\"}', 'KES'),
+(96, '{\"es\":\"Som kirgu\\u00eds\",\"en\":\"Som kirgu\\u00eds\"}', 'KGS'),
+(97, '{\"es\":\"D\\u00f3lar australiano\",\"en\":\"D\\u00f3lar australiano\"}', 'AUD'),
+(98, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(99, '{\"es\":\"Dinar kuwait\\u00ed\",\"en\":\"Dinar kuwait\\u00ed\"}', 'KWD'),
+(100, '{\"es\":\"Kip laosiano\",\"en\":\"Kip laosiano\"}', 'LAK'),
+(101, '{\"es\":\"Loti\",\"en\":\"Loti\"}', 'LSL'),
+(102, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(103, '{\"es\":\"Libra libanesa\",\"en\":\"Libra libanesa\"}', 'LBP'),
+(104, '{\"es\":\"D\\u00f3lar liberiano\",\"en\":\"D\\u00f3lar liberiano\"}', 'LRD'),
+(105, '{\"es\":\"Dinar libio\",\"en\":\"Dinar libio\"}', 'LYD'),
+(106, '{\"es\":\"Franco suizo\",\"en\":\"Franco suizo\"}', 'CHF'),
+(107, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(108, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(109, '{\"es\":\"Denar macedonio\",\"en\":\"Denar macedonio\"}', 'MKD'),
+(110, '{\"es\":\"Ariary malgache\",\"en\":\"Ariary malgache\"}', 'MGA'),
+(111, '{\"es\":\"Ringgit malayo\",\"en\":\"Ringgit malayo\"}', 'MYR'),
+(112, '{\"es\":\"Kwacha malau\\u00ed\",\"en\":\"Kwacha malau\\u00ed\"}', 'MWK'),
+(113, '{\"es\":\"Rupia de Maldivas\",\"en\":\"Rupia de Maldivas\"}', 'MVR'),
+(114, '{\"es\":\"Franco CFA de \\u00c1frica Occidental\",\"en\":\"Franco CFA de \\u00c1frica Occidental\"}', 'XOF'),
+(115, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(116, '{\"es\":\"Dirham marroqu\\u00ed\",\"en\":\"Dirham marroqu\\u00ed\"}', 'MAD'),
+(117, '{\"es\":\"Rupia de Mauricio\",\"en\":\"Rupia de Mauricio\"}', 'MUR'),
+(118, '{\"es\":\"Uguiya\",\"en\":\"Uguiya\"}', 'MRO'),
+(119, '{\"es\":\"Peso mexicano\",\"en\":\"Peso mexicano\"}', 'MXN'),
+(120, '{\"es\":\"D\\u00f3lar estadounidense\",\"en\":\"D\\u00f3lar estadounidense\"}', 'USD'),
+(121, '{\"es\":\"Leu moldavo\",\"en\":\"Leu moldavo\"}', 'MDL'),
+(122, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(123, '{\"es\":\"Tugrik mongol\",\"en\":\"Tugrik mongol\"}', 'MNT'),
+(124, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(125, '{\"es\":\"Metical mozambique\\u00f1o\",\"en\":\"Metical mozambique\\u00f1o\"}', 'MZN'),
+(126, '{\"es\":\"D\\u00f3lar namibio\",\"en\":\"D\\u00f3lar namibio\"}', 'NAD'),
+(127, '{\"es\":\"D\\u00f3lar australiano\",\"en\":\"D\\u00f3lar australiano\"}', 'AUD'),
+(128, '{\"es\":\"Rupia nepal\\u00ed\",\"en\":\"Rupia nepal\\u00ed\"}', 'NPR'),
+(129, '{\"es\":\"C\\u00f3rdoba nicarag\\u00fcense\",\"en\":\"C\\u00f3rdoba nicarag\\u00fcense\"}', 'NIO'),
+(130, '{\"es\":\"Franco CFA de \\u00c1frica Occidental\",\"en\":\"Franco CFA de \\u00c1frica Occidental\"}', 'XOF'),
+(131, '{\"es\":\"Naira\",\"en\":\"Naira\"}', 'NGN'),
+(132, '{\"es\":\"Corona noruega\",\"en\":\"Corona noruega\"}', 'NOK'),
+(133, '{\"es\":\"D\\u00f3lar neozeland\\u00e9s\",\"en\":\"D\\u00f3lar neozeland\\u00e9s\"}', 'NZD'),
+(134, '{\"es\":\"Rial oman\\u00ed\",\"en\":\"Rial oman\\u00ed\"}', 'OMR'),
+(135, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(136, '{\"es\":\"Rupia pakistan\\u00ed\",\"en\":\"Rupia pakistan\\u00ed\"}', 'PKR'),
+(137, '{\"es\":\"D\\u00f3lar estadounidense\",\"en\":\"D\\u00f3lar estadounidense\"}', 'USD'),
+(138, '{\"es\":\"Nuevo sh\\u00e9quel\",\"en\":\"Nuevo sh\\u00e9quel\"}', 'ILS'),
+(139, '{\"es\":\"Balboa paname\\u00f1o\",\"en\":\"Balboa paname\\u00f1o\"}', 'PAB'),
+(140, '{\"es\":\"Kina\",\"en\":\"Kina\"}', 'PGK'),
+(141, '{\"es\":\"Guaran\\u00ed\",\"en\":\"Guaran\\u00ed\"}', 'PYG'),
+(142, '{\"es\":\"Nuevo sol\",\"en\":\"Nuevo sol\"}', 'PEN'),
+(143, '{\"es\":\"Zloty\",\"en\":\"Zloty\"}', 'PLN'),
+(144, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(145, '{\"es\":\"Libra brit\\u00e1nica\",\"en\":\"Libra brit\\u00e1nica\"}', 'GBP'),
+(146, '{\"es\":\"Franco CFA de \\u00c1frica Central\",\"en\":\"Franco CFA de \\u00c1frica Central\"}', 'XAF'),
+(147, '{\"es\":\"Corona checa\",\"en\":\"Corona checa\"}', 'CZK'),
+(148, '{\"es\":\"Franco congole\\u00f1o\",\"en\":\"Franco congole\\u00f1o\"}', 'CDF'),
+(149, '{\"es\":\"Peso dominicano\",\"en\":\"Peso dominicano\"}', 'DOP'),
+(150, '{\"es\":\"Franco ruand\\u00e9s\",\"en\":\"Franco ruand\\u00e9s\"}', 'RWF'),
+(151, '{\"es\":\"Leu rumano\",\"en\":\"Leu rumano\"}', 'RON'),
+(152, '{\"es\":\"Rublo ruso\",\"en\":\"Rublo ruso\"}', 'RUB'),
+(153, '{\"es\":\"Tala\",\"en\":\"Tala\"}', 'WST'),
+(154, '{\"es\":\"D\\u00f3lar del Caribe Oriental\",\"en\":\"D\\u00f3lar del Caribe Oriental\"}', 'XCD'),
+(155, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(156, '{\"es\":\"D\\u00f3lar del Caribe Oriental\",\"en\":\"D\\u00f3lar del Caribe Oriental\"}', 'XCD'),
+(157, '{\"es\":\"D\\u00f3lar del Caribe Oriental\",\"en\":\"D\\u00f3lar del Caribe Oriental\"}', 'XCD'),
+(158, '{\"es\":\"Dobra\",\"en\":\"Dobra\"}', 'STD'),
+(159, '{\"es\":\"Franco CFA de \\u00c1frica Occidental\",\"en\":\"Franco CFA de \\u00c1frica Occidental\"}', 'XOF'),
+(160, '{\"es\":\"Dinar serbio\",\"en\":\"Dinar serbio\"}', 'RSD'),
+(161, '{\"es\":\"Rupia de Seychelles\",\"en\":\"Rupia de Seychelles\"}', 'SCR'),
+(162, '{\"es\":\"Leone\",\"en\":\"Leone\"}', 'SLL'),
+(163, '{\"es\":\"D\\u00f3lar de Singapur\",\"en\":\"D\\u00f3lar de Singapur\"}', 'SGD'),
+(164, '{\"es\":\"Libra siria\",\"en\":\"Libra siria\"}', 'SYP'),
+(165, '{\"es\":\"Chel\\u00edn somal\\u00ed\",\"en\":\"Chel\\u00edn somal\\u00ed\"}', 'SOS'),
+(166, '{\"es\":\"Rupia de Sri Lanka\",\"en\":\"Rupia de Sri Lanka\"}', 'LKR'),
+(167, '{\"es\":\"Lilangeni\",\"en\":\"Lilangeni\"}', 'SZL'),
+(168, '{\"es\":\"Rand sudafricano\",\"en\":\"Rand sudafricano\"}', 'ZAR'),
+(169, '{\"es\":\"Libra sudanesa\",\"en\":\"Libra sudanesa\"}', 'SDG'),
+(170, '{\"es\":\"Libra sursudanesa\",\"en\":\"Libra sursudanesa\"}', 'SSP'),
+(171, '{\"es\":\"Corona sueca\",\"en\":\"Corona sueca\"}', 'SEK'),
+(172, '{\"es\":\"Franco suizo\",\"en\":\"Franco suizo\"}', 'CHF'),
+(173, '{\"es\":\"D\\u00f3lar surinam\\u00e9s\",\"en\":\"D\\u00f3lar surinam\\u00e9s\"}', 'SRD'),
+(174, '{\"es\":\"Baht tailand\\u00e9s\",\"en\":\"Baht tailand\\u00e9s\"}', 'THB'),
+(175, '{\"es\":\"Nuevo d\\u00f3lar taiwan\\u00e9s\",\"en\":\"Nuevo d\\u00f3lar taiwan\\u00e9s\"}', 'TWD'),
+(176, '{\"es\":\"Chel\\u00edn tanzano\",\"en\":\"Chel\\u00edn tanzano\"}', 'TZS'),
+(177, '{\"es\":\"Somoni tayiko\",\"en\":\"Somoni tayiko\"}', 'TJS'),
+(178, '{\"es\":\"D\\u00f3lar estadounidense\",\"en\":\"D\\u00f3lar estadounidense\"}', 'USD'),
+(179, '{\"es\":\"Franco CFA de \\u00c1frica Occidental\",\"en\":\"Franco CFA de \\u00c1frica Occidental\"}', 'XOF'),
+(180, '{\"es\":\"Paanga\",\"en\":\"Paanga\"}', 'TOP'),
+(181, '{\"es\":\"D\\u00f3lar trinitense\",\"en\":\"D\\u00f3lar trinitense\"}', 'TTD'),
+(182, '{\"es\":\"Dinar tunecino\",\"en\":\"Dinar tunecino\"}', 'TND'),
+(183, '{\"es\":\"Manat turcomano\",\"en\":\"Manat turcomano\"}', 'TMT'),
+(184, '{\"es\":\"Lira turca\",\"en\":\"Lira turca\"}', 'TRY'),
+(185, '{\"es\":\"D\\u00f3lar australiano\",\"en\":\"D\\u00f3lar australiano\"}', 'AUD'),
+(186, '{\"es\":\"Grivna\",\"en\":\"Grivna\"}', 'UAH'),
+(187, '{\"es\":\"Chel\\u00edn ugand\\u00e9s\",\"en\":\"Chel\\u00edn ugand\\u00e9s\"}', 'UGX'),
+(188, '{\"es\":\"Peso uruguayo\",\"en\":\"Peso uruguayo\"}', 'UYU'),
+(189, '{\"es\":\"Som uzbeko\",\"en\":\"Som uzbeko\"}', 'UZS'),
+(190, '{\"es\":\"Vatu\",\"en\":\"Vatu\"}', 'VUV'),
+(191, '{\"es\":\"Euro\",\"en\":\"Euro\"}', 'EUR'),
+(192, '{\"es\":\"Bol\\u00edvar fuerte\",\"en\":\"Bol\\u00edvar fuerte\"}', 'VEF'),
+(193, '{\"es\":\"Dong vietnamita\",\"en\":\"Dong vietnamita\"}', 'VND'),
+(194, '{\"es\":\"Rial yemen\\u00ed\",\"en\":\"Rial yemen\\u00ed\"}', 'YER'),
+(195, '{\"es\":\"Franco yibutiano\",\"en\":\"Franco yibutiano\"}', 'DJF'),
+(196, '{\"es\":\"Kwacha zambiano\",\"en\":\"Kwacha zambiano\"}', 'ZMW'),
+(197, '{\"es\":\"D\\u00f3lar estadounidense\",\"en\":\"D\\u00f3lar estadounidense\"}', 'USD');
 
 -- --------------------------------------------------------
 
@@ -320,10 +800,32 @@ CREATE TABLE `rooms` (
 --
 
 INSERT INTO `rooms` (`id`, `account`, `code`, `name`, `qr`) VALUES
-(1, 1, 'IWLMJBUA', 'H 1 VIP', '{\"name\":\"qr_IwlMjbuA.png\",\"code\":\"IwlMjbuA\"}'),
-(2, 1, 'RIJ9VLHQ', 'H 2 VIP', '{\"name\":\"qr_rij9Vlhq.png\",\"code\":\"rij9Vlhq\"}'),
-(3, 1, 'Y6PCQJWG', 'H 3 VIP', '{\"name\":\"qr_y6pCqJWg.png\",\"code\":\"y6pCqJWg\"}'),
-(4, 1, 'TJBQFBRP', 'H 4 VIP', '{\"name\":\"qr_TJbQFbrP.png\",\"code\":\"TJbQFbrP\"}');
+(1, 1, 'IWLMJBUA', '1', '{\"name\":\"qr_IwlMjbuA.png\",\"code\":\"IwlMjbuA\"}'),
+(2, 1, 'RIJ9VLHQ', '2', '{\"name\":\"qr_rij9Vlhq.png\",\"code\":\"rij9Vlhq\"}'),
+(3, 1, 'Y6PCQJWG', '3', '{\"name\":\"qr_y6pCqJWg.png\",\"code\":\"y6pCqJWg\"}'),
+(4, 1, 'TJBQFBRP', '4', '{\"name\":\"qr_TJbQFbrP.png\",\"code\":\"TJbQFbrP\"}');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `room_packages`
+--
+
+CREATE TABLE `room_packages` (
+  `id` bigint(20) NOT NULL,
+  `quantity_start` int(11) NOT NULL,
+  `quantity_end` int(11) NOT NULL,
+  `price` text COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `room_packages`
+--
+
+INSERT INTO `room_packages` (`id`, `quantity_start`, `quantity_end`, `price`) VALUES
+(1, 1, 20, '99'),
+(2, 21, 40, '199'),
+(3, 41, 60, '299');
 
 -- --------------------------------------------------------
 
@@ -335,7 +837,9 @@ CREATE TABLE `settings` (
   `id` bigint(20) NOT NULL,
   `account` bigint(20) NOT NULL,
   `private_key` longtext CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `time_zone` text CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `room_package` bigint(20) DEFAULT NULL,
+  `user_package` bigint(20) DEFAULT NULL,
+  `time_zone` bigint(20) NOT NULL,
   `language` enum('es','en') CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `sms` int(11) NOT NULL,
   `promotional_code` bigint(20) DEFAULT NULL
@@ -345,8 +849,451 @@ CREATE TABLE `settings` (
 -- Volcado de datos para la tabla `settings`
 --
 
-INSERT INTO `settings` (`id`, `account`, `private_key`, `time_zone`, `language`, `sms`, `promotional_code`) VALUES
-(1, 1, 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7', 'America/Cancun', 'es', 0, NULL);
+INSERT INTO `settings` (`id`, `account`, `private_key`, `room_package`, `user_package`, `time_zone`, `language`, `sms`, `promotional_code`) VALUES
+(1, 1, 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7', NULL, NULL, 32, 'es', 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `time_zones`
+--
+
+CREATE TABLE `time_zones` (
+  `id` bigint(20) NOT NULL,
+  `code` text COLLATE utf8_spanish_ci NOT NULL,
+  `zone` enum('america','africa','antarctica','artic','asia','atlantic','australia','europe','indian','pacific') COLLATE utf8_spanish_ci NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `time_zones`
+--
+
+INSERT INTO `time_zones` (`id`, `code`, `zone`, `status`) VALUES
+(1, 'America/Adak', 'america', 1),
+(2, 'America/Anchorage', 'america', 1),
+(3, 'America/Anguilla', 'america', 1),
+(4, 'America/Antigua', 'america', 1),
+(5, 'America/Araguaina', 'america', 1),
+(6, 'America/Argentina/Buenos_Aires', 'america', 1),
+(7, 'America/Argentina/Catamarca', 'america', 1),
+(8, 'America/Argentina/Cordoba', 'america', 1),
+(9, 'America/Argentina/Jujuy', 'america', 1),
+(10, 'America/Argentina/La_Rioja', 'america', 1),
+(11, 'America/Argentina/Mendoza', 'america', 1),
+(12, 'America/Argentina/Rio_Gallegos', 'america', 1),
+(13, 'America/Argentina/Salta', 'america', 1),
+(14, 'America/Argentina/San_Juan', 'america', 1),
+(15, 'America/Argentina/San_Luis', 'america', 1),
+(16, 'America/Argentina/Tucuman', 'america', 1),
+(17, 'America/Argentina/Ushuaia', 'america', 1),
+(18, 'America/Aruba', 'america', 1),
+(19, 'America/Asuncion', 'america', 1),
+(20, 'America/Atikokan', 'america', 1),
+(21, 'America/Bahia', 'america', 1),
+(22, 'America/Bahia_Banderas', 'america', 1),
+(23, 'America/Barbados', 'america', 1),
+(24, 'America/Belem', 'america', 1),
+(25, 'America/Belize', 'america', 1),
+(26, 'America/Blanc-Sablon', 'america', 1),
+(27, 'America/Boa_Vista', 'america', 1),
+(28, 'America/Bogota', 'america', 1),
+(29, 'America/Boise', 'america', 1),
+(30, 'America/Cambridge_Bay', 'america', 1),
+(31, 'America/Campo_Grande', 'america', 1),
+(32, 'America/Cancun', 'america', 1),
+(33, 'America/Caracas', 'america', 1),
+(34, 'America/Cayenne', 'america', 1),
+(35, 'America/Cayman', 'america', 1),
+(36, 'America/Chicago', 'america', 1),
+(37, 'America/Chihuahua', 'america', 1),
+(38, 'America/Costa_Rica', 'america', 1),
+(39, 'America/Creston', 'america', 1),
+(40, 'America/Cuiaba', 'america', 1),
+(41, 'America/Curacao', 'america', 1),
+(42, 'America/Danmarkshavn', 'america', 1),
+(43, 'America/Dawson', 'america', 1),
+(44, 'America/Dawson_Creek', 'america', 1),
+(45, 'America/Denver', 'america', 1),
+(46, 'America/Detroit', 'america', 1),
+(47, 'America/Dominica', 'america', 1),
+(48, 'America/Edmonton', 'america', 1),
+(49, 'America/Eirunepe', 'america', 1),
+(50, 'America/El_Salvador', 'america', 1),
+(51, 'America/Fort_Nelson', 'america', 1),
+(52, 'America/Fortaleza', 'america', 1),
+(53, 'America/Glace_Bay', 'america', 1),
+(54, 'America/Godthab', 'america', 1),
+(55, 'America/Goose_Bay', 'america', 1),
+(56, 'America/Grand_Turk', 'america', 1),
+(57, 'America/Grenada', 'america', 1),
+(58, 'America/Guadeloupe', 'america', 1),
+(59, 'America/Guatemala', 'america', 1),
+(60, 'America/Guayaquil', 'america', 1),
+(61, 'America/Guyana', 'america', 1),
+(62, 'America/Halifax', 'america', 1),
+(63, 'America/Havana', 'america', 1),
+(64, 'America/Hermosillo', 'america', 1),
+(65, 'America/Indiana/Indianapolis', 'america', 1),
+(66, 'America/Indiana/Knox', 'america', 1),
+(67, 'America/Indiana/Marengo', 'america', 1),
+(68, 'America/Indiana/Petersburg', 'america', 1),
+(69, 'America/Indiana/Tell_City', 'america', 1),
+(70, 'America/Indiana/Vevay', 'america', 1),
+(71, 'America/Indiana/Vincennes', 'america', 1),
+(72, 'America/Indiana/Winamac', 'america', 1),
+(73, 'America/Inuvik', 'america', 1),
+(74, 'America/Iqaluit', 'america', 1),
+(75, 'America/Jamaica', 'america', 1),
+(76, 'America/Juneau', 'america', 1),
+(77, 'America/Kentucky/Louisville', 'america', 1),
+(78, 'America/Kentucky/Monticello', 'america', 1),
+(79, 'America/Kralendijk', 'america', 1),
+(80, 'America/La_Paz', 'america', 1),
+(81, 'America/Lima', 'america', 1),
+(82, 'America/Los_Angeles', 'america', 1),
+(83, 'America/Lower_Princes', 'america', 1),
+(84, 'America/Maceio', 'america', 1),
+(85, 'America/Managua', 'america', 1),
+(86, 'America/Manaus', 'america', 1),
+(87, 'America/Marigot', 'america', 1),
+(88, 'America/Martinique', 'america', 1),
+(89, 'America/Matamoros', 'america', 1),
+(90, 'America/Mazatlan', 'america', 1),
+(91, 'America/Menominee', 'america', 1),
+(92, 'America/Merida', 'america', 1),
+(93, 'America/Metlakatla', 'america', 1),
+(94, 'America/Mexico_City', 'america', 1),
+(95, 'America/Miquelon', 'america', 1),
+(96, 'America/Moncton', 'america', 1),
+(97, 'America/Monterrey', 'america', 1),
+(98, 'America/Montevideo', 'america', 1),
+(99, 'America/Montserrat', 'america', 1),
+(100, 'America/Nassau', 'america', 1),
+(101, 'America/New_York', 'america', 1),
+(102, 'America/Nipigon', 'america', 1),
+(103, 'America/Nome', 'america', 1),
+(104, 'America/Noronha', 'america', 1),
+(105, 'America/North_Dakota/Beulah', 'america', 1),
+(106, 'America/North_Dakota/Center', 'america', 1),
+(107, 'America/North_Dakota/New_Salem', 'america', 1),
+(108, 'America/Ojinaga', 'america', 1),
+(109, 'America/Panama', 'america', 1),
+(110, 'America/Pangnirtung', 'america', 1),
+(111, 'America/Paramaribo', 'america', 1),
+(112, 'America/Phoenix', 'america', 1),
+(113, 'America/Port-au-Prince', 'america', 1),
+(114, 'America/Port_of_Spain', 'america', 1),
+(115, 'America/Porto_Velho', 'america', 1),
+(116, 'America/Puerto_Rico', 'america', 1),
+(117, 'America/Punta_Arenas', 'america', 1),
+(118, 'America/Rainy_River', 'america', 1),
+(119, 'America/Rankin_Inlet', 'america', 1),
+(120, 'America/Recife', 'america', 1),
+(121, 'America/Regina', 'america', 1),
+(122, 'America/Resolute', 'america', 1),
+(123, 'America/Rio_Branco', 'america', 1),
+(124, 'America/Santarem', 'america', 1),
+(125, 'America/Santiago', 'america', 1),
+(126, 'America/Santo_Domingo', 'america', 1),
+(127, 'America/Sao_Paulo', 'america', 1),
+(128, 'America/Scoresbysund', 'america', 1),
+(129, 'America/Sitka', 'america', 1),
+(130, 'America/St_Barthelemy', 'america', 1),
+(131, 'America/St_Johns', 'america', 1),
+(132, 'America/St_Kitts', 'america', 1),
+(133, 'America/St_Lucia', 'america', 1),
+(134, 'America/St_Thomas', 'america', 1),
+(135, 'America/St_Vincent', 'america', 1),
+(136, 'America/Swift_Current', 'america', 1),
+(137, 'America/Tegucigalpa', 'america', 1),
+(138, 'America/Thule', 'america', 1),
+(139, 'America/Thunder_Bay', 'america', 1),
+(140, 'America/Tijuana', 'america', 1),
+(141, 'America/Toronto', 'america', 1),
+(142, 'America/Tortola', 'america', 1),
+(143, 'America/Vancouver', 'america', 1),
+(144, 'America/Whitehorse', 'america', 1),
+(145, 'America/Winnipeg', 'america', 1),
+(146, 'America/Yakutat', 'america', 1),
+(147, 'America/Yellowknife', 'america', 1),
+(148, 'Africa/Abidjan', 'africa', 1),
+(149, 'Africa/Accra', 'africa', 1),
+(150, 'Africa/Addis_Ababa', 'africa', 1),
+(151, 'Africa/Algiers', 'africa', 1),
+(152, 'Africa/Asmara', 'africa', 1),
+(153, 'Africa/Bamako', 'africa', 1),
+(154, 'Africa/Bangui', 'africa', 1),
+(155, 'Africa/Banjul', 'africa', 1),
+(156, 'Africa/Bissau', 'africa', 1),
+(157, 'Africa/Blantyre', 'africa', 1),
+(158, 'Africa/Brazzaville', 'africa', 1),
+(159, 'Africa/Bujumbura', 'africa', 1),
+(160, 'Africa/Cairo', 'africa', 1),
+(161, 'Africa/Casablanca', 'africa', 1),
+(162, 'Africa/Ceuta', 'africa', 1),
+(163, 'Africa/Conakry', 'africa', 1),
+(164, 'Africa/Dakar', 'africa', 1),
+(165, 'Africa/Dar_es_Salaam', 'africa', 1),
+(166, 'Africa/Djibouti', 'africa', 1),
+(167, 'Africa/Douala', 'africa', 1),
+(168, 'Africa/El_Aaiun', 'africa', 1),
+(169, 'Africa/Freetown', 'africa', 1),
+(170, 'Africa/Gaborone', 'africa', 1),
+(171, 'Africa/Harare', 'africa', 1),
+(172, 'Africa/Johannesburg', 'africa', 1),
+(173, 'Africa/Juba', 'africa', 1),
+(174, 'Africa/Kampala', 'africa', 1),
+(175, 'Africa/Khartoum', 'africa', 1),
+(176, 'Africa/Kigali', 'africa', 1),
+(177, 'Africa/Kinshasa', 'africa', 1),
+(178, 'Africa/Lagos', 'africa', 1),
+(179, 'Africa/Libreville', 'africa', 1),
+(180, 'Africa/Lome', 'africa', 1),
+(181, 'Africa/Luanda', 'africa', 1),
+(182, 'Africa/Lubumbashi', 'africa', 1),
+(183, 'Africa/Lusaka', 'africa', 1),
+(184, 'Africa/Malabo', 'africa', 1),
+(185, 'Africa/Maputo', 'africa', 1),
+(186, 'Africa/Maseru', 'africa', 1),
+(187, 'Africa/Mbabane', 'africa', 1),
+(188, 'Africa/Mogadishu', 'africa', 1),
+(189, 'Africa/Monrovia', 'africa', 1),
+(190, 'Africa/Nairobi', 'africa', 1),
+(191, 'Africa/Ndjamena', 'africa', 1),
+(192, 'Africa/Niamey', 'africa', 1),
+(193, 'Africa/Nouakchott', 'africa', 1),
+(194, 'Africa/Ouagadougou', 'africa', 1),
+(195, 'Africa/Porto-Novo', 'africa', 1),
+(196, 'Africa/Sao_Tome', 'africa', 1),
+(197, 'Africa/Tripoli', 'africa', 1),
+(198, 'Africa/Tunis', 'africa', 1),
+(199, 'Africa/Windhoek', 'africa', 1),
+(200, 'Antarctica/Casey', 'antarctica', 1),
+(201, 'Antarctica/Davis', 'antarctica', 1),
+(202, 'Antarctica/DumontDUrville', 'antarctica', 1),
+(203, 'Antarctica/Macquarie', 'antarctica', 1),
+(204, 'Antarctica/Mawson', 'antarctica', 1),
+(205, 'Antarctica/McMurdo', 'antarctica', 1),
+(206, 'Antarctica/Palmer', 'antarctica', 1),
+(207, 'Antarctica/Rothera', 'antarctica', 1),
+(208, 'Antarctica/Syowa', 'antarctica', 1),
+(209, 'Antarctica/Troll', 'antarctica', 1),
+(210, 'Antarctica/Vostok', 'antarctica', 1),
+(211, 'Arctic/Longyearbyen', 'artic', 1),
+(212, 'Asia/Aden', 'asia', 1),
+(213, 'Asia/Almaty', 'asia', 1),
+(214, 'Asia/Amman', 'asia', 1),
+(215, 'Asia/Anadyr', 'asia', 1),
+(216, 'Asia/Aqtau', 'asia', 1),
+(217, 'Asia/Aqtobe', 'asia', 1),
+(218, 'Asia/Ashgabat', 'asia', 1),
+(219, 'Asia/Atyrau', 'asia', 1),
+(220, 'Asia/Baghdad', 'asia', 1),
+(221, 'Asia/Bahrain', 'asia', 1),
+(222, 'Asia/Baku', 'asia', 1),
+(223, 'Asia/Bangkok', 'asia', 1),
+(224, 'Asia/Barnaul', 'asia', 1),
+(225, 'Asia/Beirut', 'asia', 1),
+(226, 'Asia/Bishkek', 'asia', 1),
+(227, 'Asia/Brunei', 'asia', 1),
+(228, 'Asia/Chita', 'asia', 1),
+(229, 'Asia/Choibalsan', 'asia', 1),
+(230, 'Asia/Colombo', 'asia', 1),
+(231, 'Asia/Damascus', 'asia', 1),
+(232, 'Asia/Dhaka', 'asia', 1),
+(233, 'Asia/Dili', 'asia', 1),
+(234, 'Asia/Dubai', 'asia', 1),
+(235, 'Asia/Dushanbe', 'asia', 1),
+(236, 'Asia/Famagusta', 'asia', 1),
+(237, 'Asia/Gaza', 'asia', 1),
+(238, 'Asia/Hebron', 'asia', 1),
+(239, 'Asia/Ho_Chi_Minh', 'asia', 1),
+(240, 'Asia/Hong_Kong', 'asia', 1),
+(241, 'Asia/Hovd', 'asia', 1),
+(242, 'Asia/Irkutsk', 'asia', 1),
+(243, 'Asia/Jakarta', 'asia', 1),
+(244, 'Asia/Jayapura', 'asia', 1),
+(245, 'Asia/Jerusalem', 'asia', 1),
+(246, 'Asia/Kabul', 'asia', 1),
+(247, 'Asia/Kamchatka', 'asia', 1),
+(248, 'Asia/Karachi', 'asia', 1),
+(249, 'Asia/Kathmandu', 'asia', 1),
+(250, 'Asia/Khandyga', 'asia', 1),
+(251, 'Asia/Kolkata', 'asia', 1),
+(252, 'Asia/Krasnoyarsk', 'asia', 1),
+(253, 'Asia/Kuala_Lumpur', 'asia', 1),
+(254, 'Asia/Kuching', 'asia', 1),
+(255, 'Asia/Kuwait', 'asia', 1),
+(256, 'Asia/Macau', 'asia', 1),
+(257, 'Asia/Magadan', 'asia', 1),
+(258, 'Asia/Makassar', 'asia', 1),
+(259, 'Asia/Manila', 'asia', 1),
+(260, 'Asia/Muscat', 'asia', 1),
+(261, 'Asia/Nicosia', 'asia', 1),
+(262, 'Asia/Novokuznetsk', 'asia', 1),
+(263, 'Asia/Novosibirsk', 'asia', 1),
+(264, 'Asia/Omsk', 'asia', 1),
+(265, 'Asia/Oral', 'asia', 1),
+(266, 'Asia/Phnom_Penh', 'asia', 1),
+(267, 'Asia/Pontianak', 'asia', 1),
+(268, 'Asia/Pyongyang', 'asia', 1),
+(269, 'Asia/Qatar', 'asia', 1),
+(270, 'Asia/Qyzylorda', 'asia', 1),
+(271, 'Asia/Riyadh', 'asia', 1),
+(272, 'Asia/Sakhalin', 'asia', 1),
+(273, 'Asia/Samarkand', 'asia', 1),
+(274, 'Asia/Seoul', 'asia', 1),
+(275, 'Asia/Shanghai', 'asia', 1),
+(276, 'Asia/Singapore', 'asia', 1),
+(277, 'Asia/Srednekolymsk', 'asia', 1),
+(278, 'Asia/Taipei', 'asia', 1),
+(279, 'Asia/Tashkent', 'asia', 1),
+(280, 'Asia/Tbilisi', 'asia', 1),
+(281, 'Asia/Tehran', 'asia', 1),
+(282, 'Asia/Thimphu', 'asia', 1),
+(283, 'Asia/Tokyo', 'asia', 1),
+(284, 'Asia/Tomsk', 'asia', 1),
+(285, 'Asia/Ulaanbaatar', 'asia', 1),
+(286, 'Asia/Urumqi', 'asia', 1),
+(287, 'Asia/Ust-Nera', 'asia', 1),
+(288, 'Asia/Vientiane', 'asia', 1),
+(289, 'Asia/Vladivostok', 'asia', 1),
+(290, 'Asia/Yakutsk', 'asia', 1),
+(291, 'Asia/Yangon', 'asia', 1),
+(292, 'Asia/Yekaterinburg', 'asia', 1),
+(293, 'Asia/Yerevan', 'asia', 1),
+(294, 'Atlantic/Azores', 'atlantic', 1),
+(295, 'Atlantic/Bermuda', 'atlantic', 1),
+(296, 'Atlantic/Canary', 'atlantic', 1),
+(297, 'Atlantic/Cape_Verde', 'atlantic', 1),
+(298, 'Atlantic/Faroe', 'atlantic', 1),
+(299, 'Atlantic/Madeira', 'atlantic', 1),
+(300, 'Atlantic/Reykjavik', 'atlantic', 1),
+(301, 'Atlantic/South_Georgia', 'atlantic', 1),
+(302, 'Atlantic/St_Helena', 'atlantic', 1),
+(303, 'Atlantic/Stanley', 'atlantic', 1),
+(304, 'Australia/Adelaide', 'australia', 1),
+(305, 'Australia/Brisbane', 'australia', 1),
+(306, 'Australia/Broken_Hill', 'australia', 1),
+(307, 'Australia/Currie', 'australia', 1),
+(308, 'Australia/Darwin', 'australia', 1),
+(309, 'Australia/Eucla', 'australia', 1),
+(310, 'Australia/Hobart', 'australia', 1),
+(311, 'Australia/Lindeman', 'australia', 1),
+(312, 'Australia/Lord_Howe', 'australia', 1),
+(313, 'Australia/Melbourne', 'australia', 1),
+(314, 'Australia/Perth', 'australia', 1),
+(315, 'Australia/Sydney', 'australia', 1),
+(316, 'Europe/Amsterdam', 'europe', 1),
+(317, 'Europe/Andorra', 'europe', 1),
+(318, 'Europe/Astrakhan', 'europe', 1),
+(319, 'Europe/Athens', 'europe', 1),
+(320, 'Europe/Belgrade', 'europe', 1),
+(321, 'Europe/Berlin', 'europe', 1),
+(322, 'Europe/Bratislava', 'europe', 1),
+(323, 'Europe/Brussels', 'europe', 1),
+(324, 'Europe/Bucharest', 'europe', 1),
+(325, 'Europe/Budapest', 'europe', 1),
+(326, 'Europe/Busingen', 'europe', 1),
+(327, 'Europe/Chisinau', 'europe', 1),
+(328, 'Europe/Copenhagen', 'europe', 1),
+(329, 'Europe/Dublin', 'europe', 1),
+(330, 'Europe/Gibraltar', 'europe', 1),
+(331, 'Europe/Guernsey', 'europe', 1),
+(332, 'Europe/Helsinki', 'europe', 1),
+(333, 'Europe/Isle_of_Man', 'europe', 1),
+(334, 'Europe/Istanbul', 'europe', 1),
+(335, 'Europe/Jersey', 'europe', 1),
+(336, 'Europe/Kaliningrad', 'europe', 1),
+(337, 'Europe/Kiev', 'europe', 1),
+(338, 'Europe/Kirov', 'europe', 1),
+(339, 'Europe/Lisbon', 'europe', 1),
+(340, 'Europe/Ljubljana', 'europe', 1),
+(341, 'Europe/London', 'europe', 1),
+(342, 'Europe/Luxembourg', 'europe', 1),
+(343, 'Europe/Madrid', 'europe', 1),
+(344, 'Europe/Malta', 'europe', 1),
+(345, 'Europe/Mariehamn', 'europe', 1),
+(346, 'Europe/Minsk', 'europe', 1),
+(347, 'Europe/Monaco', 'europe', 1),
+(348, 'Europe/Moscow', 'europe', 1),
+(349, 'Europe/Oslo', 'europe', 1),
+(350, 'Europe/Paris', 'europe', 1),
+(351, 'Europe/Podgorica', 'europe', 1),
+(352, 'Europe/Prague', 'europe', 1),
+(353, 'Europe/Riga', 'europe', 1),
+(354, 'Europe/Rome', 'europe', 1),
+(355, 'Europe/Samara', 'europe', 1),
+(356, 'Europe/San_Marino', 'europe', 1),
+(357, 'Europe/Sarajevo', 'europe', 1),
+(358, 'Europe/Saratov', 'europe', 1),
+(359, 'Europe/Simferopol', 'europe', 1),
+(360, 'Europe/Skopje', 'europe', 1),
+(361, 'Europe/Sofia', 'europe', 1),
+(362, 'Europe/Stockholm', 'europe', 1),
+(363, 'Europe/Tallinn', 'europe', 1),
+(364, 'Europe/Tirane', 'europe', 1),
+(365, 'Europe/Ulyanovsk', 'europe', 1),
+(366, 'Europe/Uzhgorod', 'europe', 1),
+(367, 'Europe/Vaduz', 'europe', 1),
+(368, 'Europe/Vatican', 'europe', 1),
+(369, 'Europe/Vienna', 'europe', 1),
+(370, 'Europe/Vilnius', 'europe', 1),
+(371, 'Europe/Volgograd', 'europe', 1),
+(372, 'Europe/Warsaw', 'europe', 1),
+(373, 'Europe/Zagreb', 'europe', 1),
+(374, 'Europe/Zaporozhye', 'europe', 1),
+(375, 'Europe/Zurich', 'europe', 1),
+(376, 'Indian/Antananarivo', 'indian', 1),
+(377, 'Indian/Chagos', 'indian', 1),
+(378, 'Indian/Christmas', 'indian', 1),
+(379, 'Indian/Cocos', 'indian', 1),
+(380, 'Indian/Comoro', 'indian', 1),
+(381, 'Indian/Kerguelen', 'indian', 1),
+(382, 'Indian/Mahe', 'indian', 1),
+(383, 'Indian/Maldives', 'indian', 1),
+(384, 'Indian/Mauritius', 'indian', 1),
+(385, 'Indian/Mayotte', 'indian', 1),
+(386, 'Indian/Reunion', 'indian', 1),
+(387, 'Pacific/Apia', 'pacific', 1),
+(388, 'Pacific/Auckland', 'pacific', 1),
+(389, 'Pacific/Bougainville', 'pacific', 1),
+(390, 'Pacific/Chatham', 'pacific', 1),
+(391, 'Pacific/Chuuk', 'pacific', 1),
+(392, 'Pacific/Easter', 'pacific', 1),
+(393, 'Pacific/Efate', 'pacific', 1),
+(394, 'Pacific/Enderbury', 'pacific', 1),
+(395, 'Pacific/Fakaofo', 'pacific', 1),
+(396, 'Pacific/Fiji', 'pacific', 1),
+(397, 'Pacific/Funafuti', 'pacific', 1),
+(398, 'Pacific/Galapagos', 'pacific', 1),
+(399, 'Pacific/Gambier', 'pacific', 1),
+(400, 'Pacific/Guadalcanal', 'pacific', 1),
+(401, 'Pacific/Guam', 'pacific', 1),
+(402, 'Pacific/Honolulu', 'pacific', 1),
+(403, 'Pacific/Kiritimati', 'pacific', 1),
+(404, 'Pacific/Kosrae', 'pacific', 1),
+(405, 'Pacific/Kwajalein', 'pacific', 1),
+(406, 'Pacific/Majuro', 'pacific', 1),
+(407, 'Pacific/Marquesas', 'pacific', 1),
+(408, 'Pacific/Midway', 'pacific', 1),
+(409, 'Pacific/Nauru', 'pacific', 1),
+(410, 'Pacific/Niue', 'pacific', 1),
+(411, 'Pacific/Norfolk', 'pacific', 1),
+(412, 'Pacific/Noumea', 'pacific', 1),
+(413, 'Pacific/Pago_Pago', 'pacific', 1),
+(414, 'Pacific/Palau', 'pacific', 1),
+(415, 'Pacific/Pitcairn', 'pacific', 1),
+(416, 'Pacific/Pohnpei', 'pacific', 1),
+(417, 'Pacific/Port_Moresby', 'pacific', 1),
+(418, 'Pacific/Rarotonga', 'pacific', 1),
+(419, 'Pacific/Saipan', 'pacific', 1),
+(420, 'Pacific/Tahiti', 'pacific', 1),
+(421, 'Pacific/Tarawa', 'pacific', 1),
+(422, 'Pacific/Tongatapu', 'pacific', 1),
+(423, 'Pacific/Wake', 'pacific', 1),
+(424, 'Pacific/Wallis', 'pacific', 1);
 
 -- --------------------------------------------------------
 
@@ -375,8 +1322,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `account`, `name`, `lastname`, `email`, `cellphone`, `username`, `password`, `temporal_password`, `user_level`, `user_permissions`, `opportunity_areas`, `status`) VALUES
-(1, 1, 'Gersón', 'Gómez', 'gerson@guestvox.com', '9988701057', 'gerson@guestvox.com', 'f53d6dd0204f8b2faaf10f1ccad212025ebc73f6:1X5m1Nx9jm4ugQTWmKOAat7eX8yreg6VfNVPiphTMSxiEZZyY1TOgs63vu4NupDT', NULL, 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\"]', 1),
-(2, 1, 'Saúl', 'Poot', 'saul@guestvox.com', '9983856109', 'saul@guestvox.com', 'd7487bd4c393dadd052499e5e40d38b4410b7735:a8MuNTa3vH0kDcboWYw7v2dutpu6wBt0oxuwYuDvjSlOCktqAi2Ecd0ERR5C71AB', 'r4yAjXyZ', 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\"]', 1);
+(1, 1, 'Gersón', 'Gómez', 'gerson@guestvox.com', '9988701057', 'gerson@guestvox.com', 'f53d6dd0204f8b2faaf10f1ccad212025ebc73f6:1X5m1Nx9jm4ugQTWmKOAat7eX8yreg6VfNVPiphTMSxiEZZyY1TOgs63vu4NupDT', NULL, 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1),
+(2, 1, 'Saúl', 'Poot', 'saul@guestvox.com', '9983856109', 'saul@guestvox.com', 'f53d6dd0204f8b2faaf10f1ccad212025ebc73f6:1X5m1Nx9jm4ugQTWmKOAat7eX8yreg6VfNVPiphTMSxiEZZyY1TOgs63vu4NupDT', 'r4yAjXyZ', 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1),
+(3, 1, 'Daniel', 'Basurto', 'daniel@guestvox.com', '9988452843', 'daniel@guestvox.com', 'bff990e1bb63d579bc65aa9c9b2160bf4fc792d0:OQ4m2Q8UtKDW02kCfF7JT8077jQffhBFLNWgOBQZ5oxAY0trtGAb8k0H99uxAxuR', 'v42CkX6e', 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1);
 
 -- --------------------------------------------------------
 
@@ -402,6 +1350,28 @@ INSERT INTO `user_levels` (`id`, `account`, `code`, `name`, `user_permissions`) 
 (3, 1, '{manager}', 'Gerente', '[\"1\",\"2\",\"3\",\"38\",\"39\",\"27\"]'),
 (4, 1, '{supervisor}', 'Supervisor', '[\"1\",\"2\",\"3\",\"39\",\"27\"]'),
 (5, 1, '{operator}', 'Operador', '[\"1\",\"2\",\"39\",\"28\"]');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_packages`
+--
+
+CREATE TABLE `user_packages` (
+  `id` bigint(20) NOT NULL,
+  `quantity_start` int(11) NOT NULL,
+  `quantity_end` int(11) NOT NULL,
+  `price` text COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `user_packages`
+--
+
+INSERT INTO `user_packages` (`id`, `quantity_start`, `quantity_end`, `price`) VALUES
+(1, 1, 20, '99'),
+(2, 21, 40, '199'),
+(3, 41, 60, '299');
 
 -- --------------------------------------------------------
 
@@ -483,7 +1453,14 @@ INSERT INTO `voxes` (`id`, `account`, `type`, `data`) VALUES
 (1, 1, 'request', '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'),
 (2, 1, 'incident', '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'),
 (3, 1, 'request', 'Poc5btD/5H6RLRcPPPGP/zYeadrFyk+1o3fpLnsTsw0RhgShRjWxIkAx3jbVIIcW7iPqejn+2EqcP19/DmsVSCoRzmL1m52AzOIHsc24C08C7d5Nex9a6oI0NAEXbZbUr0Cr2q0/nz4BrS75dQ9OuanQap5c7AfSnKIIQLhM+mtbGEAdgf5L9N/T6J2UQ1/mN9eL1kncqyfhQyH1bpFBRJ2utquUMIyounyogJZFq9X1ocdub9MxABR8ILGPH7sYkgstZkPOCQbJlvRA+UxR6JZSnqh07yuKK2QHW+N3WZLf0V5Vxtz+UOPLIg/xq3LeRQhUDg8S5/p+Msp0WVb5gYuOaZtnOf8bIUp9PXHwcDqhSTxf7A/fc6KuGdsg/WoToXi7ez7OF226m0bu+e2wRMHGuJ8gDmbwzDx7XojSOr9wTLYjTTtoHcVldXdxwZUVikBk86HMqPQqSvf9ECrTlogDcVHfN7nkiWfl06295SzIckOOMGp4q1uDDKPhzVBhOhg7ybBl+qfQGXfFQ8egtSmCT6S9uWg1TbGUF71uEGUj5jmK13aK7Iw/1okB7LuD1QM6my9zoTkyB7VmL9EoKkxCD3fElLE0Fd09KRcMLg11URyT1fifHXi4U2pMNLH6o/u3QFWYmxKro0k0MNQzAJwAuy8Dke6Efyj5MO7EvKMHr2DzdwlUjwAqhQykMdkdTr+t2SVLsPfwUxpJ2Agpz5h7raL6aR5eQkwbmfOdQ8+5+pc2hKcFsJ8yLDfPvbAEec+t16CZGZmDYTnIw8yGlUqWvlxqqtaADw4nGrIwKNWpLn7MqcX/sfdxR/7TNPH/0KKCw06Yzpdf5qZLnRpFsn5NMynOd/5PSrH0uwwpepDv0sHiavBRQ41cebJeJcMg2pe5/6D/USX0aP9bLADIvxEkaHlWSgx/sa46zSf59Kp/NYEtbxyINeTGuwyUISCO5ijyP+ppqUT15xwr6E0SfJ8RL9awXNeAajY/5GLXqK/VyvWdRZz/MgviQPw8/QSuOmsRLKWhY6E6tl14Fjl/RvLA65xuvtTYBfb4SqBoyTL5RKPBhGIFMyMOyW7Zgds71yPtbzuTgd1Pu32O1MbloTjGuicjBP1nXW0sFI3SB9/qQwVSSLXNlpQ0jGhsiyCSquEejIp1sp/sRk7p9mu44MelYvCMCTxyT9yxcvaMMyWVNfCfGR1snk7+r6vXzSiEcOvAgaxHDICX9Fa0wF+uztLlR09Epjw8kJEWlNmFrLRDHHF3tPTz3+yWwPR+aSOjA5AkuXoVBP/oFRsiL8Lj/wnX6HZiDeQhB65dOSesu0LRoDvSE06udA+aa+9ktF3jcolRVo1YoObvqxFI1F7F5w=='),
-(4, 1, 'incident', '5qlcCOik5vVZkHyjXYk5TMZqCMk5mQdR0nZl1IMpObdj0rSMFcWdV51rZ2gaNtA/FMCbs0qBQUfsbUGthjZf5ZfXiHqV4Fck73RtLkLn3P2+k5637oU3Aq1INNfEJZ2Y/AuDInpD9VRqI1gW5vIy4rfXRXSrhzt4UmcMD2JHfU0eiMOvtyyHoVDQyMcPBWtX6sGGmuZf+tLrMIDZeQazuaESjqi01r5/ftOaVtd3it3zRJCEu3qXc1unqnATrHD3Y8kmxurv624nQsiTISRW0/vpoYKDYkF44gXgy8YvEb5TmoO6Jbh1xp8f5xjh/HYpVtV9e4c6QOHKrhvV/A/ATpMzIupMPQSgmourgtFLa2mbgI5PUgT9687MWoScunmlCN37F/odOtH7M8qEmJSZ9aNZrde/7GeybP7HyJctKNHAuZeQyVsY6OqcE0mdxUq8Gg3hPRYESALgnKnFD7hesgHqSyU9g2/j5iUh+OCsyVcfaXf8IgPZNX3Ta17QMqxvd3tErBjLrwgifd12B54ELJf3/pdVb8/NgQ9HYXfMoZ9pBvZQod6d+RZdeOOhLJXY0wnfk1O1JYALZwYfCEcEmO02y0CZt3c4IXQwqhm1c4Lz8VsyTRQcwrX9/SE66rpb4DCX5PhUzguYincJBm1Qu9T0Ih5lvtvBPt751ZvRHtbP4pEC83wc0LOHOoN0gTKrpOzRBe6iCkIWT0NIMXf6lMox0IzgKnZTgQV0hnfuQ5z+Ug5y+0Kll8hQYrnxxpCqt23nu8f81hnZbrOGxn104j/l0Rva+Y2bVomDjhpzBthTFQXbfCZ9TaFAomriXhpl4M0OhRn7PpiuP+DdRbhDii/3aXFoySYf63VdvN8jAdUAcrDKdhoHXrJNSeazH6C+5zxN8+JWw4uZxbqN46bYdgCp6LBQ5bdnDhLvbZJGbDLdQIScebY9pHx4H6sMYOgXnz0JX5p7tQ0JEPO2eMFC1tuLh287+kaTkC54fku/pqnBvnwMTZbHWexj+/61gzBgEvdToZas8RvOPpmFtivG/80KKfdCGHMNXFqrIH8Uv/UQapzZrbuUqdMhDMEST/bzKGERxWSVkjVjs8WNHhly5/hArIBttk4eB5yTz5fmeuN9YtK9Mpl2s+AhQgsBXzYXishEXLD4RFJJ4dc80bI8Prm/9nHK8DsNKltJ7kAZJgMDfeg3n8NF5mheiLaJzB6Z7mFe8rayK9crZY1iLICJFEg0vnfltQ399UQ2H66k6VPn+108A1+rELwvPVgY9vdSLlF69NSebxIgo2sXR1wO6tIl6Qpc4FDWbPm499S/1v+gR78KAYdrPV7oNfktQ2YCG2kMIMBDEOss9UMgCdVy4w==');
+(4, 1, 'incident', '5qlcCOik5vVZkHyjXYk5TMZqCMk5mQdR0nZl1IMpObdj0rSMFcWdV51rZ2gaNtA/FMCbs0qBQUfsbUGthjZf5ZfXiHqV4Fck73RtLkLn3P2+k5637oU3Aq1INNfEJZ2Y/AuDInpD9VRqI1gW5vIy4rfXRXSrhzt4UmcMD2JHfU0eiMOvtyyHoVDQyMcPBWtX6sGGmuZf+tLrMIDZeQazuaESjqi01r5/ftOaVtd3it3zRJCEu3qXc1unqnATrHD3Y8kmxurv624nQsiTISRW0/vpoYKDYkF44gXgy8YvEb5TmoO6Jbh1xp8f5xjh/HYpVtV9e4c6QOHKrhvV/A/ATpMzIupMPQSgmourgtFLa2mbgI5PUgT9687MWoScunmlCN37F/odOtH7M8qEmJSZ9aNZrde/7GeybP7HyJctKNHAuZeQyVsY6OqcE0mdxUq8Gg3hPRYESALgnKnFD7hesgHqSyU9g2/j5iUh+OCsyVcfaXf8IgPZNX3Ta17QMqxvd3tErBjLrwgifd12B54ELJf3/pdVb8/NgQ9HYXfMoZ9pBvZQod6d+RZdeOOhLJXY0wnfk1O1JYALZwYfCEcEmO02y0CZt3c4IXQwqhm1c4Lz8VsyTRQcwrX9/SE66rpb4DCX5PhUzguYincJBm1Qu9T0Ih5lvtvBPt751ZvRHtbP4pEC83wc0LOHOoN0gTKrpOzRBe6iCkIWT0NIMXf6lMox0IzgKnZTgQV0hnfuQ5z+Ug5y+0Kll8hQYrnxxpCqt23nu8f81hnZbrOGxn104j/l0Rva+Y2bVomDjhpzBthTFQXbfCZ9TaFAomriXhpl4M0OhRn7PpiuP+DdRbhDii/3aXFoySYf63VdvN8jAdUAcrDKdhoHXrJNSeazH6C+5zxN8+JWw4uZxbqN46bYdgCp6LBQ5bdnDhLvbZJGbDLdQIScebY9pHx4H6sMYOgXnz0JX5p7tQ0JEPO2eMFC1tuLh287+kaTkC54fku/pqnBvnwMTZbHWexj+/61gzBgEvdToZas8RvOPpmFtivG/80KKfdCGHMNXFqrIH8Uv/UQapzZrbuUqdMhDMEST/bzKGERxWSVkjVjs8WNHhly5/hArIBttk4eB5yTz5fmeuN9YtK9Mpl2s+AhQgsBXzYXishEXLD4RFJJ4dc80bI8Prm/9nHK8DsNKltJ7kAZJgMDfeg3n8NF5mheiLaJzB6Z7mFe8rayK9crZY1iLICJFEg0vnfltQ399UQ2H66k6VPn+108A1+rELwvPVgY9vdSLlF69NSebxIgo2sXR1wO6tIl6Qpc4FDWbPm499S/1v+gR78KAYdrPV7oNfktQ2YCG2kMIMBDEOss9UMgCdVy4w=='),
+(5, 1, 'request', 'lTugBPAv2Hu3RlzodQKHkDFWW5A+2mcKaePAie9Y+qJP8OoElabGAU5JIAn3whK9oNDD90ouJ99d2ZLmoB6vwmHDUmxpmrCt43p0nNnBvUmn49FDLd1sKnXINYTQe/1Xzq1PBymhzYuSsORTkcNi6Iw0BWmU1RWppgZD0m7NC51qdZKZwn2K08+TDcwsdVMdWdpGyWGqPNx1Vp89ujuzmcK5ms/I3Bi3PBFiZbJJvDYG61Rqk76c2xF7FQFfBetwoWrq3oAIh4pjKSTiPlhImrlyFxmLvSB2qHd52NdNUXRn2ZjI7HRcYIE8rPlL4z2UjZYO6lC2iZHUzD68y7avq+D8OF3f62Co1ObSTzD3Oeo1OemqAt55sH+QA76QpfLRPXkIuEmD0AlvKd19K/E5Y/NcGEy1+qD/2l3g8P8v5ALXqset8uq3hrvhUywAo1bmpIFAEPT3i6cHCNPaDuMUnE3r8n/UuBArSqxHVuv8KfYwiwrITayB70seI6NKow1EKtK26XrrKnn36jtb9M73fjUX8wQv/bqdKjne+Vx0ZFbJRbpHC5lII7MBkEvmupV8dZwWEs0xuley8eutjTEc4B2mf6U8vYPCGdNcbO4opOlKopVxrIrkLLdgCojbFdLhVbeGMH2sVJbsuoX/rJOlDwPJMG7BWiMc3PJAP4wSu5gbcKSRRKqVcP3NtKNE1LPLXDG6UIyR2zIuurUkWk8kQorR5JSfaRxfyiAW9C96+iUBCFfNyZjwdXpjuQoD6p/crE6ERhpiXYwpPE97CDiMQzETwL6+59MRwUVbc2DmRCLzk9jgHMjS5WVVcscsMAlIa5QjaBfq26P5GHfVUq+s4yuK077pZIMF0YLSnrErr1Pr4XeOG2gYxgVSnCWfvUo4icFf3aHyLBaN4KLoo2V1iIf4yg3WZbw2OZe56ZnNz30qsbxRlu2vfIH3FgJRQPyNiXoLbzoaVn3pnp/2RR5J9gf4K+2bl+qwOhaPFvEHqVw2sNoV7DldahDzwIVEnE/wMTgY5dBqNyKTR6fFqpbVDGkSH+r3i6P0bLwbFONoXqq3bcYW0q051Hfzcl0ESWPVrbAAMONjJUF6e68CAIaqrm8GS2aYgWqlkdnCu/Vt07XQFRwbTk5h0o1/gZsCqoCDSsb+Q+VPMxhQJ7LLfeF0KuB5oQwtKjWy1Pqq9HmJeIT9+sq/+tatzCwea9jI0eUFgdUaUkAqUzVKtIuICPldgA=='),
+(6, 1, 'request', 'xIdKYDYI5xAHrZ0y1SDXaQppfVgusIV3COBk4UFLSODvMfUiImiREyhI3+tVyAcyc3NNg2W4Dg/1Vvf7u3uzKuYW3IeQaxF8mziF+tcIFwoVzg9gECpttDGTfInBF3DQVIzUt9bccqQj3W5cPbBEozCzCvQfeaDXejvZN9xJQVggz+vUkg0zU541rwFQBhsXSST9dbf/2fF32p2pWN2E+eUkY8qRuZtnlTvuDnPIJC8g1H0JYiR5zEyJ4JRskQnMaGAihvuy3q1OtJIfSO9Xgc8VvdJH0yXDqp9fWuGDPIg/yXakLEH6q0m6VZhHKbYYJNkOIOtJvZ4N5xBI4+cKWRgO9PTYHcDapWqw2g0vig5vAnf/I7SgaQKbAsD7AXGvZAyhzvC5q64ZdIoG5dzOWRkP2e0d/oY4QW0AGO18APiadQp3OqwCCP3fMtiK6fl0lDAZqjQe6IunfB9Bs27YcVagPEvoK8M+zJofnqU0l+sT79dUGqXuwdmEVO88NEfQ7nQOjCSZmc/Skj7eEkHqbwLaxky3+Hq/t10ttI96ooBrTfzqUEkRHGjw3l+Bx+u9VyJXisW4VesFlwBaA5m1UO7zTAhPOJh6dqLkNB22Tde2a63LL9syCfInw0jfI6UU/4YZvc/caBiCYVFWCrpuNUWXx5RbAUYsx9LMJp88XszEHxJqOK39X/7FB4NeHJYVsVi90hjQC6tfWNgjMb/vwkqnNSf9I9sTktDfCcK+V8nRAbVM9LfHd4xzRsPJRIuVq9xQ6pYvQr0WZXfUe2530YoLIunEVg7TKp+p6lbi4YS7CZ1ut3vBbVsnwaPxuAuz1TWo5loVhRJ+nYO+aeU7x5ppmkkej6B7oBSfEtpABuBK32al0GGeMNo9e6sTKJIp7SvVd0C75IctVinemAfrHM75bfoXx+PlbTSF5mNuzJ8+JZvFI4klD2WKTBtIN7rYkUmdEy9eZJeiaHATLcdgCpt3dAWpdCSWKyZfg8YgK+QaNrfferDvHCd3n7Jl56kc4ZAJ2eRsMk+8TFa8+tpf0PEO39OeoYNKGpXkV/9+IuAX0d5nZoINN4yE1yeeUB4zGRPMGmmwPi/LJYdisYXcAssiQ5uvyGLUivuf5ymIVxb1H/NGyvhPTJNWftovE/s2CLhRPwwdUS+v4d9hioQ2OnTGUxD33G5wQ+omdwZ3OmIm+qGwOpYGdQmVtDlkqceYbN6BrSjiqN6yB2WLseHJuw=='),
+(7, 1, 'request', 'EFru9+5ihdsau9GESWdrOEMLHSH671dnHWzwQHk+p1swmGrT9YtE1I9heqmWKOa0y9X74pBORILUzmJyzFHz8/JoGkpdtH1W/xFU2fMbNP7nR1yNLxkOACthR7oK5d4bbrm10GRb5FTzlQKgy9UFp6G4mrpnqnJpU9Bsz+Zi5P6+VRlsgmLuoTmVOyRbEGL7bqrQ48vU5qwjezx/zY2/3vgvDAe7dE3xEan+wvAhk0w3nVKN/ge3OLuIKGoKQ79Ljk4InJZMdYCy6wtsacFwVJX5mjurMZ1WxMH2cZwjNQlB6lMRGiwSVTgrtFfa++OjaZ75waResZYq5HLcstrPdoMXzLKmDugeBjHhNGV+4pfrEtcjM15vPImJf56UcTc1VNsqmNn30Mkx4sbdIdn7t6h/EerElowrM2m5BGns9NQohr7pMaMnKG54jCx6JBNPNdfEI8OmIDOFbdJuCBuvC9oaqtjDCxyUws3ZKCJfqsdcp9zHouIUwinZxiBer1/tIVH1WN2NrUGk8PYwoi/D8qxaPkjNkXgLbiNTQuWs/5A+0UWpqs0k+swZyQiq+WcnQbilyWD4V5ZrEcL7aomKAddZJrw7AK4W1sfk5pivTCFUz1n8tLUv5/kvZVshkgdStQA26z5LI2fmPH3uFiseTRZPzfaCKFCpRb4kNY9HHPmFNSjzeKzlKMCcqQztPlFJD9IoxWXNg64WwWX9BacPw7thu1KckseptLuQ+WovaNPGDL5iH5agIrQDhyhJA0bOxiAXPE8UU2DO8y37JTOoL1yCo1ULDAHUbcNwAtx8JaR/Vrhapc/Sdmz59ZCfYXBInPeBH/wa0+FpAf0f7GmjR1BVACXpz4+w4tcaLKrPgsf9PsV9MCbSeKtHVvnF4tJNq68lQMYU4QEFGiEWkyJmY7tLmXI5u6DHj1PA8Yi4JL4QxAdcPLmMgwOjw+nNmyLSw7dFOsnI26hqlAcAKIdkd+e1CXXXx4r4kNF6uxzh0TZnFcav8RCGu7yoyIpPH0f+b0I3jSIc6EzLVoEsixoqIwFpusgMrlH9+n368dU19CVGbZwxd7qVhFsln6V0mNrRVYxc7f0srBJccvwzK7aPMg+mfhEE0MoGIy9gHWlleiSE3J38NpDmQeHgPg2uLZdPDB4WqHUFHjY2G59PVdzfY0K49jtmOpRxLLcnjkGUzoRbAM82Mk6bOW+EUJ6n549nQgBQNu76sxHXQslcGEjEbg=='),
+(8, 1, 'request', 'a0nzaJhc7vXOgOE/8d2wFyBtSQIqTGGlTeq6X6TVeiQ3fhQIbkIl/3VSSCULuAviGIjwdc2Fbz6bM90Mgo8w+yvCD5PLXdF9HAZY6fYdav5rkiuz/CkXrFKNwudlMZRM1orsV8HAUUsyMo9f4hQLsvFFbcld0C1rHNQcxxq9yg4dq8g/Wm4Sfezn07kjBpasoXbR7djlJIA04WRN7XR+EpbWcq/32MWdbeM1YEcJkaPaYCBeGGjfzsLBLk49/I5/GlceDJ8g4WlX0OHohWV+2sjbfM9p8ey5IxcDrnZYJWXWjPG6VlAN2p2ccB8ZJ+i0l074j26RZxK6y+Qy54tLnAEwckGbM7iy3TLrVKbzdtiM1jJ8IQvDqOqHKVvuGHw6FWmDVAriZHvfkjTr9ofluu9s5ofm3wxZRDoUFKVtP+7mbRkGd7qXiItGTLSxcCl1QF5+AqggOghaZEudNzaQQMb7a05JcSzh+P/94R3KkI3jTiu558TQCdZs1Mhmbi/ZNmSwK3bXDjO4BcY+kXIp/lFnz+3mCiRjP9Ou/IpjbuKCTFwNwUfMEZ+l+VnKV+SZyDmmMRjQFsVUNkMNOXnMFkoWn4By/eXR8wmJYWzIOe6V5TBSRqlFWk3ZmlAmgWzhvZoYTz26DLMSfDwa6nS5ZBy1rIWXtdpf4vSjREYlgDxOkRDoQlL6CeXuaI7rD3p8+A5mSXWD3gxvCEgneH6luZZW1GQDKsbWs+/8zfg8heoqX1Sz6YkA5H524bZQ0D3m1apuskbTFtw25YOQBcvenQksZewXVGVajJrXmJjJHSbz2cK00QmN7fAfe8W1xRNBS9vj9gv9cD3n5t2XnsGfdX/i4+AtgEnbOGMoc3dr62EZC+ttPIxiFeGbnxlS/sSNscNCkdArkmCPnSCDzwSlKPMtIHBzLd3RydJWslkAxmBdfg6D8ddH3r6/ehqk0i8oXCeKLkT9mbQrAAUTWf34i4UrvDmxgbsdwyXDnHKFIv682V5SQmi+nJwwXxbHumPzkEybbeGIeyolE2mjW/3qpt0d1WewBK8c1t0AZBzmkpegWRoIqgp1s7H2XmQfCCvrLfnPkz6F/1uNEs6imfh9pNRSzw6Q7VPbbMmPa/EWuiRATb1h+nW4cF4T5U35x5RcRBs2GV07UZ6mtZof95y+iIvUbug4fmJ3AjlAFdH0d+P5TCujTdL3/ttV6H48uOkC2aUeoPRuAqja1QyaOjRuxw=='),
+(9, 1, 'request', 'O3aSeC0MyhdpYWBbg8KUAEfghGYPvWjfP3FvYymxpGb2MvdGR0WdSX8jTu6d1UdUY+YgJtnRFbSO24yT3GpekdDzAb897QTbdCs7qyXTZaTsuYz50U5o5ud+7HKPR7raUKvDisAhjAynMO+1RPvunTC5iJBVD7rfIYwMULIa5KgGqmkjjgQfJGCTKMEi+p7FmJKVr2fQKuZ+Ux6rYJB0sFdTEzHKfI7rWCu3DICeKkS5l+ahwADShyDwuFHnXQR7bv4jgpV4vbKojnvBLrttftVXE/ACVVfwH46oN07BlnOkHwrZHPLEBiQjGaMz/acgZySDIeoleOeZwLCvhIIlqSbkKoAnnpRgnrzUsrjo+vg13W7R7J1BUgEmesNWsYqZDgL5HtdbyOHMaaTFDa51xDXi+fv1mlmnmDlflz3muE2OmBc3YmkKqsoJfSFLGYXuXPatWe3Uf9gSxZ0qt2EIdDUdjivfMlyNBFB3OHcTuLVixRLUIs28ttqnl6o9kBxQgemx/O62PFH/zLwgTcMHJK7ZLV7DTZAa8qGDjG6UaO+n4NFeEQQgNKJ0+6XWiTOMaA9IiEF2C5GhdtElFp5EnueJHLX7V6cG1zHu0e0UOMIE2pHsiXpjH8j8Ea+b4SEW7ivsph7iKxeFy5Eka3ha54taw9HNuXovcqyg7qBHeDXdzXC7P4Xkz5IxFtY5UiawfE3z3ZJBQjGpS/WGD5dOS/07J6S653NjqJXfwby+TCTkfm3rJQsAkmNvF3QxU3yLFrpYlZy4CUYObBAcTFQ6F/OPltVgFNggPMI45Hb/cidX5v8E/dku4dd3zWANH7C92E2Z2gAVR8lNTI1149AAtbEsYREmICa+Gf3Xi1ZTjmkaBh5UNaS882pR6wQlhSmULOYYn2VUQ20jncQd5FJ/qWYP3GKxt3uXqz5gUr/0D1jGh/bbFlNvq6qYbzMRNwatLkuCCzq2GgkBS5DqClKRyZ9cPUbBDJpDoYjTUm1Fy6Z6Dpz2tLBzDnkpapV0bZOwrHmXFzFQTGuTSZ5SN1sSaicnNv7FCBGUWT4XAZtXMPIbWkmczEzo8ZuvYsLZARI5M6rDSDg2V3KdDIqzn7SVjapnI+CoXNgOWnDJrc5+aHttXGNtl285Flj67kiLmI3WoW9iPD1F3hJML2aLlRqDwWKVnLxfTxHWGJsb6lKAgBBJunrWWM2Kpw8EBsDYQQ6V'),
+(10, 1, 'request', '+yLjg5KN+7IkyvoXU3N513aUszF27xOm32+dUFWQAT84zEvbFGpFEux0QYJNkxtjQoqaS2C2A2f4eqO66Kxs1lsQGusamJ4tMlMGjI4XGT3OmOXLGzl0HKleUrO/U0JW08rLVceaIQrtw3U5HD6CU1HzX3lWWAcMO6NRl5AQf7UhpSYili+GLFalXNkU+9N/yVfYuD60+Y4l3JnDDXY2aMtcDNHSJWuMNJkNvrdPRxmtANxGqNqiQUE0XnYMgaZ8KxWwW9C0YYE7pujvrgpR+44O9b8A3OYW3Ovz37b1fq8+WylZ1lhWSekUDRmSww7omzrnXeq7nLQ0cYcKm6fPtehuJ0Xw3TsEOBbMOF2sc4VxuSfmxWR8d5I8HhVL+ibkqmCPIhEgWcDVshIJgsZi0D+Jn1fXo+0eG0aTYFnjlTTifaTPHKYJ1QkqLSCDQMHWvEpMcfZkm4Uk1e13PEWhwzA7c96CV5GkWyAP7ef7UXvFzyruxa92WzmJGLz1lFpWRxXl3JfKZ4gBNXbiXT8Hb6SAQABqDL/bdGlmluKF5W/846EmQTuTB9QlBBFddo3+YRSOhd0MdcdotK3hbX4ko1eeeDweZvpFOorzr6Qmw+4XHkymWFVg9Mi3BsN6h2atpuTT5cSJkFOTMeo2uPGNU8CwrfoejhIahDuXucjLjFP6Kwzxh5jkKoST0vlBbyLj3BUjAKWehO2KQL3624XjicHSq1ELUnwYh3qaLMZM1Ee3bqW8taCxO0N5pCenRCLMsJT96a4wEnvALFCZYO5V1yyUYfJ5S94AwWFqN7A9Z1LIAtHhSxA2WVz0w29adEvNrQzR3Vye/xLAo3EjaZ+UV2MZDJFqJd35mo9S+N1qYGD91X017lqFEQCYaoDkht4pcGMvt4V9u6PmF+rhN7JWjjy14GgEM3t4UgG/qFUMn5kJ0tnybe+Gb8gdm5X1f0WaS+voLRnMp9gE0zyxEq+9XI4D+FbyshFIkEUeTdgwAicB/IHCt+ydQoLiJG+1w5loy/doNOvC2FuHVvLhnrAkcQ2lQlPhLZxu4MAKVzaz4h9elVXDspN0Kxb+aj6GYgQeyvJ0gNkH0+LKMBLgQdeAShrZhdYaVhtbnmatrp7TTA19SMvrWatwCAsSrxIVlwExk56HqgIw0PTMG2YoQyJEek7GkJlWJoltRICOuJQHpcl964A/UKxuAqzDWc/FCeqk'),
+(11, 1, 'request', 'nrEeoL5YzWgiR3/RuuiNfAFtQWzbJVA8YVLkzNF1Txn+4eo6cY0tPkt25EzTMjxcCxQovToSYDHAFpAiYJiFvaW5rKPvpgopA67idgCpm3VzGEz6sHVc2bfgHMpbt8EVLG0ZoSU2HyWafC3AX5Z59TfLORnz7zdK8Wnw4cnMUGDNX5EVmX7kIur0i5gCkZ9TFEgVznZKIiH0tKs8OFGDuNIUjFLXmqQyKSOscaKQ6vR3ymdqGqpAK3PfgvHWKXFtkauGVDPp6BzAqDvQ/ze+Cz4EYP7Yj8xek9gxhNAJHvbPGKaOEpUApg7967ZQrDO6jnI3+be7Utv8ZugpEhnsgYOJlA4inwqAByMcbJcw9W8z8KGSSeeqJQW9zF3I9iqdUPuIgDFHT6Tz6LxvNe58hvMnoliQcHHh0RqR13a7fjdiY+pG0lxXWcBDvEl5Uet5Ory1ndUJIwjasz6ulnm9Emj5TJvhDSsICTCK6z7BQF0O7p3pfnTo+ItLYbYFxRh2M4ol1a6U3Fi67T279FjDugHD7BxLBkEZZYzIEIxAtH1OPsjKKQV5G6BtYm8pnv/Ar44VI0oV7nT99dBVOUWdytTgM3srm3ZsPMuEaKtgzhC3b9nVU5JFUNAUY6RLlPx53FsMjHbNYBxJmikxIAji8sfX/dFtdwozTxLJpFx/1NDPLdKgRLat6wDwx0uEcUYx28qB1Z2mKyu5xXbbBrI0A+oOGsqz5lwKsrakIFhiunoIgi/0sN/NDCPAKA59WT+wKFCIOqAIvetDNuj66NW7uW0nA8uFXtTAFVJxIIdTRKjFUYrWYYleC3qOtTJLAn/bAOEFE6UEJsc1sYT0Sdui0wi8uoFTODEwSwXkUvkdLe8ev0TVKtHnpLyEpwe72FU1DztAeVhb4neIk2+9IpxXoFaLNJZk15xt55fj1lOSaRiUsOBhEJLyBd98qpoXSkrhXbLQXC7MNOwrxhodcnW2rpI0n0TVnOKZpvkxn5UZwzuDN3TXiYAz0SJzbbP/4xqUZlqaokO9ypn8AokbDmvGnnnL27gmNw9WvjXuctgbQVZ+HyQKktY8cfIshI6sgv8W72MCtIUwRIM6Hsno1L8K9v7x6Q479igdPeDZ6B4qDQVacsKjoeR85p+DpmDaRE/dvbk0Vu8eexj0GL0eL6GEj3Iw4qDjpOrVJ5/I+6fbrq9YSgChJGih3Dh3wb+OdWpl');
 
 --
 -- Índices para tablas volcadas
@@ -518,6 +1495,18 @@ ALTER TABLE `com_payment_tmp`
 --
 ALTER TABLE `com_payment_verified`
   ADD PRIMARY KEY (`id_payment_verified`);
+
+--
+-- Indices de la tabla `countries`
+--
+ALTER TABLE `countries`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `currencies`
+--
+ALTER TABLE `currencies`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `guest_treatments`
@@ -588,12 +1577,27 @@ ALTER TABLE `rooms`
   ADD KEY `account` (`account`) USING BTREE;
 
 --
+-- Indices de la tabla `room_packages`
+--
+ALTER TABLE `room_packages`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `settings`
 --
 ALTER TABLE `settings`
   ADD PRIMARY KEY (`id`),
   ADD KEY `account` (`account`) USING BTREE,
-  ADD KEY `promotional_code` (`promotional_code`) USING BTREE;
+  ADD KEY `room_package` (`room_package`),
+  ADD KEY `user_package` (`user_package`),
+  ADD KEY `promotional_code` (`promotional_code`),
+  ADD KEY `time_zone` (`time_zone`);
+
+--
+-- Indices de la tabla `time_zones`
+--
+ALTER TABLE `time_zones`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `users`
@@ -609,6 +1613,12 @@ ALTER TABLE `users`
 ALTER TABLE `user_levels`
   ADD PRIMARY KEY (`id`),
   ADD KEY `account` (`account`) USING BTREE;
+
+--
+-- Indices de la tabla `user_packages`
+--
+ALTER TABLE `user_packages`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `user_permissions`
@@ -658,28 +1668,40 @@ ALTER TABLE `com_payment_verified`
   MODIFY `id_payment_verified` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `countries`
+--
+ALTER TABLE `countries`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=247;
+
+--
+-- AUTO_INCREMENT de la tabla `currencies`
+--
+ALTER TABLE `currencies`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=198;
+
+--
 -- AUTO_INCREMENT de la tabla `guest_treatments`
 --
 ALTER TABLE `guest_treatments`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `guest_types`
 --
 ALTER TABLE `guest_types`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `locations`
 --
 ALTER TABLE `locations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `opportunity_areas`
 --
 ALTER TABLE `opportunity_areas`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `opportunity_types`
@@ -697,19 +1719,25 @@ ALTER TABLE `promotional_codes`
 -- AUTO_INCREMENT de la tabla `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `reservation_status`
 --
 ALTER TABLE `reservation_status`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `room_packages`
+--
+ALTER TABLE `room_packages`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `settings`
@@ -718,16 +1746,28 @@ ALTER TABLE `settings`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `time_zones`
+--
+ALTER TABLE `time_zones`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=425;
+
+--
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `user_levels`
 --
 ALTER TABLE `user_levels`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `user_packages`
+--
+ALTER TABLE `user_packages`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `user_permissions`
@@ -739,7 +1779,7 @@ ALTER TABLE `user_permissions`
 -- AUTO_INCREMENT de la tabla `voxes`
 --
 ALTER TABLE `voxes`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Restricciones para tablas volcadas
@@ -803,7 +1843,10 @@ ALTER TABLE `rooms`
 --
 ALTER TABLE `settings`
   ADD CONSTRAINT `settings_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`),
-  ADD CONSTRAINT `settings_ibfk_2` FOREIGN KEY (`promotional_code`) REFERENCES `promotional_codes` (`id`);
+  ADD CONSTRAINT `settings_ibfk_2` FOREIGN KEY (`room_package`) REFERENCES `room_packages` (`id`),
+  ADD CONSTRAINT `settings_ibfk_3` FOREIGN KEY (`user_package`) REFERENCES `user_packages` (`id`),
+  ADD CONSTRAINT `settings_ibfk_4` FOREIGN KEY (`promotional_code`) REFERENCES `promotional_codes` (`id`),
+  ADD CONSTRAINT `settings_ibfk_5` FOREIGN KEY (`time_zone`) REFERENCES `time_zones` (`id`);
 
 --
 -- Filtros para la tabla `users`

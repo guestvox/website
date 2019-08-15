@@ -24,7 +24,7 @@ $this->dependencies->add(['other', '<script>menu_focus("stats");</script>']);
                                 <div class="label">
                                     <label>
                                         <p>{$lang.started_date}</p>
-                                        <input type="text" name="started_date" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Dates::get_past_date(Dates::get_current_date(), '7', 'days'); ?>" />
+                                        <input type="text" name="started_date" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>" />
                                     </label>
                                 </div>
                             </div>
@@ -32,7 +32,7 @@ $this->dependencies->add(['other', '<script>menu_focus("stats");</script>']);
                                 <div class="label">
                                     <label>
                                         <p>{$lang.end_date}</p>
-                                        <input type="text" name="date_end" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Dates::get_current_date(); ?>" />
+                                        <input type="text" name="date_end" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Functions::get_current_date(); ?>" />
                                     </label>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@ $this->dependencies->add(['other', '<script>menu_focus("stats");</script>']);
                                 <div class="label">
                                     <label>
                                         <p>{$lang.started_date}</p>
-                                        <input type="text" name="started_date" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Dates::get_past_date(Dates::get_current_date(), '7', 'days'); ?>" />
+                                        <input type="text" name="started_date" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>" />
                                     </label>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@ $this->dependencies->add(['other', '<script>menu_focus("stats");</script>']);
                                 <div class="label">
                                     <label>
                                         <p>{$lang.end_date}</p>
-                                        <input type="text" name="date_end" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Dates::get_current_date(); ?>" />
+                                        <input type="text" name="date_end" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Functions::get_current_date(); ?>" />
                                     </label>
                                 </div>
                             </div>
@@ -118,7 +118,7 @@ $this->dependencies->add(['other', '<script>menu_focus("stats");</script>']);
                                 <div class="label">
                                     <label>
                                         <p>{$lang.started_date}</p>
-                                        <input type="text" name="started_date" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Dates::get_past_date(Dates::get_current_date(), '7', 'days'); ?>" />
+                                        <input type="text" name="started_date" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>" />
                                     </label>
                                 </div>
                             </div>
@@ -126,7 +126,7 @@ $this->dependencies->add(['other', '<script>menu_focus("stats");</script>']);
                                 <div class="label">
                                     <label>
                                         <p>{$lang.end_date}</p>
-                                        <input type="text" name="date_end" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Dates::get_current_date(); ?>" />
+                                        <input type="text" name="date_end" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Functions::get_current_date(); ?>" />
                                     </label>
                                 </div>
                             </div>
@@ -148,10 +148,10 @@ $this->dependencies->add(['other', '<script>menu_focus("stats");</script>']);
         <aside class="padding">
             <div class="counts">
                 <h2 class="average">{$average_resolution}<span>{$lang.average_resolution}</span></h2>
-                <h2>{$count_created_today}<span>{$lang.created_today} <strong><?php echo Dates::get_current_date('d M'); ?></strong></span></h2>
-                <h2>{$count_created_week}<span>{$lang.created_week} <strong><?php echo Dates::get_format_date(Dates::get_current_week()[0], 'd M'); ?> - <?php echo Dates::get_format_date(Dates::get_current_week()[1], 'd M'); ?></strong></span></h2>
-                <h2>{$count_created_month}<span>{$lang.created_month} <strong><?php echo Dates::get_format_date(Dates::get_current_month()[0], 'F'); ?></strong></span></h2>
-                <h2>{$count_created_year}<span>{$lang.created_year} <strong><?php echo Dates::get_current_year(); ?></strong></span></h2>
+                <h2>{$count_created_today}<span>{$lang.created_today} <strong><?php echo Functions::get_current_date('d M'); ?></strong></span></h2>
+                <h2>{$count_created_week}<span>{$lang.created_week} <strong><?php echo Functions::get_formatted_date(Functions::get_current_week()[0], 'd M'); ?> - <?php echo Functions::get_formatted_date(Functions::get_current_week()[1], 'd M'); ?></strong></span></h2>
+                <h2>{$count_created_month}<span>{$lang.created_month} <strong><?php echo Functions::get_formatted_date(Functions::get_current_month()[0], 'F'); ?></strong></span></h2>
+                <h2>{$count_created_year}<span>{$lang.created_year} <strong><?php echo Functions::get_current_year(); ?></strong></span></h2>
                 <h2>{$count_created_total}<span>{$lang.created_total}</span></h2>
             </div>
         </aside>

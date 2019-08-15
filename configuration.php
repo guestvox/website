@@ -103,6 +103,15 @@ class Configuration
 	public static $secret = '=7H(Hfkt)8w,<T~z';
 
 	/**
+     * Clave privada de encriptado
+	 *
+	 * @static
+	 *
+     * @var string $encrypt_private_key
+     */
+	public static $encrypt_private_key = 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7';
+
+	/**
      * Tiempo de vida para una session en bytes.
 	 *
 	 * @static
@@ -137,7 +146,7 @@ class Configuration
 	 *
      * @var string $db_host
      */
-	public static $db_host = 'guestvox.com';
+	public static $db_host = 'localhost';
 
 	/**
      * Nombre de la base de datos
@@ -146,7 +155,7 @@ class Configuration
 	 *
      * @var string $db_name
      */
-	public static $db_name = 'guestvox_production';
+	public static $db_name = 'guestvox_development';
 
 	/**
      * Usuario de la base de datos
@@ -155,7 +164,7 @@ class Configuration
 	 *
      * @var string $db_user
      */
-	public static $db_user = 'guestvox';
+	public static $db_user = 'root';
 
 	/**
      * Contraseña de la base de datos.
@@ -164,7 +173,7 @@ class Configuration
 	 *
      * @var string $db_pass
      */
-	public static $db_pass = 'Jsw90w&6';
+	public static $db_pass = '';
 
 	/**
      * Tipo de caracteres para la base de datos. Opcional.

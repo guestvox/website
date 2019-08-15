@@ -6,7 +6,7 @@ $(document).ready(function ()
 
     $('.multi-tabs').multiTabs();
 
-    $('.table').DataTable({
+    $('#reports').DataTable({
         ordering: false,
         autoWidth: false,
         info: false,
@@ -263,10 +263,17 @@ $(document).ready(function ()
 
                 if (response.status == 'success')
                 {
+                    $('form[name="new_report"]')[0].reset();
+                    $('form[name="new_report"]').find('[name="opportunity_type"]').html('<option value="all">Todo</option>');
+                    $('form[name="new_report"]').find('[name="addressed_to_opportunity_areas[]"]').parent().parent().parent().parent().parent().addClass('hidden');
+                    $('#reports').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() { window.location.href = response.path; }, 1500);
+                    setTimeout(function() {
+                        $('[data-modal="success"]').find('main > p').html(response.message);
+                        $('[data-modal="success"]').removeClass('view');
+                    }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -311,10 +318,15 @@ $(document).ready(function ()
             {
                 if (response.status == 'success')
                 {
+                    $('#reports').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() { window.location.href = response.path; }, 1500);
+                    setTimeout(function() {
+                        $('[data-modal="success"]').find('main > p').html(response.message);
+                        $('[data-modal="success"]').removeClass('view');
+                        $('[data-modal="delete_report"]').removeClass('view');
+                    }, 1500);
                 }
                 else if (response.status == 'error')
                 {

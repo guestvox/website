@@ -4,13 +4,9 @@ defined('_EXEC') or die;
 
 class Reports_model extends Model
 {
-	private $crypted;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->crypted = new Crypted();
 	}
 
 	public function generate_report($data)
@@ -40,7 +36,7 @@ class Reports_model extends Model
 
 		foreach ($query as $key => $value)
 		{
-			$value['data'] = json_decode($this->crypted->openssl('decrypt', $value['data']), true);
+			$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
 
 			$break = false;
 

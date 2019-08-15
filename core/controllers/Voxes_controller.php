@@ -27,7 +27,7 @@ class Voxes_controller extends Controller
 			$value['data']['comments'] = (!empty($value['data']['comments'])) ? '<span><i class="fas fa-comment"></i></span>' : '';
 			$value['data']['attachments'] = (!empty($value['data']['attachments'])) ? '<span><i class="fas fa-paperclip"></i></span>' : '';
 
-			if ($value['data']['status'] == 'open' AND Dates::get_current_date_hour() < Dates::get_format_date_hour($value['data']['started_date'], $value['data']['started_hour']))
+			if ($value['data']['status'] == 'open' AND Functions::get_current_date_hour() < Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']))
 			{
 				if ($value['data']['urgency'] == 'low')
 					$value['data']['urgency'] = '<span style="background-color:#4caf50;color:#fff;"><i class="fas fa-clock"></i></span>';
@@ -63,10 +63,10 @@ class Voxes_controller extends Controller
 				<td align="left" class="touchable">' . $value['data']['opportunity_area'] . '</td>
 				<td align="left" class="touchable">' . $value['data']['opportunity_type'] . '</td>
 				<td align="left" class="touchable">' . $value['data']['location'] . '</td>
-				<td align="left" class="touchable">' . Dates::get_format_date($value['data']['started_date'], 'd M, y') . '</td>
+				<td align="left" class="touchable">' . Functions::get_formatted_date($value['data']['started_date'], 'd M, y') . '</td>
 				<td align="left" class="touchable"
-					data-started-date="' . Dates::get_format_date_hour($value['data']['started_date'], $value['data']['started_hour']) . '"
-					data-completed-date="' . Dates::get_format_date_hour($value['data']['completed_date'], $value['data']['completed_hour']) . '"
+					data-started-date="' . Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']) . '"
+					data-completed-date="' . Functions::get_formatted_date_hour($value['data']['completed_date'], $value['data']['completed_hour']) . '"
 					data-status="' . $value['data']['status'] . '" data-elapsed-time></td>
 				<td align="right" class="touchable icon">' . $value['data']['confidentiality'] . '</td>
 				<td align="right" class="touchable icon">' . $value['data']['assigned_users'] . '</td>
@@ -91,8 +91,8 @@ class Voxes_controller extends Controller
 		{
 			if ($_POST['action'] == 'get_api')
 			{
-				if (Session::get_value('user')['id'] == 106)
-				{
+				// if (Session::get_value('user')['id'] == 106)
+				// {
 					$api = curl_init();
 
 					curl_setopt($api, CURLOPT_URL, 'https://admin.zaviaerp.com/pms/hotels/api/check_room2/?UserName=demo&UserPassword=demo&RoomNumber=' . $this->model->get_room($_POST['room'])['name']);
@@ -104,26 +104,26 @@ class Voxes_controller extends Controller
 
 					if ($data['Status'] == 'success')
 					{
-						Environment::return([
+						Functions::environment([
 							'status' => 'success',
 							'data' => $data
 						]);
 					}
 					else if ($data['Status'] == 'error')
 					{
-						Environment::return([
+						Functions::environment([
 							'status' => 'error',
 						]);
 					}
-				}
-				else
-				{
-					Environment::return([
-						'status' => 'error',
-					]);
-				}
+				// }
+				// else
+				// {
+				// 	Functions::environment([
+				// 		'status' => 'error',
+				// 	]);
+				// }
 			}
-			
+
 			if ($_POST['action'] == 'get_opt_opportunity_areas')
 			{
 				$data = '<option value="" selected hidden>{$lang.choose}</option>';
@@ -131,7 +131,7 @@ class Voxes_controller extends Controller
 				foreach ($this->model->get_opportunity_areas($_POST['option']) as $value)
 					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
 
-				Environment::return([
+				Functions::environment([
 					'status' => 'success',
 					'data' => $data
 				]);
@@ -144,7 +144,7 @@ class Voxes_controller extends Controller
 				foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['option']) as $value)
 					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
 
-				Environment::return([
+				Functions::environment([
 					'status' => 'success',
 					'data' => $data
 				]);
@@ -157,7 +157,7 @@ class Voxes_controller extends Controller
 				foreach ($this->model->get_locations($_POST['option']) as $value)
 					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
 
-				Environment::return([
+				Functions::environment([
 					'status' => 'success',
 					'data' => $data
 				]);
@@ -240,7 +240,7 @@ class Voxes_controller extends Controller
 								$mail_started_hour = 'Hora de inicio: ';
 								$mail_location = 'Ubicación: ';
 
-								if (Dates::get_current_date_hour() < Dates::get_format_date_hour($_POST['started_date'], $_POST['started_hour']))
+								if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
 									$mail_urgency = 'Urgencia: Programada';
 								else if ($_POST['urgency'] == 'low')
 									$mail_urgency = 'Urgencia: Baja';
@@ -272,7 +272,7 @@ class Voxes_controller extends Controller
 								$mail_started_hour = 'Start hour: ';
 								$mail_location = 'Location: ';
 
-								if (Dates::get_current_date_hour() < Dates::get_format_date_hour($_POST['started_date'], $_POST['started_hour']))
+								if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
 									$mail_urgency = 'Urgency: Programmed';
 								else if ($_POST['urgency'] == 'low')
 									$mail_urgency = 'Urgency: Low';
@@ -319,8 +319,8 @@ class Voxes_controller extends Controller
 						                    	<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . $_POST['room'] . '</h6>
 						                    	<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_area . $_POST['opportunity_area'] . '</h6>
 						                    	<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_type . $_POST['opportunity_type'] . '</h6>
-												<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_date . Dates::get_format_date($_POST['started_date'], 'd M, Y') . '</h6>
-												<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_hour . Dates::get_format_hour($_POST['started_hour'], '+ hrs') . '</h6>
+												<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M, Y') . '</h6>
+												<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '</h6>
 												<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_location . $_POST['location'] . '</h6>
 												<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_urgency . '</h6>';
 
@@ -371,7 +371,7 @@ class Voxes_controller extends Controller
 						// 		$sms_started_hour = 'Hr: ';
 						// 		$sms_location = 'Ubic: ';
 						//
-						// 		if (Dates::get_current_date_hour() < Dates::get_format_date_hour($_POST['started_date'], $_POST['started_hour']))
+						// 		if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
 						// 			$sms_urgency = 'Urg: Programada';
 						// 		else if ($_POST['urgency'] == 'low')
 						// 			$sms_urgency = 'Urg: Baja';
@@ -402,7 +402,7 @@ class Voxes_controller extends Controller
 						// 		$sms_started_hour = 'Hr: ';
 						// 		$sms_location = 'Loc: ';
 						//
-						// 		if (Dates::get_current_date_hour() < Dates::get_format_date_hour($_POST['started_date'], $_POST['started_hour']))
+						// 		if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
 						// 			$sms_urgency = 'Urg: Programmed';
 						// 		else if ($_POST['urgency'] == 'low')
 						// 			$sms_urgency = 'Urg: Low';
@@ -420,7 +420,7 @@ class Voxes_controller extends Controller
 						// 		$sms_description = 'Desc: ';
 						// 	}
 						//
-						// 	$sms_text = $sms_subject . ' ' . $sms_room . $_POST['room'] . ' ' . $sms_opportunity_area . $_POST['opportunity_area'] . ' ' . $sms_opportunity_type . $_POST['opportunity_type'] . ' ' . $sms_started_date . Dates::get_format_date($_POST['started_date'], 'd M y') . ' ' . $sms_started_hour . Dates::get_format_hour($_POST['started_hour'], '+ hrs') . ' ' . $sms_location . $_POST['location'] . ' ' . $sms_urgency . ' ';
+						// 	$sms_text = $sms_subject . ' ' . $sms_room . $_POST['room'] . ' ' . $sms_opportunity_area . $_POST['opportunity_area'] . ' ' . $sms_opportunity_type . $_POST['opportunity_type'] . ' ' . $sms_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' ' . $sms_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' ' . $sms_location . $_POST['location'] . ' ' . $sms_urgency . ' ';
 						//
 						// 	if ($_POST['type'] == 'request')
 						// 		$sms_text .= $sms_observations . $_POST['observations'];
@@ -444,7 +444,7 @@ class Voxes_controller extends Controller
 						// 	$this->model->edit_sms($sms);
 						// }
 
-						Environment::return([
+						Functions::environment([
 							'status' => 'success',
 							'message' => '{$lang.success_operation_database}',
 							'path' => '/voxes'
@@ -452,7 +452,7 @@ class Voxes_controller extends Controller
 					}
 					else
 					{
-						Environment::return([
+						Functions::environment([
 							'status' => 'error',
 							'message' => '{$lang.error_operation_database}'
 						]);
@@ -460,7 +460,7 @@ class Voxes_controller extends Controller
 				}
 				else
 				{
-					Environment::return([
+					Functions::environment([
 						'status' => 'error',
 						'labels' => $labels
 					]);
@@ -536,7 +536,7 @@ class Voxes_controller extends Controller
 				{
 					$query = $this->model->complete_vox($params[0]);
 
-					Environment::return([
+					Functions::environment([
 						'status' => !empty($query) ? 'success' : 'error',
 						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
 						'path' => '/voxes',
@@ -547,7 +547,7 @@ class Voxes_controller extends Controller
 				{
 					$query = $this->model->reopen_vox($params[0]);
 
-					Environment::return([
+					Functions::environment([
 						'status' => !empty($query) ? 'success' : 'error',
 						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
 						'path' => '/voxes/view/' . $params[0],
@@ -567,7 +567,7 @@ class Voxes_controller extends Controller
 
 						$query = $this->model->new_comment_vox($params[0], $_POST);
 
-						Environment::return([
+						Functions::environment([
 							'status' => !empty($query) ? 'success' : 'error',
 							'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
 							'path' => '/voxes/view/' . $params[0],
@@ -575,7 +575,7 @@ class Voxes_controller extends Controller
 					}
 					else
 					{
-						Environment::return([
+						Functions::environment([
 							'status' => 'error',
 							'labels' => $labels
 						]);
@@ -588,7 +588,7 @@ class Voxes_controller extends Controller
 
 				$template = $this->view->render($this, 'view');
 
-				if ($vox['data']['status'] == 'open' AND Dates::get_current_date_hour() < Dates::get_format_date_hour($vox['data']['started_date'], $vox['data']['started_hour']))
+				if ($vox['data']['status'] == 'open' AND Functions::get_current_date_hour() < Functions::get_formatted_date_hour($vox['data']['started_date'], $vox['data']['started_hour']))
 					$div_urgency = '<div><h3>{$lang.urgency}:</h3><div>{$lang.programmed}</div></div>';
 				else if ($vox['data']['urgency'] == 'low')
 					$div_urgency = '<div><h3>{$lang.urgency}:</h3><div style="background-color:#4caf50;color:#fff;">{$lang.low}</div></div>';
@@ -664,7 +664,7 @@ class Voxes_controller extends Controller
 							</div>
 							<div class="user">
 								<h1>@' . $value['user']['username'] . '</h1>
-								<h2>{$lang.commented_at_day}: ' . Dates::get_format_date($value['date'], 'd M, y') . ' {$lang.at} ' . Dates::get_format_hour($value['hour'], '+ hrs') . '</h2>';
+								<h2>{$lang.commented_at_day}: ' . Functions::get_formatted_date($value['date'], 'd M, y') . ' {$lang.at} ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</h2>';
 
 							if ($vox['data']['status'] == 'open')
 								$art_comments .= '<a data-response-to="' . $value['user']['username'] . '" data-button-modal="new_comment_vox">{$lang.reply}</a>';
@@ -739,19 +739,19 @@ class Voxes_controller extends Controller
 						$div_changes_history .= '<div class="history">';
 
 						if ($value['type'] == 'create')
-							$div_changes_history .= '<p><span style="background-color:#2196F3;"><i class="fas fa-plus-square"></i></span> ' . $value['user']['name'] . ' ' . $value['user']['lastname'] . ' <strong>{$lang.created}</strong> {$lang.the} ' . Dates::get_format_date($value['date'], 'd F Y') . ' {$lang.at} ' . Dates::get_format_hour($value['hour'], '+ hrs') . '</p>';
+							$div_changes_history .= '<p><span style="background-color:#2196F3;"><i class="fas fa-plus-square"></i></span> ' . $value['user']['name'] . ' ' . $value['user']['lastname'] . ' <strong>{$lang.created}</strong> {$lang.the} ' . Functions::get_formatted_date($value['date'], 'd F Y') . ' {$lang.at} ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</p>';
 						else if ($value['type'] == 'viewed')
-							$div_changes_history .= '<p><span style="background-color:#f44336;"><i class="fas fa-eye"></i></span> ' . $value['user']['name'] . ' ' . $value['user']['lastname'] . ' <strong>{$lang.viewed}</strong> {$lang.the} ' . Dates::get_format_date($value['date'], 'd F Y') . ' {$lang.at} ' . Dates::get_format_hour($value['hour'], '+ hrs') . '</p>';
+							$div_changes_history .= '<p><span style="background-color:#f44336;"><i class="fas fa-eye"></i></span> ' . $value['user']['name'] . ' ' . $value['user']['lastname'] . ' <strong>{$lang.viewed}</strong> {$lang.the} ' . Functions::get_formatted_date($value['date'], 'd F Y') . ' {$lang.at} ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</p>';
 						else if ($value['type'] == 'complete')
-							$div_changes_history .= '<p><span style="background-color:#4caf50;"><i class="fas fa-check-square"></i></span> ' . $value['user']['name'] . ' ' . $value['user']['lastname'] . ' <strong>{$lang.completed}</strong> {$lang.the} ' . Dates::get_format_date($value['date'], 'd F Y') . ' {$lang.at} ' . Dates::get_format_hour($value['hour'], '+ hrs') . '</p>';
+							$div_changes_history .= '<p><span style="background-color:#4caf50;"><i class="fas fa-check-square"></i></span> ' . $value['user']['name'] . ' ' . $value['user']['lastname'] . ' <strong>{$lang.completed}</strong> {$lang.the} ' . Functions::get_formatted_date($value['date'], 'd F Y') . ' {$lang.at} ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</p>';
 						else if ($value['type'] == 'reopen')
-							$div_changes_history .= '<p><span style="background-color:#ffeb3b;"><i class="fas fa-undo"></i></span> ' . $value['user']['name'] . ' ' . $value['user']['lastname'] . ' <strong>{$lang.reopened}</strong> {$lang.the} ' . Dates::get_format_date($value['date'], 'd F Y') . ' {$lang.at} ' . Dates::get_format_hour($value['hour'], '+ hrs') . '</p>';
+							$div_changes_history .= '<p><span style="background-color:#ffeb3b;"><i class="fas fa-undo"></i></span> ' . $value['user']['name'] . ' ' . $value['user']['lastname'] . ' <strong>{$lang.reopened}</strong> {$lang.the} ' . Functions::get_formatted_date($value['date'], 'd F Y') . ' {$lang.at} ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</p>';
 						else if ($value['type'] == 'new_comment')
-							$div_changes_history .= '<p><span style="background-color:#9c27b0;"><i class="fas fa-comments"></i></span> ' . $value['user']['name'] . ' ' . $value['user']['lastname'] . ' <strong>{$lang.commented}</strong> {$lang.the} ' . Dates::get_format_date($value['date'], 'd F Y') . ' {$lang.at} ' . Dates::get_format_hour($value['hour'], '+ hrs') . '</p>';
+							$div_changes_history .= '<p><span style="background-color:#9c27b0;"><i class="fas fa-comments"></i></span> ' . $value['user']['name'] . ' ' . $value['user']['lastname'] . ' <strong>{$lang.commented}</strong> {$lang.the} ' . Functions::get_formatted_date($value['date'], 'd F Y') . ' {$lang.at} ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</p>';
 						else if ($value['type'] == 'edit')
 						{
 							$div_changes_history .=
-							'<p><span style="background-color:#3f51b5;"><i class="fas fa-pen-square"></i></span> ' . $value['user']['name'] . ' ' . $value['user']['lastname'] . ' <strong>{$lang.edited}</strong> {$lang.the} ' . Dates::get_format_date($value['date'], 'd F Y') . ' {$lang.at} ' . Dates::get_format_hour($value['hour'], '+ hrs') . '</p>
+							'<p><span style="background-color:#3f51b5;"><i class="fas fa-pen-square"></i></span> ' . $value['user']['name'] . ' ' . $value['user']['lastname'] . ' <strong>{$lang.edited}</strong> {$lang.the} ' . Functions::get_formatted_date($value['date'], 'd F Y') . ' {$lang.at} ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</p>
 							<ul>';
 
 							foreach ($value['fields'] as $subvalue)
@@ -769,8 +769,8 @@ class Voxes_controller extends Controller
 					'{$room}' => (!empty($vox['data']['room'])) ? $vox['data']['room']['name'] : 'N/A',
 					'{$opportunity_area}' => $vox['data']['opportunity_area']['name'][Session::get_value('settings')['language']],
 					'{$opportunity_type}' => $vox['data']['opportunity_type']['name'][Session::get_value('settings')['language']],
-					'{$started_date}' => Dates::get_format_date($vox['data']['started_date'], 'd F, Y'),
-					'{$started_hour}' => Dates::get_format_hour($vox['data']['started_hour'], '+ hrs'),
+					'{$started_date}' => Functions::get_formatted_date($vox['data']['started_date'], 'd F, Y'),
+					'{$started_hour}' => Functions::get_formatted_hour($vox['data']['started_hour'], '+ hrs'),
 					'{$location}' => $vox['data']['location']['name'][Session::get_value('settings')['language']],
 					'{$div_cost}' => ($vox['type'] == 'incident') ? '<div><h3>{$lang.cost}:</h3><div>' . $vox['data']['cost'] . '</div></div>' : '',
 					'{$div_urgency}' => $div_urgency,
@@ -790,13 +790,13 @@ class Voxes_controller extends Controller
 					'{$uli_guest_type}' => ($vox['type'] == 'incident') ? '<li><strong>{$lang.guest_type}:</strong> ' . $vox['data']['guest_type']['name'] . '</li>' : '',
 					'{$uli_reservation_number}' => ($vox['type'] == 'incident') ? '<li><strong>{$lang.reservation_number}:</strong> ' . $vox['data']['reservation_number'] . '</li>' : '',
 					'{$uli_reservation_status}' => ($vox['type'] == 'incident') ? '<li><strong>{$lang.reservation_status}:</strong> ' . $vox['data']['reservation_status']['name'] . '</li>' : '',
-					'{$uli_check_in}' => ($vox['type'] == 'incident') ? '<li><strong>{$lang.check_in}:</strong> ' . Dates::get_format_date($vox['data']['check_in'], 'd F, Y') . '</li>' : '',
-					'{$uli_check_out}' => ($vox['type'] == 'incident') ? '<li><strong>{$lang.check_out}:</strong> ' . Dates::get_format_date($vox['data']['check_out'], 'd F, Y') . '</li>' : '',
+					'{$uli_check_in}' => ($vox['type'] == 'incident') ? '<li><strong>{$lang.check_in}:</strong> ' . Functions::get_formatted_date($vox['data']['check_in'], 'd F, Y') . '</li>' : '',
+					'{$uli_check_out}' => ($vox['type'] == 'incident') ? '<li><strong>{$lang.check_out}:</strong> ' . Functions::get_formatted_date($vox['data']['check_out'], 'd F, Y') . '</li>' : '',
 					'{$token}' => $vox['data']['token'],
-					'{$uli_created_user}' => !empty($vox['data']['created_user']) ? '<li><strong>{$lang.created_by}</strong> ' . $vox['data']['created_user']['name'] . ' ' . $vox['data']['created_user']['lastname'] . ' {$lang.the} ' . Dates::get_format_date($vox['data']['created_date'], 'd F, Y') . ' {$lang.at} ' . Dates::get_format_hour($vox['data']['created_hour'], '+ hrs') . '</li>' : '',
-					'{$uli_edited_user}' => !empty($vox['data']['edited_user']) ? '<li><strong>{$lang.edited_by}</strong> ' . $vox['data']['edited_user']['name'] . ' ' . $vox['data']['edited_user']['lastname'] . ' {$lang.the} ' . Dates::get_format_date($vox['data']['edited_date'], 'd F, Y') . ' {$lang.at} ' . Dates::get_format_hour($vox['data']['edited_hour'], '+ hrs') . '</li>' : '',
-					'{$uli_completed_user}' => !empty($vox['data']['completed_user']) ? '<li><strong>{$lang.completed_by}</strong> ' . $vox['data']['completed_user']['name'] . ' ' . $vox['data']['completed_user']['lastname'] . ' {$lang.the} ' . Dates::get_format_date($vox['data']['completed_date'], 'd F, Y') . ' {$lang.at} ' . Dates::get_format_hour($vox['data']['completed_hour'], '+ hrs') . '</li>' : '',
-					'{$uli_reopened_user}' => !empty($vox['data']['reopened_user']) ? '<li><strong>{$lang.reopened_by}</strong> ' . $vox['data']['reopened_user']['name'] . ' ' . $vox['data']['reopened_user']['lastname'] . ' {$lang.the} ' . Dates::get_format_date($vox['data']['reopened_date'], 'd F, Y') . ' {$lang.at} ' . Dates::get_format_hour($vox['data']['reopened_hour'], '+ hrs') . '</li>' : '',
+					'{$uli_created_user}' => !empty($vox['data']['created_user']) ? '<li><strong>{$lang.created_by}</strong> ' . $vox['data']['created_user']['name'] . ' ' . $vox['data']['created_user']['lastname'] . ' {$lang.the} ' . Functions::get_formatted_date($vox['data']['created_date'], 'd F, Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['data']['created_hour'], '+ hrs') . '</li>' : '',
+					'{$uli_edited_user}' => !empty($vox['data']['edited_user']) ? '<li><strong>{$lang.edited_by}</strong> ' . $vox['data']['edited_user']['name'] . ' ' . $vox['data']['edited_user']['lastname'] . ' {$lang.the} ' . Functions::get_formatted_date($vox['data']['edited_date'], 'd F, Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['data']['edited_hour'], '+ hrs') . '</li>' : '',
+					'{$uli_completed_user}' => !empty($vox['data']['completed_user']) ? '<li><strong>{$lang.completed_by}</strong> ' . $vox['data']['completed_user']['name'] . ' ' . $vox['data']['completed_user']['lastname'] . ' {$lang.the} ' . Functions::get_formatted_date($vox['data']['completed_date'], 'd F, Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['data']['completed_hour'], '+ hrs') . '</li>' : '',
+					'{$uli_reopened_user}' => !empty($vox['data']['reopened_user']) ? '<li><strong>{$lang.reopened_by}</strong> ' . $vox['data']['reopened_user']['name'] . ' ' . $vox['data']['reopened_user']['lastname'] . ' {$lang.the} ' . Functions::get_formatted_date($vox['data']['reopened_date'], 'd F, Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['data']['reopened_hour'], '+ hrs') . '</li>' : '',
 					'{$status}' => (($vox['data']['status'] == 'open') ? '{$lang.opened}' : '{$lang.closed}'),
 					'{$origin}' => (($vox['data']['origin'] == 'internal') ? '{$lang.internal}' : '{$lang.external}'),
 					'{$btn_edit}' => (Functions::check_access(['{voxes_update}']) == true AND $vox['data']['status'] == 'open') ? '<a href="/voxes/edit/' . $vox['id'] . '" class="btn">{$lang.edit}</a>' : '',
@@ -829,7 +829,7 @@ class Voxes_controller extends Controller
 					foreach ($this->model->get_opportunity_areas($_POST['option']) as $value)
 						$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
 
-					Environment::return([
+					Functions::environment([
 						'status' => 'success',
 						'data' => $data
 					]);
@@ -842,7 +842,7 @@ class Voxes_controller extends Controller
 					foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['option']) as $value)
 						$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
 
-					Environment::return([
+					Functions::environment([
 						'status' => 'success',
 						'data' => $data
 					]);
@@ -855,7 +855,7 @@ class Voxes_controller extends Controller
 					foreach ($this->model->get_locations($_POST['option']) as $value)
 						$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
 
-					Environment::return([
+					Functions::environment([
 						'status' => 'success',
 						'data' => $data
 					]);
@@ -910,7 +910,7 @@ class Voxes_controller extends Controller
 
 						if (!empty($query))
 						{
-							Environment::return([
+							Functions::environment([
 								'status' => 'success',
 								'message' => '{$lang.success_operation_database}',
 								'path' => '/voxes/view/' . $vox['id']
@@ -918,7 +918,7 @@ class Voxes_controller extends Controller
 						}
 						else
 						{
-							Environment::return([
+							Functions::environment([
 								'status' => 'error',
 								'message' => '{$lang.error_operation_database}'
 							]);
@@ -926,7 +926,7 @@ class Voxes_controller extends Controller
 					}
 					else
 					{
-						Environment::return([
+						Functions::environment([
 							'status' => 'error',
 							'labels' => $labels
 						]);
@@ -1198,7 +1198,7 @@ class Voxes_controller extends Controller
 					<div class="label">
 						<label class="success">
 							<p>{$lang.check_in}</p>
-							<input type="text" name="check_in" class="datepicker" placeholder="{$lang.choose}" value="' . Dates::get_format_date($vox['data']['check_in']) . '"/>
+							<input type="text" name="check_in" class="datepicker" placeholder="{$lang.choose}" value="' . Functions::get_formatted_date($vox['data']['check_in']) . '"/>
 							</label>
 					</div>
 				</div>
@@ -1206,7 +1206,7 @@ class Voxes_controller extends Controller
 					<div class="label">
 						<label class="success">
 							<p>{$lang.check_out}</p>
-							<input type="text" name="check_out" class="datepicker" placeholder="{$lang.choose}" value="' . Dates::get_format_date($vox['data']['check_out']) . '"/>
+							<input type="text" name="check_out" class="datepicker" placeholder="{$lang.choose}" value="' . Functions::get_formatted_date($vox['data']['check_out']) . '"/>
 						</label>
 					</div>
 				</div>
@@ -1284,7 +1284,7 @@ class Voxes_controller extends Controller
 					foreach ($this->model->get_opportunity_areas($_POST['option'], true, $account['id']) as $value)
 						$data .= '<option value="' . $value['id'] . '">' . $value['name'][$account['settings']['language']] . '</option>';
 
-					Environment::return([
+					Functions::environment([
 						'status' => 'success',
 						'data' => $data
 					]);
@@ -1297,7 +1297,7 @@ class Voxes_controller extends Controller
 					foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['option'], true) as $value)
 						$data .= '<option value="' . $value['id'] . '">' . $value['name'][$account['settings']['language']] . '</option>';
 
-					Environment::return([
+					Functions::environment([
 						'status' => 'success',
 						'data' => $data
 					]);
@@ -1310,7 +1310,7 @@ class Voxes_controller extends Controller
 					foreach ($this->model->get_locations($_POST['option'], true, $account['id']) as $value)
 						$data .= '<option value="' . $value['id'] . '">' . $value['name'][$account['settings']['language']] . '</option>';
 
-					Environment::return([
+					Functions::environment([
 						'status' => 'success',
 						'data' => $data
 					]);
@@ -1385,7 +1385,7 @@ class Voxes_controller extends Controller
 									$mail_started_hour = 'Hora de inicio: ';
 									$mail_location = 'Ubicación: ';
 
-									if (Dates::get_current_date_hour() < Dates::get_format_date_hour($_POST['started_date'], $_POST['started_hour']))
+									if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
 										$mail_urgency = 'Urgencia: Programada';
 									else
 										$mail_urgency = 'Urgencia: Media';
@@ -1409,7 +1409,7 @@ class Voxes_controller extends Controller
 									$mail_started_hour = 'Start hour: ';
 									$mail_location = 'Location: ';
 
-									if (Dates::get_current_date_hour() < Dates::get_format_date_hour($_POST['started_date'], $_POST['started_hour']))
+									if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
 										$mail_urgency = 'Urgency: Programmed';
 									else
 										$mail_urgency = 'Urgency: Medium';
@@ -1448,8 +1448,8 @@ class Voxes_controller extends Controller
 							                    	<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . $room['name'] . '</h6>
 							                    	<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_area . $_POST['opportunity_area'] . '</h6>
 							                    	<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_type . $_POST['opportunity_type'] . '</h6>
-													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_date . Dates::get_format_date($_POST['started_date'], 'd M, Y') . '</h6>
-													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_hour . Dates::get_format_hour($_POST['started_hour'], '+ hrs') . '</h6>
+													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M, Y') . '</h6>
+													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_location . $_POST['location'] . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_urgency . '</h6>';
 
@@ -1479,7 +1479,7 @@ class Voxes_controller extends Controller
 							}
 							catch (Exception $e) { }
 
-							Environment::return([
+							Functions::environment([
 								'status' => 'success',
 								'message' => '{$lang.thanks_trus_us_vox_send_correctly}',
 								'path' => '/'
@@ -1487,7 +1487,7 @@ class Voxes_controller extends Controller
 						}
 						else
 						{
-							Environment::return([
+							Functions::environment([
 								'status' => 'error',
 								'message' => '{$lang.error_operation_database}'
 							]);
@@ -1495,7 +1495,7 @@ class Voxes_controller extends Controller
 					}
 					else
 					{
-						Environment::return([
+						Functions::environment([
 							'status' => 'error',
 							'labels' => $labels
 						]);

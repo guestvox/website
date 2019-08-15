@@ -4,13 +4,9 @@ defined('_EXEC') or die;
 
 class Voxes_model extends Model
 {
-	private $crypted;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->crypted = new Crypted();
 	}
 
 	public function get_voxes()
@@ -26,7 +22,7 @@ class Voxes_model extends Model
 
 		foreach ($query as $key => $value)
 		{
-			$value['data'] = json_decode($this->crypted->openssl('decrypt', $value['data']), true);
+			$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
 
 			$break = false;
 
@@ -58,7 +54,7 @@ class Voxes_model extends Model
 					}
 				}
 
-				$aux[$key] = Dates::get_format_date_hour($value['data']['started_date'], $value['data']['started_hour']);
+				$aux[$key] = Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']);
 
 				array_push($voxes, $value);
 			}
@@ -82,7 +78,7 @@ class Voxes_model extends Model
 
 		if (!empty($query))
 		{
-			$query[0]['data'] = json_decode($this->crypted->openssl('decrypt', $query[0]['data']), true);
+			$query[0]['data'] = json_decode(Functions::get_openssl('decrypt', $query[0]['data']), true);
 
 			// ---
 
@@ -99,13 +95,13 @@ class Voxes_model extends Model
 					array_push($query[0]['data']['changes_history'], [
 						'type' => 'viewed',
 						'user' => Session::get_value('user')['id'],
-						'date' => Dates::get_current_date(),
-						'hour' => Dates::get_current_hour(),
+						'date' => Functions::get_current_date(),
+						'hour' => Functions::get_current_hour(),
 					]);
 				}
 
 				$this->database->update('voxes', [
-					'data' => $this->crypted->openssl('encrypt', json_encode($query[0]['data']))
+					'data' => Functions::get_openssl('encrypt', json_encode($query[0]['data']))
 				], [
 					'id' => $id
 				]);
@@ -197,13 +193,13 @@ class Voxes_model extends Model
 		$query = $this->database->insert('voxes', [
 			'account' => ($public == false) ? Session::get_value('account')['id'] : $data['account'],
 			'type' => $data['type'],
-			'data' => $this->crypted->openssl('encrypt', json_encode([
+			'data' => Functions::get_openssl('encrypt', json_encode([
 				'token' => $this->security->random_string(8),
 				'room' => (!empty($data['room'])) ? $data['room'] : null,
 				'opportunity_area' => $data['opportunity_area'],
 				'opportunity_type' => $data['opportunity_type'],
-				'started_date' => Dates::get_format_date($data['started_date']),
-				'started_hour' => Dates::get_format_hour($data['started_hour']),
+				'started_date' => Functions::get_formatted_date($data['started_date']),
+				'started_hour' => Functions::get_formatted_hour($data['started_hour']),
 				'location' => $data['location'],
 				'cost' => ($public == false AND $data['type'] == 'incident') ? $data['cost'] : null,
 				'urgency' => ($public == false) ? $data['urgency'] : 'medium',
@@ -229,16 +225,16 @@ class Voxes_model extends Model
 					[
 						'type' => 'create',
 						'user' => ($public == false) ? Session::get_value('user')['id'] : null,
-						'date' => Dates::get_current_date(),
-						'hour' => Dates::get_current_hour(),
+						'date' => Functions::get_current_date(),
+						'hour' => Functions::get_current_hour(),
 					]
 				],
 				'created_user' => ($public == false) ? Session::get_value('user')['id'] : null,
 				'edited_user' => null,
 				'completed_user' => null,
 				'reopened_user' => null,
-				'created_date' => Dates::get_current_date(),
-				'created_hour' => Dates::get_current_hour(),
+				'created_date' => Functions::get_current_date(),
+				'created_hour' => Functions::get_current_hour(),
 				'edited_date' => null,
 				'edited_hour' => null,
 				'completed_date' => null,
@@ -267,7 +263,7 @@ class Voxes_model extends Model
 
 		if (!empty($editer))
 		{
-			$editer[0]['data'] = json_decode($this->crypted->openssl('decrypt', $editer[0]['data']), true);
+			$editer[0]['data'] = json_decode(Functions::get_openssl('decrypt', $editer[0]['data']), true);
 
 			// ---
 
@@ -321,8 +317,8 @@ class Voxes_model extends Model
 
 					],
 					'user' => Session::get_value('user')['id'],
-					'date' => Dates::get_current_date(),
-					'hour' => Dates::get_current_hour(),
+					'date' => Functions::get_current_date(),
+					'hour' => Functions::get_current_hour(),
 				]
 			];
 
@@ -560,13 +556,13 @@ class Voxes_model extends Model
 
 			$query = $this->database->update('voxes', [
 				'type' => $data['type'],
-				'data' => $this->crypted->openssl('encrypt', json_encode([
+				'data' => Functions::get_openssl('encrypt', json_encode([
 					'token' => $editer[0]['data']['token'],
 					'room' => (!empty($data['room'])) ? $data['room'] : null,
 					'opportunity_area' => $data['opportunity_area'],
 					'opportunity_type' => $data['opportunity_type'],
-					'started_date' => Dates::get_format_date($editer[0]['data']['started_date']),
-					'started_hour' => Dates::get_format_hour($editer[0]['data']['started_hour']),
+					'started_date' => Functions::get_formatted_date($editer[0]['data']['started_date']),
+					'started_hour' => Functions::get_formatted_hour($editer[0]['data']['started_hour']),
 					'location' => $data['location'],
 					'cost' => ($data['type'] == 'incident') ? $data['cost'] : null,
 					'urgency' => $data['urgency'],
@@ -593,14 +589,14 @@ class Voxes_model extends Model
 					'edited_user' => Session::get_value('user')['id'],
 					'completed_user' => $editer[0]['data']['completed_user'],
 					'reopened_user' => $editer[0]['data']['reopened_user'],
-					'created_date' => Dates::get_format_date($editer[0]['data']['created_date']),
-					'created_hour' => Dates::get_format_hour($editer[0]['data']['created_hour']),
-					'edited_date' => Dates::get_current_date(),
-					'edited_hour' => Dates::get_current_hour(),
-					'completed_date' =>  Dates::get_format_date($editer[0]['data']['completed_date']),
-					'completed_hour' => Dates::get_format_hour($editer[0]['data']['completed_hour']),
-					'reopened_date' =>  Dates::get_format_date($editer[0]['data']['reopened_date']),
-					'reopened_hour' => Dates::get_format_hour($editer[0]['data']['reopened_hour']),
+					'created_date' => Functions::get_formatted_date($editer[0]['data']['created_date']),
+					'created_hour' => Functions::get_formatted_hour($editer[0]['data']['created_hour']),
+					'edited_date' => Functions::get_current_date(),
+					'edited_hour' => Functions::get_current_hour(),
+					'completed_date' =>  Functions::get_formatted_date($editer[0]['data']['completed_date']),
+					'completed_hour' => Functions::get_formatted_hour($editer[0]['data']['completed_hour']),
+					'reopened_date' =>  Functions::get_formatted_date($editer[0]['data']['reopened_date']),
+					'reopened_hour' => Functions::get_formatted_hour($editer[0]['data']['reopened_hour']),
 					'readed' => $editer[0]['data']['readed'],
 					'status' => $editer[0]['data']['status'],
 					'origin' => $editer[0]['data']['origin'],
@@ -625,7 +621,7 @@ class Voxes_model extends Model
 
 		if (!empty($editer))
 		{
-			$editer[0]['data'] = json_decode($this->crypted->openssl('decrypt', $editer[0]['data']), true);
+			$editer[0]['data'] = json_decode(Functions::get_openssl('decrypt', $editer[0]['data']), true);
 
 			$this->component->load_component('uploader');
 
@@ -657,8 +653,8 @@ class Voxes_model extends Model
 
 			array_push($editer[0]['data']['comments'], [
 				'user' => Session::get_value('user')['id'],
-				'date' => Dates::get_current_date(),
-				'hour' => Dates::get_current_hour(),
+				'date' => Functions::get_current_date(),
+				'hour' => Functions::get_current_hour(),
 				'message' => $data['response_to'] . ' ' . $data['message'],
 				'attachments' => $data['attachments'],
 			]);
@@ -666,12 +662,12 @@ class Voxes_model extends Model
 			array_push($editer[0]['data']['changes_history'], [
 				'type' => 'new_comment',
 				'user' => Session::get_value('user')['id'],
-				'date' => Dates::get_current_date(),
-				'hour' => Dates::get_current_hour(),
+				'date' => Functions::get_current_date(),
+				'hour' => Functions::get_current_hour(),
 			]);
 
 			$query = $this->database->update('voxes', [
-				'data' => $this->crypted->openssl('encrypt', json_encode($editer[0]['data']))
+				'data' => Functions::get_openssl('encrypt', json_encode($editer[0]['data']))
 			], [
 				'id' => $id
 			]);
@@ -692,22 +688,22 @@ class Voxes_model extends Model
 
 		if (!empty($editer))
 		{
-			$editer[0]['data'] = json_decode($this->crypted->openssl('decrypt', $editer[0]['data']), true);
+			$editer[0]['data'] = json_decode(Functions::get_openssl('decrypt', $editer[0]['data']), true);
 
 			$editer[0]['data']['completed_user'] = Session::get_value('user')['id'];
-			$editer[0]['data']['completed_date'] = Dates::get_current_date();
-			$editer[0]['data']['completed_hour'] = Dates::get_current_hour();
+			$editer[0]['data']['completed_date'] = Functions::get_current_date();
+			$editer[0]['data']['completed_hour'] = Functions::get_current_hour();
 			$editer[0]['data']['status'] = 'close';
 
 			array_push($editer[0]['data']['changes_history'], [
 				'type' => 'complete',
 				'user' => Session::get_value('user')['id'],
-				'date' => Dates::get_current_date(),
-				'hour' => Dates::get_current_hour(),
+				'date' => Functions::get_current_date(),
+				'hour' => Functions::get_current_hour(),
 			]);
 
 			$query = $this->database->update('voxes', [
-				'data' => $this->crypted->openssl('encrypt', json_encode($editer[0]['data']))
+				'data' => Functions::get_openssl('encrypt', json_encode($editer[0]['data']))
 			], [
 				'id' => $id
 			]);
@@ -728,22 +724,22 @@ class Voxes_model extends Model
 
 		if (!empty($editer))
 		{
-			$editer[0]['data'] = json_decode($this->crypted->openssl('decrypt', $editer[0]['data']), true);
+			$editer[0]['data'] = json_decode(Functions::get_openssl('decrypt', $editer[0]['data']), true);
 
 			$editer[0]['data']['reopened_user'] = Session::get_value('user')['id'];
-			$editer[0]['data']['reopened_date'] = Dates::get_current_date();
-			$editer[0]['data']['reopened_hour'] = Dates::get_current_hour();
+			$editer[0]['data']['reopened_date'] = Functions::get_current_date();
+			$editer[0]['data']['reopened_hour'] = Functions::get_current_hour();
 			$editer[0]['data']['status'] = 'open';
 
 			array_push($editer[0]['data']['changes_history'], [
 				'type' => 'reopen',
 				'user' => Session::get_value('user')['id'],
-				'date' => Dates::get_current_date(),
-				'hour' => Dates::get_current_hour(),
+				'date' => Functions::get_current_date(),
+				'hour' => Functions::get_current_hour(),
 			]);
 
 			$query = $this->database->update('voxes', [
-				'data' => $this->crypted->openssl('encrypt', json_encode($editer[0]['data']))
+				'data' => Functions::get_openssl('encrypt', json_encode($editer[0]['data']))
 			], [
 				'id' => $id
 			]);

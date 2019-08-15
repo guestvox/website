@@ -13,6 +13,10 @@ class User_level
         array_push($paths, '/Voxes/create');
         array_push($paths, '/Voxes/view');
         array_push($paths, '/Index/logout');
+        array_push($paths, '/Profile/index');
+        array_push($paths, '/Tasks/index');
+        array_push($paths, '/Notes/index');
+        array_push($paths, '/Surveys/index');
 
         foreach (Session::get_value('user')['user_permissions'] as $key => $value)
         {

@@ -4,13 +4,9 @@ defined('_EXEC') or die;
 
 class Users_model extends Model
 {
-	private $crypted;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->crypted = new Crypted();
 	}
 
 	public function get_users($status, $relation = false)
@@ -40,7 +36,7 @@ class Users_model extends Model
 
 		foreach ($query as $key => $value)
 		{
-			$query[$key]['temporal_password'] = $this->crypted->decrypt($value['temporal_password']);
+			$query[$key]['temporal_password'] = Functions::get_decrypt($value['temporal_password']);
 
 			if ($relation == true)
 			{
@@ -49,7 +45,7 @@ class Users_model extends Model
 
 				// foreach ($this->database->select('voxes', ['data'], ['account' => Session::get_value('account')['id']]) as $subvalue)
 				// {
-				// 	$subvalue['data'] = json_decode($this->crypted->openssl('decrypt', $subvalue['data']), true);
+				// 	$subvalue['data'] = json_decode(Functions::get_openssl('decrypt', $subvalue['data']), true);
 				//
 				// 	if (in_array($value['id'], $subvalue['data']['assigned_users']))
 				// 		$relation2 = true;
@@ -154,7 +150,7 @@ class Users_model extends Model
 				'cellphone' => $data['cellphone'],
 				'username' => $data['username'],
 				'password' => $this->security->create_password($data['temporal_password']),
-				'temporal_password' => $this->crypted->encrypt($data['temporal_password']),
+				'temporal_password' => Functions::get_encrypt($data['temporal_password']),
 				'user_level' => $data['user_level'],
 				'user_permissions' => json_encode($data['user_permissions']),
 				'opportunity_areas' => json_encode($data['opportunity_areas']),
@@ -204,7 +200,7 @@ class Users_model extends Model
 
 		$query = $this->database->update('users', [
 			'password' => $this->security->create_password($data['temporal_password']),
-			'temporal_password' => $this->crypted->encrypt($data['temporal_password']),
+			'temporal_password' => Functions::get_encrypt($data['temporal_password']),
 		], [
 			'id' => $id
 		]);

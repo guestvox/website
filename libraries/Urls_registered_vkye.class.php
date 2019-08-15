@@ -69,6 +69,22 @@ class Urls_registered_vkye
                 'controller' => 'Users',
                 'method' => 'index'
             ],
+            '/profile' => [
+                'controller' => 'Profile',
+                'method' => 'index'
+            ],
+            '/tasks' => [
+                'controller' => 'Tasks',
+                'method' => 'index'
+            ],
+            '/notes' => [
+                'controller' => 'Notes',
+                'method' => 'index'
+            ],
+            '/surveys' => [
+                'controller' => 'Surveys',
+                'method' => 'index'
+            ],
         ];
     }
 }

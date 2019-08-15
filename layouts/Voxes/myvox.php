@@ -64,7 +64,7 @@ $this->dependencies->add(['js', '{$path.js}Voxes/myvox.js']);
                                 <div class="label">
                                     <label class="success">
                                         <p>{$lang.date}</p>
-                                        <input type="text" name="started_date" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Dates::get_current_date('Y-m-d'); ?>" />
+                                        <input type="text" name="started_date" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Functions::get_current_date('Y-m-d'); ?>" />
                                         <p class="description">{$lang.what_date_need}</p>
                                         <p class="description hidden">{$lang.what_date_happened}</p>
                                     </label>
@@ -75,7 +75,7 @@ $this->dependencies->add(['js', '{$path.js}Voxes/myvox.js']);
                                     <label class="success">
                                         <p>{$lang.hour}</p>
                                         <div class="time__input">
-                                            <input type="text" name="started_hour" class="timepicker" placeholder="{$lang.choose}" value="<?php echo Dates::get_current_hour(); ?>" />
+                                            <input type="text" name="started_hour" class="timepicker" placeholder="{$lang.choose}" value="<?php echo Functions::get_current_hour(); ?>" />
                                         </div>
                                         <p class="description">{$lang.what_hour_need}</p>
                                         <p class="description hidden">{$lang.what_hour_happened}</p>

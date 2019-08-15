@@ -4,13 +4,9 @@ defined('_EXEC') or die;
 
 class Stats_model extends Model
 {
-	private $crypted;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->crypted = new Crypted();
 	}
 
 	public function get_chart_data($option, $params, $edit = false)
@@ -30,11 +26,11 @@ class Stats_model extends Model
 
 			foreach ($query as $key => $value)
 			{
-				$value['data'] = json_decode($this->crypted->openssl('decrypt', $value['data']), true);
+				$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
 
 				$break = false;
 
-				if (Dates::get_format_date($value['data']['started_date']) < $params['started_date'] OR Dates::get_format_date($value['data']['started_date']) > $params['date_end'])
+				if (Functions::get_formatted_date($value['data']['started_date']) < $params['started_date'] OR Functions::get_formatted_date($value['data']['started_date']) > $params['date_end'])
 					$break = true;
 
 				if ($params['type'] != 'all' AND $value['type'] != $params['type'])
@@ -155,11 +151,11 @@ class Stats_model extends Model
 
 			foreach ($query as $key => $value)
 			{
-				$value['data'] = json_decode($this->crypted->openssl('decrypt', $value['data']), true);
+				$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
 
 				$break = false;
 
-				if (Dates::get_format_date($value['data']['started_date']) < $params['started_date'] OR Dates::get_format_date($value['data']['started_date']) > $params['date_end'])
+				if (Functions::get_formatted_date($value['data']['started_date']) < $params['started_date'] OR Functions::get_formatted_date($value['data']['started_date']) > $params['date_end'])
 					$break = true;
 
 				if ($params['type'] != 'all' AND $value['type'] != $params['type'])
@@ -307,11 +303,11 @@ class Stats_model extends Model
 
 			foreach ($query as $key => $value)
 			{
-				$value['data'] = json_decode($this->crypted->openssl('decrypt', $value['data']), true);
+				$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
 
 				$break = false;
 
-				if (Dates::get_format_date($value['data']['started_date']) < $params['started_date'] OR Dates::get_format_date($value['data']['started_date']) > $params['date_end'])
+				if (Functions::get_formatted_date($value['data']['started_date']) < $params['started_date'] OR Functions::get_formatted_date($value['data']['started_date']) > $params['date_end'])
 					$break = true;
 
 				if ($value['type'] != 'incident')
@@ -437,20 +433,20 @@ class Stats_model extends Model
 
 			foreach ($query as $key => $value)
 			{
-				$value['data'] = json_decode($this->crypted->openssl('decrypt', $value['data']), true);
+				$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
 
 				$break = false;
 
-				if ($option == 'created_today' AND Dates::get_format_date($value['data']['started_date']) != Dates::get_current_date())
+				if ($option == 'created_today' AND Functions::get_formatted_date($value['data']['started_date']) != Functions::get_current_date())
 					$break = true;
 
-				if ($option == 'created_week' AND Dates::get_format_date($value['data']['started_date']) < Dates::get_current_week()[0] OR Dates::get_format_date($value['data']['started_date']) > Dates::get_current_week()[1])
+				if ($option == 'created_week' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_week()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_week()[1])
 					$break = true;
 
-				if ($option == 'created_month' AND Dates::get_format_date($value['data']['started_date']) < Dates::get_current_month()[0] OR Dates::get_format_date($value['data']['started_date']) > Dates::get_current_month()[1])
+				if ($option == 'created_month' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_month()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_month()[1])
 					$break = true;
 
-				if ($option == 'created_year' AND explode('-', Dates::get_format_date($value['data']['started_date']))[0] != Dates::get_current_year())
+				if ($option == 'created_year' AND explode('-', Functions::get_formatted_date($value['data']['started_date']))[0] != Functions::get_current_year())
 					$break = true;
 
 				if ($break == false)
@@ -478,7 +474,7 @@ class Stats_model extends Model
 
 			foreach ($query as $key => $value)
 			{
-				$value['data'] = json_decode($this->crypted->openssl('decrypt', $value['data']), true);
+				$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
 
 				$date1 = new DateTime($value['data']['started_date'] . ' ' . $value['data']['started_hour']);
 				$date2 = new DateTime($value['data']['completed_date'] . ' ' . $value['data']['completed_hour']);

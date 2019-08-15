@@ -106,7 +106,7 @@ $this->dependencies->add(['other', '<script>menu_focus("settings");</script>']);
                     <article>
                         <main class="tables">
                             <div class="table-container">
-                                <table class="table">
+                                <table id="opportunity_areas" class="table">
                                     <thead>
                                         <tr>
                                             <th align="left">{$lang.opportunity_area}</th>
@@ -214,7 +214,7 @@ $this->dependencies->add(['other', '<script>menu_focus("settings");</script>']);
                     <article>
                         <main class="tables">
                             <div class="table-container">
-                                <table class="table">
+                                <table id="opportunity_types" class="table">
                                     <thead>
                                         <tr>
                                             <th align="left" width="200px">{$lang.opportunity_area}</th>
@@ -312,7 +312,7 @@ $this->dependencies->add(['other', '<script>menu_focus("settings");</script>']);
                     <article>
                         <main class="tables">
                             <div class="table-container">
-                                <table class="table">
+                                <table id="locations" class="table">
                                     <thead>
                                         <tr>
                                             <th align="left">{$lang.location}</th>
@@ -417,7 +417,7 @@ $this->dependencies->add(['other', '<script>menu_focus("settings");</script>']);
                     <article>
                         <main class="tables">
                             <div class="table-container">
-                                <table class="table">
+                                <table id="rooms" class="table">
                                     <thead>
                                         <tr>
                                             <th align="left">{$lang.room}</th>
@@ -472,7 +472,7 @@ $this->dependencies->add(['other', '<script>menu_focus("settings");</script>']);
                     <article>
                         <main class="tables">
                             <div class="table-container">
-                                <table class="table">
+                                <table id="treatments" class="table">
                                     <thead>
                                         <tr>
                                             <th align="left">{$lang.guest_treatment}</th>
@@ -525,7 +525,7 @@ $this->dependencies->add(['other', '<script>menu_focus("settings");</script>']);
                     <article>
                         <main class="tables">
                             <div class="table-container">
-                                <table class="table">
+                                <table id="guest_types" class="table">
                                     <thead>
                                         <tr>
                                             <th align="left">{$lang.guest_type}</th>
@@ -578,7 +578,7 @@ $this->dependencies->add(['other', '<script>menu_focus("settings");</script>']);
                     <article>
                         <main class="tables">
                             <div class="table-container">
-                                <table class="table">
+                                <table id="reservation_status" class="table">
                                     <thead>
                                         <tr>
                                             <th align="left">{$lang.reservation_status}</th>

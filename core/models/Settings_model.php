@@ -6,13 +6,9 @@ require "plugins/php-qr-code/qrlib.php";
 
 class Settings_model extends Model
 {
-	private $crypted;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->crypted = new Crypted();
 	}
 
 	public function get_opportunity_areas($relation = true)
@@ -892,7 +888,7 @@ class Settings_model extends Model
 	// 	]);
 	//
 	// 	foreach ($query as $key => $value)
-	// 		$query[$key]['data'] = json_decode($this->crypted->openssl('decrypt', $value['data']), true);
+	// 		$query[$key]['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
 	//
 	// 	return $query;
 	// }

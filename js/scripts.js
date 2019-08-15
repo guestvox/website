@@ -97,6 +97,35 @@ $(document).ready(function ()
             }
         });
     });
+
+    // ---
+
+    $('[data-image-select]').on('click', function()
+    {
+        $(this).parents('.uploader').find('[data-image-upload]').click();
+    });
+
+    $('[data-image-upload]').on('change', function()
+    {
+        var preview = $(this).parents('.uploader').find('figure > img');
+
+        if ($(this)[0].files[0].type.match($(this).attr('accept')))
+        {
+            var reader = new FileReader();
+
+            reader.onload = function(e)
+            {
+                preview.attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL($(this)[0].files[0]);
+        }
+        else
+        {
+            $('[data-modal="error"]').find('main > p').html('ERROR FILE NOT PERMIT');
+            $('[data-modal="error"]').addClass('view');
+        }
+    });
 });
 
 function menu_focus(target = null)

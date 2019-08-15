@@ -106,7 +106,7 @@ $this->dependencies->add(['other', '<script>menu_focus("reports");</script>']);
                                         <div class="label">
                                             <label>
                                                 <p>{$lang.started_date}</p>
-                                                <input type="text" name="started_date" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Dates::get_current_date('Y-m-d'); ?>" />
+                                                <input type="text" name="started_date" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Functions::get_current_date('Y-m-d'); ?>" />
                                             </label>
                                         </div>
                                     </div>
@@ -114,7 +114,7 @@ $this->dependencies->add(['other', '<script>menu_focus("reports");</script>']);
                                         <div class="label">
                                             <label>
                                                 <p>{$lang.end_date}</p>
-                                                <input type="text" name="end_date" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Dates::get_current_date('Y-m-d'); ?>" />
+                                                <input type="text" name="end_date" class="datepicker" placeholder="{$lang.choose}" value="<?php echo Functions::get_current_date('Y-m-d'); ?>" />
                                             </label>
                                         </div>
                                     </div>
@@ -300,7 +300,7 @@ $this->dependencies->add(['other', '<script>menu_focus("reports");</script>']);
                     <article>
                         <main class="tables">
                             <div class="table-container">
-                                <table class="table">
+                                <table id="reports" class="table">
                                     <thead>
                                         <tr>
                                             <th align="left">{$lang.name}</th>
