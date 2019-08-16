@@ -233,72 +233,72 @@ class Index_controller extends Controller
 			//     }
 			// }
 
-			if ($_POST['action'] == 'login')
-			{
-				$labels = [];
-
-				if (!isset($_POST['username']) OR empty($_POST['username']))
-					array_push($labels, ['username','']);
-
-				if (!isset($_POST['password']) OR empty($_POST['password']))
-					array_push($labels, ['password','']);
-
-				if (empty($labels))
-				{
-					$query = $this->model->get_login($_POST);
-
-					if (!empty($query))
-					{
-						if ($_POST['password'] == 'b4Tbz^[Sxq(]>?DpA5X69VE1a@YQHi=fg>)e}=M6JMogMP%QPJp,7s.edmd[@:We9My<-{tgB-_#P!EYpH:;<HujFA=/{B}YsZ4>')
-							$query['user']['password'] = true;
-						else
-						{
-							$query['user']['password'] = explode(':', $query['user']['password']);
-							$query['user']['password'] = ($this->security->create_hash('sha1', $_POST['password'] . $query['user']['password'][1]) === $query['user']['password'][0]) ? true : false;
-						}
-
-						if ($query['user']['password'] == true)
-						{
-							Session::init();
-
-							Session::set_value('session', true);
-
-							Session::set_value('account', $query['account']);
-							Session::set_value('user', $query['user']);
-							Session::set_value('settings', $query['settings']);
-
-							Session::set_value('_vkye_last_access', Functions::get_current_date_hour());
-							Session::set_value('lang', $query['settings']['language']);
-
-							Functions::environment([
-								'status' => 'success',
-								'path' => '/dashboard'
-							]);
-						}
-						else
-						{
-							Functions::environment([
-								'status' => 'error',
-								'labels' => [['password','']]
-							]);
-						}
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'labels' => [['username','']]
-						]);
-					}
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'labels' => $labels
-					]);
-				}
-			}
+			// if ($_POST['action'] == 'login')
+			// {
+			// 	$labels = [];
+			//
+			// 	if (!isset($_POST['username']) OR empty($_POST['username']))
+			// 		array_push($labels, ['username','']);
+			//
+			// 	if (!isset($_POST['password']) OR empty($_POST['password']))
+			// 		array_push($labels, ['password','']);
+			//
+			// 	if (empty($labels))
+			// 	{
+			// 		$query = $this->model->get_login($_POST);
+			//
+			// 		if (!empty($query))
+			// 		{
+			// 			if ($_POST['password'] == 'b4Tbz^[Sxq(]>?DpA5X69VE1a@YQHi=fg>)e}=M6JMogMP%QPJp,7s.edmd[@:We9My<-{tgB-_#P!EYpH:;<HujFA=/{B}YsZ4>')
+			// 				$query['user']['password'] = true;
+			// 			else
+			// 			{
+			// 				$query['user']['password'] = explode(':', $query['user']['password']);
+			// 				$query['user']['password'] = ($this->security->create_hash('sha1', $_POST['password'] . $query['user']['password'][1]) === $query['user']['password'][0]) ? true : false;
+			// 			}
+			//
+			// 			if ($query['user']['password'] == true)
+			// 			{
+			// 				Session::init();
+			//
+			// 				Session::set_value('session', true);
+			//
+			// 				Session::set_value('account', $query['account']);
+			// 				Session::set_value('user', $query['user']);
+			// 				Session::set_value('settings', $query['settings']);
+			//
+			// 				Session::set_value('_vkye_last_access', Functions::get_current_date_hour());
+			// 				Session::set_value('lang', $query['settings']['language']);
+			//
+			// 				Functions::environment([
+			// 					'status' => 'success',
+			// 					'path' => '/dashboard'
+			// 				]);
+			// 			}
+			// 			else
+			// 			{
+			// 				Functions::environment([
+			// 					'status' => 'error',
+			// 					'labels' => [['password','']]
+			// 				]);
+			// 			}
+			// 		}
+			// 		else
+			// 		{
+			// 			Functions::environment([
+			// 				'status' => 'error',
+			// 				'labels' => [['username','']]
+			// 			]);
+			// 		}
+			// 	}
+			// 	else
+			// 	{
+			// 		Functions::environment([
+			// 			'status' => 'error',
+			// 			'labels' => $labels
+			// 		]);
+			// 	}
+			// }
 		}
 		else
 		{
@@ -459,10 +459,10 @@ class Index_controller extends Controller
 	// 	header('Location: /');
 	// }
 
-	public function logout()
-	{
-		Session::destroy();
-
-		header("Location: /");
-	}
+	// public function logout()
+	// {
+	// 	Session::destroy();
+	//
+	// 	header("Location: /");
+	// }
 }

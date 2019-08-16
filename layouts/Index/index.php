@@ -7,7 +7,7 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
 
 ?>
 
-<header class="landing-page">
+<!-- <header class="landing-page">
     <div class="container">
         <figure>
             <img src="{$path.images}logotype-white.png" alt="">
@@ -100,8 +100,8 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
             <img src="{$path.images}logotype-color.png" alt="">
         </figure>
     </div>
-</footer>
-<section class="modal fullscreen" data-modal="signup">
+</footer> -->
+<section class="modal fullscreen view" data-modal="signup">
     <div class="content">
         <main>
             <form name="signup">
@@ -424,7 +424,7 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
         </main>
     </div>
 </section>
-<section class="modal fullscreen" data-modal="login">
+<!-- <section class="modal fullscreen" data-modal="login">
     <div class="content">
         <main>
             <form name="login">
@@ -446,4 +446,4 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
             </form>
         </main>
     </div>
-</section>
+</section> -->
