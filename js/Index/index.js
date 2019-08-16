@@ -340,46 +340,46 @@ $(document).ready(function()
     //     });
     // });
 
-    // $('form[name="login"]').on('submit', function(e)
-    // {
-    //     e.preventDefault();
-    //
-    //     var form = $(this);
-    //
-    //     $.ajax({
-    //         type: 'POST',
-    //         data: form.serialize() + '&action=login',
-    //         processData: false,
-    //         cache: false,
-    //         dataType: 'json',
-    //         success: function(response)
-    //         {
-    //             if (response.status == 'success')
-    //                 window.location.href = response.path;
-    //             else if (response.status == 'error')
-    //             {
-    //                 if (response.labels)
-    //                 {
-    //                     $('label.error').removeClass('error');
-    //                     $('p.error').remove();
-    //
-    //                     $.each(response.labels, function(i, label)
-    //                     {
-    //                         if (label[1].length > 0)
-    //                             form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-    //                         else
-    //                             form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
-    //                     });
-    //
-    //                     form.find('label.error [name]')[0].focus();
-    //                 }
-    //                 else if (response.message)
-    //                 {
-    //                     $('[data-modal="error"]').find('main > p').html(response.message);
-    //                     $('[data-modal="error"]').addClass('view');
-    //                 }
-    //             }
-    //         }
-    //     });
-    // });
+    $('form[name="login"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&action=login',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    window.location.href = response.path;
+                else if (response.status == 'error')
+                {
+                    if (response.labels)
+                    {
+                        $('label.error').removeClass('error');
+                        $('p.error').remove();
+
+                        $.each(response.labels, function(i, label)
+                        {
+                            if (label[1].length > 0)
+                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
+                            else
+                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
+                        });
+
+                        form.find('label.error [name]')[0].focus();
+                    }
+                    else if (response.message)
+                    {
+                        $('[data-modal="error"]').find('main > p').html(response.message);
+                        $('[data-modal="error"]').addClass('view');
+                    }
+                }
+            }
+        });
+    });
 });
