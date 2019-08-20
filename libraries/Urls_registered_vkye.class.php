@@ -21,6 +21,10 @@ class Urls_registered_vkye
                 'controller' => 'Index',
                 'method' => 'logout'
             ],
+            '/myvox/%param%' => [
+                'controller' => 'Myvox',
+                'method' => 'index'
+            ],
             '/dashboard' => [
                 'controller' => 'Dashboard',
                 'method' => 'index'
@@ -44,10 +48,6 @@ class Urls_registered_vkye
             '/voxes/view/%param%' => [
                 'controller' => 'Voxes',
                 'method' => 'view'
-            ],
-            '/myvox/%param%' => [
-                'controller' => 'Voxes',
-                'method' => 'myvox'
             ],
             '/stats' => [
                 'controller' => 'Stats',

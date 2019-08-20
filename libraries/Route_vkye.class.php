@@ -18,7 +18,7 @@ class Route_vkye
         $paths = [
             '/Index/index',
             '/Index/validate',
-            '/Voxes/myvox',
+            '/Myvox/index',
         ];
 
         if (in_array($this->path, $paths))
