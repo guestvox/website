@@ -65,114 +65,114 @@ $(document).ready(function()
 
     // ---
 
-    $('[name="currency"]').on('change', function()
-    {
-        if ($('[name="rooms_number"]').val().length > 0)
-        {
-            $.ajax({
-                type: 'POST',
-                data: 'rooms_number=' + $('[name="rooms_number"]').val() + '&currency=' + $(this).val() + '&action=get_room_package',
-                processData: false,
-                cache: false,
-                dataType: 'json',
-                success: function(response)
-                {
-                    if (response.status == 'success')
-                    {
-                        $('#room_package').parent().removeClass('hidden');
-                        $('#room_package').find('h3 > strong').html(response.data.quantity);
-                        $('#room_package').find('h4 > strong').html(response.data.price);
-                    }
-                    else if (response.status == 'error')
-                    {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                        $('[data-modal="error"]').addClass('view');
-                    }
-                }
-            });
-        }
+    // $('[name="currency"]').on('change', function()
+    // {
+    //     if ($('[name="rooms_number"]').val().length > 0)
+    //     {
+    //         $.ajax({
+    //             type: 'POST',
+    //             data: 'rooms_number=' + $('[name="rooms_number"]').val() + '&currency=' + $(this).val() + '&action=get_room_package',
+    //             processData: false,
+    //             cache: false,
+    //             dataType: 'json',
+    //             success: function(response)
+    //             {
+    //                 if (response.status == 'success')
+    //                 {
+    //                     $('#room_package').parent().removeClass('hidden');
+    //                     $('#room_package').find('h3 > strong').html(response.data.quantity);
+    //                     $('#room_package').find('h4 > strong').html(response.data.price);
+    //                 }
+    //                 else if (response.status == 'error')
+    //                 {
+    //                     $('[data-modal="error"]').find('main > p').html(response.message);
+    //                     $('[data-modal="error"]').addClass('view');
+    //                 }
+    //             }
+    //         });
+    //     }
+    //
+    //     if ($('[name="users_number"]').val().length > 0)
+    //     {
+    //         $.ajax({
+    //             type: 'POST',
+    //             data: 'users_number=' + $('[name="users_number"]').val() + '&currency=' + $(this).val() + '&action=get_user_package',
+    //             processData: false,
+    //             cache: false,
+    //             dataType: 'json',
+    //             success: function(response)
+    //             {
+    //                 if (response.status == 'success')
+    //                 {
+    //                     $('#user_package').parent().removeClass('hidden');
+    //                     $('#user_package').find('h3 > strong').html(response.data.quantity);
+    //                     $('#user_package').find('h4 > strong').html(response.data.price);
+    //                 }
+    //                 else if (response.status == 'error')
+    //                 {
+    //                     $('[data-modal="error"]').find('main > p').html(response.message);
+    //                     $('[data-modal="error"]').addClass('view');
+    //                 }
+    //             }
+    //         });
+    //     }
+    // });
 
-        if ($('[name="users_number"]').val().length > 0)
-        {
-            $.ajax({
-                type: 'POST',
-                data: 'users_number=' + $('[name="users_number"]').val() + '&currency=' + $(this).val() + '&action=get_user_package',
-                processData: false,
-                cache: false,
-                dataType: 'json',
-                success: function(response)
-                {
-                    if (response.status == 'success')
-                    {
-                        $('#user_package').parent().removeClass('hidden');
-                        $('#user_package').find('h3 > strong').html(response.data.quantity);
-                        $('#user_package').find('h4 > strong').html(response.data.price);
-                    }
-                    else if (response.status == 'error')
-                    {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                        $('[data-modal="error"]').addClass('view');
-                    }
-                }
-            });
-        }
-    });
+    // $('[name="rooms_number"]').on('change', function()
+    // {
+    //     if ($('[name="currency"]').val().length > 0)
+    //     {
+    //         $.ajax({
+    //             type: 'POST',
+    //             data: 'rooms_number=' + $(this).val() + '&currency=' + $('[name="currency"]').val() + '&action=get_room_package',
+    //             processData: false,
+    //             cache: false,
+    //             dataType: 'json',
+    //             success: function(response)
+    //             {
+    //                 if (response.status == 'success')
+    //                 {
+    //                     $('#room_package').parent().removeClass('hidden');
+    //                     $('#room_package').find('h3 > strong').html(response.data.quantity);
+    //                     $('#room_package').find('h4 > strong').html(response.data.price);
+    //                 }
+    //                 else if (response.status == 'error')
+    //                 {
+    //                     $('[data-modal="error"]').find('main > p').html(response.message);
+    //                     $('[data-modal="error"]').addClass('view');
+    //                 }
+    //             }
+    //         });
+    //     }
+    // });
 
-    $('[name="rooms_number"]').on('change', function()
-    {
-        if ($('[name="currency"]').val().length > 0)
-        {
-            $.ajax({
-                type: 'POST',
-                data: 'rooms_number=' + $(this).val() + '&currency=' + $('[name="currency"]').val() + '&action=get_room_package',
-                processData: false,
-                cache: false,
-                dataType: 'json',
-                success: function(response)
-                {
-                    if (response.status == 'success')
-                    {
-                        $('#room_package').parent().removeClass('hidden');
-                        $('#room_package').find('h3 > strong').html(response.data.quantity);
-                        $('#room_package').find('h4 > strong').html(response.data.price);
-                    }
-                    else if (response.status == 'error')
-                    {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                        $('[data-modal="error"]').addClass('view');
-                    }
-                }
-            });
-        }
-    });
-
-    $('[name="users_number"]').on('change', function()
-    {
-        if ($('[name="currency"]').val().length > 0)
-        {
-            $.ajax({
-                type: 'POST',
-                data: 'users_number=' + $(this).val() + '&currency=' + $('[name="currency"]').val() + '&action=get_user_package',
-                processData: false,
-                cache: false,
-                dataType: 'json',
-                success: function(response)
-                {
-                    if (response.status == 'success')
-                    {
-                        $('#user_package').parent().removeClass('hidden');
-                        $('#user_package').find('h3 > strong').html(response.data.quantity);
-                        $('#user_package').find('h4 > strong').html(response.data.price);
-                    }
-                    else if (response.status == 'error')
-                    {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                        $('[data-modal="error"]').addClass('view');
-                    }
-                }
-            });
-        }
-    });
+    // $('[name="users_number"]').on('change', function()
+    // {
+    //     if ($('[name="currency"]').val().length > 0)
+    //     {
+    //         $.ajax({
+    //             type: 'POST',
+    //             data: 'users_number=' + $(this).val() + '&currency=' + $('[name="currency"]').val() + '&action=get_user_package',
+    //             processData: false,
+    //             cache: false,
+    //             dataType: 'json',
+    //             success: function(response)
+    //             {
+    //                 if (response.status == 'success')
+    //                 {
+    //                     $('#user_package').parent().removeClass('hidden');
+    //                     $('#user_package').find('h3 > strong').html(response.data.quantity);
+    //                     $('#user_package').find('h4 > strong').html(response.data.price);
+    //                 }
+    //                 else if (response.status == 'error')
+    //                 {
+    //                     $('[data-modal="error"]').find('main > p').html(response.message);
+    //                     $('[data-modal="error"]').addClass('view');
+    //                 }
+    //             }
+    //         });
+    //     }
+    // });
 
     // $('[name="cp"]').on('change', function()
     // {
@@ -340,46 +340,46 @@ $(document).ready(function()
     //     });
     // });
 
-    // $('form[name="login"]').on('submit', function(e)
-    // {
-    //     e.preventDefault();
-    //
-    //     var form = $(this);
-    //
-    //     $.ajax({
-    //         type: 'POST',
-    //         data: form.serialize() + '&action=login',
-    //         processData: false,
-    //         cache: false,
-    //         dataType: 'json',
-    //         success: function(response)
-    //         {
-    //             if (response.status == 'success')
-    //                 window.location.href = response.path;
-    //             else if (response.status == 'error')
-    //             {
-    //                 if (response.labels)
-    //                 {
-    //                     $('label.error').removeClass('error');
-    //                     $('p.error').remove();
-    //
-    //                     $.each(response.labels, function(i, label)
-    //                     {
-    //                         if (label[1].length > 0)
-    //                             form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-    //                         else
-    //                             form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
-    //                     });
-    //
-    //                     form.find('label.error [name]')[0].focus();
-    //                 }
-    //                 else if (response.message)
-    //                 {
-    //                     $('[data-modal="error"]').find('main > p').html(response.message);
-    //                     $('[data-modal="error"]').addClass('view');
-    //                 }
-    //             }
-    //         }
-    //     });
-    // });
+    $('form[name="login"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&action=login',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    window.location.href = response.path;
+                else if (response.status == 'error')
+                {
+                    if (response.labels)
+                    {
+                        $('label.error').removeClass('error');
+                        $('p.error').remove();
+
+                        $.each(response.labels, function(i, label)
+                        {
+                            if (label[1].length > 0)
+                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
+                            else
+                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
+                        });
+
+                        form.find('label.error [name]')[0].focus();
+                    }
+                    else if (response.message)
+                    {
+                        $('[data-modal="error"]').find('main > p').html(response.message);
+                        $('[data-modal="error"]').addClass('view');
+                    }
+                }
+            }
+        });
+    });
 });

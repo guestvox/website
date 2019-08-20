@@ -509,81 +509,81 @@ class Index_model extends Model
 
 	// ---
 
-	// public function get_login($data)
-	// {
-	// 	$login = null;
-	//
-	// 	$query = Functions::get_json_decoded_query($this->database->select('users', [
-	// 		'[>]accounts' => [
-	// 			'account' => 'id'
-	// 		],
-	// 		'[>]user_levels' => [
-	// 			'user_level' => 'id'
-	// 		],
-	// 		'[>]settings' => [
-	// 			'account' => 'account'
-	// 		],
-	// 	], [
-	// 		'users.id',
-	// 		'users.account(account_id)',
-	// 		'accounts.name(account_name)',
-	// 		'users.name',
-	// 		'users.lastname',
-	// 		'users.username',
-	// 		'users.password',
-	// 		'users.user_level(user_level_id)',
-	// 		'user_levels.name(user_level_name)',
-	// 		'users.user_permissions',
-	// 		'users.opportunity_areas',
-	// 		'settings.id(settings_id)',
-	// 		'settings.time_zone(settings_time_zone)',
-	// 		'settings.language(settings_language)',
-	// 	], [
-	// 		'AND' => [
-	// 			'OR' => [
-	// 				'users.email' => $data['username'],
-	// 				'users.username' => $data['username'],
-	// 			],
-	// 			'users.status' => true,
-	// 			'accounts.status' => true,
-	// 		]
-	// 	]));
-	//
-	// 	if (!empty($query))
-	// 	{
-	// 		foreach ($query[0]['user_permissions'] as $key => $value)
-	// 		{
-	// 			$query[0]['user_permissions'][$key] = $this->database->select('user_permissions', 'code', [
-	// 				'id' => $value
-	// 			])[0];
-	// 		}
-	//
-	// 		$login = [
-	// 			'account' => [
-	// 				'id' => $query[0]['account_id'],
-	// 				'name' => $query[0]['account_name'],
-	// 			],
-	// 			'user' => [
-	// 				'id' => $query[0]['id'],
-	// 				'name' => $query[0]['name'],
-	// 				'lastname' => $query[0]['lastname'],
-	// 				'username' => $query[0]['username'],
-	// 				'password' => $query[0]['password'],
-	// 				'user_level' => [
-	// 					'id' => $query[0]['user_level_id'],
-	// 					'name' => $query[0]['user_level_name'],
-	// 				],
-	// 				'user_permissions' => $query[0]['user_permissions'],
-	// 				'opportunity_areas' => $query[0]['opportunity_areas'],
-	// 			],
-	// 			'settings' => [
-	// 				'id' => $query[0]['settings_id'],
-	// 				'time_zone' => $query[0]['settings_time_zone'],
-	// 				'language' => $query[0]['settings_language'],
-	// 			],
-	// 		];
-	// 	}
-	//
-	// 	return $login;
-	// }
+	public function get_login($data)
+	{
+		$login = null;
+
+		$query = Functions::get_json_decoded_query($this->database->select('users', [
+			'[>]accounts' => [
+				'account' => 'id'
+			],
+			'[>]user_levels' => [
+				'user_level' => 'id'
+			],
+			'[>]settings' => [
+				'account' => 'account'
+			],
+		], [
+			'users.id',
+			'users.account(account_id)',
+			'accounts.name(account_name)',
+			'users.name',
+			'users.lastname',
+			'users.username',
+			'users.password',
+			'users.user_level(user_level_id)',
+			'user_levels.name(user_level_name)',
+			'users.user_permissions',
+			'users.opportunity_areas',
+			'settings.id(settings_id)',
+			'settings.time_zone(settings_time_zone)',
+			'settings.language(settings_language)',
+		], [
+			'AND' => [
+				'OR' => [
+					'users.email' => $data['username'],
+					'users.username' => $data['username'],
+				],
+				'users.status' => true,
+				'accounts.status' => true,
+			]
+		]));
+
+		if (!empty($query))
+		{
+			foreach ($query[0]['user_permissions'] as $key => $value)
+			{
+				$query[0]['user_permissions'][$key] = $this->database->select('user_permissions', 'code', [
+					'id' => $value
+				])[0];
+			}
+
+			$login = [
+				'account' => [
+					'id' => $query[0]['account_id'],
+					'name' => $query[0]['account_name'],
+				],
+				'user' => [
+					'id' => $query[0]['id'],
+					'name' => $query[0]['name'],
+					'lastname' => $query[0]['lastname'],
+					'username' => $query[0]['username'],
+					'password' => $query[0]['password'],
+					'user_level' => [
+						'id' => $query[0]['user_level_id'],
+						'name' => $query[0]['user_level_name'],
+					],
+					'user_permissions' => $query[0]['user_permissions'],
+					'opportunity_areas' => $query[0]['opportunity_areas'],
+				],
+				'settings' => [
+					'id' => $query[0]['settings_id'],
+					'time_zone' => $query[0]['settings_time_zone'],
+					'language' => $query[0]['settings_language'],
+				],
+			];
+		}
+
+		return $login;
+	}
 }
