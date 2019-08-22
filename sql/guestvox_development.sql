@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-08-2019 a las 18:10:43
+-- Tiempo de generación: 22-08-2019 a las 02:13:53
 -- Versión del servidor: 10.1.30-MariaDB
 -- Versión de PHP: 7.0.27
 
@@ -639,6 +639,26 @@ INSERT INTO `guest_types` (`id`, `account`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `languages`
+--
+
+CREATE TABLE `languages` (
+  `id` bigint(20) NOT NULL,
+  `name` text COLLATE utf8_spanish_ci NOT NULL,
+  `code` varchar(2) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `languages`
+--
+
+INSERT INTO `languages` (`id`, `name`, `code`) VALUES
+(1, 'Español', 'es'),
+(2, 'English', 'en');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `locations`
 --
 
@@ -660,6 +680,20 @@ INSERT INTO `locations` (`id`, `account`, `name`, `request`, `incident`, `public
 (2, 1, '{\"es\":\"Lobby\",\"en\":\"Lobby\"}', 1, 1, 1),
 (3, 1, '{\"es\":\"Habitaci\\u00f3n\",\"en\":\"Room\"}', 1, 1, 1),
 (4, 1, '{\"es\":\"Restaurante\",\"en\":\"Restaurant\"}', 1, 1, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `notes`
+--
+
+CREATE TABLE `notes` (
+  `id` bigint(20) NOT NULL,
+  `account` bigint(20) NOT NULL,
+  `description` text COLLATE utf8_spanish_ci NOT NULL,
+  `date` date NOT NULL,
+  `user` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -837,20 +871,96 @@ CREATE TABLE `settings` (
   `id` bigint(20) NOT NULL,
   `account` bigint(20) NOT NULL,
   `private_key` longtext CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `currency` varchar(4) NOT NULL,
+  `language` enum('es','en') CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `country` varchar(4) NOT NULL,
+  `time_zone` text NOT NULL,
+  `sms` int(11) NOT NULL,
   `room_package` bigint(20) DEFAULT NULL,
   `user_package` bigint(20) DEFAULT NULL,
-  `time_zone` bigint(20) NOT NULL,
-  `language` enum('es','en') CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `sms` int(11) NOT NULL,
-  `promotional_code` bigint(20) DEFAULT NULL
+  `promotional_code` varchar(8) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `settings`
 --
 
-INSERT INTO `settings` (`id`, `account`, `private_key`, `room_package`, `user_package`, `time_zone`, `language`, `sms`, `promotional_code`) VALUES
-(1, 1, 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7', NULL, NULL, 32, 'es', 0, NULL);
+INSERT INTO `settings` (`id`, `account`, `private_key`, `currency`, `language`, `country`, `time_zone`, `sms`, `room_package`, `user_package`, `promotional_code`) VALUES
+(1, 1, 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7', '', 'es', '', '32', 0, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `survey_answers`
+--
+
+CREATE TABLE `survey_answers` (
+  `id` int(11) NOT NULL,
+  `account` bigint(20) NOT NULL,
+  `room` bigint(20) NOT NULL,
+  `survey_question` bigint(20) NOT NULL,
+  `rate` int(11) NOT NULL,
+  `date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `survey_answers`
+--
+
+INSERT INTO `survey_answers` (`id`, `account`, `room`, `survey_question`, `rate`, `date`) VALUES
+(1, 1, 1, 1, 3, '2019-08-21'),
+(2, 1, 1, 2, 3, '2019-08-21'),
+(3, 1, 1, 3, 3, '2019-08-21'),
+(4, 1, 1, 4, 3, '2019-08-21'),
+(5, 1, 1, 5, 3, '2019-08-21'),
+(6, 1, 1, 1, 5, '2019-08-21'),
+(7, 1, 1, 2, 5, '2019-08-21'),
+(8, 1, 1, 3, 5, '2019-08-21'),
+(9, 1, 1, 4, 5, '2019-08-21'),
+(10, 1, 1, 5, 5, '2019-08-21');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `survey_questions`
+--
+
+CREATE TABLE `survey_questions` (
+  `id` bigint(20) NOT NULL,
+  `account` bigint(20) NOT NULL,
+  `question` longtext COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `survey_questions`
+--
+
+INSERT INTO `survey_questions` (`id`, `account`, `question`) VALUES
+(1, 1, '{\"es\":\"Pregunta 1\",\"en\":\"Question 1\"}'),
+(2, 1, '{\"es\":\"Pregunta 2\",\"en\":\"Question 2\"}'),
+(3, 1, '{\"es\":\"Pregunta 3\",\"en\":\"Question 3\"}'),
+(4, 1, '{\"es\":\"Pregunta 4\",\"en\":\"Question 4\"}'),
+(5, 1, '{\"es\":\"Pregunta 5\",\"en\":\"Question 5\"}');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tasks`
+--
+
+CREATE TABLE `tasks` (
+  `id` bigint(20) NOT NULL,
+  `account` bigint(20) NOT NULL,
+  `description` text COLLATE utf8_spanish_ci NOT NULL,
+  `assigned_users` longtext COLLATE utf8_spanish_ci NOT NULL,
+  `assigned_areas` longtext COLLATE utf8_spanish_ci NOT NULL,
+  `assigned_user_levels` longtext COLLATE utf8_spanish_ci NOT NULL,
+  `expiration_date` date NOT NULL,
+  `expiration_hour` time NOT NULL,
+  `repetition` enum('unique','dayli','weekly','monthly','annual') COLLATE utf8_spanish_ci NOT NULL,
+  `creation_date` date NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -861,439 +971,438 @@ INSERT INTO `settings` (`id`, `account`, `private_key`, `room_package`, `user_pa
 CREATE TABLE `time_zones` (
   `id` bigint(20) NOT NULL,
   `code` text COLLATE utf8_spanish_ci NOT NULL,
-  `zone` enum('america','africa','antarctica','artic','asia','atlantic','australia','europe','indian','pacific') COLLATE utf8_spanish_ci NOT NULL,
-  `status` tinyint(1) NOT NULL
+  `zone` enum('america','africa','antarctica','artic','asia','atlantic','australia','europe','indian','pacific') COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --
 -- Volcado de datos para la tabla `time_zones`
 --
 
-INSERT INTO `time_zones` (`id`, `code`, `zone`, `status`) VALUES
-(1, 'America/Adak', 'america', 1),
-(2, 'America/Anchorage', 'america', 1),
-(3, 'America/Anguilla', 'america', 1),
-(4, 'America/Antigua', 'america', 1),
-(5, 'America/Araguaina', 'america', 1),
-(6, 'America/Argentina/Buenos_Aires', 'america', 1),
-(7, 'America/Argentina/Catamarca', 'america', 1),
-(8, 'America/Argentina/Cordoba', 'america', 1),
-(9, 'America/Argentina/Jujuy', 'america', 1),
-(10, 'America/Argentina/La_Rioja', 'america', 1),
-(11, 'America/Argentina/Mendoza', 'america', 1),
-(12, 'America/Argentina/Rio_Gallegos', 'america', 1),
-(13, 'America/Argentina/Salta', 'america', 1),
-(14, 'America/Argentina/San_Juan', 'america', 1),
-(15, 'America/Argentina/San_Luis', 'america', 1),
-(16, 'America/Argentina/Tucuman', 'america', 1),
-(17, 'America/Argentina/Ushuaia', 'america', 1),
-(18, 'America/Aruba', 'america', 1),
-(19, 'America/Asuncion', 'america', 1),
-(20, 'America/Atikokan', 'america', 1),
-(21, 'America/Bahia', 'america', 1),
-(22, 'America/Bahia_Banderas', 'america', 1),
-(23, 'America/Barbados', 'america', 1),
-(24, 'America/Belem', 'america', 1),
-(25, 'America/Belize', 'america', 1),
-(26, 'America/Blanc-Sablon', 'america', 1),
-(27, 'America/Boa_Vista', 'america', 1),
-(28, 'America/Bogota', 'america', 1),
-(29, 'America/Boise', 'america', 1),
-(30, 'America/Cambridge_Bay', 'america', 1),
-(31, 'America/Campo_Grande', 'america', 1),
-(32, 'America/Cancun', 'america', 1),
-(33, 'America/Caracas', 'america', 1),
-(34, 'America/Cayenne', 'america', 1),
-(35, 'America/Cayman', 'america', 1),
-(36, 'America/Chicago', 'america', 1),
-(37, 'America/Chihuahua', 'america', 1),
-(38, 'America/Costa_Rica', 'america', 1),
-(39, 'America/Creston', 'america', 1),
-(40, 'America/Cuiaba', 'america', 1),
-(41, 'America/Curacao', 'america', 1),
-(42, 'America/Danmarkshavn', 'america', 1),
-(43, 'America/Dawson', 'america', 1),
-(44, 'America/Dawson_Creek', 'america', 1),
-(45, 'America/Denver', 'america', 1),
-(46, 'America/Detroit', 'america', 1),
-(47, 'America/Dominica', 'america', 1),
-(48, 'America/Edmonton', 'america', 1),
-(49, 'America/Eirunepe', 'america', 1),
-(50, 'America/El_Salvador', 'america', 1),
-(51, 'America/Fort_Nelson', 'america', 1),
-(52, 'America/Fortaleza', 'america', 1),
-(53, 'America/Glace_Bay', 'america', 1),
-(54, 'America/Godthab', 'america', 1),
-(55, 'America/Goose_Bay', 'america', 1),
-(56, 'America/Grand_Turk', 'america', 1),
-(57, 'America/Grenada', 'america', 1),
-(58, 'America/Guadeloupe', 'america', 1),
-(59, 'America/Guatemala', 'america', 1),
-(60, 'America/Guayaquil', 'america', 1),
-(61, 'America/Guyana', 'america', 1),
-(62, 'America/Halifax', 'america', 1),
-(63, 'America/Havana', 'america', 1),
-(64, 'America/Hermosillo', 'america', 1),
-(65, 'America/Indiana/Indianapolis', 'america', 1),
-(66, 'America/Indiana/Knox', 'america', 1),
-(67, 'America/Indiana/Marengo', 'america', 1),
-(68, 'America/Indiana/Petersburg', 'america', 1),
-(69, 'America/Indiana/Tell_City', 'america', 1),
-(70, 'America/Indiana/Vevay', 'america', 1),
-(71, 'America/Indiana/Vincennes', 'america', 1),
-(72, 'America/Indiana/Winamac', 'america', 1),
-(73, 'America/Inuvik', 'america', 1),
-(74, 'America/Iqaluit', 'america', 1),
-(75, 'America/Jamaica', 'america', 1),
-(76, 'America/Juneau', 'america', 1),
-(77, 'America/Kentucky/Louisville', 'america', 1),
-(78, 'America/Kentucky/Monticello', 'america', 1),
-(79, 'America/Kralendijk', 'america', 1),
-(80, 'America/La_Paz', 'america', 1),
-(81, 'America/Lima', 'america', 1),
-(82, 'America/Los_Angeles', 'america', 1),
-(83, 'America/Lower_Princes', 'america', 1),
-(84, 'America/Maceio', 'america', 1),
-(85, 'America/Managua', 'america', 1),
-(86, 'America/Manaus', 'america', 1),
-(87, 'America/Marigot', 'america', 1),
-(88, 'America/Martinique', 'america', 1),
-(89, 'America/Matamoros', 'america', 1),
-(90, 'America/Mazatlan', 'america', 1),
-(91, 'America/Menominee', 'america', 1),
-(92, 'America/Merida', 'america', 1),
-(93, 'America/Metlakatla', 'america', 1),
-(94, 'America/Mexico_City', 'america', 1),
-(95, 'America/Miquelon', 'america', 1),
-(96, 'America/Moncton', 'america', 1),
-(97, 'America/Monterrey', 'america', 1),
-(98, 'America/Montevideo', 'america', 1),
-(99, 'America/Montserrat', 'america', 1),
-(100, 'America/Nassau', 'america', 1),
-(101, 'America/New_York', 'america', 1),
-(102, 'America/Nipigon', 'america', 1),
-(103, 'America/Nome', 'america', 1),
-(104, 'America/Noronha', 'america', 1),
-(105, 'America/North_Dakota/Beulah', 'america', 1),
-(106, 'America/North_Dakota/Center', 'america', 1),
-(107, 'America/North_Dakota/New_Salem', 'america', 1),
-(108, 'America/Ojinaga', 'america', 1),
-(109, 'America/Panama', 'america', 1),
-(110, 'America/Pangnirtung', 'america', 1),
-(111, 'America/Paramaribo', 'america', 1),
-(112, 'America/Phoenix', 'america', 1),
-(113, 'America/Port-au-Prince', 'america', 1),
-(114, 'America/Port_of_Spain', 'america', 1),
-(115, 'America/Porto_Velho', 'america', 1),
-(116, 'America/Puerto_Rico', 'america', 1),
-(117, 'America/Punta_Arenas', 'america', 1),
-(118, 'America/Rainy_River', 'america', 1),
-(119, 'America/Rankin_Inlet', 'america', 1),
-(120, 'America/Recife', 'america', 1),
-(121, 'America/Regina', 'america', 1),
-(122, 'America/Resolute', 'america', 1),
-(123, 'America/Rio_Branco', 'america', 1),
-(124, 'America/Santarem', 'america', 1),
-(125, 'America/Santiago', 'america', 1),
-(126, 'America/Santo_Domingo', 'america', 1),
-(127, 'America/Sao_Paulo', 'america', 1),
-(128, 'America/Scoresbysund', 'america', 1),
-(129, 'America/Sitka', 'america', 1),
-(130, 'America/St_Barthelemy', 'america', 1),
-(131, 'America/St_Johns', 'america', 1),
-(132, 'America/St_Kitts', 'america', 1),
-(133, 'America/St_Lucia', 'america', 1),
-(134, 'America/St_Thomas', 'america', 1),
-(135, 'America/St_Vincent', 'america', 1),
-(136, 'America/Swift_Current', 'america', 1),
-(137, 'America/Tegucigalpa', 'america', 1),
-(138, 'America/Thule', 'america', 1),
-(139, 'America/Thunder_Bay', 'america', 1),
-(140, 'America/Tijuana', 'america', 1),
-(141, 'America/Toronto', 'america', 1),
-(142, 'America/Tortola', 'america', 1),
-(143, 'America/Vancouver', 'america', 1),
-(144, 'America/Whitehorse', 'america', 1),
-(145, 'America/Winnipeg', 'america', 1),
-(146, 'America/Yakutat', 'america', 1),
-(147, 'America/Yellowknife', 'america', 1),
-(148, 'Africa/Abidjan', 'africa', 1),
-(149, 'Africa/Accra', 'africa', 1),
-(150, 'Africa/Addis_Ababa', 'africa', 1),
-(151, 'Africa/Algiers', 'africa', 1),
-(152, 'Africa/Asmara', 'africa', 1),
-(153, 'Africa/Bamako', 'africa', 1),
-(154, 'Africa/Bangui', 'africa', 1),
-(155, 'Africa/Banjul', 'africa', 1),
-(156, 'Africa/Bissau', 'africa', 1),
-(157, 'Africa/Blantyre', 'africa', 1),
-(158, 'Africa/Brazzaville', 'africa', 1),
-(159, 'Africa/Bujumbura', 'africa', 1),
-(160, 'Africa/Cairo', 'africa', 1),
-(161, 'Africa/Casablanca', 'africa', 1),
-(162, 'Africa/Ceuta', 'africa', 1),
-(163, 'Africa/Conakry', 'africa', 1),
-(164, 'Africa/Dakar', 'africa', 1),
-(165, 'Africa/Dar_es_Salaam', 'africa', 1),
-(166, 'Africa/Djibouti', 'africa', 1),
-(167, 'Africa/Douala', 'africa', 1),
-(168, 'Africa/El_Aaiun', 'africa', 1),
-(169, 'Africa/Freetown', 'africa', 1),
-(170, 'Africa/Gaborone', 'africa', 1),
-(171, 'Africa/Harare', 'africa', 1),
-(172, 'Africa/Johannesburg', 'africa', 1),
-(173, 'Africa/Juba', 'africa', 1),
-(174, 'Africa/Kampala', 'africa', 1),
-(175, 'Africa/Khartoum', 'africa', 1),
-(176, 'Africa/Kigali', 'africa', 1),
-(177, 'Africa/Kinshasa', 'africa', 1),
-(178, 'Africa/Lagos', 'africa', 1),
-(179, 'Africa/Libreville', 'africa', 1),
-(180, 'Africa/Lome', 'africa', 1),
-(181, 'Africa/Luanda', 'africa', 1),
-(182, 'Africa/Lubumbashi', 'africa', 1),
-(183, 'Africa/Lusaka', 'africa', 1),
-(184, 'Africa/Malabo', 'africa', 1),
-(185, 'Africa/Maputo', 'africa', 1),
-(186, 'Africa/Maseru', 'africa', 1),
-(187, 'Africa/Mbabane', 'africa', 1),
-(188, 'Africa/Mogadishu', 'africa', 1),
-(189, 'Africa/Monrovia', 'africa', 1),
-(190, 'Africa/Nairobi', 'africa', 1),
-(191, 'Africa/Ndjamena', 'africa', 1),
-(192, 'Africa/Niamey', 'africa', 1),
-(193, 'Africa/Nouakchott', 'africa', 1),
-(194, 'Africa/Ouagadougou', 'africa', 1),
-(195, 'Africa/Porto-Novo', 'africa', 1),
-(196, 'Africa/Sao_Tome', 'africa', 1),
-(197, 'Africa/Tripoli', 'africa', 1),
-(198, 'Africa/Tunis', 'africa', 1),
-(199, 'Africa/Windhoek', 'africa', 1),
-(200, 'Antarctica/Casey', 'antarctica', 1),
-(201, 'Antarctica/Davis', 'antarctica', 1),
-(202, 'Antarctica/DumontDUrville', 'antarctica', 1),
-(203, 'Antarctica/Macquarie', 'antarctica', 1),
-(204, 'Antarctica/Mawson', 'antarctica', 1),
-(205, 'Antarctica/McMurdo', 'antarctica', 1),
-(206, 'Antarctica/Palmer', 'antarctica', 1),
-(207, 'Antarctica/Rothera', 'antarctica', 1),
-(208, 'Antarctica/Syowa', 'antarctica', 1),
-(209, 'Antarctica/Troll', 'antarctica', 1),
-(210, 'Antarctica/Vostok', 'antarctica', 1),
-(211, 'Arctic/Longyearbyen', 'artic', 1),
-(212, 'Asia/Aden', 'asia', 1),
-(213, 'Asia/Almaty', 'asia', 1),
-(214, 'Asia/Amman', 'asia', 1),
-(215, 'Asia/Anadyr', 'asia', 1),
-(216, 'Asia/Aqtau', 'asia', 1),
-(217, 'Asia/Aqtobe', 'asia', 1),
-(218, 'Asia/Ashgabat', 'asia', 1),
-(219, 'Asia/Atyrau', 'asia', 1),
-(220, 'Asia/Baghdad', 'asia', 1),
-(221, 'Asia/Bahrain', 'asia', 1),
-(222, 'Asia/Baku', 'asia', 1),
-(223, 'Asia/Bangkok', 'asia', 1),
-(224, 'Asia/Barnaul', 'asia', 1),
-(225, 'Asia/Beirut', 'asia', 1),
-(226, 'Asia/Bishkek', 'asia', 1),
-(227, 'Asia/Brunei', 'asia', 1),
-(228, 'Asia/Chita', 'asia', 1),
-(229, 'Asia/Choibalsan', 'asia', 1),
-(230, 'Asia/Colombo', 'asia', 1),
-(231, 'Asia/Damascus', 'asia', 1),
-(232, 'Asia/Dhaka', 'asia', 1),
-(233, 'Asia/Dili', 'asia', 1),
-(234, 'Asia/Dubai', 'asia', 1),
-(235, 'Asia/Dushanbe', 'asia', 1),
-(236, 'Asia/Famagusta', 'asia', 1),
-(237, 'Asia/Gaza', 'asia', 1),
-(238, 'Asia/Hebron', 'asia', 1),
-(239, 'Asia/Ho_Chi_Minh', 'asia', 1),
-(240, 'Asia/Hong_Kong', 'asia', 1),
-(241, 'Asia/Hovd', 'asia', 1),
-(242, 'Asia/Irkutsk', 'asia', 1),
-(243, 'Asia/Jakarta', 'asia', 1),
-(244, 'Asia/Jayapura', 'asia', 1),
-(245, 'Asia/Jerusalem', 'asia', 1),
-(246, 'Asia/Kabul', 'asia', 1),
-(247, 'Asia/Kamchatka', 'asia', 1),
-(248, 'Asia/Karachi', 'asia', 1),
-(249, 'Asia/Kathmandu', 'asia', 1),
-(250, 'Asia/Khandyga', 'asia', 1),
-(251, 'Asia/Kolkata', 'asia', 1),
-(252, 'Asia/Krasnoyarsk', 'asia', 1),
-(253, 'Asia/Kuala_Lumpur', 'asia', 1),
-(254, 'Asia/Kuching', 'asia', 1),
-(255, 'Asia/Kuwait', 'asia', 1),
-(256, 'Asia/Macau', 'asia', 1),
-(257, 'Asia/Magadan', 'asia', 1),
-(258, 'Asia/Makassar', 'asia', 1),
-(259, 'Asia/Manila', 'asia', 1),
-(260, 'Asia/Muscat', 'asia', 1),
-(261, 'Asia/Nicosia', 'asia', 1),
-(262, 'Asia/Novokuznetsk', 'asia', 1),
-(263, 'Asia/Novosibirsk', 'asia', 1),
-(264, 'Asia/Omsk', 'asia', 1),
-(265, 'Asia/Oral', 'asia', 1),
-(266, 'Asia/Phnom_Penh', 'asia', 1),
-(267, 'Asia/Pontianak', 'asia', 1),
-(268, 'Asia/Pyongyang', 'asia', 1),
-(269, 'Asia/Qatar', 'asia', 1),
-(270, 'Asia/Qyzylorda', 'asia', 1),
-(271, 'Asia/Riyadh', 'asia', 1),
-(272, 'Asia/Sakhalin', 'asia', 1),
-(273, 'Asia/Samarkand', 'asia', 1),
-(274, 'Asia/Seoul', 'asia', 1),
-(275, 'Asia/Shanghai', 'asia', 1),
-(276, 'Asia/Singapore', 'asia', 1),
-(277, 'Asia/Srednekolymsk', 'asia', 1),
-(278, 'Asia/Taipei', 'asia', 1),
-(279, 'Asia/Tashkent', 'asia', 1),
-(280, 'Asia/Tbilisi', 'asia', 1),
-(281, 'Asia/Tehran', 'asia', 1),
-(282, 'Asia/Thimphu', 'asia', 1),
-(283, 'Asia/Tokyo', 'asia', 1),
-(284, 'Asia/Tomsk', 'asia', 1),
-(285, 'Asia/Ulaanbaatar', 'asia', 1),
-(286, 'Asia/Urumqi', 'asia', 1),
-(287, 'Asia/Ust-Nera', 'asia', 1),
-(288, 'Asia/Vientiane', 'asia', 1),
-(289, 'Asia/Vladivostok', 'asia', 1),
-(290, 'Asia/Yakutsk', 'asia', 1),
-(291, 'Asia/Yangon', 'asia', 1),
-(292, 'Asia/Yekaterinburg', 'asia', 1),
-(293, 'Asia/Yerevan', 'asia', 1),
-(294, 'Atlantic/Azores', 'atlantic', 1),
-(295, 'Atlantic/Bermuda', 'atlantic', 1),
-(296, 'Atlantic/Canary', 'atlantic', 1),
-(297, 'Atlantic/Cape_Verde', 'atlantic', 1),
-(298, 'Atlantic/Faroe', 'atlantic', 1),
-(299, 'Atlantic/Madeira', 'atlantic', 1),
-(300, 'Atlantic/Reykjavik', 'atlantic', 1),
-(301, 'Atlantic/South_Georgia', 'atlantic', 1),
-(302, 'Atlantic/St_Helena', 'atlantic', 1),
-(303, 'Atlantic/Stanley', 'atlantic', 1),
-(304, 'Australia/Adelaide', 'australia', 1),
-(305, 'Australia/Brisbane', 'australia', 1),
-(306, 'Australia/Broken_Hill', 'australia', 1),
-(307, 'Australia/Currie', 'australia', 1),
-(308, 'Australia/Darwin', 'australia', 1),
-(309, 'Australia/Eucla', 'australia', 1),
-(310, 'Australia/Hobart', 'australia', 1),
-(311, 'Australia/Lindeman', 'australia', 1),
-(312, 'Australia/Lord_Howe', 'australia', 1),
-(313, 'Australia/Melbourne', 'australia', 1),
-(314, 'Australia/Perth', 'australia', 1),
-(315, 'Australia/Sydney', 'australia', 1),
-(316, 'Europe/Amsterdam', 'europe', 1),
-(317, 'Europe/Andorra', 'europe', 1),
-(318, 'Europe/Astrakhan', 'europe', 1),
-(319, 'Europe/Athens', 'europe', 1),
-(320, 'Europe/Belgrade', 'europe', 1),
-(321, 'Europe/Berlin', 'europe', 1),
-(322, 'Europe/Bratislava', 'europe', 1),
-(323, 'Europe/Brussels', 'europe', 1),
-(324, 'Europe/Bucharest', 'europe', 1),
-(325, 'Europe/Budapest', 'europe', 1),
-(326, 'Europe/Busingen', 'europe', 1),
-(327, 'Europe/Chisinau', 'europe', 1),
-(328, 'Europe/Copenhagen', 'europe', 1),
-(329, 'Europe/Dublin', 'europe', 1),
-(330, 'Europe/Gibraltar', 'europe', 1),
-(331, 'Europe/Guernsey', 'europe', 1),
-(332, 'Europe/Helsinki', 'europe', 1),
-(333, 'Europe/Isle_of_Man', 'europe', 1),
-(334, 'Europe/Istanbul', 'europe', 1),
-(335, 'Europe/Jersey', 'europe', 1),
-(336, 'Europe/Kaliningrad', 'europe', 1),
-(337, 'Europe/Kiev', 'europe', 1),
-(338, 'Europe/Kirov', 'europe', 1),
-(339, 'Europe/Lisbon', 'europe', 1),
-(340, 'Europe/Ljubljana', 'europe', 1),
-(341, 'Europe/London', 'europe', 1),
-(342, 'Europe/Luxembourg', 'europe', 1),
-(343, 'Europe/Madrid', 'europe', 1),
-(344, 'Europe/Malta', 'europe', 1),
-(345, 'Europe/Mariehamn', 'europe', 1),
-(346, 'Europe/Minsk', 'europe', 1),
-(347, 'Europe/Monaco', 'europe', 1),
-(348, 'Europe/Moscow', 'europe', 1),
-(349, 'Europe/Oslo', 'europe', 1),
-(350, 'Europe/Paris', 'europe', 1),
-(351, 'Europe/Podgorica', 'europe', 1),
-(352, 'Europe/Prague', 'europe', 1),
-(353, 'Europe/Riga', 'europe', 1),
-(354, 'Europe/Rome', 'europe', 1),
-(355, 'Europe/Samara', 'europe', 1),
-(356, 'Europe/San_Marino', 'europe', 1),
-(357, 'Europe/Sarajevo', 'europe', 1),
-(358, 'Europe/Saratov', 'europe', 1),
-(359, 'Europe/Simferopol', 'europe', 1),
-(360, 'Europe/Skopje', 'europe', 1),
-(361, 'Europe/Sofia', 'europe', 1),
-(362, 'Europe/Stockholm', 'europe', 1),
-(363, 'Europe/Tallinn', 'europe', 1),
-(364, 'Europe/Tirane', 'europe', 1),
-(365, 'Europe/Ulyanovsk', 'europe', 1),
-(366, 'Europe/Uzhgorod', 'europe', 1),
-(367, 'Europe/Vaduz', 'europe', 1),
-(368, 'Europe/Vatican', 'europe', 1),
-(369, 'Europe/Vienna', 'europe', 1),
-(370, 'Europe/Vilnius', 'europe', 1),
-(371, 'Europe/Volgograd', 'europe', 1),
-(372, 'Europe/Warsaw', 'europe', 1),
-(373, 'Europe/Zagreb', 'europe', 1),
-(374, 'Europe/Zaporozhye', 'europe', 1),
-(375, 'Europe/Zurich', 'europe', 1),
-(376, 'Indian/Antananarivo', 'indian', 1),
-(377, 'Indian/Chagos', 'indian', 1),
-(378, 'Indian/Christmas', 'indian', 1),
-(379, 'Indian/Cocos', 'indian', 1),
-(380, 'Indian/Comoro', 'indian', 1),
-(381, 'Indian/Kerguelen', 'indian', 1),
-(382, 'Indian/Mahe', 'indian', 1),
-(383, 'Indian/Maldives', 'indian', 1),
-(384, 'Indian/Mauritius', 'indian', 1),
-(385, 'Indian/Mayotte', 'indian', 1),
-(386, 'Indian/Reunion', 'indian', 1),
-(387, 'Pacific/Apia', 'pacific', 1),
-(388, 'Pacific/Auckland', 'pacific', 1),
-(389, 'Pacific/Bougainville', 'pacific', 1),
-(390, 'Pacific/Chatham', 'pacific', 1),
-(391, 'Pacific/Chuuk', 'pacific', 1),
-(392, 'Pacific/Easter', 'pacific', 1),
-(393, 'Pacific/Efate', 'pacific', 1),
-(394, 'Pacific/Enderbury', 'pacific', 1),
-(395, 'Pacific/Fakaofo', 'pacific', 1),
-(396, 'Pacific/Fiji', 'pacific', 1),
-(397, 'Pacific/Funafuti', 'pacific', 1),
-(398, 'Pacific/Galapagos', 'pacific', 1),
-(399, 'Pacific/Gambier', 'pacific', 1),
-(400, 'Pacific/Guadalcanal', 'pacific', 1),
-(401, 'Pacific/Guam', 'pacific', 1),
-(402, 'Pacific/Honolulu', 'pacific', 1),
-(403, 'Pacific/Kiritimati', 'pacific', 1),
-(404, 'Pacific/Kosrae', 'pacific', 1),
-(405, 'Pacific/Kwajalein', 'pacific', 1),
-(406, 'Pacific/Majuro', 'pacific', 1),
-(407, 'Pacific/Marquesas', 'pacific', 1),
-(408, 'Pacific/Midway', 'pacific', 1),
-(409, 'Pacific/Nauru', 'pacific', 1),
-(410, 'Pacific/Niue', 'pacific', 1),
-(411, 'Pacific/Norfolk', 'pacific', 1),
-(412, 'Pacific/Noumea', 'pacific', 1),
-(413, 'Pacific/Pago_Pago', 'pacific', 1),
-(414, 'Pacific/Palau', 'pacific', 1),
-(415, 'Pacific/Pitcairn', 'pacific', 1),
-(416, 'Pacific/Pohnpei', 'pacific', 1),
-(417, 'Pacific/Port_Moresby', 'pacific', 1),
-(418, 'Pacific/Rarotonga', 'pacific', 1),
-(419, 'Pacific/Saipan', 'pacific', 1),
-(420, 'Pacific/Tahiti', 'pacific', 1),
-(421, 'Pacific/Tarawa', 'pacific', 1),
-(422, 'Pacific/Tongatapu', 'pacific', 1),
-(423, 'Pacific/Wake', 'pacific', 1),
-(424, 'Pacific/Wallis', 'pacific', 1);
+INSERT INTO `time_zones` (`id`, `code`, `zone`) VALUES
+(1, 'America/Adak', 'america'),
+(2, 'America/Anchorage', 'america'),
+(3, 'America/Anguilla', 'america'),
+(4, 'America/Antigua', 'america'),
+(5, 'America/Araguaina', 'america'),
+(6, 'America/Argentina/Buenos_Aires', 'america'),
+(7, 'America/Argentina/Catamarca', 'america'),
+(8, 'America/Argentina/Cordoba', 'america'),
+(9, 'America/Argentina/Jujuy', 'america'),
+(10, 'America/Argentina/La_Rioja', 'america'),
+(11, 'America/Argentina/Mendoza', 'america'),
+(12, 'America/Argentina/Rio_Gallegos', 'america'),
+(13, 'America/Argentina/Salta', 'america'),
+(14, 'America/Argentina/San_Juan', 'america'),
+(15, 'America/Argentina/San_Luis', 'america'),
+(16, 'America/Argentina/Tucuman', 'america'),
+(17, 'America/Argentina/Ushuaia', 'america'),
+(18, 'America/Aruba', 'america'),
+(19, 'America/Asuncion', 'america'),
+(20, 'America/Atikokan', 'america'),
+(21, 'America/Bahia', 'america'),
+(22, 'America/Bahia_Banderas', 'america'),
+(23, 'America/Barbados', 'america'),
+(24, 'America/Belem', 'america'),
+(25, 'America/Belize', 'america'),
+(26, 'America/Blanc-Sablon', 'america'),
+(27, 'America/Boa_Vista', 'america'),
+(28, 'America/Bogota', 'america'),
+(29, 'America/Boise', 'america'),
+(30, 'America/Cambridge_Bay', 'america'),
+(31, 'America/Campo_Grande', 'america'),
+(32, 'America/Cancun', 'america'),
+(33, 'America/Caracas', 'america'),
+(34, 'America/Cayenne', 'america'),
+(35, 'America/Cayman', 'america'),
+(36, 'America/Chicago', 'america'),
+(37, 'America/Chihuahua', 'america'),
+(38, 'America/Costa_Rica', 'america'),
+(39, 'America/Creston', 'america'),
+(40, 'America/Cuiaba', 'america'),
+(41, 'America/Curacao', 'america'),
+(42, 'America/Danmarkshavn', 'america'),
+(43, 'America/Dawson', 'america'),
+(44, 'America/Dawson_Creek', 'america'),
+(45, 'America/Denver', 'america'),
+(46, 'America/Detroit', 'america'),
+(47, 'America/Dominica', 'america'),
+(48, 'America/Edmonton', 'america'),
+(49, 'America/Eirunepe', 'america'),
+(50, 'America/El_Salvador', 'america'),
+(51, 'America/Fort_Nelson', 'america'),
+(52, 'America/Fortaleza', 'america'),
+(53, 'America/Glace_Bay', 'america'),
+(54, 'America/Godthab', 'america'),
+(55, 'America/Goose_Bay', 'america'),
+(56, 'America/Grand_Turk', 'america'),
+(57, 'America/Grenada', 'america'),
+(58, 'America/Guadeloupe', 'america'),
+(59, 'America/Guatemala', 'america'),
+(60, 'America/Guayaquil', 'america'),
+(61, 'America/Guyana', 'america'),
+(62, 'America/Halifax', 'america'),
+(63, 'America/Havana', 'america'),
+(64, 'America/Hermosillo', 'america'),
+(65, 'America/Indiana/Indianapolis', 'america'),
+(66, 'America/Indiana/Knox', 'america'),
+(67, 'America/Indiana/Marengo', 'america'),
+(68, 'America/Indiana/Petersburg', 'america'),
+(69, 'America/Indiana/Tell_City', 'america'),
+(70, 'America/Indiana/Vevay', 'america'),
+(71, 'America/Indiana/Vincennes', 'america'),
+(72, 'America/Indiana/Winamac', 'america'),
+(73, 'America/Inuvik', 'america'),
+(74, 'America/Iqaluit', 'america'),
+(75, 'America/Jamaica', 'america'),
+(76, 'America/Juneau', 'america'),
+(77, 'America/Kentucky/Louisville', 'america'),
+(78, 'America/Kentucky/Monticello', 'america'),
+(79, 'America/Kralendijk', 'america'),
+(80, 'America/La_Paz', 'america'),
+(81, 'America/Lima', 'america'),
+(82, 'America/Los_Angeles', 'america'),
+(83, 'America/Lower_Princes', 'america'),
+(84, 'America/Maceio', 'america'),
+(85, 'America/Managua', 'america'),
+(86, 'America/Manaus', 'america'),
+(87, 'America/Marigot', 'america'),
+(88, 'America/Martinique', 'america'),
+(89, 'America/Matamoros', 'america'),
+(90, 'America/Mazatlan', 'america'),
+(91, 'America/Menominee', 'america'),
+(92, 'America/Merida', 'america'),
+(93, 'America/Metlakatla', 'america'),
+(94, 'America/Mexico_City', 'america'),
+(95, 'America/Miquelon', 'america'),
+(96, 'America/Moncton', 'america'),
+(97, 'America/Monterrey', 'america'),
+(98, 'America/Montevideo', 'america'),
+(99, 'America/Montserrat', 'america'),
+(100, 'America/Nassau', 'america'),
+(101, 'America/New_York', 'america'),
+(102, 'America/Nipigon', 'america'),
+(103, 'America/Nome', 'america'),
+(104, 'America/Noronha', 'america'),
+(105, 'America/North_Dakota/Beulah', 'america'),
+(106, 'America/North_Dakota/Center', 'america'),
+(107, 'America/North_Dakota/New_Salem', 'america'),
+(108, 'America/Ojinaga', 'america'),
+(109, 'America/Panama', 'america'),
+(110, 'America/Pangnirtung', 'america'),
+(111, 'America/Paramaribo', 'america'),
+(112, 'America/Phoenix', 'america'),
+(113, 'America/Port-au-Prince', 'america'),
+(114, 'America/Port_of_Spain', 'america'),
+(115, 'America/Porto_Velho', 'america'),
+(116, 'America/Puerto_Rico', 'america'),
+(117, 'America/Punta_Arenas', 'america'),
+(118, 'America/Rainy_River', 'america'),
+(119, 'America/Rankin_Inlet', 'america'),
+(120, 'America/Recife', 'america'),
+(121, 'America/Regina', 'america'),
+(122, 'America/Resolute', 'america'),
+(123, 'America/Rio_Branco', 'america'),
+(124, 'America/Santarem', 'america'),
+(125, 'America/Santiago', 'america'),
+(126, 'America/Santo_Domingo', 'america'),
+(127, 'America/Sao_Paulo', 'america'),
+(128, 'America/Scoresbysund', 'america'),
+(129, 'America/Sitka', 'america'),
+(130, 'America/St_Barthelemy', 'america'),
+(131, 'America/St_Johns', 'america'),
+(132, 'America/St_Kitts', 'america'),
+(133, 'America/St_Lucia', 'america'),
+(134, 'America/St_Thomas', 'america'),
+(135, 'America/St_Vincent', 'america'),
+(136, 'America/Swift_Current', 'america'),
+(137, 'America/Tegucigalpa', 'america'),
+(138, 'America/Thule', 'america'),
+(139, 'America/Thunder_Bay', 'america'),
+(140, 'America/Tijuana', 'america'),
+(141, 'America/Toronto', 'america'),
+(142, 'America/Tortola', 'america'),
+(143, 'America/Vancouver', 'america'),
+(144, 'America/Whitehorse', 'america'),
+(145, 'America/Winnipeg', 'america'),
+(146, 'America/Yakutat', 'america'),
+(147, 'America/Yellowknife', 'america'),
+(148, 'Africa/Abidjan', 'africa'),
+(149, 'Africa/Accra', 'africa'),
+(150, 'Africa/Addis_Ababa', 'africa'),
+(151, 'Africa/Algiers', 'africa'),
+(152, 'Africa/Asmara', 'africa'),
+(153, 'Africa/Bamako', 'africa'),
+(154, 'Africa/Bangui', 'africa'),
+(155, 'Africa/Banjul', 'africa'),
+(156, 'Africa/Bissau', 'africa'),
+(157, 'Africa/Blantyre', 'africa'),
+(158, 'Africa/Brazzaville', 'africa'),
+(159, 'Africa/Bujumbura', 'africa'),
+(160, 'Africa/Cairo', 'africa'),
+(161, 'Africa/Casablanca', 'africa'),
+(162, 'Africa/Ceuta', 'africa'),
+(163, 'Africa/Conakry', 'africa'),
+(164, 'Africa/Dakar', 'africa'),
+(165, 'Africa/Dar_es_Salaam', 'africa'),
+(166, 'Africa/Djibouti', 'africa'),
+(167, 'Africa/Douala', 'africa'),
+(168, 'Africa/El_Aaiun', 'africa'),
+(169, 'Africa/Freetown', 'africa'),
+(170, 'Africa/Gaborone', 'africa'),
+(171, 'Africa/Harare', 'africa'),
+(172, 'Africa/Johannesburg', 'africa'),
+(173, 'Africa/Juba', 'africa'),
+(174, 'Africa/Kampala', 'africa'),
+(175, 'Africa/Khartoum', 'africa'),
+(176, 'Africa/Kigali', 'africa'),
+(177, 'Africa/Kinshasa', 'africa'),
+(178, 'Africa/Lagos', 'africa'),
+(179, 'Africa/Libreville', 'africa'),
+(180, 'Africa/Lome', 'africa'),
+(181, 'Africa/Luanda', 'africa'),
+(182, 'Africa/Lubumbashi', 'africa'),
+(183, 'Africa/Lusaka', 'africa'),
+(184, 'Africa/Malabo', 'africa'),
+(185, 'Africa/Maputo', 'africa'),
+(186, 'Africa/Maseru', 'africa'),
+(187, 'Africa/Mbabane', 'africa'),
+(188, 'Africa/Mogadishu', 'africa'),
+(189, 'Africa/Monrovia', 'africa'),
+(190, 'Africa/Nairobi', 'africa'),
+(191, 'Africa/Ndjamena', 'africa'),
+(192, 'Africa/Niamey', 'africa'),
+(193, 'Africa/Nouakchott', 'africa'),
+(194, 'Africa/Ouagadougou', 'africa'),
+(195, 'Africa/Porto-Novo', 'africa'),
+(196, 'Africa/Sao_Tome', 'africa'),
+(197, 'Africa/Tripoli', 'africa'),
+(198, 'Africa/Tunis', 'africa'),
+(199, 'Africa/Windhoek', 'africa'),
+(200, 'Antarctica/Casey', 'antarctica'),
+(201, 'Antarctica/Davis', 'antarctica'),
+(202, 'Antarctica/DumontDUrville', 'antarctica'),
+(203, 'Antarctica/Macquarie', 'antarctica'),
+(204, 'Antarctica/Mawson', 'antarctica'),
+(205, 'Antarctica/McMurdo', 'antarctica'),
+(206, 'Antarctica/Palmer', 'antarctica'),
+(207, 'Antarctica/Rothera', 'antarctica'),
+(208, 'Antarctica/Syowa', 'antarctica'),
+(209, 'Antarctica/Troll', 'antarctica'),
+(210, 'Antarctica/Vostok', 'antarctica'),
+(211, 'Arctic/Longyearbyen', 'artic'),
+(212, 'Asia/Aden', 'asia'),
+(213, 'Asia/Almaty', 'asia'),
+(214, 'Asia/Amman', 'asia'),
+(215, 'Asia/Anadyr', 'asia'),
+(216, 'Asia/Aqtau', 'asia'),
+(217, 'Asia/Aqtobe', 'asia'),
+(218, 'Asia/Ashgabat', 'asia'),
+(219, 'Asia/Atyrau', 'asia'),
+(220, 'Asia/Baghdad', 'asia'),
+(221, 'Asia/Bahrain', 'asia'),
+(222, 'Asia/Baku', 'asia'),
+(223, 'Asia/Bangkok', 'asia'),
+(224, 'Asia/Barnaul', 'asia'),
+(225, 'Asia/Beirut', 'asia'),
+(226, 'Asia/Bishkek', 'asia'),
+(227, 'Asia/Brunei', 'asia'),
+(228, 'Asia/Chita', 'asia'),
+(229, 'Asia/Choibalsan', 'asia'),
+(230, 'Asia/Colombo', 'asia'),
+(231, 'Asia/Damascus', 'asia'),
+(232, 'Asia/Dhaka', 'asia'),
+(233, 'Asia/Dili', 'asia'),
+(234, 'Asia/Dubai', 'asia'),
+(235, 'Asia/Dushanbe', 'asia'),
+(236, 'Asia/Famagusta', 'asia'),
+(237, 'Asia/Gaza', 'asia'),
+(238, 'Asia/Hebron', 'asia'),
+(239, 'Asia/Ho_Chi_Minh', 'asia'),
+(240, 'Asia/Hong_Kong', 'asia'),
+(241, 'Asia/Hovd', 'asia'),
+(242, 'Asia/Irkutsk', 'asia'),
+(243, 'Asia/Jakarta', 'asia'),
+(244, 'Asia/Jayapura', 'asia'),
+(245, 'Asia/Jerusalem', 'asia'),
+(246, 'Asia/Kabul', 'asia'),
+(247, 'Asia/Kamchatka', 'asia'),
+(248, 'Asia/Karachi', 'asia'),
+(249, 'Asia/Kathmandu', 'asia'),
+(250, 'Asia/Khandyga', 'asia'),
+(251, 'Asia/Kolkata', 'asia'),
+(252, 'Asia/Krasnoyarsk', 'asia'),
+(253, 'Asia/Kuala_Lumpur', 'asia'),
+(254, 'Asia/Kuching', 'asia'),
+(255, 'Asia/Kuwait', 'asia'),
+(256, 'Asia/Macau', 'asia'),
+(257, 'Asia/Magadan', 'asia'),
+(258, 'Asia/Makassar', 'asia'),
+(259, 'Asia/Manila', 'asia'),
+(260, 'Asia/Muscat', 'asia'),
+(261, 'Asia/Nicosia', 'asia'),
+(262, 'Asia/Novokuznetsk', 'asia'),
+(263, 'Asia/Novosibirsk', 'asia'),
+(264, 'Asia/Omsk', 'asia'),
+(265, 'Asia/Oral', 'asia'),
+(266, 'Asia/Phnom_Penh', 'asia'),
+(267, 'Asia/Pontianak', 'asia'),
+(268, 'Asia/Pyongyang', 'asia'),
+(269, 'Asia/Qatar', 'asia'),
+(270, 'Asia/Qyzylorda', 'asia'),
+(271, 'Asia/Riyadh', 'asia'),
+(272, 'Asia/Sakhalin', 'asia'),
+(273, 'Asia/Samarkand', 'asia'),
+(274, 'Asia/Seoul', 'asia'),
+(275, 'Asia/Shanghai', 'asia'),
+(276, 'Asia/Singapore', 'asia'),
+(277, 'Asia/Srednekolymsk', 'asia'),
+(278, 'Asia/Taipei', 'asia'),
+(279, 'Asia/Tashkent', 'asia'),
+(280, 'Asia/Tbilisi', 'asia'),
+(281, 'Asia/Tehran', 'asia'),
+(282, 'Asia/Thimphu', 'asia'),
+(283, 'Asia/Tokyo', 'asia'),
+(284, 'Asia/Tomsk', 'asia'),
+(285, 'Asia/Ulaanbaatar', 'asia'),
+(286, 'Asia/Urumqi', 'asia'),
+(287, 'Asia/Ust-Nera', 'asia'),
+(288, 'Asia/Vientiane', 'asia'),
+(289, 'Asia/Vladivostok', 'asia'),
+(290, 'Asia/Yakutsk', 'asia'),
+(291, 'Asia/Yangon', 'asia'),
+(292, 'Asia/Yekaterinburg', 'asia'),
+(293, 'Asia/Yerevan', 'asia'),
+(294, 'Atlantic/Azores', 'atlantic'),
+(295, 'Atlantic/Bermuda', 'atlantic'),
+(296, 'Atlantic/Canary', 'atlantic'),
+(297, 'Atlantic/Cape_Verde', 'atlantic'),
+(298, 'Atlantic/Faroe', 'atlantic'),
+(299, 'Atlantic/Madeira', 'atlantic'),
+(300, 'Atlantic/Reykjavik', 'atlantic'),
+(301, 'Atlantic/South_Georgia', 'atlantic'),
+(302, 'Atlantic/St_Helena', 'atlantic'),
+(303, 'Atlantic/Stanley', 'atlantic'),
+(304, 'Australia/Adelaide', 'australia'),
+(305, 'Australia/Brisbane', 'australia'),
+(306, 'Australia/Broken_Hill', 'australia'),
+(307, 'Australia/Currie', 'australia'),
+(308, 'Australia/Darwin', 'australia'),
+(309, 'Australia/Eucla', 'australia'),
+(310, 'Australia/Hobart', 'australia'),
+(311, 'Australia/Lindeman', 'australia'),
+(312, 'Australia/Lord_Howe', 'australia'),
+(313, 'Australia/Melbourne', 'australia'),
+(314, 'Australia/Perth', 'australia'),
+(315, 'Australia/Sydney', 'australia'),
+(316, 'Europe/Amsterdam', 'europe'),
+(317, 'Europe/Andorra', 'europe'),
+(318, 'Europe/Astrakhan', 'europe'),
+(319, 'Europe/Athens', 'europe'),
+(320, 'Europe/Belgrade', 'europe'),
+(321, 'Europe/Berlin', 'europe'),
+(322, 'Europe/Bratislava', 'europe'),
+(323, 'Europe/Brussels', 'europe'),
+(324, 'Europe/Bucharest', 'europe'),
+(325, 'Europe/Budapest', 'europe'),
+(326, 'Europe/Busingen', 'europe'),
+(327, 'Europe/Chisinau', 'europe'),
+(328, 'Europe/Copenhagen', 'europe'),
+(329, 'Europe/Dublin', 'europe'),
+(330, 'Europe/Gibraltar', 'europe'),
+(331, 'Europe/Guernsey', 'europe'),
+(332, 'Europe/Helsinki', 'europe'),
+(333, 'Europe/Isle_of_Man', 'europe'),
+(334, 'Europe/Istanbul', 'europe'),
+(335, 'Europe/Jersey', 'europe'),
+(336, 'Europe/Kaliningrad', 'europe'),
+(337, 'Europe/Kiev', 'europe'),
+(338, 'Europe/Kirov', 'europe'),
+(339, 'Europe/Lisbon', 'europe'),
+(340, 'Europe/Ljubljana', 'europe'),
+(341, 'Europe/London', 'europe'),
+(342, 'Europe/Luxembourg', 'europe'),
+(343, 'Europe/Madrid', 'europe'),
+(344, 'Europe/Malta', 'europe'),
+(345, 'Europe/Mariehamn', 'europe'),
+(346, 'Europe/Minsk', 'europe'),
+(347, 'Europe/Monaco', 'europe'),
+(348, 'Europe/Moscow', 'europe'),
+(349, 'Europe/Oslo', 'europe'),
+(350, 'Europe/Paris', 'europe'),
+(351, 'Europe/Podgorica', 'europe'),
+(352, 'Europe/Prague', 'europe'),
+(353, 'Europe/Riga', 'europe'),
+(354, 'Europe/Rome', 'europe'),
+(355, 'Europe/Samara', 'europe'),
+(356, 'Europe/San_Marino', 'europe'),
+(357, 'Europe/Sarajevo', 'europe'),
+(358, 'Europe/Saratov', 'europe'),
+(359, 'Europe/Simferopol', 'europe'),
+(360, 'Europe/Skopje', 'europe'),
+(361, 'Europe/Sofia', 'europe'),
+(362, 'Europe/Stockholm', 'europe'),
+(363, 'Europe/Tallinn', 'europe'),
+(364, 'Europe/Tirane', 'europe'),
+(365, 'Europe/Ulyanovsk', 'europe'),
+(366, 'Europe/Uzhgorod', 'europe'),
+(367, 'Europe/Vaduz', 'europe'),
+(368, 'Europe/Vatican', 'europe'),
+(369, 'Europe/Vienna', 'europe'),
+(370, 'Europe/Vilnius', 'europe'),
+(371, 'Europe/Volgograd', 'europe'),
+(372, 'Europe/Warsaw', 'europe'),
+(373, 'Europe/Zagreb', 'europe'),
+(374, 'Europe/Zaporozhye', 'europe'),
+(375, 'Europe/Zurich', 'europe'),
+(376, 'Indian/Antananarivo', 'indian'),
+(377, 'Indian/Chagos', 'indian'),
+(378, 'Indian/Christmas', 'indian'),
+(379, 'Indian/Cocos', 'indian'),
+(380, 'Indian/Comoro', 'indian'),
+(381, 'Indian/Kerguelen', 'indian'),
+(382, 'Indian/Mahe', 'indian'),
+(383, 'Indian/Maldives', 'indian'),
+(384, 'Indian/Mauritius', 'indian'),
+(385, 'Indian/Mayotte', 'indian'),
+(386, 'Indian/Reunion', 'indian'),
+(387, 'Pacific/Apia', 'pacific'),
+(388, 'Pacific/Auckland', 'pacific'),
+(389, 'Pacific/Bougainville', 'pacific'),
+(390, 'Pacific/Chatham', 'pacific'),
+(391, 'Pacific/Chuuk', 'pacific'),
+(392, 'Pacific/Easter', 'pacific'),
+(393, 'Pacific/Efate', 'pacific'),
+(394, 'Pacific/Enderbury', 'pacific'),
+(395, 'Pacific/Fakaofo', 'pacific'),
+(396, 'Pacific/Fiji', 'pacific'),
+(397, 'Pacific/Funafuti', 'pacific'),
+(398, 'Pacific/Galapagos', 'pacific'),
+(399, 'Pacific/Gambier', 'pacific'),
+(400, 'Pacific/Guadalcanal', 'pacific'),
+(401, 'Pacific/Guam', 'pacific'),
+(402, 'Pacific/Honolulu', 'pacific'),
+(403, 'Pacific/Kiritimati', 'pacific'),
+(404, 'Pacific/Kosrae', 'pacific'),
+(405, 'Pacific/Kwajalein', 'pacific'),
+(406, 'Pacific/Majuro', 'pacific'),
+(407, 'Pacific/Marquesas', 'pacific'),
+(408, 'Pacific/Midway', 'pacific'),
+(409, 'Pacific/Nauru', 'pacific'),
+(410, 'Pacific/Niue', 'pacific'),
+(411, 'Pacific/Norfolk', 'pacific'),
+(412, 'Pacific/Noumea', 'pacific'),
+(413, 'Pacific/Pago_Pago', 'pacific'),
+(414, 'Pacific/Palau', 'pacific'),
+(415, 'Pacific/Pitcairn', 'pacific'),
+(416, 'Pacific/Pohnpei', 'pacific'),
+(417, 'Pacific/Port_Moresby', 'pacific'),
+(418, 'Pacific/Rarotonga', 'pacific'),
+(419, 'Pacific/Saipan', 'pacific'),
+(420, 'Pacific/Tahiti', 'pacific'),
+(421, 'Pacific/Tarawa', 'pacific'),
+(422, 'Pacific/Tongatapu', 'pacific'),
+(423, 'Pacific/Wake', 'pacific'),
+(424, 'Pacific/Wallis', 'pacific');
 
 -- --------------------------------------------------------
 
@@ -1460,7 +1569,10 @@ INSERT INTO `voxes` (`id`, `account`, `type`, `data`) VALUES
 (8, 1, 'request', 'a0nzaJhc7vXOgOE/8d2wFyBtSQIqTGGlTeq6X6TVeiQ3fhQIbkIl/3VSSCULuAviGIjwdc2Fbz6bM90Mgo8w+yvCD5PLXdF9HAZY6fYdav5rkiuz/CkXrFKNwudlMZRM1orsV8HAUUsyMo9f4hQLsvFFbcld0C1rHNQcxxq9yg4dq8g/Wm4Sfezn07kjBpasoXbR7djlJIA04WRN7XR+EpbWcq/32MWdbeM1YEcJkaPaYCBeGGjfzsLBLk49/I5/GlceDJ8g4WlX0OHohWV+2sjbfM9p8ey5IxcDrnZYJWXWjPG6VlAN2p2ccB8ZJ+i0l074j26RZxK6y+Qy54tLnAEwckGbM7iy3TLrVKbzdtiM1jJ8IQvDqOqHKVvuGHw6FWmDVAriZHvfkjTr9ofluu9s5ofm3wxZRDoUFKVtP+7mbRkGd7qXiItGTLSxcCl1QF5+AqggOghaZEudNzaQQMb7a05JcSzh+P/94R3KkI3jTiu558TQCdZs1Mhmbi/ZNmSwK3bXDjO4BcY+kXIp/lFnz+3mCiRjP9Ou/IpjbuKCTFwNwUfMEZ+l+VnKV+SZyDmmMRjQFsVUNkMNOXnMFkoWn4By/eXR8wmJYWzIOe6V5TBSRqlFWk3ZmlAmgWzhvZoYTz26DLMSfDwa6nS5ZBy1rIWXtdpf4vSjREYlgDxOkRDoQlL6CeXuaI7rD3p8+A5mSXWD3gxvCEgneH6luZZW1GQDKsbWs+/8zfg8heoqX1Sz6YkA5H524bZQ0D3m1apuskbTFtw25YOQBcvenQksZewXVGVajJrXmJjJHSbz2cK00QmN7fAfe8W1xRNBS9vj9gv9cD3n5t2XnsGfdX/i4+AtgEnbOGMoc3dr62EZC+ttPIxiFeGbnxlS/sSNscNCkdArkmCPnSCDzwSlKPMtIHBzLd3RydJWslkAxmBdfg6D8ddH3r6/ehqk0i8oXCeKLkT9mbQrAAUTWf34i4UrvDmxgbsdwyXDnHKFIv682V5SQmi+nJwwXxbHumPzkEybbeGIeyolE2mjW/3qpt0d1WewBK8c1t0AZBzmkpegWRoIqgp1s7H2XmQfCCvrLfnPkz6F/1uNEs6imfh9pNRSzw6Q7VPbbMmPa/EWuiRATb1h+nW4cF4T5U35x5RcRBs2GV07UZ6mtZof95y+iIvUbug4fmJ3AjlAFdH0d+P5TCujTdL3/ttV6H48uOkC2aUeoPRuAqja1QyaOjRuxw=='),
 (9, 1, 'request', 'O3aSeC0MyhdpYWBbg8KUAEfghGYPvWjfP3FvYymxpGb2MvdGR0WdSX8jTu6d1UdUY+YgJtnRFbSO24yT3GpekdDzAb897QTbdCs7qyXTZaTsuYz50U5o5ud+7HKPR7raUKvDisAhjAynMO+1RPvunTC5iJBVD7rfIYwMULIa5KgGqmkjjgQfJGCTKMEi+p7FmJKVr2fQKuZ+Ux6rYJB0sFdTEzHKfI7rWCu3DICeKkS5l+ahwADShyDwuFHnXQR7bv4jgpV4vbKojnvBLrttftVXE/ACVVfwH46oN07BlnOkHwrZHPLEBiQjGaMz/acgZySDIeoleOeZwLCvhIIlqSbkKoAnnpRgnrzUsrjo+vg13W7R7J1BUgEmesNWsYqZDgL5HtdbyOHMaaTFDa51xDXi+fv1mlmnmDlflz3muE2OmBc3YmkKqsoJfSFLGYXuXPatWe3Uf9gSxZ0qt2EIdDUdjivfMlyNBFB3OHcTuLVixRLUIs28ttqnl6o9kBxQgemx/O62PFH/zLwgTcMHJK7ZLV7DTZAa8qGDjG6UaO+n4NFeEQQgNKJ0+6XWiTOMaA9IiEF2C5GhdtElFp5EnueJHLX7V6cG1zHu0e0UOMIE2pHsiXpjH8j8Ea+b4SEW7ivsph7iKxeFy5Eka3ha54taw9HNuXovcqyg7qBHeDXdzXC7P4Xkz5IxFtY5UiawfE3z3ZJBQjGpS/WGD5dOS/07J6S653NjqJXfwby+TCTkfm3rJQsAkmNvF3QxU3yLFrpYlZy4CUYObBAcTFQ6F/OPltVgFNggPMI45Hb/cidX5v8E/dku4dd3zWANH7C92E2Z2gAVR8lNTI1149AAtbEsYREmICa+Gf3Xi1ZTjmkaBh5UNaS882pR6wQlhSmULOYYn2VUQ20jncQd5FJ/qWYP3GKxt3uXqz5gUr/0D1jGh/bbFlNvq6qYbzMRNwatLkuCCzq2GgkBS5DqClKRyZ9cPUbBDJpDoYjTUm1Fy6Z6Dpz2tLBzDnkpapV0bZOwrHmXFzFQTGuTSZ5SN1sSaicnNv7FCBGUWT4XAZtXMPIbWkmczEzo8ZuvYsLZARI5M6rDSDg2V3KdDIqzn7SVjapnI+CoXNgOWnDJrc5+aHttXGNtl285Flj67kiLmI3WoW9iPD1F3hJML2aLlRqDwWKVnLxfTxHWGJsb6lKAgBBJunrWWM2Kpw8EBsDYQQ6V'),
 (10, 1, 'request', '+yLjg5KN+7IkyvoXU3N513aUszF27xOm32+dUFWQAT84zEvbFGpFEux0QYJNkxtjQoqaS2C2A2f4eqO66Kxs1lsQGusamJ4tMlMGjI4XGT3OmOXLGzl0HKleUrO/U0JW08rLVceaIQrtw3U5HD6CU1HzX3lWWAcMO6NRl5AQf7UhpSYili+GLFalXNkU+9N/yVfYuD60+Y4l3JnDDXY2aMtcDNHSJWuMNJkNvrdPRxmtANxGqNqiQUE0XnYMgaZ8KxWwW9C0YYE7pujvrgpR+44O9b8A3OYW3Ovz37b1fq8+WylZ1lhWSekUDRmSww7omzrnXeq7nLQ0cYcKm6fPtehuJ0Xw3TsEOBbMOF2sc4VxuSfmxWR8d5I8HhVL+ibkqmCPIhEgWcDVshIJgsZi0D+Jn1fXo+0eG0aTYFnjlTTifaTPHKYJ1QkqLSCDQMHWvEpMcfZkm4Uk1e13PEWhwzA7c96CV5GkWyAP7ef7UXvFzyruxa92WzmJGLz1lFpWRxXl3JfKZ4gBNXbiXT8Hb6SAQABqDL/bdGlmluKF5W/846EmQTuTB9QlBBFddo3+YRSOhd0MdcdotK3hbX4ko1eeeDweZvpFOorzr6Qmw+4XHkymWFVg9Mi3BsN6h2atpuTT5cSJkFOTMeo2uPGNU8CwrfoejhIahDuXucjLjFP6Kwzxh5jkKoST0vlBbyLj3BUjAKWehO2KQL3624XjicHSq1ELUnwYh3qaLMZM1Ee3bqW8taCxO0N5pCenRCLMsJT96a4wEnvALFCZYO5V1yyUYfJ5S94AwWFqN7A9Z1LIAtHhSxA2WVz0w29adEvNrQzR3Vye/xLAo3EjaZ+UV2MZDJFqJd35mo9S+N1qYGD91X017lqFEQCYaoDkht4pcGMvt4V9u6PmF+rhN7JWjjy14GgEM3t4UgG/qFUMn5kJ0tnybe+Gb8gdm5X1f0WaS+voLRnMp9gE0zyxEq+9XI4D+FbyshFIkEUeTdgwAicB/IHCt+ydQoLiJG+1w5loy/doNOvC2FuHVvLhnrAkcQ2lQlPhLZxu4MAKVzaz4h9elVXDspN0Kxb+aj6GYgQeyvJ0gNkH0+LKMBLgQdeAShrZhdYaVhtbnmatrp7TTA19SMvrWatwCAsSrxIVlwExk56HqgIw0PTMG2YoQyJEek7GkJlWJoltRICOuJQHpcl964A/UKxuAqzDWc/FCeqk'),
-(11, 1, 'request', 'nrEeoL5YzWgiR3/RuuiNfAFtQWzbJVA8YVLkzNF1Txn+4eo6cY0tPkt25EzTMjxcCxQovToSYDHAFpAiYJiFvaW5rKPvpgopA67idgCpm3VzGEz6sHVc2bfgHMpbt8EVLG0ZoSU2HyWafC3AX5Z59TfLORnz7zdK8Wnw4cnMUGDNX5EVmX7kIur0i5gCkZ9TFEgVznZKIiH0tKs8OFGDuNIUjFLXmqQyKSOscaKQ6vR3ymdqGqpAK3PfgvHWKXFtkauGVDPp6BzAqDvQ/ze+Cz4EYP7Yj8xek9gxhNAJHvbPGKaOEpUApg7967ZQrDO6jnI3+be7Utv8ZugpEhnsgYOJlA4inwqAByMcbJcw9W8z8KGSSeeqJQW9zF3I9iqdUPuIgDFHT6Tz6LxvNe58hvMnoliQcHHh0RqR13a7fjdiY+pG0lxXWcBDvEl5Uet5Ory1ndUJIwjasz6ulnm9Emj5TJvhDSsICTCK6z7BQF0O7p3pfnTo+ItLYbYFxRh2M4ol1a6U3Fi67T279FjDugHD7BxLBkEZZYzIEIxAtH1OPsjKKQV5G6BtYm8pnv/Ar44VI0oV7nT99dBVOUWdytTgM3srm3ZsPMuEaKtgzhC3b9nVU5JFUNAUY6RLlPx53FsMjHbNYBxJmikxIAji8sfX/dFtdwozTxLJpFx/1NDPLdKgRLat6wDwx0uEcUYx28qB1Z2mKyu5xXbbBrI0A+oOGsqz5lwKsrakIFhiunoIgi/0sN/NDCPAKA59WT+wKFCIOqAIvetDNuj66NW7uW0nA8uFXtTAFVJxIIdTRKjFUYrWYYleC3qOtTJLAn/bAOEFE6UEJsc1sYT0Sdui0wi8uoFTODEwSwXkUvkdLe8ev0TVKtHnpLyEpwe72FU1DztAeVhb4neIk2+9IpxXoFaLNJZk15xt55fj1lOSaRiUsOBhEJLyBd98qpoXSkrhXbLQXC7MNOwrxhodcnW2rpI0n0TVnOKZpvkxn5UZwzuDN3TXiYAz0SJzbbP/4xqUZlqaokO9ypn8AokbDmvGnnnL27gmNw9WvjXuctgbQVZ+HyQKktY8cfIshI6sgv8W72MCtIUwRIM6Hsno1L8K9v7x6Q479igdPeDZ6B4qDQVacsKjoeR85p+DpmDaRE/dvbk0Vu8eexj0GL0eL6GEj3Iw4qDjpOrVJ5/I+6fbrq9YSgChJGih3Dh3wb+OdWpl');
+(11, 1, 'request', 'nrEeoL5YzWgiR3/RuuiNfAFtQWzbJVA8YVLkzNF1Txn+4eo6cY0tPkt25EzTMjxcCxQovToSYDHAFpAiYJiFvaW5rKPvpgopA67idgCpm3VzGEz6sHVc2bfgHMpbt8EVLG0ZoSU2HyWafC3AX5Z59TfLORnz7zdK8Wnw4cnMUGDNX5EVmX7kIur0i5gCkZ9TFEgVznZKIiH0tKs8OFGDuNIUjFLXmqQyKSOscaKQ6vR3ymdqGqpAK3PfgvHWKXFtkauGVDPp6BzAqDvQ/ze+Cz4EYP7Yj8xek9gxhNAJHvbPGKaOEpUApg7967ZQrDO6jnI3+be7Utv8ZugpEhnsgYOJlA4inwqAByMcbJcw9W8z8KGSSeeqJQW9zF3I9iqdUPuIgDFHT6Tz6LxvNe58hvMnoliQcHHh0RqR13a7fjdiY+pG0lxXWcBDvEl5Uet5Ory1ndUJIwjasz6ulnm9Emj5TJvhDSsICTCK6z7BQF0O7p3pfnTo+ItLYbYFxRh2M4ol1a6U3Fi67T279FjDugHD7BxLBkEZZYzIEIxAtH1OPsjKKQV5G6BtYm8pnv/Ar44VI0oV7nT99dBVOUWdytTgM3srm3ZsPMuEaKtgzhC3b9nVU5JFUNAUY6RLlPx53FsMjHbNYBxJmikxIAji8sfX/dFtdwozTxLJpFx/1NDPLdKgRLat6wDwx0uEcUYx28qB1Z2mKyu5xXbbBrI0A+oOGsqz5lwKsrakIFhiunoIgi/0sN/NDCPAKA59WT+wKFCIOqAIvetDNuj66NW7uW0nA8uFXtTAFVJxIIdTRKjFUYrWYYleC3qOtTJLAn/bAOEFE6UEJsc1sYT0Sdui0wi8uoFTODEwSwXkUvkdLe8ev0TVKtHnpLyEpwe72FU1DztAeVhb4neIk2+9IpxXoFaLNJZk15xt55fj1lOSaRiUsOBhEJLyBd98qpoXSkrhXbLQXC7MNOwrxhodcnW2rpI0n0TVnOKZpvkxn5UZwzuDN3TXiYAz0SJzbbP/4xqUZlqaokO9ypn8AokbDmvGnnnL27gmNw9WvjXuctgbQVZ+HyQKktY8cfIshI6sgv8W72MCtIUwRIM6Hsno1L8K9v7x6Q479igdPeDZ6B4qDQVacsKjoeR85p+DpmDaRE/dvbk0Vu8eexj0GL0eL6GEj3Iw4qDjpOrVJ5/I+6fbrq9YSgChJGih3Dh3wb+OdWpl'),
+(13, 1, 'request', 'l+d0pW/jjfp45DWq2Q1Dn99pZ6N/AKesLrleJYPM4xEJVhw6hQn4k1ylsS46L4pCNGm7Z0dx6A4GuBOHUZzk24lD30yhZnc8LgBy84Sk2kLshBq4ULESjmOHi7q4P684tCuzY6pfzh7pjS0f5d/Ic8g8Xmf+6Nvlo8xCGkMZMwp4iDZi1MeIt3OvFfHJj8VIyrdoH3ZO5SNKWxAET/7FqSarGylfi5F2ZZfIw5XTfO2aC04eXkVyIHecsyXf2s9FfmP7l/uwMiqDpz4TZgP/dcttHQX/OG9PiNwKX/q/nRQMQo/e6VfXmy0nR+1ZvoXaYb5sBc8hq49smr3ZgZnl/3AVU8LoRHEB4j9/wh7c6yKNuyilBv+8n1nwJMPpO361JYKmmC4Tq5aJtenmMjG1kvnfDbETQqEHV75ozilmaXw8uA3JSTpx9wQrmACQNISLRTm+KpPuTCXDFkCjSMDM17SuozoFGqss9UssgxchO1kgBw5W4XCqGr2GxtyQO+lFRdr5FTmaP1pnOv6/9ukKjxA3gcYHxNdy7Ytbe2AjIk7dBgYgHBqb6BqLl8KIYBrPqAehlD0ndB48e2tKQHuZnxOA6PF39Vyc4nZc/NVkXhoTy8TPdQLruSV0wOE0XsIyiwiL/XWfx1nao4WG1XyQVdOh7EWzFD9NBrNBdRUxumUuYeLgH/0oE3p1o4gZ5nNlajI/aptaYTPOhUZpfyPr3kOPyL/wRpTsIDMec9iZWfuMBLZlXD+RQuktp99tqXkFClCJQiMCcTcDHBNYsZxCGa6EZZuCVIP5vVIbX5rG6ZwpXKD+13NYEbqYnevCMBQAHaI6DwQm5HveeHYdD89QmBUsJUjAcsGLva7Xt0byyjixwDHrbMRm3RLkBPaiIjaua1TlTXcnZqoqYy50FtT/U97WT/D+LfUNtlyn0/gnmBB0Dh3k487NgNp/WaCOl3PkSvKyFk45o/OKxHl2iCkKRRiFeDrozR1fvXyWZY6hjw2hUDnP+71Hbl/xSYcQUN4MWFRFEgJCwXjbvVzPASK4qXhf6dhEyySOzdsGFqK6O6C5XrzoZTKZZRC+aljK0GyHWIJEgipSrrfaKAbvNs3eHeSxX5L9ut89uwQH0moIbkoC4SCL6OX9rvQvEy/XbQjW1jFBFKWqxvHru0fU5BzoOJqJ7FTr45af1UyQWixIVqMjKN4JyGzMzn3IbYfGa4+VsSDdXdDl91VolgKUBtMKrnwutyA2MdTuLUcdPokOUbUuOyaD6LNSMzZi5voUhY8m9HUquB3WZBCl6aKijkZWNJhPdhTj1QZF/604Tjm8gUhkr4I4PBcTNQ5wjPXaMKzNzgPMPdrgna/FYoCrKXgu7g=='),
+(14, 1, 'incident', '3UT+MsEwpgK/3VjOucqgtsBcGTPRhCm64WN0HjxzpCPC25GxZuJB9oq4n4kydQzGmpm26ND7HOYasC9/jSDPMX7KPHCXTsXegtkSaBN6dBDKo8lK3xK3oXU4+bbdCbG8oD0rvPmUUzytX72FhqkXQF0auAeu8eM8+7LcCJih6XQ5ZBLnH2bTNjOkSBkBltTzBgZZ82WlihEdNnUA+stfyMvFpvC052Cm0Fwvsa2mVpQiluFHTsYe/ohsW3FsI4EIvfUz0tBjVGuSAyPk7VGot81icNhn6E7CD31yViwqHzB2gVx3FTRLyHNtGY1z1jpb4aJYLBQgmI1aSFRC6pZZGeqrOHr5NEZLcwQvMWl2dozwqpR5k45NZ4AniruMExXv8mw3vJ5BXC/0SSg/fvRRQC05E3TJKKxIkU/YduJUMWrW40ILChhkzs38tXIs6/VvEXvrwsZetnUoXVHUepCt5KD8wX6cyMS76Eb6l9lZcfgdZmlSBpAtqRyZwDrNqkcbPbO/WIAB2YM3aFFV2Q4Vz2BpCZSZFQVEWhPx3PB4KSBJHPtM8ZR+NmIsHzlIM61te6KHe1ws4E2LBDKOHp1F5ZaicN6viX+hSGBW0JuXmN5VkI2kYeIOCIiQ6HlR1yyzguMVoqYZ9bxJTl7FmJZAZt8t/xb2V833geWXN6XiK/ThJ5NY/midPT8ABBvHi25VtGiqdjrOMt5d0eFWO1p5bY4pNSef7A61YIx2vlLZrWLVhR08ZdOPndzUwcE6PKdbNlfTMjqDPJWxZIxzgB5rIFEfzULr5/QegVCauBRvCUo2tyX34vGlHzK5iAcIxk5DIK2/0g/1Z04TGKDDeTFjgUDsyYUqH0AW4PX+Mvzhq2TR3yp2sKxPbmyvSaBadWWBPJ7tKuUE3SuAXbLm/y/fkfc5QbDMFCNPNPy2laK8KbomX+h9YcyCsjyTgwe3L7vLH70MdoIJafSGFo3qRsclzQIp4gwH4JE9ovNVGJQfcybcpo+44/KBtCNQSIg3SJ8Yo1nJe4hIkQi+iETeT32mSd45dc2zr9UJqqPRFzK/jXgen/+WQ3HfG1+smYv8/lDR0ly4WQ5rHuqVNB2iUB7b3JTpJOFHtGtIZxQqWRcEt3u8uE0WZlf8+sr5E3m/slJVeW8C5Mrq1Ab2bNRkVEFtTdSlfAaygsKsJhaSAtAkzBKo0FDC7dw+PL4c8Ix6Z7XZfbPBvFnYOk5d3ILqBGy4vjsLh3auEcnc5f1xDFE0iJjp1Ua3XOCvMN85+Oqug4etV446Vh5AA5R/DbWjpY8rh0HqGEZ//c0Lfk44mVERu56+7IU7wm2161ch8cnpOu3Qu7IRUF5BuxwwomJqlmZNS2pWwC0/SLSUlcHcQUPX5S0+Jt5g4vLu+fRl1kOXrb5FOfEZM3tGg2UEFCIOqIRR8vAcC56FvV6JyfCYBnYE9kyJaevPL9lDjUuCk0O1W1ag'),
+(15, 1, 'request', 'W6K3y+u/ByROT9OtPD2JGW5rHiv5Rr2BCIG2kWP64CI/kw2dO6n6u3BfKAWfxw0MCFyIcwL9iIB9eVBJ6xHC4A5mCPW7OWiRwaQ/kJBd94O2YZKD/497lZGJ+Tn2xvqWx6PRifOmdbIAz/SyZxDCaTOeLdasKK/4M3mUydnI/yq23HczAOyT9/5RejL0qv2IxCAf2HQ8RFV3GYDUj1/o7T8dZG6jxeGOsiJZuKKBZzKwNt6f2P54pfB9/HHPg+1jlrB3boSt+5NasZHfIyd3JHm8zJ4EGZhOpfDkIN9N4aKBmGd54dwUBUozSralRgOrv1mndOfURpecJHtjsqBBMXyBL/y7/bnoKiN73hjkSa2Jy+IEAl0NWSLvq1eEb2owoFM1VQDvw4PwV9ocbDEgLcyDC02q7z2NNeDx/tbVf3Li/c7pU8nS5UbbsIoNrtj9RQGzmWHgG+BrEJ83OlNDqmmFik4JrBG28tLO3ViLYerUDU42k4KbrN8UCJlrpemiDHKmG+/ao7yWGQSTlIr7S4fj9C2Fw4KxxVzd0TVU9vNEptwFs0pvsrHIAokNP8j5AcJ0seiuw9l3z1M65paL45QEyqYJIdG2JbN79HJksEsuux2cD1RufRsC9n6XSoOG+og3M7ifMBb9zUAQ7kcwea6hK4KDuaOMJk8AP8d+f+WhCHXF5mPZ8ayPgEnOuRnPUf9QK/pmS34+aC9Zzle0JOB1NGCtAQkzXkudLjR1+3cKgARCBcOyps/i5IDKURRx/iarpdZZmhQpgdMUAM9+5abuCgQBlKeea/I2qU9ocwqRzfNDLhekxyoHiX37df3n1fLxwvK9R4iW1tAFkDm77WUBQ0TvgZiMulWKPBBc3A94BFH9GmwIzRDqSYNikS5X9D7BYVJ7ljYzTdEv09q89/SGohjTpzEZDME11tKmIZE9p7Mwj9Vem5KDROEPGlphhlm9dIiv/fD5BwaTqYkvx8G0LsTNttnSIdvvIdh1E4ZjHsTFjj+1rxIJJgqO358FF6cv5JCYxsfyh98yaM6GhTBPL6GGUBkpIJodd3MjixIdHov+g8WvMJTGEF6f0LwUdF9fNTlRVPq2+mJoX75f0FqDX5VifdSfeHsFqykWX4Y1Pm41jtHn2S2W1gqwT6DxDecHfTfaQjiS/uqkoVRZ4WnAb8xvsThBQ7RRJZ5gZwJhGJq4dOunBsCForB1Lh9JBMij3y2ntY2oFSI1QYN0YcXC889vi4zbkNxoij27+twfnkUs+hdqSVcU1OIL0aPLVhFlMq7/BpKQ+pruQcwdD946Oy4D8OrTtzhe2Xv4/uM=');
 
 --
 -- Índices para tablas volcadas
@@ -1523,11 +1635,25 @@ ALTER TABLE `guest_types`
   ADD KEY `account` (`account`) USING BTREE;
 
 --
+-- Indices de la tabla `languages`
+--
+ALTER TABLE `languages`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `locations`
 --
 ALTER TABLE `locations`
   ADD PRIMARY KEY (`id`),
   ADD KEY `account` (`account`) USING BTREE;
+
+--
+-- Indices de la tabla `notes`
+--
+ALTER TABLE `notes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `account` (`account`),
+  ADD KEY `user` (`user`);
 
 --
 -- Indices de la tabla `opportunity_areas`
@@ -1589,9 +1715,30 @@ ALTER TABLE `settings`
   ADD PRIMARY KEY (`id`),
   ADD KEY `account` (`account`) USING BTREE,
   ADD KEY `room_package` (`room_package`),
-  ADD KEY `user_package` (`user_package`),
-  ADD KEY `promotional_code` (`promotional_code`),
-  ADD KEY `time_zone` (`time_zone`);
+  ADD KEY `user_package` (`user_package`);
+
+--
+-- Indices de la tabla `survey_answers`
+--
+ALTER TABLE `survey_answers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `account` (`account`),
+  ADD KEY `survey_question` (`survey_question`),
+  ADD KEY `room` (`room`);
+
+--
+-- Indices de la tabla `survey_questions`
+--
+ALTER TABLE `survey_questions`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `account` (`account`);
+
+--
+-- Indices de la tabla `tasks`
+--
+ALTER TABLE `tasks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `account` (`account`);
 
 --
 -- Indices de la tabla `time_zones`
@@ -1692,10 +1839,22 @@ ALTER TABLE `guest_types`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT de la tabla `languages`
+--
+ALTER TABLE `languages`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT de la tabla `locations`
 --
 ALTER TABLE `locations`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT de la tabla `notes`
+--
+ALTER TABLE `notes`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `opportunity_areas`
@@ -1746,6 +1905,24 @@ ALTER TABLE `settings`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT de la tabla `survey_answers`
+--
+ALTER TABLE `survey_answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT de la tabla `survey_questions`
+--
+ALTER TABLE `survey_questions`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT de la tabla `tasks`
+--
+ALTER TABLE `tasks`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `time_zones`
 --
 ALTER TABLE `time_zones`
@@ -1779,7 +1956,7 @@ ALTER TABLE `user_permissions`
 -- AUTO_INCREMENT de la tabla `voxes`
 --
 ALTER TABLE `voxes`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas
@@ -1802,6 +1979,13 @@ ALTER TABLE `guest_types`
 --
 ALTER TABLE `locations`
   ADD CONSTRAINT `locations_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`);
+
+--
+-- Filtros para la tabla `notes`
+--
+ALTER TABLE `notes`
+  ADD CONSTRAINT `notes_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`),
+  ADD CONSTRAINT `notes_ibfk_2` FOREIGN KEY (`user`) REFERENCES `users` (`id`);
 
 --
 -- Filtros para la tabla `opportunity_areas`
@@ -1844,9 +2028,27 @@ ALTER TABLE `rooms`
 ALTER TABLE `settings`
   ADD CONSTRAINT `settings_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`),
   ADD CONSTRAINT `settings_ibfk_2` FOREIGN KEY (`room_package`) REFERENCES `room_packages` (`id`),
-  ADD CONSTRAINT `settings_ibfk_3` FOREIGN KEY (`user_package`) REFERENCES `user_packages` (`id`),
-  ADD CONSTRAINT `settings_ibfk_4` FOREIGN KEY (`promotional_code`) REFERENCES `promotional_codes` (`id`),
-  ADD CONSTRAINT `settings_ibfk_5` FOREIGN KEY (`time_zone`) REFERENCES `time_zones` (`id`);
+  ADD CONSTRAINT `settings_ibfk_3` FOREIGN KEY (`user_package`) REFERENCES `user_packages` (`id`);
+
+--
+-- Filtros para la tabla `survey_answers`
+--
+ALTER TABLE `survey_answers`
+  ADD CONSTRAINT `survey_answers_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`),
+  ADD CONSTRAINT `survey_answers_ibfk_2` FOREIGN KEY (`survey_question`) REFERENCES `survey_questions` (`id`),
+  ADD CONSTRAINT `survey_answers_ibfk_3` FOREIGN KEY (`room`) REFERENCES `rooms` (`id`);
+
+--
+-- Filtros para la tabla `survey_questions`
+--
+ALTER TABLE `survey_questions`
+  ADD CONSTRAINT `survey_questions_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`);
+
+--
+-- Filtros para la tabla `tasks`
+--
+ALTER TABLE `tasks`
+  ADD CONSTRAINT `tasks_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`);
 
 --
 -- Filtros para la tabla `users`
