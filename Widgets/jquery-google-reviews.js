@@ -35,11 +35,11 @@ Thank you guys!
     var targetDivJquery = this;
 
     var renderMoreReviewsButton = function() {
-      return '<div class="more-reviews"><a href="'+settings.moreReviewsButtonUrl+'" target="_blank">'+settings.moreReviewsButtonLabel+'</a></div>';   
+      return '<div class="more-reviews"><a href="'+settings.moreReviewsButtonUrl+'" target="_blank">'+settings.moreReviewsButtonLabel+'</a></div>';
     };
 
     var renderWriteReviewButton = function() {
-      return '<div class="write-review"><a href="'+settings.writeReviewButtonUrl+'" target="_blank">'+settings.writeReviewButtonLabel+'</a></div>';   
+      return '<div class="write-review"><a href="'+settings.writeReviewButtonUrl+'" target="_blank">'+settings.writeReviewButtonLabel+'</a></div>';
     };
 
     var renderHeader = function(header) {
@@ -61,7 +61,7 @@ Thank you guys!
       if (htmlButtons != "") {
         html += '<div class="buttons">'+htmlButtons+'</div>';
       }
-      
+
       html += "<br>" + footer + "<br>";
       targetDivJquery.after(html);
     };
@@ -133,7 +133,7 @@ Thank you guys!
       reviews.reverse();
       var html = "";
       var rowCount = (settings.maxRows > 0) ? settings.maxRows - 1 : reviews.length - 1;
-      
+
       rowCount = (rowCount > reviews.length - 1) ? reviews.length - 1 : rowCount;
       for (var i = rowCount; i >= 0; i--) {
         var review = reviews[i];
@@ -141,7 +141,7 @@ Thank you guys!
         var date = convertTime(review.time);
         var name = settings.shortenNames ? shortenName(review.author_name) : review.author_name;
         var style = (review.text.length > parseInt(settings.textBreakLength)) ? "review-item-long" : "review-item";
-        
+
         html = html + "<div class="+ style +"><div class='review-meta'><span class='review-author'>" + name + "</span><span class='review-sep'></span>" + "</div>" + stars + "<p class='review-text'>" + review.text + "</p></div>";
         // I do not need to display the date... but if you do:
         // +"<br><span class='review-date'>"+date+"</span>"+

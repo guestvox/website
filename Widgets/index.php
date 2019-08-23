@@ -10,8 +10,16 @@
     </head>
     <body>
         <!-- Widget del clima Cancun -->
-        <div id="cont_562e1d81003724dd4e4f5cdc1bc720bb"><script type="text/javascript" async src="https://www.meteored.mx/wid_loader/562e1d81003724dd4e4f5cdc1bc720bb"></script></div>
-        <div id="google-reviews"></div>
+        <div id="cont_cf579d37bb4314d5ed2463619c1c0de4"><script type="text/javascript" async src="https://www.meteored.mx/wid_loader/cf579d37bb4314d5ed2463619c1c0de4"></script></div><br>
+        <div id="TA_cdswritereviewlg4" class="TA_cdswritereviewlg">
+            <ul id="I7hJOKLd" class="TA_links FJfwMuzhhq">
+                <li id="SnaJrr" class="KBMX9k">
+                <a target="_blank" href="https://www.tripadvisor.com.mx/"><img src="https://www.tripadvisor.com.mx/img/cdsi/img2/branding/medium-logo-12097-2.png" alt="TripAdvisor"/></a>
+                </li>
+            </ul>
+        </div>
+        <script async src="https://www.jscache.com/wejs?wtype=cdswritereviewlg&amp;uniq=4&amp;locationId=154652&amp;lang=es_MX&amp;lang=es_MX&amp;display_version=2" data-loadtrk onload="this.loadtrk=true">
+        </script>
     </body>
 
     <script>
@@ -19,7 +27,7 @@
     var id = 'ChIJ9-tnGbPWT48RF5aCN7DN2k4';
 
     jQuery(document).ready(function($) {
-      if ($("#google-reviews").length == 0) {
+        if ($("#google-reviews").length == 0) {
         return
       }
       $("#google-reviews").googlePlaces({

@@ -187,7 +187,12 @@ $(document).ready(function()
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() { window.location.href = response.path; }, 3000);
+                    setTimeout(function() {
+                        $('[data-modal="success"]').find('main > p').html(response.message);
+                        $('[data-modal="success"]').removeClass('view');
+                        $('[data-modal="new_survey_answers"]').removeClass('view');
+                        $('[data-modal="new_comment_tripadvisor"]').addClass('view');
+                    }, 3000);
                 }
                 else if (response.status == 'error')
                 {

@@ -232,3 +232,21 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
         </footer>
     </div>
 </section>
+<section class="modal" data-modal="new_comment_tripadvisor">
+    <div class="content">
+        <header>
+            <h3>{$lang.answer_survey_right_now}</h3>
+        </header>
+        <main>
+            <div id="TA_cdswritereviewlg4" class="TA_cdswritereviewlg">
+                <ul id="I7hJOKLd" class="TA_links FJfwMuzhhq">
+                    <li id="SnaJrr" class="KBMX9k">
+                    <a target="_blank" href="https://www.tripadvisor.com.mx/"><img src="https://www.tripadvisor.com.mx/img/cdsi/img2/branding/medium-logo-12097-2.png" alt="TripAdvisor"/></a>
+                    </li>
+                </ul>
+            </div>
+            <script async src="https://www.jscache.com/wejs?wtype=cdswritereviewlg&amp;uniq=4&amp;locationId=154652&amp;lang=es_MX&amp;lang=es_MX&amp;display_version=2" data-loadtrk onload="this.loadtrk=true">
+            </script>
+        </main>
+    </div>
+</section>
