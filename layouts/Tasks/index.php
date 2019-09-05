@@ -8,8 +8,8 @@ $this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.m
 $this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
 $this->dependencies->add(['css', '{$path.plugins}date-picker/jquery-ui.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}date-picker/jquery-ui.min.js']);
-$this->dependencies->add(['css', '{$path.plugins}time-picker/timepicker.css']);
-$this->dependencies->add(['js', '{$path.plugins}time-picker/timepicker.js']);
+// $this->dependencies->add(['css', '{$path.plugins}time-picker/timepicker.css']);
+// $this->dependencies->add(['js', '{$path.plugins}time-picker/timepicker.js']);
 $this->dependencies->add(['js', '{$path.js}Tasks/index.js']);
 $this->dependencies->add(['other', '<script>menu_focus("tasks");</script>']);
 
@@ -75,9 +75,10 @@ $this->dependencies->add(['other', '<script>menu_focus("tasks");</script>']);
                                 <div class="label">
                                     <label class="success">
                                         <p>{$lang.hour}</p>
-                                        <div class="time__input">
+                                        <input type="time" name="expiration_hour" value="<?php echo Functions::get_current_hour(); ?>" />
+                                        <!-- <div class="time__input">
                                             <input type="text" name="expiration_hour" class="timepicker" placeholder="{$lang.choose}" value="<?php echo Functions::get_current_hour(); ?>" />
-                                        </div>
+                                        </div> -->
                                     </label>
                                 </div>
                             </div>
@@ -191,9 +192,10 @@ $this->dependencies->add(['other', '<script>menu_focus("tasks");</script>']);
                             <div class="label important">
                                 <label class="success">
                                     <p>{$lang.hour}</p>
-                                    <div class="time__input">
+                                    <input type="time" name="expiration_hour" value="<?php echo Functions::get_current_hour(); ?>" />
+                                    <!-- <div class="time__input">
                                         <input type="text" name="expiration_hour" class="timepicker" placeholder="{$lang.choose}" value="<?php echo Functions::get_current_hour(); ?>" />
-                                    </div>
+                                    </div> -->
                                 </label>
                             </div>
                         </div>

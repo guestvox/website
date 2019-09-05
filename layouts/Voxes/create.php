@@ -4,8 +4,8 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.plugins}date-picker/jquery-ui.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}date-picker/jquery-ui.min.js']);
-$this->dependencies->add(['css', '{$path.plugins}time-picker/timepicker.css']);
-$this->dependencies->add(['js', '{$path.plugins}time-picker/timepicker.js']);
+// $this->dependencies->add(['css', '{$path.plugins}time-picker/timepicker.css']);
+// $this->dependencies->add(['js', '{$path.plugins}time-picker/timepicker.js']);
 $this->dependencies->add(['css', '{$path.plugins}chosen-select/chosen.css']);
 $this->dependencies->add(['js', '{$path.plugins}chosen-select/chosen.jquery.js']);
 // $this->dependencies->add(['css', '{$path.plugins}upload-file/input-file.css']);
@@ -82,9 +82,10 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                                 <div class="label">
                                     <label class="success">
                                         <p>{$lang.hour}</p>
-                                        <div class="time__input">
+                                        <input type="time" name="started_hour" value="<?php echo Functions::get_current_hour(); ?>" />
+                                        <!-- <div class="time__input">
                                             <input type="text" name="started_hour" class="timepicker" placeholder="{$lang.choose}" value="<?php echo Functions::get_current_hour(); ?>" />
-                                        </div>
+                                        </div> -->
                                         <p class="description">{$lang.what_hour_need}</p>
                                         <p class="description hidden">{$lang.what_hour_happened}</p>
                                     </label>

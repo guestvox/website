@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Servidor: localhost:3306
--- Tiempo de generación: 04-09-2019 a las 21:12:08
--- Versión del servidor: 10.0.38-MariaDB-0+deb8u1
--- Versión de PHP: 7.1.14
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 05-09-2019 a las 11:54:01
+-- Versión del servidor: 10.1.30-MariaDB
+-- Versión de PHP: 7.0.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -684,20 +684,6 @@ INSERT INTO `locations` (`id`, `account`, `name`, `request`, `incident`, `public
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `notes`
---
-
-CREATE TABLE `notes` (
-  `id` bigint(20) NOT NULL,
-  `account` bigint(20) NOT NULL,
-  `description` text COLLATE utf8_spanish_ci NOT NULL,
-  `date` date NOT NULL,
-  `user` bigint(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- --------------------------------------------------------
-
---
 -- Estructura de tabla para la tabla `opportunity_areas`
 --
 
@@ -741,10 +727,13 @@ CREATE TABLE `opportunity_types` (
 --
 
 INSERT INTO `opportunity_types` (`id`, `account`, `opportunity_area`, `name`, `request`, `incident`, `public`) VALUES
-(1, 1, 1, '{\"es\":\"Calidad en los alimentos\",\"en\":\"Foot quality\"}', 1, 1, 1),
-(2, 1, 2, '{\"es\":\"Toallas\",\"en\":\"Towels\"}', 1, 1, 1),
-(3, 1, 3, '{\"es\":\"Wifi\",\"en\":\"Wifi\"}', 1, 1, 1),
-(4, 1, 4, '{\"es\":\"Aire acondicionado\",\"en\":\"Air conditioned\"}', 1, 1, 1);
+(1, 1, 1, '{\"es\":\"Calidad en los alimentos\",\"en\":\"Food quality\"}', 0, 1, 1),
+(2, 1, 2, '{\"es\":\"Toallas extra\",\"en\":\"Extra towels\"}', 1, 0, 1),
+(3, 1, 3, '{\"es\":\"Wifi\",\"en\":\"Wifi\"}', 0, 1, 1),
+(4, 1, 4, '{\"es\":\"Aire acondicionado\",\"en\":\"Air conditioner\"}', 0, 1, 1),
+(5, 1, 1, '{\"es\":\"Tiempo de serivicio\",\"en\":\"Service time\"}', 0, 1, 1),
+(6, 1, 2, '{\"es\":\"Limpieza de habitaci\\u00f3n\",\"en\":\"Room cleaning\"}', 1, 1, 1),
+(7, 1, 4, '{\"es\":\"Foco fundido\",\"en\":\"Molten bulb\"}', 0, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -876,7 +865,7 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `account`, `private_key`, `room_package`, `user_package`, `country`, `cp`, `city`, `address`, `time_zone`, `language`, `currency`, `logotype`, `fiscal_id`, `fiscal_name`, `fiscal_address`, `contact`, `payment`, `promotional_code`, `sms`, `survey_title`) VALUES
-(1, 1, 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7', 3, 3, 'MEX', '77500', 'Cancún', 'Cancún Centro', 'America/Cancun', 'es', 'MXN', 'guestvox.png', 'AAAA001122MH8', 'GuestVox S.A.P.I. de C.V.', 'Cancún Centro', '', 'paypal', NULL, 0, '{\"es\":\"Responde nuestra encuesta y gana un vino\",\"en\":\"Answer our survey and win a wine\"}');
+(1, 1, 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7', 3, 3, 'MEX', '77500', 'Cancún', 'Cancún Centro', 'America/Cancun', 'es', 'MXN', 'guestvox.png', 'AAAA001122MH8', 'GuestVox S.A.P.I. de C.V.', 'Cancún Centro', '', 'paypal', NULL, 0, '{\"es\":\"Responde nuestra encuesta y obt\\u00e9n una botella de vino\",\"en\":\"Answer our survey and get a bottle of wine\"}');
 
 -- --------------------------------------------------------
 
@@ -921,6 +910,13 @@ CREATE TABLE `survey_questions` (
   `question` longtext COLLATE utf8_spanish_ci NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `survey_questions`
+--
+
+INSERT INTO `survey_questions` (`id`, `account`, `question`, `status`) VALUES
+(1, 1, '{\"es\":\"Experiencia durante el check in\",\"en\":\"Check in experience\"}', 1);
 
 -- --------------------------------------------------------
 
@@ -1609,14 +1605,6 @@ ALTER TABLE `locations`
   ADD KEY `account` (`account`) USING BTREE;
 
 --
--- Indices de la tabla `notes`
---
-ALTER TABLE `notes`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `account` (`account`),
-  ADD KEY `user` (`user`);
-
---
 -- Indices de la tabla `opportunity_areas`
 --
 ALTER TABLE `opportunity_areas`
@@ -1820,12 +1808,6 @@ ALTER TABLE `locations`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de la tabla `notes`
---
-ALTER TABLE `notes`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `opportunity_areas`
 --
 ALTER TABLE `opportunity_areas`
@@ -1835,7 +1817,7 @@ ALTER TABLE `opportunity_areas`
 -- AUTO_INCREMENT de la tabla `opportunity_types`
 --
 ALTER TABLE `opportunity_types`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `promotional_codes`
@@ -1889,7 +1871,7 @@ ALTER TABLE `survey_comments`
 -- AUTO_INCREMENT de la tabla `survey_questions`
 --
 ALTER TABLE `survey_questions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `tasks`
@@ -1954,13 +1936,6 @@ ALTER TABLE `guest_types`
 --
 ALTER TABLE `locations`
   ADD CONSTRAINT `locations_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`);
-
---
--- Filtros para la tabla `notes`
---
-ALTER TABLE `notes`
-  ADD CONSTRAINT `notes_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`),
-  ADD CONSTRAINT `notes_ibfk_2` FOREIGN KEY (`user`) REFERENCES `users` (`id`);
 
 --
 -- Filtros para la tabla `opportunity_areas`

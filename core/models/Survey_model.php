@@ -69,10 +69,10 @@ class Survey_model extends Model
 				'survey_question' => $value['id']
 			]);
 
+			$query[$key]['rate'] = 0;
+
 			if (!empty($fk1))
 			{
-				$query[$key]['rate'] = 0;
-
 				foreach ($fk1 as $subvalue)
 					$query[$key]['rate'] = $query[$key]['rate'] + $subvalue['rate'];
 
@@ -187,18 +187,23 @@ class Survey_model extends Model
 
 	public function get_total_rate_avarage()
 	{
+		$rate = 0;
+
 		$query = $this->database->select('survey_answers', [
 			'rate',
 		], [
 			'account' => Session::get_value('account')['id']
 		]);
 
-		$rate = 0;
+		if (!empty($query))
+		{
+			foreach ($query as $value)
+				$rate = $rate + $value['rate'];
 
-		foreach ($query as $value)
-			$rate = $rate + $value['rate'];
+			$rate = $rate / count($query);
+		}
 
-		return $rate / count($query);
+		return $rate;
 	}
 
 	public function get_chart_data($option)

@@ -1003,9 +1003,10 @@ class Voxes_controller extends Controller
 					<div class="label">
 						<label class="success">
 							<p>{$lang.hour}</p>
-							<div class="time__input">
+							<input type="time" name="started_hour" value="' . $vox['data']['started_hour'] . '" />
+							<!-- <div class="time__input">
 								<input type="text" name="started_hour" class="timepicker" placeholder="{$lang.choose}" value="' . $vox['data']['started_hour'] . '" />
-							</div>
+							</div> -->
 							<p class="description ' . (($vox['type'] == 'incident') ? 'hidden' : '') . '">{$lang.what_hour_need}</p>
 							<p class="description ' . (($vox['type'] == 'request') ? 'hidden' : '') . '">{$lang.what_hour_happened}</p>
 						</label>

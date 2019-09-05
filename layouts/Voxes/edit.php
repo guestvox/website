@@ -4,8 +4,8 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.plugins}date-picker/jquery-ui.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}date-picker/jquery-ui.min.js']);
-$this->dependencies->add(['css', '{$path.plugins}time-picker/timepicker.css']);
-$this->dependencies->add(['js', '{$path.plugins}time-picker/timepicker.js']);
+// $this->dependencies->add(['css', '{$path.plugins}time-picker/timepicker.css']);
+// $this->dependencies->add(['js', '{$path.plugins}time-picker/timepicker.js']);
 $this->dependencies->add(['css', '{$path.plugins}chosen-select/chosen.css']);
 $this->dependencies->add(['js', '{$path.plugins}chosen-select/chosen.jquery.js']);
 // $this->dependencies->add(['css', '{$path.plugins}upload-file/input-file.css']);

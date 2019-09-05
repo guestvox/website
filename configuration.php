@@ -17,7 +17,7 @@ class Configuration
 	 *
      * @var string $domain
      */
-	public static $domain = 'guestvox.com';
+	public static $domain = 'dev.guestvox.com';
 
 	/**
      * Nombre del sitio web.
