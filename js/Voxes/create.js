@@ -172,11 +172,11 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    if ($('[name="type"]').val() == 'request')
+                    if ($('[name="type"]:checked').val() == 'request')
                     {
                         $('[name="lastname"]').val(response.data.LastName);
                     }
-                    else if ($('[name="type"]').val() == 'incident')
+                    else if ($('[name="type"]:checked').val() == 'incident')
                     {
                         $('[name="name"]').val(response.data.Name);
                         $('[name="lastname"]').val(response.data.LastName);
@@ -185,11 +185,11 @@ $(document).ready(function()
                 }
                 else if (response.status == 'error')
                 {
-                    if ($('[name="type"]').val() == 'request')
+                    if ($('[name="type"]:checked').val() == 'request')
                     {
                         $('[name="lastname"]').val('');
                     }
-                    else if ($('[name="type"]').val() == 'incident')
+                    else if ($('[name="type"]:checked').val() == 'incident')
                     {
                         $('[name="name"]').val('');
                         $('[name="lastname"]').val('');
@@ -204,7 +204,7 @@ $(document).ready(function()
     {
         $.ajax({
             type: 'POST',
-            data: 'opportunity_area=' + $(this).val() + '&option=' + $('[name="type"]').val() + '&action=get_opt_opportunity_types',
+            data: 'opportunity_area=' + $(this).val() + '&option=' + $('[name="type"]:checked').val() + '&action=get_opt_opportunity_types',
             processData: false,
             cache: false,
             dataType: 'json',
