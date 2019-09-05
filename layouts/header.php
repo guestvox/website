@@ -51,18 +51,19 @@
                     <a href="/users">{$lang.users}</a>
                 </li>
                 <?php endif; ?>
+
+                <li target="survey">
+                    <a href="/survey">Encuesta</a>
+                </li>
+                <!-- <li target="account">
+                    <a href="/account">Mi cuenta</a>
+                </li> -->
                 <li target="profile">
-                    <a href="/profile">Perfil</a>
+                    <a href="/profile">Mi perfil</a>
                 </li>
-                <li target="tasks">
+                <!-- <li target="tasks">
                     <a href="/tasks">Mis tareas</a>
-                </li>
-                <li target="notes">
-                    <a href="/notes">Notas</a>
-                </li>
-                <li target="surveys">
-                    <a href="/surveys">Encuestas</a>
-                </li>
+                </li> -->
             </ul>
         </nav>
     </section>

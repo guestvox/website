@@ -91,8 +91,8 @@ class Voxes_controller extends Controller
 		{
 			if ($_POST['action'] == 'get_api')
 			{
-				// if (Session::get_value('user')['id'] == 106)
-				// {
+				if (Session::get_value('user')['id'] == 106)
+				{
 					$api = curl_init();
 
 					curl_setopt($api, CURLOPT_URL, 'https://admin.zaviaerp.com/pms/hotels/api/check_room2/?UserName=demo&UserPassword=demo&RoomNumber=' . $this->model->get_room($_POST['room'])['name']);
@@ -115,13 +115,13 @@ class Voxes_controller extends Controller
 							'status' => 'error',
 						]);
 					}
-				// }
-				// else
-				// {
-				// 	Functions::environment([
-				// 		'status' => 'error',
-				// 	]);
-				// }
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+					]);
+				}
 			}
 
 			if ($_POST['action'] == 'get_opt_opportunity_areas')
@@ -198,9 +198,6 @@ class Voxes_controller extends Controller
 				{
 					if (!empty($_POST['subject']) AND strlen($_POST['subject']) > 120)
 						array_push($labels, ['subject','']);
-
-					if (!isset($_POST['description']) OR empty($_POST['description']))
-						array_push($labels, ['description','']);
 				}
 
 				if (empty($labels))
@@ -217,7 +214,7 @@ class Voxes_controller extends Controller
 						else
 							$_POST['assigned_users'] = $this->model->get_users('opportunity_area', $_POST['opportunity_area']);
 
-						$_POST['room'] = (!empty($_POST['room'])) ? $this->model->get_room($_POST['room'])['name'] : 'N/A';
+						$_POST['room'] = $this->model->get_room($_POST['room'])['name'];
 						$_POST['opportunity_area'] = $this->model->get_opportunity_area($_POST['opportunity_area'])['name'][Session::get_value('settings')['language']];
 						$_POST['opportunity_type'] = $this->model->get_opportunity_type($_POST['opportunity_type'])['name'][Session::get_value('settings')['language']];
 						$_POST['location'] = $this->model->get_location($_POST['location'])['name'][Session::get_value('settings')['language']];
@@ -766,7 +763,7 @@ class Voxes_controller extends Controller
 
 				$replace = [
 					'{$type}' => $vox['type'],
-					'{$room}' => (!empty($vox['data']['room'])) ? $vox['data']['room']['name'] : 'N/A',
+					'{$room}' => $vox['data']['room']['name'],
 					'{$opportunity_area}' => $vox['data']['opportunity_area']['name'][Session::get_value('settings')['language']],
 					'{$opportunity_type}' => $vox['data']['opportunity_type']['name'][Session::get_value('settings')['language']],
 					'{$started_date}' => Functions::get_formatted_date($vox['data']['started_date'], 'd F, Y'),
@@ -896,9 +893,6 @@ class Voxes_controller extends Controller
 					{
 						if (!empty($_POST['subject']) AND strlen($_POST['subject']) > 120)
 							array_push($labels, ['subject','']);
-
-						if (!isset($_POST['description']) OR empty($_POST['description']))
-							array_push($labels, ['description','']);
 					}
 
 					if (empty($labels))
@@ -941,24 +935,26 @@ class Voxes_controller extends Controller
 
 				$html =
 				'<div class="span3">
-					<div class="label">
-						<label class="success">
-							<p>{$lang.type}</p>
-							<select name="type">
-								<option value="request" ' . (($vox['type'] == 'request') ? 'selected' : '') . '>{$lang.request}</option>
-								<option value="incident" ' . (($vox['type'] == 'incident') ? 'selected' : '') . '>{$lang.incident}</option>
-							</select>
-						</label>
-					</div>
+					<label class="tmp-1">
+						<span>{$lang.request}</span>
+						<span><i class="fas fa-hand-peace"></i></span>
+						<input type="radio" name="type" value="request" ' . (($vox['type'] == 'request') ? 'checked' : '') . '>
+					</label>
+					<label class="tmp-1">
+						<span>{$lang.incident}</span>
+						<span><i class="fas fa-thumbs-down"></i></span>
+						<input type="radio" name="type" value="incident" ' . (($vox['type'] == 'incident') ? 'checked' : '') . '>
+					</label>
 				</div>
 				<div class="span3">
 					<div class="label">
 						<label class="success" important>
 							<p>{$lang.room}</p>
-							<select name="room">';
+							<select name="room">
+								<option value="" selected hidden>{$lang.choose}</option>';
 
 				foreach ($this->model->get_rooms() as $value)
-					$html .= '<option value="' . $value['id'] . '" ' . ((!empty($vox['data']['room']) AND $vox['data']['room']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'] . '</option>';
+					$html .= '<option value="' . $value['id'] . '" ' . (($vox['data']['room']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'] . '</option>';
 
 				$html .=
 				'			</select>
@@ -1101,7 +1097,7 @@ class Voxes_controller extends Controller
 				</div>
 				<div class="span6 ' . (($vox['type'] == 'request') ? 'hidden' : '') . '">
 					<div class="label">
-						<label important>
+						<label class="success">
 							<p>{$lang.description}</p>
 							<textarea name="description">' . $vox['data']['description'] . '</textarea>
 							<p class="description">{$lang.what_happened} {$lang.dont_forget_mention_relevant_details}</p>
@@ -1135,7 +1131,7 @@ class Voxes_controller extends Controller
 				<div class="span3 ' . (($vox['type'] == 'request') ? 'hidden' : '') . '">
 					<div class="label">
 						<label class="success">
-							<p>{$lang.name}</p>
+							<p>{$lang.firstname}</p>
 							<input type="text" name="name" value="' . $vox['data']['name'] . '"/>
 						</label>
 					</div>

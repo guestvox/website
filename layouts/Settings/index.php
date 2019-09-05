@@ -881,7 +881,7 @@ $this->dependencies->add(['other', '<script>menu_focus("settings");</script>']);
                     <div class="span12">
                         <div class="label">
                             <label>
-                                <p>{$lang.name}</p>
+                                <p>{$lang.firstname}</p>
                                 <input type="text" name="name" />
                             </label>
                         </div>
@@ -925,7 +925,7 @@ $this->dependencies->add(['other', '<script>menu_focus("settings");</script>']);
                     <div class="span12">
                         <div class="label">
                             <label>
-                                <p>{$lang.name}</p>
+                                <p>{$lang.firstname}</p>
                                 <input type="text" name="name" />
                             </label>
                         </div>
@@ -969,7 +969,7 @@ $this->dependencies->add(['other', '<script>menu_focus("settings");</script>']);
                     <div class="span12">
                         <div class="label">
                             <label>
-                                <p>{$lang.name}</p>
+                                <p>{$lang.firstname}</p>
                                 <input type="text" name="name" />
                             </label>
                         </div>
@@ -1013,7 +1013,7 @@ $this->dependencies->add(['other', '<script>menu_focus("settings");</script>']);
                     <div class="span12">
                         <div class="label">
                             <label>
-                                <p>{$lang.name}</p>
+                                <p>{$lang.firstname}</p>
                                 <input type="text" name="name" />
                             </label>
                         </div>

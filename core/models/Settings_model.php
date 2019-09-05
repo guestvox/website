@@ -487,7 +487,7 @@ class Settings_model extends Model
 					$qr_size = 5;
 					$qr_frame_size = 3;
 					$qr_level = 'H';
-					$qr_content = "http://guestvox.com/myvox/" . $qr_code;
+					$qr_content = "http://dev.guestvox.com/myvox/" . $qr_code;
 
 					QRcode::png($qr_content, $qr_dir . $qr_filename, $qr_level, $qr_size, $qr_frame_size);
 

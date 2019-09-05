@@ -4,7 +4,7 @@
         <div class="content">
             <main>
                 <figure>
-                    <img src="{$path.images}check.png">
+                    <img src="{$path.images}check_white.png">
                 </figure>
                 <p></p>
             </main>

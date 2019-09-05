@@ -16,7 +16,7 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
             <a href="https://blog.guestvox.com" class="btn no-border">{$lang.our_blog}</a>
             <a data-button-modal="signup" class="btn">{$lang.signup}</a>
             <a data-button-modal="login" class="btn">{$lang.login}</a>
-            <a href="?<?php if (Session::get_value('lang') == 'es') { $lang = 'en'; } else if (Session::get_value('lang') == 'en') { $lang = 'es'; } echo Language::get_lang_url($lang); ?>" class="btn no-border">{$lang.<?php echo $lang ?>}</a>
+            <a href="?<?php echo Language::get_lang_url(Functions::get_lang(true)); ?>" class="btn no-border">{$lang.<?php echo Functions::get_lang(true) ?>}</a>
         </nav>
         <nav class="reson">
             <a class="btn" data-open-resoff><i class="fas fa-bars"></i></a>
@@ -76,14 +76,34 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
             <a data-button-modal="signup" class="btn">{$lang.signup}</a>
     	</div>
     </section>
-    <section class="ceo">
-        <div>
-            <figure>
-                <img src="{$path.images}basurto.png" alt="">
-            </figure>
+    <section class="team">
+        <div class="item">
+            <div>
+                <figure>
+                    <img src="{$path.images}basurto.png" alt="">
+                </figure>
+            </div>
+            <span><strong>Daniel Basurto</strong></span>
+            <span>{$lang.ceo_founder}</span>
         </div>
-        <span><strong>Daniel Basurto</strong></span>
-        <span>{$lang.ceo_founder}</span>
+        <div class="item">
+            <div>
+                <figure>
+                    <img src="{$path.images}gerson.png" alt="">
+                </figure>
+            </div>
+            <span><strong>Gersón Gómez</strong></span>
+            <span>{$lang.cto}</span>
+        </div>
+        <div class="item">
+            <div>
+                <figure>
+                    <img src="{$path.images}saul.png" alt="">
+                </figure>
+            </div>
+            <span><strong>Saúl Poot</strong></span>
+            <span>{$lang.chief_programmer}</span>
+        </div>
     </section>
 </main>
 <footer class="landing-page">
@@ -107,319 +127,262 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
             <form name="signup">
                 <div class="steps">
                     <div class="step-buttons">
-                        <a class="view"><img src="{$path.images}icon-white.svg" alt="Logotype"></a>
-                        <a class="active">1</a>
-                        <a>2</a>
-                        <a>3</a>
-                        <a>4</a>
-                        <a>5</a>
-                        <a><i class="fas fa-check"></i></a>
+                        <a class="view"><img src="{$path.images}icon-white.svg" alt=""></a>
+                        <a class="view" data-step="1">1</a>
+                        <a data-step="2">2</a>
+                        <a data-step="3">3</a>
+                        <a data-step="4">4</a>
+                        <a data-step="5">5</a>
+                        <a data-step="6"><i class="fas fa-check"></i></a>
                     </div>
-                    <div class="step-container active" data-step="1">
+                    <div class="step-container view" data-step="1">
                         <h2>{$lang.step_1}: {$lang.account_information}</h2>
                         <div class="row">
                             <div class="span6">
-                                <div class="span8">
-                                    <div class="label">
-                                        <label>
-                                            <input type="text" name="hotel" placeholder="{$lang.hotel}">
-                                        </label>
-                                    </div>
+                                <div class="span6">
+                                    <fieldset>
+                                        <input type="text" name="hotel" placeholder="{$lang.hotel}">
+                                    </fieldset>
+                                </div>
+                                <div class="span3">
+                                    <fieldset>
+                                        <input type="number" name="rooms_number" placeholder="{$lang.n_rooms}">
+                                    </fieldset>
+                                </div>
+                                <div class="span3">
+                                    <fieldset>
+                                        <input type="number" name="users_number" placeholder="{$lang.n_users}">
+                                    </fieldset>
                                 </div>
                                 <div class="span4">
-                                    <div class="label">
-                                        <label>
-                                            <select name="currency">
-                                                <option value="" selected hidden>{$lang.currency}</option>
-                                                {$opt_currencies}
-                                            </select>
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <select name="country">
+                                            <option value="" selected hidden>{$lang.country}</option>
+                                            {$opt_countries}
+                                        </select>
+                                    </fieldset>
                                 </div>
                                 <div class="span4">
-                                    <div class="label">
-                                        <label>
-                                            <input type="number" name="rooms_number" placeholder="{$lang.n_rooms}">
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <input type="text" name="cp" placeholder="{$lang.cp}">
+                                    </fieldset>
                                 </div>
                                 <div class="span4">
-                                    <div class="label">
-                                        <label>
-                                            <input type="number" name="users_number" placeholder="{$lang.n_users}">
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <input type="text" name="city" placeholder="{$lang.city}">
+                                    </fieldset>
+                                </div>
+                                <div class="span12">
+                                    <fieldset>
+                                        <input type="text" name="address" placeholder="{$lang.address}">
+                                    </fieldset>
                                 </div>
                                 <div class="span4">
-                                    <div class="label">
-                                        <label>
-                                            <select name="language">
-                                                <option value="" selected hidden>{$lang.language}</option>
-                                                {$opt_languages}
-                                            </select>
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <select name="time_zone">
+                                            <option value="" selected hidden>{$lang.time_zone}</option>
+                                            {$opt_time_zones}
+                                        </select>
+                                    </fieldset>
                                 </div>
                                 <div class="span4">
-                                    <div class="label">
-                                        <label>
-                                            <input type="number" name="cp" placeholder="{$lang.cp}">
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <select name="language">
+                                            <option value="" selected hidden>{$lang.language}</option>
+                                            {$opt_languages}
+                                        </select>
+                                    </fieldset>
                                 </div>
                                 <div class="span4">
-                                    <div class="label">
-                                        <label>
-                                            <select name="country">
-                                                <option value="" selected hidden>{$lang.country}</option>
-                                                {$opt_countries}
-                                            </select>
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <select name="currency">
+                                            <option value="" selected hidden>{$lang.currency}</option>
+                                            {$opt_currencies}
+                                        </select>
+                                    </fieldset>
                                 </div>
-                                <div class="span4">
-                                    <div class="label">
-                                        <label>
-                                            <input type="text" name="city" placeholder="{$lang.city}">
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="span4">
-                                    <div class="label">
-                                        <label>
-                                            <select name="time_zone">
-                                                <option value="" selected hidden>{$lang.time_zone}</option>
-                                                {$opt_time_zones}
-                                            </select>
-                                            <!-- <div data-select-select>
-                                                <div data-select-preview>
-                                                    <input type="text" name="time_zone" data-select-value>
-                                                    <input type="text" placeholder="{$lang.time_zone}" data-select-typer>
-                                                </div>
-                                                <div data-select-search>
-                                                    <a data-select-close>{$lang.close}</a>
-                                                    {$opt_time_zones}
-                                                </div>
-                                            </div> -->
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="span8">
-                                    <div class="label">
-                                        <label>
-                                            <input type="text" name="address" placeholder="{$lang.address}">
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="span12 hidden">
-                                    <div class="label">
-                                        <label>
-                                            <div id="map" class="map"></div>
-                                        </label>
-                                    </div>
-                                </div>
+                                <!-- <div class="span12 hidden">
+                                    <div id="map" class="map"></div>
+                                </div> -->
                             </div>
                             <div class="span3 hidden">
-                                <article id="room_package" class="package">
+                                <div class="package" id="room_package">
                                     <span><i class="fas fa-star"></i></span>
                                     <h3><strong></strong> {$lang.rooms}</h3>
                                     <h4><strong></strong> {$lang.per_month}</h4>
-                                </article>
+                                </div>
                             </div>
                             <div class="span3 hidden">
-                                <article id="user_package" class="package">
+                                <div class="package" id="user_package">
                                     <span><i class="fas fa-users"></i></span>
                                     <h3><strong></strong> {$lang.users}</h3>
                                     <h4><strong></strong> {$lang.per_month}</h4>
-                                </article>
+                                </div>
                             </div>
                         </div>
-                        <a class="btn" data-action="go_to_step" data-step="2">{$lang.next}</a>
+                        <a class="btn" data-action="go_to_step">{$lang.next}</a>
+                        <a button-cancel>{$lang.cancel}</a>
                     </div>
                     <div class="step-container" data-step="2">
                         <h2>{$lang.step_2}: {$lang.logotype}</h2>
-                        <div class="label">
-                            <div class="uploader">
-                                <figure class="round big">
-                                    <img src="{$path.images}empty.png" alt="Logotype">
-                                    <a data-image-select><i class="fas fa-upload"></i></a>
-                                </figure>
-                                <input type="file" name="logotype" accept="image/*" data-image-upload>
+                        <div class="row">
+                            <div class="span6">
+                                <div class="uploader">
+                                    <figure>
+                                        <img src="{$path.images}empty.png" alt="" data-image-preview>
+                                        <a data-image-select><i class="fas fa-upload"></i></a>
+                                    </figure>
+                                    <input type="file" name="logotype" accept="image/*" data-image-upload>
+                                </div>
                             </div>
                         </div>
-                        <a class="btn" data-action="go_to_step" data-step="3">{$lang.next}</a>
-                        <a class="btn skip" data-action="go_to_step" data-step="3">{$lang.skip}</a>
+                        <a class="btn" data-action="go_to_step">{$lang.next}</a>
+                        <a button-cancel>{$lang.cancel}</a>
                     </div>
                     <div class="step-container" data-step="3">
                         <h2>{$lang.step_3}: {$lang.billing_information}</h2>
                         <div class="row">
                             <div class="span6">
-                                <div class="span12">
-                                    <div class="label">
-                                        <h3><i class="fas fa-chevron-right"></i>{$lang.fiscal_information}</h3>
-                                    </div>
+                                <div class="span6">
+                                    <fieldset>
+                                        <input type="text" name="fiscal_id" placeholder="{$lang.fiscal_id}">
+                                    </fieldset>
                                 </div>
                                 <div class="span6">
-                                    <div class="label">
-                                        <label>
-                                            <input type="text" name="fiscal_id" placeholder="{$lang.fiscal_id}">
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="span6">
-                                    <div class="label">
-                                        <label>
-                                            <input type="text" name="fiscal_name" placeholder="{$lang.fiscal_name}">
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <input type="text" name="fiscal_name" placeholder="{$lang.fiscal_name}">
+                                    </fieldset>
                                 </div>
                                 <div class="span12">
-                                    <div class="label">
-                                        <label>
-                                            <input type="text" name="fiscal_address" placeholder="{$lang.fiscal_address}">
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="span12">
-                                    <div class="label">
-                                        <h3><i class="fas fa-chevron-right"></i>{$lang.contact_information}</h3>
-                                    </div>
+                                    <fieldset>
+                                        <input type="text" name="fiscal_address" placeholder="{$lang.fiscal_address}">
+                                    </fieldset>
                                 </div>
                                 <div class="span6">
-                                    <div class="label">
-                                        <label>
-                                            <input type="text" name="contact_name" placeholder="{$lang.name}">
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <input type="text" name="contact" placeholder="{$lang.contact}">
+                                    </fieldset>
                                 </div>
                                 <div class="span6">
-                                    <div class="label">
-                                        <label>
-                                            <input type="text" name="contact_department" placeholder="{$lang.department}">
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <input type="text" name="department" placeholder="{$lang.department}">
+                                    </fieldset>
                                 </div>
                                 <div class="span4">
-                                    <div class="label">
-                                        <label>
-                                            <select name="contact_lada">
-                                                <option value="" selected hidden>{$lang.lada}</option>
-                                                {$opt_ladas}
-                                            </select>
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <select name="contact_lada">
+                                            <option value="" selected hidden>{$lang.lada}</option>
+                                            {$opt_ladas}
+                                        </select>
+                                    </fieldset>
                                 </div>
                                 <div class="span8">
-                                    <div class="label">
-                                        <label>
-                                            <input type="text" name="contact_phone_number" placeholder="{$lang.phone_number}">
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <input type="text" name="contact_phone" placeholder="{$lang.phone}">
+                                    </fieldset>
                                 </div>
                                 <div class="span12">
-                                    <div class="label">
-                                        <label>
-                                            <input type="email" name="contact_email" placeholder="{$lang.email}">
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <input type="email" name="contact_email" placeholder="{$lang.email}">
+                                    </fieldset>
                                 </div>
                             </div>
                         </div>
-                        <a data-action="go_to_step" data-step="4">{$lang.next}</a>
+                        <a class="btn" data-action="go_to_step">{$lang.next}</a>
+                        <a button-cancel>{$lang.cancel}</a>
                     </div>
                     <div class="step-container" data-step="4">
                         <h2>{$lang.step_4}: {$lang.user_information}</h2>
                         <div class="row">
                             <div class="span6">
                                 <div class="span6">
-                                    <div class="label">
-                                        <label>
-                                            <input type="text" name="name" placeholder="{$lang.name}">
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <input type="text" name="firstname" placeholder="{$lang.firstname}">
+                                    </fieldset>
                                 </div>
                                 <div class="span6">
-                                    <div class="label">
-                                        <label>
-                                            <input type="text" name="lastname" placeholder="{$lang.lastname}">
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <input type="text" name="lastname" placeholder="{$lang.lastname}">
+                                    </fieldset>
                                 </div>
                                 <div class="span4">
-                                    <div class="label">
-                                        <label>
-                                            <select name="country_code">
-                                                <option value="" selected hidden>{$lang.lada}</option>
-                                                {$opt_ladas}
-                                            </select>
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <select name="lada">
+                                            <option value="" selected hidden>{$lang.lada}</option>
+                                            {$opt_ladas}
+                                        </select>
+                                    </fieldset>
                                 </div>
                                 <div class="span8">
-                                    <div class="label">
-                                        <label>
-                                            <input type="text" name="phone_number" placeholder="{$lang.phone_number}">
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <input type="text" name="phone" placeholder="{$lang.phone}">
+                                    </fieldset>
                                 </div>
                                 <div class="span12">
-                                    <div class="label">
-                                        <label>
-                                            <input type="email" name="email" placeholder="{$lang.email}">
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="separator"></div>
-                                <div class="span6">
-                                    <div class="label">
-                                        <label>
-                                            <input type="text" name="username" placeholder="{$lang.username}">
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <input type="email" name="email" placeholder="{$lang.email}">
+                                    </fieldset>
                                 </div>
                                 <div class="span6">
-                                    <div class="label">
-                                        <label>
-                                            <input type="password" name="password" placeholder="{$lang.password}">
-                                        </label>
-                                    </div>
+                                    <fieldset>
+                                        <input type="text" name="username" placeholder="{$lang.username}">
+                                    </fieldset>
+                                </div>
+                                <div class="span6">
+                                    <fieldset>
+                                        <input type="password" name="password" placeholder="{$lang.password}">
+                                    </fieldset>
                                 </div>
                             </div>
                         </div>
-                        <a data-action="go_to_step" data-step="5">{$lang.next}</a>
+                        <a class="btn" data-action="go_to_step">{$lang.next}</a>
+                        <a button-cancel>{$lang.cancel}</a>
                     </div>
                     <div class="step-container" data-step="5">
-                        <h2>{$lang.step_5}: {$lang.payment}</h2>
+                        <h2>{$lang.step_5}: {$lang.payment_information}</h2>
                         <div class="row">
-
+                            <div class="span6">
+                                <div class="package" id="total_package">
+                                    <span><i class="fas fa-credit-card"></i></span>
+                                    <h3>{$lang.total}</h3>
+                                    <h4><strong></strong> {$lang.per_month}</h4>
+                                </div>
+                                <div class="payment">
+                                    <!-- <label>
+                                        <figure>
+                                            <img src="{$path.images}mercado_pago.png" alt="">
+                                        </figure>
+                                        <input type="radio" name="payment" value="mercado_pago">
+                                    </label> -->
+                                    <label>
+                                        <figure>
+                                            <img src="{$path.images}paypal.png" alt="">
+                                        </figure>
+                                        <input type="radio" name="payment" value="paypal" checked>
+                                    </label>
+                                </div>
+                                <fieldset>
+                                    <input type="text" name="promotional_code" placeholder="{$lang.apply_promotional_code}">
+                                </fieldset>
+                            </div>
                         </div>
-                        <a data-action="signup">{$lang.signup}</a>
+                        <a class="btn" data-action="go_to_step">{$lang.next}</a>
+                        <a button-cancel>{$lang.cancel}</a>
+                    </div>
+                    <div class="step-container" data-step="6">
+                        <div class="row">
+                            <div class="span6">
+                                <div class="success">
+                                    <figure>
+                                        <img src="{$path.images}check_color.png" alt="">
+                                    </figure>
+                                    <p>{$lang.for_activate_your_account}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="btn" data-action="go_to_step">{$lang.next}</a>
                     </div>
                 </div>
-
-                <!-- <div class="row">
-                    <div class="span12">
-                        <div class="label">
-                            <label>
-                                <select name="language">
-                                    <option value="es" <?php if (Session::get_value('lang') == 'es') : echo 'selected'; endif; ?>>Español</option>
-                                    <option value="en" <?php if (Session::get_value('lang') == 'en') : echo 'selected'; endif; ?>>English</option>
-                                </select>
-                                <p class="description">{$lang.language}</p>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span12">
-                        <div class="label">
-                            <label>
-                                <input type="text" name="promotional_code" disabled>
-                            </label>
-                            <input type="checkbox" name="apply_promotional_code">
-                            <span>{$lang.apply_promotional_code}</span>
-                        </div>
-                    </div>
-                    <div class="separator"></div>
-                </div> -->
             </form>
         </main>
     </div>
@@ -431,18 +394,14 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
                 <figure>
                     <img src="{$path.images}icon-color.svg" alt="">
                 </figure>
-                <div class="label">
-                    <label>
-                        <input type="text" name="username" placeholder="{$lang.username} {$lang.or} {$lang.email}" />
-                    </label>
-                </div>
-                <div class="label">
-                    <label>
-                        <input type="password" name="password" placeholder="{$lang.password}" />
-                    </label>
-                </div>
+                <fieldset>
+                    <input type="text" name="username" placeholder="{$lang.username_or_email}" />
+                </fieldset>
+                <fieldset>
+                    <input type="password" name="password" placeholder="{$lang.password}" />
+                </fieldset>
                 <button type="submit">{$lang.login}</button>
-                <a button-close>{$lang.close}</a>
+                <a button-cancel>{$lang.cancel}</a>
             </form>
         </main>
     </div>

@@ -25,15 +25,16 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                     <form name="new_vox">
                         <div class="row">
                             <div class="span3">
-                                <div class="label">
-                                    <label class="success">
-                                        <p>{$lang.type}</p>
-                                        <select name="type">
-                                            <option value="request">{$lang.request}</option>
-                                            <option value="incident">{$lang.incident}</option>
-                                        </select>
-                                    </label>
-                                </div>
+                                <label class="tmp-1">
+                                    <span>{$lang.request}</span>
+                                    <span><i class="fas fa-hand-peace"></i></span>
+                                    <input type="radio" name="type" value="request" checked>
+                                </label>
+                                <label class="tmp-1">
+                                    <span>{$lang.incident}</span>
+                                    <span><i class="fas fa-thumbs-down"></i></span>
+                                    <input type="radio" name="type" value="incident">
+                                </label>
                             </div>
                             <div class="span3">
                                 <div class="label">
@@ -165,7 +166,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             </div>
                             <div class="span6 hidden">
                                 <div class="label">
-                                    <label important>
+                                    <label class="success">
                                         <p>{$lang.description}</p>
                                         <textarea name="description"></textarea>
                                         <p class="description">{$lang.what_happened} {$lang.dont_forget_mention_relevant_details}</p>
@@ -195,7 +196,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             <div class="span3 hidden">
                                 <div class="label">
                                     <label class="success">
-                                        <p>{$lang.name}</p>
+                                        <p>{$lang.firstname}</p>
                                         <input type="text" name="name" />
                                     </label>
                                 </div>

@@ -33,7 +33,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                                 <table id="users_activate" class="table">
                                     <thead>
                                         <tr>
-                                            <th align="left">{$lang.name}</th>
+                                            <th align="left">{$lang.firstname}</th>
                                             <th align="left">{$lang.email}</th>
                                             <th align="left">{$lang.cellphone}</th>
                                             <th align="left">{$lang.username}</th>
@@ -68,7 +68,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                                     <div class="span2">
                                         <div class="label">
                                             <label>
-                                                <p>{$lang.name}</p>
+                                                <p>{$lang.firstname}</p>
                                                 <input type="text" name="name" />
                                             </label>
                                         </div>
@@ -160,7 +160,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                                 <table id="users_deactivate" class="table">
                                     <thead>
                                         <tr>
-                                            <th align="left">{$lang.name}</th>
+                                            <th align="left">{$lang.firstname}</th>
                                             <th align="left">{$lang.email}</th>
                                             <th align="left">{$lang.cellphone}</th>
                                             <th align="left">{$lang.username}</th>
@@ -190,7 +190,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                                 <table id="users_levels" class="table">
                                     <thead>
                                         <tr>
-                                            <th align="left">{$lang.name}</th>
+                                            <th align="left">{$lang.firstname}</th>
                                             <?php if (Functions::check_access(['{userlevels_delete}']) == true) : ?>
                                             <th align="right" class="icon"></th>
                                             <?php endif; ?>
@@ -213,7 +213,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                                 <div class="span12">
                                     <div class="label">
                                         <label>
-                                            <p>{$lang.name}</p>
+                                            <p>{$lang.firstname}</p>
                                             <input type="text" name="name" />
                                         </label>
                                     </div>
@@ -255,7 +255,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                     <div class="span6">
                         <div class="label">
                             <label>
-                                <p>{$lang.name}</p>
+                                <p>{$lang.firstname}</p>
                                 <input type="text" name="name" />
                             </label>
                         </div>
@@ -407,7 +407,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                     <div class="span12">
                         <div class="label">
                             <label>
-                                <p>{$lang.name}</p>
+                                <p>{$lang.firstname}</p>
                                 <input type="text" name="name" />
                             </label>
                         </div>

@@ -89,16 +89,49 @@ class Functions
     // Currency
     // ---
 
-    static public function get_formatted_currency($number = 0)
+    static public function get_formatted_currency($number = 0, $currency = 'MXN')
     {
         if (!empty($number))
-            return '$ ' . number_format($number, 2, '.', ',') . ' ' . 'MXN';
+            return '$ ' . number_format($number, 2, '.', ',') . ' ' . $currency;
         else
-            return '$ 0.00 MXN';
+            return '$ 0.00 ' . $currency;
     }
 
-    static public function get_currency_exchange($number = 0, $currency = 'MXN')
+    static public function get_currency_exchange($number = 1, $from = 'MXN', $to = 'USD')
     {
+        $exchange = 0;
+
+        $client =  new SoapClient(null, array(
+            'location' => 'http://www.banxico.org.mx:80/DgieWSWeb/DgieWS?WSDL',
+            'uri'      => 'http://DgieWSWeb/DgieWS?WSDL',
+            'encoding' => 'ISO-8859-1',
+            'trace'    => false
+        ));
+
+        try
+        {
+            $result = $client->tiposDeCambioBanxico();
+        }
+        catch (SoapFault $e)
+        {
+            return $e->getMessage();
+        }
+
+        if (!empty($result))
+        {
+            $domdocument = new DOMDocument();
+            $domdocument->loadXML($result);
+            $domxpath = new DOMXPath($domdocument);
+            $domxpath->registerNamespace('bm', 'http://ws.dgie.banxico.org.mx');
+            $exchange = $domxpath->evaluate("//*[@IDSERIE='SF60653']/*/@OBS_VALUE");
+            $exchange = $exchange->item(0)->value;
+
+            if ($from == 'MXN' AND $to == 'USD')
+                $exchange = $number / $exchange;
+            else if ($from == 'USD' AND $to == 'MXN')
+                $exchange = $number * $exchange;
+        }
+
         // $api = curl_init();
         //
         // curl_setopt($api, CURLOPT_URL, 'https://xecdapi.xe.com/v1/convert_to.json/?to=USD&from=MXN&amount=2');
@@ -125,32 +158,7 @@ class Functions
         // print_r($data);
         // print_r('lol');
 
-        // $client =  new SoapClient(null, array(
-        //     'location' => 'http://www.banxico.org.mx:80/DgieWSWeb/DgieWS?WSDL',
-        //     'uri'      => 'http://DgieWSWeb/DgieWS?WSDL',
-        //     'encoding' => 'ISO-8859-1',
-        //     'trace'    => false
-        // ));
-        //
-        // try
-        // {
-        //     $result = $client->tiposDeCambioBanxico();
-        // }
-        // catch (SoapFault $e)
-        // {
-        //     return $e->getMessage();
-        // }
-        //
-        // if (!empty($result))
-        // {
-        //     $dom = new DOMDocument();
-        //     $dom->loadXML($result);
-        //     $xpath = new DOMXPath($dom);
-        //     $xpath->registerNamespace('bm', 'http://ws.dgie.banxico.org.mx');
-        //     $val = $xpath->evaluate("//*[@IDSERIE='SF60653']/*/@OBS_VALUE");
-        //     // return ($val->item(0)->value);
-        //     print_r($val->item(0)->value);
-        // }
+        return $exchange;
     }
 
     // ---
@@ -260,6 +268,26 @@ class Functions
     // ---
     // Others
     // ---
+
+    static public function get_lang($inv = false)
+    {
+        if ($inv == true)
+        {
+            if (Session::get_value('lang') == 'es')
+                return 'en';
+            else if (Session::get_value('lang') == 'en')
+                return 'es';
+        }
+        else
+            return Session::get_value('lang');
+    }
+
+    public static function get_random($length)
+    {
+        $security = new Security;
+
+        return !empty($length) ? strtoupper($security->random_string($length)) : null;
+    }
 
     static public function environment($return)
     {

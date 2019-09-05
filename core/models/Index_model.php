@@ -65,29 +65,54 @@ class Index_model extends Model
 		return $query;
 	}
 
-	// public function get_room_package($data)
-	// {
-	// 	$query = $this->database->select('room_packages', '*', [
-	// 		'AND' => [
-	// 			'quantity_start[<=]' => $data['rooms_number''],
-	// 			'quantity_end[>=]' => $data['rooms_number''],
-	// 		]
-	// 	]);
-	//
-	// 	return (!empty($query)) ? $query[0] : null;
-	// }
+	public function get_packages($data)
+	{
+		$query = [];
 
-	// public function get_user_package($data)
-	// {
-	// 	$query = $this->database->select('user_packages', '*', [
-	// 		'AND' => [
-	// 			'quantity_start[<=]' => $data['users_number''],
-	// 			'quantity_end[>=]' => $data['users_number''],
-	// 		]
-	// 	]);
-	//
-	// 	return (!empty($query)) ? $query[0] : null;
-	// }
+		$query['room_package'] = [];
+		$query['user_package'] = [];
+
+		$t1 = 0;
+		$t2 = 0;
+
+		$p1 = $this->database->select('room_packages', [
+			'id',
+			'quantity_end',
+			'price',
+		], [
+			'AND' => [
+				'quantity_start[<=]' => $data['rooms_number'],
+				'quantity_end[>=]' => $data['rooms_number'],
+			]
+		]);
+
+		if (!empty($p1))
+		{
+			$query['room_package'] = $p1[0];
+			$t1 = $p1[0]['price'];
+		}
+
+		$p2 = $this->database->select('user_packages', [
+			'id',
+			'quantity_end',
+			'price',
+		], [
+			'AND' => [
+				'quantity_start[<=]' => $data['users_number'],
+				'quantity_end[>=]' => $data['users_number'],
+			]
+		]);
+
+		if (!empty($p2))
+		{
+			$query['user_package'] = $p2[0];
+			$t2 = $p2[0]['price'];
+		}
+
+		$query['total'] = $t1 + $t2;
+
+		return $query;
+	}
 
 	// public function new_signup($data)
 	// {

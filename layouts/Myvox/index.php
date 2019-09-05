@@ -9,7 +9,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
 <header class="my-vox">
     <div class="topbar">
         <figure class="logotype">
-            <img src="{$path.images}tmp/casablanca.png" alt="Logotype">
+            <img src="{$logotype}" alt="">
         </figure>
     </div>
     <div class="bottombar">
@@ -33,11 +33,11 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
         <h2>{$lang.how_may_i_help_you}</h2>
         <a data-button-modal="new_incident">{$lang.i_want_to_leave_a_comment}</a>
         <a data-button-modal="new_request">{$lang.make_a_request}</a>
-        <a data-button-modal="new_survey_answers" class="survey">{$lang.answer_survey_right_now}<img src="{$path.images}gift.png" alt="Gift"></a>
+        <a data-button-modal="new_survey_answers" class="survey">{$survey_title}<img src="{$path.images}gift.png" alt=""></a>
     </div>
 </main>
 <footer class="my-vox">
-    <h4>Powered by <img src="{$path.images}logotype-color.png" alt="GuestVox"></h4>
+    <h4>Powered by <img src="{$path.images}logotype-color.png" alt=""></h4>
     <p>{$lang.copyright}</p>
 </footer>
 <section class="modal" data-modal="new_request">
@@ -222,6 +222,40 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
         <main>
             <form name="new_survey_answers">
                 {$art_survey_questions}
+                <div class="row">
+                    <div class="span12">
+                        <div class="label">
+                            <label important>
+                                <p>{$lang.comments}</p>
+                                <textarea name="comment"></textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label important>
+                                <p>{$lang.firstname}</p>
+                                <input type="text" name="firstname">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label important>
+                                <p>{$lang.lastname}</p>
+                                <input type="text" name="lastname">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label important>
+                                <p>{$lang.email}</p>
+                                <input type="email" name="email">
+                            </label>
+                        </div>
+                    </div>
+                </div>
             </form>
         </main>
         <footer>
@@ -232,21 +266,25 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
         </footer>
     </div>
 </section>
-<section class="modal" data-modal="new_comment_tripadvisor">
+<section class="modal" data-modal="tripadvisor">
     <div class="content">
         <header>
-            <h3>{$lang.answer_survey_right_now}</h3>
+            <h3>TripAdvisor</h3>
         </header>
         <main>
-            <div id="TA_cdswritereviewlg4" class="TA_cdswritereviewlg">
+            <div id="TA_cdswritereviewlg4" class="TA_cdswritereviewlg" style="width:100%;">
                 <ul id="I7hJOKLd" class="TA_links FJfwMuzhhq">
                     <li id="SnaJrr" class="KBMX9k">
-                    <a target="_blank" href="https://www.tripadvisor.com.mx/"><img src="https://www.tripadvisor.com.mx/img/cdsi/img2/branding/medium-logo-12097-2.png" alt="TripAdvisor"/></a>
+                        <a target="_blank" href="https://www.tripadvisor.com.mx/"><img src="https://www.tripadvisor.com.mx/img/cdsi/img2/branding/medium-logo-12097-2.png" alt=""/></a>
                     </li>
                 </ul>
             </div>
-            <script async src="https://www.jscache.com/wejs?wtype=cdswritereviewlg&amp;uniq=4&amp;locationId=154652&amp;lang=es_MX&amp;lang=es_MX&amp;display_version=2" data-loadtrk onload="this.loadtrk=true">
-            </script>
+            <script async src="https://www.jscache.com/wejs?wtype=cdswritereviewlg&amp;uniq=4&amp;locationId=154652&amp;lang=es_MX&amp;lang=es_MX&amp;display_version=2" data-loadtrk onload="this.loadtrk=true"></script>
         </main>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn" button-close>{$lang.close}</button>
+            </div>
+        </footer>
     </div>
 </section>

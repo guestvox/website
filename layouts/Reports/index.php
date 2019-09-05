@@ -164,7 +164,7 @@ $this->dependencies->add(['other', '<script>menu_focus("reports");</script>']);
                                     <div class="span2">
                                         <div class="label">
                                             <label>
-                                                <p>{$lang.name}</p>
+                                                <p>{$lang.firstname}</p>
                                                 <input type="text" name="name" />
                                             </label>
                                         </div>
@@ -303,7 +303,7 @@ $this->dependencies->add(['other', '<script>menu_focus("reports");</script>']);
                                 <table id="reports" class="table">
                                     <thead>
                                         <tr>
-                                            <th align="left">{$lang.name}</th>
+                                            <th align="left">{$lang.firstname}</th>
                                             <th align="right" class="icon"></th>
                                         </tr>
                                     </thead>

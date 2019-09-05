@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 22-08-2019 a las 02:13:53
--- Versión del servidor: 10.1.30-MariaDB
--- Versión de PHP: 7.0.27
+-- Servidor: localhost:3306
+-- Tiempo de generación: 04-09-2019 a las 21:12:08
+-- Versión del servidor: 10.0.38-MariaDB-0+deb8u1
+-- Versión de PHP: 7.1.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -781,16 +781,6 @@ CREATE TABLE `reports` (
   `fields` longtext CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `reports`
---
-
-INSERT INTO `reports` (`id`, `account`, `name`, `type`, `opportunity_area`, `opportunity_type`, `room`, `location`, `order`, `time_period`, `addressed_to`, `addressed_to_opportunity_areas`, `addressed_to_user`, `fields`) VALUES
-(1, 1, 'Reporte 1', 'all', NULL, NULL, NULL, NULL, 'room', 1, 'all', NULL, NULL, '[\"type\",\"room\",\"opportunity_area\",\"opportunity_type\",\"started_date_hour\",\"location\",\"cost\",\"urgency\",\"confidentiality\",\"observations\",\"subject\",\"assigned_users\",\"description\",\"action_taken\",\"guest_treatment_name_lastname\",\"guest_id\",\"guest_type\",\"reservation_number\",\"reservation_status\",\"check_in_check_out\",\"attachments\",\"status\",\"origin\",\"created_user_date_hour\",\"edited_user_date_hour\",\"completed_user_date_hour\",\"reopened_user_date_hour\",\"comments\",\"viewed_by\",\"average_resolution\"]'),
-(2, 1, 'Reporte 2', 'all', NULL, NULL, NULL, NULL, 'room', 1, 'opportunity_areas', '[\"1\",\"2\",\"3\",\"4\"]', NULL, '[\"type\",\"room\",\"opportunity_area\",\"opportunity_type\",\"started_date_hour\",\"location\",\"cost\",\"urgency\",\"confidentiality\",\"observations\",\"subject\",\"assigned_users\",\"description\",\"action_taken\",\"guest_treatment_name_lastname\",\"guest_id\",\"guest_type\",\"reservation_number\",\"reservation_status\",\"check_in_check_out\",\"attachments\",\"status\",\"origin\",\"created_user_date_hour\",\"edited_user_date_hour\",\"completed_user_date_hour\",\"reopened_user_date_hour\",\"comments\",\"viewed_by\",\"average_resolution\"]'),
-(3, 1, 'Reporte 3', 'request', 1, 1, 1, 1, 'room', 1, 'all', NULL, NULL, '[\"room\",\"opportunity_area\",\"opportunity_type\",\"started_date_hour\",\"location\",\"urgency\",\"observations\",\"assigned_users\",\"guest_treatment_name_lastname\",\"attachments\",\"status\",\"origin\",\"created_user_date_hour\",\"edited_user_date_hour\",\"completed_user_date_hour\",\"reopened_user_date_hour\",\"comments\",\"viewed_by\",\"average_resolution\"]'),
-(4, 1, 'Reporte 4', 'all', NULL, NULL, NULL, NULL, 'room', 1, 'me', NULL, 1, '[\"type\",\"room\",\"opportunity_area\",\"opportunity_type\",\"started_date_hour\",\"location\",\"cost\",\"urgency\",\"confidentiality\",\"observations\",\"subject\",\"assigned_users\",\"description\",\"action_taken\",\"guest_treatment_name_lastname\",\"guest_id\",\"guest_type\",\"reservation_number\",\"reservation_status\",\"check_in_check_out\",\"attachments\",\"status\",\"origin\",\"created_user_date_hour\",\"edited_user_date_hour\",\"completed_user_date_hour\",\"reopened_user_date_hour\",\"comments\",\"viewed_by\",\"average_resolution\"]');
-
 -- --------------------------------------------------------
 
 --
@@ -829,16 +819,6 @@ CREATE TABLE `rooms` (
   `qr` text CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Volcado de datos para la tabla `rooms`
---
-
-INSERT INTO `rooms` (`id`, `account`, `code`, `name`, `qr`) VALUES
-(1, 1, 'IWLMJBUA', '1', '{\"name\":\"qr_IwlMjbuA.png\",\"code\":\"IwlMjbuA\"}'),
-(2, 1, 'RIJ9VLHQ', '2', '{\"name\":\"qr_rij9Vlhq.png\",\"code\":\"rij9Vlhq\"}'),
-(3, 1, 'Y6PCQJWG', '3', '{\"name\":\"qr_y6pCqJWg.png\",\"code\":\"y6pCqJWg\"}'),
-(4, 1, 'TJBQFBRP', '4', '{\"name\":\"qr_TJbQFbrP.png\",\"code\":\"TJbQFbrP\"}');
-
 -- --------------------------------------------------------
 
 --
@@ -871,22 +851,32 @@ CREATE TABLE `settings` (
   `id` bigint(20) NOT NULL,
   `account` bigint(20) NOT NULL,
   `private_key` longtext CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `currency` varchar(4) NOT NULL,
-  `language` enum('es','en') CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `country` varchar(4) NOT NULL,
-  `time_zone` text NOT NULL,
-  `sms` int(11) NOT NULL,
   `room_package` bigint(20) DEFAULT NULL,
   `user_package` bigint(20) DEFAULT NULL,
-  `promotional_code` varchar(8) DEFAULT NULL
+  `country` varchar(4) NOT NULL,
+  `cp` varchar(5) NOT NULL,
+  `city` text NOT NULL,
+  `address` text NOT NULL,
+  `time_zone` text NOT NULL,
+  `language` enum('es','en') CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
+  `currency` varchar(4) NOT NULL,
+  `logotype` text,
+  `fiscal_id` text NOT NULL,
+  `fiscal_name` text NOT NULL,
+  `fiscal_address` text NOT NULL,
+  `contact` text NOT NULL,
+  `payment` enum('paypal') NOT NULL,
+  `promotional_code` varchar(8) DEFAULT NULL,
+  `sms` int(11) NOT NULL,
+  `survey_title` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `settings`
 --
 
-INSERT INTO `settings` (`id`, `account`, `private_key`, `currency`, `language`, `country`, `time_zone`, `sms`, `room_package`, `user_package`, `promotional_code`) VALUES
-(1, 1, 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7', '', 'es', '', '32', 0, NULL, NULL, NULL);
+INSERT INTO `settings` (`id`, `account`, `private_key`, `room_package`, `user_package`, `country`, `cp`, `city`, `address`, `time_zone`, `language`, `currency`, `logotype`, `fiscal_id`, `fiscal_name`, `fiscal_address`, `contact`, `payment`, `promotional_code`, `sms`, `survey_title`) VALUES
+(1, 1, 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7', 3, 3, 'MEX', '77500', 'Cancún', 'Cancún Centro', 'America/Cancun', 'es', 'MXN', 'guestvox.png', 'AAAA001122MH8', 'GuestVox S.A.P.I. de C.V.', 'Cancún Centro', '', 'paypal', NULL, 0, '{\"es\":\"Responde nuestra encuesta y gana un vino\",\"en\":\"Answer our survey and win a wine\"}');
 
 -- --------------------------------------------------------
 
@@ -900,24 +890,24 @@ CREATE TABLE `survey_answers` (
   `room` bigint(20) NOT NULL,
   `survey_question` bigint(20) NOT NULL,
   `rate` int(11) NOT NULL,
-  `date` date NOT NULL
+  `date` date NOT NULL,
+  `token` char(6) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `survey_answers`
+-- Estructura de tabla para la tabla `survey_comments`
 --
 
-INSERT INTO `survey_answers` (`id`, `account`, `room`, `survey_question`, `rate`, `date`) VALUES
-(1, 1, 1, 1, 3, '2019-08-21'),
-(2, 1, 1, 2, 3, '2019-08-21'),
-(3, 1, 1, 3, 3, '2019-08-21'),
-(4, 1, 1, 4, 3, '2019-08-21'),
-(5, 1, 1, 5, 3, '2019-08-21'),
-(6, 1, 1, 1, 5, '2019-08-21'),
-(7, 1, 1, 2, 5, '2019-08-21'),
-(8, 1, 1, 3, 5, '2019-08-21'),
-(9, 1, 1, 4, 5, '2019-08-21'),
-(10, 1, 1, 5, 5, '2019-08-21');
+CREATE TABLE `survey_comments` (
+  `id` bigint(20) NOT NULL,
+  `account` bigint(20) NOT NULL,
+  `room` bigint(20) NOT NULL,
+  `comment` text COLLATE utf8_spanish_ci NOT NULL,
+  `date` date NOT NULL,
+  `token` char(6) COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -928,19 +918,9 @@ INSERT INTO `survey_answers` (`id`, `account`, `room`, `survey_question`, `rate`
 CREATE TABLE `survey_questions` (
   `id` bigint(20) NOT NULL,
   `account` bigint(20) NOT NULL,
-  `question` longtext COLLATE utf8_spanish_ci NOT NULL
+  `question` longtext COLLATE utf8_spanish_ci NOT NULL,
+  `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
---
--- Volcado de datos para la tabla `survey_questions`
---
-
-INSERT INTO `survey_questions` (`id`, `account`, `question`) VALUES
-(1, 1, '{\"es\":\"Pregunta 1\",\"en\":\"Question 1\"}'),
-(2, 1, '{\"es\":\"Pregunta 2\",\"en\":\"Question 2\"}'),
-(3, 1, '{\"es\":\"Pregunta 3\",\"en\":\"Question 3\"}'),
-(4, 1, '{\"es\":\"Pregunta 4\",\"en\":\"Question 4\"}'),
-(5, 1, '{\"es\":\"Pregunta 5\",\"en\":\"Question 5\"}');
 
 -- --------------------------------------------------------
 
@@ -1432,8 +1412,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `account`, `name`, `lastname`, `email`, `cellphone`, `username`, `password`, `temporal_password`, `user_level`, `user_permissions`, `opportunity_areas`, `status`) VALUES
 (1, 1, 'Gersón', 'Gómez', 'gerson@guestvox.com', '9988701057', 'gerson@guestvox.com', 'f53d6dd0204f8b2faaf10f1ccad212025ebc73f6:1X5m1Nx9jm4ugQTWmKOAat7eX8yreg6VfNVPiphTMSxiEZZyY1TOgs63vu4NupDT', NULL, 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1),
-(2, 1, 'Saúl', 'Poot', 'saul@guestvox.com', '9983856109', 'saul@guestvox.com', 'f53d6dd0204f8b2faaf10f1ccad212025ebc73f6:1X5m1Nx9jm4ugQTWmKOAat7eX8yreg6VfNVPiphTMSxiEZZyY1TOgs63vu4NupDT', 'r4yAjXyZ', 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1),
-(3, 1, 'Daniel', 'Basurto', 'daniel@guestvox.com', '9988452843', 'daniel@guestvox.com', 'bff990e1bb63d579bc65aa9c9b2160bf4fc792d0:OQ4m2Q8UtKDW02kCfF7JT8077jQffhBFLNWgOBQZ5oxAY0trtGAb8k0H99uxAxuR', 'v42CkX6e', 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1);
+(2, 1, 'Saúl', 'Poot', 'saul@guestvox.com', '9983856109', 'saul@guestvox.com', '79b6139a4bc1492c5bed1087d1461e0209b744f3:uhvK6xtCu3RNs22oSWykkvSYnOVYvtrZ9nLZ9Xzar38E7FIkNkXb3EoVamaVfY5v', NULL, 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1),
+(3, 1, 'Daniel', 'Basurto', 'daniel@guestvox.com', '9988452843', 'daniel@guestvox.com', '5d50e2fd215a0494c57dc5a9ab67ffea5b7579ce:8ucTICQVmT1dcvldG4O79WiakfWWOCIinvGdorqdHqEwiF3VD0cpek0rwj4L0hfh', NULL, 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1),
+(4, 1, 'Demo', 'Demo', 'demo@guestvox.com', '0123456789', 'demo', 'b46f6d9fa6d845f27280e4de5768bb1703556af9:8aVrVRC7LOeIrhcOjX3OoV6jmYU6gKpAnWvadP7O3AjojUiUBSfvR3BSuGl9OHnx', NULL, 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1);
 
 -- --------------------------------------------------------
 
@@ -1553,26 +1534,6 @@ CREATE TABLE `voxes` (
   `type` enum('request','incident') CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL DEFAULT 'request',
   `data` longtext CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Volcado de datos para la tabla `voxes`
---
-
-INSERT INTO `voxes` (`id`, `account`, `type`, `data`) VALUES
-(1, 1, 'request', '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'),
-(2, 1, 'incident', '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'),
-(3, 1, 'request', 'Poc5btD/5H6RLRcPPPGP/zYeadrFyk+1o3fpLnsTsw0RhgShRjWxIkAx3jbVIIcW7iPqejn+2EqcP19/DmsVSCoRzmL1m52AzOIHsc24C08C7d5Nex9a6oI0NAEXbZbUr0Cr2q0/nz4BrS75dQ9OuanQap5c7AfSnKIIQLhM+mtbGEAdgf5L9N/T6J2UQ1/mN9eL1kncqyfhQyH1bpFBRJ2utquUMIyounyogJZFq9X1ocdub9MxABR8ILGPH7sYkgstZkPOCQbJlvRA+UxR6JZSnqh07yuKK2QHW+N3WZLf0V5Vxtz+UOPLIg/xq3LeRQhUDg8S5/p+Msp0WVb5gYuOaZtnOf8bIUp9PXHwcDqhSTxf7A/fc6KuGdsg/WoToXi7ez7OF226m0bu+e2wRMHGuJ8gDmbwzDx7XojSOr9wTLYjTTtoHcVldXdxwZUVikBk86HMqPQqSvf9ECrTlogDcVHfN7nkiWfl06295SzIckOOMGp4q1uDDKPhzVBhOhg7ybBl+qfQGXfFQ8egtSmCT6S9uWg1TbGUF71uEGUj5jmK13aK7Iw/1okB7LuD1QM6my9zoTkyB7VmL9EoKkxCD3fElLE0Fd09KRcMLg11URyT1fifHXi4U2pMNLH6o/u3QFWYmxKro0k0MNQzAJwAuy8Dke6Efyj5MO7EvKMHr2DzdwlUjwAqhQykMdkdTr+t2SVLsPfwUxpJ2Agpz5h7raL6aR5eQkwbmfOdQ8+5+pc2hKcFsJ8yLDfPvbAEec+t16CZGZmDYTnIw8yGlUqWvlxqqtaADw4nGrIwKNWpLn7MqcX/sfdxR/7TNPH/0KKCw06Yzpdf5qZLnRpFsn5NMynOd/5PSrH0uwwpepDv0sHiavBRQ41cebJeJcMg2pe5/6D/USX0aP9bLADIvxEkaHlWSgx/sa46zSf59Kp/NYEtbxyINeTGuwyUISCO5ijyP+ppqUT15xwr6E0SfJ8RL9awXNeAajY/5GLXqK/VyvWdRZz/MgviQPw8/QSuOmsRLKWhY6E6tl14Fjl/RvLA65xuvtTYBfb4SqBoyTL5RKPBhGIFMyMOyW7Zgds71yPtbzuTgd1Pu32O1MbloTjGuicjBP1nXW0sFI3SB9/qQwVSSLXNlpQ0jGhsiyCSquEejIp1sp/sRk7p9mu44MelYvCMCTxyT9yxcvaMMyWVNfCfGR1snk7+r6vXzSiEcOvAgaxHDICX9Fa0wF+uztLlR09Epjw8kJEWlNmFrLRDHHF3tPTz3+yWwPR+aSOjA5AkuXoVBP/oFRsiL8Lj/wnX6HZiDeQhB65dOSesu0LRoDvSE06udA+aa+9ktF3jcolRVo1YoObvqxFI1F7F5w=='),
-(4, 1, 'incident', '5qlcCOik5vVZkHyjXYk5TMZqCMk5mQdR0nZl1IMpObdj0rSMFcWdV51rZ2gaNtA/FMCbs0qBQUfsbUGthjZf5ZfXiHqV4Fck73RtLkLn3P2+k5637oU3Aq1INNfEJZ2Y/AuDInpD9VRqI1gW5vIy4rfXRXSrhzt4UmcMD2JHfU0eiMOvtyyHoVDQyMcPBWtX6sGGmuZf+tLrMIDZeQazuaESjqi01r5/ftOaVtd3it3zRJCEu3qXc1unqnATrHD3Y8kmxurv624nQsiTISRW0/vpoYKDYkF44gXgy8YvEb5TmoO6Jbh1xp8f5xjh/HYpVtV9e4c6QOHKrhvV/A/ATpMzIupMPQSgmourgtFLa2mbgI5PUgT9687MWoScunmlCN37F/odOtH7M8qEmJSZ9aNZrde/7GeybP7HyJctKNHAuZeQyVsY6OqcE0mdxUq8Gg3hPRYESALgnKnFD7hesgHqSyU9g2/j5iUh+OCsyVcfaXf8IgPZNX3Ta17QMqxvd3tErBjLrwgifd12B54ELJf3/pdVb8/NgQ9HYXfMoZ9pBvZQod6d+RZdeOOhLJXY0wnfk1O1JYALZwYfCEcEmO02y0CZt3c4IXQwqhm1c4Lz8VsyTRQcwrX9/SE66rpb4DCX5PhUzguYincJBm1Qu9T0Ih5lvtvBPt751ZvRHtbP4pEC83wc0LOHOoN0gTKrpOzRBe6iCkIWT0NIMXf6lMox0IzgKnZTgQV0hnfuQ5z+Ug5y+0Kll8hQYrnxxpCqt23nu8f81hnZbrOGxn104j/l0Rva+Y2bVomDjhpzBthTFQXbfCZ9TaFAomriXhpl4M0OhRn7PpiuP+DdRbhDii/3aXFoySYf63VdvN8jAdUAcrDKdhoHXrJNSeazH6C+5zxN8+JWw4uZxbqN46bYdgCp6LBQ5bdnDhLvbZJGbDLdQIScebY9pHx4H6sMYOgXnz0JX5p7tQ0JEPO2eMFC1tuLh287+kaTkC54fku/pqnBvnwMTZbHWexj+/61gzBgEvdToZas8RvOPpmFtivG/80KKfdCGHMNXFqrIH8Uv/UQapzZrbuUqdMhDMEST/bzKGERxWSVkjVjs8WNHhly5/hArIBttk4eB5yTz5fmeuN9YtK9Mpl2s+AhQgsBXzYXishEXLD4RFJJ4dc80bI8Prm/9nHK8DsNKltJ7kAZJgMDfeg3n8NF5mheiLaJzB6Z7mFe8rayK9crZY1iLICJFEg0vnfltQ399UQ2H66k6VPn+108A1+rELwvPVgY9vdSLlF69NSebxIgo2sXR1wO6tIl6Qpc4FDWbPm499S/1v+gR78KAYdrPV7oNfktQ2YCG2kMIMBDEOss9UMgCdVy4w=='),
-(5, 1, 'request', 'lTugBPAv2Hu3RlzodQKHkDFWW5A+2mcKaePAie9Y+qJP8OoElabGAU5JIAn3whK9oNDD90ouJ99d2ZLmoB6vwmHDUmxpmrCt43p0nNnBvUmn49FDLd1sKnXINYTQe/1Xzq1PBymhzYuSsORTkcNi6Iw0BWmU1RWppgZD0m7NC51qdZKZwn2K08+TDcwsdVMdWdpGyWGqPNx1Vp89ujuzmcK5ms/I3Bi3PBFiZbJJvDYG61Rqk76c2xF7FQFfBetwoWrq3oAIh4pjKSTiPlhImrlyFxmLvSB2qHd52NdNUXRn2ZjI7HRcYIE8rPlL4z2UjZYO6lC2iZHUzD68y7avq+D8OF3f62Co1ObSTzD3Oeo1OemqAt55sH+QA76QpfLRPXkIuEmD0AlvKd19K/E5Y/NcGEy1+qD/2l3g8P8v5ALXqset8uq3hrvhUywAo1bmpIFAEPT3i6cHCNPaDuMUnE3r8n/UuBArSqxHVuv8KfYwiwrITayB70seI6NKow1EKtK26XrrKnn36jtb9M73fjUX8wQv/bqdKjne+Vx0ZFbJRbpHC5lII7MBkEvmupV8dZwWEs0xuley8eutjTEc4B2mf6U8vYPCGdNcbO4opOlKopVxrIrkLLdgCojbFdLhVbeGMH2sVJbsuoX/rJOlDwPJMG7BWiMc3PJAP4wSu5gbcKSRRKqVcP3NtKNE1LPLXDG6UIyR2zIuurUkWk8kQorR5JSfaRxfyiAW9C96+iUBCFfNyZjwdXpjuQoD6p/crE6ERhpiXYwpPE97CDiMQzETwL6+59MRwUVbc2DmRCLzk9jgHMjS5WVVcscsMAlIa5QjaBfq26P5GHfVUq+s4yuK077pZIMF0YLSnrErr1Pr4XeOG2gYxgVSnCWfvUo4icFf3aHyLBaN4KLoo2V1iIf4yg3WZbw2OZe56ZnNz30qsbxRlu2vfIH3FgJRQPyNiXoLbzoaVn3pnp/2RR5J9gf4K+2bl+qwOhaPFvEHqVw2sNoV7DldahDzwIVEnE/wMTgY5dBqNyKTR6fFqpbVDGkSH+r3i6P0bLwbFONoXqq3bcYW0q051Hfzcl0ESWPVrbAAMONjJUF6e68CAIaqrm8GS2aYgWqlkdnCu/Vt07XQFRwbTk5h0o1/gZsCqoCDSsb+Q+VPMxhQJ7LLfeF0KuB5oQwtKjWy1Pqq9HmJeIT9+sq/+tatzCwea9jI0eUFgdUaUkAqUzVKtIuICPldgA=='),
-(6, 1, 'request', 'xIdKYDYI5xAHrZ0y1SDXaQppfVgusIV3COBk4UFLSODvMfUiImiREyhI3+tVyAcyc3NNg2W4Dg/1Vvf7u3uzKuYW3IeQaxF8mziF+tcIFwoVzg9gECpttDGTfInBF3DQVIzUt9bccqQj3W5cPbBEozCzCvQfeaDXejvZN9xJQVggz+vUkg0zU541rwFQBhsXSST9dbf/2fF32p2pWN2E+eUkY8qRuZtnlTvuDnPIJC8g1H0JYiR5zEyJ4JRskQnMaGAihvuy3q1OtJIfSO9Xgc8VvdJH0yXDqp9fWuGDPIg/yXakLEH6q0m6VZhHKbYYJNkOIOtJvZ4N5xBI4+cKWRgO9PTYHcDapWqw2g0vig5vAnf/I7SgaQKbAsD7AXGvZAyhzvC5q64ZdIoG5dzOWRkP2e0d/oY4QW0AGO18APiadQp3OqwCCP3fMtiK6fl0lDAZqjQe6IunfB9Bs27YcVagPEvoK8M+zJofnqU0l+sT79dUGqXuwdmEVO88NEfQ7nQOjCSZmc/Skj7eEkHqbwLaxky3+Hq/t10ttI96ooBrTfzqUEkRHGjw3l+Bx+u9VyJXisW4VesFlwBaA5m1UO7zTAhPOJh6dqLkNB22Tde2a63LL9syCfInw0jfI6UU/4YZvc/caBiCYVFWCrpuNUWXx5RbAUYsx9LMJp88XszEHxJqOK39X/7FB4NeHJYVsVi90hjQC6tfWNgjMb/vwkqnNSf9I9sTktDfCcK+V8nRAbVM9LfHd4xzRsPJRIuVq9xQ6pYvQr0WZXfUe2530YoLIunEVg7TKp+p6lbi4YS7CZ1ut3vBbVsnwaPxuAuz1TWo5loVhRJ+nYO+aeU7x5ppmkkej6B7oBSfEtpABuBK32al0GGeMNo9e6sTKJIp7SvVd0C75IctVinemAfrHM75bfoXx+PlbTSF5mNuzJ8+JZvFI4klD2WKTBtIN7rYkUmdEy9eZJeiaHATLcdgCpt3dAWpdCSWKyZfg8YgK+QaNrfferDvHCd3n7Jl56kc4ZAJ2eRsMk+8TFa8+tpf0PEO39OeoYNKGpXkV/9+IuAX0d5nZoINN4yE1yeeUB4zGRPMGmmwPi/LJYdisYXcAssiQ5uvyGLUivuf5ymIVxb1H/NGyvhPTJNWftovE/s2CLhRPwwdUS+v4d9hioQ2OnTGUxD33G5wQ+omdwZ3OmIm+qGwOpYGdQmVtDlkqceYbN6BrSjiqN6yB2WLseHJuw=='),
-(7, 1, 'request', 'EFru9+5ihdsau9GESWdrOEMLHSH671dnHWzwQHk+p1swmGrT9YtE1I9heqmWKOa0y9X74pBORILUzmJyzFHz8/JoGkpdtH1W/xFU2fMbNP7nR1yNLxkOACthR7oK5d4bbrm10GRb5FTzlQKgy9UFp6G4mrpnqnJpU9Bsz+Zi5P6+VRlsgmLuoTmVOyRbEGL7bqrQ48vU5qwjezx/zY2/3vgvDAe7dE3xEan+wvAhk0w3nVKN/ge3OLuIKGoKQ79Ljk4InJZMdYCy6wtsacFwVJX5mjurMZ1WxMH2cZwjNQlB6lMRGiwSVTgrtFfa++OjaZ75waResZYq5HLcstrPdoMXzLKmDugeBjHhNGV+4pfrEtcjM15vPImJf56UcTc1VNsqmNn30Mkx4sbdIdn7t6h/EerElowrM2m5BGns9NQohr7pMaMnKG54jCx6JBNPNdfEI8OmIDOFbdJuCBuvC9oaqtjDCxyUws3ZKCJfqsdcp9zHouIUwinZxiBer1/tIVH1WN2NrUGk8PYwoi/D8qxaPkjNkXgLbiNTQuWs/5A+0UWpqs0k+swZyQiq+WcnQbilyWD4V5ZrEcL7aomKAddZJrw7AK4W1sfk5pivTCFUz1n8tLUv5/kvZVshkgdStQA26z5LI2fmPH3uFiseTRZPzfaCKFCpRb4kNY9HHPmFNSjzeKzlKMCcqQztPlFJD9IoxWXNg64WwWX9BacPw7thu1KckseptLuQ+WovaNPGDL5iH5agIrQDhyhJA0bOxiAXPE8UU2DO8y37JTOoL1yCo1ULDAHUbcNwAtx8JaR/Vrhapc/Sdmz59ZCfYXBInPeBH/wa0+FpAf0f7GmjR1BVACXpz4+w4tcaLKrPgsf9PsV9MCbSeKtHVvnF4tJNq68lQMYU4QEFGiEWkyJmY7tLmXI5u6DHj1PA8Yi4JL4QxAdcPLmMgwOjw+nNmyLSw7dFOsnI26hqlAcAKIdkd+e1CXXXx4r4kNF6uxzh0TZnFcav8RCGu7yoyIpPH0f+b0I3jSIc6EzLVoEsixoqIwFpusgMrlH9+n368dU19CVGbZwxd7qVhFsln6V0mNrRVYxc7f0srBJccvwzK7aPMg+mfhEE0MoGIy9gHWlleiSE3J38NpDmQeHgPg2uLZdPDB4WqHUFHjY2G59PVdzfY0K49jtmOpRxLLcnjkGUzoRbAM82Mk6bOW+EUJ6n549nQgBQNu76sxHXQslcGEjEbg=='),
-(8, 1, 'request', 'a0nzaJhc7vXOgOE/8d2wFyBtSQIqTGGlTeq6X6TVeiQ3fhQIbkIl/3VSSCULuAviGIjwdc2Fbz6bM90Mgo8w+yvCD5PLXdF9HAZY6fYdav5rkiuz/CkXrFKNwudlMZRM1orsV8HAUUsyMo9f4hQLsvFFbcld0C1rHNQcxxq9yg4dq8g/Wm4Sfezn07kjBpasoXbR7djlJIA04WRN7XR+EpbWcq/32MWdbeM1YEcJkaPaYCBeGGjfzsLBLk49/I5/GlceDJ8g4WlX0OHohWV+2sjbfM9p8ey5IxcDrnZYJWXWjPG6VlAN2p2ccB8ZJ+i0l074j26RZxK6y+Qy54tLnAEwckGbM7iy3TLrVKbzdtiM1jJ8IQvDqOqHKVvuGHw6FWmDVAriZHvfkjTr9ofluu9s5ofm3wxZRDoUFKVtP+7mbRkGd7qXiItGTLSxcCl1QF5+AqggOghaZEudNzaQQMb7a05JcSzh+P/94R3KkI3jTiu558TQCdZs1Mhmbi/ZNmSwK3bXDjO4BcY+kXIp/lFnz+3mCiRjP9Ou/IpjbuKCTFwNwUfMEZ+l+VnKV+SZyDmmMRjQFsVUNkMNOXnMFkoWn4By/eXR8wmJYWzIOe6V5TBSRqlFWk3ZmlAmgWzhvZoYTz26DLMSfDwa6nS5ZBy1rIWXtdpf4vSjREYlgDxOkRDoQlL6CeXuaI7rD3p8+A5mSXWD3gxvCEgneH6luZZW1GQDKsbWs+/8zfg8heoqX1Sz6YkA5H524bZQ0D3m1apuskbTFtw25YOQBcvenQksZewXVGVajJrXmJjJHSbz2cK00QmN7fAfe8W1xRNBS9vj9gv9cD3n5t2XnsGfdX/i4+AtgEnbOGMoc3dr62EZC+ttPIxiFeGbnxlS/sSNscNCkdArkmCPnSCDzwSlKPMtIHBzLd3RydJWslkAxmBdfg6D8ddH3r6/ehqk0i8oXCeKLkT9mbQrAAUTWf34i4UrvDmxgbsdwyXDnHKFIv682V5SQmi+nJwwXxbHumPzkEybbeGIeyolE2mjW/3qpt0d1WewBK8c1t0AZBzmkpegWRoIqgp1s7H2XmQfCCvrLfnPkz6F/1uNEs6imfh9pNRSzw6Q7VPbbMmPa/EWuiRATb1h+nW4cF4T5U35x5RcRBs2GV07UZ6mtZof95y+iIvUbug4fmJ3AjlAFdH0d+P5TCujTdL3/ttV6H48uOkC2aUeoPRuAqja1QyaOjRuxw=='),
-(9, 1, 'request', 'O3aSeC0MyhdpYWBbg8KUAEfghGYPvWjfP3FvYymxpGb2MvdGR0WdSX8jTu6d1UdUY+YgJtnRFbSO24yT3GpekdDzAb897QTbdCs7qyXTZaTsuYz50U5o5ud+7HKPR7raUKvDisAhjAynMO+1RPvunTC5iJBVD7rfIYwMULIa5KgGqmkjjgQfJGCTKMEi+p7FmJKVr2fQKuZ+Ux6rYJB0sFdTEzHKfI7rWCu3DICeKkS5l+ahwADShyDwuFHnXQR7bv4jgpV4vbKojnvBLrttftVXE/ACVVfwH46oN07BlnOkHwrZHPLEBiQjGaMz/acgZySDIeoleOeZwLCvhIIlqSbkKoAnnpRgnrzUsrjo+vg13W7R7J1BUgEmesNWsYqZDgL5HtdbyOHMaaTFDa51xDXi+fv1mlmnmDlflz3muE2OmBc3YmkKqsoJfSFLGYXuXPatWe3Uf9gSxZ0qt2EIdDUdjivfMlyNBFB3OHcTuLVixRLUIs28ttqnl6o9kBxQgemx/O62PFH/zLwgTcMHJK7ZLV7DTZAa8qGDjG6UaO+n4NFeEQQgNKJ0+6XWiTOMaA9IiEF2C5GhdtElFp5EnueJHLX7V6cG1zHu0e0UOMIE2pHsiXpjH8j8Ea+b4SEW7ivsph7iKxeFy5Eka3ha54taw9HNuXovcqyg7qBHeDXdzXC7P4Xkz5IxFtY5UiawfE3z3ZJBQjGpS/WGD5dOS/07J6S653NjqJXfwby+TCTkfm3rJQsAkmNvF3QxU3yLFrpYlZy4CUYObBAcTFQ6F/OPltVgFNggPMI45Hb/cidX5v8E/dku4dd3zWANH7C92E2Z2gAVR8lNTI1149AAtbEsYREmICa+Gf3Xi1ZTjmkaBh5UNaS882pR6wQlhSmULOYYn2VUQ20jncQd5FJ/qWYP3GKxt3uXqz5gUr/0D1jGh/bbFlNvq6qYbzMRNwatLkuCCzq2GgkBS5DqClKRyZ9cPUbBDJpDoYjTUm1Fy6Z6Dpz2tLBzDnkpapV0bZOwrHmXFzFQTGuTSZ5SN1sSaicnNv7FCBGUWT4XAZtXMPIbWkmczEzo8ZuvYsLZARI5M6rDSDg2V3KdDIqzn7SVjapnI+CoXNgOWnDJrc5+aHttXGNtl285Flj67kiLmI3WoW9iPD1F3hJML2aLlRqDwWKVnLxfTxHWGJsb6lKAgBBJunrWWM2Kpw8EBsDYQQ6V'),
-(10, 1, 'request', '+yLjg5KN+7IkyvoXU3N513aUszF27xOm32+dUFWQAT84zEvbFGpFEux0QYJNkxtjQoqaS2C2A2f4eqO66Kxs1lsQGusamJ4tMlMGjI4XGT3OmOXLGzl0HKleUrO/U0JW08rLVceaIQrtw3U5HD6CU1HzX3lWWAcMO6NRl5AQf7UhpSYili+GLFalXNkU+9N/yVfYuD60+Y4l3JnDDXY2aMtcDNHSJWuMNJkNvrdPRxmtANxGqNqiQUE0XnYMgaZ8KxWwW9C0YYE7pujvrgpR+44O9b8A3OYW3Ovz37b1fq8+WylZ1lhWSekUDRmSww7omzrnXeq7nLQ0cYcKm6fPtehuJ0Xw3TsEOBbMOF2sc4VxuSfmxWR8d5I8HhVL+ibkqmCPIhEgWcDVshIJgsZi0D+Jn1fXo+0eG0aTYFnjlTTifaTPHKYJ1QkqLSCDQMHWvEpMcfZkm4Uk1e13PEWhwzA7c96CV5GkWyAP7ef7UXvFzyruxa92WzmJGLz1lFpWRxXl3JfKZ4gBNXbiXT8Hb6SAQABqDL/bdGlmluKF5W/846EmQTuTB9QlBBFddo3+YRSOhd0MdcdotK3hbX4ko1eeeDweZvpFOorzr6Qmw+4XHkymWFVg9Mi3BsN6h2atpuTT5cSJkFOTMeo2uPGNU8CwrfoejhIahDuXucjLjFP6Kwzxh5jkKoST0vlBbyLj3BUjAKWehO2KQL3624XjicHSq1ELUnwYh3qaLMZM1Ee3bqW8taCxO0N5pCenRCLMsJT96a4wEnvALFCZYO5V1yyUYfJ5S94AwWFqN7A9Z1LIAtHhSxA2WVz0w29adEvNrQzR3Vye/xLAo3EjaZ+UV2MZDJFqJd35mo9S+N1qYGD91X017lqFEQCYaoDkht4pcGMvt4V9u6PmF+rhN7JWjjy14GgEM3t4UgG/qFUMn5kJ0tnybe+Gb8gdm5X1f0WaS+voLRnMp9gE0zyxEq+9XI4D+FbyshFIkEUeTdgwAicB/IHCt+ydQoLiJG+1w5loy/doNOvC2FuHVvLhnrAkcQ2lQlPhLZxu4MAKVzaz4h9elVXDspN0Kxb+aj6GYgQeyvJ0gNkH0+LKMBLgQdeAShrZhdYaVhtbnmatrp7TTA19SMvrWatwCAsSrxIVlwExk56HqgIw0PTMG2YoQyJEek7GkJlWJoltRICOuJQHpcl964A/UKxuAqzDWc/FCeqk'),
-(11, 1, 'request', 'nrEeoL5YzWgiR3/RuuiNfAFtQWzbJVA8YVLkzNF1Txn+4eo6cY0tPkt25EzTMjxcCxQovToSYDHAFpAiYJiFvaW5rKPvpgopA67idgCpm3VzGEz6sHVc2bfgHMpbt8EVLG0ZoSU2HyWafC3AX5Z59TfLORnz7zdK8Wnw4cnMUGDNX5EVmX7kIur0i5gCkZ9TFEgVznZKIiH0tKs8OFGDuNIUjFLXmqQyKSOscaKQ6vR3ymdqGqpAK3PfgvHWKXFtkauGVDPp6BzAqDvQ/ze+Cz4EYP7Yj8xek9gxhNAJHvbPGKaOEpUApg7967ZQrDO6jnI3+be7Utv8ZugpEhnsgYOJlA4inwqAByMcbJcw9W8z8KGSSeeqJQW9zF3I9iqdUPuIgDFHT6Tz6LxvNe58hvMnoliQcHHh0RqR13a7fjdiY+pG0lxXWcBDvEl5Uet5Ory1ndUJIwjasz6ulnm9Emj5TJvhDSsICTCK6z7BQF0O7p3pfnTo+ItLYbYFxRh2M4ol1a6U3Fi67T279FjDugHD7BxLBkEZZYzIEIxAtH1OPsjKKQV5G6BtYm8pnv/Ar44VI0oV7nT99dBVOUWdytTgM3srm3ZsPMuEaKtgzhC3b9nVU5JFUNAUY6RLlPx53FsMjHbNYBxJmikxIAji8sfX/dFtdwozTxLJpFx/1NDPLdKgRLat6wDwx0uEcUYx28qB1Z2mKyu5xXbbBrI0A+oOGsqz5lwKsrakIFhiunoIgi/0sN/NDCPAKA59WT+wKFCIOqAIvetDNuj66NW7uW0nA8uFXtTAFVJxIIdTRKjFUYrWYYleC3qOtTJLAn/bAOEFE6UEJsc1sYT0Sdui0wi8uoFTODEwSwXkUvkdLe8ev0TVKtHnpLyEpwe72FU1DztAeVhb4neIk2+9IpxXoFaLNJZk15xt55fj1lOSaRiUsOBhEJLyBd98qpoXSkrhXbLQXC7MNOwrxhodcnW2rpI0n0TVnOKZpvkxn5UZwzuDN3TXiYAz0SJzbbP/4xqUZlqaokO9ypn8AokbDmvGnnnL27gmNw9WvjXuctgbQVZ+HyQKktY8cfIshI6sgv8W72MCtIUwRIM6Hsno1L8K9v7x6Q479igdPeDZ6B4qDQVacsKjoeR85p+DpmDaRE/dvbk0Vu8eexj0GL0eL6GEj3Iw4qDjpOrVJ5/I+6fbrq9YSgChJGih3Dh3wb+OdWpl'),
-(13, 1, 'request', 'l+d0pW/jjfp45DWq2Q1Dn99pZ6N/AKesLrleJYPM4xEJVhw6hQn4k1ylsS46L4pCNGm7Z0dx6A4GuBOHUZzk24lD30yhZnc8LgBy84Sk2kLshBq4ULESjmOHi7q4P684tCuzY6pfzh7pjS0f5d/Ic8g8Xmf+6Nvlo8xCGkMZMwp4iDZi1MeIt3OvFfHJj8VIyrdoH3ZO5SNKWxAET/7FqSarGylfi5F2ZZfIw5XTfO2aC04eXkVyIHecsyXf2s9FfmP7l/uwMiqDpz4TZgP/dcttHQX/OG9PiNwKX/q/nRQMQo/e6VfXmy0nR+1ZvoXaYb5sBc8hq49smr3ZgZnl/3AVU8LoRHEB4j9/wh7c6yKNuyilBv+8n1nwJMPpO361JYKmmC4Tq5aJtenmMjG1kvnfDbETQqEHV75ozilmaXw8uA3JSTpx9wQrmACQNISLRTm+KpPuTCXDFkCjSMDM17SuozoFGqss9UssgxchO1kgBw5W4XCqGr2GxtyQO+lFRdr5FTmaP1pnOv6/9ukKjxA3gcYHxNdy7Ytbe2AjIk7dBgYgHBqb6BqLl8KIYBrPqAehlD0ndB48e2tKQHuZnxOA6PF39Vyc4nZc/NVkXhoTy8TPdQLruSV0wOE0XsIyiwiL/XWfx1nao4WG1XyQVdOh7EWzFD9NBrNBdRUxumUuYeLgH/0oE3p1o4gZ5nNlajI/aptaYTPOhUZpfyPr3kOPyL/wRpTsIDMec9iZWfuMBLZlXD+RQuktp99tqXkFClCJQiMCcTcDHBNYsZxCGa6EZZuCVIP5vVIbX5rG6ZwpXKD+13NYEbqYnevCMBQAHaI6DwQm5HveeHYdD89QmBUsJUjAcsGLva7Xt0byyjixwDHrbMRm3RLkBPaiIjaua1TlTXcnZqoqYy50FtT/U97WT/D+LfUNtlyn0/gnmBB0Dh3k487NgNp/WaCOl3PkSvKyFk45o/OKxHl2iCkKRRiFeDrozR1fvXyWZY6hjw2hUDnP+71Hbl/xSYcQUN4MWFRFEgJCwXjbvVzPASK4qXhf6dhEyySOzdsGFqK6O6C5XrzoZTKZZRC+aljK0GyHWIJEgipSrrfaKAbvNs3eHeSxX5L9ut89uwQH0moIbkoC4SCL6OX9rvQvEy/XbQjW1jFBFKWqxvHru0fU5BzoOJqJ7FTr45af1UyQWixIVqMjKN4JyGzMzn3IbYfGa4+VsSDdXdDl91VolgKUBtMKrnwutyA2MdTuLUcdPokOUbUuOyaD6LNSMzZi5voUhY8m9HUquB3WZBCl6aKijkZWNJhPdhTj1QZF/604Tjm8gUhkr4I4PBcTNQ5wjPXaMKzNzgPMPdrgna/FYoCrKXgu7g=='),
-(14, 1, 'incident', '3UT+MsEwpgK/3VjOucqgtsBcGTPRhCm64WN0HjxzpCPC25GxZuJB9oq4n4kydQzGmpm26ND7HOYasC9/jSDPMX7KPHCXTsXegtkSaBN6dBDKo8lK3xK3oXU4+bbdCbG8oD0rvPmUUzytX72FhqkXQF0auAeu8eM8+7LcCJih6XQ5ZBLnH2bTNjOkSBkBltTzBgZZ82WlihEdNnUA+stfyMvFpvC052Cm0Fwvsa2mVpQiluFHTsYe/ohsW3FsI4EIvfUz0tBjVGuSAyPk7VGot81icNhn6E7CD31yViwqHzB2gVx3FTRLyHNtGY1z1jpb4aJYLBQgmI1aSFRC6pZZGeqrOHr5NEZLcwQvMWl2dozwqpR5k45NZ4AniruMExXv8mw3vJ5BXC/0SSg/fvRRQC05E3TJKKxIkU/YduJUMWrW40ILChhkzs38tXIs6/VvEXvrwsZetnUoXVHUepCt5KD8wX6cyMS76Eb6l9lZcfgdZmlSBpAtqRyZwDrNqkcbPbO/WIAB2YM3aFFV2Q4Vz2BpCZSZFQVEWhPx3PB4KSBJHPtM8ZR+NmIsHzlIM61te6KHe1ws4E2LBDKOHp1F5ZaicN6viX+hSGBW0JuXmN5VkI2kYeIOCIiQ6HlR1yyzguMVoqYZ9bxJTl7FmJZAZt8t/xb2V833geWXN6XiK/ThJ5NY/midPT8ABBvHi25VtGiqdjrOMt5d0eFWO1p5bY4pNSef7A61YIx2vlLZrWLVhR08ZdOPndzUwcE6PKdbNlfTMjqDPJWxZIxzgB5rIFEfzULr5/QegVCauBRvCUo2tyX34vGlHzK5iAcIxk5DIK2/0g/1Z04TGKDDeTFjgUDsyYUqH0AW4PX+Mvzhq2TR3yp2sKxPbmyvSaBadWWBPJ7tKuUE3SuAXbLm/y/fkfc5QbDMFCNPNPy2laK8KbomX+h9YcyCsjyTgwe3L7vLH70MdoIJafSGFo3qRsclzQIp4gwH4JE9ovNVGJQfcybcpo+44/KBtCNQSIg3SJ8Yo1nJe4hIkQi+iETeT32mSd45dc2zr9UJqqPRFzK/jXgen/+WQ3HfG1+smYv8/lDR0ly4WQ5rHuqVNB2iUB7b3JTpJOFHtGtIZxQqWRcEt3u8uE0WZlf8+sr5E3m/slJVeW8C5Mrq1Ab2bNRkVEFtTdSlfAaygsKsJhaSAtAkzBKo0FDC7dw+PL4c8Ix6Z7XZfbPBvFnYOk5d3ILqBGy4vjsLh3auEcnc5f1xDFE0iJjp1Ua3XOCvMN85+Oqug4etV446Vh5AA5R/DbWjpY8rh0HqGEZ//c0Lfk44mVERu56+7IU7wm2161ch8cnpOu3Qu7IRUF5BuxwwomJqlmZNS2pWwC0/SLSUlcHcQUPX5S0+Jt5g4vLu+fRl1kOXrb5FOfEZM3tGg2UEFCIOqIRR8vAcC56FvV6JyfCYBnYE9kyJaevPL9lDjUuCk0O1W1ag'),
-(15, 1, 'request', 'W6K3y+u/ByROT9OtPD2JGW5rHiv5Rr2BCIG2kWP64CI/kw2dO6n6u3BfKAWfxw0MCFyIcwL9iIB9eVBJ6xHC4A5mCPW7OWiRwaQ/kJBd94O2YZKD/497lZGJ+Tn2xvqWx6PRifOmdbIAz/SyZxDCaTOeLdasKK/4M3mUydnI/yq23HczAOyT9/5RejL0qv2IxCAf2HQ8RFV3GYDUj1/o7T8dZG6jxeGOsiJZuKKBZzKwNt6f2P54pfB9/HHPg+1jlrB3boSt+5NasZHfIyd3JHm8zJ4EGZhOpfDkIN9N4aKBmGd54dwUBUozSralRgOrv1mndOfURpecJHtjsqBBMXyBL/y7/bnoKiN73hjkSa2Jy+IEAl0NWSLvq1eEb2owoFM1VQDvw4PwV9ocbDEgLcyDC02q7z2NNeDx/tbVf3Li/c7pU8nS5UbbsIoNrtj9RQGzmWHgG+BrEJ83OlNDqmmFik4JrBG28tLO3ViLYerUDU42k4KbrN8UCJlrpemiDHKmG+/ao7yWGQSTlIr7S4fj9C2Fw4KxxVzd0TVU9vNEptwFs0pvsrHIAokNP8j5AcJ0seiuw9l3z1M65paL45QEyqYJIdG2JbN79HJksEsuux2cD1RufRsC9n6XSoOG+og3M7ifMBb9zUAQ7kcwea6hK4KDuaOMJk8AP8d+f+WhCHXF5mPZ8ayPgEnOuRnPUf9QK/pmS34+aC9Zzle0JOB1NGCtAQkzXkudLjR1+3cKgARCBcOyps/i5IDKURRx/iarpdZZmhQpgdMUAM9+5abuCgQBlKeea/I2qU9ocwqRzfNDLhekxyoHiX37df3n1fLxwvK9R4iW1tAFkDm77WUBQ0TvgZiMulWKPBBc3A94BFH9GmwIzRDqSYNikS5X9D7BYVJ7ljYzTdEv09q89/SGohjTpzEZDME11tKmIZE9p7Mwj9Vem5KDROEPGlphhlm9dIiv/fD5BwaTqYkvx8G0LsTNttnSIdvvIdh1E4ZjHsTFjj+1rxIJJgqO358FF6cv5JCYxsfyh98yaM6GhTBPL6GGUBkpIJodd3MjixIdHov+g8WvMJTGEF6f0LwUdF9fNTlRVPq2+mJoX75f0FqDX5VifdSfeHsFqykWX4Y1Pm41jtHn2S2W1gqwT6DxDecHfTfaQjiS/uqkoVRZ4WnAb8xvsThBQ7RRJZ5gZwJhGJq4dOunBsCForB1Lh9JBMij3y2ntY2oFSI1QYN0YcXC889vi4zbkNxoij27+twfnkUs+hdqSVcU1OIL0aPLVhFlMq7/BpKQ+pruQcwdD946Oy4D8OrTtzhe2Xv4/uM=');
 
 --
 -- Índices para tablas volcadas
@@ -1727,6 +1688,14 @@ ALTER TABLE `survey_answers`
   ADD KEY `room` (`room`);
 
 --
+-- Indices de la tabla `survey_comments`
+--
+ALTER TABLE `survey_comments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `account` (`account`),
+  ADD KEY `room` (`room`);
+
+--
 -- Indices de la tabla `survey_questions`
 --
 ALTER TABLE `survey_questions`
@@ -1878,7 +1847,7 @@ ALTER TABLE `promotional_codes`
 -- AUTO_INCREMENT de la tabla `reports`
 --
 ALTER TABLE `reports`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `reservation_status`
@@ -1890,7 +1859,7 @@ ALTER TABLE `reservation_status`
 -- AUTO_INCREMENT de la tabla `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `room_packages`
@@ -1908,13 +1877,19 @@ ALTER TABLE `settings`
 -- AUTO_INCREMENT de la tabla `survey_answers`
 --
 ALTER TABLE `survey_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `survey_comments`
+--
+ALTER TABLE `survey_comments`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `survey_questions`
 --
 ALTER TABLE `survey_questions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tasks`
@@ -1932,7 +1907,7 @@ ALTER TABLE `time_zones`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `user_levels`
@@ -1956,7 +1931,7 @@ ALTER TABLE `user_permissions`
 -- AUTO_INCREMENT de la tabla `voxes`
 --
 ALTER TABLE `voxes`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -2037,6 +2012,13 @@ ALTER TABLE `survey_answers`
   ADD CONSTRAINT `survey_answers_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`),
   ADD CONSTRAINT `survey_answers_ibfk_2` FOREIGN KEY (`survey_question`) REFERENCES `survey_questions` (`id`),
   ADD CONSTRAINT `survey_answers_ibfk_3` FOREIGN KEY (`room`) REFERENCES `rooms` (`id`);
+
+--
+-- Filtros para la tabla `survey_comments`
+--
+ALTER TABLE `survey_comments`
+  ADD CONSTRAINT `survey_comments_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`),
+  ADD CONSTRAINT `survey_comments_ibfk_2` FOREIGN KEY (`room`) REFERENCES `rooms` (`id`);
 
 --
 -- Filtros para la tabla `survey_questions`

@@ -195,7 +195,7 @@ class Voxes_model extends Model
 			'type' => $data['type'],
 			'data' => Functions::get_openssl('encrypt', json_encode([
 				'token' => $this->security->random_string(8),
-				'room' => (!empty($data['room'])) ? $data['room'] : null,
+				'room' => $data['room'],
 				'opportunity_area' => $data['opportunity_area'],
 				'opportunity_type' => $data['opportunity_type'],
 				'started_date' => Functions::get_formatted_date($data['started_date']),
@@ -558,7 +558,7 @@ class Voxes_model extends Model
 				'type' => $data['type'],
 				'data' => Functions::get_openssl('encrypt', json_encode([
 					'token' => $editer[0]['data']['token'],
-					'room' => (!empty($data['room'])) ? $data['room'] : null,
+					'room' => $data['room'] ?  : null,
 					'opportunity_area' => $data['opportunity_area'],
 					'opportunity_type' => $data['opportunity_type'],
 					'started_date' => Functions::get_formatted_date($editer[0]['data']['started_date']),

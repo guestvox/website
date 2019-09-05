@@ -38,11 +38,13 @@ class Myvox_model extends Model
 
 		if (!empty($query))
 		{
-			$query[0]['settings'] = $this->database->select('settings', [
-				'language'
+			$query[0]['settings'] = Functions::get_json_decoded_query($this->database->select('settings', [
+				'logotype',
+				'language',
+				'survey_title'
 			], [
 				'account' => $id
-			])[0];
+			])[0]);
 
 			return $query[0];
 		}
@@ -301,17 +303,34 @@ class Myvox_model extends Model
 
     public function new_survey_answers($data, $room, $account)
     {
-        foreach ($data as $value)
+		$a1 = true;
+
+        foreach ($data['answers'] as $value)
         {
-            $this->database->insert('survey_answers', [
+            $a2 = $this->database->insert('survey_answers', [
                 'account' => $account,
                 'room' => $room,
                 'survey_question' => $value[0],
                 'rate' => $value[1],
                 'date' => Functions::get_current_date(),
+                'token' => $data['token'],
             ]);
+
+			if (empty($a2))
+				$a1 = false;
         }
 
-        return true;
+		$a3 = $this->database->insert('survey_comments', [
+			'account' => $account,
+			'room' => $room,
+			'comment' => $data['comment'],
+			'date' => Functions::get_current_date(),
+			'token' => $data['token'],
+		]);
+
+		if ($a1 == true AND !empty($a3))
+			return true;
+		else
+			return null;
     }
 }

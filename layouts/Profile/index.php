@@ -12,25 +12,23 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
     <section class="box-container complete">
         <div class="main">
             <article>
-                <main class="tables">
-                    <h4>Mi Perfil</h4>
-                        <figure>
+                <main>
+                    <div class="profile">
+                        <!-- <figure>
                             <img src="images/avatar.png" alt="">
-                        </figure>
+                        </figure> -->
+                        <h2>{$name} {$lastname}</h2>
                         <h4>{$account}</h4>
-                        <h4>{$name} {$lastname}</h4>
-                        <h6>{$email}</h6>
-                        <h6>{$cellphone}</h6>
-                        <h6>{$username}</h6>
+                        <h6><span><i class="fas fa-envelope"></i>{$email}</span><span><i class="fas fa-phone"></i>{$cellphone}</span><span><i class="fas fa-user"></i>{$username}</span><span><i class="fas fa-lock"></i>{$user_level}</span></h6>
                         {$temporal_password}
-                        <h6>{$user_level}</h6>
-                        {$opportunity_areas}
-                        {$user_permissions}
-                        {$status}
-                        <div class="buttons ">
-							<a class="btn" data-button-modal="edit_profile">Editar perfil</a>
+                        <!-- {$opportunity_areas} -->
+                        <!-- {$user_permissions} -->
+                        <!-- {$status} -->
+                        <div class="">
+                            <a class="btn" data-button-modal="edit_profile">Editar perfil</a>
                             <a class="btn" data-button-modal="reset_password">Restablecer contraseña</a>
-						</div>
+                        </div>
+                    </div>
                 </main>
             </article>
         </div>
@@ -47,7 +45,7 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
                     <div class="span6">
                         <div class="label">
                             <label>
-                                <p>{$lang.name}</p>
+                                <p>{$lang.firstname}</p>
                                 <input type="text" name="name" value="{$name}" />
                             </label>
                         </div>

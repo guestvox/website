@@ -184,15 +184,8 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    $('[data-modal="success"]').addClass('view');
-
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="new_survey_answers"]').removeClass('view');
-                        $('[data-modal="new_comment_tripadvisor"]').addClass('view');
-                    }, 3000);
+                    $('[data-modal="new_survey_answers"]').removeClass('view');
+                    $('[data-modal="tripadvisor"]').addClass('view');
                 }
                 else if (response.status == 'error')
                 {

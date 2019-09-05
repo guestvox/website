@@ -13,51 +13,43 @@ class Index_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
-			// if ($_POST['action'] == 'get_room_package')
-			// {
-			// 	$query = $this->model->get_room_package($_POST);
-			//
-			// 	if (!empty($query))
-			// 	{
-			// 		Functions::environment([
-			// 			'status' => 'success',
-			// 			'data' => [
-			// 				'quantity' => $query['quantity_end'],
-			// 				'price' => Functions::get_formatted_currency(Functions::get_currency_exchange($query['price'], $_POST['currency'])),
-			// 			],
-			// 		]);
-			// 	}
-			// 	else
-			// 	{
-			// 		Functions::environment([
-			// 			'status' => 'error',
-			// 			'message' => '{$lang.error_operation_database}',
-			// 		]);
-			// 	}
-			// }
+			if ($_POST['action'] == 'get_packages')
+			{
+				$query = $this->model->get_packages($_POST);
 
-			// if ($_POST['action'] == 'get_user_package')
-			// {
-			// 	$query = $this->model->get_user_package($_POST);
-			//
-			// 	if (!empty($query))
-			// 	{
-			// 		Functions::environment([
-			// 			'status' => 'success',
-			// 			'data' => [
-			// 				'quantity' => $query['quantity_end'],
-			// 				'price' => Functions::get_formatted_currency(Functions::get_currency_exchange($query['price'], $_POST['currency'])),
-			// 			],
-			// 		]);
-			// 	}
-			// 	else
-			// 	{
-			// 		Functions::environment([
-			// 			'status' => 'error',
-			// 			'message' => '{$lang.error_operation_database}',
-			// 		]);
-			// 	}
-			// }
+				if (!empty($query))
+				{
+					if (!empty($query['room_package']))
+					{
+						$query['room_package'] = [
+							'quantity' => $query['room_package']['quantity_end'],
+							'price' => Functions::get_formatted_currency(Functions::get_currency_exchange($query['room_package']['price'], 'MXN', 'USD'), 'USD')
+						];
+					}
+
+					if (!empty($query['user_package']))
+					{
+						$query['user_package'] = [
+							'quantity' => $query['user_package']['quantity_end'],
+							'price' => Functions::get_formatted_currency(Functions::get_currency_exchange($query['user_package']['price'], 'MXN', 'USD'), 'USD')
+						];
+					}
+
+					$query['total'] = Functions::get_formatted_currency(Functions::get_currency_exchange($query['total'], 'MXN', 'USD'), 'USD');
+
+					Functions::environment([
+						'status' => 'success',
+						'data' => $query
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.error_operation_database}',
+					]);
+				}
+			}
 
 			// if ($_POST['action'] == 'get_cp')
 			// {
@@ -80,6 +72,170 @@ class Index_controller extends Controller
 			// 		]);
 			// 	}
 			// }
+
+			if ($_POST['action'] == 'go_to_step')
+			{
+				if ($_POST['step'] == '1')
+				{
+					$labels = [];
+
+					if (!isset($_POST['hotel']) OR empty($_POST['hotel']))
+				        array_push($labels, ['hotel','']);
+
+					if (!isset($_POST['rooms_number']) OR empty($_POST['rooms_number']) OR !is_numeric($_POST['rooms_number']) OR $_POST['rooms_number'] < 1)
+				        array_push($labels, ['rooms_number','']);
+
+					if (!isset($_POST['users_number']) OR empty($_POST['users_number']) OR !is_numeric($_POST['users_number']) OR $_POST['users_number'] < 1)
+				        array_push($labels, ['users_number','']);
+
+					if (!isset($_POST['country']) OR empty($_POST['country']))
+				        array_push($labels, ['country','']);
+
+					if (!isset($_POST['cp']) OR empty($_POST['cp']))
+				        array_push($labels, ['cp','']);
+
+					if (!isset($_POST['city']) OR empty($_POST['city']))
+				        array_push($labels, ['city','']);
+
+					if (!isset($_POST['address']) OR empty($_POST['address']))
+				        array_push($labels, ['address','']);
+
+					if (!isset($_POST['time_zone']) OR empty($_POST['time_zone']))
+				        array_push($labels, ['time_zone','']);
+
+					if (!isset($_POST['language']) OR empty($_POST['language']))
+				        array_push($labels, ['language','']);
+
+					if (!isset($_POST['currency']) OR empty($_POST['currency']))
+				        array_push($labels, ['currency','']);
+
+					if (empty($labels))
+					{
+						Functions::environment([
+							'status' => 'success'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'labels' => $labels
+						]);
+					}
+				}
+
+				if ($_POST['step'] == '2')
+				{
+					Functions::environment([
+						'status' => 'success'
+					]);
+				}
+
+				if ($_POST['step'] == '3')
+				{
+					$labels = [];
+
+					if (!isset($_POST['fiscal_id']) OR empty($_POST['fiscal_id']))
+				        array_push($labels, ['fiscal_id','']);
+
+					if (!isset($_POST['fiscal_name']) OR empty($_POST['fiscal_name']))
+				        array_push($labels, ['fiscal_name','']);
+
+					if (!isset($_POST['fiscal_address']) OR empty($_POST['fiscal_address']))
+				        array_push($labels, ['fiscal_address','']);
+
+					if (!isset($_POST['contact']) OR empty($_POST['contact']))
+				        array_push($labels, ['contact','']);
+
+					if (!isset($_POST['department']) OR empty($_POST['department']))
+				        array_push($labels, ['department','']);
+
+					if (!isset($_POST['contact_lada']) OR empty($_POST['contact_lada']))
+				        array_push($labels, ['contact_lada','']);
+
+					if (!isset($_POST['contact_phone']) OR empty($_POST['contact_phone']) OR strlen($_POST['contact_phone']) != 10)
+				        array_push($labels, ['contact_phone','']);
+
+					if (!isset($_POST['contact_email']) OR empty($_POST['contact_email']) OR Functions::check_email($_POST['contact_email']) == false)
+				        array_push($labels, ['contact_email','']);
+
+					if (empty($labels))
+					{
+						Functions::environment([
+							'status' => 'success'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'labels' => $labels
+						]);
+					}
+				}
+
+				if ($_POST['step'] == '4')
+				{
+					$labels = [];
+
+					if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+				        array_push($labels, ['firstname','']);
+
+					if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+				        array_push($labels, ['lastname','']);
+
+					if (!isset($_POST['lada']) OR empty($_POST['lada']))
+				        array_push($labels, ['lada','']);
+
+					if (!isset($_POST['phone']) OR empty($_POST['phone']) OR strlen($_POST['phone']) != 10)
+				        array_push($labels, ['phone','']);
+
+					if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
+				        array_push($labels, ['email','']);
+
+					if (!isset($_POST['username']) OR empty($_POST['username']))
+				        array_push($labels, ['username','']);
+
+					if (!isset($_POST['password']) OR empty($_POST['password']))
+				        array_push($labels, ['password','']);
+
+					if (empty($labels))
+					{
+						Functions::environment([
+							'status' => 'success'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'labels' => $labels
+						]);
+					}
+				}
+
+				if ($_POST['step'] == '5')
+				{
+					$labels = [];
+
+					if (!isset($_POST['payment']) OR empty($_POST['payment']))
+				        array_push($labels, ['payment','']);
+
+					if (empty($labels))
+					{
+						Functions::environment([
+							'status' => 'success'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'labels' => $labels
+						]);
+					}
+				}
+			}
 
 			// if ($_POST['action'] == 'signup')
 			// {
@@ -326,41 +482,6 @@ class Index_controller extends Controller
 			foreach ($this->model->get_time_zones() as $value)
 				$opt_time_zones .= '<option value="' . $value['code'] . '">' . $value['code'] . '</option>';
 
-			// $opt_time_zones_america = '<span>{$lang.america}</span>';
-			// $opt_time_zones_africa = '<span>{$lang.africa}</span>';
-			// $opt_time_zones_antarctica = '<span>{$lang.antarctica}</span>';
-			// $opt_time_zones_artic = '<span>{$lang.artic}</span>';
-			// $opt_time_zones_asia = '<span>{$lang.asia}</span>';
-			// $opt_time_zones_atlantic = '<span>{$lang.atlantic}</span>';
-			// $opt_time_zones_australia = '<span>{$lang.australia}</span>';
-			// $opt_time_zones_europe = '<span>{$lang.europe}</span>';
-			// $opt_time_zones_indian = '<span>{$lang.indian}</span>';
-			// $opt_time_zones_pacific = '<span>{$lang.pacific}</span>';
-			//
-			// foreach ($this->model->get_time_zones() as $value)
-			// {
-			// 	if ($value['zone'] == 'america')
-			// 		$opt_time_zones_america .= '<a data-select-opt><span data-select-value-1>' . $value['id'] . '</span><span data-select-value-2>' . $value['code'] . '</span></a>';
-			// 	if ($value['zone'] == 'africa')
-			// 		$opt_time_zones_africa .= '<a data-select-opt><span data-select-value-1>' . $value['id'] . '</span><span data-select-value-2>' . $value['code'] . '</span></a>';
-			// 	if ($value['zone'] == 'antarctica')
-			// 		$opt_time_zones_antarctica .= '<a data-select-opt><span data-select-value-1>' . $value['id'] . '</span><span data-select-value-2>' . $value['code'] . '</span></a>';
-			// 	if ($value['zone'] == 'artic')
-			// 		$opt_time_zones_artic .= '<a data-select-opt><span data-select-value-1>' . $value['id'] . '</span><span data-select-value-2>' . $value['code'] . '</span></a>';
-			// 	if ($value['zone'] == 'asia')
-			// 		$opt_time_zones_asia .= '<a data-select-opt><span data-select-value-1>' . $value['id'] . '</span><span data-select-value-2>' . $value['code'] . '</span></a>';
-			// 	if ($value['zone'] == 'atlantic')
-			// 		$opt_time_zones_atlantic .= '<a data-select-opt><span data-select-value-1>' . $value['id'] . '</span><span data-select-value-2>' . $value['code'] . '</span></a>';
-			// 	if ($value['zone'] == 'australia')
-			// 		$opt_time_zones_australia .= '<a data-select-opt><span data-select-value-1>' . $value['id'] . '</span><span data-select-value-2>' . $value['code'] . '</span></a>';
-			// 	if ($value['zone'] == 'europe')
-			// 		$opt_time_zones_europe .= '<a data-select-opt><span data-select-value-1>' . $value['id'] . '</span><span data-select-value-2>' . $value['code'] . '</span></a>';
-			// 	if ($value['zone'] == 'indian')
-			// 		$opt_time_zones_indian .= '<a data-select-opt><span data-select-value-1>' . $value['id'] . '</span><span data-select-value-2>' . $value['code'] . '</span></a>';
-			// 	if ($value['zone'] == 'pacific')
-			// 		$opt_time_zones_pacific .= '<a data-select-opt><span data-select-value-1>' . $value['id'] . '</span><span data-select-value-2>' . $value['code'] . '</span></a>';
-			// }
-
 			$opt_ladas = '';
 
 			foreach ($this->model->get_countries() as $value)
@@ -371,7 +492,6 @@ class Index_controller extends Controller
 				'{$opt_languages}' => $opt_languages,
 				'{$opt_countries}' => $opt_countries,
 				'{$opt_time_zones}' => $opt_time_zones,
-				// '{$opt_time_zones}' => $opt_time_zones_america . $opt_time_zones_africa . $opt_time_zones_antarctica . $opt_time_zones_artic . $opt_time_zones_asia . $opt_time_zones_atlantic . $opt_time_zones_australia . $opt_time_zones_europe . $opt_time_zones_indian . $opt_time_zones_pacific,
 				'{$opt_ladas}' => $opt_ladas,
 			];
 

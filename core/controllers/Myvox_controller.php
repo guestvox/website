@@ -24,7 +24,7 @@ class Myvox_controller extends Controller
                     $data = '<option value="" selected hidden>{$lang.choose}</option>';
 
                     foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['option']) as $value)
-                        $data .= '<option value="' . $value['id'] . '">' . $value['name'][$account['settings']['language']] . '</option>';
+                        $data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('lang')] . '</option>';
 
                     Functions::environment([
                         'status' => 'success',
@@ -335,40 +335,110 @@ class Myvox_controller extends Controller
 
                 if ($_POST['action'] == 'new_survey_answers')
                 {
-                    $answers = [];
+					$labels = [];
 
-                    foreach ($_POST as $value)
+					if (!isset($_POST['comment']) OR empty($_POST['comment']))
+                        array_push($labels, ['comment','']);
+
+                    if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
+                        array_push($labels, ['email','']);
+
+                    if (empty($labels))
                     {
-                        if ($value != 'new_survey_answers')
-                        {
-                            $e = explode('-', $value);
-                            array_push($answers, $e);
-                        }
-                    }
+						$_POST['token'] = Functions::get_random(6);
+                        $_POST['answers'] = $_POST;
 
-                    $query = $this->model->new_survey_answers($answers, $room['id'], $account['id']);
+						unset($_POST['answers']['comment']);
+						unset($_POST['answers']['firstname']);
+						unset($_POST['answers']['lastname']);
+						unset($_POST['answers']['email']);
+						unset($_POST['answers']['token']);
+						unset($_POST['answers']['action']);
 
-                    if (!empty($query))
-                    {
-                        $t1 = 5 * count($answers);
-                        $t2 = 0;
+						foreach ($_POST['answers'] as $key => $value)
+	                    {
+							$ex = explode('-', $value);
+							$_POST['answers'][$key] = $ex;
+	                    }
 
-                        foreach ($answers as $value)
-                            $t2 = $t2 + $value[1];
+						$query = $this->model->new_survey_answers($_POST, $room['id'], $account['id']);
 
-                        $t3 = (100 * $t2) / $t1;
+						if (!empty($query))
+	                    {
+	                       $mail = new Mailer(true);
 
-                        Functions::environment([
-                            'status' => 'success',
-                            'message' => ($t3 < 80) ? '{$lang.thanks_for_answering_our_survey}' : '{$lang.to_conclude_leave_us_your_review}',
-                            'path' => ($t3 < 80) ? '/myvox/' . $room['qr']['code'] : 'https://search.google.com/local/writereview?placeid=ChIJKRPvDXn90YUR7BsNmMwLkPc'
-                        ]);
+                            try
+                            {
+                                if (Session::get_value('lang') == 'es')
+                                    $mail_subject = 'Gracias por contestar nuestra encuensta';
+                                else if (Session::get_value('lang') == 'en')
+                                    $mail_subject = 'Thanks for answers our surver';
+
+                                $mail->isSMTP();
+                                $mail->setFrom('noreply@guestvox.com', 'GuestVox');
+								$mail->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
+                                $mail->isHTML(true);
+                                $mail->Subject = $mail_subject;
+                                $mail->Body =
+                                '<html>
+                                    <head>
+                                        <title>' . $mail_subject . '</title>
+                                    </head>
+                                    <body>
+                                        <table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
+                                            <tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
+                                                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+                                                    <figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+                                                        <img style="width:100%;max-width:300px;" src="https://guestvox.com/uploads/' . $account['settings']['logotype'] . '" />
+                                                    </figure>
+                                                </td>
+                                            </tr>
+                                            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
+                                                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+                                                    <h4 style="font-size:24px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject . '</h4>
+                                                    <h6 style="font-size:40px;font-weight:600;text-align:center;color:#212121;margin:0px;padding:0px;">' . $_POST['token'] . '</h6>
+                                                </td>
+                                            </tr>
+                                            <tr style="width:100%;margin:0px;border:0px;padding:0px;">
+                                                <td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
+                                                    <a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://guestvox.com/">Powered by GuestVox</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </body>
+                                </html>';
+                                $mail->AltBody = '';
+                                $mail->send();
+                            }
+                            catch (Exception $e) { }
+
+							$t1 = 5 * count($_POST['answers']);
+							$t2 = 0;
+
+							foreach ($_POST['answers'] as $value)
+								$t2 = $t2 + $value[1];
+
+							$t3 = (100 * $t2) / $t1;
+
+	                        Functions::environment([
+	                            'status' => 'success',
+	                            'message' => ($t3 < 80) ? '{$lang.thanks_for_answering_our_survey}' : '',
+	                            'path' => ($t3 < 80) ? '/myvox/' . $room['qr']['code'] : ''
+	                        ]);
+	                    }
+	                    else
+	                    {
+	                        Functions::environment([
+	                            'status' => 'error',
+	                            'message' => '{$lang.error_operation_database}'
+	                        ]);
+	                    }
                     }
                     else
                     {
                         Functions::environment([
                             'status' => 'error',
-                            'message' => '{$lang.error_operation_database}'
+                            'labels' => $labels
                         ]);
                     }
                 }
@@ -382,12 +452,12 @@ class Myvox_controller extends Controller
                 $opt_opportunity_areas = '';
 
                 foreach ($this->model->get_opportunity_areas('request', $account['id']) as $value)
-                    $opt_opportunity_areas .= '<option value="' . $value['id'] . '">' . $value['name'][$account['settings']['language']] . '</option>';
+                    $opt_opportunity_areas .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('lang')] . '</option>';
 
                 $opt_locations = '';
 
                 foreach ($this->model->get_locations('request', $account['id']) as $value)
-                    $opt_locations .= '<option value="' . $value['id'] . '">' . $value['name'][$account['settings']['language']] . '</option>';
+                    $opt_locations .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('lang')] . '</option>';
 
                 $art_survey_questions = '';
 
@@ -409,6 +479,8 @@ class Myvox_controller extends Controller
                 }
 
                 $replace = [
+					'{$logotype}' => '{$path.uploads}' . $account['settings']['logotype'],
+					'{$survey_title}' => $account['settings']['survey_title'][Session::get_value('lang')],
                     '{$opt_opportunity_areas}' => $opt_opportunity_areas,
                     '{$opt_locations}' => $opt_locations,
                     '{$art_survey_questions}' => $art_survey_questions,
