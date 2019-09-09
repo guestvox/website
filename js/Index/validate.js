@@ -1,0 +1,54 @@
+'use strict';
+
+$(document).ready(function()
+{
+    $('[data-action="login"]').on('click', function()
+    {
+        $('form[name="login"]').submit();
+    });
+
+    $('[data-modal="login"]').modal().onCancel(function()
+    {
+        $('fieldset.error').removeClass('error');
+        $('form[name="login"]')[0].reset();
+    });
+
+    $('form[name="login"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&action=login',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    window.location.href = response.path;
+                else if (response.status == 'error')
+                {
+                    if (response.labels)
+                    {
+                        $('fieldset.error').removeClass('error');
+
+                        $.each(response.labels, function(i, label)
+                        {
+                            form.find('[name="' + label[0] + '"]').parents('fieldset').addClass('error');
+                        });
+
+                        form.find('fieldset.error [name]')[0].focus();
+                    }
+                    else if (response.message)
+                    {
+                        $('[data-modal="error"]').find('main > p').html(response.message);
+                        $('[data-modal="error"]').addClass('view');
+                    }
+                }
+            }
+        });
+    });
+});

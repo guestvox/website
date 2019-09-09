@@ -238,7 +238,7 @@ class Configuration
 	 *
      * @var string $smtp_host
      */
-	public static $smtp_host = 'smtp.elasticemail.com';
+	public static $smtp_host = 'mail.codemonkey.com.mx';
 
 	/**
      * Usuario de la cuenta smtp.
@@ -248,7 +248,7 @@ class Configuration
 	 *
      * @var string $smtp_user
      */
-	public static $smtp_user = 'daniel@guestvox.com';
+	public static $smtp_user = 'noreply@guestvox.com';
 
 	/**
      * Contraseña de la cuenta smtp.
@@ -257,7 +257,7 @@ class Configuration
 	 *
      * @var string $smtp_pass
      */
-	public static $smtp_pass = 'd0a19e59-4e09-4752-bdc3-ce593c70dec6';
+	public static $smtp_pass = 'P9#se9k4';
 
 	/**
      * Seguridad de la encriptacion para el envio de SMTP.
@@ -267,7 +267,7 @@ class Configuration
 	 *
      * @var string $smtp_secure
      */
-	public static $smtp_secure = 'tls';
+	public static $smtp_secure = 'ssl';
 
 	/**
      * Puerto de conexion al servidor SMTP.
@@ -276,5 +276,5 @@ class Configuration
 	 *
      * @var integer $smtp_port
      */
-	public static $smtp_port = 2525;
+	public static $smtp_port = 465;
 }

@@ -337,9 +337,6 @@ class Myvox_controller extends Controller
                 {
 					$labels = [];
 
-					if (!isset($_POST['comment']) OR empty($_POST['comment']))
-                        array_push($labels, ['comment','']);
-
                     if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
                         array_push($labels, ['email','']);
 

@@ -476,11 +476,14 @@ class Stats_model extends Model
 			{
 				$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
 
-				$date1 = new DateTime($value['data']['started_date'] . ' ' . $value['data']['started_hour']);
-				$date2 = new DateTime($value['data']['completed_date'] . ' ' . $value['data']['completed_hour']);
-				$date3 = $date1->diff($date2);
-				$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
-				$count = $count + 1;
+				if (Functions::get_current_date_hour() >= Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']))
+				{
+					$date1 = new DateTime($value['data']['started_date'] . ' ' . $value['data']['started_hour']);
+					$date2 = new DateTime($value['data']['completed_date'] . ' ' . $value['data']['completed_hour']);
+					$date3 = $date1->diff($date2);
+					$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
+					$count = $count + 1;
+				}
 			}
 
 			$average = $hours / $count;

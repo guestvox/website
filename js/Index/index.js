@@ -2,15 +2,12 @@
 
 $(document).ready(function()
 {
-    // ---
-
-    $('[data-open-resoff]').on('click', function(e)
+    $('[data-open-main-menu]').on('click', function(e)
     {
         e.stopPropagation();
-        $('header.landing-page nav.resoff').toggleClass('open');
-    });
 
-    // ---
+        $('header.landing-page nav[data-main-menu]').toggleClass('open');
+    });
 
     $('[name="rooms_number"]').on('change', function()
     {
@@ -110,11 +107,39 @@ $(document).ready(function()
     //     });
     // });
 
+    $('[data-image-select]').on('click', function()
+    {
+        $(this).parents('.uploader').find('[data-image-upload]').click();
+    });
+
+    $('[data-image-upload]').on('change', function()
+    {
+        var preview = $(this).parents('.uploader').find('[data-image-preview]');
+
+        if ($(this)[0].files[0].type.match($(this).attr('accept')))
+        {
+            var reader = new FileReader();
+
+            reader.onload = function(e)
+            {
+                preview.attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL($(this)[0].files[0]);
+        }
+        else
+        {
+            $('[data-modal="error"]').find('main > p').html('ERROR FILE NOT PERMIT');
+            $('[data-modal="error"]').addClass('view');
+        }
+    });
+
     var step;
 
     $('[data-action="go_to_step"]').on('click', function()
     {
         step = $(this).parent().data('step');
+
         $('form[name="signup"]').submit();
     });
 
@@ -153,8 +178,17 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
+                    step = step + 1;
+
                     $('[data-step]').removeClass('view');
-                    $('[data-step="' + (step + 1) + '"]').addClass('view');
+                    $('[data-step="' + step + '"]').addClass('view');
+
+                    if (step == 6)
+                    {
+                        $('#success-step-message').html(response.message);
+
+                        setTimeout(function() { location.reload(); }, 6000);
+                    }
                 }
                 else if (response.status == 'error')
                 {
@@ -175,6 +209,11 @@ $(document).ready(function()
                 }
             }
         });
+    });
+
+    $('[data-action="login"]').on('click', function()
+    {
+        $('form[name="login"]').submit();
     });
 
     $('[data-modal="login"]').modal().onCancel(function()

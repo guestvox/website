@@ -27,7 +27,7 @@ class Upload
 
     public function SetFileName( $argv )
     {
-        $this->fileName = $this->security->random_string(16) . '_' . $this->security->clean_string( preg_replace('([^A-Za-z _0-9])', '', $argv) );
+        $this->fileName = $this->security->random_string(16);
     }
 
     public function SetTempName( $argv )

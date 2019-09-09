@@ -225,7 +225,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
                 <div class="row">
                     <div class="span12">
                         <div class="label">
-                            <label important>
+                            <label class="success">
                                 <p>{$lang.comments}</p>
                                 <textarea name="comment"></textarea>
                             </label>
@@ -233,7 +233,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label important>
+                            <label class="success">
                                 <p>{$lang.firstname}</p>
                                 <input type="text" name="firstname">
                             </label>
@@ -241,7 +241,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label important>
+                            <label class="success">
                                 <p>{$lang.lastname}</p>
                                 <input type="text" name="lastname">
                             </label>

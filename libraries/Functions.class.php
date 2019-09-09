@@ -219,6 +219,28 @@ class Functions
     }
 
     // ---
+    // Checks
+    // ---
+
+    static public function check_access($user_permissions)
+    {
+        $access = false;
+
+        foreach ($user_permissions as $value)
+        {
+            if (in_array($value, Session::get_value('user')['user_permissions']))
+                $access = true;
+        }
+
+        return $access;
+    }
+
+    static public function check_email($email)
+    {
+        return (filter_var($email, FILTER_VALIDATE_EMAIL)) ? true : false;
+    }
+
+    // ---
     // Queries
     // ---
 
@@ -244,25 +266,75 @@ class Functions
     }
 
     // ---
-    // Checks
+    // Uploader
     // ---
 
-    static public function check_access($user_permissions)
-    {
-        $access = false;
-
-        foreach ($user_permissions as $value)
+    public static function uploader($file = null, $upload_directory = PATH_UPLOADS, $valid_extensions = ['png','jpg','jpeg'], $maximum_file_size = 'unlimited', $multiple = false)
+	{
+        if (!empty($file))
         {
-            if (in_array($value, Session::get_value('user')['user_permissions']))
-                $access = true;
+            $components = new Components;
+            $components->load_component('uploader');
+            $upload = new Upload;
+
+            if ($multiple == true)
+            {
+                foreach ($file as $key => $value)
+                {
+                    $upload->SetFileName($value['name']);
+                    $upload->SetTempName($value['tmp_name']);
+                    $upload->SetFileType($value['type']);
+                    $upload->SetFileSize($value['size']);
+                    $upload->SetUploadDirectory($upload_directory);
+                    $upload->SetValidExtensions($valid_extensions);
+                    $upload->SetMaximumFileSize($maximum_file_size);
+
+                    $value = $upload->UploadFile();
+
+                    if ($value['status'] == 'success')
+                        $file[$key] = $value['file'];
+                    else
+                        unset($file[$key]);
+                }
+
+                $file = array_merge($file);
+            }
+            else if ($multiple == false)
+            {
+                $upload->SetFileName($file['name']);
+                $upload->SetTempName($file['tmp_name']);
+                $upload->SetFileType($file['type']);
+                $upload->SetFileSize($file['size']);
+                $upload->SetUploadDirectory($upload_directory);
+                $upload->SetValidExtensions($valid_extensions);
+                $upload->SetMaximumFileSize($maximum_file_size);
+
+                $file = $upload->UploadFile();
+
+                if ($file['status'] == 'success')
+                    $file = $file['file'];
+                else
+                    $file = null;
+            }
+
+            return $file;
         }
+        else
+            return null;
+	}
 
-        return $access;
-    }
-
-    static public function check_email($email)
+    public static function undoloader($file = null, $upload_directory = PATH_UPLOADS)
     {
-        return (filter_var($email, FILTER_VALIDATE_EMAIL)) ? true : false;
+        if (!empty($file))
+        {
+            if (is_array($file))
+            {
+                foreach ($file as $value)
+                    unlink($upload_directory . $value);
+            }
+            else
+                unlink($upload_directory . $file);
+        }
     }
 
     // ---

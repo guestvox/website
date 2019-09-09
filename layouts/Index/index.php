@@ -12,14 +12,14 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
         <figure>
             <img src="{$path.images}logotype-white.png" alt="">
         </figure>
-        <nav class="resoff">
+        <nav data-main-menu>
             <a href="https://blog.guestvox.com" class="btn no-border">{$lang.our_blog}</a>
             <a data-button-modal="signup" class="btn">{$lang.signup}</a>
             <a data-button-modal="login" class="btn">{$lang.login}</a>
             <a href="?<?php echo Language::get_lang_url(Functions::get_lang(true)); ?>" class="btn no-border">{$lang.<?php echo Functions::get_lang(true) ?>}</a>
         </nav>
-        <nav class="reson">
-            <a class="btn" data-open-resoff><i class="fas fa-bars"></i></a>
+        <nav>
+            <a class="btn" data-open-main-menu><i class="fas fa-bars"></i></a>
         </nav>
     </div>
 </header>
@@ -146,12 +146,12 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
                                 </div>
                                 <div class="span3">
                                     <fieldset>
-                                        <input type="number" name="rooms_number" placeholder="{$lang.n_rooms}">
+                                        <input type="number" name="rooms_number" placeholder="{$lang.n_rooms}" min="1">
                                     </fieldset>
                                 </div>
                                 <div class="span3">
                                     <fieldset>
-                                        <input type="number" name="users_number" placeholder="{$lang.n_users}">
+                                        <input type="number" name="users_number" placeholder="{$lang.n_users}" min="1">
                                     </fieldset>
                                 </div>
                                 <div class="span4">
@@ -228,11 +228,13 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
                         <div class="row">
                             <div class="span6">
                                 <div class="uploader">
-                                    <figure>
-                                        <img src="{$path.images}empty.png" alt="" data-image-preview>
-                                        <a data-image-select><i class="fas fa-upload"></i></a>
-                                    </figure>
-                                    <input type="file" name="logotype" accept="image/*" data-image-upload>
+                                    <fieldset>
+                                        <figure>
+                                            <img src="{$path.images}empty.png" alt="" data-image-preview>
+                                            <a data-image-select><i class="fas fa-upload"></i></a>
+                                        </figure>
+                                        <input type="file" name="logotype" accept="image/*" data-image-upload>
+                                    </fieldset>
                                 </div>
                             </div>
                         </div>
@@ -260,7 +262,7 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
                                 </div>
                                 <div class="span6">
                                     <fieldset>
-                                        <input type="text" name="contact" placeholder="{$lang.contact}">
+                                        <input type="text" name="contact_name" placeholder="{$lang.contact}">
                                     </fieldset>
                                 </div>
                                 <div class="span6">
@@ -348,18 +350,30 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
                                     <h4><strong></strong> {$lang.per_month}</h4>
                                 </div>
                                 <div class="payment">
-                                    <!-- <label>
-                                        <figure>
-                                            <img src="{$path.images}mercado_pago.png" alt="">
-                                        </figure>
-                                        <input type="radio" name="payment" value="mercado_pago">
-                                    </label> -->
-                                    <label>
-                                        <figure>
-                                            <img src="{$path.images}paypal.png" alt="">
-                                        </figure>
-                                        <input type="radio" name="payment" value="paypal" checked>
-                                    </label>
+                                    <fieldset>
+                                        <label>
+                                            <figure>
+                                                <img src="{$path.images}mastercard_visa.png" alt="">
+                                            </figure>
+                                            <input type="radio" name="payment" value="card" checked>
+                                        </label>
+                                    </fieldset>
+                                    <fieldset>
+                                        <label>
+                                            <figure>
+                                                <img src="{$path.images}mercado_pago.png" alt="">
+                                            </figure>
+                                            <input type="radio" name="payment" value="mercado_pago">
+                                        </label>
+                                    </fieldset>
+                                    <fieldset>
+                                        <label>
+                                            <figure>
+                                                <img src="{$path.images}paypal.png" alt="">
+                                            </figure>
+                                            <input type="radio" name="payment" value="paypal">
+                                        </label>
+                                    </fieldset>
                                 </div>
                                 <fieldset>
                                     <input type="text" name="promotional_code" placeholder="{$lang.apply_promotional_code}">
@@ -376,11 +390,10 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
                                     <figure>
                                         <img src="{$path.images}check_color.png" alt="">
                                     </figure>
-                                    <p>{$lang.for_activate_your_account}</p>
+                                    <p id="success-step-message"></p>
                                 </div>
                             </div>
                         </div>
-                        <a class="btn" data-action="go_to_step">{$lang.next}</a>
                     </div>
                 </div>
             </form>
@@ -400,7 +413,7 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
                 <fieldset>
                     <input type="password" name="password" placeholder="{$lang.password}" />
                 </fieldset>
-                <button type="submit">{$lang.login}</button>
+                <a class="btn" data-action="login">{$lang.next}</a>
                 <a button-cancel>{$lang.cancel}</a>
             </form>
         </main>

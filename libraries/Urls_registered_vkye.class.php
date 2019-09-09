@@ -13,7 +13,7 @@ class Urls_registered_vkye
                 'controller' => 'Index',
                 'method' => 'index'
             ],
-            '/validate/%param%' => [
+            '/validate/%param%/%param%' => [
                 'controller' => 'Index',
                 'method' => 'validate'
             ],
