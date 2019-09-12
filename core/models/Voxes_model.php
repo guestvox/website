@@ -750,27 +750,27 @@ class Voxes_model extends Model
 
 	// ---
 
-	// public function get_sms()
-	// {
-	// 	$query = $this->database->select('settings', [
-	// 		'sms'
-	// 	], [
-	// 		'account' => Session::get_value('account')['id']
-	// 	]);
-	//
-	// 	return !empty($query) ? $query[0]['sms'] : 0;
-	// }
+	public function get_sms()
+	{
+		$query = $this->database->select('settings', [
+			'sms'
+		], [
+			'account' => Session::get_value('account')['id']
+		]);
 
-	// public function edit_sms($sms)
-	// {
-	// 	$query = $this->database->update('settings', [
-	// 		'sms' => $sms
-	// 	], [
-	// 		'account' => Session::get_value('account')['id']
-	// 	]);
-	//
-	// 	return $query;
-	// }
+		return !empty($query) ? $query[0]['sms'] : 0;
+	}
+
+	public function edit_sms($sms)
+	{
+		$query = $this->database->update('settings', [
+			'sms' => $sms
+		], [
+			'account' => Session::get_value('account')['id']
+		]);
+
+		return $query;
+	}
 
 	// ---
 
@@ -1106,4 +1106,18 @@ class Voxes_model extends Model
 		else
 			return null;
 	}
+
+	// public function getSslPage($url)
+	// {
+	//     $ch = curl_init();
+	//     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+	//     curl_setopt($ch, CURLOPT_HEADER, false);
+	//     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+	//     curl_setopt($ch, CURLOPT_URL, $url);
+	//     curl_setopt($ch, CURLOPT_REFERER, $url);
+	//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	//     $result = curl_exec($ch);
+	//     curl_close($ch);
+	//     return $result;
+	// }
 }
