@@ -9,93 +9,193 @@ class Account_model extends Model
 		parent::__construct();
 	}
 
-	public function get_user()
+	public function get_account()
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('users', [
+		$query = Functions::get_json_decoded_query($this->database->select('settings', [
 			'[>]accounts' => [
 				'account' => 'id'
 			],
-			'[>]user_levels' => [
-				'user_level' => 'id'
-			],
 		], [
-			'users.id',
-			'accounts.name(account)',
-			'users.name',
-			'users.lastname',
-			'users.email',
-			'users.cellphone',
-			'users.username',
-			'users.temporal_password',
-			'user_levels.name(user_level)',
-			'users.user_permissions',
-			'users.opportunity_areas',
-			'users.status',
+			'accounts.name',
+			'accounts.signup_date',
+			'settings.private_key',
+			'settings.country',
+			'settings.cp',
+			'settings.city',
+			'settings.address',
+			'settings.time_zone',
+			'settings.language',
+			'settings.currency',
+			'settings.logotype',
+			'settings.currency',
+			'settings.fiscal_id',
+			'settings.fiscal_name',
+			'settings.fiscal_address',
+			'settings.contact',
+			'settings.sms',
 		], [
 			'AND' => [
-				'users.id' => Session::get_value('user')['id'],
+				'settings.account' => Session::get_value('account')['id'],
 			]
 		]));
 
-		if (!empty($query))
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_countries()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('countries', [
+			'name',
+			'code',
+			'lada'
+		], [
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		return $query;
+	}
+
+	public function get_time_zones()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('time_zones', [
+			'code'
+		], [
+			'ORDER' => [
+				'zone' => 'ASC'
+			]
+		]));
+
+		return $query;
+	}
+
+	public function get_languages()
+	{
+		$query = $this->database->select('languages', [
+			'name',
+			'code'
+		], [
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]);
+
+		return $query;
+	}
+
+	public function get_currencies()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('currencies', [
+			'name',
+			'code'
+		], [
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		return $query;
+	}
+
+	public function get_sms_packages()
+	{
+		$query = $this->database->select('sms_packages', [
+			'id',
+			'quantity',
+			'price'
+		], [
+			'ORDER' => [
+				'quantity' => 'ASC'
+			]
+		]);
+
+		return $query;
+	}
+
+	public function get_sms_package($id)
+	{
+		$query = $this->database->select('sms_packages', [
+			'quantity',
+			'price'
+		], [
+			'id' => $id
+		]);
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function check_exist_account($parameter, $option)
+	{
+		if ($option == 'account')
 		{
-			if (!empty($query[0]['temporal_password']))
-				$query[0]['temporal_password'] = Functions::get_decrypt($query[0]['temporal_password']);
-
-			if (!empty($query[0]['opportunity_areas']))
-			{
-				foreach ($query[0]['opportunity_areas'] as $key => $value)
-				{
-					$query[0]['opportunity_areas'][$key] = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
-						'name'
-					], [
-						'id' => $value
-					]))[0]['name'];
-				}
-			}
-
-			if (!empty($query[0]['user_permissions']))
-			{
-				foreach ($query[0]['user_permissions'] as $key => $value)
-				{
-					$query[0]['user_permissions'][$key] = Functions::get_json_decoded_query($this->database->select('user_permissions', [
-						'code'
-					], [
-						'id' => $value
-					]))[0]['code'];
-				}
-			}
-
-			return $query[0];
+			$count = $this->database->count('accounts', [
+				'id[!]' => Session::get_value('account')['id'],
+				'name' => $parameter
+			]);
 		}
+		else if ($option == 'fiscal_id')
+		{
+			$count = $this->database->count('settings', [
+				'account[!]' => Session::get_value('account')['id'],
+				'fiscal_id' => $parameter
+			]);
+		}
+		else if ($option == 'fiscal_name')
+		{
+			$count = $this->database->count('settings', [
+				'account[!]' => Session::get_value('account')['id'],
+				'fiscal_name' => $parameter
+			]);
+		}
+
+		return ($count > 0) ? true : false;
+	}
+
+	public function edit_logotype($data)
+	{
+		$query = $this->database->update('settings', [
+			'logotype' => Functions::uploader($data['logotype']),
+		], [
+			'account' => Session::get_value('account')['id'],
+		]);
+
+		return $query;
+	}
+
+	public function edit_account($data)
+	{
+		$query1 = $this->database->update('accounts', [
+			'name' => $data['account'],
+		], [
+			'id' => Session::get_value('account')['id'],
+		]);
+
+		$query2 = $this->database->update('settings', [
+			'country' => $data['country'],
+			'cp' => $data['cp'],
+			'city' => $data['city'],
+			'address' => $data['address'],
+			'time_zone' => $data['time_zone'],
+			'language' => $data['language'],
+			'currency' => $data['currency'],
+			'fiscal_id' => $data['fiscal_id'],
+			'fiscal_name' => $data['fiscal_name'],
+			'fiscal_address' => $data['fiscal_address'],
+			'contact' => json_encode([
+				'name' => $data['contact_name'],
+				'department' => $data['contact_department'],
+				'lada' => $data['contact_lada'],
+				'phone' => $data['contact_phone'],
+				'email' => $data['contact_email'],
+			]),
+		], [
+			'account' => Session::get_value('account')['id'],
+		]);
+
+		if (!empty($query1) AND !empty($query2))
+			return true;
 		else
 			return null;
-	}
-
-	public function edit_profile($data)
-	{
-		$query = $this->database->update('users', [
-			'name' => $data['name'],
-			'lastname' => $data['lastname'],
-			'email' => $data['email'],
-			'cellphone' => $data['cellphone'],
-			'username' => $data['username'],
-		], [
-			'id' => Session::get_value('user')['id'],
-		]);
-
-		return $query;
-	}
-
-	public function reset_password($data)
-	{
-		$query = $this->database->update('users', [
-			'password' => $this->security->create_password($data['password']),
-			'temporal_password' => null,
-		], [
-			'id' => Session::get_value('user')['id'],
-		]);
-
-		return $query;
 	}
 }

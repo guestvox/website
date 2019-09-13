@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-09-2019 a las 18:57:17
+-- Tiempo de generación: 13-09-2019 a las 22:17:33
 -- Versión del servidor: 10.1.30-MariaDB
 -- Versión de PHP: 7.0.27
 
@@ -40,9 +40,7 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`id`, `name`, `signup_date`, `status`) VALUES
-(1, 'GuestVox', '2019-07-16', 1),
-(2, 'Casa Blanca', '2019-09-06', 0),
-(3, 'City Express', '2019-09-06', 0);
+(1, 'GuestVox', '2019-07-16', 1);
 
 -- --------------------------------------------------------
 
@@ -610,19 +608,7 @@ INSERT INTO `guest_treatments` (`id`, `account`, `name`) VALUES
 (3, 1, 'Srita.'),
 (4, 1, 'Mr.'),
 (5, 1, 'Miss.'),
-(6, 1, 'Mrs.'),
-(7, 2, 'Sr.'),
-(8, 2, 'Sra.'),
-(9, 2, 'Srita.'),
-(10, 2, 'Mr.'),
-(11, 2, 'Miss.'),
-(12, 2, 'Mrs.'),
-(13, 3, 'Sr.'),
-(14, 3, 'Sra.'),
-(15, 3, 'Srita.'),
-(16, 3, 'Mr.'),
-(17, 3, 'Miss.'),
-(18, 3, 'Mrs.');
+(6, 1, 'Mrs.');
 
 -- --------------------------------------------------------
 
@@ -647,21 +633,7 @@ INSERT INTO `guest_types` (`id`, `account`, `name`) VALUES
 (4, 1, 'Gold'),
 (5, 1, 'Platinium'),
 (6, 1, 'Regular'),
-(7, 1, 'V.I.P.'),
-(8, 2, 'Club vacacional'),
-(9, 2, 'Day pass'),
-(10, 2, 'Externo'),
-(11, 2, 'Gold'),
-(12, 2, 'Platinium'),
-(13, 2, 'Regular'),
-(14, 2, 'V.I.P.'),
-(15, 3, 'Club vacacional'),
-(16, 3, 'Day pass'),
-(17, 3, 'Externo'),
-(18, 3, 'Gold'),
-(19, 3, 'Platinium'),
-(20, 3, 'Regular'),
-(21, 3, 'V.I.P.');
+(7, 1, 'V.I.P.');
 
 -- --------------------------------------------------------
 
@@ -786,19 +758,7 @@ INSERT INTO `reservation_status` (`id`, `account`, `name`) VALUES
 (3, 1, 'Pre llegada'),
 (4, 1, 'Llegada'),
 (5, 1, 'Pre salida'),
-(6, 1, 'Salida'),
-(7, 2, 'En casa'),
-(8, 2, 'Fuera de casa'),
-(9, 2, 'Pre llegada'),
-(10, 2, 'Llegada'),
-(11, 2, 'Pre salida'),
-(12, 2, 'Salida'),
-(13, 3, 'En casa'),
-(14, 3, 'Fuera de casa'),
-(15, 3, 'Pre llegada'),
-(16, 3, 'Llegada'),
-(17, 3, 'Pre salida'),
-(18, 3, 'Salida');
+(6, 1, 'Salida');
 
 -- --------------------------------------------------------
 
@@ -849,13 +809,13 @@ CREATE TABLE `settings` (
   `private_key` longtext CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `room_package` bigint(20) DEFAULT NULL,
   `user_package` bigint(20) DEFAULT NULL,
-  `country` varchar(4) NOT NULL,
-  `cp` varchar(5) NOT NULL,
+  `country` text NOT NULL,
+  `cp` text NOT NULL,
   `city` text NOT NULL,
   `address` text NOT NULL,
   `time_zone` text NOT NULL,
   `language` enum('es','en') CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
-  `currency` varchar(4) NOT NULL,
+  `currency` text NOT NULL,
   `logotype` text,
   `fiscal_id` text NOT NULL,
   `fiscal_name` text NOT NULL,
@@ -872,9 +832,27 @@ CREATE TABLE `settings` (
 --
 
 INSERT INTO `settings` (`id`, `account`, `private_key`, `room_package`, `user_package`, `country`, `cp`, `city`, `address`, `time_zone`, `language`, `currency`, `logotype`, `fiscal_id`, `fiscal_name`, `fiscal_address`, `contact`, `payment`, `promotional_code`, `sms`, `survey_title`) VALUES
-(1, 1, 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7', 4, 4, 'MEX', '77500', 'Cancún', 'Mi dirección', 'America/Cancun', 'es', 'MXN', 'guestvox.png', 'AAAA123456789', 'GuestVox S.A.P.I. de C.V.', 'Mi dirección', '{\"name\":\"Gersón Gómez\",\"department\":\"Informática\",\"lada\":\"52\",\"phone\":\"1234567890\",\"email\":\"gerson@guestvox.com\"}', 'card', NULL, 0, '{\"es\":\"Responde nuestra encuesta y obt\\u00e9n una botella de vino\",\"en\":\"Answer our survey and get a bottle of wine\"}'),
-(2, 2, 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7', 4, 4, 'MEX', '77500', 'Cancún', 'Mi dirección', 'America/Cancun', 'es', 'MXN', 'casablanca.png', 'BBBB123456789', 'Casa Blanca SA de CV', 'Mi dirección', '{\"name\":\"Marcos Fern\\u00e1ndez\",\"department\":\"Contabilidad\",\"lada\":\"52\",\"phone\":\"1234567890\",\"email\":\"marcos@casablanca.com\"}', 'card', NULL, 0, '{\"es\":\"Responder encuesta\",\"en\":\"Answer survey\"}'),
-(3, 3, 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7', 4, 4, 'MEX', '77500', 'Cancún', 'Mi dirección', 'America/Cancun', 'es', 'MXN', 'cityexpress.png', 'CCCC123456789', 'City Express SA de CV', 'Mi dirección', '{\"name\":\"Pedro Marquez\",\"department\":\"Contabilidad\",\"lada\":\"52\",\"phone\":\"1234567890\",\"email\":\"pedro@cityexpress.com\"}', 'card', NULL, 0, '{\"es\":\"Responder encuesta\",\"en\":\"Answer survey\"}');
+(1, 1, 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7', 4, 4, 'MEX', '77500', 'Cancún', 'Mi dirección', 'America/Cancun', 'es', 'MXN', 'ITPWEmzXlSRO963e.png', 'AAAA123456789', 'GuestVox S.A.P.I. de C.V.', 'Mi dirección', '{\"name\":\"Gers\\u00f3n G\\u00f3mez\",\"department\":\"Inform\\u00e1tica\",\"lada\":\"52\",\"phone\":\"1234567890\",\"email\":\"gerson@guestvox.com\"}', 'card', NULL, 0, '{\"es\":\"Responde nuestra encuesta y obt\\u00e9n una botella de vino\",\"en\":\"Answer our survey and get a bottle of wine\"}');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sms_packages`
+--
+
+CREATE TABLE `sms_packages` (
+  `id` bigint(20) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` text COLLATE utf8_spanish_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `sms_packages`
+--
+
+INSERT INTO `sms_packages` (`id`, `quantity`, `price`) VALUES
+(1, 1000, '600'),
+(2, 1500, '400');
 
 -- --------------------------------------------------------
 
@@ -1411,11 +1389,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `account`, `name`, `lastname`, `email`, `cellphone`, `avatar`, `username`, `password`, `temporal_password`, `user_level`, `user_permissions`, `opportunity_areas`, `status`) VALUES
 (1, 1, 'Demo', 'Demo', 'demo@guestvox.com', '1234567890', NULL, 'demo', 'b46f6d9fa6d845f27280e4de5768bb1703556af9:8aVrVRC7LOeIrhcOjX3OoV6jmYU6gKpAnWvadP7O3AjojUiUBSfvR3BSuGl9OHnx', NULL, 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1),
-(2, 1, 'Daniel', 'Basurto', 'daniel@guestvox.com', '9988452843', NULL, 'daniel@guestvox.com', '5d50e2fd215a0494c57dc5a9ab67ffea5b7579ce:8ucTICQVmT1dcvldG4O79WiakfWWOCIinvGdorqdHqEwiF3VD0cpek0rwj4L0hfh', NULL, 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1),
-(3, 1, 'Gersón', 'Gómez', 'gerson@guestvox.com', '9988701057', NULL, 'gerson@guestvox.com', 'f53d6dd0204f8b2faaf10f1ccad212025ebc73f6:1X5m1Nx9jm4ugQTWmKOAat7eX8yreg6VfNVPiphTMSxiEZZyY1TOgs63vu4NupDT', NULL, 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1),
-(4, 1, 'Saúl', 'Poot', 'saul@guestvox.com', '9983856109', NULL, 'saul@guestvox.com', '79b6139a4bc1492c5bed1087d1461e0209b744f3:uhvK6xtCu3RNs22oSWykkvSYnOVYvtrZ9nLZ9Xzar38E7FIkNkXb3EoVamaVfY5v', NULL, 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1),
-(5, 2, 'Julian', 'Ramírez', 'julian@casablanca.com', '1234567890', NULL, 'julian@casablanca.com', '48dcea7e2f7bf128037039b898fa7dcce86de394:lg6ssaa2XXjzIFvxm6fbpB66Og5ohefPegOVB00KzsyAYiIbd4bWH4XdcmOCESEv', NULL, 6, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"26\"]', '[]', 0),
-(6, 3, 'Marcos', 'Pérez', 'marcos@cityexpress.com', '1234567890', NULL, 'marcos@cityexpress.com', '23613815baf4ec7f0ff3d72f4f1abaa0043e5f88:w4xhiKWvW6J66a9bEbXvgWqiI89kRc1aTooAJ253IvxupyYkWDZ5wuMnuPNzIjf1', NULL, 11, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"26\"]', '[]', 0);
+(2, 1, 'Daniel', 'Basurto', 'daniel@guestvox.com', '9988452843', 'jK55YiHY5qv5Bo2x.png', 'daniel@guestvox.com', '5d50e2fd215a0494c57dc5a9ab67ffea5b7579ce:8ucTICQVmT1dcvldG4O79WiakfWWOCIinvGdorqdHqEwiF3VD0cpek0rwj4L0hfh', NULL, 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1),
+(3, 1, 'Gersón', 'Gómez', 'gerson@guestvox.com', '9988701057', 'jK55YiHY8qv5Bo2x.jpeg', 'gerson@guestvox.com', 'f53d6dd0204f8b2faaf10f1ccad212025ebc73f6:1X5m1Nx9jm4ugQTWmKOAat7eX8yreg6VfNVPiphTMSxiEZZyY1TOgs63vu4NupDT', NULL, 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1),
+(4, 1, 'Saúl', 'Poot', 'saul@guestvox.com', '9983856109', 'jK55hiHY5qv5Bo2x.png', 'saul@guestvox.com', '79b6139a4bc1492c5bed1087d1461e0209b744f3:uhvK6xtCu3RNs22oSWykkvSYnOVYvtrZ9nLZ9Xzar38E7FIkNkXb3EoVamaVfY5v', NULL, 1, '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"25\",\"26\"]', '[\"1\",\"2\",\"3\",\"4\"]', 1);
 
 -- --------------------------------------------------------
 
@@ -1440,17 +1416,7 @@ INSERT INTO `user_levels` (`id`, `account`, `code`, `name`, `user_permissions`) 
 (2, 1, '{director}', 'Director', '[\"1\",\"2\",\"3\",\"38\",\"39\",\"25\",\"26\"]'),
 (3, 1, '{manager}', 'Gerente', '[\"1\",\"2\",\"3\",\"38\",\"39\",\"25\",\"27\"]'),
 (4, 1, '{supervisor}', 'Supervisor', '[\"1\",\"2\",\"3\",\"38\",\"39\",\"27\"]'),
-(5, 1, '{operator}', 'Operador', '[\"1\",\"2\",\"28\"]'),
-(6, 2, '{administrator}', 'Administrador', '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"26\"]'),
-(7, 2, '{director}', 'Director', '[\"1\",\"2\",\"3\",\"38\",\"39\",\"25\",\"26\"]'),
-(8, 2, '{manager}', 'Gerente', '[\"1\",\"2\",\"3\",\"38\",\"39\",\"25\",\"27\"]'),
-(9, 2, '{supervisor}', 'Supervisor', '[\"1\",\"2\",\"3\",\"38\",\"39\",\"27\"]'),
-(10, 2, '{operator}', 'Operador', '[\"1\",\"2\",\"28\"]'),
-(11, 3, '{administrator}', 'Administrador', '[\"1\",\"2\",\"3\",\"38\",\"39\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"10\",\"11\",\"12\",\"13\",\"14\",\"15\",\"29\",\"30\",\"31\",\"32\",\"33\",\"34\",\"35\",\"36\",\"37\",\"16\",\"17\",\"19\",\"20\",\"21\",\"18\",\"22\",\"23\",\"24\",\"26\"]'),
-(12, 3, '{director}', 'Director', '[\"1\",\"2\",\"3\",\"38\",\"39\",\"25\",\"26\"]'),
-(13, 3, '{manager}', 'Gerente', '[\"1\",\"2\",\"3\",\"38\",\"39\",\"25\",\"27\"]'),
-(14, 3, '{supervisor}', 'Supervisor', '[\"1\",\"2\",\"3\",\"38\",\"39\",\"27\"]'),
-(15, 3, '{operator}', 'Operador', '[\"1\",\"2\",\"28\"]');
+(5, 1, '{operator}', 'Operador', '[\"1\",\"2\",\"28\"]');
 
 -- --------------------------------------------------------
 
@@ -1683,6 +1649,12 @@ ALTER TABLE `settings`
   ADD KEY `user_package` (`user_package`);
 
 --
+-- Indices de la tabla `sms_packages`
+--
+ALTER TABLE `sms_packages`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `survey_answers`
 --
 ALTER TABLE `survey_answers`
@@ -1761,7 +1733,7 @@ ALTER TABLE `voxes`
 -- AUTO_INCREMENT de la tabla `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `com_payment_invalid`
@@ -1803,13 +1775,13 @@ ALTER TABLE `currencies`
 -- AUTO_INCREMENT de la tabla `guest_treatments`
 --
 ALTER TABLE `guest_treatments`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `guest_types`
 --
 ALTER TABLE `guest_types`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `languages`
@@ -1851,7 +1823,7 @@ ALTER TABLE `reports`
 -- AUTO_INCREMENT de la tabla `reservation_status`
 --
 ALTER TABLE `reservation_status`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `rooms`
@@ -1869,7 +1841,13 @@ ALTER TABLE `room_packages`
 -- AUTO_INCREMENT de la tabla `settings`
 --
 ALTER TABLE `settings`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT de la tabla `sms_packages`
+--
+ALTER TABLE `sms_packages`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `survey_answers`
@@ -1905,13 +1883,13 @@ ALTER TABLE `time_zones`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `user_levels`
 --
 ALTER TABLE `user_levels`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `user_packages`

@@ -14,16 +14,19 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
             <article>
                 <main>
                     <div class="profile">
-                        <!-- <figure>
-                            <img src="images/avatar.png" alt="">
-                        </figure> -->
+                        <div class="uploader">
+                            <fieldset>
+                                <figure>
+                                    <img src="{$avatar}" alt="" data-image-preview>
+                                    <a data-image-select><i class="fas fa-upload"></i></a>
+                                </figure>
+                                <input type="file" name="avatar" accept="image/*" data-image-upload>
+                            </fieldset>
+                        </div>
                         <h2>{$name} {$lastname}</h2>
                         <h4>{$account}</h4>
                         <h6><span><i class="fas fa-envelope"></i>{$email}</span><span><i class="fas fa-phone"></i>{$cellphone}</span><span><i class="fas fa-user"></i>{$username}</span><span><i class="fas fa-lock"></i>{$user_level}</span></h6>
                         {$temporal_password}
-                        <!-- {$opportunity_areas} -->
-                        <!-- {$user_permissions} -->
-                        <!-- {$status} -->
                         <div class="">
                             <a class="btn" data-button-modal="edit_profile">Editar perfil</a>
                             <a class="btn" data-button-modal="reset_password">Restablecer contraseña</a>

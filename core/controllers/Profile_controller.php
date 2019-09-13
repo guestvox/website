@@ -11,10 +11,19 @@ class Profile_controller extends Controller
 
 	public function index()
 	{
-		$user = $this->model->get_user();
-
 		if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'edit_avatar')
+			{
+				$query = $this->model->edit_avatar($_FILES);
+
+				Functions::environment([
+					'status' => !empty($query) ? 'success' : 'error',
+					'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+					'path' => '/profile',
+				]);
+			}
+
 			if ($_POST['action'] == 'edit_profile')
 			{
 				$labels = [];
@@ -44,6 +53,13 @@ class Profile_controller extends Controller
 						'path' => '/profile',
 					]);
 				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
 			}
 
 			if ($_POST['action'] == 'reset_password')
@@ -63,6 +79,13 @@ class Profile_controller extends Controller
 						'path' => '/profile',
 					]);
 				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
 			}
 		}
 		else
@@ -71,29 +94,18 @@ class Profile_controller extends Controller
 
 			$template = $this->view->render($this, 'index');
 
-			$opportunity_areas = '';
-
-			foreach ($user['opportunity_areas'] as $value)
-				$opportunity_areas .= '<h6>' . $value[Session::get_value('settings')['language']] . '</h6>';
-
-			$user_permissions = '';
-
-			foreach ($user['user_permissions'] as $value)
-				$user_permissions .= '<h6>' . $value . '</h6>';
+			$profile = $this->model->get_profile();
 
 			$replace = [
-				'{$account}' => $user['account'],
-				'{$name}' => $user['name'],
-				'{$lastname}' => $user['lastname'],
-				'{$email}' => $user['email'],
-				'{$cellphone}' => $user['cellphone'],
-				'{$username}' => $user['username'],
-				'{$temporal_password}' => (!empty($user['temporal_password']) ? '<h6>' . $user['temporal_password'] . '</h6>' : ''),
-				'{$password}' => $user['temporal_password'],
-				'{$user_level}' => $user['user_level'],
-				'{$opportunity_areas}' => $opportunity_areas,
-				'{$user_permissions}' => $user_permissions,
-				'{$status}' => (($user['status'] == true) ? '<h6>Activo</h6>' : '<h6>Inactivo</h6>'),
+				'{$avatar}' => !empty($profile['avatar']) ? '{$path.uploads}' . $profile['avatar'] : '{$path.images}empty.png',
+				'{$account}' => $profile['account'],
+				'{$name}' => $profile['name'],
+				'{$lastname}' => $profile['lastname'],
+				'{$email}' => $profile['email'],
+				'{$cellphone}' => $profile['cellphone'],
+				'{$profilename}' => $profile['username'],
+				'{$temporal_password}' => (!empty($profile['temporal_password']) ? '<h6>' . $profile['temporal_password'] . '</h6>' : ''),
+				'{$profile_level}' => $profile['user_level'],
 			];
 
 			$template = $this->format->replace($replace, $template);

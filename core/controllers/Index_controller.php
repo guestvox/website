@@ -553,14 +553,109 @@ class Index_controller extends Controller
 		{
 			if ($params[0] == 'account' OR $params[0] == 'user')
 			{
-				$params[1] = $this->model->get_validation($params[1]);
-
 				define('_title', 'GuestVox, {$lang.im_the_guests_voice}');
 
 				$template = $this->view->render($this, 'validate');
 
+				$params[1] = $this->model->get_email_to_validation($params);
+
+				$txt_1 = '';
+				$txt_2 = '';
+
+				if (!empty($params[1]))
+				{
+					$params[1] = $this->model->new_validation($params);
+
+					if (!empty($params[1]))
+					{
+						// $txt_1 = '{$lang.we_are_sorry}';
+						//
+						// if ($params[0] == 'account')
+						// 	$txt_2 = '{$lang.your_account_was_validated_correctly}';
+						// else if ($params[0] == 'user')
+						// 	$txt_2 = '{$lang.your_user_was_validated_correctly}';
+						//
+						// // 	$mail = new Mailer(true);
+						// //
+						// // 	try
+						// // 	{
+						// // 		if ($query['language'] == 'es')
+						// // 		{
+						// // 			$mail_subject = 'Tu correo electrónico ha sido activado';
+						// // 			$mail_text = '<strong>' . $query['name'] . '</strong> ¡Tu correo electrónico fué validado correctamente! Inicia sesión y empieza a configurar tu cuenta. Te hemos adjuntado una presentación para que conozcas mas sobre nosotros ¡Bienvenido a GuestVox!';
+						// // 			$mail_btn = 'Iniciar Sesión';
+						// // 		}
+						// // 		else if ($query['language'] == 'en')
+						// // 		{
+						// // 			$mail_subject = 'Your email has been activated';
+						// // 			$mail_text = '<strong>' . $query['name'] . '</strong> ¡Your email was validated correctly! Login and start setting up your account. We have attached a presentation to let you know more about us ¡Welcome to GuestVox!';
+						// // 			$mail_btn = 'Login';
+						// // 		}
+						// //
+						// // 		$mail->isSMTP();
+						// // 		$mail->setFrom('daniel@guestvox.com', 'Daniel Basurto');
+						// // 		$mail->addAddress($params[0], $query['name'] . ' ' . $query['lastname']);
+						// // 		$mail->isHTML(true);
+						// // 		$mail->Subject = $mail_subject;
+						// // 		$mail->Body =
+						// // 		'<html>
+						// // 			<head>
+						// // 				<title>' . $mail_subject . '</title>
+						// // 			</head>
+						// // 			<body>
+						// // 				<table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
+						// // 					<tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
+						// // 						<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+						// // 							<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+						// // 								<img style="width:100%;max-width:300px;" src="https://guestvox.com/images/logotype-color.png" />
+						// // 							</figure>
+						// // 						</td>
+						// // 					</tr>
+						// // 					<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
+						// // 						<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+						// // 							<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_text . '</p>
+						// // 							<a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://guestvox.com/">' . $mail_btn . '</a>
+						// // 						</td>
+						// // 					</tr>
+						// // 					<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
+						// // 						<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+						// // 							<figure style="width:100%;margin:0px;border:0px;padding:40px 0px;box-sizing:border-box;text-align:center;">
+						// // 								<img style="width:150px;height:150px;border-radius:50%;" src="https://guestvox.com/images/basurto.png">
+						// // 								<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
+						// // 								<span style="display:block;color:#757575;font-size:18px;">CEO</span>
+						// // 								<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
+						// // 								<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
+						// // 							</figure>
+						// // 						</td>
+						// // 					</tr>
+						// // 					<tr style="width:100%;margin:0px;border:0px;padding:0px;">
+						// // 						<td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
+						// // 							<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://guestvox.com/">www.guestvox.com</a>
+						// // 						</td>
+						// // 					</tr>
+						// // 				</table>
+						// // 			</body>
+						// // 		</html>';
+						// // 		$mail->AltBody = '';
+						// // 		$mail->send();
+						// // 	}
+						// // 	catch (Exception $e) { }
+					}
+					else
+					{
+						$txt_1 = '{$lang.we_are_sorry}';
+						$txt_2 = '{$lang.we_could_not_validate_your_email}';
+					}
+				}
+				else
+				{
+					$txt_1 = '{$lang.we_are_sorry}';
+					$txt_2 = '{$lang.this_email_does_not_exist}';
+				}
+
 				$replace = [
-					
+					'{$txt_1}' => $txt_1,
+					'{$txt_2}' => $txt_2,
 				];
 
 				$template = $this->format->replace($replace, $template);
@@ -572,78 +667,5 @@ class Index_controller extends Controller
 		}
 		else
 			header('Location: /');
-
-		// $query = $this->model->new_validation($params[0]);
-
-		// if (!empty($query))
-		// {
-		// 	$mail = new Mailer(true);
-		//
-		// 	try
-		// 	{
-		// 		if ($query['language'] == 'es')
-		// 		{
-		// 			$mail_subject = 'Tu correo electrónico ha sido activado';
-		// 			$mail_text = '<strong>' . $query['name'] . '</strong> ¡Tu correo electrónico fué validado correctamente! Inicia sesión y empieza a configurar tu cuenta. Te hemos adjuntado una presentación para que conozcas mas sobre nosotros ¡Bienvenido a GuestVox!';
-		// 			$mail_btn = 'Iniciar Sesión';
-		// 		}
-		// 		else if ($query['language'] == 'en')
-		// 		{
-		// 			$mail_subject = 'Your email has been activated';
-		// 			$mail_text = '<strong>' . $query['name'] . '</strong> ¡Your email was validated correctly! Login and start setting up your account. We have attached a presentation to let you know more about us ¡Welcome to GuestVox!';
-		// 			$mail_btn = 'Login';
-		// 		}
-		//
-		// 		$mail->isSMTP();
-		// 		$mail->setFrom('daniel@guestvox.com', 'Daniel Basurto');
-		// 		$mail->addAddress($params[0], $query['name'] . ' ' . $query['lastname']);
-		// 		$mail->isHTML(true);
-		// 		$mail->Subject = $mail_subject;
-		// 		$mail->Body =
-		// 		'<html>
-		// 			<head>
-		// 				<title>' . $mail_subject . '</title>
-		// 			</head>
-		// 			<body>
-		// 				<table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
-		// 					<tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
-		// 						<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-		// 							<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-		// 								<img style="width:100%;max-width:300px;" src="https://guestvox.com/images/logotype-color.png" />
-		// 							</figure>
-		// 						</td>
-		// 					</tr>
-		// 					<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
-		// 						<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-		// 							<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_text . '</p>
-		// 							<a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://guestvox.com/">' . $mail_btn . '</a>
-		// 						</td>
-		// 					</tr>
-		// 					<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
-		// 						<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-		// 							<figure style="width:100%;margin:0px;border:0px;padding:40px 0px;box-sizing:border-box;text-align:center;">
-		// 								<img style="width:150px;height:150px;border-radius:50%;" src="https://guestvox.com/images/basurto.png">
-		// 								<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
-		// 								<span style="display:block;color:#757575;font-size:18px;">CEO</span>
-		// 								<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
-		// 								<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
-		// 							</figure>
-		// 						</td>
-		// 					</tr>
-		// 					<tr style="width:100%;margin:0px;border:0px;padding:0px;">
-		// 						<td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
-		// 							<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://guestvox.com/">www.guestvox.com</a>
-		// 						</td>
-		// 					</tr>
-		// 				</table>
-		// 			</body>
-		// 		</html>';
-		// 		$mail->AltBody = '';
-		// 		$mail->send();
-		// 	}
-		// 	catch (Exception $e) { }
-		// }
-
-		// header('Location: /');
 	}
 }

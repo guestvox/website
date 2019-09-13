@@ -2,12 +2,57 @@
 
 $(document).ready(function()
 {
-    $('[data-modal="edit_profile"]').modal().onSuccess(function()
+    $('[data-image-select]').on('click', function()
     {
-        $('form[name="edit_profile"]').submit();
+        $(this).parents('.uploader').find('[data-image-upload]').click();
     });
 
-    $('form[name="edit_profile"]').on('submit', function(e)
+    $('[data-image-upload]').on('change', function()
+    {
+        if ($(this)[0].files[0].type.match($(this).attr('accept')))
+        {
+            var data = new FormData();
+
+            data.append('logotype', $(this)[0].files[0]);
+            data.append('action', 'edit_logotype');
+
+            $.ajax({
+                type: 'POST',
+                data: data,
+                contentType: false,
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
+                {
+                    if (response.status == 'success')
+                    {
+                        $('[data-modal="success"] main > p').html(response.message);
+                        $('[data-modal="success"]').addClass('view').animate({scrollTop: 0}, 0);
+
+                        setTimeout(function() { window.location.href = response.path }, 1500);
+                    }
+                    else if (response.status == 'error')
+                    {
+                        $('[data-modal="alert"] main > p').html(response.message);
+                        $('[data-modal="alert"]').addClass('view').animate({scrollTop: 0}, 0);
+                    }
+                }
+            });
+        }
+        else
+        {
+            $('[data-modal="error"]').find('main > p').html('ERROR FILE NOT PERMIT');
+            $('[data-modal="error"]').addClass('view');
+        }
+    });
+
+    $('[data-modal="edit_account"]').modal().onSuccess(function()
+    {
+        $('form[name="edit_account"]').submit();
+    });
+
+    $('form[name="edit_account"]').on('submit', function(e)
     {
         e.preventDefault();
 
@@ -15,7 +60,7 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=edit_profile',
+            data: form.serialize() + '&action=edit_account',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -55,12 +100,12 @@ $(document).ready(function()
         });
     });
 
-    $('[data-modal="reset_password"]').modal().onSuccess(function()
+    $('[data-modal="request_sms"]').modal().onSuccess(function()
     {
-        $('form[name="reset_password"]').submit();
+        $('form[name="request_sms"]').submit();
     });
 
-    $('form[name="reset_password"]').on('submit', function(e)
+    $('form[name="request_sms"]').on('submit', function(e)
     {
         e.preventDefault();
 
@@ -68,7 +113,7 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=reset_password',
+            data: form.serialize() + '&action=request_sms',
             processData: false,
             cache: false,
             dataType: 'json',

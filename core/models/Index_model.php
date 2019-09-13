@@ -180,7 +180,7 @@ class Index_model extends Model
 				'time_zone' => $data['time_zone'],
 				'language' => $data['language'],
 				'currency' => $data['currency'],
-				'logotype' => Functions::uploader($_POST['logotype']),
+				'logotype' => Functions::uploader($data['logotype']),
 				'fiscal_id' => strtoupper($data['fiscal_id']),
 				'fiscal_name' => $data['fiscal_name'],
 				'fiscal_address' => $data['fiscal_address'],
