@@ -477,6 +477,7 @@ class Myvox_controller extends Controller
 
                 $replace = [
 					'{$logotype}' => '{$path.uploads}' . $account['settings']['logotype'],
+					'{$room}' => '{$lang.room}: ' . $room['name'],
 					'{$survey_title}' => $account['settings']['survey_title'][Session::get_value('lang')],
                     '{$opt_opportunity_areas}' => $opt_opportunity_areas,
                     '{$opt_locations}' => $opt_locations,

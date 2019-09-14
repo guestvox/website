@@ -1065,6 +1065,24 @@ header.my-vox > div.topbar > figure.logotype > img {
 }
 
 /*  */
+header.my-vox > div.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header.my-vox > div.title > h1 {
+    margin: 0px;
+    padding: 0px 0px 40px 0px;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: -2px;
+    line-height: 1;
+    color: #444;
+}
+
+/*  */
 header.my-vox > div.bottombar {
     height: 100px;
     display: flex;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-09-2019 a las 22:17:33
+-- Tiempo de generación: 14-09-2019 a las 18:03:58
 -- Versión del servidor: 10.1.30-MariaDB
 -- Versión de PHP: 7.0.27
 
@@ -773,6 +773,16 @@ CREATE TABLE `rooms` (
   `name` text CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL,
   `qr` text CHARACTER SET utf8 COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `rooms`
+--
+
+INSERT INTO `rooms` (`id`, `account`, `code`, `name`, `qr`) VALUES
+(1, 1, 'EWFA2L6J', 'H 1 VIP', '{\"name\":\"qr_EwfA2l6J.png\",\"code\":\"EwfA2l6J\"}'),
+(2, 1, 'FRVDUOX0', 'H 2 VIP', '{\"name\":\"qr_FrVDuOX0.png\",\"code\":\"FrVDuOX0\"}'),
+(3, 1, '6UAHSCL2', 'H 3 VIP', '{\"name\":\"qr_6uaHScl2.png\",\"code\":\"6uaHScl2\"}'),
+(4, 1, 'X2IZWFHN', 'H 4 VIP', '{\"name\":\"qr_X2iZWfhN.png\",\"code\":\"X2iZWfhN\"}');
 
 -- --------------------------------------------------------
 
@@ -1829,7 +1839,7 @@ ALTER TABLE `reservation_status`
 -- AUTO_INCREMENT de la tabla `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `room_packages`
