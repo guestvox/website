@@ -337,6 +337,12 @@ class Myvox_controller extends Controller
                 {
 					$labels = [];
 
+                    if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+                        array_push($labels, ['firstname','']);
+
+                    if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+                        array_push($labels, ['lastname','']);
+
                     if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
                         array_push($labels, ['email','']);
 
@@ -354,7 +360,8 @@ class Myvox_controller extends Controller
 
 						foreach ($_POST['answers'] as $key => $value)
 	                    {
-							$ex = explode('-', $value);
+							$ex = explode('-', $key);
+							array_push($ex, $value);
 							$_POST['answers'][$key] = $ex;
 	                    }
 
@@ -409,18 +416,10 @@ class Myvox_controller extends Controller
                             }
                             catch (Exception $e) { }
 
-							$t1 = 5 * count($_POST['answers']);
-							$t2 = 0;
-
-							foreach ($_POST['answers'] as $value)
-								$t2 = $t2 + $value[1];
-
-							$t3 = (100 * $t2) / $t1;
-
 	                        Functions::environment([
 	                            'status' => 'success',
-	                            'message' => ($t3 < 80) ? '{$lang.thanks_for_answering_our_survey}' : '',
-	                            'path' => ($t3 < 80) ? '/myvox/' . $room['qr']['code'] : ''
+	                            'message' => '{$lang.thanks_for_answering_our_survey}',
+	                            'path' => '/myvox/' . $room['qr']['code']
 	                        ]);
 	                    }
 	                    else
@@ -462,17 +461,51 @@ class Myvox_controller extends Controller
                 {
                     $art_survey_questions .=
                     '<article>
-                        <h6>' . $value['question'][Session::get_value('lang')] . '</h6>
+                        <h6>' . $value['q1']['question'][Session::get_value('lang')] . '</h6>
                         <div>
                             <label>{$lang.appalling}</label>
-                            <label><input type="radio" name="' . $value['id'] . '" value="' . $value['id'] . '-1"></label>
-                            <label><input type="radio" name="' . $value['id'] . '" value="' . $value['id'] . '-2"></label>
-                            <label><input type="radio" name="' . $value['id'] . '" value="' . $value['id'] . '-3" checked></label>
-                            <label><input type="radio" name="' . $value['id'] . '" value="' . $value['id'] . '-4"></label>
-                            <label><input type="radio" name="' . $value['id'] . '" value="' . $value['id'] . '-5"></label>
+                            <label><input type="radio" name="p-' . $value['q1']['id'] . '" value="1" data-action="open_subquestion"></label>
+                            <label><input type="radio" name="p-' . $value['q1']['id'] . '" value="2" data-action="open_subquestion"></label>
+                            <label><input type="radio" name="p-' . $value['q1']['id'] . '" value="3" data-action="open_subquestion"></label>
+                            <label><input type="radio" name="p-' . $value['q1']['id'] . '" value="4" data-action="open_subquestion"></label>
+                            <label><input type="radio" name="p-' . $value['q1']['id'] . '" value="5" data-action="open_subquestion"></label>
                             <label>{$lang.excellent}</label>
                         </div>
                     </article>';
+
+					$art_survey_questions .=
+					'<article data-action="reopen_subquestion" id="p-' . $value['q1']['id'] . '" class="hidden">';
+
+					foreach ($value['q1']['subquestions'] as $key => $subvalue)
+					{
+						if ($subvalue['type'] == 'open')
+						{
+							$art_survey_questions .=
+							'<h6>' . $subvalue[Session::get_value('lang')] . '</h6>
+								<div>
+									<input type="text" name="s-' . $subvalue['token'] . '" value="">
+							   </div>';
+						}
+						else if ($subvalue['type'] == 'rate')
+						{
+							$art_survey_questions .=
+							'<h6>' . $subvalue[Session::get_value('lang')] . '</h6>
+								<div>
+								<label>{$lang.appalling}</label>
+								<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="1"></label>
+								<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="2"></label>
+								<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="3"></label>
+								<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="4"></label>
+								<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="5"></label>
+								<label>{$lang.excellent}</label>
+							   </div>';
+						}
+
+					}
+
+					$art_survey_questions .=
+					'</article>';
+
                 }
 
                 $replace = [

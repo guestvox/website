@@ -32,6 +32,27 @@ class Survey_model extends Model
 		return $query;
 	}
 
+	public function get_survey_subanswers()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('survey_subanswers', [
+			'[>]rooms' => [
+				'room' => 'id'
+			],
+			'[>]survey_subquestions' => [
+				'survey_subquestion' => 'id'
+			],
+		], [
+			'survey_subanswers.id',
+			'rooms.name(room)',
+			'survey_subquestions.subquestion(survey_subquestion)',
+			'survey_subanswers.subanswer',
+		], [
+			'survey_subanswers.account' => Session::get_value('account')['id']
+		]));
+
+		return $query;
+	}
+
 	public function get_survey_comments()
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('survey_comments', [
@@ -53,40 +74,33 @@ class Survey_model extends Model
 
 	public function get_survey_questions()
 	{
+		$questions = [];
+
 		$query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
 			'id',
 			'question',
+			'subquestions',
 			'status',
 		], [
 			'account' => Session::get_value('account')['id']
 		]));
 
-		foreach ($query as $key => $value)
+		foreach ($query as $value)
 		{
-			$fk1 = $this->database->select('survey_answers', [
+			$a1 = $this->database->select('survey_answers', [
 				'rate'
 			], [
 				'survey_question' => $value['id']
 			]);
 
-			$query[$key]['rate'] = 0;
+			$value['fk'] = (!empty($a1)) ? true : false;
 
-			if (!empty($fk1))
-			{
-				foreach ($fk1 as $subvalue)
-					$query[$key]['rate'] = $query[$key]['rate'] + $subvalue['rate'];
-
-				$query[$key]['rate'] = $query[$key]['rate'] / count($fk1);
-			}
-
-			$fk2 = $this->database->count('survey_comments', [
-				'survey_question' => $value['id']
+			array_push($questions, [
+				'q1' => $value,
 			]);
-
-			$query[$key]['fk'] = (!empty($fk1) OR $fk2 > 0) ? true : false;
 		}
 
-		return $query;
+		return $questions;
 	}
 
 	public function get_survey_question($id)
@@ -183,6 +197,118 @@ class Survey_model extends Model
 		]);
 
 		return $query;
+	}
+
+	public function new_survey_subquestion($data)
+	{
+		$select = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+			'id',
+			'question',
+			'subquestions',
+		], [
+			'id' => $data['id']
+		]));
+
+		$select[0]['subquestions'] = !empty($select[0]['subquestions']) ? $select[0]['subquestions'] : [];
+
+		array_push($select[0]['subquestions'], [
+			'token' => $data['token'],
+			'es' => $data['survey_subquestion_es'],
+			'en' => $data['survey_subquestion_en'],
+			'type' => $data['type'],
+			'status' => true,
+		]);
+
+		$query = $this->database->update('survey_questions', [
+			'account' => Session::get_value('account')['id'],
+			'subquestions' => json_encode($select[0]['subquestions']),
+		], [
+			'id' => $data['id']
+		]);
+
+		return $query;
+	}
+
+	public function edit_survey_subquestion($data)
+	{
+		$select = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+			'id',
+			'question',
+			'subquestions',
+		], [
+			'id' => $data[0][0]
+		]));
+
+		foreach ($select[0]['subquestions'] as $key => $value)
+		{
+			if ($data[0][1] == $key)
+			{
+				$select[0]['subquestions'][$key]['es'] = $data[1]['survey_subquestion_es'];
+				$select[0]['subquestions'][$key]['en'] = $data[1]['survey_subquestion_en'];
+				$select[0]['subquestions'][$key]['type'] = $data[1]['type'];
+
+			}
+		}
+
+		$query = $this->database->update('survey_questions', [
+			'account' => Session::get_value('account')['id'],
+			'subquestions' => json_encode($select[0]['subquestions']),
+		], [
+			'id' => $data[0][0]
+		]);
+
+		return $query;
+	}
+
+	public function delete_survey_subquestion($data)
+	{
+		$select = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+			'id',
+			'question',
+			'subquestions',
+		], [
+			'id' => $data[0][0]
+		]));
+
+		foreach ($select[0]['subquestions'] as $key => $value)
+		{
+			if ($data[0][1] == $key)
+			{
+				unset($select[0]['subquestions'][$key]);
+			}
+		}
+
+		$query = $this->database->update('survey_questions', [
+			'account' => Session::get_value('account')['id'],
+			'subquestions' => json_encode($select[0]['subquestions']),
+		], [
+			'id' => $data[0][0]
+		]);
+
+		return $query;
+	}
+
+	public function get_survey_subquestion($data)
+	{
+		$select = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+			'id',
+			'question',
+			'subquestions',
+		], [
+			'id' => $data[0][0]
+		]));
+
+		$subquestion = [];
+
+		foreach ($select[0]['subquestions'] as $key => $value)
+		{
+			if ($data[0][1] == $key)
+			{
+				array_push($subquestion, $value);
+			}
+		}
+
+		return !empty($subquestion) ? $subquestion[0] : null;
 	}
 
 	public function get_total_rate_avarage()

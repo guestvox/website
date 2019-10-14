@@ -13,7 +13,7 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
 
 %{header}%
 <main>
-    <section class="box-container">
+    <!-- <section class="box-container">
         <div class="main">
             <article>
                 <main class="tables">
@@ -32,12 +32,13 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                 <h2>{$total_rate_avarage} Pts<span>Promedio de puntuaje total</span></h2>
             </div>
         </aside>
-    </section>
+    </section> -->
     <div class="multi-tabs" data-tab-active="tab1">
         <ul>
             <li data-tab-target="tab1">Respuestas</li>
-            <li data-tab-target="tab2">Comentarios</li>
-            <li data-tab-target="tab3">Preguntas</li>
+            <li data-tab-target="tab2">Subrespuestas</li>
+            <li data-tab-target="tab3">Comentarios</li>
+            <li data-tab-target="tab4">Preguntas</li>
         </ul>
         <div class="tab" data-target="tab1">
             <section class="box-container complete">
@@ -71,6 +72,29 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                     <article>
                         <main class="tables">
                             <div class="table-container">
+                                <table id="tbl_survey_subanswers" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th align="left">Subpregunta</th>
+                                            <th align="left" width="100px">{$lang.room}</th>
+                                            <th align="left" width="350px">Subrespuesta</th>
+                                    </thead>
+                                    <tbody>
+                                        {$tbl_survey_subanswers}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </main>
+                    </article>
+                </div>
+            </section>
+        </div>
+        <div class="tab" data-target="tab3">
+            <section class="box-container complete">
+                <div class="main">
+                    <article>
+                        <main class="tables">
+                            <div class="table-container">
                                 <table id="tbl_survey_comments" class="table">
                                     <thead>
                                         <tr>
@@ -90,7 +114,7 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                 </div>
             </section>
         </div>
-        <div class="tab" data-target="tab3">
+        <div class="tab" data-target="tab4">
             <section class="box-container complete">
                 <div class="main">
                     <article>
@@ -129,8 +153,8 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                                     <thead>
                                         <tr>
                                             <th align="left">Pregunta</th>
-                                            <th align="left" width="100px">Rate</th>
                                             <th align="left" width="100px">Estado</th>
+                                            <th align="right" class="icon"></th>
                                             <th align="right" class="icon"></th>
                                             <th align="right" class="icon"></th>
                                         </tr>
@@ -246,6 +270,134 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
             <div class="action-buttons">
                 <button class="btn btn-flat" button-close>{$lang.cancel}</button>
                 <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<section class="modal" data-modal="add_survey_subquestion">
+    <div class="content">
+        <header>
+            <h3>Agregar</h3>
+        </header>
+        <main>
+            <form name="add_survey_subquestion">
+                <div class="row">
+                    <div class="label">
+                        <label>
+                            <div class="checkboxes">
+                                <div class="checkbox">
+                                    <input type="radio" name="type" value="open" checked>
+                                    <span>Abierta</span>
+                                </div>
+                                <div class="checkbox">
+                                    <input type="radio" name="type" value="rate">
+                                    <span>Rating</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>(ES) Subpregunta</p>
+                                <input type="text" name="survey_subquestion_es" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>(EN) Subpregunta</p>
+                                <input type="text" name="survey_subquestion_en" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<section class="modal" data-modal="delete_survey_subquestion">
+    <div class="content">
+        <header>
+            <h3>{$lang.delete}</h3>
+        </header>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<section class="modal" data-modal="edit_survey_subquestion">
+    <div class="content">
+        <header>
+            <h3>Agregar</h3>
+        </header>
+        <main>
+            <form name="edit_survey_subquestion">
+                <div class="row">
+                    <div class="label">
+                        <label>
+                            <div class="checkboxes">
+                                <div class="checkbox">
+                                    <input type="radio" name="type" value="open" checked>
+                                    <span>Abierta</span>
+                                </div>
+                                <div class="checkbox">
+                                    <input type="radio" name="type" value="rate">
+                                    <span>Rating</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>(ES) Subquestion</p>
+                                <input type="text" name="survey_subquestion_es" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>(EN) Subpregunta</p>
+                                <input type="text" name="survey_subquestion_en" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<section class="modal" data-modal="show_survey">
+    <div class="content">
+        <header>
+            <h3>Respuestas</h3>
+        </header>
+        <main>
+
+        </main>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-close>{$lang.accept}</button>
             </div>
         </footer>
     </div>
