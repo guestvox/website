@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-09-2019 a las 18:03:58
--- Versión del servidor: 10.1.30-MariaDB
--- Versión de PHP: 7.0.27
+-- Tiempo de generación: 17-10-2019 a las 17:45:44
+-- Versión del servidor: 10.1.37-MariaDB
+-- Versión de PHP: 7.1.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -874,26 +874,21 @@ CREATE TABLE `survey_answers` (
   `id` int(11) NOT NULL,
   `account` bigint(20) NOT NULL,
   `room` bigint(20) NOT NULL,
-  `survey_question` bigint(20) NOT NULL,
-  `rate` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `token` char(6) COLLATE utf8_spanish_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `survey_comments`
---
-
-CREATE TABLE `survey_comments` (
-  `id` bigint(20) NOT NULL,
-  `account` bigint(20) NOT NULL,
-  `room` bigint(20) NOT NULL,
+  `answers` longtext COLLATE utf8_spanish_ci NOT NULL,
   `comment` text COLLATE utf8_spanish_ci NOT NULL,
+  `firstname` text COLLATE utf8_spanish_ci NOT NULL,
+  `lastname` text COLLATE utf8_spanish_ci NOT NULL,
+  `email` text COLLATE utf8_spanish_ci NOT NULL,
   `date` date NOT NULL,
   `token` char(6) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `survey_answers`
+--
+
+INSERT INTO `survey_answers` (`id`, `account`, `room`, `answers`, `comment`, `firstname`, `lastname`, `email`, `date`, `token`) VALUES
+(80, 1, 1, '[{\"id\":\"1\",\"rate\":\"5\",\"subanswers\":\"\"},{\"id\":\"2\",\"rate\":\"5\",\"subanswers\":\"\"},{\"id\":\"3\",\"rate\":\"5\",\"subanswers\":\"\"}]', '', '', '', '', '2019-10-16', 'DP1NZY');
 
 -- --------------------------------------------------------
 
@@ -905,8 +900,18 @@ CREATE TABLE `survey_questions` (
   `id` bigint(20) NOT NULL,
   `account` bigint(20) NOT NULL,
   `question` longtext COLLATE utf8_spanish_ci NOT NULL,
+  `subquestions` longtext COLLATE utf8_spanish_ci,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `survey_questions`
+--
+
+INSERT INTO `survey_questions` (`id`, `account`, `question`, `subquestions`, `status`) VALUES
+(1, 1, '{\"es\":\"\\u00bfC\\u00f3mo fue su experiencia en nuestro hotel?\",\"en\":\"How was your experience at our hotel?\"}', '[{\"token\":\"SLOFCR\",\"es\":\"Prueba \",\"en\":\"Test \",\"type\":\"open\",\"status\":true},{\"token\":\"OMG7AH\",\"es\":\"Prueba 2\",\"en\":\"Test 2\",\"type\":\"rate\",\"status\":true}]', 1),
+(2, 1, '{\"es\":\"\\u00bfComo califica la limpieza del hotel?\",\"en\":\"How do you rate the cleanliness of our hotel?\"}', '[{\"token\":\"OGCDRD\",\"es\":\"Subprueba \",\"en\":\"Subtest\",\"type\":\"open\",\"status\":true}]', 1),
+(3, 1, '{\"es\":\"\\u00bfRecomendar\\u00eda nuestro hotel?\",\"en\":\"Would you recommend our hotel?\"}', NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -1670,15 +1675,6 @@ ALTER TABLE `sms_packages`
 ALTER TABLE `survey_answers`
   ADD PRIMARY KEY (`id`),
   ADD KEY `account` (`account`),
-  ADD KEY `survey_question` (`survey_question`),
-  ADD KEY `room` (`room`);
-
---
--- Indices de la tabla `survey_comments`
---
-ALTER TABLE `survey_comments`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `account` (`account`),
   ADD KEY `room` (`room`);
 
 --
@@ -1863,19 +1859,13 @@ ALTER TABLE `sms_packages`
 -- AUTO_INCREMENT de la tabla `survey_answers`
 --
 ALTER TABLE `survey_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `survey_comments`
---
-ALTER TABLE `survey_comments`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=81;
 
 --
 -- AUTO_INCREMENT de la tabla `survey_questions`
 --
 ALTER TABLE `survey_questions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tasks`
@@ -1989,15 +1979,7 @@ ALTER TABLE `settings`
 --
 ALTER TABLE `survey_answers`
   ADD CONSTRAINT `survey_answers_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`),
-  ADD CONSTRAINT `survey_answers_ibfk_2` FOREIGN KEY (`survey_question`) REFERENCES `survey_questions` (`id`),
   ADD CONSTRAINT `survey_answers_ibfk_3` FOREIGN KEY (`room`) REFERENCES `rooms` (`id`);
-
---
--- Filtros para la tabla `survey_comments`
---
-ALTER TABLE `survey_comments`
-  ADD CONSTRAINT `survey_comments_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`),
-  ADD CONSTRAINT `survey_comments_ibfk_2` FOREIGN KEY (`room`) REFERENCES `rooms` (`id`);
 
 --
 -- Filtros para la tabla `survey_questions`
