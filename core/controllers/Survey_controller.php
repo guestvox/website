@@ -117,7 +117,7 @@ class Survey_controller extends Controller
 				if (empty($labels))
 				{
 					$_POST['token'] = Functions::get_random(6);
-					
+
 					if ($_POST['action'] == 'new_survey_subquestion')
 						$query = $this->model->new_survey_subquestion($_POST);
 					else if ($_POST['action'] == 'edit_survey_subquestion')

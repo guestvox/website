@@ -473,39 +473,45 @@ class Myvox_controller extends Controller
                         </div>
                     </article>';
 
-					$art_survey_questions .=
-					'<article data-action="reopen_subquestion" id="p-' . $value['q1']['id'] . '" class="hidden">';
-
-					foreach ($value['q1']['subquestions'] as $key => $subvalue)
+					if (!empty($value['q1']['subquestions']))
 					{
-						if ($subvalue['type'] == 'open')
+						$art_survey_questions .=
+						'<article id="p-' . $value['q1']['id'] . '" class="subquestions hidden">';
+
+						foreach ($value['q1']['subquestions'] as $key => $subvalue)
 						{
-							$art_survey_questions .=
-							'<h6>' . $subvalue[Session::get_value('lang')] . '</h6>
-								<div>
-									<input type="text" name="s-' . $subvalue['token'] . '" value="">
-							   </div>';
-						}
-						else if ($subvalue['type'] == 'rate')
-						{
-							$art_survey_questions .=
-							'<h6>' . $subvalue[Session::get_value('lang')] . '</h6>
-								<div>
-								<label>{$lang.appalling}</label>
-								<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="1"></label>
-								<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="2"></label>
-								<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="3"></label>
-								<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="4"></label>
-								<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="5"></label>
-								<label>{$lang.excellent}</label>
-							   </div>';
+							if ($subvalue['type'] == 'open')
+							{
+								$art_survey_questions .=
+								'<h6>' . $subvalue[Session::get_value('lang')] . '</h6>
+									<div>
+										<input type="text" name="s-' . $subvalue['token'] . '" value="">
+								   </div>';
+							}
+							else if ($subvalue['type'] == 'rate')
+							{
+								$art_survey_questions .=
+								'<h6>' . $subvalue[Session::get_value('lang')] . '</h6>
+									<div>
+									<label>{$lang.appalling}</label>
+									<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="1"></label>
+									<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="2"></label>
+									<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="3"></label>
+									<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="4"></label>
+									<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="5"></label>
+									<label>{$lang.excellent}</label>
+								   </div>';
+							}
+
 						}
 
+						$art_survey_questions .=
+						'</article>';
 					}
-
-					$art_survey_questions .=
-					'</article>';
-
+					else
+					{
+						$art_survey_questions .= '';
+					}
                 }
 
                 $replace = [
