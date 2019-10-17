@@ -11,15 +11,7 @@
     <body>
         <!-- Widget del clima Cancun -->
         <div id="cont_cf579d37bb4314d5ed2463619c1c0de4"><script type="text/javascript" async src="https://www.meteored.mx/wid_loader/cf579d37bb4314d5ed2463619c1c0de4"></script></div><br>
-        <div id="TA_cdswritereviewlg4" class="TA_cdswritereviewlg">
-            <ul id="I7hJOKLd" class="TA_links FJfwMuzhhq">
-                <li id="SnaJrr" class="KBMX9k">
-                <a target="_blank" href="https://www.tripadvisor.com.mx/"><img src="https://www.tripadvisor.com.mx/img/cdsi/img2/branding/medium-logo-12097-2.png" alt="TripAdvisor"/></a>
-                </li>
-            </ul>
-        </div>
-        <script async src="https://www.jscache.com/wejs?wtype=cdswritereviewlg&amp;uniq=4&amp;locationId=154652&amp;lang=es_MX&amp;lang=es_MX&amp;display_version=2" data-loadtrk onload="this.loadtrk=true">
-        </script>
+        <div id="TA_selfserveprop266" class="TA_selfserveprop"><ul id="z6aRfxDLn2xU" class="TA_links gui2wx"><li id="WuqbuROq" class="djZd3LjcG0BV"><a target="_blank" href="https://www.tripadvisor.com/"><img src="https://www.tripadvisor.com/img/cdsi/img2/branding/150_logo-11900-2.png" alt="TripAdvisor"/></a></li></ul></div><script async src="https://www.jscache.com/wejs?wtype=selfserveprop&amp;uniq=266&amp;locationId=12813792&amp;lang=en_US&amp;rating=true&amp;nreviews=5&amp;writereviewlink=true&amp;popIdx=true&amp;iswide=false&amp;border=true&amp;display_version=2" data-loadtrk onload="this.loadtrk=true"></script> 
     </body>
 
     <script>

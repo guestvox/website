@@ -1241,7 +1241,7 @@ form[name="new_survey_answers"] > article {
 
 form[name="new_survey_answers"] > article > h6 {
     margin: 0px 0px 5px 0px;
-    font-size: 16px;
+    font-size: 20px; /*16px anterior*/
     font-weight: 400;
     text-align: center;
 }
@@ -1251,6 +1251,20 @@ form[name="new_survey_answers"] > article > div > label {
     margin: 0px 5px;
     font-size: 12px;
     color: #757575;
+}
+
+form[name="new_survey_answers"] > .subquestions > h6{
+    font-size: 16px;
+}
+
+form[name="new_survey_answers"] > .subquestions > div > label {
+    padding: 0px;
+    margin: 0px 5px;
+    font-size: 10px;
+    color: #757575;
+}
+form[name="new_survey_answers"] > .subquestions > div {
+    margin-left: 10px;
 }
 
 /* My vox - Modals
