@@ -33,14 +33,14 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
             </div>
         </aside>
     </section> -->
-    <div class="multi-tabs" data-tab-active="tab1">
+    <div class="multi-tabs" data-tab-active="tab2">
         <ul>
-            <li data-tab-target="tab1">Respuestas</li>
-            <li data-tab-target="tab2">Subrespuestas</li>
-            <li data-tab-target="tab3">Comentarios</li>
-            <li data-tab-target="tab4">Preguntas</li>
+            <!-- <li data-tab-target="tab1">Respuestas</li> -->
+            <li data-tab-target="tab2">Preguntas</li>
+            <!-- <li data-tab-target="tab3">Comentarios</li> -->
+            <!-- <li data-tab-target="tab4">Preguntas</li> -->
         </ul>
-        <div class="tab" data-target="tab1">
+        <!-- <div class="tab" data-target="tab1">
             <section class="box-container complete">
                 <div class="main">
                     <article>
@@ -65,8 +65,8 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                     </article>
                 </div>
             </section>
-        </div>
-        <div class="tab" data-target="tab2">
+        </div> -->
+        <!-- <div class="tab" data-target="tab2">
             <section class="box-container complete">
                 <div class="main">
                     <article>
@@ -88,8 +88,8 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                     </article>
                 </div>
             </section>
-        </div>
-        <div class="tab" data-target="tab3">
+        </div> -->
+        <!-- <div class="tab" data-target="tab3">
             <section class="box-container complete">
                 <div class="main">
                     <article>
@@ -113,8 +113,8 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                     </article>
                 </div>
             </section>
-        </div>
-        <div class="tab" data-target="tab4">
+        </div> -->
+        <div class="tab" data-target="tab2">
             <section class="box-container complete">
                 <div class="main">
                     <article>
@@ -166,7 +166,7 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                             </div>
                         </main>
                     </article>
-                    <article>
+                    <!-- <article>
                         <main class="tables">
                             <form name="edit_survey_title">
                                 <div class="row">
@@ -194,7 +194,7 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                                 <a class="btn" data-action="edit_survey_title">{$lang.edit}</a>
                             </div>
                         </footer>
-                    </article>
+                    </article> -->
                 </div>
             </section>
         </div>
@@ -229,19 +229,6 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
         </main>
         <footer>
             <div class="action-buttons">
-                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
-            </div>
-        </footer>
-    </div>
-</section>
-<section class="modal" data-modal="delete_survey_question">
-    <div class="content">
-        <header>
-            <h3>{$lang.delete}</h3>
-        </header>
-        <footer>
-            <div class="action-buttons">
                 <button class="btn btn-flat" button-close>{$lang.cancel}</button>
                 <button class="btn" button-success>{$lang.accept}</button>
             </div>
@@ -274,30 +261,15 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
         </footer>
     </div>
 </section>
-<section class="modal" data-modal="add_survey_subquestion">
+<section class="modal" data-modal="new_survey_subquestion">
     <div class="content">
         <header>
-            <h3>Agregar</h3>
+            <h3>Nuevo</h3>
         </header>
         <main>
-            <form name="add_survey_subquestion">
+            <form name="new_survey_subquestion">
                 <div class="row">
-                    <div class="label">
-                        <label>
-                            <div class="checkboxes">
-                                <div class="checkbox">
-                                    <input type="radio" name="type" value="open" checked>
-                                    <span>Abierta</span>
-                                </div>
-                                <div class="checkbox">
-                                    <input type="radio" name="type" value="rate">
-                                    <span>Rating</span>
-                                </div>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="span6">
+                    <div class="span12">
                         <div class="label">
                             <label>
                                 <p>(ES) Subpregunta</p>
@@ -305,11 +277,27 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span6">
+                    <div class="span12">
                         <div class="label">
                             <label>
                                 <p>(EN) Subpregunta</p>
                                 <input type="text" name="survey_subquestion_en" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <div class="checkboxes">
+                                    <div class="checkbox">
+                                        <input type="radio" name="type" value="rate" checked>
+                                        <span>Rating</span>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input type="radio" name="type" value="open">
+                                        <span>Abierta</span>
+                                    </div>
+                                </div>
                             </label>
                         </div>
                     </div>
@@ -324,7 +312,7 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
         </footer>
     </div>
 </section>
-<section class="modal" data-modal="delete_survey_subquestion">
+<!-- <section class="modal" data-modal="delete_survey_subquestion">
     <div class="content">
         <header>
             <h3>{$lang.delete}</h3>
@@ -401,4 +389,4 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
             </div>
         </footer>
     </div>
-</section>
+</section> -->
