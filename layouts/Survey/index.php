@@ -2,10 +2,10 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['js', '{$path.plugins}charts/Chart.js']);
+// $this->dependencies->add(['js', '{$path.plugins}charts/Chart.js']);
 $this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
-$this->dependencies->add(['js', '{$vkye_base}survey/charts']);
+// $this->dependencies->add(['js', '{$vkye_base}survey/charts']);
 $this->dependencies->add(['js', '{$path.js}Survey/index.js']);
 $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
 
@@ -291,7 +291,7 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                                 <div class="checkboxes">
                                     <div class="checkbox">
                                         <input type="radio" name="type" value="rate" checked>
-                                        <span>Rating</span>
+                                        <span>Rate</span>
                                     </div>
                                     <div class="checkbox">
                                         <input type="radio" name="type" value="open">
@@ -312,10 +312,61 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
         </footer>
     </div>
 </section>
-<!-- <section class="modal" data-modal="delete_survey_subquestion">
+<section class="modal" data-modal="edit_survey_subquestion">
     <div class="content">
         <header>
-            <h3>{$lang.delete}</h3>
+            <h3>Editar</h3>
+        </header>
+        <main>
+            <form name="edit_survey_subquestion">
+                <div class="row">
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>(ES) Subpregunta</p>
+                                <input type="text" name="survey_subquestion_es" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>(EN) Subpregunta</p>
+                                <input type="text" name="survey_subquestion_en" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <div class="checkboxes">
+                                    <div class="checkbox">
+                                        <input type="radio" name="type" value="rate">
+                                        <span>Rate</span>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input type="radio" name="type" value="open">
+                                        <span>Abierta</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<section class="modal" data-modal="deactivate_survey_subquestion">
+    <div class="content">
+        <header>
+            <h3>Desactivar</h3>
         </header>
         <footer>
             <div class="action-buttons">
@@ -325,51 +376,27 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
         </footer>
     </div>
 </section>
-<section class="modal" data-modal="edit_survey_subquestion">
+<section class="modal" data-modal="activate_survey_subquestion">
     <div class="content">
         <header>
-            <h3>Agregar</h3>
+            <h3>Activar</h3>
         </header>
-        <main>
-            <form name="edit_survey_subquestion">
-                <div class="row">
-                    <div class="label">
-                        <label>
-                            <div class="checkboxes">
-                                <div class="checkbox">
-                                    <input type="radio" name="type" value="open" checked>
-                                    <span>Abierta</span>
-                                </div>
-                                <div class="checkbox">
-                                    <input type="radio" name="type" value="rate">
-                                    <span>Rating</span>
-                                </div>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="clear"></div>
-                    <div class="span6">
-                        <div class="label">
-                            <label>
-                                <p>(ES) Subquestion</p>
-                                <input type="text" name="survey_subquestion_es" />
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span6">
-                        <div class="label">
-                            <label>
-                                <p>(EN) Subpregunta</p>
-                                <input type="text" name="survey_subquestion_en" />
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </main>
         <footer>
             <div class="action-buttons">
-                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
+                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<!-- <section class="modal" data-modal="delete_survey_subquestion">
+    <div class="content">
+        <header>
+            <h3>{$lang.delete}</h3>
+        </header>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
                 <button class="btn" button-success>{$lang.accept}</button>
             </div>
         </footer>

@@ -1828,6 +1828,13 @@ table.table tr > td {
     box-sizing: border-box;
 }
 
+table.table tr > th.sub:first-child,
+table.table tr > td.sub:first-child,
+table.table tr > th.sub,
+table.table tr > td.sub {
+    padding-left: 40px !important;
+}
+
 table.table tr > th.icon,
 table.table tr > td.icon {
     width: 30px;

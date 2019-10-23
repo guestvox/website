@@ -90,6 +90,7 @@ class Survey_model extends Model
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
 			'question',
+			'subquestions',
 		], [
 			'id' => $id
 		]));
@@ -105,7 +106,7 @@ class Survey_model extends Model
 				'es' => $data['survey_question_es'],
 				'en' => $data['survey_question_en'],
 			]),
-			'subquestions' => null,
+			'subquestions' => json_encode([]),
 			'status' => true,
 		]);
 
@@ -121,6 +122,28 @@ class Survey_model extends Model
 			]),
 		], [
 			'id' => $data['id'],
+		]);
+
+		return $query;
+	}
+
+	public function deactivate_survey_question($id)
+	{
+		$query = $this->database->update('survey_questions', [
+			'status' => false
+		], [
+			'id' => $id,
+		]);
+
+		return $query;
+	}
+
+	public function activate_survey_question($id)
+	{
+		$query = $this->database->update('survey_questions', [
+			'status' => true
+		], [
+			'id' => $id,
 		]);
 
 		return $query;
@@ -160,89 +183,17 @@ class Survey_model extends Model
 	// 	return $query;
 	// }
 
-	public function deactivate_survey_question($id)
+	public function edit_survey_subquestion($id, $subquestions)
 	{
 		$query = $this->database->update('survey_questions', [
-			'status' => false
+			'subquestions' => json_encode($subquestions),
 		], [
-			'id' => $id,
+			'id' => $id
 		]);
 
 		return $query;
 	}
 
-	public function activate_survey_question($id)
-	{
-		$query = $this->database->update('survey_questions', [
-			'status' => true
-		], [
-			'id' => $id,
-		]);
-
-		return $query;
-	}
-
-	// public function new_survey_subquestion($data)
-	// {
-	// 	$select = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-	// 		'id',
-	// 		'question',
-	// 		'subquestions',
-	// 	], [
-	// 		'id' => $data['id']
-	// 	]));
-	//
-	// 	$select[0]['subquestions'] = !empty($select[0]['subquestions']) ? $select[0]['subquestions'] : [];
-	//
-	// 	array_push($select[0]['subquestions'], [
-	// 		'token' => $data['token'],
-	// 		'es' => $data['survey_subquestion_es'],
-	// 		'en' => $data['survey_subquestion_en'],
-	// 		'type' => $data['type'],
-	// 		'status' => true,
-	// 	]);
-	//
-	// 	$query = $this->database->update('survey_questions', [
-	// 		'account' => Session::get_value('account')['id'],
-	// 		'subquestions' => json_encode($select[0]['subquestions']),
-	// 	], [
-	// 		'id' => $data['id']
-	// 	]);
-	//
-	// 	return $query;
-	// }
-	//
-	// public function edit_survey_subquestion($data)
-	// {
-	// 	$select = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-	// 		'id',
-	// 		'question',
-	// 		'subquestions',
-	// 	], [
-	// 		'id' => $data[0][0]
-	// 	]));
-	//
-	// 	foreach ($select[0]['subquestions'] as $key => $value)
-	// 	{
-	// 		if ($data[0][1] == $key)
-	// 		{
-	// 			$select[0]['subquestions'][$key]['es'] = $data[1]['survey_subquestion_es'];
-	// 			$select[0]['subquestions'][$key]['en'] = $data[1]['survey_subquestion_en'];
-	// 			$select[0]['subquestions'][$key]['type'] = $data[1]['type'];
-	//
-	// 		}
-	// 	}
-	//
-	// 	$query = $this->database->update('survey_questions', [
-	// 		'account' => Session::get_value('account')['id'],
-	// 		'subquestions' => json_encode($select[0]['subquestions']),
-	// 	], [
-	// 		'id' => $data[0][0]
-	// 	]);
-	//
-	// 	return $query;
-	// }
-	//
 	// public function delete_survey_subquestion($data)
 	// {
 	// 	$select = Functions::get_json_decoded_query($this->database->select('survey_questions', [
