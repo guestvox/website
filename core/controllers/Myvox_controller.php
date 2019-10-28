@@ -337,14 +337,14 @@ class Myvox_controller extends Controller
                 {
 					$labels = [];
 
-                    if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-                        array_push($labels, ['firstname','']);
-
-                    if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-                        array_push($labels, ['lastname','']);
-
-                    if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
-                        array_push($labels, ['email','']);
+                    // if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+                    //     array_push($labels, ['firstname','']);
+					//
+                    // if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+                    //     array_push($labels, ['lastname','']);
+					//
+                    // if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
+                    //     array_push($labels, ['email','']);
 
                     if (empty($labels))
                     {
@@ -365,7 +365,54 @@ class Myvox_controller extends Controller
 							$_POST['answers'][$key] = $ex;
 	                    }
 
-						$query = $this->model->new_survey_answers($_POST, $room['id'], $account['id']);
+						foreach ($_POST['answers'] as $subvalue)
+						{
+							$ans = [];
+
+							$value1 = ($subvalue[0] == 'p' ? $subvalue[1] : '');
+							$value2 = ($subvalue[0] == 'p' ? $subvalue[2] : '');
+
+								array_push($ans, [
+									'id' => $value1,
+									'rate' => $value2,
+									'subanswer' => [],
+								]);
+
+								array_push($ans[0]['subanswer'], [
+									'id' => ($subvalue[0] == 's' ? $subvalue[1] == $ans[0]['id'] ? $subvalue[2] : '' : ''),
+									'answer' => ($subvalue[0] == 's' ? ($subvalue[1] == $ans[0]['id'] AND !empty($subvalue[3])) ? $subvalue[3] : '' : ''),
+								]);
+
+								print_r($ans);
+
+								// array_push($ans, [
+								// 	'id' => $subvalue[1],
+								// 	'rate' => $subvalue[2],
+								// 	'subanswer' => [],
+								// ]);
+
+								// $_POST['answers'] = $ans;
+								//
+								// $select = $this->model->get_survey_answers();
+								//
+								// if (empty($select) || $select[0]['token'] != $_POST['token'])
+								// {
+								// 	$query = $this->model->new_survey_answers($_POST, $room['id'], $account['id'], $exist = 0);
+								// }
+								//
+								// foreach ($select as $subvalue2)
+								// {
+								// 	if ($subvalue2['token'] == $_POST['token'])
+								// 	{
+								// 		array_push($subvalue2['answers'], $ans[0]);
+								//
+								// 		$_POST['answers'] = $subvalue2['answers'];
+								//
+								// 		$query = $this->model->new_survey_answers($_POST, $room['id'], $account['id'], $exist = 1);
+								// 	}
+								// }
+
+						}
 
 						if (!empty($query))
 	                    {
@@ -461,31 +508,31 @@ class Myvox_controller extends Controller
                 {
                     $art_survey_questions .=
                     '<article>
-                        <h6>' . $value['q1']['question'][Session::get_value('lang')] . '</h6>
+                        <h6>' . $value['question'][Session::get_value('lang')] . '</h6>
                         <div>
                             <label>{$lang.appalling}</label>
-                            <label><input type="radio" name="p-' . $value['q1']['id'] . '" value="1" data-action="open_subquestion"></label>
-                            <label><input type="radio" name="p-' . $value['q1']['id'] . '" value="2" data-action="open_subquestion"></label>
-                            <label><input type="radio" name="p-' . $value['q1']['id'] . '" value="3" data-action="open_subquestion"></label>
-                            <label><input type="radio" name="p-' . $value['q1']['id'] . '" value="4" data-action="open_subquestion"></label>
-                            <label><input type="radio" name="p-' . $value['q1']['id'] . '" value="5" data-action="open_subquestion"></label>
+                            <label><input type="radio" name="p-' . $value['id'] . '" value="1" data-action="open_subquestion"></label>
+                            <label><input type="radio" name="p-' . $value['id'] . '" value="2" data-action="open_subquestion"></label>
+                            <label><input type="radio" name="p-' . $value['id'] . '" value="3" data-action="open_subquestion"></label>
+                            <label><input type="radio" name="p-' . $value['id'] . '" value="4" data-action="open_subquestion"></label>
+                            <label><input type="radio" name="p-' . $value['id'] . '" value="5" data-action="open_subquestion"></label>
                             <label>{$lang.excellent}</label>
                         </div>
                     </article>';
 
-					if (!empty($value['q1']['subquestions']))
+					if (!empty($value['subquestions']))
 					{
 						$art_survey_questions .=
-						'<article id="p-' . $value['q1']['id'] . '" class="subquestions hidden">';
+						'<article id="p-' . $value['id'] . '" class="sub	questions hidden">';
 
-						foreach ($value['q1']['subquestions'] as $key => $subvalue)
+						foreach ($value['subquestions'] as $key => $subvalue)
 						{
 							if ($subvalue['type'] == 'open')
 							{
 								$art_survey_questions .=
-								'<h6>' . $subvalue[Session::get_value('lang')] . '</h6>
+								'<h6>' . $subvalue['subquestion'][Session::get_value('lang')] . '</h6>
 									<div>
-										<input type="text" name="s-' . $subvalue['token'] . '" value="">
+										<input type="text" name="s-' . $value['id'] . '-' . $subvalue['id'] . '" value="">
 								   </div>';
 							}
 							else if ($subvalue['type'] == 'rate')
@@ -494,11 +541,11 @@ class Myvox_controller extends Controller
 								'<h6>' . $subvalue[Session::get_value('lang')] . '</h6>
 									<div>
 									<label>{$lang.appalling}</label>
-									<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="1"></label>
-									<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="2"></label>
-									<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="3"></label>
-									<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="4"></label>
-									<label><input type="radio" name="sr-' . $subvalue['token'] . '" value="5"></label>
+									<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="1"></label>
+									<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="2"></label>
+									<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="3"></label>
+									<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="4"></label>
+									<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="5"></label>
 									<label>{$lang.excellent}</label>
 								   </div>';
 							}
