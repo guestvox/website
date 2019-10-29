@@ -167,8 +167,6 @@ class Myvox_model extends Model
 
     public function get_survey_questions($account)
     {
-		$questions = [];
-
         $query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
             'id',
             'question',
@@ -304,167 +302,20 @@ class Myvox_model extends Model
 		return !empty($query) ? $this->database->id($query) : null;
 	}
 
-	public function get_survey_answers()
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-			'id',
-			'answers',
-			'token',
-		]));
+    public function new_survey_answers($data, $room, $account)
+    {
+		$query = $this->database->insert('survey_answers', [
+			'account' => $account,
+			'room' => $room,
+			'answers' => json_encode($data['answers']),
+			'comment' => $data['comment'],
+			'firstname' => $data['firstname'],
+			'lastname' => $data['lastname'],
+			'email' => $data['email'],
+			'date' => $data['date'],
+			'token' => $data['token'],
+		]);
 
 		return $query;
-	}
-
-    public function new_survey_answers($data, $room, $account, $exist)
-    {
-		if($exist == 0)
-		{
-			$query = $this->database->insert('survey_answers', [
-				'account' => $account,
-				'room' => $room,
-				'answers' =>  json_encode($data['answers']),
-				'comment' =>  $data['comment'],
-				'firstname' =>  $data['firstname'],
-				'lastname' =>  $data['lastname'],
-				'email' => $data['email'],
-				'date' => Functions::get_current_date(),
-				'token' => $data['token'],
-			]);
-		}
-		elseif ($exist == 1)
-		{
-			$query = $this->database->update('survey_answers', [
-				'answers' => json_encode($data['answers']),
-			], [
-				'token' => $data['token']
-			]);
-		}
-
-		return true;
-
-        // foreach ($data['answers'] as $value)
-        // {
-		// 	$ans = [];
-		//
-		// 	if ($value[0] == 'p')
-		// 	{
-		// 		array_push($ans, [
-		// 			'id' => $value[1],
-		// 			'rate' => $value[2],
-		// 			'subanswers' => '',
-		// 		]);
-		//
-		// 		$select = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-		// 			'id',
-		// 			'answers',
-		// 			'token',
-		// 		]));
-		//
-		// 			if (empty($select) || $select[0]['token'] != $data['token'])
-		// 			{
-		// 				$q1 = $this->database->insert('survey_answers', [
-		// 					'account' => $account,
-		// 					'room' => $room,
-		// 					'answers' =>  json_encode($ans),
-		// 					'comment' =>  $data['comment'],
-		// 					'firstname' =>  $data['firstname'],
-		// 					'lastname' =>  $data['lastname'],
-		// 					'email' => $data['email'],
-		// 					'date' => Functions::get_current_date(),
-		// 					'token' => $data['token'],
-		// 				]);
-		// 			}
-		// 			foreach ($select as $key => $subvalue)
-		// 			{
-		// 				if ($subvalue['token'] == $data['token'])
-		// 				{
-		// 					$subvalue['answers'] = !empty($subvalue['answers']) ? $subvalue['answers'] : [];
-		//
-		// 					array_push($subvalue['answers'], $ans[0]);
-		//
-		// 					$query = $this->database->update('survey_answers', [
-		// 						'answers' => json_encode($subvalue['answers']),
-		// 					], [
-		// 						'token' => $data['token']
-		// 					]);
-		// 				}
-		// 			}
-		//
-		// 	}
-		// 	else if ($value[0] == 's' AND !empty($value[2]))
-		// 	{
-		// 		$subans = [];
-		//
-		// 		$select = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-		// 			'answers',
-		// 			'token',
-		// 		], [
-		// 			'token' => $data['token']
-		// 		]));
-		//
-		// 		if ($select[0]['token'] == $data['token'])
-		// 		{
-		// 			foreach ($select[0]['answers'] as $key => $subvalue)
-		// 			{
-		// 				array_push($subvalue['subanswers'], [
-		// 					'token' => $value[1],
-		// 					'answer' => $value[2],
-		// 				]);
-		//
-		// 					$query = $this->database->update('survey_answers', [
-		// 						'answers' => json_encode($subvalue['subanswers']),
-		// 					], [
-		// 						'token' => $data['token']
-		// 					]);
-		//
-		// 			}
-		// 		}
-		// 	}
-		// 	else if ($value[0] == 'sr' AND !empty($value[2]))
-		// 	{
-		// 		$subans = [];
-		//
-		// 		$select = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-		// 			'answers',
-		// 			'token',
-		// 		], [
-		// 			'token' => $data['token']
-		// 		]));
-		//
-		// 		if ($select[0]['token'] == $data['token'])
-		// 		{
-		// 			foreach ($select[0]['answers'] as $key => $subvalue)
-		// 			{
-		// 				array_push($subvalue['subanswers'], [
-		// 					'token' => $value[1],
-		// 					'answer' => $value[2],
-		// 				]);
-		//
-		// 					$query = $this->database->update('survey_answers', [
-		// 						'answers' => json_encode($subvalue['subanswers']),
-		// 					], [
-		// 						'token' => $data['token']
-		// 					]);
-		//
-		// 			}
-		// 		}
-		// 	}
-        // }
-		//
-		// if (!empty($data['comment']))
-		// {
-		// 	$q3 = $this->database->insert('survey_comments', [
-		// 		'account' => $account,
-		// 		'room' => $room,
-		// 		'comment' => $data['comment'],
-		// 		'firstname' => $data['firstname'],
-		// 		'lastname' => $data['lastname'],
-		// 		'email' => $data['email'],
-		// 		'date' => Functions::get_current_date(),
-		// 		'token' => $data['token'],
-		// 	]);
-		// }
-		//
-		// return true;
     }
 }

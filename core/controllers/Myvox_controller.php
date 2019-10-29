@@ -337,82 +337,57 @@ class Myvox_controller extends Controller
                 {
 					$labels = [];
 
-                    // if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-                    //     array_push($labels, ['firstname','']);
-					//
-                    // if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-                    //     array_push($labels, ['lastname','']);
-					//
-                    // if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
-                    //     array_push($labels, ['email','']);
+                    if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+                        array_push($labels, ['firstname','']);
+
+                    if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+                        array_push($labels, ['lastname','']);
+
+                    if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
+                        array_push($labels, ['email','']);
 
                     if (empty($labels))
                     {
-						$_POST['token'] = Functions::get_random(6);
                         $_POST['answers'] = $_POST;
 
 						unset($_POST['answers']['comment']);
 						unset($_POST['answers']['firstname']);
 						unset($_POST['answers']['lastname']);
 						unset($_POST['answers']['email']);
-						unset($_POST['answers']['token']);
 						unset($_POST['answers']['action']);
 
 						foreach ($_POST['answers'] as $key => $value)
 	                    {
-							$ex = explode('-', $key);
-							array_push($ex, $value);
-							$_POST['answers'][$key] = $ex;
+							$explode = explode('-', $key);
+
+							if ($explode[0] == 'p')
+							{
+								$_POST['answers'][$explode[1]] = [
+									'id' => $explode[1],
+									'answer' => $value,
+									'subanswers' => [],
+								];
+
+								unset($_POST['answers'][$key]);
+							}
+							else if ($explode[0] == 'so' OR $explode[0] == 'sr')
+							{
+								array_push($_POST['answers'][$explode[1]]['subanswers'], [
+									'id' => $explode[2],
+									'type' => ($explode[0] == 'so') ? 'open' : 'rate',
+									'answer' => $value
+								]);
+
+								unset($_POST['answers'][$key]);
+							}
 	                    }
 
-						foreach ($_POST['answers'] as $subvalue)
-						{
-							$ans = [];
+						sort($_POST['answers']);
 
-							$value1 = ($subvalue[0] == 'p' ? $subvalue[1] : '');
-							$value2 = ($subvalue[0] == 'p' ? $subvalue[2] : '');
+						$_POST['date'] = Functions::get_current_date();
+						$_POST['token'] = Functions::get_random(6);
 
-								array_push($ans, [
-									'id' => $value1,
-									'rate' => $value2,
-									'subanswer' => [],
-								]);
-
-								array_push($ans[0]['subanswer'], [
-									'id' => ($subvalue[0] == 's' ? $subvalue[1] == $ans[0]['id'] ? $subvalue[2] : '' : ''),
-									'answer' => ($subvalue[0] == 's' ? ($subvalue[1] == $ans[0]['id'] AND !empty($subvalue[3])) ? $subvalue[3] : '' : ''),
-								]);
-
-								print_r($ans);
-
-								// array_push($ans, [
-								// 	'id' => $subvalue[1],
-								// 	'rate' => $subvalue[2],
-								// 	'subanswer' => [],
-								// ]);
-
-								// $_POST['answers'] = $ans;
-								//
-								// $select = $this->model->get_survey_answers();
-								//
-								// if (empty($select) || $select[0]['token'] != $_POST['token'])
-								// {
-								// 	$query = $this->model->new_survey_answers($_POST, $room['id'], $account['id'], $exist = 0);
-								// }
-								//
-								// foreach ($select as $subvalue2)
-								// {
-								// 	if ($subvalue2['token'] == $_POST['token'])
-								// 	{
-								// 		array_push($subvalue2['answers'], $ans[0]);
-								//
-								// 		$_POST['answers'] = $subvalue2['answers'];
-								//
-								// 		$query = $this->model->new_survey_answers($_POST, $room['id'], $account['id'], $exist = 1);
-								// 	}
-								// }
-
-						}
+						$query = $this->model->new_survey_answers($_POST, $room['id'], $account['id']);
 
 						if (!empty($query))
 	                    {
@@ -447,6 +422,7 @@ class Myvox_controller extends Controller
                                             <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
                                                 <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
                                                     <h4 style="font-size:24px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject . '</h4>
+                                                    <h6 style="font-size:24px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $_POST['date'] . '</h6>
                                                     <h6 style="font-size:40px;font-weight:600;text-align:center;color:#212121;margin:0px;padding:0px;">' . $_POST['token'] . '</h6>
                                                 </td>
                                             </tr>
@@ -523,7 +499,7 @@ class Myvox_controller extends Controller
 					if (!empty($value['subquestions']))
 					{
 						$art_survey_questions .=
-						'<article id="p-' . $value['id'] . '" class="sub	questions hidden">';
+						'<article id="p-' . $value['id'] . '" class="subquestions hidden">';
 
 						foreach ($value['subquestions'] as $key => $subvalue)
 						{
@@ -532,7 +508,7 @@ class Myvox_controller extends Controller
 								$art_survey_questions .=
 								'<h6>' . $subvalue['subquestion'][Session::get_value('lang')] . '</h6>
 									<div>
-										<input type="text" name="s-' . $value['id'] . '-' . $subvalue['id'] . '" value="">
+										<input type="text" name="so-' . $value['id'] . '-' . $subvalue['id'] . '" value="">
 								   </div>';
 							}
 							else if ($subvalue['type'] == 'rate')
@@ -547,7 +523,7 @@ class Myvox_controller extends Controller
 									<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="4"></label>
 									<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="5"></label>
 									<label>{$lang.excellent}</label>
-								   </div>';
+								</div>';
 							}
 
 						}
@@ -555,15 +531,10 @@ class Myvox_controller extends Controller
 						$art_survey_questions .=
 						'</article>';
 					}
-					else
-					{
-						$art_survey_questions .= '';
-					}
                 }
 
                 $replace = [
 					'{$logotype}' => '{$path.uploads}' . $account['settings']['logotype'],
-					'{$room}' => '{$lang.room}: ' . $room['name'],
 					'{$survey_title}' => $account['settings']['survey_title'][Session::get_value('lang')],
                     '{$opt_opportunity_areas}' => $opt_opportunity_areas,
                     '{$opt_locations}' => $opt_locations,

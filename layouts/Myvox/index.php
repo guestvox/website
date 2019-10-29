@@ -12,9 +12,6 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
             <img src="{$logotype}" alt="">
         </figure>
     </div>
-    <div class="title">
-        <h1>{$room}</h1>
-    </div>
     <div class="bottombar">
         <div class="weather">
             <div id="cont_14b51bac9dd36d8c525f0cb7c94d00e0">
@@ -234,7 +231,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
                             </label>
                         </div>
                     </div>
-                    <div class="span6">
+                    <div class="span12">
                         <div class="label">
                             <label class="success">
                                 <p>{$lang.firstname}</p>
@@ -242,7 +239,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
                             </label>
                         </div>
                     </div>
-                    <div class="span6">
+                    <div class="span12">
                         <div class="label">
                             <label class="success">
                                 <p>{$lang.lastname}</p>
