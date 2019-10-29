@@ -33,14 +33,13 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
             </div>
         </aside>
     </section> -->
-    <div class="multi-tabs" data-tab-active="tab2">
+    <div class="multi-tabs" data-tab-active="tab1">
         <ul>
-            <!-- <li data-tab-target="tab1">Respuestas</li> -->
+            <li data-tab-target="tab1">Respuestas</li>
             <li data-tab-target="tab2">Preguntas</li>
-            <!-- <li data-tab-target="tab3">Comentarios</li> -->
-            <!-- <li data-tab-target="tab4">Preguntas</li> -->
+            <li data-tab-target="tab3">Configuración</li>
         </ul>
-        <!-- <div class="tab" data-target="tab1">
+        <div class="tab" data-target="tab1">
             <section class="box-container complete">
                 <div class="main">
                     <article>
@@ -49,11 +48,13 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                                 <table id="tbl_survey_answers" class="table">
                                     <thead>
                                         <tr>
-                                            <th align="left">Pregunta</th>
-                                            <th align="left" width="100px">{$lang.room}</th>
-                                            <th align="left" width="100px">Rate</th>
-                                            <th align="left" width="100px">{$lang.date}</th>
                                             <th align="left" width="100px">Token</th>
+                                            <th align="left" width="100px">{$lang.room}</th>
+                                            <th align="left">{$lang.guest}</th>
+                                            <th align="left">{$lang.email}</th>
+                                            <th align="left" width="100px">{$lang.date}</th>
+                                            <th align="left" width="100px">Encuesta</th>
+                                            <th align="right" class="icon"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -65,55 +66,7 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                     </article>
                 </div>
             </section>
-        </div> -->
-        <!-- <div class="tab" data-target="tab2">
-            <section class="box-container complete">
-                <div class="main">
-                    <article>
-                        <main class="tables">
-                            <div class="table-container">
-                                <table id="tbl_survey_subanswers" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th align="left">Subpregunta</th>
-                                            <th align="left" width="100px">{$lang.room}</th>
-                                            <th align="left" width="350px">Subrespuesta</th>
-                                    </thead>
-                                    <tbody>
-                                        {$tbl_survey_subanswers}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </main>
-                    </article>
-                </div>
-            </section>
-        </div> -->
-        <!-- <div class="tab" data-target="tab3">
-            <section class="box-container complete">
-                <div class="main">
-                    <article>
-                        <main class="tables">
-                            <div class="table-container">
-                                <table id="tbl_survey_comments" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th align="left">Comentario</th>
-                                            <th align="left" width="100px">{$lang.room}</th>
-                                            <th align="left" width="100px">{$lang.date}</th>
-                                            <th align="left" width="100px">Token</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {$tbl_survey_comments}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </main>
-                    </article>
-                </div>
-            </section>
-        </div> -->
+        </div>
         <div class="tab" data-target="tab2">
             <section class="box-container complete">
                 <div class="main">
@@ -166,7 +119,13 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                             </div>
                         </main>
                     </article>
-                    <!-- <article>
+                </div>
+            </section>
+        </div>
+        <div class="tab" data-target="tab3">
+            <section class="box-container complete">
+                <div class="main">
+                    <article>
                         <main class="tables">
                             <form name="edit_survey_title">
                                 <div class="row">
@@ -194,12 +153,27 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                                 <a class="btn" data-action="edit_survey_title">{$lang.edit}</a>
                             </div>
                         </footer>
-                    </article> -->
+                    </article>
                 </div>
             </section>
         </div>
     </div>
 </main>
+<section class="modal" data-modal="view_survey_answers">
+    <div class="content">
+        <header>
+            <h3>Encuesta</h3>
+        </header>
+        <main>
+
+        </main>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn" button-close>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
 <section class="modal" data-modal="edit_survey_question">
     <div class="content">
         <header>
@@ -389,31 +363,3 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
         </footer>
     </div>
 </section>
-<!-- <section class="modal" data-modal="delete_survey_subquestion">
-    <div class="content">
-        <header>
-            <h3>{$lang.delete}</h3>
-        </header>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
-            </div>
-        </footer>
-    </div>
-</section>
-<section class="modal" data-modal="show_survey">
-    <div class="content">
-        <header>
-            <h3>Respuestas</h3>
-        </header>
-        <main>
-
-        </main>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.accept}</button>
-            </div>
-        </footer>
-    </div>
-</section> -->

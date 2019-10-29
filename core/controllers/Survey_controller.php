@@ -13,6 +13,89 @@ class Survey_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'get_survey_answers')
+			{
+				$query = $this->model->get_survey_answers($_POST['id']);
+
+				if (!empty($query))
+				{
+					$data = '';
+
+					foreach ($query['answers'] as $value)
+	                {
+						$value['fk'] = $this->model->get_survey_question($value['id']);
+
+	                    $data .=
+	                    '<article>
+	                        <h6>' . $value['fk']['question'][Session::get_value('settings')['language']] . '</h6>
+	                        <div>
+	                            <label>{$lang.appalling}</label>
+	                            <label><input type="radio" ' . (($value['answer'] == 1) ? 'checked' : '') . ' disabled></label>
+	                            <label><input type="radio" ' . (($value['answer'] == 2) ? 'checked' : '') . ' disabled></label>
+	                            <label><input type="radio" ' . (($value['answer'] == 3) ? 'checked' : '') . ' disabled></label>
+	                            <label><input type="radio" ' . (($value['answer'] == 4) ? 'checked' : '') . ' disabled></label>
+	                            <label><input type="radio" ' . (($value['answer'] == 5) ? 'checked' : '') . ' disabled></label>
+	                            <label>{$lang.excellent}</label>
+	                        </div>
+	                    </article>';
+
+						if (!empty($value['subanswers']))
+						{
+							$data .= '<article class="subquestions">';
+
+							foreach ($value['subanswers'] as $subkey => $subvalue)
+							{
+								$data .=
+								'<h6>' . $value['fk']['subquestions'][$subkey]['subquestion'][Session::get_value('settings')['language']] . '</h6>
+								<div>';
+
+								if ($subvalue['type'] == 'open')
+									$data .= '<input type="text" value="' . $subvalue['answer'] . '" disabled>';
+								else if ($subvalue['type'] == 'rate')
+								{
+									$data .=
+									'<label>{$lang.appalling}</label>
+									<label><input type="radio" ' . (($subvalue['answer'] == 1) ? 'checked' : '') . ' disabled></label>
+									<label><input type="radio" ' . (($subvalue['answer'] == 2) ? 'checked' : '') . ' disabled></label>
+									<label><input type="radio" ' . (($subvalue['answer'] == 3) ? 'checked' : '') . ' disabled></label>
+									<label><input type="radio" ' . (($subvalue['answer'] == 4) ? 'checked' : '') . ' disabled></label>
+									<label><input type="radio" ' . (($subvalue['answer'] == 5) ? 'checked' : '') . ' disabled></label>
+									<label>{$lang.excellent}</label>';
+								}
+
+								$data .= '</div>';
+							}
+
+							$data .= '</article>';
+						}
+	                }
+
+					$data .=
+					'<div class="row">
+	                    <div class="span12">
+	                        <div class="label">
+	                            <label class="success">
+	                                <p>{$lang.comments}</p>
+	                                <textarea disabled>' . $query['comment'] . '</textarea>
+	                            </label>
+	                        </div>
+	                    </div>
+	                </div>';
+
+					Functions::environment([
+						'status' => 'success',
+						'data' => $data,
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.error_operation_database}',
+					]);
+				}
+			}
+
 			if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question')
 			{
 				$labels = [];
@@ -209,106 +292,43 @@ class Survey_controller extends Controller
 				}
 			}
 
-			// if ($_POST['action'] == 'delete_survey_subquestion')
-			// {
-			// 	$array = [];
-			// 	foreach ($_POST as $key => $value)
-			// 	{
-			// 		$ex = explode('-', $value);
-			// 		array_push($array, $ex);
-			// 	}
-			//
-			// 		$query = $this->model->delete_survey_subquestion($array);
-			//
-			// 	if (!empty($query))
-			// 	{
-			// 		$data = '';
-			//
-			// 		foreach ($this->model->get_survey_questions() as $value)
-			// 		{
-			// 			$data .=
-			// 			'<tr>
-			// 				<td align="left"><i class="far fa-dot-circle"></i> ' . $value['q1']['question'][Session::get_value('settings')['language']] . '</td>
-			// 				<td align="left">' . (($value['q1']['status'] == true) ? 'Activada' : 'Desactivada') . '</td>
-			// 				<td align="right" class="icon"><a data-action="add_survey_subquestion" data-id="' . $value['q1']['id'] . '"><i class="fas fa-plus-square"></i></a></td>
-			// 				<td align="right" class="icon">' . (($value['q1']['fk'] == false) ? '<a data-action="delete_survey_question" data-id="' . $value['q1']['id'] . '"><i class="fas fa-trash"></i></a>' : (($value['q1']['status'] == true) ? '<a data-action="deactivate_survey_question" data-id="' . $value['q1']['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_question" data-id="' . $value['q1']['id'] . '"><i class="fas fa-check"></i></a>'))
-			// 				 . '</td>
-			// 				<td align="right" class="icon"><a data-action="edit_survey_question" data-id="' . $value['q1']['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>
-			// 			</tr>';
-			//
-			// 			if (!empty($value['q1']['subquestions']))
-			// 			{
-			// 				foreach ($value['q1']['subquestions'] as $key => $subvalue)
-			// 				{
-			// 					$data .=
-			// 					'<tr>
-			// 						<td align="left">' . $subvalue[Session::get_value('settings')['language']] . '</td>
-			// 						<td align="left"></td>
-			// 						<td align="right" class="icon"></td>
-			// 						<td align="right" class="icon"><a data-action="delete_survey_subquestion" data-id=" ' . $value['q1']['id'] . '-' . $key . '"><i class="fas fa-trash"></i></a>'
-			// 						 . '</td>
-			// 						<td align="right" class="icon"><a data-action="edit_survey_subquestion" data-id="' . $value['q1']['id'] . '-' . $key . '"><i class="fas fa-pencil-alt"></i></a></td>
-			// 					</tr>';
-			// 				}
-			// 			}
-			// 		}
-			//
-			// 		Functions::environment([
-			// 			'status' => 'success',
-			// 			'data' => $data,
-			// 			'message' => '{$lang.success_operation_database}',
-			// 		]);
-			// 	}
-			// 	else
-			// 	{
-			// 		Functions::environment([
-			// 			'status' => 'error',
-			// 			'message' => '{$lang.error_operation_database}',
-			// 		]);
-			// 	}
-			// }
+			if ($_POST['action'] == 'edit_survey_title')
+			{
+				$labels = [];
 
-			// if ($_POST['action'] == 'edit_survey_title')
-			// {
-			// 	$labels = [];
-			//
-			// 	if (!isset($_POST['survey_title_es']) OR empty($_POST['survey_title_es']))
-			// 		array_push($labels, ['survey_title_es', '']);
-			//
-			// 	if (!isset($_POST['survey_title_en']) OR empty($_POST['survey_title_en']))
-			// 		array_push($labels, ['survey_title_en', '']);
-			//
-			// 	if (empty($labels))
-			// 	{
-			// 		$query = $this->model->edit_survey_title($_POST);
-			//
-			// 		if (!empty($query))
-			// 		{
-			// 			Functions::environment([
-			// 				'status' => 'success',
-			// 				'title' => [
-			// 					'es' => $_POST['survey_title_es'],
-			// 					'en' => $_POST['survey_title_en'],
-			// 				],
-			// 				'message' => '{$lang.success_operation_database}',
-			// 			]);
-			// 		}
-			// 		else
-			// 		{
-			// 			Functions::environment([
-			// 				'status' => 'error',
-			// 				'message' => '{$lang.error_operation_database}',
-			// 			]);
-			// 		}
-			// 	}
-			// 	else
-			// 	{
-			// 		Functions::environment([
-			// 			'status' => 'error',
-			// 			'labels' => $labels
-			// 		]);
-			// 	}
-			// }
+				if (!isset($_POST['survey_title_es']) OR empty($_POST['survey_title_es']))
+					array_push($labels, ['survey_title_es', '']);
+
+				if (!isset($_POST['survey_title_en']) OR empty($_POST['survey_title_en']))
+					array_push($labels, ['survey_title_en', '']);
+
+				if (empty($labels))
+				{
+					$query = $this->model->edit_survey_title($_POST);
+
+					if (!empty($query))
+					{
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.success_operation_database}',
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.error_operation_database}',
+						]);
+					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
 		}
 		else
 		{
@@ -316,44 +336,28 @@ class Survey_controller extends Controller
 
 			$template = $this->view->render($this, 'index');
 
-			// $tbl_survey_answers = '';
-			//
-			// foreach ($this->model->get_survey_answers() as $value)
-			// {
-			// 	$tbl_survey_answers .=
-			// 	'<tr>
-			// 		<td align="left">' . $value['survey_question'][Session::get_value('settings')['language']] . '</td>
-			// 		<td align="left">' . $value['room'] . '</td>
-			// 		<td align="left">' . $value['rate'] . ' Pts</td>
-			// 		<td align="left">' . Functions::get_formatted_date($value['date'], 'd M, y') . '</td>
-			// 		<td align="left">' . $value['token'] . '</td>
-			// 	</tr>';
-			// }
-			//
-			// $tbl_survey_subanswers = '';
-			//
-			// foreach ($this->model->get_survey_subanswers() as $value)
-			// {
-			// 	$tbl_survey_subanswers .=
-			// 	'<tr>
-			// 		<td align="left">' . $value['survey_subquestion'][Session::get_value('settings')['language']] . '</td>
-			// 		<td align="left">' . $value['room'] . '</td>
-			// 		<td align="left">' . $value['subanswer'] . '</td>
-			// 	</tr>';
-			// }
-			//
-			// $tbl_survey_comments = '';
-			//
-			// foreach ($this->model->get_survey_comments() as $value)
-			// {
-			// 	$tbl_survey_comments .=
-			// 	'<tr name="' . $value['id'] . '">
-			// 		<td align="left">' . $value['comment'] . '</td>
-			// 		<td align="left">' . $value['room'] . '</td>
-			// 		<td align="left">' . Functions::get_formatted_date($value['date'], 'd M, y') . '</td>
-			// 		<td align="left">' . $value['token'] . '</td>
-			// 	</tr>';
-			// }
+			$tbl_survey_answers = '';
+
+			foreach ($this->model->get_survey_answers() as $value)
+			{
+				$value['rate'] = 0;
+
+				foreach ($value['answers'] as $subvalue)
+					$value['rate'] = $value['rate'] + $subvalue['answer'];
+
+				$value['rate'] = $value['rate'] / count($value['answers']);
+
+				$tbl_survey_answers .=
+				'<tr>
+					<td align="left">' . $value['token'] . '</td>
+					<td align="left">' . $value['room'] . '</td>
+					<td align="left">' . $value['firstname'] . ' ' . $value['lastname'] . '</td>
+					<td align="left">' . $value['email'] . '</td>
+					<td align="left">' . Functions::get_formatted_date($value['date'], 'd M, y') . '</td>
+					<td align="left">' . round($value['rate'], 2) . ' Pts</td>
+					<td align="right" class="icon"><a data-action="get_survey_answers" data-id="' . $value['id'] . '"><i class="fas fa-eye"></i></a></td>
+				</tr>';
+			}
 
 			$tbl_survey_questions = '';
 
@@ -382,13 +386,11 @@ class Survey_controller extends Controller
 			}
 
 			$replace = [
-				// '{$tbl_survey_answers}' => $tbl_survey_answers,
-				// '{$tbl_survey_subanswers}' => $tbl_survey_subanswers,
-				// '{$tbl_survey_comments}' => $tbl_survey_comments,
+				'{$tbl_survey_answers}' => $tbl_survey_answers,
 				'{$tbl_survey_questions}' => $tbl_survey_questions,
+				'{$survey_title_es}' => $this->model->get_survey_title()['es'],
+				'{$survey_title_en}' => $this->model->get_survey_title()['en'],
 				// '{$total_rate_avarage}' => $this->model->get_total_rate_avarage(),
-				// '{$survey_title_es}' => $this->model->get_survey_title()['survey_title']['es'],
-				// '{$survey_title_en}' => $this->model->get_survey_title()['survey_title']['en'],
 			];
 
 			$template = $this->format->replace($replace, $template);

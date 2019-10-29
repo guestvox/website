@@ -9,68 +9,42 @@ class Survey_model extends Model
 		parent::__construct();
 	}
 
-	// public function get_survey_answers()
-	// {
-	// 	$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-	// 		'[>]rooms' => [
-	// 			'room' => 'id'
-	// 		],
-	// 		'[>]survey_questions' => [
-	// 			'survey_question' => 'id'
-	// 		],
-	// 	], [
-	// 		'survey_answers.id',
-	// 		'rooms.name(room)',
-	// 		'survey_questions.question(survey_question)',
-	// 		'survey_answers.rate',
-	// 		'survey_answers.date',
-	// 		'survey_answers.token',
-	// 	], [
-	// 		'survey_answers.account' => Session::get_value('account')['id']
-	// 	]));
-	//
-	// 	return $query;
-	// }
-	//
-	// public function get_survey_subanswers()
-	// {
-	// 	$query = Functions::get_json_decoded_query($this->database->select('survey_subanswers', [
-	// 		'[>]rooms' => [
-	// 			'room' => 'id'
-	// 		],
-	// 		'[>]survey_subquestions' => [
-	// 			'survey_subquestion' => 'id'
-	// 		],
-	// 	], [
-	// 		'survey_subanswers.id',
-	// 		'rooms.name(room)',
-	// 		'survey_subquestions.subquestion(survey_subquestion)',
-	// 		'survey_subanswers.subanswer',
-	// 	], [
-	// 		'survey_subanswers.account' => Session::get_value('account')['id']
-	// 	]));
-	//
-	// 	return $query;
-	// }
-	//
-	// public function get_survey_comments()
-	// {
-	// 	$query = Functions::get_json_decoded_query($this->database->select('survey_comments', [
-	// 		'[>]rooms' => [
-	// 			'room' => 'id'
-	// 		]
-	// 	], [
-	// 		'survey_comments.id',
-	// 		'rooms.name(room)',
-	// 		'survey_comments.comment',
-	// 		'survey_comments.date',
-	// 		'survey_comments.token',
-	// 	], [
-	// 		'survey_comments.account' => Session::get_value('account')['id']
-	// 	]));
-	//
-	// 	return $query;
-	// }
+	public function get_survey_answers($id = null)
+	{
+		if (empty($id))
+		{
+			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+				'[>]rooms' => [
+					'room' => 'id'
+				],
+			], [
+				'survey_answers.id',
+				'rooms.name(room)',
+				'survey_answers.answers',
+				'survey_answers.comment',
+				'survey_answers.firstname',
+				'survey_answers.lastname',
+				'survey_answers.email',
+				'survey_answers.date',
+				'survey_answers.token',
+			], [
+				'survey_answers.account' => Session::get_value('account')['id']
+			]));
+
+			return $query;
+		}
+		else
+		{
+			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+				'answers',
+				'comment',
+			], [
+				'id' => $id
+			]));
+
+			return !empty($query) ? $query[0] : null;
+		}
+	}
 
 	public function get_survey_questions()
 	{
@@ -149,40 +123,6 @@ class Survey_model extends Model
 		return $query;
 	}
 
-	// public function get_survey_title()
-	// {
-	// 	$query = Functions::get_json_decoded_query($this->database->select('settings', [
-	// 		'survey_title'
-	// 	], [
-	// 		'account' => Session::get_value('account')['id']
-	// 	]));
-	//
-	// 	return !empty($query) ? $query[0] : null;
-	// }
-	//
-	// public function edit_survey_title($data)
-	// {
-	// 	$query = $this->database->update('settings', [
-	// 		'survey_title' => json_encode([
-	// 			'es' => $data['survey_title_es'],
-	// 			'en' => $data['survey_title_en'],
-	// 		]),
-	// 	], [
-	// 		'account' => Session::get_value('account')['id']
-	// 	]);
-	//
-	// 	return $query;
-	// }
-	//
-	// public function delete_survey_question($id)
-	// {
-	// 	$query = $this->database->delete('survey_questions', [
-	// 		'id' => $id
-	// 	]);
-	//
-	// 	return $query;
-	// }
-
 	public function edit_survey_subquestion($id, $subquestions)
 	{
 		$query = $this->database->update('survey_questions', [
@@ -194,57 +134,31 @@ class Survey_model extends Model
 		return $query;
 	}
 
-	// public function delete_survey_subquestion($data)
-	// {
-	// 	$select = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-	// 		'id',
-	// 		'question',
-	// 		'subquestions',
-	// 	], [
-	// 		'id' => $data[0][0]
-	// 	]));
-	//
-	// 	foreach ($select[0]['subquestions'] as $key => $value)
-	// 	{
-	// 		if ($data[0][1] == $key)
-	// 		{
-	// 			unset($select[0]['subquestions'][$key]);
-	// 		}
-	// 	}
-	//
-	// 	$query = $this->database->update('survey_questions', [
-	// 		'account' => Session::get_value('account')['id'],
-	// 		'subquestions' => json_encode($select[0]['subquestions']),
-	// 	], [
-	// 		'id' => $data[0][0]
-	// 	]);
-	//
-	// 	return $query;
-	// }
-	//
-	// public function get_survey_subquestion($data)
-	// {
-	// 	$select = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-	// 		'id',
-	// 		'question',
-	// 		'subquestions',
-	// 	], [
-	// 		'id' => $data[0][0]
-	// 	]));
-	//
-	// 	$subquestion = [];
-	//
-	// 	foreach ($select[0]['subquestions'] as $key => $value)
-	// 	{
-	// 		if ($data[0][1] == $key)
-	// 		{
-	// 			array_push($subquestion, $value);
-	// 		}
-	// 	}
-	//
-	// 	return !empty($subquestion) ? $subquestion[0] : null;
-	// }
-	//
+	public function get_survey_title()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('settings', [
+			'survey_title'
+		], [
+			'account' => Session::get_value('account')['id']
+		]));
+
+		return !empty($query) ? $query[0]['survey_title'] : null;
+	}
+
+	public function edit_survey_title($data)
+	{
+		$query = $this->database->update('settings', [
+			'survey_title' => json_encode([
+				'es' => $data['survey_title_es'],
+				'en' => $data['survey_title_en'],
+			]),
+		], [
+			'account' => Session::get_value('account')['id']
+		]);
+
+		return $query;
+	}
+
 	// public function get_total_rate_avarage()
 	// {
 	// 	$rate = 0;
