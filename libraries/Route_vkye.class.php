@@ -19,6 +19,7 @@ class Route_vkye
             '/Index/index',
             '/Index/validate',
             '/Myvox/index',
+            '/Public_sites/hola',
         ];
 
         if (in_array($this->path, $paths))

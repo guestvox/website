@@ -89,6 +89,11 @@ class Urls_registered_vkye
                 'controller' => 'Tasks',
                 'method' => 'index'
             ],
+
+            '/hola' => [
+                'controller' => 'Public_sites',
+                'method' => 'hola'
+            ],
         ];
     }
 }
