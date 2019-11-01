@@ -9,8 +9,17 @@ class Public_sites_controller extends Controller
 		parent::__construct();
 	}
 
-    public function hola()
-    {
+	public function hola()
+	{
+		define('_title', '');
 
-    }
+		$template = $this->view->render($this, 'hola');
+
+		$replace = [
+		];
+
+		$template = $this->format->replace($replace, $template);
+
+		echo $template;
+	}
 }
