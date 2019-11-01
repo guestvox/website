@@ -36,10 +36,21 @@ class Survey_model extends Model
 		else
 		{
 			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-				'answers',
-				'comment',
+				'[>]rooms' => [
+					'room' => 'id'
+				],
 			], [
-				'id' => $id
+				'survey_answers.id',
+				'rooms.name(room)',
+				'survey_answers.answers',
+				'survey_answers.comment',
+				'survey_answers.firstname',
+				'survey_answers.lastname',
+				'survey_answers.email',
+				'survey_answers.date',
+				'survey_answers.token',
+			], [
+				'survey_answers.id' => $id
 			]));
 
 			return !empty($query) ? $query[0] : null;

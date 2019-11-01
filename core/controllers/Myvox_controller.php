@@ -514,7 +514,7 @@ class Myvox_controller extends Controller
 							else if ($subvalue['type'] == 'rate')
 							{
 								$art_survey_questions .=
-								'<h6>' . $subvalue[Session::get_value('lang')] . '</h6>
+								'<h6>' . $subvalue['subquestion'][Session::get_value('lang')] . '</h6>
 									<div>
 									<label>{$lang.appalling}</label>
 									<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="1"></label>

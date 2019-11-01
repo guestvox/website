@@ -21,6 +21,13 @@ class Survey_controller extends Controller
 				{
 					$data = '';
 
+					$data .= '
+					<div><strong>Token:</strong> ' . $query['token']  . '</div>
+					<div><strong>{$lang.room}:</strong> ' . $query['room']  . '</div>
+					<div><strong>{$lang.guest}:</strong> ' . $query['firstname']  . ' ' . $query['lastname'] . '</div>
+					<div><strong>{$lang.email}:</strong> ' . $query['email']  . '</div>
+					<div><strong>{$lang.date}:</strong> ' . Functions::get_formatted_date($query['date'], 'd M, y')  . '</div><br><br>';
+
 					foreach ($query['answers'] as $value)
 	                {
 						$value['fk'] = $this->model->get_survey_question($value['id']);
