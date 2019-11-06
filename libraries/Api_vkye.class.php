@@ -127,4 +127,16 @@ class Api_vkye
             $a_data[$matches[1]] = $matches[2];
         }
     }
+
+    static public function check_access($user, $password)
+    {
+        $users = [
+            ['zabia', 'y329-gfc=7mq}qy(']
+        ];
+
+        if (in_array([$user, $password], $users))
+            return true;
+        else
+            return false;
+    }
 }

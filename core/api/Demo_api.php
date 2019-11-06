@@ -1,6 +1,6 @@
 <?php
 
-class Clientes_api extends Model
+class Demo_api extends Model
 {
     public function get( $params )
     {
@@ -32,19 +32,16 @@ class Clientes_api extends Model
 
     public function insert( $params )
     {
-        print_r($_POST);
         return "Se inserto el cliente {$params[0]} correctamente";
     }
 
     public function update( $params )
     {
-        print_r($_REQUEST);
         return "Se actualizo el cliente {$params[0]} correctamente";
     }
 
     public function delete( $params )
     {
-        print_r($_REQUEST);
         return "Se elimino el cliente {$params[0]} correctamente";
     }
 }

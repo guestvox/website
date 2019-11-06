@@ -1,4 +1,5 @@
 <?php
+
 defined('_EXEC') or die;
 
 class Api_controller extends Api_vkye
