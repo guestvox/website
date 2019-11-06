@@ -186,7 +186,7 @@ main.mkt_page > section.main > header.cover > .rocket {
     width: 70px;
     height: 100px;
     margin: auto;
-    background-image: url("../images/rocket-launch.svg");
+    background-image: url("../images/icons/rocket-launch.svg");
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -231,25 +231,36 @@ main.mkt_page > section.main .boxes > .box {
                 0 22px 27px -20px rgba(7, 10, 25, 0.2);
 }
 
-main.mkt_page > section.main span.icon-check {
+main.mkt_page > section.main span.icon-check,
+main.mkt_page > section.main span.icon-communication,
+main.mkt_page > section.main span.icon-clients,
+main.mkt_page > section.main span.icon-like {
     display: inline-block;
     width: 24px;
     height: 24px;
-    background-image: url("../images/icon-check.svg");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-}
-
-main.mkt_page > section.main span.icon-check.color {
-    background-image: url("../images/icon-check-color.svg");
-}
-
-main.mkt_page > section.main .boxes > .box span.icon-check {
     display: block;
     width: 70px;
     height: 70px;
     margin-bottom: 30px;
+}
+
+main.mkt_page > section.main span.icon-check {
+    background-image: url("../images/icons/icon-check.svg");
+}
+
+main.mkt_page > section.main span.icon-communication {
+    background-image: url("../images/icons/icon-communication.svg");
+}
+
+main.mkt_page > section.main span.icon-clients {
+    background-image: url("../images/icons/icon-clients.svg");
+}
+
+main.mkt_page > section.main span.icon-like {
+    background-image: url("../images/icons/icon-like.svg");
 }
 
 main.mkt_page > section.main .boxes > .box > h4 {
@@ -536,4 +547,24 @@ main.mkt_page > footer.main > .container > .copyright {
     padding: 30px 0 0;
     color: rgba(255, 255, 255, 0.3);
     font-size: 12px;
+}
+
+main.mkt_page > footer.main > .container > ul.social_media {
+    display: -webkit-box;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin-top: 50px;
+}
+
+main.mkt_page > footer.main > .container > ul.social_media > li {
+    display: block;
+    margin: 0 10px;
+}
+
+main.mkt_page > footer.main > .container > ul.social_media > li > a {
+    display: block;
+    line-height: 1;
+    color: #FFF;
+    text-decoration: none;
 }
