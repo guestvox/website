@@ -163,10 +163,10 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
             <a class="btn" data-button-modal="modal_contact">¡SOLICITA TU DEMO AHORA!</a>
 
             <ul class="social_media">
-                <li><a href="#">Facebook</a></li>
-                <li><a href="#">Instagram</a></li>
-                <li><a href="#">LinkedIn</a></li>
-                <li><a href="#">YouTube</a></li>
+                <li><a href="https://www.facebook.com/Guestvox/" target="_blank">Facebook</a></li>
+                <li><a href="https://www.instagram.com/guestvox/" target="_blank">Instagram</a></li>
+                <li><a href="https://www.linkedin.com/company/guestvox/" target="_blank">LinkedIn</a></li>
+                <li><a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" target="_blank">YouTube</a></li>
             </ul>
 
             <div class="copyright">
