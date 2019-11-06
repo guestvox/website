@@ -13,7 +13,7 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
             <img src="{$path.images}logotype-white.png" alt="">
         </figure>
         <nav data-main-menu>
-            <a href="https://blog.guestvox.com" class="btn no-border">{$lang.our_blog}</a>
+            <a href="https://guestvox.com/blog" class="btn no-border">{$lang.our_blog}</a>
             <a data-button-modal="signup" class="btn">{$lang.signup}</a>
             <a data-button-modal="login" class="btn">{$lang.login}</a>
             <a href="?<?php echo Language::get_lang_url(Functions::get_lang(true)); ?>" class="btn no-border">{$lang.<?php echo Functions::get_lang(true) ?>}</a>
