@@ -370,11 +370,11 @@ class Myvox_controller extends Controller
 
 								unset($_POST['answers'][$key]);
 							}
-							else if ($explode[0] == 'so' OR $explode[0] == 'sr')
+							else if ($explode[0] == 'so' OR $explode[0] == 'st' OR $explode[0] == 'sr')
 							{
 								array_push($_POST['answers'][$explode[1]]['subanswers'], [
 									'id' => $explode[2],
-									'type' => ($explode[0] == 'so') ? 'open' : 'rate',
+									'type' => ($explode[0] == 'so') ? 'open' : ($explode[0] == 'st') ? 'twint' : 'rate',
 									'answer' => $value
 								]);
 
@@ -396,7 +396,7 @@ class Myvox_controller extends Controller
                             try
                             {
                                 if (Session::get_value('lang') == 'es')
-                                    $mail_subject = 'Gracias por contestar nuestra encuensta';
+                                    $mail_subject = 'Gracias por contestar nuestra encuesta';
                                 else if (Session::get_value('lang') == 'en')
                                     $mail_subject = 'Thanks for answers our surver';
 
@@ -509,6 +509,17 @@ class Myvox_controller extends Controller
 								'<h6>' . $subvalue['subquestion'][Session::get_value('lang')] . '</h6>
 									<div>
 										<input type="text" name="so-' . $value['id'] . '-' . $subvalue['id'] . '" value="">
+								   </div>';
+							}
+							else if ($subvalue['type'] == 'twint')
+							{
+								$art_survey_questions .=
+								'<h6>' . $subvalue['subquestion'][Session::get_value('lang')] . '</h6>
+									<div>
+										<label>{$lang.to_yes}</label>
+										<label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="yes"></label>
+										<label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="no"></label>
+										<label>{$lang.to_not}</label>
 								   </div>';
 							}
 							else if ($subvalue['type'] == 'rate')

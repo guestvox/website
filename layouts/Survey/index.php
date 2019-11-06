@@ -53,7 +53,7 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                                             <th align="left">{$lang.guest}</th>
                                             <th align="left">{$lang.email}</th>
                                             <th align="left" width="100px">{$lang.date}</th>
-                                            <th align="left" width="100px">Encuesta</th>
+                                            <th align="left" width="100px">Calificación</th>
                                             <th align="right" class="icon"></th>
                                         </tr>
                                     </thead>
@@ -106,6 +106,7 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                                     <thead>
                                         <tr>
                                             <th align="left">Pregunta</th>
+                                            <th align="left" width="100px">Típo</th>
                                             <th align="left" width="100px">Estado</th>
                                             <th align="right" class="icon"></th>
                                             <th align="right" class="icon"></th>
@@ -268,6 +269,10 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                                         <span>Rate</span>
                                     </div>
                                     <div class="checkbox">
+                                        <input type="radio" name="type" value="twint">
+                                        <span>Twint</span>
+                                    </div>
+                                    <div class="checkbox">
                                         <input type="radio" name="type" value="open">
                                         <span>Abierta</span>
                                     </div>
@@ -317,6 +322,10 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                                     <div class="checkbox">
                                         <input type="radio" name="type" value="rate">
                                         <span>Rate</span>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input type="radio" name="type" value="twint">
+                                        <span>Twint</span>
                                     </div>
                                     <div class="checkbox">
                                         <input type="radio" name="type" value="open">

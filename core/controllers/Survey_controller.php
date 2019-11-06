@@ -58,6 +58,14 @@ class Survey_controller extends Controller
 
 								if ($subvalue['type'] == 'open')
 									$data .= '<input type="text" value="' . $subvalue['answer'] . '" disabled>';
+								else if ($subvalue['type'] == 'twint')
+								{
+									$data .=
+									'<label>{$lang.to_yes}</label>
+									<label><input type="radio" ' . (($subvalue['answer'] == 'yes') ? 'checked' : '') . ' disabled></label>
+									<label><input type="radio" ' . (($subvalue['answer'] == 'no') ? 'checked' : '') . ' disabled></label>
+									<label>{$lang.to_not}</label>';
+								}
 								else if ($subvalue['type'] == 'rate')
 								{
 									$data .=
@@ -373,6 +381,7 @@ class Survey_controller extends Controller
 				$tbl_survey_questions .=
 				'<tr>
 					<td align="left">' . $value['question'][Session::get_value('settings')['language']] . '</td>
+					<td align="left"></td>
 					<td align="left">' . (($value['status'] == true) ? 'Activada' : 'Desactivada') . '</td>
 					<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : '') . '</td>
 					<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>
@@ -384,6 +393,7 @@ class Survey_controller extends Controller
 					$tbl_survey_questions .=
 					'<tr>
 						<td align="left" class="sub">' . $subvalue['subquestion'][Session::get_value('settings')['language']] . '</td>
+						<td align="left">' . (($subvalue['type'] == 'rate') ? 'Rate' : (($subvalue['type'] == 'twint') ? 'Twint' : 'Abierta'))  . '</td>
 						<td align="left">' . (($subvalue['status'] == true) ? 'Activada' : 'Desactivada') . '</td>
 						<td align="right" class="icon"></td>
 						<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="deactivate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-check"></i></a>') . '</td>
