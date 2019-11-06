@@ -1205,7 +1205,7 @@ table.table tbody td > i {
     }
 }
 
-/* Voxes
+/* Incidents
 ------------------------------------------------------------------------------ */
 div.viewer_data {
     position: relative;
@@ -1820,124 +1820,11 @@ div.charts > a {
 
 /* Labels
 ------------------------------------------------------------------------------ */
-div.label {
-    position: relative;
-    display: block;
-    margin-bottom: 20px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-div.label:last-child {
-    margin-bottom: 0;
-}
-
-div.label > h1,
-div.label > h2,
-div.label > h3,
-div.label > h4,
-div.label > h5,
-div.label > h6 {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin: 20px 0px 0px 0px;
-    padding: 0px 0px 0px 10px;
-    box-sizing: border-box;
-    font-size: 18px;
-    font-weight: 400;
-    color: #000;
-}
-
-div.label > h1 > svg,
-div.label > h2 > svg,
-div.label > h3 > svg,
-div.label > h4 > svg,
-div.label > h5 > svg,
-div.label > h6 > svg {
-    margin-right: 5px;
-    font-size: 10px;
-}
-
-div.label label {
-    display: block;
-    position: relative;
-}
-
-div.label label > p {
-    margin: 0;
-    font-size: 17px;
-    line-height: 1;
-    margin-bottom: 10px;
-    padding: 0 10px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-div.label label.error > p:not(.description) {
-    color: #f44336;
-}
-
-div.label label.checkbox > p {
-    margin: 0;
-    line-height: 30px;
-    padding-left: 100px;
-}
-
-div.label label input,
-div.label label select,
-div.label label textarea {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    height: 50px;
-    padding: 0 10px;
-    border: 1px solid #DEDEDE;
-    background-color: #FFFFFF;
-    -webkit-appearance: none;
-}
-
-div.label label.error input,
-div.label label.error select,
-div.label label.error textarea {
-    border-color: #f44336!important;
-}
-
-div.label label textarea {
-    padding: 10px;
-    height: 150px;
-    resize: none;
-}
-
-div.label label > p.description,
-div.label label > p.error {
-    font-size: 12px;
-    margin: 10px 0 0;
-}
-
-div.label label > p.error {
-    color: #f44336;
-}
-
-div.label.dual {
-    display: -webkit-box;
-    display: flex;
-    justify-content: space-between;
-}
-
-div.label.dual label {
-    width: 50%;
-    box-sizing: border-box;
-}
-
-div.label.dual label:first-child {
-    padding-right: 10px;
-}
-
-div.label.dual label:last-child {
-    padding-left: 10px;
-}
+/* div.label label input:focus,
+div.label label select:focus,
+div.label label textarea:focus {
+    border-color: #00a5ab;
+} */
 
 div.label label[important] input,
 div.label label[important] select,
@@ -1984,97 +1871,6 @@ div.label figure.my-room-flags img {
     margin: 0px 2.5px;
 }
 
-/*  */
-div.label > div.uploader > figure {
-    width: 100%;
-    height: auto;
-    position: relative;
-    line-height: 0px;
-}
-
-div.label > div.uploader > figure.square,
-div.label > div.uploader > figure.round {
-    width: 100%;
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-div.label > div.uploader > figure.round {
-    width: 200px;
-    margin: 0px auto;
-    border-radius: 50%;
-}
-
-div.label > div.uploader > figure.round.small {
-    width: 150px;
-    height: 150px;
-}
-
-div.label > div.uploader > figure.round.big {
-    width: 400px;
-    height: 400px;
-}
-
-div.label > div.uploader > figure > img {
-    width: 100%;
-}
-
-div.label > div.uploader > figure.square > img,
-div.label > div.uploader > figure.round > img {
-    width: auto;
-    height: 100%;
-}
-
-div.label > div.uploader > figure > a {
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    background-color: rgba(255, 255, 255, 0.8);
-    opacity: 0;
-    transition: 400ms;
-}
-
-div.label > div.uploader > figure > a:hover {
-    opacity: 1;
-    transition: 400ms;
-}
-
-div.label > div.uploader > figure > a > svg {
-    font-size: 40px;
-    color: #000;
-}
-
-div.label > div.uploader > input[type="file"] {
-    display: none;
-}
-
-
-@media (max-width: 768px) {
-
-    div.label label.checkbox > p {
-        font-size: 12px;
-    }
-
-    div.label.dual {
-        display: block;
-    }
-
-    div.label.dual label {
-        width: 100%;
-        padding: 0!important;
-        margin-bottom: 20px;
-    }
-}
-
 /* Buttons
 ------------------------------------------------------------------------------ */
 div.buttons > a.btn,
@@ -2108,6 +1904,141 @@ div.buttons::after {
     display: block;
     content: '';
     clear: both;
+}
+
+/* Buttons
+------------------------------------------------------------------------------ */
+div.cbxs {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+/* Labels, inputs, select, textarea, checkboxs, radios
+------------------------------------------------------------------------------*/
+div.label {
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+div.label:last-child {
+    margin-bottom: 0;
+}
+
+div.label label {
+    display: block;
+    position: relative;
+}
+
+div.label label > p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+div.label label.error > p:not(.description) {
+    color: #f44336;
+}
+
+div.label label.checkbox > p {
+    margin: 0;
+    line-height: 30px;
+    padding-left: 100px;
+}
+
+@media (max-width: 768px) {
+
+    div.label label.checkbox > p {
+        font-size: 12px;
+    }
+}
+
+div.label label input,
+div.label label select,
+div.label label textarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    height: 50px;
+    padding: 0 10px;
+    /* border: 1px solid #f3f3f3; */
+    /* background-color: #f3f3f3; */
+    border: 1px solid #DEDEDE;
+    background-color: #FFFFFF;
+    /* border-radius: 50px; */
+    -webkit-appearance: none;
+}
+
+/* div.label label input:focus,
+div.label label select:focus,
+div.label label textarea:focus {
+    border-color: #2196F3;
+    box-shadow: 0px 0px 5px #2196f37a;
+} */
+
+div.label label.error input,
+div.label label.error select,
+div.label label.error textarea {
+    border-color: #f44336!important;
+}
+
+div.label label textarea {
+    padding: 10px;
+    height: 150px;
+    resize: none;
+    /* border-radius: 10px; */
+}
+
+div.label label > p.description,
+div.label label > p.error {
+    font-size: 12px;
+    margin: 10px 0 0;
+}
+
+div.label label > p.error {
+    color: #f44336;
+}
+
+div.label.dual {
+    display: -webkit-box;
+    display: flex;
+    justify-content: space-between;
+}
+
+div.label.dual label {
+    width: 50%;
+    box-sizing: border-box;
+}
+
+div.label.dual label:first-child {
+    padding-right: 10px;
+}
+
+div.label.dual label:last-child {
+    padding-left: 10px;
+}
+
+@media (max-width: 768px) {
+
+    div.label.dual {
+        display: block;
+    }
+
+    div.label.dual label {
+        width: 100%;
+        padding: 0!important;
+        margin-bottom: 20px;
+    }
 }
 
 /* Switch
@@ -2306,11 +2237,10 @@ section.modal > div.content > header {
     background-color: #00a5ab;
 }
 
-/*  */
 section.modal[data-modal="success"] main,
 section.modal[data-modal="error"] main,
-section.modal[data-modal="signup"] main,
-section.modal[data-modal="login"] main {
+section.modal[data-modal="login"] main,
+section.modal[data-modal="signup"] main {
     width: 100%;
     min-height: 100vh;
     display: flex;
@@ -2327,289 +2257,95 @@ section.modal[data-modal="error"] main {
     background-color: #f44336;
 }
 
-/*  */
-section.modal[data-modal="success"] main > figure,
-section.modal[data-modal="error"] main > figure {
-    height: 200px;
-    margin-bottom: 40px;
-}
-
-section.modal[data-modal="success"] main > figure > img,
-section.modal[data-modal="error"] main > figure > img {
-    height: 100%;
-}
-
-section.modal[data-modal="success"] main > p,
-section.modal[data-modal="error"] main > p {
-    font-size: 18px;
-    font-weight: 400;
-    color: #fff;
-}
-
-section.modal[data-modal="error"] main > p {
-    margin-bottom: 40px;
-}
-
-section.modal[data-modal="error"] main > a {
-    font-size: 14px;
-    font-weight: 400;
-    text-decoration: none;
-    color: #fff;
-    cursor: pointer;
-}
-
-/*  */
-section.modal[data-modal="signup"] main > form,
-section.modal[data-modal="login"] main > form {
-    width: 100%;
-}
-
+section.modal[data-modal="login"] main > form,
 section.modal[data-modal="signup"] main > form {
-    max-width: 1200px;
-}
-
-section.modal[data-modal="login"] main > form {
-    max-width: 400px;
+    width: 90%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
 
+section.modal[data-modal="login"] main > form,
+section.modal[data-modal="signup"] main > form {
+    max-width: 400px;
+}
+
+section.modal[data-modal="signup"] main > form {
+    max-width: 600px;
+    padding: 50px 0px;
+    box-sizing: border-box;
+}
+
+section.modal[data-modal="signup"] main > form div {
+    text-align: center;
+}
+
+section.modal[data-modal="signup"] main > form div.separator {
+    width: 100%;
+    padding-top: 50px;
+    margin-bottom: 50px;
+    border-bottom: 1px solid #e0e0e0;
+    box-sizing: border-box;
+    clear: both;
+}
+
 section.modal[data-modal="login"] main > form > figure,
-section.modal[data-modal="login"] main > form > figure > img {
-    width: auto;
+section.modal[data-modal="login"] main > form > figure > img,
+section.modal[data-modal="signup"] main > form > figure,
+section.modal[data-modal="signup"] main > form > figure > img {
+    width: 100%;
     height: 150px;
     line-height: 0px;
     margin: 0px 0px 20px 0px;
     padding: 0px;
-}
-
-/*  */
-section.modal[data-modal="signup"] main > form > div.steps > div.step-buttons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 0px;
-    box-sizing: border-box;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-buttons > a {
-    width: 50px;
-    height: 50px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0px 10px;
-    padding: 10px;
-    border: 2px solid #00a5ab;
-    border-radius: 50%;
-    box-sizing: border-box;
-    font-size: 18px;
-    font-weight: 600;
-    color: #00a5ab;
-    background-color: #fff;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-buttons > a::after {
-    width: 22px;
-    height: 2px;
-    top: calc(50% - 1px);
-    right: -22px;
-    position: absolute;
-    content: '';
-    background-color: #00a5ab;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-buttons > a:last-child::after {
-    display: none;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-buttons > a.view {
-    color: #fff;
-    background-color: #00a5ab;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-buttons > a.active {
-    color: #fff;
-    border-color: #009688;
-    background-color: #009688;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-buttons > a > img {
-    width: 100%;
-}
-
-/*  */
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 20px 0px;
-    box-sizing: border-box;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container.active {
-    display: flex;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > h2 {
-    margin: 0px 0px 20px 0px;
-    font-size: 20px;
-    font-weight: 600;
     text-align: center;
-    color: #000;
 }
 
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+section.modal[data-modal="login"] main > form div.label > label > input,
+section.modal[data-modal="signup"] main > form div.label > label > input,
+section.modal[data-modal="signup"] main > form div.label > label > [data-select] > [data-preview] > input,
+section.modal[data-modal="signup"] main > form div.label > label > select {
+    height: 60px;
+    border-radius: 60px;
+    border-color: #eee;
+    background-color: #eee;
+    padding: 0px 30px;
+    box-sizing: border-box;
+}
+
+section.modal[data-modal="login"] main > form > button,
+section.modal[data-modal="signup"] main > form > button {
+    width: 200px;
+    height: 60px;
+    border-radius: 60px;
+    border-color: #eee;
+    background-color: #eee;
+    padding: 0px 30px;
     margin-bottom: 20px;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div > [class*="span"] {
-    padding: 0px 10px;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div > [class*="span"]:first-child {
-    padding-left: 0px;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div > [class*="span"]:last-child {
-    padding-right: 0px;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div > [class*="span"] > [class*="span"] {
-    padding: 0px 5px 20px 5px;
-    min-height: auto !important;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div article.package {
-    width: 100%;
-    height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: #00a5ab;
-    transition: 400ms;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div article.package:hover {
-    background-color: #009688;
-    transition: 400ms;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div article.package > span {
-    margin-bottom: 40px;
-    font-size: 70px;
-    color: #fff;
-    transition: 400ms;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div article.package:hover > span {
-    font-size: 100px;
-    transition: 400ms;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div article.package > h3,
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div article.package > h4 {
-    margin: 0px;
-    text-align: center;
-    color: #fff;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div article.package > h3 {
-    font-size: 30px;
-    font-weight: 600;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div article.package > h3 > strong {
-    display: block;
-    line-height: 20px;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div article.package > h4 {
-    font-size: 14px;
-    font-weight: 400;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div article.package > h4 > strong {
-    font-size: 18px;
-    display: block;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > a {
-    width: 200px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 60px;
-    border-color: #eee;
-    background-color: #eee;
-    padding: 0px 30px;
-    margin: 0px;
-    box-sizing: border-box;
-    color: #212121;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > a.skip {
-    background: none;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > a:hover {
-    text-decoration: none;
-}
-
-/*  */
-section.modal[data-modal="login"] main > form > button {
-    width: 200px;
-    height: 60px;
-    border-radius: 60px;
-    border-color: #eee;
-    background-color: #eee;
-    padding: 0px 30px;
-    margin: 0px 0px 20px 0px;
     box-sizing: border-box;
     text-align: center;
     color: #212121;
 }
 
-section.modal[data-modal="login"] main > form > button:hover {
+section.modal[data-modal="login"] main > form > button:hover,
+section.modal[data-modal="signup"] main > form > button:hover {
     text-decoration: none;
 }
 
-section.modal[data-modal="login"] main > form > a {
+section.modal[data-modal="login"] main > form > a,
+section.modal[data-modal="signup"] main > form > a {
     color: #212121;
     text-decoration: underline;
     cursor: pointer;
-    margin: 0px;
+    margin: 0px 5px;
 }
 
-/*  */
-section.modal[data-modal="signup"] main > form div.label > label input,
-section.modal[data-modal="signup"] main > form div.label > label select,
-section.modal[data-modal="login"] main > form div.label > label input {
-    height: 60px;
-    border-radius: 60px;
-    border-color: #eee;
-    background-color: #eee;
-    padding: 0px 30px;
-    box-sizing: border-box;
-}
-
-/*  */
-section.modal[data-modal="signup"] main > form div.label > label > [data-select-select] {
+section.modal[data-modal="signup"] main > form div.label > label > div[data-select] {
     position: relative;
 }
 
-section.modal[data-modal="signup"] main > form div.label > label > [data-select-select] > [data-select-search] {
+section.modal[data-modal="signup"] main > form div.label > label > div[data-select] > div[data-search] {
     width: 100%;
     top: 100%;
     position: absolute;
@@ -2620,11 +2356,11 @@ section.modal[data-modal="signup"] main > form div.label > label > [data-select-
     z-index: 99;
 }
 
-section.modal[data-modal="signup"] main > form div.label > label > [data-select-select] > [data-select-search].view {
+section.modal[data-modal="signup"] main > form div.label > label > div[data-select] > div[data-search].view {
     display: block;
 }
 
-section.modal[data-modal="signup"] main > form div.label > label > [data-select-select] > [data-select-search] > span {
+section.modal[data-modal="signup"] main > form div.label > label > div[data-select] > div[data-search] > span {
     width: 100%;
     display: block;
     margin: 10px 0px;
@@ -2634,7 +2370,7 @@ section.modal[data-modal="signup"] main > form div.label > label > [data-select-
     color: #757575;
 }
 
-section.modal[data-modal="signup"] main > form div.label > label > [data-select-select] > [data-select-search] > a {
+section.modal[data-modal="signup"] main > form div.label > label > div[data-select] > div[data-search] > a {
     width: 100%;
     display: block;
     margin-bottom: 5px;
@@ -2645,59 +2381,83 @@ section.modal[data-modal="signup"] main > form div.label > label > [data-select-
     color: #757575;
 }
 
-section.modal[data-modal="signup"] main > form div.label > label > [data-select-select] > [data-select-search] > a:hover {
+section.modal[data-modal="signup"] main > form div.label > label > div[data-select] > div[data-search] > a:hover {
     cursor: pointer;
     background-color: #e0e0e0;
 }
 
-section.modal[data-modal="signup"] main > form div.label > label > [data-select-select] > [data-select-search] > [data-select-close] {
-    text-align: right;
-    color: #000;
+section.modal[data-modal="signup"] main > form div.label > label > div[data-select] > div[data-search] > a > span[data-hour] {
+    float: right;
 }
 
-section.modal[data-modal="signup"] main > form div.label > label > [data-select-select] > [data-select-preview] > [data-select-value],
-section.modal[data-modal="signup"] main > form div.label > label > [data-select-select] > [data-select-search] > a > [data-select-value-1] {
-    display: none;
-}
-
-/*  */
-section.modal[data-modal="signup"] main > form div.label > label > div.map {
+section.modal[data-modal="success"] main > figure,
+section.modal[data-modal="error"] main > figure {
     width: 100%;
     height: 200px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/*  */
-section.modal[data-modal="login"] main > form > button {
-    width: 200px;
-    height: 60px;
-    border-radius: 60px;
-    border-color: #eee;
-    background-color: #eee;
-    padding: 0px 30px;
-    margin: 0px 0px 20px 0px;
-    box-sizing: border-box;
-    text-align: center;
-    color: #212121;
+section.modal[data-modal="success"] main > figure > img,
+section.modal[data-modal="error"] main > figure > img {
+    width: auto;
+    height: 100%;
 }
 
-section.modal[data-modal="login"] main > form > button:hover {
-    text-decoration: none;
-}
-
-section.modal[data-modal="login"] main > form > a {
-    color: #212121;
-    text-decoration: underline;
-    cursor: pointer;
-    margin: 0px;
-}
-
-section.modal[data-modal="signup"] main > form div.separator {
+section.modal[data-modal="success"] main > p,
+section.modal[data-modal="error"] main > p {
     width: 100%;
-    padding-top: 50px;
-    margin-bottom: 50px;
-    border-bottom: 1px solid #e0e0e0;
-    box-sizing: border-box;
-    clear: both;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+    color: #fff;
+}
+
+section.modal[data-modal="error"] main > a {
+    width: 100%;
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Updates modal
+------------------------------------------------------------------------------ */
+#updates_software.modal > div.content > main p {
+    margin: 5px 0;
+}
+
+#updates_software.modal > div.content > main ul,
+#updates_software.modal > div.content > main ol {
+    padding-left: 20px;
+}
+
+#updates_software.modal > div.content > main ul li,
+#updates_software.modal > div.content > main ol li {
+    font-size: 12px;
+}
+
+#updates_software.modal > div.content > header > button[button-close],
+#updates_software.modal > div.content > header > button[button-cancel] {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    margin: 0;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    line-height: 0;
+    border-radius: 50%;
+    background-color: transparent !important;
+    text-decoration: none !important;
+    font-size: 20px;
+    color: #FFF;
 }
 
 /* Ajax loader

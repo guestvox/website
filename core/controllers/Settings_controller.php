@@ -17,7 +17,7 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->get_opportunity_area($_POST['id']);
 
-				Functions::environment([
+				Environment::return([
 					'status' => (!empty($query)) ? 'success' : 'error',
 					'data' => (!empty($query)) ? $query : null,
 					'message' => (!empty($query)) ? null : '{$lang.error_operation_database}',
@@ -41,40 +41,15 @@ class Settings_controller extends Controller
 					else if ($_POST['action'] == 'edit_opportunity_area')
 						$query = $this->model->edit_opportunity_area($_POST);
 
-					if (!empty($query))
-					{
-						$data = '';
-
-						foreach ($this->model->get_opportunity_areas(true) as $value)
-						{
-							$data .=
-							'<tr>
-								<td align="left">' . $value['name'][Session::get_value('settings')['language']] . '</td>
-								<td align="left" class="icon big">' . (($value['request'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-								<td align="left" class="icon big">' . (($value['incident'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-								<td align="left" class="icon big">' . (($value['public'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-								' . ((Functions::check_access(['{opportunityareas_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_opportunity_area" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-								' . ((Functions::check_access(['{opportunityareas_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_opportunity_area" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-							</tr>';
-						}
-
-						Functions::environment([
-							'status' => 'success',
-							'data' => $data,
-							'message' => '{$lang.success_operation_database}',
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.error_operation_database}',
-						]);
-					}
+					Environment::return([
+						'status' => !empty($query) ? 'success' : 'error',
+						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+						'path' => '/settings',
+					]);
 				}
 				else
 				{
-					Functions::environment([
+					Environment::return([
 						'status' => 'error',
 						'labels' => $labels
 					]);
@@ -85,36 +60,11 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->delete_opportunity_area($_POST['id']);
 
-				if (!empty($query))
-				{
-					$data = '';
-
-					foreach ($this->model->get_opportunity_areas() as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['name'][Session::get_value('settings')['language']] . '</td>
-							<td align="left" class="icon big">' . (($value['request'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-							<td align="left" class="icon big">' . (($value['incident'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-							<td align="left" class="icon big">' . (($value['public'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-							' . ((Functions::check_access(['{opportunityareas_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_opportunity_area" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-							' . ((Functions::check_access(['{opportunityareas_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_opportunity_area" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-						</tr>';
-					}
-
-					Functions::environment([
-						'status' => 'success',
-						'data' => $data,
-						'message' => '{$lang.success_operation_database}',
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
-					]);
-				}
+				Environment::return([
+					'status' => !empty($query) ? 'success' : 'error',
+					'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+					'path' => '/settings',
+				]);
 			}
 
 			// ---
@@ -123,7 +73,7 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->get_opportunity_type($_POST['id']);
 
-				Functions::environment([
+				Environment::return([
 					'status' => (!empty($query)) ? 'success' : 'error',
 					'data' => (!empty($query)) ? $query : null,
 					'message' => (!empty($query)) ? null : '{$lang.error_operation_database}',
@@ -150,42 +100,15 @@ class Settings_controller extends Controller
 					else if ($_POST['action'] == 'edit_opportunity_type')
 						$query = $this->model->edit_opportunity_type($_POST);
 
-					if (!empty($query))
-					{
-						$data = '';
-
-						foreach ($this->model->get_opportunity_types() as $value)
-						{
-							$data .=
-							'<tr>
-								<td align="left">' . $value['opportunity_area'][Session::get_value('settings')['language']] . '</td>
-								<td align="left">' . $value['name'][Session::get_value('settings')['language']] . '</td>
-								<td align="left" class="icon big">' . (($value['request'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-								<td align="left" class="icon big">' . (($value['incident'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-								<td align="left" class="icon big">' . (($value['public'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-								' . ((Functions::check_access(['{opportunitytypes_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_opportunity_type" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-								' . ((Functions::check_access(['{opportunitytypes_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_opportunity_type" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-							</tr>';
-						}
-
-						Functions::environment([
-							'status' => 'success',
-							'data' => $data,
-							'message' => '{$lang.success_operation_database}',
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.error_operation_database}',
-						]);
-					}
-
+					Environment::return([
+						'status' => !empty($query) ? 'success' : 'error',
+						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+						'path' => '/settings',
+					]);
 				}
 				else
 				{
-					Functions::environment([
+					Environment::return([
 						'status' => 'error',
 						'labels' => $labels
 					]);
@@ -196,37 +119,11 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->delete_opportunity_type($_POST['id']);
 
-				if (!empty($query))
-				{
-					$data = '';
-
-					foreach ($this->model->get_opportunity_types() as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['opportunity_area'][Session::get_value('settings')['language']] . '</td>
-							<td align="left">' . $value['name'][Session::get_value('settings')['language']] . '</td>
-							<td align="left" class="icon big">' . (($value['request'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-							<td align="left" class="icon big">' . (($value['incident'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-							<td align="left" class="icon big">' . (($value['public'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-							' . ((Functions::check_access(['{opportunitytypes_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_opportunity_type" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-							' . ((Functions::check_access(['{opportunitytypes_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_opportunity_type" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-						</tr>';
-					}
-
-					Functions::environment([
-						'status' => 'success',
-						'data' => $data,
-						'message' => '{$lang.success_operation_database}',
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
-					]);
-				}
+				Environment::return([
+					'status' => !empty($query) ? 'success' : 'error',
+					'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+					'path' => '/settings',
+				]);
 			}
 
 			// ---
@@ -235,7 +132,7 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->get_location($_POST['id']);
 
-				Functions::environment([
+				Environment::return([
 					'status' => (!empty($query)) ? 'success' : 'error',
 					'data' => (!empty($query)) ? $query : null,
 					'message' => (!empty($query)) ? null : '{$lang.error_operation_database}',
@@ -259,41 +156,15 @@ class Settings_controller extends Controller
 					else if ($_POST['action'] == 'edit_location')
 						$query = $this->model->edit_location($_POST);
 
-					if (!empty($query))
-					{
-						$data = '';
-
-						foreach ($this->model->get_locations() as $value)
-						{
-							$data .=
-							'<tr>
-								<td align="left">' . $value['name'][Session::get_value('settings')['language']] . '</td>
-								<td align="left" class="icon big">' . (($value['request'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-								<td align="left" class="icon big">' . (($value['incident'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-								<td align="left" class="icon big">' . (($value['public'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-								' . ((Functions::check_access(['{locations_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_location" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-								' . ((Functions::check_access(['{locations_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_location" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-							</tr>';
-						}
-
-						Functions::environment([
-							'status' => 'success',
-							'data' => $data,
-							'message' => '{$lang.success_operation_database}',
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.error_operation_database}',
-						]);
-					}
-
+					Environment::return([
+						'status' => !empty($query) ? 'success' : 'error',
+						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+						'path' => '/settings',
+					]);
 				}
 				else
 				{
-					Functions::environment([
+					Environment::return([
 						'status' => 'error',
 						'labels' => $labels
 					]);
@@ -304,36 +175,11 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->delete_location($_POST['id']);
 
-				if (!empty($query))
-				{
-					$data = '';
-
-					foreach ($this->model->get_locations() as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['name'][Session::get_value('settings')['language']] . '</td>
-							<td align="left" class="icon big">' . (($value['request'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-							<td align="left" class="icon big">' . (($value['incident'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-							<td align="left" class="icon big">' . (($value['public'] == true) ? '<span style="background-color:#00a5ab;color:#fff;"><i class="fas fa-check"></i></span>' : '<span style="background-color:#3f51b5;color:#fff;"><i class="fas fa-times"></i></span>') . '</td>
-							' . ((Functions::check_access(['{locations_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_location" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-							' . ((Functions::check_access(['{locations_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_location" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-						</tr>';
-					}
-
-					Functions::environment([
-						'status' => 'success',
-						'data' => $data,
-						'message' => '{$lang.success_operation_database}',
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
-					]);
-				}
+				Environment::return([
+					'status' => !empty($query) ? 'success' : 'error',
+					'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+					'path' => '/settings',
+				]);
 			}
 
 			// ---
@@ -342,7 +188,7 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->get_room($_POST['id']);
 
-				Functions::environment([
+				Environment::return([
 					'status' => (!empty($query)) ? 'success' : 'error',
 					'data' => (!empty($query)) ? $query : null,
 					'message' => (!empty($query)) ? null : '{$lang.error_operation_database}',
@@ -371,39 +217,15 @@ class Settings_controller extends Controller
 				{
 					$query = $this->model->new_room($_POST);
 
-					if (!empty($query))
-					{
-						$data = '';
-						foreach ($this->model->get_rooms() as $value)
-						{
-							$data .=
-							'<tr>
-								<td align="left">' . $value['name'] . '</td>
-								<td align="left">' . $value['qr']['code'] . '</td>
-								<td align="right" class="icon"><a href="{$path.uploads}' . $value['qr']['name'] . '" download="qr_' . $value['qr']['code'] . '_' . $value['name'] . '.png"><i class="fas fa-qrcode"></i></a></td>
-								' . ((Functions::check_access(['{rooms_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_room" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-								' . ((Functions::check_access(['{rooms_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_room" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-							</tr>';
-						}
-
-						Functions::environment([
-							'status' => 'success',
-							'data' => $data,
-							'message' => '{$lang.success_operation_database}',
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.error_operation_database}',
-						]);
-					}
-
+					Environment::return([
+						'status' => !empty($query) ? 'success' : 'error',
+						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+						'path' => '/settings',
+					]);
 				}
 				else
 				{
-					Functions::environment([
+					Environment::return([
 						'status' => 'error',
 						'labels' => $labels
 					]);
@@ -421,39 +243,15 @@ class Settings_controller extends Controller
 				{
 					$query = $this->model->edit_room($_POST);
 
-					if (!empty($query))
-					{
-						$data = '';
-
-						foreach ($this->model->get_rooms() as $value)
-						{
-							$data .=
-							'<tr>
-								<td align="left">' . $value['name'] . '</td>
-								<td align="left">' . $value['qr']['code'] . '</td>
-								<td align="right" class="icon"><a href="{$path.uploads}' . $value['qr']['name'] . '" download="qr_' . $value['qr']['code'] . '_' . $value['name'] . '.png"><i class="fas fa-qrcode"></i></a></td>
-								' . ((Functions::check_access(['{rooms_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_room" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-								' . ((Functions::check_access(['{rooms_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_room" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-							</tr>';
-						}
-
-						Functions::environment([
-							'status' => 'success',
-							'data' => $data,
-							'message' => '{$lang.success_operation_database}',
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.error_operation_database}',
-						]);
-					}
+					Environment::return([
+						'status' => !empty($query) ? 'success' : 'error',
+						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+						'path' => '/settings',
+					]);
 				}
 				else
 				{
-					Functions::environment([
+					Environment::return([
 						'status' => 'error',
 						'labels' => $labels
 					]);
@@ -464,35 +262,11 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->delete_room($_POST['id']);
 
-				if (!empty($query))
-				{
-					$data = '';
-
-					foreach ($this->model->get_rooms() as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['name'] . '</td>
-							<td align="left">' . $value['qr']['code'] . '</td>
-							<td align="right" class="icon"><a href="{$path.uploads}' . $value['qr']['name'] . '" download="qr_' . $value['qr']['code'] . '_' . $value['name'] . '.png"><i class="fas fa-qrcode"></i></a></td>
-							' . ((Functions::check_access(['{rooms_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_room" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-							' . ((Functions::check_access(['{rooms_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_room" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-						</tr>';
-					}
-
-					Functions::environment([
-						'status' => 'success',
-						'data' => $data,
-						'message' => '{$lang.success_operation_database}',
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
-					]);
-				}
+				Environment::return([
+					'status' => !empty($query) ? 'success' : 'error',
+					'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+					'path' => '/settings',
+				]);
 			}
 
 			// ---
@@ -501,7 +275,7 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->get_guest_treatment($_POST['id']);
 
-				Functions::environment([
+				Environment::return([
 					'status' => (!empty($query)) ? 'success' : 'error',
 					'data' => (!empty($query)) ? $query : null,
 					'message' => (!empty($query)) ? null : '{$lang.error_operation_database}',
@@ -522,38 +296,15 @@ class Settings_controller extends Controller
 					else if ($_POST['action'] == 'edit_guest_treatment')
 						$query = $this->model->edit_guest_treatment($_POST);
 
-					if (!empty($query))
-					{
-						$data = '';
-
-						foreach ($this->model->get_guest_treatments() as $value)
-						{
-							$data .=
-							'<tr>
-								<td align="left">' . $value['name'] . '</td>
-								' . ((Functions::check_access(['{guesttreatments_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_guest_treatment" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-								' . ((Functions::check_access(['{guesttreatments_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_guest_treatment" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-							</tr>';
-						}
-
-						Functions::environment([
-							'status' => 'success',
-							'data' => $data,
-							'message' => '{$lang.success_operation_database}',
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.error_operation_database}',
-						]);
-					}
-
+					Environment::return([
+						'status' => !empty($query) ? 'success' : 'error',
+						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+						'path' => '/settings',
+					]);
 				}
 				else
 				{
-					Functions::environment([
+					Environment::return([
 						'status' => 'error',
 						'labels' => $labels
 					]);
@@ -564,33 +315,11 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->delete_guest_treatment($_POST['id']);
 
-				if (!empty($query))
-				{
-					$data = '';
-
-					foreach ($this->model->get_guest_treatments() as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['name'] . '</td>
-							' . ((Functions::check_access(['{guesttreatments_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_guest_treatment" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-							' . ((Functions::check_access(['{guesttreatments_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_guest_treatment" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-						</tr>';
-					}
-
-					Functions::environment([
-						'status' => 'success',
-						'data' => $data,
-						'message' => '{$lang.success_operation_database}',
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
-					]);
-				}
+				Environment::return([
+					'status' => !empty($query) ? 'success' : 'error',
+					'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+					'path' => '/settings',
+				]);
 			}
 
 			// ---
@@ -599,7 +328,7 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->get_guest_type($_POST['id']);
 
-				Functions::environment([
+				Environment::return([
 					'status' => (!empty($query)) ? 'success' : 'error',
 					'data' => (!empty($query)) ? $query : null,
 					'message' => (!empty($query)) ? null : '{$lang.error_operation_database}',
@@ -620,38 +349,15 @@ class Settings_controller extends Controller
 					else if ($_POST['action'] == 'edit_guest_type')
 						$query = $this->model->edit_guest_type($_POST);
 
-					if (!empty($query))
-					{
-						$data = '';
-
-						foreach ($this->model->get_guest_types() as $value)
-						{
-							$data .=
-							'<tr>
-								<td align="left">' . $value['name'] . '</td>
-								' . ((Functions::check_access(['{guesttypes_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_guest_type" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-								' . ((Functions::check_access(['{guesttypes_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_guest_type" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-							</tr>';
-						}
-
-						Functions::environment([
-							'status' => 'success',
-							'data' => $data,
-							'message' => '{$lang.success_operation_database}',
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.error_operation_database}',
-						]);
-					}
-
+					Environment::return([
+						'status' => !empty($query) ? 'success' : 'error',
+						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+						'path' => '/settings',
+					]);
 				}
 				else
 				{
-					Functions::environment([
+					Environment::return([
 						'status' => 'error',
 						'labels' => $labels
 					]);
@@ -662,33 +368,11 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->delete_guest_type($_POST['id']);
 
-				if (!empty($query))
-				{
-					$data = '';
-
-					foreach ($this->model->get_guest_types() as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['name'] . '</td>
-							' . ((Functions::check_access(['{guesttypes_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_guest_type" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-							' . ((Functions::check_access(['{guesttypes_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_guest_type" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-						</tr>';
-					}
-
-					Functions::environment([
-						'status' => 'success',
-						'data' => $data,
-						'message' => '{$lang.success_operation_database}',
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
-					]);
-				}
+				Environment::return([
+					'status' => !empty($query) ? 'success' : 'error',
+					'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+					'path' => '/settings',
+				]);
 			}
 
 			// ---
@@ -697,7 +381,7 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->get_reservation_status($_POST['id']);
 
-				Functions::environment([
+				Environment::return([
 					'status' => (!empty($query)) ? 'success' : 'error',
 					'data' => (!empty($query)) ? $query : null,
 					'message' => (!empty($query)) ? null : '{$lang.error_operation_database}',
@@ -718,38 +402,15 @@ class Settings_controller extends Controller
 					else if ($_POST['action'] == 'edit_reservation_status')
 						$query = $this->model->edit_reservation_status($_POST);
 
-					if (!empty($query))
-					{
-						$data = '';
-
-						foreach ($this->model->get_reservation_statuss() as $value)
-						{
-							$data .=
-							'<tr>
-								<td align="left">' . $value['name'] . '</td>
-								' . ((Functions::check_access(['{reservationstatus_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_reservation_status" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-								' . ((Functions::check_access(['{reservationstatus_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_reservation_status" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-							</tr>';
-						}
-
-						Functions::environment([
-							'status' => 'success',
-							'data' => $data,
-							'message' => '{$lang.success_operation_database}',
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.error_operation_database}',
-						]);
-					}
-
+					Environment::return([
+						'status' => !empty($query) ? 'success' : 'error',
+						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+						'path' => '/settings',
+					]);
 				}
 				else
 				{
-					Functions::environment([
+					Environment::return([
 						'status' => 'error',
 						'labels' => $labels
 					]);
@@ -760,33 +421,11 @@ class Settings_controller extends Controller
 			{
 				$query = $this->model->delete_reservation_status($_POST['id']);
 
-				if (!empty($query))
-				{
-					$data = '';
-
-					foreach ($this->model->get_reservation_statuss() as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['name'] . '</td>
-							' . ((Functions::check_access(['{reservationstatus_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_reservation_status" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-							' . ((Functions::check_access(['{reservationstatus_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_reservation_status" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-						</tr>';
-					}
-
-					Functions::environment([
-						'status' => 'success',
-						'data' => $data,
-						'message' => '{$lang.success_operation_database}',
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
-					]);
-				}
+				Environment::return([
+					'status' => !empty($query) ? 'success' : 'error',
+					'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+					'path' => '/settings',
+				]);
 			}
 		}
 		else

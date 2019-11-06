@@ -64,20 +64,20 @@ class Dashboard_controller extends Controller
 
 						$mail->isHTML(true);
 						$mail->Subject = 'Soporte Técnico';
-						$mail->Body = 'Nombre: ' . Session::get_value('user')['name'] . ' ' . Session::get_value('user')['lastname'] . ', Cuenta: ' . Session::get_value('account')['name'] . ', Fecha y hora: ' . Functions::get_formatted_date_hour(Functions::get_current_date(), Functions::get_current_hour(), '+ hrs') . ', Mensaje: ' . $_POST['message'];
+						$mail->Body = 'Nombre: ' . Session::get_value('user')['name'] . ' ' . Session::get_value('user')['lastname'] . ', Cuenta: ' . Session::get_value('account')['name'] . ', Fecha y hora: ' . Dates::get_format_date_hour(Dates::get_current_date(), Dates::get_current_hour(), '+ hrs') . ', Mensaje: ' . $_POST['message'];
 						$mail->AltBody = '';
 						$mail->send();
 					}
 					catch (Exception $e) { }
 
-					Functions::environment([
+					Environment::return([
 						'status' => 'success',
 						'message' => '{$lang.request_send_correctly}',
 					]);
 				}
 				else
 				{
-					Functions::environment([
+					Environment::return([
 						'status' => 'error',
 						'labels' => $labels
 					]);
@@ -100,7 +100,7 @@ class Dashboard_controller extends Controller
 				$value['data']['comments'] = (!empty($value['data']['comments'])) ? '<span><i class="fas fa-comment"></i></span>' : '';
 				$value['data']['attachments'] = (!empty($value['data']['attachments'])) ? '<span><i class="fas fa-paperclip"></i></span>' : '';
 
-				if ($value['data']['status'] == 'open' AND Functions::get_current_date_hour() < Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']))
+				if ($value['data']['status'] == 'open' AND Dates::get_current_date_hour() < Dates::get_format_date_hour($value['data']['started_date'], $value['data']['started_hour']))
 				{
 					if ($value['data']['urgency'] == 'low')
 						$value['data']['urgency'] = '<span style="background-color:#4caf50;color:#fff;"><i class="fas fa-clock"></i></span>';
@@ -136,8 +136,8 @@ class Dashboard_controller extends Controller
 					<td align="left" class="touchable">' . $value['data']['opportunity_area'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['opportunity_type'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['location'] . '</td>
-					<td align="left" class="touchable">' . Functions::get_formatted_date($value['data']['started_date'], 'd M, y') . '</td>
-					<td align="left" class="touchable" data-started-date="' . Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']) . '" data-elapsed-time></td>
+					<td align="left" class="touchable">' . Dates::get_format_date($value['data']['started_date'], 'd M, y') . '</td>
+					<td align="left" class="touchable" data-started-date="' . Dates::get_format_date_hour($value['data']['started_date'], $value['data']['started_hour']) . '" data-elapsed-time></td>
 					<td align="right" class="touchable icon">' . $value['data']['confidentiality'] . '</td>
 					<td align="right" class="touchable icon">' . $value['data']['assigned_users'] . '</td>
 					<td align="right" class="touchable icon">' . $value['data']['comments'] . '</td>
@@ -166,7 +166,7 @@ class Dashboard_controller extends Controller
 	{
 		header('Content-Type: application/javascript');
 
-		$g_chart_data = $this->model->get_chart(Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date());
+		$g_chart_data = $this->model->get_chart(Dates::get_past_date(Dates::get_current_date(), '7', 'days'), Dates::get_current_date());
 
 		if (Session::get_value('settings')['language'] == 'es')
 			$g_chart_title = 'Voxes creados en los últimos 7 días';

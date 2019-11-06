@@ -30,7 +30,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                     <article>
                         <main class="tables">
                             <div class="table-container">
-                                <table id="users_activate" class="table">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th align="left">{$lang.name}</th>
@@ -157,7 +157,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                     <article>
                         <main class="tables">
                             <div class="table-container">
-                                <table id="users_deactivate" class="table">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th align="left">{$lang.name}</th>
@@ -187,7 +187,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                     <article>
                         <main class="tables">
                             <div class="table-container">
-                                <table id="users_levels" class="table">
+                                <table class="table">
                                     <thead>
                                         <tr>
                                             <th align="left">{$lang.name}</th>

@@ -4,9 +4,13 @@ defined('_EXEC') or die;
 
 class Dashboard_model extends Model
 {
+	private $crypted;
+
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->crypted = new Crypted();
 	}
 
 	public function get_voxes($option = null)
@@ -22,7 +26,7 @@ class Dashboard_model extends Model
 
 		foreach ($query as $key => $value)
 		{
-			$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
+			$value['data'] = json_decode($this->crypted->openssl('decrypt', $value['data']), true);
 
 			$break = false;
 
@@ -41,13 +45,13 @@ class Dashboard_model extends Model
 			if ($option == 'readed' AND $value['data']['readed'] == false)
 				$break = true;
 
-			if ($option == 'today' AND Functions::get_formatted_date($value['data']['started_date']) != Functions::get_current_date())
+			if ($option == 'today' AND Dates::get_format_date($value['data']['started_date']) != Dates::get_current_date())
 				$break = true;
 
-			if ($option == 'week' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_week()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_week()[1])
+			if ($option == 'week' AND Dates::get_format_date($value['data']['started_date']) < Dates::get_current_week()[0] OR Dates::get_format_date($value['data']['started_date']) > Dates::get_current_week()[1])
 				$break = true;
 
-			if ($option == 'month' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_month()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_month()[1])
+			if ($option == 'month' AND Dates::get_format_date($value['data']['started_date']) < Dates::get_current_month()[0] OR Dates::get_format_date($value['data']['started_date']) > Dates::get_current_month()[1])
 				$break = true;
 
 			if ($value['data']['status'] == 'close')
@@ -70,7 +74,7 @@ class Dashboard_model extends Model
 					}
 				}
 
-				$aux[$key] = Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']);
+				$aux[$key] = Dates::get_format_date_hour($value['data']['started_date'], $value['data']['started_hour']);
 
 				array_push($voxes, $value);
 			}
@@ -100,7 +104,7 @@ class Dashboard_model extends Model
 
 			foreach ($query as $key => $value)
 			{
-				$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
+				$value['data'] = json_decode($this->crypted->openssl('decrypt', $value['data']), true);
 
 				$break = false;
 
@@ -132,7 +136,7 @@ class Dashboard_model extends Model
 						$metrics['data'][$mdoa][$key] += 1;
 				}
 
-				$key = Functions::get_formatted_date($key, 'd M, y');
+				$key = Dates::get_format_date($key, 'd M, y');
 				$labels .= '"' . $key . '", ';
 			}
 

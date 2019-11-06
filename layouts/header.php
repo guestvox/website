@@ -51,18 +51,6 @@
                     <a href="/users">{$lang.users}</a>
                 </li>
                 <?php endif; ?>
-                <li target="profile">
-                    <a href="/profile">Perfil</a>
-                </li>
-                <li target="tasks">
-                    <a href="/tasks">Mis tareas</a>
-                </li>
-                <li target="notes">
-                    <a href="/notes">Notas</a>
-                </li>
-                <li target="surveys">
-                    <a href="/surveys">Encuestas</a>
-                </li>
             </ul>
         </nav>
     </section>

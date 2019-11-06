@@ -55,9 +55,9 @@ $this->dependencies->add(['other', '<script>menu_focus("dashboard");</script>'])
                     <div class="counts-home">
                         <h2>{$cnt_voxes_noreaded}<span>{$lang.noreaded}</span></h2>
                         <h2>{$cnt_voxes_readed}<span>{$lang.readed}</span></h2>
-                        <h2>{$cnt_voxes_today}<span>{$lang.today}<strong><?php echo Functions::get_current_date('d M'); ?></strong></span></h2>
-                        <h2>{$cnt_voxes_week}<span>{$lang.this_week}<strong><?php echo Functions::get_formatted_date(Functions::get_current_week()[0], 'd M'); ?> - <?php echo Functions::get_formatted_date(Functions::get_current_week()[1], 'd M'); ?></strong></span></h2>
-                        <h2>{$cnt_voxes_month}<span>{$lang.this_month}<strong><?php echo Functions::get_formatted_date(Functions::get_current_month()[0], 'F'); ?></strong></span></h2>
+                        <h2>{$cnt_voxes_today}<span>{$lang.today}<strong><?php echo Dates::get_current_date('d M'); ?></strong></span></h2>
+                        <h2>{$cnt_voxes_week}<span>{$lang.this_week}<strong><?php echo Dates::get_format_date(Dates::get_current_week()[0], 'd M'); ?> - <?php echo Dates::get_format_date(Dates::get_current_week()[1], 'd M'); ?></strong></span></h2>
+                        <h2>{$cnt_voxes_month}<span>{$lang.this_month}<strong><?php echo Dates::get_format_date(Dates::get_current_month()[0], 'F'); ?></strong></span></h2>
                         <h2>{$cnt_voxes_total}<span>{$lang.total}</span></h2>
                     </div>
                 </main>

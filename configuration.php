@@ -46,7 +46,7 @@ class Configuration
 	 *
      * @var string $error_reporting
      */
-	public static $error_reporting = 'development';
+	public static $error_reporting = 'none';
 
 	/**
      * Modo para debuggear errores.
@@ -103,15 +103,6 @@ class Configuration
 	public static $secret = '=7H(Hfkt)8w,<T~z';
 
 	/**
-     * Clave privada de encriptado
-	 *
-	 * @static
-	 *
-     * @var string $encrypt_private_key
-     */
-	public static $encrypt_private_key = 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7';
-
-	/**
      * Tiempo de vida para una session en bytes.
 	 *
 	 * @static
@@ -146,7 +137,7 @@ class Configuration
 	 *
      * @var string $db_host
      */
-	public static $db_host = 'localhost';
+	public static $db_host = 'guestvox.com';
 
 	/**
      * Nombre de la base de datos
@@ -155,7 +146,7 @@ class Configuration
 	 *
      * @var string $db_name
      */
-	public static $db_name = 'guestvox_development';
+	public static $db_name = 'gv-web-platform';
 
 	/**
      * Usuario de la base de datos
@@ -164,7 +155,7 @@ class Configuration
 	 *
      * @var string $db_user
      */
-	public static $db_user = 'root';
+	public static $db_user = 'guestvox';
 
 	/**
      * Contraseña de la base de datos.
@@ -173,7 +164,7 @@ class Configuration
 	 *
      * @var string $db_pass
      */
-	public static $db_pass = '';
+	public static $db_pass = 'Jsw90w&6';
 
 	/**
      * Tipo de caracteres para la base de datos. Opcional.
@@ -238,7 +229,7 @@ class Configuration
 	 *
      * @var string $smtp_host
      */
-	public static $smtp_host = 'smtp.elasticemail.com';
+	public static $smtp_host = 'mail.codemonkey.com.mx';
 
 	/**
      * Usuario de la cuenta smtp.
@@ -248,7 +239,7 @@ class Configuration
 	 *
      * @var string $smtp_user
      */
-	public static $smtp_user = 'daniel@guestvox.com';
+	public static $smtp_user = 'noreply@guestvox.com';
 
 	/**
      * Contraseña de la cuenta smtp.
@@ -257,7 +248,7 @@ class Configuration
 	 *
      * @var string $smtp_pass
      */
-	public static $smtp_pass = 'd0a19e59-4e09-4752-bdc3-ce593c70dec6';
+	public static $smtp_pass = 'P9#se9k4';
 
 	/**
      * Seguridad de la encriptacion para el envio de SMTP.
@@ -267,7 +258,7 @@ class Configuration
 	 *
      * @var string $smtp_secure
      */
-	public static $smtp_secure = 'tls';
+	public static $smtp_secure = 'ssl';
 
 	/**
      * Puerto de conexion al servidor SMTP.
@@ -276,5 +267,5 @@ class Configuration
 	 *
      * @var integer $smtp_port
      */
-	public static $smtp_port = 2525;
+	public static $smtp_port = 465;
 }

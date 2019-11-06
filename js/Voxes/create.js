@@ -68,14 +68,14 @@ $(document).ready(function()
             }
         });
 
-        $('[name="room"]').val('');
+		$('[name="room"]').val('');
         $('[name="opportunity_type"]').html('<option value="" selected hidden>Elegir...</option>');
         $('[name="opportunity_type"]').attr('disabled', true);
         $('[name="opportunity_type"]').parents('label').removeClass('success');
         $('[name="started_hour"]').parent().parent().find('p.description').toggleClass('hidden');
         $('[name="started_date"]').parent().find('p.description').toggleClass('hidden');
         $('[name="location"]').parent().find('p.description').toggleClass('hidden');
-        $('[name="lastname"]').val('');
+		$('[name="lastname"]').val('');
 
         if ($(this).val() == 'request')
         {
@@ -143,25 +143,9 @@ $(document).ready(function()
         $('label.error').removeClass('error');
         $('p.error').remove();
     });
-
-    $('[name="room"]').on('change', function()
+	
+	$('[name="room"]').on('change', function()
     {
-        // var xhr = new XMLHttpRequest();
-        //
-        // xhr.open('GET', 'https://admin.zaviaerp.com/pms/hotels/api/check_room2/?UserName=demo&UserPassword=demo&RoomNumber=1', true);
-        //
-        // xhr.setRequestHeader("Content-Type", "application/json");
-        //
-        // xhr.onload = function()
-        // {
-        //     console.log(xhr);
-        //     // var respuesta = JSON.parse(xhr.responseText);
-        //     // document.getElementById('nombre').value = respuesta.name;
-        //     // document.getElementById('apellido').value = respuesta.lastName;
-        // };
-        //
-        // xhr.send();
-
         $.ajax({
             type: 'POST',
             data: 'room=' + $(this).val() + '&action=get_api',

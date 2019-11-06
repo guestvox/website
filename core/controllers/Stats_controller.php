@@ -15,7 +15,7 @@ class Stats_controller extends Controller
 		{
 			if ($_POST['action'] == 'get_v_chart_data')
 			{
-				Functions::environment([
+				Environment::return([
 					'status' => 'success',
 					'data' => [
 						'oa' => $this->model->get_chart_data('v_oa_chart', $_POST, true),
@@ -27,7 +27,7 @@ class Stats_controller extends Controller
 
 			if ($_POST['action'] == 'get_ar_chart_data')
 			{
-				Functions::environment([
+				Environment::return([
 					'status' => 'success',
 					'data' => [
 						'oa' => $this->model->get_chart_data('ar_oa_chart', $_POST, true),
@@ -39,7 +39,7 @@ class Stats_controller extends Controller
 
 			if ($_POST['action'] == 'get_c_chart_data')
 			{
-				Functions::environment([
+				Environment::return([
 					'status' => 'success',
 					'data' => [
 						'oa' => $this->model->get_chart_data('c_oa_chart', $_POST, true),
@@ -75,54 +75,54 @@ class Stats_controller extends Controller
 		header('Content-Type: application/javascript');
 
 		$v_oa_chart_data = $this->model->get_chart_data('v_oa_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'started_date' => Dates::get_past_date(Dates::get_current_date(), '7', 'days'),
+			'date_end' => Dates::get_current_date(),
 			'type' => 'all'
 		]);
 
 		$v_r_chart_data = $this->model->get_chart_data('v_r_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'started_date' => Dates::get_past_date(Dates::get_current_date(), '7', 'days'),
+			'date_end' => Dates::get_current_date(),
 			'type' => 'all'
 		]);
 
 		$v_l_chart_data = $this->model->get_chart_data('v_l_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'started_date' => Dates::get_past_date(Dates::get_current_date(), '7', 'days'),
+			'date_end' => Dates::get_current_date(),
 			'type' => 'all'
 		]);
 
 		$ar_oa_chart_data = $this->model->get_chart_data('ar_oa_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'started_date' => Dates::get_past_date(Dates::get_current_date(), '7', 'days'),
+			'date_end' => Dates::get_current_date(),
 			'type' => 'all'
 		]);
 
 		$ar_r_chart_data = $this->model->get_chart_data('ar_r_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'started_date' => Dates::get_past_date(Dates::get_current_date(), '7', 'days'),
+			'date_end' => Dates::get_current_date(),
 			'type' => 'all'
 		]);
 
 		$ar_l_chart_data = $this->model->get_chart_data('ar_l_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'started_date' => Dates::get_past_date(Dates::get_current_date(), '7', 'days'),
+			'date_end' => Dates::get_current_date(),
 			'type' => 'all'
 		]);
 
 		$c_oa_chart_data = $this->model->get_chart_data('c_oa_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'started_date' => Dates::get_past_date(Dates::get_current_date(), '7', 'days'),
+			'date_end' => Dates::get_current_date(),
 		]);
 
 		$c_r_chart_data = $this->model->get_chart_data('c_r_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'started_date' => Dates::get_past_date(Dates::get_current_date(), '7', 'days'),
+			'date_end' => Dates::get_current_date(),
 		]);
 
 		$c_l_chart_data = $this->model->get_chart_data('c_l_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'started_date' => Dates::get_past_date(Dates::get_current_date(), '7', 'days'),
+			'date_end' => Dates::get_current_date(),
 		]);
 
 		if (Session::get_value('lang') == 'es')

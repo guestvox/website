@@ -38,8 +38,8 @@ class Reports_controller extends Controller
 					$data['opt_locations'] .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
 
 				$data['order'] = $query['order'];
-				$data['started_date'] = Functions::get_past_date(Functions::get_current_date(), $query['time_period'], 'days');
-				$data['end_date'] = Functions::get_current_date();
+				$data['started_date'] = Dates::get_past_date(Dates::get_current_date(), $query['time_period'], 'days');
+				$data['end_date'] = Dates::get_current_date();
 				$data['fields'] = $query['fields'];
 				$data['cbx_fields'] =
 				'<div class="checkbox">
@@ -56,7 +56,7 @@ class Reports_controller extends Controller
 					</div>';
 				}
 
-				Functions::environment([
+				Environment::return([
 					'status' => 'success',
 					'data' => $data
 				]);
@@ -69,7 +69,7 @@ class Reports_controller extends Controller
 				foreach ($this->model->get_opportunity_areas($_POST['option']) as $value)
 					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
 
-				Functions::environment([
+				Environment::return([
 					'status' => 'success',
 					'data' => $data
 				]);
@@ -82,7 +82,7 @@ class Reports_controller extends Controller
 				foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['option']) as $value)
 					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
 
-				Functions::environment([
+				Environment::return([
 					'status' => 'success',
 					'data' => $data
 				]);
@@ -95,7 +95,7 @@ class Reports_controller extends Controller
 				foreach ($this->model->get_locations($_POST['option']) as $value)
 					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
 
-				Functions::environment([
+				Environment::return([
 					'status' => 'success',
 					'data' => $data
 				]);
@@ -118,7 +118,7 @@ class Reports_controller extends Controller
 					</div>';
 				}
 
-				Functions::environment([
+				Environment::return([
 					'status' => 'success',
 					'data' => $data
 				]);
@@ -141,7 +141,7 @@ class Reports_controller extends Controller
 					</div>';
 				}
 
-				Functions::environment([
+				Environment::return([
 					'status' => 'success',
 					'data' => $data
 				]);
@@ -203,17 +203,17 @@ class Reports_controller extends Controller
 							$data .= '<p><strong>{$lang.opportunity_type}:</strong> ' . $value['data']['opportunity_type'][Session::get_value('settings')['language']] . '</p>';
 
 						if (in_array('started_date_hour', $_POST['fields']))
-							$data .= '<p><strong>{$lang.started_date_hour}:</strong> ' . Functions::get_formatted_date($value['data']['started_date'], 'd F, Y') . ' ' . Functions::get_formatted_hour($value['data']['started_hour'], '+ hrs') . '</p>';
+							$data .= '<p><strong>{$lang.started_date_hour}:</strong> ' . Dates::get_format_date($value['data']['started_date'], 'd F, Y') . ' ' . Dates::get_format_hour($value['data']['started_hour'], '+ hrs') . '</p>';
 
 						if (in_array('location', $_POST['fields']))
 							$data .= '<p><strong>{$lang.location}:</strong> ' . $value['data']['location'][Session::get_value('settings')['language']] . '</p>';
 
 						if (in_array('cost', $_POST['fields']) AND $value['type'] == 'incident')
-							$data .= '<p><strong>{$lang.cost}:</strong> ' . Functions::get_formatted_currency($value['data']['cost']) . '</p>';
+							$data .= '<p><strong>{$lang.cost}:</strong> ' . Functions::get_format_cost($value['data']['cost']) . '</p>';
 
 						if (in_array('urgency', $_POST['fields']))
 						{
-							if ($value['data']['status'] == 'open' AND Functions::get_current_date_hour() < Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']))
+							if ($value['data']['status'] == 'open' AND Dates::get_current_date_hour() < Dates::get_format_date_hour($value['data']['started_date'], $value['data']['started_hour']))
 								$value['data']['urgency'] = '{$lang.programmed}';
 							else if ($value['data']['urgency'] == 'low')
 								$value['data']['urgency'] = '{$lang.low}';
@@ -270,7 +270,7 @@ class Reports_controller extends Controller
 							$data .= '<p><strong>{$lang.reservation_status}:</strong> ' . $value['data']['reservation_status'] . '</p>';
 
 						if (in_array('check_in_check_out', $_POST['fields']) AND $value['type'] == 'incident')
-							$data .= '<p><strong>{$lang.staying}:</strong> ' . Functions::get_formatted_date($value['data']['check_in'], 'd F, Y') . ' - ' . Functions::get_formatted_date($value['data']['check_out'], 'd F, Y') . '</p>';
+							$data .= '<p><strong>{$lang.staying}:</strong> ' . Dates::get_format_date($value['data']['check_in'], 'd F, Y') . ' - ' . Dates::get_format_date($value['data']['check_out'], 'd F, Y') . '</p>';
 
 						if (in_array('attachments', $_POST['fields']))
 						{
@@ -327,16 +327,16 @@ class Reports_controller extends Controller
 							$data .= '<p><strong>{$lang.origin}:</strong> {$lang.' . $value['data']['origin'] . '}</p>';
 
 						if (in_array('created_by', $_POST['fields']))
-							$data .= '<p><strong>{$lang.created_by}:</strong> ' . ((!empty($value['data']['created_user'])) ? $value['data']['created_user'] . ' ' . Functions::get_formatted_date_hour($value['data']['created_date'], $value['data']['created_hour']) : '') . '</p>';
+							$data .= '<p><strong>{$lang.created_by}:</strong> ' . ((!empty($value['data']['created_user'])) ? $value['data']['created_user'] . ' ' . Dates::get_format_date_hour($value['data']['created_date'], $value['data']['created_hour']) : '') . '</p>';
 
 						if (in_array('edited_by', $_POST['fields']))
-							$data .= '<p><strong>{$lang.edited_by}:</strong> ' . ((!empty($value['data']['edited_user'])) ? $value['data']['edited_user'] . ' ' . Functions::get_formatted_date_hour($value['data']['edited_date'], $value['data']['edited_hour']) : '') . '</p>';
+							$data .= '<p><strong>{$lang.edited_by}:</strong> ' . ((!empty($value['data']['edited_user'])) ? $value['data']['edited_user'] . ' ' . Dates::get_format_date_hour($value['data']['edited_date'], $value['data']['edited_hour']) : '') . '</p>';
 
 						if (in_array('completed_by', $_POST['fields']))
-							$data .= '<p><strong>{$lang.completed_by}:</strong> ' . ((!empty($value['data']['completed_user'])) ? $value['data']['completed_user'] . ' ' . Functions::get_formatted_date_hour($value['data']['completed_date'], $value['data']['completed_hour']) : '') . '</p>';
+							$data .= '<p><strong>{$lang.completed_by}:</strong> ' . ((!empty($value['data']['completed_user'])) ? $value['data']['completed_user'] . ' ' . Dates::get_format_date_hour($value['data']['completed_date'], $value['data']['completed_hour']) : '') . '</p>';
 
 						if (in_array('reopened_by', $_POST['fields']))
-							$data .= '<p><strong>{$lang.reopened_by}:</strong> ' . ((!empty($value['data']['reopened_user'])) ? $value['data']['reopened_user'] . ' ' . Functions::get_formatted_date_hour($value['data']['reopened_date'], $value['data']['reopened_hour']) : '') . '</p>';
+							$data .= '<p><strong>{$lang.reopened_by}:</strong> ' . ((!empty($value['data']['reopened_user'])) ? $value['data']['reopened_user'] . ' ' . Dates::get_format_date_hour($value['data']['reopened_date'], $value['data']['reopened_hour']) : '') . '</p>';
 
 						if (in_array('viewed_by', $_POST['fields']))
 						{
@@ -425,14 +425,14 @@ class Reports_controller extends Controller
 						$data .= '</div>';
 					}
 
-					Functions::environment([
+					Environment::return([
 						'status' => 'success',
 						'data' => $data
 					]);
 				}
 				else
 				{
-					Functions::environment([
+					Environment::return([
 						'status' => 'error',
 						'labels' => $labels
 					]);
@@ -482,37 +482,15 @@ class Reports_controller extends Controller
 				{
 					$query = $this->model->new_report($_POST);
 
-					if (!empty($query))
-					{
-						$data = '';
-
-						foreach ($this->model->get_reports() as $value)
-						{
-							$data .=
-							'<tr>
-								<td align="left">' . $value['name'] . '</td>
-								<td align="right" class="icon"><a data-action="delete_report" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a></td>
-							</tr>';
-						}
-
-						Functions::environment([
-							'status' => 'success',
-							'data' => $data,
-							'message' => '{$lang.success_operation_database}',
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.error_operation_database}',
-						]);
-					}
-
+					Environment::return([
+						'status' => !empty($query) ? 'success' : 'error',
+						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+						'path' => '/reports',
+					]);
 				}
 				else
 				{
-					Functions::environment([
+					Environment::return([
 						'status' => 'error',
 						'labels' => $labels
 					]);
@@ -523,33 +501,11 @@ class Reports_controller extends Controller
 			{
 				$query = $this->model->delete_report($_POST['id']);
 
-				if (!empty($query))
-				{
-					$data = '';
-
-					foreach ($this->model->get_reports() as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['name'] . '</td>
-							<td align="right" class="icon"><a data-action="delete_report" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a></td>
-						</tr>';
-					}
-
-					Functions::environment([
-						'status' => 'success',
-						'data' => $data,
-						'message' => '{$lang.success_operation_database}',
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
-					]);
-				}
-
+				Environment::return([
+					'status' => !empty($query) ? 'success' : 'error',
+					'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+					'path' => '/reports',
+				]);
 			}
 		}
 		else

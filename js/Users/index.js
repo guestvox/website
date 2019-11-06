@@ -6,19 +6,7 @@ $(document).ready(function()
 
     $('.multi-tabs').multiTabs();
 
-    $('#users_activate').DataTable({
-        ordering: false,
-        autoWidth: false,
-        info: false,
-    });
-
-    $('#users_deactivate').DataTable({
-        ordering: false,
-        autoWidth: false,
-        info: false,
-    });
-
-    $('#users_levels').DataTable({
+    $('.table').DataTable({
         ordering: false,
         autoWidth: false,
         info: false,
@@ -85,15 +73,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="new_user"]')[0].reset();
-                    $('#users_activate').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { window.location.href = response.path; }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -194,16 +177,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="edit_user"]')[0].reset();
-                    $('#users_activate').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="edit_user"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { window.location.href = response.path; }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -248,15 +225,10 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('#users_activate').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="restore_password_user"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { window.location.href = response.path; }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -286,16 +258,10 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('#users_activate').find('tbody').html(response.data);
-                    $('#users_deactivate').find('tbody').html(response.data2);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="deactivate_user"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { window.location.href = response.path; }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -325,16 +291,10 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('#users_deactivate').find('tbody').html(response.data);
-                    $('#users_activate').find('tbody').html(response.data2);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="activate_user"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { window.location.href = response.path; }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -364,15 +324,10 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('#users_activate').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="delete_user"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { window.location.href = response.path; }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -409,15 +364,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="new_user_level"]')[0].reset();
-                    $('#users_levels').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { window.location.href = response.path; }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -507,16 +457,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="edit_user_level"]')[0].reset();
-                    $('#users_levels').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="edit_user_level"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { window.location.href = response.path; }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -561,15 +505,10 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('#users_levels').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="delete_user_level"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { window.location.href = response.path; }, 1500);
                 }
                 else if (response.status == 'error')
                 {
