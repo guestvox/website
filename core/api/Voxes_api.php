@@ -4,15 +4,6 @@ require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Voxes_api extends Model
 {
-    private $table;
-
-    public function __construct()
-	{
-		parent::__construct();
-
-		$this->table = 'voxes';
-	}
-
     public function get($params)
     {
         return 'Ok';
@@ -96,7 +87,7 @@ class Voxes_api extends Model
                     else
                         $_POST['attachments'] = [];
 
-            		$query = $this->database->insert($this->table, [
+            		$query = $this->database->insert('voxes', [
             			'account' => $params[2],
             			'type' => $_POST['type'],
             			'data' => Functions::get_openssl('encrypt', json_encode([
