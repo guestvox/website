@@ -1,6 +1,6 @@
 <?php
 
-class Locations_api extends Model
+class Users_api extends Model
 {
     public function get($params)
     {
@@ -10,16 +10,22 @@ class Locations_api extends Model
             {
                 if (!empty($params[3]))
                 {
-                    $query = Functions::get_json_decoded_query($this->database->select('locations', [
+                    $query = Functions::get_json_decoded_query($this->database->select('users', [
                         '[>]settings' => [
                             'account' => 'account'
                         ]
                     ], [
-                        'locations.id',
-                        'locations.name',
+                        'users.id',
+                        'users.name',
+                        'users.lastname',
+                        'users.email',
+                        'users.cellphone',
+                        'users.avatar',
+                        'users.username',
                     ], [
                         'AND' => [
-                            'locations.id' => $params[3],
+                            'users.id' => $params[3],
+                            'users.status' => true,
                             'settings.zv' => true
                         ]
                     ]));
@@ -28,16 +34,22 @@ class Locations_api extends Model
                 }
                 else
                 {
-                    $query = Functions::get_json_decoded_query($this->database->select('locations', [
+                    $query = Functions::get_json_decoded_query($this->database->select('users', [
                         '[>]settings' => [
                             'account' => 'account'
                         ]
                     ], [
-                        'locations.id',
-                        'locations.name',
+                        'users.id',
+                        'users.name',
+                        'users.lastname',
+                        'users.email',
+                        'users.cellphone',
+                        'users.avatar',
+                        'users.username',
                     ], [
                         'AND' => [
-                            'locations.account' => $params[2],
+                            'users.account' => $params[2],
+                            'users.status' => true,
                             'settings.zv' => true
                         ]
                     ]));
