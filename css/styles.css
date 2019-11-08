@@ -1239,7 +1239,7 @@ section[data-modal="view_survey_answers"] > .content > main > article > div > la
 }
 
 form[name="new_survey_answers"] > article > div > input,
-section[data-modal="view_survey_answers"] > .content > main > article.subquestions > div > input {
+section[data-modal="view_survey_answers"] > .content > main > article > div > input {
     width: 100%;
     min-width: 300px;
     height: 40px;
