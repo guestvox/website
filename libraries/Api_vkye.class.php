@@ -32,12 +32,12 @@ class Api_vkye
                         break;
 
                     case "POST": // Insert
-                        $method = "INSERT";
+                        $method = "POST";
                         $_POST = ( file_get_contents("php://input") ) ? json_decode(file_get_contents("php://input"), true) : $_POST;
                         break;
 
                     case "PUT": // Update
-                        $method = "UPDATE";
+                        $method = "PUT";
                         $_REQUEST = [];
                         $this->parse_raw_http_request($_REQUEST);
                         break;

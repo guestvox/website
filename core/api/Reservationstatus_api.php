@@ -1,6 +1,6 @@
 <?php
 
-class Locations_api extends Model
+class Reservationstatus_api extends Model
 {
     public function get($params)
     {
@@ -10,16 +10,16 @@ class Locations_api extends Model
             {
                 if (!empty($params[3]))
                 {
-                    $query = Functions::get_json_decoded_query($this->database->select('locations', [
+                    $query = Functions::get_json_decoded_query($this->database->select('reservation_status', [
                         '[>]settings' => [
                             'account' => 'account'
                         ]
                     ], [
-                        'locations.id',
-                        'locations.name',
+                        'reservation_status.id',
+                        'reservation_status.name',
                     ], [
                         'AND' => [
-                            'locations.id' => $params[3],
+                            'reservation_status.id' => $params[3],
                             'settings.zv' => true
                         ]
                     ]));
@@ -28,16 +28,16 @@ class Locations_api extends Model
                 }
                 else
                 {
-                    $query = Functions::get_json_decoded_query($this->database->select('locations', [
+                    $query = Functions::get_json_decoded_query($this->database->select('reservation_status', [
                         '[>]settings' => [
                             'account' => 'account'
                         ]
                     ], [
-                        'locations.id',
-                        'locations.name',
+                        'reservation_status.id',
+                        'reservation_status.name',
                     ], [
                         'AND' => [
-                            'locations.account' => $params[2],
+                            'reservation_status.account' => $params[2],
                             'settings.zv' => true
                         ]
                     ]));

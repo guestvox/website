@@ -1,6 +1,6 @@
 <?php
 
-class Locations_api extends Model
+class Guesttypes_api extends Model
 {
     public function get($params)
     {
@@ -10,16 +10,16 @@ class Locations_api extends Model
             {
                 if (!empty($params[3]))
                 {
-                    $query = Functions::get_json_decoded_query($this->database->select('locations', [
+                    $query = Functions::get_json_decoded_query($this->database->select('guest_types', [
                         '[>]settings' => [
                             'account' => 'account'
                         ]
                     ], [
-                        'locations.id',
-                        'locations.name',
+                        'guest_types.id',
+                        'guest_types.name',
                     ], [
                         'AND' => [
-                            'locations.id' => $params[3],
+                            'guest_types.id' => $params[3],
                             'settings.zv' => true
                         ]
                     ]));
@@ -28,16 +28,16 @@ class Locations_api extends Model
                 }
                 else
                 {
-                    $query = Functions::get_json_decoded_query($this->database->select('locations', [
+                    $query = Functions::get_json_decoded_query($this->database->select('guest_types', [
                         '[>]settings' => [
                             'account' => 'account'
                         ]
                     ], [
-                        'locations.id',
-                        'locations.name',
+                        'guest_types.id',
+                        'guest_types.name',
                     ], [
                         'AND' => [
-                            'locations.account' => $params[2],
+                            'guest_types.account' => $params[2],
                             'settings.zv' => true
                         ]
                     ]));

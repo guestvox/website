@@ -16,12 +16,10 @@ class Opportunityareas_api extends Model
                         ]
                     ], [
                         'opportunity_areas.id',
-                        'opportunity_areas.account',
                         'opportunity_areas.name',
                     ], [
                         'AND' => [
                             'opportunity_areas.id' => $params[3],
-                            'opportunity_areas.account' => $params[2],
                             'settings.zv' => true
                         ]
                     ]));
@@ -36,7 +34,6 @@ class Opportunityareas_api extends Model
                         ]
                     ], [
                         'opportunity_areas.id',
-                        'opportunity_areas.account',
                         'opportunity_areas.name',
                     ], [
                         'AND' => [
@@ -49,18 +46,18 @@ class Opportunityareas_api extends Model
                 }
             }
             else
-                return 'Cuenta no definida';
+                return 'Cuenta de uso no definida';
         }
         else
-            return 'Usuario o contraseña no válidos';
+            return 'Credenciales de acceso no válidas';
     }
 
-    public function insert($params)
+    public function post($params)
     {
         return 'Ok';
     }
 
-    public function update($params)
+    public function put($params)
     {
         return 'Ok';
     }
