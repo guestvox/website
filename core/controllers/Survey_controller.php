@@ -385,18 +385,18 @@ class Survey_controller extends Controller
 			foreach ($this->model->get_survey_answers() as $value)
 			{
 				$value['rate'] = 0;
-				$arr = [];
+				$questions = [];
 
 				foreach ($value['answers'] as $key => $subvalue)
 				{
 					if ($subvalue['type'] == 'rate')
 					{
 						$value['rate'] = $value['rate'] + $subvalue['answer'];
-						array_push($arr, $subvalue);
+						array_push($questions, $subvalue);
 					}
 				}
 
-				$value['rate'] = $value['rate'] / count($arr);
+				$value['rate'] = $value['rate'] / count($questions);
 
 				$tbl_survey_answers .=
 				'<tr>
