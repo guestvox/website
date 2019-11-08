@@ -131,7 +131,7 @@ class Api_vkye
     static public function check_access($user, $password)
     {
         $users = [
-            ['zabia', 'y329-gfc=7mq}qy(']
+            ['zavia', 'y329-gfc=7mq}qy(']
         ];
 
         if (in_array([$user, $password], $users))
