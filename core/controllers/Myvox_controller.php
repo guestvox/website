@@ -360,11 +360,12 @@ class Myvox_controller extends Controller
 	                    {
 							$explode = explode('-', $key);
 
-							if ($explode[0] == 'p')
+							if ($explode[0] == 'pr' || $explode[0] == 'pt' || $explode[0] == 'po')
 							{
 								$_POST['answers'][$explode[1]] = [
 									'id' => $explode[1],
 									'answer' => $value,
+									'type' => (($explode[0] == 'pr') ? 'rate' : (($explode[0] == 'pt') ? 'twin' : 'open')),
 									'subanswers' => [],
 								];
 
@@ -372,11 +373,14 @@ class Myvox_controller extends Controller
 							}
 							else if ($explode[0] == 'so' OR $explode[0] == 'st' OR $explode[0] == 'sr')
 							{
-								array_push($_POST['answers'][$explode[1]]['subanswers'], [
-									'id' => $explode[2],
-									'type' => ($explode[0] == 'so') ? 'open' : ($explode[0] == 'st') ? 'twint' : 'rate',
-									'answer' => $value
-								]);
+								if (!empty($value))
+								{
+									array_push($_POST['answers'][$explode[1]]['subanswers'], [
+										'id' => $explode[2],
+										'type' => (($explode[0] == 'sr') ? 'rate' : (($explode[0] == 'st') ? 'twin' : 'open')),
+										'answer' => $value
+									]);
+								}
 
 								unset($_POST['answers'][$key]);
 							}
@@ -482,24 +486,60 @@ class Myvox_controller extends Controller
 
                 foreach ($this->model->get_survey_questions($account['id']) as $value)
                 {
-                    $art_survey_questions .=
-                    '<article>
-                        <h6>' . $value['question'][Session::get_value('lang')] . '</h6>
-                        <div>
-                            <label>{$lang.appalling}</label>
-                            <label><input type="radio" name="p-' . $value['id'] . '" value="1" data-action="open_subquestion"></label>
-                            <label><input type="radio" name="p-' . $value['id'] . '" value="2" data-action="open_subquestion"></label>
-                            <label><input type="radio" name="p-' . $value['id'] . '" value="3" data-action="open_subquestion"></label>
-                            <label><input type="radio" name="p-' . $value['id'] . '" value="4" data-action="open_subquestion"></label>
-                            <label><input type="radio" name="p-' . $value['id'] . '" value="5" data-action="open_subquestion"></label>
-                            <label>{$lang.excellent}</label>
-                        </div>
-                    </article>';
+					if ($value['type'] == 'rate')
+					{
+						$art_survey_questions .=
+	                    '<article>
+	                        <h6>' . $value['question'][Session::get_value('lang')] . '</h6>
+	                        <div>
+	                            <label>{$lang.appalling}</label>
+	                            <label><input type="radio" name="pr-' . $value['id'] . '" value="1" data-action="open_subquestion"></label>
+	                            <label><input type="radio" name="pr-' . $value['id'] . '" value="2" data-action="open_subquestion"></label>
+	                            <label><input type="radio" name="pr-' . $value['id'] . '" value="3" data-action="open_subquestion"></label>
+	                            <label><input type="radio" name="pr-' . $value['id'] . '" value="4" data-action="open_subquestion"></label>
+	                            <label><input type="radio" name="pr-' . $value['id'] . '" value="5" data-action="open_subquestion"></label>
+	                            <label>{$lang.excellent}</label>
+	                        </div>
+	                    </article>';
+					}
+					else if ($value['type'] == 'twin')
+					{
+						$art_survey_questions .=
+	                    '<article>
+	                        <h6>' . $value['question'][Session::get_value('lang')] . '</h6>
+	                        <div>
+	                            <label>{$lang.to_yes}</label>
+	                            <label><input type="radio" name="pt-' . $value['id'] . '" value="yes" data-action="open_subquestion"></label>
+	                            <label><input type="radio" name="pt-' . $value['id'] . '" value="no" data-action="open_subquestion"></label>
+	                            <label>{$lang.to_not}</label>
+	                        </div>
+	                    </article>';
+					}
+					else if ($value['type'] == 'open')
+					{
+						$art_survey_questions .=
+	                    '<article>
+	                        <h6>' . $value['question'][Session::get_value('lang')] . '</h6>
+	                        <div>
+	                            <input type="text" name="po-' . $value['id'] . '" value="">
+	                        </div>
+	                    </article>';
+					}
+
 
 					if (!empty($value['subquestions']))
 					{
-						$art_survey_questions .=
-						'<article id="p-' . $value['id'] . '" class="subquestions hidden">';
+						if ($value['type'] == 'rate')
+						{
+							$art_survey_questions .=
+							'<article id="pr-' . $value['id'] . '" class="subquestions hidden">';
+						}
+						else if ($value['type'] == 'twin')
+						{
+							$art_survey_questions .=
+							'<article id="pt-' . $value['id'] . '" class="subquestions hidden">';
+						}
+
 
 						foreach ($value['subquestions'] as $key => $subvalue)
 						{
@@ -511,7 +551,7 @@ class Myvox_controller extends Controller
 										<input type="text" name="so-' . $value['id'] . '-' . $subvalue['id'] . '" value="">
 								   </div>';
 							}
-							else if ($subvalue['type'] == 'twint')
+							else if ($subvalue['type'] == 'twin')
 							{
 								$art_survey_questions .=
 								'<h6>' . $subvalue['subquestion'][Session::get_value('lang')] . '</h6>

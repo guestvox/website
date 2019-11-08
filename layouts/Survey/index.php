@@ -91,6 +91,26 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="label">
+                                        <label>
+                                            <div class="checkboxes">
+                                                <div class="checkbox">
+                                                    <input type="radio" name="type" value="rate" checked>
+                                                    <span>Rate</span>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <input type="radio" name="type" value="twin">
+                                                    <span>Twin</span>
+                                                </div>
+                                                <div class="checkbox">
+                                                    <input type="radio" name="type" value="open">
+                                                    <span>Abierta</span>
+                                                </div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
                             </form>
                         </main>
                         <footer>
@@ -199,6 +219,26 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                             </label>
                         </div>
                     </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <div class="checkboxes">
+                                    <div class="checkbox">
+                                        <input type="radio" name="type" value="rate">
+                                        <span>Rate</span>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input type="radio" name="type" value="twin">
+                                        <span>Twin</span>
+                                    </div>
+                                    <div class="checkbox">
+                                        <input type="radio" name="type" value="open">
+                                        <span>Abierta</span>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </form>
         </main>
@@ -269,8 +309,8 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                                         <span>Rate</span>
                                     </div>
                                     <div class="checkbox">
-                                        <input type="radio" name="type" value="twint">
-                                        <span>Twint</span>
+                                        <input type="radio" name="type" value="twin">
+                                        <span>Twin</span>
                                     </div>
                                     <div class="checkbox">
                                         <input type="radio" name="type" value="open">
@@ -324,8 +364,8 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                                         <span>Rate</span>
                                     </div>
                                     <div class="checkbox">
-                                        <input type="radio" name="type" value="twint">
-                                        <span>Twint</span>
+                                        <input type="radio" name="type" value="twin">
+                                        <span>Twin</span>
                                     </div>
                                     <div class="checkbox">
                                         <input type="radio" name="type" value="open">

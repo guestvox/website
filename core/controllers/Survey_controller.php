@@ -32,19 +32,45 @@ class Survey_controller extends Controller
 	                {
 						$value['fk'] = $this->model->get_survey_question($value['id']);
 
-	                    $data .=
-	                    '<article>
-	                        <h6>' . $value['fk']['question'][Session::get_value('settings')['language']] . '</h6>
-	                        <div>
-	                            <label>{$lang.appalling}</label>
-	                            <label><input type="radio" ' . (($value['answer'] == 1) ? 'checked' : '') . ' disabled></label>
-	                            <label><input type="radio" ' . (($value['answer'] == 2) ? 'checked' : '') . ' disabled></label>
-	                            <label><input type="radio" ' . (($value['answer'] == 3) ? 'checked' : '') . ' disabled></label>
-	                            <label><input type="radio" ' . (($value['answer'] == 4) ? 'checked' : '') . ' disabled></label>
-	                            <label><input type="radio" ' . (($value['answer'] == 5) ? 'checked' : '') . ' disabled></label>
-	                            <label>{$lang.excellent}</label>
-	                        </div>
-	                    </article>';
+	                    if ($value['type'] == 'rate')
+						{
+							$data .=
+		                    '<article>
+		                        <h6>' . $value['fk']['question'][Session::get_value('settings')['language']] . '</h6>
+		                        <div>
+		                            <label>{$lang.appalling}</label>
+		                            <label><input type="radio" ' . (($value['answer'] == 1) ? 'checked' : '') . ' disabled></label>
+		                            <label><input type="radio" ' . (($value['answer'] == 2) ? 'checked' : '') . ' disabled></label>
+		                            <label><input type="radio" ' . (($value['answer'] == 3) ? 'checked' : '') . ' disabled></label>
+		                            <label><input type="radio" ' . (($value['answer'] == 4) ? 'checked' : '') . ' disabled></label>
+		                            <label><input type="radio" ' . (($value['answer'] == 5) ? 'checked' : '') . ' disabled></label>
+		                            <label>{$lang.excellent}</label>
+		                        </div>
+		                    </article>';
+						}
+						else if ($value['type'] == 'twin')
+						{
+							$data .=
+							'<article>
+								<h6>' . $value['fk']['question'][Session::get_value('settings')['language']] . '</h6>
+								<div>
+									<label>{$lang.to_yes}</label>
+									<label><input type="radio" ' . (($value['answer'] == 'yes') ? 'checked' : '') . ' disabled></label>
+									<label><input type="radio" ' . (($value['answer'] == 'no') ? 'checked' : '') . ' disabled></label>
+									<label>{$lang.to_not}</label>
+								</div>
+							</article>';
+						}
+						else if ($value['type'] == 'open')
+						{
+							$data .=
+							'<article>
+		                        <h6>' . $value['fk']['question'][Session::get_value('settings')['language']] . '</h6>
+		                        <div>
+		                            <input type="text" value="' . $value['answer'] . '" value="">
+		                        </div>
+		                    </article>';
+						}
 
 						if (!empty($value['subanswers']))
 						{
@@ -58,7 +84,7 @@ class Survey_controller extends Controller
 
 								if ($subvalue['type'] == 'open')
 									$data .= '<input type="text" value="' . $subvalue['answer'] . '" disabled>';
-								else if ($subvalue['type'] == 'twint')
+								else if ($subvalue['type'] == 'twin')
 								{
 									$data .=
 									'<label>{$lang.to_yes}</label>
@@ -120,6 +146,9 @@ class Survey_controller extends Controller
 
 				if (!isset($_POST['survey_question_en']) OR empty($_POST['survey_question_en']))
 					array_push($labels, ['survey_question_en', '']);
+
+				if (!isset($_POST['type']) OR empty($_POST['type']))
+					array_push($labels, ['type', '']);
 
 				if (empty($labels))
 				{
@@ -356,11 +385,18 @@ class Survey_controller extends Controller
 			foreach ($this->model->get_survey_answers() as $value)
 			{
 				$value['rate'] = 0;
+				$arr = [];
 
-				foreach ($value['answers'] as $subvalue)
-					$value['rate'] = $value['rate'] + $subvalue['answer'];
+				foreach ($value['answers'] as $key => $subvalue)
+				{
+					if ($subvalue['type'] == 'rate')
+					{
+						$value['rate'] = $value['rate'] + $subvalue['answer'];
+						array_push($arr, $subvalue);
+					}
+				}
 
-				$value['rate'] = $value['rate'] / count($value['answers']);
+				$value['rate'] = $value['rate'] / count($arr);
 
 				$tbl_survey_answers .=
 				'<tr>
@@ -379,11 +415,11 @@ class Survey_controller extends Controller
 			foreach ($this->model->get_survey_questions() as $value)
 			{
 				$tbl_survey_questions .=
-				'<tr>
+				'<tr class="question">
 					<td align="left">' . $value['question'][Session::get_value('settings')['language']] . '</td>
-					<td align="left"></td>
+					<td align="left">' . (($value['type'] == 'rate') ? 'Rate' : (($value['type'] == 'twin') ? 'Twin' : 'Abierta'))  . '</td>
 					<td align="left">' . (($value['status'] == true) ? 'Activada' : 'Desactivada') . '</td>
-					<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : '') . '</td>
+					<td align="right" class="icon">' . (($value['status'] == true AND $value['type'] != 'open') ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : '') . '</td>
 					<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>
 					<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="edit_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a>' : '') . '</td>
 				</tr>';
@@ -393,7 +429,7 @@ class Survey_controller extends Controller
 					$tbl_survey_questions .=
 					'<tr>
 						<td align="left" class="sub">' . $subvalue['subquestion'][Session::get_value('settings')['language']] . '</td>
-						<td align="left">' . (($subvalue['type'] == 'rate') ? 'Rate' : (($subvalue['type'] == 'twint') ? 'Twint' : 'Abierta'))  . '</td>
+						<td align="left">' . (($subvalue['type'] == 'rate') ? 'Rate' : (($subvalue['type'] == 'twin') ? 'Twin' : 'Abierta'))  . '</td>
 						<td align="left">' . (($subvalue['status'] == true) ? 'Activada' : 'Desactivada') . '</td>
 						<td align="right" class="icon"></td>
 						<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="deactivate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-check"></i></a>') . '</td>

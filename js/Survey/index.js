@@ -112,10 +112,12 @@ $(document).ready(function()
             dataType: 'json',
             success: function(response)
             {
+                console.log(response);
                 if (response.status == 'success')
                 {
                     $('form[name="edit_survey_question"]').find('[name="survey_question_es"]').val(response.data.question.es);
                     $('form[name="edit_survey_question"]').find('[name="survey_question_en"]').val(response.data.question.en);
+                    $('form[name="edit_survey_question"]').find('[name="type"][value="' + response.data.type + '"]').attr('checked', true);
                     $('[data-modal="edit_survey_question"]').addClass('view');
                 }
                 else if (response.status == 'error')

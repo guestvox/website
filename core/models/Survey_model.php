@@ -63,6 +63,7 @@ class Survey_model extends Model
 			'id',
 			'question',
 			'subquestions',
+			'type',
 			'status',
 		], [
 			'account' => Session::get_value('account')['id']
@@ -76,6 +77,7 @@ class Survey_model extends Model
 		$query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
 			'question',
 			'subquestions',
+			'type',
 		], [
 			'id' => $id
 		]));
@@ -92,6 +94,7 @@ class Survey_model extends Model
 				'en' => $data['survey_question_en'],
 			]),
 			'subquestions' => json_encode([]),
+			'type' => $data['type'],
 			'status' => true,
 		]);
 
@@ -104,6 +107,7 @@ class Survey_model extends Model
 			'question' => json_encode([
 				'es' => $data['survey_question_es'],
 				'en' => $data['survey_question_en'],
+				'type' => $data['type'],
 			]),
 		], [
 			'id' => $data['id'],

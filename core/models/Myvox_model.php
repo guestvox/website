@@ -171,6 +171,7 @@ class Myvox_model extends Model
             'id',
             'question',
 			'subquestions',
+			'type',
         ], [
             'account' => $account
         ]));

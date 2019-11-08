@@ -157,7 +157,9 @@ $(document).ready(function()
     {
         var name = $(this).attr('name');
 
-        if ($(this).val() == '1' || $(this).val() == '2' || $(this).val() == '3')
+        console.log($(this).val());
+
+        if ($(this).val() == '1' || $(this).val() == '2' || $(this).val() == '3' || $(this).val() == 'no')
             $('#' + name).removeClass('hidden');
         else
             $('#' + name).addClass('hidden');
