@@ -38,6 +38,7 @@ class Public_sites_controller extends Controller
 			$mail = new Mailer(true);
 
 			try {
+				// Administración
 				$mail->isSMTP();
 				$mail->setFrom('noreply@guestvox.com', 'GuestVox');
 				// $mail->addAddress('info@guestvox.com', $post['name_contact']);
@@ -51,9 +52,8 @@ class Public_sites_controller extends Controller
 
 				$mail->AltBody = $mail->Body;
 				$mail->send();
-			} catch (Exception $e) {}
 
-			try {
+				// Cliente
 				$mail->isSMTP();
 				$mail->setFrom('noreply@guestvox.com', 'GuestVox');
 				$mail->addAddress($post['email'], 'GuestVox');
@@ -62,9 +62,8 @@ class Public_sites_controller extends Controller
 				$mail->Body = "¡Muchas gracias por ponerte en contacto con nosotros! En breve nos pondremos en contacto contigo.";
 				$mail->AltBody = $mail->Body;
 				$mail->send();
-			} catch (Exception $e) {}
 
-			try {
+				// Referido
 				$mail->isSMTP();
 				$mail->setFrom('noreply@guestvox.com', 'GuestVox');
 				$mail->addAddress($post['ref']['email'], $post['ref']['name']);
