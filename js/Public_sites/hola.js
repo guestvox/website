@@ -24,18 +24,16 @@ $('#screenshots').owlCarousel({
 });
 
 var modal_contact = $('#modal_contact').modal();
-modal_contact.onCancel(function () {});
+var modal_contact_success = $('#modal_contact_success').modal();
 
 modal_contact.onSuccess(function ()
 {
     $('form[name="contact"]').submit();
-    // modal_contact.close();
 });
 
 $('form[name="contact"]').on('submit', function ( event )
 {
     event.preventDefault();
-    console.log('enviado');
 
     var data = new FormData(this);
 
@@ -46,9 +44,10 @@ $('form[name="contact"]').on('submit', function ( event )
         processData: false,
         cache: false,
         dataType: 'json',
-        success: function(response)
+        success: function ( response )
         {
-            // TODO
+            modal_contact.close();
+            modal_contact_success.open();
         }
     });
 });

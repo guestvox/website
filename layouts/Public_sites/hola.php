@@ -243,3 +243,16 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
         </footer>
     </div>
 </section>
+
+<section id="modal_contact_success" class="modal" data-modal="modal_contact_success">
+    <div class="content">
+        <header>
+            <h3>¡Gracias! En breve nos contactaremos contigo.</h3>
+        </header>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-close>Cerrar</button>
+            </div>
+        </footer>
+    </div>
+</section>

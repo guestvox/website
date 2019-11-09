@@ -41,8 +41,7 @@ class Public_sites_controller extends Controller
 				// Administración
 				$mail->isSMTP();
 				$mail->setFrom('noreply@guestvox.com', 'GuestVox');
-				// $mail->addAddress('info@guestvox.com', $post['name_contact']);
-				$mail->addAddress('davidgomezmacias@gmail.com');
+				$mail->addAddress('info@guestvox.com', $post['name_contact']);
 				$mail->isHTML(true);
 				$mail->Subject = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox.";
 				$mail->Body = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox. Mi hotel es {$post['name_hotel']} y cuenta con {$post['number_rooms']} habitaciones. Pueden escribirme al correo electrónico {$post['email']} o llamarme a mi teléfono {$post['phone']}.";
@@ -73,6 +72,10 @@ class Public_sites_controller extends Controller
 				$mail->AltBody = $mail->Body;
 				$mail->send();
 			} catch (Exception $e) {}
+
+			echo json_encode([
+				'success' => 'OK'
+			]);
 		}
 		else
 		{
