@@ -41,7 +41,7 @@ class Public_sites_controller extends Controller
 				$mail->isSMTP();
 				$mail->setFrom('noreply@guestvox.com', 'GuestVox');
 				// $mail->addAddress('info@guestvox.com', $post['name_contact']);
-				$mail->addAddress('davidgomezmacias@gmail.com', $post['name_contact']);
+				$mail->addAddress('davidgomezmacias@gmail.com');
 				$mail->isHTML(true);
 				$mail->Subject = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox.";
 				$mail->Body = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox. Mi hotel es {$post['name_hotel']} y cuenta con {$post['number_rooms']} habitaciones. Pueden escribirme al correo electrónico {$post['email']} o llamarme a mi teléfono {$post['phone']}.";
@@ -49,6 +49,28 @@ class Public_sites_controller extends Controller
 				if ( !empty($post['ref']) )
 					$mail->Body .= "-- Referido de {$post['ref']['name']} --";
 
+				$mail->AltBody = $mail->Body;
+				$mail->send();
+			} catch (Exception $e) {}
+
+			try {
+				$mail->isSMTP();
+				$mail->setFrom('noreply@guestvox.com', 'GuestVox');
+				$mail->addAddress($post['email'], 'GuestVox');
+				$mail->isHTML(true);
+				$mail->Subject = "¡Gracias! Hemos recibido tu petición.";
+				$mail->Body = "¡Muchas gracias por ponerte en contacto con nosotros! En breve nos pondremos en contacto contigo.";
+				$mail->AltBody = $mail->Body;
+				$mail->send();
+			} catch (Exception $e) {}
+
+			try {
+				$mail->isSMTP();
+				$mail->setFrom('noreply@guestvox.com', 'GuestVox');
+				$mail->addAddress($post['ref']['email'], $post['ref']['name']);
+				$mail->isHTML(true);
+				$mail->Subject = "Tienes un referido registrado.";
+				$mail->Body = "Hola {$post['ref']['name']}, tienes un referido ({$post['name_contact']}) registrado en GuestVox.";
 				$mail->AltBody = $mail->Body;
 				$mail->send();
 			} catch (Exception $e) {}
