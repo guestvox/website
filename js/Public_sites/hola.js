@@ -1,14 +1,5 @@
 "use strict";
 
-var modal_contact = $('#modal_contact').modal();
-modal_contact.onCancel(function () {});
-
-modal_contact.onSuccess(function ()
-{
-    modal_contact.close();
-});
-
-
 $('#screenshots').owlCarousel({
     autoplay: true,
     autoplayTimeout: 2000,
@@ -30,4 +21,34 @@ $('#screenshots').owlCarousel({
             items: 3
         }
     }
+});
+
+var modal_contact = $('#modal_contact').modal();
+modal_contact.onCancel(function () {});
+
+modal_contact.onSuccess(function ()
+{
+    $('form[name="contact"]').submit();
+    // modal_contact.close();
+});
+
+$('form[name="contact"]').on('submit', function ( event )
+{
+    event.preventDefault();
+    console.log('enviado');
+
+    var data = new FormData(this);
+
+    $.ajax({
+        type: 'POST',
+        data: data,
+        contentType: false,
+        processData: false,
+        cache: false,
+        dataType: 'json',
+        success: function(response)
+        {
+            // TODO
+        }
+    });
 });

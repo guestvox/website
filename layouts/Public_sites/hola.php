@@ -41,6 +41,15 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
         </header>
 
         <section class="container background">
+            <div class="space50"></div>
+
+            <div class="title">
+                <h2>¿Qué hacemos?</h2>
+                <p>...</p>
+            </div>
+
+            <div class="space50"></div>
+
             <div class="boxes three-boxes">
                 <div class="box">
                     <span class="icon-communication"></span>
@@ -59,8 +68,8 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
             <div class="space100"></div>
 
             <div class="title">
-                <h2>Beneficios</h2>
-                <p>¿Qué hace Guestvox?</p>
+                <h2>¿Cómo funciona GuestVox?</h2>
+                <p>...</p>
             </div>
 
             <div class="space50"></div>
@@ -79,7 +88,7 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
                         <img src="{$path.images}icons/icon-person.svg" alt="" width="70" height="70">
                     </figure>
                     <h4>Asigna al área y/o persona responsable del seguimiento.</h4>
-                    <p>Los colaboradores acceden fácilmente a la plataforma utilizando sus credenciales de acceso (usuario y contraseña).</p>
+                    <p>Crea una incidencia (Vox), y asigna al área o persona responsable del seguimiento.</p>
                 </div>
 
                 <div class="box">
@@ -87,7 +96,7 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
                         <img src="{$path.images}icons/icon-attachment.svg" alt="" width="70" height="70">
                     </figure>
                     <h4>Adjunta imágenes, videos, archivos PDF, Word y Excel.</h4>
-                    <p>Una vez creada la incidencia, los departamentos asignados dan seguimiento a cada caso.</p>
+                    <p>Enriquece el Vox y respalda tu información con archivos adjuntos.</p>
                 </div>
 
                 <div class="box">
@@ -102,8 +111,8 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
                     <figure>
                         <img src="{$path.images}icons/icon-time.svg" alt="" width="70" height="70">
                     </figure>
-                    <h4>Da seguimiento a las incidencias en tiempo real.</h4>
-                    <p>Una vez creada la incidencia, los departamentos asignados dan seguimiento a cada caso, agregan notas y comentarios de las acciones tomadas, archivos adjuntos de apoyo, y cierran la incidencia una vez que se ha concluido.</p>
+                    <h4>Tu información siempre en tiempo real.</h4>
+                    <p>Visualiza minuto a minuto el estatus de tu hotel, el seguimiento a los Voxes y la satisfacción de tus huéspedes.</p>
                 </div>
 
                 <div class="box">
@@ -111,7 +120,7 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
                         <img src="{$path.images}icons/icon-multi-device.svg" alt="" width="70" height="70">
                     </figure>
                     <h4>Accede desde cualquier dispositivo.</h4>
-                    <p>Una vez creada la incidencia, los departamentos asignados dan seguimiento a cada caso.</p>
+                    <p>No importa dónde estes, ni que dispositivo uses, accesa a tu información cuando quieras y donde quieras.</p>
                 </div>
             </div>
         </section>
@@ -136,20 +145,20 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
             <div class="space50"></div>
 
             <div id="screenshots" class="owl-carousel owl-theme">
-                <div class="item" style="background-image: url('{$path.images}screenshot-11.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}screenshot-11.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}screenshots/screenshot-1-thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}screenshots/screenshot-1.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}screenshot-11.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}screenshot-11.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}screenshots/screenshot-2-thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}screenshots/screenshot-2.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}screenshot-11.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}screenshot-11.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}screenshots/screenshot-3-thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}screenshots/screenshot-3.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}screenshot-11.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}screenshot-11.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}screenshots/screenshot-4-thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}screenshots/screenshot-4.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}screenshot-11.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}screenshot-11.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}screenshots/screenshot-5-thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}screenshots/screenshot-5.jpg"></a>
                 </div>
             </div>
         </section>
@@ -182,43 +191,48 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
             <h3>Pongamonos en contacto</h3>
         </header>
         <main>
-            <p style="font-size: 10px; line-height: 1.3; opacity: 0.5;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.</p>
-
-            <form>
+            <form name="contact">
                 <div class="label">
                     <label>
-                        <input type="text" name="" value="">
+                        <input type="text" name="name_hotel" value="">
                         <p class="description">Nombre del hotel</p>
                     </label>
                 </div>
 
                 <div class="label">
                     <label>
-                        <input type="text" name="" value="">
+                        <input type="text" name="number_rooms" value="">
                         <p class="description">Número de habitaciones</p>
                     </label>
                 </div>
 
                 <div class="label">
                     <label>
-                        <input type="text" name="" value="">
+                        <input type="text" name="name_contact" value="">
                         <p class="description">Nombre completo</p>
                     </label>
                 </div>
 
                 <div class="label">
                     <label>
-                        <input type="text" name="" value="">
+                        <input type="text" name="email" value="">
                         <p class="description">Correo electrónico</p>
                     </label>
                 </div>
 
                 <div class="label">
                     <label>
-                        <input type="text" name="" value="">
+                        <input type="text" name="phone" value="">
                         <p class="description">Teléfono a 10 dígitos</p>
                     </label>
                 </div>
+
+                <?php
+                if ( isset($_GET['ref']) && !empty($_GET['ref']) )
+                    echo '<input type="hidden" name="ref" value="'. $_GET['ref'] .'">';
+                ?>
+
+                <p style="font-size: 10px; line-height: 1.3; opacity: 0.5; margin-bottom: 0px;">Al enviar este formulario, solicitará que un representante de Guestvox S.A.P.I de C.V. se ponga en contacto con usted por teléfono o correo electrónico en los próximos días.</p>
             </form>
         </main>
         <footer>
