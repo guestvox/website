@@ -28,23 +28,30 @@ class Public_sites_controller extends Controller
 				],
 			];
 
-			if ( isset($_POST['ref']) && !empty($_POST['ref']) && array_key_exists($_POST['ref'], $referrals) )
-			{
-				$ref = $referrals[$_POST['ref']];
-			}
+			$post['name_contact'] = ( isset($_POST['name_contact']) && !empty($_POST['name_contact']) ) ? $_POST['name_contact'] : "";
+			$post['name_hotel'] = ( isset($_POST['name_hotel']) && !empty($_POST['name_hotel']) ) ? $_POST['name_hotel'] : "";
+			$post['number_rooms'] = ( isset($_POST['number_rooms']) && !empty($_POST['number_rooms']) ) ? $_POST['number_rooms'] : "";
+			$post['email'] = ( isset($_POST['email']) && !empty($_POST['email']) ) ? $_POST['email'] : "";
+			$post['phone'] = ( isset($_POST['phone']) && !empty($_POST['phone']) ) ? $_POST['phone'] : "";
+			$post['ref'] = ( isset($_POST['ref']) && !empty($_POST['ref']) && array_key_exists($_POST['ref'], $referrals) ) ? $referrals[$_POST['ref']] : "";
 
 			$mail = new Mailer(true);
 
 			try {
 				$mail->isSMTP();
 				$mail->setFrom('noreply@guestvox.com', 'GuestVox');
-				$mail->addAddress('davidgomezmacias@gmail.com', 'David Gomez');
+				// $mail->addAddress('info@guestvox.com', $post['name_contact']);
+				$mail->addAddress('davidgomezmacias@gmail.com', $post['name_contact']);
 				$mail->isHTML(true);
-				$mail->Subject = 'prueba';
-				$mail->Body = 'mensaje de prueba';
-				$mail->AltBody = '';
+				$mail->Subject = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox.";
+				$mail->Body = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox. Mi hotel es {$post['name_hotel']} y cuenta con {$post['number_rooms']} habitaciones. Pueden escribirme al correo electrónico {$post['email']} o llamarme a mi teléfono {$post['phone']}.";
+
+				if ( !empty($post['ref']) )
+					$mail->Body .= "-- Referido de {$post['ref']['name']} --";
+
+				$mail->AltBody = $mail->Body;
 				$mail->send();
-			} catch (Exception $e) { echo $e; }
+			} catch (Exception $e) {}
 		}
 		else
 		{
