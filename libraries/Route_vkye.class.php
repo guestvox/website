@@ -18,8 +18,8 @@ class Route_vkye
         $paths = [
             '/Index/index',
             '/Index/validate',
+            '/Hola/index',
             '/Myvox/index',
-            '/Public_sites/hola',
             '/Api/execute'
         ];
 

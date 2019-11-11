@@ -17,9 +17,9 @@ class Urls_registered_vkye
                 'controller' => 'Index',
                 'method' => 'validate'
             ],
-            '/logout' => [
-                'controller' => 'Index',
-                'method' => 'logout'
+            '/hola' => [
+                'controller' => 'Hola',
+                'method' => 'index'
             ],
             '/myvox/%param%' => [
                 'controller' => 'Myvox',
@@ -85,14 +85,9 @@ class Urls_registered_vkye
                 'controller' => 'Profile',
                 'method' => 'index'
             ],
-            '/tasks' => [
-                'controller' => 'Tasks',
-                'method' => 'index'
-            ],
-
-            '/hola' => [
-                'controller' => 'Public_sites',
-                'method' => 'hola'
+            '/logout' => [
+                'controller' => 'Index',
+                'method' => 'logout'
             ],
         ];
     }

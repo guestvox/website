@@ -8,17 +8,14 @@ class User_level
     {
         $paths = [];
 
-        array_push($paths, '/Index/logout');
         array_push($paths, '/Dashboard/index');
         array_push($paths, '/Voxes/index');
         array_push($paths, '/Voxes/create');
         array_push($paths, '/Voxes/view');
-
         array_push($paths, '/Survey/index');
         array_push($paths, '/Survey/charts');
         array_push($paths, '/Account/index');
         array_push($paths, '/Profile/index');
-        array_push($paths, '/Tasks/index');
 
         foreach (Session::get_value('user')['user_permissions'] as $key => $value)
         {
@@ -161,6 +158,8 @@ class User_level
                 default: break;
             }
         }
+
+        array_push($paths, '/Index/logout');
 
         $paths = array_unique($paths);
         $paths = array_values($paths);

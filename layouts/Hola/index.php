@@ -1,7 +1,7 @@
 <?php
 defined('_EXEC') or die;
 
-$this->dependencies->add(['css', '{$path.css}public_sites.css']);
+$this->dependencies->add(['css', '{$path.css}Hola/index.css']);
 
 $this->dependencies->add(['js', '{$path.plugins}owl-carousel/owl.carousel.min.js']);
 $this->dependencies->add(['css', '{$path.plugins}owl-carousel/assets/owl.carousel.min.css']);
@@ -10,7 +10,7 @@ $this->dependencies->add(['css', '{$path.plugins}owl-carousel/assets/owl.theme.d
 $this->dependencies->add(['css', '{$path.plugins}fancybox/jquery.fancybox.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}fancybox/jquery.fancybox.min.js']);
 
-$this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
+$this->dependencies->add(['js', '{$path.js}Hola/index.js']);
 ?>
 
 <main class="public_page mkt_page">
@@ -77,7 +77,7 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
             <div class="boxes-product">
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}icons/icon-lock.svg" alt="" width="70" height="70">
+                        <img src="{$path.images}icon-lock.svg" alt="" width="70" height="70">
                     </figure>
                     <h4>Credenciales encriptadas</h4>
                     <p>Los colaboradores acceden fácilmente a la plataforma utilizando sus credenciales de acceso (usuario y contraseña).</p>
@@ -85,7 +85,7 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
 
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}icons/icon-person.svg" alt="" width="70" height="70">
+                        <img src="{$path.images}icon-person.svg" alt="" width="70" height="70">
                     </figure>
                     <h4>Asigna al área y/o persona responsable del seguimiento.</h4>
                     <p>Crea una incidencia (Vox), y asigna al área o persona responsable del seguimiento.</p>
@@ -93,7 +93,7 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
 
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}icons/icon-attachment.svg" alt="" width="70" height="70">
+                        <img src="{$path.images}icon-attachment.svg" alt="" width="70" height="70">
                     </figure>
                     <h4>Adjunta imágenes, videos, archivos PDF, Word y Excel.</h4>
                     <p>Enriquece el Vox y respalda tu información con archivos adjuntos.</p>
@@ -101,7 +101,7 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
 
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}icons/icon-person-follow.svg" alt="" width="70" height="70">
+                        <img src="{$path.images}icon-person-follow.svg" alt="" width="70" height="70">
                     </figure>
                     <h4>Seguimiento de acuerdo a prioridad y tiempo transcurrido.</h4>
                     <p>Una vez creada la incidencia, los departamentos asignados dan seguimiento a cada caso.</p>
@@ -109,7 +109,7 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
 
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}icons/icon-time.svg" alt="" width="70" height="70">
+                        <img src="{$path.images}icon-time.svg" alt="" width="70" height="70">
                     </figure>
                     <h4>Tu información siempre en tiempo real.</h4>
                     <p>Visualiza minuto a minuto el estatus de tu hotel, el seguimiento a los Voxes y la satisfacción de tus huéspedes.</p>
@@ -117,7 +117,7 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
 
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}icons/icon-multi-device.svg" alt="" width="70" height="70">
+                        <img src="{$path.images}icon-multi-device.svg" alt="" width="70" height="70">
                     </figure>
                     <h4>Accede desde cualquier dispositivo.</h4>
                     <p>No importa dónde estes, ni que dispositivo uses, accesa a tu información cuando quieras y donde quieras.</p>
@@ -145,20 +145,20 @@ $this->dependencies->add(['js', '{$path.js}Public_sites/hola.js']);
             <div class="space50"></div>
 
             <div id="screenshots" class="owl-carousel owl-theme">
-                <div class="item" style="background-image: url('{$path.images}screenshots/screenshot-1-thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}screenshots/screenshot-1.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}screenshot-1-thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}screenshot-1.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}screenshots/screenshot-2-thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}screenshots/screenshot-2.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}screenshot-2-thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}screenshot-2.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}screenshots/screenshot-3-thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}screenshots/screenshot-3.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}screenshot-3-thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}screenshot-3.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}screenshots/screenshot-4-thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}screenshots/screenshot-4.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}screenshot-4-thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}screenshot-4.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}screenshots/screenshot-5-thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}screenshots/screenshot-5.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}screenshot-5-thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}screenshot-5.jpg"></a>
                 </div>
             </div>
         </section>
