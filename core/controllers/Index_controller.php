@@ -660,5 +660,5 @@ class Index_controller extends Controller
 	// 	}
 	// 	else
 	// 		header('Location: /');
-	}
+	// }
 }
