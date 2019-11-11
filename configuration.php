@@ -146,7 +146,7 @@ class Configuration
 	 *
      * @var string $db_name
      */
-	public static $db_name = 'gv-web-platform';
+	public static $db_name = 'gv-website';
 
 	/**
      * Usuario de la base de datos
