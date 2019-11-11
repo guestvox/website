@@ -2,32 +2,35 @@
 
 defined('_EXEC') or die;
 
+$this->dependencies->add(['css', '{$path.css}Index/index.css']);
 $this->dependencies->add(['js', '{$path.js}Index/index.js']);
 $this->dependencies->add(['other', '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLCea8Q6BtcTHwY3YFCiB0EoHE5KnsMUE"></script>']);
 
 ?>
 
-<header class="landing-page">
+<header class="landing-page-index">
     <div class="container">
         <figure>
-            <img src="{$path.images}logotype-white.png" alt="">
+            <img src="{$path.images}logotype-white.png" alt="GuestVox logotype">
         </figure>
-        <nav data-main-menu>
-            <a href="https://guestvox.com/blog" class="btn no-border">{$lang.our_blog}</a>
-            <a data-button-modal="signup" class="btn">{$lang.signup}</a>
-            <a data-button-modal="login" class="btn">{$lang.login}</a>
-            <a href="?<?php echo Language::get_lang_url(Functions::get_lang(true)); ?>" class="btn no-border">{$lang.<?php echo Functions::get_lang(true) ?>}</a>
-        </nav>
         <nav>
-            <a class="btn" data-open-main-menu><i class="fas fa-bars"></i></a>
+            <ul>
+                <li><a href="/blog" class="btn no-border">{$lang.our_blog}</a></li>
+                <li><a data-button-modal="signup" class="btn">{$lang.signup}</a></li>
+                <li><a data-button-modal="login" class="btn">{$lang.login}</a></li>
+                <li><a href="?<?php echo Language::get_lang_url(Functions::get_lang(true)); ?>" class="btn no-border"><img src="{$path.images}<?php echo Functions::get_lang(true); ?>.png" alt=""></a></li>
+            </ul>
+            <ul>
+                <li><a class="btn" data-action="open-land-menu"><i class="fas fa-bars"></i></a></li>
+            </ul>
         </nav>
     </div>
 </header>
-<main class="landing-page">
+<main class="landing-page-index">
     <section class="home">
     	<div class="container">
     		<figure>
-    			<img src="{$path.images}home.png" alt="">
+    			<img src="{$path.images}home.png" alt="Home background">
     		</figure>
             <div>
     			<h4>{$lang.im_the_guests_voice}</h4>
@@ -35,29 +38,29 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
     		</div>
     	</div>
     </section>
-    <section class="features">
+    <section class="features-one">
     	<div class="container">
     		<h2>{$lang.how_do_we_help_your_hotel}</h2>
-            <div class="item">
-                <img src="/images/feature-1.svg" alt="">
+            <div>
+                <img src="/images/feature-1.svg" alt="Feature">
                 <p>{$lang.capture_all_kinds}</p>
             </div>
-            <div class="item">
-                <img src="/images/feature-2.svg" alt="">
+            <div>
+                <img src="/images/feature-2.svg" alt="Feature">
                 <p>{$lang.coordinate_follow_cases}</p>
             </div>
-            <div class="item">
-                <img src="/images/feature-3.svg" alt="">
+            <div>
+                <img src="/images/feature-3.svg" alt="Feature">
                 <p>{$lang.control_performance_your_hotel}</p>
             </div>
-            <div class="item">
-                <img src="/images/feature-4.svg" alt="">
+            <div>
+                <img src="/images/feature-4.svg" alt="Feature">
                 <p>{$lang.check_metrics_best_decisions}</p>
             </div>
     	</div>
     </section>
-    <section class="features">
-		<div class="list">
+    <section class="features-two">
+		<div>
             <ul class="container">
                 <li><i class="fas fa-check"></i>{$lang.multi_device}</li>
                 <li><i class="fas fa-check"></i>{$lang.on_the_cloud}</li>
@@ -70,35 +73,52 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
     <section class="clients">
     	<div class="container">
     		<h2>{$lang.they_already_trust_us}</h2>
-            <figure>
-                <img src="{$path.images}clients.jpg" alt="">
-            </figure>
+            <div>
+                <figure>
+                    <img src="{$path.images}clients-1.jpg" alt="Client logotype">
+                </figure>
+                <figure>
+                    <img src="{$path.images}clients-2.jpg" alt="Client logotype">
+                </figure>
+                <figure>
+                    <img src="{$path.images}clients-3.jpg" alt="Client logotype">
+                </figure>
+                <figure>
+                    <img src="{$path.images}clients-4.jpg" alt="Client logotype">
+                </figure>
+                <figure>
+                    <img src="{$path.images}clients-5.jpg" alt="Client logotype">
+                </figure>
+                <figure>
+                    <img src="{$path.images}clients-6.jpg" alt="Client logotype">
+                </figure>
+            </div>
             <a data-button-modal="signup" class="btn">{$lang.signup}</a>
     	</div>
     </section>
     <section class="team">
-        <div class="item">
+        <div>
             <div>
                 <figure>
-                    <img src="{$path.images}basurto.png" alt="">
+                    <img src="{$path.images}basurto.png" alt="Member team avatar">
                 </figure>
             </div>
             <span><strong>Daniel Basurto</strong></span>
-            <span>{$lang.ceo_founder}</span>
+            <span>{$lang.ceo_cofounder}</span>
         </div>
-        <div class="item">
+        <div>
             <div>
                 <figure>
-                    <img src="{$path.images}gerson.png" alt="">
+                    <img src="{$path.images}gerson.png" alt="Member team avatar">
                 </figure>
             </div>
             <span><strong>Gersón Gómez</strong></span>
             <span>{$lang.cto}</span>
         </div>
-        <div class="item">
+        <div>
             <div>
                 <figure>
-                    <img src="{$path.images}saul.png" alt="">
+                    <img src="{$path.images}saul.png" alt="Member team avatar">
                 </figure>
             </div>
             <span><strong>Saúl Poot</strong></span>
@@ -106,18 +126,20 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
         </div>
     </section>
 </main>
-<footer class="landing-page">
+<footer class="landing-page-index">
     <div class="container">
         <nav>
-            <a data-button-modal="login" class="btn">{$lang.login}</a>
-            <a href="https://facebook.com/guestvox" class="btn" target="_blank"><i class="fab fa-facebook-square"></i></a>
-            <a href="https://instagram.com/guestvox" class="btn" target="_blank"><i class="fab fa-instagram"></i></a>
-            <a href="https://linkedin.com/guestvox" class="btn" target="_blank"><i class="fab fa-linkedin"></i></a>
-            <a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" class="btn" target="_blank"><i class="fab fa-youtube" ></i></i></a>
-            <a href="" class="btn no-border">{$lang.copyright}</a>
+            <ul>
+                <li><a data-button-modal="login" class="btn">{$lang.login}</a></li>
+                <li><a href="https://facebook.com/guestvox" class="btn" target="_blank"><i class="fab fa-facebook-square"></i></a></li>
+                <li><a href="https://instagram.com/guestvox" class="btn" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                <li><a href="https://linkedin.com/guestvox" class="btn" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+                <li><a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" class="btn" target="_blank"><i class="fab fa-youtube" ></i></i></a></li>
+                <li><a href="" class="btn no-border">{$lang.copyright}</a></li>
+            </ul>
         </nav>
         <figure>
-            <img src="{$path.images}logotype-color.png" alt="">
+            <img src="{$path.images}logotype-color.png" alt="GuestVox logotype">
         </figure>
     </div>
 </footer>

@@ -2,11 +2,11 @@
 
 $(document).ready(function()
 {
-    $('[data-open-main-menu]').on('click', function(e)
+    $('[data-action="open-land-menu"]').on('click', function(e)
     {
         e.stopPropagation();
 
-        $('header.landing-page nav[data-main-menu]').toggleClass('open');
+        $('header.landing-page nav > ul').toggleClass('open');
     });
 
     $('[name="rooms_number"]').on('change', function()

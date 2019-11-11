@@ -216,4 +216,11 @@ class Dashboard_controller extends Controller
 
 		echo $js;
 	}
+
+	public function logout()
+	{
+		Session::destroy();
+
+		header("Location: /");
+	}
 }
