@@ -75,31 +75,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="new_opportunity_area"]')[0].reset();
-                    $('form[name="new_opportunity_area"]').find('[name="request"]').attr('checked', true);
-                    $('form[name="new_opportunity_area"]').find('[name="incident"]').attr('checked', true);
-                    $('form[name="new_opportunity_area"]').find('[name="public"]').attr('checked', true);
-                    $('label.error').removeClass('error');
-                    $('p.error').remove();
-                    $('#opportunity_areas').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    // tbl_opportunity_areas.row.add([
-                    //     "ABCD",
-                    //     "1",
-                    //     "1",
-                    //     "1",
-                    //     "1",
-                    //     "1",3
-                    // ]).draw();
-
-                    setTimeout(function()
-                    {
-                        $('[data-modal="success"]').find('main > p').html('');
-                        $('[data-modal="success"]').removeClass('view');
-
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -196,19 +175,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="edit_opportunity_area"]')[0].reset();
-                    $('form[name="edit_opportunity_area"]').find('[name="request"]').attr('checked', false);
-                    $('form[name="edit_opportunity_area"]').find('[name="incident"]').attr('checked', false);
-                    $('form[name="edit_opportunity_area"]').find('[name="public"]').attr('checked', false);
-                    $('#opportunity_areas').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="edit_opportunity_area"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -253,15 +223,10 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('#opportunity_areas').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="delete_opportunity_area"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -303,18 +268,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="new_opportunity_type"]')[0].reset();
-                    $('form[name="new_opportunity_type"]').find('[name="request"]').attr('checked', true);
-                    $('form[name="new_opportunity_type"]').find('[name="incident"]').attr('checked', true);
-                    $('form[name="new_opportunity_type"]').find('[name="public"]').attr('checked', true);
-                    $('#opportunity_types').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                     }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -412,19 +369,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="edit_opportunity_type"]')[0].reset();
-                    $('form[name="edit_opportunity_type"]').find('[name="request"]').attr('checked', false);
-                    $('form[name="edit_opportunity_type"]').find('[name="incident"]').attr('checked', false);
-                    $('form[name="edit_opportunity_type"]').find('[name="public"]').attr('checked', false);
-                    $('#opportunity_types').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="edit_opportunity_type"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -469,15 +417,10 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('#opportunity_types').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="delete_opportunity_type"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -514,18 +457,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="new_location"]')[0].reset();
-                    $('form[name="new_location"]').find('[name="request"]').attr('checked', true);
-                    $('form[name="new_location"]').find('[name="incident"]').attr('checked', true);
-                    $('form[name="new_location"]').find('[name="public"]').attr('checked', true);
-                    $('#locations').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -622,19 +557,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="edit_location"]')[0].reset();
-                    $('form[name="edit_location"]').find('[name="request"]').attr('checked', false);
-                    $('form[name="edit_location"]').find('[name="incident"]').attr('checked', false);
-                    $('form[name="edit_location"]').find('[name="public"]').attr('checked', false);
-                    $('#locations').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="edit_location"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -679,15 +605,10 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('#locations').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="delete_location"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -744,21 +665,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="new_room"]')[0].reset();
-                    $('[name="prefix"]').parent().parent().parent().removeClass('hidden');
-                    $('[name="since"]').parent().parent().parent().removeClass('hidden');
-                    $('[name="to"]').parent().parent().parent().removeClass('hidden');
-                    $('[name="suffix"]').parent().parent().parent().removeClass('hidden');
-                    $('form[name="new_room"]').find('[name="name"]').parent().parent().parent().addClass('hidden');
-                    $('form[name="edit_room"]').find('[name="name"]').parent().parent().parent().removeClass('hidden');
-                    $('#rooms').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                     }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -841,15 +751,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('#rooms').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="edit_room"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -894,15 +799,10 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('#rooms').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="delete_room"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -939,15 +839,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="new_guest_treatment"]')[0].reset();
-                    $('#treatments').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                     }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -1030,15 +925,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('#treatments').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="edit_guest_treatment"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -1083,15 +973,10 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('#treatments').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="delete_guest_treatment"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -1128,15 +1013,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="new_guest_type"]')[0].reset();
-                    $('#guest_types').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -1219,15 +1099,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('#guest_types').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="edit_guest_type"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -1272,15 +1147,10 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('#guest_types').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="delete_guest_type"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -1317,15 +1187,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('form[name="new_reservation_status"]')[0].reset();
-                    $('#reservation_status').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -1408,15 +1273,10 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('#reservation_status').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="edit_reservation_status"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
@@ -1461,15 +1321,10 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('#reservation_status').find('tbody').html(response.data);
                     $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
 
-                    setTimeout(function() {
-                        $('[data-modal="success"]').find('main > p').html(response.message);
-                        $('[data-modal="success"]').removeClass('view');
-                        $('[data-modal="delete_reservation_status"]').removeClass('view');
-                    }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {

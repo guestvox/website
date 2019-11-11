@@ -484,20 +484,8 @@ class Reports_controller extends Controller
 
 					if (!empty($query))
 					{
-						$data = '';
-
-						foreach ($this->model->get_reports() as $value)
-						{
-							$data .=
-							'<tr>
-								<td align="left">' . $value['name'] . '</td>
-								<td align="right" class="icon"><a data-action="delete_report" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a></td>
-							</tr>';
-						}
-
 						Functions::environment([
 							'status' => 'success',
-							'data' => $data,
 							'message' => '{$lang.success_operation_database}',
 						]);
 					}
@@ -525,20 +513,8 @@ class Reports_controller extends Controller
 
 				if (!empty($query))
 				{
-					$data = '';
-
-					foreach ($this->model->get_reports() as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['name'] . '</td>
-							<td align="right" class="icon"><a data-action="delete_report" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a></td>
-						</tr>';
-					}
-
 					Functions::environment([
 						'status' => 'success',
-						'data' => $data,
 						'message' => '{$lang.success_operation_database}',
 					]);
 				}

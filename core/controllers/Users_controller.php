@@ -61,28 +61,8 @@ class Users_controller extends Controller
 
 					if (!empty($query))
 					{
-						$data = '';
-
-						foreach ($this->model->get_users(true,true) as $value)
-						{
-							$data .=
-							'<tr>
-								<td align="left">' . $value['name'] . ' ' . $value['lastname'] . '</td>
-								<td align="left">' . $value['email'] . '</td>
-								<td align="left">' . $value['cellphone'] . '</td>
-								<td align="left">' . $value['username'] . '</td>
-								<td align="left">' . $value['temporal_password'] . '</td>
-								<td align="left">' . $value['user_level'] . '</td>
-								' . ((Functions::check_access(['{users_restorepassword}']) == true) ? '<td align="right" class="icon"><a data-action="restore_password_user" data-id="' . $value['id'] . '"><i class="fas fa-key"></i></a></td>' : '') . '
-								' . ((Functions::check_access(['{users_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_user" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-								' . ((Functions::check_access(['{users_deactivate}']) == true) ? '<td align="right" class="icon"><a data-action="deactivate_user" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a></td>' : '') . '
-								' . ((Functions::check_access(['{users_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_user" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-							</tr>';
-						}
-
 						Functions::environment([
 							'status' => 'success',
-							'data' => $data,
 							'message' => '{$lang.success_operation_database}',
 						]);
 					}
@@ -110,28 +90,8 @@ class Users_controller extends Controller
 
 				if (!empty($query))
 				{
-					$data = '';
-
-					foreach ($this->model->get_users(true, true) as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['name'] . ' ' . $value['lastname'] . '</td>
-							<td align="left">' . $value['email'] . '</td>
-							<td align="left">' . $value['cellphone'] . '</td>
-							<td align="left">' . $value['username'] . '</td>
-							<td align="left">' . $value['temporal_password'] . '</td>
-							<td align="left">' . $value['user_level'] . '</td>
-							' . ((Functions::check_access(['{users_restorepassword}']) == true) ? '<td align="right" class="icon"><a data-action="restore_password_user" data-id="' . $value['id'] . '"><i class="fas fa-key"></i></a></td>' : '') . '
-							' . ((Functions::check_access(['{users_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_user" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-							' . ((Functions::check_access(['{users_deactivate}']) == true) ? '<td align="right" class="icon"><a data-action="deactivate_user" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a></td>' : '') . '
-							' . ((Functions::check_access(['{users_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_user" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-						</tr>';
-					}
-
 					Functions::environment([
 						'status' => 'success',
-						'data' => $data,
 						'message' => '{$lang.success_operation_database}',
 					]);
 				}
@@ -150,44 +110,8 @@ class Users_controller extends Controller
 
 				if (!empty($query))
 				{
-					$data = '';
-					$data2 = '';
-
-					foreach ($this->model->get_users(true, true) as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['name'] . ' ' . $value['lastname'] . '</td>
-							<td align="left">' . $value['email'] . '</td>
-							<td align="left">' . $value['cellphone'] . '</td>
-							<td align="left">' . $value['username'] . '</td>
-							<td align="left">' . $value['temporal_password'] . '</td>
-							<td align="left">' . $value['user_level'] . '</td>
-							' . ((Functions::check_access(['{users_restorepassword}']) == true) ? '<td align="right" class="icon"><a data-action="restore_password_user" data-id="' . $value['id'] . '"><i class="fas fa-key"></i></a></td>' : '') . '
-							' . ((Functions::check_access(['{users_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_user" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-							' . ((Functions::check_access(['{users_deactivate}']) == true) ? '<td align="right" class="icon"><a data-action="deactivate_user" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a></td>' : '') . '
-							' . ((Functions::check_access(['{users_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_user" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-						</tr>';
-					}
-
-					foreach ($this->model->get_users(false) as $value)
-					{
-						$data2 .=
-						'<tr>
-							<td align="left">' . $value['name'] . ' ' . $value['lastname'] . '</td>
-							<td align="left">' . $value['email'] . '</td>
-							<td align="left">' . $value['cellphone'] . '</td>
-							<td align="left">' . $value['username'] . '</td>
-							<td align="left">' . $value['temporal_password'] . '</td>
-							<td align="left">' . $value['user_level'] . '</td>
-							<td align="right" class="icon"><a data-action="activate_user" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a></td>
-						</tr>';
-					}
-
 					Functions::environment([
 						'status' => 'success',
-						'data' => $data,
-						'data2' => $data2,
 						'message' => '{$lang.success_operation_database}',
 					]);
 				}
@@ -206,44 +130,8 @@ class Users_controller extends Controller
 
 				if (!empty($query))
 				{
-					$data = '';
-					$data2 = '';
-
-					foreach ($this->model->get_users(false) as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['name'] . ' ' . $value['lastname'] . '</td>
-							<td align="left">' . $value['email'] . '</td>
-							<td align="left">' . $value['cellphone'] . '</td>
-							<td align="left">' . $value['username'] . '</td>
-							<td align="left">' . $value['temporal_password'] . '</td>
-							<td align="left">' . $value['user_level'] . '</td>
-							<td align="right" class="icon"><a data-action="activate_user" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a></td>
-						</tr>';
-					}
-
-					foreach ($this->model->get_users(true, true) as $value)
-					{
-						$data2 .=
-						'<tr>
-							<td align="left">' . $value['name'] . ' ' . $value['lastname'] . '</td>
-							<td align="left">' . $value['email'] . '</td>
-							<td align="left">' . $value['cellphone'] . '</td>
-							<td align="left">' . $value['username'] . '</td>
-							<td align="left">' . $value['temporal_password'] . '</td>
-							<td align="left">' . $value['user_level'] . '</td>
-							' . ((Functions::check_access(['{users_restorepassword}']) == true) ? '<td align="right" class="icon"><a data-action="restore_password_user" data-id="' . $value['id'] . '"><i class="fas fa-key"></i></a></td>' : '') . '
-							' . ((Functions::check_access(['{users_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_user" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-							' . ((Functions::check_access(['{users_deactivate}']) == true) ? '<td align="right" class="icon"><a data-action="deactivate_user" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a></td>' : '') . '
-							' . ((Functions::check_access(['{users_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_user" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-						</tr>';
-					}
-
 					Functions::environment([
 						'status' => 'success',
-						'data' => $data,
-						'data2' => $data2,
 						'message' => '{$lang.success_operation_database}',
 					]);
 				}
@@ -262,28 +150,8 @@ class Users_controller extends Controller
 
 				if (!empty($query))
 				{
-					$data = '';
-
-					foreach ($this->model->get_users(true, true) as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['name'] . ' ' . $value['lastname'] . '</td>
-							<td align="left">' . $value['email'] . '</td>
-							<td align="left">' . $value['cellphone'] . '</td>
-							<td align="left">' . $value['username'] . '</td>
-							<td align="left">' . $value['temporal_password'] . '</td>
-							<td align="left">' . $value['user_level'] . '</td>
-							' . ((Functions::check_access(['{users_restorepassword}']) == true) ? '<td align="right" class="icon"><a data-action="restore_password_user" data-id="' . $value['id'] . '"><i class="fas fa-key"></i></a></td>' : '') . '
-							' . ((Functions::check_access(['{users_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_user" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-							' . ((Functions::check_access(['{users_deactivate}']) == true) ? '<td align="right" class="icon"><a data-action="deactivate_user" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a></td>' : '') . '
-							' . ((Functions::check_access(['{users_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_user" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-						</tr>';
-					}
-
 					Functions::environment([
 						'status' => 'success',
-						'data' => $data,
 						'message' => '{$lang.success_operation_database}',
 					]);
 				}
@@ -335,21 +203,8 @@ class Users_controller extends Controller
 
 					if (!empty($query))
 					{
-						$data = '';
-
-						foreach ($this->model->get_user_levels(true) as $value)
-						{
-							$data .=
-							'<tr>
-								<td align="left">' . $value['name'] . '</td>
-								' . ((Functions::check_access(['{userlevels_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_user_level" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-								' . ((Functions::check_access(['{userlevels_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_user_level" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-							</tr>';
-						}
-
 						Functions::environment([
 							'status' => 'success',
-							'data' => $data,
 							'message' => '{$lang.success_operation_database}',
 						]);
 					}
@@ -376,21 +231,8 @@ class Users_controller extends Controller
 
 				if (!empty($query))
 				{
-					$data = '';
-
-					foreach ($this->model->get_user_levels(true) as $value)
-					{
-						$data .=
-						'<tr>
-							<td align="left">' . $value['name'] . '</td>
-							' . ((Functions::check_access(['{userlevels_delete}']) == true) ? '<td align="right" class="icon">' . (($value['relation'] == false) ? '<a data-action="delete_user_level" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-							' . ((Functions::check_access(['{userlevels_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_user_level" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
-						</tr>';
-					}
-
 					Functions::environment([
 						'status' => 'success',
-						'data' => $data,
 						'message' => '{$lang.success_operation_database}',
 					]);
 				}
