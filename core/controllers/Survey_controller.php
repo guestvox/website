@@ -376,7 +376,7 @@ class Survey_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox | Encuesta');
+			define('_title', 'GuestVox | {$lang.survey}');
 
 			$template = $this->view->render($this, 'index');
 
@@ -417,8 +417,8 @@ class Survey_controller extends Controller
 				$tbl_survey_questions .=
 				'<tr class="question">
 					<td align="left">' . $value['question'][Session::get_value('settings')['language']] . '</td>
-					<td align="left">' . (($value['type'] == 'rate') ? 'Rate' : (($value['type'] == 'twin') ? 'Twin' : 'Abierta'))  . '</td>
-					<td align="left">' . (($value['status'] == true) ? 'Activada' : 'Desactivada') . '</td>
+					<td align="left">' . (($value['type'] == 'rate') ? 'Rate' : (($value['type'] == 'twin') ? 'Twin' : '{$lang.open}'))  . '</td>
+					<td align="left">' . (($value['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</td>
 					<td align="right" class="icon">' . (($value['status'] == true AND $value['type'] != 'open') ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : '') . '</td>
 					<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>
 					<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="edit_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a>' : '') . '</td>
@@ -429,8 +429,8 @@ class Survey_controller extends Controller
 					$tbl_survey_questions .=
 					'<tr>
 						<td align="left" class="sub">' . $subvalue['subquestion'][Session::get_value('settings')['language']] . '</td>
-						<td align="left">' . (($subvalue['type'] == 'rate') ? 'Rate' : (($subvalue['type'] == 'twin') ? 'Twin' : 'Abierta'))  . '</td>
-						<td align="left">' . (($subvalue['status'] == true) ? 'Activada' : 'Desactivada') . '</td>
+						<td align="left">' . (($subvalue['type'] == 'rate') ? 'Rate' : (($subvalue['type'] == 'twin') ? 'Twin' : '{$lang.open}'))  . '</td>
+						<td align="left">' . (($subvalue['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</td>
 						<td align="right" class="icon"></td>
 						<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="deactivate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-check"></i></a>') . '</td>
 						<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="edit_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-pencil-alt"></i></a>' : '') . '</td>

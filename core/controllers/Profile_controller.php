@@ -90,7 +90,7 @@ class Profile_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox | Perfil');
+			define('_title', 'GuestVox | {$lang.profile}');
 
 			$template = $this->view->render($this, 'index');
 

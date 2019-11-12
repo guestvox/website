@@ -36,8 +36,8 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <h5></h5>
                         <h6><span><i class="fas fa-comment-alt"></i>{$sms} SMS</span><span><i class="fas fa-key"></i>{$private_key}</span></h6>
                         <div class="">
-                            <a class="btn" data-button-modal="edit_account">Editar cuenta</a>
-                            <a class="btn" data-button-modal="request_sms">Solicitar SMS</a>
+                            <a class="btn" data-button-modal="edit_account">{$lang.edit_account}</a>
+                            <a class="btn" data-button-modal="request_sms">{$lang.request_sms}</a>
                         </div>
                     </div>
                 </main>
@@ -56,7 +56,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span12">
                         <div class="label">
                             <label>
-                                <p>Nombre de cuenta</p>
+                                <p>{$lang.account_name}</p>
                                 <input type="text" name="account" value="{$account}" />
                             </label>
                         </div>
@@ -64,7 +64,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span4">
                         <div class="label">
                             <label>
-                                <p>País</p>
+                                <p>{$lang.country}</p>
                                 <select name="country">
                                     {$opt_countries}
                                 </select>
@@ -74,7 +74,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span4">
                         <div class="label">
                             <label>
-                                <p>Código postal</p>
+                                <p>{$lang.postal_code}</p>
                                 <input type="text" name="cp" value="{$cp}" />
                             </label>
                         </div>
@@ -82,7 +82,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span4">
                         <div class="label">
                             <label>
-                                <p>Ciudad</p>
+                                <p>{$lang.city}</p>
                                 <input type="text" name="city" value="{$city}" />
                             </label>
                         </div>
@@ -90,7 +90,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span12">
                         <div class="label">
                             <label>
-                                <p>Dirección</p>
+                                <p>{$lang.address}</p>
                                 <input type="text" name="address" value="{$address}" />
                             </label>
                         </div>
@@ -98,7 +98,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span4">
                         <div class="label">
                             <label>
-                                <p>Zona horaria</p>
+                                <p>{$lang.time_zone}</p>
                                 <select name="time_zone">
                                     {$opt_time_zones}
                                 </select>
@@ -108,7 +108,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span4">
                         <div class="label">
                             <label>
-                                <p>Lenguage</p>
+                                <p>{$lang.language}</p>
                                 <select name="language">
                                     {$opt_languages}
                                 </select>
@@ -118,7 +118,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span4">
                         <div class="label">
                             <label>
-                                <p>Moneda</p>
+                                <p>{$lang.currency}</p>
                                 <select name="currency">
                                     {$opt_currencies}
                                 </select>
@@ -136,7 +136,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span6">
                         <div class="label">
                             <label>
-                                <p>Razón Social</p>
+                                <p>{$lang.fiscal_name}</p>
                                 <input type="text" name="fiscal_name" value="{$fiscal_name}" />
                             </label>
                         </div>
@@ -144,7 +144,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span12">
                         <div class="label">
                             <label>
-                                <p>Dirección fiscal</p>
+                                <p>{$lang.fiscal_address}</p>
                                 <input type="text" name="fiscal_address" value="{$fiscal_address}" />
                             </label>
                         </div>
@@ -152,7 +152,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span6">
                         <div class="label">
                             <label>
-                                <p>Nombre de contacto</p>
+                                <p>{$lang.contact_name}</p>
                                 <input type="text" name="contact_name" value="{$contact_name}" />
                             </label>
                         </div>
@@ -160,7 +160,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span6">
                         <div class="label">
                             <label>
-                                <p>Departamento</p>
+                                <p>{$lang.department}</p>
                                 <input type="text" name="contact_department" value="{$contact_department}" />
                             </label>
                         </div>
@@ -168,7 +168,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span2">
                         <div class="label">
                             <label>
-                                <p>Lada</p>
+                                <p>{$lang.lada}</p>
                                 <select name="contact_lada">
                                     {$opt_ladas}
                                 </select>
@@ -178,7 +178,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span4">
                         <div class="label">
                             <label>
-                                <p>Teléfono</p>
+                                <p>{$lang.phone}</p>
                                 <input type="text" name="contact_phone" value="{$contact_phone}" />
                             </label>
                         </div>
@@ -186,7 +186,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span6">
                         <div class="label">
                             <label>
-                                <p>Correo electrónico</p>
+                                <p>{$lang.email}</p>
                                 <input type="email" name="contact_email" value="{$contact_email}" />
                             </label>
                         </div>
@@ -205,7 +205,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
 <section class="modal" data-modal="request_sms">
     <div class="content">
         <header>
-            <h3>Solicitar SMS</h3>
+            <h3>{$lang.request_sms}</h3>
         </header>
         <main>
             <form name="request_sms">
@@ -213,7 +213,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span12">
                         <div class="label">
                             <label>
-                                <p>Paquete</p>
+                                <p>{$lang.package}</p>
                                 <select name="package">
                                     {$opt_sms_packages}
                                 </select>

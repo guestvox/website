@@ -25,11 +25,11 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
                         </div>
                         <h2>{$name} {$lastname}</h2>
                         <h4>{$account}</h4>
-                        <h6><span><i class="fas fa-envelope"></i>{$email}</span><span><i class="fas fa-phone"></i>{$cellphone}</span><span><i class="fas fa-user"></i>{$username}</span><span><i class="fas fa-lock"></i>{$user_level}</span></h6>
+                        <h6><span><i class="fas fa-envelope"></i>{$email}</span><span><i class="fas fa-phone"></i>{$cellphone}</span><span><i class="fas fa-user"></i>{$profilename}</span><span><i class="fas fa-lock"></i>{$profile_level}</span></h6>
                         {$temporal_password}
                         <div class="">
-                            <a class="btn" data-button-modal="edit_profile">Editar perfil</a>
-                            <a class="btn" data-button-modal="reset_password">Restablecer contraseña</a>
+                            <a class="btn" data-button-modal="edit_profile">{$lang.edit_profile}</a>
+                            <a class="btn" data-button-modal="reset_password">{$lang.restore_password}</a>
                         </div>
                     </div>
                 </main>
@@ -81,7 +81,7 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.username}</p>
-                                <input type="text" name="username" value="{$username}"/>
+                                <input type="text" name="username" value="{$profilename}"/>
                             </label>
                         </div>
                     </div>
@@ -107,7 +107,7 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
                     <div class="span12">
                         <div class="label">
                             <label>
-                                <p>Contraseña</p>
+                                <p>{$lang.password}</p>
                                 <input type="password" name="password"/>
                             </label>
                         </div>

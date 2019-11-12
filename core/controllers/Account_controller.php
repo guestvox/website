@@ -145,7 +145,7 @@ class Account_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox | Cuenta');
+			define('_title', 'GuestVox | {$lang.account}');
 
 			$template = $this->view->render($this, 'index');
 
