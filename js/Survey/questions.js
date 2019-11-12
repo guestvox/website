@@ -7,44 +7,11 @@ $(document).ready(function()
 
     $('.multi-tabs').multiTabs();
 
-    var tbl_survey_answers = $('#tbl_survey_answers').DataTable({
-        ordering: false,
-        autoWidth: false,
-        pageLength: 25,
-        info: false,
-    });
-
     var tbl_survey_questions = $('#tbl_survey_questions').DataTable({
         ordering: false,
         autoWidth: false,
         pageLength: 25,
         info: false,
-    });
-
-    $(document).on('click','[data-action="get_survey_answers"]', function()
-    {
-        id = $(this).data('id');
-
-        $.ajax({
-            type: 'POST',
-            data: 'id=' + id + '&action=get_survey_answers',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    $('[data-modal="view_survey_answers"]').find('main').html(response.data);
-                    $('[data-modal="view_survey_answers"]').addClass('view');
-                }
-                else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                    $('[data-modal="error"]').addClass('view');
-                }
-            }
-        });
     });
 
     $('[data-action="new_survey_question"]').on('click', function()
@@ -453,59 +420,6 @@ $(document).ready(function()
                 {
                     $('[data-modal="error"]').find('main > p').html(response.message);
                     $('[data-modal="error"]').addClass('view');
-                }
-            }
-        });
-    });
-
-    $('[data-action="edit_survey_title"]').on('click', function()
-    {
-        $('form[name="edit_survey_title"]').submit();
-    });
-
-    $('form[name="edit_survey_title"]').on('submit', function(e)
-    {
-        e.preventDefault();
-
-        var form = $(this);
-
-        $.ajax({
-            type: 'POST',
-            data: form.serialize() + '&action=edit_survey_title',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                $('label.error').removeClass('error');
-                $('p.error').remove();
-
-                if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    $('[data-modal="success"]').addClass('view');
-
-                    setTimeout(function() { location.reload(); }, 1500);
-                }
-                else if (response.status == 'error')
-                {
-                    if (response.labels)
-                    {
-                        $.each(response.labels, function(i, label)
-                        {
-                            if (label[1].length > 0)
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-                            else
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
-                        });
-
-                        form.find('label.error [name]')[0].focus();
-                    }
-                    else if (response.message)
-                    {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                        $('[data-modal="error"]').addClass('view');
-                    }
                 }
             }
         });

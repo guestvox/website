@@ -6,7 +6,7 @@ defined('_EXEC') or die;
 $this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
 // $this->dependencies->add(['js', '{$vkye_base}survey/charts']);
-$this->dependencies->add(['js', '{$path.js}Survey/index.js']);
+$this->dependencies->add(['js', '{$path.js}Survey/questions.js']);
 $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
 
 ?>
@@ -33,40 +33,12 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
             </div>
         </aside>
     </section> -->
-    <div class="multi-tabs" data-tab-active="tab1">
+    <div class="multi-tabs" data-tab-active="tab2">
         <ul>
-            <li data-tab-target="tab1">{$lang.answers}</li>
-            <li data-tab-target="tab2">{$lang.questions}</li>
-            <li data-tab-target="tab3">{$lang.configuration}</li>
+            <li data-tab-target="tab1"><a href="/survey/answers">{$lang.answers}</a></li>
+            <li data-tab-target="tab2"><a href="/survey/questions">{$lang.questions}</a></li>
+            <li data-tab-target="tab3"><a href="/survey/settings">{$lang.configuration}</a></li>
         </ul>
-        <div class="tab" data-target="tab1">
-            <section class="box-container complete">
-                <div class="main">
-                    <article>
-                        <main class="tables">
-                            <div class="table-container">
-                                <table id="tbl_survey_answers" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th align="left" width="100px">Token</th>
-                                            <th align="left" width="100px">{$lang.room}</th>
-                                            <th align="left">{$lang.guest}</th>
-                                            <th align="left">{$lang.email}</th>
-                                            <th align="left" width="100px">{$lang.date}</th>
-                                            <th align="left" width="100px">Calificación</th>
-                                            <th align="right" class="icon"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {$tbl_survey_answers}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </main>
-                    </article>
-                </div>
-            </section>
-        </div>
         <div class="tab" data-target="tab2">
             <section class="box-container complete">
                 <div class="main">
@@ -143,58 +115,8 @@ $this->dependencies->add(['other', '<script>menu_focus("survey");</script>']);
                 </div>
             </section>
         </div>
-        <div class="tab" data-target="tab3">
-            <section class="box-container complete">
-                <div class="main">
-                    <article>
-                        <main class="tables">
-                            <form name="edit_survey_title">
-                                <div class="row">
-                                    <div class="span6">
-                                        <div class="label">
-                                            <label>
-                                                <p>(ES) {$lang.survey_title}</p>
-                                                <input type="text" name="survey_title_es" value="{$survey_title_es}" />
-                                            </label>
-                                        </div>
-                                    </div>
-                                    <div class="span6">
-                                        <div class="label">
-                                            <label>
-                                                <p>(EN) {$lang.survey_title}</p>
-                                                <input type="text" name="survey_title_en" value="{$survey_title_en}" />
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </main>
-                        <footer>
-                            <div class="buttons text-center">
-                                <a class="btn" data-action="edit_survey_title">{$lang.edit}</a>
-                            </div>
-                        </footer>
-                    </article>
-                </div>
-            </section>
-        </div>
     </div>
 </main>
-<section class="modal" data-modal="view_survey_answers">
-    <div class="content">
-        <header>
-            <h3>{$lang.survey}</h3>
-        </header>
-        <main>
-
-        </main>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn" button-close>{$lang.accept}</button>
-            </div>
-        </footer>
-    </div>
-</section>
 <section class="modal" data-modal="edit_survey_question">
     <div class="content">
         <header>

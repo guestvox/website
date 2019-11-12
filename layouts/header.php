@@ -53,7 +53,7 @@
                 <?php endif; ?>
 
                 <li target="survey">
-                    <a href="/survey">Encuesta</a>
+                    <a href="/survey/answers">Encuesta</a>
                 </li>
                 <li target="account">
                     <a href="/account">Mi cuenta</a>

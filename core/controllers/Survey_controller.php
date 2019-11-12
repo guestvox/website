@@ -9,7 +9,7 @@ class Survey_controller extends Controller
 		parent::__construct();
 	}
 
-	public function index()
+	public function answers()
 	{
 		if (Format::exist_ajax_request() == true)
 		{
@@ -136,7 +136,57 @@ class Survey_controller extends Controller
 					]);
 				}
 			}
+		}
+		else
+		{
+			define('_title', 'GuestVox | {$lang.answers}');
 
+			$template = $this->view->render($this, 'answers');
+
+			$tbl_survey_answers = '';
+
+			foreach ($this->model->get_survey_answers() as $value)
+			{
+				$value['rate'] = 0;
+				$questions = [];
+
+				foreach ($value['answers'] as $key => $subvalue)
+				{
+					if ($subvalue['type'] == 'rate')
+					{
+						$value['rate'] = $value['rate'] + $subvalue['answer'];
+						array_push($questions, $subvalue);
+					}
+				}
+
+				$value['rate'] = $value['rate'] / count($questions);
+
+				$tbl_survey_answers .=
+				'<tr>
+					<td align="left">' . $value['token'] . '</td>
+					<td align="left">' . $value['room'] . '</td>
+					<td align="left">' . $value['firstname'] . ' ' . $value['lastname'] . '</td>
+					<td align="left">' . $value['email'] . '</td>
+					<td align="left">' . Functions::get_formatted_date($value['date'], 'd M, y') . '</td>
+					<td align="left">' . round($value['rate'], 2) . ' Pts</td>
+					<td align="right" class="icon"><a data-action="get_survey_answers" data-id="' . $value['id'] . '"><i class="fas fa-eye"></i></a></td>
+				</tr>';
+			}
+
+			$replace = [
+				'{$tbl_survey_answers}' => $tbl_survey_answers,
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
+	public function questions()
+	{
+		if (Format::exist_ajax_request() == true)
+		{
 			if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question')
 			{
 				$labels = [];
@@ -336,6 +386,55 @@ class Survey_controller extends Controller
 				}
 			}
 
+		}
+		else
+		{
+			define('_title', 'GuestVox | {$lang.questions}');
+
+			$template = $this->view->render($this, 'questions');
+
+			$tbl_survey_questions = '';
+
+			foreach ($this->model->get_survey_questions() as $value)
+			{
+				$tbl_survey_questions .=
+				'<tr class="question">
+					<td align="left">' . $value['question'][Session::get_value('settings')['language']] . '</td>
+					<td align="left">' . (($value['type'] == 'rate') ? 'Rate' : (($value['type'] == 'twin') ? 'Twin' : '{$lang.open}'))  . '</td>
+					<td align="left">' . (($value['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</td>
+					<td align="right" class="icon">' . (($value['status'] == true AND $value['type'] != 'open') ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : '') . '</td>
+					<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>
+					<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="edit_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a>' : '') . '</td>
+				</tr>';
+
+				foreach ($value['subquestions'] as $subkey => $subvalue)
+				{
+					$tbl_survey_questions .=
+					'<tr>
+						<td align="left" class="sub">' . $subvalue['subquestion'][Session::get_value('settings')['language']] . '</td>
+						<td align="left">' . (($subvalue['type'] == 'rate') ? 'Rate' : (($subvalue['type'] == 'twin') ? 'Twin' : '{$lang.open}'))  . '</td>
+						<td align="left">' . (($subvalue['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</td>
+						<td align="right" class="icon"></td>
+						<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="deactivate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-check"></i></a>') . '</td>
+						<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="edit_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-pencil-alt"></i></a>' : '') . '</td>
+					</tr>';
+				}
+			}
+
+			$replace = [
+				'{$tbl_survey_questions}' => $tbl_survey_questions,
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
+	public function settings()
+	{
+		if (Format::exist_ajax_request() == true)
+		{
 			if ($_POST['action'] == 'edit_survey_title')
 			{
 				$labels = [];
@@ -376,74 +475,13 @@ class Survey_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox | {$lang.survey}');
+			define('_title', 'GuestVox | {$lang.configuration}');
 
-			$template = $this->view->render($this, 'index');
-
-			$tbl_survey_answers = '';
-
-			foreach ($this->model->get_survey_answers() as $value)
-			{
-				$value['rate'] = 0;
-				$questions = [];
-
-				foreach ($value['answers'] as $key => $subvalue)
-				{
-					if ($subvalue['type'] == 'rate')
-					{
-						$value['rate'] = $value['rate'] + $subvalue['answer'];
-						array_push($questions, $subvalue);
-					}
-				}
-
-				$value['rate'] = $value['rate'] / count($questions);
-
-				$tbl_survey_answers .=
-				'<tr>
-					<td align="left">' . $value['token'] . '</td>
-					<td align="left">' . $value['room'] . '</td>
-					<td align="left">' . $value['firstname'] . ' ' . $value['lastname'] . '</td>
-					<td align="left">' . $value['email'] . '</td>
-					<td align="left">' . Functions::get_formatted_date($value['date'], 'd M, y') . '</td>
-					<td align="left">' . round($value['rate'], 2) . ' Pts</td>
-					<td align="right" class="icon"><a data-action="get_survey_answers" data-id="' . $value['id'] . '"><i class="fas fa-eye"></i></a></td>
-				</tr>';
-			}
-
-			$tbl_survey_questions = '';
-
-			foreach ($this->model->get_survey_questions() as $value)
-			{
-				$tbl_survey_questions .=
-				'<tr class="question">
-					<td align="left">' . $value['question'][Session::get_value('settings')['language']] . '</td>
-					<td align="left">' . (($value['type'] == 'rate') ? 'Rate' : (($value['type'] == 'twin') ? 'Twin' : '{$lang.open}'))  . '</td>
-					<td align="left">' . (($value['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</td>
-					<td align="right" class="icon">' . (($value['status'] == true AND $value['type'] != 'open') ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : '') . '</td>
-					<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>
-					<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="edit_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-pencil-alt"></i></a>' : '') . '</td>
-				</tr>';
-
-				foreach ($value['subquestions'] as $subkey => $subvalue)
-				{
-					$tbl_survey_questions .=
-					'<tr>
-						<td align="left" class="sub">' . $subvalue['subquestion'][Session::get_value('settings')['language']] . '</td>
-						<td align="left">' . (($subvalue['type'] == 'rate') ? 'Rate' : (($subvalue['type'] == 'twin') ? 'Twin' : '{$lang.open}'))  . '</td>
-						<td align="left">' . (($subvalue['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</td>
-						<td align="right" class="icon"></td>
-						<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="deactivate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-check"></i></a>') . '</td>
-						<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="edit_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-pencil-alt"></i></a>' : '') . '</td>
-					</tr>';
-				}
-			}
+			$template = $this->view->render($this, 'settings');
 
 			$replace = [
-				'{$tbl_survey_answers}' => $tbl_survey_answers,
-				'{$tbl_survey_questions}' => $tbl_survey_questions,
 				'{$survey_title_es}' => $this->model->get_survey_title()['es'],
 				'{$survey_title_en}' => $this->model->get_survey_title()['en'],
-				// '{$total_rate_avarage}' => $this->model->get_total_rate_avarage(),
 			];
 
 			$template = $this->format->replace($replace, $template);

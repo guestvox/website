@@ -73,6 +73,18 @@ class Urls_registered_vkye
                 'controller' => 'Survey',
                 'method' => 'index'
             ],
+            '/survey/answers' => [
+                'controller' => 'Survey',
+                'method' => 'answers'
+            ],
+            '/survey/questions' => [
+                'controller' => 'Survey',
+                'method' => 'questions'
+            ],
+            '/survey/settings' => [
+                'controller' => 'Survey',
+                'method' => 'settings'
+            ],
             '/survey/charts' => [
                 'controller' => 'Survey',
                 'method' => 'charts'
