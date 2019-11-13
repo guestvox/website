@@ -14,25 +14,25 @@ $this->dependencies->add(['other', '<script>menu_focus("settings");</script>']);
     <div class="multi-tabs" data-tab-active="tab1">
         <ul>
             <?php if (Functions::check_access(['{opportunityareas_create}','{opportunityareas_update}','{opportunityareas_delete}']) == true) : ?>
-            <li data-tab-target="tab1" class="active">{$lang.opportunity_areas}</li>
+            <li data-tab-target="tab1" class="active"><a href="/settings/opportunityareas">{$lang.opportunity_areas}</a></li>
             <?php endif; ?>
             <?php if (Functions::check_access(['{opportunitytypes_create}','{opportunitytypes_update}','{opportunitytypes_delete}']) == true) : ?>
-            <li data-tab-target="tab3" class="active">{$lang.opportunity_types}</li>
+            <li data-tab-target="tab3" class="active"><a href="/settings/opportunitytypes">{$lang.opportunity_types}</a></li>
             <?php endif; ?>
             <?php if (Functions::check_access(['{locations_create}','{locations_update}','{locations_delete}']) == true) : ?>
-            <li data-tab-target="tab4" class="active">{$lang.locations}</li>
+            <li data-tab-target="tab4" class="active"><a href="/settings/locations">{$lang.locations}</a></li>
             <?php endif; ?>
             <?php if (Functions::check_access(['{rooms_create}','{rooms_update}','{rooms_delete}']) == true) : ?>
-            <li data-tab-target="tab5" class="active">{$lang.rooms}</li>
+            <li data-tab-target="tab5" class="active"><a href="/settings/rooms">{$lang.rooms}</a></li>
             <?php endif; ?>
             <?php if (Functions::check_access(['{guesttreatments_create}','{guesttreatments_update}','{guesttreatments_delete}']) == true) : ?>
-            <li data-tab-target="tab6" class="active">{$lang.guest_treatments}</li>
+            <li data-tab-target="tab6" class="active"><a href="/settings/guesttreatments">{$lang.guest_treatments}</a></li>
             <?php endif; ?>
             <?php if (Functions::check_access(['{guesttypes_create}','{guesttypes_update}','{guesttypes_delete}']) == true) : ?>
-            <li data-tab-target="tab7" class="active">{$lang.guest_types}</li>
+            <li data-tab-target="tab7" class="active"><a href="/settings/guesttypes">{$lang.guest_types}</a></li>
             <?php endif; ?>
             <?php if (Functions::check_access(['{reservationstatus_create}','{reservationstatus_update}','{reservationstatus_delete}']) == true) : ?>
-            <li data-tab-target="tab8" class="active">{$lang.reservation_status}</li>
+            <li data-tab-target="tab8" class="active"><a href="/settings/reservationstatus">{$lang.reservation_status}</a></li>
             <?php endif; ?>
         </ul>
         <?php if (Functions::check_access(['{opportunityareas_create}','{opportunityareas_update}','{opportunityareas_delete}']) == true) : ?>

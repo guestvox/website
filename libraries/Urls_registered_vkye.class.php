@@ -65,13 +65,45 @@ class Urls_registered_vkye
                 'controller' => 'Reports',
                 'method' => 'index'
             ],
-            '/settings' => [
+            '/settings/opportunityareas' => [
                 'controller' => 'Settings',
-                'method' => 'index'
+                'method' => 'opportunityareas'
             ],
-            '/users' => [
+            '/settings/opportunitytypes' => [
+                'controller' => 'Settings',
+                'method' => 'opportunitytypes'
+            ],
+            '/settings/locations' => [
+                'controller' => 'Settings',
+                'method' => 'locations'
+            ],
+            '/settings/rooms' => [
+                'controller' => 'Settings',
+                'method' => 'rooms'
+            ],
+            '/settings/guesttreatments' => [
+                'controller' => 'Settings',
+                'method' => 'guesttreatments'
+            ],
+            '/settings/guesttypes' => [
+                'controller' => 'Settings',
+                'method' => 'guesttypes'
+            ],
+            '/settings/reservationstatus' => [
+                'controller' => 'Settings',
+                'method' => 'reservationstatus'
+            ],
+            '/users/activates' => [
                 'controller' => 'Users',
-                'method' => 'index'
+                'method' => 'activates'
+            ],
+            '/users/deactivates' => [
+                'controller' => 'Users',
+                'method' => 'deactivates'
+            ],
+            '/users/userspermissions' => [
+                'controller' => 'Users',
+                'method' => 'userspermissions'
             ],
             '/survey/answers' => [
                 'controller' => 'Survey',

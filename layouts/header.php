@@ -43,12 +43,12 @@
                 <?php endif; ?>
                 <?php if (Functions::check_access(['{opportunityareas_create}','{opportunityareas_update}','{opportunityareas_delete}','{opportunitytypes_create}','{opportunitytypes_update}','{opportunitytypes_delete}','{locations_create}','{locations_update}','{locations_delete}','{rooms_create}','{rooms_update}','{rooms_delete}','{guesttreatments_create}','{guesttreatments_update}','{guesttreatments_delete}','{guesttypes_create}','{guesttypes_update}','{guesttypes_delete}','{reservationstatus_create}','{reservationstatus_update}','{reservationstatus_delete}']) == true) : ?>
                 <li target="settings">
-                    <a href="/settings">{$lang.settings}</a>
+                    <a href="/settings/opportunityareas">{$lang.settings}</a>
                 </li>
                 <?php endif; ?>
                 <?php if (Functions::check_access(['{users_create}','{users_update}','{users_restorepassword}','{users_deactivate}','{users_activate}','{users_delete}','{userlevels_create}','{userlevels_update}','{userlevels_delete}']) == true) : ?>
                 <li target="users">
-                    <a href="/users">{$lang.users}</a>
+                    <a href="/users/activates">{$lang.users}</a>
                 </li>
                 <?php endif; ?>
 
