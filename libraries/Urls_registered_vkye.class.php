@@ -33,6 +33,10 @@ class Urls_registered_vkye
                 'controller' => 'Dashboard',
                 'method' => 'charts'
             ],
+            '/logout' => [
+                'controller' => 'Dashboard',
+                'method' => 'logout'
+            ],
             '/voxes' => [
                 'controller' => 'Voxes',
                 'method' => 'index'
@@ -69,10 +73,6 @@ class Urls_registered_vkye
                 'controller' => 'Users',
                 'method' => 'index'
             ],
-            '/survey' => [
-                'controller' => 'Survey',
-                'method' => 'index'
-            ],
             '/survey/answers' => [
                 'controller' => 'Survey',
                 'method' => 'answers'
@@ -81,13 +81,13 @@ class Urls_registered_vkye
                 'controller' => 'Survey',
                 'method' => 'questions'
             ],
+            '/survey/stats' => [
+                'controller' => 'Survey',
+                'method' => 'stats'
+            ],
             '/survey/settings' => [
                 'controller' => 'Survey',
                 'method' => 'settings'
-            ],
-            '/survey/charts' => [
-                'controller' => 'Survey',
-                'method' => 'charts'
             ],
             '/account' => [
                 'controller' => 'Account',
@@ -96,10 +96,6 @@ class Urls_registered_vkye
             '/profile' => [
                 'controller' => 'Profile',
                 'method' => 'index'
-            ],
-            '/logout' => [
-                'controller' => 'Index',
-                'method' => 'logout'
             ],
         ];
     }

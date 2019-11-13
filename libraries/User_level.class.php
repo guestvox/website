@@ -9,14 +9,14 @@ class User_level
         $paths = [];
 
         array_push($paths, '/Dashboard/index');
+        array_push($paths, '/Dashboard/logout');
         array_push($paths, '/Voxes/index');
         array_push($paths, '/Voxes/create');
         array_push($paths, '/Voxes/view');
-        array_push($paths, '/Survey/index');
         array_push($paths, '/Survey/answers');
         array_push($paths, '/Survey/questions');
+        array_push($paths, '/Survey/stats');
         array_push($paths, '/Survey/settings');
-        array_push($paths, '/Survey/charts');
         array_push($paths, '/Account/index');
         array_push($paths, '/Profile/index');
 
@@ -161,8 +161,6 @@ class User_level
                 default: break;
             }
         }
-
-        array_push($paths, '/Index/logout');
 
         $paths = array_unique($paths);
         $paths = array_values($paths);
