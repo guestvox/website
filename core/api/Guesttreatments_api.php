@@ -10,37 +10,37 @@ class Guesttreatments_api extends Model
             {
                 if (!empty($params[3]))
                 {
-                    $query = Functions::get_json_decoded_query($this->database->select('guest_treatments', [
-                        '[>]settings' => [
-                            'account' => 'account'
+                    $query = $this->database->select('guest_treatments', [
+                        '[>]accounts' => [
+                            'account' => 'id'
                         ]
                     ], [
                         'guest_treatments.id',
-                        'guest_treatments.name',
+                        'guest_treatments.name'
                     ], [
                         'AND' => [
                             'guest_treatments.id' => $params[3],
-                            'settings.zv' => true
+                            'accounts.zav' => true
                         ]
-                    ]));
+                    ]);
 
                     return !empty($query) ? $query[0] : 'No se encontraron registros';
                 }
                 else
                 {
-                    $query = Functions::get_json_decoded_query($this->database->select('guest_treatments', [
-                        '[>]settings' => [
-                            'account' => 'account'
+                    $query = $this->database->select('guest_treatments', [
+                        '[>]accounts' => [
+                            'account' => 'id'
                         ]
                     ], [
                         'guest_treatments.id',
-                        'guest_treatments.name',
+                        'guest_treatments.name'
                     ], [
                         'AND' => [
                             'guest_treatments.account' => $params[2],
-                            'settings.zv' => true
+                            'accounts.zav' => true
                         ]
-                    ]));
+                    ]);
 
                     return !empty($query) ? $query : 'No se encontraron registros';
                 }

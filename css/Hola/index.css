@@ -1,5 +1,4 @@
-/* Public pages
------------------------------------------------------------------------------- */
+
 main.public_page {
     position: relative;
     background-color: #FFF;
@@ -186,7 +185,7 @@ main.mkt_page > section.main > header.cover > .rocket {
     width: 70px;
     height: 100px;
     margin: auto;
-    background-image: url("../images/icons/rocket-launch.svg");
+    background-image: url("../../images/rocket-launch.svg");
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -202,7 +201,7 @@ main.mkt_page > section.main > section.container.background {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url("../images/background-1.png");
+    background-image: url("../../images/background-1.png");
 }
 
 main.mkt_page > section.main .boxes {
@@ -248,19 +247,19 @@ main.mkt_page > section.main span.icon-like {
 }
 
 main.mkt_page > section.main span.icon-check {
-    background-image: url("../images/icons/icon-check.svg");
+    background-image: url("../../images/icon-check.svg");
 }
 
 main.mkt_page > section.main span.icon-communication {
-    background-image: url("../images/icons/icon-communication.svg");
+    background-image: url("../../images/icon-communication.svg");
 }
 
 main.mkt_page > section.main span.icon-clients {
-    background-image: url("../images/icons/icon-clients.svg");
+    background-image: url("../../images/icon-clients.svg");
 }
 
 main.mkt_page > section.main span.icon-like {
-    background-image: url("../images/icons/icon-like.svg");
+    background-image: url("../../images/icon-like.svg");
 }
 
 main.mkt_page > section.main .boxes > .box > h4 {
@@ -504,7 +503,7 @@ section.call-to-action > .container > a {
 
 
 main.mkt_page > footer.main {
-    background-image: url("../images/background-map.png");
+    background-image: url("../../images/background-map.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

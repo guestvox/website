@@ -6,12 +6,11 @@ class Functions
 {
     public function __construct()
     {
-        date_default_timezone_set(Configuration::$time_zone);
+        if (Session::exists_var('session') == true)
+            date_default_timezone_set(Session::get_value('account')['time_zone']);
+        else
+            date_default_timezone_set(Configuration::$time_zone);
     }
-
-    // ---
-    // Dates
-    // ---
 
     static public function get_current_date($format = 'Y-m-d')
     {
@@ -85,10 +84,6 @@ class Functions
 		return explode('-', date('Y-m-d'))[0];
     }
 
-    // ---
-    // Currency
-    // ---
-
     static public function get_formatted_currency($number = 0, $currency = 'MXN')
     {
         if (!empty($number))
@@ -96,74 +91,6 @@ class Functions
         else
             return '$ 0.00 ' . $currency;
     }
-
-    static public function get_currency_exchange($number = 1, $from = 'MXN', $to = 'USD')
-    {
-        $exchange = 0;
-
-        $client =  new SoapClient(null, array(
-            'location' => 'http://www.banxico.org.mx:80/DgieWSWeb/DgieWS?WSDL',
-            'uri'      => 'http://DgieWSWeb/DgieWS?WSDL',
-            'encoding' => 'ISO-8859-1',
-            'trace'    => false
-        ));
-
-        try
-        {
-            $result = $client->tiposDeCambioBanxico();
-        }
-        catch (SoapFault $e)
-        {
-            return $e->getMessage();
-        }
-
-        if (!empty($result))
-        {
-            $domdocument = new DOMDocument();
-            $domdocument->loadXML($result);
-            $domxpath = new DOMXPath($domdocument);
-            $domxpath->registerNamespace('bm', 'http://ws.dgie.banxico.org.mx');
-            $exchange = $domxpath->evaluate("//*[@IDSERIE='SF60653']/*/@OBS_VALUE");
-            $exchange = $exchange->item(0)->value;
-
-            if ($from == 'MXN' AND $to == 'USD')
-                $exchange = $number / $exchange;
-            else if ($from == 'USD' AND $to == 'MXN')
-                $exchange = $number * $exchange;
-        }
-
-        // $api = curl_init();
-        //
-        // curl_setopt($api, CURLOPT_URL, 'https://xecdapi.xe.com/v1/convert_to.json/?to=USD&from=MXN&amount=2');
-        // curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($api, CURLOPT_USERPWD, 'guestvox404943424:u0ebiuaaq1dd7naas6o7p3de0h');
-        // curl_setopt($api, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-        //
-        // $data = Functions::get_json_decoded_query(curl_exec($api));
-        //
-        // curl_close($api);
-        //
-        // print_r($data);
-        // print_r('lol');
-
-        // $api = curl_init();
-        //
-        // curl_setopt($api, CURLOPT_URL, 'https://www1.oanda.com/rates/api/v2/rates/candle.json?api_key=pwHcBy1kWF7WGTRUghovx3mC&data_set=ecb&date_time=2019-07-26&base=USD&quote=MXN&fields=all');
-        // curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
-        //
-        // $data = Functions::get_json_decoded_query(curl_exec($api));
-        //
-        // curl_close($api);
-        //
-        // print_r($data);
-        // print_r('lol');
-
-        return $exchange;
-    }
-
-    // ---
-    // Encrypts
-    // ---
 
     static public function get_openssl($action = 'encrypt', $string = false)
     {
@@ -218,18 +145,17 @@ class Functions
         return $decrypt;
     }
 
-    // ---
-    // Checks
-    // ---
-
     static public function check_access($user_permissions)
     {
         $access = false;
 
-        foreach ($user_permissions as $value)
+        if (Session::exists_var('session') == true)
         {
-            if (in_array($value, Session::get_value('user')['user_permissions']))
-                $access = true;
+            foreach ($user_permissions as $value)
+            {
+                if (in_array($value, Session::get_value('user')['user_permissions']))
+                    $access = true;
+            }
         }
 
         return $access;
@@ -239,10 +165,6 @@ class Functions
     {
         return (filter_var($email, FILTER_VALIDATE_EMAIL)) ? true : false;
     }
-
-    // ---
-    // Queries
-    // ---
 
     static public function get_json_decoded_query($query)
     {
@@ -264,10 +186,6 @@ class Functions
 
         return $query;
     }
-
-    // ---
-    // Uploader
-    // ---
 
     public static function uploader($file = null, $upload_directory = PATH_UPLOADS, $valid_extensions = ['png','jpg','jpeg'], $maximum_file_size = 'unlimited', $multiple = false)
 	{
@@ -336,10 +254,6 @@ class Functions
                 unlink($upload_directory . $file);
         }
     }
-
-    // ---
-    // Others
-    // ---
 
     static public function get_lang($inv = false)
     {

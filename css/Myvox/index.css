@@ -1,0 +1,241 @@
+/* My vox - Header
+------------------------------------------------------------------------------ */
+header.my-vox {
+    padding: 20px 20px 0px 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+/*  */
+header.my-vox > div.topbar {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 40px;
+    box-sizing: border-box;
+}
+
+/*  */
+header.my-vox > div.topbar > figure.logotype,
+header.my-vox > div.topbar > figure.logotype > img {
+    width: auto;
+    height: 100%;
+    line-height: 0px;
+}
+
+/*  */
+header.my-vox > div.bottombar {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*  */
+header.my-vox > div.bottombar > div.weather {
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+header.my-vox > div.weather > div {
+    margin: 0px !important;
+}
+
+/*  */
+header.my-vox > div.bottombar > div.multilanguage {
+    width: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+header.my-vox > div.bottombar > div.multilanguage > a {
+    width: auto;
+    height: auto;
+    line-height: 0px;
+    margin: 0px 0px 5px 0px;
+    padding: 0px;
+}
+
+header.my-vox > div.bottombar > div.multilanguage > a:last-child {
+    margin: 0px;
+}
+
+header.my-vox > div.bottombar > div.multilanguage > a > img {
+    width: auto;
+    height: 30px;
+}
+
+/* My vox - Main
+------------------------------------------------------------------------------ */
+main.my-vox {
+    padding: 20px 20px 0px 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+/*  */
+main.my-vox > div.menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+main.my-vox > div.menu > h2 {
+    margin: 0px;
+    padding: 0px 0px 40px 0px;
+    font-size: 30px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: -2px;
+    line-height: 1;
+    color: #444;
+}
+
+main.my-vox > div.menu > a {
+    width: 100%;
+    max-width: 500px;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    padding: 20px;
+    border-radius: 60px;
+    box-sizing: border-box;
+    background-color: #00a5ab;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    color: #fff;
+}
+
+main.my-vox > div.menu > a.survey {
+    position: relative;
+    padding-right: 40px;
+    background-color: #cddc39;
+    color: #b71c1c;
+}
+
+main.my-vox > div.menu > a.survey > img {
+    width: 70px;
+    right: -10px;
+    position: absolute;
+}
+
+/* My vox - Footer
+------------------------------------------------------------------------------ */
+footer.my-vox {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #fff;
+}
+
+/*  */
+footer.my-vox > h4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px;
+    padding: 0px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #757575;
+}
+
+footer.my-vox > h4 > img {
+    width: auto;
+    height: 20px;
+    margin-left: 5px;
+}
+
+footer.my-vox > p {
+    margin: 0px;
+    padding: 0px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+/* My vox - Survey
+------------------------------------------------------------------------------ */
+form[name="new_survey_answers"] > article,
+section[data-modal="view_survey_answers"] > .content > main > article {
+    width: 100%;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+form[name="new_survey_answers"] > article > h6,
+section[data-modal="view_survey_answers"] > .content > main > article > h6 {
+    margin: 0px;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+}
+
+form[name="new_survey_answers"] > article > div > label,
+section[data-modal="view_survey_answers"] > .content > main > article > div > label {
+    padding: 0px;
+    margin: 0px 5px;
+    font-size: 12px;
+    color: #757575;
+}
+
+form[name="new_survey_answers"] > article.subquestions > h6,
+section[data-modal="view_survey_answers"] > .content > main > article.subquestions > h6 {
+    font-size: 14px;
+}
+
+form[name="new_survey_answers"] > article.subquestions > div > input,
+section[data-modal="view_survey_answers"] > .content > main > article.subquestions > div > input {
+    width: 100%;
+    min-width: 250px;
+    height: 40px;
+    background-color: #e0e0e0;
+    border: none;
+    border-radius: 40px;
+    padding: 0px 15px;
+    box-sizing: border-box;
+}
+
+form[name="new_survey_answers"] > article.subquestions > div > label,
+section[data-modal="view_survey_answers"] > .content > main > article.subquestions > div > label {
+    margin: 0px;
+    font-size: 10px;
+}
+form[name="new_survey_answers"] > article.subquestions > div,
+section[data-modal="view_survey_answers"] > .content > main > article.subquestions > div {
+    margin-bottom: 5px;
+}
+
+/* My vox - Modals
+------------------------------------------------------------------------------ */
+section.modal[data-modal="new_request"] > div.content,
+section.modal[data-modal="new_incident"] > div.content,
+section.modal[data-modal="new_survey_answers"] > div.content {
+    width: 100%;
+    margin: 0px;
+}
+
+section.modal[data-modal="new_request"] > div.content > main > form > div.row > [class*=span],
+section.modal[data-modal="new_incident"] > div.content > main > form > div.row > [class*=span],
+section.modal[data-modal="new_survey_answers"] > div.content > main > form > div.row > [class*=span] {
+    min-height: auto !important;
+}

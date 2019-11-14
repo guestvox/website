@@ -9,9 +9,8 @@ class Api_controller extends Api_vkye
 		parent::__construct();
 	}
 
-	public function execute( $params )
+	public function execute($params)
 	{
 		$this->main($params);
 	}
-
 }

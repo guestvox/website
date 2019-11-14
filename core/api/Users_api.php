@@ -11,22 +11,22 @@ class Users_api extends Model
                 if (!empty($params[3]))
                 {
                     $query = Functions::get_json_decoded_query($this->database->select('users', [
-                        '[>]settings' => [
-                            'account' => 'account'
+                        '[>]accounts' => [
+                            'account' => 'id'
                         ]
                     ], [
                         'users.id',
-                        'users.name',
+                        'users.firstname',
                         'users.lastname',
                         'users.email',
-                        'users.cellphone',
+                        'users.phone',
                         'users.avatar',
-                        'users.username',
+                        'users.username'
                     ], [
                         'AND' => [
                             'users.id' => $params[3],
                             'users.status' => true,
-                            'settings.zv' => true
+                            'accounts.zav' => true
                         ]
                     ]));
 
@@ -35,22 +35,22 @@ class Users_api extends Model
                 else
                 {
                     $query = Functions::get_json_decoded_query($this->database->select('users', [
-                        '[>]settings' => [
-                            'account' => 'account'
+                        '[>]accounts' => [
+                            'account' => 'id'
                         ]
                     ], [
                         'users.id',
-                        'users.name',
+                        'users.firstname',
                         'users.lastname',
                         'users.email',
-                        'users.cellphone',
+                        'users.phone',
                         'users.avatar',
-                        'users.username',
+                        'users.username'
                     ], [
                         'AND' => [
                             'users.account' => $params[2],
                             'users.status' => true,
-                            'settings.zv' => true
+                            'accounts.zav' => true
                         ]
                     ]));
 

@@ -9,47 +9,39 @@ class Myvox_model extends Model
 		parent::__construct();
 	}
 
-    public function get_room($id)
+    public function get_room($code)
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('rooms', [
+		$query = $this->database->select('rooms', [
 			'id',
 			'account',
-            'code',
 			'name',
-            'qr',
+			'code'
 		], [
-			'OR' => [
-				'id' => $id,
-				'code' => $id,
-			]
-		]));
+			'code' => strtoupper($code)
+		]);
 
 		return !empty($query) ? $query[0] : null;
 	}
 
     public function get_account($id)
 	{
-		$query = $this->database->select('accounts', [
+		$query = Functions::get_json_decoded_query($this->database->select('accounts', [
 			'id',
 			'name',
+			'language',
+			'logotype',
+			'myvox_request',
+			'myvox_incident',
+			'myvox_survey',
+			'myvox_survey_title',
 		], [
-			'id' => $id
-		]);
+			'AND' => [
+				'id' => $id,
+				'status' => true
+			]
+		]));
 
-		if (!empty($query))
-		{
-			$query[0]['settings'] = Functions::get_json_decoded_query($this->database->select('settings', [
-				'logotype',
-				'language',
-				'survey_title'
-			], [
-				'account' => $id
-			])[0]);
-
-			return $query[0];
-		}
-		else
-			return null;
+		return !empty($query) ? $query[0] : null;
 	}
 
     public function get_opportunity_areas($option, $account)
@@ -145,20 +137,24 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-    public function get_users($option, $params, $account)
+    public function get_assigned_users($opportunity_area, $account)
 	{
         $query = Functions::get_json_decoded_query($this->database->select('users', [
-            'name',
+            'firstname',
             'lastname',
             'email',
+            'phone',
             'opportunity_areas',
         ], [
-            'account' => $account
+            'AND' => [
+				'account' => $account,
+				'status' => true
+			]
         ]));
 
         foreach ($query as $key => $value)
         {
-            if (!in_array($params, $value['opportunity_areas']))
+            if (!in_array($opportunity_area, $value['opportunity_areas']))
                 unset($query[$key]);
         }
 
@@ -169,11 +165,14 @@ class Myvox_model extends Model
     {
         $query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
             'id',
-            'question',
+            'name',
 			'subquestions',
 			'type',
         ], [
-            'account' => $account
+            'AND' => [
+				'account' => $account,
+				'status' => true
+			]
         ]));
 
      	return $query;
@@ -201,7 +200,7 @@ class Myvox_model extends Model
 				'description' => null,
 				'action_taken' => null,
 				'guest_treatment' => null,
-				'name' => null,
+				'firstname' => null,
 				'lastname' => $data['lastname'],
 				'guest_id' => null,
 				'guest_type' => null,
@@ -215,12 +214,18 @@ class Myvox_model extends Model
 				'changes_history' => [
 					[
 						'type' => 'create',
-						'user' => null,
+						'user' => [
+							'myvox',
+							'guestvox'
+						],
 						'date' => Functions::get_current_date(),
 						'hour' => Functions::get_current_hour(),
 					]
 				],
-				'created_user' => null,
+				'created_user' => [
+					'myvox',
+					'guestvox'
+				],
 				'edited_user' => null,
 				'completed_user' => null,
 				'reopened_user' => null,
@@ -238,7 +243,7 @@ class Myvox_model extends Model
 			])),
 		]);
 
-		return !empty($query) ? $this->database->id($query) : null;
+		return !empty($query) ? $this->database->id() : null;
 	}
 
     public function new_incident($data, $room, $account)
@@ -263,7 +268,7 @@ class Myvox_model extends Model
 				'description' => $data['description'],
 				'action_taken' => null,
 				'guest_treatment' => null,
-				'name' => null,
+				'firstname' => null,
 				'lastname' => $data['lastname'],
 				'guest_id' => null,
 				'guest_type' => null,
@@ -277,12 +282,18 @@ class Myvox_model extends Model
 				'changes_history' => [
 					[
 						'type' => 'create',
-						'user' => null,
+						'user' => [
+							'myvox',
+							'guestvox'
+						],
 						'date' => Functions::get_current_date(),
 						'hour' => Functions::get_current_hour(),
 					]
 				],
-				'created_user' => null,
+				'created_user' => [
+					'myvox',
+					'guestvox'
+				],
 				'edited_user' => null,
 				'completed_user' => null,
 				'reopened_user' => null,
@@ -300,19 +311,21 @@ class Myvox_model extends Model
 			])),
 		]);
 
-		return !empty($query) ? $this->database->id($query) : null;
+		return !empty($query) ? $this->database->id() : null;
 	}
 
-    public function new_survey_answers($data, $room, $account)
+    public function new_survey_answer($data, $room, $account)
     {
 		$query = $this->database->insert('survey_answers', [
 			'account' => $account,
 			'room' => $room,
 			'answers' => json_encode($data['answers']),
 			'comment' => $data['comment'],
-			'firstname' => $data['firstname'],
-			'lastname' => $data['lastname'],
-			'email' => $data['email'],
+			'guest' => json_encode([
+				'firstname' => $data['firstname'],
+				'lastname' => $data['lastname'],
+				'email' => $data['email'],
+			]),
 			'date' => $data['date'],
 			'token' => $data['token'],
 		]);

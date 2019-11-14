@@ -56,6 +56,10 @@ header.landing-page-index > .container > nav > ul > li > a.no-border {
     border-color: #00a5ab;
 }
 
+header.landing-page-index > .container > nav > ul > li > a.lang {
+    padding: 0px;
+}
+
 header.landing-page-index > .container > nav > ul > li > a:hover {
     text-decoration: none !important;
     color: #00a5ab;
@@ -339,7 +343,8 @@ main.landing-page-index > section.features-two > div > ul > li > svg {
 }
 
 main.landing-page-index > section.features-two > div > ul > li > a {
-    width: 300px;
+    width: 100%;
+    max-width: 400px;
     margin: 50px auto;
     padding: 20px 30px;
     box-sizing: border-box;
@@ -348,6 +353,11 @@ main.landing-page-index > section.features-two > div > ul > li > a {
     text-align: center;
     color: #FFF;
     background-color: #00a5ab;
+}
+
+main.landing-page-index > section.features-two > div > ul > li > a:hover {
+    color: #00a5ab;
+    background-color: #fff;
 }
 
 @media (max-width: 768px) {
@@ -417,7 +427,8 @@ main.landing-page-index > section.clients > .container > div > figure > img {
 }
 
 main.landing-page-index > section.clients > .container > a {
-    width: 300px;
+    width: 100%;
+    max-width: 400px;
     padding: 20px 30px;
     box-sizing: border-box;
     font-size: 20px;
@@ -668,6 +679,20 @@ section.modal[data-modal="signup"] main > form {
     max-width: 1200px;
 }
 
+section.modal[data-modal="signup"] main > form > h2,
+section.modal[data-modal="signup"] main > form > h3 {
+    width: 100%;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    margin: 0px;
+}
+
+section.modal[data-modal="signup"] main > form > h3 {
+    font-size: 20px;
+    font-weight: 400;
+}
+
 section.modal[data-modal="signup"] main > form > div.steps > div.step-buttons {
     width: 100%;
     display: flex;
@@ -735,7 +760,7 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container.
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > h2 {
     margin: 0px 0px 20px 0px;
     font-size: 20px;
-    font-weight: 600;
+    font-weight: 400;
     text-align: center;
     color: #000;
 }
@@ -770,7 +795,7 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
     height: 60px;
     border: none;
     border-radius: 60px;
-    padding: 0px 10px 0px 25px;
+    padding: 0px 10px 0px 20px;
     box-sizing: border-box;
     background-color: #eee;
     font-size: 14px;
@@ -815,7 +840,8 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
 }
 
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > h3,
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > h4 {
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > h4,
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > p {
     margin: 0px;
     text-align: center;
     color: #fff;
@@ -839,6 +865,14 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > h4 > strong {
     font-size: 18px;
     display: block;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > p {
+    margin-top: 15px;
+    font-size: 12px;
+    font-weight: 400;
+    font-family: cursive;
+    line-height: 15px;
 }
 
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.payment {
@@ -933,6 +967,25 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
     height: auto;
     background: none;
     text-decoration: underline;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > figure {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > figure > img {
+    width: 40px;
+    height: 40px;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > figure > span {
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
 }
 
 section.modal[data-modal="login"] main > form {

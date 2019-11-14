@@ -13,8 +13,8 @@ class Voxes_api extends Model
                 if (!empty($params[3]))
                 {
                     $query = Functions::get_json_decoded_query($this->database->select('voxes', [
-                        '[>]settings' => [
-                            'account' => 'account'
+                        '[>]accounts' => [
+                            'account' => 'id'
                         ]
                     ], [
                         'voxes.id',
@@ -23,7 +23,7 @@ class Voxes_api extends Model
                     ], [
                         'AND' => [
                             'voxes.id' => $params[3],
-                            'settings.zv' => true
+                            'accounts.zav' => true
                         ]
                     ]));
 
@@ -33,12 +33,12 @@ class Voxes_api extends Model
 
                         if ($query[0]['data']['status'] == 'open')
                         {
-                            $query[0]['data']['room'] = Functions::get_json_decoded_query($this->database->select('rooms', [
+                            $query[0]['data']['room'] = $this->database->select('rooms', [
                                 'id',
                     			'name'
                     		], [
                     			'id' => $query[0]['data']['room']
-                    		]));
+                    		]);
 
                             $query[0]['data']['opportunity_area'] = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
                                 'id',
@@ -61,12 +61,12 @@ class Voxes_api extends Model
                     			'id' => $query[0]['data']['location']
                     		]));
 
-                            $query[0]['data']['guest_treatment'] = Functions::get_json_decoded_query($this->database->select('guest_treatments', [
+                            $query[0]['data']['guest_treatment'] = $this->database->select('guest_treatments', [
                                 'id',
                     			'name'
                     		], [
                     			'id' => $query[0]['data']['guest_treatment']
-                    		]));
+                    		]);
 
                             return $query[0];
                         }
@@ -79,8 +79,8 @@ class Voxes_api extends Model
                 else
                 {
                     $query = Functions::get_json_decoded_query($this->database->select('voxes', [
-                        '[>]settings' => [
-                            'account' => 'account'
+                        '[>]accounts' => [
+                            'account' => 'id'
                         ]
                     ], [
                         'voxes.id',
@@ -89,7 +89,7 @@ class Voxes_api extends Model
                     ], [
                         'AND' => [
                             'voxes.account' => $params[2],
-                            'settings.zv' => true
+                            'accounts.zav' => true
                         ]
                     ]));
 
@@ -99,12 +99,12 @@ class Voxes_api extends Model
 
                         if ($query[$key]['data']['status'] == 'open')
                         {
-                            $query[$key]['data']['room'] = Functions::get_json_decoded_query($this->database->select('rooms', [
+                            $query[$key]['data']['room'] = $this->database->select('rooms', [
                                 'id',
                     			'name'
                     		], [
                     			'id' => $query[$key]['data']['room']
-                    		]));
+                    		]);
 
                             $query[$key]['data']['opportunity_area'] = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
                                 'id',
@@ -127,12 +127,12 @@ class Voxes_api extends Model
                     			'id' => $query[$key]['data']['location']
                     		]));
 
-                            $query[$key]['data']['guest_treatment'] = Functions::get_json_decoded_query($this->database->select('guest_treatments', [
+                            $query[$key]['data']['guest_treatment'] = $this->database->select('guest_treatments', [
                                 'id',
                     			'name'
                     		], [
                     			'id' => $query[$key]['data']['guest_treatment']
-                    		]));
+                    		]);
                         }
                         else
                             unset($query[$key]);
@@ -159,15 +159,15 @@ class Voxes_api extends Model
                     if (!empty($params[3]))
                     {
                         $query = Functions::get_json_decoded_query($this->database->select('voxes', [
-                            '[>]settings' => [
-                                'account' => 'account'
+                            '[>]accounts' => [
+                                'account' => 'id'
                             ]
                         ], [
                             'voxes.data',
                         ], [
                             'AND' => [
                                 'voxes.id' => $params[3],
-                                'settings.zv' => true
+                                'accounts.zav' => true
                             ]
                         ]));
 
@@ -175,7 +175,7 @@ class Voxes_api extends Model
                         {
                             $query[0]['data'] = json_decode(Functions::get_openssl('decrypt', $query[0]['data']), true);
                             $query[0]['data']['completed_user'] = [
-                                $params[0],
+                                'zavia',
                                 $_POST['username']
                             ];
                 			$query[0]['data']['completed_date'] = Functions::get_current_date();
@@ -185,7 +185,7 @@ class Voxes_api extends Model
                             array_push($query[0]['data']['changes_history'], [
                 				'type' => 'complete',
                 				'user' => [
-                                    $params[0],
+                                    'zavia',
                                     $_POST['username']
                                 ],
                 				'date' => Functions::get_current_date(),
@@ -296,7 +296,7 @@ class Voxes_api extends Model
                     				'description' => ($_POST['type'] == 'incident') ? $_POST['description'] : null,
                     				'action_taken' => ($_POST['type'] == 'incident') ? $_POST['action_taken'] : null,
                     				'guest_treatment' => $_POST['guest_treatment'],
-                    				'name' => ($_POST['type'] == 'incident') ? $_POST['name'] : null,
+                    				'firstname' => ($_POST['type'] == 'incident') ? $_POST['firstname'] : null,
                     				'lastname' => $_POST['lastname'],
                     				'guest_id' => ($_POST['type'] == 'incident') ? $_POST['guest_id'] : null,
                     				'guest_type' => ($_POST['type'] == 'incident') ? $_POST['guest_type'] : null,
@@ -311,7 +311,7 @@ class Voxes_api extends Model
                     					[
                     						'type' => 'create',
                     						'user' => [
-                                                $params[0],
+                                                'zavia',
                                                 $_POST['username'],
                                             ],
                     						'date' => Functions::get_current_date(),
@@ -319,7 +319,7 @@ class Voxes_api extends Model
                     					]
                     				],
                     				'created_user' => [
-                                        $params[0],
+                                        'zavia',
                                         $_POST['username'],
                                     ],
                     				'edited_user' => null,
@@ -341,7 +341,7 @@ class Voxes_api extends Model
 
                             if (!empty($query))
                             {
-                                $query = $this->database->id($query);
+                                $query = $this->database->id();
 
                                 // if (!empty($_POST['assigned_users']))
                                 // {

@@ -13,8 +13,8 @@ class Opportunitytypes_api extends Model
                     if (!empty($params[4]))
                     {
                         $query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
-                            '[>]settings' => [
-                                'account' => 'account'
+                            '[>]accounts' => [
+                                'account' => 'id'
                             ]
                         ], [
                             'opportunity_types.id',
@@ -22,7 +22,7 @@ class Opportunitytypes_api extends Model
                         ], [
                             'AND' => [
                                 'opportunity_types.id' => $params[4],
-                                'settings.zv' => true
+                                'accounts.zav' => true
                             ]
                         ]));
 
@@ -31,8 +31,8 @@ class Opportunitytypes_api extends Model
                     else
                     {
                         $query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
-                            '[>]settings' => [
-                                'account' => 'account'
+                            '[>]accounts' => [
+                                'account' => 'id'
                             ]
                         ], [
                             'opportunity_types.id',
@@ -40,7 +40,7 @@ class Opportunitytypes_api extends Model
                         ], [
                             'AND' => [
                                 'opportunity_types.opportunity_area' => $params[3],
-                                'settings.zv' => true
+                                'accounts.zav' => true
                             ]
                         ]));
 

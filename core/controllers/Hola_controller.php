@@ -35,47 +35,71 @@ class Hola_controller extends Controller
 			$post['phone'] = ( isset($_POST['phone']) && !empty($_POST['phone']) ) ? $_POST['phone'] : "";
 			$post['ref'] = ( isset($_POST['ref']) && !empty($_POST['ref']) && array_key_exists($_POST['ref'], $referrals) ) ? $referrals[$_POST['ref']] : "";
 
-			$mail = new Mailer(true);
+			$labels = [];
 
-			try {
-				// Administración
-				$mail->isSMTP();
-				$mail->setFrom('noreply@guestvox.com', 'GuestVox');
-				$mail->addAddress('info@guestvox.com', $post['name_contact']);
-				$mail->isHTML(true);
-				$mail->Subject = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox.";
-				$mail->Body = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox. Mi hotel es {$post['name_hotel']} y cuenta con {$post['number_rooms']} habitaciones. Pueden escribirme al correo electrónico {$post['email']} o llamarme a mi teléfono {$post['phone']}.";
+			if (empty($post['name_contact']))
+				array_push($labels, ['name_contact','']);
 
-				if ( !empty($post['ref']) )
-					$mail->Body .= "-- Referido de {$post['ref']['name']} --";
+			if (empty($post['name_hotel']))
+				array_push($labels, ['name_hotel','']);
 
-				$mail->AltBody = $mail->Body;
-				$mail->send();
+			if (empty($post['number_rooms']))
+				array_push($labels, ['number_rooms','']);
 
-				// Cliente
-				$mail->isSMTP();
-				$mail->setFrom('noreply@guestvox.com', 'GuestVox');
-				$mail->addAddress($post['email'], 'GuestVox');
-				$mail->isHTML(true);
-				$mail->Subject = "¡Gracias! Hemos recibido tu petición.";
-				$mail->Body = "¡Muchas gracias por ponerte en contacto con nosotros! En breve nos pondremos en contacto contigo.";
-				$mail->AltBody = $mail->Body;
-				$mail->send();
+			if (empty($post['email']))
+				array_push($labels, ['email','']);
 
-				// Referido
-				$mail->isSMTP();
-				$mail->setFrom('noreply@guestvox.com', 'GuestVox');
-				$mail->addAddress($post['ref']['email'], $post['ref']['name']);
-				$mail->isHTML(true);
-				$mail->Subject = "Tienes un referido registrado.";
-				$mail->Body = "Hola {$post['ref']['name']}, tienes un referido ({$post['name_contact']}) registrado en GuestVox.";
-				$mail->AltBody = $mail->Body;
-				$mail->send();
-			} catch (Exception $e) {}
+			if (empty($labels))
+			{
+				$mail = new Mailer(true);
 
-			echo json_encode([
-				'success' => 'OK'
-			]);
+				try {
+					// Administración
+					$mail->isSMTP();
+					$mail->setFrom('noreply@guestvox.com', 'GuestVox');
+					$mail->addAddress('info@guestvox.com', $post['name_contact']);
+					$mail->isHTML(true);
+					$mail->Subject = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox.";
+					$mail->Body = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox. Mi hotel es {$post['name_hotel']} y cuenta con {$post['number_rooms']} habitaciones. Pueden escribirme al correo electrónico {$post['email']} o llamarme a mi teléfono {$post['phone']}.";
+
+					if ( !empty($post['ref']) )
+						$mail->Body .= "-- Referido de {$post['ref']['name']} --";
+
+					$mail->AltBody = $mail->Body;
+					$mail->send();
+
+					// Cliente
+					$mail->isSMTP();
+					$mail->setFrom('noreply@guestvox.com', 'GuestVox');
+					$mail->addAddress($post['email'], 'GuestVox');
+					$mail->isHTML(true);
+					$mail->Subject = "¡Gracias! Hemos recibido tu petición.";
+					$mail->Body = "¡Muchas gracias por ponerte en contacto con nosotros! En breve nos pondremos en contacto contigo.";
+					$mail->AltBody = $mail->Body;
+					$mail->send();
+
+					// Referido
+					$mail->isSMTP();
+					$mail->setFrom('noreply@guestvox.com', 'GuestVox');
+					$mail->addAddress($post['ref']['email'], $post['ref']['name']);
+					$mail->isHTML(true);
+					$mail->Subject = "Tienes un referido registrado.";
+					$mail->Body = "Hola {$post['ref']['name']}, tienes un referido ({$post['name_contact']}) registrado en GuestVox.";
+					$mail->AltBody = $mail->Body;
+					$mail->send();
+				} catch (Exception $e) {}
+
+				echo json_encode([
+					'status' => 'success'
+				]);
+			}
+			else
+			{
+				echo json_encode([
+					'status' => 'error',
+					'labels' => $labels
+				]);
+			}
 		}
 		else
 		{

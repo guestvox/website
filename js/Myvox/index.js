@@ -165,19 +165,19 @@ $(document).ready(function()
             $('#' + name).addClass('hidden');
     });
 
-    $('[data-modal="new_survey_answers"]').modal().onCancel(function()
+    $('[data-modal="new_survey_answer"]').modal().onCancel(function()
     {
         $('label.error').removeClass('error');
         $('p.error').remove();
-        $('form[name="new_survey_answers"]')[0].reset();
+        $('form[name="new_survey_answer"]')[0].reset();
     });
 
-    $('[data-modal="new_survey_answers"]').modal().onSuccess(function()
+    $('[data-modal="new_survey_answer"]').modal().onSuccess(function()
     {
-        $('form[name="new_survey_answers"]').submit();
+        $('form[name="new_survey_answer"]').submit();
     });
 
-    $('form[name="new_survey_answers"]').on('submit', function(e)
+    $('form[name="new_survey_answer"]').on('submit', function(e)
     {
         e.preventDefault();
 
@@ -185,7 +185,7 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=new_survey_answers',
+            data: form.serialize() + '&action=new_survey_answer',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -196,7 +196,7 @@ $(document).ready(function()
 
                 if (response.status == 'success')
                 {
-                    $('[data-modal="new_survey_answers"]').removeClass('view');
+                    $('[data-modal="new_survey_answer"]').removeClass('view');
                     $('[data-modal="tripadvisor"]').addClass('view');
                 }
                 else if (response.status == 'error')

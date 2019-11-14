@@ -19,6 +19,8 @@ class Route_vkye
             '/Index/index',
             '/Index/validate',
             '/Hola/index',
+            '/Copyright/index',
+            '/Terms/index',
             '/Myvox/index',
             '/Api/execute'
         ];

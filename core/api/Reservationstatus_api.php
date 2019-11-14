@@ -10,37 +10,37 @@ class Reservationstatus_api extends Model
             {
                 if (!empty($params[3]))
                 {
-                    $query = Functions::get_json_decoded_query($this->database->select('reservation_status', [
-                        '[>]settings' => [
-                            'account' => 'account'
+                    $query = $this->database->select('reservation_status', [
+                        '[>]accounts' => [
+                            'account' => 'id'
                         ]
                     ], [
                         'reservation_status.id',
-                        'reservation_status.name',
+                        'reservation_status.name'
                     ], [
                         'AND' => [
                             'reservation_status.id' => $params[3],
-                            'settings.zv' => true
+                            'accounts.zav' => true
                         ]
-                    ]));
+                    ]);
 
                     return !empty($query) ? $query[0] : 'No se encontraron registros';
                 }
                 else
                 {
-                    $query = Functions::get_json_decoded_query($this->database->select('reservation_status', [
-                        '[>]settings' => [
-                            'account' => 'account'
+                    $query = $this->database->select('reservation_status', [
+                        '[>]accounts' => [
+                            'account' => 'id'
                         ]
                     ], [
                         'reservation_status.id',
-                        'reservation_status.name',
+                        'reservation_status.name'
                     ], [
                         'AND' => [
                             'reservation_status.account' => $params[2],
-                            'settings.zv' => true
+                            'accounts.zav' => true
                         ]
-                    ]));
+                    ]);
 
                     return !empty($query) ? $query : 'No se encontraron registros';
                 }

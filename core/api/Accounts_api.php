@@ -8,38 +8,30 @@ class Accounts_api extends Model
         {
             if (!empty($params[2]))
             {
-                $query = Functions::get_json_decoded_query($this->database->select('accounts', [
-                    '[>]settings' => [
-                        'id' => 'account'
-                    ]
-                ], [
-                    'accounts.id',
-                    'accounts.name',
+                $query = $this->database->select('accounts', [
+                    'id',
+                    'name'
                 ], [
                     'AND' => [
-                        'accounts.id' => $params[2],
-                        'accounts.status' => true,
-                        'settings.zv' => true
+                        'id' => $params[2],
+                        'zav' => true,
+                        'status' => true
                     ]
-                ]));
+                ]);
 
                 return !empty($query) ? $query[0] : 'No se encontraron registros';
             }
             else
             {
-                $query = Functions::get_json_decoded_query($this->database->select('accounts', [
-                    '[>]settings' => [
-                        'id' => 'account'
-                    ]
-                ], [
-                    'accounts.id',
-                    'accounts.name',
+                $query = $this->database->select('accounts', [
+                    'id',
+                    'name'
                 ], [
                     'AND' => [
-                        'accounts.status' => true,
-                        'settings.zv' => true
+                        'zav' => true,
+                        'status' => true
                     ]
-                ]));
+                ]);
 
                 return !empty($query) ? $query : 'No se encontraron registros';
             }

@@ -7,8 +7,8 @@ $this->dependencies->add(['js', '{$path.plugins}owl-carousel/owl.carousel.min.js
 $this->dependencies->add(['css', '{$path.plugins}owl-carousel/assets/owl.carousel.min.css']);
 $this->dependencies->add(['css', '{$path.plugins}owl-carousel/assets/owl.theme.default.min.css']);
 
-$this->dependencies->add(['css', '{$path.plugins}fancybox/jquery.fancybox.min.css']);
-$this->dependencies->add(['js', '{$path.plugins}fancybox/jquery.fancybox.min.js']);
+$this->dependencies->add(['css', '{$path.plugins}fancy-box/jquery.fancybox.min.css']);
+$this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js']);
 
 $this->dependencies->add(['js', '{$path.js}Hola/index.js']);
 ?>

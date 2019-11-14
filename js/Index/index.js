@@ -185,9 +185,9 @@ $(document).ready(function()
 
                     if (step == 6)
                     {
-                        $('#success-step-message').html(response.message);
+                        $('#success_step_message').html(response.message);
 
-                        setTimeout(function() { location.reload(); }, 6000);
+                        setTimeout(function() { location.reload(); }, 10000);
                     }
                 }
                 else if (response.status == 'error')
@@ -287,14 +287,14 @@ function get_packages()
                 if (rooms_number > 0)
                 {
                     $('#room_package').parent().removeClass('hidden');
-                    $('#room_package').find('h3 > strong').html(response.data.room_package.quantity);
+                    $('#room_package').find('h3 > strong').html(response.data.room_package.quantity_end);
                     $('#room_package').find('h4 > strong').html(response.data.room_package.price);
                 }
 
                 if (users_number > 0)
                 {
                     $('#user_package').parent().removeClass('hidden');
-                    $('#user_package').find('h3 > strong').html(response.data.user_package.quantity);
+                    $('#user_package').find('h3 > strong').html(response.data.user_package.quantity_end);
                     $('#user_package').find('h4 > strong').html(response.data.user_package.price);
                 }
 

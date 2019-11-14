@@ -11,16 +11,16 @@ class Locations_api extends Model
                 if (!empty($params[3]))
                 {
                     $query = Functions::get_json_decoded_query($this->database->select('locations', [
-                        '[>]settings' => [
-                            'account' => 'account'
+                        '[>]accounts' => [
+                            'account' => 'id'
                         ]
                     ], [
                         'locations.id',
-                        'locations.name',
+                        'locations.name'
                     ], [
                         'AND' => [
                             'locations.id' => $params[3],
-                            'settings.zv' => true
+                            'accounts.zav' => true
                         ]
                     ]));
 
@@ -29,16 +29,16 @@ class Locations_api extends Model
                 else
                 {
                     $query = Functions::get_json_decoded_query($this->database->select('locations', [
-                        '[>]settings' => [
-                            'account' => 'account'
+                        '[>]accounts' => [
+                            'account' => 'id'
                         ]
                     ], [
                         'locations.id',
-                        'locations.name',
+                        'locations.name'
                     ], [
                         'AND' => [
                             'locations.account' => $params[2],
-                            'settings.zv' => true
+                            'accounts.zav' => true
                         ]
                     ]));
 

@@ -18,13 +18,11 @@ class Mailer extends PHPMailer
 
         $this->isSMTP();
         $this->Host = Configuration::$smtp_host;
-        // $this->Host = 'ssl://mail.codemonkey.com.mx:465';
         $this->SMTPAuth = true;
         $this->Username = Configuration::$smtp_user;
         $this->Password = Configuration::$smtp_pass;
         $this->SMTPSecure = Configuration::$smtp_secure;
         $this->Port = Configuration::$smtp_port;
         $this->CharSet = 'UTF-8';
-        // $this->SMTPDebug = 3;
     }
 }
