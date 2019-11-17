@@ -136,6 +136,10 @@ class User_level
                     array_push($paths, '/Userlevels/index');
                 break;
 
+                case '{account_edit}' :
+                    array_push($paths, '/Account/index');
+                break;
+
                 default: break;
             }
         }

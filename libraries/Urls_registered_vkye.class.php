@@ -77,6 +77,10 @@ class Urls_registered_vkye
                 'controller' => 'Userlevels',
                 'method' => 'index'
             ],
+            '/account' => [
+                'controller' => 'Account',
+                'method' => 'index'
+            ],
             '/profile' => [
                 'controller' => 'Profile',
                 'method' => 'index'

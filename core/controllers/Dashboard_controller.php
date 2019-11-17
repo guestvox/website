@@ -58,7 +58,6 @@ class Dashboard_controller extends Controller
 		                        <tr>
 		                            <th align="left">{$lang.abr_room}</th>
 		                            <th align="left">{$lang.abr_guest}</th>
-		                            <th align="left">{$lang.abr_subject}</th>
 		                            <th align="left">{$lang.abr_opportunity_area}</th>
 		                            <th align="left">{$lang.abr_opportunity_type}</th>
 		                            <th align="left">{$lang.abr_location}</th>
@@ -81,7 +80,7 @@ class Dashboard_controller extends Controller
 				$value['data']['comments'] = (!empty($value['data']['comments'])) ? '<span><i class="fas fa-comment"></i></span>' : '';
 				$value['data']['attachments'] = (!empty($value['data']['attachments'])) ? '<span><i class="fas fa-paperclip"></i></span>' : '';
 
-				if ($value['data']['status'] == 'open' AND Functions::get_current_date_hour() < Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']))
+				if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']))
 				{
 					if ($value['data']['urgency'] == 'low')
 						$value['data']['urgency'] = '<span style="background-color:#4caf50;color:#fff;"><i class="fas fa-clock"></i></span>';
@@ -90,7 +89,7 @@ class Dashboard_controller extends Controller
 					else if ($value['data']['urgency'] == 'high')
 						$value['data']['urgency'] = '<span style="background-color:#f44336;color:#fff;"><i class="fas fa-clock"></i></span>';
 				}
-				else if ($value['data']['status'] == 'open')
+				else
 				{
 					if ($value['data']['urgency'] == 'low')
 						$value['data']['urgency'] = '<span style="background-color:#4caf50;color:#fff;"><i class="fas fa-lock-open"></i></span>';
@@ -99,21 +98,11 @@ class Dashboard_controller extends Controller
 					else if ($value['data']['urgency'] == 'high')
 						$value['data']['urgency'] = '<span style="background-color:#f44336;color:#fff;"><i class="fas fa-lock-open"></i></span>';
 				}
-				else if ($value['data']['status'] == 'close')
-				{
-					if ($value['data']['urgency'] == 'low')
-						$value['data']['urgency'] = '<span style="background-color:#4caf50;color:#fff;"><i class="fas fa-lock"></i></span>';
-					else if ($value['data']['urgency'] == 'medium')
-						$value['data']['urgency'] = '<span style="background-color:#ffc107;color:#fff;"><i class="fas fa-lock"></i></span>';
-					else if ($value['data']['urgency'] == 'high')
-						$value['data']['urgency'] = '<span style="background-color:#f44336;color:#fff;"><i class="fas fa-lock"></i></span>';
-				}
 
 				$art_voxes .=
-				'<tr class="' . $value['data']['status'] . ' ' . $value['data']['readed'] . '" data-id="' . $value['id'] . '">
+				'<tr class="' . $value['data']['readed'] . '" data-id="' . $value['id'] . '">
 					<td align="left" class="touchable">' . $value['data']['room'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['guest_treatment'] . ' ' . $value['data']['firstname'] . ' ' . $value['data']['lastname'] . '</td>
-					<td align="left" class="touchable">' . $value['data']['observations'] . ' ' . $value['data']['subject'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['opportunity_area'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['opportunity_type'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['location'] . '</td>

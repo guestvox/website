@@ -71,22 +71,30 @@ class Profile_model extends Model
 		return $query;
 	}
 
+	public function check_exist_user($field, $value)
+	{
+		$count = $this->database->count('users', [
+			'id[!]' => Session::get_value('user')['id'],
+			$field => $value
+		]);
+
+		return ($count > 0) ? true : false;
+	}
+
 	public function edit_avatar($data)
 	{
 		$data['avatar'] = Functions::uploader($data['avatar']);
 
-		if (!empty($data['avatar']))
-		{
-			$query = $this->database->update('users', [
-				'avatar' => $data['avatar'],
-			], [
-				'id' => Session::get_value('user')['id'],
-			]);
+		$query = $this->database->update('users', [
+			'avatar' => $data['avatar'],
+		], [
+			'id' => Session::get_value('user')['id'],
+		]);
 
-			if (!empty($query))
-				return $data['avatar'];
-			else
-				return null;
+		if (!empty($query))
+		{
+			unlink(PATH_UPLOADS . Session::get_value('user')['avatar']);
+			return $data['avatar'];
 		}
 		else
 			return null;

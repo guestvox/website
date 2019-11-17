@@ -142,17 +142,22 @@ header.main > section.menu > nav:first-child > ul > li:last-child > a > i {
 }
 
 header.main > section.menu > nav:last-child {
-    width: 300px;
+    width: 400px;
     height: 100vh;
     position: absolute;
     top: -80px;
-    right: -300px;
+    right: -410px;
     bottom: 0px;
-    background-color: #00a5ab;
-    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #fff;
+    padding: 60px;
     box-sizing: border-box;
     overflow-y: auto;
     transition: 400ms;
+    box-shadow: -2px 0px 8px 0px rgba(0,0,0,0.25);
 }
 
 header.main > section.menu > nav:last-child.open {
@@ -161,17 +166,20 @@ header.main > section.menu > nav:last-child.open {
 }
 
 header.main > section.menu > nav:last-child > figure {
-    width: 100%;
+    width: auto;
+    width: 130px;
+    height: 130px;
     display: flex;
     align-items: center;
     justify-content: center;
+    line-height: 0px;
+    overflow: hidden;
+    border-radius: 50%;
     margin-bottom: 20px;
 }
 
 header.main > section.menu > nav:last-child > figure > img {
-    width: auto;
-    height: 130px;
-    border-radius: 50%;
+    width: 100%;
 }
 
 header.main > section.menu > nav:last-child > h4 {
@@ -179,7 +187,7 @@ header.main > section.menu > nav:last-child > h4 {
     margin-bottom: 20px;
     font-size: 18px;
     text-align: center;
-    color: #fff;
+    color: #757575;
 }
 
 header.main > section.menu > nav:last-child > ul {
@@ -198,7 +206,7 @@ header.main > section.menu > nav:last-child > ul > li > a {
     justify-content: flex-end;
     font-size: 12px;
     font-weight: 600;
-    color: #fff;
+    color: #757575;
 }
 
 header.main > section.menu > nav:last-child > ul > li > a > i {
@@ -493,12 +501,8 @@ table tbody > tr.no-readed {
     background-color: #fff !important;
 }
 
-table tbody > tr.no-readed:hover {
-    background-color: #fff !important;
-}
-
 table tbody > tr.close {
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 table tbody > tr.follow td:first-child {
@@ -1168,71 +1172,104 @@ div.history > p > img {
 
 /* Account
 ------------------------------------------------------------------- */
-/* div.account {
+div.account {
     width: 100%;
+}
+
+div.account::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+div.account > div {
+    width: calc((100% / 3) - 20px);
+    height: 300px;
+    float: left;
+    position: relative;
+    margin: 10px;
+    padding: 20px;
+    border: 1px dashed #bdbdbd;
+    box-sizing: border-box;
+}
+
+div.account > div > figure {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0px;
+    overflow: hidden;
+}
+
+div.account > div > figure > img {
+    width: auto;
+    height: 100%;
+}
+
+div.account > div > figure > input {
+    display: none;
+}
+
+div.account > div > h6 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 2px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.account > div > h6 > i {
+    margin-right: 10px;
+}
+
+div.account > div > h2 {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 100px 20px;
-    box-sizing: border-box;
-}
-
-div.account > h2 {
-    margin: 20px 0px 0px 0px;
     font-size: 40px;
-    font-weight: 600;
-    text-align: center;
-    color: #000;
-}
-
-div.account > h4 {
-    margin: 0px;
-    font-size: 18px;
     font-weight: 400;
-    text-align: center;
-    text-transform: uppercase;
-    color: #000;
-}
-
-div.account > h5 {
-    margin: 20px 0px 5px 0px;
-    font-size: 14px;
-    font-weight: 600;
-    text-align: center;
-    color: #212121;
-}
-
-div.account > h6 {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0px;
-    font-size: 14px;
-    font-weight: 400;
-    text-align: center;
     color: #757575;
 }
 
-div.account > h6 > span > i {
-    margin: 0px 4px 0px 15px;
-    font-size: 12px;
+div.account > div > h2 > span {
+    font-size: 18px;
 }
 
-div.account > div {
-    margin-top: 40px;
+div.account > div > a {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #757575;
+    background-color: #eee;
+    transition: 400ms;
 }
 
-form[name="edit_account"] > div.row > [class*=span] {
-    min-height: auto !important;
+div.account > div > a:hover {
+    background-color: #bdbdbd;
+    transition: 400ms;
 }
 
-@media (max-width: 425px) {
+@media (max-width: 768px) {
 
-    div.account > h6 > span {
-        display: block;
+    div.account > div {
+        width: 100%;
+        margin: 0px 0px 10px 0px;
     }
-} */
+}
 
 /* Perfil
 ------------------------------------------------------------------- */

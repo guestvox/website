@@ -19,11 +19,11 @@ class Profile_controller extends Controller
 
 				if (!empty($query))
 				{
-					$user = Session::get_value('user');
+					$tmp = Session::get_value('user');
 
-					$user['avatar'] = $query;
+					$tmp['avatar'] = $query;
 
-					Session::set_value('user', $user);
+					Session::set_value('user', $tmp);
 
 					Functions::environment([
 						'status' => 'success',
@@ -49,7 +49,7 @@ class Profile_controller extends Controller
 				if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
 					array_push($labels, ['lastname', '']);
 
-				if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
+				if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false AND $this->model->check_exist_user('email', $_POST['email']) == true)
 					array_push($labels, ['email', '']);
 
 				if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
@@ -58,7 +58,7 @@ class Profile_controller extends Controller
 				if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
 					array_push($labels, ['phone_number', '']);
 
-				if (!isset($_POST['username']) OR empty($_POST['username']))
+				if (!isset($_POST['username']) OR empty($_POST['username']) AND $this->model->check_exist_user('username', $_POST['username']) == true)
 					array_push($labels, ['username', '']);
 
 				if (empty($labels))
@@ -67,12 +67,12 @@ class Profile_controller extends Controller
 
 					if (!empty($query))
 					{
-						$user = Session::get_value('user');
+						$tmp = Session::get_value('user');
 
-						$user['firstname'] = $_POST['firstname'];
-						$user['lastname'] = $_POST['lastname'];
+						$tmp['firstname'] = $_POST['firstname'];
+						$tmp['lastname'] = $_POST['lastname'];
 
-						Session::set_value('user', $user);
+						Session::set_value('user', $tmp);
 
 						Functions::environment([
 							'status' => 'success',
