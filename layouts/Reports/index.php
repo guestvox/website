@@ -249,10 +249,10 @@ $this->dependencies->add(['other', '<script>menu_focus("reports");</script>']);
                                             <label>
                                                 <p>{$lang.addressed_to}</p>
                                                 <select name="addressed_to">
-                                                    <?php if (Functions::check_access(['{views_all}']) == true) : ?>
+                                                    <?php if (Functions::check_user_access(['{view_all}']) == true) : ?>
                                                     <option value="all">{$lang.all}</option>
                                                     <?php endif; ?>
-                                                    <?php if (Functions::check_access(['{views_all}','{views_opportunity_areas}']) == true) : ?>
+                                                    <?php if (Functions::check_user_access(['{view_all}','{view_opportunity_areas}']) == true) : ?>
                                                     <option value="opportunity_areas">{$lang.opportunity_areas}</option>
                                                     <?php endif; ?>
                                                     <option value="me">{$lang.me}</option>

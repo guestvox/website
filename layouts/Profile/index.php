@@ -3,41 +3,37 @@
 defined('_EXEC') or die;
 
 $this->dependencies->add(['js', '{$path.js}Profile/index.js']);
-$this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
+$this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
 
 ?>
 
 %{header}%
 <main>
-    <section class="box-container complete">
-        <div class="main">
-            <article>
-                <main>
-                    <div class="profile">
-                        <div class="uploader">
-                            <fieldset>
-                                <figure>
-                                    <img src="{$avatar}" alt="" data-image-preview>
-                                    <a data-image-select><i class="fas fa-upload"></i></a>
-                                </figure>
-                                <input type="file" name="avatar" accept="image/*" data-image-upload>
-                            </fieldset>
-                        </div>
-                        <h2>{$name} {$lastname}</h2>
-                        <h4>{$account}</h4>
-                        <h6><span><i class="fas fa-envelope"></i>{$email}</span><span><i class="fas fa-phone"></i>{$cellphone}</span><span><i class="fas fa-user"></i>{$profilename}</span><span><i class="fas fa-lock"></i>{$profile_level}</span></h6>
-                        {$temporal_password}
-                        <div class="">
-                            <a class="btn" data-button-modal="edit_profile">{$lang.edit_profile}</a>
-                            <a class="btn" data-button-modal="reset_password">{$lang.restore_password}</a>
-                        </div>
-                    </div>
-                </main>
-            </article>
-        </div>
-    </section>
+    <article>
+        <header>
+            <h2><i class="fas fa-user-circle"></i>{$lang.my_profile}</h2>
+        </header>
+        <main>
+            <div class="profile">
+                <figure>
+                    <img src="{$avatar}" data-image-preview>
+                    <a data-image-select><i class="fas fa-upload"></i></a>
+                    <input type="file" name="avatar" accept="image/*" data-image-upload>
+                </figure>
+                <div>
+                    <h6><i class="fas fa-user-alt"></i>{$firstname} {$lastname}</h6>
+                    <h6><i class="fas fa-envelope"></i>{$email}</h6>
+                    <h6><i class="fas fa-mobile-alt"></i>+{$phone_lada} {$phone_number}</h6>
+                    <h6><i class="fas fa-shield-alt"></i>{$username}</h6>
+                    <h6><i class="fas fa-lock"></i>{$user_permissions}</h6>
+                    <a data-button-modal="restore_password"><i class="fas fa-key"></i></a>
+                    <a data-button-modal="edit_profile" class="edit"><i class="fas fa-pencil-alt"></i></a>
+                </div>
+            </div>
+        </main>
+    </article>
 </main>
-<section class="modal" data-modal="edit_profile">
+<section class="modal edit" data-modal="edit_profile">
     <div class="content">
         <header>
             <h3>{$lang.edit}</h3>
@@ -49,7 +45,7 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.firstname}</p>
-                                <input type="text" name="name" value="{$name}" />
+                                <input type="text" name="firstname" value="{$firstname}" />
                             </label>
                         </div>
                     </div>
@@ -61,19 +57,29 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span12">
+                    <div class="span6">
                         <div class="label">
                             <label>
                                 <p>{$lang.email}</p>
-                                <input type="email" name="email" value="{$email}"/>
+                                <input type="email" name="email" value="{$email}" />
                             </label>
                         </div>
                     </div>
-                    <div class="span12">
+                    <div class="span3">
                         <div class="label">
                             <label>
-                                <p>{$lang.cellphone}</p>
-                                <input type="text" name="cellphone" value="{$cellphone}"/>
+                                <p>{$lang.lada}</p>
+                                <select name="phone_lada">
+                                    {$opt_ladas}
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.phone}</p>
+                                <input type="text" name="phone_number" value="{$phone_number}" />
                             </label>
                         </div>
                     </div>
@@ -81,7 +87,7 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.username}</p>
-                                <input type="text" name="username" value="{$profilename}"/>
+                                <input type="text" name="username" value="{$username}" />
                             </label>
                         </div>
                     </div>
@@ -90,25 +96,25 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
         </main>
         <footer>
             <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
+                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
                 <button class="btn" button-success>{$lang.accept}</button>
             </div>
         </footer>
     </div>
 </section>
-<section class="modal" data-modal="reset_password">
+<section class="modal" data-modal="restore_password">
     <div class="content">
         <header>
-            <h3>{$lang.edit}</h3>
+            <h3>{$lang.restore_password}</h3>
         </header>
         <main>
-            <form name="reset_password">
+            <form name="restore_password">
                 <div class="row">
                     <div class="span12">
                         <div class="label">
                             <label>
                                 <p>{$lang.password}</p>
-                                <input type="password" name="password"/>
+                                <input type="text" name="password" />
                             </label>
                         </div>
                     </div>
@@ -117,7 +123,7 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
         </main>
         <footer>
             <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
+                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
                 <button class="btn" button-success>{$lang.accept}</button>
             </div>
         </footer>

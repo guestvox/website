@@ -19,7 +19,7 @@ class Account_controller extends Controller
 
 				Functions::environment([
 					'status' => !empty($query) ? 'success' : 'error',
-					'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+					'message' => !empty($query) ? '{$lang.operation_success}' : '{$lang.operation_error}',
 					'path' => '/account',
 				]);
 			}
@@ -82,7 +82,7 @@ class Account_controller extends Controller
 
 					Functions::environment([
 						'status' => !empty($query) ? 'success' : 'error',
-						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+						'message' => !empty($query) ? '{$lang.operation_success}' : '{$lang.operation_error}',
 						'path' => '/account',
 					]);
 				}
@@ -123,9 +123,9 @@ class Account_controller extends Controller
 					}
 					catch (Exception $e) { }
 
-					if (Session::get_value('settings')['language'] == 'es')
+					if (Session::get_value('account')['language'] == 'es')
 						$mail_message = 'Hemos recibido tu solicitud';
-					else if (Session::get_value('settings')['language'] == 'en')
+					else if (Session::get_value('account')['language'] == 'en')
 						$mail_message = 'We have received your request';
 
 					Functions::environment([

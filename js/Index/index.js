@@ -5,7 +5,6 @@ $(document).ready(function()
     $('[data-action="open-land-menu"]').on('click', function(e)
     {
         e.stopPropagation();
-
         $('header.landing-page nav > ul').toggleClass('open');
     });
 
@@ -109,12 +108,12 @@ $(document).ready(function()
 
     $('[data-image-select]').on('click', function()
     {
-        $(this).parents('.uploader').find('[data-image-upload]').click();
+        $(this).parent().find('[data-image-upload]').click();
     });
 
     $('[data-image-upload]').on('change', function()
     {
-        var preview = $(this).parents('.uploader').find('[data-image-preview]');
+        var preview = $(this).parent().find('[data-image-preview]');
 
         if ($(this)[0].files[0].type.match($(this).attr('accept')))
         {
@@ -129,8 +128,8 @@ $(document).ready(function()
         }
         else
         {
-            $('[data-modal="error"]').find('main > p').html('ERROR FILE NOT PERMIT');
             $('[data-modal="error"]').addClass('view');
+            $('[data-modal="error"]').find('main > p').html('ERROR FILE NOT PERMIT');
         }
     });
 
@@ -139,12 +138,12 @@ $(document).ready(function()
     $('[data-action="go_to_step"]').on('click', function()
     {
         step = $(this).parent().data('step');
-
         $('form[name="signup"]').submit();
     });
 
     $('[data-modal="signup"]').modal().onCancel(function()
     {
+        $('form[name="signup"]')[0].reset();
         $('fieldset.error').removeClass('error');
         $('[data-step]').removeClass('view');
         $('[data-step="1"]').addClass('view');
@@ -152,7 +151,6 @@ $(document).ready(function()
         $('#room_package').parent().addClass('hidden');
         $('#user_package').parent().addClass('hidden');
         $('.package').find('h4 > strong').html('');
-        $('form[name="signup"]')[0].reset();
     });
 
     $('form[name="signup"]').on('submit', function(e)
@@ -174,8 +172,6 @@ $(document).ready(function()
             dataType: 'json',
             success: function(response)
             {
-                $('fieldset.error').removeClass('error');
-
                 if (response.status == 'success')
                 {
                     step = step + 1;
@@ -186,14 +182,15 @@ $(document).ready(function()
                     if (step == 6)
                     {
                         $('#success_step_message').html(response.message);
-
-                        setTimeout(function() { location.reload(); }, 10000);
+                        setTimeout(function() { location.reload(); }, 8000);
                     }
                 }
                 else if (response.status == 'error')
                 {
                     if (response.labels)
                     {
+                        form.find('fieldset.error').removeClass('error');
+
                         $.each(response.labels, function(i, label)
                         {
                             form.find('[name="' + label[0] + '"]').parents('fieldset').addClass('error');
@@ -203,8 +200,8 @@ $(document).ready(function()
                     }
                     else if (response.message)
                     {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
                         $('[data-modal="error"]').addClass('view');
+                        $('[data-modal="error"]').find('main > p').html(response.message);
                     }
                 }
             }
@@ -218,8 +215,8 @@ $(document).ready(function()
 
     $('[data-modal="login"]').modal().onCancel(function()
     {
-        $('fieldset.error').removeClass('error');
         $('form[name="login"]')[0].reset();
+        $('fieldset.error').removeClass('error');
     });
 
     $('form[name="login"]').on('submit', function(e)
@@ -242,7 +239,7 @@ $(document).ready(function()
                 {
                     if (response.labels)
                     {
-                        $('fieldset.error').removeClass('error');
+                        form.find('fieldset.error').removeClass('error');
 
                         $.each(response.labels, function(i, label)
                         {
@@ -253,8 +250,8 @@ $(document).ready(function()
                     }
                     else if (response.message)
                     {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
                         $('[data-modal="error"]').addClass('view');
+                        $('[data-modal="error"]').find('main > p').html(response.message);
                     }
                 }
             }
@@ -303,8 +300,8 @@ function get_packages()
             }
             else if (response.status == 'error')
             {
-                $('[data-modal="error"]').find('main > p').html(response.message);
                 $('[data-modal="error"]').addClass('view');
+                $('[data-modal="error"]').find('main > p').html(response.message);
             }
         }
     });

@@ -17,19 +17,34 @@ class Profile_controller extends Controller
 			{
 				$query = $this->model->edit_avatar($_FILES);
 
-				Functions::environment([
-					'status' => !empty($query) ? 'success' : 'error',
-					'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
-					'path' => '/profile',
-				]);
+				if (!empty($query))
+				{
+					$user = Session::get_value('user');
+
+					$user['avatar'] = $query;
+
+					Session::set_value('user', $user);
+
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
 			}
 
 			if ($_POST['action'] == 'edit_profile')
 			{
 				$labels = [];
 
-				if (!isset($_POST['name']) OR empty($_POST['name']))
-					array_push($labels, ['name', '']);
+				if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+					array_push($labels, ['firstname', '']);
 
 				if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
 					array_push($labels, ['lastname', '']);
@@ -37,8 +52,11 @@ class Profile_controller extends Controller
 				if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
 					array_push($labels, ['email', '']);
 
-				if (!isset($_POST['cellphone']) OR empty($_POST['cellphone']))
-					array_push($labels, ['cellphone', '']);
+				if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
+					array_push($labels, ['phone_lada', '']);
+
+				if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
+					array_push($labels, ['phone_number', '']);
 
 				if (!isset($_POST['username']) OR empty($_POST['username']))
 					array_push($labels, ['username', '']);
@@ -47,11 +65,27 @@ class Profile_controller extends Controller
 				{
 					$query = $this->model->edit_profile($_POST);
 
-					Functions::environment([
-						'status' => !empty($query) ? 'success' : 'error',
-						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
-						'path' => '/profile',
-					]);
+					if (!empty($query))
+					{
+						$user = Session::get_value('user');
+
+						$user['firstname'] = $_POST['firstname'];
+						$user['lastname'] = $_POST['lastname'];
+
+						Session::set_value('user', $user);
+
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
 				}
 				else
 				{
@@ -62,7 +96,7 @@ class Profile_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'reset_password')
+			if ($_POST['action'] == 'restore_password')
 			{
 				$labels = [];
 
@@ -71,13 +105,22 @@ class Profile_controller extends Controller
 
 				if (empty($labels))
 				{
-					$query = $this->model->reset_password($_POST);
+					$query = $this->model->restore_password($_POST);
 
-					Functions::environment([
-						'status' => !empty($query) ? 'success' : 'error',
-						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
-						'path' => '/profile',
-					]);
+					if (!empty($query))
+					{
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
 				}
 				else
 				{
@@ -90,22 +133,27 @@ class Profile_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox | {$lang.profile}');
+			define('_title', 'GuestVox');
 
 			$template = $this->view->render($this, 'index');
 
 			$profile = $this->model->get_profile();
 
+			$opt_ladas = '';
+
+			foreach ($this->model->get_ladas() as $value)
+				$opt_ladas .= '<option value="' . $value['lada'] . '" ' . (($value['lada'] == $profile['phone']['lada']) ? 'selected' : '') . '>' . $value['name'][Session::get_value('account')['language']] . ' (+' . $value['lada'] . ')/option>';
+
 			$replace = [
-				'{$avatar}' => !empty($profile['avatar']) ? '{$path.uploads}' . $profile['avatar'] : '{$path.images}empty.png',
-				'{$account}' => $profile['account'],
-				'{$name}' => $profile['name'],
+				'{$avatar}' => !empty($profile['avatar']) ? '{$path.uploads}' . $profile['avatar'] : '{$path.images}avatar.png',
+				'{$firstname}' => $profile['firstname'],
 				'{$lastname}' => $profile['lastname'],
 				'{$email}' => $profile['email'],
-				'{$cellphone}' => $profile['cellphone'],
-				'{$profilename}' => $profile['username'],
-				'{$temporal_password}' => (!empty($profile['temporal_password']) ? '<h6>' . $profile['temporal_password'] . '</h6>' : ''),
-				'{$profile_level}' => $profile['user_level'],
+				'{$phone_lada}' => $profile['phone']['lada'],
+				'{$phone_number}' => $profile['phone']['number'],
+				'{$username}' => $profile['username'],
+				'{$user_permissions}' => (($profile['user_permissions']['supervision'] == true) ? '{$lang.supervision}.' : '') . ' ' . (($profile['user_permissions']['administrative'] == true) ? '{$lang.administrative}.' : '') . ' ' . (($profile['user_permissions']['operational'] == true) ? '{$lang.operational}.' : ''),
+				'{$opt_ladas}' => $opt_ladas,
 			];
 
 			$template = $this->format->replace($replace, $template);

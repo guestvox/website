@@ -13,7 +13,7 @@ class Voxes_controller extends Controller
 
 	public function index()
 	{
-		define('_title', 'GuestVox | {$lang.voxes}');
+		define('_title', 'GuestVox');
 
 		$template = $this->view->render($this, 'index');
 
@@ -58,7 +58,7 @@ class Voxes_controller extends Controller
 			$tbl_voxes .=
 			'<tr class="' . $value['data']['status'] . ' ' . $value['data']['readed'] . '" data-id="' . $value['id'] . '">
 				<td align="left" class="touchable">' . $value['data']['room'] . '</td>
-				<td align="left" class="touchable">' . $value['data']['guest_treatment'] . ' ' . $value['data']['name'] . ' ' . $value['data']['lastname'] . '</td>
+				<td align="left" class="touchable">' . $value['data']['guest_treatment'] . ' ' . $value['data']['firstname'] . ' ' . $value['data']['lastname'] . '</td>
 				<td align="left" class="touchable">' . $value['data']['observations'] . ' ' . $value['data']['subject'] . '</td>
 				<td align="left" class="touchable">' . $value['data']['opportunity_area'] . '</td>
 				<td align="left" class="touchable">' . $value['data']['opportunity_type'] . '</td>
@@ -89,47 +89,12 @@ class Voxes_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'get_api')
-			{
-				if (Session::get_value('user')['id'] == 106)
-				{
-					$api = curl_init();
-
-					curl_setopt($api, CURLOPT_URL, 'https://admin.zaviaerp.com/pms/hotels/api/check_room2/?UserName=demo&UserPassword=demo&RoomNumber=' . $this->model->get_room($_POST['room'])['name']);
-					curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
-
-					$data = Functions::get_json_decoded_query(curl_exec($api));
-
-					curl_close($api);
-
-					if ($data['Status'] == 'success')
-					{
-						Functions::environment([
-							'status' => 'success',
-							'data' => $data
-						]);
-					}
-					else if ($data['Status'] == 'error')
-					{
-						Functions::environment([
-							'status' => 'error',
-						]);
-					}
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-					]);
-				}
-			}
-
 			if ($_POST['action'] == 'get_opt_opportunity_areas')
 			{
 				$data = '<option value="" selected hidden>{$lang.choose}</option>';
 
 				foreach ($this->model->get_opportunity_areas($_POST['option']) as $value)
-					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 				Functions::environment([
 					'status' => 'success',
@@ -142,7 +107,7 @@ class Voxes_controller extends Controller
 				$data = '<option value="" selected hidden>{$lang.choose}</option>';
 
 				foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['option']) as $value)
-					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 				Functions::environment([
 					'status' => 'success',
@@ -155,7 +120,7 @@ class Voxes_controller extends Controller
 				$data = '<option value="" selected hidden>{$lang.choose}</option>';
 
 				foreach ($this->model->get_locations($_POST['option']) as $value)
-					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 				Functions::environment([
 					'status' => 'success',
@@ -215,15 +180,15 @@ class Voxes_controller extends Controller
 							$_POST['assigned_users'] = $this->model->get_users('opportunity_area', $_POST['opportunity_area']);
 
 						$_POST['room'] = $this->model->get_room($_POST['room'])['name'];
-						$_POST['opportunity_area'] = $this->model->get_opportunity_area($_POST['opportunity_area'])['name'][Session::get_value('settings')['language']];
-						$_POST['opportunity_type'] = $this->model->get_opportunity_type($_POST['opportunity_type'])['name'][Session::get_value('settings')['language']];
-						$_POST['location'] = $this->model->get_location($_POST['location'])['name'][Session::get_value('settings')['language']];
+						$_POST['opportunity_area'] = $this->model->get_opportunity_area($_POST['opportunity_area'])['name'][Session::get_value('account')['language']];
+						$_POST['opportunity_type'] = $this->model->get_opportunity_type($_POST['opportunity_type'])['name'][Session::get_value('account')['language']];
+						$_POST['location'] = $this->model->get_location($_POST['location'])['name'][Session::get_value('account')['language']];
 
 						$mail = new Mailer(true);
 
 						try
 						{
-							if (Session::get_value('settings')['language'] == 'es')
+							if (Session::get_value('account')['language'] == 'es')
 							{
 								if ($_POST['type'] == 'request')
 									$mail_subject = 'Tienes una nueva petición en GuestVox';
@@ -255,7 +220,7 @@ class Voxes_controller extends Controller
 								$mail_description = 'Descripción: ';
 								$mail_give_follow_up = 'Dar seguimiento';
 							}
-							else if (Session::get_value('settings')['language'] == 'en')
+							else if (Session::get_value('account')['language'] == 'en')
 							{
 								if ($_POST['type'] == 'request')
 									$mail_subject = 'You have a new request in GuestVox';
@@ -349,7 +314,7 @@ class Voxes_controller extends Controller
 
 						// $apiToken = '829577444:AAHnljB0oRIETuy_zSZ2ZZ_hgGKzBA3k6Dc';
 						//
-						//     if (Session::get_value('settings')['language'] == 'es')
+						//     if (Session::get_value('account')['language'] == 'es')
 						//     {
 						//         if ($_POST['type'] == 'request')
 						//             $sms_subject = 'Nueva petición';
@@ -380,7 +345,7 @@ class Voxes_controller extends Controller
 						//         $sms_observations = 'Obs: ';
 						//         $sms_description = 'Desc: ';
 						//     }
-						//     else if (Session::get_value('settings')['language'] == 'en')
+						//     else if (Session::get_value('account')['language'] == 'en')
 						//     {
 						//         if ($_POST['type'] == 'request')
 						//             $sms_subject = 'New request';
@@ -433,7 +398,7 @@ class Voxes_controller extends Controller
 
 						if ($sms > 0)
 						{
-							if (Session::get_value('settings')['language'] == 'es')
+							if (Session::get_value('account')['language'] == 'es')
 							{
 								if ($_POST['type'] == 'request')
 									$sms_subject = 'GuestVox: Nueva petición';
@@ -464,7 +429,7 @@ class Voxes_controller extends Controller
 								$sms_observations = 'Obs: ';
 								$sms_description = 'Desc: ';
 							}
-							else if (Session::get_value('settings')['language'] == 'en')
+							else if (Session::get_value('account')['language'] == 'en')
 							{
 								if ($_POST['type'] == 'request')
 									$sms_subject = 'GuestVox: New request';
@@ -522,7 +487,7 @@ class Voxes_controller extends Controller
 
 						Functions::environment([
 							'status' => 'success',
-							'message' => '{$lang.success_operation_database}',
+							'message' => '{$lang.operation_success}',
 							'path' => '/voxes'
 						]);
 					}
@@ -530,7 +495,7 @@ class Voxes_controller extends Controller
 					{
 						Functions::environment([
 							'status' => 'error',
-							'message' => '{$lang.error_operation_database}'
+							'message' => '{$lang.operation_error}'
 						]);
 					}
 				}
@@ -557,12 +522,12 @@ class Voxes_controller extends Controller
 			$opt_opportunity_areas = '';
 
 			foreach ($this->model->get_opportunity_areas('request') as $value)
-				$opt_opportunity_areas .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+				$opt_opportunity_areas .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 			$opt_locations = '';
 
 			foreach ($this->model->get_locations('request') as $value)
-				$opt_locations .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+				$opt_locations .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 			$opt_guest_treatments = '';
 
@@ -614,7 +579,7 @@ class Voxes_controller extends Controller
 
 					Functions::environment([
 						'status' => !empty($query) ? 'success' : 'error',
-						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+						'message' => !empty($query) ? '{$lang.operation_success}' : '{$lang.operation_error}',
 						'path' => '/voxes',
 					]);
 				}
@@ -625,7 +590,7 @@ class Voxes_controller extends Controller
 
 					Functions::environment([
 						'status' => !empty($query) ? 'success' : 'error',
-						'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+						'message' => !empty($query) ? '{$lang.operation_success}' : '{$lang.operation_error}',
 						'path' => '/voxes/view/' . $params[0],
 					]);
 				}
@@ -645,7 +610,7 @@ class Voxes_controller extends Controller
 
 						Functions::environment([
 							'status' => !empty($query) ? 'success' : 'error',
-							'message' => !empty($query) ? '{$lang.success_operation_database}' : '{$lang.error_operation_database}',
+							'message' => !empty($query) ? '{$lang.operation_success}' : '{$lang.operation_error}',
 							'path' => '/voxes/view/' . $params[0],
 						]);
 					}
@@ -843,11 +808,11 @@ class Voxes_controller extends Controller
 				$replace = [
 					'{$type}' => $vox['type'],
 					'{$room}' => $vox['data']['room']['name'],
-					'{$opportunity_area}' => $vox['data']['opportunity_area']['name'][Session::get_value('settings')['language']],
-					'{$opportunity_type}' => $vox['data']['opportunity_type']['name'][Session::get_value('settings')['language']],
+					'{$opportunity_area}' => $vox['data']['opportunity_area']['name'][Session::get_value('account')['language']],
+					'{$opportunity_type}' => $vox['data']['opportunity_type']['name'][Session::get_value('account')['language']],
 					'{$started_date}' => Functions::get_formatted_date($vox['data']['started_date'], 'd F, Y'),
 					'{$started_hour}' => Functions::get_formatted_hour($vox['data']['started_hour'], '+ hrs'),
-					'{$location}' => $vox['data']['location']['name'][Session::get_value('settings')['language']],
+					'{$location}' => $vox['data']['location']['name'][Session::get_value('account')['language']],
 					'{$div_cost}' => ($vox['type'] == 'incident') ? '<div><h3>{$lang.cost}:</h3><div>' . $vox['data']['cost'] . '</div></div>' : '',
 					'{$div_urgency}' => $div_urgency,
 					'{$div_confidentiality}' => ($vox['type'] == 'incident') ? '<div><h3>{$lang.confidentiality}:</h3><div>' . (($vox['data']['confidentiality'] == true) ? '{$lang.to_yes}' : '{$lang.to_not}') . '</div></div>' : '',
@@ -875,9 +840,9 @@ class Voxes_controller extends Controller
 					'{$uli_reopened_user}' => !empty($vox['data']['reopened_user']) ? '<li><strong>{$lang.reopened_by}</strong> ' . $vox['data']['reopened_user']['name'] . ' ' . $vox['data']['reopened_user']['lastname'] . ' {$lang.the} ' . Functions::get_formatted_date($vox['data']['reopened_date'], 'd F, Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['data']['reopened_hour'], '+ hrs') . '</li>' : '',
 					'{$status}' => (($vox['data']['status'] == 'open') ? '{$lang.opened}' : '{$lang.closed}'),
 					'{$origin}' => (($vox['data']['origin'] == 'internal') ? '{$lang.internal}' : '{$lang.external}'),
-					'{$btn_edit}' => (Functions::check_access(['{voxes_update}']) == true AND $vox['data']['status'] == 'open') ? '<a href="/voxes/edit/' . $vox['id'] . '" class="btn">{$lang.edit}</a>' : '',
-					'{$btn_complete}' => (Functions::check_access(['{voxes_complete}']) == true AND $vox['data']['status'] == 'open') ? '<a class="btn" data-button-modal="complete_vox">{$lang.complete}</a>' : '',
-					'{$btn_reopen}' => (Functions::check_access(['{voxes_reopen}']) == true AND $vox['data']['status'] == 'close') ? '<a class="btn" data-button-modal="reopen_vox">{$lang.reopen}</a>' : '',
+					'{$btn_edit}' => (Functions::check_user_access(['{voxes_update}']) == true AND $vox['data']['status'] == 'open') ? '<a href="/voxes/edit/' . $vox['id'] . '" class="btn">{$lang.edit}</a>' : '',
+					'{$btn_complete}' => (Functions::check_user_access(['{voxes_complete}']) == true AND $vox['data']['status'] == 'open') ? '<a class="btn" data-button-modal="complete_vox">{$lang.complete}</a>' : '',
+					'{$btn_reopen}' => (Functions::check_user_access(['{voxes_reopen}']) == true AND $vox['data']['status'] == 'close') ? '<a class="btn" data-button-modal="reopen_vox">{$lang.reopen}</a>' : '',
 					'{$div_changes_history}' => $div_changes_history,
 				];
 
@@ -903,7 +868,7 @@ class Voxes_controller extends Controller
 					$data = '<option value="" selected hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_opportunity_areas($_POST['option']) as $value)
-						$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+						$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 					Functions::environment([
 						'status' => 'success',
@@ -916,7 +881,7 @@ class Voxes_controller extends Controller
 					$data = '<option value="" selected hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['option']) as $value)
-						$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+						$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 					Functions::environment([
 						'status' => 'success',
@@ -929,7 +894,7 @@ class Voxes_controller extends Controller
 					$data = '<option value="" selected hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_locations($_POST['option']) as $value)
-						$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+						$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 					Functions::environment([
 						'status' => 'success',
@@ -985,7 +950,7 @@ class Voxes_controller extends Controller
 						{
 							Functions::environment([
 								'status' => 'success',
-								'message' => '{$lang.success_operation_database}',
+								'message' => '{$lang.operation_success}',
 								'path' => '/voxes/view/' . $vox['id']
 							]);
 						}
@@ -993,7 +958,7 @@ class Voxes_controller extends Controller
 						{
 							Functions::environment([
 								'status' => 'error',
-								'message' => '{$lang.error_operation_database}'
+								'message' => '{$lang.operation_error}'
 							]);
 						}
 					}
@@ -1047,7 +1012,7 @@ class Voxes_controller extends Controller
 							<select name="opportunity_area">';
 
 				foreach ($this->model->get_opportunity_areas($vox['type']) as $value)
-					$html .= '<option value="' . $value['id'] . '"'. (($vox['data']['opportunity_area']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+					$html .= '<option value="' . $value['id'] . '"'. (($vox['data']['opportunity_area']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 				$html .=
 				'			</select>
@@ -1061,7 +1026,7 @@ class Voxes_controller extends Controller
 							<select name="opportunity_type">';
 
 				foreach ($this->model->get_opportunity_types($vox['data']['opportunity_area']['id'], $vox['type']) as $value)
-					$html .= '<option value="' . $value['id'] . '"'. (($vox['data']['opportunity_type']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+					$html .= '<option value="' . $value['id'] . '"'. (($vox['data']['opportunity_type']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 				$html .=
 				'			</select>
@@ -1098,7 +1063,7 @@ class Voxes_controller extends Controller
 							<select name="location">';
 
 				foreach ($this->model->get_locations($vox['type']) as $value)
-					$html .= '<option value="' . $value['id'] . '"'. (($vox['data']['location']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+					$html .= '<option value="' . $value['id'] . '"'. (($vox['data']['location']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 				$html .=
 				'			</select>

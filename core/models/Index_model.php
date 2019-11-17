@@ -161,7 +161,8 @@ class Index_model extends Model
 			'payment' => json_encode([
 				'type' => 'demo'
 			]),
-			'sms' => 0,
+			'operation' => true,
+			'reputation' => true,
 			'myvox_request' => true,
 			'myvox_incident' => true,
 			'myvox_survey' => true,
@@ -169,6 +170,7 @@ class Index_model extends Model
 				'es' => 'Responder encuesta',
 				'en' => 'Answer survey',
 			]),
+			'sms' => 0,
 			'zav' => false,
 			'signup_date' => Functions::get_current_date(),
 			'status' => false,
@@ -188,7 +190,7 @@ class Index_model extends Model
 			'avatar' => null,
 			'username' => $data['username'],
 			'password' => $this->security->create_password($data['password']),
-			'user_permissions' => '["1","2","3","38","39","4","5","6","7","8","9","10","11","12","13","14","15","29","30","31","32","33","34","35","36","37","16","17","19","20","21","18","22","23","24","26"]',
+			'user_permissions' => '["39","41","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","13","14","15","16","17","19","20","21","18","22","23","24","26","1","2","3"]',
 			'opportunity_areas' => '[]',
 			'status' => false,
 		]);
@@ -216,27 +218,27 @@ class Index_model extends Model
 			[
 				'account' => $account,
 				'name' => $administrator,
-				'user_permissions' => '["1","2","3","38","39","4","5","6","7","8","9","10","11","12","13","14","15","29","30","31","32","33","34","35","36","37","16","17","19","20","21","18","22","23","24","26"]',
+				'user_permissions' => '["39","41","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","13","14","15","16","17","19","20","21","18","22","23","24","26","1","2","3"]',
 			],
 			[
 				'account' => $account,
 				'name' => $director,
-				'user_permissions' => '["1","2","3","38","39","25","26"]',
+				'user_permissions' => '["25","39","41","38","26","1","2","3"]',
 			],
 			[
 				'account' => $account,
 				'name' => $manager,
-				'user_permissions' => '["1","2","3","38","39","25","27"]',
+				'user_permissions' => '["25","39","41","38","28","1","2","3"]',
 			],
 			[
 				'account' => $account,
 				'name' => $supervisor,
-				'user_permissions' => '["1","2","3","38","39","27"]',
+				'user_permissions' => '["39","41","38","28","1","2","3"]',
 			],
 			[
 				'account' => $account,
 				'name' => $operator,
-				'user_permissions' => '["1","2","28"]',
+				'user_permissions' => '["27","1","2","3"]',
 			]
 		]);
 
@@ -311,7 +313,7 @@ class Index_model extends Model
 			$departure = 'Departure';
 		}
 
-		$this->database->insert('reservation_status', [
+		$this->database->insert('reservation_statuses', [
 			[
 				'account' => $account,
 				'name' => $in_house,
@@ -384,6 +386,8 @@ class Index_model extends Model
 			'accounts.time_zone(account_time_zone)',
 			'accounts.language(account_language)',
 			'accounts.currency(account_currency)',
+			'accounts.operation(account_operation)',
+			'accounts.reputation(account_reputation)',
 			'accounts.sms(account_sms)',
 			'accounts.zav(account_zav)',
 			'accounts.status(account_status)',
@@ -428,6 +432,8 @@ class Index_model extends Model
 					'time_zone' => $query[0]['account_time_zone'],
 					'language' => $query[0]['account_language'],
 					'currency' => $query[0]['account_currency'],
+					'operation' => $query[0]['account_operation'],
+					'reputation' => $query[0]['account_reputation'],
 					'sms' => $query[0]['account_sms'],
 					'zav' => $query[0]['account_zav'],
 					'status' => $query[0]['account_status'],

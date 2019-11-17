@@ -259,8 +259,8 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                         <figure>
                                             <img src="{$path.images}empty.png" alt="Logotype" data-image-preview>
                                             <a data-image-select><i class="fas fa-upload"></i></a>
+                                            <input type="file" name="logotype" accept="image/*" data-image-upload>
                                         </figure>
-                                        <input type="file" name="logotype" accept="image/*" data-image-upload>
                                     </fieldset>
                                 </div>
                             </div>

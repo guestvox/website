@@ -46,6 +46,7 @@ header.landing-page-index > .container > nav > ul > li > a {
     align-items: center;
     justify-content: center;
     border: 2px solid #fff;
+    border-radius: 100px;
     box-sizing: border-box;
     color: #fff;
     background: none;
@@ -346,6 +347,7 @@ main.landing-page-index > section.features-two > div > ul > li > a {
     width: 100%;
     max-width: 400px;
     margin: 50px auto;
+    border-radius: 100px;
     padding: 20px 30px;
     box-sizing: border-box;
     font-size: 20px;
@@ -429,6 +431,7 @@ main.landing-page-index > section.clients > .container > div > figure > img {
 main.landing-page-index > section.clients > .container > a {
     width: 100%;
     max-width: 400px;
+    border-radius: 100px;
     padding: 20px 30px;
     box-sizing: border-box;
     font-size: 20px;
@@ -503,76 +506,6 @@ main.landing-page-index > section.team > div > span > strong {
     letter-spacing: -4px;
 }
 
-/* main.landing-page-index > section.validate {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: #00a5ab;
-}
-
-main.landing-page-index > section.validate > figure,
-main.landing-page-index > section.validate > figure > img {
-    width: 100%;
-    max-width: 600px;
-    line-height: 0px;
-
-    border: 1px solid red;
-    box-sizing: border-box;
-}
-
-main.landing-page-index > section.validate > div {
-    width: 100%;
-    max-width: 600px;
-
-    border: 1px solid red;
-    box-sizing: border-box;
-}
-
-main.landing-page-index > section.validate > div > h4 {
-    margin: 0px 0px 20px 0px;
-    font-size: 80px;
-    font-weight: 600;
-    text-align: center;
-    letter-spacing: -4px;
-    line-height: 0.8;
-    color: #fff;
-}
-
-main.landing-page-index > section.validate > div > h1 {
-    margin: 0px;
-    font-size: 30px;
-    font-weight: 600;
-    text-align: center;
-    letter-spacing: -2px;
-    color: #fff;
-}
-
-main.landing-page-index > section.validate > div > h1 > span {
-    color: #003a5d;
-}
-
-@media (max-width: 768px) {
-
-    main.landing-page-index > section.validate > div > h4 {
-        font-size: 45px;
-    }
-
-    main.landing-page-index > section.validate > div > h1 {
-        font-size: 24px;
-    }
-}
-
-@media (max-width: 425px) {
-
-    main.landing-page-index > section.validate > div > h1 {
-        line-height: 20px;
-    }
-} */
-
 /* Footer
 ------------------------------------------------------------------------------ */
 footer.landing-page-index {
@@ -599,6 +532,7 @@ footer.landing-page-index > .container > nav > ul > li > a {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 100px;
     border: 2px solid #00a5ab;
     box-sizing: border-box;
     color: #00a5ab;
@@ -873,6 +807,68 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
     font-weight: 400;
     font-family: cursive;
     line-height: 15px;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.uploader {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.uploader > fieldset {
+    width: auto !important;
+    padding: 0px !important;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.uploader > fieldset.error {
+    border: 1px solid #f44336;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.uploader > fieldset > figure {
+    width: 300px;
+    min-height: 300px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0px;
+    overflow: hidden;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.uploader > fieldset > figure > img {
+    width: 100%;
+    height: auto;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.uploader > fieldset > figure > a {
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.8);
+    opacity: 0;
+    transition: 400ms;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.uploader > fieldset > figure > a:hover {
+    opacity: 1;
+    transition: 400ms;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.uploader > fieldset > figure > a > svg {
+    font-size: 40px;
+    color: #000;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.uploader > fieldset > figure > input[type="file"] {
+    display: none;
 }
 
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.payment {

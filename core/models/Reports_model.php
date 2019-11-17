@@ -40,13 +40,13 @@ class Reports_model extends Model
 
 			$break = false;
 
-			if (Functions::check_access(['{views_opportunity_areas}']) == true AND !in_array($value['data']['opportunity_area'], Session::get_value('user')['opportunity_areas']))
+			if (Functions::check_user_access(['{view_opportunity_areas}']) == true AND !in_array($value['data']['opportunity_area'], Session::get_value('user')['opportunity_areas']))
 				$break = true;
 
-			if (Functions::check_access(['{views_own}']) == true AND $value['data']['created_user'] != Session::get_value('user')['id'] AND !in_array(Session::get_value('user')['id'], $value['data']['assigned_users']))
+			if (Functions::check_user_access(['{view_own}']) == true AND $value['data']['created_user'] != Session::get_value('user')['id'] AND !in_array(Session::get_value('user')['id'], $value['data']['assigned_users']))
 				$break = true;
 
-			if (Functions::check_access(['{views_confidentiality}']) == false && $value['data']['confidentiality'] == true)
+			if (Functions::check_user_access(['{view_confidentiality}']) == false && $value['data']['confidentiality'] == true)
 				$break = true;
 
 			if ($data['opportunity_area'] != 'all' AND $value['data']['opportunity_area'] != $data['opportunity_area'])
@@ -278,10 +278,10 @@ class Reports_model extends Model
 		{
 			$break = false;
 
-			if (Functions::check_access(['{views_opportunity_areas}']) == true AND !in_array($value['id'], Session::get_value('user')['opportunity_areas']))
+			if (Functions::check_user_access(['{view_opportunity_areas}']) == true AND !in_array($value['id'], Session::get_value('user')['opportunity_areas']))
 				$break = true;
 
-			if (Functions::check_access(['{views_own}']) == true AND !in_array($value['id'], Session::get_value('user')['opportunity_areas']))
+			if (Functions::check_user_access(['{view_own}']) == true AND !in_array($value['id'], Session::get_value('user')['opportunity_areas']))
 				$break = true;
 
 			if ($break == false)

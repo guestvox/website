@@ -4,7 +4,7 @@ $(document).ready(function()
 {
     $('[data-image-select]').on('click', function()
     {
-        $(this).parents('.uploader').find('[data-image-upload]').click();
+        $(this).parent().find('[data-image-upload]').click();
     });
 
     $('[data-image-upload]').on('change', function()
@@ -27,29 +27,34 @@ $(document).ready(function()
                 {
                     if (response.status == 'success')
                     {
+                        $('[data-modal="success"]').addClass('view');
                         $('[data-modal="success"] main > p').html(response.message);
-                        $('[data-modal="success"]').addClass('view').animate({scrollTop: 0}, 0);
-
-                        setTimeout(function() { window.location.href = response.path }, 1500);
+                        setTimeout(function() { location.reload(); }, 1500);
                     }
                     else if (response.status == 'error')
                     {
+                        $('[data-modal="alert"]').addClass('view');
                         $('[data-modal="alert"] main > p').html(response.message);
-                        $('[data-modal="alert"]').addClass('view').animate({scrollTop: 0}, 0);
                     }
                 }
             });
         }
         else
         {
-            $('[data-modal="error"]').find('main > p').html('ERROR FILE NOT PERMIT');
             $('[data-modal="error"]').addClass('view');
+            $('[data-modal="error"]').find('main > p').html('Error de operación');
         }
+    });
+
+    $('[data-modal="edit_profile"]').modal().onCancel(function()
+    {
+        $('[data-modal="edit_profile"]').find('label.error').removeClass('error');
+        $('[data-modal="edit_profile"]').find('p.error').remove();
     });
 
     $('[data-modal="edit_profile"]').modal().onSuccess(function()
     {
-        $('form[name="edit_profile"]').submit();
+        $('[data-modal="edit_profile"]').find('form').submit();
     });
 
     $('form[name="edit_profile"]').on('submit', function(e)
@@ -66,20 +71,19 @@ $(document).ready(function()
             dataType: 'json',
             success: function(response)
             {
-                $('label.error').removeClass('error');
-                $('p.error').remove();
-
                 if (response.status == 'success')
                 {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
-
-                    setTimeout(function() { window.location.href = response.path }, 1500);
+                    $('[data-modal="success"]').find('main > p').html(response.message);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
                     if (response.labels)
                     {
+                        form.find('label.error').removeClass('error');
+                        form.find('p.error').remove();
+
                         $.each(response.labels, function(i, label)
                         {
                             if (label[1].length > 0)
@@ -92,20 +96,27 @@ $(document).ready(function()
                     }
                     else if (response.message)
                     {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
                         $('[data-modal="error"]').addClass('view');
+                        $('[data-modal="error"]').find('main > p').html(response.message);
                     }
                 }
             }
         });
     });
 
-    $('[data-modal="reset_password"]').modal().onSuccess(function()
+    $('[data-modal="restore_password"]').modal().onCancel(function()
     {
-        $('form[name="reset_password"]').submit();
+        $('[data-modal="restore_password"]').find('form')[0].reset();
+        $('[data-modal="restore_password"]').find('label.error').removeClass('error');
+        $('[data-modal="restore_password"]').find('p.error').remove();
     });
 
-    $('form[name="reset_password"]').on('submit', function(e)
+    $('[data-modal="restore_password"]').modal().onSuccess(function()
+    {
+        $('[data-modal="restore_password"]').find('form').submit();
+    });
+
+    $('form[name="restore_password"]').on('submit', function(e)
     {
         e.preventDefault();
 
@@ -113,26 +124,25 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=reset_password',
+            data: form.serialize() + '&action=restore_password',
             processData: false,
             cache: false,
             dataType: 'json',
             success: function(response)
             {
-                $('label.error').removeClass('error');
-                $('p.error').remove();
-
                 if (response.status == 'success')
                 {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
-
-                    setTimeout(function() { window.location.href = response.path }, 1500);
+                    $('[data-modal="success"]').find('main > p').html(response.message);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
                     if (response.labels)
                     {
+                        form.find('label.error').removeClass('error');
+                        form.find('p.error').remove();
+
                         $.each(response.labels, function(i, label)
                         {
                             if (label[1].length > 0)
@@ -145,8 +155,8 @@ $(document).ready(function()
                     }
                     else if (response.message)
                     {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
                         $('[data-modal="error"]').addClass('view');
+                        $('[data-modal="error"]').find('main > p').html(response.message);
                     }
                 }
             }

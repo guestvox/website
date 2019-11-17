@@ -77,7 +77,7 @@ $this->dependencies->add(['js', '{$path.js}Hola/index.js']);
             <div class="boxes-product">
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}icon-lock.svg" alt="" width="70" height="70">
+                        <img src="{$path.images}icon-lock.svg" alt="Feature" width="70" height="70">
                     </figure>
                     <h4>Credenciales encriptadas</h4>
                     <p>Los colaboradores acceden fácilmente a la plataforma utilizando sus credenciales de acceso (usuario y contraseña).</p>
@@ -85,7 +85,7 @@ $this->dependencies->add(['js', '{$path.js}Hola/index.js']);
 
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}icon-person.svg" alt="" width="70" height="70">
+                        <img src="{$path.images}icon-person.svg" alt="Feature" width="70" height="70">
                     </figure>
                     <h4>Asigna al área y/o persona responsable del seguimiento.</h4>
                     <p>Crea una incidencia (Vox), y asigna al área o persona responsable del seguimiento.</p>
@@ -93,7 +93,7 @@ $this->dependencies->add(['js', '{$path.js}Hola/index.js']);
 
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}icon-attachment.svg" alt="" width="70" height="70">
+                        <img src="{$path.images}icon-attachment.svg" alt="Feature" width="70" height="70">
                     </figure>
                     <h4>Adjunta imágenes, videos, archivos PDF, Word y Excel.</h4>
                     <p>Enriquece el Vox y respalda tu información con archivos adjuntos.</p>
@@ -101,7 +101,7 @@ $this->dependencies->add(['js', '{$path.js}Hola/index.js']);
 
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}icon-person-follow.svg" alt="" width="70" height="70">
+                        <img src="{$path.images}icon-person-follow.svg" alt="Feature" width="70" height="70">
                     </figure>
                     <h4>Seguimiento de acuerdo a prioridad y tiempo transcurrido.</h4>
                     <p>Una vez creada la incidencia, los departamentos asignados dan seguimiento a cada caso.</p>
@@ -109,7 +109,7 @@ $this->dependencies->add(['js', '{$path.js}Hola/index.js']);
 
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}icon-time.svg" alt="" width="70" height="70">
+                        <img src="{$path.images}icon-time.svg" alt="Feature" width="70" height="70">
                     </figure>
                     <h4>Tu información siempre en tiempo real.</h4>
                     <p>Visualiza minuto a minuto el estatus de tu hotel, el seguimiento a los Voxes y la satisfacción de tus huéspedes.</p>
@@ -117,7 +117,7 @@ $this->dependencies->add(['js', '{$path.js}Hola/index.js']);
 
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}icon-multi-device.svg" alt="" width="70" height="70">
+                        <img src="{$path.images}icon-multi-device.svg" alt="Feature" width="70" height="70">
                     </figure>
                     <h4>Accede desde cualquier dispositivo.</h4>
                     <p>No importa dónde estes, ni que dispositivo uses, accesa a tu información cuando quieras y donde quieras.</p>

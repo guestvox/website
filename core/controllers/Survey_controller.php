@@ -36,7 +36,7 @@ class Survey_controller extends Controller
 						{
 							$data .=
 		                    '<article>
-		                        <h6>' . $value['fk']['question'][Session::get_value('settings')['language']] . '</h6>
+		                        <h6>' . $value['fk']['question'][Session::get_value('account')['language']] . '</h6>
 		                        <div>
 		                            <label>{$lang.appalling}</label>
 		                            <label><input type="radio" ' . (($value['answer'] == 1) ? 'checked' : '') . ' disabled></label>
@@ -52,7 +52,7 @@ class Survey_controller extends Controller
 						{
 							$data .=
 							'<article>
-								<h6>' . $value['fk']['question'][Session::get_value('settings')['language']] . '</h6>
+								<h6>' . $value['fk']['question'][Session::get_value('account')['language']] . '</h6>
 								<div>
 									<label>{$lang.to_yes}</label>
 									<label><input type="radio" ' . (($value['answer'] == 'yes') ? 'checked' : '') . ' disabled></label>
@@ -65,7 +65,7 @@ class Survey_controller extends Controller
 						{
 							$data .=
 							'<article>
-		                        <h6>' . $value['fk']['question'][Session::get_value('settings')['language']] . '</h6>
+		                        <h6>' . $value['fk']['question'][Session::get_value('account')['language']] . '</h6>
 		                        <div>
 		                            <input type="text" value="' . $value['answer'] . '" value="">
 		                        </div>
@@ -79,7 +79,7 @@ class Survey_controller extends Controller
 							foreach ($value['subanswers'] as $subkey => $subvalue)
 							{
 								$data .=
-								'<h6>' . $value['fk']['subquestions'][$subkey]['subquestion'][Session::get_value('settings')['language']] . '</h6>
+								'<h6>' . $value['fk']['subquestions'][$subkey]['subquestion'][Session::get_value('account')['language']] . '</h6>
 								<div>';
 
 								if ($subvalue['type'] == 'open')
@@ -132,7 +132,7 @@ class Survey_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
+						'message' => '{$lang.operation_error}',
 					]);
 				}
 			}
@@ -211,14 +211,14 @@ class Survey_controller extends Controller
 					{
 						Functions::environment([
 							'status' => 'success',
-							'message' => '{$lang.success_operation_database}',
+							'message' => '{$lang.operation_success}',
 						]);
 					}
 					else
 					{
 						Functions::environment([
 							'status' => 'error',
-							'message' => '{$lang.error_operation_database}',
+							'message' => '{$lang.operation_error}',
 						]);
 					}
 				}
@@ -246,7 +246,7 @@ class Survey_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
+						'message' => '{$lang.operation_error}',
 					]);
 				}
 			}
@@ -262,14 +262,14 @@ class Survey_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'success',
-						'message' => '{$lang.success_operation_database}',
+						'message' => '{$lang.operation_success}',
 					]);
 				}
 				else
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
+						'message' => '{$lang.operation_error}',
 					]);
 				}
 			}
@@ -319,14 +319,14 @@ class Survey_controller extends Controller
 					{
 						Functions::environment([
 							'status' => 'success',
-							'message' => '{$lang.success_operation_database}',
+							'message' => '{$lang.operation_success}',
 						]);
 					}
 					else
 					{
 						Functions::environment([
 							'status' => 'error',
-							'message' => '{$lang.error_operation_database}',
+							'message' => '{$lang.operation_error}',
 						]);
 					}
 				}
@@ -354,7 +354,7 @@ class Survey_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
+						'message' => '{$lang.operation_error}',
 					]);
 				}
 			}
@@ -374,14 +374,14 @@ class Survey_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'success',
-						'message' => '{$lang.success_operation_database}',
+						'message' => '{$lang.operation_success}',
 					]);
 				}
 				else
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
+						'message' => '{$lang.operation_error}',
 					]);
 				}
 			}
@@ -399,7 +399,7 @@ class Survey_controller extends Controller
 			{
 				$tbl_survey_questions .=
 				'<tr class="question">
-					<td align="left">' . $value['question'][Session::get_value('settings')['language']] . '</td>
+					<td align="left">' . $value['question'][Session::get_value('account')['language']] . '</td>
 					<td align="left">' . (($value['type'] == 'rate') ? 'Rate' : (($value['type'] == 'twin') ? 'Twin' : '{$lang.open}'))  . '</td>
 					<td align="left">' . (($value['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</td>
 					<td align="right" class="icon">' . (($value['status'] == true AND $value['type'] != 'open') ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : '') . '</td>
@@ -411,7 +411,7 @@ class Survey_controller extends Controller
 				{
 					$tbl_survey_questions .=
 					'<tr>
-						<td align="left" class="sub">' . $subvalue['subquestion'][Session::get_value('settings')['language']] . '</td>
+						<td align="left" class="sub">' . $subvalue['subquestion'][Session::get_value('account')['language']] . '</td>
 						<td align="left">' . (($subvalue['type'] == 'rate') ? 'Rate' : (($subvalue['type'] == 'twin') ? 'Twin' : '{$lang.open}'))  . '</td>
 						<td align="left">' . (($subvalue['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</td>
 						<td align="right" class="icon"></td>
@@ -453,14 +453,14 @@ class Survey_controller extends Controller
 					{
 						Functions::environment([
 							'status' => 'success',
-							'message' => '{$lang.success_operation_database}',
+							'message' => '{$lang.operation_success}',
 						]);
 					}
 					else
 					{
 						Functions::environment([
 							'status' => 'error',
-							'message' => '{$lang.error_operation_database}',
+							'message' => '{$lang.operation_error}',
 						]);
 					}
 				}

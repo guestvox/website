@@ -22,20 +22,20 @@ class Reports_controller extends Controller
 				$data['opt_opportunity_areas'] = '<option value="all">{$lang.all}</option>';
 
 				foreach ($this->model->get_opportunity_areas($data['type']) as $value)
-					$data['opt_opportunity_areas'] .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+					$data['opt_opportunity_areas'] .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 				$data['opportunity_type'] = (!empty($query['opportunity_type'])) ? $query['opportunity_type'] : 'all';
 				$data['opt_opportunity_types'] = '<option value="all">{$lang.all}</option>';
 
 				foreach ($this->model->get_opportunity_types($data['opportunity_area'], $data['type']) as $value)
-					$data['opt_opportunity_types'] .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+					$data['opt_opportunity_types'] .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 				$data['room'] = (!empty($query['room'])) ? $query['room'] : 'all';
 				$data['location'] = (!empty($query['location'])) ? $query['location'] : 'all';
 				$data['opt_locations'] = '<option value="all">{$lang.all}</option>';
 
 				foreach ($this->model->get_locations($data['type']) as $value)
-					$data['opt_locations'] .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+					$data['opt_locations'] .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 				$data['order'] = $query['order'];
 				$data['started_date'] = Functions::get_past_date(Functions::get_current_date(), $query['time_period'], 'days');
@@ -67,7 +67,7 @@ class Reports_controller extends Controller
 				$data = '<option value="all">{$lang.all}</option>';
 
 				foreach ($this->model->get_opportunity_areas($_POST['option']) as $value)
-					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 				Functions::environment([
 					'status' => 'success',
@@ -80,7 +80,7 @@ class Reports_controller extends Controller
 				$data = '<option value="all">{$lang.all}</option>';
 
 				foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['option']) as $value)
-					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 				Functions::environment([
 					'status' => 'success',
@@ -93,7 +93,7 @@ class Reports_controller extends Controller
 				$data = '<option value="all">{$lang.all}</option>';
 
 				foreach ($this->model->get_locations($_POST['option']) as $value)
-					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+					$data .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 				Functions::environment([
 					'status' => 'success',
@@ -114,7 +114,7 @@ class Reports_controller extends Controller
 					$data .=
 					'<div class="checkbox">
 						<input type="checkbox" name="addressed_to_opportunity_areas[]" value="' . $value['id'] . '">
-						<span>' . $value['name'][Session::get_value('settings')['language']] . '</span>
+						<span>' . $value['name'][Session::get_value('account')['language']] . '</span>
 					</div>';
 				}
 
@@ -197,16 +197,16 @@ class Reports_controller extends Controller
 							$data .= '<p><strong>{$lang.room}:</strong> ' . $value['data']['room'] . '</p>';
 
 						if (in_array('opportunity_area', $_POST['fields']))
-							$data .= '<p><strong>{$lang.opportunity_area}:</strong> ' . $value['data']['opportunity_area'][Session::get_value('settings')['language']] . '</p>';
+							$data .= '<p><strong>{$lang.opportunity_area}:</strong> ' . $value['data']['opportunity_area'][Session::get_value('account')['language']] . '</p>';
 
 						if (in_array('opportunity_type', $_POST['fields']))
-							$data .= '<p><strong>{$lang.opportunity_type}:</strong> ' . $value['data']['opportunity_type'][Session::get_value('settings')['language']] . '</p>';
+							$data .= '<p><strong>{$lang.opportunity_type}:</strong> ' . $value['data']['opportunity_type'][Session::get_value('account')['language']] . '</p>';
 
 						if (in_array('started_date_hour', $_POST['fields']))
 							$data .= '<p><strong>{$lang.started_date_hour}:</strong> ' . Functions::get_formatted_date($value['data']['started_date'], 'd F, Y') . ' ' . Functions::get_formatted_hour($value['data']['started_hour'], '+ hrs') . '</p>';
 
 						if (in_array('location', $_POST['fields']))
-							$data .= '<p><strong>{$lang.location}:</strong> ' . $value['data']['location'][Session::get_value('settings')['language']] . '</p>';
+							$data .= '<p><strong>{$lang.location}:</strong> ' . $value['data']['location'][Session::get_value('account')['language']] . '</p>';
 
 						if (in_array('cost', $_POST['fields']) AND $value['type'] == 'incident')
 							$data .= '<p><strong>{$lang.cost}:</strong> ' . Functions::get_formatted_currency($value['data']['cost']) . '</p>';
@@ -486,14 +486,14 @@ class Reports_controller extends Controller
 					{
 						Functions::environment([
 							'status' => 'success',
-							'message' => '{$lang.success_operation_database}',
+							'message' => '{$lang.operation_success}',
 						]);
 					}
 					else
 					{
 						Functions::environment([
 							'status' => 'error',
-							'message' => '{$lang.error_operation_database}',
+							'message' => '{$lang.operation_error}',
 						]);
 					}
 
@@ -515,14 +515,14 @@ class Reports_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'success',
-						'message' => '{$lang.success_operation_database}',
+						'message' => '{$lang.operation_success}',
 					]);
 				}
 				else
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.error_operation_database}',
+						'message' => '{$lang.operation_error}',
 					]);
 				}
 
@@ -542,7 +542,7 @@ class Reports_controller extends Controller
 			$opt_opportunity_areas = '';
 
 			foreach ($this->model->get_opportunity_areas('all') as $value)
-				$opt_opportunity_areas .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+				$opt_opportunity_areas .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 			$opt_rooms = '';
 
@@ -552,7 +552,7 @@ class Reports_controller extends Controller
 			$opt_locations = '';
 
 			foreach ($this->model->get_locations('all') as $value)
-				$opt_locations .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('settings')['language']] . '</option>';
+				$opt_locations .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 			$cbx_addressed_to_opportunity_areas = '';
 
@@ -561,7 +561,7 @@ class Reports_controller extends Controller
 				$cbx_addressed_to_opportunity_areas .=
 				'<div class="checkbox">
 					<input type="checkbox" name="addressed_to_opportunity_areas[]" value="' . $value['id'] . '">
-					<span>' . $value['name'][Session::get_value('settings')['language']] . '</span>
+					<span>' . $value['name'][Session::get_value('account')['language']] . '</span>
 				</div>';
 			}
 

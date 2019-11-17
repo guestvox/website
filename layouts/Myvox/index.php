@@ -10,7 +10,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
 <header class="my-vox">
     <div class="topbar">
         <figure class="logotype">
-            <img src="{$logotype}" alt="">
+            <img src="{$logotype}" alt="Account logotype">
         </figure>
     </div>
     <div class="bottombar">
@@ -38,7 +38,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
     </div>
 </main>
 <footer class="my-vox">
-    <h4>Powered by <img src="{$path.images}logotype-color.png" alt=""></h4>
+    <h4>Powered by <img src="{$path.images}logotype-color.png" alt="Guestvox logotype"></h4>
     <p>{$lang.copyright}</p>
 </footer>
 {$mdl_new_request}

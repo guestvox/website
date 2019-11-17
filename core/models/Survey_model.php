@@ -271,7 +271,7 @@ class Survey_model extends Model
 	// 					$count = $count + $subvalue['rate'];
 	// 			}
 	//
-	// 			$data['labels'] .= "'" . $value['question'][Session::get_value('settings')['language']] . "',";
+	// 			$data['labels'] .= "'" . $value['question'][Session::get_value('account')['language']] . "',";
 	// 			$data['datasets']['data'] .= $count . ',';
 	// 			$data['datasets']['colors'] .= "'#" . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . "',";
 	// 		}

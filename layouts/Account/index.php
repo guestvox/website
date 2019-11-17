@@ -17,7 +17,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <div class="uploader">
                             <fieldset>
                                 <figure>
-                                    <img src="{$logotype}" alt="" data-image-preview>
+                                    <img src="{$logotype}" data-image-preview>
                                     <a data-image-select><i class="fas fa-upload"></i></a>
                                 </figure>
                                 <input type="file" name="logotype" accept="image/*" data-image-upload>

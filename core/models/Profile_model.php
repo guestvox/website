@@ -12,33 +12,44 @@ class Profile_model extends Model
 	public function get_profile()
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('users', [
-			'[>]accounts' => [
-				'account' => 'id'
-			],
-			'[>]user_levels' => [
-				'user_level' => 'id'
-			],
+			'firstname',
+			'lastname',
+			'email',
+			'phone',
+			'avatar',
+			'username',
+			'user_permissions'
 		], [
-			'users.id',
-			'accounts.name(account)',
-			'users.name',
-			'users.lastname',
-			'users.email',
-			'users.cellphone',
-			'users.avatar',
-			'users.username',
-			'users.temporal_password',
-			'user_levels.name(user_level)',
-		], [
-			'AND' => [
-				'users.id' => Session::get_value('user')['id'],
-			]
+			'id' => Session::get_value('user')['id']
 		]));
 
 		if (!empty($query))
 		{
-			if (!empty($query[0]['temporal_password']))
-				$query[0]['temporal_password'] = Functions::get_decrypt($query[0]['temporal_password']);
+            $a = [
+                'supervision' => false,
+                'operational' => false,
+                'administrative' => false,
+            ];
+
+            $query[0]['user_permissions'] = $this->database->select('user_permissions', [
+                'type'
+            ], [
+                'id' => $query[0]['user_permissions']
+            ]);
+
+            foreach ($query[0]['user_permissions'] as $value)
+            {
+                if ($value['type'] == 'supervision')
+                    $a['supervision'] = true;
+
+                if ($value['type'] == 'operational')
+                    $a['operational'] = true;
+
+                if ($value['type'] == 'administrative')
+                    $a['administrative'] = true;
+            }
+
+			$query[0]['user_permissions'] = $a;
 
 			return $query[0];
 		}
@@ -46,24 +57,51 @@ class Profile_model extends Model
 			return null;
 	}
 
-	public function edit_avatar($data)
+	public function get_ladas()
 	{
-		$query = $this->database->update('users', [
-			'avatar' => Functions::uploader($data['avatar']),
+		$query = Functions::get_json_decoded_query($this->database->select('countries', [
+			'name',
+			'lada',
 		], [
-			'id' => Session::get_value('user')['id'],
-		]);
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
 
 		return $query;
+	}
+
+	public function edit_avatar($data)
+	{
+		$data['avatar'] = Functions::uploader($data['avatar']);
+
+		if (!empty($data['avatar']))
+		{
+			$query = $this->database->update('users', [
+				'avatar' => $data['avatar'],
+			], [
+				'id' => Session::get_value('user')['id'],
+			]);
+
+			if (!empty($query))
+				return $data['avatar'];
+			else
+				return null;
+		}
+		else
+			return null;
 	}
 
 	public function edit_profile($data)
 	{
 		$query = $this->database->update('users', [
-			'name' => $data['name'],
+			'firstname' => $data['firstname'],
 			'lastname' => $data['lastname'],
 			'email' => $data['email'],
-			'cellphone' => $data['cellphone'],
+			'phone' => json_encode([
+				'lada' => $data['phone_lada'],
+				'number' => $data['phone_number'],
+			]),
 			'username' => $data['username'],
 		], [
 			'id' => Session::get_value('user')['id'],
@@ -72,11 +110,10 @@ class Profile_model extends Model
 		return $query;
 	}
 
-	public function reset_password($data)
+	public function restore_password($data)
 	{
 		$query = $this->database->update('users', [
 			'password' => $this->security->create_password($data['password']),
-			'temporal_password' => null,
 		], [
 			'id' => Session::get_value('user')['id'],
 		]);

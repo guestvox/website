@@ -2,5 +2,5 @@
 
 $(document).ready(function()
 {
-    setTimeout(function() { window.location.href = '/'; }, 10000);
+    setTimeout(function() { window.location.href = '/'; }, 8000);
 });

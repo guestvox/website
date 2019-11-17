@@ -163,7 +163,7 @@ class Myvox_controller extends Controller
 	                            Functions::environment([
 	                                'status' => 'success',
 	                                'message' => '{$lang.thanks_trus_us_vox_send_correctly}',
-	                                'path' => '/myvox/' . $room['code']
+	                                'path' => '/myvox/' . $room['token']
 	                            ]);
 	                        }
 	                        else
@@ -315,7 +315,7 @@ class Myvox_controller extends Controller
 	                            Functions::environment([
 	                                'status' => 'success',
 	                                'message' => '{$lang.thanks_trus_us_vox_send_correctly}',
-	                                'path' => '/myvox/' . $room['code']
+	                                'path' => '/myvox/' . $room['token']
 	                            ]);
 	                        }
 	                        else
@@ -448,7 +448,7 @@ class Myvox_controller extends Controller
 		                        Functions::environment([
 		                            'status' => 'success',
 		                            'message' => '{$lang.thanks_for_answering_our_survey}',
-		                            'path' => '/myvox/' . $room['code']
+		                            'path' => '/myvox/' . $room['token']
 		                        ]);
 		                    }
 		                    else
@@ -584,7 +584,7 @@ class Myvox_controller extends Controller
 
 					if ($account['myvox_incident'] == true)
 					{
-						$a_new_incident .= '<a data-button-modal="new_incident">{$lang.i_want_to_leave_a_comment}</a>';
+						$a_new_incident .= '<a data-button-modal="new_incident">{$lang.i_want_to_leave_a_comment_complaint}</a>';
 
 						$mdl_new_incident .=
 						'<section class="modal" data-modal="new_incident">
@@ -689,7 +689,7 @@ class Myvox_controller extends Controller
 
 					if ($account['myvox_survey'] == true)
 					{
-						$a_new_survey_answer .= '<a data-button-modal="new_survey_answer" class="survey">' . $account['myvox_survey_title'][Session::get_value('lang')] . '<img src="{$path.images}gift.png" alt=""></a>';
+						$a_new_survey_answer .= '<a data-button-modal="new_survey_answer" class="survey">' . $account['myvox_survey_title'][Session::get_value('lang')] . '<img src="{$path.images}gift.png" alt="Gift icon"></a>';
 
 						$mdl_new_survey_answer .=
 						'<section class="modal" data-modal="new_survey_answer">
@@ -849,7 +849,7 @@ class Myvox_controller extends Controller
 						            <div id="TA_cdswritereviewlg4" class="TA_cdswritereviewlg" style="width:100%;">
 						                <ul id="I7hJOKLd" class="TA_links FJfwMuzhhq">
 						                    <li id="SnaJrr" class="KBMX9k">
-						                        <a target="_blank" href="https://www.tripadvisor.com.mx/"><img src="https://www.tripadvisor.com.mx/img/cdsi/img2/branding/medium-logo-12097-2.png" alt=""/></a>
+						                        <a target="_blank" href="https://www.tripadvisor.com.mx/"><img src="https://www.tripadvisor.com.mx/img/cdsi/img2/branding/medium-logo-12097-2.png" alt=Trip Advisor logotype""/></a>
 						                    </li>
 						                </ul>
 						            </div>

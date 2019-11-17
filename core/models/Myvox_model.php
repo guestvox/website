@@ -9,15 +9,15 @@ class Myvox_model extends Model
 		parent::__construct();
 	}
 
-    public function get_room($code)
+    public function get_room($token)
 	{
 		$query = $this->database->select('rooms', [
 			'id',
 			'account',
 			'name',
-			'code'
+			'token'
 		], [
-			'code' => strtoupper($code)
+			'token' => strtoupper($token)
 		]);
 
 		return !empty($query) ? $query[0] : null;

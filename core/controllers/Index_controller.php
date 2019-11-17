@@ -424,6 +424,7 @@ class Index_controller extends Controller
 								if ($query['user']['password'] == true)
 								{
 									unset($query['account']['status']);
+									unset($query['user']['username']);
 									unset($query['user']['password']);
 									unset($query['user']['status']);
 

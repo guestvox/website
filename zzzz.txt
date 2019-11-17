@@ -1,0 +1,172 @@
+if ($_POST['action'] == 'get_api')
+{
+    if (Session::get_value('user')['id'] == 106)
+    {
+        $api = curl_init();
+
+        curl_setopt($api, CURLOPT_URL, 'https://admin.zaviaerp.com/pms/hotels/api/check_room2/?UserName=demo&UserPassword=demo&RoomNumber=' . $this->model->get_room($_POST['room'])['name']);
+        curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
+
+        $data = Functions::get_json_decoded_query(curl_exec($api));
+
+        curl_close($api);
+
+        if ($data['Status'] == 'success')
+        {
+            Functions::environment([
+                'status' => 'success',
+                'data' => $data
+            ]);
+        }
+        else if ($data['Status'] == 'error')
+        {
+            Functions::environment([
+                'status' => 'error',
+            ]);
+        }
+    }
+    else
+    {
+        Functions::environment([
+            'status' => 'error',
+        ]);
+    }
+}
+
+<?php
+
+defined('_EXEC') or die;
+
+class Rooms_controller extends Controller
+{
+	public function __construct()
+	{
+		parent::__construct();
+	}
+
+	public function index()
+	{
+        if (Format::exist_ajax_request() == true)
+		{
+
+		}
+		else
+		{
+			define('_title', 'GuestVox');
+
+			$template = $this->view->render($this, 'index');
+
+			$replace = [
+
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+}
+
+<?php
+
+defined('_EXEC') or die;
+
+class Account_model extends Model
+{
+	public function __construct()
+	{
+		parent::__construct();
+	}
+}
+
+'use strict';
+
+$(document).ready(function()
+{
+
+});
+
+<?php
+
+defined('_EXEC') or die;
+
+$this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.min.css']);
+$this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
+$this->dependencies->add(['js', '{$path.js}Opportunityareas/index.js']);
+$this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
+
+?>
+
+%{header}%
+<main>
+    <article>
+        <header>
+            <h2><i class="fas fa-compass"></i>{$lang.opportunity_areas}</h2>
+        </header>
+        <main>
+            <div class="table">
+                <aside>
+                    <label>
+                        <span><i class="fas fa-search"></i></span>
+                        <input name="tbl_opportunity_areas_search" type="text">
+                    </label>
+                    <?php if (Functions::check_user_access(['{opportunity_areas_create}']) == true) : ?>
+                    <a data-button-modal="new_opportunity_area" class="new"><i class="fas fa-plus"></i></a>
+                    <?php endif; ?>
+                </aside>
+                <table id="tbl_opportunity_areas">
+                    <thead>
+                        <tr>
+                            <th align="left">{$lang.name}</th>
+                            <th align="left" class="flag">{$lang.to_request}</th>
+                            <th align="left" class="flag">{$lang.to_incident}</th>
+                            <th align="left" class="flag">{$lang.public}</th>
+                            <?php if (Functions::check_user_access(['{opportunity_areas_delete}']) == true) : ?>
+                            <th align="right" class="icon"></th>
+                            <?php endif; ?>
+                            <?php if (Functions::check_user_access(['{opportunity_areas_update}']) == true) : ?>
+                            <th align="right" class="icon"></th>
+                            <?php endif; ?>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {$tbl_opportunity_areas}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </article>
+</main>
+<?php if (Functions::check_user_access(['{opportunity_areas_create}']) == true) : ?>
+<section class="modal new" data-modal="new_opportunity_area">
+    <div class="content">
+        <header>
+            <h3>{$lang.new}</h3>
+        </header>
+        <main>
+
+        </main>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<?php endif; ?>
+<?php if (Functions::check_user_access(['{opportunity_areas_delete}']) == true) : ?>
+<section class="modal delete" data-modal="delete_opportunity_area">
+    <div class="content">
+        <header>
+            <h3>{$lang.delete}</h3>
+        </header>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<?php endif; ?>

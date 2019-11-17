@@ -2,29 +2,33 @@
 
 $(document).ready(function()
 {
-    var table = $('table').DataTable({
-        ordering: false,
-        autoWidth: false,
-        pageLength: 5,
-        info: false,
-        'drawCallback': function()
-        {
-            $('[data-elapsed-time]').each(function()
+    var tbl_voxes = $('#tbl_voxes');
+
+    if (tbl_voxes.length > 0)
+    {
+        tbl_voxes.DataTable({
+            ordering: false,
+            pageLength: 5,
+            info: false,
+            'drawCallback': function()
             {
-                get_elapsed_time($(this).data('started-date').replace(/-/g, '/'), $(this));
-            });
-        }
-    });
+                $('[data-elapsed-time]').each(function()
+                {
+                    get_elapsed_time($(this).data('started-date').replace(/-/g, '/'), $(this));
+                });
+            }
+        });
 
-    $('[name="search"]').on('keyup', function()
-    {
-        table.search(this.value).draw();
-    });
+        $('[name="tbl_voxes_search"]').on('keyup', function()
+        {
+            tbl_voxes.search(this.value).draw();
+        });
 
-    $(document).on('click', 'table > tbody > tr > td', function()
-    {
-        window.location.href = '/voxes/view/' + $(this).parents('tr').data('id');
-    });
+        $(document).on('click', '#tbl_voxes > tbody > tr > td', function()
+        {
+            window.location.href = '/voxes/view/' + $(this).parents('tr').data('id');
+        });
+    }
 });
 
 function get_elapsed_time(datehour1, target)

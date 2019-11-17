@@ -115,11 +115,11 @@ class Stats_model extends Model
 				if ($edit == true)
 				{
 					if ($option == 'v_oa_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('settings')['language']]);
+						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
 					else if ($option == 'v_r_chart')
 						array_push($data['labels'], $value['name']);
 					else if ($option == 'v_l_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('settings')['language']]);
+						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
 
 					array_push($data['datasets']['data'], $count);
 					array_push($data['datasets']['colors'], "#" . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT));
@@ -127,11 +127,11 @@ class Stats_model extends Model
 				else
 				{
 					if ($option == 'v_oa_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('settings')['language']] . "',";
+						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
 					else if ($option == 'v_r_chart')
 						$data['labels'] .= "'" . $value['name'] . "',";
 					else if ($option == 'v_l_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('settings')['language']] . "',";
+						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
 
 					$data['datasets']['data'] .= $count . ',';
 					$data['datasets']['colors'] .= "'#" . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . "',";
@@ -267,11 +267,11 @@ class Stats_model extends Model
 				if ($edit == true)
 				{
 					if ($option == 'ar_oa_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('settings')['language']]);
+						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
 					else if ($option == 'ar_r_chart')
 						array_push($data['labels'], $value['name']);
 					else if ($option == 'ar_l_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('settings')['language']]);
+						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
 
 					array_push($data['datasets']['data'], $average);
 					array_push($data['datasets']['colors'], "#" . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT));
@@ -279,11 +279,11 @@ class Stats_model extends Model
 				else
 				{
 					if ($option == 'ar_oa_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('settings')['language']] . "',";
+						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
 					else if ($option == 'ar_r_chart')
 						$data['labels'] .= "'" . $value['name'] . "',";
 					else if ($option == 'ar_l_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('settings')['language']] . "',";
+						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
 
 					$data['datasets']['data'] .= $average . ',';
 					$data['datasets']['colors'] .= "'#" . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . "',";
@@ -392,11 +392,11 @@ class Stats_model extends Model
 				if ($edit == true)
 				{
 					if ($option == 'c_oa_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('settings')['language']]);
+						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
 					else if ($option == 'c_r_chart')
 						array_push($data['labels'], $value['name']);
 					else if ($option == 'c_l_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('settings')['language']]);
+						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
 
 					array_push($data['datasets']['data'], $cost);
 					array_push($data['datasets']['colors'], "#" . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT));
@@ -404,11 +404,11 @@ class Stats_model extends Model
 				else
 				{
 					if ($option == 'c_oa_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('settings')['language']] . "',";
+						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
 					else if ($option == 'c_r_chart')
 						$data['labels'] .= "'" . $value['name'] . "',";
 					else if ($option == 'c_l_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('settings')['language']] . "',";
+						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
 
 					$data['datasets']['data'] .= $cost . ',';
 					$data['datasets']['colors'] .= "'#" . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . "',";

@@ -26,21 +26,21 @@ class Voxes_model extends Model
 
 			$break = false;
 
-			if (Functions::check_access(['{views_opportunity_areas}']) == true AND !in_array($value['data']['opportunity_area'], Session::get_value('user')['opportunity_areas']))
+			if (Functions::check_user_access(['{view_opportunity_areas}']) == true AND !in_array($value['data']['opportunity_area'], Session::get_value('user')['opportunity_areas']))
 				$break = true;
 
-			if (Functions::check_access(['{views_own}']) == true AND $value['data']['created_user'] != Session::get_value('user')['id'] AND !in_array(Session::get_value('user')['id'], $value['data']['assigned_users']))
+			if (Functions::check_user_access(['{view_own}']) == true AND $value['data']['created_user'] != Session::get_value('user')['id'] AND !in_array(Session::get_value('user')['id'], $value['data']['assigned_users']))
 				$break = true;
 
-			if (Functions::check_access(['{views_confidentiality}']) == false && $value['data']['confidentiality'] == true)
+			if (Functions::check_user_access(['{view_confidentiality}']) == false && $value['data']['confidentiality'] == true)
 				$break = true;
 
 			if ($break == false)
 			{
 				$value['data']['room'] = $this->get_room($value['data']['room'])['name'];
-				$value['data']['opportunity_area'] = $this->get_opportunity_area($value['data']['opportunity_area'])['name'][Session::get_value('settings')['language']];
-				$value['data']['opportunity_type'] = $this->get_opportunity_type($value['data']['opportunity_type'])['name'][Session::get_value('settings')['language']];
-				$value['data']['location'] = $this->get_location($value['data']['location'])['name'][Session::get_value('settings')['language']];
+				$value['data']['opportunity_area'] = $this->get_opportunity_area($value['data']['opportunity_area'])['name'][Session::get_value('account')['language']];
+				$value['data']['opportunity_type'] = $this->get_opportunity_type($value['data']['opportunity_type'])['name'][Session::get_value('account')['language']];
+				$value['data']['location'] = $this->get_location($value['data']['location'])['name'][Session::get_value('account')['language']];
 				$value['data']['guest_treatment'] = $this->get_guest_treatment($value['data']['guest_treatment'])['name'];
 
 				if (!empty($value['data']['comments']))
@@ -80,8 +80,6 @@ class Voxes_model extends Model
 		{
 			$query[0]['data'] = json_decode(Functions::get_openssl('decrypt', $query[0]['data']), true);
 
-			// ---
-
 			if ($viewed == true)
 			{
 				if ($query[0]['data']['readed'] == false)
@@ -106,8 +104,6 @@ class Voxes_model extends Model
 					'id' => $id
 				]);
 			}
-
-			// ---
 
 			$query[0]['data']['room'] = $this->get_room($query[0]['data']['room']);
 			$query[0]['data']['opportunity_area'] = $this->get_opportunity_area($query[0]['data']['opportunity_area']);
@@ -157,41 +153,38 @@ class Voxes_model extends Model
 			return null;
 	}
 
-	public function new_vox($data, $public = false)
+	public function new_vox($data)
 	{
-		if ($public == false)
+		$this->component->load_component('uploader');
+
+		$_com_uploader = new Upload;
+
+		foreach ($data['attachments']['name'] as $key => $value)
 		{
-			$this->component->load_component('uploader');
-
-			$_com_uploader = new Upload;
-
-			foreach ($data['attachments']['name'] as $key => $value)
+			if (!empty($data['attachments']['name'][$key]))
 			{
-				if (!empty($data['attachments']['name'][$key]))
-				{
-					$ext = explode('.', $data['attachments']['name'][$key]);
-					$ext = end($ext);
+				$ext = explode('.', $data['attachments']['name'][$key]);
+				$ext = end($ext);
 
-					if ($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx')
-						$data['attachments']['type'][$key] = 'application/' . $ext;
+				if ($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx')
+					$data['attachments']['type'][$key] = 'application/' . $ext;
 
-					$_com_uploader->SetFileName($data['attachments']['name'][$key]);
-					$_com_uploader->SetTempName($data['attachments']['tmp_name'][$key]);
-					$_com_uploader->SetFileType($data['attachments']['type'][$key]);
-					$_com_uploader->SetFileSize($data['attachments']['size'][$key]);
-					$_com_uploader->SetUploadDirectory(PATH_UPLOADS);
-					$_com_uploader->SetValidExtensions(['jpg','jpeg','png','pdf','doc','docx','xls','xlsx']);
-					$_com_uploader->SetMaximumFileSize('unlimited');
+				$_com_uploader->SetFileName($data['attachments']['name'][$key]);
+				$_com_uploader->SetTempName($data['attachments']['tmp_name'][$key]);
+				$_com_uploader->SetFileType($data['attachments']['type'][$key]);
+				$_com_uploader->SetFileSize($data['attachments']['size'][$key]);
+				$_com_uploader->SetUploadDirectory(PATH_UPLOADS);
+				$_com_uploader->SetValidExtensions(['jpg','jpeg','png','pdf','doc','docx','xls','xlsx']);
+				$_com_uploader->SetMaximumFileSize('unlimited');
 
-					$data['attachments'][$key] = $_com_uploader->UploadFile();
-				}
+				$data['attachments'][$key] = $_com_uploader->UploadFile();
 			}
-
-			unset($data['attachments']['name'], $data['attachments']['type'], $data['attachments']['tmp_name'], $data['attachments']['error'], $data['attachments']['size']);
 		}
 
+		unset($data['attachments']['name'], $data['attachments']['type'], $data['attachments']['tmp_name'], $data['attachments']['error'], $data['attachments']['size']);
+
 		$query = $this->database->insert('voxes', [
-			'account' => ($public == false) ? Session::get_value('account')['id'] : $data['account'],
+			'account' => Session::get_value('account')['id'],
 			'type' => $data['type'],
 			'data' => Functions::get_openssl('encrypt', json_encode([
 				'token' => $this->security->random_string(8),
@@ -201,35 +194,35 @@ class Voxes_model extends Model
 				'started_date' => Functions::get_formatted_date($data['started_date']),
 				'started_hour' => Functions::get_formatted_hour($data['started_hour']),
 				'location' => $data['location'],
-				'cost' => ($public == false AND $data['type'] == 'incident') ? $data['cost'] : null,
-				'urgency' => ($public == false) ? $data['urgency'] : 'medium',
-				'confidentiality' => ($public == false AND $data['type'] == 'incident') ? $data['confidentiality'] : null,
-				'assigned_users' => ($public == false AND !empty($data['assigned_users'])) ? $data['assigned_users'] : [],
+				'cost' => ($data['type'] == 'incident') ? $data['cost'] : null,
+				'urgency' => $data['urgency'],
+				'confidentiality' => ($data['type'] == 'incident') ? $data['confidentiality'] : null,
+				'assigned_users' => !empty($data['assigned_users']) ? $data['assigned_users'] : [],
 				'observations' => ($data['type'] == 'request') ? $data['observations'] : null,
-				'subject' => ($public == false AND $data['type'] == 'incident') ? $data['subject'] : null,
+				'subject' => ($data['type'] == 'incident') ? $data['subject'] : null,
 				'description' => ($data['type'] == 'incident') ? $data['description'] : null,
-				'action_taken' => ($public == false AND $data['type'] == 'incident') ? $data['action_taken'] : null,
-				'guest_treatment' => ($public == false) ? $data['guest_treatment'] : null,
-				'name' => ($public == false AND $data['type'] == 'incident') ? $data['name'] : null,
+				'action_taken' => ($data['type'] == 'incident') ? $data['action_taken'] : null,
+				'guest_treatment' => $data['guest_treatment'],
+				'name' => ($data['type'] == 'incident') ? $data['name'] : null,
 				'lastname' => $data['lastname'],
-				'guest_id' => ($public == false AND $data['type'] == 'incident') ? $data['guest_id'] : null,
-				'guest_type' => ($public == false AND $data['type'] == 'incident') ? $data['guest_type'] : null,
-				'reservation_number' => ($public == false AND $data['type'] == 'incident') ? $data['reservation_number'] : null,
-				'reservation_status' => ($public == false AND $data['type'] == 'incident') ? $data['reservation_status'] : null,
-				'check_in' => ($public == false AND $data['type'] == 'incident') ? $data['check_in'] : null,
-				'check_out' => ($public == false AND $data['type'] == 'incident') ? $data['check_out'] : null,
-				'attachments' => ($public == false) ? $data['attachments'] : [],
+				'guest_id' => ($data['type'] == 'incident') ? $data['guest_id'] : null,
+				'guest_type' => ($data['type'] == 'incident') ? $data['guest_type'] : null,
+				'reservation_number' => ($data['type'] == 'incident') ? $data['reservation_number'] : null,
+				'reservation_status' => ($data['type'] == 'incident') ? $data['reservation_status'] : null,
+				'check_in' => ($data['type'] == 'incident') ? $data['check_in'] : null,
+				'check_out' => ($data['type'] == 'incident') ? $data['check_out'] : null,
+				'attachments' => $data['attachments'],
 				'viewed_by' => [],
 				'comments' => [],
 				'changes_history' => [
 					[
 						'type' => 'create',
-						'user' => ($public == false) ? Session::get_value('user')['id'] : null,
+						'user' => Session::get_value('user')['id'],
 						'date' => Functions::get_current_date(),
 						'hour' => Functions::get_current_hour(),
 					]
 				],
-				'created_user' => ($public == false) ? Session::get_value('user')['id'] : null,
+				'created_user' => Session::get_value('user')['id'],
 				'edited_user' => null,
 				'completed_user' => null,
 				'reopened_user' => null,
@@ -243,11 +236,11 @@ class Voxes_model extends Model
 				'reopened_hour' => null,
 				'readed' => false,
 				'status' => 'open',
-				'origin' => ($public == false) ? 'internal' : 'external',
+				'origin' => 'internal',
 			])),
 		]);
 
-		return !empty($query) ? $this->database->id($query) : null;
+		return !empty($query) ? $this->database->id() : null;
 	}
 
 	public function edit_vox($data)
@@ -805,29 +798,16 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_opportunity_areas($option, $public = false, $account = null)
+	public function get_opportunity_areas($option)
 	{
-		if ($public == true)
-		{
-			$and = [
-				'account' => $account,
-				$option => true,
-				'public' => true,
-			];
-		}
-		else
-		{
-			$and = [
-				'account' => Session::get_value('account')['id'],
-				$option => true,
-			];
-		}
-
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
 			'id',
 			'name'
 		], [
-			'AND' => $and,
+			'AND' =>  [
+				'account' => Session::get_value('account')['id'],
+				$option => true,
+			],
 			'ORDER' => [
 				'name' => 'ASC'
 			]
@@ -848,29 +828,16 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_opportunity_types($opportunity_area, $option, $public = false)
+	public function get_opportunity_types($opportunity_area, $option)
 	{
-		if ($public == true)
-		{
-			$and = [
-				'opportunity_area' => $opportunity_area,
-				$option => true,
-				'public' => true,
-			];
-		}
-		else
-		{
-			$and = [
-				'opportunity_area' => $opportunity_area,
-				$option => true,
-			];
-		}
-
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
 			'id',
 			'name'
 		], [
-			'AND' => $and,
+			'AND' => [
+				'opportunity_area' => $opportunity_area,
+				$option => true,
+			],
 			'ORDER' => [
 				'name' => 'ASC'
 			]
@@ -891,29 +858,16 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_locations($option, $public = false, $account = null)
+	public function get_locations($option)
 	{
-		if ($public == true)
-		{
-			$and = [
-				'account' => $account,
-				$option => true,
-				'public' => true,
-			];
-		}
-		else
-		{
-			$and = [
-				'account' => Session::get_value('account')['id'],
-				$option => true,
-			];
-		}
-
 		$query = Functions::get_json_decoded_query($this->database->select('locations', [
 			'id',
 			'name'
 		], [
-			'AND' => $and,
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				$option => true,
+			],
 			'ORDER' => [
 				'name' => 'ASC'
 			]
@@ -1018,23 +972,20 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_users($option = null, $params = null, $public = false, $account = null)
+	public function get_users($option = null, $params = null)
 	{
 		$query = null;
 
-		if ($public == false)
-			$account = Session::get_value('account')['id'];
-
 		if ($option == 'ids')
 		{
-			$query = $this->database->select('users', [
+			$query = Functions::get_json_decoded_query($this->database->select('users', [
 				'name',
 				'lastname',
 				'email',
-				'cellphone',
+				'phone',
 			], [
 				'id' => $params
-			]);
+			]));
 		}
 		else if ($option == 'opportunity_area')
 		{

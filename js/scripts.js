@@ -12,6 +12,13 @@ $(window).on('ajaxStop', function()
 
 $(document).ready(function ()
 {
+    $('[data-action="open-dash-menu"]').on('click', function(e)
+    {
+        e.stopPropagation();
+
+        $('header.main > section.menu > nav').toggleClass('open');
+    });
+
     $(document).on('click', 'section.box-container > article > header, section.box-container > aside > .widget > header', function()
     {
         var self = $(this);
@@ -29,71 +36,6 @@ $(document).ready(function ()
             container.find('> main').slideUp(300);
             container.find('> footer').slideUp(300);
         }
-    });
-
-    $('[data-modal="support"]').modal().onSuccess(function()
-    {
-        $('form[name="support"]').submit();
-    });
-
-    $('[data-modal="support"]').modal().onCancel(function()
-    {
-        $('form[name="support"]')[0].reset();
-        $('label.error').removeClass('error');
-        $('p.error').remove();
-    });
-
-    $('form[name="support"]').on('submit', function(e)
-    {
-        e.preventDefault();
-
-        var form = $(this);
-        var data = new FormData(form[0]);
-
-        data.append('action', 'support');
-
-        $.ajax({
-            url: '/dashboard',
-            type: 'POST',
-            data: data,
-            contentType: false,
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function (response)
-            {
-                $('label.error').removeClass('error');
-                $('p.error').remove();
-
-                if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    $('[data-modal="success"]').addClass('view');
-
-                    setTimeout(function() { location.reload(); }, 1500);
-                }
-                else if (response.status == 'error')
-                {
-                    if (response.labels)
-                    {
-                        $.each(response.labels, function(i, label)
-                        {
-                            if (label[1].length > 0)
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-                            else
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
-                        });
-
-                        form.find('label.error [name]')[0].focus();
-                    }
-                    else if (response.message)
-                    {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                        $('[data-modal="error"]').addClass('view');
-                    }
-                }
-            }
-        });
     });
 });
 
