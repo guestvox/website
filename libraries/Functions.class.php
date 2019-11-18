@@ -154,6 +154,9 @@ class Functions
             if ($option == true)
             {
                 $oa = [
+                    'voxes',
+                    'vox_reports',
+                    'vox_stats',
                     'rooms',
                     'opportunity_areas',
                     'opportunity_types',
@@ -161,9 +164,6 @@ class Functions
                     'reservation_statuses',
                     'guest_treatments',
                     'guest_types',
-                    'voxes',
-                    'vox_reports',
-                    'vox_stats',
                     '{view_confidentiality}',
                     '{view_all}',
                     '{view_own}',
@@ -171,6 +171,9 @@ class Functions
                 ];
 
                 $ra = [
+                    'survey_questions',
+                    'survey_answers',
+                    'survey_stats',
                     'rooms',
                     '{view_all}',
                     '{view_own}',

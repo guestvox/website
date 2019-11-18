@@ -2,25 +2,26 @@
 
 $(document).ready(function()
 {
-    var id;
-    var key;
-
-    $('.multi-tabs').multiTabs();
-
     var tbl_survey_answers = $('#tbl_survey_answers').DataTable({
         ordering: false,
-        autoWidth: false,
         pageLength: 25,
         info: false,
     });
 
-    $(document).on('click','[data-action="get_survey_answers"]', function()
+    $('[name="tbl_survey_answers_search"]').on('keyup', function()
+    {
+        tbl_survey_answers.search(this.value).draw();
+    });
+
+    var id;
+
+    $(document).on('click', '[data-action="view_survey_answer"]', function()
     {
         id = $(this).data('id');
 
         $.ajax({
             type: 'POST',
-            data: 'id=' + id + '&action=get_survey_answers',
+            data: 'id=' + id + '&action=get_survey_answer',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -28,13 +29,13 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="view_survey_answers"]').find('main').html(response.data);
-                    $('[data-modal="view_survey_answers"]').addClass('view');
+                    $('[data-modal="view_survey_answer"]').addClass('view');
+                    $('[data-modal="view_survey_answer"]').find('main').html(response.data);
                 }
                 else if (response.status == 'error')
                 {
-                    $('[data-modal="error"]').find('main > p').html(response.message);
                     $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
                 }
             }
         });

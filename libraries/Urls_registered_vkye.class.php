@@ -41,6 +41,26 @@ class Urls_registered_vkye
                 'controller' => 'Dashboard',
                 'method' => 'logout'
             ],
+            '/surveys' => [
+                'controller' => 'Surveys',
+                'method' => 'index'
+            ],
+            '/surveys/questions' => [
+                'controller' => 'Surveys',
+                'method' => 'questions'
+            ],
+            '/surveys/answers' => [
+                'controller' => 'Surveys',
+                'method' => 'answers'
+            ],
+            '/surveys/stats' => [
+                'controller' => 'Surveys',
+                'method' => 'stats'
+            ],
+            '/surveys/charts' => [
+                'controller' => 'Surveys',
+                'method' => 'charts'
+            ],
             '/rooms' => [
                 'controller' => 'Rooms',
                 'method' => 'index'

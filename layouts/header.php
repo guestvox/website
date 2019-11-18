@@ -21,8 +21,8 @@
                 <?php if (Functions::check_account_access(['operation']) == true) : ?>
                 <li target="voxes"><a href="/voxes"><i class="fas fa-heart"></i>{$lang.voxes}</a></li>
                 <?php endif; ?>
-                <?php if (Functions::check_account_access(['reputation']) == true) : ?>
-                <li target="surveys"><a href="/surveys"><i class="fas fa-star"></i>Encuesta</a></li>
+                <?php if (Functions::check_account_access(['reputation']) == true AND Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}','{survey_answers_view}','{survey_stats_view}']) == true) : ?>
+                <li target="surveys"><a href="/surveys"><i class="fas fa-star"></i>{$lang.surveys}</a></li>
                 <?php endif; ?>
                 <li target="other"><a data-action="open-dash-menu"><i class="fas fa-ellipsis-h"></i></a></li>
             </ul>
@@ -60,7 +60,7 @@
                 <?php if (Functions::check_user_access(['{user_levels_create}','{user_levels_update}','{user_levels_delete}']) == true) : ?>
                 <li><a href="/userlevels">{$lang.user_levels}<i class="fas fa-user-friends"></i></a></li>
                 <?php endif; ?>
-                <?php if (Functions::check_user_access(['{account_edit}']) == true) : ?>
+                <?php if (Functions::check_user_access(['{account_update}']) == true) : ?>
                 <li><a href="/account">{$lang.account}<i class="far fa-user-circle"></i></a></li>
                 <?php endif; ?>
                 <li><a href="/profile">{$lang.my_profile}<i class="fas fa-user-circle"></i></a></li>

@@ -171,57 +171,40 @@ footer.my-vox > p {
 
 /* My vox - Survey
 ------------------------------------------------------------------------------ */
-form[name="new_survey_answers"] > article,
-section[data-modal="view_survey_answers"] > .content > main > article {
+form[name="new_survey_answer"] > article {
     width: 100%;
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #eee;
 }
 
-form[name="new_survey_answers"] > article > h6,
-section[data-modal="view_survey_answers"] > .content > main > article > h6 {
-    margin: 0px;
-    font-size: 20px;
+form[name="new_survey_answer"] > article > h6 {
+    font-size: 14px;
     font-weight: 400;
-    text-align: center;
+    color: #757575;
 }
 
-form[name="new_survey_answers"] > article > div > label,
-section[data-modal="view_survey_answers"] > .content > main > article > div > label {
+form[name="new_survey_answer"] > article > div > label {
     padding: 0px;
-    margin: 0px 5px;
+    margin: 0px;
     font-size: 12px;
     color: #757575;
 }
 
-form[name="new_survey_answers"] > article.subquestions > h6,
-section[data-modal="view_survey_answers"] > .content > main > article.subquestions > h6 {
-    font-size: 14px;
+form[name="new_survey_answer"] > article > div > input {
+    width: 100%;
+    padding: 5px 10px;
+    box-sizing:border-box;
+    border: none;
 }
 
-form[name="new_survey_answers"] > article.subquestions > div > input,
-section[data-modal="view_survey_answers"] > .content > main > article.subquestions > div > input {
-    width: 100%;
-    min-width: 250px;
-    height: 40px;
-    background-color: #e0e0e0;
-    border: none;
-    border-radius: 40px;
-    padding: 0px 15px;
+form[name="new_survey_answer"] > article.subquestions {
+    padding: 20px 30px;
     box-sizing: border-box;
 }
 
-form[name="new_survey_answers"] > article.subquestions > div > label,
-section[data-modal="view_survey_answers"] > .content > main > article.subquestions > div > label {
-    margin: 0px;
-    font-size: 10px;
-}
-form[name="new_survey_answers"] > article.subquestions > div,
-section[data-modal="view_survey_answers"] > .content > main > article.subquestions > div {
+form[name="new_survey_answer"] > article.subquestions > div {
     margin-bottom: 5px;
 }
 
@@ -229,13 +212,13 @@ section[data-modal="view_survey_answers"] > .content > main > article.subquestio
 ------------------------------------------------------------------------------ */
 section.modal[data-modal="new_request"] > div.content,
 section.modal[data-modal="new_incident"] > div.content,
-section.modal[data-modal="new_survey_answers"] > div.content {
+section.modal[data-modal="new_survey_answer"] > div.content {
     width: 100%;
     margin: 0px;
 }
 
 section.modal[data-modal="new_request"] > div.content > main > form > div.row > [class*=span],
 section.modal[data-modal="new_incident"] > div.content > main > form > div.row > [class*=span],
-section.modal[data-modal="new_survey_answers"] > div.content > main > form > div.row > [class*=span] {
+section.modal[data-modal="new_survey_answer"] > div.content > main > form > div.row > [class*=span] {
     min-height: auto !important;
 }

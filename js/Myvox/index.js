@@ -35,14 +35,14 @@ $(document).ready(function()
 
     $('[data-modal="new_request"]').modal().onCancel(function()
     {
-        $('label.error').removeClass('error');
-        $('p.error').remove();
-        $('form[name="new_request"]')[0].reset();
+        $('[data-modal="new_request"]').find('form')[0].reset();
+        $('[data-modal="new_request"]').find('label.error').removeClass('error');
+        $('[data-modal="new_request"]').find('p.error').remove();
     });
 
     $('[data-modal="new_request"]').modal().onSuccess(function()
     {
-        $('form[name="new_request"]').submit();
+        $('[data-modal="new_request"]').find('form').submit();
     });
 
     $('form[name="new_request"]').on('submit', function(e)
@@ -59,20 +59,19 @@ $(document).ready(function()
             dataType: 'json',
             success: function(response)
             {
-                $('label.error').removeClass('error');
-                $('p.error').remove();
-
                 if (response.status == 'success')
                 {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
-
-                    setTimeout(function() { window.location.href = response.path; }, 3000);
+                    $('[data-modal="success"]').find('main > p').html(response.message);
+                    setTimeout(function() { window.location.href = response.path; }, 4000);
                 }
                 else if (response.status == 'error')
                 {
                     if (response.labels)
                     {
+                        form.find('label.error').removeClass('error');
+                        form.find('p.error').remove();
+
                         $.each(response.labels, function(i, label)
                         {
                             if (label[1].length > 0)
@@ -85,8 +84,8 @@ $(document).ready(function()
                     }
                     else if (response.message)
                     {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
                         $('[data-modal="error"]').addClass('view');
+                        $('[data-modal="error"]').find('main > p').html(response.message);
                     }
                 }
             }
@@ -95,14 +94,14 @@ $(document).ready(function()
 
     $('[data-modal="new_incident"]').modal().onCancel(function()
     {
-        $('label.error').removeClass('error');
-        $('p.error').remove();
-        $('form[name="new_incident"]')[0].reset();
+        $('[data-modal="new_incident"]').find('form')[0].reset();
+        $('[data-modal="new_incident"]').find('label.error').removeClass('error');
+        $('[data-modal="new_incident"]').find('p.error').remove();
     });
 
     $('[data-modal="new_incident"]').modal().onSuccess(function()
     {
-        $('form[name="new_incident"]').submit();
+        $('[data-modal="new_incident"]').find('form').submit();
     });
 
     $('form[name="new_incident"]').on('submit', function(e)
@@ -119,20 +118,19 @@ $(document).ready(function()
             dataType: 'json',
             success: function(response)
             {
-                $('label.error').removeClass('error');
-                $('p.error').remove();
-
                 if (response.status == 'success')
                 {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
-
-                    setTimeout(function() { window.location.href = response.path; }, 3000);
+                    $('[data-modal="success"]').find('main > p').html(response.message);
+                    setTimeout(function() { window.location.href = response.path; }, 4000);
                 }
                 else if (response.status == 'error')
                 {
                     if (response.labels)
                     {
+                        form.find('label.error').removeClass('error');
+                        form.find('p.error').remove();
+
                         $.each(response.labels, function(i, label)
                         {
                             if (label[1].length > 0)
@@ -145,8 +143,8 @@ $(document).ready(function()
                     }
                     else if (response.message)
                     {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
                         $('[data-modal="error"]').addClass('view');
+                        $('[data-modal="error"]').find('main > p').html(response.message);
                     }
                 }
             }
@@ -157,8 +155,6 @@ $(document).ready(function()
     {
         var name = $(this).attr('name');
 
-        console.log($(this).val());
-
         if ($(this).val() == '1' || $(this).val() == '2' || $(this).val() == '3' || $(this).val() == 'no')
             $('#' + name).removeClass('hidden');
         else
@@ -167,14 +163,14 @@ $(document).ready(function()
 
     $('[data-modal="new_survey_answer"]').modal().onCancel(function()
     {
-        $('label.error').removeClass('error');
-        $('p.error').remove();
-        $('form[name="new_survey_answer"]')[0].reset();
+        $('[data-modal="new_survey_answer"]').find('form')[0].reset();
+        $('[data-modal="new_survey_answer"]').find('label.error').removeClass('error');
+        $('[data-modal="new_survey_answer"]').find('p.error').remove();
     });
 
     $('[data-modal="new_survey_answer"]').modal().onSuccess(function()
     {
-        $('form[name="new_survey_answer"]').submit();
+        $('[data-modal="new_survey_answer"]').find('form').submit();
     });
 
     $('form[name="new_survey_answer"]').on('submit', function(e)
@@ -191,9 +187,6 @@ $(document).ready(function()
             dataType: 'json',
             success: function(response)
             {
-                $('label.error').removeClass('error');
-                $('p.error').remove();
-
                 if (response.status == 'success')
                 {
                     $('[data-modal="new_survey_answer"]').removeClass('view');
@@ -203,6 +196,9 @@ $(document).ready(function()
                 {
                     if (response.labels)
                     {
+                        form.find('label.error').removeClass('error');
+                        form.find('p.error').remove();
+
                         $.each(response.labels, function(i, label)
                         {
                             if (label[1].length > 0)
@@ -215,8 +211,8 @@ $(document).ready(function()
                     }
                     else if (response.message)
                     {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
                         $('[data-modal="error"]').addClass('view');
+                        $('[data-modal="error"]').find('main > p').html(response.message);
                     }
                 }
             }

@@ -50,7 +50,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <h6><i class="fas fa-user-tag"></i>{$lang.incident}: {$myvox_incident}</h6>
                     <?php endif; ?>
                     <?php if (Functions::check_account_access(['reputation']) == true) : ?>
-                    <h6><i class="fas fa-list-ol"></i>{$lang.survey}: {$myvox_survey}</h6>
+                    <h6><i class="fas fa-list-ol"></i>{$lang.surveys}: {$myvox_survey}</h6>
                     <h6><i class="fas fa-list-ol"></i>{$lang.survey_title}: {$myvox_survey_title}</h6>
                     <?php endif; ?>
                     <a data-button-modal="edit_myvox" class="edit"><i class="fas fa-pencil-alt"></i></a>
@@ -285,7 +285,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <div class="span4">
                         <div class="label">
                             <label>
-                                <p>{$lang.survey}</p>
+                                <p>{$lang.surveys}</p>
                                 <div class="switch">
                                     <input id="mv-survey" type="checkbox" name="myvox_survey" class="switch-input" {$myvox_survey_ckd}>
                                     <label class="switch-label" for="mv-survey"></label>

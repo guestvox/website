@@ -364,22 +364,36 @@ class Myvox_controller extends Controller
 
 								if ($explode[0] == 'pr' OR $explode[0] == 'pt' OR $explode[0] == 'po')
 								{
+									if ($explode[0] == 'pr')
+										$explode[0] = 'rate';
+									else if ($explode[0] == 'pt')
+										$explode[0] = 'twin';
+									else if ($explode[0] == 'po')
+										$explode[0] = 'open';
+
 									$_POST['answers'][$explode[1]] = [
 										'id' => $explode[1],
 										'answer' => $value,
-										'type' => (($explode[0] == 'pr') ? 'rate' : (($explode[0] == 'pt') ? 'twin' : 'open')),
+										'type' => $explode[0],
 										'subanswers' => [],
 									];
 
 									unset($_POST['answers'][$key]);
 								}
-								else if ($explode[0] == 'so' OR $explode[0] == 'st' OR $explode[0] == 'sr')
+								else if ($explode[0] == 'sr' OR $explode[0] == 'st' OR $explode[0] == 'so')
 								{
 									if (!empty($value))
 									{
+										if ($explode[0] == 'sr')
+											$explode[0] = 'rate';
+										else if ($explode[0] == 'st')
+											$explode[0] = 'twin';
+										else if ($explode[0] == 'so')
+											$explode[0] = 'open';
+
 										array_push($_POST['answers'][$explode[1]]['subanswers'], [
 											'id' => $explode[2],
-											'type' => (($explode[0] == 'sr') ? 'rate' : (($explode[0] == 'st') ? 'twin' : 'open')),
+											'type' => $explode[0],
 											'answer' => $value
 										]);
 									}
@@ -799,7 +813,7 @@ class Myvox_controller extends Controller
 						'                <div class="row">
 						                    <div class="span12">
 						                        <div class="label">
-						                            <label class="success">
+						                            <label>
 						                                <p>{$lang.comments}</p>
 						                                <textarea name="comment"></textarea>
 						                            </label>
@@ -807,7 +821,7 @@ class Myvox_controller extends Controller
 						                    </div>
 						                    <div class="span12">
 						                        <div class="label">
-						                            <label important>
+						                            <label>
 						                                <p>{$lang.firstname}</p>
 						                                <input type="text" name="firstname">
 						                            </label>
@@ -815,7 +829,7 @@ class Myvox_controller extends Controller
 						                    </div>
 						                    <div class="span12">
 						                        <div class="label">
-						                            <label important>
+						                            <label>
 						                                <p>{$lang.lastname}</p>
 						                                <input type="text" name="lastname">
 						                            </label>
@@ -823,7 +837,7 @@ class Myvox_controller extends Controller
 						                    </div>
 						                    <div class="span12">
 						                        <div class="label">
-						                            <label important>
+						                            <label>
 						                                <p>{$lang.email}</p>
 						                                <input type="email" name="email">
 						                            </label>
@@ -865,7 +879,7 @@ class Myvox_controller extends Controller
 				   	}
 
 	                $replace = [
-						'{$logotype}' => '{$path.uploads}' . $account['logotype'],
+						'{$logotype}' => !empty($account['logotype']) ? '{$path.uploads}' . $account['logotype'] : '{$path.images}empty.png',
 	                    '{$a_new_request}' => $a_new_request,
 	                    '{$mdl_new_request}' => $mdl_new_request,
 						'{$a_new_incident}' => $a_new_incident,
@@ -880,9 +894,9 @@ class Myvox_controller extends Controller
 	            }
 			}
 			else
-				header('Location: /myvox');
+				header('Location: /');
         }
         else
-            header('Location: /myvox');
+            header('Location: /');
     }
 }

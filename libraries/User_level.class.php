@@ -16,6 +16,35 @@ class User_level
         {
             switch ($value)
             {
+                case '{survey_questions_create}' :
+                    array_push($paths, '/Surveys/questions');
+                break;
+
+                case '{survey_questions_update}' :
+                    array_push($paths, '/Surveys/questions');
+                break;
+
+                case '{survey_questions_deactivate}' :
+                    array_push($paths, '/Surveys/questions');
+                break;
+
+                case '{survey_questions_activate}' :
+                    array_push($paths, '/Surveys/questions');
+                break;
+
+                case '{survey_questions_delete}' :
+                    array_push($paths, '/Surveys/questions');
+                break;
+
+                case '{survey_answers_view}' :
+                    array_push($paths, '/Surveys/answers');
+                break;
+
+                case '{survey_stats_view}' :
+                    array_push($paths, '/Surveys/stats');
+                    array_push($paths, '/Surveys/charts');
+                break;
+
                 case '{rooms_create}' :
                     array_push($paths, '/Rooms/index');
                 break;
@@ -136,7 +165,7 @@ class User_level
                     array_push($paths, '/Userlevels/index');
                 break;
 
-                case '{account_edit}' :
+                case '{account_update}' :
                     array_push($paths, '/Account/index');
                 break;
 

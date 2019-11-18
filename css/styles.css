@@ -223,6 +223,52 @@ body > main {
     background-color: #fff;
 }
 
+/* Nav
+------------------------------------------------------------------------------ */
+body > main > nav {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+body > main > nav > ul {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+body > main > nav > ul > li {
+    width: auto;
+}
+
+body > main > nav > ul > li > a {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: 400;
+    color: #757575;
+    background-color: #eee;
+    transition: 400ms;
+}
+
+body > main > nav > ul > li > a.view,
+body > main > nav > ul > li > a.view:hover {
+    color: #fff;
+    background-color: #00a5ab;
+}
+
+body > main > nav > ul > li > a:hover {
+    background-color: #bdbdbd;
+    transition: 400ms;
+}
+
 /* Article
 ------------------------------------------------------------------------------ */
 body > main > article {
@@ -509,8 +555,11 @@ table tbody > tr.follow td:first-child {
     border-left-color: #00a5ab;
 }
 
-table tbody > tr > td.sub:first-child,
-table tbody > tr > td.sub {
+table tbody > tr.sub {
+    color: #757575 !important;
+}
+
+table tbody > tr.sub > td:first-child {
     padding-left: 40px !important;
 }
 
@@ -1170,6 +1219,51 @@ div.history > p > img {
     }
 } */
 
+/* Survey
+------------------------------------------------------------------------------ */
+section[data-modal="view_survey_answer"] > .content > main > article {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > article > article {
+    width: 100%;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #bdbdbd;
+    box-sizing: border-box;
+}
+
+
+section[data-modal="view_survey_answer"] > .content > main > article > h6,
+section[data-modal="view_survey_answer"] > .content > main > article > article > h6 {
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > article > article > div {
+    margin-bottom: 5px;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > article > div > label,
+section[data-modal="view_survey_answer"] > .content > main > article > article > div > label {
+    padding: 0px;
+    margin: 0px;
+    font-size: 12px;
+    color: #757575;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > article > div > p,
+section[data-modal="view_survey_answer"] > .content > main > article > article > div > p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
 /* Account
 ------------------------------------------------------------------- */
 div.account {
@@ -1361,22 +1455,18 @@ div.profile > div > a:hover {
 
 /* Charts
 ------------------------------------------------------------------------------ */
-/* div.charts {
-    width: calc(100% / 3);
+div.charts {
+    width: calc((100% / 3) - 20px);
+    min-height: 450px;
     float: left;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin-bottom: 20px;
-}
-
-div.charts.complete {
-    width: 100%;
-}
-
-div.charts.medium {
-    width: 50%;
+    margin: 10px;
+    border: 1px dashed #bdbdbd;
+    padding: 40px;
+    box-sizing: border-box;
 }
 
 div.charts > canvas {
@@ -1384,20 +1474,12 @@ div.charts > canvas {
     display: block;
 }
 
-div.charts > a {
-    width: auto;
-    display: inline-block;
-    margin-top: 10px;
-    padding: 15px 20px;
-    box-sizing: border-box;
+div.charts > h6 {
     font-size: 14px;
-    font-weight: 400;
-    text-decoration: none;
-    text-align: center;
-    cursor: pointer;
-    color: #fff;
-    background-color: #00a5ab;
-} */
+    font-weight: 600;
+    color: #757575;
+    margin-top: 20px;
+}
 
 /* Inputs
 ------------------------------------------------------------------------------ */
