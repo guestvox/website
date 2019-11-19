@@ -15,16 +15,16 @@ class Hola_controller extends Controller
 		{
 			$referrals = [
 				'6500' => [
-					'name' => 'Emilio Calderón',
-					'email' => 'emilio_c@ymail.com'
+					'name' => 'David Gómez',
+					'email' => 'davidgomezmacias@gmail.com'
 				],
 				'6501' => [
 					'name' => 'Alexa Zamora',
 					'email' => 'alexa@guestvox.com'
 				],
 				'6502' => [
-					'name' => 'David Gómez',
-					'email' => 'davidgomezmacias@gmail.com'
+					'name' => 'Emilio Calderón',
+					'email' => 'emilio_c@gmail.com'
 				],
 			];
 
@@ -49,48 +49,54 @@ class Hola_controller extends Controller
 			if (empty($post['email']))
 				array_push($labels, ['email','']);
 
-			if (empty($labels))
+			if ( empty($labels) )
 			{
-				$mail = new Mailer(true);
+				$mail1 = new Mailer(true);
+				$mail2 = new Mailer(true);
+				$mail3 = new Mailer(true);
 
 				try {
 					// Administración
-					$mail->isSMTP();
-					$mail->setFrom('noreply@guestvox.com', 'GuestVox');
-					$mail->addAddress('info@guestvox.com', $post['name_contact']);
-					$mail->isHTML(true);
-					$mail->Subject = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox.";
-					$mail->Body = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox. Mi hotel es {$post['name_hotel']} y cuenta con {$post['number_rooms']} habitaciones. Pueden escribirme al correo electrónico {$post['email']} o llamarme a mi teléfono {$post['phone']}.";
+					$mail1->isSMTP();
+					$mail1->setFrom('noreply@guestvox.com', 'GuestVox');
+					$mail1->addAddress('info@guestvox.com', $post['name_contact']);
+					$mail1->isHTML(true);
+					$mail1->Subject = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox.";
+					$mail1->Body = "Hola, me llamo {$post['name_contact']}, solicito ponerme en contacto con Guestvox. Mi hotel es {$post['name_hotel']} y cuenta con {$post['number_rooms']} habitaciones. Pueden escribirme al correo electrónico {$post['email']} o llamarme a mi teléfono {$post['phone']}.";
 
 					if ( !empty($post['ref']) )
-						$mail->Body .= "-- Referido de {$post['ref']['name']} --";
+						$mail1->Body .= "-- Referido de {$post['ref']['name']} --";
 
-					$mail->AltBody = $mail->Body;
-					$mail->send();
+					$mail1->AltBody = $mail1->Body;
+					$mail1->send();
+				} catch (Exception $e) {}
 
+				try {
 					// Cliente
-					$mail->isSMTP();
-					$mail->setFrom('noreply@guestvox.com', 'GuestVox');
-					$mail->addAddress($post['email'], 'GuestVox');
-					$mail->isHTML(true);
-					$mail->Subject = "¡Gracias! Hemos recibido tu petición.";
-					$mail->Body = "¡Muchas gracias por ponerte en contacto con nosotros! En breve nos pondremos en contacto contigo.";
-					$mail->AltBody = $mail->Body;
-					$mail->send();
+					$mail2->isSMTP();
+					$mail2->setFrom('noreply@guestvox.com', 'GuestVox');
+					$mail2->addAddress($post['email'], 'GuestVox');
+					$mail2->isHTML(true);
+					$mail2->Subject = "¡Gracias! Hemos recibido tu petición.";
+					$mail2->Body = "¡Muchas gracias por ponerte en contacto con nosotros! En breve nos pondremos en contacto contigo.";
+					$mail2->AltBody = $mail2->Body;
+					$mail2->send();
+				} catch (Exception $e) {}
 
+				try {
 					// Referido
-					$mail->isSMTP();
-					$mail->setFrom('noreply@guestvox.com', 'GuestVox');
-					$mail->addAddress($post['ref']['email'], $post['ref']['name']);
-					$mail->isHTML(true);
-					$mail->Subject = "Tienes un referido registrado.";
-					$mail->Body = "Hola {$post['ref']['name']}, tienes un referido ({$post['name_contact']}) registrado en GuestVox.";
-					$mail->AltBody = $mail->Body;
-					$mail->send();
+					$mail3->isSMTP();
+					$mail3->setFrom('noreply@guestvox.com', 'GuestVox');
+					$mail3->addAddress($post['ref']['email'], $post['ref']['name']);
+					$mail3->isHTML(true);
+					$mail3->Subject = "Tienes un referido registrado.";
+					$mail3->Body = "Hola {$post['ref']['name']}, tienes un referido ({$post['name_contact']}) registrado en GuestVox.";
+					$mail3->AltBody = $mail3->Body;
+					$mail3->send();
 				} catch (Exception $e) {}
 
 				echo json_encode([
-					'status' => 'success'
+					'status' => 'OK'
 				]);
 			}
 			else
