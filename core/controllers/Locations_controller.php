@@ -111,7 +111,7 @@ class Locations_controller extends Controller
 					<td align="left" class="flag">' . (($value['incident'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
 					<td align="left" class="flag">' . (($value['public'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
 					' . ((Functions::check_user_access(['{locations_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_location" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
-					' . ((Functions::check_user_access(['{locations_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_location" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
+					' . ((Functions::check_user_access(['{locations_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_location" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
 				</tr>';
 			}
 

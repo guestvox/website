@@ -26,7 +26,7 @@ class Dashboard_controller extends Controller
 		            <h2><i class="fas fa-heart"></i>{$lang.voxes_to_solve}</h2>
 		        </header>
 		        <main>
-		            <div class="voxes-counts-home">
+		            <div class="voxes-counts">
 		                <h2>' . $this->model->get_voxes('noreaded') . '<span>{$lang.noreaded}</span></h2>
 		                <h2>' . $this->model->get_voxes('readed') . '<span>{$lang.readed}</span></h2>
 		                <h2>' . $this->model->get_voxes('today') . '<span>{$lang.today}</span><strong>' . Functions::get_current_date('d F Y') . '</strong></h2>

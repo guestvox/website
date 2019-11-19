@@ -31,7 +31,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <h6><i class="fas fa-globe-americas"></i>{$time_zone}</h6>
                     <h6><i class="fas fa-globe"></i>{$language}</h6>
                     <h6><i class="fas fa-money-bill"></i>{$currency}</h6>
-                    <a data-button-modal="edit_profile" class="edit"><i class="fas fa-pencil-alt"></i></a>
+                    <a data-button-modal="edit_profile" class="edit"><i class="fas fa-pen"></i></a>
                 </div>
                 <div>
                     <h6><i class="fas fa-user-alt"></i>{$fiscal_id}</h6>
@@ -41,7 +41,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <h6><i class="fas fa-address-card"></i>{$contact_department}</h6>
                     <h6><i class="fas fa-envelope"></i>{$contact_email}</h6>
                     <h6><i class="fas fa-mobile-alt"></i>+{$contact_phone_lada} {$contact_phone_number}</h6>
-                    <a data-button-modal="edit_fiscal" class="edit"><i class="fas fa-pencil-alt"></i></a>
+                    <a data-button-modal="edit_fiscal" class="edit"><i class="fas fa-pen"></i></a>
                 </div>
                 <?php if (Functions::check_account_access(['operation','reputation']) == true) : ?>
                 <div>
@@ -53,7 +53,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <h6><i class="fas fa-list-ol"></i>{$lang.surveys}: {$myvox_survey}</h6>
                     <h6><i class="fas fa-list-ol"></i>{$lang.survey_title}: {$myvox_survey_title}</h6>
                     <?php endif; ?>
-                    <a data-button-modal="edit_myvox" class="edit"><i class="fas fa-pencil-alt"></i></a>
+                    <a data-button-modal="edit_myvox" class="edit"><i class="fas fa-pen"></i></a>
                 </div>
                 <?php endif; ?>
                 <div>

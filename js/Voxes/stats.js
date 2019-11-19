@@ -1,18 +1,5 @@
 'use strict';
 
-$('.datepicker').datepicker({
-    closeText: 'Cerrar',
-    prevText: 'Anterior',
-    nextText: 'Siguiente',
-    currentText: 'Hoy',
-    monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-    monthNamesShort: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],
-    dayNames: ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],
-    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
-    weekHeader: 'Sm',
-    dateFormat: 'yy-mm-dd',
-});
-
 $(document).ready(function()
 {
     var action = '';

@@ -26,7 +26,7 @@ $(document).ready(function()
 
         $(document).on('click', '#tbl_voxes > tbody > tr > td', function()
         {
-            window.location.href = '/voxes/view/' + $(this).parents('tr').data('id');
+            window.location.href = '/voxes/view/details/' + $(this).parents('tr').data('id');
         });
     }
 });

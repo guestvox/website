@@ -2,31 +2,6 @@
 
 $(document).ready(function ()
 {
-    var id;
-
-    $('.multi-tabs').multiTabs();
-
-    $('#reports').DataTable({
-        ordering: false,
-        autoWidth: false,
-        info: false,
-    });
-
-    $('.datepicker').datepicker({
-        closeText: 'Cerrar',
-        prevText: 'Anterior',
-        nextText: 'Siguiente',
-        currentText: 'Hoy',
-        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-        monthNamesShort: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],
-        dayNames: ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],
-        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
-        weekHeader: 'Sm',
-        dateFormat: 'yy-mm-dd',
-    });
-
-    // ---
-
     $('[name="filter"]').on('change', function()
     {
         var parent = $(this).parents('form');
@@ -85,6 +60,11 @@ $(document).ready(function ()
                     parent.find('[name="opportunity_area"]').html(response.data);
                     parent.find('[name="opportunity_type"]').html('<option value="all">Todo</option>');
                 }
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                }
             }
         });
 
@@ -98,6 +78,11 @@ $(document).ready(function ()
             {
                 if (response.status == 'success')
                     parent.find('[name="location"]').html(response.data);
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                }
             }
         });
 
@@ -111,6 +96,11 @@ $(document).ready(function ()
             {
                 if (response.status == 'success')
                     parent.find('[name="addressed_to_opportunity_areas[]"]').parent().parent().html(response.data);
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                }
             }
         });
 
@@ -124,6 +114,11 @@ $(document).ready(function ()
             {
                 if (response.status == 'success')
                     parent.find('[name="fields[]"]').parent().parent().html(response.data);
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                }
             }
         });
     });
@@ -142,26 +137,27 @@ $(document).ready(function ()
             {
                 if (response.status == 'success')
                     parent.find('[name="opportunity_type"]').html(response.data);
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                }
             }
         });
     });
 
-    $(document).on('click', '[name="checked_all"]', function()
+    $(document).on('change', '[name="checked_all"]', function()
     {
-        var parent = $(this).parents('.checkboxes');
-
         if ($(this).prop('checked') == true)
-            parent.find('[type="checkbox"]').prop('checked', true);
+            $(this).parent().parent().find('[type="checkbox"]').prop('checked', true);
         else if ($(this).prop('checked') == false)
-            parent.find('[type="checkbox"]').prop('checked', false);
+            $(this).parent().parent().find('[type="checkbox"]').prop('checked', false);
     });
 
     $(document).on('change', '[type="checkbox"]', function()
     {
-        var parent = $(this).parents('.checkboxes');
-
         if ($(this).prop('checked') == false)
-            parent.find('[name="checked_all"]').prop('checked', false);
+            $(this).parent().parent().find('[name="checked_all"]').prop('checked', false);
     });
 
     $('[data-action="generate_report"]').on('click', function()
@@ -219,109 +215,8 @@ $(document).ready(function ()
     {
         var html1 = document.body.innerHTML;
         var html2 = document.getElementById('report').innerHTML;
-
         document.body.innerHTML = html2;
-
         window.print();
-
         document.body.innerHTML = html1;
-    });
-
-    // ---
-
-    $('[name="addressed_to"]').on('change', function()
-    {
-        var parent = $(this).parents('form');
-
-        if ($(this).val() == 'opportunity_areas')
-            parent.find('[name="addressed_to_opportunity_areas[]"]').parent().parent().parent().parent().parent().removeClass('hidden');
-        else
-            parent.find('[name="addressed_to_opportunity_areas[]"]').parent().parent().parent().parent().parent().addClass('hidden');
-    });
-
-    $('[data-action="new_report"]').on('click', function()
-    {
-        $('form[name="new_report"]').submit();
-    });
-
-    $('form[name="new_report"]').on('submit', function(e)
-    {
-        e.preventDefault();
-
-        var form = $(this);
-
-        $.ajax({
-            type: 'POST',
-            data: form.serialize() + '&action=new_report',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                $('label.error').removeClass('error');
-                $('p.error').remove();
-
-                if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    $('[data-modal="success"]').addClass('view');
-
-                    setTimeout(function() { location.reload(); }, 1500);
-                }
-                else if (response.status == 'error')
-                {
-                    if (response.labels)
-                    {
-                        $.each(response.labels, function(i, label)
-                        {
-                            if (label[1].length > 0)
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-                            else
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
-                        });
-
-                        form.find('label.error [name]')[0].focus();
-                    }
-                    else if (response.message)
-                    {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                        $('[data-modal="error"]').addClass('view');
-                    }
-                }
-            }
-        });
-    });
-
-    $(document).on('click', '[data-action="delete_report"]', function()
-    {
-        id = $(this).data('id');
-
-        $('[data-modal="delete_report"]').addClass('view');
-    });
-
-    $('[data-modal="delete_report"]').modal().onSuccess(function()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'id=' + id + '&action=delete_report',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    $('[data-modal="success"]').addClass('view');
-
-                    setTimeout(function() { location.reload(); }, 1500);
-                }
-                else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                    $('[data-modal="error"]').addClass('view');
-                }
-            }
-        });
     });
 });

@@ -39,9 +39,6 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
             <div class="charts">
                 <canvas id="s_r3_chart" height="300"></canvas>
             </div>
-            <!-- <div class="survey-counts">
-                <h2>{$total_rate_avarage} Pts<span>Promedio de puntuaje total</span></h2>
-            </div> -->
         </main>
     </article>
 </main>

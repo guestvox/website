@@ -2,11 +2,6 @@
 
 $(document).ready(function()
 {
-    $('#multitabs').multiTabs().onChange(function ()
-    {
-        console.log(multitabs.tabActive);
-    });
-
     $('.fancybox-thumb').fancybox({
         prevEffect	: "none",
         nextEffect	: "none",
@@ -41,8 +36,6 @@ $(document).ready(function()
             $(this).parents('label').removeClass('success');
     });
 
-    // ---
-
     $('[data-modal="complete_vox"]').modal().onSuccess(function()
     {
         $.ajax({
@@ -55,21 +48,18 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
-
+                    $('[data-modal="success"]').find('main > p').html(response.message);
                     setTimeout(function() { window.location.href = response.path; }, 1500);
                 }
                 else if (response.status == 'error')
                 {
-                    $('[data-modal="error"]').find('main > p').html(response.message);
                     $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
                 }
             }
         });
     });
-
-    // ---
 
     $('[data-modal="reopen_vox"]').modal().onSuccess(function()
     {
@@ -83,45 +73,42 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
-
-                    setTimeout(function() { window.location.href = response.path; }, 1500);
+                    $('[data-modal="success"]').find('main > p').html(response.message);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
-                    $('[data-modal="error"]').find('main > p').html(response.message);
                     $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
                 }
             }
         });
     });
 
-    // ---
-
     var response_to = '';
 
-    $('[data-modal="new_comment_vox"]').modal().onCancel(function()
+    $('[data-modal="new_vox_comment"]').modal().onCancel(function()
     {
-        $('label.error').removeClass('error');
-        $('p.error').remove();
-        $('form[name="new_comment_vox"]')[0].reset();
         response_to = '';
+        $('[data-modal="new_vox_comment"]').find('form')[0].reset();
+        $('[data-modal="new_vox_comment"]').find('label.error').removeClass('error');
+        $('[data-modal="new_vox_comment"]').find('p.error').remove();
     });
 
-    $('[data-modal="new_comment_vox"]').modal().onSuccess(function()
+    $('[data-modal="new_vox_comment"]').modal().onSuccess(function()
     {
-        $('form[name="new_comment_vox"]').submit();
+        $('[data-modal="new_vox_comment"]').find('form').submit();
     });
 
-    $('form[name="new_comment_vox"]').on('submit', function(e)
+    $('form[name="new_vox_comment"]').on('submit', function(e)
     {
         e.preventDefault();
 
         var form = $(this);
         var data = new FormData(form[0]);
 
-        data.append('action', 'new_comment_vox');
+        data.append('action', 'new_vox_comment');
         data.append('response_to', response_to);
 
         $.ajax({
@@ -135,15 +122,17 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
-
-                    setTimeout(function() { window.location.href = response.path; }, 1500);
+                    $('[data-modal="success"]').find('main > p').html(response.message);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
                     if (response.labels)
                     {
+                        form.find('label.error').removeClass('error');
+                        form.find('p.error').remove();
+
                         $.each(response.labels, function(i, label)
                         {
                             if (label[1].length > 0)
@@ -156,8 +145,8 @@ $(document).ready(function()
                     }
                     else if (response.message)
                     {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
                         $('[data-modal="error"]').addClass('view');
+                        $('[data-modal="error"]').find('main > p').html(response.message);
                     }
                 }
             }
@@ -166,7 +155,7 @@ $(document).ready(function()
 
     $('[data-response-to]').on('click', function()
     {
-        response_to = '<span class="response-to">@' + $(this).data('response-to') + ':</span> ';
-        $('form[name="new_comment_vox"]').find('[name="message"]').attr('placeholder', 'Responder a @' + $(this).data('response-to'));
+        response_to = '<span class="response-to">@' + $(this).data('response-to') + ':</span>';
+        $('form[name="new_vox_comment"]').find('[name="message"]').attr('placeholder', 'Responder a @' + $(this).data('response-to'));
     });
 });

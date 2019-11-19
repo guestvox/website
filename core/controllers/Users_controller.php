@@ -369,7 +369,7 @@ class Users_controller extends Controller
 					' . ((Functions::check_user_access(['{users_delete}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="delete_user" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
 					' . ((Functions::check_user_access(['{users_deactivate}','{users_activate}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_user" data-id="' . $value['id'] . '" ><i class="fas fa-ban"></i></a>' : '<a data-action="activate_user" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
 					' . ((Functions::check_user_access(['{users_restore_password}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="restore_password_user" data-id="' . $value['id'] . '"><i class="fas fa-key"></i></a>' : '') . '</td>' : '') . '
-					' . ((Functions::check_user_access(['{users_update}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="edit_user" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pencil-alt"></i></a>' : '') . '</td>' : '') . '
+					' . ((Functions::check_user_access(['{users_update}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="edit_user" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a>' : '') . '</td>' : '') . '
 				</tr>';
 			}
 

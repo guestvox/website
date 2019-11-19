@@ -27,7 +27,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <h6><i class="fas fa-shield-alt"></i>{$username}</h6>
                     <h6><i class="fas fa-lock"></i>{$user_permissions}</h6>
                     <a data-button-modal="restore_password"><i class="fas fa-key"></i></a>
-                    <a data-button-modal="edit_profile" class="edit"><i class="fas fa-pencil-alt"></i></a>
+                    <a data-button-modal="edit_profile" class="edit"><i class="fas fa-pen"></i></a>
                 </div>
             </div>
         </main>

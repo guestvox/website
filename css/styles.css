@@ -543,16 +543,12 @@ table tr > td.flag > a {
     margin: 0px 0px 0px 3px;
 }
 
-table tbody > tr.no-readed {
-    background-color: #fff !important;
+table tbody > tr.no-readed td:first-child {
+    border-left-color: #00a5ab;
 }
 
 table tbody > tr.close {
     opacity: 0.2;
-}
-
-table tbody > tr.follow td:first-child {
-    border-left-color: #00a5ab;
 }
 
 table tbody > tr.sub {
@@ -612,17 +608,17 @@ table tbody > tr > td > i {
     }
 }
 
-/* Voxes counts home
+/* Voxes counts
 ------------------------------------------------------------------------------ */
-.voxes-counts-home {
+.voxes-counts {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.voxes-counts-home > h2 {
-    width: calc((100% / 6) - 8px);
+.voxes-counts > h2 {
+    width: calc((100% / 6) - 10px);
     height: 160px;
     position: relative;
     display: flex;
@@ -638,21 +634,21 @@ table tbody > tr > td > i {
     color: #757575;
 }
 
-.voxes-counts-home > h2:first-child {
+.voxes-counts > h2:first-child {
     margin-left: 0px;
 }
 
-.voxes-counts-home > h2:last-child {
+.voxes-counts > h2:last-child {
     margin-right: 0px;
 }
 
-.voxes-counts-home > h2 > span {
+.voxes-counts > h2 > span {
     display: block;
     font-size: 15px;
     text-transform: uppercase;
 }
 
-.voxes-counts-home > h2 > strong {
+.voxes-counts > h2 > strong {
     position: absolute;
     bottom: 20px;
     font-size: 12px;
@@ -661,195 +657,73 @@ table tbody > tr > td > i {
 
 @media (max-width: 768px) {
 
-    .voxes-counts-home {
+    .voxes-counts {
         flex-direction: column;
     }
 
-    .voxes-counts-home > h2 {
+    .voxes-counts > h2 {
         width: 100%;
         margin-bottom: 10px;
     }
 }
 
-/* Voxes
+/* Vox details
 ------------------------------------------------------------------------------ */
-/* div.viewer_data {
-    position: relative;
+div.vox-details {
+    width: 100%;
+}
+
+div.vox-details::after {
+    content: '';
     display: block;
-    padding: 20px;
+    clear: both;
+}
+
+div.vox-details > div {
+    width: calc(100% - 400px);
+    float: left;
+    padding-right: 40px;
     box-sizing: border-box;
 }
 
-div.viewer_data > div {
-    position: relative;
-    display: -webkit-box;
-    display: flex;
-    align-items: flex-start;
+div.vox-details > div > div {
+    width: 100%;
     margin-bottom: 20px;
-}
-
-div.viewer_data > div:last-child {
-    margin-bottom: 0px;
-}
-
-div.viewer_data > div > h3 {
-    margin: 0;
-    font-size: 15px;
-    font-weight: 600;
-    width: 200px;
-    text-align: right;
-    color: #797979;
-    padding: 15px 0;
-}
-
-div.viewer_data > div > div {
-    margin: 0;
-    font-size: 15px;
-    line-height: 19px;
-    width: calc(100% - 200px);
-    margin-left: 10px;
-    padding: 15px;
-    border-radius: 5px;
-    background-color: #f5f5f5;
-    color: #333333;
-    min-height: 50px;
+    padding-bottom: 20px;
     box-sizing: border-box;
 }
 
-ul.info > li {
+div.vox-details > div > div:last-child {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+}
+
+div.vox-details > div > div.datas > h4 {
+    width: auto;
+    display: inline-block;
     font-size: 14px;
     font-weight: 400;
-    text-decoration: none !important;
-    list-style: none;
     color: #757575;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    background-color: #eee;
+    margin-bottom: 10px;
+    border-radius: 50px;
 }
 
-@media (min-width: 768px) and (max-width: 991px) {
-
-    div.viewer_data > div > h3 {
-        width: 150px;
-    }
-
-    div.viewer_data > div > div {
-        width: calc(100% - 160px);
-    }
-}
-
-@media (max-width: 768px) {
-
-    div.viewer_data > div > h3 {
-        width: 100px;
-    }
-
-    div.viewer_data > div > div {
-        width: calc(100% - 110px);
-    }
-}
-
-.timeline .follow {
-    position: relative;
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-}
-
-.timeline .follow:last-child {
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-}
-
-.timeline .follow::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: -15px;
-    width: calc(100% + 30px);
-    height: 1px;
-    background-color: #e5e5e5;
-}
-
-.timeline .follow:last-child::after {
-    display: none;
-}
-
-.timeline .follow > .text {
-    position: relative;
-    font-size: 15px;
-    line-height: 22px;
-}
-
-.timeline .follow > .text span.response-to {
-    color: #00a5ab;
-    text-decoration: underline;
-    margin-right: 5px;
-}
-
-.timeline .follow > .user {
-    position: relative;
-    width: 100%;
-    display: -webkit-box;
-    display: flex;
-    align-items: baseline;
-    padding: 5px 0 0;
-}
-
-.timeline .follow > .user > h1 {
-    margin: 0;
-    font-size: 15px;
-    line-height: 15px;
-    color: #9e9e9e;
-    font-weight: 500;
-}
-
-.timeline .follow > .user > h2 {
-    font-size: 12px;
-    line-height: 12px;
-    margin: 0;
-    color: #bfbfbf;
-    font-weight: 500;
-    margin-left: 10px;
-}
-
-.timeline .follow > .user > a {
-    display: block;
-    margin-left: 10px;
-    line-height: 12px;
-    font-size: 12px;
-    cursor: pointer;
-    text-decoration: underline;
-    color: #00a5ab;
-}
-
-@media (max-width: 768px) {
-
-    .timeline .follow > .user {
-        flex-direction: column;
-    }
-
-    .timeline .follow > .user > h1 {
-        padding: 30px 0 5px;
-    }
-
-    .timeline .follow > .user > h2,
-    .timeline .follow > .user > a {
-        margin-left: 0px;
-        padding: 5px 0;
-    }
-}
-
-figure.attachment {
+div.vox-details > div > div.attachments > figure {
     width: auto;
-    height: 100px;
-    float: left;
+    height: 80px;
     position: relative;
-    margin-right: 5px;
+    display: inline-block;
 }
 
-figure.attachment > img {
+div.vox-details > div > div.attachments > figure > img {
     width: auto;
     height: 100%;
 }
 
-figure.attachment > a {
+div.vox-details > div > div.attachments > figure > a {
     top: 0px;
     right: 0px;
     bottom: 0px;
@@ -857,175 +731,331 @@ figure.attachment > a {
     position: absolute;
 }
 
-embed.attachment {
+div.vox-details > div > div.attachments > embed {
     width: auto;
-    max-width: 200px;
-    height: 100px;
-    float: left;
-    margin-right: 5px;
+    max-width: 180px;
+    height: 80px;
+    display: inline-block;
 }
 
-iframe.attachment {
+div.vox-details > div > div.attachments > iframe {
     width: auto;
-    max-width: 200px;
-    height: 100px;
-    float: left;
-    margin-right: 5px;
+    max-width: 180px;
+    height: 80px;
+    display: inline-block;
 }
 
-a.attachment {
+div.vox-details > div > div.attachments > a {
     width: auto;
-    height: 100px;
-    float: left;
-    margin-right: 5px;
-    display: flex;
+    height: 80px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
-a.attachment > img {
+div.vox-details > div > div.attachments > a > img {
     width: auto;
     height: 100%;
 }
 
-div.attachments-follow {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-div.attachments-follow > figure.attachment,
-div.attachments-follow > embed.attachment,
-div.attachments-follow > iframe.attachment,
-div.attachments-follow > a.attachment {
-    height: 50px;
-}
-
-div.attachments-follow > embed.attachment,
-div.attachments-follow > iframe.attachment {
-    max-width: 100px;
-} */
-
-/* Counts
------------------------------------------------------------------------------- */
-/* .counts,
-.counts-home {
-    position: relative;
-    display: -webkit-box;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    align-items: center;
-}
-
-.counts-home {
-    flex-direction: row;
-}
-
-.counts h2,
-.counts-home h2 {
-    margin: 0;
-    font-weight: bold;
-    text-align: center;
-    font-size: 40px;
-    line-height: 40px;
-    color: #fff;
-    display: block;
-    vertical-align: top;
-    padding: 20px;
+div.vox-details > div > div.comments > article {
     width: 100%;
+    margin-bottom: 20px;
+    border-left: 5px solid #00a5ab;
+    padding-left: 20px;
     box-sizing: border-box;
-    margin-bottom: 10px;
-    background-color: #00a5ab;
 }
 
-.counts h2 {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
-}
-
-.counts h2.average {
-    background-color: #3f51b5;
-}
-
-.counts-home h2 {
-    width: calc(100% / 6);
-    display: inline-block;
-    color: #757575;
-    margin-bottom: 0px;
-    background: none;
-    min-height: 160px;
-    position: relative;
-}
-
-.counts h2 span,
-.counts-home h2 span {
-    display: block;
-    font-size: 15px;
-    line-height: 20px;
-    margin-top: 10px;
-    text-transform: uppercase;
-}
-
-.counts h2 span > strong {
-    display: block;
+div.vox-details > div > div.comments > article > header > p {
     font-size: 14px;
-    font-weight: 200;
-    text-transform: none;
-    margin-top: 5px;
-    color: #fff;
+    font-weight: 400;
+    color: #757575;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
-.counts-home h2 span > strong {
-    display: block;
-    font-size: 12px;
-    font-weight: 200;
-    text-transform: none;
+div.vox-details > div > div.comments > article > header > p > i {
+    margin-right: 5px;
 }
 
-.counts-home h2 > a {
+div.vox-details > div > div.comments > article > header > p > span {
+    color: #f44336;
+    margin-right: 5px;
+}
+
+div.vox-details > div > div.comments > article > main {
+    width: 100%;
+    margin: 10px 0px;
+}
+
+div.vox-details > div > div.comments > article > main > figure {
+    width: auto;
+    height: 40px;
+    position: relative;
+    display: inline-block;
+}
+
+div.vox-details > div > div.comments > article > main > figure > img {
+    width: auto;
+    height: 100%;
+}
+
+div.vox-details > div > div.comments > article > main > figure > a {
     top: 0px;
     right: 0px;
     bottom: 0px;
     left: 0px;
     position: absolute;
-    cursor: pointer;
 }
 
-@media (max-width: 768px) {
+div.vox-details > div > div.comments > article > main > embed {
+    width: auto;
+    max-width: 100px;
+    height: 40px;
+    display: inline-block;
+}
 
-    .counts,
-    .counts-home {
-        display: block;
-        clear: both;
-    }
+div.vox-details > div > div.comments > article > main > iframe {
+    width: auto;
+    max-width: 100px;
+    height: 40px;
+    display: inline-block;
+}
 
-    .counts::after,
-    .counts-home::after {
-        content: "";
-        display: table;
-        clear: both;
-    }
+div.vox-details > div > div.comments > article > main > a {
+    width: auto;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
 
-    .counts h2,
-    .counts-home h2 {
-        width: calc((100% / 2) - 10px);
-        float: left;
-        margin: 0px 5px 10px 5px;
-    }
+div.vox-details > div > div.comments > article > main > a > img {
+    width: auto;
+    height: 100%;
+}
 
-    .counts h2.average {
-        width: calc(100% - 10px);
-        float: none;
-    }
+div.vox-details > div > div.comments > article > footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
 
-    .counts h2 span,
-    .counts-home h2 span {
-        font-size: 12px;
-    }
-} */
+div.vox-details > div > div.comments > article > footer > figure {
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    border-radius: 50%;
+    line-height: 0px;
+    overflow: hidden;
+}
+
+div.vox-details > div > div.comments > article > footer > figure > img {
+    width: 100%;
+}
+
+div.vox-details > div > div.comments > article > footer > span {
+    width: auto;
+    margin-right: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.vox-details > div > div.comments > article > footer > a {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+    background-color: #eee;
+    transition: 400ms;
+}
+
+div.vox-details > div > div.comments > a {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 400;
+    color: #757575;
+    background-color: #eee;
+    transition: 400ms;
+}
+
+div.vox-details > div > div.comments > article > footer > a:hover,
+div.vox-details > div > div.comments > a:hover {
+    background-color: #bdbdbd;
+    transition: 400ms;
+}
+
+div.vox-details > aside {
+    width: 400px;
+    float: right;
+    padding-left: 40px;
+    box-sizing: border-box;
+    border-left: 1px dashed #bdbdbd;
+}
+
+div.vox-details > aside > div {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+div.vox-details > aside > div:last-child {
+    margin-bottom: 0px;
+}
+
+div.vox-details > aside > div.assigned_users > h4,
+div.vox-details > aside > div.viewed_by > h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #757575;
+    margin-bottom: 10px;
+}
+
+div.vox-details > aside > div.assigned_users > h4 > i,
+div.vox-details > aside > div.viewed_by > h4 > i {
+    margin-right: 5px;
+}
+
+div.vox-details > aside > div.assigned_users > div,
+div.vox-details > aside > div.viewed_by > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+div.vox-details > aside > div.assigned_users > div > figure,
+div.vox-details > aside > div.viewed_by > div > figure {
+    width: 50px;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    border-radius: 50%;
+    line-height: 0px;
+    overflow: hidden;
+}
+
+div.vox-details > aside > div.assigned_users > div > figure > img,
+div.vox-details > aside > div.viewed_by > div > figure > img {
+    width: 100%;
+}
+
+div.vox-details > aside > div.assigned_users > div > span,
+div.vox-details > aside > div.viewed_by > div > span {
+    width: auto;
+    margin-right: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.vox-details > aside > div.datas > h4 {
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+    margin-bottom: 5px;
+}
+
+div.vox-details > aside > div.actions {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+div.vox-details > aside > div.actions > a {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #757575;
+    background-color: #eee;
+    transition: 400ms;
+}
+
+div.vox-details > aside > div.actions > a:hover {
+    background-color: #bdbdbd;
+    transition: 400ms;
+}
+
+/* Vox history
+------------------------------------------------------------------------------ */
+div.vox-history {
+    width: 100%;
+}
+
+div.vox-history > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px 0px;
+    box-sizing: border-box;
+}
+
+div.vox-history > div > figure {
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    border-radius: 50%;
+    line-height: 0px;
+    overflow: hidden;
+}
+
+div.vox-history > div > figure > img {
+    width: 100%;
+}
+
+div.vox-history > div > span,
+div.vox-history > div > p {
+    width: auto;
+    margin-right: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.vox-history > div > ul {
+    padding-left: 40px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.vox-history > div > p > img {
+    width: auto;
+    height: 15px;
+    line-height: 0px;
+    margin-right: 5px;
+}
 
 /* Reports
 ------------------------------------------------------------------------------ */
-/* div.report {
+div.report {
     position: relative;
     width: 100%;
     min-height: 50px;
@@ -1151,53 +1181,6 @@ div.detail > p > img {
     margin-right: 5px;
 }
 
-div.history {
-    width: 100%;
-    border-bottom: 1px solid #E6E6E6;
-    padding: 5px;
-    box-sizing: border-box;
-}
-
-div.history > p {
-    width: 100%;
-    padding: 0px;
-    margin: 0px;
-    display: block;
-    font-size: 12px;
-    font-weight: 400;
-    color: #757575;
-}
-
-div.history > p > span {
-    width: 25px;
-    height: 25px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #bdbdbd;
-    margin-right: 5px;
-    color: #fff;
-}
-
-div.history > p > strong {
-    color: #000;
-    text-decoration: underline;
-}
-
-div.history > ul {
-    padding-left: 40px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #757575;
-}
-
-div.history > p > img {
-    width: auto;
-    height: 15px;
-    line-height: 0px;
-    margin-right: 5px;
-}
-
 @media (max-width: 1024px) {
 
     main.reports form[name="filter"] > div {
@@ -1217,7 +1200,7 @@ div.history > p > img {
     main.reports form[name="filter"] > div {
         width: 100% !important;
     }
-} */
+}
 
 /* Survey
 ------------------------------------------------------------------------------ */
@@ -2022,7 +2005,16 @@ form [class*="span"] {
     padding: 10px 5px 10px;
 }
 
-/* label.tmp-1 {
+/* Temporal
+------------------------------------------------------------------------------ */
+div.tmp-1  {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+div.tmp-1 > label {
     width: 100px;
     float: left;
     display: flex;
@@ -2034,22 +2026,21 @@ form [class*="span"] {
     box-sizing: border-box;
     cursor: pointer;
     background-color: #00a5ab;
-    border-radius: 5px;
 }
 
-label.tmp-1 > span {
+div.tmp-1 > label > span {
     font-size: 12px;
     font-weight: 400;
     text-align: center;
     color: #fff;
 }
 
-label.tmp-1 > span > i {
+div.tmp-1 > label > span > i {
     font-size: 35px;
     color: #fff;
     margin: 5px 0px;
 }
 
-label.tmp-1 > input {
+div.tmp-1 > label > input {
     margin: 0px;
-} */
+}

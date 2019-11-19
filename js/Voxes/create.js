@@ -1,27 +1,22 @@
 'use strict';
 
-$('.datepicker').datepicker({
-    closeText: 'Cerrar',
-    prevText: 'Anterior',
-    nextText: 'Siguiente',
-    currentText: 'Hoy',
-    monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-    monthNamesShort: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],
-    dayNames: ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],
-    dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
-    weekHeader: 'Sm',
-    dateFormat: 'yy-mm-dd',
-});
-
-$('.chosen-select').chosen();
-
-// $(window).on('load', function() {
-//     Push.Permission.request();
-//     Push.Permission.has();
-// });
-
 $(document).ready(function()
 {
+    // $('.datepicker').datepicker({
+    //     closeText: 'Cerrar',
+    //     prevText: 'Anterior',
+    //     nextText: 'Siguiente',
+    //     currentText: 'Hoy',
+    //     monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+    //     monthNamesShort: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],
+    //     dayNames: ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],
+    //     dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
+    //     weekHeader: 'Sm',
+    //     dateFormat: 'yy-mm-dd',
+    // });
+
+    $('.chosen-select').chosen();
+
     $(document).on('change', '[important] [name]', function()
     {
         if ($(this).val() != '')
@@ -93,8 +88,8 @@ $(document).ready(function()
             $('[name="action_taken"]').parent().parent().parent().addClass('hidden');
             $('[name="guest_treatment"]').parent().parent().parent().removeClass('span2');
             $('[name="guest_treatment"]').parent().parent().parent().addClass('span3');
-            $('[name="name"]').val('');
-            $('[name="name"]').parent().parent().parent().addClass('hidden');
+            $('[name="firstname"]').val('');
+            $('[name="firstname"]').parent().parent().parent().addClass('hidden');
             $('[name="guest_id"]').val('');
             $('[name="guest_id"]').parent().parent().parent().addClass('hidden');
             $('[name="guest_type"]').val('');
@@ -124,8 +119,8 @@ $(document).ready(function()
             $('[name="action_taken"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_treatment"]').parent().parent().parent().removeClass('span3');
             $('[name="guest_treatment"]').parent().parent().parent().addClass('span2');
-            $('[name="name"]').val('');
-            $('[name="name"]').parent().parent().parent().removeClass('hidden');
+            $('[name="firstname"]').val('');
+            $('[name="firstname"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_id"]').val('');
             $('[name="guest_id"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_type"]').val('');
@@ -144,61 +139,61 @@ $(document).ready(function()
         $('p.error').remove();
     });
 
-    $('[name="room"]').on('change', function()
-    {
-        // var xhr = new XMLHttpRequest();
-        //
-        // xhr.open('GET', 'https://admin.zaviaerp.com/pms/hotels/api/check_room2/?UserName=demo&UserPassword=demo&RoomNumber=1', true);
-        //
-        // xhr.setRequestHeader("Content-Type", "application/json");
-        //
-        // xhr.onload = function()
-        // {
-        //     console.log(xhr);
-        //     // var respuesta = JSON.parse(xhr.responseText);
-        //     // document.getElementById('nombre').value = respuesta.name;
-        //     // document.getElementById('apellido').value = respuesta.lastName;
-        // };
-        //
-        // xhr.send();
-
-        $.ajax({
-            type: 'POST',
-            data: 'room=' + $(this).val() + '&action=get_api',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    if ($('[name="type"]:checked').val() == 'request')
-                    {
-                        $('[name="lastname"]').val(response.data.LastName);
-                    }
-                    else if ($('[name="type"]:checked').val() == 'incident')
-                    {
-                        $('[name="name"]').val(response.data.Name);
-                        $('[name="lastname"]').val(response.data.LastName);
-                        $('[name="guest_id"]').val(response.data.FolioID);
-                    }
-                }
-                else if (response.status == 'error')
-                {
-                    if ($('[name="type"]:checked').val() == 'request')
-                    {
-                        $('[name="lastname"]').val('');
-                    }
-                    else if ($('[name="type"]:checked').val() == 'incident')
-                    {
-                        $('[name="name"]').val('');
-                        $('[name="lastname"]').val('');
-                        $('[name="guest_id"]').val('');
-                    }
-                }
-            }
-        });
-    });
+    // $('[name="room"]').on('change', function()
+    // {
+    //     // var xhr = new XMLHttpRequest();
+    //     //
+    //     // xhr.open('GET', 'https://admin.zaviaerp.com/pms/hotels/api/check_room2/?UserName=demo&UserPassword=demo&RoomNumber=1', true);
+    //     //
+    //     // xhr.setRequestHeader("Content-Type", "application/json");
+    //     //
+    //     // xhr.onload = function()
+    //     // {
+    //     //     console.log(xhr);
+    //     //     // var respuesta = JSON.parse(xhr.responseText);
+    //     //     // document.getElementById('nombre').value = respuesta.name;
+    //     //     // document.getElementById('apellido').value = respuesta.lastName;
+    //     // };
+    //     //
+    //     // xhr.send();
+    //
+    //     $.ajax({
+    //         type: 'POST',
+    //         data: 'room=' + $(this).val() + '&action=get_api',
+    //         processData: false,
+    //         cache: false,
+    //         dataType: 'json',
+    //         success: function(response)
+    //         {
+    //             if (response.status == 'success')
+    //             {
+    //                 if ($('[name="type"]:checked').val() == 'request')
+    //                 {
+    //                     $('[name="lastname"]').val(response.data.LastName);
+    //                 }
+    //                 else if ($('[name="type"]:checked').val() == 'incident')
+    //                 {
+    //                     $('[name="name"]').val(response.data.Name);
+    //                     $('[name="lastname"]').val(response.data.LastName);
+    //                     $('[name="guest_id"]').val(response.data.FolioID);
+    //                 }
+    //             }
+    //             else if (response.status == 'error')
+    //             {
+    //                 if ($('[name="type"]:checked').val() == 'request')
+    //                 {
+    //                     $('[name="lastname"]').val('');
+    //                 }
+    //                 else if ($('[name="type"]:checked').val() == 'incident')
+    //                 {
+    //                     $('[name="name"]').val('');
+    //                     $('[name="lastname"]').val('');
+    //                     $('[name="guest_id"]').val('');
+    //                 }
+    //             }
+    //         }
+    //     });
+    // });
 
     $('[name="opportunity_area"]').on('change', function()
     {
@@ -242,31 +237,19 @@ $(document).ready(function()
             dataType: 'json',
             success: function(response)
             {
-                $('label.error').removeClass('error');
-                $('p.error').remove();
-
                 if (response.status == 'success')
                 {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
-
-                    // Push.create('GuestVox', {
-                    //     body: 'Nueva Incidencia',
-                    //     icon: 'images/icon-color.svg',
-                    //     timeout: 4000,
-                    //     onClick: function()
-                    //     {
-                    //         window.location.href = '/dashboard';
-                    //         this.close();
-                    //     }
-                    // });
-
+                    $('[data-modal="success"]').find('main > p').html(response.message);
                     setTimeout(function() { window.location.href = response.path; }, 1500);
                 }
                 else if (response.status == 'error')
                 {
                     if (response.labels)
                     {
+                        form.find('label.error').removeClass('error');
+                        form.find('p.error').remove();
+
                         $.each(response.labels, function(i, label)
                         {
                             if (label[1].length > 0)
@@ -279,8 +262,8 @@ $(document).ready(function()
                     }
                     else if (response.message)
                     {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
                         $('[data-modal="error"]').addClass('view');
+                        $('[data-modal="error"]').find('main > p').html(response.message);
                     }
                 }
             }

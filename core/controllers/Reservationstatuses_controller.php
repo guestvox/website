@@ -105,7 +105,7 @@ class Reservationstatuses_controller extends Controller
 				'<tr>
 					<td align="left">' . $value['name'] . '</td>
 					' . ((Functions::check_user_access(['{reservation_statuses_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_reservation_status" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
-					' . ((Functions::check_user_access(['{reservation_statuses_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_reservation_status" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
+					' . ((Functions::check_user_access(['{reservation_statuses_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_reservation_status" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
 				</tr>';
 			}
 

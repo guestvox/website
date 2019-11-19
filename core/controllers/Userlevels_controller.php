@@ -110,7 +110,7 @@ class Userlevels_controller extends Controller
                         ' . (($value['user_permissions']['operational'] == true) ? '{$lang.operational}.' : '') . '
                     </td>
 					' . ((Functions::check_user_access(['{user_levels_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_user_level" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
-					' . ((Functions::check_user_access(['{user_levels_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_user_level" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
+					' . ((Functions::check_user_access(['{user_levels_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_user_level" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
 				</tr>';
 			}
 

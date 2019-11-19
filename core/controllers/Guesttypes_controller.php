@@ -105,7 +105,7 @@ class Guesttypes_controller extends Controller
 				'<tr>
 					<td align="left">' . $value['name'] . '</td>
 					' . ((Functions::check_user_access(['{guest_types_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_guest_type" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
-					' . ((Functions::check_user_access(['{guest_types_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_guest_type" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pencil-alt"></i></a></td>' : '') . '
+					' . ((Functions::check_user_access(['{guest_types_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_guest_type" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
 				</tr>';
 			}
 
