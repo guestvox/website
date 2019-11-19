@@ -1,4 +1,3 @@
-
 main.public_page {
     position: relative;
     background-color: #FFF;
@@ -566,4 +565,60 @@ main.mkt_page > footer.main > .container > ul.social_media > li > a {
     line-height: 1;
     color: #FFF;
     text-decoration: none;
+}
+
+@media (max-width: 767px) {
+	main.mkt_page > header.topbar > figure {
+		width: 100px;
+	}
+
+	main.mkt_page > header.topbar > nav {
+		width: calc(100% - 100px);
+	}
+
+	main.mkt_page > section.main > header.cover {
+		height: auto;
+	}
+
+	main.mkt_page > section.main > header.cover > .container {
+		grid-template-columns: 100%;
+		padding-top: 150px;
+		padding-bottom: 150px;
+	}
+
+	main.mkt_page > section.main > header.cover > .container > .content {
+		padding: 0;
+	}
+
+	main.mkt_page > section.main > header.cover > .container > .content h1, main.mkt_page > section.main > header.cover > .container > .content h2 {
+		font-size: 30px;
+	}
+
+	main.mkt_page > section.main > header.cover > .container > .content a.btn {
+		margin: 40px auto;
+	}
+
+	main.mkt_page > section.main > header.cover > .container > figure, main.mkt_page > section.main > header.cover > .container > figure > img {
+		width: 100%;
+		height: 100%;
+		line-height: 0;
+	}
+
+	main.mkt_page > section.main .boxes.three-boxes {
+		grid-template-columns: 100%;
+	}
+
+	main.mkt_page > section.main .boxes-product {
+		grid-template-columns: 100%;
+	}
+
+	section.call-to-action > .container {
+		flex-direction: column;
+	}
+
+	section.call-to-action > .container > .content {
+		width: 100%;
+		text-align: center;
+		padding-bottom: 20px;
+	}
 }

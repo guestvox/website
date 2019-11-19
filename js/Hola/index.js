@@ -53,7 +53,7 @@ $('form[name="contact"]').on('submit', function ( event )
         dataType: 'json',
         success: function ( response )
         {
-            if (response.status == 'success')
+            if (response.status == 'OK')
             {
                 modal_contact.close();
                 modal_contact_success.open();
