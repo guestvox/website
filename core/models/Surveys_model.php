@@ -310,6 +310,6 @@ class Surveys_model extends Model
 			}
 		}
 
-		return round(($count1 / $count2), 2);
+		return ($count1 > 0 AND $count2 > 0) ? round(($count1 / $count2), 2) : 0;
 	}
 }
