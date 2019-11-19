@@ -13,21 +13,33 @@ class Urls_registered_vkye
                 'controller' => 'Index',
                 'method' => 'index'
             ],
-            '/validate/%param%' => [
+            '/validate/%param%/%param%' => [
                 'controller' => 'Index',
                 'method' => 'validate'
             ],
-            '/logout' => [
-                'controller' => 'Index',
-                'method' => 'logout'
+            '/hola' => [
+                'controller' => 'Hola',
+                'method' => 'index'
+            ],
+            '/copyright' => [
+                'controller' => 'Copyright',
+                'method' => 'index'
+            ],
+            '/terms' => [
+                'controller' => 'Terms',
+                'method' => 'index'
+            ],
+            '/myvox/%param%' => [
+                'controller' => 'Myvox',
+                'method' => 'index'
             ],
             '/dashboard' => [
                 'controller' => 'Dashboard',
                 'method' => 'index'
             ],
-            '/dashboard/charts' => [
+            '/logout' => [
                 'controller' => 'Dashboard',
-                'method' => 'charts'
+                'method' => 'logout'
             ],
             '/voxes' => [
                 'controller' => 'Voxes',
@@ -37,36 +49,96 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'create'
             ],
+            '/voxes/view/details/%param%' => [
+                'controller' => 'Voxes',
+                'method' => 'details'
+            ],
+            '/voxes/view/history/%param%' => [
+                'controller' => 'Voxes',
+                'method' => 'history'
+            ],
             '/voxes/edit/%param%' => [
                 'controller' => 'Voxes',
                 'method' => 'edit'
             ],
-            '/voxes/view/%param%' => [
+            '/voxes/reports' => [
                 'controller' => 'Voxes',
-                'method' => 'view'
+                'method' => 'reports'
             ],
-            '/myvox/%param%' => [
+            '/voxes/reports/generate' => [
                 'controller' => 'Voxes',
-                'method' => 'myvox'
+                'method' => 'generate'
             ],
-            '/stats' => [
-                'controller' => 'Stats',
-                'method' => 'index'
+            '/voxes/stats' => [
+                'controller' => 'Voxes',
+                'method' => 'stats'
             ],
-            '/stats/charts' => [
-                'controller' => 'Stats',
+            '/voxes/charts' => [
+                'controller' => 'Voxes',
                 'method' => 'charts'
             ],
-            '/reports' => [
-                'controller' => 'Reports',
+            '/surveys' => [
+                'controller' => 'Surveys',
                 'method' => 'index'
             ],
-            '/settings' => [
-                'controller' => 'Settings',
+            '/surveys/questions' => [
+                'controller' => 'Surveys',
+                'method' => 'questions'
+            ],
+            '/surveys/answers' => [
+                'controller' => 'Surveys',
+                'method' => 'answers'
+            ],
+            '/surveys/stats' => [
+                'controller' => 'Surveys',
+                'method' => 'stats'
+            ],
+            '/surveys/charts' => [
+                'controller' => 'Surveys',
+                'method' => 'charts'
+            ],
+            '/rooms' => [
+                'controller' => 'Rooms',
+                'method' => 'index'
+            ],
+            '/opportunityareas' => [
+                'controller' => 'Opportunityareas',
+                'method' => 'index'
+            ],
+            '/opportunitytypes' => [
+                'controller' => 'Opportunitytypes',
+                'method' => 'index'
+            ],
+            '/locations' => [
+                'controller' => 'Locations',
+                'method' => 'index'
+            ],
+            '/reservationstatuses' => [
+                'controller' => 'Reservationstatuses',
+                'method' => 'index'
+            ],
+            '/guesttreatments' => [
+                'controller' => 'Guesttreatments',
+                'method' => 'index'
+            ],
+            '/guesttypes' => [
+                'controller' => 'Guesttypes',
                 'method' => 'index'
             ],
             '/users' => [
                 'controller' => 'Users',
+                'method' => 'index'
+            ],
+            '/userlevels' => [
+                'controller' => 'Userlevels',
+                'method' => 'index'
+            ],
+            '/account' => [
+                'controller' => 'Account',
+                'method' => 'index'
+            ],
+            '/profile' => [
+                'controller' => 'Profile',
                 'method' => 'index'
             ],
         ];

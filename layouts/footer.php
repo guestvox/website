@@ -4,7 +4,7 @@
         <div class="content">
             <main>
                 <figure>
-                    <img src="{$path.images}check.png">
+                    <img src="{$path.images}check_white.png">
                 </figure>
                 <p></p>
             </main>
@@ -24,7 +24,7 @@
     <script src="{$path.js}jquery-3.3.1.min.js"></script>
     <script src="{$path.js}valkyrie.min.js"></script>
     <script src="{$path.js}scripts.js"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+    <script src="https://kit.fontawesome.com/743152b0c5.js"></script>
     {$dependencies.js}
     {$dependencies.other}
     </body>

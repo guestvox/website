@@ -11,86 +11,66 @@ class Dashboard_controller extends Controller
 
 	public function index()
 	{
-		if (Format::exist_ajax_request() == true)
+		define('_title', 'GuestVox');
+
+		$template = $this->view->render($this, 'index');
+
+		$art_voxes_to_resolve = '';
+		$art_voxes = '';
+
+		if (Functions::check_account_access(['operation']) == true)
 		{
-			if ($_POST['action'] == 'support')
-			{
-				$labels = [];
+			$art_voxes_to_resolve .=
+			'<article>
+		        <header>
+		            <h2><i class="fas fa-heart"></i>{$lang.voxes_to_solve}</h2>
+		        </header>
+		        <main>
+		            <div class="voxes-counts">
+		                <h2>' . $this->model->get_voxes('noreaded') . '<span>{$lang.noreaded}</span></h2>
+		                <h2>' . $this->model->get_voxes('readed') . '<span>{$lang.readed}</span></h2>
+		                <h2>' . $this->model->get_voxes('today') . '<span>{$lang.today}</span><strong>' . Functions::get_current_date('d F Y') . '</strong></h2>
+		                <h2>' . $this->model->get_voxes('week') . '<span>{$lang.this_week}</span><strong>' . Functions::get_formatted_date(Functions::get_current_week()[0], 'd F') . ' - ' . Functions::get_formatted_date(Functions::get_current_week()[1], 'd F Y') . '</strong></h2>
+		                <h2>' . $this->model->get_voxes('month') . '<span>{$lang.this_month}</span><strong>' . Functions::get_formatted_date(Functions::get_current_month()[0], 'F Y') . '</strong></h2>
+		                <h2>' . $this->model->get_voxes('total') . '<span>{$lang.total}</span></h2>
+		            </div>
+		        </main>
+		        <footer>
+		            <a href="/voxes">{$lang.view_all}</a>
+		        </footer>
+		    </article>';
 
-				if (!isset($_POST['message']) OR empty($_POST['message']))
-					array_push($labels, ['message','']);
-
-				if (empty($labels))
-				{
-					// $this->component->load_component('uploader');
-					//
-					// $_com_uploader = new Upload;
-					//
-					// foreach ($_FILES['attachments']['name'] as $key => $value)
-					// {
-					// 	if (!empty($_FILES['attachments']['name'][$key]))
-					// 	{
-					// 		$_com_uploader->SetFileName($_FILES['attachments']['name'][$key]);
-					// 		$_com_uploader->SetTempName($_FILES['attachments']['tmp_name'][$key]);
-					// 		$_com_uploader->SetFileType($_FILES['attachments']['type'][$key]);
-					// 		$_com_uploader->SetFileSize($_FILES['attachments']['size'][$key]);
-					// 		$_com_uploader->SetUploadDirectory(PATH_UPLOADS);
-					// 		$_com_uploader->SetValidExtensions(['jpg','jpeg','png','pdf','doc','docx','xls','xlsx']);
-					// 		$_com_uploader->SetMaximumFileSize('unlimited');
-					//
-					// 		$_FILES['attachments'][$key] = $_com_uploader->UploadFile();
-					// 	}
-					// }
-					//
-					// unset($_FILES['attachments']['name'], $_FILES['attachments']['type'], $_FILES['attachments']['tmp_name'], $_FILES['attachments']['error'], $_FILES['attachments']['size']);
-
-					$mail = new Mailer(true);
-
-					try
-					{
-						$mail->isSMTP();
-						$mail->setFrom('noreply@guestvox.com', 'GuestVox');
-						$mail->addAddress('daniel@guestvox.com', 'Daniel Basurto');
-						$mail->addAddress('gerson@guestvox.com', 'Gersón Gómez');
-
-						// if (!empty($_FILES['attachments']))
-						// {
-						// 	foreach ($_FILES['attachments'] as $value)
-						// 	{
-						// 		if ($value['status'] == 'success')
-						// 			$mail->addAttachment(PATH_UPLOADS . $value['file']);
-						// 	}
-						// }
-
-						$mail->isHTML(true);
-						$mail->Subject = 'Soporte Técnico';
-						$mail->Body = 'Nombre: ' . Session::get_value('user')['name'] . ' ' . Session::get_value('user')['lastname'] . ', Cuenta: ' . Session::get_value('account')['name'] . ', Fecha y hora: ' . Dates::get_format_date_hour(Dates::get_current_date(), Dates::get_current_hour(), '+ hrs') . ', Mensaje: ' . $_POST['message'];
-						$mail->AltBody = '';
-						$mail->send();
-					}
-					catch (Exception $e) { }
-
-					Environment::return([
-						'status' => 'success',
-						'message' => '{$lang.request_send_correctly}',
-					]);
-				}
-				else
-				{
-					Environment::return([
-						'status' => 'error',
-						'labels' => $labels
-					]);
-				}
-			}
-		}
-		else
-		{
-			define('_title', 'GuestVox | {$lang.dashboard}');
-
-			$template = $this->view->render($this, 'index');
-
-			$tbl_voxes = '';
+			$art_voxes .=
+			'<article>
+		        <header>
+		            <h2><i class="fas fa-heart"></i>{$lang.last_voxes_active}</h2>
+		        </header>
+		        <main>
+		            <div class="table">
+						<aside>
+		                    <label>
+		                        <span><i class="fas fa-search"></i></span>
+		                         <input name="tbl_voxes_search" type="text">
+		                    </label>
+		                </aside>
+		                <table id="tbl_voxes">
+		                    <thead>
+		                        <tr>
+		                            <th align="left">{$lang.abr_room}</th>
+		                            <th align="left">{$lang.abr_guest}</th>
+		                            <th align="left">{$lang.abr_opportunity_area}</th>
+		                            <th align="left">{$lang.abr_opportunity_type}</th>
+		                            <th align="left">{$lang.abr_location}</th>
+		                            <th align="left">{$lang.abr_started_date}</th>
+		                            <th align="left">{$lang.abr_elapsed_time}</th>
+		                            <th align="right" class="icon"></th>
+		                            <th align="right" class="icon"></th>
+		                            <th align="right" class="icon"></th>
+		                            <th align="right" class="icon"></th>
+		                            <th align="right" class="icon"></th>
+		                        </tr>
+		                    </thead>
+		                    <tbody>';
 
 			foreach ($this->model->get_voxes() as $value)
 			{
@@ -100,7 +80,7 @@ class Dashboard_controller extends Controller
 				$value['data']['comments'] = (!empty($value['data']['comments'])) ? '<span><i class="fas fa-comment"></i></span>' : '';
 				$value['data']['attachments'] = (!empty($value['data']['attachments'])) ? '<span><i class="fas fa-paperclip"></i></span>' : '';
 
-				if ($value['data']['status'] == 'open' AND Dates::get_current_date_hour() < Dates::get_format_date_hour($value['data']['started_date'], $value['data']['started_hour']))
+				if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']))
 				{
 					if ($value['data']['urgency'] == 'low')
 						$value['data']['urgency'] = '<span style="background-color:#4caf50;color:#fff;"><i class="fas fa-clock"></i></span>';
@@ -109,7 +89,7 @@ class Dashboard_controller extends Controller
 					else if ($value['data']['urgency'] == 'high')
 						$value['data']['urgency'] = '<span style="background-color:#f44336;color:#fff;"><i class="fas fa-clock"></i></span>';
 				}
-				else if ($value['data']['status'] == 'open')
+				else
 				{
 					if ($value['data']['urgency'] == 'low')
 						$value['data']['urgency'] = '<span style="background-color:#4caf50;color:#fff;"><i class="fas fa-lock-open"></i></span>';
@@ -118,26 +98,16 @@ class Dashboard_controller extends Controller
 					else if ($value['data']['urgency'] == 'high')
 						$value['data']['urgency'] = '<span style="background-color:#f44336;color:#fff;"><i class="fas fa-lock-open"></i></span>';
 				}
-				else if ($value['data']['status'] == 'close')
-				{
-					if ($value['data']['urgency'] == 'low')
-						$value['data']['urgency'] = '<span style="background-color:#4caf50;color:#fff;"><i class="fas fa-lock"></i></span>';
-					else if ($value['data']['urgency'] == 'medium')
-						$value['data']['urgency'] = '<span style="background-color:#ffc107;color:#fff;"><i class="fas fa-lock"></i></span>';
-					else if ($value['data']['urgency'] == 'high')
-						$value['data']['urgency'] = '<span style="background-color:#f44336;color:#fff;"><i class="fas fa-lock"></i></span>';
-				}
 
-				$tbl_voxes .=
-				'<tr class="' . $value['data']['status'] . ' ' . $value['data']['readed'] . '" data-id="' . $value['id'] . '">
+				$art_voxes .=
+				'<tr class="' . $value['data']['readed'] . '" data-id="' . $value['id'] . '">
 					<td align="left" class="touchable">' . $value['data']['room'] . '</td>
-					<td align="left" class="touchable">' . $value['data']['guest_treatment'] . ' ' . $value['data']['name'] . ' ' . $value['data']['lastname'] . '</td>
-					<td align="left" class="touchable">' . $value['data']['observations'] . ' ' . $value['data']['subject'] . '</td>
+					<td align="left" class="touchable">' . $value['data']['guest_treatment'] . ' ' . $value['data']['firstname'] . ' ' . $value['data']['lastname'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['opportunity_area'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['opportunity_type'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['location'] . '</td>
-					<td align="left" class="touchable">' . Dates::get_format_date($value['data']['started_date'], 'd M, y') . '</td>
-					<td align="left" class="touchable" data-started-date="' . Dates::get_format_date_hour($value['data']['started_date'], $value['data']['started_hour']) . '" data-elapsed-time></td>
+					<td align="left" class="touchable">' . Functions::get_formatted_date($value['data']['started_date'], 'd M, y') . '</td>
+					<td align="left" class="touchable" data-started-date="' . Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']) . '" data-elapsed-time></td>
 					<td align="right" class="touchable icon">' . $value['data']['confidentiality'] . '</td>
 					<td align="right" class="touchable icon">' . $value['data']['assigned_users'] . '</td>
 					<td align="right" class="touchable icon">' . $value['data']['comments'] . '</td>
@@ -146,74 +116,31 @@ class Dashboard_controller extends Controller
 				</tr>';
 			}
 
-			$replace = [
-				'{$tbl_voxes}' => $tbl_voxes,
-				'{$cnt_voxes_noreaded}' => $this->model->get_voxes('noreaded'),
-				'{$cnt_voxes_readed}' => $this->model->get_voxes('readed'),
-				'{$cnt_voxes_today}' => $this->model->get_voxes('today'),
-				'{$cnt_voxes_week}' => $this->model->get_voxes('week'),
-				'{$cnt_voxes_month}' => $this->model->get_voxes('month'),
-				'{$cnt_voxes_total}' => $this->model->get_voxes('total'),
-			];
-
-			$template = $this->format->replace($replace, $template);
-
-			echo $template;
+		    $art_voxes .=
+			'                </tbody>
+		                </table>
+		            </div>
+		        </main>
+		        <footer>
+		            <a href="/voxes">{$lang.view_all}</a>
+		        </footer>
+		    </article>';
 		}
+
+		$replace = [
+			'{$art_voxes_to_resolve}' => $art_voxes_to_resolve,
+			'{$art_voxes}' => $art_voxes,
+		];
+
+		$template = $this->format->replace($replace, $template);
+
+		echo $template;
 	}
 
-	public function charts()
+	public function logout()
 	{
-		header('Content-Type: application/javascript');
+		Session::destroy();
 
-		$g_chart_data = $this->model->get_chart(Dates::get_past_date(Dates::get_current_date(), '7', 'days'), Dates::get_current_date());
-
-		if (Session::get_value('settings')['language'] == 'es')
-			$g_chart_title = 'Voxes creados en los últimos 7 días';
-		else if (Session::get_value('settings')['language'] == 'en')
-			$g_chart_title = 'Voxes created in the last 7 days';
-
-		$js =
-		"'use strict';
-
-		var g_chart = {
-			type: 'line',
-			data: {
-				labels: [
-					" . $g_chart_data['labels'] . "
-				],
-				datasets: [
-					" . $g_chart_data['datasets'] . "
-				]
-			},
-			options: {
-				title: {
-					display: true,
-					text: '" . $g_chart_title . "'
-				},
-				legend: {
-					display: true
-				},
-				responsive: true,
-				maintainAspectRatio: false,
-				scales: {
-					yAxes: [{
-						ticks: {
-							suggestedMin: 0,
-							suggestedMax: " . $g_chart_data['suggested_max'] . "
-						}
-					}]
-				}
-			}
-		};
-
-		window.onload = function()
-		{
-			g_chart = new Chart(document.getElementById('g_chart').getContext('2d'), g_chart);
-		};";
-
-		$js = trim(str_replace(array('\t\t\t'), '', $js));
-
-		echo $js;
+		header("Location: /");
 	}
 }

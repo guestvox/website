@@ -67,6 +67,12 @@ class Layout
      *
      * @var string
      */
+    private $settins_url;
+
+    /**
+     *
+     * @var string
+     */
     private $route;
 
     /**
@@ -128,7 +134,21 @@ class Layout
         {
             $urls_registered = $class_urls_registered::urls();
 
-            if ( $url[0] !== '/' )
+            $call_api = ( isset($class_urls_registered::$api) ) ? $class_urls_registered::$api : "api";
+
+            if ( $url[0] == $call_api )
+            {
+                $this->controller = ucwords(strtolower('Api'));
+                $this->method = strtolower('execute');
+                $this->params = [];
+
+                foreach ( $url as $value )
+                {
+                    if ( $value != $call_api )
+                        $this->params[] = $value;
+                }
+            }
+            else if ( $url[0] !== '/' )
             {
                 foreach ( $urls_registered as $_url => $_value )
                 {
@@ -153,10 +173,16 @@ class Layout
 
                     foreach ( $_url as $_key => $_value )
                     {
-                        if ( $_value != '%param%' )
-                            $url_parse .= "{$_value}/";
-                        else
-                            $url_parse .= "{$url[$_key]}/";
+                        switch ( $_value )
+                        {
+                            case '%param%':
+                                $url_parse .= "{$url[$_key]}/";
+                                break;
+
+                            default:
+                                $url_parse .= "{$_value}/";
+                                break;
+                        }
                     }
 
                     $url_parse = explode("/", substr($url_parse, 0, -1));
@@ -166,6 +192,9 @@ class Layout
                     {
                         $this->controller = ucwords(strtolower($value['controller']));
                         $this->method = strtolower($value['method']);
+                        unset($value['controller'], $value['method']);
+                        $this->settins_url = $value;
+
                         $params = array_diff($url, $_url);
 
                         $this->params = [];
@@ -253,7 +282,7 @@ class Layout
 				{
                     if ( file_exists(Security::DS(PATH_MY_LIBRARIES . 'Route_vkye' . CLASS_PHP)) )
                     {
-                        $this->route = new Route_vkye('/' . $this->controller . '/' . $this->method);
+                        $this->route = new Route_vkye('/' . $this->controller . '/' . $this->method, $this->settins_url);
 
                         $this->route->on_change_start();
                     }

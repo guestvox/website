@@ -18,14 +18,18 @@ class Route_vkye
         $paths = [
             '/Index/index',
             '/Index/validate',
-            '/Voxes/myvox',
+            '/Hola/index',
+            '/Copyright/index',
+            '/Terms/index',
+            '/Myvox/index',
+            '/Api/execute'
         ];
 
         if (in_array($this->path, $paths))
             if (Session::exists_var('session')) : header('Location: /dashboard'); endif;
         else
         {
-            $hour_last_activity = (Session::exists_var('_vkye_last_access')) ? Session::get_value('_vkye_last_access') : date('Y-m-d H:i:s', strtotime('-2 hour', strtotime(Dates::get_current_date_hour())));
+            $hour_last_activity = (Session::exists_var('_vkye_last_access')) ? Session::get_value('_vkye_last_access') : date('Y-m-d H:i:s', strtotime('-2 hour', strtotime(Functions::get_current_date_hour())));
             $hour_lapse_time = date('Y-m-d H:i:s', strtotime('+1 hour', strtotime($hour_last_activity)));
             $hour_now = date('Y-m-d H:i:s');
 
@@ -36,7 +40,7 @@ class Route_vkye
                 header("Location: /");
             }
 
-            Session::set_value('_vkye_last_access', Dates::get_current_date_hour());
+            Session::set_value('_vkye_last_access', Functions::get_current_date_hour());
 
             if (!Session::exists_var('session'))
             {

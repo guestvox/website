@@ -1,25 +1,21 @@
 'use strict';
 
-
-
 $(document).ready(function()
 {
-    $('.datepicker').datepicker({
-        closeText: 'Cerrar',
-        prevText: 'Anterior',
-        nextText: 'Siguiente',
-        currentText: 'Hoy',
-        monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-        monthNamesShort: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],
-        dayNames: ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],
-        dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
-        weekHeader: 'Sm',
-        dateFormat: 'yy-mm-dd',
-    });
+    // $('.datepicker').datepicker({
+    //     closeText: 'Cerrar',
+    //     prevText: 'Anterior',
+    //     nextText: 'Siguiente',
+    //     currentText: 'Hoy',
+    //     monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
+    //     monthNamesShort: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],
+    //     dayNames: ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],
+    //     dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
+    //     weekHeader: 'Sm',
+    //     dateFormat: 'yy-mm-dd',
+    // });
 
     $('.chosen-select').chosen();
-
-    // ---
 
     $(document).on('change', '[important] [name]', function()
     {
@@ -32,8 +28,6 @@ $(document).ready(function()
         else
             $(this).parents('label').removeClass('success');
     });
-
-    // ---
 
     $('[name="type"]').on('change', function()
     {
@@ -51,7 +45,7 @@ $(document).ready(function()
             $('[name="action_taken"]').parent().parent().parent().addClass('hidden');
             $('[name="guest_treatment"]').parent().parent().parent().removeClass('span2');
             $('[name="guest_treatment"]').parent().parent().parent().addClass('span3');
-            $('[name="name"]').parent().parent().parent().addClass('hidden');
+            $('[name="firstname"]').parent().parent().parent().addClass('hidden');
             $('[name="guest_id"]').parent().parent().parent().addClass('hidden');
             $('[name="guest_type"]').parent().parent().parent().addClass('hidden');
             $('[name="reservation_number"]').parent().parent().parent().addClass('hidden');
@@ -69,7 +63,7 @@ $(document).ready(function()
             $('[name="action_taken"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_treatment"]').parent().parent().parent().removeClass('span3');
             $('[name="guest_treatment"]').parent().parent().parent().addClass('span2');
-            $('[name="name"]').parent().parent().parent().removeClass('hidden');
+            $('[name="firstname"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_id"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_type"]').parent().parent().parent().removeClass('hidden');
             $('[name="reservation_number"]').parent().parent().parent().removeClass('hidden');
@@ -86,7 +80,7 @@ $(document).ready(function()
     {
         $.ajax({
             type: 'POST',
-            data: 'opportunity_area=' + $(this).val() + '&option=' + $('[name="type"]').val() + '&action=get_opt_opportunity_types',
+            data: 'opportunity_area=' + $(this).val() + '&option=' + $('[name="type"]:checked').val() + '&action=get_opt_opportunity_types',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -124,20 +118,19 @@ $(document).ready(function()
             dataType: 'json',
             success: function(response)
             {
-                $('label.error').removeClass('error');
-                $('p.error').remove();
-
                 if (response.status == 'success')
                 {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
                     $('[data-modal="success"]').addClass('view');
-
+                    $('[data-modal="success"]').find('main > p').html(response.message);
                     setTimeout(function() { window.location.href = response.path; }, 1500);
                 }
                 else if (response.status == 'error')
                 {
                     if (response.labels)
                     {
+                        form.find('label.error').removeClass('error');
+                        form.find('p.error').remove();
+
                         $.each(response.labels, function(i, label)
                         {
                             if (label[1].length > 0)
@@ -150,8 +143,8 @@ $(document).ready(function()
                     }
                     else if (response.message)
                     {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
                         $('[data-modal="error"]').addClass('view');
+                        $('[data-modal="error"]').find('main > p').html(response.message);
                     }
                 }
             }

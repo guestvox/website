@@ -9,10 +9,12 @@ class User_level
         $paths = [];
 
         array_push($paths, '/Dashboard/index');
+        array_push($paths, '/Dashboard/logout');
         array_push($paths, '/Voxes/index');
         array_push($paths, '/Voxes/create');
-        array_push($paths, '/Voxes/view');
-        array_push($paths, '/Index/logout');
+        array_push($paths, '/Voxes/details');
+        array_push($paths, '/Voxes/history');
+        array_push($paths, '/Profile/index');
 
         foreach (Session::get_value('user')['user_permissions'] as $key => $value)
         {
@@ -22,98 +24,138 @@ class User_level
                     array_push($paths, '/Voxes/edit');
                 break;
 
-                case '{stats_view}' :
-                    array_push($paths, '/Dashboard/charts');
-                    array_push($paths, '/Stats/index');
-                    array_push($paths, '/Stats/charts');
+                case '{vox_reports_view}' :
+                    array_push($paths, '/Voxes/generate');
                 break;
 
-                case '{reports_generate}' :
-                    array_push($paths, '/Reports/index');
+                case '{vox_reports_create}' :
+                    array_push($paths, '/Voxes/reports');
                 break;
 
-                case '{opportunityareas_create}' :
-                    array_push($paths, '/Settings/index');
+                case '{vox_reports_update}' :
+                    array_push($paths, '/Voxes/reports');
                 break;
 
-                case '{opportunityareas_update}' :
-                    array_push($paths, '/Settings/index');
+                case '{vox_reports_delete}' :
+                    array_push($paths, '/Voxes/reports');
                 break;
 
-                case '{opportunityareas_delete}' :
-                    array_push($paths, '/Settings/index');
+                case '{vox_stats_view}' :
+                    array_push($paths, '/Voxes/stats');
+                    array_push($paths, '/Voxes/charts');
                 break;
 
-                case '{opportunitytypes_create}' :
-                    array_push($paths, '/Settings/index');
+                case '{survey_questions_create}' :
+                    array_push($paths, '/Surveys/questions');
                 break;
 
-                case '{opportunitytypes_update}' :
-                    array_push($paths, '/Settings/index');
+                case '{survey_questions_update}' :
+                    array_push($paths, '/Surveys/questions');
                 break;
 
-                case '{opportunitytypes_delete}' :
-                    array_push($paths, '/Settings/index');
+                case '{survey_questions_deactivate}' :
+                    array_push($paths, '/Surveys/questions');
                 break;
 
-                case '{locations_create}' :
-                    array_push($paths, '/Settings/index');
+                case '{survey_questions_activate}' :
+                    array_push($paths, '/Surveys/questions');
                 break;
 
-                case '{locations_update}' :
-                    array_push($paths, '/Settings/index');
+                case '{survey_questions_delete}' :
+                    array_push($paths, '/Surveys/questions');
                 break;
 
-                case '{locations_delete}' :
-                    array_push($paths, '/Settings/index');
+                case '{survey_answers_view}' :
+                    array_push($paths, '/Surveys/answers');
+                break;
+
+                case '{survey_stats_view}' :
+                    array_push($paths, '/Surveys/stats');
+                    array_push($paths, '/Surveys/charts');
                 break;
 
                 case '{rooms_create}' :
-                    array_push($paths, '/Settings/index');
+                    array_push($paths, '/Rooms/index');
                 break;
 
                 case '{rooms_update}' :
-                    array_push($paths, '/Settings/index');
+                    array_push($paths, '/Rooms/index');
                 break;
 
                 case '{rooms_delete}' :
-                    array_push($paths, '/Settings/index');
+                    array_push($paths, '/Rooms/index');
                 break;
 
-                case '{guesttreatments_create}' :
-                    array_push($paths, '/Settings/index');
+                case '{opportunity_areas_create}' :
+                    array_push($paths, '/Opportunityareas/index');
                 break;
 
-                case '{guesttreatments_update}' :
-                    array_push($paths, '/Settings/index');
+                case '{opportunity_areas_update}' :
+                    array_push($paths, '/Opportunityareas/index');
                 break;
 
-                case '{guesttreatments_delete}' :
-                    array_push($paths, '/Settings/index');
+                case '{opportunity_areas_delete}' :
+                    array_push($paths, '/Opportunityareas/index');
                 break;
 
-                case '{guesttypes_create}' :
-                    array_push($paths, '/Settings/index');
+                case '{opportunity_types_create}' :
+                    array_push($paths, '/Opportunitytypes/index');
                 break;
 
-                case '{guesttypes_update}' :
-                    array_push($paths, '/Settings/index');
+                case '{opportunity_types_update}' :
+                    array_push($paths, '/Opportunitytypes/index');
                 break;
 
-                case '{guesttypes_delete}' :
-                    array_push($paths, '/Settings/index');
+                case '{opportunity_types_delete}' :
+                    array_push($paths, '/Opportunitytypes/index');
                 break;
 
-                case '{reservationstatus_create}' :
-                    array_push($paths, '/Settings/index');
+                case '{locations_create}' :
+                    array_push($paths, '/Locations/index');
                 break;
 
-                case '{reservationstatus_update}' :
-                    array_push($paths, '/Settings/index');
+                case '{locations_update}' :
+                    array_push($paths, '/Locations/index');
                 break;
 
-                case '{reservationstatus_delete}' :
-                    array_push($paths, '/Settings/index');
+                case '{locations_delete}' :
+                    array_push($paths, '/Locations/index');
+                break;
+
+                case '{reservation_statuses_create}' :
+                    array_push($paths, '/Reservationstatuses/index');
+                break;
+
+                case '{reservation_statuses_update}' :
+                    array_push($paths, '/Reservationstatuses/index');
+                break;
+
+                case '{reservation_statuses_delete}' :
+                    array_push($paths, '/Reservationstatuses/index');
+                break;
+
+                case '{guest_treatments_create}' :
+                    array_push($paths, '/Guesttreatments/index');
+                break;
+
+                case '{guest_treatments_update}' :
+                    array_push($paths, '/Guesttreatments/index');
+                break;
+
+                case '{guest_treatments_delete}' :
+                    array_push($paths, '/Guesttreatments/index');
+                break;
+
+                case '{guest_types_create}' :
+                    array_push($paths, '/Guesttypes/index');
+                break;
+
+                case '{guest_types_update}' :
+                    array_push($paths, '/Guesttypes/index');
+                break;
+
+                case '{guest_types_delete}' :
+                    array_push($paths, '/Guesttypes/index');
                 break;
 
                 case '{users_create}' :
@@ -124,7 +166,7 @@ class User_level
                     array_push($paths, '/Users/index');
                 break;
 
-                case '{users_restorepassword}' :
+                case '{users_restore_password}' :
                     array_push($paths, '/Users/index');
                 break;
 
@@ -140,16 +182,20 @@ class User_level
                     array_push($paths, '/Users/index');
                 break;
 
-                case '{userlevels_create}' :
-                    array_push($paths, '/Users/index');
+                case '{user_levels_create}' :
+                    array_push($paths, '/Userlevels/index');
                 break;
 
-                case '{userlevels_update}' :
-                    array_push($paths, '/Users/index');
+                case '{user_levels_update}' :
+                    array_push($paths, '/Userlevels/index');
                 break;
 
-                case '{userlevels_delete}' :
-                    array_push($paths, '/Users/index');
+                case '{user_levels_delete}' :
+                    array_push($paths, '/Userlevels/index');
+                break;
+
+                case '{account_update}' :
+                    array_push($paths, '/Account/index');
                 break;
 
                 default: break;
@@ -159,14 +205,6 @@ class User_level
         $paths = array_unique($paths);
         $paths = array_values($paths);
 
-        return $this->check_path($path, $paths);
-    }
-
-    private function check_path($path, $paths)
-    {
-        if (in_array($path, $paths))
-            return true;
-        else
-            return false;
+        return in_array($path, $paths) ? true : false;
     }
 }

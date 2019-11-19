@@ -2,9 +2,8 @@
 
 $(document).ready(function()
 {
-    var table = $('table').DataTable({
+    var tbl_voxes = $('#tbl_voxes').DataTable({
         ordering: false,
-        autoWidth: false,
         pageLength: 25,
         info: false,
         'drawCallback': function()
@@ -16,14 +15,14 @@ $(document).ready(function()
         }
     });
 
-    $('[name="search"]').on('keyup', function()
+    $('[name="tbl_voxes_search"]').on('keyup', function()
     {
-        table.search(this.value).draw();
+        tbl_voxes.search(this.value).draw();
     });
 
-    $(document).on('click', 'table > tbody > tr > td', function()
+    $(document).on('click', '#tbl_voxes > tbody > tr > td', function()
     {
-        window.location.href = '/voxes/view/' + $(this).parents('tr').data('id');
+        window.location.href = '/voxes/view/details/' + $(this).parents('tr').data('id');
     });
 });
 

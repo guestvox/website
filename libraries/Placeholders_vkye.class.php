@@ -9,19 +9,29 @@ class Placeholders_vkye
 
     public function __construct($buffer)
     {
-        $this->format = new Format();
         $this->buffer = $buffer;
+        $this->format = new Format();
     }
 
     public function run()
     {
-        $this->buffer = $this->main_menu();
+        $this->buffer = $this->main_header();
+        $this->buffer = $this->placeholders();
 
         return $this->buffer;
     }
 
-    private function main_menu()
+    private function main_header()
     {
         return $this->format->include_file($this->buffer, 'header');
+    }
+
+    private function placeholders()
+    {
+        $replace = [
+            
+        ];
+
+        return $this->format->replace($replace, $this->buffer);
     }
 }

@@ -2,15 +2,223 @@
 
 $(document).ready(function()
 {
-    // Open responsive menu
-    $('[data-open-resoff]').on('click', function(e)
+    $('[data-action="open-land-menu"]').on('click', function(e)
     {
         e.stopPropagation();
-
-        $('header.landing-page nav.resoff').toggleClass('open');
+        $('header.landing-page nav > ul').toggleClass('open');
     });
 
-    // Sumit login form
+    $('[name="rooms_number"]').on('change', function()
+    {
+        get_packages();
+    });
+
+    $('[name="users_number"]').on('change', function()
+    {
+        get_packages();
+    });
+
+    // $('[name="cp"]').on('change', function()
+    // {
+    //     var self = $(this);
+    //
+    //     $.ajax({
+    //         type: 'POST',
+    //         data: 'cp=' + self.val() + '&action=get_cp',
+    //         processData: false,
+    //         cache: false,
+    //         dataType: 'json',
+    //         success: function(response)
+    //         {
+    //             if (response.status == 'success')
+    //             {
+    //                 var geocoder = new google.maps.Geocoder().geocode({
+    //
+    //                     address: self.val()
+    //
+    //                 }, function (results, status) {
+    //
+    //                     if (results.length > 0)
+    //                     {
+    //                         var map = new google.maps.Map(document.getElementById('map'), {
+    //                             center: {
+    //                                 lat: results[0].geometry.location.lat(),
+    //                                 lng: results[0].geometry.location.lng()
+    //                             },
+    //                             zoom: 12,
+    //                         });
+    //
+    //                         var circle = new google.maps.Circle({
+    //                             strokeColor: '#fa7268',
+    //                             strokeOpacity: 0.8,
+    //                             strokeWeight: 2,
+    //                             fillColor: '#fa7268',
+    //                             fillOpacity: 0.2,
+    //                             map: map,
+    //                             center: {
+    //                                 lat: results[0].geometry.location.lat(),
+    //                                 lng: results[0].geometry.location.lng(),
+    //                             },
+    //                             radius: 1000,
+    //                         });
+    //
+    //                         var marker = new google.maps.Marker({
+    //                             position: {
+    //                                 lat: results[0].geometry.location.lat(),
+    //                                 lng: results[0].geometry.location.lng()
+    //                             },
+    //                             map: map,
+    //                         });
+    //
+    //                         $('#map').parent().parent().parent().removeClass('hidden');
+    //                     }
+    //                     else
+    //                     {
+    //                         $('[data-modal="error"]').find('main > p').html('');
+    //                         $('[data-modal="error"]').addClass('view');
+    //                     }
+    //                 });
+    //             }
+    //             else if (response.status == 'error')
+    //             {
+    //                 if (response.labels)
+    //                 {
+    //                     $('label.error').removeClass('error');
+    //                     $('p.error').remove();
+    //
+    //                     $.each(response.labels, function(i, label)
+    //                     {
+    //                         if (label[1].length > 0)
+    //                             $('[name="cp"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
+    //                         else
+    //                             $('[name="cp"]').parents('label').addClass('error');
+    //                     });
+    //
+    //                     $('[name="cp"]')[0].focus();
+    //                 }
+    //                 else if (response.message)
+    //                 {
+    //                     $('[data-modal="error"]').find('main > p').html(response.message);
+    //                     $('[data-modal="error"]').addClass('view');
+    //                 }
+    //             }
+    //         }
+    //     });
+    // });
+
+    $('[data-image-select]').on('click', function()
+    {
+        $(this).parent().find('[data-image-upload]').click();
+    });
+
+    $('[data-image-upload]').on('change', function()
+    {
+        var preview = $(this).parent().find('[data-image-preview]');
+
+        if ($(this)[0].files[0].type.match($(this).attr('accept')))
+        {
+            var reader = new FileReader();
+
+            reader.onload = function(e)
+            {
+                preview.attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL($(this)[0].files[0]);
+        }
+        else
+        {
+            $('[data-modal="error"]').addClass('view');
+            $('[data-modal="error"]').find('main > p').html('ERROR FILE NOT PERMIT');
+        }
+    });
+
+    var step;
+
+    $('[data-action="go_to_step"]').on('click', function()
+    {
+        step = $(this).parent().data('step');
+        $('form[name="signup"]').submit();
+    });
+
+    $('[data-modal="signup"]').modal().onCancel(function()
+    {
+        $('form[name="signup"]')[0].reset();
+        $('fieldset.error').removeClass('error');
+        $('[data-step]').removeClass('view');
+        $('[data-step="1"]').addClass('view');
+        $('[data-image-preview]').attr('src', '../images/empty.png');
+        $('#room_package').parent().addClass('hidden');
+        $('#user_package').parent().addClass('hidden');
+        $('.package').find('h4 > strong').html('');
+    });
+
+    $('form[name="signup"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+        var data = new FormData(form[0]);
+
+        data.append('step', step);
+        data.append('action', 'go_to_step');
+
+        $.ajax({
+            type: 'POST',
+            data: data,
+            contentType: false,
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    step = step + 1;
+
+                    $('[data-step]').removeClass('view');
+                    $('[data-step="' + step + '"]').addClass('view');
+
+                    if (step == 6)
+                    {
+                        $('#success_step_message').html(response.message);
+                        setTimeout(function() { location.reload(); }, 8000);
+                    }
+                }
+                else if (response.status == 'error')
+                {
+                    if (response.labels)
+                    {
+                        form.find('fieldset.error').removeClass('error');
+
+                        $.each(response.labels, function(i, label)
+                        {
+                            form.find('[name="' + label[0] + '"]').parents('fieldset').addClass('error');
+                        });
+
+                        form.find('fieldset.error [name]')[0].focus();
+                    }
+                    else if (response.message)
+                    {
+                        $('[data-modal="error"]').addClass('view');
+                        $('[data-modal="error"]').find('main > p').html(response.message);
+                    }
+                }
+            }
+        });
+    });
+
+    $('[data-action="login"]').on('click', function()
+    {
+        $('form[name="login"]').submit();
+    });
+
+    $('[data-modal="login"]').modal().onCancel(function()
+    {
+        $('form[name="login"]')[0].reset();
+        $('fieldset.error').removeClass('error');
+    });
+
     $('form[name="login"]').on('submit', function(e)
     {
         e.preventDefault();
@@ -31,141 +239,70 @@ $(document).ready(function()
                 {
                     if (response.labels)
                     {
-                        $('label.error').removeClass('error');
-                        $('p.error').remove();
+                        form.find('fieldset.error').removeClass('error');
 
                         $.each(response.labels, function(i, label)
                         {
-                            if (label[1].length > 0)
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-                            else
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
+                            form.find('[name="' + label[0] + '"]').parents('fieldset').addClass('error');
                         });
 
-                        form.find('label.error [name]')[0].focus();
+                        form.find('fieldset.error [name]')[0].focus();
                     }
                     else if (response.message)
                     {
-                        $('[data-modal="error"]').find('main > p').html(response.message);
                         $('[data-modal="error"]').addClass('view');
-                    }
-                }
-            }
-        });
-    });
-
-    // Type email input value into username input
-    $('[name="email"]').on('keyup', function()
-    {
-        $('[name="username"]').val($(this).val());
-        $('[name="password"]').val('');
-    });
-
-    // Select time zone
-    $('[data-select]').find('[data-preview] > input[data-typer]').on('keyup', function()
-    {
-        var input = $(this);
-        var select = input.parents('[data-select]');
-        var search = select.find('[data-search]');
-        var values = select.find('[data-search] > a');
-
-        $.each(values, function(key, value)
-        {
-            var string1 = value.innerHTML.toLowerCase();
-            var string2 = input.val().toLowerCase();
-            var indexof = string1.indexOf(string2);
-
-            if (indexof >= 0)
-                value.className = '';
-            else
-                value.className = 'hidden';
-        });
-
-        search.addClass('view');
-    });
-
-    $('[data-select]').find('[data-search] > a').on('click', function()
-    {
-        $(this).parents('[data-select]').find('[data-preview] > input[data-typer]').val($(this).find('[data-zone]').html());
-        $(this).parents('[data-select]').find('[data-search]').removeClass('view');
-    });
-
-    $(document).on('click', function(e)
-    {
-        var target = $('[data-select]');
-
-        if (!target.is(e.target) && target.has(e.target).length === 0)
-            target.find('[data-search]').removeClass('view');
-    });
-
-    // Apply promotional discount
-    $('[name="apply_promotional_code"]').on('change', function()
-    {
-        $('[name="promotional_code"]').val('');
-
-        if ($(this).prop("checked"))
-        {
-            $('[name="promotional_code"]').attr('disabled', false);
-            $('[name="promotional_code"]').focus();
-        }
-        else
-            $('[name="promotional_code"]').attr('disabled', true);
-    });
-
-    // Cancel singup modal
-    $('[data-modal="signup"]').modal().onCancel(function()
-    {
-        $('label.error').removeClass('error');
-        $('p.error').remove();
-        $('form[name="signup"]')[0].reset();
-    });
-
-    // Submit signup form
-    $('form[name="signup"]').on('submit', function(e)
-    {
-        e.preventDefault();
-
-        var form = $(this);
-
-        $.ajax({
-            type: 'POST',
-            data: form.serialize() + '&action=signup',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                $('label.error').removeClass('error');
-                $('p.error').remove();
-
-                if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    $('[data-modal="success"]').addClass('view');
-
-                    setTimeout(function() { window.location.href = response.path; }, 10000);
-                }
-                else if (response.status == 'error')
-                {
-                    if (response.labels)
-                    {
-                        $.each(response.labels, function(i, label)
-                        {
-                            if (label[1].length > 0)
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-                            else
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
-                        });
-
-                        form.find('label.error [name]')[0].focus();
-                    }
-                    else if (response.message)
-                    {
                         $('[data-modal="error"]').find('main > p').html(response.message);
-                        $('[data-modal="error"]').addClass('view');
                     }
                 }
             }
         });
     });
 });
+
+function get_packages()
+{
+    if ($('[name="rooms_number"]').val().length > 0)
+        var rooms_number = $('[name="rooms_number"]').val();
+    else
+        var rooms_number = 0;
+
+    if ($('[name="users_number"]').val().length > 0)
+        var users_number = $('[name="users_number"]').val();
+    else
+        var users_number = 0;
+
+    $.ajax({
+        type: 'POST',
+        data: 'rooms_number=' + rooms_number + '&users_number=' + users_number + '&action=get_packages',
+        processData: false,
+        cache: false,
+        dataType: 'json',
+        success: function(response)
+        {
+            if (response.status == 'success')
+            {
+                if (rooms_number > 0)
+                {
+                    $('#room_package').parent().removeClass('hidden');
+                    $('#room_package').find('h3 > strong').html(response.data.room_package.quantity_end);
+                    $('#room_package').find('h4 > strong').html(response.data.room_package.price);
+                }
+
+                if (users_number > 0)
+                {
+                    $('#user_package').parent().removeClass('hidden');
+                    $('#user_package').find('h3 > strong').html(response.data.user_package.quantity_end);
+                    $('#user_package').find('h4 > strong').html(response.data.user_package.price);
+                }
+
+                if (rooms_number > 0 || users_number > 0)
+                    $('#total_package').find('h4 > strong').html(response.data.total);
+            }
+            else if (response.status == 'error')
+            {
+                $('[data-modal="error"]').addClass('view');
+                $('[data-modal="error"]').find('main > p').html(response.message);
+            }
+        }
+    });
+}

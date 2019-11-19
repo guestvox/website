@@ -11,43 +11,55 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 
 %{header}%
 <main>
-    <section class="box-container complete">
-        <div class="main">
-            <article>
-                <main class="tables">
-                    <div class="search">
-                        <div class="label">
-                            <label>
-                                <input name="search" type="text" placeholder="{$lang.search}">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="table-container">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th align="left">{$lang.abr_room}</th>
-                                    <th align="left">{$lang.abr_guest}</th>
-                                    <th align="left">{$lang.abr_subject}</th>
-                                    <th align="left">{$lang.abr_opportunity_area}</th>
-                                    <th align="left">{$lang.abr_opportunity_type}</th>
-                                    <th align="left">{$lang.abr_location}</th>
-                                    <th align="left">{$lang.abr_started_date}</th>
-                                    <th align="left">{$lang.abr_elapsed_time}</th>
-                                    <th align="right" class="icon"></th>
-                                    <th align="right" class="icon"></th>
-                                    <th align="right" class="icon"></th>
-                                    <th align="right" class="icon"></th>
-                                    <th align="right" class="icon"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {$tbl_voxes}
-                            </tbody>
-                        </table>
-                    </div>
-                </main>
-            </article>
-        </div>
-    </section>
+    <nav>
+        <ul>
+            <li><a href="/voxes" class="view"><i class="fas fa-heart"></i></a></li>
+            <?php if (Functions::check_user_access(['{vox_reports_view}']) == true) : ?>
+            <li><a href="/voxes/reports/generate"><i class="fas fa-file-invoice"></i></a></li>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{vox_reports_create}','{vox_reports_update}','{vox_reports_delete}']) == true) : ?>
+            <li><a href="/voxes/reports"><i class="fas fa-file-invoice"></i></a></li>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{vox_stats_view}']) == true) : ?>
+            <li><a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a></li>
+            <?php endif; ?>
+        </ul>
+    </nav>
+    <article>
+        <header>
+            <h2><i class="fas fa-heart"></i>{$lang.voxes}</h2>
+        </header>
+        <main>
+            <div class="table">
+                <aside>
+                    <label>
+                        <span><i class="fas fa-search"></i></span>
+                        <input type="text" name="tbl_voxes_search">
+                    </label>
+                    <a href="/voxes/create" class="new"><i class="fas fa-plus"></i></a>
+                </aside>
+                <table id="tbl_voxes">
+                    <thead>
+                        <tr>
+                            <th align="left">{$lang.abr_room}</th>
+                            <th align="left">{$lang.abr_guest}</th>
+                            <th align="left">{$lang.abr_opportunity_area}</th>
+                            <th align="left">{$lang.abr_opportunity_type}</th>
+                            <th align="left">{$lang.abr_location}</th>
+                            <th align="left">{$lang.abr_started_date}</th>
+                            <th align="left">{$lang.abr_elapsed_time}</th>
+                            <th align="right" class="icon"></th>
+                            <th align="right" class="icon"></th>
+                            <th align="right" class="icon"></th>
+                            <th align="right" class="icon"></th>
+                            <th align="right" class="icon"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {$tbl_voxes}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </article>
 </main>
