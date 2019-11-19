@@ -531,7 +531,7 @@ class Myvox_controller extends Controller
 						                    </div>
 						                    <div class="span6">
 						                        <div class="label">
-						                            <label class="success">
+						                            <label>
 						                                <p>{$lang.date}</p>
 						                                <input type="date" name="started_date" value="' . Functions::get_current_date('Y-m-d') . '">
 						                                <p class="description">{$lang.what_date_need}</p>
@@ -540,7 +540,7 @@ class Myvox_controller extends Controller
 						                    </div>
 						                    <div class="span6">
 						                        <div class="label">
-						                            <label class="success">
+						                            <label>
 						                                <p>{$lang.hour}</p>
 						                                <input type="time" name="started_hour" value="' . Functions::get_current_hour() . '">
 						                                <p class="description">{$lang.what_hour_need}</p>
@@ -565,7 +565,7 @@ class Myvox_controller extends Controller
 						                    </div>
 						                    <div class="span12">
 						                        <div class="label">
-						                            <label class="success">
+						                            <label>
 						                                <p>{$lang.observations}</p>
 						                                <input type="text" name="observations" maxlength="120" />
 						                                <p class="description">{$lang.max_120_characters}</p>
@@ -604,7 +604,7 @@ class Myvox_controller extends Controller
 						'<section class="modal" data-modal="new_incident">
 							<div class="content">
 								<header>
-									<h3>{$lang.i_want_to_leave_a_comment}</h3>
+									<h3>{$lang.i_want_to_leave_a_comment_complaint}</h3>
 								</header>
 								<main>
 									<form name="new_incident">
@@ -636,7 +636,7 @@ class Myvox_controller extends Controller
 											</div>
 											<div class="span6">
 												<div class="label">
-													<label class="success">
+													<label>
 														<p>{$lang.date}</p>
 														<input type="date" name="started_date" value="' . Functions::get_current_date('Y-m-d') . '">
 														<p class="description">{$lang.what_date_happened}</p>
@@ -645,7 +645,7 @@ class Myvox_controller extends Controller
 											</div>
 											<div class="span6">
 												<div class="label">
-													<label class="success">
+													<label>
 														<p>{$lang.hour}</p>
 														<input type="time" name="started_hour" value="' . Functions::get_current_hour() . '">
 														<p class="description">{$lang.what_hour_happened}</p>
@@ -821,7 +821,7 @@ class Myvox_controller extends Controller
 						                    </div>
 						                    <div class="span12">
 						                        <div class="label">
-						                            <label>
+						                            <label important>
 						                                <p>{$lang.firstname}</p>
 						                                <input type="text" name="firstname">
 						                            </label>
@@ -829,7 +829,7 @@ class Myvox_controller extends Controller
 						                    </div>
 						                    <div class="span12">
 						                        <div class="label">
-						                            <label>
+						                            <label important>
 						                                <p>{$lang.lastname}</p>
 						                                <input type="text" name="lastname">
 						                            </label>
@@ -837,7 +837,7 @@ class Myvox_controller extends Controller
 						                    </div>
 						                    <div class="span12">
 						                        <div class="label">
-						                            <label>
+						                            <label important>
 						                                <p>{$lang.email}</p>
 						                                <input type="email" name="email">
 						                            </label>
