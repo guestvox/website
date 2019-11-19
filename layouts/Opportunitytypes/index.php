@@ -50,7 +50,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
         </main>
     </article>
 </main>
-<?php if (Functions::check_user_access(['{opportunity_types_create}']) == true) : ?>
+<?php if (Functions::check_user_access(['{opportunity_types_create}','{opportunity_types_update}']) == true) : ?>
 <section class="modal new" data-modal="new_opportunity_type">
     <div class="content">
         <header>

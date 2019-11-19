@@ -49,7 +49,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
         </main>
     </article>
 </main>
-<?php if (Functions::check_user_access(['{locations_create}']) == true) : ?>
+<?php if (Functions::check_user_access(['{locations_create}','{locations_update}']) == true) : ?>
 <section class="modal new" data-modal="new_location">
     <div class="content">
         <header>

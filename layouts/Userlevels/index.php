@@ -47,7 +47,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
         </main>
     </article>
 </main>
-<?php if (Functions::check_user_access(['{user_levels_create}']) == true) : ?>
+<?php if (Functions::check_user_access(['{user_levels_create}','{user_levels_update}']) == true) : ?>
 <section class="modal new" data-modal="new_user_level">
     <div class="content">
         <header>

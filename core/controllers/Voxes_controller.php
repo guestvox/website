@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-// require_once 'plugins/nexmo/vendor/autoload.php';
+require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Voxes_controller extends Controller
 {
@@ -311,100 +311,100 @@ class Voxes_controller extends Controller
 						}
 						catch (Exception $e) { }
 
-						// if (Session::get_value('account')['sms'] > 0)
-						// {
-						// 	$basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
-						// 	$client = new \Nexmo\Client($basic);
-						//
-						// 	if (Session::get_value('account')['language'] == 'es')
-						// 	{
-						// 		if ($_POST['type'] == 'request')
-						// 			$sms_subject = 'GuestVox: Nueva petición';
-						// 		else if ($_POST['type'] == 'incident')
-						// 			$sms_subject = 'GuestVox: Nueva incidencia';
-						//
-						// 		$sms_room = 'Hab: ';
-						// 		$sms_opportunity_area = 'AO: ';
-						// 		$sms_opportunity_type = 'TO: ';
-						// 		$sms_started_date = 'Fecha: ';
-						// 		$sms_started_hour = 'Hr: ';
-						// 		$sms_location = 'Ubic: ';
-						//
-						// 		if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
-						// 			$sms_urgency = 'Urg: Programada';
-						// 		else if ($_POST['urgency'] == 'low')
-						// 			$sms_urgency = 'Urg: Baja';
-						// 		else if ($_POST['urgency'] == 'medium')
-						// 			$sms_urgency = 'Urg: Media';
-						// 		else if ($_POST['urgency'] == 'high')
-						// 			$sms_urgency = 'Urg: Alta';
-						//
-						// 		if ($_POST['confidentiality'] == true)
-						// 			$sms_confidentiality = 'Conf: Si';
-						// 		else if ($_POST['confidentiality'] == false)
-						// 			$sms_confidentiality = 'Conf: No';
-						//
-						// 		$sms_observations = 'Obs: ';
-						// 		$sms_description = 'Desc: ';
-						// 	}
-						// 	else if (Session::get_value('account')['language'] == 'en')
-						// 	{
-						// 		if ($_POST['type'] == 'request')
-						// 			$sms_subject = 'GuestVox: New request';
-						// 		else if ($_POST['type'] == 'incident')
-						// 			$sms_subject = 'GuestVox: New incident';
-						//
-						// 		$sms_room = 'Room: ';
-						// 		$sms_opportunity_area = 'OA: ';
-						// 		$sms_opportunity_type = 'OT: ';
-						// 		$sms_started_date = 'Date: ';
-						// 		$sms_started_hour = 'Hr: ';
-						// 		$sms_location = 'Loc: ';
-						//
-						// 		if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
-						// 			$sms_urgency = 'Urg: Programmed';
-						// 		else if ($_POST['urgency'] == 'low')
-						// 			$sms_urgency = 'Urg: Low';
-						// 		else if ($_POST['urgency'] == 'medium')
-						// 			$sms_urgency = 'Urg: Medium';
-						// 		else if ($_POST['urgency'] == 'high')
-						// 			$sms_urgency = 'Urg: High';
-						//
-						// 		if ($_POST['confidentiality'] == true)
-						// 			$sms_confidentiality = 'Conf: Yes';
-						// 		else if ($_POST['confidentiality'] == false)
-						// 			$sms_confidentiality = 'Conf: No';
-						//
-						// 		$sms_observations = 'Obs: ';
-						// 		$sms_description = 'Desc: ';
-						// 	}
-						//
-						// 	$sms_text = $sms_subject . $sms_room . $_POST['room'] . ' ' . $sms_opportunity_area . $_POST['opportunity_area'] . ' ' . $sms_opportunity_type . $_POST['opportunity_type'] . ' ' . $sms_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' ' . $sms_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' ' . $sms_location . $_POST['location'] . ' ' . $sms_urgency . ' ';
-						//
-						// 	if ($_POST['type'] == 'request')
-						// 		$sms_text .= $sms_observations . $_POST['observations'];
-						// 	else if ($_POST['type'] == 'incident')
-						// 		$sms_text .= $sms_confidentiality . ' ' . $sms_description . $_POST['description'];
-						//
-						// 	$tmp = Session::get_value('account');
-						//
-						// 	foreach ($_POST['assigned_users'] as $value)
-						// 	{
-						// 		if ($tmp['sms'] > 0)
-						// 		{
-						// 			$client->message()->send([
-						// 				'to' => $value['phone']['lada'] . $value['phone']['number'],
-						// 				'from' => 'GuestVox',
-						// 				'text' => $sms_text . ' https://' . Configuration::$domain . '/voxes/view/details/' . $query
-						// 			]);
-						//
-						// 			$tmp['sms'] = $tmp['sms'] - 1;
-						// 		}
-						// 	}
-						//
-						// 	Session::set_value('account', $tmp);
-						// 	$this->model->edit_sms();
-						// }
+						if (Session::get_value('account')['sms'] > 0)
+						{
+							$basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
+							$client = new \Nexmo\Client($basic);
+
+							if (Session::get_value('account')['language'] == 'es')
+							{
+								if ($_POST['type'] == 'request')
+									$sms_subject = 'GuestVox: Nueva petición';
+								else if ($_POST['type'] == 'incident')
+									$sms_subject = 'GuestVox: Nueva incidencia';
+
+								$sms_room = 'Hab: ';
+								$sms_opportunity_area = 'AO: ';
+								$sms_opportunity_type = 'TO: ';
+								$sms_started_date = 'Fecha: ';
+								$sms_started_hour = 'Hr: ';
+								$sms_location = 'Ubic: ';
+
+								if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
+									$sms_urgency = 'Urg: Programada';
+								else if ($_POST['urgency'] == 'low')
+									$sms_urgency = 'Urg: Baja';
+								else if ($_POST['urgency'] == 'medium')
+									$sms_urgency = 'Urg: Media';
+								else if ($_POST['urgency'] == 'high')
+									$sms_urgency = 'Urg: Alta';
+
+								if ($_POST['confidentiality'] == true)
+									$sms_confidentiality = 'Conf: Si';
+								else if ($_POST['confidentiality'] == false)
+									$sms_confidentiality = 'Conf: No';
+
+								$sms_observations = 'Obs: ';
+								$sms_description = 'Desc: ';
+							}
+							else if (Session::get_value('account')['language'] == 'en')
+							{
+								if ($_POST['type'] == 'request')
+									$sms_subject = 'GuestVox: New request';
+								else if ($_POST['type'] == 'incident')
+									$sms_subject = 'GuestVox: New incident';
+
+								$sms_room = 'Room: ';
+								$sms_opportunity_area = 'OA: ';
+								$sms_opportunity_type = 'OT: ';
+								$sms_started_date = 'Date: ';
+								$sms_started_hour = 'Hr: ';
+								$sms_location = 'Loc: ';
+
+								if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
+									$sms_urgency = 'Urg: Programmed';
+								else if ($_POST['urgency'] == 'low')
+									$sms_urgency = 'Urg: Low';
+								else if ($_POST['urgency'] == 'medium')
+									$sms_urgency = 'Urg: Medium';
+								else if ($_POST['urgency'] == 'high')
+									$sms_urgency = 'Urg: High';
+
+								if ($_POST['confidentiality'] == true)
+									$sms_confidentiality = 'Conf: Yes';
+								else if ($_POST['confidentiality'] == false)
+									$sms_confidentiality = 'Conf: No';
+
+								$sms_observations = 'Obs: ';
+								$sms_description = 'Desc: ';
+							}
+
+							$sms_text = $sms_subject . $sms_room . $_POST['room'] . ' ' . $sms_opportunity_area . $_POST['opportunity_area'] . ' ' . $sms_opportunity_type . $_POST['opportunity_type'] . ' ' . $sms_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' ' . $sms_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' ' . $sms_location . $_POST['location'] . ' ' . $sms_urgency . ' ';
+
+							if ($_POST['type'] == 'request')
+								$sms_text .= $sms_observations . $_POST['observations'];
+							else if ($_POST['type'] == 'incident')
+								$sms_text .= $sms_confidentiality . ' ' . $sms_description . $_POST['description'];
+
+							$tmp = Session::get_value('account');
+
+							foreach ($_POST['assigned_users'] as $value)
+							{
+								if ($tmp['sms'] > 0)
+								{
+									$client->message()->send([
+										'to' => $value['phone']['lada'] . $value['phone']['number'],
+										'from' => 'GuestVox',
+										'text' => $sms_text . ' https://' . Configuration::$domain . '/voxes/view/details/' . $query
+									]);
+
+									$tmp['sms'] = $tmp['sms'] - 1;
+								}
+							}
+
+							Session::set_value('account', $tmp);
+							$this->model->edit_sms();
+						}
 
 						Functions::environment([
 							'status' => 'success',

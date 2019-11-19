@@ -46,7 +46,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
         </main>
     </article>
 </main>
-<?php if (Functions::check_user_access(['{guest_types_create}']) == true) : ?>
+<?php if (Functions::check_user_access(['{guest_types_create}','{guest_types_update}']) == true) : ?>
 <section class="modal new" data-modal="new_guest_type">
     <div class="content">
         <header>
