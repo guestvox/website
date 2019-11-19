@@ -459,7 +459,11 @@ class Users_controller extends Controller
 
 			$cbx_opportunity_areas =
             '<div>
-				<div>';
+				<div>
+					<div>
+						<input type="checkbox" name="checked_all">
+						<span>{$lang.all}</span>
+					</div>';
 
             foreach ($this->model->get_opportunity_areas() as $key => $value)
             {

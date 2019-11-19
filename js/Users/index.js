@@ -67,6 +67,20 @@ $(document).ready(function()
         }
     });
 
+    $(document).on('change', '[name="checked_all"]', function()
+    {
+        if ($(this).prop('checked') == true)
+            $(this).parent().parent().find('[type="checkbox"]').prop('checked', true);
+        else if ($(this).prop('checked') == false)
+            $(this).parent().parent().find('[type="checkbox"]').prop('checked', false);
+    });
+
+    $(document).on('change', '[type="checkbox"]', function()
+    {
+        if ($(this).prop('checked') == false)
+            $(this).parent().parent().find('[name="checked_all"]').prop('checked', false);
+    });
+
     var id;
     var edit = false;
 
