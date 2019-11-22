@@ -160,7 +160,6 @@ main.landing-page-index > section.home::before {
 
 main.landing-page-index > section.home > .container {
     height: 100%;
-    position: fixed;
     display: flex;
     align-items: center;
     justify-content: center;

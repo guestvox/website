@@ -15,9 +15,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
     </div>
     <div class="bottombar">
         <div class="weather">
-            <div id="cont_14b51bac9dd36d8c525f0cb7c94d00e0">
-                <script type="text/javascript" async src="https://www.meteored.mx/wid_loader/14b51bac9dd36d8c525f0cb7c94d00e0"></script>
-            </div>
+            {$weather}
         </div>
         <div class="multilanguage">
             <a href="?<?php echo Language::get_lang_url('es'); ?>">

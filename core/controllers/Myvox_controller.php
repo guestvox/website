@@ -339,14 +339,16 @@ class Myvox_controller extends Controller
 	                {
 						$labels = [];
 
-	                    if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-	                        array_push($labels, ['firstname','']);
-
-	                    if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-	                        array_push($labels, ['lastname','']);
-
-	                    if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
-	                        array_push($labels, ['email','']);
+						if (!empty($_POST['email']))
+						{
+							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+								array_push($labels, ['firstname','']);
+						}
+						if (!empty($_POST['email']))
+						{
+							if (!empty($_POST['email']) AND !isset($_POST['lastname']) OR empty($_POST['lastname']))
+								array_push($labels, ['lastname','']);
+						}
 
 	                    if (empty($labels))
 	                    {
@@ -411,53 +413,56 @@ class Myvox_controller extends Controller
 
 							if (!empty($query))
 		                    {
-		                       $mail = new Mailer(true);
+								if (!empty($_POST['email']))
+								{
+									$mail = new Mailer(true);
 
-	                            try
-	                            {
-	                                if (Session::get_value('lang') == 'es')
-	                                    $mail_subject = 'Gracias por contestar nuestra encuesta';
-	                                else if (Session::get_value('lang') == 'en')
-	                                    $mail_subject = 'Thanks for answers our surver';
+		                            try
+		                            {
+		                                if (Session::get_value('lang') == 'es')
+		                                    $mail_subject = 'Gracias por contestar nuestra encuesta';
+		                                else if (Session::get_value('lang') == 'en')
+		                                    $mail_subject = 'Thanks for answers our surver';
 
-	                                $mail->isSMTP();
-	                                $mail->setFrom('noreply@guestvox.com', 'GuestVox');
-									$mail->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
-	                                $mail->isHTML(true);
-	                                $mail->Subject = $mail_subject;
-	                                $mail->Body =
-	                                '<html>
-	                                    <head>
-	                                        <title>' . $mail_subject . '</title>
-	                                    </head>
-	                                    <body>
-	                                        <table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
-	                                            <tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
-	                                                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-	                                                    <figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-	                                                        <img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . $account['logotype'] . '" />
-	                                                    </figure>
-	                                                </td>
-	                                            </tr>
-	                                            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
-	                                                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-	                                                    <h4 style="font-size:24px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject . '</h4>
-	                                                    <h6 style="font-size:24px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $_POST['date'] . '</h6>
-	                                                    <h6 style="font-size:40px;font-weight:600;text-align:center;color:#212121;margin:0px;padding:0px;">' . $_POST['token'] . '</h6>
-	                                                </td>
-	                                            </tr>
-	                                            <tr style="width:100%;margin:0px;border:0px;padding:0px;">
-	                                                <td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
-	                                                    <a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '">Powered by GuestVox</a>
-	                                                </td>
-	                                            </tr>
-	                                        </table>
-	                                    </body>
-	                                </html>';
-	                                $mail->AltBody = '';
-	                                $mail->send();
-	                            }
-	                            catch (Exception $e) { }
+		                                $mail->isSMTP();
+		                                $mail->setFrom('noreply@guestvox.com', 'GuestVox');
+										$mail->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
+		                                $mail->isHTML(true);
+		                                $mail->Subject = $mail_subject;
+		                                $mail->Body =
+		                                '<html>
+		                                    <head>
+		                                        <title>' . $mail_subject . '</title>
+		                                    </head>
+		                                    <body>
+		                                        <table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
+		                                            <tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
+		                                                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+		                                                    <figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+		                                                        <img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . $account['logotype'] . '" />
+		                                                    </figure>
+		                                                </td>
+		                                            </tr>
+		                                            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
+		                                                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+		                                                    <h4 style="font-size:24px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject . '</h4>
+		                                                    <h6 style="font-size:24px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $_POST['date'] . '</h6>
+		                                                    <h6 style="font-size:40px;font-weight:600;text-align:center;color:#212121;margin:0px;padding:0px;">' . $_POST['token'] . '</h6>
+		                                                </td>
+		                                            </tr>
+		                                            <tr style="width:100%;margin:0px;border:0px;padding:0px;">
+		                                                <td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
+		                                                    <a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '">Powered by GuestVox</a>
+		                                                </td>
+		                                            </tr>
+		                                        </table>
+		                                    </body>
+		                                </html>';
+		                                $mail->AltBody = '';
+		                                $mail->send();
+		                            }
+		                            catch (Exception $e) { }
+								}
 
 		                        Functions::environment([
 		                            'status' => 'success',
@@ -487,6 +492,30 @@ class Myvox_controller extends Controller
 	                define('_title', 'GuestVox - ' . $account['name']);
 
 	                $template = $this->view->render($this, 'index');
+
+					$weather = '';
+
+					if ($account['city'] == 'Cancún')
+					{
+						$weather .=
+						'<div id="cont_cd807792a632233c89079d9ce52455fd">
+							<script type="text/javascript" async src="https://www.meteored.mx/wid_loader/cd807792a632233c89079d9ce52455fd"></script>
+						</div>';
+					}
+					else if ($account['city'] == 'Playa el Carmen')
+					{
+						$weather .=
+						'<div id="cont_1aa2ac92f7520eecb5e4c9c9af87d4cf">
+							<script type="text/javascript" async src="https://www.meteored.mx/wid_loader/1aa2ac92f7520eecb5e4c9c9af87d4cf"></script>
+						</div>';
+					}
+					else if ($account['city'] == 'Ciudad de México')
+					{
+						$weather .=
+						'<div id="cont_14b51bac9dd36d8c525f0cb7c94d00e0">
+				         	<script type="text/javascript" async src="https://www.meteored.mx/wid_loader/14b51bac9dd36d8c525f0cb7c94d00e0"></script>
+				        </div>';
+					}
 
 					$a_new_request = '';
 					$mdl_new_request = '';
@@ -880,6 +909,7 @@ class Myvox_controller extends Controller
 
 	                $replace = [
 						'{$logotype}' => !empty($account['logotype']) ? '{$path.uploads}' . $account['logotype'] : '{$path.images}empty.png',
+						'{$weather}' => $weather,
 	                    '{$a_new_request}' => $a_new_request,
 	                    '{$mdl_new_request}' => $mdl_new_request,
 						'{$a_new_incident}' => $a_new_incident,

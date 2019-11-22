@@ -28,6 +28,7 @@ class Myvox_model extends Model
 		$query = Functions::get_json_decoded_query($this->database->select('accounts', [
 			'id',
 			'name',
+			'city',
 			'language',
 			'logotype',
 			'myvox_request',
