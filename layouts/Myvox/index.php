@@ -15,7 +15,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
     </div>
     <div class="bottombar">
         <div class="weather">
-            {$weather}
+            {$div_weather}
         </div>
         <div class="multilanguage">
             <a href="?<?php echo Language::get_lang_url('es'); ?>">

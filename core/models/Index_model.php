@@ -65,53 +65,20 @@ class Index_model extends Model
 		return $query;
 	}
 
-	public function get_packages($data)
+	public function get_room_package($rooms_number)
 	{
-		$query1 = $this->database->select('room_packages', [
+		$query = $this->database->select('room_packages', [
 			'id',
 			'quantity_end',
 			'price',
 		], [
 			'AND' => [
-				'quantity_start[<=]' => $data['rooms_number'],
-				'quantity_end[>=]' => $data['rooms_number'],
+				'quantity_start[<=]' => $rooms_number,
+				'quantity_end[>=]' => $rooms_number,
 			]
 		]);
 
-		$query2 = $this->database->select('user_packages', [
-			'id',
-			'quantity_end',
-			'price',
-		], [
-			'AND' => [
-				'quantity_start[<=]' => $data['users_number'],
-				'quantity_end[>=]' => $data['users_number'],
-			]
-		]);
-
-		$packages = [];
-
-		$packages['room_package'] = [];
-		$p1 = 0;
-
-		if (!empty($query1))
-		{
-			$packages['room_package'] = $query1[0];
-			$p1 = $query1[0]['price'];
-		}
-
-		$packages['user_package'] = [];
-		$p2 = 0;
-
-		if (!empty($query2))
-		{
-			$packages['user_package'] = $query2[0];
-			$p2 = $query2[0]['price'];
-		}
-
-		$packages['total'] = $p1 + $p2;
-
-		return $packages;
+		return !empty($query) ? $query[0] : null;
 	}
 
 	public function check_exist_account($field, $value)
@@ -143,8 +110,7 @@ class Index_model extends Model
 			'time_zone' => $data['time_zone'],
 			'language' => $data['language'],
 			'currency' => $data['currency'],
-			'room_package' => $this->get_packages($data)['room_package']['id'],
-			'user_package' => $this->get_packages($data)['user_package']['id'],
+			'room_package' => $this->get_room_package($data['rooms_number'])['id'],
 			'logotype' => Functions::uploader($data['logotype']),
 			'fiscal_id' => strtoupper($data['fiscal_id']),
 			'fiscal_name' => $data['fiscal_name'],
@@ -171,7 +137,11 @@ class Index_model extends Model
 				'en' => 'Answer survey',
 			]),
 			'sms' => 0,
-			'zav' => false,
+			'zaviapms' => json_encode([
+				'status' => false,
+				'username' => '',
+				'password' => '',
+			]),
 			'signup_date' => Functions::get_current_date(),
 			'status' => false,
 		]);
@@ -380,17 +350,22 @@ class Index_model extends Model
 			'[>]accounts' => [
 				'account' => 'id'
 			],
+			'[>]room_packages' => [
+				'accounts.room_package' => 'id'
+			],
 		], [
 			'accounts.id(account_id)',
 			'accounts.name(account_name)',
 			'accounts.time_zone(account_time_zone)',
 			'accounts.language(account_language)',
 			'accounts.currency(account_currency)',
+			'room_packages.id(room_package_id)',
+			'room_packages.quantity_end(room_package_quantity_end)',
 			'accounts.logotype(account_logotype)',
 			'accounts.operation(account_operation)',
 			'accounts.reputation(account_reputation)',
 			'accounts.sms(account_sms)',
-			'accounts.zav(account_zav)',
+			'accounts.zaviapms(account_zaviapms)',
 			'accounts.status(account_status)',
 			'users.id(user_id)',
 			'users.firstname(user_firstname)',
@@ -433,11 +408,15 @@ class Index_model extends Model
 					'time_zone' => $query[0]['account_time_zone'],
 					'language' => $query[0]['account_language'],
 					'currency' => $query[0]['account_currency'],
+					'room_package' => [
+						'id' => $query[0]['room_package_id'],
+						'quantity_end' => $query[0]['room_package_quantity_end'],
+					],
 					'logotype' => $query[0]['account_logotype'],
 					'operation' => $query[0]['account_operation'],
 					'reputation' => $query[0]['account_reputation'],
 					'sms' => $query[0]['account_sms'],
-					'zav' => $query[0]['account_zav'],
+					'zaviapms' => $query[0]['account_zaviapms'],
 					'status' => $query[0]['account_status'],
 				],
 				'user' => [

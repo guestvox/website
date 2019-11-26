@@ -337,7 +337,7 @@ main.landing-page-index > section.features-two > div > ul > li {
     color: #444;
 }
 
-main.landing-page-index > section.features-two > div > ul > li > svg {
+main.landing-page-index > section.features-two > div > ul > li > i {
     margin-right: 20px;
     color: #2196F3;
 }
@@ -752,23 +752,12 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
     padding: 20px;
     box-sizing: border-box;
     background-color: #00a5ab;
-    transition: 400ms;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package:hover {
-    background-color: #009688;
-    transition: 400ms;
 }
 
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > span {
     margin-bottom: 20px;
     font-size: 70px;
     color: #fff;
-    transition: 400ms;
-}
-
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package:hover > span {
-    font-size: 100px;
     transition: 400ms;
 }
 
@@ -804,7 +793,6 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
     margin-top: 15px;
     font-size: 12px;
     font-weight: 400;
-    font-family: cursive;
     line-height: 15px;
 }
 
@@ -861,7 +849,7 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
     transition: 400ms;
 }
 
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.uploader > fieldset > figure > a > svg {
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.uploader > fieldset > figure > a > i {
     font-size: 40px;
     color: #000;
 }
@@ -962,6 +950,19 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
     height: auto;
     background: none;
     text-decoration: underline;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > p {
+    margin-bottom: 20px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > p > a {
+    font-size: 12px;
+    font-weight: 400;
+    color: #000;
 }
 
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > figure {

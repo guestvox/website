@@ -63,7 +63,7 @@ $(document).ready(function()
                 {
                     $('[data-modal="success"]').addClass('view');
                     $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { window.location.href = response.path; }, 4000);
+                    setTimeout(function() { location.reload(); }, 8000);
                 }
                 else if (response.status == 'error')
                 {
@@ -122,7 +122,7 @@ $(document).ready(function()
                 {
                     $('[data-modal="success"]').addClass('view');
                     $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { window.location.href = response.path; }, 4000);
+                    setTimeout(function() { location.reload(); }, 8000);
                 }
                 else if (response.status == 'error')
                 {

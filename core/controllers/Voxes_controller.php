@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-require_once 'plugins/nexmo/vendor/autoload.php';
+// require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Voxes_controller extends Controller
 {
@@ -313,8 +313,8 @@ class Voxes_controller extends Controller
 
 						if (Session::get_value('account')['sms'] > 0)
 						{
-							$basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
-							$client = new \Nexmo\Client($basic);
+							$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
+							$sms_client = new \Nexmo\Client($sms_basic);
 
 							if (Session::get_value('account')['language'] == 'es')
 							{
@@ -392,7 +392,7 @@ class Voxes_controller extends Controller
 							{
 								if ($tmp['sms'] > 0)
 								{
-									$client->message()->send([
+									$sms_client->message()->send([
 										'to' => $value['phone']['lada'] . $value['phone']['number'],
 										'from' => 'GuestVox',
 										'text' => $sms_text . ' https://' . Configuration::$domain . '/voxes/view/details/' . $query

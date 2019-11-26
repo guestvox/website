@@ -15,7 +15,7 @@ class Myvox_model extends Model
 			'id',
 			'account',
 			'name',
-			'token'
+			'folio'
 		], [
 			'token' => strtoupper($token)
 		]);
@@ -31,6 +31,8 @@ class Myvox_model extends Model
 			'city',
 			'language',
 			'logotype',
+			'operation',
+			'reputation',
 			'myvox_request',
 			'myvox_incident',
 			'myvox_survey',
@@ -162,6 +164,20 @@ class Myvox_model extends Model
 		return $query;
 	}
 
+	public function get_countries()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('countries', [
+			'name',
+			'lada'
+		], [
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		return $query;
+	}
+
     public function get_survey_questions($account)
     {
         $query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
@@ -201,7 +217,7 @@ class Myvox_model extends Model
 				'description' => null,
 				'action_taken' => null,
 				'guest_treatment' => null,
-				'firstname' => null,
+				'firstname' => $data['firstname'],
 				'lastname' => $data['lastname'],
 				'guest_id' => null,
 				'guest_type' => null,
@@ -269,7 +285,7 @@ class Myvox_model extends Model
 				'description' => $data['description'],
 				'action_taken' => null,
 				'guest_treatment' => null,
-				'firstname' => null,
+				'firstname' => $data['firstname'],
 				'lastname' => $data['lastname'],
 				'guest_id' => null,
 				'guest_type' => null,
@@ -326,6 +342,10 @@ class Myvox_model extends Model
 				'firstname' => $data['firstname'],
 				'lastname' => $data['lastname'],
 				'email' => $data['email'],
+				'phone' => json_encode([
+					'lada' => $data['phone_lada'],
+					'number' => $data['phone_number'],
+				]),
 			]),
 			'date' => $data['date'],
 			'token' => $data['token'],
