@@ -305,7 +305,7 @@ class Myvox_controller extends Controller
 	                                        $mail_urgency = 'Urgencia: Media';
 
 	                                    $mail_confidentiality = 'Confidencialidad: No';
-	                                    $mail_description = 'Descripción: ';
+	                                    $mail_subject = 'Asunto: ';
 	                                    $mail_give_follow_up = 'Dar seguimiento';
 	                                }
 	                                else if ($account['language'] == 'en')
@@ -324,7 +324,7 @@ class Myvox_controller extends Controller
 	                                        $mail_urgency = 'Urgency: Medium';
 
 	                                    $mail_confidentiality = 'Confidentiality: No';
-	                                    $mail_description = 'Description: ';
+	                                    $mail_subject = 'Subject: ';
 	                                    $mail_give_follow_up = 'Give follow up';
 	                                }
 
@@ -361,7 +361,7 @@ class Myvox_controller extends Controller
 	                                                    <h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_location . $_POST['location']['name'][$account['language']] . '</h6>
 	                                                    <h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_urgency . '</h6>
 	                                                    <h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_confidentiality . '</h6>
-	                                                    <p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_description . $_POST['description'] . '</p>
+	                                                    <p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_subject . $_POST['subject'] . '</p>
 	                                                    <a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/voxes/view/details/' . $query . '">' . $mail_give_follow_up . '</a>
 	                                                </td>
 	                                            </tr>
@@ -399,7 +399,7 @@ class Myvox_controller extends Controller
 											$sms_urgency = 'Urg: Media';
 
 										$sms_confidentiality = 'Conf: No';
-										$sms_description = 'Desc: ';
+										$sms_subject = 'Asun: ';
 									}
 									else if (Session::get_value('account')['language'] == 'en')
 									{
@@ -417,10 +417,10 @@ class Myvox_controller extends Controller
 											$sms_urgency = 'Urg: Medium';
 
 										$sms_confidentiality = 'Conf: No';
-										$sms_description = 'Desc: ';
+										$sms_subject = 'Subj: ';
 									}
 
-									$sms_text = $sms_subject . $sms_room . $room['name'] . ' ' . $sms_opportunity_area . $_POST['opportunity_area']['name'][$account['language']] . ' ' . $sms_opportunity_type . $_POST['opportunity_type']['name'][$account['language']] . ' ' . $sms_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' ' . $sms_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' ' . $sms_location . $_POST['location']['name'][$account['language']] . ' ' . $sms_urgency . ' ' . $sms_confidentiality . ' ' . $sms_description . $_POST['description'];
+									$sms_text = $sms_subject . $sms_room . $room['name'] . ' ' . $sms_opportunity_area . $_POST['opportunity_area']['name'][$account['language']] . ' ' . $sms_opportunity_type . $_POST['opportunity_type']['name'][$account['language']] . ' ' . $sms_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' ' . $sms_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' ' . $sms_location . $_POST['location']['name'][$account['language']] . ' ' . $sms_urgency . ' ' . $sms_confidentiality . ' ' . $sms_subject . $_POST['subject'];
 
 									foreach ($_POST['assigned_users'] as $value)
 									{
