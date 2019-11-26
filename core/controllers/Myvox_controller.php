@@ -221,7 +221,7 @@ class Myvox_controller extends Controller
 										}
 									}
 
-									$this->model->edit_sms($account['sms']);
+									$this->model->edit_sms($account['sms'], $account['id']);
 								}
 
 	                            Functions::environment([
@@ -436,7 +436,7 @@ class Myvox_controller extends Controller
 										}
 									}
 
-									$this->model->edit_sms($account['sms']);
+									$this->model->edit_sms($account['sms'], $account['id']);
 								}
 
 	                            Functions::environment([
@@ -634,7 +634,7 @@ class Myvox_controller extends Controller
 
 										$account['sms'] = $account['sms'] - 1;
 
-										$this->model->edit_sms($account['sms']);
+										$this->model->edit_sms($account['sms'], $account['id']);
 									}
 								}
 

@@ -37,6 +37,7 @@ class Myvox_model extends Model
 			'myvox_incident',
 			'myvox_survey',
 			'myvox_survey_title',
+			'sms'
 		], [
 			'AND' => [
 				'id' => $id,
@@ -353,4 +354,15 @@ class Myvox_model extends Model
 
 		return $query;
     }
+
+	public function edit_sms($sms, $account)
+	{
+		$query = $this->database->update('account', [
+			'sms' => $sms
+		], [
+			'account' => $account
+		]);
+
+		return $query;
+	}
 }
