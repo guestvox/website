@@ -205,7 +205,7 @@ class Myvox_controller extends Controller
 										$sms_observations = 'Obs: ';
 									}
 
-									$sms_text = $sms_subject . $sms_room . $room['name'] . ' ' . $sms_opportunity_area . $_POST['opportunity_area'] . ' ' . $sms_opportunity_type . $_POST['opportunity_type'] . ' ' . $sms_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' ' . $sms_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' ' . $sms_location . $_POST['location'] . ' ' . $sms_urgency . ' ' . $sms_observations . $_POST['observations'];
+									$sms_text = $sms_subject . $sms_room . $room['name'] . ' ' . $sms_opportunity_area . $_POST['opportunity_area']['name'][$account['language']] . ' ' . $sms_opportunity_type . $_POST['opportunity_type']['name'][$account['language']] . ' ' . $sms_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' ' . $sms_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' ' . $sms_location . $_POST['location']['name'][$account['language']] . ' ' . $sms_urgency . ' ' . $sms_observations . $_POST['observations'];
 
 									foreach ($_POST['assigned_users'] as $value)
 									{
