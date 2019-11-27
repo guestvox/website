@@ -81,7 +81,7 @@ class Myvox_controller extends Controller
 	                            {
 	                                if ($account['language'] == 'es')
 	                                {
-	                                    $mail_subject = 'Tienes una nueva petición en GuestVox';
+	                                    $mail_subject = 'Tienes una nueva petición';
 	                                    $mail_room = 'Habitación: ';
 	                                    $mail_opportunity_area = 'Área de oportunidad: ';
 	                                    $mail_opportunity_type = 'Tipo de oportunidad: ';
@@ -99,7 +99,7 @@ class Myvox_controller extends Controller
 	                                }
 	                                else if ($account['language'] == 'en')
 	                                {
-	                                    $mail_subject = 'You have a new request in GuestVox';
+	                                    $mail_subject = 'You have a new request';
 	                                    $mail_room = 'Room: ';
 	                                    $mail_opportunity_area = 'Opportunity area: ';
 	                                    $mail_opportunity_type = 'Opportunity type: ';
@@ -291,7 +291,7 @@ class Myvox_controller extends Controller
 	                            {
 	                                if ($account['language'] == 'es')
 	                                {
-	                                    $mail_subject_1 = 'Tienes una nueva incidencia en GuestVox';
+	                                    $mail_subject_1 = 'Tienes una nueva incidencia';
 	                                    $mail_room = 'Habitación: ';
 	                                    $mail_opportunity_area = 'Área de oportunidad: ';
 	                                    $mail_opportunity_type = 'Tipo de oportunidad: ';
@@ -310,7 +310,7 @@ class Myvox_controller extends Controller
 	                                }
 	                                else if ($account['language'] == 'en')
 	                                {
-	                                    $mail_subject_1 = 'You have a new incident in GuestVox';
+	                                    $mail_subject_1 = 'You have a new incident';
 	                                    $mail_room = 'Room: ';
 	                                    $mail_opportunity_area = 'Opportunity area: ';
 	                                    $mail_opportunity_type = 'Opportunity type: ';
@@ -617,14 +617,6 @@ class Myvox_controller extends Controller
 											$sms_subject = 'Thanks for answers our surver';
 
 										$sms_text = $sms_subject . ' ' . $_POST['token'];
-
-										foreach ($_POST['assigned_users'] as $value)
-										{
-											if ($account['sms'] > 0)
-											{
-
-											}
-										}
 
 										$sms_client->message()->send([
 											'to' => $_POST['phone_lada'] . $_POST['phone_number'],
