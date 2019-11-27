@@ -59,7 +59,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                 <div>
                     <h2>{$sms}</h2>
                 </div>
-                <div>
+                <!-- <div>
                     <h2>{$pms}</h2>
                 </div>
                 <div>
@@ -67,7 +67,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                 </div>
                 <div>
                     <h2>{$user_package}</h2>
-                </div>
+                </div> -->
             </div>
         </main>
     </article>

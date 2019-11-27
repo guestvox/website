@@ -80,6 +80,7 @@ class Rooms_model extends Model
 						'name' => $data['name'],
                         'token' => strtoupper($qr_code),
 						'qr' => $qr_filename,
+						'folio' => null
 					]);
 				}
 			}
@@ -90,6 +91,7 @@ class Rooms_model extends Model
 				'AND' => [
 					'account' => Session::get_value('account')['id'],
 					'name' => $data['name'],
+					'folio' => !empty($data['folio']) ? $data['folio'] : null
 				]
 			]);
 
@@ -112,6 +114,7 @@ class Rooms_model extends Model
                     'name' => $data['name'],
                     'token' => strtoupper($qr_code),
                     'qr' => $qr_filename,
+					'folio' => !empty($data['folio']) ? $data['folio'] : null
 				]);
 			}
 		}
