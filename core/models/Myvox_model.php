@@ -27,8 +27,6 @@ class Myvox_model extends Model
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('accounts', [
 			'id',
-			'name',
-			'city',
 			'language',
 			'logotype',
 			'operation',
@@ -37,7 +35,8 @@ class Myvox_model extends Model
 			'myvox_incident',
 			'myvox_survey',
 			'myvox_survey_title',
-			'sms'
+			'sms',
+			'zaviapms',
 		], [
 			'AND' => [
 				'id' => $id,
@@ -46,6 +45,36 @@ class Myvox_model extends Model
 		]));
 
 		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_guest($zaviapms, $room)
+	{
+		$guest = [
+			'status' => 'success',
+			'firstname' => '',
+			'lastname' => '',
+			'reservation_number' => '',
+			'check_in' => '',
+			'check_out' => '',
+		];
+
+		if ($zaviapms['status'] == true)
+		{
+			$query = Functions::api('zaviapms', $zaviapms, 'get', 'room', $room);
+
+			$guest['status'] = $query['Status'];
+
+			if ($guest['status'] == 'success')
+			{
+				$guest['firstname'] = $query['Name'];
+				$guest['lastname'] = $query['LastName'];
+				$guest['reservation_number'] = '';
+				$guest['check_in'] = '';
+				$guest['check_out'] = '';
+			}
+		}
+
+		return $guest;
 	}
 
     public function get_opportunity_areas($option, $account)
@@ -196,14 +225,14 @@ class Myvox_model extends Model
      	return $query;
     }
 
-    public function new_request($data, $room, $account)
+    public function new_request($data)
 	{
 		$query = $this->database->insert('voxes', [
-			'account' => $account,
+			'account' => $data['account'],
 			'type' => 'request',
 			'data' => Functions::get_openssl('encrypt', json_encode([
 				'token' => $this->security->random_string(8),
-				'room' => $room,
+				'room' => $data['room'],
 				'opportunity_area' => $data['opportunity_area'],
 				'opportunity_type' => $data['opportunity_type'],
 				'started_date' => Functions::get_formatted_date($data['started_date']),
@@ -222,10 +251,10 @@ class Myvox_model extends Model
 				'lastname' => $data['lastname'],
 				'guest_id' => null,
 				'guest_type' => null,
-				'reservation_number' => null,
+				'reservation_number' => $data['reservation_number'],
 				'reservation_status' => null,
-				'check_in' => null,
-				'check_out' => null,
+				'check_in' => $data['check_in'],
+				'check_out' => $data['check_out'],
 				'attachments' => [],
 				'viewed_by' => [],
 				'comments' => [],
@@ -264,14 +293,14 @@ class Myvox_model extends Model
 		return !empty($query) ? $this->database->id() : null;
 	}
 
-    public function new_incident($data, $room, $account)
+    public function new_incident($data)
 	{
 		$query = $this->database->insert('voxes', [
-			'account' => $account,
+			'account' => $data['account'],
 			'type' => 'incident',
 			'data' => Functions::get_openssl('encrypt', json_encode([
 				'token' => $this->security->random_string(8),
-				'room' => $room,
+				'room' => $data['room'],
 				'opportunity_area' => $data['opportunity_area'],
 				'opportunity_type' => $data['opportunity_type'],
 				'started_date' => Functions::get_formatted_date($data['started_date']),
@@ -290,10 +319,10 @@ class Myvox_model extends Model
 				'lastname' => $data['lastname'],
 				'guest_id' => null,
 				'guest_type' => null,
-				'reservation_number' => null,
+				'reservation_number' => $data['reservation_number'],
 				'reservation_status' => null,
-				'check_in' => null,
-				'check_out' => null,
+				'check_in' => $data['check_in'],
+				'check_out' => $data['check_out'],
 				'attachments' => [],
 				'viewed_by' => [],
 				'comments' => [],
@@ -332,23 +361,24 @@ class Myvox_model extends Model
 		return !empty($query) ? $this->database->id() : null;
 	}
 
-    public function new_survey_answer($data, $room, $account)
+    public function new_survey_answer($data)
     {
 		$query = $this->database->insert('survey_answers', [
-			'account' => $account,
-			'room' => $room,
+			'account' => $data['account'],
+			'room' => $data['room'],
 			'answers' => json_encode($data['answers']),
 			'comment' => $data['comment'],
 			'guest' => json_encode([
+				'reservation_number' => $data['reservation_number'],
 				'firstname' => $data['firstname'],
 				'lastname' => $data['lastname'],
 				'email' => $data['email'],
 				'phone' => json_encode([
 					'lada' => $data['phone_lada'],
 					'number' => $data['phone_number'],
-				]),
+				])
 			]),
-			'date' => $data['date'],
+			'date' => Functions::get_current_date(),
 			'token' => $data['token'],
 		]);
 

@@ -350,4 +350,29 @@ class Functions
     {
         echo json_encode($return, JSON_PRETTY_PRINT);
     }
+
+    static public function api($connection, $access, $method, $option, $parameters = null)
+    {
+        if ($connection == 'zaviapms')
+        {
+            if ($method == 'get')
+            {
+                $api = curl_init();
+
+                if ($option == 'rooms')
+                    curl_setopt($api, CURLOPT_URL, 'https://admin.zaviaerp.com/pms/hotels/api/rooms/?UserName=' . $access['username'] . '&UserPassword=' . $access['password']);
+
+                if ($option == 'room')
+                    curl_setopt($api, CURLOPT_URL, 'https://admin.zaviaerp.com/pms/hotels/api/check_room2/?UserName=' . $access['username'] . '&UserPassword=' . $access['username'] . '&RoomNumber=' . $parameters);
+
+                curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
+
+                $data = Functions::get_json_decoded_query(curl_exec($api));
+
+                curl_close($api);
+
+                return $data;
+            }
+        }
+    }
 }
