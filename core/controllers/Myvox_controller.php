@@ -205,7 +205,7 @@ class Myvox_controller extends Controller
 										$sms_observations = 'Obs: ';
 									}
 
-									$sms_text = $sms_subject . $sms_room . $room['name'] . ' ' . $sms_opportunity_area . $_POST['opportunity_area']['name'][$account['language']] . ' ' . $sms_opportunity_type . $_POST['opportunity_type']['name'][$account['language']] . ' ' . $sms_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' ' . $sms_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' ' . $sms_location . $_POST['location']['name'][$account['language']] . ' ' . $sms_urgency . ' ' . $sms_observations . $_POST['observations'];
+									$sms_text = $sms_subject . ' ' . $sms_room . $room['name'] . ' ' . $sms_opportunity_area . $_POST['opportunity_area']['name'][$account['language']] . ' ' . $sms_opportunity_type . $_POST['opportunity_type']['name'][$account['language']] . ' ' . $sms_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' ' . $sms_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' ' . $sms_location . $_POST['location']['name'][$account['language']] . ' ' . $sms_urgency . ' ' . $sms_observations . $_POST['observations'];
 
 									foreach ($_POST['assigned_users'] as $value)
 									{
@@ -291,7 +291,7 @@ class Myvox_controller extends Controller
 	                            {
 	                                if ($account['language'] == 'es')
 	                                {
-	                                    $mail_subject = 'Tienes una nueva incidencia en GuestVox';
+	                                    $mail_subject_1 = 'Tienes una nueva incidencia en GuestVox';
 	                                    $mail_room = 'Habitación: ';
 	                                    $mail_opportunity_area = 'Área de oportunidad: ';
 	                                    $mail_opportunity_type = 'Tipo de oportunidad: ';
@@ -305,12 +305,12 @@ class Myvox_controller extends Controller
 	                                        $mail_urgency = 'Urgencia: Media';
 
 	                                    $mail_confidentiality = 'Confidencialidad: No';
-	                                    $mail_subject = 'Asunto: ';
+	                                    $mail_subject_2 = 'Asunto: ';
 	                                    $mail_give_follow_up = 'Dar seguimiento';
 	                                }
 	                                else if ($account['language'] == 'en')
 	                                {
-	                                    $mail_subject = 'You have a new incident in GuestVox';
+	                                    $mail_subject_1 = 'You have a new incident in GuestVox';
 	                                    $mail_room = 'Room: ';
 	                                    $mail_opportunity_area = 'Opportunity area: ';
 	                                    $mail_opportunity_type = 'Opportunity type: ';
@@ -324,7 +324,7 @@ class Myvox_controller extends Controller
 	                                        $mail_urgency = 'Urgency: Medium';
 
 	                                    $mail_confidentiality = 'Confidentiality: No';
-	                                    $mail_subject = 'Subject: ';
+	                                    $mail_subject_2 = 'Subject: ';
 	                                    $mail_give_follow_up = 'Give follow up';
 	                                }
 
@@ -335,11 +335,11 @@ class Myvox_controller extends Controller
 	                                    $mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
 
 	                                $mail->isHTML(true);
-	                                $mail->Subject = $mail_subject;
+	                                $mail->Subject = $mail_subject_1;
 	                                $mail->Body =
 	                                '<html>
 	                                    <head>
-	                                        <title>' . $mail_subject . '</title>
+	                                        <title>' . $mail_subject_1 . '</title>
 	                                    </head>
 	                                    <body>
 	                                        <table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
@@ -352,7 +352,7 @@ class Myvox_controller extends Controller
 	                                            </tr>
 	                                            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
 	                                                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-	                                                    <h4 style="font-size:24px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject . '</h4>
+	                                                    <h4 style="font-size:24px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject_1 . '</h4>
 	                                                    <h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . $room['name'] . '</h6>
 	                                                    <h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_area . $_POST['opportunity_area']['name'][$account['language']] . '</h6>
 	                                                    <h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_type . $_POST['opportunity_type']['name'][$account['language']] . '</h6>
@@ -361,7 +361,7 @@ class Myvox_controller extends Controller
 	                                                    <h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_location . $_POST['location']['name'][$account['language']] . '</h6>
 	                                                    <h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_urgency . '</h6>
 	                                                    <h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_confidentiality . '</h6>
-	                                                    <p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_subject . $_POST['subject'] . '</p>
+	                                                    <p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_subject_2 . $_POST['subject'] . '</p>
 	                                                    <a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/voxes/view/details/' . $query . '">' . $mail_give_follow_up . '</a>
 	                                                </td>
 	                                            </tr>
@@ -385,7 +385,7 @@ class Myvox_controller extends Controller
 
 									if ($account['language'] == 'es')
 									{
-										$sms_subject = 'GuestVox: Nueva incidencia';
+										$sms_subject_1 = 'GuestVox: Nueva incidencia';
 										$sms_room = 'Hab: ';
 										$sms_opportunity_area = 'AO: ';
 										$sms_opportunity_type = 'TO: ';
@@ -399,11 +399,11 @@ class Myvox_controller extends Controller
 											$sms_urgency = 'Urg: Media';
 
 										$sms_confidentiality = 'Conf: No';
-										$sms_subject = 'Asun: ';
+										$sms_subject_2 = 'Asun: ';
 									}
 									else if (Session::get_value('account')['language'] == 'en')
 									{
-										$sms_subject = 'GuestVox: New incident';
+										$sms_subject_1 = 'GuestVox: New incident';
 										$sms_room = 'Room: ';
 										$sms_opportunity_area = 'OA: ';
 										$sms_opportunity_type = 'OT: ';
@@ -417,10 +417,10 @@ class Myvox_controller extends Controller
 											$sms_urgency = 'Urg: Medium';
 
 										$sms_confidentiality = 'Conf: No';
-										$sms_subject = 'Subj: ';
+										$sms_subject_2 = 'Subj: ';
 									}
 
-									$sms_text = $sms_subject . $sms_room . $room['name'] . ' ' . $sms_opportunity_area . $_POST['opportunity_area']['name'][$account['language']] . ' ' . $sms_opportunity_type . $_POST['opportunity_type']['name'][$account['language']] . ' ' . $sms_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' ' . $sms_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' ' . $sms_location . $_POST['location']['name'][$account['language']] . ' ' . $sms_urgency . ' ' . $sms_confidentiality . ' ' . $sms_subject . $_POST['subject'];
+									$sms_text = $sms_subject_1 . ' ' . $sms_room . $room['name'] . ' ' . $sms_opportunity_area . $_POST['opportunity_area']['name'][$account['language']] . ' ' . $sms_opportunity_type . $_POST['opportunity_type']['name'][$account['language']] . ' ' . $sms_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' ' . $sms_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' ' . $sms_location . $_POST['location']['name'][$account['language']] . ' ' . $sms_urgency . ' ' . $sms_confidentiality . ' ' . $sms_subject_2 . $_POST['subject'];
 
 									foreach ($_POST['assigned_users'] as $value)
 									{
