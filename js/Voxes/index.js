@@ -4,7 +4,7 @@ $(document).ready(function()
 {
     var tbl_voxes = $('#tbl_voxes').DataTable({
         ordering: false,
-        pageLength: 25,
+        pageLength: 50,
         info: false,
         'drawCallback': function()
         {

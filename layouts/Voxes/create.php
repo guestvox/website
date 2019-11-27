@@ -146,7 +146,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span6">
+                    <div class="span3">
                         <div class="label">
                             <label>
                                 <p>{$lang.assigned_users}</p>
@@ -183,7 +183,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span3 hidden">
+                    <div class="span3">
                         <div class="label">
                             <label>
                                 <p>{$lang.firstname}</p>

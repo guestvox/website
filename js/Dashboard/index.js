@@ -6,7 +6,7 @@ $(document).ready(function()
 
     if (tbl_voxes_unresolve.length > 0)
     {
-        tbl_voxes_unresolve.DataTable({
+        tbl_voxes_unresolve = tbl_voxes_unresolve.DataTable({
             ordering: false,
             pageLength: 10,
             info: false,

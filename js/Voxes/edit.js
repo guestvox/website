@@ -41,11 +41,12 @@ $(document).ready(function()
             $('[name="confidentiality"]').parent().parent().parent().parent().addClass('hidden');
             $('[name="observations"]').parent().parent().parent().removeClass('hidden');
             $('[name="subject"]').parent().parent().parent().addClass('hidden');
+            $('[name="assigned_users[]"]').parent().parent().parent().removeClass('span6');
+            $('[name="assigned_users[]"]').parent().parent().parent().addClass('span3');
             $('[name="description"]').parent().parent().parent().addClass('hidden');
             $('[name="action_taken"]').parent().parent().parent().addClass('hidden');
             $('[name="guest_treatment"]').parent().parent().parent().removeClass('span2');
             $('[name="guest_treatment"]').parent().parent().parent().addClass('span3');
-            $('[name="firstname"]').parent().parent().parent().addClass('hidden');
             $('[name="guest_id"]').parent().parent().parent().addClass('hidden');
             $('[name="guest_type"]').parent().parent().parent().addClass('hidden');
             $('[name="reservation_number"]').parent().parent().parent().addClass('hidden');
@@ -59,11 +60,12 @@ $(document).ready(function()
             $('[name="confidentiality"]').parent().parent().parent().parent().removeClass('hidden');
             $('[name="observations"]').parent().parent().parent().addClass('hidden');
             $('[name="subject"]').parent().parent().parent().removeClass('hidden');
+            $('[name="assigned_users[]"]').parent().parent().parent().removeClass('span3');
+            $('[name="assigned_users[]"]').parent().parent().parent().addClass('span6');
             $('[name="description"]').parent().parent().parent().removeClass('hidden');
             $('[name="action_taken"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_treatment"]').parent().parent().parent().removeClass('span3');
             $('[name="guest_treatment"]').parent().parent().parent().addClass('span2');
-            $('[name="firstname"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_id"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_type"]').parent().parent().parent().removeClass('hidden');
             $('[name="reservation_number"]').parent().parent().parent().removeClass('hidden');
@@ -74,6 +76,52 @@ $(document).ready(function()
 
         $('label.error').removeClass('error');
         $('p.error').remove();
+    });
+
+    $('[name="room"]').on('change', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'room=' + $(this).val() + '&action=get_guest',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    if ($('[name="type"]:checked').val() == 'request')
+                    {
+                        $('[name="firstname"]').val(response.data.firstname);
+                        $('[name="lastname"]').val(response.data.lastname);
+                    }
+                    else if ($('[name="type"]:checked').val() == 'incident')
+                    {
+                        $('[name="firstname"]').val(response.data.firstname);
+                        $('[name="lastname"]').val(response.data.lastname);
+                        $('[name="reservation_number"]').val(response.data.reservation_number);
+                        $('[name="check_in"]').val(response.data.check_in);
+                        $('[name="check_out"]').val(response.data.check_out);
+                    }
+                }
+                else if (response.status == 'error')
+                {
+                    if ($('[name="type"]:checked').val() == 'request')
+                    {
+                        $('[name="firstname"]').val('');
+                        $('[name="lastname"]').val('');
+                    }
+                    else if ($('[name="type"]:checked').val() == 'incident')
+                    {
+                        $('[name="firstname"]').val('');
+                        $('[name="lastname"]').val('');
+                        $('[name="reservation_number"]').val('');
+                        $('[name="check_in"]').val('');
+                        $('[name="check_out"]').val('');
+                    }
+                }
+            }
+        });
     });
 
     $('[name="opportunity_area"]').on('change', function()
