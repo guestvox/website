@@ -97,6 +97,31 @@ $(document).ready(function()
         });
     });
 
+    $('[data-modal="download_rooms"]').modal().onSuccess(function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=download_rooms',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="success"]').addClass('view');
+                    $('[data-modal="success"]').find('main > p').html(response.message);
+                    setTimeout(function() { location.reload(); }, 1500);
+                }
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                }
+            }
+        });
+    });
+
     var id;
 
     $(document).on('click', '[data-action="edit_room"]', function()

@@ -88,6 +88,38 @@ class Voxes_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'get_guest')
+			{
+				$query = $this->model->get_room($_POST['room']);
+
+				if (!empty($query))
+				{
+					$query = $this->model->get_guest($query['folio']);
+
+					if (!empty($query))
+					{
+						Functions::environment([
+							'status' => 'success',
+							'data' => $query
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+
 			if ($_POST['action'] == 'get_opt_opportunity_areas')
 			{
 				$data = '<option value="" selected hidden>{$lang.choose}</option>';
@@ -313,8 +345,8 @@ class Voxes_controller extends Controller
 
 						if (Session::get_value('account')['sms'] > 0)
 						{
-							$basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
-							$client = new \Nexmo\Client($basic);
+							$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
+							$sms_client = new \Nexmo\Client($sms_basic);
 
 							if (Session::get_value('account')['language'] == 'es')
 							{
@@ -392,7 +424,7 @@ class Voxes_controller extends Controller
 							{
 								if ($tmp['sms'] > 0)
 								{
-									$client->message()->send([
+									$sms_client->message()->send([
 										'to' => $value['phone']['lada'] . $value['phone']['number'],
 										'from' => 'GuestVox',
 										'text' => $sms_text . ' https://' . Configuration::$domain . '/voxes/view/details/' . $query
@@ -910,6 +942,38 @@ class Voxes_controller extends Controller
 		{
 			if (Format::exist_ajax_request() == true)
 			{
+				if ($_POST['action'] == 'get_guest')
+				{
+					$query = $this->model->get_room($_POST['room']);
+
+					if (!empty($query))
+					{
+						$query = $this->model->get_guest($query['folio']);
+
+						if (!empty($query))
+						{
+							Functions::environment([
+								'status' => 'success',
+								'data' => $query
+							]);
+						}
+						else
+						{
+							Functions::environment([
+								'status' => 'error',
+								'message' => '{$lang.operation_error}'
+							]);
+						}
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+
 				if ($_POST['action'] == 'get_opt_opportunity_areas')
 				{
 					$data = '<option value="" selected hidden>{$lang.choose}</option>';
@@ -1206,7 +1270,7 @@ class Voxes_controller extends Controller
 						</label>
 					</div>
 				</div>
-				<div class="span3 ' . (($vox['type'] == 'request') ? 'hidden' : '') . '">
+				<div class="span3">
 					<div class="label">
 						<label>
 							<p>{$lang.firstname}</p>

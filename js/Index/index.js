@@ -10,12 +10,36 @@ $(document).ready(function()
 
     $('[name="rooms_number"]').on('change', function()
     {
-        get_packages();
-    });
+        if ($(this).val().length > 0)
+            var rooms_number = $('[name="rooms_number"]').val();
+        else
+            var rooms_number = 0;
 
-    $('[name="users_number"]').on('change', function()
-    {
-        get_packages();
+        $.ajax({
+            type: 'POST',
+            data: 'rooms_number=' + rooms_number + '&action=get_room_package',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    if (rooms_number > 0)
+                    {
+                        $('#room_package').parent().removeClass('hidden');
+                        $('#room_package').find('h3 > strong').html(response.data.quantity_end);
+                        $('#room_package').find('h4 > strong').html(response.data.price);
+                        $('#total_package').find('h4 > strong').html(response.data.price);
+                    }
+                }
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                }
+            }
+        });
     });
 
     // $('[name="cp"]').on('change', function()
@@ -149,7 +173,6 @@ $(document).ready(function()
         $('[data-step="1"]').addClass('view');
         $('[data-image-preview]').attr('src', '../images/empty.png');
         $('#room_package').parent().addClass('hidden');
-        $('#user_package').parent().addClass('hidden');
         $('.package').find('h4 > strong').html('');
     });
 
@@ -234,7 +257,7 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                    window.location.href = response.path;
+                    window.location.href = '/dashboard';
                 else if (response.status == 'error')
                 {
                     if (response.labels)
@@ -258,51 +281,3 @@ $(document).ready(function()
         });
     });
 });
-
-function get_packages()
-{
-    if ($('[name="rooms_number"]').val().length > 0)
-        var rooms_number = $('[name="rooms_number"]').val();
-    else
-        var rooms_number = 0;
-
-    if ($('[name="users_number"]').val().length > 0)
-        var users_number = $('[name="users_number"]').val();
-    else
-        var users_number = 0;
-
-    $.ajax({
-        type: 'POST',
-        data: 'rooms_number=' + rooms_number + '&users_number=' + users_number + '&action=get_packages',
-        processData: false,
-        cache: false,
-        dataType: 'json',
-        success: function(response)
-        {
-            if (response.status == 'success')
-            {
-                if (rooms_number > 0)
-                {
-                    $('#room_package').parent().removeClass('hidden');
-                    $('#room_package').find('h3 > strong').html(response.data.room_package.quantity_end);
-                    $('#room_package').find('h4 > strong').html(response.data.room_package.price);
-                }
-
-                if (users_number > 0)
-                {
-                    $('#user_package').parent().removeClass('hidden');
-                    $('#user_package').find('h3 > strong').html(response.data.user_package.quantity_end);
-                    $('#user_package').find('h4 > strong').html(response.data.user_package.price);
-                }
-
-                if (rooms_number > 0 || users_number > 0)
-                    $('#total_package').find('h4 > strong').html(response.data.total);
-            }
-            else if (response.status == 'error')
-            {
-                $('[data-modal="error"]').addClass('view');
-                $('[data-modal="error"]').find('main > p').html(response.message);
-            }
-        }
-    });
-}

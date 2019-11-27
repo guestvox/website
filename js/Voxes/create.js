@@ -82,14 +82,14 @@ $(document).ready(function()
             $('[name="observations"]').parent().parent().parent().removeClass('hidden');
             $('[name="subject"]').val('');
             $('[name="subject"]').parent().parent().parent().addClass('hidden');
+            $('[name="assigned_users[]"]').parent().parent().parent().removeClass('span6');
+            $('[name="assigned_users[]"]').parent().parent().parent().addClass('span3');
             $('[name="description"]').val('');
             $('[name="description"]').parent().parent().parent().addClass('hidden');
             $('[name="action_taken"]').val('');
             $('[name="action_taken"]').parent().parent().parent().addClass('hidden');
             $('[name="guest_treatment"]').parent().parent().parent().removeClass('span2');
             $('[name="guest_treatment"]').parent().parent().parent().addClass('span3');
-            $('[name="firstname"]').val('');
-            $('[name="firstname"]').parent().parent().parent().addClass('hidden');
             $('[name="guest_id"]').val('');
             $('[name="guest_id"]').parent().parent().parent().addClass('hidden');
             $('[name="guest_type"]').val('');
@@ -113,14 +113,14 @@ $(document).ready(function()
             $('[name="observations"]').parent().parent().parent().addClass('hidden');
             $('[name="subject"]').val('');
             $('[name="subject"]').parent().parent().parent().removeClass('hidden');
+            $('[name="assigned_users[]"]').parent().parent().parent().removeClass('span3');
+            $('[name="assigned_users[]"]').parent().parent().parent().addClass('span6');
             $('[name="description"]').val('');
             $('[name="description"]').parent().parent().parent().removeClass('hidden');
             $('[name="action_taken"]').val('');
             $('[name="action_taken"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_treatment"]').parent().parent().parent().removeClass('span3');
             $('[name="guest_treatment"]').parent().parent().parent().addClass('span2');
-            $('[name="firstname"]').val('');
-            $('[name="firstname"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_id"]').val('');
             $('[name="guest_id"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_type"]').val('');
@@ -139,61 +139,51 @@ $(document).ready(function()
         $('p.error').remove();
     });
 
-    // $('[name="room"]').on('change', function()
-    // {
-    //     // var xhr = new XMLHttpRequest();
-    //     //
-    //     // xhr.open('GET', 'https://admin.zaviaerp.com/pms/hotels/api/check_room2/?UserName=demo&UserPassword=demo&RoomNumber=1', true);
-    //     //
-    //     // xhr.setRequestHeader("Content-Type", "application/json");
-    //     //
-    //     // xhr.onload = function()
-    //     // {
-    //     //     console.log(xhr);
-    //     //     // var respuesta = JSON.parse(xhr.responseText);
-    //     //     // document.getElementById('nombre').value = respuesta.name;
-    //     //     // document.getElementById('apellido').value = respuesta.lastName;
-    //     // };
-    //     //
-    //     // xhr.send();
-    //
-    //     $.ajax({
-    //         type: 'POST',
-    //         data: 'room=' + $(this).val() + '&action=get_api',
-    //         processData: false,
-    //         cache: false,
-    //         dataType: 'json',
-    //         success: function(response)
-    //         {
-    //             if (response.status == 'success')
-    //             {
-    //                 if ($('[name="type"]:checked').val() == 'request')
-    //                 {
-    //                     $('[name="lastname"]').val(response.data.LastName);
-    //                 }
-    //                 else if ($('[name="type"]:checked').val() == 'incident')
-    //                 {
-    //                     $('[name="name"]').val(response.data.Name);
-    //                     $('[name="lastname"]').val(response.data.LastName);
-    //                     $('[name="guest_id"]').val(response.data.FolioID);
-    //                 }
-    //             }
-    //             else if (response.status == 'error')
-    //             {
-    //                 if ($('[name="type"]:checked').val() == 'request')
-    //                 {
-    //                     $('[name="lastname"]').val('');
-    //                 }
-    //                 else if ($('[name="type"]:checked').val() == 'incident')
-    //                 {
-    //                     $('[name="name"]').val('');
-    //                     $('[name="lastname"]').val('');
-    //                     $('[name="guest_id"]').val('');
-    //                 }
-    //             }
-    //         }
-    //     });
-    // });
+    $('[name="room"]').on('change', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'room=' + $(this).val() + '&action=get_guest',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    if ($('[name="type"]:checked').val() == 'request')
+                    {
+                        $('[name="firstname"]').val(response.data.firstname);
+                        $('[name="lastname"]').val(response.data.lastname);
+                    }
+                    else if ($('[name="type"]:checked').val() == 'incident')
+                    {
+                        $('[name="firstname"]').val(response.data.firstname);
+                        $('[name="lastname"]').val(response.data.lastname);
+                        $('[name="reservation_number"]').val(response.data.reservation_number);
+                        $('[name="check_in"]').val(response.data.check_in);
+                        $('[name="check_out"]').val(response.data.check_out);
+                    }
+                }
+                else if (response.status == 'error')
+                {
+                    if ($('[name="type"]:checked').val() == 'request')
+                    {
+                        $('[name="firstname"]').val('');
+                        $('[name="lastname"]').val('');
+                    }
+                    else if ($('[name="type"]:checked').val() == 'incident')
+                    {
+                        $('[name="firstname"]').val('');
+                        $('[name="lastname"]').val('');
+                        $('[name="reservation_number"]').val('');
+                        $('[name="check_in"]').val('');
+                        $('[name="check_out"]').val('');
+                    }
+                }
+            }
+        });
+    });
 
     $('[name="opportunity_area"]').on('change', function()
     {

@@ -15,64 +15,17 @@ class Dashboard_controller extends Controller
 
 		$template = $this->view->render($this, 'index');
 
-		$art_voxes_to_resolve = '';
-		$art_voxes = '';
+		$tbl_voxes_unresolve = '';
+		$voxes_unresolve_noreaded = '';
+		$voxes_unresolve_readed = '';
+		$voxes_unresolve_today = '';
+		$voxes_unresolve_week = '';
+		$voxes_unresolve_month = '';
+		$voxes_unresolve_total = '';
 
 		if (Functions::check_account_access(['operation']) == true)
 		{
-			$art_voxes_to_resolve .=
-			'<article>
-		        <header>
-		            <h2><i class="fas fa-heart"></i>{$lang.voxes_to_solve}</h2>
-		        </header>
-		        <main>
-		            <div class="voxes-counts">
-		                <h2>' . $this->model->get_voxes('noreaded') . '<span>{$lang.noreaded}</span></h2>
-		                <h2>' . $this->model->get_voxes('readed') . '<span>{$lang.readed}</span></h2>
-		                <h2>' . $this->model->get_voxes('today') . '<span>{$lang.today}</span><strong>' . Functions::get_current_date('d F Y') . '</strong></h2>
-		                <h2>' . $this->model->get_voxes('week') . '<span>{$lang.this_week}</span><strong>' . Functions::get_formatted_date(Functions::get_current_week()[0], 'd F') . ' - ' . Functions::get_formatted_date(Functions::get_current_week()[1], 'd F Y') . '</strong></h2>
-		                <h2>' . $this->model->get_voxes('month') . '<span>{$lang.this_month}</span><strong>' . Functions::get_formatted_date(Functions::get_current_month()[0], 'F Y') . '</strong></h2>
-		                <h2>' . $this->model->get_voxes('total') . '<span>{$lang.total}</span></h2>
-		            </div>
-		        </main>
-		        <footer>
-		            <a href="/voxes">{$lang.view_all}</a>
-		        </footer>
-		    </article>';
-
-			$art_voxes .=
-			'<article>
-		        <header>
-		            <h2><i class="fas fa-heart"></i>{$lang.last_voxes_active}</h2>
-		        </header>
-		        <main>
-		            <div class="table">
-						<aside>
-		                    <label>
-		                        <span><i class="fas fa-search"></i></span>
-		                         <input name="tbl_voxes_search" type="text">
-		                    </label>
-		                </aside>
-		                <table id="tbl_voxes">
-		                    <thead>
-		                        <tr>
-		                            <th align="left">{$lang.abr_room}</th>
-		                            <th align="left">{$lang.abr_guest}</th>
-		                            <th align="left">{$lang.abr_opportunity_area}</th>
-		                            <th align="left">{$lang.abr_opportunity_type}</th>
-		                            <th align="left">{$lang.abr_location}</th>
-		                            <th align="left">{$lang.abr_started_date}</th>
-		                            <th align="left">{$lang.abr_elapsed_time}</th>
-		                            <th align="right" class="icon"></th>
-		                            <th align="right" class="icon"></th>
-		                            <th align="right" class="icon"></th>
-		                            <th align="right" class="icon"></th>
-		                            <th align="right" class="icon"></th>
-		                        </tr>
-		                    </thead>
-		                    <tbody>';
-
-			foreach ($this->model->get_voxes() as $value)
+			foreach ($this->model->get_voxes_unresolve() as $value)
 			{
 				$value['data']['readed'] = ($value['data']['readed'] == true) ? 'readed' : 'no-readed';
 				$value['data']['confidentiality'] = ($value['data']['confidentiality'] == true) ? '<span><i class="fas fa-key"></i></span>' : '';
@@ -99,7 +52,7 @@ class Dashboard_controller extends Controller
 						$value['data']['urgency'] = '<span style="background-color:#f44336;color:#fff;"><i class="fas fa-lock-open"></i></span>';
 				}
 
-				$art_voxes .=
+				$tbl_voxes_unresolve .=
 				'<tr class="' . $value['data']['readed'] . '" data-id="' . $value['id'] . '">
 					<td align="left" class="touchable">' . $value['data']['room'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['guest_treatment'] . ' ' . $value['data']['firstname'] . ' ' . $value['data']['lastname'] . '</td>
@@ -116,20 +69,22 @@ class Dashboard_controller extends Controller
 				</tr>';
 			}
 
-		    $art_voxes .=
-			'                </tbody>
-		                </table>
-		            </div>
-		        </main>
-		        <footer>
-		            <a href="/voxes">{$lang.view_all}</a>
-		        </footer>
-		    </article>';
+			$voxes_unresolve_noreaded = $this->model->get_voxes_unresolve('noreaded');
+			$voxes_unresolve_readed = $this->model->get_voxes_unresolve('readed');
+			$voxes_unresolve_today = $this->model->get_voxes_unresolve('today');
+			$voxes_unresolve_week = $this->model->get_voxes_unresolve('week');
+			$voxes_unresolve_month = $this->model->get_voxes_unresolve('month');
+			$voxes_unresolve_total = $this->model->get_voxes_unresolve('total');
 		}
 
 		$replace = [
-			'{$art_voxes_to_resolve}' => $art_voxes_to_resolve,
-			'{$art_voxes}' => $art_voxes,
+			'{$tbl_voxes_unresolve}' => $tbl_voxes_unresolve,
+			'{$voxes_unresolve_noreaded}' => $voxes_unresolve_noreaded,
+			'{$voxes_unresolve_readed}' => $voxes_unresolve_readed,
+			'{$voxes_unresolve_today}' => $voxes_unresolve_today,
+			'{$voxes_unresolve_week}' => $voxes_unresolve_week,
+			'{$voxes_unresolve_month}' => $voxes_unresolve_month,
+			'{$voxes_unresolve_total}' => $voxes_unresolve_total,
 		];
 
 		$template = $this->format->replace($replace, $template);

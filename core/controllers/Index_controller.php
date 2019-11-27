@@ -13,19 +13,13 @@ class Index_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'get_packages')
+			if ($_POST['action'] == 'get_room_package')
 			{
-				$query = $this->model->get_packages($_POST);
+				$query = $this->model->get_room_package($_POST['rooms_number']);
 
 				if (!empty($query))
 				{
-					if (!empty($query['room_package']))
-						$query['room_package']['price'] = Functions::get_formatted_currency($query['room_package']['price'], 'MXN');
-
-					if (!empty($query['user_package']))
-						$query['user_package']['price'] = Functions::get_formatted_currency($query['user_package']['price'], 'MXN');
-
-					$query['total'] = Functions::get_formatted_currency($query['total'], 'MXN');
+					$query['price'] = Functions::get_formatted_currency($query['price'], 'MXN');
 
 					Functions::environment([
 						'status' => 'success',
@@ -52,9 +46,6 @@ class Index_controller extends Controller
 
 					if (!isset($_POST['rooms_number']) OR empty($_POST['rooms_number']) OR !is_numeric($_POST['rooms_number']) OR $_POST['rooms_number'] < 1)
 				        array_push($labels, ['rooms_number','']);
-
-					if (!isset($_POST['users_number']) OR empty($_POST['users_number']) OR !is_numeric($_POST['users_number']) OR $_POST['users_number'] < 1)
-				        array_push($labels, ['users_number','']);
 
 					if (!isset($_POST['country']) OR empty($_POST['country']))
 				        array_push($labels, ['country','']);
@@ -218,12 +209,14 @@ class Index_controller extends Controller
 									$mail1_subject = 'Saludos de GuestVox';
 									$mail1_text = 'Hola <strong>' . $_POST['contact_name'] . '</strong> ¡Gracias por registrarte en GuestVox! Soy <strong>Daniel Basurto</strong>, CEO de GuestVox y espero te encuentres de lo mejor. Necesitamos validar tu correo electrónico para activar tu cuenta.';
 									$mail1_btn = 'Validar';
+									$mail1_terms = 'Terminos y condiciones';
 								}
 								else if ($_POST['language'] == 'en')
 								{
 									$mail1_subject = 'Regards from GuestVox';
 									$mail1_text = 'Hi <strong>' . $_POST['firstname'] . '</strong> ¡Thanks for sign up in GuestVox! I am <strong>Daniel Basurto</strong>, CEO for GuestVox and I hope you find the best. We need to validate your email to activate your account.';
 									$mail1_btn = 'Validate';
+									$mail1_terms = 'Terms y conditions';
 								}
 
 								$mail1->isSMTP();
@@ -248,7 +241,8 @@ class Index_controller extends Controller
 								            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
 								                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
 													<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail1_text . '</p>
-								                    <a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/validate/account/' . $query['account'] . '">' . $mail1_btn . '</a>
+								                    <a style="width:100%;display:block;margin:15px 0px 10px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/validate/account/' . $query['account'] . '">' . $mail1_btn . '</a>
+								                    <a style="width:100%;display:block;margin:0px 0px 20px 0px;padding:0px;box-sizing:border-box;font-size:12px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms">' . $mail1_terms . '</a>
 								                </td>
 								            </tr>
 								            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
@@ -353,10 +347,9 @@ class Index_controller extends Controller
 								$mail3->Body =
 								'Cuenta: ' . $_POST['name'] . '<br>
 								Número de habitaciones: ' . $_POST['rooms_number'] . '<br>
-								Número de usuarios: ' . $_POST['users_number'] . '<br>
 								Páis: ' . $_POST['country'] . ' ' . $_POST['cp'] . ' ' . $_POST['city'] . '<br>
 								ID Fiscal: ' . $_POST['fiscal_id'] . '<br>
-								Razón social: ' . $_POST['fiscal_name'] . '<br>
+								Nombre fiscal: ' . $_POST['fiscal_name'] . '<br>
 								Contácto: ' . $_POST['contact_name'] . ' ' . $_POST['contact_department'] . ' +' . $_POST['contact_phone_lada'] . ' ' . $_POST['contact_phone_number'] . ' ' . $_POST['contact_email'] . '<br>
 								Administrador: ' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' +' . $_POST['phone_lada'] . ' ' . $_POST['phone_number'] . ' ' . $_POST['email'] . '<br>
 								Host: ' . Configuration::$domain;
@@ -424,7 +417,6 @@ class Index_controller extends Controller
 								if ($query['user']['password'] == true)
 								{
 									unset($query['account']['status']);
-									unset($query['user']['username']);
 									unset($query['user']['password']);
 									unset($query['user']['status']);
 
@@ -437,8 +429,7 @@ class Index_controller extends Controller
 									Session::set_value('lang', $query['account']['language']);
 
 									Functions::environment([
-										'status' => 'success',
-										'path' => '/dashboard'
+										'status' => 'success'
 									]);
 								}
 								else

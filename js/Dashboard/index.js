@@ -2,13 +2,13 @@
 
 $(document).ready(function()
 {
-    var tbl_voxes = $('#tbl_voxes');
+    var tbl_voxes_unresolve = $('#tbl_voxes_unresolve');
 
-    if (tbl_voxes.length > 0)
+    if (tbl_voxes_unresolve.length > 0)
     {
-        tbl_voxes.DataTable({
+        tbl_voxes_unresolve = tbl_voxes_unresolve.DataTable({
             ordering: false,
-            pageLength: 5,
+            pageLength: 10,
             info: false,
             'drawCallback': function()
             {
@@ -19,12 +19,12 @@ $(document).ready(function()
             }
         });
 
-        $('[name="tbl_voxes_search"]').on('keyup', function()
+        $('[name="tbl_voxes_unresolve_search"]').on('keyup', function()
         {
-            tbl_voxes.search(this.value).draw();
+            tbl_voxes_unresolve.search(this.value).draw();
         });
 
-        $(document).on('click', '#tbl_voxes > tbody > tr > td', function()
+        $(document).on('click', '#tbl_voxes_unresolve > tbody > tr > td', function()
         {
             window.location.href = '/voxes/view/details/' + $(this).parents('tr').data('id');
         });
