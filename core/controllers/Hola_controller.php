@@ -33,7 +33,7 @@ class Hola_controller extends Controller
 			$post['number_rooms'] = ( isset($_POST['number_rooms']) && !empty($_POST['number_rooms']) ) ? $_POST['number_rooms'] : "";
 			$post['email'] = ( isset($_POST['email']) && !empty($_POST['email']) ) ? $_POST['email'] : "";
 			$post['phone'] = ( isset($_POST['phone']) && !empty($_POST['phone']) ) ? $_POST['phone'] : "";
-			$post['ref'] = ( isset($_POST['ref']) && !empty($_POST['ref']) && array_key_exists($_POST['ref'], $referrals) ) ? $referrals[$_POST['ref']] : "";
+			$post['ref'] = ( isset($_POST['ref']) && !empty($_POST['ref']) && array_key_exists($_POST['ref'], $referrals) ) ? $referrals[$_POST['ref']] : "6500";
 
 			$labels = [];
 
