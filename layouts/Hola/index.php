@@ -17,7 +17,7 @@ $this->dependencies->add(['meta', '{$vkye_domain}/hola?ref=6500', ["property='og
 $this->dependencies->add(['meta', 'website', ["property='og:type'"]]);
 $this->dependencies->add(['meta', 'Conoce GuestVox y haz inteligencia de negocios', ["property='og:title'"]]);
 $this->dependencies->add(['meta', 'Solución hotelera para la mejora de satisfacción del huesped y optimización de operaciones.', ["property='og:description'"]]);
-$this->dependencies->add(['meta', '{$vkye_domain}/{$path.images}screenshot-social-media.jpg', ["property='og:image'"]]);
+$this->dependencies->add(['meta', '{$vkye_domain}/{$path.images}screenshot-social-media.png', ["property='og:image'"]]);
 
 $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.com/hola -->
 <script>
