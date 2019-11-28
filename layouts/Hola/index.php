@@ -19,7 +19,17 @@ $this->dependencies->add(['meta', 'Conoce GuestVox y haz inteligencia de negocio
 $this->dependencies->add(['meta', 'Solución hotelera para la mejora de satisfacción del huesped y optimización de operaciones.', ["property='og:description'"]]);
 $this->dependencies->add(['meta', '{$vkye_domain}/{$path.images}screenshot-social-media.jpg', ["property='og:image'"]]);
 
-$this->dependencies->add(['other', "<!-- Hotjar Tracking Code for www.guestvox.com/hola --> <script> (function(h,o,t,j,a,r){ h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)}; h._hjSettings={hjid:1584075,hjsv:6}; a=o.getElementsByTagName('head')[0]; r=o.createElement('script');r.async=1; r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv; a.appendChild(r); })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv='); </script>");
+$this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.com/hola -->
+<script>
+    (function(h,o,t,j,a,r){
+        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+        h._hjSettings={hjid:1584075,hjsv:6};
+        a=o.getElementsByTagName(\'head\')[0];
+        r=o.createElement(\'script\');r.async=1;
+        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+        a.appendChild(r);
+    })(window,document,\'https://static.hotjar.com/c/hotjar-\',\'.js?sv=\');
+</script>']);
 ?>
 
 <main class="public_page mkt_page">
