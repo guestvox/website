@@ -55,6 +55,125 @@ class Surveys_controller extends Controller
 				}
 			}
 
+			if ($_POST['action'] == 'preview_survey_question')
+			{
+				$query = $this->model->get_survey_questions();
+
+				$data = '';
+
+				if (!empty($query))
+				{
+					foreach ($query as $value)
+					{
+						$data .=
+						'<article>
+						   <h6>' . $value['name'][Session::get_value('lang')] . '</h6>';
+
+						if ($value['type'] == 'rate')
+						{
+							$data .=
+							'<div>
+							   <label>{$lang.appalling}</label>
+							   <label><input type="radio" name="pr-' . $value['id'] . '" value="1" data-action="open_subquestion"></label>
+							   <label><input type="radio" name="pr-' . $value['id'] . '" value="2" data-action="open_subquestion"></label>
+							   <label><input type="radio" name="pr-' . $value['id'] . '" value="3" data-action="open_subquestion"></label>
+							   <label><input type="radio" name="pr-' . $value['id'] . '" value="4" data-action="open_subquestion"></label>
+							   <label><input type="radio" name="pr-' . $value['id'] . '" value="5" data-action="open_subquestion"></label>
+							   <label>{$lang.excellent}</label>
+							</div>';
+						}
+						else if ($value['type'] == 'twin')
+						{
+							$data .=
+							'<div>
+							   <label>{$lang.to_yes}</label>
+							   <label><input type="radio" name="pt-' . $value['id'] . '" value="yes" data-action="open_subquestion"></label>
+							   <label><input type="radio" name="pt-' . $value['id'] . '" value="no" data-action="open_subquestion"></label>
+							   <label>{$lang.to_not}</label>
+							</div>';
+						}
+						else if ($value['type'] == 'open')
+						{
+							$data .=
+							'<div>
+							   <input type="text" name="po-' . $value['id'] . '">
+							</div>';
+						}
+
+						$data .=
+						'</article>';
+
+						if (!empty($value['subquestions']))
+						{
+							if ($value['type'] == 'rate')
+							{
+							   $data .=
+							   '<article id="pr-' . $value['id'] . '" class="subquestions hidden">';
+							}
+							else if ($value['type'] == 'twin')
+							{
+							   $data .=
+							   '<article id="pt-' . $value['id'] . '" class="subquestions hidden">';
+							}
+
+							foreach ($value['subquestions'] as $key => $subvalue)
+							{
+							   $data .=
+							   '<h6>' . $subvalue['name'][Session::get_value('lang')] . '</h6>';
+
+							   if ($subvalue['type'] == 'rate')
+							   {
+								   $data .=
+								   '<div>
+									   <label>{$lang.appalling}</label>
+									   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="1"></label>
+									   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="2"></label>
+									   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="3"></label>
+									   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="4"></label>
+									   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="5"></label>
+									   <label>{$lang.excellent}</label>
+								   </div>';
+							   }
+							   else if ($subvalue['type'] == 'twin')
+							   {
+								   $data .=
+								   '<div>
+									   <label>{$lang.to_yes}</label>
+									   <label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="yes"></label>
+									   <label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="no"></label>
+									   <label>{$lang.to_not}</label>
+								  </div>';
+							   }
+							   else if ($subvalue['type'] == 'open')
+							   {
+								   $data .=
+								   '<div>
+									   <input type="text" name="so-' . $value['id'] . '-' . $subvalue['id'] . '">
+								   </div>';
+							   }
+							}
+
+							$data .=
+							'</article>';
+						}
+
+					}
+
+					Functions::environment([
+						'status' => 'success',
+						'data' => $data,
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}',
+					]);
+				}
+
+			}
+
 			if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question' OR $_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'deactivate_survey_subquestion' OR $_POST['action'] == 'activate_survey_subquestion' OR $_POST['action'] == 'delete_survey_subquestion')
 			{
 				$labels = [];

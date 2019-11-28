@@ -8,6 +8,41 @@ $(document).ready(function()
         info: false,
     });
 
+    $('[data-action="open_subquestion"]').on('change', function()
+    {
+        console.log('asdasasdsdssdsdfdvdfvdrsgrtgrtg');
+        // var name = $(this).attr('name');
+        //
+        // if ($(this).val() == '1' || $(this).val() == '2' || $(this).val() == '3' || $(this).val() == 'yes')
+        //     $('#' + name).removeClass('hidden');
+        // else
+        //     $('#' + name).addClass('hidden');
+    });
+
+    $(document).on('click', '[data-action="preview_survey_question"]', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=preview_survey_question',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="preview_survey_question"]').addClass('view');
+                    $('[data-modal="preview_survey_question"]').find('main').html(response.data);
+                }
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                }
+            }
+        });
+    });
+
     $('[name="tbl_survey_questions_search"]').on('keyup', function()
     {
         tbl_survey_questions.search(this.value).draw();
