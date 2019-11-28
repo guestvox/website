@@ -69,7 +69,6 @@ class Rooms_controller extends Controller
 							'message' => '{$lang.operation_error}',
 						]);
 					}
-
 				}
 				else
 				{
@@ -78,6 +77,28 @@ class Rooms_controller extends Controller
 						'labels' => $labels
 					]);
 				}
+			}
+
+			if ($_POST['action'] == 'download_rooms')
+			{
+				$rooms = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'rooms');
+
+				if (!empty($rooms))
+				{
+					foreach ($rooms as $value)
+					{
+						$this->model->new_room([
+							'type' => 'one',
+							'name' => $value['Number'],
+							'folio' => $value['Number']
+						]);
+					}
+				}
+
+				Functions::environment([
+					'status' => 'success',
+					'message' => '{$lang.operation_success}'
+				]);
 			}
 
 			if ($_POST['action'] == 'edit_room')

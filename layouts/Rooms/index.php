@@ -22,6 +22,9 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <span><i class="fas fa-search"></i></span>
                         <input type="text" name="tbl_rooms_search">
                     </label>
+                    <?php if (Session::get_value('account')['zaviapms']['status'] == true AND Functions::check_user_access(['{rooms_create}']) == true) : ?>
+                    <a data-button-modal="download_rooms"><i class="fas fa-cloud-download-alt"></i></a>
+                    <?php endif; ?>
                     <?php if (Functions::check_user_access(['{rooms_create}']) == true) : ?>
                     <a data-button-modal="new_room" class="new"><i class="fas fa-plus"></i></a>
                     <?php endif; ?>
@@ -125,6 +128,21 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
         <footer>
             <div class="action-buttons">
                 <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<?php endif; ?>
+<?php if (Session::get_value('account')['zaviapms']['status'] == true AND Functions::check_user_access(['{rooms_create}']) == true) : ?>
+<section class="modal" data-modal="download_rooms">
+    <div class="content">
+        <header>
+            <h3>{$lang.download}</h3>
+        </header>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
                 <button class="btn" button-success>{$lang.accept}</button>
             </div>
         </footer>

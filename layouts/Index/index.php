@@ -135,8 +135,8 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                 <li><a href="https://instagram.com/guestvox" class="btn" target="_blank"><i class="fab fa-instagram"></i></a></li>
                 <li><a href="https://linkedin.com/guestvox" class="btn" target="_blank"><i class="fab fa-linkedin"></i></a></li>
                 <li><a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" class="btn" target="_blank"><i class="fab fa-youtube" ></i></i></a></li>
-                <li><a href="/copyright" class="btn no-border">{$lang.copyright}</a></li>
-                <li><a href="/terms" class="btn no-border">{$lang.terms_conditions}</a></li>
+                <li><a href="/copyright" class="btn no-border" target="_blank">{$lang.copyright}</a></li>
+                <li><a href="/terms" class="btn no-border" target="_blank">{$lang.terms_conditions}</a></li>
             </ul>
         </nav>
         <figure>
@@ -164,7 +164,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                         <h2>{$lang.step_1}: {$lang.account_information}</h2>
                         <div class="row">
                             <div class="span6">
-                                <div class="span6">
+                                <div class="span9">
                                     <fieldset>
                                         <input type="text" name="name" placeholder="{$lang.account_name}">
                                     </fieldset>
@@ -172,11 +172,6 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                 <div class="span3">
                                     <fieldset>
                                         <input type="number" name="rooms_number" placeholder="{$lang.rooms}" min="1">
-                                    </fieldset>
-                                </div>
-                                <div class="span3">
-                                    <fieldset>
-                                        <input type="number" name="users_number" placeholder="{$lang.users}" min="1">
                                     </fieldset>
                                 </div>
                                 <div class="span4">
@@ -234,14 +229,6 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                 <div class="package" id="room_package">
                                     <span><i class="fas fa-bed"></i></span>
                                     <h3><strong></strong> {$lang.rooms}</h3>
-                                    <h4><strong></strong> {$lang.per_month}</h4>
-                                    <p>*{$lang.no_charge_generated_demo}</p>
-                                </div>
-                            </div>
-                            <div class="span3 hidden">
-                                <div class="package" id="user_package">
-                                    <span><i class="fas fa-users"></i></span>
-                                    <h3><strong></strong> {$lang.users}</h3>
                                     <h4><strong></strong> {$lang.per_month}</h4>
                                     <p>*{$lang.no_charge_generated_demo}</p>
                                 </div>
@@ -408,6 +395,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                 </fieldset> -->
                             </div>
                         </div>
+                        <p>* {$lang.signup_accept_terms} <a href="/terms" target="_blank">{$lang.terms_conditions}</a></p>
                         <a class="btn" data-action="go_to_step">{$lang.start_demo}</a>
                         <a button-cancel>{$lang.cancel}</a>
                     </div>

@@ -14,10 +14,7 @@ class Account_model extends Model
 		$query = Functions::get_json_decoded_query($this->database->select('accounts', [
 			'[>]room_packages' => [
 				'room_package' => 'id'
-			],
-			'[>]user_packages' => [
-				'user_package' => 'id'
-			],
+			]
 		], [
 			'accounts.name',
 			'accounts.country',
@@ -39,11 +36,9 @@ class Account_model extends Model
 			'accounts.myvox_survey',
 			'accounts.myvox_survey_title',
 			'accounts.sms',
-			'accounts.zav',
+			'accounts.zaviapms',
 			'room_packages.quantity_end(room_package_quantity_end)',
 			'room_packages.price(room_package_price)',
-			'user_packages.quantity_end(user_package_quantity_end)',
-			'user_packages.price(user_package_price)',
 		], [
 			'accounts.id' => Session::get_value('account')['id']
 		]));

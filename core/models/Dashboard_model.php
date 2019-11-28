@@ -9,7 +9,7 @@ class Dashboard_model extends Model
 		parent::__construct();
 	}
 
-	public function get_voxes($option = null)
+	public function get_voxes_unresolve($option = null)
 	{
 		$voxes = [];
 
@@ -85,10 +85,20 @@ class Dashboard_model extends Model
 			return $voxes;
 	}
 
+	public function get_room($id)
+	{
+		$query = $this->database->select('rooms', [
+			'name'
+		], [
+			'id' => $id
+		]);
+
+		return !empty($query) ? $query[0] : null;
+	}
+
 	public function get_opportunity_area($id)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
-			'id',
 			'name'
 		], [
 			'id' => $id
@@ -100,10 +110,9 @@ class Dashboard_model extends Model
 	public function get_opportunity_type($id)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
-			'id',
 			'name'
 		], [
-			'id' => $id,
+			'id' => $id
 		]));
 
 		return !empty($query) ? $query[0] : null;
@@ -112,7 +121,6 @@ class Dashboard_model extends Model
 	public function get_location($id)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('locations', [
-			'id',
 			'name'
 		], [
 			'id' => $id
@@ -121,22 +129,9 @@ class Dashboard_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_room($id)
-	{
-		$query = $this->database->select('rooms', [
-			'id',
-			'name'
-		], [
-			'id' => $id
-		]);
-
-		return !empty($query) ? $query[0] : null;
-	}
-
 	public function get_guest_treatment($id)
 	{
 		$query = $this->database->select('guest_treatments', [
-			'id',
 			'name'
 		], [
 			'id' => $id

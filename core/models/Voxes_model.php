@@ -176,7 +176,8 @@ class Voxes_model extends Model
 	{
 		$query = $this->database->select('rooms', [
 			'id',
-			'name'
+			'name',
+			'folio'
 		], [
 			'id' => $id
 		]);
@@ -461,6 +462,36 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
+	public function get_guest($room)
+	{
+		$guest = [
+			'status' => 'success',
+			'firstname' => '',
+			'lastname' => '',
+			'reservation_number' => '',
+			'check_in' => '',
+			'check_out' => '',
+		];
+
+		if (Session::get_value('account')['zaviapms']['status'] == true)
+		{
+			$query = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'room', $room);
+
+			$guest['status'] = $query['Status'];
+
+			if ($guest['status'] == 'success')
+			{
+				$guest['firstname'] = $query['Name'];
+				$guest['lastname'] = $query['LastName'];
+				$guest['reservation_number'] = '';
+				$guest['check_in'] = '';
+				$guest['check_out'] = '';
+			}
+		}
+
+		return $guest;
+	}
+
 	public function new_vox($data)
 	{
 		$this->component->load_component('uploader');
@@ -511,7 +542,7 @@ class Voxes_model extends Model
 				'description' => ($data['type'] == 'incident') ? $data['description'] : null,
 				'action_taken' => ($data['type'] == 'incident') ? $data['action_taken'] : null,
 				'guest_treatment' => $data['guest_treatment'],
-				'firstname' => ($data['type'] == 'incident') ? $data['firstname'] : null,
+				'firstname' => $data['firstname'],
 				'lastname' => $data['lastname'],
 				'guest_id' => ($data['type'] == 'incident') ? $data['guest_id'] : null,
 				'guest_type' => ($data['type'] == 'incident') ? $data['guest_type'] : null,
@@ -866,7 +897,7 @@ class Voxes_model extends Model
 					'description' => ($data['type'] == 'incident') ? $data['description'] : null,
 					'action_taken' => ($data['type'] == 'incident') ? $data['action_taken'] : null,
 					'guest_treatment' => $data['guest_treatment'],
-					'firstname' => ($data['type'] == 'incident') ? $data['firstname'] : null,
+					'firstname' => $data['firstname'],
 					'lastname' => $data['lastname'],
 					'guest_id' => ($data['type'] == 'incident') ? $data['guest_id'] : null,
 					'guest_type' => ($data['type'] == 'incident') ? $data['guest_type'] : null,

@@ -8,7 +8,7 @@ header.my-vox {
 
 /*  */
 header.my-vox > div.topbar {
-    height: 120px;
+    height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -41,10 +41,6 @@ header.my-vox > div.bottombar > div.weather {
     justify-content: center;
 }
 
-header.my-vox > div.weather > div {
-    margin: 0px !important;
-}
-
 /*  */
 header.my-vox > div.bottombar > div.multilanguage {
     width: auto;
@@ -53,6 +49,7 @@ header.my-vox > div.bottombar > div.multilanguage {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-left: 10px;
 }
 
 header.my-vox > div.bottombar > div.multilanguage > a {
