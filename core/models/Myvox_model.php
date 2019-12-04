@@ -68,9 +68,9 @@ class Myvox_model extends Model
 			{
 				$guest['firstname'] = $query['Name'];
 				$guest['lastname'] = $query['LastName'];
-				$guest['reservation_number'] = '';
-				$guest['check_in'] = '';
-				$guest['check_out'] = '';
+				$guest['reservation_number'] = $query['FolioRefID'];
+				$guest['check_in'] = $query['StartDate'];
+				$guest['check_out'] = $query['EndDate'];
 			}
 		}
 
@@ -196,14 +196,27 @@ class Myvox_model extends Model
 
 	public function get_countries()
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('countries', [
+		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
 			'name',
 			'lada'
 		], [
+			'priority[>=]' => 1,
+			'ORDER' => [
+				'priority' => 'ASC'
+			]
+		]));
+
+		$query2 = Functions::get_json_decoded_query($this->database->select('countries', [
+			'name',
+			'lada'
+		], [
+			'priority[=]' => null,
 			'ORDER' => [
 				'name' => 'ASC'
 			]
 		]));
+
+		$query = array_merge($query1, $query2);
 
 		return $query;
 	}

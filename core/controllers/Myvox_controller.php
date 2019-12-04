@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-require_once 'plugins/nexmo/vendor/autoload.php';
+// require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Myvox_controller extends Controller
 {
@@ -62,16 +62,26 @@ class Myvox_controller extends Controller
 		                    if (!empty($_POST['observations']) AND strlen($_POST['observations']) > 120)
 		                        array_push($labels, ['observations','']);
 
-							if (!empty($_POST['lastname']) AND !isset($_POST['firstname']) OR empty($_POST['firstname']))
-								array_push($labels, ['firstname','']);
+							if (!empty($_POST['firstname']) OR !empty($_POST['lastname']))
+							{
+								if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+									array_push($labels, ['firstname','']);
 
-							if (!empty($_POST['firstname']) AND !isset($_POST['lastname']) OR empty($_POST['lastname']))
-								array_push($labels, ['lastname','']);
+								if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+									array_push($labels, ['lastname','']);
+							}
 
 		                    if (empty($labels))
 		                    {
 								$_POST['room'] = $room['id'];
 								$_POST['account'] = $account['id'];
+
+								if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+									$_POST['firstname'] = $guest['firstname'];
+
+								if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+									$_POST['lastname'] = $guest['lastname'];
+
 								$_POST['reservation_number'] = $guest['reservation_number'];
 								$_POST['check_in'] = $guest['check_in'];
 								$_POST['check_out'] = $guest['check_out'];
@@ -278,16 +288,26 @@ class Myvox_controller extends Controller
 		                    if (!empty($_POST['subject']) AND strlen($_POST['subject']) > 120)
 		                        array_push($labels, ['subject','']);
 
-		                    if (!empty($_POST['lastname']) AND !isset($_POST['firstname']) OR empty($_POST['firstname']))
-		                        array_push($labels, ['firstname','']);
+							if (!empty($_POST['firstname']) OR !empty($_POST['lastname']))
+							{
+								if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+									array_push($labels, ['firstname','']);
 
-		                    if (!empty($_POST['firstname']) AND !isset($_POST['lastname']) OR empty($_POST['lastname']))
-		                        array_push($labels, ['lastname','']);
+								if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+									array_push($labels, ['lastname','']);
+							}
 
 		                    if (empty($labels))
 		                    {
 								$_POST['room'] = $room['id'];
 								$_POST['account'] = $account['id'];
+
+								if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+									$_POST['firstname'] = $guest['firstname'];
+
+								if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+									$_POST['lastname'] = $guest['lastname'];
+
 								$_POST['reservation_number'] = $guest['reservation_number'];
 								$_POST['check_in'] = $guest['check_in'];
 								$_POST['check_out'] = $guest['check_out'];
@@ -481,29 +501,29 @@ class Myvox_controller extends Controller
 		                {
 							$labels = [];
 
-							if (!empty($_POST['lastname']) AND !isset($_POST['firstname']) OR empty($_POST['firstname']))
-							   array_push($labels, ['firstname','']);
+							if (!empty($_POST['firstname']) OR !empty($_POST['lastname']) OR !empty($_POST['email']))
+							{
+								if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+								   array_push($labels, ['firstname','']);
 
-						   if (!empty($_POST['firstname']) AND !isset($_POST['lastname']) OR empty($_POST['lastname']))
-							   array_push($labels, ['lastname','']);
-
-							if (!empty($_POST['email']) AND Functions::check_email($_POST['email']) == false)
-								array_push($labels, ['email','']);
+								if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+								   array_push($labels, ['lastname','']);
+							}
 
 							if (!empty($_POST['email']))
 							{
-								if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-									array_push($labels, ['firstname','']);
-
-								if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-									array_push($labels, ['lastname','']);
+								if (Functions::check_email($_POST['email']) == false)
+									array_push($labels, ['email','']);
 							}
 
-							if (!empty($_POST['phone_number']) AND !isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
-								array_push($labels, ['phone_lada','']);
+							if (!empty($_POST['phone_lada']) OR !empty($_POST['phone_number']))
+							{
+								if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
+									array_push($labels, ['phone_lada','']);
 
-							if (!empty($_POST['phone_lada']) AND !isset($_POST['phone_number']) OR empty($_POST['phone_number']))
-								array_push($labels, ['phone_number','']);
+								if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
+									array_push($labels, ['phone_number','']);
+							}
 
 		                    if (empty($labels))
 		                    {
@@ -565,6 +585,13 @@ class Myvox_controller extends Controller
 
 								$_POST['room'] = $room['id'];
 								$_POST['account'] = $account['id'];
+
+								if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+									$_POST['firstname'] = $guest['firstname'];
+
+								if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+									$_POST['lastname'] = $guest['lastname'];
+
 								$_POST['reservation_number'] = $guest['reservation_number'];
 								$_POST['token'] = Functions::get_random(8);
 
@@ -763,7 +790,7 @@ class Myvox_controller extends Controller
 								                        <div class="label">
 								                            <label>
 								                                <p>{$lang.firstname}</p>
-								                                <input type="text" name="firstname" value="' . $guest['firstname'] . '" />
+								                                <input type="text" name="firstname" />
 								                            </label>
 								                        </div>
 								                    </div>
@@ -771,7 +798,7 @@ class Myvox_controller extends Controller
 								                        <div class="label">
 								                            <label>
 								                                <p>{$lang.lastname}</p>
-								                                <input type="text" name="lastname" value="' . $guest['lastname'] . '" />
+								                                <input type="text" name="lastname" />
 								                            </label>
 								                        </div>
 								                    </div>
@@ -870,7 +897,7 @@ class Myvox_controller extends Controller
 														<div class="label">
 															<label>
 																<p>{$lang.firstname}</p>
-																<input type="text" name="firstname" value="' . $guest['firstname'] . '" />
+																<input type="text" name="firstname" />
 															</label>
 														</div>
 													</div>
@@ -878,7 +905,7 @@ class Myvox_controller extends Controller
 														<div class="label">
 															<label>
 																<p>{$lang.lastname}</p>
-																<input type="text" name="lastname" value="' . $guest['lastname'] . '" />
+																<input type="text" name="lastname" />
 															</label>
 														</div>
 													</div>
@@ -903,7 +930,8 @@ class Myvox_controller extends Controller
 						{
 							if ($account['myvox_survey'] == true)
 							{
-								$a_new_survey_answer .= '<a data-button-modal="new_survey_answer" class="survey">' . $account['myvox_survey_title'][Session::get_value('lang')] . '<img src="{$path.images}gift.png" alt="Gift icon"></a>';
+								// $a_new_survey_answer .= '<a data-button-modal="new_survey_answer" class="survey">' . $account['myvox_survey_title'][Session::get_value('lang')] . '<img src="{$path.images}gift.png" alt="Gift icon"></a>';
+								$a_new_survey_answer .= '<a data-button-modal="new_survey_answer" class="survey">' . $account['myvox_survey_title'][Session::get_value('lang')] . '</a>';
 
 								$mdl_new_survey_answer .=
 								'<section class="modal" data-modal="new_survey_answer">
@@ -1023,7 +1051,7 @@ class Myvox_controller extends Controller
 								                        <div class="label">
 								                            <label>
 								                                <p>{$lang.firstname}</p>
-								                                <input type="text" name="firstname" value="' . $guest['firstname'] . '">
+								                                <input type="text" name="firstname" />
 								                            </label>
 								                        </div>
 								                    </div>
@@ -1031,7 +1059,7 @@ class Myvox_controller extends Controller
 								                        <div class="label">
 								                            <label>
 								                                <p>{$lang.lastname}</p>
-								                                <input type="text" name="lastname" value="' . $guest['lastname'] . '">
+								                                <input type="text" name="lastname" />
 								                            </label>
 								                        </div>
 								                    </div>

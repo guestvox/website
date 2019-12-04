@@ -189,8 +189,9 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="new_survey_answer"]').removeClass('view');
-                    $('[data-modal="tripadvisor"]').addClass('view');
+                    $('[data-modal="success"]').addClass('view');
+                    $('[data-modal="success"]').find('main > p').html(response.message);
+                    setTimeout(function() { location.reload(); }, 8000);
                 }
                 else if (response.status == 'error')
                 {

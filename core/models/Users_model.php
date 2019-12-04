@@ -77,14 +77,27 @@ class Users_model extends Model
 
 	public function get_ladas()
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('countries', [
+		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
 			'name',
-			'lada',
+			'lada'
 		], [
+			'priority[>=]' => 1,
+			'ORDER' => [
+				'priority' => 'ASC'
+			]
+		]));
+
+		$query2 = Functions::get_json_decoded_query($this->database->select('countries', [
+			'name',
+			'lada'
+		], [
+			'priority[=]' => null,
 			'ORDER' => [
 				'name' => 'ASC'
 			]
 		]));
+
+		$query = array_merge($query1, $query2);
 
 		return $query;
 	}
