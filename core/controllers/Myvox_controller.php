@@ -903,7 +903,8 @@ class Myvox_controller extends Controller
 						{
 							if ($account['myvox_survey'] == true)
 							{
-								$a_new_survey_answer .= '<a data-button-modal="new_survey_answer" class="survey">' . $account['myvox_survey_title'][Session::get_value('lang')] . '<img src="{$path.images}gift.png" alt="Gift icon"></a>';
+								// $a_new_survey_answer .= '<a data-button-modal="new_survey_answer" class="survey">' . $account['myvox_survey_title'][Session::get_value('lang')] . '<img src="{$path.images}gift.png" alt="Gift icon"></a>';
+								$a_new_survey_answer .= '<a data-button-modal="new_survey_answer" class="survey">' . $account['myvox_survey_title'][Session::get_value('lang')] . '</a>';
 
 								$mdl_new_survey_answer .=
 								'<section class="modal" data-modal="new_survey_answer">
