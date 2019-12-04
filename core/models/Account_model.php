@@ -54,6 +54,7 @@ class Account_model extends Model
 			'lada'
 		], [
 			'ORDER' => [
+				'priority' => 'ASC',
 				'name' => 'ASC'
 			]
 		]));

@@ -201,6 +201,7 @@ class Myvox_model extends Model
 			'lada'
 		], [
 			'ORDER' => [
+				'priority' => 'ASC',
 				'name' => 'ASC'
 			]
 		]));
