@@ -74,11 +74,11 @@ class Surveys_controller extends Controller
 							$data .=
 							'<div>
 							   <label>{$lang.appalling}</label>
-							   <label><input type="radio" name="pr-' . $value['id'] . '" value="1" data-action="open_subquestion"></label>
-							   <label><input type="radio" name="pr-' . $value['id'] . '" value="2" data-action="open_subquestion"></label>
-							   <label><input type="radio" name="pr-' . $value['id'] . '" value="3" data-action="open_subquestion"></label>
-							   <label><input type="radio" name="pr-' . $value['id'] . '" value="4" data-action="open_subquestion"></label>
-							   <label><input type="radio" name="pr-' . $value['id'] . '" value="5" data-action="open_subquestion"></label>
+							   <label><input type="radio"></label>
+							   <label><input type="radio"></label>
+							   <label><input type="radio"></label>
+							   <label><input type="radio"></label>
+							   <label><input type="radio"></label>
 							   <label>{$lang.excellent}</label>
 							</div>';
 						}
@@ -87,8 +87,8 @@ class Surveys_controller extends Controller
 							$data .=
 							'<div>
 							   <label>{$lang.to_yes}</label>
-							   <label><input type="radio" name="pt-' . $value['id'] . '" value="yes" data-action="open_subquestion"></label>
-							   <label><input type="radio" name="pt-' . $value['id'] . '" value="no" data-action="open_subquestion"></label>
+							   <label><input type="radio"></label>
+							   <label><input type="radio"></label>
 							   <label>{$lang.to_not}</label>
 							</div>';
 						}
@@ -96,7 +96,7 @@ class Surveys_controller extends Controller
 						{
 							$data .=
 							'<div>
-							   <input type="text" name="po-' . $value['id'] . '">
+							   <input type="text">
 							</div>';
 						}
 
@@ -108,12 +108,12 @@ class Surveys_controller extends Controller
 							if ($value['type'] == 'rate')
 							{
 							   $data .=
-							   '<article id="pr-' . $value['id'] . '" class="subquestions hidden">';
+							   '<article class="subquestions">';
 							}
 							else if ($value['type'] == 'twin')
 							{
 							   $data .=
-							   '<article id="pt-' . $value['id'] . '" class="subquestions hidden">';
+							   '<article class="subquestions">';
 							}
 
 							foreach ($value['subquestions'] as $key => $subvalue)
@@ -126,11 +126,11 @@ class Surveys_controller extends Controller
 								   $data .=
 								   '<div>
 									   <label>{$lang.appalling}</label>
-									   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="1"></label>
-									   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="2"></label>
-									   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="3"></label>
-									   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="4"></label>
-									   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="5"></label>
+									   <label><input type="radio"></label>
+									   <label><input type="radio"></label>
+									   <label><input type="radio"></label>
+									   <label><input type="radio"></label>
+									   <label><input type="radio"></label>
 									   <label>{$lang.excellent}</label>
 								   </div>';
 							   }
@@ -139,8 +139,8 @@ class Surveys_controller extends Controller
 								   $data .=
 								   '<div>
 									   <label>{$lang.to_yes}</label>
-									   <label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="yes"></label>
-									   <label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="no"></label>
+									   <label><input type="radio"></label>
+									   <label><input type="radio"></label>
 									   <label>{$lang.to_not}</label>
 								  </div>';
 							   }
@@ -148,7 +148,7 @@ class Surveys_controller extends Controller
 							   {
 								   $data .=
 								   '<div>
-									   <input type="text" name="so-' . $value['id'] . '-' . $subvalue['id'] . '">
+									   <input type="text"">
 								   </div>';
 							   }
 							}
