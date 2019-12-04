@@ -16,7 +16,7 @@ class Index_model extends Model
 			'code',
 			'lada'
 		], [
-			'priority[!]' => null,
+			'priority[>=]' => 1,
 			'ORDER' => [
 				'priority' => 'ASC'
 			]
@@ -27,7 +27,7 @@ class Index_model extends Model
 			'code',
 			'lada'
 		], [
-			'priority' => null,
+			'priority[=]' => null,
 			'ORDER' => [
 				'name' => 'ASC'
 			]

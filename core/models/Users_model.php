@@ -81,7 +81,7 @@ class Users_model extends Model
 			'name',
 			'lada'
 		], [
-			'priority[!]' => null,
+			'priority[>=]' => 1,
 			'ORDER' => [
 				'priority' => 'ASC'
 			]
@@ -91,7 +91,7 @@ class Users_model extends Model
 			'name',
 			'lada'
 		], [
-			'priority' => null,
+			'priority[=]' => null,
 			'ORDER' => [
 				'name' => 'ASC'
 			]

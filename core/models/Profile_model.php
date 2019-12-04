@@ -63,7 +63,7 @@ class Profile_model extends Model
 			'name',
 			'lada'
 		], [
-			'priority[!]' => null,
+			'priority[>=]' => 1,
 			'ORDER' => [
 				'priority' => 'ASC'
 			]
@@ -73,7 +73,7 @@ class Profile_model extends Model
 			'name',
 			'lada'
 		], [
-			'priority' => null,
+			'priority[=]' => null,
 			'ORDER' => [
 				'name' => 'ASC'
 			]

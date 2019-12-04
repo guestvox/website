@@ -200,7 +200,7 @@ class Myvox_model extends Model
 			'name',
 			'lada'
 		], [
-			'priority[!]' => null,
+			'priority[>=]' => 1,
 			'ORDER' => [
 				'priority' => 'ASC'
 			]
@@ -210,7 +210,7 @@ class Myvox_model extends Model
 			'name',
 			'lada'
 		], [
-			'priority' => null,
+			'priority[=]' => null,
 			'ORDER' => [
 				'name' => 'ASC'
 			]
