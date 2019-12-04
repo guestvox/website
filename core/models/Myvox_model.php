@@ -68,9 +68,9 @@ class Myvox_model extends Model
 			{
 				$guest['firstname'] = $query['Name'];
 				$guest['lastname'] = $query['LastName'];
-				$guest['reservation_number'] = '';
-				$guest['check_in'] = '';
-				$guest['check_out'] = '';
+				$guest['reservation_number'] = $query['FolioRefID'];
+				$guest['check_in'] = $query['StartDate'];
+				$guest['check_out'] = $query['EndDate'];
 			}
 		}
 
