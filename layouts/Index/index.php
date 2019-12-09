@@ -135,7 +135,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                 <li><a href="https://instagram.com/guestvox" class="btn" target="_blank"><i class="fab fa-instagram"></i></a></li>
                 <li><a href="https://linkedin.com/guestvox" class="btn" target="_blank"><i class="fab fa-linkedin"></i></a></li>
                 <li><a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" class="btn" target="_blank"><i class="fab fa-youtube" ></i></i></a></li>
-                <li><a href="/copyright" class="btn no-border" target="_blank">{$lang.copyright}</a></li>
+                <li><a class="btn no-border">{$lang.copyright}</a></li>
                 <li><a href="/terms" class="btn no-border" target="_blank">{$lang.terms_conditions}</a></li>
             </ul>
         </nav>

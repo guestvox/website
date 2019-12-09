@@ -21,10 +21,6 @@ class Urls_registered_vkye
                 'controller' => 'Hola',
                 'method' => 'index'
             ],
-            '/copyright' => [
-                'controller' => 'Copyright',
-                'method' => 'index'
-            ],
             '/terms' => [
                 'controller' => 'Terms',
                 'method' => 'index'
