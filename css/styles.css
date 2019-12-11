@@ -1467,7 +1467,6 @@ div.profile > div > a:hover {
 /* Charts
 ------------------------------------------------------------------------------ */
 div.charts {
-    width: calc((100% / 3) - 20px);
     min-height: 450px;
     float: left;
     display: flex;
@@ -1478,6 +1477,22 @@ div.charts {
     border: 1px dashed #bdbdbd;
     padding: 40px;
     box-sizing: border-box;
+}
+
+div.charts.small {
+    width: calc((100% / 3) - 20px);
+}
+
+div.charts.small-medium {
+    width: calc((100% / 2) - 20px);
+}
+
+div.charts.big-medium {
+    width: calc(66.66% - 20px);
+}
+
+div.charts.big {
+    width: calc(100% - 20px);
 }
 
 div.charts > canvas {
