@@ -21,7 +21,7 @@ class Myvox_controller extends Controller
 
             if (!empty($account))
 			{
-				$guest = $this->model->get_guest($account['zaviapms'], $room['folio']);
+				$guest = $this->model->get_guest($account['zaviapms'], $room['name']);
 
 				if ($guest['status'] == 'success')
 				{

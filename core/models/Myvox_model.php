@@ -15,7 +15,6 @@ class Myvox_model extends Model
 			'id',
 			'account',
 			'name',
-			'folio'
 		], [
 			'token' => strtoupper($token)
 		]);
