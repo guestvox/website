@@ -148,7 +148,7 @@ class Index_model extends Model
 		$qr_size = 5;
 		$qr_frame_size = 3;
 		$qr_level = 'H';
-		$qr_content = 'https://' . Configuration::$domain . '/myvox/' . $qr_code;
+		$qr_content = 'https://' . Configuration::$domain . '/myvox/account/' . $qr_code;
 
 		QRcode::png($qr_content, $qr_dir . $qr_filename, $qr_level, $qr_size, $qr_frame_size);
 
@@ -195,13 +195,15 @@ class Index_model extends Model
 				'password' => '',
 			]),
 			'sms' => 0,
-			'myvox_settings' => json_encode([
-				'request' => !empty($data['operation']) ? true : false,
-				'incident' => !empty($data['operation']) ? true : false,
-				'survey' => !empty($data['reputation']) ? true : false,
-				'survey_title' => [
-					'es' => 'Responder encuesta',
-					'en' => 'Answer survey'
+			'settings' => json_encode([
+				'myvox' => [
+					'request' => !empty($data['operation']) ? true : false,
+					'incident' => !empty($data['operation']) ? true : false,
+					'survey' => !empty($data['reputation']) ? true : false,
+					'survey_title' => [
+						'es' => 'Responder encuesta',
+						'en' => 'Answer survey'
+					]
 				]
 			]),
 			'signup_date' => Functions::get_current_date(),
@@ -413,10 +415,10 @@ class Index_model extends Model
 				'account' => 'id'
 			],
 			'[>]room_packages' => [
-				'account.room_package' => 'id'
+				'accounts.room_package' => 'id'
 			],
 			'[>]table_packages' => [
-				'account.table_package' => 'id'
+				'accounts.table_package' => 'id'
 			]
 		], [
 			'users.id(user_id)',
@@ -500,15 +502,15 @@ class Index_model extends Model
 			if ($query[0]['account_type'] == 'hotel')
 			{
 				$data['account']['room_package'] = [
-					'id' => $query[0]['room_packages_id'],
-					'quantity_end' => $query[0]['room_packages_quantity_end']
+					'id' => $query[0]['room_package_id'],
+					'quantity_end' => $query[0]['room_package_quantity_end']
 				];
 			}
 			else if ($query[0]['account_type'] == 'restaurant')
 			{
 				$data['account']['table_package'] = [
-					'id' => $query[0]['table_packages_id'],
-					'quantity_end' => $query[0]['table_packages_quantity_end']
+					'id' => $query[0]['table_package_id'],
+					'quantity_end' => $query[0]['table_package_quantity_end']
 				];
 			}
 

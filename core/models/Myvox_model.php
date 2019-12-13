@@ -9,12 +9,54 @@ class Myvox_model extends Model
 		parent::__construct();
 	}
 
+	public function get_account($token)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('accounts', [
+			'id',
+			'type',
+			'language',
+			'logotype',
+			'operation',
+			'reputation',
+			'zaviapms',
+			'sms',
+			'settings'
+		], [
+			'AND' => [
+				'OR' => [
+					'id' => $token,
+					'token' => strtoupper($token)
+				],
+				'status' => true
+			]
+		]));
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_rooms($account)
+	{
+		$query = $this->database->select('rooms', [
+			'id',
+			'number',
+			'name'
+		], [
+			'account' => $account,
+			'ORDER' => [
+				'number' => 'ASC'
+			]
+		]);
+
+		return $query;
+	}
+
     public function get_room($token)
 	{
 		$query = $this->database->select('rooms', [
 			'id',
 			'account',
-			'name',
+			'number',
+			'name'
 		], [
 			'token' => strtoupper($token)
 		]);
@@ -22,26 +64,32 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-    public function get_account($id)
+	public function get_tables($account)
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('accounts', [
+		$query = $this->database->select('tables', [
 			'id',
-			'language',
-			'logotype',
-			'operation',
-			'reputation',
-			'myvox_request',
-			'myvox_incident',
-			'myvox_survey',
-			'myvox_survey_title',
-			'sms',
-			'zaviapms',
+			'number',
+			'name'
 		], [
-			'AND' => [
-				'id' => $id,
-				'status' => true
+			'account' => $account,
+			'ORDER' => [
+				'number' => 'ASC'
 			]
-		]));
+		]);
+
+		return $query;
+	}
+
+    public function get_table($token)
+	{
+		$query = $this->database->select('tables', [
+			'id',
+			'account',
+			'number',
+			'name'
+		], [
+			'token' => strtoupper($token)
+		]);
 
 		return !empty($query) ? $query[0] : null;
 	}
@@ -54,7 +102,7 @@ class Myvox_model extends Model
 			'lastname' => '',
 			'reservation_number' => '',
 			'check_in' => '',
-			'check_out' => '',
+			'check_out' => ''
 		];
 
 		if ($zaviapms['status'] == true)
@@ -240,11 +288,12 @@ class Myvox_model extends Model
     public function new_request($data)
 	{
 		$query = $this->database->insert('voxes', [
-			'account' => $data['account'],
+			'account' => $data['account']['id'],
 			'type' => 'request',
 			'data' => Functions::get_openssl('encrypt', json_encode([
-				'token' => $this->security->random_string(8),
-				'room' => $data['room'],
+				'token' => Functions::get_random(8),
+				'room' => ($data['account']['type'] == 'hotel') ? $data['room'] : null,
+				'table' => ($data['account']['type'] == 'restaurant') ? $data['table'] : null,
 				'opportunity_area' => $data['opportunity_area'],
 				'opportunity_type' => $data['opportunity_type'],
 				'started_date' => Functions::get_formatted_date($data['started_date']),
@@ -263,10 +312,10 @@ class Myvox_model extends Model
 				'lastname' => $data['lastname'],
 				'guest_id' => null,
 				'guest_type' => null,
-				'reservation_number' => $data['reservation_number'],
+				'reservation_number' => ($data['account']['type'] == 'hotel') ? $data['reservation_number'] : null,
 				'reservation_status' => null,
-				'check_in' => $data['check_in'],
-				'check_out' => $data['check_out'],
+				'check_in' => ($data['account']['type'] == 'hotel') ? $data['check_in'] : null,
+				'check_out' => ($data['account']['type'] == 'hotel') ? $data['check_out'] : null,
 				'attachments' => [],
 				'viewed_by' => [],
 				'comments' => [],
@@ -298,7 +347,7 @@ class Myvox_model extends Model
 				'reopened_hour' => null,
 				'readed' => false,
 				'status' => 'open',
-				'origin' => 'external',
+				'origin' => 'external'
 			])),
 		]);
 
@@ -308,11 +357,12 @@ class Myvox_model extends Model
     public function new_incident($data)
 	{
 		$query = $this->database->insert('voxes', [
-			'account' => $data['account'],
+			'account' => $data['account']['id'],
 			'type' => 'incident',
 			'data' => Functions::get_openssl('encrypt', json_encode([
-				'token' => $this->security->random_string(8),
-				'room' => $data['room'],
+				'token' => Functions::get_random(8),
+				'room' => ($data['account']['type'] == 'hotel') ? $data['room'] : null,
+				'table' => ($data['account']['type'] == 'restaurant') ? $data['table'] : null,
 				'opportunity_area' => $data['opportunity_area'],
 				'opportunity_type' => $data['opportunity_type'],
 				'started_date' => Functions::get_formatted_date($data['started_date']),
@@ -331,10 +381,10 @@ class Myvox_model extends Model
 				'lastname' => $data['lastname'],
 				'guest_id' => null,
 				'guest_type' => null,
-				'reservation_number' => $data['reservation_number'],
+				'reservation_number' => ($data['account']['type'] == 'hotel') ? $data['reservation_number'] : null,
 				'reservation_status' => null,
-				'check_in' => $data['check_in'],
-				'check_out' => $data['check_out'],
+				'check_in' => ($data['account']['type'] == 'hotel') ? $data['check_in'] : null,
+				'check_out' => ($data['account']['type'] == 'hotel') ? $data['check_out'] : null,
 				'attachments' => [],
 				'viewed_by' => [],
 				'comments' => [],
@@ -366,7 +416,7 @@ class Myvox_model extends Model
 				'reopened_hour' => null,
 				'readed' => false,
 				'status' => 'open',
-				'origin' => 'external',
+				'origin' => 'external'
 			])),
 		]);
 
@@ -375,34 +425,54 @@ class Myvox_model extends Model
 
     public function new_survey_answer($data)
     {
-		$query = $this->database->insert('survey_answers', [
-			'account' => $data['account'],
-			'room' => $data['room'],
-			'answers' => json_encode($data['answers']),
-			'comment' => $data['comment'],
-			'guest' => json_encode([
-				'reservation_number' => $data['reservation_number'],
+		if ($data['account']['type'] == 'hotel')
+		{
+			$data['guest'] = [
 				'firstname' => $data['firstname'],
 				'lastname' => $data['lastname'],
 				'email' => $data['email'],
-				'phone' => json_encode([
+				'phone' => [
 					'lada' => $data['phone_lada'],
-					'number' => $data['phone_number'],
-				])
-			]),
-			'date' => Functions::get_current_date(),
+					'number' => $data['phone_number']
+				],
+				'reservation_number' => $data['reservation_number'],
+				'chack_in' => $data['chack_in'],
+				'check_out' => $data['check_out']
+			];
+		}
+		else if ($data['account']['type'] == 'restaurant')
+		{
+			$data['guest'] = [
+				'firstname' => $data['firstname'],
+				'lastname' => $data['lastname'],
+				'email' => $data['email'],
+				'phone' => [
+					'lada' => $data['phone_lada'],
+					'number' => $data['phone_number']
+				]
+			];
+		}
+
+		$query = $this->database->insert('survey_answers', [
+			'account' => $data['account']['id'],
 			'token' => $data['token'],
+			'room' => ($data['account']['type'] == 'hotel') ? $data['room'] : null,
+			'table' => ($data['account']['type'] == 'restaurant') ? $data['table'] : null,
+			'answers' => json_encode($data['answers']),
+			'comment' => $data['comment'],
+			'guest' => json_encode($data['guest']),
+			'date' => Functions::get_current_date()
 		]);
 
 		return $query;
     }
 
-	public function edit_sms($sms, $account)
+	public function edit_sms($id, $sms)
 	{
-		$query = $this->database->update('account', [
+		$query = $this->database->update('accounts', [
 			'sms' => $sms
 		], [
-			'account' => $account
+			'id' => $id
 		]);
 
 		return $query;
