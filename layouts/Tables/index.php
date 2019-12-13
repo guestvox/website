@@ -4,7 +4,7 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
-$this->dependencies->add(['js', '{$path.js}Rooms/index.js']);
+$this->dependencies->add(['js', '{$path.js}Tables/index.js']);
 $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
 
 ?>
@@ -13,53 +13,50 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
 <main>
     <article>
         <header>
-            <h2><i class="fas fa-bed"></i>{$lang.rooms}</h2>
+            <h2><i class="fas fa-bed"></i>{$lang.tables}</h2>
         </header>
         <main>
             <div class="table">
                 <aside>
                     <label>
                         <span><i class="fas fa-search"></i></span>
-                        <input type="text" name="tbl_rooms_search">
+                        <input type="text" name="tbl_tables_search">
                     </label>
-                    <?php if (Session::get_value('account')['zaviapms']['status'] == true AND Functions::check_user_access(['{rooms_create}']) == true) : ?>
-                    <a data-button-modal="download_rooms"><i class="fas fa-cloud-download-alt"></i></a>
-                    <?php endif; ?>
-                    <?php if (Functions::check_user_access(['{rooms_create}']) == true) : ?>
-                    <a data-button-modal="new_room" class="new"><i class="fas fa-plus"></i></a>
+                    <?php if (Functions::check_user_access(['{tables_create}']) == true) : ?>
+                    <a data-button-modal="new_table" class="new"><i class="fas fa-plus"></i></a>
                     <?php endif; ?>
                 </aside>
-                <table id="tbl_rooms">
+                <table id="tbl_tables">
                     <thead>
                         <tr>
                             <th align="left" width="100px">{$lang.token}</th>
                             <th align="left" width="100px">{$lang.number}</th>
                             <th align="left">{$lang.name}</th>
                             <th align="right" class="icon"></th>
-                            <?php if (Functions::check_user_access(['{rooms_delete}']) == true) : ?>
+                            <?php if (Functions::check_user_access(['{tables_delete}']) == true) : ?>
                             <th align="right" class="icon"></th>
                             <?php endif; ?>
-                            <?php if (Functions::check_user_access(['{rooms_update}']) == true) : ?>
+                            <?php if (Functions::check_user_access(['{tables_update}']) == true) : ?>
                             <th align="right" class="icon"></th>
                             <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody>
-                        {$tbl_rooms}
+                        {$tbl_tables}
                     </tbody>
                 </table>
             </div>
         </main>
     </article>
 </main>
-<?php if (Functions::check_user_access(['{rooms_create}']) == true) : ?>
-<section class="modal new" data-modal="new_room">
+<?php if (Functions::check_user_access(['{tables_create}']) == true) : ?>
+<section class="modal new" data-modal="new_table">
     <div class="content">
         <header>
             <h3>{$lang.new}</h3>
         </header>
         <main>
-            <form name="new_room">
+            <form name="new_table">
                 <div class="row">
                     <div class="span12">
                         <div class="label">
@@ -71,11 +68,11 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     				<div>
                                         <div>
                         					<input type="radio" name="type" value="many" checked>
-                        					<span>{$lang.many_rooms}</span>
+                        					<span>{$lang.many_tables}</span>
                         				</div>
                                         <div>
                         					<input type="radio" name="type" value="one">
-                        					<span>{$lang.one_room}</span>
+                        					<span>{$lang.one_table}</span>
                         				</div>
                                     </div>
                     			</div>
@@ -126,29 +123,14 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
     </div>
 </section>
 <?php endif; ?>
-<?php if (Session::get_value('account')['zaviapms']['status'] == true AND Functions::check_user_access(['{rooms_create}']) == true) : ?>
-<section class="modal" data-modal="download_rooms">
-    <div class="content">
-        <header>
-            <h3>{$lang.download}</h3>
-        </header>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
-            </div>
-        </footer>
-    </div>
-</section>
-<?php endif; ?>
-<?php if (Functions::check_user_access(['{rooms_update}']) == true) : ?>
-<section class="modal edit" data-modal="edit_room">
+<?php if (Functions::check_user_access(['{tables_update}']) == true) : ?>
+<section class="modal edit" data-modal="edit_table">
     <div class="content">
         <header>
             <h3>{$lang.edit}</h3>
         </header>
         <main>
-            <form name="edit_room">
+            <form name="edit_table">
                 <div class="row">
                     <div class="span12">
                         <div class="label">
@@ -178,8 +160,8 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
     </div>
 </section>
 <?php endif; ?>
-<?php if (Functions::check_user_access(['{rooms_delete}']) == true) : ?>
-<section class="modal delete" data-modal="delete_room">
+<?php if (Functions::check_user_access(['{tables_delete}']) == true) : ?>
+<section class="modal delete" data-modal="delete_table">
     <div class="content">
         <header>
             <h3>{$lang.delete}</h3>

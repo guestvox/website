@@ -97,6 +97,10 @@ class Urls_registered_vkye
                 'controller' => 'Rooms',
                 'method' => 'index'
             ],
+            '/tables' => [
+                'controller' => 'Tables',
+                'method' => 'index'
+            ],
             '/opportunityareas' => [
                 'controller' => 'Opportunityareas',
                 'method' => 'index'

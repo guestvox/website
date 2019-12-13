@@ -84,6 +84,17 @@ class User_level
 
                 case '{rooms_delete}' :
                     array_push($paths, '/Rooms/index');
+
+                case '{tables_create}' :
+                    array_push($paths, '/Tables/index');
+                break;
+
+                case '{tables_update}' :
+                    array_push($paths, '/Tables/index');
+                break;
+
+                case '{tables_delete}' :
+                    array_push($paths, '/Tables/index');
                 break;
 
                 case '{opportunity_areas_create}' :

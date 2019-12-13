@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-class Rooms_controller extends Controller
+class Tables_controller extends Controller
 {
 	public function __construct()
 	{
@@ -13,9 +13,9 @@ class Rooms_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'get_room')
+			if ($_POST['action'] == 'get_table')
 			{
-				$query = $this->model->get_room($_POST['id']);
+				$query = $this->model->get_table($_POST['id']);
 
                 if (!empty($query))
                 {
@@ -33,7 +33,7 @@ class Rooms_controller extends Controller
                 }
 			}
 
-			if ($_POST['action'] == 'new_room')
+			if ($_POST['action'] == 'new_table')
 			{
 				$labels = [];
 
@@ -56,7 +56,7 @@ class Rooms_controller extends Controller
 
 				if (empty($labels))
 				{
-					$query = $this->model->new_room($_POST);
+					$query = $this->model->new_table($_POST);
 
 					if (!empty($query))
 					{
@@ -82,29 +82,7 @@ class Rooms_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'download_rooms')
-			{
-				$rooms = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'rooms');
-
-				if (!empty($rooms))
-				{
-					foreach ($rooms as $value)
-					{
-						$this->model->new_room([
-							'type' => 'one',
-							'number' => $value['Number'],
-							'name' => ''
-						]);
-					}
-				}
-
-				Functions::environment([
-					'status' => 'success',
-					'message' => '{$lang.operation_success}'
-				]);
-			}
-
-			if ($_POST['action'] == 'edit_room')
+			if ($_POST['action'] == 'edit_table')
 			{
 				$labels = [];
 
@@ -113,7 +91,7 @@ class Rooms_controller extends Controller
 
 				if (empty($labels))
 				{
-					$query = $this->model->edit_room($_POST);
+					$query = $this->model->edit_table($_POST);
 
 					if (!empty($query))
 					{
@@ -139,9 +117,9 @@ class Rooms_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'delete_room')
+			if ($_POST['action'] == 'delete_table')
 			{
-				$query = $this->model->delete_room($_POST['id']);
+				$query = $this->model->delete_table($_POST['id']);
 
 				if (!empty($query))
 				{
@@ -165,23 +143,23 @@ class Rooms_controller extends Controller
 
 			$template = $this->view->render($this, 'index');
 
-			$tbl_rooms = '';
+			$tbl_tables = '';
 
-			foreach ($this->model->get_rooms() as $value)
+			foreach ($this->model->get_tables() as $value)
 			{
-				$tbl_rooms .=
+				$tbl_tables .=
 				'<tr>
 					<td align="left">' . $value['token'] . '</td>
 					<td align="left">#' . $value['number'] . '</td>
 					<td align="left">' . $value['name'] . '</td>
 					<td align="right" class="icon"><a href="{$path.uploads}' . $value['qr'] . '" download="' . $value['qr'] . '"><i class="fas fa-qrcode"></i></a></td>
-					' . ((Functions::check_user_access(['{rooms_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_room" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
-					' . ((Functions::check_user_access(['{rooms_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_room" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
+					' . ((Functions::check_user_access(['{tables_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_table" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
+					' . ((Functions::check_user_access(['{tables_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_table" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
 				</tr>';
 			}
 
 			$replace = [
-				'{$tbl_rooms}' => $tbl_rooms
+				'{$tbl_tables}' => $tbl_tables
 			];
 
 			$template = $this->format->replace($replace, $template);

@@ -138,7 +138,7 @@ class Account_model extends Model
 
 		if (!empty($query))
 		{
-			unlink(PATH_UPLOADS . Session::get_value('account')['logotype']);
+			Functions::undoloader(Session::get_value('account')['logotype'], PATH_UPLOADS);
 			return $data['logotype'];
 		}
 		else

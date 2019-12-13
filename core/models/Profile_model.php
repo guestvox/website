@@ -106,7 +106,7 @@ class Profile_model extends Model
 
 		if (!empty($query))
 		{
-			unlink(PATH_UPLOADS . Session::get_value('user')['avatar']);
+			Functions::undoloader(Session::get_value('user')['avatar'], PATH_UPLOADS);
 			return $data['avatar'];
 		}
 		else
