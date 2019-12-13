@@ -572,99 +572,109 @@ class Index_controller extends Controller
 
 				if (!empty($query))
 				{
-					if ($params[0] == 'account')
-						$txt = '{$lang.your_email} <strong>' . $query['contact']['email'] . '</strong> {$lang.was_validate_and_account} <strong>' . $query['name'] . '</strong> {$lang.was_activated_a}';
-					else if ($params[0] == 'user')
-						$txt = '{$lang.your_email} <strong>' . $query['email'] . '</strong> {$lang.was_validate_and_user} <strong>' . $query['username'] . '</strong> {$lang.was_activated_o}';
-
-					$mail = new Mailer(true);
-
-					try
+					if ($query['status'] == false)
 					{
 						if ($params[0] == 'account')
-						{
-							if ($query['language'] == 'es')
-							{
-								$mail_subject = 'Tu correo electrónico ha sido validado';
-								$mail_text = '¡<strong>Felicidades</strong>! Tu correo electrónico fue validado correctamente y tu cuenta ya ha sido activada ¡Bienvenido a GuestVox!';
-								$mail_btn = 'Ir a GuestVox';
-							}
-							else if ($query['language'] == 'en')
-							{
-								$mail_subject = 'Your email has been validated';
-								$mail_text = '¡<strong>Congratulations</strong>! Your email was validated correctly and you account has been activated ¡Welcome to GuestVox!';
-								$mail_btn = 'Go to GuestVox';
-							}
-						}
+							$txt = '{$lang.your_email} <strong>' . $query['contact']['email'] . '</strong> {$lang.was_validate_and_account} <strong>' . $query['name'] . '</strong> {$lang.was_activated_a}';
 						else if ($params[0] == 'user')
+							$txt = '{$lang.your_email} <strong>' . $query['email'] . '</strong> {$lang.was_validate_and_user} <strong>' . $query['username'] . '</strong> {$lang.was_activated_o}';
+
+						$mail = new Mailer(true);
+
+						try
 						{
-							if ($query['language'] == 'es')
+							if ($params[0] == 'account')
 							{
-								$mail_subject = 'Tu correo electrónico ha sido validado';
-								$mail_text = '¡<strong>Felicidades</strong>! Tu correo electrónico fue validado correctamente y tu usuario ya ha sido activado ¡Bienvenido a GuestVox!';
-								$mail_btn = 'Ir a GuestVox';
+								if ($query['language'] == 'es')
+								{
+									$mail_subject = 'Tu correo electrónico ha sido validado';
+									$mail_text = '¡<strong>Felicidades</strong>! Tu correo electrónico fue validado correctamente y tu cuenta ya ha sido activada ¡Bienvenido a GuestVox!';
+									$mail_btn = 'Ir a GuestVox';
+								}
+								else if ($query['language'] == 'en')
+								{
+									$mail_subject = 'Your email has been validated';
+									$mail_text = '¡<strong>Congratulations</strong>! Your email was validated correctly and you account has been activated ¡Welcome to GuestVox!';
+									$mail_btn = 'Go to GuestVox';
+								}
 							}
-							else if ($query['language'] == 'en')
+							else if ($params[0] == 'user')
 							{
-								$mail_subject = 'Your email has been validated';
-								$mail_text = '¡<strong>Congratulations</strong>! Your email was validated correctly and you user has been activated ¡Welcome to GuestVox!';
-								$mail_btn = 'Go to GuestVox';
+								if ($query['language'] == 'es')
+								{
+									$mail_subject = 'Tu correo electrónico ha sido validado';
+									$mail_text = '¡<strong>Felicidades</strong>! Tu correo electrónico fue validado correctamente y tu usuario ya ha sido activado ¡Bienvenido a GuestVox!';
+									$mail_btn = 'Ir a GuestVox';
+								}
+								else if ($query['language'] == 'en')
+								{
+									$mail_subject = 'Your email has been validated';
+									$mail_text = '¡<strong>Congratulations</strong>! Your email was validated correctly and you user has been activated ¡Welcome to GuestVox!';
+									$mail_btn = 'Go to GuestVox';
+								}
 							}
+
+							$mail->isSMTP();
+							$mail->setFrom('daniel@guestvox.com', 'Daniel Basurto');
+
+							if ($params[0] == 'account')
+								$mail->addAddress($query['contact']['email'], $query['contact']['firstname'] . ' ' . $query['contact']['lastname']);
+							else if ($params[0] == 'user')
+								$mail->addAddress($query['email'], $query['firstname'] . ' ' . $query['lastname']);
+
+							$mail->isHTML(true);
+							$mail->Subject = $mail_subject;
+							$mail->Body =
+							'<html>
+								<head>
+									<title>' . $mail_subject . '</title>
+								</head>
+								<body>
+									<table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
+										<tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
+											<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+												<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+													<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype-color.png" />
+												</figure>
+											</td>
+										</tr>
+										<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
+											<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+												<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_text . '</p>
+												<a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '">' . $mail_btn . '</a>
+											</td>
+										</tr>
+										<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
+											<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+												<figure style="width:100%;margin:0px;border:0px;padding:40px 0px;box-sizing:border-box;text-align:center;">
+													<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/basurto.png">
+													<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
+													<span style="display:block;color:#757575;font-size:18px;">CEO</span>
+													<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
+													<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
+												</figure>
+											</td>
+										</tr>
+										<tr style="width:100%;margin:0px;border:0px;padding:0px;">
+											<td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
+												<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
+											</td>
+										</tr>
+									</table>
+								</body>
+							</html>';
+							$mail->AltBody = '';
+							$mail->send();
 						}
-
-						$mail->isSMTP();
-						$mail->setFrom('daniel@guestvox.com', 'Daniel Basurto');
-
-						if ($params[0] == 'account')
-							$mail->addAddress($query['contact']['email'], $query['contact']['firstname'] . ' ' . $query['contact']['lastname']);
-						else if ($params[0] == 'user')
-							$mail->addAddress($query['email'], $query['firstname'] . ' ' . $query['lastname']);
-
-						$mail->isHTML(true);
-						$mail->Subject = $mail_subject;
-						$mail->Body =
-						'<html>
-							<head>
-								<title>' . $mail_subject . '</title>
-							</head>
-							<body>
-								<table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
-									<tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
-										<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-											<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-												<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype-color.png" />
-											</figure>
-										</td>
-									</tr>
-									<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
-										<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-											<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_text . '</p>
-											<a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '">' . $mail_btn . '</a>
-										</td>
-									</tr>
-									<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
-										<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-											<figure style="width:100%;margin:0px;border:0px;padding:40px 0px;box-sizing:border-box;text-align:center;">
-												<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/basurto.png">
-												<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
-												<span style="display:block;color:#757575;font-size:18px;">CEO</span>
-												<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
-												<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
-											</figure>
-										</td>
-									</tr>
-									<tr style="width:100%;margin:0px;border:0px;padding:0px;">
-										<td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
-											<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
-										</td>
-									</tr>
-								</table>
-							</body>
-						</html>';
-						$mail->AltBody = '';
-						$mail->send();
+						catch (Exception $e) { }
 					}
-					catch (Exception $e) { }
+					else
+					{
+						if ($params[0] == 'account')
+							$txt = '{$lang.account_already_activated}';
+						else if ($params[0] == 'user')
+							$txt = '{$lang.user_already_activated}';
+					}
 				}
 				else
 					$txt = '{$lang.operation_error}';

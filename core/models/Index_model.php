@@ -527,21 +527,22 @@ class Index_model extends Model
 			$query = Functions::get_json_decoded_query($this->database->select('accounts', [
 				'name',
 				'language',
-				'contact'
+				'contact',
+				'status'
 			], [
-				'AND' => [
-					'id' => $data[1],
-					'status' => false
-				]
+				'id' => $data[1]
 			]));
 
 			if (!empty($query))
 			{
-				$this->database->update('accounts', [
-					'status' => true
-				], [
-					'id' => $data[1]
-				]);
+				if ($query[0]['status'] == false)
+				{
+					$this->database->update('accounts', [
+						'status' => true
+					], [
+						'id' => $data[1]
+					]);
+				}
 			}
 		}
 		else if ($data[0] == 'user')
@@ -555,21 +556,22 @@ class Index_model extends Model
 				'users.lastname',
 				'users.email',
 				'users.username',
+				'users.status',
 				'accounts.language'
 			], [
-				'AND' => [
-					'users.id' => $data[1],
-					'users.status' => false
-				]
+				'users.id' => $data[1]
 			]);
 
 			if (!empty($query))
 			{
-				$this->database->update('users', [
-					'status' => true
-				], [
-					'id' => $data[1]
-				]);
+				if ($query[0]['status'] == false)
+				{
+					$this->database->update('users', [
+						'status' => true
+					], [
+						'id' => $data[1]
+					]);
+				}
 			}
 		}
 
