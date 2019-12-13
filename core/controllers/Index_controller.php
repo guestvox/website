@@ -13,26 +13,49 @@ class Index_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'get_room_package')
+			if ($_POST['action'] == 'get_total')
 			{
-				$query = $this->model->get_room_package($_POST['rooms_number']);
+				$query = null;
+				$price_operation = 0;
+				$price_reputation = 0;
+				$total = 0;
+
+				if ($_POST['type'] == 'hotel')
+				{
+					if ($_POST['rooms_number'] > 0)
+						$query = $this->model->get_room_package($_POST['rooms_number']);
+				}
+				else if ($_POST['type'] == 'restaurant')
+				{
+					if ($_POST['tables_number'] > 0)
+						$query = $this->model->get_table_package($_POST['tables_number']);
+				}
 
 				if (!empty($query))
 				{
-					$query['price'] = Functions::get_formatted_currency($query['price'], 'MXN');
+					$price_operation = $query['price']['operation'];
+					$price_reputation = $query['price']['reputation'];
 
-					Functions::environment([
-						'status' => 'success',
-						'data' => $query
-					]);
+					if (!empty($_POST['operation']))
+						$total = $total + $query['price']['operation'];
+
+					if (!empty($_POST['reputation']))
+						$total = $total + $query['price']['reputation'];
+
+					if (!empty($_POST['operation']) AND !empty($_POST['reputation']))
+						$total = $total - ($total * 0.40);
 				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.operation_error}'
-					]);
-				}
+
+				Functions::environment([
+					'status' => 'success',
+					'data' => [
+						'price' => [
+							'operation' => Functions::get_formatted_currency($price_operation, 'MXN'),
+							'reputation' => Functions::get_formatted_currency($price_reputation, 'MXN')
+						],
+						'total' => Functions::get_formatted_currency($total, 'MXN')
+					]
+				]);
 			}
 
 			if ($_POST['action'] == 'go_to_step')
@@ -44,14 +67,25 @@ class Index_controller extends Controller
 					if (!isset($_POST['name']) OR empty($_POST['name']) OR $this->model->check_exist_account('name', $_POST['name']) == true)
 				        array_push($labels, ['name','']);
 
-					if (!isset($_POST['rooms_number']) OR empty($_POST['rooms_number']) OR !is_numeric($_POST['rooms_number']) OR $_POST['rooms_number'] < 1)
-				        array_push($labels, ['rooms_number','']);
+					if (!isset($_POST['type']) OR empty($_POST['type']))
+				        array_push($labels, ['type','']);
+
+					if ($_POST['type'] == 'hotel')
+					{
+						if (!isset($_POST['rooms_number']) OR empty($_POST['rooms_number']) OR !is_numeric($_POST['rooms_number']) OR $_POST['rooms_number'] < 1)
+					        array_push($labels, ['rooms_number','']);
+					}
+					else if ($_POST['type'] == 'restaurant')
+					{
+						if (!isset($_POST['tables_number']) OR empty($_POST['tables_number']) OR !is_numeric($_POST['tables_number']) OR $_POST['tables_number'] < 1)
+					        array_push($labels, ['tables_number','']);
+					}
+
+					if (!isset($_POST['zip_code']) OR empty($_POST['zip_code']))
+				        array_push($labels, ['zip_code','']);
 
 					if (!isset($_POST['country']) OR empty($_POST['country']))
 				        array_push($labels, ['country','']);
-
-					if (!isset($_POST['cp']) OR empty($_POST['cp']))
-				        array_push($labels, ['cp','']);
 
 					if (!isset($_POST['city']) OR empty($_POST['city']))
 				        array_push($labels, ['city','']);
@@ -62,11 +96,11 @@ class Index_controller extends Controller
 					if (!isset($_POST['time_zone']) OR empty($_POST['time_zone']))
 				        array_push($labels, ['time_zone','']);
 
-					if (!isset($_POST['language']) OR empty($_POST['language']))
-				        array_push($labels, ['language','']);
-
 					if (!isset($_POST['currency']) OR empty($_POST['currency']))
 				        array_push($labels, ['currency','']);
+
+					if (!isset($_POST['language']) OR empty($_POST['language']))
+				        array_push($labels, ['language','']);
 
 					if (empty($labels))
 					{
@@ -109,17 +143,20 @@ class Index_controller extends Controller
 				{
 					$labels = [];
 
-					if (!isset($_POST['fiscal_id']) OR empty($_POST['fiscal_id']) OR $this->model->check_exist_account('fiscal_id', $_POST['fiscal_id']) == true)
+					if (!isset($_POST['fiscal_id']) OR empty($_POST['fiscal_id']))
 				        array_push($labels, ['fiscal_id','']);
 
-					if (!isset($_POST['fiscal_name']) OR empty($_POST['fiscal_name']) OR $this->model->check_exist_account('fiscal_name', $_POST['fiscal_name']) == true)
+					if (!isset($_POST['fiscal_name']) OR empty($_POST['fiscal_name']))
 				        array_push($labels, ['fiscal_name','']);
 
 					if (!isset($_POST['fiscal_address']) OR empty($_POST['fiscal_address']))
 				        array_push($labels, ['fiscal_address','']);
 
-					if (!isset($_POST['contact_name']) OR empty($_POST['contact_name']))
-				        array_push($labels, ['contact_name','']);
+					if (!isset($_POST['contact_firstname']) OR empty($_POST['contact_firstname']))
+				        array_push($labels, ['contact_firstname','']);
+
+					if (!isset($_POST['contact_lastname']) OR empty($_POST['contact_lastname']))
+				        array_push($labels, ['contact_lastname','']);
 
 					if (!isset($_POST['contact_department']) OR empty($_POST['contact_department']))
 				        array_push($labels, ['contact_department','']);
@@ -207,21 +244,21 @@ class Index_controller extends Controller
 								if ($_POST['language'] == 'es')
 								{
 									$mail1_subject = 'Saludos de GuestVox';
-									$mail1_text = 'Hola <strong>' . $_POST['contact_name'] . '</strong> ¡Gracias por registrarte en GuestVox! Soy <strong>Daniel Basurto</strong>, CEO de GuestVox y espero te encuentres de lo mejor. Necesitamos validar tu correo electrónico para activar tu cuenta.';
+									$mail1_text = 'Hola <strong>' . $_POST['contact_firstname'] . '</strong> ¡Gracias por registrarte en GuestVox! Soy <strong>Daniel Basurto</strong>, CEO de GuestVox y espero te encuentres de lo mejor. Necesitamos validar tu correo electrónico para activar tu cuenta.';
 									$mail1_btn = 'Validar';
 									$mail1_terms = 'Terminos y condiciones';
 								}
 								else if ($_POST['language'] == 'en')
 								{
 									$mail1_subject = 'Regards from GuestVox';
-									$mail1_text = 'Hi <strong>' . $_POST['firstname'] . '</strong> ¡Thanks for sign up in GuestVox! I am <strong>Daniel Basurto</strong>, CEO for GuestVox and I hope you find the best. We need to validate your email to activate your account.';
+									$mail1_text = 'Hi <strong>' . $_POST['contact_firstname'] . '</strong> ¡Thanks for sign up in GuestVox! I am <strong>Daniel Basurto</strong>, CEO for GuestVox and I hope you find the best. We need to validate your email to activate your account.';
 									$mail1_btn = 'Validate';
 									$mail1_terms = 'Terms y conditions';
 								}
 
 								$mail1->isSMTP();
 								$mail1->setFrom('daniel@guestvox.com', 'Daniel Basurto');
-								$mail1->addAddress($_POST['contact_email'], $_POST['contact_name']);
+								$mail1->addAddress($_POST['contact_email'], $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname']);
 								$mail1->isHTML(true);
 								$mail1->Subject = $mail1_subject;
 								$mail1->Body =
@@ -341,17 +378,19 @@ class Index_controller extends Controller
 							{
 								$mail3->setFrom('noreply@guestvox.com', 'GuestVox');
 								$mail3->addAddress('daniel@guestvox.com', 'Daniel Basurto');
-								$mail3->addAddress('gerson@guestvox.com', 'Gersón Gómez');
 								$mail3->isHTML(true);
 								$mail3->Subject = 'Nuevo registro';
 								$mail3->Body =
-								'Cuenta: ' . $_POST['name'] . '<br>
-								Número de habitaciones: ' . $_POST['rooms_number'] . '<br>
-								Páis: ' . $_POST['country'] . ' ' . $_POST['cp'] . ' ' . $_POST['city'] . '<br>
+								'Nombre: ' . $_POST['name'] . '<br>
+								' . (($_POST['type'] == 'hotel') ? 'Tipo: Hotel<br>' : '') . '
+								' . (($_POST['type'] == 'restaurant') ? 'Tipo: Restaurante<br>' : '') . '
+								' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms_number'] . '<br>' : '') . '
+								' . (($_POST['type'] == 'restaurant') ? 'Número de mesas: ' . $_POST['tables_number'] . '<br>' : '') . '
+								Páis: ' . $_POST['zip_code'] . ' ' . $_POST['country'] . ' ' . $_POST['city'] . '<br>
 								ID Fiscal: ' . $_POST['fiscal_id'] . '<br>
 								Nombre fiscal: ' . $_POST['fiscal_name'] . '<br>
-								Contácto: ' . $_POST['contact_name'] . ' ' . $_POST['contact_department'] . ' +' . $_POST['contact_phone_lada'] . ' ' . $_POST['contact_phone_number'] . ' ' . $_POST['contact_email'] . '<br>
-								Administrador: ' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' +' . $_POST['phone_lada'] . ' ' . $_POST['phone_number'] . ' ' . $_POST['email'] . '<br>
+								Contácto: ' . $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname'] . ' ' . $_POST['contact_department'] . ' ' .  $_POST['contact_email'] . ' +' . $_POST['contact_phone_lada'] . ' ' . $_POST['contact_phone_number'] . '<br>
+								Administrador: ' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' ' . $_POST['email'] . ' +' . $_POST['phone_lada'] . ' ' . $_POST['phone_number'] . '<br>
 								Host: ' . Configuration::$domain;
 								$mail3->AltBody = '';
 								$mail3->send();
@@ -416,15 +455,14 @@ class Index_controller extends Controller
 
 								if ($query['user']['password'] == true)
 								{
-									unset($query['account']['status']);
 									unset($query['user']['password']);
 									unset($query['user']['status']);
+									unset($query['account']['status']);
 
 									Session::init();
-
 									Session::set_value('session', true);
-									Session::set_value('account', $query['account']);
 									Session::set_value('user', $query['user']);
+									Session::set_value('account', $query['account']);
 									Session::set_value('_vkye_last_access', Functions::get_current_date_hour());
 									Session::set_value('lang', $query['account']['language']);
 
@@ -489,15 +527,15 @@ class Index_controller extends Controller
 			foreach ($this->model->get_time_zones() as $value)
 				$opt_time_zones .= '<option value="' . $value['code'] . '">' . $value['code'] . '</option>';
 
-			$opt_languages = '';
-
-			foreach ($this->model->get_languages() as $value)
-				$opt_languages .= '<option value="' . $value['code'] . '">' . $value['name'] . '</option>';
-
 			$opt_currencies = '';
 
 			foreach ($this->model->get_currencies() as $value)
 				$opt_currencies .= '<option value="' . $value['code'] . '">' . $value['name'][Session::get_value('lang')] . ' (' . $value['code'] . ')</option>';
+
+			$opt_languages = '';
+
+			foreach ($this->model->get_languages() as $value)
+				$opt_languages .= '<option value="' . $value['code'] . '">' . $value['name'] . '</option>';
 
 			$opt_ladas = '';
 
@@ -507,8 +545,8 @@ class Index_controller extends Controller
 			$replace = [
 				'{$opt_countries}' => $opt_countries,
 				'{$opt_time_zones}' => $opt_time_zones,
-				'{$opt_languages}' => $opt_languages,
 				'{$opt_currencies}' => $opt_currencies,
+				'{$opt_languages}' => $opt_languages,
 				'{$opt_ladas}' => $opt_ladas,
 			];
 
@@ -578,7 +616,7 @@ class Index_controller extends Controller
 						$mail->setFrom('daniel@guestvox.com', 'Daniel Basurto');
 
 						if ($params[0] == 'account')
-							$mail->addAddress($query['contact']['email'], $query['name']);
+							$mail->addAddress($query['contact']['email'], $query['contact']['firstname'] . ' ' . $query['contact']['lastname']);
 						else if ($params[0] == 'user')
 							$mail->addAddress($query['email'], $query['firstname'] . ' ' . $query['lastname']);
 

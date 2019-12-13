@@ -150,7 +150,7 @@ class Account_model extends Model
 		$query = $this->database->update('accounts', [
 			'name' => $data['name'],
 			'country' => $data['country'],
-			'cp' => $data['cp'],
+			'zip_code' => $data['zip_code'],
 			'city' => $data['city'],
 			'address' => $data['address'],
 			'time_zone' => $data['time_zone'],

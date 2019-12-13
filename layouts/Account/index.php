@@ -25,7 +25,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                 <div>
                     <h6><i class="fas fa-user-alt"></i>{$name}</h6>
                     <h6><i class="fas fa-flag"></i>{$country}</h6>
-                    <h6><i class="fas fa-map-marked"></i>{$cp}</h6>
+                    <h6><i class="fas fa-map-marked"></i>{$zip_code}</h6>
                     <h6><i class="fas fa-map-marked"></i>{$city}</h6>
                     <h6><i class="fas fa-map-marked"></i>{$address}</h6>
                     <h6><i class="fas fa-globe-americas"></i>{$time_zone}</h6>
@@ -101,8 +101,8 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <div class="span4">
                         <div class="label">
                             <label>
-                                <p>{$lang.cp}</p>
-                                <input type="text" name="cp" value="{$cp}" />
+                                <p>{$lang.zip_code}</p>
+                                <input type="text" name="cp" value="{$zip_code}" />
                             </label>
                         </div>
                     </div>

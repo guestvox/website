@@ -49,8 +49,8 @@ class Account_controller extends Controller
 				if (!isset($_POST['country']) OR empty($_POST['country']))
 					array_push($labels, ['country', '']);
 
-				if (!isset($_POST['cp']) OR empty($_POST['cp']))
-					array_push($labels, ['cp', '']);
+				if (!isset($_POST['zip_code']) OR empty($_POST['zip_code']))
+					array_push($labels, ['zip_code', '']);
 
 				if (!isset($_POST['city']) OR empty($_POST['city']))
 					array_push($labels, ['city', '']);
@@ -238,7 +238,7 @@ class Account_controller extends Controller
 				'{$logotype}' => !empty($account['logotype']) ? '{$path.uploads}' . $account['logotype'] : '{$path.images}empty.png',
 				'{$name}' => $account['name'],
 				'{$country}' => $account['country'],
-				'{$cp}' => $account['cp'],
+				'{$zip_code}' => $account['zip_code'],
 				'{$city}' => $account['city'],
 				'{$address}' => $account['address'],
 				'{$time_zone}' => $account['time_zone'],

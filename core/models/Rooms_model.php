@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-require "plugins/php-qr-code/qrlib.php";
+require 'plugins/php-qr-code/qrlib.php';
 
 class Rooms_model extends Model
 {
@@ -64,7 +64,7 @@ class Rooms_model extends Model
 				if ($exist <= 0)
 				{
 					$qr_dir = PATH_UPLOADS;
-					$qr_code = $this->security->random_string(8);
+					$qr_code = Functions::get_random_string(8);
 					$qr_filename = 'qr_' . $qr_code . '.png';
 					$qr_size = 5;
 					$qr_frame_size = 3;
@@ -98,7 +98,7 @@ class Rooms_model extends Model
 			if ($exist <= 0)
 			{
 				$qr_dir = PATH_UPLOADS;
-				$qr_code = $this->security->random_string(8);
+				$qr_code = Functions::get_random_string(8);
 				$qr_filename = 'qr_' . $qr_code . '.png';
 				$qr_size = 5;
 				$qr_frame_size = 3;

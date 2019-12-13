@@ -152,7 +152,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                 <h3>{$lang.and_start_free_demo}</h3>
                 <div class="steps">
                     <div class="step-buttons">
-                        <a class="view"><img src="{$path.images}icon-white.svg" alt="GuestVox Icon"></a>
+                        <a class="view"><img src="{$path.images}icon-white.svg" alt="GuestVox icontype"></a>
                         <a class="view" data-step="1">1</a>
                         <a data-step="2">2</a>
                         <a data-step="3">3</a>
@@ -166,12 +166,31 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                             <div class="span6">
                                 <div class="span9">
                                     <fieldset>
-                                        <input type="text" name="name" placeholder="{$lang.account_name}">
+                                        <input type="text" name="name" placeholder="{$lang.name}">
                                     </fieldset>
                                 </div>
                                 <div class="span3">
                                     <fieldset>
-                                        <input type="number" name="rooms_number" placeholder="{$lang.rooms}" min="1">
+                                        <select name="type">
+                                            <option value="" selected hidden>{$lang.type}</option>
+                                            <option value="hotel">{$lang.hotel}</option>
+                                            <option value="restaurant">{$lang.restaurant}</option>
+                                        </select>
+                                    </fieldset>
+                                </div>
+                                <div class="span3 hidden">
+                                    <fieldset>
+                                        <input type="number" name="rooms_number" placeholder="{$lang.n_rooms}" min="1">
+                                    </fieldset>
+                                </div>
+                                <div class="span3 hidden">
+                                    <fieldset>
+                                        <input type="number" name="tables_number" placeholder="{$lang.n_tables}" min="1">
+                                    </fieldset>
+                                </div>
+                                <div class="span4">
+                                    <fieldset>
+                                        <input type="text" name="zip_code" placeholder="{$lang.zip_code}">
                                     </fieldset>
                                 </div>
                                 <div class="span4">
@@ -180,11 +199,6 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                             <option value="" selected hidden>{$lang.country}</option>
                                             {$opt_countries}
                                         </select>
-                                    </fieldset>
-                                </div>
-                                <div class="span4">
-                                    <fieldset>
-                                        <input type="text" name="cp" placeholder="{$lang.cp}">
                                     </fieldset>
                                 </div>
                                 <div class="span4">
@@ -207,17 +221,17 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                 </div>
                                 <div class="span4">
                                     <fieldset>
-                                        <select name="language">
-                                            <option value="" selected hidden>{$lang.language}</option>
-                                            {$opt_languages}
+                                        <select name="currency">
+                                            <option value="" selected hidden>{$lang.currency}</option>
+                                            {$opt_currencies}
                                         </select>
                                     </fieldset>
                                 </div>
                                 <div class="span4">
                                     <fieldset>
-                                        <select name="currency">
-                                            <option value="" selected hidden>{$lang.currency}</option>
-                                            {$opt_currencies}
+                                        <select name="language">
+                                            <option value="" selected hidden>{$lang.language}</option>
+                                            {$opt_languages}
                                         </select>
                                     </fieldset>
                                 </div>
@@ -225,13 +239,27 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                     <div id="map" class="map"></div>
                                 </div> -->
                             </div>
-                            <div class="span3 hidden">
-                                <div class="package" id="room_package">
-                                    <span><i class="fas fa-bed"></i></span>
-                                    <h3><strong></strong> {$lang.rooms}</h3>
-                                    <h4><strong></strong> {$lang.per_month}</h4>
-                                    <p>*{$lang.no_charge_generated_demo}</p>
-                                </div>
+                            <div class="span3">
+                                <label>
+                                    <div class="package" id="operation">
+                                        <span><i class="fas fa-users"></i></span>
+                                        <h3>{$lang.solution_of} <span>{$lang.operation}</span></h3>
+                                        <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> {$lang.per_month}</h4>
+                                        <input type="checkbox" name="operation">
+                                        <p>* {$lang.no_charge_generated_demo}</p>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="span3">
+                                <label>
+                                    <div class="package" id="reputation">
+                                        <span><i class="fas fa-smile"></i></span>
+                                        <h3>{$lang.solution_of} <span>{$lang.reputation}</span></h3>
+                                        <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> {$lang.per_month}</h4>
+                                        <input type="checkbox" name="reputation">
+                                        <p>* {$lang.no_charge_generated_demo}</p>
+                                    </div>
+                                </label>
                             </div>
                         </div>
                         <a class="btn" data-action="go_to_step">{$lang.next}</a>
@@ -244,9 +272,9 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                 <div class="uploader">
                                     <fieldset>
                                         <figure>
-                                            <img src="{$path.images}empty.png" alt="Logotype" data-image-preview>
-                                            <a data-image-select><i class="fas fa-upload"></i></a>
-                                            <input type="file" name="logotype" accept="image/*" data-image-upload>
+                                            <img src="{$path.images}empty.png" alt="Account logotype">
+                                            <a><i class="fas fa-upload"></i></a>
+                                            <input type="file" name="logotype" accept="image/*">
                                         </figure>
                                     </fieldset>
                                 </div>
@@ -276,10 +304,15 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                 </div>
                                 <div class="span6">
                                     <fieldset>
-                                        <input type="text" name="contact_name" placeholder="{$lang.contact}">
+                                        <input type="text" name="contact_firstname" placeholder="{$lang.firstname}">
                                     </fieldset>
                                 </div>
                                 <div class="span6">
+                                    <fieldset>
+                                        <input type="text" name="contact_lastname" placeholder="{$lang.lastname}">
+                                    </fieldset>
+                                </div>
+                                <div class="span12">
                                     <fieldset>
                                         <input type="text" name="contact_department" placeholder="{$lang.department}">
                                     </fieldset>
@@ -358,11 +391,11 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                         <h2>{$lang.step_5}: {$lang.payment_information}</h2>
                         <div class="row">
                             <div class="span6">
-                                <div class="package" id="total_package">
+                                <div class="package" id="total">
                                     <span><i class="fas fa-credit-card"></i></span>
                                     <h3>{$lang.total}</h3>
-                                    <h4><strong></strong> {$lang.per_month}</h4>
-                                    <p>*{$lang.no_charge_generated_demo}</p>
+                                    <h4><span></span> {$lang.per_month}</h4>
+                                    <p>* {$lang.no_charge_generated_demo}</p>
                                 </div>
                                 <!-- <div class="payment">
                                     <fieldset>
@@ -406,7 +439,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                     <figure>
                                         <img src="{$path.images}check_color.png" alt="Check icon">
                                     </figure>
-                                    <p id="success_step_message"></p>
+                                    <p id="success"></p>
                                 </div>
                             </div>
                         </div>
@@ -425,7 +458,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
         <main>
             <form name="login">
                 <figure>
-                    <img src="{$path.images}icon-color.svg" alt="GuestVox icon">
+                    <img src="{$path.images}icon-color.svg" alt="GuestVox icontype">
                 </figure>
                 <fieldset>
                     <input type="text" name="username" placeholder="{$lang.username_or_email}" />
