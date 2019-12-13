@@ -1275,6 +1275,7 @@ section[data-modal="preview_survey_question"] > .content > main > article.subque
 section[data-modal="preview_survey_question"] > .content > main > article.subquestions > div {
     margin-bottom: 5px;
 }
+
 /* Account
 ------------------------------------------------------------------- */
 div.account {
@@ -1906,6 +1907,30 @@ section.modal[data-modal="error"] main > a {
     text-decoration: none;
     color: #fff;
     cursor: pointer;
+}
+
+section.modal main > div.maximum-exceeded {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+section.modal main > div.maximum-exceeded > i {
+    margin-bottom: 40px;
+    font-size: 100px;
+    font-weight: 400;
+    color: #757575;
+}
+
+section.modal main > div.maximum-exceeded > p {
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    color: #757575;
 }
 
 /* Ajax loader

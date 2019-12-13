@@ -29,6 +29,15 @@ class Rooms_model extends Model
 		return $query;
 	}
 
+	public function get_count_rooms()
+	{
+		$query = $this->database->count('rooms', [
+			'account' => Session::get_value('account')['id']
+		]);
+
+		return $query;
+	}
+
 	public function get_room($id)
 	{
 		$query = $this->database->select('rooms', [
@@ -59,25 +68,28 @@ class Rooms_model extends Model
 
 				if ($exist <= 0)
 				{
-					$qr_dir = PATH_UPLOADS;
-					$qr_code = Functions::get_random(8);
-					$qr_filename = 'qr_' . $qr_code . '.png';
-					$qr_size = 5;
-					$qr_frame_size = 3;
-					$qr_level = 'H';
-					$qr_content = 'https://' . Configuration::$domain . '/myvox/room/' . $qr_code;
+					if ($this->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end'])
+					{
+						$qr_dir = PATH_UPLOADS;
+						$qr_code = Functions::get_random(8);
+						$qr_filename = 'qr_' . $qr_code . '.png';
+						$qr_size = 5;
+						$qr_frame_size = 3;
+						$qr_level = 'H';
+						$qr_content = 'https://' . Configuration::$domain . '/myvox/room/' . $qr_code;
 
-					QRcode::png($qr_content, $qr_dir . $qr_filename, $qr_level, $qr_size, $qr_frame_size);
+						QRcode::png($qr_content, $qr_dir . $qr_filename, $qr_level, $qr_size, $qr_frame_size);
 
-					$qr_dir . basename($qr_filename);
+						$qr_dir . basename($qr_filename);
 
-					$query = $this->database->insert('rooms', [
-						'account' => Session::get_value('account')['id'],
-						'token' => strtoupper($qr_code),
-						'number' => $i,
-						'name' => null,
-						'qr' => $qr_filename
-					]);
+						$query = $this->database->insert('rooms', [
+							'account' => Session::get_value('account')['id'],
+							'token' => strtoupper($qr_code),
+							'number' => $i,
+							'name' => null,
+							'qr' => $qr_filename
+						]);
+					}
 				}
 			}
 		}
@@ -92,25 +104,28 @@ class Rooms_model extends Model
 
 			if ($exist <= 0)
 			{
-				$qr_dir = PATH_UPLOADS;
-				$qr_code = Functions::get_random(8);
-				$qr_filename = 'qr_' . $qr_code . '.png';
-				$qr_size = 5;
-				$qr_frame_size = 3;
-				$qr_level = 'H';
-				$qr_content = 'https://' . Configuration::$domain . '/myvox/room/' . $qr_code;
+				if ($this->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end'])
+				{
+					$qr_dir = PATH_UPLOADS;
+					$qr_code = Functions::get_random(8);
+					$qr_filename = 'qr_' . $qr_code . '.png';
+					$qr_size = 5;
+					$qr_frame_size = 3;
+					$qr_level = 'H';
+					$qr_content = 'https://' . Configuration::$domain . '/myvox/room/' . $qr_code;
 
-				QRcode::png($qr_content, $qr_dir . $qr_filename, $qr_level, $qr_size, $qr_frame_size);
+					QRcode::png($qr_content, $qr_dir . $qr_filename, $qr_level, $qr_size, $qr_frame_size);
 
-				$qr_dir . basename($qr_filename);
+					$qr_dir . basename($qr_filename);
 
-				$query = $this->database->insert('rooms', [
-                    'account' => Session::get_value('account')['id'],
-					'token' => strtoupper($qr_code),
-                    'number' => $data['number'],
-                    'name' => $data['name'],
-                    'qr' => $qr_filename
-				]);
+					$query = $this->database->insert('rooms', [
+	                    'account' => Session::get_value('account')['id'],
+						'token' => strtoupper($qr_code),
+	                    'number' => $data['number'],
+	                    'name' => $data['name'],
+	                    'qr' => $qr_filename
+					]);
+				}
 			}
 		}
 

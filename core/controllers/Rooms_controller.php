@@ -180,8 +180,139 @@ class Rooms_controller extends Controller
 				</tr>';
 			}
 
+			$mdl_new_room = '';
+
+			if (Functions::check_user_access(['{rooms_create}']) == true)
+			{
+				$mdl_new_room .=
+				'<section class="modal new" data-modal="new_room">
+				    <div class="content">
+				        <header>
+				            <h3>{$lang.new}</h3>
+				        </header>
+				        <main>';
+
+				if ($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end'])
+				{
+					$mdl_new_room .=
+					'<form name="new_room">
+		                <div class="row">
+		                    <div class="span12">
+		                        <div class="label">
+		                            <label>
+		                                <p>{$lang.type}</p>
+		                            </label>
+		                            <div class="checkboxes">
+		                                <div>
+		                    				<div>
+		                                        <div>
+		                        					<input type="radio" name="type" value="many" checked>
+		                        					<span>{$lang.many_rooms}</span>
+		                        				</div>
+		                                        <div>
+		                        					<input type="radio" name="type" value="one">
+		                        					<span>{$lang.one_room}</span>
+		                        				</div>
+		                                    </div>
+		                    			</div>
+		                            </div>
+		                        </div>
+		                    </div>
+		                    <div class="span6">
+		                        <div class="label">
+		                            <label>
+		                                <p>{$lang.since}</p>
+		                                <input type="number" name="since" />
+		                            </label>
+		                        </div>
+		                    </div>
+		                    <div class="span6">
+		                        <div class="label">
+		                            <label>
+		                                <p>{$lang.to}</p>
+		                                <input type="number" name="to" />
+		                            </label>
+		                        </div>
+		                    </div>
+		                    <div class="span12 hidden">
+		                        <div class="label">
+		                            <label>
+		                                <p>{$lang.number}</p>
+		                                <input type="number" name="number" />
+		                            </label>
+		                        </div>
+		                    </div>
+		                    <div class="span12 hidden">
+		                        <div class="label">
+		                            <label>
+		                                <p>{$lang.name}</p>
+		                                <input type="text" name="name" />
+		                            </label>
+		                        </div>
+		                    </div>
+		                </div>
+		            </form>';
+				}
+				else
+				{
+					$mdl_new_room .=
+					'<div class="maximum-exceeded">
+						<i class="far fa-frown"></i>
+						<p>{$lang.maximum_rooms_exceeded}</p>
+					</div>';
+				}
+
+				$mdl_new_room .=
+				'        </main>
+				        <footer>
+				            <div class="action-buttons">
+				                ' . (($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn btn-flat" button-cancel>{$lang.cancel}</button>' : '') . '
+				                ' . (($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn" button-success>{$lang.accept}</button>' : '') . '
+								' . (($this->model->get_count_rooms() >= Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.accept}</accept>' : '') . '
+				            </div>
+				        </footer>
+				    </div>
+				</section>';
+			}
+
+			$mdl_download_rooms = '';
+
+			if (Functions::check_user_access(['{rooms_create}']) == true AND Session::get_value('account')['zaviapms']['status'] == true)
+			{
+				$mdl_download_rooms .=
+				'<section class="modal" data-modal="download_rooms">
+				    <div class="content">
+				        <header>
+				            <h3>{$lang.download}</h3>
+				        </header>';
+
+				if ($this->model->get_count_rooms() >= Session::get_value('account')['room_package']['quantity_end'])
+				{
+					$mdl_download_rooms .=
+					'<main>
+						<div class="maximum-exceeded">
+							<i class="far fa-frown"></i>
+							<p>{$lang.maximum_rooms_exceeded}</p>
+						</div>
+					</main>';
+				}
+
+				$mdl_download_rooms .=
+				'        <footer>
+				            <div class="action-buttons">
+								' . (($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.cancel}</button>' : '') . '
+								' . (($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn" button-success>{$lang.accept}</button>' : '') . '
+								' . (($this->model->get_count_rooms() >= Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.accept}</accept>' : '') . '
+				            </div>
+				        </footer>
+				    </div>
+				</section>';
+			}
+
 			$replace = [
-				'{$tbl_rooms}' => $tbl_rooms
+				'{$tbl_rooms}' => $tbl_rooms,
+				'{$mdl_new_room}' => $mdl_new_room,
+				'{$mdl_download_rooms}' => $mdl_download_rooms
 			];
 
 			$template = $this->format->replace($replace, $template);
