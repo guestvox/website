@@ -212,6 +212,11 @@ class Index_model extends Model
 
 		$account = $this->database->id();
 
+		if ($data['type'] == 'hotel')
+			$administrator_user_permissions = '["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","13","14","15","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]';
+		else if ($data['type'] == 'restaurant')
+			$administrator_user_permissions = '["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","51","52","53","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]';
+
 		$this->database->insert('users', [
 			'account' => $account,
 			'firstname' => $data['firstname'],
@@ -224,7 +229,7 @@ class Index_model extends Model
 			'avatar' => null,
 			'username' => $data['username'],
 			'password' => $this->security->create_password($data['password']),
-			'user_permissions' => '["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","13","14","15","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]',
+			'user_permissions' => $administrator_user_permissions,
 			'opportunity_areas' => '[]',
 			'status' => false,
 		]);
@@ -252,7 +257,7 @@ class Index_model extends Model
 			[
 				'account' => $account,
 				'name' => $administrator,
-				'user_permissions' => '["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","13","14","15","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]',
+				'user_permissions' => $administrator_user_permissions,
 			],
 			[
 				'account' => $account,

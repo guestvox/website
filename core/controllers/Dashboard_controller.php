@@ -53,9 +53,15 @@ class Dashboard_controller extends Controller
 				}
 
 				$tbl_voxes_unresolve .=
-				'<tr class="' . $value['data']['readed'] . '" data-id="' . $value['id'] . '">
-					<td align="left" class="touchable">' . $value['data']['room'] . '</td>
-					<td align="left" class="touchable">' . $value['data']['guest_treatment'] . ' ' . $value['data']['firstname'] . ' ' . $value['data']['lastname'] . '</td>
+				'<tr class="' . $value['data']['readed'] . '" data-id="' . $value['id'] . '">';
+
+				if (Session::get_value('account')['type'] == 'hotel')
+					$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . $value['data']['room'] . '</td>';
+				else if (Session::get_value('account')['type'] == 'restaurant')
+					$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . $value['data']['table'] . '</td>';
+
+				$tbl_voxes_unresolve.=
+				'	<td align="left" class="touchable">' . $value['data']['guest_treatment'] . ' ' . $value['data']['firstname'] . ' ' . $value['data']['lastname'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['opportunity_area'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['opportunity_type'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['location'] . '</td>
@@ -95,7 +101,6 @@ class Dashboard_controller extends Controller
 	public function logout()
 	{
 		Session::destroy();
-
 		header("Location: /");
 	}
 }

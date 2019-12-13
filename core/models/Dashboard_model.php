@@ -57,7 +57,17 @@ class Dashboard_model extends Model
 			{
 				if (!isset($option) OR !empty($option))
 				{
-					$value['data']['room'] = $this->get_room($value['data']['room'])['name'];
+					if (Session::get_value('account')['type'] == 'hotel')
+					{
+						$value['data']['room'] = $this->get_room($value['data']['room']);
+						$value['data']['room'] = '#' . $value['data']['room']['number'] . (!empty($value['data']['room']['name']) ? ' - ' . $value['data']['room']['name'] : '');
+					}
+					else if (Session::get_value('account')['type'] == 'restaurant')
+					{
+						$value['data']['table'] = $this->get_table($value['data']['table']);
+						$value['data']['table'] = '#' . $value['data']['table']['number'] . (!empty($value['data']['table']['name']) ? ' - ' . $value['data']['table']['name'] : '');
+					}
+
 					$value['data']['opportunity_area'] = $this->get_opportunity_area($value['data']['opportunity_area'])['name'][Session::get_value('account')['language']];
 					$value['data']['opportunity_type'] = $this->get_opportunity_type($value['data']['opportunity_type'])['name'][Session::get_value('account')['language']];
 					$value['data']['location'] = $this->get_location($value['data']['location'])['name'][Session::get_value('account')['language']];
@@ -88,6 +98,19 @@ class Dashboard_model extends Model
 	public function get_room($id)
 	{
 		$query = $this->database->select('rooms', [
+			'number',
+			'name'
+		], [
+			'id' => $id
+		]);
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_table($id)
+	{
+		$query = $this->database->select('tables', [
+			'number',
 			'name'
 		], [
 			'id' => $id
