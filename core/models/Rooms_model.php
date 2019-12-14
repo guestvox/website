@@ -166,7 +166,7 @@ class Rooms_model extends Model
 			]);
 
 			if (!empty($query))
-				Functions::undoloader($deleted['qr'], PATH_UPLOADS);
+				Functions::undoloader($deleted['qr']);
 		}
 
 		return $query;

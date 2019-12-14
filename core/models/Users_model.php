@@ -130,34 +130,119 @@ class Users_model extends Model
 
     public function get_user_permissions($type)
     {
+		if (Functions::check_account_access(['operation','reputation'], true) == true)
+		{
+			if (Session::get_value('account')['type'] == 'hotel')
+			{
+				$where = [
+					'AND' => [
+						'type' => $type,
+						'operation' => true,
+						'reputation' => true,
+						'hotel' => true
+					],
+					'ORDER' => [
+						'group' => 'ASC',
+		                'priority' => 'ASC'
+					]
+				];
+			}
+			else if (Session::get_value('account')['type'] == 'restaurant')
+			{
+				$where = [
+					'AND' => [
+						'type' => $type,
+						'operation' => true,
+						'reputation' => true,
+						'restaurant' => true
+					],
+					'ORDER' => [
+						'group' => 'ASC',
+		                'priority' => 'ASC'
+					]
+				];
+			}
+		}
+		else if (Functions::check_account_access(['operation']) == true)
+		{
+			if (Session::get_value('account')['type'] == 'hotel')
+			{
+				$where = [
+					'AND' => [
+						'type' => $type,
+						'operation' => true,
+						'hotel' => true
+					],
+					'ORDER' => [
+						'group' => 'ASC',
+		                'priority' => 'ASC'
+					]
+				];
+			}
+			else if (Session::get_value('account')['type'] == 'restaurant')
+			{
+				$where = [
+					'AND' => [
+						'type' => $type,
+						'operation' => true,
+						'restaurant' => true
+					],
+					'ORDER' => [
+						'group' => 'ASC',
+		                'priority' => 'ASC'
+					]
+				];
+			}
+		}
+		else if (Functions::check_account_access(['reputation']) == true)
+		{
+			if (Session::get_value('account')['type'] == 'hotel')
+			{
+				$where = [
+					'AND' => [
+						'type' => $type,
+						'reputation' => true,
+						'hotel' => true
+					],
+					'ORDER' => [
+						'group' => 'ASC',
+		                'priority' => 'ASC'
+					]
+				];
+			}
+			else if (Session::get_value('account')['type'] == 'restaurant')
+			{
+				$where = [
+					'AND' => [
+						'type' => $type,
+						'reputation' => true,
+						'restaurant' => true
+					],
+					'ORDER' => [
+						'group' => 'ASC',
+		                'priority' => 'ASC'
+					]
+				];
+			}
+		}
+
         $query = Functions::get_json_decoded_query($this->database->select('user_permissions', [
 			'id',
 			'name',
-            'group',
             'code',
+            'group',
             'unique'
-		], [
-			'type' => $type,
-			'ORDER' => [
-				'group' => 'ASC',
-                'priority' => 'ASC'
-			]
-		]));
-
-		print_r($query);
+		], $where));
 
         $user_permissions = [];
 
-        // foreach ($query as $key => $value)
-        // {
-        //     if (Functions::check_account_access([$value['group'], $value['code']], true) == true)
-        //     {
-        //         if (array_key_exists($value['group'], $user_permissions))
-        //             array_push($user_permissions[$value['group']], $value);
-        //         else
-        //             $user_permissions[$value['group']] = [$value];
-        //     }
-        // }
+        foreach ($query as $key => $value)
+        {
+            if (array_key_exists($value['group'], $user_permissions))
+                array_push($user_permissions[$value['group']], $value);
+            else
+                $user_permissions[$value['group']] = [$value];
+        }
 
         return $user_permissions;
     }
