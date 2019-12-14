@@ -61,7 +61,7 @@ class Dashboard_controller extends Controller
 					$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . $value['data']['table'] . '</td>';
 
 				$tbl_voxes_unresolve.=
-				'	<td align="left" class="touchable">' . $value['data']['guest_treatment'] . ' ' . $value['data']['firstname'] . ' ' . $value['data']['lastname'] . '</td>
+				'	<td align="left" class="touchable">' . ((Session::get_value('account')['type'] == 'hotel') ? $value['data']['guest_treatment'] . ' ' : '') . $value['data']['firstname'] . ' ' . $value['data']['lastname'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['opportunity_area'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['opportunity_type'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['location'] . '</td>
@@ -90,7 +90,7 @@ class Dashboard_controller extends Controller
 			'{$voxes_unresolve_today}' => $voxes_unresolve_today,
 			'{$voxes_unresolve_week}' => $voxes_unresolve_week,
 			'{$voxes_unresolve_month}' => $voxes_unresolve_month,
-			'{$voxes_unresolve_total}' => $voxes_unresolve_total,
+			'{$voxes_unresolve_total}' => $voxes_unresolve_total
 		];
 
 		$template = $this->format->replace($replace, $template);
@@ -101,6 +101,7 @@ class Dashboard_controller extends Controller
 	public function logout()
 	{
 		Session::destroy();
+
 		header("Location: /");
 	}
 }

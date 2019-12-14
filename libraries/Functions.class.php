@@ -158,12 +158,13 @@ class Functions
                     'vox_reports',
                     'vox_stats',
                     'rooms',
+                    'tables',
                     'opportunity_areas',
                     'opportunity_types',
                     'locations',
-                    'reservation_statuses',
                     'guest_treatments',
                     'guest_types',
+                    'reservation_statuses',
                     '{view_confidentiality}',
                     '{view_all}',
                     '{view_own}',
@@ -185,23 +186,23 @@ class Functions
                     'user_levels',
                 ];
 
-                if (Session::get_value('account')['operation'] == true AND in_array($parameters[0], $oa))
-                    $access = true;
-
-                if (Session::get_value('account')['reputation'] == true AND in_array($parameters[0], $ra))
-                    $access = true;
-
-                if (in_array($parameters[0], $fa))
-                    $access = true;
-
-                if ($parameters[0] == 'view')
-                {
-                    if (Session::get_value('account')['operation'] == true AND in_array($parameters[1], $oa))
-                        $access = true;
-
-                    if (Session::get_value('account')['reputation'] == true AND in_array($parameters[1], $ra))
-                        $access = true;
-                }
+                // if (Session::get_value('account')['operation'] == true AND in_array($parameters[0], $oa))
+                //     $access = true;
+                //
+                // if (Session::get_value('account')['reputation'] == true AND in_array($parameters[0], $ra))
+                //     $access = true;
+                //
+                // if (in_array($parameters[0], $fa))
+                //     $access = true;
+                //
+                // if ($parameters[0] == 'view')
+                // {
+                //     if (Session::get_value('account')['operation'] == true AND in_array($parameters[1], $oa))
+                //         $access = true;
+                //
+                //     if (Session::get_value('account')['reputation'] == true AND in_array($parameters[1], $ra))
+                //         $access = true;
+                // }
             }
             else
             {

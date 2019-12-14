@@ -75,7 +75,7 @@ class Users_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_ladas()
+	public function get_countries()
 	{
 		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
 			'name',
@@ -135,7 +135,7 @@ class Users_model extends Model
 			'name',
             'group',
             'code',
-            'unique',
+            'unique'
 		], [
 			'type' => $type,
 			'ORDER' => [
@@ -144,18 +144,20 @@ class Users_model extends Model
 			]
 		]));
 
+		print_r($query);
+
         $user_permissions = [];
 
-        foreach ($query as $key => $value)
-        {
-            if (Functions::check_account_access([$value['group'], $value['code']], true) == true)
-            {
-                if (array_key_exists($value['group'], $user_permissions))
-                    array_push($user_permissions[$value['group']], $value);
-                else
-                    $user_permissions[$value['group']] = [$value];
-            }
-        }
+        // foreach ($query as $key => $value)
+        // {
+        //     if (Functions::check_account_access([$value['group'], $value['code']], true) == true)
+        //     {
+        //         if (array_key_exists($value['group'], $user_permissions))
+        //             array_push($user_permissions[$value['group']], $value);
+        //         else
+        //             $user_permissions[$value['group']] = [$value];
+        //     }
+        // }
 
         return $user_permissions;
     }

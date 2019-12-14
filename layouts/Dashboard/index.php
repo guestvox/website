@@ -33,7 +33,7 @@ $this->dependencies->add(['other', '<script>menu_focus("dashboard");</script>'])
                             <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
                             <th align="left">{$lang.abr_table}</th>
                             <?php endif; ?>
-                            <th align="left">{$lang.abr_client}</th>
+                            <th align="left">{$lang.abr_guest}</th>
                             <th align="left">{$lang.abr_opportunity_area}</th>
                             <th align="left">{$lang.abr_opportunity_type}</th>
                             <th align="left">{$lang.abr_location}</th>

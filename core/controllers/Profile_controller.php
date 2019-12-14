@@ -141,7 +141,7 @@ class Profile_controller extends Controller
 
 			$opt_ladas = '';
 
-			foreach ($this->model->get_ladas() as $value)
+			foreach ($this->model->get_countries() as $value)
 				$opt_ladas .= '<option value="' . $value['lada'] . '" ' . (($value['lada'] == $profile['phone']['lada']) ? 'selected' : '') . '>' . $value['name'][Session::get_value('account')['language']] . ' (+' . $value['lada'] . ')/option>';
 
 			$replace = [

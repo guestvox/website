@@ -169,14 +169,14 @@ class Users_controller extends Controller
 
 						Functions::environment([
 							'status' => 'success',
-							'message' => '{$lang.operation_success}',
+							'message' => '{$lang.operation_success}'
 						]);
 					}
 					else
 					{
 						Functions::environment([
 							'status' => 'error',
-							'message' => '{$lang.operation_error}',
+							'message' => '{$lang.operation_error}'
 						]);
 					}
 				}
@@ -259,14 +259,14 @@ class Users_controller extends Controller
 
 						Functions::environment([
 							'status' => 'success',
-							'message' => '{$lang.operation_success}',
+							'message' => '{$lang.operation_success}'
 						]);
 					}
 					else
 					{
 						Functions::environment([
 							'status' => 'error',
-							'message' => '{$lang.operation_error}',
+							'message' => '{$lang.operation_error}'
 						]);
 					}
 				}
@@ -287,14 +287,14 @@ class Users_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'success',
-						'message' => '{$lang.operation_success}',
+						'message' => '{$lang.operation_success}'
 					]);
 				}
 				else
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.operation_error}',
+						'message' => '{$lang.operation_error}'
 					]);
 				}
 			}
@@ -307,14 +307,14 @@ class Users_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'success',
-						'message' => '{$lang.operation_success}',
+						'message' => '{$lang.operation_success}'
 					]);
 				}
 				else
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.operation_error}',
+						'message' => '{$lang.operation_error}'
 					]);
 				}
 			}
@@ -327,14 +327,14 @@ class Users_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'success',
-						'message' => '{$lang.operation_success}',
+						'message' => '{$lang.operation_success}'
 					]);
 				}
 				else
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.operation_error}',
+						'message' => '{$lang.operation_error}'
 					]);
 				}
 			}
@@ -375,8 +375,8 @@ class Users_controller extends Controller
 
 			$opt_ladas = '';
 
-			foreach ($this->model->get_ladas() as $value)
-				$opt_ladas .= '<option value="' . $value['lada'] . '">' . $value['name'][Session::get_value('account')['language']] . ' (+' . $value['lada'] . ')/option>';
+			foreach ($this->model->get_countries() as $value)
+				$opt_ladas .= '<option value="' . $value['lada'] . '">' . $value['name'][Session::get_value('account')['language']] . ' (+' . $value['lada'] . ')</option>';
 
 			$opt_user_levels = '';
 

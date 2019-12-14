@@ -427,7 +427,7 @@ class Myvox_model extends Model
     {
 		if ($data['account']['type'] == 'hotel')
 		{
-			$data['client'] = [
+			$data['guest'] = [
 				'firstname' => $data['firstname'],
 				'lastname' => $data['lastname'],
 				'email' => $data['email'],
@@ -442,7 +442,7 @@ class Myvox_model extends Model
 		}
 		else if ($data['account']['type'] == 'restaurant')
 		{
-			$data['client'] = [
+			$data['guest'] = [
 				'firstname' => $data['firstname'],
 				'lastname' => $data['lastname'],
 				'email' => $data['email'],
@@ -460,7 +460,7 @@ class Myvox_model extends Model
 			'table' => ($data['account']['type'] == 'restaurant') ? $data['table'] : null,
 			'answers' => json_encode($data['answers']),
 			'comment' => $data['comment'],
-			'client' => json_encode($data['client']),
+			'guest' => json_encode($data['guest']),
 			'date' => Functions::get_current_date()
 		]);
 

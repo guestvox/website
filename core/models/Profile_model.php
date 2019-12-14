@@ -57,7 +57,7 @@ class Profile_model extends Model
 			return null;
 	}
 
-	public function get_ladas()
+	public function get_countries()
 	{
 		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
 			'name',

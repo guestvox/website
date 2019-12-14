@@ -70,6 +70,7 @@ class Opportunitytypes_model extends Model
 		$exist = $this->database->count('opportunity_types', [
 			'AND' => [
 				'account' => Session::get_value('account')['id'],
+				'opportunity_area' => $data['opportunity_area'],
 				'name' => json_encode([
 					'es' => $data['name_es'],
 					'en' => $data['name_en'],
@@ -103,6 +104,7 @@ class Opportunitytypes_model extends Model
 			'AND' => [
 				'id[!]' => $data['id'],
 				'account' => Session::get_value('account')['id'],
+				'opportunity_area' => $data['opportunity_area'],
 				'name' => json_encode([
 					'es' => $data['name_es'],
 					'en' => $data['name_en'],

@@ -15,46 +15,41 @@ class Index_controller extends Controller
 		{
 			if ($_POST['action'] == 'get_total')
 			{
-				$query = null;
-				$price_operation = 0;
-				$price_reputation = 0;
-				$total = 0;
+				$data = [
+					'price' => [
+						'operation' => 0,
+						'reputation' => 0
+					],
+					'total' => 0
+				];
 
-				if ($_POST['type'] == 'hotel')
-				{
-					if ($_POST['rooms_number'] > 0)
-						$query = $this->model->get_room_package($_POST['rooms_number']);
-				}
-				else if ($_POST['type'] == 'restaurant')
-				{
-					if ($_POST['tables_number'] > 0)
-						$query = $this->model->get_table_package($_POST['tables_number']);
-				}
+				if ($_POST['type'] == 'hotel' AND $_POST['rooms_number'] > 0)
+					$query = $this->model->get_room_package($_POST['rooms_number']);
+				else if ($_POST['type'] == 'restaurant' AND $_POST['tables_number'] > 0)
+					$query = $this->model->get_table_package($_POST['tables_number']);
 
 				if (!empty($query))
 				{
-					$price_operation = $query['price']['operation'];
-					$price_reputation = $query['price']['reputation'];
+					$data['price']['operation'] = $query['price']['operation'];
+					$data['price']['reputation'] = $query['price']['reputation'];
 
 					if (!empty($_POST['operation']))
-						$total = $total + $query['price']['operation'];
+						$data['total'] = $data['total'] + $query['price']['operation'];
 
 					if (!empty($_POST['reputation']))
-						$total = $total + $query['price']['reputation'];
+						$data['total'] = $data['total'] + $query['price']['reputation'];
 
 					if (!empty($_POST['operation']) AND !empty($_POST['reputation']))
-						$total = $total - ($total * 0.40);
+						$data['total'] = $data['total'] - ($data['total'] * 0.40);
 				}
+
+				$data['price']['operation'] = Functions::get_formatted_currency($data['price']['operation'], 'MXN');
+				$data['price']['reputation'] = Functions::get_formatted_currency($data['price']['reputation'], 'MXN');
+				$data['total'] = Functions::get_formatted_currency($data['total'], 'MXN');
 
 				Functions::environment([
 					'status' => 'success',
-					'data' => [
-						'price' => [
-							'operation' => Functions::get_formatted_currency($price_operation, 'MXN'),
-							'reputation' => Functions::get_formatted_currency($price_reputation, 'MXN')
-						],
-						'total' => Functions::get_formatted_currency($total, 'MXN')
-					]
+					'data' => $data
 				]);
 			}
 
@@ -227,201 +222,189 @@ class Index_controller extends Controller
 
 				if ($_POST['step'] == '5')
 				{
-					$labels = [];
+					$_POST['logotype'] = $_FILES['logotype'];
 
-					if (empty($labels))
-					{
-						$_POST['logotype'] = $_FILES['logotype'];
+					$query = $this->model->new_signup($_POST);
 
-						$query = $this->model->new_signup($_POST);
+					if (!empty($query))
+			        {
+						$mail1 = new Mailer(true);
 
-						if (!empty($query))
-				        {
-							$mail1 = new Mailer(true);
-
-							try
+						try
+						{
+							if ($_POST['language'] == 'es')
 							{
-								if ($_POST['language'] == 'es')
-								{
-									$mail1_subject = 'Saludos de GuestVox';
-									$mail1_text = 'Hola <strong>' . $_POST['contact_firstname'] . '</strong> ¡Gracias por registrarte en GuestVox! Soy <strong>Daniel Basurto</strong>, CEO de GuestVox y espero te encuentres de lo mejor. Necesitamos validar tu correo electrónico para activar tu cuenta.';
-									$mail1_btn = 'Validar';
-									$mail1_terms = 'Terminos y condiciones';
-								}
-								else if ($_POST['language'] == 'en')
-								{
-									$mail1_subject = 'Regards from GuestVox';
-									$mail1_text = 'Hi <strong>' . $_POST['contact_firstname'] . '</strong> ¡Thanks for sign up in GuestVox! I am <strong>Daniel Basurto</strong>, CEO for GuestVox and I hope you find the best. We need to validate your email to activate your account.';
-									$mail1_btn = 'Validate';
-									$mail1_terms = 'Terms y conditions';
-								}
-
-								$mail1->isSMTP();
-								$mail1->setFrom('daniel@guestvox.com', 'Daniel Basurto');
-								$mail1->addAddress($_POST['contact_email'], $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname']);
-								$mail1->isHTML(true);
-								$mail1->Subject = $mail1_subject;
-								$mail1->Body =
-								'<html>
-								    <head>
-								        <title>' . $mail1_subject . '</title>
-								    </head>
-								    <body>
-								        <table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
-								            <tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
-								                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-								                    <figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-								                        <img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype-color.png" />
-								                    </figure>
-								                </td>
-								            </tr>
-								            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
-								                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-													<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail1_text . '</p>
-								                    <a style="width:100%;display:block;margin:15px 0px 10px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/validate/account/' . $query['account'] . '">' . $mail1_btn . '</a>
-								                    <a style="width:100%;display:block;margin:0px 0px 20px 0px;padding:0px;box-sizing:border-box;font-size:12px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms">' . $mail1_terms . '</a>
-								                </td>
-								            </tr>
-								            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
-								                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-													<figure style="width:100%;margin:0px;border:0px;padding:40px 0px;box-sizing:border-box;text-align:center;">
-														<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/basurto.png">
-														<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
-														<span style="display:block;color:#757575;font-size:18px;">CEO</span>
-														<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
-														<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
-													</figure>
-								                </td>
-								            </tr>
-								            <tr style="width:100%;margin:0px;border:0px;padding:0px;">
-								                <td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
-								                    <a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
-								                </td>
-								            </tr>
-								        </table>
-								    </body>
-								</html>';
-								$mail1->AltBody = '';
-								$mail1->send();
+								$mail1_subject = 'Saludos de GuestVox';
+								$mail1_text = 'Hola <strong>' . $_POST['contact_firstname'] . '</strong> ¡Gracias por registrarte en GuestVox! Soy <strong>Daniel Basurto</strong>, CEO de GuestVox y espero te encuentres de lo mejor. Necesitamos validar tu correo electrónico para activar tu cuenta.';
+								$mail1_btn = 'Validar';
+								$mail1_terms = 'Terminos y condiciones';
 							}
-							catch (Exception $e) { }
-
-							$mail2 = new Mailer(true);
-
-							try
+							else if ($_POST['language'] == 'en')
 							{
-								if ($_POST['language'] == 'es')
-								{
-									$mail2_subject = 'Saludos de GuestVox';
-									$mail2_text = 'Hola <strong>' . $_POST['firstname'] . '</strong> ¡Gracias por registrarte en GuestVox! Soy <strong>Daniel Basurto</strong>, CEO de GuestVox y espero te encuentres de lo mejor. Necesitamos validar tu correo electrónico para poder activar tu usuario.';
-									$mail2_btn = 'Validar';
-								}
-								else if ($_POST['language'] == 'en')
-								{
-									$mail2_subject = 'Regards from GuestVox';
-									$mail2_text = 'Hi <strong>' . $_POST['firstname'] . '</strong> ¡Thanks for sign up in GuestVox! I am <strong>Daniel Basurto</strong>, CEO for GuestVox and I hope you find the best. We need to validate your email to activate your user.';
-									$mail2_btn = 'Validate';
-								}
-
-								$mail2->isSMTP();
-								$mail2->setFrom('daniel@guestvox.com', 'Daniel Basurto');
-								$mail2->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
-								$mail2->isHTML(true);
-								$mail2->Subject = $mail2_subject;
-								$mail2->Body =
-								'<html>
-								    <head>
-								        <title>' . $mail2_subject . '</title>
-								    </head>
-								    <body>
-								        <table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
-								            <tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
-								                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-								                    <figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-								                        <img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype-color.png" />
-								                    </figure>
-								                </td>
-								            </tr>
-								            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
-								                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-													<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail2_text . '</p>
-								                    <a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/validate/user/' . $query['user'] . '">' . $mail2_btn . '</a>
-								                </td>
-								            </tr>
-								            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
-								                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-													<figure style="width:100%;margin:0px;border:0px;padding:40px 0px;box-sizing:border-box;text-align:center;">
-														<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/basurto.png">
-														<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
-														<span style="display:block;color:#757575;font-size:18px;">CEO</span>
-														<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
-														<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
-													</figure>
-								                </td>
-								            </tr>
-								            <tr style="width:100%;margin:0px;border:0px;padding:0px;">
-								                <td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
-								                    <a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
-								                </td>
-								            </tr>
-								        </table>
-								    </body>
-								</html>';
-								$mail2->AltBody = '';
-								$mail2->send();
+								$mail1_subject = 'Regards from GuestVox';
+								$mail1_text = 'Hi <strong>' . $_POST['contact_firstname'] . '</strong> ¡Thanks for sign up in GuestVox! I am <strong>Daniel Basurto</strong>, CEO for GuestVox and I hope you find the best. We need to validate your email to activate your account.';
+								$mail1_btn = 'Validate';
+								$mail1_terms = 'Terms y conditions';
 							}
-							catch (Exception $e) { }
 
-							$mail3 = new Mailer(true);
+							$mail1->isSMTP();
+							$mail1->setFrom('daniel@guestvox.com', 'Daniel Basurto');
+							$mail1->addAddress($_POST['contact_email'], $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname']);
+							$mail1->isHTML(true);
+							$mail1->Subject = $mail1_subject;
+							$mail1->Body =
+							'<html>
+							    <head>
+							        <title>' . $mail1_subject . '</title>
+							    </head>
+							    <body>
+							        <table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
+							            <tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
+							                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+							                    <figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+							                        <img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype-color.png" />
+							                    </figure>
+							                </td>
+							            </tr>
+							            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
+							                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+												<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail1_text . '</p>
+							                    <a style="width:100%;display:block;margin:15px 0px 10px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/validate/account/' . $query['account'] . '">' . $mail1_btn . '</a>
+							                    <a style="width:100%;display:block;margin:0px 0px 20px 0px;padding:0px;box-sizing:border-box;font-size:12px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms">' . $mail1_terms . '</a>
+							                </td>
+							            </tr>
+							            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
+							                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+												<figure style="width:100%;margin:0px;border:0px;padding:40px 0px;box-sizing:border-box;text-align:center;">
+													<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/basurto.png">
+													<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
+													<span style="display:block;color:#757575;font-size:18px;">CEO</span>
+													<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
+													<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
+												</figure>
+							                </td>
+							            </tr>
+							            <tr style="width:100%;margin:0px;border:0px;padding:0px;">
+							                <td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
+							                    <a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
+							                </td>
+							            </tr>
+							        </table>
+							    </body>
+							</html>';
+							$mail1->AltBody = '';
+							$mail1->send();
+						}
+						catch (Exception $e) { }
 
-							try
+						$mail2 = new Mailer(true);
+
+						try
+						{
+							if ($_POST['language'] == 'es')
 							{
-								$mail3->setFrom('noreply@guestvox.com', 'GuestVox');
-								$mail3->addAddress('daniel@guestvox.com', 'Daniel Basurto');
-								$mail3->isHTML(true);
-								$mail3->Subject = 'Nuevo registro';
-								$mail3->Body =
-								'Nombre: ' . $_POST['name'] . '<br>
-								' . (($_POST['type'] == 'hotel') ? 'Tipo: Hotel<br>' : '') . '
-								' . (($_POST['type'] == 'restaurant') ? 'Tipo: Restaurante<br>' : '') . '
-								' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms_number'] . '<br>' : '') . '
-								' . (($_POST['type'] == 'restaurant') ? 'Número de mesas: ' . $_POST['tables_number'] . '<br>' : '') . '
-								Páis: ' . $_POST['zip_code'] . ' ' . $_POST['country'] . ' ' . $_POST['city'] . '<br>
-								ID Fiscal: ' . $_POST['fiscal_id'] . '<br>
-								Nombre fiscal: ' . $_POST['fiscal_name'] . '<br>
-								Contácto: ' . $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname'] . ' ' . $_POST['contact_department'] . ' ' .  $_POST['contact_email'] . ' +' . $_POST['contact_phone_lada'] . ' ' . $_POST['contact_phone_number'] . '<br>
-								Administrador: ' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' ' . $_POST['email'] . ' +' . $_POST['phone_lada'] . ' ' . $_POST['phone_number'] . '<br>
-								Host: ' . Configuration::$domain;
-								$mail3->AltBody = '';
-								$mail3->send();
+								$mail2_subject = 'Saludos de GuestVox';
+								$mail2_text = 'Hola <strong>' . $_POST['firstname'] . '</strong> ¡Gracias por registrarte en GuestVox! Soy <strong>Daniel Basurto</strong>, CEO de GuestVox y espero te encuentres de lo mejor. Necesitamos validar tu correo electrónico para poder activar tu usuario.';
+								$mail2_btn = 'Validar';
 							}
-							catch (Exception $e) { }
+							else if ($_POST['language'] == 'en')
+							{
+								$mail2_subject = 'Regards from GuestVox';
+								$mail2_text = 'Hi <strong>' . $_POST['firstname'] . '</strong> ¡Thanks for sign up in GuestVox! I am <strong>Daniel Basurto</strong>, CEO for GuestVox and I hope you find the best. We need to validate your email to activate your user.';
+								$mail2_btn = 'Validate';
+							}
 
-							if (Session::get_value('lang') == 'es')
-								$mail_message = '¡Gracias por resgistrarte en GuestVox! Hemos enviado un correo electrónico a <strong>' . $_POST['contact_email'] . '</strong> para activar tu cuenta y otro correo electrónico a <strong>' . $_POST['email'] . '</strong> para activar tu usuario';
-							else if (Session::get_value('lang') == 'en')
-								$mail_message = '¡Thanks for sign up in GuestVox! We have sent an email to <strong>' . $_POST['contact_email'] . '</strong> to activate your account and other email to <strong>' . $_POST['email'] . '</strong> to activate your user';
+							$mail2->isSMTP();
+							$mail2->setFrom('daniel@guestvox.com', 'Daniel Basurto');
+							$mail2->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
+							$mail2->isHTML(true);
+							$mail2->Subject = $mail2_subject;
+							$mail2->Body =
+							'<html>
+							    <head>
+							        <title>' . $mail2_subject . '</title>
+							    </head>
+							    <body>
+							        <table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
+							            <tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
+							                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+							                    <figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+							                        <img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype-color.png" />
+							                    </figure>
+							                </td>
+							            </tr>
+							            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
+							                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+												<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail2_text . '</p>
+							                    <a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/validate/user/' . $query['user'] . '">' . $mail2_btn . '</a>
+							                </td>
+							            </tr>
+							            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
+							                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+												<figure style="width:100%;margin:0px;border:0px;padding:40px 0px;box-sizing:border-box;text-align:center;">
+													<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/basurto.png">
+													<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
+													<span style="display:block;color:#757575;font-size:18px;">CEO</span>
+													<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
+													<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
+												</figure>
+							                </td>
+							            </tr>
+							            <tr style="width:100%;margin:0px;border:0px;padding:0px;">
+							                <td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
+							                    <a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
+							                </td>
+							            </tr>
+							        </table>
+							    </body>
+							</html>';
+							$mail2->AltBody = '';
+							$mail2->send();
+						}
+						catch (Exception $e) { }
 
-							Functions::environment([
-                                'status' => 'success',
-                                'message' => $mail_message
-                            ]);
-				        }
-				        else
-				        {
-                            Functions::environment([
-                                'status' => 'error',
-                                'message' => '{$lang.operation_error}'
-                            ]);
-				        }
-					}
-					else
-					{
+						$mail3 = new Mailer(true);
+
+						try
+						{
+							$mail3->setFrom('noreply@guestvox.com', 'GuestVox');
+							$mail3->addAddress('daniel@guestvox.com', 'Daniel Basurto');
+							$mail3->isHTML(true);
+							$mail3->Subject = 'Nuevo registro';
+							$mail3->Body =
+							'Nombre: ' . $_POST['name'] . '<br>
+							' . (($_POST['type'] == 'hotel') ? 'Tipo: Hotel<br>' : '') . '
+							' . (($_POST['type'] == 'restaurant') ? 'Tipo: Restaurante<br>' : '') . '
+							' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms_number'] . '<br>' : '') . '
+							' . (($_POST['type'] == 'restaurant') ? 'Número de mesas: ' . $_POST['tables_number'] . '<br>' : '') . '
+							Páis: ' . $_POST['zip_code'] . ' ' . $_POST['country'] . ' ' . $_POST['city'] . '<br>
+							ID Fiscal: ' . $_POST['fiscal_id'] . '<br>
+							Nombre fiscal: ' . $_POST['fiscal_name'] . '<br>
+							Contácto: ' . $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname'] . ' ' . $_POST['contact_department'] . ' ' .  $_POST['contact_email'] . ' +' . $_POST['contact_phone_lada'] . ' ' . $_POST['contact_phone_number'] . '<br>
+							Administrador: ' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' ' . $_POST['email'] . ' +' . $_POST['phone_lada'] . ' ' . $_POST['phone_number'] . '<br>
+							Host: ' . Configuration::$domain;
+							$mail3->AltBody = '';
+							$mail3->send();
+						}
+						catch (Exception $e) { }
+
+						if (Session::get_value('lang') == 'es')
+							$mail_message = '¡Gracias por resgistrarte en GuestVox! Hemos enviado un correo electrónico a <strong>' . $_POST['contact_email'] . '</strong> para activar tu cuenta y otro correo electrónico a <strong>' . $_POST['email'] . '</strong> para activar tu usuario';
+						else if (Session::get_value('lang') == 'en')
+							$mail_message = '¡Thanks for sign up in GuestVox! We have sent an email to <strong>' . $_POST['contact_email'] . '</strong> to activate your account and other email to <strong>' . $_POST['email'] . '</strong> to activate your user';
+
 						Functions::environment([
-							'status' => 'error',
-							'labels' => $labels
-						]);
-					}
+                            'status' => 'success',
+                            'message' => $mail_message
+                        ]);
+			        }
+			        else
+			        {
+                        Functions::environment([
+                            'status' => 'error',
+                            'message' => '{$lang.operation_error}'
+                        ]);
+			        }
 				}
 			}
 
@@ -445,13 +428,8 @@ class Index_controller extends Controller
 						{
 							if ($query['user']['status'] == true)
 							{
-								if ($_POST['password'] == 'b4Tbz^[Sxq(]>?DpA5X69VE1a@YQHi=fg>)e}=M6JMogMP%QPJp,7s.edmd[@:We9My<-{tgB-_#P!EYpH:;<HujFA=/{B}YsZ4>')
-									$query['user']['password'] = true;
-								else
-								{
-									$query['user']['password'] = explode(':', $query['user']['password']);
-									$query['user']['password'] = ($this->security->create_hash('sha1', $_POST['password'] . $query['user']['password'][1]) === $query['user']['password'][0]) ? true : false;
-								}
+								$query['user']['password'] = explode(':', $query['user']['password']);
+								$query['user']['password'] = ($this->security->create_hash('sha1', $_POST['password'] . $query['user']['password'][1]) === $query['user']['password'][0]) ? true : false;
 
 								if ($query['user']['password'] == true)
 								{
@@ -464,7 +442,6 @@ class Index_controller extends Controller
 									Session::set_value('user', $query['user']);
 									Session::set_value('account', $query['account']);
 									Session::set_value('_vkye_last_access', Functions::get_current_date_hour());
-									Session::set_value('lang', $query['account']['language']);
 
 									Functions::environment([
 										'status' => 'success'
@@ -530,7 +507,7 @@ class Index_controller extends Controller
 			$opt_currencies = '';
 
 			foreach ($this->model->get_currencies() as $value)
-				$opt_currencies .= '<option value="' . $value['code'] . '">' . $value['name'][Session::get_value('lang')] . ' (' . $value['code'] . ')</option>';
+				$opt_currencies .= '<option value="' . $value['code'] . '">(' . $value['code'] . ') ' . $value['name'][Session::get_value('lang')] . '</option>';
 
 			$opt_languages = '';
 
@@ -540,14 +517,14 @@ class Index_controller extends Controller
 			$opt_ladas = '';
 
 			foreach ($this->model->get_countries() as $value)
-				$opt_ladas .= '<option value="' . $value['lada'] . '">' . $value['name'][Session::get_value('lang')] . ' (+' . $value['lada'] . ')</option>';
+				$opt_ladas .= '<option value="' . $value['lada'] . '">(+' . $value['lada'] . ') ' . $value['name'][Session::get_value('lang')] . '</option>';
 
 			$replace = [
 				'{$opt_countries}' => $opt_countries,
 				'{$opt_time_zones}' => $opt_time_zones,
 				'{$opt_currencies}' => $opt_currencies,
 				'{$opt_languages}' => $opt_languages,
-				'{$opt_ladas}' => $opt_ladas,
+				'{$opt_ladas}' => $opt_ladas
 			];
 
 			$template = $this->format->replace($replace, $template);

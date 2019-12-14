@@ -70,24 +70,20 @@ class Tables_model extends Model
 				{
 					if ($this->get_count_tables() < Session::get_value('account')['table_package']['quantity_end'])
 					{
-						$qr_dir = PATH_UPLOADS;
-						$qr_code = Functions::get_random(8);
-						$qr_filename = 'qr_' . $qr_code . '.png';
-						$qr_size = 5;
-						$qr_frame_size = 3;
-						$qr_level = 'H';
-						$qr_content = 'https://' . Configuration::$domain . '/myvox/table/' . $qr_code;
-
-						QRcode::png($qr_content, $qr_dir . $qr_filename, $qr_level, $qr_size, $qr_frame_size);
-
-						$qr_dir . basename($qr_filename);
+						$data['token'] = Functions::get_random(8);
+						$data['qr']['filename'] = 'qr_table_' . $data['token'] . '.png';
+						$data['qr']['content'] = 'https://' . Configuration::$domain . '/myvox/table/' . $data['token'];
+						$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
+						$data['qr']['level'] = 'H';
+						$data['qr']['size'] = 5;
+						$data['qr']['frame'] = 3;
 
 						$query = $this->database->insert('tables', [
 							'account' => Session::get_value('account')['id'],
-							'token' => strtoupper($qr_code),
+							'token' => strtoupper($data['token']),
 							'number' => $i,
 							'name' => null,
-							'qr' => $qr_filename
+							'qr' => $data['qr']['filename']
 						]);
 					}
 				}
@@ -106,25 +102,23 @@ class Tables_model extends Model
 			{
 				if ($this->get_count_tables() < Session::get_value('account')['table_package']['quantity_end'])
 				{
-					$qr_dir = PATH_UPLOADS;
-					$qr_code = Functions::get_random(8);
-					$qr_filename = 'qr_' . $qr_code . '.png';
-					$qr_size = 5;
-					$qr_frame_size = 3;
-					$qr_level = 'H';
-					$qr_content = 'https://' . Configuration::$domain . '/myvox/table/' . $qr_code;
-
-					QRcode::png($qr_content, $qr_dir . $qr_filename, $qr_level, $qr_size, $qr_frame_size);
-
-					$qr_dir . basename($qr_filename);
+					$data['token'] = Functions::get_random(8);
+					$data['qr']['filename'] = 'qr_table_' . $data['token'] . '.png';
+					$data['qr']['content'] = 'https://' . Configuration::$domain . '/myvox/table/' . $data['token'];
+					$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
+					$data['qr']['level'] = 'H';
+					$data['qr']['size'] = 5;
+					$data['qr']['frame'] = 3;
 
 					$query = $this->database->insert('tables', [
 	                    'account' => Session::get_value('account')['id'],
-						'token' => strtoupper($qr_code),
+						'token' => strtoupper($data['token']),
 	                    'number' => $data['number'],
 	                    'name' => $data['name'],
-	                    'qr' => $qr_filename
+	                    'qr' => $data['qr']['filename']
 					]);
+
+					QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
 				}
 			}
 		}

@@ -61,6 +61,7 @@ class Dashboard_model extends Model
 					{
 						$value['data']['room'] = $this->get_room($value['data']['room']);
 						$value['data']['room'] = '#' . $value['data']['room']['number'] . (!empty($value['data']['room']['name']) ? ' - ' . $value['data']['room']['name'] : '');
+						$value['data']['guest_treatment'] = $this->get_guest_treatment($value['data']['guest_treatment'])['name'];
 					}
 					else if (Session::get_value('account')['type'] == 'restaurant')
 					{
@@ -71,7 +72,6 @@ class Dashboard_model extends Model
 					$value['data']['opportunity_area'] = $this->get_opportunity_area($value['data']['opportunity_area'])['name'][Session::get_value('account')['language']];
 					$value['data']['opportunity_type'] = $this->get_opportunity_type($value['data']['opportunity_type'])['name'][Session::get_value('account')['language']];
 					$value['data']['location'] = $this->get_location($value['data']['location'])['name'][Session::get_value('account')['language']];
-					$value['data']['guest_treatment'] = $this->get_guest_treatment($value['data']['guest_treatment'])['name'];
 
 					if (!empty($value['data']['comments']))
 					{

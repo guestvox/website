@@ -78,16 +78,27 @@ class Index_model extends Model
 
 	public function get_languages()
 	{
-		$query = $this->database->select('languages', [
+		$query1 = $this->database->select('languages', [
 			'name',
 			'code'
 		], [
+			'priority[>=]' => 1,
 			'ORDER' => [
 				'priority' => 'ASC'
 			]
 		]);
 
-		return $query;
+		$query2 = $this->database->select('languages', [
+			'name',
+			'code'
+		], [
+			'priority[=]' => null,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]);
+
+		return array_merge($query1, $query2);
 	}
 
 	public function get_room_package($rooms_number)
@@ -142,20 +153,16 @@ class Index_model extends Model
 
 	public function new_signup($data)
 	{
-		$qr_dir = PATH_UPLOADS;
-		$qr_code = Functions::get_random(8);
-		$qr_filename = 'qr_' . $qr_code . '.png';
-		$qr_size = 5;
-		$qr_frame_size = 3;
-		$qr_level = 'H';
-		$qr_content = 'https://' . Configuration::$domain . '/myvox/account/' . $qr_code;
-
-		QRcode::png($qr_content, $qr_dir . $qr_filename, $qr_level, $qr_size, $qr_frame_size);
-
-		$qr_dir . basename($qr_filename);
+		$data['token'] = Functions::get_random(8);
+		$data['qr']['filename'] = 'qr_account_' . $data['token'] . '.png';
+		$data['qr']['content'] = 'https://' . Configuration::$domain . '/myvox/account/' . $data['token'];
+		$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
+		$data['qr']['level'] = 'H';
+		$data['qr']['size'] = 5;
+		$data['qr']['frame'] = 3;
 
 		$this->database->insert('accounts', [
-			'token' => strtoupper($qr_code),
+			'token' => strtoupper($data['token']),
 			'name' => $data['name'],
 			'type' => $data['type'],
 			'zip_code' => $data['zip_code'],
@@ -186,7 +193,7 @@ class Index_model extends Model
 			'payment' => json_encode([
 				'type' => 'demo'
 			]),
-			'qr' => $qr_filename,
+			'qr' => $data['qr']['filename'],
 			'operation' => !empty($data['operation']) ? true : false,
 			'reputation' => !empty($data['reputation']) ? true : false,
 			'zaviapms' => json_encode([
@@ -210,12 +217,205 @@ class Index_model extends Model
 			'status' => false
 		]);
 
+		QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
+
 		$account = $this->database->id();
 
 		if ($data['type'] == 'hotel')
-			$administrator_user_permissions = '["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","13","14","15","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]';
+		{
+			$data['guest_treatments'] = [
+				'es' => [
+					'Sr.',
+					'Sra.',
+					'Srita.'
+				],
+				'en' => [
+					'Mr.',
+					'Miss.',
+					'Mrs.'
+				]
+			];
+
+			$this->database->insert('guest_treatments', [
+				[
+					'account' => $account,
+					'name' => $data['guest_treatments'][$data['language']][0]
+				],
+				[
+					'account' => $account,
+					'name' => $data['guest_treatments'][$data['language']][1]
+				],
+				[
+					'account' => $account,
+					'name' => $data['guest_treatments'][$data['language']][2]
+				]
+			]);
+
+			$data['guest_types'] = [
+				'es' => [
+					'Club vacacional',
+					'Day pass',
+					'Externo',
+					'Gold',
+					'Platinium',
+					'Regular',
+					'VIP'
+				],
+				'en' => [
+					'Vacational club',
+					'Day pass',
+					'External',
+					'Gold',
+					'Platinium',
+					'Regular',
+					'VIP'
+				]
+			];
+
+			$this->database->insert('guest_types', [
+				[
+					'account' => $account,
+					'name' => $data['guest_types'][$data['language']][0]
+				],
+				[
+					'account' => $account,
+					'name' => $data['guest_types'][$data['language']][1]
+				],
+				[
+					'account' => $account,
+					'name' => $data['guest_types'][$data['language']][2]
+				],
+				[
+					'account' => $account,
+					'name' => $data['guest_types'][$data['language']][3]
+				],
+				[
+					'account' => $account,
+					'name' => $data['guest_types'][$data['language']][4]
+				],
+				[
+					'account' => $account,
+					'name' => $data['guest_types'][$data['language']][5]
+				],
+				[
+					'account' => $account,
+					'name' => $data['guest_types'][$data['language']][6]
+				]
+			]);
+
+			$data['reservation_statuses'] = [
+				'es' => [
+					'En casa',
+					'Fuera de casa',
+					'Pre llegada',
+					'Llegada',
+					'Pre salida',
+					'Salida'
+				],
+				'en' => [
+					'In house',
+					'Outside of house',
+					'Pre arrival',
+					'Arrival',
+					'Pre departure',
+					'Departure'
+				]
+			];
+
+			$this->database->insert('reservation_statuses', [
+				[
+					'account' => $account,
+					'name' => $data['reservation_statuses'][$data['language']][0]
+				],
+				[
+					'account' => $account,
+					'name' => $data['reservation_statuses'][$data['language']][1]
+				],
+				[
+					'account' => $account,
+					'name' => $data['reservation_statuses'][$data['language']][2]
+				],
+				[
+					'account' => $account,
+					'name' => $data['reservation_statuses'][$data['language']][3]
+				],
+				[
+					'account' => $account,
+					'name' => $data['reservation_statuses'][$data['language']][4]
+				],
+				[
+					'account' => $account,
+					'name' => $data['reservation_statuses'][$data['language']][5]
+				]
+			]);
+		}
+
+		$data['user_permissions'] = [
+			'es' => [
+				'Administrador',
+				'Director',
+				'Gerente',
+				'Supervisor',
+				'Operador'
+			],
+			'en' => [
+				'Administrator',
+				'Director',
+				'Manager',
+				'Supervisor',
+				'Operator'
+			],
+			'ids' => []
+		];
+
+		if ($data['type'] == 'hotel')
+		{
+			$data['user_permissions']['ids'] = [
+				'["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","13","14","15","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]',
+				'["46","47","25","39","41","38","26","1","2","3"]',
+				'["46","47","25","39","41","38","28","1","2","3"]',
+				'["46","47","39","41","38","28","1","2","3"]',
+				'["27","1","2","3"]'
+			];
+		}
 		else if ($data['type'] == 'restaurant')
-			$administrator_user_permissions = '["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","51","52","53","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]';
+		{
+			$data['user_permissions']['ids'] = [
+				'["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","51","52","53","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]',
+				'["46","47","25","39","41","38","26","1","2","3"]',
+				'["46","47","25","39","41","38","28","1","2","3"]',
+				'["46","47","39","41","38","28","1","2","3"]',
+				'["27","1","2","3"]'
+			];
+		}
+
+		$this->database->insert('user_levels', [
+			[
+				'account' => $account,
+				'name' => $data['user_permissions'][$data['language']][0],
+				'user_permissions' => $data['user_permissions']['ids'][0]
+			],
+			[
+				'account' => $account,
+				'name' => $data['user_permissions'][$data['language']][1],
+				'user_permissions' => $data['user_permissions']['ids'][1]
+			],
+			[
+				'account' => $account,
+				'name' => $data['user_permissions'][$data['language']][2],
+				'user_permissions' => $data['user_permissions']['ids'][2]
+			],
+			[
+				'account' => $account,
+				'name' => $data['user_permissions'][$data['language']][3],
+				'user_permissions' => $data['user_permissions']['ids'][3]
+			],
+			[
+				'account' => $account,
+				'name' => $data['user_permissions'][$data['language']][4],
+				'user_permissions' => $data['user_permissions']['ids'][4]
+			]
+		]);
 
 		$this->database->insert('users', [
 			'account' => $account,
@@ -229,187 +429,16 @@ class Index_model extends Model
 			'avatar' => null,
 			'username' => $data['username'],
 			'password' => $this->security->create_password($data['password']),
-			'user_permissions' => $administrator_user_permissions,
-			'opportunity_areas' => '[]',
-			'status' => false,
+			'user_permissions' => $data['user_permissions']['ids'][0],
+			'opportunity_areas' => json_encode([]),
+			'status' => false
 		]);
 
 		$user = $this->database->id();
 
-		if ($data['language'] == 'es')
-		{
-			$administrator = 'Administrador';
-			$director = 'Director';
-			$manager = 'Gerente';
-			$supervisor = 'Supervisor';
-			$operator = 'Operador';
-		}
-		else if ($data['language'] == 'en')
-		{
-			$administrator = 'Administrator';
-			$director = 'Director';
-			$manager = 'Manager';
-			$supervisor = 'Supervisor';
-			$operator = 'Operator';
-		}
-
-		$this->database->insert('user_levels', [
-			[
-				'account' => $account,
-				'name' => $administrator,
-				'user_permissions' => $administrator_user_permissions,
-			],
-			[
-				'account' => $account,
-				'name' => $director,
-				'user_permissions' => '["46","47","25","39","41","38","26","1","2","3"]',
-			],
-			[
-				'account' => $account,
-				'name' => $manager,
-				'user_permissions' => '["46","47","25","39","41","38","28","1","2","3"]',
-			],
-			[
-				'account' => $account,
-				'name' => $supervisor,
-				'user_permissions' => '["46","47","39","41","38","28","1","2","3"]',
-			],
-			[
-				'account' => $account,
-				'name' => $operator,
-				'user_permissions' => '["27","1","2","3"]',
-			]
-		]);
-
-		if ($data['language'] == 'es')
-		{
-			$vacational_club = 'Club vacacional';
-			$day_pass = 'Day pass';
-			$external = 'Externo';
-			$gold = 'Gold';
-			$platinium = 'Platinium';
-			$regular = 'Regular';
-			$vip = 'V.I.P.';
-		}
-		else if ($data['language'] == 'en')
-		{
-			$vacational_club = 'Vacational club';
-			$day_pass = 'Day pass';
-			$external = 'External';
-			$gold = 'Gold';
-			$platinium = 'Platinium';
-			$regular = 'Regular';
-			$vip = 'V.I.P.';
-		}
-
-		$this->database->insert('guest_types', [
-			[
-				'account' => $account,
-				'name' => $vacational_club,
-			],
-			[
-				'account' => $account,
-				'name' => $day_pass,
-			],
-			[
-				'account' => $account,
-				'name' => $external,
-			],
-			[
-				'account' => $account,
-				'name' => $gold,
-			],
-			[
-				'account' => $account,
-				'name' => $platinium,
-			],
-			[
-				'account' => $account,
-				'name' => $regular,
-			],
-			[
-				'account' => $account,
-				'name' => $vip,
-			]
-		]);
-
-		if ($data['language'] == 'es')
-		{
-			$in_house = 'En casa';
-			$outside_house = 'Fuera de casa';
-			$pre_arrival = 'Pre llegada';
-			$arrival = 'Llegada';
-			$pre_departure = 'Pre salida';
-			$departure = 'Salida';
-		}
-		else if ($data['language'] == 'en')
-		{
-			$in_house = 'In house';
-			$outside_house = 'Outside of house';
-			$pre_arrival = 'Pre arrival';
-			$arrival = 'Arrival';
-			$pre_departure = 'Pre departure';
-			$departure = 'Departure';
-		}
-
-		$this->database->insert('reservation_statuses', [
-			[
-				'account' => $account,
-				'name' => $in_house,
-			],
-			[
-				'account' => $account,
-				'name' => $outside_house,
-			],
-			[
-				'account' => $account,
-				'name' => $pre_arrival,
-			],
-			[
-				'account' => $account,
-				'name' => $arrival,
-			],
-			[
-				'account' => $account,
-				'name' => $departure,
-			],
-			[
-				'account' => $account,
-				'name' => $pre_departure,
-			]
-		]);
-
-		if ($data['language'] == 'es')
-		{
-			$mr = 'Sr.';
-			$miss = 'Sra.';
-			$mrs = 'Srita.';
-		}
-		else if ($data['language'] == 'en')
-		{
-			$mr = 'Mr.';
-			$miss = 'Miss.';
-			$mrs = 'Mrs.';
-		}
-
-		$this->database->insert('guest_treatments', [
-			[
-				'account' => $account,
-				'name' => $mr,
-			],
-			[
-				'account' => $account,
-				'name' => $miss,
-			],
-			[
-				'account' => $account,
-				'name' => $mrs,
-			]
-		]);
-
 		return [
 			'account' => $account,
-			'user' => $user,
+			'user' => $user
 		];
 	}
 
