@@ -111,6 +111,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <span>{$sms} {$lang.sms}</span>
                     </h2>
                 </div>
+                <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                 <div>
                     <h2>
                         <figure>
@@ -120,6 +121,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <span>{$zaviapms}</span>
                     </h2>
                 </div>
+                <?php endif; ?>
             </div>
         </main>
     </article>
