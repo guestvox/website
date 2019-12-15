@@ -1389,8 +1389,8 @@ div.profile {
 }
 
 div.profile > figure {
-    width: 300px;
-    height: 300px;
+    width: 250px;
+    height: 250px;
     position: relative;
     display: flex;
     align-items: center;
