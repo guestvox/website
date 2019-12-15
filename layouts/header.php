@@ -29,9 +29,8 @@
         </nav>
         <nav>
             <figure>
-                <img src="<?php echo (!empty(Session::get_value('user')['avatar']) ? '{$path.uploads}' . Session::get_value('user')['avatar'] : '{$path.images}avatar.png'); ?>">
+                <img src="{$path.uploads}<?php echo Session::get_value('account')['logotype']; ?>">
             </figure>
-            <h4><?php echo Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname']; ?></h4>
             <ul>
                 <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{rooms_create}','{rooms_update}','{rooms_delete}']) == true) : ?>
                 <li><a href="/rooms">{$lang.rooms}<i class="fas fa-bed"></i></a></li>

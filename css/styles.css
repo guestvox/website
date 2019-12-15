@@ -167,25 +167,22 @@ header.main > section.menu > nav:last-child.open {
 
 header.main > section.menu > nav:last-child > figure {
     width: auto;
-    width: 130px;
-    height: 130px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: 0px;
-    overflow: hidden;
-    border-radius: 50%;
     margin-bottom: 20px;
 }
 
 header.main > section.menu > nav:last-child > figure > img {
-    width: 100%;
+    width: auto;
+    height: 100px;
 }
 
 header.main > section.menu > nav:last-child > h4 {
     width: 100%;
     margin-bottom: 20px;
-    font-size: 18px;
+    font-size: 14px;
     text-align: center;
     color: #757575;
 }
@@ -1319,6 +1316,46 @@ div.account > div > figure > input {
     display: none;
 }
 
+div.account > div > h2 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.account > div > h2 > i {
+    margin-bottom: 20px;
+    font-size: 100px;
+}
+
+div.account > div > h2 > span {
+    font-size: 14px;
+}
+
+div.account > div > h2 > span > strong {
+    font-size: 24px;
+}
+
+div.account > div > h2 > figure,
+div.account > div > h2 > figure > img {
+    width: auto;
+    height: 120px;
+    margin-bottom: 20px;
+    line-height: 0px;
+}
+
+div.account > div > h4 {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+}
+
 div.account > div > h6 {
     display: flex;
     align-items: center;
@@ -1331,22 +1368,6 @@ div.account > div > h6 {
 
 div.account > div > h6 > i {
     margin-right: 10px;
-}
-
-div.account > div > h2 {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    font-size: 40px;
-    font-weight: 400;
-    color: #757575;
-}
-
-div.account > div > h2 > span {
-    font-size: 18px;
 }
 
 div.account > div > a {
