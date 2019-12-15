@@ -145,27 +145,16 @@ class Functions
         return $decrypt;
     }
 
-    static public function check_account_access($parameters, $option = false)
+    static public function check_account_access($parameters)
     {
-        if ($option == true)
-            $access = true;
-        else if ($option == false)
-            $access = false;
+        $access = false;
 
         if (Session::exists_var('session') == true)
         {
             foreach ($parameters as $value)
             {
-                if ($option == true)
-                {
-                    if (Session::get_value('account')[$value] == false)
-                        $access = false;
-                }
-                else if ($option == false)
-                {
-                    if (Session::get_value('account')[$value] == true)
-                        $access = true;
-                }
+                if (Session::get_value('account')[$value] == true)
+                    $access = true;
             }
         }
 

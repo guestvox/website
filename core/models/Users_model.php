@@ -20,7 +20,7 @@ class Users_model extends Model
 			'avatar',
 			'username',
 			'user_permissions',
-			'status',
+			'status'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
@@ -33,7 +33,7 @@ class Users_model extends Model
             $query[$key]['user_permissions'] = [
                 'supervision' => false,
                 'operational' => false,
-                'administrative' => false,
+                'administrative' => false
             ];
 
             $value['user_permissions'] = $this->database->select('user_permissions', [
@@ -67,7 +67,7 @@ class Users_model extends Model
 			'phone',
 			'username',
 			'user_permissions',
-			'opportunity_areas',
+			'opportunity_areas'
 		], [
 			'id' => $id
 		]));
@@ -106,7 +106,7 @@ class Users_model extends Model
 	{
 		$query = $this->database->select('user_levels', [
 			'id',
-			'name',
+			'name'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
@@ -120,7 +120,7 @@ class Users_model extends Model
     public function get_user_level($id)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('user_levels', [
-			'user_permissions',
+			'user_permissions'
 		], [
 			'id' => $id
 		]));
@@ -130,109 +130,42 @@ class Users_model extends Model
 
     public function get_user_permissions($type)
     {
-		if (Functions::check_account_access(['operation','reputation'], true) == true)
+		if (Session::get_value('account')['type'] == 'hotel')
 		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				$where = [
-					'AND' => [
-						'type' => $type,
-						'operation' => true,
-						'reputation' => true,
-						'hotel' => true
-					],
-					'ORDER' => [
-						'group' => 'ASC',
-		                'priority' => 'ASC'
-					]
-				];
-			}
-			else if (Session::get_value('account')['type'] == 'restaurant')
-			{
-				$where = [
-					'AND' => [
-						'type' => $type,
-						'operation' => true,
-						'reputation' => true,
-						'restaurant' => true
-					],
-					'ORDER' => [
-						'group' => 'ASC',
-		                'priority' => 'ASC'
-					]
-				];
-			}
+			$and = [
+				'type' => $type,
+				'OR' => [
+					'operation' => ((Functions::check_account_access(['operation']) == true) ? true : false),
+					'reputation' => ((Functions::check_account_access(['reputation']) == true) ? true : false),
+				],
+				'hotel' => true
+			];
 		}
-		else if (Functions::check_account_access(['operation']) == true)
+		else if (Session::get_value('account')['type'] == 'restaurant')
 		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				$where = [
-					'AND' => [
-						'type' => $type,
-						'operation' => true,
-						'hotel' => true
-					],
-					'ORDER' => [
-						'group' => 'ASC',
-		                'priority' => 'ASC'
-					]
-				];
-			}
-			else if (Session::get_value('account')['type'] == 'restaurant')
-			{
-				$where = [
-					'AND' => [
-						'type' => $type,
-						'operation' => true,
-						'restaurant' => true
-					],
-					'ORDER' => [
-						'group' => 'ASC',
-		                'priority' => 'ASC'
-					]
-				];
-			}
-		}
-		else if (Functions::check_account_access(['reputation']) == true)
-		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				$where = [
-					'AND' => [
-						'type' => $type,
-						'reputation' => true,
-						'hotel' => true
-					],
-					'ORDER' => [
-						'group' => 'ASC',
-		                'priority' => 'ASC'
-					]
-				];
-			}
-			else if (Session::get_value('account')['type'] == 'restaurant')
-			{
-				$where = [
-					'AND' => [
-						'type' => $type,
-						'reputation' => true,
-						'restaurant' => true
-					],
-					'ORDER' => [
-						'group' => 'ASC',
-		                'priority' => 'ASC'
-					]
-				];
-			}
+			$and = [
+				'type' => $type,
+				'OR' => [
+					'operation' => ((Functions::check_account_access(['operation']) == true) ? true : false),
+					'reputation' => ((Functions::check_account_access(['reputation']) == true) ? true : false),
+				],
+				'restaurant' => true
+			];
 		}
 
-        $query = Functions::get_json_decoded_query($this->database->select('user_permissions', [
+		$query = Functions::get_json_decoded_query($this->database->select('user_permissions', [
 			'id',
 			'name',
             'code',
             'group',
             'unique'
-		], $where));
+		], [
+			'AND' => $and,
+			'ORDER' => [
+				'group' => 'ASC',
+				'priority' => 'ASC'
+			]
+		]));
 
         $user_permissions = [];
 
@@ -251,11 +184,11 @@ class Users_model extends Model
     {
         $query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
 			'id',
-			'name',
+			'name'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
-				'name' => 'ASC',
+				'name' => 'ASC'
 			]
 		]));
 
@@ -270,7 +203,7 @@ class Users_model extends Model
 			'AND' => [
 				'account' => Session::get_value('account')['id'],
 				'email' => $data['email'],
-				'username' => $data['username'],
+				'username' => $data['username']
 			]
 		]);
 
@@ -306,7 +239,7 @@ class Users_model extends Model
 				'id[!]' => $data['id'],
 				'account' => Session::get_value('account')['id'],
 				'email' => $data['email'],
-				'username' => $data['username'],
+				'username' => $data['username']
 			]
 		]);
 
@@ -322,7 +255,7 @@ class Users_model extends Model
 				]),
 				'username' => $data['username'],
 				'user_permissions' => !empty($data['user_permissions']) ? json_encode($data['user_permissions']) : json_encode([]),
-				'opportunity_areas' => !empty($data['opportunity_areas']) ? json_encode($data['opportunity_areas']) : json_encode([]),
+				'opportunity_areas' => !empty($data['opportunity_areas']) ? json_encode($data['opportunity_areas']) : json_encode([])
 			], [
 				'id' => $data['id']
 			]);

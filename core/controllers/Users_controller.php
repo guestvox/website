@@ -376,7 +376,7 @@ class Users_controller extends Controller
 			$opt_ladas = '';
 
 			foreach ($this->model->get_countries() as $value)
-				$opt_ladas .= '<option value="' . $value['lada'] . '">' . $value['name'][Session::get_value('account')['language']] . ' (+' . $value['lada'] . ')</option>';
+				$opt_ladas .= '<option value="' . $value['lada'] . '">(+' . $value['lada'] . ') ' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 			$opt_user_levels = '';
 
@@ -483,7 +483,7 @@ class Users_controller extends Controller
 				'{$opt_ladas}' => $opt_ladas,
 				'{$opt_user_levels}' => $opt_user_levels,
 				'{$cbx_user_permissions}' => $cbx_user_permissions,
-				'{$cbx_opportunity_areas}' => $cbx_opportunity_areas,
+				'{$cbx_opportunity_areas}' => $cbx_opportunity_areas
 			];
 
 			$template = $this->format->replace($replace, $template);
