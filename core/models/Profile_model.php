@@ -28,7 +28,7 @@ class Profile_model extends Model
             $a = [
                 'supervision' => false,
                 'operational' => false,
-                'administrative' => false,
+                'administrative' => false
             ];
 
             $query[0]['user_permissions'] = $this->database->select('user_permissions', [
@@ -79,9 +79,7 @@ class Profile_model extends Model
 			]
 		]));
 
-		$query = array_merge($query1, $query2);
-
-		return $query;
+		return array_merge($query1, $query2);
 	}
 
 	public function check_exist_user($field, $value)
@@ -99,9 +97,9 @@ class Profile_model extends Model
 		$data['avatar'] = Functions::uploader($data['avatar']);
 
 		$query = $this->database->update('users', [
-			'avatar' => $data['avatar'],
+			'avatar' => $data['avatar']
 		], [
-			'id' => Session::get_value('user')['id'],
+			'id' => Session::get_value('user')['id']
 		]);
 
 		if (!empty($query))
@@ -123,9 +121,9 @@ class Profile_model extends Model
 				'lada' => $data['phone_lada'],
 				'number' => $data['phone_number'],
 			]),
-			'username' => $data['username'],
+			'username' => $data['username']
 		], [
-			'id' => Session::get_value('user')['id'],
+			'id' => Session::get_value('user')['id']
 		]);
 
 		return $query;
@@ -134,9 +132,9 @@ class Profile_model extends Model
 	public function restore_password($data)
 	{
 		$query = $this->database->update('users', [
-			'password' => $this->security->create_password($data['password']),
+			'password' => $this->security->create_password($data['password'])
 		], [
-			'id' => Session::get_value('user')['id'],
+			'id' => Session::get_value('user')['id']
 		]);
 
 		return $query;

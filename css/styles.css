@@ -1384,13 +1384,13 @@ div.profile {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 100px 0px;
+    padding: 50px 0px;
     box-sizing: border-box;
 }
 
 div.profile > figure {
-    width: 400px;
-    height: 400px;
+    width: 300px;
+    height: 300px;
     position: relative;
     display: flex;
     align-items: center;
@@ -1412,7 +1412,7 @@ div.profile > figure > a {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 100px;
+    font-size: 50px;
     color: #757575;
     background-color: #fff;
     opacity: 0;
@@ -1438,14 +1438,14 @@ div.profile > div > h6 {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-bottom: 10px;
-    font-size: 18px;
+    margin-bottom: 5px;
+    font-size: 14px;
     font-weight: 400;
     color: #757575;
 }
 
 div.profile > div > h6 > i {
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
 div.profile > div > a {

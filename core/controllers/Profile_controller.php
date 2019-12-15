@@ -142,7 +142,7 @@ class Profile_controller extends Controller
 			$opt_ladas = '';
 
 			foreach ($this->model->get_countries() as $value)
-				$opt_ladas .= '<option value="' . $value['lada'] . '" ' . (($value['lada'] == $profile['phone']['lada']) ? 'selected' : '') . '>' . $value['name'][Session::get_value('account')['language']] . ' (+' . $value['lada'] . ')/option>';
+				$opt_ladas .= '<option value="' . $value['lada'] . '" ' . (($value['lada'] == $profile['phone']['lada']) ? 'selected' : '') . '>(+' . $value['lada'] . ') ' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 			$replace = [
 				'{$avatar}' => !empty($profile['avatar']) ? '{$path.uploads}' . $profile['avatar'] : '{$path.images}avatar.png',
@@ -153,7 +153,7 @@ class Profile_controller extends Controller
 				'{$phone_number}' => $profile['phone']['number'],
 				'{$username}' => $profile['username'],
 				'{$user_permissions}' => (($profile['user_permissions']['supervision'] == true) ? '{$lang.supervision}.' : '') . ' ' . (($profile['user_permissions']['administrative'] == true) ? '{$lang.administrative}.' : '') . ' ' . (($profile['user_permissions']['operational'] == true) ? '{$lang.operational}.' : ''),
-				'{$opt_ladas}' => $opt_ladas,
+				'{$opt_ladas}' => $opt_ladas
 			];
 
 			$template = $this->format->replace($replace, $template);
