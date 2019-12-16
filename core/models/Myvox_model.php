@@ -436,7 +436,7 @@ class Myvox_model extends Model
 					'number' => $data['phone_number']
 				],
 				'reservation_number' => $data['reservation_number'],
-				'chack_in' => $data['chack_in'],
+				'check_in' => $data['check_in'],
 				'check_out' => $data['check_out']
 			];
 		}
