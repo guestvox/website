@@ -15,7 +15,7 @@ class Dashboard_model extends Model
 
 		$query = $this->database->select('voxes', [
 			'id',
-			'data',
+			'data'
 		], [
 			'account' => Session::get_value('account')['id'],
 		]);

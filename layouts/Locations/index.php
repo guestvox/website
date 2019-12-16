@@ -32,6 +32,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             <th align="left">{$lang.name}</th>
                             <th align="left" class="flag">{$lang.request}</th>
                             <th align="left" class="flag">{$lang.incident}</th>
+                            <th align="left" class="flag">{$lang.workorder}</th>
                             <th align="left" class="flag">{$lang.public}</th>
                             <?php if (Functions::check_user_access(['{locations_delete}']) == true) : ?>
                             <th align="right" class="icon"></th>
@@ -74,7 +75,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span4">
+                    <div class="span3">
                         <div class="label">
                             <label>
                                 <p>{$lang.request}</p>
@@ -85,7 +86,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span4">
+                    <div class="span3">
                         <div class="label">
                             <label>
                                 <p>{$lang.incident}</p>
@@ -96,7 +97,18 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span4">
+                    <div class="span3">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.workorder}</p>
+                                <div class="switch">
+                                    <input id="l-workorder" type="checkbox" name="workorder" class="switch-input">
+                                    <label class="switch-label" for="l-workorder"></label>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3">
                         <div class="label">
                             <label>
                                 <p>{$lang.public}</p>

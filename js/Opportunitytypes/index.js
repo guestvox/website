@@ -5,7 +5,7 @@ $(document).ready(function()
     var tbl_opportunity_types = $('#tbl_opportunity_types').DataTable({
         ordering: false,
         pageLength: 25,
-        info: false,
+        info: false
     });
 
     $('[name="tbl_opportunity_types_search"]').on('keyup', function()
@@ -34,6 +34,7 @@ $(document).ready(function()
         $('[data-modal="new_opportunity_type"]').find('p.error').remove();
         $('[data-modal="new_opportunity_type"]').find('[name="request"]').attr('checked', false);
         $('[data-modal="new_opportunity_type"]').find('[name="incident"]').attr('checked', false);
+        $('[data-modal="new_opportunity_type"]').find('[name="workorder"]').attr('checked', false);
         $('[data-modal="new_opportunity_type"]').find('[name="public"]').attr('checked', false);
     });
 
@@ -123,9 +124,11 @@ $(document).ready(function()
                     if (response.data.incident == true)
                         $('[data-modal="new_opportunity_type"]').find('[name="incident"]').attr('checked', true);
 
+                    if (response.data.workorder == true)
+                        $('[data-modal="new_opportunity_type"]').find('[name="workorder"]').attr('checked', true);
+
                     if (response.data.public == true)
                         $('[data-modal="new_opportunity_type"]').find('[name="public"]').attr('checked', true);
-
                 }
                 else if (response.status == 'error')
                 {

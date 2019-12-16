@@ -280,7 +280,7 @@ class Voxes_api extends Model
                     			'account' => $params[2],
                     			'type' => $_POST['type'],
                     			'data' => Functions::get_openssl('encrypt', json_encode([
-                    				'token' => $this->security->random_string(8),
+                    				'token' => Functions::get_random(8),
                     				'room' => $_POST['room'],
                     				'opportunity_area' => $_POST['opportunity_area'],
                     				'opportunity_type' => $_POST['opportunity_type'],

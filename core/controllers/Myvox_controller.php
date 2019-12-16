@@ -14,14 +14,14 @@ class Myvox_controller extends Controller
     public function index($params)
     {
 		$data = [];
-		$go = false;
+		$break = true;
 
 		if ($params[0] == 'account')
 		{
 			$data['account'] = $this->model->get_account($params[1]);
 
 			if (!empty($data['account']))
-				$go = true;
+				$break = false;
 		}
 		else if ($params[0] == 'room')
 		{
@@ -34,7 +34,7 @@ class Myvox_controller extends Controller
 				if (!empty($data['account']))
 				{
 					$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
-					$go = true;
+					$break = false;
 				}
 			}
 		}
@@ -47,11 +47,11 @@ class Myvox_controller extends Controller
 				$data['account'] = $this->model->get_account($data['table']['account']);
 
 				if (!empty($data['account']))
-					$go = true;
+					$break = false;
 			}
 		}
 
-		if ($go == true)
+		if ($break == false)
 		{
 			if (Format::exist_ajax_request() == true)
 			{

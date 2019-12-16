@@ -16,7 +16,8 @@ class Opportunityareas_model extends Model
 			'name',
 			'request',
 			'incident',
-			'public',
+			'workorder',
+			'public'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
@@ -33,7 +34,8 @@ class Opportunityareas_model extends Model
 			'name',
 			'request',
 			'incident',
-			'public',
+			'workorder',
+			'public'
 		], [
 			'id' => $id
 		]));
@@ -50,8 +52,8 @@ class Opportunityareas_model extends Model
 				'account' => Session::get_value('account')['id'],
 				'name' => json_encode([
 					'es' => $data['name_es'],
-					'en' => $data['name_en'],
-				]),
+					'en' => $data['name_en']
+				])
 			]
 		]);
 
@@ -61,11 +63,12 @@ class Opportunityareas_model extends Model
 				'account' => Session::get_value('account')['id'],
 				'name' => json_encode([
 					'es' => $data['name_es'],
-					'en' => $data['name_en'],
+					'en' => $data['name_en']
 				]),
 				'request' => !empty($data['request']) ? true : false,
 				'incident' => !empty($data['incident']) ? true : false,
-				'public' => !empty($data['public']) ? true : false,
+				'workorder' => !empty($data['workorder']) ? true : false,
+				'public' => !empty($data['public']) ? true : false
 			]);
 		}
 
@@ -82,8 +85,8 @@ class Opportunityareas_model extends Model
 				'account' => Session::get_value('account')['id'],
 				'name' => json_encode([
 					'es' => $data['name_es'],
-					'en' => $data['name_en'],
-				]),
+					'en' => $data['name_en']
+				])
 			]
 		]);
 
@@ -92,11 +95,12 @@ class Opportunityareas_model extends Model
 			$query = $this->database->update('opportunity_areas', [
 				'name' => json_encode([
 					'es' => $data['name_es'],
-					'en' => $data['name_en'],
+					'en' => $data['name_en']
 				]),
 				'request' => !empty($data['request']) ? true : false,
 				'incident' => !empty($data['incident']) ? true : false,
-				'public' => !empty($data['public']) ? true : false,
+				'workorder' => !empty($data['workorder']) ? true : false,
+				'public' => !empty($data['public']) ? true : false
 			], [
 				'id' => $data['id']
 			]);

@@ -67,7 +67,7 @@ class Surveys_controller extends Controller
 					{
 						$data .=
 						'<article>
-						   <h6>' . $value['name'][Session::get_value('lang')] . '</h6>';
+						   <h6>' . $value['name'][Session::get_value('account')['language']] . '</h6>';
 
 						if ($value['type'] == 'rate')
 						{
@@ -119,7 +119,7 @@ class Surveys_controller extends Controller
 							foreach ($value['subquestions'] as $key => $subvalue)
 							{
 							   $data .=
-							   '<h6>' . $subvalue['name'][Session::get_value('lang')] . '</h6>';
+							   '<h6>' . $subvalue['name'][Session::get_value('account')['language']] . '</h6>';
 
 							   if ($subvalue['type'] == 'rate')
 							   {
@@ -586,13 +586,13 @@ class Surveys_controller extends Controller
 		$s_r2_chart_data = $this->model->get_chart_data('s_r2_chart');
 		$s_r3_chart_data = $this->model->get_chart_data('s_r3_chart');
 
-		if (Session::get_value('lang') == 'es')
+		if (Session::get_value('account')['language'] == 'es')
 		{
 			$s_r1_chart_title = 'Balance de respuestas por habitación';
 			$s_r2_chart_title = 'Balance de encuestas de valoración';
 			$s_r3_chart_title = 'Balance de encuestas de si y no';
 		}
-		else if (Session::get_value('lang') == 'en')
+		else if (Session::get_value('account')['language'] == 'en')
 		{
 			$s_r1_chart_title = 'Balance of responses per room';
 			$s_r2_chart_title = 'Assessment survey balance';

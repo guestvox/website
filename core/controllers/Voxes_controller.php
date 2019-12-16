@@ -56,12 +56,18 @@ class Voxes_controller extends Controller
 			}
 
 			$tbl_voxes .=
-			'<tr class="' . $value['data']['status'] . ' ' . $value['data']['readed'] . '" data-id="' . $value['id'] . '">
-				<td align="left" class="touchable">' . $value['data']['room'] . '</td>
-				<td align="left" class="touchable">' . $value['data']['guest_treatment'] . ' ' . $value['data']['firstname'] . ' ' . $value['data']['lastname'] . '</td>
-				<td align="left" class="touchable">' . $value['data']['opportunity_area'] . '</td>
-				<td align="left" class="touchable">' . $value['data']['opportunity_type'] . '</td>
-				<td align="left" class="touchable">' . $value['data']['location'] . '</td>
+			'<tr class="' . $value['data']['status'] . ' ' . $value['data']['readed'] . '" data-id="' . $value['id'] . '">';
+
+			if (Session::get_value('account')['type'] == 'hotel')
+				$tbl_voxes_unresolve .= '<td align="left" class="touchable">#' . $value['data']['room']['number'] . ' ' . $value['data']['room']['name'] . '</td>';
+			else if (Session::get_value('account')['type'] == 'restaurant')
+				$tbl_voxes_unresolve .= '<td align="left" class="touchable">#' . $value['data']['table']['number'] . ' ' . $value['data']['table']['name'] . '</td>';
+
+			$tbl_voxes .=
+			'	<td align="left" class="touchable">' . $value['data']['firstname'] . ' ' . $value['data']['lastname'] . '</td>
+				<td align="left" class="touchable">' . $value['data']['opportunity_area']['name'][Session::get_value('account')['language']] . '</td>
+				<td align="left" class="touchable">' . $value['data']['opportunity_type']['name'][Session::get_value('account')['language']] . '</td>
+				<td align="left" class="touchable">' . $value['data']['location']['name'][Session::get_value('account')['language']] . '</td>
 				<td align="left" class="touchable">' . Functions::get_formatted_date($value['data']['started_date'], 'd M, y') . '</td>
 				<td align="left" class="touchable"
 					data-started-date="' . Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']) . '"
@@ -94,7 +100,7 @@ class Voxes_controller extends Controller
 
 				if (!empty($query))
 				{
-					$query = $this->model->get_guest($query['folio']);
+					$query = $this->model->get_guest($query['number']);
 
 					if (!empty($query))
 					{
@@ -166,6 +172,17 @@ class Voxes_controller extends Controller
 				if (!isset($_POST['type']) OR empty($_POST['type']))
 					array_push($labels, ['type','']);
 
+				// if (Session::get_value('account')['type'] == 'hotel')
+				// {
+				// 	if (!isset($_POST['room']) OR empty($_POST['room']))
+				// 		array_push($labels, ['room','']);
+				// }
+				// else if (Session::get_value('account')['type'] == 'restaurant')
+				// {
+				// 	if (!isset($_POST['table']) OR empty($_POST['table']))
+				// 		array_push($labels, ['table','']);
+				// }
+
 				if (!isset($_POST['opportunity_area']) OR empty($_POST['opportunity_area']))
 					array_push($labels, ['opportunity_area','']);
 
@@ -189,8 +206,7 @@ class Voxes_controller extends Controller
 					if (!empty($_POST['observations']) AND strlen($_POST['observations']) > 120)
 						array_push($labels, ['observations','']);
 				}
-
-				if ($_POST['type'] == 'incident')
+				else if ($_POST['type'] == 'incident')
 				{
 					if (!empty($_POST['subject']) AND strlen($_POST['subject']) > 120)
 						array_push($labels, ['subject','']);
@@ -210,7 +226,17 @@ class Voxes_controller extends Controller
 						else
 							$_POST['assigned_users'] = $this->model->get_users('opportunity_area', $_POST['opportunity_area']);
 
-						$_POST['room'] = $this->model->get_room($_POST['room'])['name'];
+						if (Session::get_value('account')['type'] == 'hotel')
+						{
+							$_POST['room'] = $this->model->get_room($_POST['room']);
+							$_POST['room'] = '#' . $_POST['room']['number'] . (!empty($_POST['room']['name']) ? ' - ' . $_POST['room']['name'] : '');
+						}
+						if (Session::get_value('account')['type'] == 'hotel')
+						{
+							$_POST['table'] = $this->model->get_table($_POST['table']);
+							$_POST['table'] = '#' . $_POST['table']['number'] . (!empty($_POST['table']['name']) ? ' - ' . $_POST['table']['name'] : '');
+						}
+
 						$_POST['opportunity_area'] = $this->model->get_opportunity_area($_POST['opportunity_area'])['name'][Session::get_value('account')['language']];
 						$_POST['opportunity_type'] = $this->model->get_opportunity_type($_POST['opportunity_type'])['name'][Session::get_value('account')['language']];
 						$_POST['location'] = $this->model->get_location($_POST['location'])['name'][Session::get_value('account')['language']];
@@ -2237,7 +2263,7 @@ class Voxes_controller extends Controller
 			'date_end' => Functions::get_current_date(),
 		]);
 
-		if (Session::get_value('lang') == 'es')
+		if (Session::get_value('account')['language'] == 'es')
 		{
 			$v_oa_chart_data_title = 'Voxes por áreas de oportunidad';
 			$v_r_chart_data_title = 'Voxes por habitación';
@@ -2249,7 +2275,7 @@ class Voxes_controller extends Controller
 			$c_r_chart_data_title = 'Costos por habitación';
 			$c_l_chart_data_title = 'Costos por ubicación';
 		}
-		else if (Session::get_value('lang') == 'en')
+		else if (Session::get_value('account')['language'] == 'en')
 		{
 			$v_oa_chart_data_title = 'Voxes by opportunity areas';
 			$v_r_chart_data_title = 'Voxes by room';

@@ -41,7 +41,12 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 <table id="tbl_voxes">
                     <thead>
                         <tr>
+                            <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                             <th align="left">{$lang.abr_room}</th>
+                            <?php endif; ?>
+                            <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
+                            <th align="left">{$lang.abr_table}</th>
+                            <?php endif; ?>
                             <th align="left">{$lang.abr_guest}</th>
                             <th align="left">{$lang.abr_opportunity_area}</th>
                             <th align="left">{$lang.abr_opportunity_type}</th>
