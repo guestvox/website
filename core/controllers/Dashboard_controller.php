@@ -27,52 +27,48 @@ class Dashboard_controller extends Controller
 		{
 			foreach ($this->model->get_voxes_unresolve() as $value)
 			{
-				$value['data']['readed'] = ($value['data']['readed'] == true) ? 'readed' : 'no-readed';
-				$value['data']['confidentiality'] = ($value['data']['confidentiality'] == true) ? '<span><i class="fas fa-key"></i></span>' : '';
-				$value['data']['assigned_users'] = (!empty($value['data']['assigned_users'])) ? '<span><i class="fas fa-users"></i></span>' : '';
-				$value['data']['comments'] = (!empty($value['data']['comments'])) ? '<span><i class="fas fa-comment"></i></span>' : '';
-				$value['data']['attachments'] = (!empty($value['data']['attachments'])) ? '<span><i class="fas fa-paperclip"></i></span>' : '';
-
-				if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']))
-				{
-					if ($value['data']['urgency'] == 'low')
-						$value['data']['urgency'] = '<span style="background-color:#4caf50;color:#fff;"><i class="fas fa-clock"></i></span>';
-					else if ($value['data']['urgency'] == 'medium')
-						$value['data']['urgency'] = '<span style="background-color:#ffc107;color:#fff;"><i class="fas fa-clock"></i></span>';
-					else if ($value['data']['urgency'] == 'high')
-						$value['data']['urgency'] = '<span style="background-color:#f44336;color:#fff;"><i class="fas fa-clock"></i></span>';
-				}
-				else
-				{
-					if ($value['data']['urgency'] == 'low')
-						$value['data']['urgency'] = '<span style="background-color:#4caf50;color:#fff;"><i class="fas fa-lock-open"></i></span>';
-					else if ($value['data']['urgency'] == 'medium')
-						$value['data']['urgency'] = '<span style="background-color:#ffc107;color:#fff;"><i class="fas fa-lock-open"></i></span>';
-					else if ($value['data']['urgency'] == 'high')
-						$value['data']['urgency'] = '<span style="background-color:#f44336;color:#fff;"><i class="fas fa-lock-open"></i></span>';
-				}
-
 				$tbl_voxes_unresolve .=
-				'<tr class="' . $value['data']['readed'] . '" data-id="' . $value['id'] . '">';
+				'<tr class="' . (($value['data']['readed'] == true) ? 'readed' : 'no-readed') . '" data-id="' . $value['id'] . '">
+					<td align="left" class="touchable">{$lang.abr_' . $value['type'] . '}</td>';
 
 				if (Session::get_value('account')['type'] == 'hotel')
-					$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . $value['data']['room'] . '</td>';
+					$tbl_voxes_unresolve .= '<td align="left" class="touchable">#' . $value['data']['room']['number'] . ' ' . $value['data']['room']['name'] . '</td>';
 				else if (Session::get_value('account')['type'] == 'restaurant')
-					$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . $value['data']['table'] . '</td>';
+					$tbl_voxes_unresolve .= '<td align="left" class="touchable">#' . $value['data']['table']['number'] . ' ' . $value['data']['table']['name'] . '</td>';
 
-				$tbl_voxes_unresolve.=
-				'	<td align="left" class="touchable">' . ((Session::get_value('account')['type'] == 'hotel') ? $value['data']['guest_treatment'] . ' ' : '') . $value['data']['firstname'] . ' ' . $value['data']['lastname'] . '</td>
+				$tbl_voxes_unresolve .=
+				'	<td align="left" class="touchable">' . (($vale['type'] == 'request' OR $value['type'] == 'incident') ? $value['data']['firstname'] . ' ' . $value['data']['lastname'] : '') . '</td>
 					<td align="left" class="touchable">' . $value['data']['opportunity_area'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['opportunity_type'] . '</td>
 					<td align="left" class="touchable">' . $value['data']['location'] . '</td>
 					<td align="left" class="touchable">' . Functions::get_formatted_date($value['data']['started_date'], 'd M, y') . '</td>
 					<td align="left" class="touchable" data-started-date="' . Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']) . '" data-elapsed-time></td>
-					<td align="right" class="touchable icon">' . $value['data']['confidentiality'] . '</td>
-					<td align="right" class="touchable icon">' . $value['data']['assigned_users'] . '</td>
-					<td align="right" class="touchable icon">' . $value['data']['comments'] . '</td>
-					<td align="right" class="touchable icon">' . $value['data']['attachments'] . '</td>
-					<td align="right" class="touchable icon">' . $value['data']['urgency'] . '</td>
-				</tr>';
+					<td align="right" class="touchable icon">' . (($value['type'] == 'incident' AND $value['data']['confidentiality'] == true) ? '<span><i class="fas fa-key"></i></span>' : '') . '</td>
+					<td align="right" class="touchable icon">' . ((!empty($value['data']['assigned_users'])) ? '<span><i class="fas fa-users"></i></span>' : '') . '</td>
+					<td align="right" class="touchable icon">' . ((!empty($value['data']['comments'])) ? '<span><i class="fas fa-comment"></i></span>' : '') . '</td>
+					<td align="right" class="touchable icon">' . ((!empty($value['data']['attachments'])) ? '<span><i class="fas fa-paperclip"></i></span>' : '') . '</td>';
+
+				if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']))
+				{
+					if ($value['data']['urgency'] == 'low')
+						$tbl_voxes_unresolve .= '<td align="right" class="touchable icon"><span style="background-color:#4caf50;color:#fff;"><i class="fas fa-clock"></i></span></td>';
+					else if ($value['data']['urgency'] == 'medium')
+						$tbl_voxes_unresolve .= '<td align="right" class="touchable icon"><span style="background-color:#ffc107;color:#fff;"><i class="fas fa-clock"></i></span></td>';
+					else if ($value['data']['urgency'] == 'high')
+						$tbl_voxes_unresolve .= '<td align="right" class="touchable icon"><span style="background-color:#f44336;color:#fff;"><i class="fas fa-clock"></i></span></td>';
+				}
+				else
+				{
+					if ($value['data']['urgency'] == 'low')
+						$tbl_voxes_unresolve .= '<td align="right" class="touchable icon"><span style="background-color:#4caf50;color:#fff;"><i class="fas fa-lock-open"></i></span></td>';
+					else if ($value['data']['urgency'] == 'medium')
+						$tbl_voxes_unresolve .= '<td align="right" class="touchable icon"><span style="background-color:#ffc107;color:#fff;"><i class="fas fa-lock-open"></i></span></td>';
+					else if ($value['data']['urgency'] == 'high')
+						$tbl_voxes_unresolve .= '<td align="right" class="touchable icon"><span style="background-color:#f44336;color:#fff;"><i class="fas fa-lock-open"></i></span></td>';
+				}
+
+				$tbl_voxes_unresolve .=
+				'</tr>';
 			}
 
 			$voxes_unresolve_noreaded = $this->model->get_voxes_unresolve('noreaded');

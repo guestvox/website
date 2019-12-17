@@ -477,10 +477,8 @@ class Index_model extends Model
 			'accounts.sms(account_sms)',
 			'accounts.status(account_status)',
 			'room_packages.id(room_package_id)',
-			'room_packages.quantity_start(room_package_quantity_start)',
 			'room_packages.quantity_end(room_package_quantity_end)',
 			'table_packages.id(table_package_id)',
-			'table_packages.quantity_start(table_package_quantity_start)',
 			'table_packages.quantity_end(table_package_quantity_end)'
 		], [
 			'AND' => [
@@ -539,7 +537,6 @@ class Index_model extends Model
 			{
 				$data['account']['room_package'] = [
 					'id' => $query[0]['room_package_id'],
-					'quantity_start' => $query[0]['room_package_quantity_start'],
 					'quantity_end' => $query[0]['room_package_quantity_end']
 				];
 			}
@@ -547,7 +544,6 @@ class Index_model extends Model
 			{
 				$data['account']['table_package'] = [
 					'id' => $query[0]['table_package_id'],
-					'quantity_start' => $query[0]['table_package_quantity_start'],
 					'quantity_end' => $query[0]['table_package_quantity_end']
 				];
 			}

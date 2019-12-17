@@ -27,6 +27,7 @@ $this->dependencies->add(['other', '<script>menu_focus("dashboard");</script>'])
                 <table id="tbl_voxes_unresolve">
                     <thead>
                         <tr>
+                            <th align="left" class="flag">{$lang.abr_type}</th>
                             <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                             <th align="left">{$lang.abr_room}</th>
                             <?php endif; ?>

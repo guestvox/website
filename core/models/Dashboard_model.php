@@ -9,15 +9,16 @@ class Dashboard_model extends Model
 		parent::__construct();
 	}
 
-	public function get_voxes_unresolve($option = null)
+	public function get_voxes_unresolve($option = 'all')
 	{
 		$voxes = [];
 
 		$query = $this->database->select('voxes', [
 			'id',
+			'type',
 			'data'
 		], [
-			'account' => Session::get_value('account')['id'],
+			'account' => Session::get_value('account')['id']
 		]);
 
 		foreach ($query as $key => $value)
@@ -55,44 +56,37 @@ class Dashboard_model extends Model
 
 			if ($break == false)
 			{
-				if (!isset($option) OR !empty($option))
+				if ($option == 'all')
 				{
 					if (Session::get_value('account')['type'] == 'hotel')
 					{
-						$value['data']['room'] = $this->get_room($value['data']['room']);
-						$value['data']['room'] = '#' . $value['data']['room']['number'] . (!empty($value['data']['room']['name']) ? ' - ' . $value['data']['room']['name'] : '');
-						$value['data']['guest_treatment'] = $this->get_guest_treatment($value['data']['guest_treatment'])['name'];
+						if ($value['type'] == 'request' OR $value['type'] == 'incident')
+							$value['data']['room'] = $this->get_room($value['data']['room']);
 					}
 					else if (Session::get_value('account')['type'] == 'restaurant')
 					{
-						$value['data']['table'] = $this->get_table($value['data']['table']);
-						$value['data']['table'] = '#' . $value['data']['table']['number'] . (!empty($value['data']['table']['name']) ? ' - ' . $value['data']['table']['name'] : '');
+						if ($value['type'] == 'request' OR $value['type'] == 'incident')
+							$value['data']['table'] = $this->get_table($value['data']['table']);
 					}
 
-					$value['data']['opportunity_area'] = $this->get_opportunity_area($value['data']['opportunity_area'])['name'][Session::get_value('account')['language']];
-					$value['data']['opportunity_type'] = $this->get_opportunity_type($value['data']['opportunity_type'])['name'][Session::get_value('account')['language']];
-					$value['data']['location'] = $this->get_location($value['data']['location'])['name'][Session::get_value('account')['language']];
+					$value['data']['opportunity_area'] = $this->get_opportunity_area($value['data']['opportunity_area']);
+					$value['data']['opportunity_type'] = $this->get_opportunity_type($value['data']['opportunity_type']);
+					$value['data']['location'] = $this->get_location($value['data']['location']);
 
-					if (!empty($value['data']['comments']))
-					{
-						foreach ($value['data']['comments'] as $subvalue)
-							$value['data']['attachments'] = array_merge($value['data']['attachments'], $subvalue['attachments']);
-					}
+					foreach ($value['data']['comments'] as $subvalue)
+						$value['data']['attachments'] = array_merge($value['data']['attachments'], $subvalue['attachments']);
+
+					$aux[$key] = Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']);
 				}
-
-				$aux[$key] = Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']);
 
 				array_push($voxes, $value);
 			}
 		}
 
-		if (!empty($voxes))
-			array_multisort($aux, SORT_DESC, $voxes);
-
-		if ($option == 'noreaded' OR $option == 'readed' OR $option == 'today' OR $option == 'week' OR $option == 'month' OR $option == 'total')
-			return count($voxes);
+		if ($option == 'all')
+			return !empty($voxes) ? array_multisort($aux, SORT_DESC, $voxes) : $voxes;
 		else
-			return $voxes;
+			return count($voxes);
 	}
 
 	public function get_room($id)

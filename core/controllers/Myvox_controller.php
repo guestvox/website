@@ -143,57 +143,57 @@ class Myvox_controller extends Controller
 							$_POST['opportunity_type'] = $this->model->get_opportunity_type($_POST['opportunity_type']);
 							$_POST['location'] = $this->model->get_location($_POST['location']);
 
+							if ($data['account']['language'] == 'es')
+							{
+								$mail_subject = 'Tienes una nueva petición';
+
+								if ($data['account']['type'] == 'hotel')
+									$mail_room = 'Habitación: #';
+								else if ($data['account']['type'] == 'restaurant')
+									$mail_table = 'Mesa: #';
+
+								$mail_opportunity_area = 'Área de oportunidad: ';
+								$mail_opportunity_type = 'Tipo de oportunidad: ';
+								$mail_started_date = 'Fecha de inicio: ';
+								$mail_started_hour = 'Hora de inicio: ';
+								$mail_location = 'Ubicación: ';
+
+								if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
+									$mail_urgency = 'Urgencia: Programada';
+								else
+									$mail_urgency = 'Urgencia: Media';
+
+								$mail_observations = 'Observaciones: ';
+								$mail_give_follow_up = 'Dar seguimiento';
+							}
+							else if ($data['account']['language'] == 'en')
+							{
+								$mail_subject = 'You have a new request';
+
+								if ($data['account']['type'] == 'hotel')
+									$mail_room = 'Room: #';
+								else if ($data['account']['type'] == 'restaurant')
+									$mail_table = 'Table: #';
+
+								$mail_opportunity_area = 'Opportunity area: ';
+								$mail_opportunity_type = 'Opportunity type: ';
+								$mail_started_date = 'Start date: ';
+								$mail_started_hour = 'Start hour: ';
+								$mail_location = 'Location: ';
+
+								if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
+									$mail_urgency = 'Urgency: Programmed';
+								else
+									$mail_urgency = 'Urgency: Medium';
+
+								$mail_observations = 'Observations: ';
+								$mail_give_follow_up = 'Give follow up';
+							}
+
 							$mail = new Mailer(true);
 
 							try
 							{
-								if ($data['account']['language'] == 'es')
-								{
-									$mail_subject = 'Tienes una nueva petición';
-
-									if ($data['account']['type'] == 'hotel')
-										$mail_room = 'Habitación: ';
-									else if ($data['account']['type'] == 'restaurant')
-										$mail_table = 'Mesa: ';
-
-									$mail_opportunity_area = 'Área de oportunidad: ';
-									$mail_opportunity_type = 'Tipo de oportunidad: ';
-									$mail_started_date = 'Fecha de inicio: ';
-									$mail_started_hour = 'Hora de inicio: ';
-									$mail_location = 'Ubicación: ';
-
-									if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
-										$mail_urgency = 'Urgencia: Programada';
-									else
-										$mail_urgency = 'Urgencia: Media';
-
-									$mail_observations = 'Observaciones: ';
-									$mail_give_follow_up = 'Dar seguimiento';
-								}
-								else if ($data['account']['language'] == 'en')
-								{
-									$mail_subject = 'You have a new request';
-
-									if ($data['account']['type'] == 'hotel')
-										$mail_room = 'Room: ';
-									else if ($data['account']['type'] == 'restaurant')
-										$mail_table = 'Table: ';
-
-									$mail_opportunity_area = 'Opportunity area: ';
-									$mail_opportunity_type = 'Opportunity type: ';
-									$mail_started_date = 'Start date: ';
-									$mail_started_hour = 'Start hour: ';
-									$mail_location = 'Location: ';
-
-									if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
-										$mail_urgency = 'Urgency: Programmed';
-									else
-										$mail_urgency = 'Urgency: Medium';
-
-									$mail_observations = 'Observations: ';
-									$mail_give_follow_up = 'Give follow up';
-								}
-
 								$mail->isSMTP();
 								$mail->setFrom('noreply@guestvox.com', 'GuestVox');
 
@@ -221,9 +221,9 @@ class Myvox_controller extends Controller
 													<h4 style="font-size:24px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject . '</h4>';
 
 								if ($data['account']['type'] == 'hotel')
-									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . '#' . $data['room']['number'] . (!empty($data['room']['name']) ? ' - ' . $data['room']['name'] : '') . '</h6>';
+									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . $data['room']['number'] . ' ' . $data['room']['name'] . '</h6>';
 								else if ($data['account']['type'] == 'restaurant')
-									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_table . '#' . $data['table']['number'] . (!empty($data['table']['name']) ? ' - ' . $data['table']['name'] : '') . '</h6>';
+									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_table . $data['table']['number'] . ' ' . $data['table']['name'] . '</h6>';
 
 								$mail->Body .=
 								'					<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_area . $_POST['opportunity_area']['name'][$data['account']['language']] . '</h6>
@@ -254,65 +254,20 @@ class Myvox_controller extends Controller
 								$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 								$sms_client = new \Nexmo\Client($sms_basic);
 
-								if ($data['account']['language'] == 'es')
-								{
-									$sms_subject = 'GuestVox: Nueva petición';
-
-									if ($data['account']['type'] == 'hotel')
-										$sms_room = 'Habitación: ';
-									else if ($data['account']['type'] == 'restaurant')
-										$sms_table = 'Mesa: ';
-
-									$sms_opportunity_area = 'AO: ';
-									$sms_opportunity_type = 'TO: ';
-									$sms_started_date = 'Fecha: ';
-									$sms_started_hour = 'Hora: ';
-									$sms_location = 'Ubicación: ';
-
-									if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
-										$sms_urgency = 'Urgencia: Programada';
-									else
-										$sms_urgency = 'Urgencia: Media';
-
-									$sms_observations = 'Onservaciones: ';
-								}
-								else if ($data['account']['language'] == 'en')
-								{
-									$sms_subject = 'GuestVox: New request';
-
-									if ($data['account']['type'] == 'hotel')
-										$sms_room = 'Room: ';
-									else if ($data['account']['type'] == 'restaurant')
-										$sms_table = 'Table: ';
-
-									$sms_opportunity_area = 'OA: ';
-									$sms_opportunity_type = 'OT: ';
-									$sms_started_date = 'Date: ';
-									$sms_started_hour = 'Hour: ';
-									$sms_location = 'Location: ';
-
-									if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
-										$sms_urgency = 'Urgency: Programmed';
-									else
-										$sms_urgency = 'Urgency: Medium';
-
-									$sms_observations = 'Observations: ';
-								}
-
-								$sms_text = $sms_subject . '. ';
+								$sms_text = $mail_subject . '. ';
 
 								if ($data['account']['type'] == 'hotel')
-									$sms_text .= $sms_room . '#' . $data['room']['number'] . (!empty($data['room']['name']) ? ' - ' . $data['room']['name'] : '') . '. ';
+									$sms_text .= $mail_room . $data['room']['number'] . ' ' . $data['room']['name'] . '. ';
 								else if ($data['account']['type'] == 'restaurant')
-									$sms_text .= $sms_table . '#' . $data['table']['number'] . (!empty($data['table']['name']) ? ' - ' . $data['table']['name'] : '') . '. ';
+									$sms_text .= $mail_table . $data['table']['number'] . ' ' . $data['table']['name'] . '. ';
 
-								$sms_text .= $sms_opportunity_area . $_POST['opportunity_area']['name'][$data['account']['language']] . '. ';
-								$sms_text .= $sms_opportunity_type . $_POST['opportunity_type']['name'][$data['account']['language']] . '. ';
-								$sms_text .= $sms_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
-								$sms_text .= $sms_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
-								$sms_text .= $sms_location . $_POST['location']['name'][$data['account']['language']] . '. ';
-								$sms_text .= $sms_urgency . '. ';
-								$sms_text .= $sms_observations . $_POST['observations'] . '. ';
+								$sms_text .= $mail_opportunity_area . $_POST['opportunity_area']['name'][$data['account']['language']] . '. ';
+								$sms_text .= $mail_opportunity_type . $_POST['opportunity_type']['name'][$data['account']['language']] . '. ';
+								$sms_text .= $mail_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
+								$sms_text .= $mail_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
+								$sms_text .= $mail_location . $_POST['location']['name'][$data['account']['language']] . '. ';
+								$sms_text .= $mail_urgency . '. ';
+								$sms_text .= $mail_observations . $_POST['observations'] . '. ';
 								$sms_text .= 'https://' . Configuration::$domain . '/voxes/view/details/' . $query;
 
 								foreach ($_POST['assigned_users'] as $value)
@@ -429,59 +384,59 @@ class Myvox_controller extends Controller
 							$_POST['opportunity_type'] = $this->model->get_opportunity_type($_POST['opportunity_type']);
 							$_POST['location'] = $this->model->get_location($_POST['location']);
 
+							if ($data['account']['language'] == 'es')
+							{
+								$mail_subject_1 = 'Tienes una nueva incidencia';
+
+								if ($data['account']['type'] == 'hotel')
+									$mail_room = 'Habitación: #';
+								else if ($data['account']['type'] == 'restaurant')
+									$mail_table = 'Mesa: #';
+
+								$mail_opportunity_area = 'Área de oportunidad: ';
+								$mail_opportunity_type = 'Tipo de oportunidad: ';
+								$mail_started_date = 'Fecha de inicio: ';
+								$mail_started_hour = 'Hora de inicio: ';
+								$mail_location = 'Ubicación: ';
+
+								if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
+									$mail_urgency = 'Urgencia: Programada';
+								else
+									$mail_urgency = 'Urgencia: Media';
+
+								$mail_confidentiality = 'Confidencialidad: No';
+								$mail_subject_2 = 'Asunto: ';
+								$mail_give_follow_up = 'Dar seguimiento';
+							}
+							else if ($data['account']['language'] == 'en')
+							{
+								$mail_subject_1 = 'You have a new incident';
+
+								if ($data['account']['type'] == 'hotel')
+									$mail_room = 'Room: #';
+								else if ($data['account']['type'] == 'restaurant')
+									$mail_table = 'Table: #';
+
+								$mail_opportunity_area = 'Opportunity area: ';
+								$mail_opportunity_type = 'Opportunity type: ';
+								$mail_started_date = 'Start date: ';
+								$mail_started_hour = 'Start hour: ';
+								$mail_location = 'Location: ';
+
+								if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
+									$mail_urgency = 'Urgency: Programmed';
+								else
+									$mail_urgency = 'Urgency: Medium';
+
+								$mail_confidentiality = 'Confidentiality: No';
+								$mail_subject_2 = 'Subject: ';
+								$mail_give_follow_up = 'Give follow up';
+							}
+
 							$mail = new Mailer(true);
 
 							try
 							{
-								if ($data['account']['language'] == 'es')
-								{
-									$mail_subject_1 = 'Tienes una nueva incidencia';
-
-									if ($data['account']['type'] == 'hotel')
-										$mail_room = 'Habitación: ';
-									else if ($data['account']['type'] == 'restaurant')
-										$mail_table = 'Mesa: ';
-
-									$mail_opportunity_area = 'Área de oportunidad: ';
-									$mail_opportunity_type = 'Tipo de oportunidad: ';
-									$mail_started_date = 'Fecha de inicio: ';
-									$mail_started_hour = 'Hora de inicio: ';
-									$mail_location = 'Ubicación: ';
-
-									if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
-										$mail_urgency = 'Urgencia: Programada';
-									else
-										$mail_urgency = 'Urgencia: Media';
-
-									$mail_confidentiality = 'Confidencialidad: No';
-									$mail_subject_2 = 'Asunto: ';
-									$mail_give_follow_up = 'Dar seguimiento';
-								}
-								else if ($data['account']['language'] == 'en')
-								{
-									$mail_subject_1 = 'You have a new incident';
-
-									if ($data['account']['type'] == 'hotel')
-										$mail_room = 'Room: ';
-									else if ($data['account']['type'] == 'restaurant')
-										$mail_table = 'Table: ';
-
-									$mail_opportunity_area = 'Opportunity area: ';
-									$mail_opportunity_type = 'Opportunity type: ';
-									$mail_started_date = 'Start date: ';
-									$mail_started_hour = 'Start hour: ';
-									$mail_location = 'Location: ';
-
-									if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
-										$mail_urgency = 'Urgency: Programmed';
-									else
-										$mail_urgency = 'Urgency: Medium';
-
-									$mail_confidentiality = 'Confidentiality: No';
-									$mail_subject_2 = 'Subject: ';
-									$mail_give_follow_up = 'Give follow up';
-								}
-
 								$mail->isSMTP();
 								$mail->setFrom('noreply@guestvox.com', 'GuestVox');
 
@@ -509,9 +464,9 @@ class Myvox_controller extends Controller
 													<h4 style="font-size:24px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject_1 . '</h4>';
 
 								if ($data['account']['type'] == 'hotel')
-									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . '#' . $data['room']['number'] . (!empty($data['room']['name']) ? ' - ' . $data['room']['name'] : '') . '</h6>';
+									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . $data['room']['number'] . ' ' . $data['room']['name'] . '</h6>';
 								else if ($data['account']['type'] == 'restaurant')
-									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_table . '#' . $data['table']['number'] . (!empty($data['table']['name']) ? ' - ' . $data['table']['name'] : '') . '</h6>';
+									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_table . $data['table']['number'] . ' ' . $data['table']['name'] . '</h6>';
 
 								$mail->Body .=
 								'					<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_area . $_POST['opportunity_area']['name'][$data['account']['language']] . '</h6>
@@ -543,68 +498,21 @@ class Myvox_controller extends Controller
 								$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 								$sms_client = new \Nexmo\Client($sms_basic);
 
-								if ($data['account']['language'] == 'es')
-								{
-									$sms_subject_1 = 'GuestVox: Nueva incidencia';
-
-									if ($data['account']['type'] == 'hotel')
-										$sms_room = 'Habitación: ';
-									else if ($data['account']['type'] == 'restaurant')
-										$sms_table = 'Mesa: ';
-
-									$sms_opportunity_area = 'AO: ';
-									$sms_opportunity_type = 'TO: ';
-									$sms_started_date = 'Fecha: ';
-									$sms_started_hour = 'Hora: ';
-									$sms_location = 'Ubicación: ';
-
-									if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
-										$sms_urgency = 'Urgencia: Programada';
-									else
-										$sms_urgency = 'Urgencia: Media';
-
-									$sms_confidentiality = 'Confidencialidad: No';
-									$sms_subject_2 = 'Asunto: ';
-								}
-								else if (Session::get_value('account')['language'] == 'en')
-								{
-									$sms_subject_1 = 'GuestVox: New incident';
-
-									if ($data['account']['type'] == 'hotel')
-										$sms_room = 'Room: ';
-									else if ($data['account']['type'] == 'restaurant')
-										$sms_table = 'Table: ';
-
-									$sms_opportunity_area = 'OA: ';
-									$sms_opportunity_type = 'OT: ';
-									$sms_started_date = 'Date: ';
-									$sms_started_hour = 'Hour: ';
-									$sms_location = 'Location: ';
-
-									if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($_POST['started_date'], $_POST['started_hour']))
-										$sms_urgency = 'Ugerncy: Programmed';
-									else
-										$sms_urgency = 'Ugerncy: Medium';
-
-									$sms_confidentiality = 'Confidenciality: No';
-									$sms_subject_2 = 'Subject: ';
-								}
-
-								$sms_text = $sms_subject_1 . '. ';
+								$sms_text = $mail_subject_1 . '. ';
 
 								if ($data['account']['type'] == 'hotel')
-									$sms_text .= $sms_room . '#' . $data['room']['number'] . (!empty($data['room']['name']) ? ' - ' . $data['room']['name'] : '') . '. ';
+									$sms_text .= $mail_room . $data['room']['number'] . ' ' . $data['room']['name'] . '. ';
 								else if ($data['account']['type'] == 'restaurant')
-									$sms_text .= $sms_table . '#' . $data['table']['number'] . (!empty($data['table']['name']) ? ' - ' . $data['table']['name'] : '') . '. ';
+									$sms_text .= $mail_table . $data['table']['number'] . ' ' . $data['table']['name'] . '. ';
 
-								$sms_text .= $sms_opportunity_area . $_POST['opportunity_area']['name'][$data['account']['language']] . '. ';
-								$sms_text .= $sms_opportunity_type . $_POST['opportunity_type']['name'][$data['account']['language']] . '. ';
-								$sms_text .= $sms_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
-								$sms_text .= $sms_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
-								$sms_text .= $sms_location . $_POST['location']['name'][$data['account']['language']] . '. ';
-								$sms_text .= $sms_urgency . '. ';
-								$sms_text .= $sms_confidentiality . '. ';
-								$sms_text .= $sms_subject_2 . $_POST['subject'] . '. ';
+								$sms_text .= $mail_opportunity_area . $_POST['opportunity_area']['name'][$data['account']['language']] . '. ';
+								$sms_text .= $mail_opportunity_type . $_POST['opportunity_type']['name'][$data['account']['language']] . '. ';
+								$sms_text .= $mail_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
+								$sms_text .= $mail_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
+								$sms_text .= $mail_location . $_POST['location']['name'][$data['account']['language']] . '. ';
+								$sms_text .= $mail_urgency . '. ';
+								$sms_text .= $mail_confidentiality . '. ';
+								$sms_text .= $mail_subject_2 . $_POST['subject'] . '. ';
 								$sms_text .= 'https://' . Configuration::$domain . '/voxes/view/details/' . $query;
 
 								foreach ($_POST['assigned_users'] as $value)
@@ -719,7 +627,7 @@ class Myvox_controller extends Controller
 									'id' => $explode[1],
 									'answer' => $value,
 									'type' => $explode[0],
-									'subanswers' => [],
+									'subanswers' => []
 								];
 
 								unset($_POST['answers'][$key]);
@@ -908,7 +816,7 @@ class Myvox_controller extends Controller
 												<option value="" selected hidden>{$lang.choose}</option>';
 
 								foreach ($this->model->get_rooms($data['account']['id']) as $value)
-									$mdl_new_request .= '<option value="' . $value['id'] . '">#' . $value['number'] . (!empty($value['name']) ? ' - ' . $value['name'] : '') . '</option>';
+									$mdl_new_request .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 
 								$mdl_new_request .=
 								'			</select>
@@ -927,7 +835,7 @@ class Myvox_controller extends Controller
 												<option value="" selected hidden>{$lang.choose}</option>';
 
 								foreach ($this->model->get_tables($data['account']['id']) as $value)
-									$mdl_new_request .= '<option value="' . $value['id'] . '">#' . $value['number'] . (!empty($value['name']) ? ' - ' . $value['name'] : '') . '</option>';
+									$mdl_new_request .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 
 								$mdl_new_request .=
 								'			</select>
@@ -1059,7 +967,7 @@ class Myvox_controller extends Controller
 												<option value="" selected hidden>{$lang.choose}</option>';
 
 								foreach ($this->model->get_rooms($data['account']['id']) as $value)
-									$mdl_new_incident .= '<option value="' . $value['id'] . '">#' . $value['number'] . (!empty($value['name']) ? ' - ' . $value['name'] : '') . '</option>';
+									$mdl_new_incident .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 
 								$mdl_new_incident .=
 								'			</select>
@@ -1078,7 +986,7 @@ class Myvox_controller extends Controller
 												<option value="" selected hidden>{$lang.choose}</option>';
 
 								foreach ($this->model->get_tables($data['account']['id']) as $value)
-									$mdl_new_incident .= '<option value="' . $value['id'] . '">#' . $value['number'] . (!empty($value['name']) ? ' - ' . $value['name'] : '') . '</option>';
+									$mdl_new_incident .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 
 								$mdl_new_incident .=
 								'			</select>
@@ -1214,7 +1122,7 @@ class Myvox_controller extends Controller
 											<option value="" selected hidden>{$lang.choose}</option>';
 
 								foreach ($this->model->get_rooms($data['account']['id']) as $value)
-									$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . (!empty($value['name']) ? ' - ' . $value['name'] : '') . '</option>';
+									$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 
 								$mdl_new_survey_answer .=
 								'		</select>
@@ -1231,7 +1139,7 @@ class Myvox_controller extends Controller
 											<option value="" selected hidden>{$lang.choose}</option>';
 
 								foreach ($this->model->get_tables($data['account']['id']) as $value)
-									$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . (!empty($value['name']) ? ' - ' . $value['name'] : '') . '</option>';
+									$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 
 								$mdl_new_survey_answer .=
 								'		</select>
