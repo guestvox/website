@@ -40,14 +40,15 @@ $(document).ready(function()
     var id;
     var edit = false;
     var key;
-    var sub = false;
+    var childkey;
+    var sub = 1;
 
     $('[data-modal="new_survey_question"]').modal().onCancel(function()
     {
         id = null;
         edit = false;
         key = null;
-        sub = false;
+        sub = 1;
         $('[data-modal="new_survey_question"]').removeClass('edit');
         $('[data-modal="new_survey_question"]').addClass('new');
         $('[data-modal="new_survey_question"]').find('header > h3').html('Nuevo');
@@ -67,19 +68,26 @@ $(document).ready(function()
 
         var form = $(this);
 
-        if (sub == false)
+        if (sub == 1)
         {
             if (edit == false)
                 var data = '&action=new_survey_question';
             else if (edit == true)
                 var data = '&id=' + id + '&action=edit_survey_question';
         }
-        else if (sub == true)
+        else if (sub == 2)
         {
             if (edit == false)
                 var data = '&id=' + id + '&action=new_survey_subquestion';
             else if (edit == true)
                 var data = '&id=' + id + '&key=' + key + '&action=edit_survey_subquestion';
+        }
+        else if (sub == 3)
+        {
+            if (edit == false)
+                var data = '&id=' + id + '&key=' + key + '&action=new_survey_subquestion_sub';
+            else if (edit == true)
+                var data = '&id=' + id + '&key=' + key + '&childkey=' + childkey + '&action=edit_survey_subquestion_sub';
         }
 
         $.ajax({
@@ -163,10 +171,12 @@ $(document).ready(function()
 
     $('[data-modal="deactivate_survey_question"]').modal().onSuccess(function()
     {
-        if (sub == false)
+        if (sub == 1)
             var data = 'id=' + id + '&action=deactivate_survey_question';
-        else if (sub == true)
+        else if (sub == 2)
             var data = 'id=' + id + '&key=' + key + '&action=deactivate_survey_subquestion';
+        else if (sub == 3)
+            var data = 'id=' + id + '&key=' + key + '&childkey=' + childkey + '&action=deactivate_survey_subquestion_sub';
 
         $.ajax({
             type: 'POST',
@@ -199,10 +209,12 @@ $(document).ready(function()
 
     $('[data-modal="activate_survey_question"]').modal().onSuccess(function()
     {
-        if (sub == false)
+        if (sub == 1)
             var data = 'id=' + id + '&action=activate_survey_question';
-        else if (sub == true)
+        else if (sub == 2)
             var data = 'id=' + id + '&key=' + key + '&action=activate_survey_subquestion';
+        else if (sub == 3)
+            var data = 'id=' + id + '&key=' + key + '&childkey=' + childkey + '&action=activate_survey_subquestion_sub';
 
         $.ajax({
             type: 'POST',
@@ -235,10 +247,12 @@ $(document).ready(function()
 
     $('[data-modal="delete_survey_question"]').modal().onSuccess(function()
     {
-        if (sub == false)
+        if (sub == 1)
             var data = 'id=' + id + '&action=delete_survey_question';
-        else if (sub == true)
+        else if (sub == 2)
             var data = 'id=' + id + '&key=' + key + '&action=delete_survey_subquestion';
+        else if (sub == 3)
+            var data = 'id=' + id + '&key=' + key + '&childkey=' + childkey + '&action=delete_survey_subquestion_sub';
 
         $.ajax({
             type: 'POST',
@@ -266,7 +280,7 @@ $(document).ready(function()
     $(document).on('click', '[data-action="new_survey_subquestion"]', function()
     {
         id = $(this).data('id');
-        sub = true;
+        sub = 2;
         $('[data-modal="new_survey_question"]').addClass('view');
     });
 
@@ -275,7 +289,7 @@ $(document).ready(function()
         id = $(this).data('id');
         key = $(this).data('key');
         edit = true;
-        sub = true;
+        sub = 2;
 
         $.ajax({
             type: 'POST',
@@ -308,7 +322,7 @@ $(document).ready(function()
     {
         id = $(this).data('id');
         key = $(this).data('key');
-        sub = true;
+        sub = 2;
         $('[data-modal="deactivate_survey_question"]').addClass('view');
     });
 
@@ -316,7 +330,7 @@ $(document).ready(function()
     {
         id = $(this).data('id');
         key = $(this).data('key');
-        sub = true;
+        sub = 2;
         $('[data-modal="activate_survey_question"]').addClass('view');
     });
 
@@ -324,7 +338,77 @@ $(document).ready(function()
     {
         id = $(this).data('id');
         key = $(this).data('key');
-        sub = true;
+        sub = 2;
+        $('[data-modal="delete_survey_question"]').addClass('view');
+    });
+
+    $(document).on('click', '[data-action="new_survey_subquestion_sub"]', function()
+    {
+        id = $(this).data('id');
+        key = $(this).data('key');
+        sub = 3;
+        $('[data-modal="new_survey_question"]').addClass('view');
+    });
+
+    $(document).on('click', '[data-action="edit_survey_subquestion_sub"]', function()
+    {
+        id = $(this).data('id');
+        key = $(this).data('key');
+        childkey = $(this).data('childkey');
+        edit = true;
+        sub = 3;
+
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + id + '&action=get_survey_question',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="new_survey_question"]').removeClass('new');
+                    $('[data-modal="new_survey_question"]').addClass('edit');
+                    $('[data-modal="new_survey_question"]').addClass('view');
+                    $('[data-modal="new_survey_question"]').find('header > h3').html('Editar');
+                    $('[data-modal="new_survey_question"]').find('[name="name_es"]').val(response.data.subquestions[key].subquestions[childkey].name.es);
+                    $('[data-modal="new_survey_question"]').find('[name="name_en"]').val(response.data.subquestions[key].subquestions[childkey].name.en);
+                    $('[data-modal="new_survey_question"]').find('[name="type"][value="' + response.data.subquestions[key].subquestions[childkey].type + '"]').prop('checked', true);
+                }
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                }
+            }
+        });
+    });
+
+    $(document).on('click', '[data-action="deactivate_survey_subquestion_sub"]', function()
+    {
+        id = $(this).data('id');
+        key = $(this).data('key');
+        childkey = $(this).data('childkey');
+        sub = 3;
+        $('[data-modal="deactivate_survey_question"]').addClass('view');
+    });
+
+    $(document).on('click', '[data-action="activate_survey_subquestion_sub"]', function()
+    {
+        id = $(this).data('id');
+        key = $(this).data('key');
+        childkey = $(this).data('childkey');
+        sub = 3;
+        $('[data-modal="activate_survey_question"]').addClass('view');
+    });
+
+    $(document).on('click', '[data-action="delete_survey_subquestion_sub"]', function()
+    {
+        id = $(this).data('id');
+        key = $(this).data('key');
+        childkey = $(this).data('childkey');
+        sub = 3;
         $('[data-modal="delete_survey_question"]').addClass('view');
     });
 });
