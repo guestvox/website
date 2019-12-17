@@ -32,15 +32,15 @@ class Dashboard_controller extends Controller
 					<td align="left" class="touchable">{$lang.abr_' . $value['type'] . '}</td>';
 
 				if (Session::get_value('account')['type'] == 'hotel')
-					$tbl_voxes_unresolve .= '<td align="left" class="touchable">#' . $value['data']['room']['number'] . ' ' . $value['data']['room']['name'] . '</td>';
+					$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['room']['number'] . ' ' . $value['data']['room']['name'] : '') . '</td>';
 				else if (Session::get_value('account')['type'] == 'restaurant')
-					$tbl_voxes_unresolve .= '<td align="left" class="touchable">#' . $value['data']['table']['number'] . ' ' . $value['data']['table']['name'] . '</td>';
+					$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['table']['number'] . ' ' . $value['data']['table']['name'] : '') . '</td>';
 
 				$tbl_voxes_unresolve .=
-				'	<td align="left" class="touchable">' . (($vale['type'] == 'request' OR $value['type'] == 'incident') ? $value['data']['firstname'] . ' ' . $value['data']['lastname'] : '') . '</td>
-					<td align="left" class="touchable">' . $value['data']['opportunity_area'] . '</td>
-					<td align="left" class="touchable">' . $value['data']['opportunity_type'] . '</td>
-					<td align="left" class="touchable">' . $value['data']['location'] . '</td>
+				'	<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? $value['data']['firstname'] . ' ' . $value['data']['lastname'] : '') . '</td>
+					<td align="left" class="touchable">' . $value['data']['opportunity_area']['name'][Session::get_value('account')['language']] . '</td>
+					<td align="left" class="touchable">' . $value['data']['opportunity_type']['name'][Session::get_value('account')['language']] . '</td>
+					<td align="left" class="touchable">' . $value['data']['location']['name'][Session::get_value('account')['language']] . '</td>
 					<td align="left" class="touchable">' . Functions::get_formatted_date($value['data']['started_date'], 'd M, y') . '</td>
 					<td align="left" class="touchable" data-started-date="' . Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']) . '" data-elapsed-time></td>
 					<td align="right" class="touchable icon">' . (($value['type'] == 'incident' AND $value['data']['confidentiality'] == true) ? '<span><i class="fas fa-key"></i></span>' : '') . '</td>

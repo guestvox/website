@@ -846,8 +846,8 @@ div.vox-details > div > div.comments > article > footer {
 }
 
 div.vox-details > div > div.comments > article > footer > figure {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -943,12 +943,12 @@ div.vox-details > aside > div.viewed_by > div {
 
 div.vox-details > aside > div.assigned_users > div > figure,
 div.vox-details > aside > div.viewed_by > div > figure {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-right: 10px;
+    margin-right: 5px;
     border-radius: 50%;
     line-height: 0px;
     overflow: hidden;
@@ -2105,7 +2105,8 @@ div.tmp-1  {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    margin-bottom: 20px;
 }
 
 div.tmp-1 > label {
@@ -2116,23 +2117,23 @@ div.tmp-1 > label {
     justify-content: center;
     flex-direction: column;
     margin: 0px 5px;
-    padding: 10px;
+    padding: 20px;
     box-sizing: border-box;
     cursor: pointer;
-    background-color: #00a5ab;
+    background-color: #eee;
 }
 
 div.tmp-1 > label > span {
     font-size: 12px;
     font-weight: 400;
     text-align: center;
-    color: #fff;
+    color: #757575;
 }
 
 div.tmp-1 > label > span > i {
-    font-size: 35px;
-    color: #fff;
-    margin: 5px 0px;
+    font-size: 28px;
+    color: #757575;
+    margin: 10px 0px 15px 0px;
 }
 
 div.tmp-1 > label > input {

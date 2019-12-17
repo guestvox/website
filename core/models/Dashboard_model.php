@@ -84,7 +84,12 @@ class Dashboard_model extends Model
 		}
 
 		if ($option == 'all')
-			return !empty($voxes) ? array_multisort($aux, SORT_DESC, $voxes) : $voxes;
+		{
+			if (!empty($voxes))
+				array_multisort($aux, SORT_DESC, $voxes);
+
+			return $voxes;
+		}
 		else
 			return count($voxes);
 	}

@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-require_once 'plugins/nexmo/vendor/autoload.php';
+// require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Myvox_controller extends Controller
 {
@@ -119,6 +119,14 @@ class Myvox_controller extends Controller
 
 						if ($data['account']['type'] == 'hotel')
 						{
+							if ($params[0] == 'account')
+							{
+								$data['room'] = $this->model->get_room($_POST['room']);
+
+								if (!empty($data['room']))
+									$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
+							}
+
 							$_POST['room'] = $data['room']['id'];
 
 							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
@@ -132,7 +140,12 @@ class Myvox_controller extends Controller
 							$_POST['check_out'] = $data['room']['guest']['check_out'];
 						}
 						else if ($data['account']['type'] == 'restaurant')
+						{
+							if ($params[0] == 'account')
+								$data['table'] = $this->model->get_table($_POST['table']);
+
 							$_POST['table'] = $data['table']['id'];
+						}
 
 						$query = $this->model->new_request($_POST);
 
@@ -360,6 +373,14 @@ class Myvox_controller extends Controller
 
 						if ($data['account']['type'] == 'hotel')
 						{
+							if ($params[0] == 'account')
+							{
+								$data['room'] = $this->model->get_room($_POST['room']);
+
+								if (!empty($data['room']))
+									$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
+							}
+
 							$_POST['room'] = $data['room']['id'];
 
 							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
@@ -373,7 +394,12 @@ class Myvox_controller extends Controller
 							$_POST['check_out'] = $data['room']['guest']['check_out'];
 						}
 						else if ($data['account']['type'] == 'restaurant')
+						{
+							if ($params[0] == 'account')
+								$data['table'] = $this->model->get_table($_POST['table']);
+
 							$_POST['table'] = $data['table']['id'];
+						}
 
 						$query = $this->model->new_incident($_POST);
 
@@ -661,6 +687,14 @@ class Myvox_controller extends Controller
 
 						if ($data['account']['type'] == 'hotel')
 						{
+							if ($params[0] == 'account')
+							{
+								$data['room'] = $this->model->get_room($_POST['room']);
+
+								if (!empty($data['room']))
+									$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
+							}
+
 							$_POST['room'] = $data['room']['id'];
 
 							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
@@ -674,7 +708,12 @@ class Myvox_controller extends Controller
 							$_POST['check_out'] = $data['room']['guest']['check_out'];
 						}
 						else if ($data['account']['type'] == 'restaurant')
+						{
+							if ($params[0] == 'account')
+								$data['table'] = $this->model->get_table($_POST['table']);
+
 							$_POST['table'] = $data['table']['id'];
+						}
 
 						$query = $this->model->new_survey_answer($_POST);
 

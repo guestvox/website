@@ -58,7 +58,10 @@ class Myvox_model extends Model
 			'number',
 			'name'
 		], [
-			'token' => strtoupper($token)
+			'OR' => [
+				'id' => $token,
+				'token' => strtoupper($token)
+			]
 		]);
 
 		return !empty($query) ? $query[0] : null;
@@ -88,7 +91,10 @@ class Myvox_model extends Model
 			'number',
 			'name'
 		], [
-			'token' => strtoupper($token)
+			'OR' => [
+				'id' => $token,
+				'token' => strtoupper($token)
+			]
 		]);
 
 		return !empty($query) ? $query[0] : null;
