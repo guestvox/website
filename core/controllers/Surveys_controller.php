@@ -297,7 +297,7 @@ class Surveys_controller extends Controller
 							}
 
 						}
-						// $query = $this->model->edit_survey_subquestions($_POST['id'], $tmp['subquestions']);
+						$query = $this->model->edit_survey_subquestions($_POST['id'], $tmp['subquestions']);
 					}
 
 					if (!empty($query))
