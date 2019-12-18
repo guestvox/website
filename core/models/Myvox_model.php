@@ -330,7 +330,7 @@ class Myvox_model extends Model
 						'type' => 'create',
 						'user' => [
 							'myvox',
-							'guestvox'
+							'guest'
 						],
 						'date' => Functions::get_current_date(),
 						'hour' => Functions::get_current_hour(),
@@ -338,7 +338,7 @@ class Myvox_model extends Model
 				],
 				'created_user' => [
 					'myvox',
-					'guestvox'
+					'guest'
 				],
 				'edited_user' => null,
 				'completed_user' => null,
@@ -399,7 +399,7 @@ class Myvox_model extends Model
 						'type' => 'create',
 						'user' => [
 							'myvox',
-							'guestvox'
+							'guest'
 						],
 						'date' => Functions::get_current_date(),
 						'hour' => Functions::get_current_hour(),
@@ -407,7 +407,7 @@ class Myvox_model extends Model
 				],
 				'created_user' => [
 					'myvox',
-					'guestvox'
+					'guest'
 				],
 				'edited_user' => null,
 				'completed_user' => null,
