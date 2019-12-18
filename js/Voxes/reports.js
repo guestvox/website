@@ -151,6 +151,9 @@ $(document).ready(function ()
         $('[data-modal="new_vox_report"]').addClass('new');
         $('[data-modal="new_vox_report"]').find('header > h3').html('Nuevo');
         $('[data-modal="new_vox_report"]').find('form')[0].reset();
+        $('[data-modal="new_vox_report"]').find('[name="addressed_to_opportunity_areas[]"]').prop('checked', false)
+        $('[data-modal="new_vox_report"]').find('[name="addressed_to_opportunity_areas[]"]').parent().parent().parent().parent().parent().parent().addClass('hidden');
+        $('[data-modal="new_vox_report"]').find('[name="fields[]"]').prop('checked', false)
         $('[data-modal="new_vox_report"]').find('label.error').removeClass('error');
         $('[data-modal="new_vox_report"]').find('p.error').remove();
     });
@@ -236,15 +239,21 @@ $(document).ready(function ()
                     $('[data-modal="new_vox_report"]').find('[name="opportunity_area"]').val(response.data.opportunity_area);
                     $('[data-modal="new_vox_report"]').find('[name="opportunity_type"]').val(response.data.opportunity_type);
                     $('[data-modal="new_vox_report"]').find('[name="room"]').val(response.data.room);
+                    $('[data-modal="new_vox_report"]').find('[name="table"]').val(response.data.table);
                     $('[data-modal="new_vox_report"]').find('[name="location"]').val(response.data.location);
                     $('[data-modal="new_vox_report"]').find('[name="order"]').val(response.data.order);
                     $('[data-modal="new_vox_report"]').find('[name="time_period"]').val(response.data.time_period);
                     $('[data-modal="new_vox_report"]').find('[name="addressed_to"]').val(response.data.addressed_to);
 
-                    $.each(response.data.addressed_to_opportunity_areas, function (key, value)
+                    if (response.data.addressed_to == 'opportunity_areas')
                     {
-                        $('[data-modal="new_vox_report"]').find('[name="addressed_to_opportunity_areas[]"][value="' + value + '"]').prop('checked', true);
-                    });
+                        $('[data-modal="new_vox_report"]').find('[name="addressed_to_opportunity_areas[]"]').parent().parent().parent().parent().parent().parent().removeClass('hidden');
+
+                        $.each(response.data.addressed_to_opportunity_areas, function (key, value)
+                        {
+                            $('[data-modal="new_vox_report"]').find('[name="addressed_to_opportunity_areas[]"][value="' + value + '"]').prop('checked', true);
+                        });
+                    }
 
                     $.each(response.data.fields, function (key, value)
                     {

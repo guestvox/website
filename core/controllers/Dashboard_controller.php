@@ -33,7 +33,8 @@ class Dashboard_controller extends Controller
 
 				if (Session::get_value('account')['type'] == 'hotel')
 					$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['room']['number'] . ' ' . $value['data']['room']['name'] : '') . '</td>';
-				else if (Session::get_value('account')['type'] == 'restaurant')
+
+				if (Session::get_value('account')['type'] == 'restaurant')
 					$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['table']['number'] . ' ' . $value['data']['table']['name'] : '') . '</td>';
 
 				$tbl_voxes_unresolve .=

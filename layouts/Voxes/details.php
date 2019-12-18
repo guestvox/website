@@ -28,7 +28,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 <div>
                     <div class="datas">
                         <h4>{$lang.type}: {$lang.{$type}}</h4>
-                        <h4>{$lang.room}: {$room}</h4>
+                        {$h4_room}
+                        {$h4_table}
                         <h4>{$lang.opportunity_area}: {$opportunity_area}</h4>
                         <h4>{$lang.opportunity_type}: {$opportunity_type}</h4>
                         <h4>{$lang.date_hour}: {$started_date} {$lang.at} {$started_hour}</h4>
@@ -48,7 +49,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                     {$div_assigned_users}
                     {$div_viewed_by}
                     <div class="datas">
-                        <h4>{$lang.guest}: {$guest_treatment} {$firstname} {$lastname}</h4>
+                        {$h4_guest}
                         {$h4_guest_id}
                         {$h4_guest_type}
                         {$h4_reservation_number}

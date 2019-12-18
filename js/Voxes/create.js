@@ -43,6 +43,9 @@ $(document).ready(function()
                 {
                     $('[name="opportunity_area"]').html(response.data);
                     $('[name="opportunity_area"]').parents('label').removeClass('success');
+                    $('[name="opportunity_type"]').html('<option value="" selected hidden>Elegir...</option>');
+                    $('[name="opportunity_type"]').attr('disabled', true);
+                    $('[name="opportunity_type"]').parents('label').removeClass('success');
                 }
             }
         });
@@ -63,76 +66,65 @@ $(document).ready(function()
             }
         });
 
-        $('[name="room"]').val('');
-        $('[name="opportunity_type"]').html('<option value="" selected hidden>Elegir...</option>');
-        $('[name="opportunity_type"]').attr('disabled', true);
-        $('[name="opportunity_type"]').parents('label').removeClass('success');
-        $('[name="started_hour"]').parent().parent().find('p.description').toggleClass('hidden');
-        $('[name="started_date"]').parent().find('p.description').toggleClass('hidden');
-        $('[name="location"]').parent().find('p.description').toggleClass('hidden');
-        $('[name="lastname"]').val('');
-
         if ($(this).val() == 'request')
         {
-            $('[name="cost"]').val('');
+            $('[name="room"]').parent().parent().parent().removeClass('hidden');
+            $('[name="table"]').parent().parent().parent().removeClass('hidden');
             $('[name="cost"]').parent().parent().parent().addClass('hidden');
-            $('[name="confidentiality"]').prop('checked', false);
             $('[name="confidentiality"]').parent().parent().parent().parent().addClass('hidden');
-            $('[name="observations"]').val('');
             $('[name="observations"]').parent().parent().parent().removeClass('hidden');
-            $('[name="subject"]').val('');
             $('[name="subject"]').parent().parent().parent().addClass('hidden');
-            $('[name="assigned_users[]"]').parent().parent().parent().removeClass('span6');
-            $('[name="assigned_users[]"]').parent().parent().parent().addClass('span3');
-            $('[name="description"]').val('');
             $('[name="description"]').parent().parent().parent().addClass('hidden');
-            $('[name="action_taken"]').val('');
             $('[name="action_taken"]').parent().parent().parent().addClass('hidden');
-            $('[name="guest_treatment"]').parent().parent().parent().removeClass('span2');
-            $('[name="guest_treatment"]').parent().parent().parent().addClass('span3');
-            $('[name="guest_id"]').val('');
+            $('[name="guest_treatment"]').parent().parent().parent().removeClass('hidden');
+            $('[name="firstname"]').parent().parent().parent().removeClass('hidden');
+            $('[name="lastname"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_id"]').parent().parent().parent().addClass('hidden');
-            $('[name="guest_type"]').val('');
             $('[name="guest_type"]').parent().parent().parent().addClass('hidden');
-            $('[name="reservation_number"]').val('');
             $('[name="reservation_number"]').parent().parent().parent().addClass('hidden');
-            $('[name="reservation_status"]').val('');
             $('[name="reservation_status"]').parent().parent().parent().addClass('hidden');
-            $('[name="check_in"]').val('');
             $('[name="check_in"]').parent().parent().parent().addClass('hidden');
-            $('[name="check_out"]').val('');
             $('[name="check_out"]').parent().parent().parent().addClass('hidden');
         }
         else if ($(this).val() == 'incident')
         {
-            $('[name="cost"]').val('');
+            $('[name="room"]').parent().parent().parent().removeClass('hidden');
+            $('[name="table"]').parent().parent().parent().removeClass('hidden');
             $('[name="cost"]').parent().parent().parent().removeClass('hidden');
-            $('[name="confidentiality"]').prop('checked', false);
             $('[name="confidentiality"]').parent().parent().parent().parent().removeClass('hidden');
-            $('[name="observations"]').val('');
             $('[name="observations"]').parent().parent().parent().addClass('hidden');
-            $('[name="subject"]').val('');
             $('[name="subject"]').parent().parent().parent().removeClass('hidden');
-            $('[name="assigned_users[]"]').parent().parent().parent().removeClass('span3');
-            $('[name="assigned_users[]"]').parent().parent().parent().addClass('span6');
-            $('[name="description"]').val('');
             $('[name="description"]').parent().parent().parent().removeClass('hidden');
-            $('[name="action_taken"]').val('');
             $('[name="action_taken"]').parent().parent().parent().removeClass('hidden');
-            $('[name="guest_treatment"]').parent().parent().parent().removeClass('span3');
-            $('[name="guest_treatment"]').parent().parent().parent().addClass('span2');
-            $('[name="guest_id"]').val('');
+            $('[name="guest_treatment"]').parent().parent().parent().removeClass('hidden');
+            $('[name="firstname"]').parent().parent().parent().removeClass('hidden');
+            $('[name="lastname"]').parent().parent().parent().removeClass('hidden');
             $('[name="guest_id"]').parent().parent().parent().removeClass('hidden');
-            $('[name="guest_type"]').val('');
             $('[name="guest_type"]').parent().parent().parent().removeClass('hidden');
-            $('[name="reservation_number"]').val('');
             $('[name="reservation_number"]').parent().parent().parent().removeClass('hidden');
-            $('[name="reservation_status"]').val('');
             $('[name="reservation_status"]').parent().parent().parent().removeClass('hidden');
-            $('[name="check_in"]').val('');
             $('[name="check_in"]').parent().parent().parent().removeClass('hidden');
-            $('[name="check_out"]').val('');
             $('[name="check_out"]').parent().parent().parent().removeClass('hidden');
+        }
+        else if ($(this).val() == 'workorder')
+        {
+            $('[name="room"]').parent().parent().parent().addClass('hidden');
+            $('[name="table"]').parent().parent().parent().addClass('hidden');
+            $('[name="cost"]').parent().parent().parent().addClass('hidden');
+            $('[name="confidentiality"]').parent().parent().parent().parent().addClass('hidden');
+            $('[name="observations"]').parent().parent().parent().removeClass('hidden');
+            $('[name="subject"]').parent().parent().parent().addClass('hidden');
+            $('[name="description"]').parent().parent().parent().addClass('hidden');
+            $('[name="action_taken"]').parent().parent().parent().addClass('hidden');
+            $('[name="guest_treatment"]').parent().parent().parent().addClass('hidden');
+            $('[name="firstname"]').parent().parent().parent().addClass('hidden');
+            $('[name="lastname"]').parent().parent().parent().addClass('hidden');
+            $('[name="guest_id"]').parent().parent().parent().addClass('hidden');
+            $('[name="guest_type"]').parent().parent().parent().addClass('hidden');
+            $('[name="reservation_number"]').parent().parent().parent().addClass('hidden');
+            $('[name="reservation_status"]').parent().parent().parent().addClass('hidden');
+            $('[name="check_in"]').parent().parent().parent().addClass('hidden');
+            $('[name="check_out"]').parent().parent().parent().addClass('hidden');
         }
 
         $('label.error').removeClass('error');
@@ -167,19 +159,8 @@ $(document).ready(function()
                 }
                 else if (response.status == 'error')
                 {
-                    if ($('[name="type"]:checked').val() == 'request')
-                    {
-                        $('[name="firstname"]').val('');
-                        $('[name="lastname"]').val('');
-                    }
-                    else if ($('[name="type"]:checked').val() == 'incident')
-                    {
-                        $('[name="firstname"]').val('');
-                        $('[name="lastname"]').val('');
-                        $('[name="reservation_number"]').val('');
-                        $('[name="check_in"]').val('');
-                        $('[name="check_out"]').val('');
-                    }
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
                 }
             }
         });
@@ -231,7 +212,7 @@ $(document).ready(function()
                 {
                     $('[data-modal="success"]').addClass('view');
                     $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { window.location.href = response.path; }, 1500);
+                    setTimeout(function() { window.location.href = '/voxes'; }, 1500);
                 }
                 else if (response.status == 'error')
                 {

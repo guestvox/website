@@ -1,6 +1,6 @@
 <?php
 
-// require_once 'plugins/nexmo/vendor/autoload.php';
+require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Voxes_api extends Model
 {

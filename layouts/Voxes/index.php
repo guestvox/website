@@ -41,6 +41,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 <table id="tbl_voxes">
                     <thead>
                         <tr>
+                            <th align="left" class="icon">{$lang.abr_type}</th>
                             <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                             <th align="left">{$lang.abr_room}</th>
                             <?php endif; ?>

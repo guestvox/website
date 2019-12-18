@@ -85,6 +85,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                                     <option value="all">{$lang.all}</option>
                                     <option value="request">{$lang.request}</option>
                                     <option value="incident">{$lang.incident}</option>
+                                    <option value="workorder">{$lang.workorder}</option>
                                 </select>
                             </label>
                         </div>
@@ -94,7 +95,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             <label>
                                 <p>{$lang.opportunity_area}</p>
                                 <select name="opportunity_area">
-                                    <option value="all">{$lang.all}</option>
+                                    <option value="">{$lang.all}</option>
                                     {$opt_opportunity_areas}
                                 </select>
                             </label>
@@ -105,28 +106,43 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             <label>
                                 <p>{$lang.opportunity_type}</p>
                                 <select name="opportunity_type">
-                                    <option value="all">{$lang.all}</option>
+                                    <option value="">{$lang.all}</option>
                                 </select>
                             </label>
                         </div>
                     </div>
+                    <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                     <div class="span6">
                         <div class="label">
                             <label>
                                 <p>{$lang.room}</p>
                                 <select name="room">
-                                    <option value="all">{$lang.all}</option>
+                                    <option value="">{$lang.all}</option>
                                     {$opt_rooms}
                                 </select>
                             </label>
                         </div>
                     </div>
+                    <?php endif; ?>
+                    <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.table}</p>
+                                <select name="table">
+                                    <option value="">{$lang.all}</option>
+                                    {$opt_tables}
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                     <div class="span6">
                         <div class="label">
                             <label>
                                 <p>{$lang.location}</p>
                                 <select name="location">
-                                    <option value="all">{$lang.all}</option>
+                                    <option value="">{$lang.all}</option>
                                     {$opt_locations}
                                 </select>
                             </label>
@@ -137,7 +153,12 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             <label>
                                 <p>{$lang.order_by}</p>
                                 <select name="order">
+                                    <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                                     <option value="room">{$lang.room}</option>
+                                    <?php endif; ?>
+                                    <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
+                                    <option value="table">{$lang.table}</option>
+                                    <?php endif; ?>
                                     <option value="guest">{$lang.guest}</option>
                                 </select>
                             </label>
@@ -146,8 +167,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                     <div class="span6">
                         <div class="label">
                             <label>
-                                <p>{$lang.time_period}</p>
-                                <input type="number" name="time_period" min="1" value="1">
+                                <p>{$lang.time_period} ({$lang.days})</p>
+                                <input type="number" name="time_period" min="1" value="7">
                             </label>
                         </div>
                     </div>

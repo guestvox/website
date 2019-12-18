@@ -46,7 +46,8 @@ class Account_model extends Model
 					'id' => $query[0]['room_package']
 				])[0];
 			}
-			else if (Session::get_value('account')['type'] == 'restaurant')
+
+			if (Session::get_value('account')['type'] == 'restaurant')
 			{
 				$query[0]['table_package'] = $this->database->select('table_packages', '*', [
 					'id' => $query[0]['table_package']

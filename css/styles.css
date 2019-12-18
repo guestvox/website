@@ -1063,6 +1063,7 @@ div.report {
     min-height: 50px;
     border-radius: 2px;
     transition: all 200ms linear;
+    margin-top: 20px;
 }
 
 div.report.view {

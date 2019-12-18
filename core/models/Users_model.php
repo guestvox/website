@@ -141,7 +141,8 @@ class Users_model extends Model
 				'hotel' => true
 			];
 		}
-		else if (Session::get_value('account')['type'] == 'restaurant')
+
+		if (Session::get_value('account')['type'] == 'restaurant')
 		{
 			$and = [
 				'type' => $type,

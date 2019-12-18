@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-// require_once 'plugins/nexmo/vendor/autoload.php';
+require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Myvox_controller extends Controller
 {
@@ -55,11 +55,53 @@ class Myvox_controller extends Controller
 		{
 			if (Format::exist_ajax_request() == true)
 			{
+				if ($_POST['action'] == 'get_room')
+				{
+					$data['room'] = $this->model->get_room($_POST['room']);
+
+					if (!empty($data['room']))
+					{
+						$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
+
+						Functions::environment([
+							'status' => 'success',
+							'data' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'data' => '{$lang.operation_error}'
+						]);
+					}
+				}
+
+				if ($_POST['action'] == 'get_table')
+				{
+					$data['table'] = $this->model->get_table($_POST['table']);
+
+					if (!empty($data['room']))
+					{
+						Functions::environment([
+							'status' => 'success',
+							'data' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'data' => '{$lang.operation_error}'
+						]);
+					}
+				}
+
 				if ($_POST['action'] == 'get_opt_opportunity_types')
 				{
 					$html = '<option value="" selected hidden>{$lang.choose}</option>';
 
-					foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['option']) as $value)
+					foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['type']) as $value)
 						$html .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('lang')] . '</option>';
 
 					Functions::environment([
@@ -79,7 +121,8 @@ class Myvox_controller extends Controller
 							if (!isset($_POST['room']) OR empty($_POST['room']))
 								array_push($labels, ['room','']);
 						}
-						else if ($data['account']['type'] == 'restaurant')
+
+						if ($data['account']['type'] == 'restaurant')
 						{
 							if (!isset($_POST['table']) OR empty($_POST['table']))
 								array_push($labels, ['table','']);
@@ -119,14 +162,6 @@ class Myvox_controller extends Controller
 
 						if ($data['account']['type'] == 'hotel')
 						{
-							if ($params[0] == 'account')
-							{
-								$data['room'] = $this->model->get_room($_POST['room']);
-
-								if (!empty($data['room']))
-									$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
-							}
-
 							$_POST['room'] = $data['room']['id'];
 
 							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
@@ -139,13 +174,9 @@ class Myvox_controller extends Controller
 							$_POST['check_in'] = $data['room']['guest']['check_in'];
 							$_POST['check_out'] = $data['room']['guest']['check_out'];
 						}
-						else if ($data['account']['type'] == 'restaurant')
-						{
-							if ($params[0] == 'account')
-								$data['table'] = $this->model->get_table($_POST['table']);
 
+						if ($data['account']['type'] == 'restaurant')
 							$_POST['table'] = $data['table']['id'];
-						}
 
 						$query = $this->model->new_request($_POST);
 
@@ -162,7 +193,8 @@ class Myvox_controller extends Controller
 
 								if ($data['account']['type'] == 'hotel')
 									$mail_room = 'Habitación: #';
-								else if ($data['account']['type'] == 'restaurant')
+
+								if ($data['account']['type'] == 'restaurant')
 									$mail_table = 'Mesa: #';
 
 								$mail_opportunity_area = 'Área de oportunidad: ';
@@ -185,7 +217,8 @@ class Myvox_controller extends Controller
 
 								if ($data['account']['type'] == 'hotel')
 									$mail_room = 'Room: #';
-								else if ($data['account']['type'] == 'restaurant')
+
+								if ($data['account']['type'] == 'restaurant')
 									$mail_table = 'Table: #';
 
 								$mail_opportunity_area = 'Opportunity area: ';
@@ -235,7 +268,8 @@ class Myvox_controller extends Controller
 
 								if ($data['account']['type'] == 'hotel')
 									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . $data['room']['number'] . ' ' . $data['room']['name'] . '</h6>';
-								else if ($data['account']['type'] == 'restaurant')
+
+								if ($data['account']['type'] == 'restaurant')
 									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_table . $data['table']['number'] . ' ' . $data['table']['name'] . '</h6>';
 
 								$mail->Body .=
@@ -271,7 +305,8 @@ class Myvox_controller extends Controller
 
 								if ($data['account']['type'] == 'hotel')
 									$sms_text .= $mail_room . $data['room']['number'] . ' ' . $data['room']['name'] . '. ';
-								else if ($data['account']['type'] == 'restaurant')
+
+								if ($data['account']['type'] == 'restaurant')
 									$sms_text .= $mail_table . $data['table']['number'] . ' ' . $data['table']['name'] . '. ';
 
 								$sms_text .= $mail_opportunity_area . $_POST['opportunity_area']['name'][$data['account']['language']] . '. ';
@@ -333,7 +368,8 @@ class Myvox_controller extends Controller
 							if (!isset($_POST['room']) OR empty($_POST['room']))
 								array_push($labels, ['room','']);
 						}
-						else if ($data['account']['type'] == 'restaurant')
+
+						if ($data['account']['type'] == 'restaurant')
 						{
 							if (!isset($_POST['table']) OR empty($_POST['table']))
 								array_push($labels, ['table','']);
@@ -373,14 +409,6 @@ class Myvox_controller extends Controller
 
 						if ($data['account']['type'] == 'hotel')
 						{
-							if ($params[0] == 'account')
-							{
-								$data['room'] = $this->model->get_room($_POST['room']);
-
-								if (!empty($data['room']))
-									$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
-							}
-
 							$_POST['room'] = $data['room']['id'];
 
 							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
@@ -393,13 +421,9 @@ class Myvox_controller extends Controller
 							$_POST['check_in'] = $data['room']['guest']['check_in'];
 							$_POST['check_out'] = $data['room']['guest']['check_out'];
 						}
-						else if ($data['account']['type'] == 'restaurant')
-						{
-							if ($params[0] == 'account')
-								$data['table'] = $this->model->get_table($_POST['table']);
 
+						if ($data['account']['type'] == 'restaurant')
 							$_POST['table'] = $data['table']['id'];
-						}
 
 						$query = $this->model->new_incident($_POST);
 
@@ -416,7 +440,8 @@ class Myvox_controller extends Controller
 
 								if ($data['account']['type'] == 'hotel')
 									$mail_room = 'Habitación: #';
-								else if ($data['account']['type'] == 'restaurant')
+
+								if ($data['account']['type'] == 'restaurant')
 									$mail_table = 'Mesa: #';
 
 								$mail_opportunity_area = 'Área de oportunidad: ';
@@ -440,7 +465,8 @@ class Myvox_controller extends Controller
 
 								if ($data['account']['type'] == 'hotel')
 									$mail_room = 'Room: #';
-								else if ($data['account']['type'] == 'restaurant')
+
+								if ($data['account']['type'] == 'restaurant')
 									$mail_table = 'Table: #';
 
 								$mail_opportunity_area = 'Opportunity area: ';
@@ -491,7 +517,8 @@ class Myvox_controller extends Controller
 
 								if ($data['account']['type'] == 'hotel')
 									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . $data['room']['number'] . ' ' . $data['room']['name'] . '</h6>';
-								else if ($data['account']['type'] == 'restaurant')
+
+								if ($data['account']['type'] == 'restaurant')
 									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_table . $data['table']['number'] . ' ' . $data['table']['name'] . '</h6>';
 
 								$mail->Body .=
@@ -528,7 +555,8 @@ class Myvox_controller extends Controller
 
 								if ($data['account']['type'] == 'hotel')
 									$sms_text .= $mail_room . $data['room']['number'] . ' ' . $data['room']['name'] . '. ';
-								else if ($data['account']['type'] == 'restaurant')
+
+								if ($data['account']['type'] == 'restaurant')
 									$sms_text .= $mail_table . $data['table']['number'] . ' ' . $data['table']['name'] . '. ';
 
 								$sms_text .= $mail_opportunity_area . $_POST['opportunity_area']['name'][$data['account']['language']] . '. ';
@@ -591,7 +619,8 @@ class Myvox_controller extends Controller
 							if (!isset($_POST['room']) OR empty($_POST['room']))
 								array_push($labels, ['room','']);
 						}
-						else if ($data['account']['type'] == 'restaurant')
+
+						if ($data['account']['type'] == 'restaurant')
 						{
 							if (!isset($_POST['table']) OR empty($_POST['table']))
 								array_push($labels, ['table','']);
@@ -625,7 +654,8 @@ class Myvox_controller extends Controller
 
 						if ($data['account']['type'] == 'hotel')
 							unset($_POST['answers']['room']);
-						else if ($data['account']['type'] == 'restaurant')
+
+						if ($data['account']['type'] == 'restaurant')
 							unset($_POST['answers']['table']);
 
 						unset($_POST['answers']['comment']);
@@ -687,14 +717,6 @@ class Myvox_controller extends Controller
 
 						if ($data['account']['type'] == 'hotel')
 						{
-							if ($params[0] == 'account')
-							{
-								$data['room'] = $this->model->get_room($_POST['room']);
-
-								if (!empty($data['room']))
-									$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
-							}
-
 							$_POST['room'] = $data['room']['id'];
 
 							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
@@ -707,13 +729,9 @@ class Myvox_controller extends Controller
 							$_POST['check_in'] = $data['room']['guest']['check_in'];
 							$_POST['check_out'] = $data['room']['guest']['check_out'];
 						}
-						else if ($data['account']['type'] == 'restaurant')
-						{
-							if ($params[0] == 'account')
-								$data['table'] = $this->model->get_table($_POST['table']);
 
+						if ($data['account']['type'] == 'restaurant')
 							$_POST['table'] = $data['table']['id'];
-						}
 
 						$query = $this->model->new_survey_answer($_POST);
 
@@ -863,7 +881,8 @@ class Myvox_controller extends Controller
 									</div>
 								</div>';
 							}
-							else if ($data['account']['type'] == 'restaurant')
+
+							if ($data['account']['type'] == 'restaurant')
 							{
 								$mdl_new_request .=
 								'<div class="span12">
@@ -1014,7 +1033,8 @@ class Myvox_controller extends Controller
 									</div>
 								</div>';
 							}
-							else if ($data['account']['type'] == 'restaurant')
+
+							if ($data['account']['type'] == 'restaurant')
 							{
 								$mdl_new_incident .=
 								'<div class="span12">
@@ -1168,7 +1188,8 @@ class Myvox_controller extends Controller
 									</label>
 								</div>';
 							}
-							else if ($data['account']['type'] == 'restaurant')
+
+							if ($data['account']['type'] == 'restaurant')
 							{
 								$mdl_new_survey_answer .=
 								'<div class="label">

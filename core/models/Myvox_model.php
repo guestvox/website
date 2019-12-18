@@ -130,7 +130,7 @@ class Myvox_model extends Model
 		return $guest;
 	}
 
-    public function get_opportunity_areas($option, $account)
+    public function get_opportunity_areas($type, $account)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
 			'id',
@@ -138,7 +138,7 @@ class Myvox_model extends Model
 		], [
 			'AND' => [
 				'account' => $account,
-				$option => true,
+				$type => true,
 				'public' => true,
 			],
 			'ORDER' => [
@@ -161,7 +161,7 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-    public function get_opportunity_types($opportunity_area, $option)
+    public function get_opportunity_types($opportunity_area, $type)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
 			'id',
@@ -169,7 +169,7 @@ class Myvox_model extends Model
 		], [
 			'AND' => [
 				'opportunity_area' => $opportunity_area,
-				$option => true,
+				$type => true,
 				'public' => true,
 			],
 			'ORDER' => [
@@ -192,7 +192,7 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-    public function get_locations($option, $account)
+    public function get_locations($type, $account)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('locations', [
 			'id',
@@ -200,7 +200,7 @@ class Myvox_model extends Model
 		], [
 			'AND' => [
 				'account' => $account,
-				$option => true,
+				$type => true,
 				'public' => true,
 			],
 			'ORDER' => [
@@ -230,7 +230,7 @@ class Myvox_model extends Model
             'lastname',
             'email',
             'phone',
-            'opportunity_areas',
+            'opportunity_areas'
         ], [
             'AND' => [
 				'account' => $account,
@@ -280,7 +280,7 @@ class Myvox_model extends Model
             'id',
             'name',
 			'subquestions',
-			'type',
+			'type'
         ], [
             'AND' => [
 				'account' => $account,
@@ -446,7 +446,8 @@ class Myvox_model extends Model
 				'check_out' => $data['check_out']
 			];
 		}
-		else if ($data['account']['type'] == 'restaurant')
+
+		if ($data['account']['type'] == 'restaurant')
 		{
 			$data['guest'] = [
 				'firstname' => $data['firstname'],

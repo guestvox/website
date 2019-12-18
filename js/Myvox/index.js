@@ -18,7 +18,7 @@ $(document).ready(function()
     {
         $.ajax({
             type: 'POST',
-            data: 'opportunity_area=' + $(this).val() + '&option=' + $(this).data('type') + '&action=get_opt_opportunity_types',
+            data: 'opportunity_area=' + $(this).val() + '&type=' + $(this).data('type') + '&action=get_opt_opportunity_types',
             processData: false,
             cache: false,
             dataType: 'json',

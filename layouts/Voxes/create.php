@@ -27,18 +27,24 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                     <div class="tmp-1">
                         <label>
                             <span>{$lang.request}</span>
-                            <span><i class="fas fa-hand-peace"></i></span>
+                            <span><i class="fas fa-spa"></i></span>
                             <input type="radio" name="type" value="request" checked>
                         </label>
                         <label>
                             <span>{$lang.incident}</span>
-                            <span><i class="fas fa-thumbs-down"></i></span>
+                            <span><i class="fas fa-exclamation-triangle"></i></span>
                             <input type="radio" name="type" value="incident">
                         </label>
+                        <label>
+                            <span>{$lang.workorder}</span>
+                            <span><i class="fas fa-id-card-alt"></i></span>
+                            <input type="radio" name="type" value="workorder">
+                        </label>
                     </div>
+                    <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                     <div class="span3">
                         <div class="label">
-                            <label>
+                            <label important>
                                 <p>{$lang.room}</p>
                                 <select name="room">
                                     <option value="" selected hidden>{$lang.choose}</option>
@@ -47,6 +53,20 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             </label>
                         </div>
                     </div>
+                    <?php endif; ?>
+                    <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
+                    <div class="span3">
+                        <div class="label">
+                            <label important>
+                                <p>{$lang.table}</p>
+                                <select name="table">
+                                    <option value="" selected hidden>{$lang.choose}</option>
+                                    {$opt_tables}
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                     <div class="span3">
                         <div class="label">
                             <label important>
@@ -99,14 +119,6 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span3 hidden">
-                        <div class="label">
-                            <label>
-                                <p>{$lang.cost}</p>
-                                <input type="number" name="cost" />
-                            </label>
-                        </div>
-                    </div>
                     <div class="span3">
                         <div class="label">
                             <label>
@@ -116,6 +128,14 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                                     <option value="medium" selected>{$lang.medium}</option>
                                     <option value="high">{$lang.high}</option>
                                 </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.observations} ({$lang.max_120_characters})</p>
+                                <input type="text" name="observations" maxlength="120">
                             </label>
                         </div>
                     </div>
@@ -130,33 +150,23 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span3">
+                    <div class="span3 hidden">
                         <div class="label">
                             <label>
-                                <p>{$lang.observations}</p>
-                                <input type="text" name="observations" maxlength="120" />
+                                <p>{$lang.cost} (<?php echo Session::get_value('account')['currency']; ?>)</p>
+                                <input type="number" name="cost" />
                             </label>
                         </div>
                     </div>
                     <div class="span3 hidden">
                         <div class="label">
                             <label>
-                                <p>{$lang.subject}</p>
-                                <input type="text" name="subject" maxlength="120" />
+                                <p>{$lang.subject} ({$lang.max_120_characters})</p>
+                                <input type="text" name="subject" maxlength="120">
                             </label>
                         </div>
                     </div>
-                    <div class="span3">
-                        <div class="label">
-                            <label>
-                                <p>{$lang.assigned_users}</p>
-                                <select name="assigned_users[]" class="chosen-select" multiple>
-                                    {$opt_users}
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span6 hidden">
+                    <div class="span3 hidden">
                         <div class="label">
                             <label>
                                 <p>{$lang.description}</p>
@@ -164,7 +174,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span6 hidden">
+                    <div class="span3 hidden">
                         <div class="label">
                             <label>
                                 <p>{$lang.action_taken}</p>
@@ -172,6 +182,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             </label>
                         </div>
                     </div>
+                    <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                     <div class="span3">
                         <div class="label">
                             <label>
@@ -183,6 +194,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             </label>
                         </div>
                     </div>
+                    <?php endif; ?>
                     <div class="span3">
                         <div class="label">
                             <label>
@@ -199,15 +211,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span2 hidden">
-                        <div class="label">
-                            <label>
-                                <p>{$lang.guest_id}</p>
-                                <input type="text" name="guest_id" />
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span2 hidden">
+                    <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
+                    <div class="span3 hidden">
                         <div class="label">
                             <label>
                                 <p>{$lang.guest_type}</p>
@@ -215,6 +220,14 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                                     <option value="" selected hidden>{$lang.choose}</option>
                                     {$opt_guest_types}
                                 </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3 hidden">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.guest_id}</p>
+                                <input type="text" name="guest_id" />
                             </label>
                         </div>
                     </div>
@@ -232,7 +245,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                                 <p>{$lang.reservation_statuses}</p>
                                 <select name="reservation_status">
                                     <option value="" selected hidden>{$lang.choose}</option>
-                                    {$opt_reservation_status}
+                                    {$opt_reservation_statuses}
                                 </select>
                             </label>
                         </div>
@@ -255,7 +268,18 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span12">
+                    <?php endif; ?>
+                    <div class="span3">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.assigned_users}</p>
+                                <select name="assigned_users[]" class="chosen-select" multiple>
+                                    {$opt_users}
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3">
                         <div class="label">
                             <label>
                                 <p>{$lang.attachments}</p>

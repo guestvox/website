@@ -9,7 +9,7 @@ class Dashboard_model extends Model
 		parent::__construct();
 	}
 
-	public function get_voxes_unresolve($option = 'all')
+	public function get_voxes_unresolve($type = 'all')
 	{
 		$voxes = [];
 
@@ -36,19 +36,19 @@ class Dashboard_model extends Model
 			if (Functions::check_user_access(['{view_confidentiality}']) == false && $value['data']['confidentiality'] == true)
 				$break = true;
 
-			if ($option == 'noreaded' AND $value['data']['readed'] == true)
+			if ($type == 'noreaded' AND $value['data']['readed'] == true)
 				$break = true;
 
-			if ($option == 'readed' AND $value['data']['readed'] == false)
+			if ($type == 'readed' AND $value['data']['readed'] == false)
 				$break = true;
 
-			if ($option == 'today' AND Functions::get_formatted_date($value['data']['started_date']) != Functions::get_current_date())
+			if ($type == 'today' AND Functions::get_formatted_date($value['data']['started_date']) != Functions::get_current_date())
 				$break = true;
 
-			if ($option == 'week' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_week()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_week()[1])
+			if ($type == 'week' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_week()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_week()[1])
 				$break = true;
 
-			if ($option == 'month' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_month()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_month()[1])
+			if ($type == 'month' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_month()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_month()[1])
 				$break = true;
 
 			if ($value['data']['status'] == 'close')
@@ -56,18 +56,13 @@ class Dashboard_model extends Model
 
 			if ($break == false)
 			{
-				if ($option == 'all')
+				if ($type == 'all')
 				{
-					if (Session::get_value('account')['type'] == 'hotel')
-					{
-						if ($value['type'] == 'request' OR $value['type'] == 'incident')
-							$value['data']['room'] = $this->get_room($value['data']['room']);
-					}
-					else if (Session::get_value('account')['type'] == 'restaurant')
-					{
-						if ($value['type'] == 'request' OR $value['type'] == 'incident')
-							$value['data']['table'] = $this->get_table($value['data']['table']);
-					}
+					if (Session::get_value('account')['type'] == 'hotel' AND ($value['type'] == 'request' OR $value['type'] == 'incident'))
+						$value['data']['room'] = $this->get_room($value['data']['room']);
+
+					if (Session::get_value('account')['type'] == 'restaurant' AND ($value['type'] == 'request' OR $value['type'] == 'incident'))
+						$value['data']['table'] = $this->get_table($value['data']['table']);
 
 					$value['data']['opportunity_area'] = $this->get_opportunity_area($value['data']['opportunity_area']);
 					$value['data']['opportunity_type'] = $this->get_opportunity_type($value['data']['opportunity_type']);
@@ -83,7 +78,7 @@ class Dashboard_model extends Model
 			}
 		}
 
-		if ($option == 'all')
+		if ($type == 'all')
 		{
 			if (!empty($voxes))
 				array_multisort($aux, SORT_DESC, $voxes);
