@@ -20,7 +20,7 @@ class Users_model extends Model
 			'avatar',
 			'username',
 			'user_permissions',
-			'status',
+			'status'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
@@ -33,7 +33,7 @@ class Users_model extends Model
             $query[$key]['user_permissions'] = [
                 'supervision' => false,
                 'operational' => false,
-                'administrative' => false,
+                'administrative' => false
             ];
 
             $value['user_permissions'] = $this->database->select('user_permissions', [
@@ -67,7 +67,7 @@ class Users_model extends Model
 			'phone',
 			'username',
 			'user_permissions',
-			'opportunity_areas',
+			'opportunity_areas'
 		], [
 			'id' => $id
 		]));
@@ -75,7 +75,7 @@ class Users_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_ladas()
+	public function get_countries()
 	{
 		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
 			'name',
@@ -106,7 +106,7 @@ class Users_model extends Model
 	{
 		$query = $this->database->select('user_levels', [
 			'id',
-			'name',
+			'name'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
@@ -120,7 +120,7 @@ class Users_model extends Model
     public function get_user_level($id)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('user_levels', [
-			'user_permissions',
+			'user_permissions'
 		], [
 			'id' => $id
 		]));
@@ -130,17 +130,41 @@ class Users_model extends Model
 
     public function get_user_permissions($type)
     {
-        $query = Functions::get_json_decoded_query($this->database->select('user_permissions', [
+		if (Session::get_value('account')['type'] == 'hotel')
+		{
+			$and = [
+				'type' => $type,
+				'OR' => [
+					'operation' => ((Functions::check_account_access(['operation']) == true) ? true : false),
+					'reputation' => ((Functions::check_account_access(['reputation']) == true) ? true : false),
+				],
+				'hotel' => true
+			];
+		}
+
+		if (Session::get_value('account')['type'] == 'restaurant')
+		{
+			$and = [
+				'type' => $type,
+				'OR' => [
+					'operation' => ((Functions::check_account_access(['operation']) == true) ? true : false),
+					'reputation' => ((Functions::check_account_access(['reputation']) == true) ? true : false),
+				],
+				'restaurant' => true
+			];
+		}
+
+		$query = Functions::get_json_decoded_query($this->database->select('user_permissions', [
 			'id',
 			'name',
-            'group',
             'code',
-            'unique',
+            'group',
+            'unique'
 		], [
-			'type' => $type,
+			'AND' => $and,
 			'ORDER' => [
 				'group' => 'ASC',
-                'priority' => 'ASC'
+				'priority' => 'ASC'
 			]
 		]));
 
@@ -148,13 +172,10 @@ class Users_model extends Model
 
         foreach ($query as $key => $value)
         {
-            if (Functions::check_account_access([$value['group'], $value['code']], true) == true)
-            {
-                if (array_key_exists($value['group'], $user_permissions))
-                    array_push($user_permissions[$value['group']], $value);
-                else
-                    $user_permissions[$value['group']] = [$value];
-            }
+            if (array_key_exists($value['group'], $user_permissions))
+                array_push($user_permissions[$value['group']], $value);
+            else
+                $user_permissions[$value['group']] = [$value];
         }
 
         return $user_permissions;
@@ -164,11 +185,11 @@ class Users_model extends Model
     {
         $query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
 			'id',
-			'name',
+			'name'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
-				'name' => 'ASC',
+				'name' => 'ASC'
 			]
 		]));
 
@@ -183,7 +204,7 @@ class Users_model extends Model
 			'AND' => [
 				'account' => Session::get_value('account')['id'],
 				'email' => $data['email'],
-				'username' => $data['username'],
+				'username' => $data['username']
 			]
 		]);
 
@@ -219,7 +240,7 @@ class Users_model extends Model
 				'id[!]' => $data['id'],
 				'account' => Session::get_value('account')['id'],
 				'email' => $data['email'],
-				'username' => $data['username'],
+				'username' => $data['username']
 			]
 		]);
 
@@ -235,7 +256,7 @@ class Users_model extends Model
 				]),
 				'username' => $data['username'],
 				'user_permissions' => !empty($data['user_permissions']) ? json_encode($data['user_permissions']) : json_encode([]),
-				'opportunity_areas' => !empty($data['opportunity_areas']) ? json_encode($data['opportunity_areas']) : json_encode([]),
+				'opportunity_areas' => !empty($data['opportunity_areas']) ? json_encode($data['opportunity_areas']) : json_encode([])
 			], [
 				'id' => $data['id']
 			]);

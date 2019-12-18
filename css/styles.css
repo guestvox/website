@@ -167,25 +167,22 @@ header.main > section.menu > nav:last-child.open {
 
 header.main > section.menu > nav:last-child > figure {
     width: auto;
-    width: 130px;
-    height: 130px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
-    line-height: 0px;
-    overflow: hidden;
-    border-radius: 50%;
     margin-bottom: 20px;
 }
 
 header.main > section.menu > nav:last-child > figure > img {
-    width: 100%;
+    width: auto;
+    height: 100px;
 }
 
 header.main > section.menu > nav:last-child > h4 {
     width: 100%;
     margin-bottom: 20px;
-    font-size: 18px;
+    font-size: 14px;
     text-align: center;
     color: #757575;
 }
@@ -551,12 +548,17 @@ table tbody > tr.close {
     opacity: 0.2;
 }
 
-table tbody > tr.sub {
+table tbody > tr.sub-40,
+table tbody > tr.sub-80 {
     color: #757575 !important;
 }
 
-table tbody > tr.sub > td:first-child {
+table tbody > tr.sub-40 > td:first-child {
     padding-left: 40px !important;
+}
+
+table tbody > tr.sub-80 > td:first-child {
+    padding-left: 80px !important;
 }
 
 table tbody > tr > td.touchable {
@@ -844,8 +846,8 @@ div.vox-details > div > div.comments > article > footer {
 }
 
 div.vox-details > div > div.comments > article > footer > figure {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -941,12 +943,12 @@ div.vox-details > aside > div.viewed_by > div {
 
 div.vox-details > aside > div.assigned_users > div > figure,
 div.vox-details > aside > div.viewed_by > div > figure {
-    width: 50px;
-    height: 50px;
+    width: 30px;
+    height: 30px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-right: 10px;
+    margin-right: 5px;
     border-radius: 50%;
     line-height: 0px;
     overflow: hidden;
@@ -1061,6 +1063,7 @@ div.report {
     min-height: 50px;
     border-radius: 2px;
     transition: all 200ms linear;
+    margin-top: 20px;
 }
 
 div.report.view {
@@ -1275,6 +1278,7 @@ section[data-modal="preview_survey_question"] > .content > main > article.subque
 section[data-modal="preview_survey_question"] > .content > main > article.subquestions > div {
     margin-bottom: 5px;
 }
+
 /* Account
 ------------------------------------------------------------------- */
 div.account {
@@ -1318,6 +1322,46 @@ div.account > div > figure > input {
     display: none;
 }
 
+div.account > div > h2 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.account > div > h2 > i {
+    margin-bottom: 20px;
+    font-size: 100px;
+}
+
+div.account > div > h2 > span {
+    font-size: 14px;
+}
+
+div.account > div > h2 > span > strong {
+    font-size: 24px;
+}
+
+div.account > div > h2 > figure,
+div.account > div > h2 > figure > img {
+    width: auto;
+    height: 120px;
+    margin-bottom: 20px;
+    line-height: 0px;
+}
+
+div.account > div > h4 {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+}
+
 div.account > div > h6 {
     display: flex;
     align-items: center;
@@ -1330,22 +1374,6 @@ div.account > div > h6 {
 
 div.account > div > h6 > i {
     margin-right: 10px;
-}
-
-div.account > div > h2 {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    font-size: 40px;
-    font-weight: 400;
-    color: #757575;
-}
-
-div.account > div > h2 > span {
-    font-size: 18px;
 }
 
 div.account > div > a {
@@ -1383,13 +1411,13 @@ div.profile {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 100px 0px;
+    padding: 50px 0px;
     box-sizing: border-box;
 }
 
 div.profile > figure {
-    width: 400px;
-    height: 400px;
+    width: 250px;
+    height: 250px;
     position: relative;
     display: flex;
     align-items: center;
@@ -1411,7 +1439,7 @@ div.profile > figure > a {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 100px;
+    font-size: 50px;
     color: #757575;
     background-color: #fff;
     opacity: 0;
@@ -1437,14 +1465,14 @@ div.profile > div > h6 {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    margin-bottom: 10px;
-    font-size: 18px;
+    margin-bottom: 5px;
+    font-size: 14px;
     font-weight: 400;
     color: #757575;
 }
 
 div.profile > div > h6 > i {
-    margin-right: 10px;
+    margin-right: 5px;
 }
 
 div.profile > div > a {
@@ -1467,7 +1495,6 @@ div.profile > div > a:hover {
 /* Charts
 ------------------------------------------------------------------------------ */
 div.charts {
-    width: calc((100% / 3) - 20px);
     min-height: 450px;
     float: left;
     display: flex;
@@ -1478,6 +1505,22 @@ div.charts {
     border: 1px dashed #bdbdbd;
     padding: 40px;
     box-sizing: border-box;
+}
+
+div.charts.small {
+    width: calc((100% / 3) - 20px);
+}
+
+div.charts.small-medium {
+    width: calc((100% / 2) - 20px);
+}
+
+div.charts.big-medium {
+    width: calc(66.66% - 20px);
+}
+
+div.charts.big {
+    width: calc(100% - 20px);
 }
 
 div.charts > canvas {
@@ -1893,6 +1936,30 @@ section.modal[data-modal="error"] main > a {
     cursor: pointer;
 }
 
+section.modal main > div.maximum-exceeded {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+section.modal main > div.maximum-exceeded > i {
+    margin-bottom: 40px;
+    font-size: 100px;
+    font-weight: 400;
+    color: #757575;
+}
+
+section.modal main > div.maximum-exceeded > p {
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    color: #757575;
+}
+
 /* Ajax loader
 ------------------------------------------------------------------------------ */
 .loading::after {
@@ -2039,7 +2106,8 @@ div.tmp-1  {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    margin-bottom: 20px;
 }
 
 div.tmp-1 > label {
@@ -2050,23 +2118,23 @@ div.tmp-1 > label {
     justify-content: center;
     flex-direction: column;
     margin: 0px 5px;
-    padding: 10px;
+    padding: 20px;
     box-sizing: border-box;
     cursor: pointer;
-    background-color: #00a5ab;
+    background-color: #eee;
 }
 
 div.tmp-1 > label > span {
     font-size: 12px;
     font-weight: 400;
     text-align: center;
-    color: #fff;
+    color: #757575;
 }
 
 div.tmp-1 > label > span > i {
-    font-size: 35px;
-    color: #fff;
-    margin: 5px 0px;
+    font-size: 28px;
+    color: #757575;
+    margin: 10px 0px 15px 0px;
 }
 
 div.tmp-1 > label > input {

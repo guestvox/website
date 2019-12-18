@@ -21,15 +21,11 @@ class Urls_registered_vkye
                 'controller' => 'Hola',
                 'method' => 'index'
             ],
-            '/copyright' => [
-                'controller' => 'Copyright',
-                'method' => 'index'
-            ],
             '/terms' => [
                 'controller' => 'Terms',
                 'method' => 'index'
             ],
-            '/myvox/%param%' => [
+            '/myvox/%param%/%param%' => [
                 'controller' => 'Myvox',
                 'method' => 'index'
             ],
@@ -99,6 +95,10 @@ class Urls_registered_vkye
             ],
             '/rooms' => [
                 'controller' => 'Rooms',
+                'method' => 'index'
+            ],
+            '/tables' => [
+                'controller' => 'Tables',
                 'method' => 'index'
             ],
             '/opportunityareas' => [

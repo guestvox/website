@@ -21,14 +21,14 @@ class Userlevels_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'success',
-						'data' => $query,
+						'data' => $query
 					]);
 				}
 				else
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.operation_error}',
+						'message' => '{$lang.operation_error}'
 					]);
 				}
 			}
@@ -51,14 +51,14 @@ class Userlevels_controller extends Controller
 					{
 						Functions::environment([
 							'status' => 'success',
-							'message' => '{$lang.operation_success}',
+							'message' => '{$lang.operation_success}'
 						]);
 					}
 					else
 					{
 						Functions::environment([
 							'status' => 'error',
-							'message' => '{$lang.operation_error}',
+							'message' => '{$lang.operation_error}'
 						]);
 					}
 				}
@@ -79,14 +79,14 @@ class Userlevels_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'success',
-						'message' => '{$lang.operation_success}',
+						'message' => '{$lang.operation_success}'
 					]);
 				}
 				else
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.operation_error}',
+						'message' => '{$lang.operation_error}'
 					]);
 				}
 			}
@@ -190,7 +190,7 @@ class Userlevels_controller extends Controller
 
 			$replace = [
 				'{$tbl_user_levels}' => $tbl_user_levels,
-				'{$cbx_user_permissions}' => $cbx_user_permissions,
+				'{$cbx_user_permissions}' => $cbx_user_permissions
 			];
 
 			$template = $this->format->replace($replace, $template);

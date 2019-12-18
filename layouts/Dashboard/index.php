@@ -27,7 +27,13 @@ $this->dependencies->add(['other', '<script>menu_focus("dashboard");</script>'])
                 <table id="tbl_voxes_unresolve">
                     <thead>
                         <tr>
+                            <th align="left" class="icon">{$lang.abr_type}</th>
+                            <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                             <th align="left">{$lang.abr_room}</th>
+                            <?php endif; ?>
+                            <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
+                            <th align="left">{$lang.abr_table}</th>
+                            <?php endif; ?>
                             <th align="left">{$lang.abr_guest}</th>
                             <th align="left">{$lang.abr_opportunity_area}</th>
                             <th align="left">{$lang.abr_opportunity_type}</th>

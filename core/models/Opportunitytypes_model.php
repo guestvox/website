@@ -21,7 +21,8 @@ class Opportunitytypes_model extends Model
 			'opportunity_types.name',
 			'opportunity_types.request',
 			'opportunity_types.incident',
-			'opportunity_types.public',
+			'opportunity_types.workorder',
+			'opportunity_types.public'
 		], [
 			'opportunity_types.account' => Session::get_value('account')['id'],
 			'ORDER' => [
@@ -40,7 +41,8 @@ class Opportunitytypes_model extends Model
 			'name',
 			'request',
 			'incident',
-			'public',
+			'workorder',
+			'public'
 		], [
 			'id' => $id
 		]));
@@ -52,7 +54,7 @@ class Opportunitytypes_model extends Model
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
 			'id',
-			'name',
+			'name'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
@@ -70,10 +72,11 @@ class Opportunitytypes_model extends Model
 		$exist = $this->database->count('opportunity_types', [
 			'AND' => [
 				'account' => Session::get_value('account')['id'],
+				'opportunity_area' => $data['opportunity_area'],
 				'name' => json_encode([
 					'es' => $data['name_es'],
-					'en' => $data['name_en'],
-				]),
+					'en' => $data['name_en']
+				])
 			]
 		]);
 
@@ -84,11 +87,12 @@ class Opportunitytypes_model extends Model
 				'opportunity_area' => $data['opportunity_area'],
 				'name' => json_encode([
 					'es' => $data['name_es'],
-					'en' => $data['name_en'],
+					'en' => $data['name_en']
 				]),
 				'request' => !empty($data['request']) ? true : false,
 				'incident' => !empty($data['incident']) ? true : false,
-				'public' => !empty($data['public']) ? true : false,
+				'workorder' => !empty($data['workorder']) ? true : false,
+				'public' => !empty($data['public']) ? true : false
 			]);
 		}
 
@@ -103,10 +107,11 @@ class Opportunitytypes_model extends Model
 			'AND' => [
 				'id[!]' => $data['id'],
 				'account' => Session::get_value('account')['id'],
+				'opportunity_area' => $data['opportunity_area'],
 				'name' => json_encode([
 					'es' => $data['name_es'],
-					'en' => $data['name_en'],
-				]),
+					'en' => $data['name_en']
+				])
 			]
 		]);
 
@@ -116,11 +121,12 @@ class Opportunitytypes_model extends Model
 				'opportunity_area' => $data['opportunity_area'],
 				'name' => json_encode([
 					'es' => $data['name_es'],
-					'en' => $data['name_en'],
+					'en' => $data['name_en']
 				]),
 				'request' => !empty($data['request']) ? true : false,
 				'incident' => !empty($data['incident']) ? true : false,
-				'public' => !empty($data['public']) ? true : false,
+				'workorder' => !empty($data['workorder']) ? true : false,
+				'public' => !empty($data['public']) ? true : false
 			], [
 				'id' => $data['id']
 			]);

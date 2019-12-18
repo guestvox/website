@@ -4,13 +4,13 @@ $(document).ready(function ()
 {
     $('[name="filter"]').on('change', function()
     {
-        var parent = $(this).parents('form');
+        var form = $(this).parents('form');
 
-        if ($(this).val() != 'all')
+        if ($(this).val() != 'free')
         {
             $.ajax({
                 type: 'POST',
-                data: 'report=' + $(this).val() + '&action=get_filter',
+                data: 'filter=' + $(this).val() + '&action=get_filter',
                 processData: false,
                 cache: false,
                 dataType: 'json',
@@ -18,22 +18,23 @@ $(document).ready(function ()
                 {
                     if (response.status == 'success')
                     {
-                        parent.find('[name="type"]').val(response.data.type);
-                        parent.find('[name="opportunity_area"]').html(response.data.opt_opportunity_areas);
-                        parent.find('[name="opportunity_area"]').val(response.data.opportunity_area);
-                        parent.find('[name="opportunity_type"]').html(response.data.opt_opportunity_types);
-                        parent.find('[name="opportunity_type"]').val(response.data.opportunity_type);
-                        parent.find('[name="room"]').val(response.data.room);
-                        parent.find('[name="location"]').html(response.data.opt_locations);
-                        parent.find('[name="location"]').val(response.data.location);
-                        parent.find('[name="order"]').val(response.data.order);
-                        parent.find('[name="started_date"]').val(response.data.started_date);
-                        parent.find('[name="end_date"]').val(response.data.end_date);
-                        parent.find('[name="fields[]"]').parent().parent().html(response.data.cbx_fields);
+                        form.find('[name="type"]').val(response.data.type);
+                        form.find('[name="opportunity_area"]').html(response.data.opt_opportunity_areas);
+                        form.find('[name="opportunity_area"]').val(response.data.opportunity_area);
+                        form.find('[name="opportunity_type"]').html(response.data.opt_opportunity_types);
+                        form.find('[name="opportunity_type"]').val(response.data.opportunity_type);
+                        form.find('[name="room"]').val(response.data.room);
+                        form.find('[name="table"]').val(response.data.table);
+                        form.find('[name="location"]').html(response.data.opt_locations);
+                        form.find('[name="location"]').val(response.data.location);
+                        form.find('[name="order"]').val(response.data.order);
+                        form.find('[name="started_date"]').val(response.data.started_date);
+                        form.find('[name="end_date"]').val(response.data.end_date);
+                        form.find('[name="fields[]"]').parent().parent().html(response.data.cbx_fields);
 
                         $.each(response.data.fields, function (key, value)
                         {
-                            parent.find('[name="fields[]"][value="' + value + '"]').prop('checked', true);
+                            form.find('[name="fields[]"][value="' + value + '"]').prop('checked', true);
                         });
                     }
                 }
@@ -45,11 +46,11 @@ $(document).ready(function ()
 
     $('[name="type"]').on('change', function()
     {
-        var parent = $(this).parents('form');
+        var form = $(this).parents('form');
 
         $.ajax({
             type: 'POST',
-            data: 'option=' + $(this).val() + '&action=get_opt_opportunity_areas',
+            data: 'type=' + $(this).val() + '&action=get_opt_opportunity_areas',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -57,8 +58,8 @@ $(document).ready(function ()
             {
                 if (response.status == 'success')
                 {
-                    parent.find('[name="opportunity_area"]').html(response.data);
-                    parent.find('[name="opportunity_type"]').html('<option value="all">Todo</option>');
+                    form.find('[name="opportunity_area"]').html(response.data);
+                    form.find('[name="opportunity_type"]').html('<option value="">Todo</option>');
                 }
                 else if (response.status == 'error')
                 {
@@ -70,14 +71,14 @@ $(document).ready(function ()
 
         $.ajax({
             type: 'POST',
-            data: 'option=' + $(this).val() + '&action=get_opt_locations',
+            data: 'type=' + $(this).val() + '&action=get_opt_locations',
             processData: false,
             cache: false,
             dataType: 'json',
             success: function(response)
             {
                 if (response.status == 'success')
-                    parent.find('[name="location"]').html(response.data);
+                    form.find('[name="location"]').html(response.data);
                 else if (response.status == 'error')
                 {
                     $('[data-modal="error"]').addClass('view');
@@ -88,14 +89,14 @@ $(document).ready(function ()
 
         $.ajax({
             type: 'POST',
-            data: 'option=' + $(this).val() + '&action=get_cbx_addressed_to_opportunity_areas',
+            data: 'type=' + $(this).val() + '&action=get_cbx_addressed_to_opportunity_areas',
             processData: false,
             cache: false,
             dataType: 'json',
             success: function(response)
             {
                 if (response.status == 'success')
-                    parent.find('[name="addressed_to_opportunity_areas[]"]').parent().parent().html(response.data);
+                    form.find('[name="addressed_to_opportunity_areas[]"]').parent().parent().html(response.data);
                 else if (response.status == 'error')
                 {
                     $('[data-modal="error"]').addClass('view');
@@ -106,14 +107,14 @@ $(document).ready(function ()
 
         $.ajax({
             type: 'POST',
-            data: 'option=' + $(this).val() + '&action=get_cbx_fields',
+            data: 'type=' + $(this).val() + '&action=get_cbx_fields',
             processData: false,
             cache: false,
             dataType: 'json',
             success: function(response)
             {
                 if (response.status == 'success')
-                    parent.find('[name="fields[]"]').parent().parent().html(response.data);
+                    form.find('[name="fields[]"]').parent().parent().html(response.data);
                 else if (response.status == 'error')
                 {
                     $('[data-modal="error"]').addClass('view');
@@ -125,18 +126,18 @@ $(document).ready(function ()
 
     $('[name="opportunity_area"]').on('change', function()
     {
-        var parent = $(this).parents('form');
+        var form = $(this).parents('form');
 
         $.ajax({
             type: 'POST',
-            data: 'opportunity_area=' + $(this).val() + '&option=' + parent.find('[name="type"]').val() + '&action=get_opt_opportunity_types',
+            data: 'opportunity_area=' + $(this).val() + '&type=' + form.find('[name="type"]').val() + '&action=get_opt_opportunity_types',
             processData: false,
             cache: false,
             dataType: 'json',
             success: function(response)
             {
                 if (response.status == 'success')
-                    parent.find('[name="opportunity_type"]').html(response.data);
+                    form.find('[name="opportunity_type"]').html(response.data);
                 else if (response.status == 'error')
                 {
                     $('[data-modal="error"]').addClass('view');
@@ -179,9 +180,6 @@ $(document).ready(function ()
             dataType: 'json',
             success: function(response)
             {
-                $('label.error').removeClass('error');
-                $('p.error').remove();
-
                 if (response.status == 'success')
                 {
                     $('#report').html(response.data);
@@ -191,6 +189,9 @@ $(document).ready(function ()
                 {
                     if (response.labels)
                     {
+                        $('label.error').removeClass('error');
+                        $('p.error').remove();
+
                         $.each(response.labels, function(i, label)
                         {
                             if (label[1].length > 0)

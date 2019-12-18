@@ -8,38 +8,35 @@ $(document).ready(function()
         $('header.landing-page nav > ul').toggleClass('open');
     });
 
+    $('[name="type"]').on('change', function()
+    {
+        $('[name="name"]').parent().parent().removeClass('span9');
+        $('[name="name"]').parent().parent().addClass('span6');
+        $('[name="rooms_number"]').val('');
+        $('[name="tables_number"]').val('');
+
+        if ($(this).val() == 'hotel')
+        {
+            $('[name="rooms_number"]').parent().parent().removeClass('hidden');
+            $('[name="tables_number"]').parent().parent().addClass('hidden');
+        }
+        else if ($(this).val() == 'restaurant')
+        {
+            $('[name="rooms_number"]').parent().parent().addClass('hidden');
+            $('[name="tables_number"]').parent().parent().removeClass('hidden');
+        }
+
+        get_total();
+    });
+
     $('[name="rooms_number"]').on('change', function()
     {
-        if ($(this).val().length > 0)
-            var rooms_number = $('[name="rooms_number"]').val();
-        else
-            var rooms_number = 0;
+        get_total();
+    });
 
-        $.ajax({
-            type: 'POST',
-            data: 'rooms_number=' + rooms_number + '&action=get_room_package',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    if (rooms_number > 0)
-                    {
-                        $('#room_package').parent().removeClass('hidden');
-                        $('#room_package').find('h3 > strong').html(response.data.quantity_end);
-                        $('#room_package').find('h4 > strong').html(response.data.price);
-                        $('#total_package').find('h4 > strong').html(response.data.price);
-                    }
-                }
-                else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                }
-            }
-        });
+    $('[name="tables_number"]').on('change', function()
+    {
+        get_total();
     });
 
     // $('[name="cp"]').on('change', function()
@@ -130,14 +127,24 @@ $(document).ready(function()
     //     });
     // });
 
-    $('[data-image-select]').on('click', function()
+    $('[name="operation"]').on('change', function()
     {
-        $(this).parent().find('[data-image-upload]').click();
+        get_total();
     });
 
-    $('[data-image-upload]').on('change', function()
+    $('[name="reputation"]').on('change', function()
     {
-        var preview = $(this).parent().find('[data-image-preview]');
+        get_total();
+    });
+
+    $('[name="logotype"]').parents('.uploader').find('a').on('click', function()
+    {
+        $('[name="logotype"]').click();
+    });
+
+    $('[name="logotype"]').on('change', function()
+    {
+        var preview = $(this).parents('.uploader').find('img');
 
         if ($(this)[0].files[0].type.match($(this).attr('accept')))
         {
@@ -171,9 +178,12 @@ $(document).ready(function()
         $('fieldset.error').removeClass('error');
         $('[data-step]').removeClass('view');
         $('[data-step="1"]').addClass('view');
-        $('[data-image-preview]').attr('src', '../images/empty.png');
-        $('#room_package').parent().addClass('hidden');
-        $('.package').find('h4 > strong').html('');
+        $('[name="name"]').parent().parent().removeClass('span6');
+        $('[name="name"]').parent().parent().addClass('span9');
+        $('[name="rooms_number"]').parent().parent().addClass('hidden');
+        $('[name="tables_number"]').parent().parent().addClass('hidden');
+        $('[name="logotype"]').parents('.uploader').find('img').attr('src', '../images/empty.png');
+        get_total();
     });
 
     $('form[name="signup"]').on('submit', function(e)
@@ -204,7 +214,7 @@ $(document).ready(function()
 
                     if (step == 6)
                     {
-                        $('#success_step_message').html(response.message);
+                        $('#success').html(response.message);
                         setTimeout(function() { location.reload(); }, 8000);
                     }
                 }
@@ -281,3 +291,33 @@ $(document).ready(function()
         });
     });
 });
+
+function get_total()
+{
+    var data = new FormData($('form[name="signup"]')[0]);
+
+    data.append('action', 'get_total');
+
+    $.ajax({
+        type: 'POST',
+        data: data,
+        contentType: false,
+        processData: false,
+        cache: false,
+        dataType: 'json',
+        success: function(response)
+        {
+            if (response.status == 'success')
+            {
+                $('#operation').find('h4 > span').html(response.data.price.operation);
+                $('#reputation').find('h4 > span').html(response.data.price.reputation);
+                $('#total').find('h4 > span').html(response.data.total);
+            }
+            else if (response.status == 'error')
+            {
+                $('[data-modal="error"]').addClass('view');
+                $('[data-modal="error"]').find('main > p').html(response.message);
+            }
+        }
+    });
+}

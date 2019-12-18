@@ -46,11 +46,11 @@ class Account_controller extends Controller
 				if (!isset($_POST['name']) OR empty($_POST['name']) AND $this->model->check_exist_account('name', $_POST['name']) == true)
 					array_push($labels, ['name', '']);
 
+				if (!isset($_POST['zip_code']) OR empty($_POST['zip_code']))
+					array_push($labels, ['zip_code', '']);
+
 				if (!isset($_POST['country']) OR empty($_POST['country']))
 					array_push($labels, ['country', '']);
-
-				if (!isset($_POST['cp']) OR empty($_POST['cp']))
-					array_push($labels, ['cp', '']);
 
 				if (!isset($_POST['city']) OR empty($_POST['city']))
 					array_push($labels, ['city', '']);
@@ -61,11 +61,11 @@ class Account_controller extends Controller
 				if (!isset($_POST['time_zone']) OR empty($_POST['time_zone']))
 					array_push($labels, ['time_zone', '']);
 
-				if (!isset($_POST['language']) OR empty($_POST['language']))
-					array_push($labels, ['language', '']);
-
 				if (!isset($_POST['currency']) OR empty($_POST['currency']))
 					array_push($labels, ['currency', '']);
+
+				if (!isset($_POST['language']) OR empty($_POST['language']))
+					array_push($labels, ['language', '']);
 
 				if (empty($labels))
 				{
@@ -77,8 +77,8 @@ class Account_controller extends Controller
 
 						$tmp['name'] = $_POST['name'];
 						$tmp['time_zone'] = $_POST['time_zone'];
-						$tmp['language'] = $_POST['language'];
 						$tmp['currency'] = $_POST['currency'];
+						$tmp['language'] = $_POST['language'];
 
 						Session::set_value('account', $tmp);
 
@@ -104,21 +104,24 @@ class Account_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'edit_fiscal')
+			if ($_POST['action'] == 'edit_billing')
 			{
 				$labels = [];
 
-				if (!isset($_POST['fiscal_id']) OR empty($_POST['fiscal_id']) AND $this->model->check_exist_account('fiscal_id', $_POST['fiscal_id']) == true)
+				if (!isset($_POST['fiscal_id']) OR empty($_POST['fiscal_id']))
 					array_push($labels, ['fiscal_id', '']);
 
-				if (!isset($_POST['fiscal_name']) OR empty($_POST['fiscal_name']) AND $this->model->check_exist_account('fiscal_name', $_POST['fiscal_name']) == true)
+				if (!isset($_POST['fiscal_name']) OR empty($_POST['fiscal_name']))
 					array_push($labels, ['fiscal_name', '']);
 
 				if (!isset($_POST['fiscal_address']) OR empty($_POST['fiscal_address']))
 					array_push($labels, ['fiscal_address', '']);
 
-				if (!isset($_POST['contact_name']) OR empty($_POST['contact_name']))
-					array_push($labels, ['contact_name', '']);
+				if (!isset($_POST['contact_firstname']) OR empty($_POST['contact_firstname']))
+					array_push($labels, ['contact_firstname', '']);
+
+				if (!isset($_POST['contact_lastname']) OR empty($_POST['contact_lastname']))
+					array_push($labels, ['contact_lastname', '']);
 
 				if (!isset($_POST['contact_department']) OR empty($_POST['contact_department']))
 					array_push($labels, ['contact_department', '']);
@@ -134,7 +137,7 @@ class Account_controller extends Controller
 
 				if (empty($labels))
 				{
-					$query = $this->model->edit_fiscal($_POST);
+					$query = $this->model->edit_billing($_POST);
 
 					if (!empty($query))
 					{
@@ -160,22 +163,22 @@ class Account_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'edit_myvox')
+			if ($_POST['action'] == 'edit_settings')
 			{
 				$labels = [];
 
 				if (Functions::check_account_access(['reputation']) == true)
 				{
-					if (!isset($_POST['myvox_survey_title_es']) OR empty($_POST['myvox_survey_title_es']))
-						array_push($labels, ['myvox_survey_title_es', '']);
+					if (!isset($_POST['settings_myvox_survey_title_es']) OR empty($_POST['settings_myvox_survey_title_es']))
+						array_push($labels, ['settings_myvox_survey_title_es', '']);
 
-					if (!isset($_POST['myvox_survey_title_en']) OR empty($_POST['myvox_survey_title_en']))
-						array_push($labels, ['myvox_survey_title_en', '']);
+					if (!isset($_POST['settings_myvox_survey_title_en']) OR empty($_POST['settings_myvox_survey_title_en']))
+						array_push($labels, ['settings_myvox_survey_title_en', '']);
 				}
 
 				if (empty($labels))
 				{
-					$query = $this->model->edit_myvox($_POST);
+					$query = $this->model->edit_settings($_POST);
 
 					if (!empty($query))
 					{
@@ -212,64 +215,71 @@ class Account_controller extends Controller
 			$opt_countries = '';
 
 			foreach ($this->model->get_countries() as $value)
-				$opt_countries .= '<option value="' . $value['code'] . '" ' . (($account['country'] == $value['code']) ? 'selected' : '') . '>' . $value['name'][Session::get_value('lang')] . '</option>';
+				$opt_countries .= '<option value="' . $value['code'] . '" ' . (($account['country'] == $value['code']) ? 'selected' : '') . '>' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 			$opt_time_zones = '';
 
 			foreach ($this->model->get_time_zones() as $value)
 				$opt_time_zones .= '<option value="' . $value['code'] . '" ' . (($account['time_zone'] == $value['code']) ? 'selected' : '') . '>' . $value['code'] . '</option>';
 
+			$opt_currencies = '';
+
+			foreach ($this->model->get_currencies() as $value)
+				$opt_currencies .= '<option value="' . $value['code'] . '" ' . (($account['currency'] == $value['code']) ? 'selected' : '') . '>(' . $value['code'] . ') ' . $value['name'][Session::get_value('account')['language']] . '</option>';
+
 			$opt_languages = '';
 
 			foreach ($this->model->get_languages() as $value)
 				$opt_languages .= '<option value="' . $value['code'] . '" ' . (($account['language'] == $value['code']) ? 'selected' : '') . '>' . $value['name'] . '</option>';
 
-			$opt_currencies = '';
-
-			foreach ($this->model->get_currencies() as $value)
-				$opt_currencies .= '<option value="' . $value['code'] . '" ' . (($account['currency'] == $value['code']) ? 'selected' : '') . '>' . $value['name'][Session::get_value('lang')] . ' (' . $value['code'] . ')</option>';
-
 			$opt_ladas = '';
 
 			foreach ($this->model->get_countries() as $value)
-				$opt_ladas .= '<option value="' . $value['lada'] . '" ' . (($account['contact']['phone']['lada'] == $value['lada']) ? 'selected' : '') . '>' . $value['name'][Session::get_value('lang')] . ' (+' . $value['lada'] . ')</option>';
+				$opt_ladas .= '<option value="' . $value['lada'] . '" ' . (($account['contact']['phone']['lada'] == $value['lada']) ? 'selected' : '') . '>(+' . $value['lada'] . ') ' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 			$replace = [
-				'{$logotype}' => !empty($account['logotype']) ? '{$path.uploads}' . $account['logotype'] : '{$path.images}empty.png',
+				'{$qr}' => '{$path.uploads}' . $account['qr'],
+				'{$token}' => $account['token'],
+				'{$logotype}' => '{$path.uploads}' . $account['logotype'],
 				'{$name}' => $account['name'],
+				'{$type}' => $account['type'],
+				'{$zip_code}' => $account['zip_code'],
 				'{$country}' => $account['country'],
-				'{$cp}' => $account['cp'],
 				'{$city}' => $account['city'],
 				'{$address}' => $account['address'],
 				'{$time_zone}' => $account['time_zone'],
-				'{$language}' => $account['language'],
 				'{$currency}' => $account['currency'],
-				'{$fiscal_id}' => $account['fiscal_id'],
-				'{$fiscal_name}' => $account['fiscal_name'],
-				'{$fiscal_address}' => $account['fiscal_address'],
-				'{$contact_name}' => $account['contact']['name'],
+				'{$language}' => $account['language'],
+				'{$fiscal_id}' => $account['fiscal']['id'],
+				'{$fiscal_name}' => $account['fiscal']['name'],
+				'{$fiscal_address}' => $account['fiscal']['address'],
+				'{$contact_firstname}' => $account['contact']['firstname'],
+				'{$contact_lastname}' => $account['contact']['lastname'],
 				'{$contact_department}' => $account['contact']['department'],
 				'{$contact_email}' => $account['contact']['email'],
 				'{$contact_phone_lada}' => $account['contact']['phone']['lada'],
 				'{$contact_phone_number}' => $account['contact']['phone']['number'],
-				'{$myvox_request}' => ($account['myvox_request'] == true) ? '{$lang.active}' : '{$lang.deactive}',
-				'{$myvox_request_ckd}' => ($account['myvox_request'] == true) ? 'checked' : '',
-				'{$myvox_incident}' => ($account['myvox_incident'] == true) ? '{$lang.active}' : '{$lang.deactive}',
-				'{$myvox_incident_ckd}' => ($account['myvox_incident'] == true) ? 'checked' : '',
-				'{$myvox_survey}' => ($account['myvox_survey'] == true) ? '{$lang.active}' : '{$lang.deactive}',
-				'{$myvox_survey_ckd}' => ($account['myvox_survey'] == true) ? 'checked' : '',
-				'{$myvox_survey_title}' => $account['myvox_survey_title'][Session::get_value('account')['language']],
-				'{$myvox_survey_title_es}' => $account['myvox_survey_title']['es'],
-				'{$myvox_survey_title_en}' => $account['myvox_survey_title']['en'],
-				'{$sms}' => $account['sms'] . ' SMS <span>' . (($account['sms'] > 0) ? '{$lang.active}' : '{$lang.deactive}') . '</span>',
-				// '{$pms}' => 'Zavia PMS <span>' . (($account['zav'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</span>',
-				// '{$room_package}' => $account['room_package_quantity_end'] . ' {$lang.rooms} <span>' . Functions::get_formatted_currency($account['room_package_price'], 'MXN') . ' {$lang.per_month}</span>',
-				// '{$user_package}' => $account['user_package_quantity_end'] . ' {$lang.users} <span>' . Functions::get_formatted_currency($account['user_package_price'], 'MXN') . ' {$lang.per_month}</span>',
+				'{$payment_type}' => $account['payment']['type'],
+				'{$settings_myvox_request}' => (Functions::check_account_access(['operation']) == true AND $account['settings']['myvox']['request'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
+				'{$settings_myvox_incident}' => (Functions::check_account_access(['operation']) == true AND $account['settings']['myvox']['incident'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
+				'{$settings_myvox_survey}' => (Functions::check_account_access(['reputation']) == true AND $account['settings']['myvox']['survey'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
+				'{$settings_myvox_survey_title}' => (Functions::check_account_access(['operation']) == true) ? $account['settings']['myvox']['survey_title'][Session::get_value('account')['language']] : '',
+				'{$operation}' => (Functions::check_account_access(['operation']) == true) ? '{$lang.activated}' : '{$lang.deactivated}',
+				'{$reputation}' => (Functions::check_account_access(['reputation']) == true) ? '{$lang.activated}' : '{$lang.deactivated}',
+				'{$room_package}' => (Session::get_value('account')['type'] == 'hotel') ? $account['room_package']['quantity_end'] : '',
+				'{$table_package}' => (Session::get_value('account')['type'] == 'restaurant') ? $account['table_package']['quantity_end'] : '',
+				'{$sms}' => $account['sms'],
+				'{$zaviapms}' => (Session::get_value('account')['type'] == 'hotel' AND $account['zaviapms']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$opt_countries}' => $opt_countries,
 				'{$opt_time_zones}' => $opt_time_zones,
-				'{$opt_languages}' => $opt_languages,
 				'{$opt_currencies}' => $opt_currencies,
+				'{$opt_languages}' => $opt_languages,
 				'{$opt_ladas}' => $opt_ladas,
+				'{$settings_myvox_request_ckd}' => (Functions::check_account_access(['operation']) == true AND $account['settings']['myvox']['request'] == true) ? 'checked' : '',
+				'{$settings_myvox_incident_ckd}' => (Functions::check_account_access(['operation']) == true AND $account['settings']['myvox']['incident'] == true) ? 'checked' : '',
+				'{$settings_myvox_survey_ckd}' => (Functions::check_account_access(['reputation']) == true AND $account['settings']['myvox']['survey'] == true) ? 'checked' : '',
+				'{$settings_myvox_survey_title_es}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['myvox']['survey_title']['es'] : '',
+				'{$settings_myvox_survey_title_en}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['myvox']['survey_title']['en'] : ''
 			];
 
 			$template = $this->format->replace($replace, $template);

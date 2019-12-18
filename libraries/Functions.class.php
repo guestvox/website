@@ -145,71 +145,16 @@ class Functions
         return $decrypt;
     }
 
-    static public function check_account_access($parameters, $option = false)
+    static public function check_account_access($parameters)
     {
         $access = false;
 
         if (Session::exists_var('session') == true)
         {
-            if ($option == true)
+            foreach ($parameters as $value)
             {
-                $oa = [
-                    'voxes',
-                    'vox_reports',
-                    'vox_stats',
-                    'rooms',
-                    'opportunity_areas',
-                    'opportunity_types',
-                    'locations',
-                    'reservation_statuses',
-                    'guest_treatments',
-                    'guest_types',
-                    '{view_confidentiality}',
-                    '{view_all}',
-                    '{view_own}',
-                    '{view_opportunity_areas}',
-                ];
-
-                $ra = [
-                    'survey_questions',
-                    'survey_answers',
-                    'survey_stats',
-                    'rooms',
-                    '{view_all}',
-                    '{view_own}',
-                ];
-
-                $fa = [
-                    'account',
-                    'users',
-                    'user_levels',
-                ];
-
-                if (Session::get_value('account')['operation'] == true AND in_array($parameters[0], $oa))
+                if (Session::get_value('account')[$value] == true)
                     $access = true;
-
-                if (Session::get_value('account')['reputation'] == true AND in_array($parameters[0], $ra))
-                    $access = true;
-
-                if (in_array($parameters[0], $fa))
-                    $access = true;
-
-                if ($parameters[0] == 'view')
-                {
-                    if (Session::get_value('account')['operation'] == true AND in_array($parameters[1], $oa))
-                        $access = true;
-
-                    if (Session::get_value('account')['reputation'] == true AND in_array($parameters[1], $ra))
-                        $access = true;
-                }
-            }
-            else
-            {
-                foreach ($parameters as $value)
-                {
-                    if (Session::get_value('account')[$value] == true)
-                        $access = true;
-                }
             }
         }
 

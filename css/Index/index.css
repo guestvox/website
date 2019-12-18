@@ -752,6 +752,7 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
     padding: 20px;
     box-sizing: border-box;
     background-color: #00a5ab;
+    cursor: pointer;
 }
 
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > span {
@@ -770,13 +771,14 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
 }
 
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > h3 {
-    font-size: 30px;
-    font-weight: 600;
+    font-size: 14px;
+    font-weight: 400;
 }
 
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > h3 > strong {
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > h3 > span {
     display: block;
-    line-height: 20px;
+    font-size: 24px;
+    font-weight: 600;
 }
 
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > h4 {
@@ -784,16 +786,15 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
     font-weight: 400;
 }
 
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > h4 > strong {
-    font-size: 18px;
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > h4 > span {
     display: block;
 }
 
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package > p {
     margin-top: 15px;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 400;
-    line-height: 15px;
+    line-height: 10px;
 }
 
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.uploader {
@@ -896,7 +897,7 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
 }
 
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.payment > fieldset > label > figure,
-section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.payment > fieldset > label > figure > img{
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.payment > fieldset > label > figure > img {
     width: auto;
     height: 40px;
 }

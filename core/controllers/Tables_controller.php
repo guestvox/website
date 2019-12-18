@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-class Rooms_controller extends Controller
+class Tables_controller extends Controller
 {
 	public function __construct()
 	{
@@ -13,9 +13,9 @@ class Rooms_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'get_room')
+			if ($_POST['action'] == 'get_table')
 			{
-				$query = $this->model->get_room($_POST['id']);
+				$query = $this->model->get_table($_POST['id']);
 
                 if (!empty($query))
                 {
@@ -33,7 +33,7 @@ class Rooms_controller extends Controller
                 }
 			}
 
-			if ($_POST['action'] == 'new_room')
+			if ($_POST['action'] == 'new_table')
 			{
 				$labels = [];
 
@@ -56,7 +56,7 @@ class Rooms_controller extends Controller
 
 				if (empty($labels))
 				{
-					$query = $this->model->new_room($_POST);
+					$query = $this->model->new_table($_POST);
 
 					if (!empty($query))
 					{
@@ -82,29 +82,7 @@ class Rooms_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'download_rooms')
-			{
-				$rooms = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'rooms');
-
-				if (!empty($rooms))
-				{
-					foreach ($rooms as $value)
-					{
-						$this->model->new_room([
-							'type' => 'one',
-							'number' => $value['Number'],
-							'name' => ''
-						]);
-					}
-				}
-
-				Functions::environment([
-					'status' => 'success',
-					'message' => '{$lang.operation_success}'
-				]);
-			}
-
-			if ($_POST['action'] == 'edit_room')
+			if ($_POST['action'] == 'edit_table')
 			{
 				$labels = [];
 
@@ -113,7 +91,7 @@ class Rooms_controller extends Controller
 
 				if (empty($labels))
 				{
-					$query = $this->model->edit_room($_POST);
+					$query = $this->model->edit_table($_POST);
 
 					if (!empty($query))
 					{
@@ -139,9 +117,9 @@ class Rooms_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'delete_room')
+			if ($_POST['action'] == 'delete_table')
 			{
-				$query = $this->model->delete_room($_POST['id']);
+				$query = $this->model->delete_table($_POST['id']);
 
 				if (!empty($query))
 				{
@@ -165,37 +143,37 @@ class Rooms_controller extends Controller
 
 			$template = $this->view->render($this, 'index');
 
-			$tbl_rooms = '';
+			$tbl_tables = '';
 
-			foreach ($this->model->get_rooms() as $value)
+			foreach ($this->model->get_tables() as $value)
 			{
-				$tbl_rooms .=
+				$tbl_tables .=
 				'<tr>
 					<td align="left">' . $value['token'] . '</td>
 					<td align="left">#' . $value['number'] . '</td>
 					<td align="left">' . $value['name'] . '</td>
 					<td align="right" class="icon"><a href="{$path.uploads}' . $value['qr'] . '" download="' . $value['qr'] . '"><i class="fas fa-qrcode"></i></a></td>
-					' . ((Functions::check_user_access(['{rooms_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_room" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
-					' . ((Functions::check_user_access(['{rooms_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_room" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
+					' . ((Functions::check_user_access(['{tables_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_table" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
+					' . ((Functions::check_user_access(['{tables_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_table" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
 				</tr>';
 			}
 
-			$mdl_new_room = '';
+			$mdl_new_table = '';
 
-			if (Functions::check_user_access(['{rooms_create}']) == true)
+			if (Functions::check_user_access(['{tables_create}']) == true)
 			{
-				$mdl_new_room .=
-				'<section class="modal new" data-modal="new_room">
+				$mdl_new_table .=
+				'<section class="modal new" data-modal="new_table">
 				    <div class="content">
 				        <header>
 				            <h3>{$lang.new}</h3>
 				        </header>
 				        <main>';
 
-				if ($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end'])
+				if ($this->model->get_count_tables() < Session::get_value('account')['table_package']['quantity_end'])
 				{
-					$mdl_new_room .=
-					'<form name="new_room">
+					$mdl_new_table .=
+					'<form name="new_table">
 		                <div class="row">
 		                    <div class="span12">
 		                        <div class="label">
@@ -207,11 +185,11 @@ class Rooms_controller extends Controller
 		                    				<div>
 		                                        <div>
 		                        					<input type="radio" name="type" value="many" checked>
-		                        					<span>{$lang.many_rooms}</span>
+		                        					<span>{$lang.many_tables}</span>
 		                        				</div>
 		                                        <div>
 		                        					<input type="radio" name="type" value="one">
-		                        					<span>{$lang.one_room}</span>
+		                        					<span>{$lang.one_table}</span>
 		                        				</div>
 		                                    </div>
 		                    			</div>
@@ -255,54 +233,20 @@ class Rooms_controller extends Controller
 				}
 				else
 				{
-					$mdl_new_room .=
+					$mdl_new_table .=
 					'<div class="maximum-exceeded">
 						<i class="far fa-frown"></i>
-						<p>{$lang.maximum_rooms_exceeded}</p>
+						<p>{$lang.maximum_tables_exceeded}</p>
 					</div>';
 				}
 
-				$mdl_new_room .=
+				$mdl_new_table .=
 				'        </main>
 				        <footer>
 				            <div class="action-buttons">
-				                ' . (($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn btn-flat" button-cancel>{$lang.cancel}</button>' : '') . '
-				                ' . (($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn" button-success>{$lang.accept}</button>' : '') . '
-								' . (($this->model->get_count_rooms() >= Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.accept}</accept>' : '') . '
-				            </div>
-				        </footer>
-				    </div>
-				</section>';
-			}
-
-			$mdl_download_rooms = '';
-
-			if (Functions::check_user_access(['{rooms_create}']) == true AND Session::get_value('account')['zaviapms']['status'] == true)
-			{
-				$mdl_download_rooms .=
-				'<section class="modal" data-modal="download_rooms">
-				    <div class="content">
-				        <header>
-				            <h3>{$lang.download}</h3>
-				        </header>';
-
-				if ($this->model->get_count_rooms() >= Session::get_value('account')['room_package']['quantity_end'])
-				{
-					$mdl_download_rooms .=
-					'<main>
-						<div class="maximum-exceeded">
-							<i class="far fa-frown"></i>
-							<p>{$lang.maximum_rooms_exceeded}</p>
-						</div>
-					</main>';
-				}
-
-				$mdl_download_rooms .=
-				'        <footer>
-				            <div class="action-buttons">
-								' . (($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.cancel}</button>' : '') . '
-								' . (($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn" button-success>{$lang.accept}</button>' : '') . '
-								' . (($this->model->get_count_rooms() >= Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.accept}</accept>' : '') . '
+				                ' . (($this->model->get_count_tables() < Session::get_value('account')['table_package']['quantity_end']) ? '<button class="btn btn-flat" button-cancel>{$lang.cancel}</button>' : '') . '
+				                ' . (($this->model->get_count_tables() < Session::get_value('account')['table_package']['quantity_end']) ? '<button class="btn" button-success>{$lang.accept}</button>' : '') . '
+								' . (($this->model->get_count_tables() >= Session::get_value('account')['table_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.accept}</accept>' : '') . '
 				            </div>
 				        </footer>
 				    </div>
@@ -310,9 +254,8 @@ class Rooms_controller extends Controller
 			}
 
 			$replace = [
-				'{$tbl_rooms}' => $tbl_rooms,
-				'{$mdl_new_room}' => $mdl_new_room,
-				'{$mdl_download_rooms}' => $mdl_download_rooms
+				'{$tbl_tables}' => $tbl_tables,
+				'{$mdl_new_table}' => $mdl_new_table
 			];
 
 			$template = $this->format->replace($replace, $template);

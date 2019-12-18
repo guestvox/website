@@ -14,11 +14,47 @@ $(document).ready(function()
             $(this).parents('label').removeClass('success');
     });
 
+    $('[name="room"]').on('change', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'room=' + $(this).val() + '&action=get_room',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+
+                }
+            }
+        });
+    });
+
+    $('[name="table"]').on('change', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'table=' + $(this).val() + '&action=get_table',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+
+                }
+            }
+        });
+    });
+
     $('[name="opportunity_area"]').on('change', function()
     {
         $.ajax({
             type: 'POST',
-            data: 'opportunity_area=' + $(this).val() + '&option=' + $(this).data('type') + '&action=get_opt_opportunity_types',
+            data: 'opportunity_area=' + $(this).val() + '&type=' + $(this).data('type') + '&action=get_opt_opportunity_types',
             processData: false,
             cache: false,
             dataType: 'json',

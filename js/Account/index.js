@@ -46,12 +46,6 @@ $(document).ready(function()
         }
     });
 
-    $('[data-modal="edit_profile"]').modal().onCancel(function()
-    {
-        $('[data-modal="edit_profile"]').find('label.error').removeClass('error');
-        $('[data-modal="edit_profile"]').find('p.error').remove();
-    });
-
     $('[data-modal="edit_profile"]').modal().onSuccess(function()
     {
         $('[data-modal="edit_profile"]').find('form').submit();
@@ -104,18 +98,12 @@ $(document).ready(function()
         });
     });
 
-    $('[data-modal="edit_fiscal"]').modal().onCancel(function()
+    $('[data-modal="edit_billing"]').modal().onSuccess(function()
     {
-        $('[data-modal="edit_fiscal"]').find('label.error').removeClass('error');
-        $('[data-modal="edit_fiscal"]').find('p.error').remove();
+        $('[data-modal="edit_billing"]').find('form').submit();
     });
 
-    $('[data-modal="edit_fiscal"]').modal().onSuccess(function()
-    {
-        $('[data-modal="edit_fiscal"]').find('form').submit();
-    });
-
-    $('form[name="edit_fiscal"]').on('submit', function(e)
+    $('form[name="edit_billing"]').on('submit', function(e)
     {
         e.preventDefault();
 
@@ -123,7 +111,7 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=edit_fiscal',
+            data: form.serialize() + '&action=edit_billing',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -162,18 +150,12 @@ $(document).ready(function()
         });
     });
 
-    $('[data-modal="edit_myvox"]').modal().onCancel(function()
+    $('[data-modal="edit_settings"]').modal().onSuccess(function()
     {
-        $('[data-modal="edit_myvox"]').find('label.error').removeClass('error');
-        $('[data-modal="edit_myvox"]').find('p.error').remove();
+        $('[data-modal="edit_settings"]').find('form').submit();
     });
 
-    $('[data-modal="edit_myvox"]').modal().onSuccess(function()
-    {
-        $('[data-modal="edit_myvox"]').find('form').submit();
-    });
-
-    $('form[name="edit_myvox"]').on('submit', function(e)
+    $('form[name="edit_settings"]').on('submit', function(e)
     {
         e.preventDefault();
 
@@ -181,7 +163,7 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=edit_myvox',
+            data: form.serialize() + '&action=edit_settings',
             processData: false,
             cache: false,
             dataType: 'json',

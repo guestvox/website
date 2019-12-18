@@ -21,14 +21,14 @@ class Opportunityareas_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'success',
-						'data' => $query,
+						'data' => $query
 					]);
 				}
 				else
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.operation_error}',
+						'message' => '{$lang.operation_error}'
 					]);
 				}
 			}
@@ -54,14 +54,14 @@ class Opportunityareas_controller extends Controller
 					{
 						Functions::environment([
 							'status' => 'success',
-							'message' => '{$lang.operation_success}',
+							'message' => '{$lang.operation_success}'
 						]);
 					}
 					else
 					{
 						Functions::environment([
 							'status' => 'error',
-							'message' => '{$lang.operation_error}',
+							'message' => '{$lang.operation_error}'
 						]);
 					}
 				}
@@ -82,14 +82,14 @@ class Opportunityareas_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'success',
-						'message' => '{$lang.operation_success}',
+						'message' => '{$lang.operation_success}'
 					]);
 				}
 				else
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.operation_error}',
+						'message' => '{$lang.operation_error}'
 					]);
 				}
 			}
@@ -109,6 +109,7 @@ class Opportunityareas_controller extends Controller
 					<td align="left">' . $value['name'][Session::get_value('account')['language']] . '</td>
 					<td align="left" class="flag">' . (($value['request'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
 					<td align="left" class="flag">' . (($value['incident'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
+					<td align="left" class="flag">' . (($value['workorder'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
 					<td align="left" class="flag">' . (($value['public'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
 					' . ((Functions::check_user_access(['{opportunity_areas_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_opportunity_area" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
 					' . ((Functions::check_user_access(['{opportunity_areas_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_opportunity_area" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
@@ -116,7 +117,7 @@ class Opportunityareas_controller extends Controller
 			}
 
 			$replace = [
-				'{$tbl_opportunity_areas}' => $tbl_opportunity_areas,
+				'{$tbl_opportunity_areas}' => $tbl_opportunity_areas
 			];
 
 			$template = $this->format->replace($replace, $template);

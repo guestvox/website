@@ -67,7 +67,7 @@ class Surveys_controller extends Controller
 					{
 						$data .=
 						'<article>
-						   <h6>' . $value['name'][Session::get_value('lang')] . '</h6>';
+						   <h6>' . $value['name'][Session::get_value('account')['language']] . '</h6>';
 
 						if ($value['type'] == 'rate')
 						{
@@ -174,11 +174,11 @@ class Surveys_controller extends Controller
 
 			}
 
-			if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question' OR $_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'deactivate_survey_subquestion' OR $_POST['action'] == 'activate_survey_subquestion' OR $_POST['action'] == 'delete_survey_subquestion')
+			if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question' OR $_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'new_survey_subquestion_sub' OR $_POST['action'] == 'edit_survey_subquestion_sub' OR $_POST['action'] == 'deactivate_survey_subquestion' OR $_POST['action'] == 'activate_survey_subquestion' OR $_POST['action'] == 'delete_survey_subquestion' OR $_POST['action'] == 'deactivate_survey_subquestion_sub' OR $_POST['action'] == 'activate_survey_subquestion_sub' OR $_POST['action'] == 'delete_survey_subquestion_sub')
 			{
 				$labels = [];
 
-				if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question' OR $_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion')
+				if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question' OR $_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'new_survey_subquestion_sub' OR $_POST['action'] == 'edit_survey_subquestion_sub')
 				{
 					if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
 						array_push($labels, ['name_es', '']);
@@ -196,7 +196,7 @@ class Surveys_controller extends Controller
 						$query = $this->model->new_survey_question($_POST);
 					else if ($_POST['action'] == 'edit_survey_question')
 						$query = $this->model->edit_survey_question($_POST);
-					else if ($_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'deactivate_survey_subquestion' OR $_POST['action'] == 'activate_survey_subquestion' OR $_POST['action'] == 'delete_survey_subquestion')
+					else if ($_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'new_survey_subquestion_sub' OR $_POST['action'] == 'edit_survey_subquestion_sub' OR $_POST['action'] == 'deactivate_survey_subquestion' OR $_POST['action'] == 'activate_survey_subquestion' OR $_POST['action'] == 'delete_survey_subquestion' OR $_POST['action'] == 'deactivate_survey_subquestion_sub' OR $_POST['action'] == 'activate_survey_subquestion_sub' OR $_POST['action'] == 'delete_survey_subquestion_sub')
 					{
 						$tmp = $this->model->get_survey_question($_POST['id']);
 
@@ -208,9 +208,30 @@ class Surveys_controller extends Controller
 									'es' => $_POST['name_es'],
 									'en' => $_POST['name_en'],
 								],
+								'subquestions' => [],
 								'type' => $_POST['type'],
 								'status' => true,
 							]);
+						}
+						else if ($_POST['action'] == 'new_survey_subquestion_sub')
+						{
+							foreach ($tmp['subquestions'] as $key => $value)
+							{
+								if ($_POST['key'] == $key)
+								{
+									array_push($tmp['subquestions'][$key]['subquestions'], [
+										'id' => Functions::get_random(8),
+										'name' => [
+											'es' => $_POST['name_es'],
+											'en' => $_POST['name_en'],
+										],
+										'type' => $_POST['type'],
+										'status' => true,
+									]);
+
+								}
+							}
+
 						}
 						else if ($_POST['action'] == 'edit_survey_subquestion')
 						{
@@ -221,13 +242,61 @@ class Surveys_controller extends Controller
 
 							$tmp['subquestions'][$_POST['key']]['type'] = $_POST['type'];
 						}
+						else if ($_POST['action'] == 'edit_survey_subquestion_sub')
+						{
+							foreach ($tmp['subquestions'] as $key => $value)
+							{
+								if ($_POST['key'] == $key)
+								{
+									$tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]['name'] = [
+										'es' => $_POST['name_es'],
+										'en' => $_POST['name_en'],
+									];
+
+									$tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]['type'] = $_POST['type'];
+								}
+							}
+
+						}
 						else if ($_POST['action'] == 'deactivate_survey_subquestion')
 							$tmp['subquestions'][$_POST['key']]['status'] = false;
 						else if ($_POST['action'] == 'activate_survey_subquestion')
 							$tmp['subquestions'][$_POST['key']]['status'] = true;
 						else if ($_POST['action'] == 'delete_survey_subquestion')
 							unset($tmp['subquestions'][$_POST['key']]);
+						else if ($_POST['action'] == 'delete_survey_subquestion_sub')
+						{
+							foreach ($tmp['subquestions'] as $key => $value)
+							{
+								if ($_POST['key'] == $key)
+								{
+									unset($tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]);
+								}
+							}
 
+						}
+						else if ($_POST['action'] == 'deactivate_survey_subquestion_sub')
+						{
+							foreach ($tmp['subquestions'] as $key => $value)
+							{
+								if ($_POST['key'] == $key)
+								{
+									$tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]['status'] = false;
+								}
+							}
+
+						}
+						else if ($_POST['action'] == 'activate_survey_subquestion_sub')
+						{
+							foreach ($tmp['subquestions'] as $key => $value)
+							{
+								if ($_POST['key'] == $key)
+								{
+									$tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]['status'] = true;
+								}
+							}
+
+						}
 						$query = $this->model->edit_survey_subquestions($_POST['id'], $tmp['subquestions']);
 					}
 
@@ -339,15 +408,29 @@ class Surveys_controller extends Controller
 				foreach ($value['subquestions'] as $subkey => $subvalue)
 				{
 					$tbl_survey_questions .=
-					'<tr class="sub">
+					'<tr class="sub-40">
 						<td align="left">' . $subvalue['name'][Session::get_value('account')['language']] . '</td>
 						<td align="left">{$lang.' . $subvalue['type'] . '}</td>
 						<td align="left">' . (($subvalue['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
-						' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon"></td>' : '') . '
+						' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true AND $subvalue['type'] != 'open') ? '<a data-action="new_survey_subquestion_sub" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-plus"></i></a>' : '') . '</td>' : '') . '
 						' . ((Functions::check_user_access(['{survey_questions_delete}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="delete_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
 						' . ((Functions::check_user_access(['{survey_questions_deactivate}','{survey_questions_activate}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="deactivate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
 						' . ((Functions::check_user_access(['{survey_questions_update}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="edit_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '" class="edit"><i class="fas fa-pen"></i></a>' : '') . '</td>' : '') . '
 					</tr>';
+
+					foreach ($subvalue['subquestions'] as $childkey => $childvalue)
+					{
+						$tbl_survey_questions .=
+						'<tr class="sub-80">
+							<td align="left">' . $childvalue['name'][Session::get_value('account')['language']] . '</td>
+							<td align="left">{$lang.' . $childvalue['type'] . '}</td>
+							<td align="left">' . (($childvalue['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
+							' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon"></td>' : '') . '
+							' . ((Functions::check_user_access(['{survey_questions_delete}']) == true) ? '<td align="right" class="icon">' . (($childvalue['status'] == true) ? '<a data-action="delete_survey_subquestion_sub" data-id="' . $value['id'] . '" data-key="' . $subkey . '" data-childkey="' . $childkey . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
+							' . ((Functions::check_user_access(['{survey_questions_deactivate}','{survey_questions_activate}']) == true) ? '<td align="right" class="icon">' . (($childvalue['status'] == true) ? '<a data-action="deactivate_survey_subquestion_sub" data-id="' . $value['id'] . '" data-key="' . $subkey . '" data-childkey="' . $childkey . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_subquestion_sub" data-id="' . $value['id'] . '" data-key="' . $subkey . '" data-childkey="' . $childkey . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
+							' . ((Functions::check_user_access(['{survey_questions_update}']) == true) ? '<td align="right" class="icon">' . (($childvalue['status'] == true) ? '<a data-action="edit_survey_subquestion_sub" data-id="' . $value['id'] . '" data-key="' . $subkey . '" data-childkey="' . $childkey . '" class="edit"><i class="fas fa-pen"></i></a>' : '') . '</td>' : '') . '
+						</tr>';
+					}
 				}
 			}
 
@@ -569,7 +652,12 @@ class Surveys_controller extends Controller
 			$template = $this->view->render($this, 'stats');
 
 			$replace = [
-				'{$total_rate_avarage}' => $this->model->get_total_rate_avarage()
+				'{$total_rate_avarage}' => $this->model->get_total_rate_avarage(),
+				'{$average_surveys}' => $this->model->get_average('general_surveys'),
+				'{$count_received_today}' => $this->model->get_count('received_today'),
+				'{$count_received_week}' => $this->model->get_count('received_week'),
+				'{$count_received_month}' => $this->model->get_count('received_month'),
+				'{$count_received_total}' => $this->model->get_count('received_total'),
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -585,18 +673,21 @@ class Surveys_controller extends Controller
 		$s_r1_chart_data = $this->model->get_chart_data('s_r1_chart');
 		$s_r2_chart_data = $this->model->get_chart_data('s_r2_chart');
 		$s_r3_chart_data = $this->model->get_chart_data('s_r3_chart');
+		$s_r4_chart_data = $this->model->get_chart_data('s_r4_chart');
 
 		if (Session::get_value('lang') == 'es')
 		{
 			$s_r1_chart_title = 'Balance de respuestas por habitación';
 			$s_r2_chart_title = 'Balance de encuestas de valoración';
 			$s_r3_chart_title = 'Balance de encuestas de si y no';
+			$s_r4_chart_title = 'Promedio de preguntas';
 		}
 		else if (Session::get_value('lang') == 'en')
 		{
 			$s_r1_chart_title = 'Balance of responses per room';
 			$s_r2_chart_title = 'Assessment survey balance';
 			$s_r3_chart_title = 'Yes and no survey balance ';
+			$s_r4_chart_title = 'Average questions and subquestions';
 		}
 
 		$js =
@@ -683,11 +774,48 @@ class Surveys_controller extends Controller
             }
         };
 
+		var s_r4_chart = {
+		    type: 'line',
+			data: {
+				labels: [
+	                " . $s_r4_chart_data['labels'] . "
+	            ],
+				datasets: [{
+					label: [
+						" . $s_r4_chart_data['datasets']['labels'] . "
+					],
+	                data: [
+	                    " . $s_r4_chart_data['datasets']['data'] . ",
+	                ],
+	                backgroundColor: [
+	                    " . $s_r4_chart_data['datasets']['colors'] . "
+	                ],
+	                pointBackgroundColor: [
+	                    " . $s_r4_chart_data['datasets']['colors'] . "
+	                ],
+	                lineBackgroundColor: [
+	                    " . $s_r4_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+			options: {
+				title: {
+					display: true,
+					text: '" . $s_r4_chart_title . "'
+				},
+				legend: {
+					display: true
+				},
+	            responsive: true
+            }
+		};
+
 		window.onload = function()
 		{
 			s_r1_chart = new Chart(document.getElementById('s_r1_chart').getContext('2d'), s_r1_chart);
 			s_r2_chart = new Chart(document.getElementById('s_r2_chart').getContext('2d'), s_r2_chart);
 			s_r3_chart = new Chart(document.getElementById('s_r3_chart').getContext('2d'), s_r3_chart);
+			s_r4_chart = new Chart(document.getElementById('s_r4_chart').getContext('2d'), s_r4_chart);
 		};";
 
 		$js = trim(str_replace(array("\t\t\t"), '', $js));

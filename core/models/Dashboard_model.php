@@ -9,15 +9,16 @@ class Dashboard_model extends Model
 		parent::__construct();
 	}
 
-	public function get_voxes_unresolve($option = null)
+	public function get_voxes_unresolve($type = 'all')
 	{
 		$voxes = [];
 
 		$query = $this->database->select('voxes', [
 			'id',
-			'data',
+			'type',
+			'data'
 		], [
-			'account' => Session::get_value('account')['id'],
+			'account' => Session::get_value('account')['id']
 		]);
 
 		foreach ($query as $key => $value)
@@ -35,19 +36,19 @@ class Dashboard_model extends Model
 			if (Functions::check_user_access(['{view_confidentiality}']) == false && $value['data']['confidentiality'] == true)
 				$break = true;
 
-			if ($option == 'noreaded' AND $value['data']['readed'] == true)
+			if ($type == 'noreaded' AND $value['data']['readed'] == true)
 				$break = true;
 
-			if ($option == 'readed' AND $value['data']['readed'] == false)
+			if ($type == 'readed' AND $value['data']['readed'] == false)
 				$break = true;
 
-			if ($option == 'today' AND Functions::get_formatted_date($value['data']['started_date']) != Functions::get_current_date())
+			if ($type == 'today' AND Functions::get_formatted_date($value['data']['started_date']) != Functions::get_current_date())
 				$break = true;
 
-			if ($option == 'week' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_week()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_week()[1])
+			if ($type == 'week' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_week()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_week()[1])
 				$break = true;
 
-			if ($option == 'month' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_month()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_month()[1])
+			if ($type == 'month' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_month()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_month()[1])
 				$break = true;
 
 			if ($value['data']['status'] == 'close')
@@ -55,39 +56,55 @@ class Dashboard_model extends Model
 
 			if ($break == false)
 			{
-				if (!isset($option) OR !empty($option))
+				if ($type == 'all')
 				{
-					$value['data']['room'] = $this->get_room($value['data']['room'])['name'];
-					$value['data']['opportunity_area'] = $this->get_opportunity_area($value['data']['opportunity_area'])['name'][Session::get_value('account')['language']];
-					$value['data']['opportunity_type'] = $this->get_opportunity_type($value['data']['opportunity_type'])['name'][Session::get_value('account')['language']];
-					$value['data']['location'] = $this->get_location($value['data']['location'])['name'][Session::get_value('account')['language']];
-					$value['data']['guest_treatment'] = $this->get_guest_treatment($value['data']['guest_treatment'])['name'];
+					if (Session::get_value('account')['type'] == 'hotel' AND ($value['type'] == 'request' OR $value['type'] == 'incident'))
+						$value['data']['room'] = $this->get_room($value['data']['room']);
 
-					if (!empty($value['data']['comments']))
-					{
-						foreach ($value['data']['comments'] as $subvalue)
-							$value['data']['attachments'] = array_merge($value['data']['attachments'], $subvalue['attachments']);
-					}
+					if (Session::get_value('account')['type'] == 'restaurant' AND ($value['type'] == 'request' OR $value['type'] == 'incident'))
+						$value['data']['table'] = $this->get_table($value['data']['table']);
+
+					$value['data']['opportunity_area'] = $this->get_opportunity_area($value['data']['opportunity_area']);
+					$value['data']['opportunity_type'] = $this->get_opportunity_type($value['data']['opportunity_type']);
+					$value['data']['location'] = $this->get_location($value['data']['location']);
+
+					foreach ($value['data']['comments'] as $subvalue)
+						$value['data']['attachments'] = array_merge($value['data']['attachments'], $subvalue['attachments']);
+
+					$aux[$key] = Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']);
 				}
-
-				$aux[$key] = Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']);
 
 				array_push($voxes, $value);
 			}
 		}
 
-		if (!empty($voxes))
-			array_multisort($aux, SORT_DESC, $voxes);
+		if ($type == 'all')
+		{
+			if (!empty($voxes))
+				array_multisort($aux, SORT_DESC, $voxes);
 
-		if ($option == 'noreaded' OR $option == 'readed' OR $option == 'today' OR $option == 'week' OR $option == 'month' OR $option == 'total')
-			return count($voxes);
-		else
 			return $voxes;
+		}
+		else
+			return count($voxes);
 	}
 
 	public function get_room($id)
 	{
 		$query = $this->database->select('rooms', [
+			'number',
+			'name'
+		], [
+			'id' => $id
+		]);
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_table($id)
+	{
+		$query = $this->database->select('tables', [
+			'number',
 			'name'
 		], [
 			'id' => $id

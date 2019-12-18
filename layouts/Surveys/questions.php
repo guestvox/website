@@ -36,7 +36,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                         <input type="text" name="tbl_survey_questions_search">
                     </label>
                     <?php if (Functions::check_user_access(['{survey_questions_create}']) == true) : ?>
-                    <a data-action="preview_survey_question" class="new"><i class="fas fa-eye"></i></a>
+                    <a data-action="preview_survey_question"><i class="fas fa-eye"></i></a>
                     <a data-button-modal="new_survey_question" class="new"><i class="fas fa-plus"></i></a>
                     <?php endif; ?>
                 </aside>
