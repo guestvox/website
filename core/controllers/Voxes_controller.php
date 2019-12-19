@@ -433,7 +433,7 @@ class Voxes_controller extends Controller
 								if ($sms_coin > 0)
 								{
 									$sms_client->message()->send([
-										'to' => $value['phone']['lada'] . $value['phone']['number'],
+										'to' => $vox['phone']['lada'] . $vox['phone']['number'],
 										'from' => 'GuestVox',
 										'text' => $sms_text
 									]);
