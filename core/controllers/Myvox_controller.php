@@ -322,13 +322,17 @@ class Myvox_controller extends Controller
 								{
 									if ($data['account']['sms'] > 0)
 									{
-										$sms_client->message()->send([
-											'to' => $value['phone']['lada'] . $value['phone']['number'],
-											'from' => 'GuestVox',
-											'text' => $sms_text
-										]);
+										try {
 
-										$data['account']['sms'] = $data['account']['sms'] - 1;
+											$sms_client->message()->send([
+												'to' => $value['phone']['lada'] . $value['phone']['number'],
+												'from' => 'GuestVox',
+												'text' => $sms_text
+											]);
+
+											$data['account']['sms'] = $data['account']['sms'] - 1;
+
+										} catch (Exception $e) { }
 									}
 								}
 
@@ -573,13 +577,17 @@ class Myvox_controller extends Controller
 								{
 									if ($data['account']['sms'] > 0)
 									{
-										$sms_client->message()->send([
-											'to' => $value['phone']['lada'] . $value['phone']['number'],
-											'from' => 'GuestVox',
-											'text' => $sms_text
-										]);
+										try {
 
-										$data['account']['sms'] = $data['account']['sms'] - 1;
+											$sms_client->message()->send([
+												'to' => $value['phone']['lada'] . $value['phone']['number'],
+												'from' => 'GuestVox',
+												'text' => $sms_text
+											]);
+
+											$data['account']['sms'] = $data['account']['sms'] - 1;
+
+										} catch (Exception $e) { }
 									}
 								}
 
@@ -798,14 +806,18 @@ class Myvox_controller extends Controller
 										$sms_text = 'GuestVox: Gracias por contestar nuestra encuesta. Token: ' . $_POST['token'];
 									else if ($data['account']['language'] == 'en')
 										$sms_text = 'GuestVox: Thanks for answers our surver. Token: ' . $_POST['token'];
+									
+									try {
 
-									$sms_client->message()->send([
-										'to' => $_POST['phone_lada'] . $_POST['phone_number'],
-										'from' => 'GuestVox',
-										'text' => $sms_text
-									]);
+										$sms_client->message()->send([
+											'to' => $_POST['phone_lada'] . $_POST['phone_number'],
+											'from' => 'GuestVox',
+											'text' => $sms_text
+										]);
 
-									$data['account']['sms'] = $data['account']['sms'] - 1;
+										$data['account']['sms'] = $data['account']['sms'] - 1;
+
+									} catch (Exception $e) { }
 
 									$this->model->edit_sms($data['account']['id'], $data['account']['sms']);
 								}
