@@ -448,16 +448,17 @@ class Voxes_model extends Model
 
 	public function get_user($id)
 	{
-		$query = $this->database->select('users', [
+		$query = Functions::get_json_decoded_query($this->database->select('users', [
 			'id',
 			'firstname',
 			'lastname',
 			'email',
+			'phone',
 			'avatar',
 			'username'
 		], [
 			'id' => $id
-		]);
+		]));
 
 		return !empty($query) ? $query[0] : null;
 	}
