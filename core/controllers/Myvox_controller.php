@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-// require_once 'plugins/nexmo/vendor/autoload.php';
+require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Myvox_controller extends Controller
 {
@@ -322,13 +322,17 @@ class Myvox_controller extends Controller
 								{
 									if ($data['account']['sms'] > 0)
 									{
-										$sms_client->message()->send([
-											'to' => $value['phone']['lada'] . $value['phone']['number'],
-											'from' => 'GuestVox',
-											'text' => $sms_text
-										]);
+										try {
 
-										$data['account']['sms'] = $data['account']['sms'] - 1;
+											$sms_client->message()->send([
+												'to' => $value['phone']['lada'] . $value['phone']['number'],
+												'from' => 'GuestVox',
+												'text' => $sms_text
+											]);
+
+											$data['account']['sms'] = $data['account']['sms'] - 1;
+
+										} catch (Exception $e) { }
 									}
 								}
 
@@ -573,13 +577,17 @@ class Myvox_controller extends Controller
 								{
 									if ($data['account']['sms'] > 0)
 									{
-										$sms_client->message()->send([
-											'to' => $value['phone']['lada'] . $value['phone']['number'],
-											'from' => 'GuestVox',
-											'text' => $sms_text
-										]);
+										try {
 
-										$data['account']['sms'] = $data['account']['sms'] - 1;
+											$sms_client->message()->send([
+												'to' => $value['phone']['lada'] . $value['phone']['number'],
+												'from' => 'GuestVox',
+												'text' => $sms_text
+											]);
+
+											$data['account']['sms'] = $data['account']['sms'] - 1;
+
+										} catch (Exception $e) { }
 									}
 								}
 
@@ -702,11 +710,35 @@ class Myvox_controller extends Controller
 									array_push($_POST['answers'][$explode[1]]['subanswers'], [
 										'id' => $explode[2],
 										'type' => $explode[0],
+										'answer' => $value,
+										'subanswers' => []
+									]);
+
+
+								}
+
+								unset($_POST['answers'][$key]);
+							}
+							else if ($explode[0] == 'ssr' OR $explode[0] == 'sst' OR $explode[0] == 'sso')
+							{
+								if (!empty($value))
+								{
+									if ($explode[0] == 'ssr')
+										$explode[0] = 'rate';
+									else if ($explode[0] == 'sst')
+										$explode[0] = 'twin';
+									else if ($explode[0] == 'sso')
+										$explode[0] = 'open';
+
+									array_push($_POST['answers'][$explode[1]]['subanswers'][$explode[2]]['subanswers'], [
+										'id' => $explode[4],
+										'type' => $explode[0],
 										'answer' => $value
 									]);
 								}
 
 								unset($_POST['answers'][$key]);
+
 							}
 						}
 
@@ -799,13 +831,17 @@ class Myvox_controller extends Controller
 									else if ($data['account']['language'] == 'en')
 										$sms_text = 'GuestVox: Thanks for answers our surver. Token: ' . $_POST['token'];
 
-									$sms_client->message()->send([
-										'to' => $_POST['phone_lada'] . $_POST['phone_number'],
-										'from' => 'GuestVox',
-										'text' => $sms_text
-									]);
+									try {
 
-									$data['account']['sms'] = $data['account']['sms'] - 1;
+										$sms_client->message()->send([
+											'to' => $_POST['phone_lada'] . $_POST['phone_number'],
+											'from' => 'GuestVox',
+											'text' => $sms_text
+										]);
+
+										$data['account']['sms'] = $data['account']['sms'] - 1;
+
+									} catch (Exception $e) { }
 
 									$this->model->edit_sms($data['account']['id'], $data['account']['sms']);
 								}
@@ -1208,6 +1244,8 @@ class Myvox_controller extends Controller
 							}
 						}
 
+						//Primer nivel de pregunta
+
 						foreach ($this->model->get_survey_questions($data['account']['id']) as $value)
 						{
 							$mdl_new_survey_answer .=
@@ -1218,13 +1256,13 @@ class Myvox_controller extends Controller
 							{
 								$mdl_new_survey_answer .=
 								'<div>
-								   <label>{$lang.appalling}</label>
+								   <label><i class="far fa-thumbs-down"></i></label>
 								   <label><input type="radio" name="pr-' . $value['id'] . '" value="1" data-action="open_subquestion"></label>
 								   <label><input type="radio" name="pr-' . $value['id'] . '" value="2" data-action="open_subquestion"></label>
 								   <label><input type="radio" name="pr-' . $value['id'] . '" value="3" data-action="open_subquestion"></label>
 								   <label><input type="radio" name="pr-' . $value['id'] . '" value="4" data-action="open_subquestion"></label>
 								   <label><input type="radio" name="pr-' . $value['id'] . '" value="5" data-action="open_subquestion"></label>
-								   <label>{$lang.excellent}</label>
+								   <label><i class="far fa-thumbs-up"></i></label>
 								</div>';
 							}
 							else if ($value['type'] == 'twin')
@@ -1248,6 +1286,8 @@ class Myvox_controller extends Controller
 							$mdl_new_survey_answer .=
 							'</article>';
 
+							//Segundo nivel de preguntas
+
 							if (!empty($value['subquestions']))
 							{
 								if ($value['type'] == 'rate')
@@ -1261,7 +1301,7 @@ class Myvox_controller extends Controller
 								   '<article id="pt-' . $value['id'] . '" class="subquestions hidden">';
 								}
 
-								foreach ($value['subquestions'] as $key => $subvalue)
+								foreach ($value['subquestions'] as $subkey => $subvalue)
 								{
 								   $mdl_new_survey_answer .=
 								   '<h6>' . $subvalue['name'][Session::get_value('lang')] . '</h6>';
@@ -1270,13 +1310,13 @@ class Myvox_controller extends Controller
 								   {
 									   $mdl_new_survey_answer .=
 									   '<div>
-										   <label>{$lang.appalling}</label>
-										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="1"></label>
-										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="2"></label>
-										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="3"></label>
-										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="4"></label>
-										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="5"></label>
-										   <label>{$lang.excellent}</label>
+										   <label><i class="far fa-thumbs-down"></i></label>
+										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="1" data-action="open_subquestion_sub"></label>
+										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="2" data-action="open_subquestion_sub"></label>
+										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="3" data-action="open_subquestion_sub"></label>
+										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="4" data-action="open_subquestion_sub"></label>
+										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="5" data-action="open_subquestion_sub"></label>
+										   <label><i class="far fa-thumbs-up"></i></i></label>
 									   </div>';
 								   }
 								   else if ($subvalue['type'] == 'twin')
@@ -1284,8 +1324,8 @@ class Myvox_controller extends Controller
 									   $mdl_new_survey_answer .=
 									   '<div>
 										   <label>{$lang.to_yes}</label>
-										   <label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="yes"></label>
-										   <label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="no"></label>
+										   <label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="yes" data-action="open_subquestion_sub"></label>
+										   <label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="no" data-action="open_subquestion_sub"></label>
 										   <label>{$lang.to_not}</label>
 									  </div>';
 								   }
@@ -1295,6 +1335,61 @@ class Myvox_controller extends Controller
 									   '<div>
 										   <input type="text" name="so-' . $value['id'] . '-' . $subvalue['id'] . '">
 									   </div>';
+								   }
+
+								   //Tercer nivel de preguntas
+
+								   if (!empty($subvalue['subquestions']))
+								   {
+									   if ($subvalue['type'] == 'rate')
+		   								{
+		   								   $mdl_new_survey_answer .=
+		   								   '<article id="sr-' . $value['id'] . '-' . $subvalue['id'] . '" class="subquestions-sub hidden">';
+		   								}
+		   								else if ($subvalue['type'] == 'twin')
+		   								{
+		   								   $mdl_new_survey_answer .=
+		   								   '<article id="st-' . $value['id'] . '-' . $subvalue['id'] . '" class="subquestions-sub hidden">';
+		   								}
+
+									   foreach ($subvalue['subquestions'] as $childkey => $childvalue)
+									   {
+										   $mdl_new_survey_answer .=
+    									  '<h6>' . $childvalue['name'][Session::get_value('lang')] . '</h6>';
+
+										  if ($childvalue['type'] == 'rate')
+		   								   {
+		   									   $mdl_new_survey_answer .=
+		   									   '<div>
+		   										   <label><i class="far fa-thumbs-down"></i></label>
+		   										   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="1"></label>
+		   										   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="2"></label>
+		   										   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="3"></label>
+		   										   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="4"></label>
+		   										   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="5"></label>
+		   										   <label><i class="far fa-thumbs-up"></i></label>
+		   									   </div>';
+		   								   }
+		   								   else if ($childvalue['type'] == 'twin')
+		   								   {
+		   									   $mdl_new_survey_answer .=
+		   									   '<div>
+		   										   <label>{$lang.to_yes}</label>
+		   										   <label><input type="radio" name="sst-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="yes"></label>
+		   										   <label><input type="radio" name="sst-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="no"></label>
+		   										   <label>{$lang.to_not}</label>
+		   									  </div>';
+		   								   }
+		   								   else if ($childvalue['type'] == 'open')
+		   								   {
+		   									   $mdl_new_survey_answer .=
+		   									   '<div>
+		   										   <input type="text" name="sso-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '">
+		   									   </div>';
+		   								   }
+									   }
+										$mdl_new_survey_answer .=
+		   								'</article>';
 								   }
 								}
 
