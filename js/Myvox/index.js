@@ -197,6 +197,16 @@ $(document).ready(function()
             $('#' + name).addClass('hidden');
     });
 
+    $('[data-action="open_subquestion_sub"]').on('change', function()
+    {
+        var name = $(this).attr('name');
+
+        if ($(this).val() == '1' || $(this).val() == '2' || $(this).val() == '3' || $(this).val() == 'yes')
+            $('#' + name).removeClass('hidden');
+        else
+            $('#' + name).addClass('hidden');
+    });
+
     $('[data-modal="new_survey_answer"]').modal().onCancel(function()
     {
         $('[data-modal="new_survey_answer"]').find('form')[0].reset();

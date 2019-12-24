@@ -174,7 +174,11 @@ class Surveys_model extends Model
 					array_push($answers, $subvalue);
 				}
 			}
-			$count = $count / count($answers);
+
+			if (!empty($count))
+				$count = $count / count($answers);
+			else
+				$count = 0;
 
 			$suma = $suma += $count;
 
@@ -341,10 +345,14 @@ class Surveys_model extends Model
 
 					foreach ($subvalue['subanswers'] as $childvalue)
 					{
-						if ($childvalue['type'] == 'twin' AND $childvalue['answer'] == 'yes')
-							$yes = $yes + 1;
-						else if ($childvalue['type'] == 'twin' AND $childvalue['answer'] == 'no')
-							$no = $no + 1;
+						if(!empty($childvalue['answer']))
+						{
+							if ($childvalue['type'] == 'twin' AND $childvalue['answer'] == 'yes')
+								$yes = $yes + 1;
+							else if ($childvalue['type'] == 'twin' AND $childvalue['answer'] == 'no')
+								$no = $no + 1;
+						}
+
 					}
 				}
 			}

@@ -439,9 +439,9 @@ class Voxes_controller extends Controller
 											'from' => 'GuestVox',
 											'text' => $sms_text
 										]);
-	
+
 										$sms_coin = $sms_coin - 1;
-										
+
 									} catch (Exception $e) { }
 								}
 							}

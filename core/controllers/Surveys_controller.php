@@ -73,13 +73,13 @@ class Surveys_controller extends Controller
 						{
 							$data .=
 							'<div>
-							   <label>{$lang.appalling}</label>
+							   <label><i class="far fa-thumbs-down"></i></label>
 							   <label><input type="radio"></label>
 							   <label><input type="radio"></label>
 							   <label><input type="radio"></label>
 							   <label><input type="radio"></label>
 							   <label><input type="radio"></label>
-							   <label>{$lang.excellent}</label>
+							   <label><i class="far fa-thumbs-up"></i></label>
 							</div>';
 						}
 						else if ($value['type'] == 'twin')
@@ -105,16 +105,8 @@ class Surveys_controller extends Controller
 
 						if (!empty($value['subquestions']))
 						{
-							if ($value['type'] == 'rate')
-							{
-							   $data .=
-							   '<article class="subquestions">';
-							}
-							else if ($value['type'] == 'twin')
-							{
-							   $data .=
-							   '<article class="subquestions">';
-							}
+						   $data .=
+						   '<article class="subquestions">';
 
 							foreach ($value['subquestions'] as $key => $subvalue)
 							{
@@ -125,13 +117,13 @@ class Surveys_controller extends Controller
 							   {
 								   $data .=
 								   '<div>
-									   <label>{$lang.appalling}</label>
+									   <label><i class="far fa-thumbs-down"></i></label>
 									   <label><input type="radio"></label>
 									   <label><input type="radio"></label>
 									   <label><input type="radio"></label>
 									   <label><input type="radio"></label>
 									   <label><input type="radio"></label>
-									   <label>{$lang.excellent}</label>
+									   <label><i class="far fa-thumbs-up"></i></label>
 								   </div>';
 							   }
 							   else if ($subvalue['type'] == 'twin')
@@ -150,6 +142,52 @@ class Surveys_controller extends Controller
 								   '<div>
 									   <input type="text"">
 								   </div>';
+							   }
+
+							   if (!empty($subvalue['subquestions']))
+							   {
+								   $data .=
+ 	   						   	'<article class="subquestions-sub">';
+
+								   foreach ($subvalue['subquestions'] as $childvalue)
+								   {
+									   $data .=
+									   '<h6>' . $childvalue['name'][Session::get_value('lang')] . '</h6>';
+
+									   if ($childvalue['type'] == 'rate')
+									   {
+										   $data .=
+										   '<div>
+											   <label><i class="far fa-thumbs-down"></i></label>
+											   <label><input type="radio"></label>
+											   <label><input type="radio"></label>
+											   <label><input type="radio"></label>
+											   <label><input type="radio"></label>
+											   <label><input type="radio"></label>
+											   <label><i class="far fa-thumbs-up"></i></label>
+										   </div>';
+									   }
+									   else if ($childvalue['type'] == 'twin')
+									   {
+										   $data .=
+										   '<div>
+											   <label>{$lang.to_yes}</label>
+											   <label><input type="radio"></label>
+											   <label><input type="radio"></label>
+											   <label>{$lang.to_not}</label>
+										  </div>';
+									   }
+									   else if ($childvalue['type'] == 'open')
+									   {
+										   $data .=
+										   '<div>
+											   <input type="text"">
+										   </div>';
+									   }
+
+								   }
+								   $data .=
+	   							'</article>';
 							   }
 							}
 
@@ -471,13 +509,13 @@ class Surveys_controller extends Controller
 	                    if ($value['type'] == 'rate')
 						{
 							$data .=
-		                    '<label>{$lang.appalling}</label>
+		                    '<label><i class="far fa-thumbs-down"></i></label>
                             <label><input type="radio" ' . (($value['answer'] == 1) ? 'checked' : '') . ' disabled></label>
                             <label><input type="radio" ' . (($value['answer'] == 2) ? 'checked' : '') . ' disabled></label>
                             <label><input type="radio" ' . (($value['answer'] == 3) ? 'checked' : '') . ' disabled></label>
                             <label><input type="radio" ' . (($value['answer'] == 4) ? 'checked' : '') . ' disabled></label>
                             <label><input type="radio" ' . (($value['answer'] == 5) ? 'checked' : '') . ' disabled></label>
-                            <label>{$lang.excellent}</label>';
+                            <label><i class="far fa-thumbs-up"></i></label>';
 						}
 						else if ($value['type'] == 'twin')
 						{
@@ -510,13 +548,13 @@ class Surveys_controller extends Controller
 								if ($subvalue['type'] == 'rate')
 								{
 									$data .=
-									'<label>{$lang.appalling}</label>
+									'<label><i class="far fa-thumbs-down"></i></label>
 									<label><input type="radio" ' . (($subvalue['answer'] == 1) ? 'checked' : '') . ' disabled></label>
 									<label><input type="radio" ' . (($subvalue['answer'] == 2) ? 'checked' : '') . ' disabled></label>
 									<label><input type="radio" ' . (($subvalue['answer'] == 3) ? 'checked' : '') . ' disabled></label>
 									<label><input type="radio" ' . (($subvalue['answer'] == 4) ? 'checked' : '') . ' disabled></label>
 									<label><input type="radio" ' . (($subvalue['answer'] == 5) ? 'checked' : '') . ' disabled></label>
-									<label>{$lang.excellent}</label>';
+									<label><i class="far fa-thumbs-up"></i></label>';
 								}
 								else if ($subvalue['type'] == 'twin')
 								{
@@ -534,6 +572,52 @@ class Surveys_controller extends Controller
 
 								$data .=
 								'</div>';
+
+								if (!empty($subvalue['subanswers']))
+								{
+									$data .=
+									'<article class="sub">';
+
+									foreach ($subvalue['subanswers'] as $childkey => $childvalue)
+									{
+										$data .=
+										'<h6>' . $value['fk']['subquestions'][$subkey]['subquestions'][$childkey]['name'][Session::get_value('account')['language']] . '</h6>
+										<div>';
+
+										if ($childvalue['type'] == 'rate')
+										{
+											$data .=
+											'<label><i class="far fa-thumbs-down"></i></label>
+											<label><input type="radio" ' . (($childvalue['answer'] == 1) ? 'checked' : '') . ' disabled></label>
+											<label><input type="radio" ' . (($childvalue['answer'] == 2) ? 'checked' : '') . ' disabled></label>
+											<label><input type="radio" ' . (($childvalue['answer'] == 3) ? 'checked' : '') . ' disabled></label>
+											<label><input type="radio" ' . (($childvalue['answer'] == 4) ? 'checked' : '') . ' disabled></label>
+											<label><input type="radio" ' . (($childvalue['answer'] == 5) ? 'checked' : '') . ' disabled></label>
+											<label><i class="far fa-thumbs-up"></i></label>';
+										}
+										else if ($childvalue['type'] == 'twin')
+										{
+											$data .=
+											'<label>{$lang.to_yes}</label>
+											<label><input type="radio" ' . (($childvalue['answer'] == 'yes') ? 'checked' : '') . ' disabled></label>
+											<label><input type="radio" ' . (($childvalue['answer'] == 'no') ? 'checked' : '') . ' disabled></label>
+											<label>{$lang.to_not}</label>';
+										}
+										else if ($childvalue['type'] == 'open')
+										{
+											$data .=
+											'<p>' . $childvalue['answer'] . '</p>';
+										}
+
+										$data .=
+										'</div>';
+
+									}
+
+									$data .=
+									'</article>';
+								}
+
 							}
 
 							$data .=
@@ -616,7 +700,10 @@ class Surveys_controller extends Controller
 					}
 				}
 
-				$value['rate'] = $value['rate'] / count($questions);
+				if (!empty($value['rate']))
+					$value['rate'] = $value['rate'] / count($questions);
+				else
+					$value['rate'] = 0;
 
 				$tbl_survey_answers .=
 				'<tr>

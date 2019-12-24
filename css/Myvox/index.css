@@ -177,13 +177,15 @@ form[name="new_survey_answer"] > article {
     background-color: #eee;
 }
 
-form[name="new_survey_answer"] > article > h6 {
-    font-size: 14px;
+form[name="new_survey_answer"] > article > h6,
+form[name="new_survey_answer"] > article.subquestions > article.subquestions-sub > h6 {
+    font-size: 15px;
     font-weight: 400;
     color: #757575;
 }
 
-form[name="new_survey_answer"] > article > div > label {
+form[name="new_survey_answer"] > article > div > label,
+form[name="new_survey_answer"] > article.subquestions > article.subquestions-sub > div > label {
     padding: 0px;
     margin: 0px;
     font-size: 12px;
@@ -203,6 +205,15 @@ form[name="new_survey_answer"] > article.subquestions {
 }
 
 form[name="new_survey_answer"] > article.subquestions > div {
+    margin-bottom: 5px;
+}
+
+form[name="new_survey_answer"] > article.subquestions >  article.subquestions-sub {
+    padding: 10px 15px;
+    box-sizing: border-box;
+}
+
+form[name="new_survey_answer"] > article.subquestions  > article.subquestions-sub > div {
     margin-bottom: 5px;
 }
 
