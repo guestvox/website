@@ -381,13 +381,6 @@ class Surveys_model extends Model
 			$rate_lastday_4 = 0;
 			$rate_lastday_5 = 0;
 			$rate_lastday_6 = 0;
-			$subrate_today = 0;
-			$subrate_lastday_1 = 0;
-			$subrate_lastday_2 = 0;
-			$subrate_lastday_3 = 0;
-			$subrate_lastday_4 = 0;
-			$subrate_lastday_5 = 0;
-			$subrate_lastday_6 = 0;
 			$answers_today = 0;
 			$answers_lastday_1 = 0;
 			$answers_lastday_2 = 0;
@@ -395,13 +388,6 @@ class Surveys_model extends Model
 			$answers_lastday_4 = 0;
 			$answers_lastday_5 = 0;
 			$answers_lastday_6 = 0;
-			$subanswers_today = 0;
-			$subanswers_lastday_1 = 0;
-			$subanswers_lastday_2 = 0;
-			$subanswers_lastday_3 = 0;
-			$subanswers_lastday_4 = 0;
-			$subanswers_lastday_5 = 0;
-			$subanswers_lastday_6 = 0;
 			$prom_today = 0;
 			$prom_lastday_1 = 0;
 			$prom_lastday_2 = 0;
@@ -410,13 +396,6 @@ class Surveys_model extends Model
 			$prom_lastday_5 = 0;
 			$prom_lastday_6 = 0;
 			$subprom_today = 0;
-			$subprom_lastday_1 = 0;
-			$subprom_lastday_2 = 0;
-			$subprom_lastday_3 = 0;
-			$subprom_lastday_4 = 0;
-			$subprom_lastday_5 = 0;
-			$subprom_lastday_6 = 0;
-
 
 			foreach ($query as $key => $value)
 			{
@@ -461,84 +440,35 @@ class Surveys_model extends Model
 						}
 					}
 
-					// foreach ($subvalue['subanswers'] as $childvalue)
-					// {
-					// 	if ($childvalue['type'] == 'rate')
-					// 	{
-					// 		if ($value['date'] == Functions::get_current_date())
-					// 		{
-					// 			$subrate_today = $subrate_today + $childvalue['answer'];
-					// 			$subanswers_today = $subanswers_today + 1;
-					// 		}
-					// 		else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '1', 'days'))
-					// 		{
-					// 			$subrate_lastday_1 = $subrate_lastday_1 + $childvalue['answer'];
-					// 			$subanswers_lastday_1 = $subanswers_lastday_1 + 1;
-					// 		}
-					// 		else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '2', 'days'))
-					// 		{
-					// 			$subrate_lastday_2 = $subrate_lastday_2 + $childvalue['answer'];
-					// 			$subanswers_lastday_2 = $subanswers_lastday_2 + 1;
-					// 		}
-					// 		else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '3', 'days'))
-					// 		{
-					// 			$subrate_lastday_3 = $subrate_lastday_3 + $childvalue['answer'];
-					// 			$subanswers_lastday_3 = $subanswers_lastday_3 + 1;
-					// 		}
-					// 		else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '4', 'days'))
-					// 		{
-					// 			$subrate_lastday_4 = $subrate_lastday_4 + $childvalue['answer'];
-					// 			$subanswers_lastday_4 = $subanswers_lastday_4 + 1;
-					// 		}
-					// 		else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '5', 'days'))
-					// 		{
-					// 			$subrate_lastday_5 = $subrate_lastday_5 + $childvalue['answer'];
-					// 			$subanswers_lastday_5 = $subanswers_lastday_5 + 1;
-					// 		}
-					// 		else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '6', 'days'))
-					// 		{
-					// 			$subrate_lastday_6 = $subrate_lastday_6 + $childvalue['answer'];
-					// 			$subanswers_lastday_6 = $subanswers_lastday_6 + 1;
-					// 		}
-					// 	}
-					// }
 				}
 
 			}
 
 			if ($rate_today > 0)
 				$prom_today = $rate_today / $answers_today;
-			else if ($rate_lastday_1 > 0)
+
+			if ($rate_lastday_1 > 0)
 				$prom_lastday_1 = $rate_lastday_1 / $answers_lastday_1;
-			else if ($rate_lastday_2 > 0)
+
+			if ($rate_lastday_2 > 0)
 				$prom_lastday_2 = $rate_lastday_2 / $answers_lastday_2;
-			else if ($rate_lastday_3 > 0)
+
+			if ($rate_lastday_3 > 0)
 				$prom_lastday_3 = $rate_lastday_3 / $answers_lastday_3;
-			else if ($rate_lastday_4 > 0)
+
+		 	if ($rate_lastday_4 > 0)
 				$prom_lastday_4 = $rate_lastday_4 / $answers_lastday_4;
-			else if ($rate_lastday_5 > 0)
+
+			if ($rate_lastday_5 > 0)
 				$prom_lastday_5 = $rate_lastday_5 / $answers_lastday_5;
-			else if ($rate_lastday_6 > 0)
+
+			if ($rate_lastday_6 > 0)
 				$prom_lastday_6 = $rate_lastday_6 / $answers_lastday_6;
-			// if ($subrate_today > 0)
-			// 	$subprom_today = $subrate_today / $subanswers_today;
-			// else if ($subrate_lastday_1 > 0)
-			// 	$subprom_lastday_1 = $subrate_lastday_1 / $subanswers_lastday_1;
-			// else if ($rate_lastday_2 > 0)
-			// 	$subprom_lastday_2 = $subrate_lastday_2 / $subanswers_lastday_2;
-			// else if ($subrate_lastday_3 > 0)
-			// 	$subprom_lastday_3 = $subrate_lastday_3 / $subanswers_lastday_3;
-			// else if ($rate_lastday_4 > 0)
-			// 	$subprom_lastday_4 = $subrate_lastday_4 / $subanswers_lastday_4;
-			// else if ($subrate_lastday_5 > 0)
-			// 	$subprom_lastday_5 = $subrate_lastday_5 / $subanswers_lastday_5;
-			// else if ($subrate_lastday_6 > 0)
-			// 	$subprom_lastday_6 = $subrate_lastday_6 / $subanswers_lastday_6;
 
 			$data = [
 				'labels' => '"Hoy", "1 día", "2 días", "3 días", "4 días", "5 días", "6 días"',
 				'datasets' => [
-					'labels' => '"Preguntas", "Subpreguntas"',
+					'labels' => '"Preguntas"',
 					'data' => $prom_today . ',' . $prom_lastday_1 . ',' . $prom_lastday_2 . ',' . $prom_lastday_3 . ',' . $prom_lastday_4 . ',' . $prom_lastday_5 . ',' . $prom_lastday_6,
 					'colors' => '"#4caf50", "#4caf50", "#4caf50" , "#4caf50" , "#4caf50" , "#4caf50" , "#4caf50"'
 				]

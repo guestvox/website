@@ -872,15 +872,9 @@ class Surveys_controller extends Controller
 						" . $s_r4_chart_data['datasets']['labels'] . "
 					],
 	                data: [
-	                    " . $s_r4_chart_data['datasets']['data'] . ",
+	                    " . $s_r4_chart_data['datasets']['data'] . "
 	                ],
 	                backgroundColor: [
-	                    " . $s_r4_chart_data['datasets']['colors'] . "
-	                ],
-	                pointBackgroundColor: [
-	                    " . $s_r4_chart_data['datasets']['colors'] . "
-	                ],
-	                lineBackgroundColor: [
 	                    " . $s_r4_chart_data['datasets']['colors'] . "
 	                ],
 	            }],

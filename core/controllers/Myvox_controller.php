@@ -63,6 +63,8 @@ class Myvox_controller extends Controller
 					{
 						$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
 
+						Session::set_value('room', $data['room']);
+
 						Functions::environment([
 							'status' => 'success',
 							'data' => '{$lang.operation_success}'
@@ -620,21 +622,6 @@ class Myvox_controller extends Controller
 				{
 					$labels = [];
 
-					if ($params[0] == 'account')
-					{
-						if ($data['account']['type'] == 'hotel')
-						{
-							if (!isset($_POST['room']) OR empty($_POST['room']))
-								array_push($labels, ['room','']);
-						}
-
-						if ($data['account']['type'] == 'restaurant')
-						{
-							if (!isset($_POST['table']) OR empty($_POST['table']))
-								array_push($labels, ['table','']);
-						}
-					}
-
 					if (!empty($_POST['firstname']) OR !empty($_POST['lastname']) OR !empty($_POST['email']))
 					{
 						if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
@@ -749,6 +736,8 @@ class Myvox_controller extends Controller
 
 						if ($data['account']['type'] == 'hotel')
 						{
+							$data['room'] = Session::get_value('room');
+
 							$_POST['room'] = $data['room']['id'];
 
 							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
@@ -1205,45 +1194,6 @@ class Myvox_controller extends Controller
 								<main>
 									<form name="new_survey_answer">';
 
-						if ($params[0] == 'account')
-						{
-							if ($data['account']['type'] == 'hotel')
-							{
-								$mdl_new_survey_answer .=
-								'<div class="label">
-									<label important>
-										<p>{$lang.room}</p>
-										<select name="room">
-											<option value="" selected hidden>{$lang.choose}</option>';
-
-								foreach ($this->model->get_rooms($data['account']['id']) as $value)
-									$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
-
-								$mdl_new_survey_answer .=
-								'		</select>
-									</label>
-								</div>';
-							}
-
-							if ($data['account']['type'] == 'restaurant')
-							{
-								$mdl_new_survey_answer .=
-								'<div class="label">
-									<label important>
-										<p>{$lang.table}</p>
-										<select name="table">
-											<option value="" selected hidden>{$lang.choose}</option>';
-
-								foreach ($this->model->get_tables($data['account']['id']) as $value)
-									$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
-
-								$mdl_new_survey_answer .=
-								'		</select>
-									</label>
-								</div>';
-							}
-						}
-
 						//Primer nivel de pregunta
 
 						foreach ($this->model->get_survey_questions($data['account']['id']) as $value)
@@ -1455,8 +1405,48 @@ class Myvox_controller extends Controller
 													</label>
 												</div>
 											</div>
-										</div>
-									</form>
+										</div>';
+
+										if ($params[0] == 'account')
+										{
+											if ($data['account']['type'] == 'hotel')
+											{
+												$mdl_new_survey_answer .=
+												'<div class="label">
+													<label important>
+														<p>{$lang.do_you_know_your_room_number}</p>
+														<select name="room">
+															<option value="" selected hidden>{$lang.choose}</option>';
+
+												foreach ($this->model->get_rooms($data['account']['id']) as $value)
+													$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
+
+												$mdl_new_survey_answer .=
+												'		</select>
+													</label>
+												</div>';
+											}
+
+											if ($data['account']['type'] == 'restaurant')
+											{
+												$mdl_new_survey_answer .=
+												'<div class="label">
+													<label important>
+														<p>{$lang.do_you_know_your_table_number}</p>
+														<select name="table">
+															<option value="" selected hidden>{$lang.choose}</option>';
+
+												foreach ($this->model->get_tables($data['account']['id']) as $value)
+													$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
+
+												$mdl_new_survey_answer .=
+												'		</select>
+													</label>
+												</div>';
+											}
+										}
+							$mdl_new_survey_answer .=
+							'		</form>
 								</main>
 								<footer>
 									<div class="action-buttons">
