@@ -61,7 +61,11 @@ class Myvox_controller extends Controller
 
 					if (!empty($data['room']))
 					{
+						Session::set_value('room', []);
+
 						$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
+
+						Session::set_value('room', $data['room']);
 
 						Functions::environment([
 							'status' => 'success',
@@ -620,21 +624,6 @@ class Myvox_controller extends Controller
 				{
 					$labels = [];
 
-					if ($params[0] == 'account')
-					{
-						if ($data['account']['type'] == 'hotel')
-						{
-							if (!isset($_POST['room']) OR empty($_POST['room']))
-								array_push($labels, ['room','']);
-						}
-
-						if ($data['account']['type'] == 'restaurant')
-						{
-							if (!isset($_POST['table']) OR empty($_POST['table']))
-								array_push($labels, ['table','']);
-						}
-					}
-
 					if (!empty($_POST['firstname']) OR !empty($_POST['lastname']) OR !empty($_POST['email']))
 					{
 						if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
@@ -749,6 +738,8 @@ class Myvox_controller extends Controller
 
 						if ($data['account']['type'] == 'hotel')
 						{
+							$data['room'] = Session::get_value('room');
+
 							$_POST['room'] = $data['room']['id'];
 
 							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
@@ -874,6 +865,27 @@ class Myvox_controller extends Controller
 				define('_title', 'GuestVox');
 
 				$template = $this->view->render($this, 'index');
+
+				$weather = '';
+
+				if ($data['account']['city'] == 'Cancún')
+				{
+					$weather .=
+					'<div class="weather">
+						<div id="cont_c64f376b4321760765e1efb5153a415c">
+							<script type="text/javascript" async src="https://www.meteored.mx/wid_loader/c64f376b4321760765e1efb5153a415c"></script>
+						</div>
+					</div>';
+				}
+				if ($data['account']['city'] == 'Playa del Carmen')
+				{
+					$weather .=
+					'<div class="weather">
+			            <div id="cont_1aa2ac92f7520eecb5e4c9c9af87d4cf">
+			                <script type="text/javascript" async src="https://www.meteored.mx/wid_loader/1aa2ac92f7520eecb5e4c9c9af87d4cf"></script>
+			            </div>
+			        </div>';
+				}
 
 				$a_new_request = '';
 				$a_new_incident = '';
@@ -1205,45 +1217,6 @@ class Myvox_controller extends Controller
 								<main>
 									<form name="new_survey_answer">';
 
-						if ($params[0] == 'account')
-						{
-							if ($data['account']['type'] == 'hotel')
-							{
-								$mdl_new_survey_answer .=
-								'<div class="label">
-									<label important>
-										<p>{$lang.room}</p>
-										<select name="room">
-											<option value="" selected hidden>{$lang.choose}</option>';
-
-								foreach ($this->model->get_rooms($data['account']['id']) as $value)
-									$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
-
-								$mdl_new_survey_answer .=
-								'		</select>
-									</label>
-								</div>';
-							}
-
-							if ($data['account']['type'] == 'restaurant')
-							{
-								$mdl_new_survey_answer .=
-								'<div class="label">
-									<label important>
-										<p>{$lang.table}</p>
-										<select name="table">
-											<option value="" selected hidden>{$lang.choose}</option>';
-
-								foreach ($this->model->get_tables($data['account']['id']) as $value)
-									$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
-
-								$mdl_new_survey_answer .=
-								'		</select>
-									</label>
-								</div>';
-							}
-						}
-
 						//Primer nivel de pregunta
 
 						foreach ($this->model->get_survey_questions($data['account']['id']) as $value)
@@ -1455,8 +1428,48 @@ class Myvox_controller extends Controller
 													</label>
 												</div>
 											</div>
-										</div>
-									</form>
+										</div>';
+
+										if ($params[0] == 'account')
+										{
+											if ($data['account']['type'] == 'hotel')
+											{
+												$mdl_new_survey_answer .=
+												'<div class="label">
+													<label important>
+														<p>{$lang.do_you_know_your_room_number}</p>
+														<select name="room">
+															<option value="" selected hidden>{$lang.choose}</option>';
+
+												foreach ($this->model->get_rooms($data['account']['id']) as $value)
+													$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
+
+												$mdl_new_survey_answer .=
+												'		</select>
+													</label>
+												</div>';
+											}
+
+											if ($data['account']['type'] == 'restaurant')
+											{
+												$mdl_new_survey_answer .=
+												'<div class="label">
+													<label important>
+														<p>{$lang.do_you_know_your_table_number}</p>
+														<select name="table">
+															<option value="" selected hidden>{$lang.choose}</option>';
+
+												foreach ($this->model->get_tables($data['account']['id']) as $value)
+													$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
+
+												$mdl_new_survey_answer .=
+												'		</select>
+													</label>
+												</div>';
+											}
+										}
+							$mdl_new_survey_answer .=
+							'		</form>
 								</main>
 								<footer>
 									<div class="action-buttons">
@@ -1471,6 +1484,7 @@ class Myvox_controller extends Controller
 
 				$replace = [
 					'{$logotype}' => '{$path.uploads}' . $data['account']['logotype'],
+					'{$weather}' => $weather,
 					'{$a_new_request}' => $a_new_request,
 					'{$a_new_incident}' => $a_new_incident,
 					'{$a_new_survey_answer}' => $a_new_survey_answer,
