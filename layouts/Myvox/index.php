@@ -14,11 +14,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
         </figure>
     </div>
     <div class="bottombar">
-        <div class="weather">
-            <div id="cont_1aa2ac92f7520eecb5e4c9c9af87d4cf">
-                <script type="text/javascript" async src="https://www.meteored.mx/wid_loader/1aa2ac92f7520eecb5e4c9c9af87d4cf"></script>
-            </div>
-        </div>
+        {$weather}
         <div class="multilanguage">
             <a href="?<?php echo Language::get_lang_url('es'); ?>">
                 <img src="{$path.images}es.png">
