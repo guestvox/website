@@ -902,35 +902,35 @@ class Surveys_controller extends Controller
             }
 		};
 
-		// var s_r5_chart = {
-		//     type: 'line',
-		// 	data: {
-		// 		labels: [
-	    //             " . $s_r5_chart_data['labels'] . "
-	    //         ],
-		// 		datasets: [{
-		// 			label: [
-		// 				" . $s_r5_chart_data['datasets']['labels'] . "
-		// 			],
-	    //             data: [
-	    //                 " . $s_r5_chart_data['datasets']['data'] . "
-	    //             ],
-	    //             backgroundColor: [
-	    //                 " . $s_r5_chart_data['datasets']['colors'] . "
-	    //             ],
-	    //         }],
-	    //     },
-		// 	options: {
-		// 		title: {
-		// 			display: true,
-		// 			text: '" . $s_r5_chart_title . "'
-		// 		},
-		// 		legend: {
-		// 			display: true
-		// 		},
-	    //         responsive: true
-        //     }
-		// };
+		var s_r5_chart = {
+		    type: 'line',
+			data: {
+				labels: [
+	                " . $s_r5_chart_data['labels'] . "
+	            ],
+				datasets: [{
+					label: [
+						" . $s_r5_chart_data['datasets']['labels'] . "
+					],
+	                data: [
+	                    " . $s_r5_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $s_r5_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+			options: {
+				title: {
+					display: true,
+					text: '" . $s_r5_chart_title . "'
+				},
+				legend: {
+					display: true
+				},
+	            responsive: true
+            }
+		};
 
 		window.onload = function()
 		{
@@ -938,7 +938,7 @@ class Surveys_controller extends Controller
 			s_r2_chart = new Chart(document.getElementById('s_r2_chart').getContext('2d'), s_r2_chart);
 			s_r3_chart = new Chart(document.getElementById('s_r3_chart').getContext('2d'), s_r3_chart);
 			s_r4_chart = new Chart(document.getElementById('s_r4_chart').getContext('2d'), s_r4_chart);
-			// s_r5_chart = new Chart(document.getElementById('s_r5_chart').getContext('2d'), s_r5_chart);
+			s_r5_chart = new Chart(document.getElementById('s_r5_chart').getContext('2d'), s_r5_chart);
 		};";
 
 		$js = trim(str_replace(array("\t\t\t"), '', $js));

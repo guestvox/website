@@ -514,69 +514,64 @@ class Surveys_model extends Model
 				]
 			];
 		}
-		// else if ($option == 's_r5_chart')
-		// {
-		// 	$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-		// 		'answers',
-		// 		'date',
-		// 	], [
-		// 		'account' => Session::get_value('account')['id']
-		// 	]));
-		//
-		// 	$query2 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-		// 		'id',
-		// 		'name',
-		// 		'subquestions',
-		// 	], [
-		// 		'account' => Session::get_value('account')['id']
-		// 	]));
-		//
-		// 	$suma = 0;
-		// 	$average_question = 0;
-		//
-		// 	foreach ($query as $value)
-		// 	{
-		// 		foreach ($value['answers'] as $subvalue)
-		// 		{
-		// 			foreach ($query2 as $value_question)
-		// 			{
-		// 				if ($subvalue['type'] == 'rate')
-		// 				{
-		// 					if ($subvalue['id'] == $value_question['id'])
-		// 					{
-		// 						$rate_question = 0;
-		// 						$answers_question = 0;
-		//
-		// 						$rate_question = $rate_question + $subvalue['answer'];
-		// 						$answers_question = $answers_question + 1;
-		//
-		//
-		// 						$suma = $suma += $rate_question;
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		//
-		// 		print_r($rate_question);
-		//
-		// 		if ($suma > 0)
-		// 			$average_question = $suma / $answers_question;
-		//
-		//
-		//
-		// 	}
-		//
-		// 	$data = [
-		// 		'labels' => '"Hoy"',
-		// 		'name' => 'Pregunta',
-		// 		'datasets' => [
-		// 			'labels' => '"Rate"',
-		// 			'data' => $average_question ,
-		// 			'colors' => '"#4caf50"'
-		// 		]
-		// 	];
-		//
-		// }
+		else if ($option == 's_r5_chart')
+		{
+			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+				'answers',
+				'date',
+			], [
+				'account' => Session::get_value('account')['id']
+			]));
+
+			$query2 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+				'id',
+				'name',
+				'subquestions',
+			], [
+				'account' => Session::get_value('account')['id']
+			]));
+
+			$suma = 0;
+			$average_question = 0;
+
+			foreach ($query as $value)
+			{
+				foreach ($value['answers'] as $subvalue)
+				{
+					foreach ($query2 as $value_question)
+					{
+						if ($subvalue['type'] == 'rate')
+						{
+							if ($subvalue['id'] == 1 and $value_question['id'] == 1)
+							{
+								$rate_question = 0;
+								$answers_question = 0;
+
+								$rate_question = $rate_question + $subvalue['answer'];
+								$answers_question = $answers_question + 1;
+
+								$suma = $suma += $rate_question;
+							}
+						}
+					}
+				}
+
+				if ($suma > 0)
+					$average_question = $suma / $answers_question;
+
+			}
+
+			$data = [
+				'labels' => '"Hoy"',
+				'name' => 'Pregunta',
+				'datasets' => [
+					'labels' => '"Rate"',
+					'data' => $average_question ,
+					'colors' => '"#4caf50"'
+				]
+			];
+
+		}
 
 		return $data;
 	}
