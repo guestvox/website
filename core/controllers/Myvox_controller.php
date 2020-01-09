@@ -61,6 +61,8 @@ class Myvox_controller extends Controller
 
 					if (!empty($data['room']))
 					{
+						Session::set_value('room', []);
+
 						$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
 
 						Session::set_value('room', $data['room']);
@@ -864,6 +866,27 @@ class Myvox_controller extends Controller
 
 				$template = $this->view->render($this, 'index');
 
+				$weather = '';
+
+				if ($data['account']['city'] == 'Cancún')
+				{
+					$weather .=
+					'<div class="weather">
+						<div id="cont_c64f376b4321760765e1efb5153a415c">
+							<script type="text/javascript" async src="https://www.meteored.mx/wid_loader/c64f376b4321760765e1efb5153a415c"></script>
+						</div>
+					</div>';
+				}
+				if ($data['account']['city'] == 'Playa del Carmen')
+				{
+					$weather .=
+					'<div class="weather">
+			            <div id="cont_1aa2ac92f7520eecb5e4c9c9af87d4cf">
+			                <script type="text/javascript" async src="https://www.meteored.mx/wid_loader/1aa2ac92f7520eecb5e4c9c9af87d4cf"></script>
+			            </div>
+			        </div>';
+				}
+
 				$a_new_request = '';
 				$a_new_incident = '';
 				$mdl_new_request = '';
@@ -1461,6 +1484,7 @@ class Myvox_controller extends Controller
 
 				$replace = [
 					'{$logotype}' => '{$path.uploads}' . $data['account']['logotype'],
+					'{$weather}' => $weather,
 					'{$a_new_request}' => $a_new_request,
 					'{$a_new_incident}' => $a_new_incident,
 					'{$a_new_survey_answer}' => $a_new_survey_answer,

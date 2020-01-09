@@ -234,7 +234,7 @@ class Surveys_model extends Model
 	{
 		$data = null;
 
-		if ($option == 's_r1_chart')
+		if ($option == 's_r1_chart' and Session::get_value('account')['type'] == 'hotel')
 		{
 			$query1 = $this->database->select('survey_answers', [
 				'room',
@@ -264,6 +264,47 @@ class Surveys_model extends Model
 				foreach ($query1 as $subvalue)
 				{
 					if ($value['id'] == $subvalue['room'])
+						$count = $count + 1;
+				}
+
+				if ($count > 0)
+				{
+					$data['labels'] .= "'" . $value['name'] . "',";
+					$data['datasets']['data'] .= $count . ',';
+					$data['datasets']['colors'] .= "'#" . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . str_pad( dechex( mt_rand( 0, 255 ) ), 2, '0', STR_PAD_LEFT) . "',";
+				}
+			}
+		}
+		else if ($option == 's_r1_chart' and Session::get_value('account')['type'] == 'restaurant')
+		{
+			$query1 = $this->database->select('survey_answers', [
+				'table',
+			], [
+				'account' => Session::get_value('account')['id']
+			]);
+
+			$query2 = $this->database->select('table', [
+				'id',
+				'name'
+			], [
+				'account' => Session::get_value('account')['id'],
+			]);
+
+			$data = [
+				'labels' => '',
+				'datasets' => [
+					'data' => '',
+					'colors' => ''
+				]
+			];
+
+			foreach ($query2 as $value)
+			{
+				$count = 0;
+
+				foreach ($query1 as $subvalue)
+				{
+					if ($value['id'] == $subvalue['table'])
 						$count = $count + 1;
 				}
 
@@ -395,7 +436,6 @@ class Surveys_model extends Model
 			$prom_lastday_4 = 0;
 			$prom_lastday_5 = 0;
 			$prom_lastday_6 = 0;
-			$subprom_today = 0;
 
 			foreach ($query as $key => $value)
 			{
@@ -474,6 +514,69 @@ class Surveys_model extends Model
 				]
 			];
 		}
+		// else if ($option == 's_r5_chart')
+		// {
+		// 	$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+		// 		'answers',
+		// 		'date',
+		// 	], [
+		// 		'account' => Session::get_value('account')['id']
+		// 	]));
+		//
+		// 	$query2 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+		// 		'id',
+		// 		'name',
+		// 		'subquestions',
+		// 	], [
+		// 		'account' => Session::get_value('account')['id']
+		// 	]));
+		//
+		// 	$suma = 0;
+		// 	$average_question = 0;
+		//
+		// 	foreach ($query as $value)
+		// 	{
+		// 		foreach ($value['answers'] as $subvalue)
+		// 		{
+		// 			foreach ($query2 as $value_question)
+		// 			{
+		// 				if ($subvalue['type'] == 'rate')
+		// 				{
+		// 					if ($subvalue['id'] == $value_question['id'])
+		// 					{
+		// 						$rate_question = 0;
+		// 						$answers_question = 0;
+		//
+		// 						$rate_question = $rate_question + $subvalue['answer'];
+		// 						$answers_question = $answers_question + 1;
+		//
+		//
+		// 						$suma = $suma += $rate_question;
+		// 					}
+		// 				}
+		// 			}
+		// 		}
+		//
+		// 		print_r($rate_question);
+		//
+		// 		if ($suma > 0)
+		// 			$average_question = $suma / $answers_question;
+		//
+		//
+		//
+		// 	}
+		//
+		// 	$data = [
+		// 		'labels' => '"Hoy"',
+		// 		'name' => 'Pregunta',
+		// 		'datasets' => [
+		// 			'labels' => '"Rate"',
+		// 			'data' => $average_question ,
+		// 			'colors' => '"#4caf50"'
+		// 		]
+		// 	];
+		//
+		// }
 
 		return $data;
 	}

@@ -49,6 +49,9 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
             <div class="charts small-medium">
                 <canvas id="s_r4_chart" height="300"></canvas>
             </div>
+            <div class="charts small-medium">
+                <canvas id="s_r5_chart" height="300"></canvas>
+            </div>
         </main>
     </article>
 </main>

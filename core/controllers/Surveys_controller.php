@@ -761,20 +761,31 @@ class Surveys_controller extends Controller
 		$s_r2_chart_data = $this->model->get_chart_data('s_r2_chart');
 		$s_r3_chart_data = $this->model->get_chart_data('s_r3_chart');
 		$s_r4_chart_data = $this->model->get_chart_data('s_r4_chart');
+		$s_r5_chart_data = $this->model->get_chart_data('s_r5_chart');
 
 		if (Session::get_value('lang') == 'es')
 		{
-			$s_r1_chart_title = 'Balance de respuestas por habitación';
+			if (Session::get_value('account')['type'] == 'hotel')
+				$s_r1_chart_title = 'Balance de respuestas por habitación';
+			else
+				$s_r1_chart_title = 'Balance de respuestas por mesa';
+
 			$s_r2_chart_title = 'Balance de encuestas de valoración';
 			$s_r3_chart_title = 'Balance de encuestas de si y no';
 			$s_r4_chart_title = 'Promedio de preguntas';
+			$s_r5_chart_title = $s_r5_chart_data['name'];
 		}
 		else if (Session::get_value('lang') == 'en')
 		{
-			$s_r1_chart_title = 'Balance of responses per room';
+			if (Session::get_value('account')['type'] == 'hotel')
+				$s_r1_chart_title = 'Balance of responses per room';
+			else
+				$s_r1_chart_title = 'Balance of responses per table';
+
 			$s_r2_chart_title = 'Assessment survey balance';
 			$s_r3_chart_title = 'Yes and no survey balance ';
-			$s_r4_chart_title = 'Average questions and subquestions';
+			$s_r4_chart_title = 'Average questions';
+			$s_r5_chart_title = $s_r5_chart_data['name'];
 		}
 
 		$js =
@@ -891,12 +902,43 @@ class Surveys_controller extends Controller
             }
 		};
 
+		// var s_r5_chart = {
+		//     type: 'line',
+		// 	data: {
+		// 		labels: [
+	    //             " . $s_r5_chart_data['labels'] . "
+	    //         ],
+		// 		datasets: [{
+		// 			label: [
+		// 				" . $s_r5_chart_data['datasets']['labels'] . "
+		// 			],
+	    //             data: [
+	    //                 " . $s_r5_chart_data['datasets']['data'] . "
+	    //             ],
+	    //             backgroundColor: [
+	    //                 " . $s_r5_chart_data['datasets']['colors'] . "
+	    //             ],
+	    //         }],
+	    //     },
+		// 	options: {
+		// 		title: {
+		// 			display: true,
+		// 			text: '" . $s_r5_chart_title . "'
+		// 		},
+		// 		legend: {
+		// 			display: true
+		// 		},
+	    //         responsive: true
+        //     }
+		// };
+
 		window.onload = function()
 		{
 			s_r1_chart = new Chart(document.getElementById('s_r1_chart').getContext('2d'), s_r1_chart);
 			s_r2_chart = new Chart(document.getElementById('s_r2_chart').getContext('2d'), s_r2_chart);
 			s_r3_chart = new Chart(document.getElementById('s_r3_chart').getContext('2d'), s_r3_chart);
 			s_r4_chart = new Chart(document.getElementById('s_r4_chart').getContext('2d'), s_r4_chart);
+			// s_r5_chart = new Chart(document.getElementById('s_r5_chart').getContext('2d'), s_r5_chart);
 		};";
 
 		$js = trim(str_replace(array("\t\t\t"), '', $js));
