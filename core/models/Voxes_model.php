@@ -2536,6 +2536,7 @@ class Voxes_model extends Model
 
 		$hours = 0;
 		$count = 0;
+		$average = 0;
 
 		foreach ($query as $key => $value)
 		{
@@ -2551,12 +2552,15 @@ class Voxes_model extends Model
 			}
 		}
 
-		$average = $hours / $count;
+		if ($hours > 0 AND $count > 0)
+		{
+			$average = $hours / $count;
 
-		if ($average < 1)
-			$average = round(($average * 60), 2) . ' Min';
-		else
-			$average = round($average, 2) . ' Hrs';
+			if ($average < 1)
+				$average = round(($average * 60), 2) . ' Min';
+			else
+				$average = round($average, 2) . ' Hrs';
+		}
 
 		return $average;
 	}
