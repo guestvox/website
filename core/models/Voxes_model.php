@@ -207,7 +207,7 @@ class Voxes_model extends Model
 
 	public function get_table($id)
 	{
-		$query = $this->database->select('rooms', [
+		$query = $this->database->select('tables', [
 			'id',
 			'number',
 			'name'

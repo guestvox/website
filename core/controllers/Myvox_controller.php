@@ -1285,8 +1285,6 @@ class Myvox_controller extends Controller
 							$mdl_new_survey_answer .=
 							'</article>';
 
-							//Segundo nivel de preguntas
-
 							if (!empty($value['subquestions']))
 							{
 								if ($value['type'] == 'rate')
@@ -1335,8 +1333,6 @@ class Myvox_controller extends Controller
 										   <input type="text" name="so-' . $value['id'] . '-' . $subvalue['id'] . '">
 									   </div>';
 								   }
-
-								   //Tercer nivel de preguntas
 
 								   if (!empty($subvalue['subquestions']))
 								   {
