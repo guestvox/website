@@ -9,20 +9,20 @@ class Surveys_model extends Model
 		parent::__construct();
 	}
 
-	// public function get_survey_questions()
-	// {
-	// 	$query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-	// 		'id',
-	// 		'name',
-	// 		'subquestions',
-	// 		'type',
-	// 		'status',
-	// 	], [
-	// 		'account' => Session::get_value('account')['id']
-	// 	]));
-	//
-	// 	return $query;
-	// }
+	public function get_survey_questions()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+			'id',
+			'name',
+			'subquestions',
+			'type',
+			'status'
+		], [
+			'account' => Session::get_value('account')['id']
+		]));
+
+		return $query;
+	}
 
 	public function get_survey_question($id)
 	{

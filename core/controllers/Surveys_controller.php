@@ -31,456 +31,456 @@ class Surveys_controller extends Controller
 		echo $template;
 	}
 
-	// public function questions()
-	// {
-	// 	if (Format::exist_ajax_request() == true)
-	// 	{
-	// 		if ($_POST['action'] == 'get_survey_question')
-	// 		{
-	// 			$query = $this->model->get_survey_question($_POST['id']);
-	//
-	// 			if (!empty($query))
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'success',
-	// 					'data' => $query,
-	// 				]);
-	// 			}
-	// 			else
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'error',
-	// 					'message' => '{$lang.operation_error}',
-	// 				]);
-	// 			}
-	// 		}
-	//
-	// 		if ($_POST['action'] == 'preview_survey_question')
-	// 		{
-	// 			$query = $this->model->get_survey_questions();
-	//
-	// 			$data = '';
-	//
-	// 			if (!empty($query))
-	// 			{
-	// 				foreach ($query as $value)
-	// 				{
-	// 					$data .=
-	// 					'<article>
-	// 					   <h6>' . $value['name'][Session::get_value('account')['language']] . '</h6>';
-	//
-	// 					if ($value['type'] == 'rate')
-	// 					{
-	// 						$data .=
-	// 						'<div>
-	// 						   <label><i class="far fa-thumbs-down"></i></label>
-	// 						   <label><input type="radio"></label>
-	// 						   <label><input type="radio"></label>
-	// 						   <label><input type="radio"></label>
-	// 						   <label><input type="radio"></label>
-	// 						   <label><input type="radio"></label>
-	// 						   <label><i class="far fa-thumbs-up"></i></label>
-	// 						</div>';
-	// 					}
-	// 					else if ($value['type'] == 'twin')
-	// 					{
-	// 						$data .=
-	// 						'<div>
-	// 						   <label>{$lang.to_yes}</label>
-	// 						   <label><input type="radio"></label>
-	// 						   <label><input type="radio"></label>
-	// 						   <label>{$lang.to_not}</label>
-	// 						</div>';
-	// 					}
-	// 					else if ($value['type'] == 'open')
-	// 					{
-	// 						$data .=
-	// 						'<div>
-	// 						   <input type="text">
-	// 						</div>';
-	// 					}
-	//
-	// 					$data .=
-	// 					'</article>';
-	//
-	// 					if (!empty($value['subquestions']))
-	// 					{
-	// 					   $data .=
-	// 					   '<article class="subquestions">';
-	//
-	// 						foreach ($value['subquestions'] as $key => $subvalue)
-	// 						{
-	// 						   $data .=
-	// 						   '<h6>' . $subvalue['name'][Session::get_value('lang')] . '</h6>';
-	//
-	// 						   if ($subvalue['type'] == 'rate')
-	// 						   {
-	// 							   $data .=
-	// 							   '<div>
-	// 								   <label><i class="far fa-thumbs-down"></i></label>
-	// 								   <label><input type="radio"></label>
-	// 								   <label><input type="radio"></label>
-	// 								   <label><input type="radio"></label>
-	// 								   <label><input type="radio"></label>
-	// 								   <label><input type="radio"></label>
-	// 								   <label><i class="far fa-thumbs-up"></i></label>
-	// 							   </div>';
-	// 						   }
-	// 						   else if ($subvalue['type'] == 'twin')
-	// 						   {
-	// 							   $data .=
-	// 							   '<div>
-	// 								   <label>{$lang.to_yes}</label>
-	// 								   <label><input type="radio"></label>
-	// 								   <label><input type="radio"></label>
-	// 								   <label>{$lang.to_not}</label>
-	// 							  </div>';
-	// 						   }
-	// 						   else if ($subvalue['type'] == 'open')
-	// 						   {
-	// 							   $data .=
-	// 							   '<div>
-	// 								   <input type="text"">
-	// 							   </div>';
-	// 						   }
-	//
-	// 						   if (!empty($subvalue['subquestions']))
-	// 						   {
-	// 							   $data .=
- 	//    						   	'<article class="subquestions-sub">';
-	//
-	// 							   foreach ($subvalue['subquestions'] as $childvalue)
-	// 							   {
-	// 								   $data .=
-	// 								   '<h6>' . $childvalue['name'][Session::get_value('lang')] . '</h6>';
-	//
-	// 								   if ($childvalue['type'] == 'rate')
-	// 								   {
-	// 									   $data .=
-	// 									   '<div>
-	// 										   <label><i class="far fa-thumbs-down"></i></label>
-	// 										   <label><input type="radio"></label>
-	// 										   <label><input type="radio"></label>
-	// 										   <label><input type="radio"></label>
-	// 										   <label><input type="radio"></label>
-	// 										   <label><input type="radio"></label>
-	// 										   <label><i class="far fa-thumbs-up"></i></label>
-	// 									   </div>';
-	// 								   }
-	// 								   else if ($childvalue['type'] == 'twin')
-	// 								   {
-	// 									   $data .=
-	// 									   '<div>
-	// 										   <label>{$lang.to_yes}</label>
-	// 										   <label><input type="radio"></label>
-	// 										   <label><input type="radio"></label>
-	// 										   <label>{$lang.to_not}</label>
-	// 									  </div>';
-	// 								   }
-	// 								   else if ($childvalue['type'] == 'open')
-	// 								   {
-	// 									   $data .=
-	// 									   '<div>
-	// 										   <input type="text"">
-	// 									   </div>';
-	// 								   }
-	//
-	// 							   }
-	// 							   $data .=
-	//    							'</article>';
-	// 						   }
-	// 						}
-	//
-	// 						$data .=
-	// 						'</article>';
-	// 					}
-	//
-	// 				}
-	//
-	// 				Functions::environment([
-	// 					'status' => 'success',
-	// 					'data' => $data,
-	// 				]);
-	// 			}
-	// 			else
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'error',
-	// 					'message' => '{$lang.operation_error}',
-	// 				]);
-	// 			}
-	//
-	// 		}
-	//
-	// 		if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question' OR $_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'new_survey_subquestion_sub' OR $_POST['action'] == 'edit_survey_subquestion_sub' OR $_POST['action'] == 'deactivate_survey_subquestion' OR $_POST['action'] == 'activate_survey_subquestion' OR $_POST['action'] == 'delete_survey_subquestion' OR $_POST['action'] == 'deactivate_survey_subquestion_sub' OR $_POST['action'] == 'activate_survey_subquestion_sub' OR $_POST['action'] == 'delete_survey_subquestion_sub')
-	// 		{
-	// 			$labels = [];
-	//
-	// 			if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question' OR $_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'new_survey_subquestion_sub' OR $_POST['action'] == 'edit_survey_subquestion_sub')
-	// 			{
-	// 				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
-	// 					array_push($labels, ['name_es', '']);
-	//
-	// 				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
-	// 					array_push($labels, ['name_en', '']);
-	//
-	// 				if (!isset($_POST['type']) OR empty($_POST['type']))
-	// 					array_push($labels, ['type', '']);
-	// 			}
-	//
-	// 			if (empty($labels))
-	// 			{
-	// 				if ($_POST['action'] == 'new_survey_question')
-	// 					$query = $this->model->new_survey_question($_POST);
-	// 				else if ($_POST['action'] == 'edit_survey_question')
-	// 					$query = $this->model->edit_survey_question($_POST);
-	// 				else if ($_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'new_survey_subquestion_sub' OR $_POST['action'] == 'edit_survey_subquestion_sub' OR $_POST['action'] == 'deactivate_survey_subquestion' OR $_POST['action'] == 'activate_survey_subquestion' OR $_POST['action'] == 'delete_survey_subquestion' OR $_POST['action'] == 'deactivate_survey_subquestion_sub' OR $_POST['action'] == 'activate_survey_subquestion_sub' OR $_POST['action'] == 'delete_survey_subquestion_sub')
-	// 				{
-	// 					$tmp = $this->model->get_survey_question($_POST['id']);
-	//
-	// 					if ($_POST['action'] == 'new_survey_subquestion')
-	// 					{
-	// 						array_push($tmp['subquestions'], [
-	// 							'id' => Functions::get_random(8),
-	// 							'name' => [
-	// 								'es' => $_POST['name_es'],
-	// 								'en' => $_POST['name_en'],
-	// 							],
-	// 							'subquestions' => [],
-	// 							'type' => $_POST['type'],
-	// 							'status' => true,
-	// 						]);
-	// 					}
-	// 					else if ($_POST['action'] == 'new_survey_subquestion_sub')
-	// 					{
-	// 						foreach ($tmp['subquestions'] as $key => $value)
-	// 						{
-	// 							if ($_POST['key'] == $key)
-	// 							{
-	// 								array_push($tmp['subquestions'][$key]['subquestions'], [
-	// 									'id' => Functions::get_random(8),
-	// 									'name' => [
-	// 										'es' => $_POST['name_es'],
-	// 										'en' => $_POST['name_en'],
-	// 									],
-	// 									'type' => $_POST['type'],
-	// 									'status' => true,
-	// 								]);
-	//
-	// 							}
-	// 						}
-	//
-	// 					}
-	// 					else if ($_POST['action'] == 'edit_survey_subquestion')
-	// 					{
-	// 						$tmp['subquestions'][$_POST['key']]['name'] = [
-	// 							'es' => $_POST['name_es'],
-	// 							'en' => $_POST['name_en'],
-	// 						];
-	//
-	// 						$tmp['subquestions'][$_POST['key']]['type'] = $_POST['type'];
-	// 					}
-	// 					else if ($_POST['action'] == 'edit_survey_subquestion_sub')
-	// 					{
-	// 						foreach ($tmp['subquestions'] as $key => $value)
-	// 						{
-	// 							if ($_POST['key'] == $key)
-	// 							{
-	// 								$tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]['name'] = [
-	// 									'es' => $_POST['name_es'],
-	// 									'en' => $_POST['name_en'],
-	// 								];
-	//
-	// 								$tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]['type'] = $_POST['type'];
-	// 							}
-	// 						}
-	//
-	// 					}
-	// 					else if ($_POST['action'] == 'deactivate_survey_subquestion')
-	// 						$tmp['subquestions'][$_POST['key']]['status'] = false;
-	// 					else if ($_POST['action'] == 'activate_survey_subquestion')
-	// 						$tmp['subquestions'][$_POST['key']]['status'] = true;
-	// 					else if ($_POST['action'] == 'delete_survey_subquestion')
-	// 						unset($tmp['subquestions'][$_POST['key']]);
-	// 					else if ($_POST['action'] == 'delete_survey_subquestion_sub')
-	// 					{
-	// 						foreach ($tmp['subquestions'] as $key => $value)
-	// 						{
-	// 							if ($_POST['key'] == $key)
-	// 							{
-	// 								unset($tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]);
-	// 							}
-	// 						}
-	//
-	// 					}
-	// 					else if ($_POST['action'] == 'deactivate_survey_subquestion_sub')
-	// 					{
-	// 						foreach ($tmp['subquestions'] as $key => $value)
-	// 						{
-	// 							if ($_POST['key'] == $key)
-	// 							{
-	// 								$tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]['status'] = false;
-	// 							}
-	// 						}
-	//
-	// 					}
-	// 					else if ($_POST['action'] == 'activate_survey_subquestion_sub')
-	// 					{
-	// 						foreach ($tmp['subquestions'] as $key => $value)
-	// 						{
-	// 							if ($_POST['key'] == $key)
-	// 							{
-	// 								$tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]['status'] = true;
-	// 							}
-	// 						}
-	//
-	// 					}
-	// 					$query = $this->model->edit_survey_subquestions($_POST['id'], $tmp['subquestions']);
-	// 				}
-	//
-	// 				if (!empty($query))
-	// 				{
-	// 					Functions::environment([
-	// 						'status' => 'success',
-	// 						'message' => '{$lang.operation_success}',
-	// 					]);
-	// 				}
-	// 				else
-	// 				{
-	// 					Functions::environment([
-	// 						'status' => 'error',
-	// 						'message' => '{$lang.operation_error}',
-	// 					]);
-	// 				}
-	// 			}
-	// 			else
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'error',
-	// 					'labels' => $labels
-	// 				]);
-	// 			}
-	// 		}
-	//
-	// 		if ($_POST['action'] == 'deactivate_survey_question')
-	// 		{
-	// 			$query = $this->model->deactivate_survey_question($_POST['id']);
-	//
-	// 			if (!empty($query))
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'success',
-	// 					'message' => '{$lang.operation_success}',
-	// 				]);
-	// 			}
-	// 			else
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'error',
-	// 					'message' => '{$lang.operation_error}',
-	// 				]);
-	// 			}
-	// 		}
-	//
-	// 		if ($_POST['action'] == 'activate_survey_question')
-	// 		{
-	// 			$query = $this->model->activate_survey_question($_POST['id']);
-	//
-	// 			if (!empty($query))
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'success',
-	// 					'message' => '{$lang.operation_success}',
-	// 				]);
-	// 			}
-	// 			else
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'error',
-	// 					'message' => '{$lang.operation_error}',
-	// 				]);
-	// 			}
-	// 		}
-	//
-	// 		if ($_POST['action'] == 'delete_survey_question')
-	// 		{
-	// 			$query = $this->model->delete_survey_question($_POST['id']);
-	//
-	// 			if (!empty($query))
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'success',
-	// 					'message' => '{$lang.operation_success}',
-	// 				]);
-	// 			}
-	// 			else
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'error',
-	// 					'message' => '{$lang.operation_error}',
-	// 				]);
-	// 			}
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		define('_title', 'GuestVox');
-	//
-	// 		$template = $this->view->render($this, 'questions');
-	//
-	// 		$tbl_survey_questions = '';
-	//
-	// 		foreach ($this->model->get_survey_questions() as $value)
-	// 		{
-	// 			$tbl_survey_questions .=
-	// 			'<tr class="marked">
-	// 				<td align="left">' . $value['name'][Session::get_value('account')['language']] . '</td>
-	// 				<td align="left">{$lang.' . $value['type'] . '}</td>
-	// 				<td align="left">' . (($value['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
-	// 				' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true AND $value['type'] != 'open') ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : '') . '</td>' : '') . '
-	// 				' . ((Functions::check_user_access(['{survey_questions_delete}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="delete_survey_question" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-	// 				' . ((Functions::check_user_access(['{survey_questions_deactivate}','{survey_questions_activate}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
-	// 				' . ((Functions::check_user_access(['{survey_questions_update}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="edit_survey_question" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a>' : '') . '</td>' : '') . '
-	// 			</tr>';
-	//
-	// 			foreach ($value['subquestions'] as $subkey => $subvalue)
-	// 			{
-	// 				$tbl_survey_questions .=
-	// 				'<tr class="sub-40">
-	// 					<td align="left">' . $subvalue['name'][Session::get_value('account')['language']] . '</td>
-	// 					<td align="left">{$lang.' . $subvalue['type'] . '}</td>
-	// 					<td align="left">' . (($subvalue['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
-	// 					' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true AND $subvalue['type'] != 'open') ? '<a data-action="new_survey_subquestion_sub" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-plus"></i></a>' : '') . '</td>' : '') . '
-	// 					' . ((Functions::check_user_access(['{survey_questions_delete}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="delete_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-	// 					' . ((Functions::check_user_access(['{survey_questions_deactivate}','{survey_questions_activate}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="deactivate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
-	// 					' . ((Functions::check_user_access(['{survey_questions_update}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="edit_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '" class="edit"><i class="fas fa-pen"></i></a>' : '') . '</td>' : '') . '
-	// 				</tr>';
-	//
-	// 				foreach ($subvalue['subquestions'] as $childkey => $childvalue)
-	// 				{
-	// 					$tbl_survey_questions .=
-	// 					'<tr class="sub-80">
-	// 						<td align="left">' . $childvalue['name'][Session::get_value('account')['language']] . '</td>
-	// 						<td align="left">{$lang.' . $childvalue['type'] . '}</td>
-	// 						<td align="left">' . (($childvalue['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
-	// 						' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon"></td>' : '') . '
-	// 						' . ((Functions::check_user_access(['{survey_questions_delete}']) == true) ? '<td align="right" class="icon">' . (($childvalue['status'] == true) ? '<a data-action="delete_survey_subquestion_sub" data-id="' . $value['id'] . '" data-key="' . $subkey . '" data-childkey="' . $childkey . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-	// 						' . ((Functions::check_user_access(['{survey_questions_deactivate}','{survey_questions_activate}']) == true) ? '<td align="right" class="icon">' . (($childvalue['status'] == true) ? '<a data-action="deactivate_survey_subquestion_sub" data-id="' . $value['id'] . '" data-key="' . $subkey . '" data-childkey="' . $childkey . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_subquestion_sub" data-id="' . $value['id'] . '" data-key="' . $subkey . '" data-childkey="' . $childkey . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
-	// 						' . ((Functions::check_user_access(['{survey_questions_update}']) == true) ? '<td align="right" class="icon">' . (($childvalue['status'] == true) ? '<a data-action="edit_survey_subquestion_sub" data-id="' . $value['id'] . '" data-key="' . $subkey . '" data-childkey="' . $childkey . '" class="edit"><i class="fas fa-pen"></i></a>' : '') . '</td>' : '') . '
-	// 					</tr>';
-	// 				}
-	// 			}
-	// 		}
-	//
-	// 		$replace = [
-	// 			'{$tbl_survey_questions}' => $tbl_survey_questions,
-	// 		];
-	//
-	// 		$template = $this->format->replace($replace, $template);
-	//
-	// 		echo $template;
-	// 	}
-	// }
+	public function questions()
+	{
+		if (Format::exist_ajax_request() == true)
+		{
+			// if ($_POST['action'] == 'get_survey_question')
+			// {
+			// 	$query = $this->model->get_survey_question($_POST['id']);
+			//
+			// 	if (!empty($query))
+			// 	{
+			// 		Functions::environment([
+			// 			'status' => 'success',
+			// 			'data' => $query,
+			// 		]);
+			// 	}
+			// 	else
+			// 	{
+			// 		Functions::environment([
+			// 			'status' => 'error',
+			// 			'message' => '{$lang.operation_error}',
+			// 		]);
+			// 	}
+			// }
+			//
+			// if ($_POST['action'] == 'preview_survey_question')
+			// {
+			// 	$query = $this->model->get_survey_questions();
+			//
+			// 	$data = '';
+			//
+			// 	if (!empty($query))
+			// 	{
+			// 		foreach ($query as $value)
+			// 		{
+			// 			$data .=
+			// 			'<article>
+			// 			   <h6>' . $value['name'][Session::get_value('account')['language']] . '</h6>';
+			//
+			// 			if ($value['type'] == 'rate')
+			// 			{
+			// 				$data .=
+			// 				'<div>
+			// 				   <label><i class="far fa-thumbs-down"></i></label>
+			// 				   <label><input type="radio"></label>
+			// 				   <label><input type="radio"></label>
+			// 				   <label><input type="radio"></label>
+			// 				   <label><input type="radio"></label>
+			// 				   <label><input type="radio"></label>
+			// 				   <label><i class="far fa-thumbs-up"></i></label>
+			// 				</div>';
+			// 			}
+			// 			else if ($value['type'] == 'twin')
+			// 			{
+			// 				$data .=
+			// 				'<div>
+			// 				   <label>{$lang.to_yes}</label>
+			// 				   <label><input type="radio"></label>
+			// 				   <label><input type="radio"></label>
+			// 				   <label>{$lang.to_not}</label>
+			// 				</div>';
+			// 			}
+			// 			else if ($value['type'] == 'open')
+			// 			{
+			// 				$data .=
+			// 				'<div>
+			// 				   <input type="text">
+			// 				</div>';
+			// 			}
+			//
+			// 			$data .=
+			// 			'</article>';
+			//
+			// 			if (!empty($value['subquestions']))
+			// 			{
+			// 			   $data .=
+			// 			   '<article class="subquestions">';
+			//
+			// 				foreach ($value['subquestions'] as $key => $subvalue)
+			// 				{
+			// 				   $data .=
+			// 				   '<h6>' . $subvalue['name'][Session::get_value('lang')] . '</h6>';
+			//
+			// 				   if ($subvalue['type'] == 'rate')
+			// 				   {
+			// 					   $data .=
+			// 					   '<div>
+			// 						   <label><i class="far fa-thumbs-down"></i></label>
+			// 						   <label><input type="radio"></label>
+			// 						   <label><input type="radio"></label>
+			// 						   <label><input type="radio"></label>
+			// 						   <label><input type="radio"></label>
+			// 						   <label><input type="radio"></label>
+			// 						   <label><i class="far fa-thumbs-up"></i></label>
+			// 					   </div>';
+			// 				   }
+			// 				   else if ($subvalue['type'] == 'twin')
+			// 				   {
+			// 					   $data .=
+			// 					   '<div>
+			// 						   <label>{$lang.to_yes}</label>
+			// 						   <label><input type="radio"></label>
+			// 						   <label><input type="radio"></label>
+			// 						   <label>{$lang.to_not}</label>
+			// 					  </div>';
+			// 				   }
+			// 				   else if ($subvalue['type'] == 'open')
+			// 				   {
+			// 					   $data .=
+			// 					   '<div>
+			// 						   <input type="text"">
+			// 					   </div>';
+			// 				   }
+			//
+			// 				   if (!empty($subvalue['subquestions']))
+			// 				   {
+			// 					   $data .=
+ 	   		// 				   	'<article class="subquestions-sub">';
+			//
+			// 					   foreach ($subvalue['subquestions'] as $childvalue)
+			// 					   {
+			// 						   $data .=
+			// 						   '<h6>' . $childvalue['name'][Session::get_value('lang')] . '</h6>';
+			//
+			// 						   if ($childvalue['type'] == 'rate')
+			// 						   {
+			// 							   $data .=
+			// 							   '<div>
+			// 								   <label><i class="far fa-thumbs-down"></i></label>
+			// 								   <label><input type="radio"></label>
+			// 								   <label><input type="radio"></label>
+			// 								   <label><input type="radio"></label>
+			// 								   <label><input type="radio"></label>
+			// 								   <label><input type="radio"></label>
+			// 								   <label><i class="far fa-thumbs-up"></i></label>
+			// 							   </div>';
+			// 						   }
+			// 						   else if ($childvalue['type'] == 'twin')
+			// 						   {
+			// 							   $data .=
+			// 							   '<div>
+			// 								   <label>{$lang.to_yes}</label>
+			// 								   <label><input type="radio"></label>
+			// 								   <label><input type="radio"></label>
+			// 								   <label>{$lang.to_not}</label>
+			// 							  </div>';
+			// 						   }
+			// 						   else if ($childvalue['type'] == 'open')
+			// 						   {
+			// 							   $data .=
+			// 							   '<div>
+			// 								   <input type="text"">
+			// 							   </div>';
+			// 						   }
+			//
+			// 					   }
+			// 					   $data .=
+	   		// 					'</article>';
+			// 				   }
+			// 				}
+			//
+			// 				$data .=
+			// 				'</article>';
+			// 			}
+			//
+			// 		}
+			//
+			// 		Functions::environment([
+			// 			'status' => 'success',
+			// 			'data' => $data,
+			// 		]);
+			// 	}
+			// 	else
+			// 	{
+			// 		Functions::environment([
+			// 			'status' => 'error',
+			// 			'message' => '{$lang.operation_error}',
+			// 		]);
+			// 	}
+			//
+			// }
+			//
+			// if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question' OR $_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'new_survey_childquestion' OR $_POST['action'] == 'edit_survey_childquestion' OR $_POST['action'] == 'deactivate_survey_subquestion' OR $_POST['action'] == 'activate_survey_subquestion' OR $_POST['action'] == 'delete_survey_subquestion' OR $_POST['action'] == 'deactivate_survey_childquestion' OR $_POST['action'] == 'activate_survey_childquestion' OR $_POST['action'] == 'delete_survey_childquestion')
+			// {
+			// 	$labels = [];
+			//
+			// 	if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question' OR $_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'new_survey_childquestion' OR $_POST['action'] == 'edit_survey_childquestion')
+			// 	{
+			// 		if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
+			// 			array_push($labels, ['name_es', '']);
+			//
+			// 		if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
+			// 			array_push($labels, ['name_en', '']);
+			//
+			// 		if (!isset($_POST['type']) OR empty($_POST['type']))
+			// 			array_push($labels, ['type', '']);
+			// 	}
+			//
+			// 	if (empty($labels))
+			// 	{
+			// 		if ($_POST['action'] == 'new_survey_question')
+			// 			$query = $this->model->new_survey_question($_POST);
+			// 		else if ($_POST['action'] == 'edit_survey_question')
+			// 			$query = $this->model->edit_survey_question($_POST);
+			// 		else if ($_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'new_survey_childquestion' OR $_POST['action'] == 'edit_survey_childquestion' OR $_POST['action'] == 'deactivate_survey_subquestion' OR $_POST['action'] == 'activate_survey_subquestion' OR $_POST['action'] == 'delete_survey_subquestion' OR $_POST['action'] == 'deactivate_survey_childquestion' OR $_POST['action'] == 'activate_survey_childquestion' OR $_POST['action'] == 'delete_survey_childquestion')
+			// 		{
+			// 			$tmp = $this->model->get_survey_question($_POST['id']);
+			//
+			// 			if ($_POST['action'] == 'new_survey_subquestion')
+			// 			{
+			// 				array_push($tmp['subquestions'], [
+			// 					'id' => Functions::get_random(8),
+			// 					'name' => [
+			// 						'es' => $_POST['name_es'],
+			// 						'en' => $_POST['name_en'],
+			// 					],
+			// 					'subquestions' => [],
+			// 					'type' => $_POST['type'],
+			// 					'status' => true,
+			// 				]);
+			// 			}
+			// 			else if ($_POST['action'] == 'new_survey_childquestion')
+			// 			{
+			// 				foreach ($tmp['subquestions'] as $key => $value)
+			// 				{
+			// 					if ($_POST['key'] == $key)
+			// 					{
+			// 						array_push($tmp['subquestions'][$key]['subquestions'], [
+			// 							'id' => Functions::get_random(8),
+			// 							'name' => [
+			// 								'es' => $_POST['name_es'],
+			// 								'en' => $_POST['name_en'],
+			// 							],
+			// 							'type' => $_POST['type'],
+			// 							'status' => true,
+			// 						]);
+			//
+			// 					}
+			// 				}
+			//
+			// 			}
+			// 			else if ($_POST['action'] == 'edit_survey_subquestion')
+			// 			{
+			// 				$tmp['subquestions'][$_POST['key']]['name'] = [
+			// 					'es' => $_POST['name_es'],
+			// 					'en' => $_POST['name_en'],
+			// 				];
+			//
+			// 				$tmp['subquestions'][$_POST['key']]['type'] = $_POST['type'];
+			// 			}
+			// 			else if ($_POST['action'] == 'edit_survey_childquestion')
+			// 			{
+			// 				foreach ($tmp['subquestions'] as $key => $value)
+			// 				{
+			// 					if ($_POST['key'] == $key)
+			// 					{
+			// 						$tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]['name'] = [
+			// 							'es' => $_POST['name_es'],
+			// 							'en' => $_POST['name_en'],
+			// 						];
+			//
+			// 						$tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]['type'] = $_POST['type'];
+			// 					}
+			// 				}
+			//
+			// 			}
+			// 			else if ($_POST['action'] == 'deactivate_survey_subquestion')
+			// 				$tmp['subquestions'][$_POST['key']]['status'] = false;
+			// 			else if ($_POST['action'] == 'activate_survey_subquestion')
+			// 				$tmp['subquestions'][$_POST['key']]['status'] = true;
+			// 			else if ($_POST['action'] == 'delete_survey_subquestion')
+			// 				unset($tmp['subquestions'][$_POST['key']]);
+			// 			else if ($_POST['action'] == 'delete_survey_childquestion')
+			// 			{
+			// 				foreach ($tmp['subquestions'] as $key => $value)
+			// 				{
+			// 					if ($_POST['key'] == $key)
+			// 					{
+			// 						unset($tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]);
+			// 					}
+			// 				}
+			//
+			// 			}
+			// 			else if ($_POST['action'] == 'deactivate_survey_childquestion')
+			// 			{
+			// 				foreach ($tmp['subquestions'] as $key => $value)
+			// 				{
+			// 					if ($_POST['key'] == $key)
+			// 					{
+			// 						$tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]['status'] = false;
+			// 					}
+			// 				}
+			//
+			// 			}
+			// 			else if ($_POST['action'] == 'activate_survey_childquestion')
+			// 			{
+			// 				foreach ($tmp['subquestions'] as $key => $value)
+			// 				{
+			// 					if ($_POST['key'] == $key)
+			// 					{
+			// 						$tmp['subquestions'][$_POST['key']]['subquestions'][$_POST['childkey']]['status'] = true;
+			// 					}
+			// 				}
+			//
+			// 			}
+			// 			$query = $this->model->edit_survey_subquestions($_POST['id'], $tmp['subquestions']);
+			// 		}
+			//
+			// 		if (!empty($query))
+			// 		{
+			// 			Functions::environment([
+			// 				'status' => 'success',
+			// 				'message' => '{$lang.operation_success}',
+			// 			]);
+			// 		}
+			// 		else
+			// 		{
+			// 			Functions::environment([
+			// 				'status' => 'error',
+			// 				'message' => '{$lang.operation_error}',
+			// 			]);
+			// 		}
+			// 	}
+			// 	else
+			// 	{
+			// 		Functions::environment([
+			// 			'status' => 'error',
+			// 			'labels' => $labels
+			// 		]);
+			// 	}
+			// }
+			//
+			// if ($_POST['action'] == 'deactivate_survey_question')
+			// {
+			// 	$query = $this->model->deactivate_survey_question($_POST['id']);
+			//
+			// 	if (!empty($query))
+			// 	{
+			// 		Functions::environment([
+			// 			'status' => 'success',
+			// 			'message' => '{$lang.operation_success}',
+			// 		]);
+			// 	}
+			// 	else
+			// 	{
+			// 		Functions::environment([
+			// 			'status' => 'error',
+			// 			'message' => '{$lang.operation_error}',
+			// 		]);
+			// 	}
+			// }
+			//
+			// if ($_POST['action'] == 'activate_survey_question')
+			// {
+			// 	$query = $this->model->activate_survey_question($_POST['id']);
+			//
+			// 	if (!empty($query))
+			// 	{
+			// 		Functions::environment([
+			// 			'status' => 'success',
+			// 			'message' => '{$lang.operation_success}',
+			// 		]);
+			// 	}
+			// 	else
+			// 	{
+			// 		Functions::environment([
+			// 			'status' => 'error',
+			// 			'message' => '{$lang.operation_error}',
+			// 		]);
+			// 	}
+			// }
+			//
+			// if ($_POST['action'] == 'delete_survey_question')
+			// {
+			// 	$query = $this->model->delete_survey_question($_POST['id']);
+			//
+			// 	if (!empty($query))
+			// 	{
+			// 		Functions::environment([
+			// 			'status' => 'success',
+			// 			'message' => '{$lang.operation_success}',
+			// 		]);
+			// 	}
+			// 	else
+			// 	{
+			// 		Functions::environment([
+			// 			'status' => 'error',
+			// 			'message' => '{$lang.operation_error}',
+			// 		]);
+			// 	}
+			// }
+		}
+		else
+		{
+			define('_title', 'GuestVox');
+
+			$template = $this->view->render($this, 'questions');
+
+			$tbl_survey_questions = '';
+
+			foreach ($this->model->get_survey_questions() as $value)
+			{
+				$tbl_survey_questions .=
+				'<tr class="marked">
+					<td align="left">' . $value['name'][Session::get_value('account')['language']] . '</td>
+					<td align="left">{$lang.' . $value['type'] . '}</td>
+					<td align="left">' . (($value['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
+					' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true AND $value['type'] != 'open') ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : '') . '</td>' : '') . '
+					' . ((Functions::check_user_access(['{survey_questions_delete}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="delete_survey_question" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
+					' . ((Functions::check_user_access(['{survey_questions_deactivate}','{survey_questions_activate}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
+					' . ((Functions::check_user_access(['{survey_questions_update}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="edit_survey_question" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a>' : '') . '</td>' : '') . '
+				</tr>';
+
+				foreach ($value['subquestions'] as $subkey => $subvalue)
+				{
+					$tbl_survey_questions .=
+					'<tr class="sub-40">
+						<td align="left">' . $subvalue['name'][Session::get_value('account')['language']] . '</td>
+						<td align="left">{$lang.' . $subvalue['type'] . '}</td>
+						<td align="left">' . (($subvalue['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
+						' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true AND $subvalue['type'] != 'open') ? '<a data-action="new_survey_childquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-plus"></i></a>' : '') . '</td>' : '') . '
+						' . ((Functions::check_user_access(['{survey_questions_delete}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="delete_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
+						' . ((Functions::check_user_access(['{survey_questions_deactivate}','{survey_questions_activate}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="deactivate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
+						' . ((Functions::check_user_access(['{survey_questions_update}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="edit_survey_subquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '" class="edit"><i class="fas fa-pen"></i></a>' : '') . '</td>' : '') . '
+					</tr>';
+
+					foreach ($subvalue['subquestions'] as $childkey => $childvalue)
+					{
+						$tbl_survey_questions .=
+						'<tr class="sub-80">
+							<td align="left">' . $childvalue['name'][Session::get_value('account')['language']] . '</td>
+							<td align="left">{$lang.' . $childvalue['type'] . '}</td>
+							<td align="left">' . (($childvalue['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
+							' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon"></td>' : '') . '
+							' . ((Functions::check_user_access(['{survey_questions_delete}']) == true) ? '<td align="right" class="icon">' . (($childvalue['status'] == true) ? '<a data-action="delete_survey_childquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '" data-childkey="' . $childkey . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
+							' . ((Functions::check_user_access(['{survey_questions_deactivate}','{survey_questions_activate}']) == true) ? '<td align="right" class="icon">' . (($childvalue['status'] == true) ? '<a data-action="deactivate_survey_childquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '" data-childkey="' . $childkey . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_childquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '" data-childkey="' . $childkey . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
+							' . ((Functions::check_user_access(['{survey_questions_update}']) == true) ? '<td align="right" class="icon">' . (($childvalue['status'] == true) ? '<a data-action="edit_survey_childquestion" data-id="' . $value['id'] . '" data-key="' . $subkey . '" data-childkey="' . $childkey . '" class="edit"><i class="fas fa-pen"></i></a>' : '') . '</td>' : '') . '
+						</tr>';
+					}
+				}
+			}
+
+			$replace = [
+				'{$tbl_survey_questions}' => $tbl_survey_questions
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
 
 	public function answers()
 	{
