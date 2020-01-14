@@ -2411,7 +2411,7 @@ class Voxes_controller extends Controller
 			$template = $this->view->render($this, 'stats');
 
 			$replace = [
-				'{$general_average_resolution}' => $this->model->get_general_resolution_average(),
+				'{$general_average_resolution}' => $this->model->get_general_average_resolution(),
 				'{$count_created_today}' => $this->model->get_count('created_today'),
 				'{$count_created_week}' => $this->model->get_count('created_week'),
 				'{$count_created_month}' => $this->model->get_count('created_month'),

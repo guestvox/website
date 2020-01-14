@@ -84,7 +84,7 @@ class Surveys_controller extends Controller
 
 						foreach ($value['subquestions'] as $subvalue)
 						{
-						   $data .= '<h6>' . $subvalue['name'][Session::get_value('lang')] . '</h6>';
+						   $data .= '<h6>' . $subvalue['name'][Session::get_value('account')['language']] . '</h6>';
 
 						   if ($subvalue['type'] == 'rate')
 						   {
@@ -123,7 +123,7 @@ class Surveys_controller extends Controller
 
 							   foreach ($subvalue['subquestions'] as $parentvalue)
 							   {
-								   $data .= '<h6>' . $parentvalue['name'][Session::get_value('lang')] . '</h6>';
+								   $data .= '<h6>' . $parentvalue['name'][Session::get_value('account')['language']] . '</h6>';
 
 								   if ($parentvalue['type'] == 'rate')
 								   {
@@ -637,223 +637,223 @@ class Surveys_controller extends Controller
 		}
 	}
 
-	// public function stats()
-	// {
-	// 	if (Format::exist_ajax_request() == true)
-	// 	{
-	//
-	// 	}
-	// 	else
-	// 	{
-	// 		define('_title', 'GuestVox');
-	//
-	// 		$template = $this->view->render($this, 'stats');
-	//
-	// 		$replace = [
-	// 			'{$total_rate_avarage}' => $this->model->get_total_rate_avarage(),
-	// 			'{$average_surveys}' => $this->model->get_average('general_surveys'),
-	// 			'{$count_received_today}' => $this->model->get_count('received_today'),
-	// 			'{$count_received_week}' => $this->model->get_count('received_week'),
-	// 			'{$count_received_month}' => $this->model->get_count('received_month'),
-	// 			'{$count_received_total}' => $this->model->get_count('received_total'),
-	// 		];
-	//
-	// 		$template = $this->format->replace($replace, $template);
-	//
-	// 		echo $template;
-	// 	}
-	// }
-	//
-	// public function charts()
-	// {
-	// 	header('Content-Type: application/javascript');
-	//
-	// 	$s_r1_chart_data = $this->model->get_chart_data('s_r1_chart');
-	// 	$s_r2_chart_data = $this->model->get_chart_data('s_r2_chart');
-	// 	$s_r3_chart_data = $this->model->get_chart_data('s_r3_chart');
-	// 	$s_r4_chart_data = $this->model->get_chart_data('s_r4_chart');
-	// 	$s_r5_chart_data = $this->model->get_chart_data('s_r5_chart');
-	//
-	// 	if (Session::get_value('lang') == 'es')
-	// 	{
-	// 		if (Session::get_value('account')['type'] == 'hotel')
-	// 			$s_r1_chart_title = 'Balance de respuestas por habitación';
-	// 		else
-	// 			$s_r1_chart_title = 'Balance de respuestas por mesa';
-	//
-	// 		$s_r2_chart_title = 'Balance de encuestas de valoración';
-	// 		$s_r3_chart_title = 'Balance de encuestas de si y no';
-	// 		$s_r4_chart_title = 'Promedio de preguntas';
-	// 		$s_r5_chart_title = $s_r5_chart_data['name'];
-	// 	}
-	// 	else if (Session::get_value('lang') == 'en')
-	// 	{
-	// 		if (Session::get_value('account')['type'] == 'hotel')
-	// 			$s_r1_chart_title = 'Balance of responses per room';
-	// 		else
-	// 			$s_r1_chart_title = 'Balance of responses per table';
-	//
-	// 		$s_r2_chart_title = 'Assessment survey balance';
-	// 		$s_r3_chart_title = 'Yes and no survey balance ';
-	// 		$s_r4_chart_title = 'Average questions';
-	// 		$s_r5_chart_title = $s_r5_chart_data['name'];
-	// 	}
-	//
-	// 	$js =
-	// 	"'use strict';
-	//
-	// 	var s_r1_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $s_r1_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $s_r1_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $s_r1_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $s_r1_chart_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: true
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var s_r2_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $s_r2_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $s_r2_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $s_r2_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $s_r2_chart_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: true
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var s_r3_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $s_r3_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $s_r3_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $s_r3_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $s_r3_chart_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: true
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var s_r4_chart = {
-	// 	    type: 'line',
-	// 		data: {
-	// 			labels: [
-	//                 " . $s_r4_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	// 				label: [
-	// 					" . $s_r4_chart_data['datasets']['labels'] . "
-	// 				],
-	//                 data: [
-	//                     " . $s_r4_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $s_r4_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	// 		options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $s_r4_chart_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: true
-	// 			},
-	//             responsive: true
-    //         }
-	// 	};
-	//
-	// 	var s_r5_chart = {
-	// 	    type: 'line',
-	// 		data: {
-	// 			labels: [
-	//                 " . $s_r5_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	// 				label: [
-	// 					" . $s_r5_chart_data['datasets']['labels'] . "
-	// 				],
-	//                 data: [
-	//                     " . $s_r5_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $s_r5_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	// 		options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $s_r5_chart_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: true
-	// 			},
-	//             responsive: true
-    //         }
-	// 	};
-	//
-	// 	window.onload = function()
-	// 	{
-	// 		s_r1_chart = new Chart(document.getElementById('s_r1_chart').getContext('2d'), s_r1_chart);
-	// 		s_r2_chart = new Chart(document.getElementById('s_r2_chart').getContext('2d'), s_r2_chart);
-	// 		s_r3_chart = new Chart(document.getElementById('s_r3_chart').getContext('2d'), s_r3_chart);
-	// 		s_r4_chart = new Chart(document.getElementById('s_r4_chart').getContext('2d'), s_r4_chart);
-	// 		s_r5_chart = new Chart(document.getElementById('s_r5_chart').getContext('2d'), s_r5_chart);
-	// 	};";
-	//
-	// 	$js = trim(str_replace(array("\t\t\t"), '', $js));
-	//
-	// 	echo $js;
-	// }
+	public function stats()
+	{
+		if (Format::exist_ajax_request() == true)
+		{
+
+		}
+		else
+		{
+			define('_title', 'GuestVox');
+
+			$template = $this->view->render($this, 'stats');
+
+			$replace = [
+				'{$general_average_rate}' => $this->model->get_general_average_rate(),
+				'{$count_received_today}' => $this->model->get_count('received_today'),
+				'{$count_received_week}' => $this->model->get_count('received_week'),
+				'{$count_received_month}' => $this->model->get_count('received_month'),
+				'{$count_received_year}' => $this->model->get_count('received_year'),
+				'{$count_received_total}' => $this->model->get_count('received_total')
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
+	public function charts()
+	{
+		header('Content-Type: application/javascript');
+
+		$s_r1_chart_data = $this->model->get_chart_data('s_r1_chart');
+		$s_r2_chart_data = $this->model->get_chart_data('s_r2_chart');
+		$s_r3_chart_data = $this->model->get_chart_data('s_r3_chart');
+		// $s_r4_chart_data = $this->model->get_chart_data('s_r4_chart');
+		// $s_r5_chart_data = $this->model->get_chart_data('s_r5_chart');
+
+		if (Session::get_value('account')['language'] == 'es')
+		{
+			if (Session::get_value('account')['type'] == 'hotel')
+				$s_r1_chart_title = 'Balance de respuestas por habitación';
+
+			if (Session::get_value('account')['type'] == 'restaurant')
+				$s_r1_chart_title = 'Balance de respuestas por mesa';
+
+			$s_r2_chart_title = 'Balance de encuestas de valoración';
+			$s_r3_chart_title = 'Balance de encuestas de Si/No';
+			// $s_r4_chart_title = 'Promedio de preguntas';
+			// $s_r5_chart_title = $s_r5_chart_data['name'];
+		}
+		else if (Session::get_value('account')['language'] == 'en')
+		{
+			if (Session::get_value('account')['type'] == 'hotel')
+				$s_r1_chart_title = 'Balance of responses per room';
+
+			if (Session::get_value('account')['type'] == 'restaurant')
+				$s_r1_chart_title = 'Balance of responses per table';
+
+			$s_r2_chart_title = 'Assessment survey balance';
+			$s_r3_chart_title = 'Yes/No survey balance ';
+			// $s_r4_chart_title = 'Average questions';
+			// $s_r5_chart_title = $s_r5_chart_data['name'];
+		}
+
+		$js =
+		"'use strict';
+
+		var s_r1_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $s_r1_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $s_r1_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $s_r1_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . $s_r1_chart_title . "'
+				},
+				legend: {
+					display: true
+				},
+	            responsive: true
+            }
+        };
+
+		var s_r2_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $s_r2_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $s_r2_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $s_r2_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . $s_r2_chart_title . "'
+				},
+				legend: {
+					display: true
+				},
+	            responsive: true
+            }
+        };
+
+		var s_r3_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $s_r3_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $s_r3_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $s_r3_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . $s_r3_chart_title . "'
+				},
+				legend: {
+					display: true
+				},
+	            responsive: true
+            }
+        };
+
+		window.onload = function()
+		{
+			s_r1_chart = new Chart(document.getElementById('s_r1_chart').getContext('2d'), s_r1_chart);
+			s_r2_chart = new Chart(document.getElementById('s_r2_chart').getContext('2d'), s_r2_chart);
+			s_r3_chart = new Chart(document.getElementById('s_r3_chart').getContext('2d'), s_r3_chart);
+		};";
+
+		$js = trim(str_replace(array("\t\t\t"), '', $js));
+
+		echo $js;
+
+		// var s_r4_chart = {
+		//     type: 'line',
+		// 	data: {
+		// 		labels: [
+	    //             " . $s_r4_chart_data['labels'] . "
+	    //         ],
+		// 		datasets: [{
+		// 			label: [
+		// 				" . $s_r4_chart_data['datasets']['labels'] . "
+		// 			],
+	    //             data: [
+	    //                 " . $s_r4_chart_data['datasets']['data'] . "
+	    //             ],
+	    //             backgroundColor: [
+	    //                 " . $s_r4_chart_data['datasets']['colors'] . "
+	    //             ],
+	    //         }],
+	    //     },
+		// 	options: {
+		// 		title: {
+		// 			display: true,
+		// 			text: '" . $s_r4_chart_title . "'
+		// 		},
+		// 		legend: {
+		// 			display: true
+		// 		},
+	    //         responsive: true
+        //     }
+		// };
+		//
+		// var s_r5_chart = {
+		//     type: 'line',
+		// 	data: {
+		// 		labels: [
+	    //             " . $s_r5_chart_data['labels'] . "
+	    //         ],
+		// 		datasets: [{
+		// 			label: [
+		// 				" . $s_r5_chart_data['datasets']['labels'] . "
+		// 			],
+	    //             data: [
+	    //                 " . $s_r5_chart_data['datasets']['data'] . "
+	    //             ],
+	    //             backgroundColor: [
+	    //                 " . $s_r5_chart_data['datasets']['colors'] . "
+	    //             ],
+	    //         }],
+	    //     },
+		// 	options: {
+		// 		title: {
+		// 			display: true,
+		// 			text: '" . $s_r5_chart_title . "'
+		// 		},
+		// 		legend: {
+		// 			display: true
+		// 		},
+	    //         responsive: true
+        //     }
+		// };
+	}
 }
