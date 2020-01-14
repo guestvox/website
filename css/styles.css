@@ -557,16 +557,16 @@ table tbody > tr.close {
     opacity: 0.2;
 }
 
-table tbody > tr.sub-40,
-table tbody > tr.sub-80 {
+table tbody > tr[data-level="2"],
+table tbody > tr[data-level="3"] {
     color: #757575 !important;
 }
 
-table tbody > tr.sub-40 > td:first-child {
+table tbody > tr[data-level="2"] > td:first-child {
     padding-left: 40px !important;
 }
 
-table tbody > tr.sub-80 > td:first-child {
+table tbody > tr[data-level="3"] > td:first-child {
     padding-left: 80px !important;
 }
 

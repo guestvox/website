@@ -35,7 +35,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                         <span><i class="fas fa-search"></i></span>
                         <input type="text" name="tbl_survey_questions_search">
                     </label>
-                    <a data-action="preview_survey"><i class="fas fa-eye"></i></a>
+                    <a data-action="get_preview_survey"><i class="fas fa-eye"></i></a>
                     <?php if (Functions::check_user_access(['{survey_questions_create}']) == true) : ?>
                     <a data-button-modal="new_survey_question" class="new"><i class="fas fa-plus"></i></a>
                     <?php endif; ?>
@@ -68,17 +68,17 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
         </main>
     </article>
 </main>
-<section class="modal" data-modal="preview_survey">
+<section class="modal" data-modal="get_preview_survey">
     <div class="content">
         <header>
             <h3>{$lang.preview}</h3>
         </header>
         <main></main>
-         <footer>
-             <div class="action-buttons">
-                 <button class="btn" button-close>{$lang.accept}</button>
-             </div>
-         </footer>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn" button-close>{$lang.accept}</button>
+            </div>
+        </footer>
      </div>
  </section>
 <?php if (Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}']) == true) : ?>

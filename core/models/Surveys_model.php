@@ -37,78 +37,78 @@ class Surveys_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-    // public function new_survey_question($data)
-	// {
-	// 	$query = $this->database->insert('survey_questions', [
-	// 		'account' => Session::get_value('account')['id'],
-	// 		'name' => json_encode([
-	// 			'es' => $data['name_es'],
-	// 			'en' => $data['name_en'],
-	// 		]),
-	// 		'subquestions' => json_encode([]),
-	// 		'type' => $data['type'],
-	// 		'status' => true,
-	// 	]);
-	//
-	// 	return $query;
-	// }
-	//
-    // public function edit_survey_question($data)
-	// {
-	// 	$query = $this->database->update('survey_questions', [
-	// 		'name' => json_encode([
-	// 			'es' => $data['name_es'],
-	// 			'en' => $data['name_en'],
-	// 		]),
-	// 		'type' => $data['type'],
-	// 	], [
-	// 		'id' => $data['id'],
-	// 	]);
-	//
-	// 	return $query;
-	// }
-	//
-    // public function edit_survey_subquestions($id, $data)
-	// {
-	// 	$query = $this->database->update('survey_questions', [
-	// 		'subquestions' => json_encode($data),
-	// 	], [
-	// 		'id' => $id,
-	// 	]);
-	//
-	// 	return $query;
-	// }
-	//
-	// public function deactivate_survey_question($id)
-	// {
-	// 	$query = $this->database->update('survey_questions', [
-	// 		'status' => false
-	// 	], [
-	// 		'id' => $id,
-	// 	]);
-	//
-	// 	return $query;
-	// }
-	//
-	// public function activate_survey_question($id)
-	// {
-	// 	$query = $this->database->update('survey_questions', [
-	// 		'status' => true
-	// 	], [
-	// 		'id' => $id,
-	// 	]);
-	//
-	// 	return $query;
-	// }
-	//
-	// public function delete_survey_question($id)
-	// {
-	// 	$query = $this->database->delete('survey_questions', [
-	// 		'id' => $id
-	// 	]);
-	//
-	// 	return $query;
-	// }
+    public function new_survey_question($data)
+	{
+		$query = $this->database->insert('survey_questions', [
+			'account' => Session::get_value('account')['id'],
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'subquestions' => json_encode([]),
+			'type' => $data['type'],
+			'status' => true
+		]);
+
+		return $query;
+	}
+
+    public function edit_survey_question($data)
+	{
+		if ($data['action'] == 'edit_survey_question')
+		{
+			$fields = [
+				'name' => json_encode([
+					'es' => $data['name_es'],
+					'en' => $data['name_en']
+				]),
+				'type' => $data['type']
+			];
+		}
+		else if ($data['action'] == 'new_survey_subquestion' OR $data['action'] == 'edit_survey_subquestion' OR $data['action'] == 'deactivate_survey_subquestion' OR $data['action'] == 'activate_survey_subquestion' OR $data['action'] == 'delete_survey_subquestion')
+		{
+			$fields = [
+				'subquestions' => json_encode($data['question']['subquestions'])
+			];
+		}
+
+		$query = $this->database->update('survey_questions', $fields, [
+			'id' => $data['id']
+		]);
+
+		return $query;
+	}
+
+	public function deactivate_survey_question($id)
+	{
+		$query = $this->database->update('survey_questions', [
+			'status' => false
+		], [
+			'id' => $id,
+		]);
+
+		return $query;
+	}
+
+	public function activate_survey_question($id)
+	{
+		$query = $this->database->update('survey_questions', [
+			'status' => true
+		], [
+			'id' => $id,
+		]);
+
+		return $query;
+	}
+
+	public function delete_survey_question($id)
+	{
+		$query = $this->database->delete('survey_questions', [
+			'id' => $id
+		]);
+
+		return $query;
+	}
 
 	public function get_survey_answers()
 	{
@@ -198,20 +198,20 @@ class Surveys_model extends Model
 
 				foreach ($value['subanswers'] as $subkey => $subvalue)
 				{
-					foreach ($value['question']['subquestions'] as $childkey => $childvalue)
+					foreach ($value['question']['subquestions'] as $parentkey => $parentvalue)
 					{
-						if ($subvalue['id'] == $childvalue['id'])
-							$query[0]['answers'][$key]['subanswers'][$subkey]['question'] = $childvalue['name'];
+						if ($subvalue['id'] == $parentvalue['id'])
+							$query[0]['answers'][$key]['subanswers'][$subkey]['question'] = $parentvalue['name'];
 					}
 
-					foreach ($subvalue['subanswers'] as $childkey => $childvalue)
+					foreach ($subvalue['subanswers'] as $parentkey => $parentvalue)
 					{
-						foreach ($value['question']['subquestions'] as $intkey => $intvalue)
+						foreach ($value['question']['subquestions'] as $childkey => $childvalue)
 						{
-							foreach ($intvalue['subquestions'] as $slavekey => $slavevalue)
+							foreach ($childvalue['subquestions'] as $slavekey => $slavevalue)
 							{
-								if ($childvalue['id'] == $slavevalue['id'])
-									$query[0]['answers'][$key]['subanswers'][$subkey]['subanswers'][$childkey]['question'] = $slavevalue['name'];
+								if ($parentvalue['id'] == $slavevalue['id'])
+									$query[0]['answers'][$key]['subanswers'][$subkey]['subanswers'][$parentkey]['question'] = $slavevalue['name'];
 							}
 						}
 					}
