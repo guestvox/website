@@ -122,7 +122,10 @@ class Surveys_model extends Model
 			'guest',
 			'date'
 		], [
-			'account' => Session::get_value('account')['id']
+			'account' => Session::get_value('account')['id'],
+			'ORDER' => [
+				'id' => 'DESC'
+			]
 		]));
 
 		foreach ($query as $key => $value)
