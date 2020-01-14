@@ -159,6 +159,8 @@ class Surveys_model extends Model
 				$query[$key]['rate'] = $query[$key]['rate'] / $count;
 				$query[$key]['rate'] = round($query[$key]['rate'], 2);
 			}
+
+			$query[$key]['count'] = count($query);
 		}
 
 		return $query;
