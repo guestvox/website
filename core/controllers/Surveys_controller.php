@@ -610,11 +610,11 @@ class Surveys_controller extends Controller
 
 			foreach ($this->model->get_survey_answers() as $value)
 			{
-				$tbl_survey_answers_count = $tbl_survey_answers_count + 1;
+				$value['count'] = $value['count'] - $tbl_survey_answers_count;
 
 				$tbl_survey_answers .=
 				'<tr>
-					<td align="left">' . $tbl_survey_answers_count . '</td>
+					<td align="left">' . $value['count'] . '</td>
 					<td align="left">' . $value['token'] . '</td>';
 
 				if (Session::get_value('account')['type'] == 'hotel')
@@ -629,6 +629,8 @@ class Surveys_controller extends Controller
 					<td align="left">' . $value['rate'] . ' Pts</td>
 					<td align="right" class="icon"><a data-action="view_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-bars"></i></a></td>
 				</tr>';
+
+				$tbl_survey_answers_count = $tbl_survey_answers_count + 1;
 			}
 
 			$replace = [
