@@ -38,6 +38,11 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                 <h2>{$count_received_total}<span>Total</span></h2>
             </div>
             <div class="charts small">
+                <div class="rates">
+
+                </div>
+            </div>
+            <div class="charts small">
                 <canvas id="s_r1_chart" height="300"></canvas>
             </div>
             <div class="charts small">
