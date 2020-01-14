@@ -39,6 +39,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                 <table id="tbl_survey_answers">
                     <thead>
                         <tr>
+                            <th align="left" class="icon"></th>
                             <th align="left" width="100px">{$lang.token}</th>
                             <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                             <th align="left" width="100px">{$lang.room}</th>

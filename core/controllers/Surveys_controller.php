@@ -606,11 +606,15 @@ class Surveys_controller extends Controller
 			$template = $this->view->render($this, 'answers');
 
 			$tbl_survey_answers = '';
+			$tbl_survey_answers_count = 0;
 
 			foreach ($this->model->get_survey_answers() as $value)
 			{
+				$tbl_survey_answers_count = $tbl_survey_answers_count + 1;
+
 				$tbl_survey_answers .=
 				'<tr>
+					<td align="left">' . $tbl_survey_answers_count . '</td>
 					<td align="left">' . $value['token'] . '</td>';
 
 				if (Session::get_value('account')['type'] == 'hotel')
