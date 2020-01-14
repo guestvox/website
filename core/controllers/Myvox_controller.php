@@ -13,7 +13,6 @@ class Myvox_controller extends Controller
 
     public function index($params)
     {
-		$data = [];
 		$break = true;
 
 		if ($params[0] == 'account')
@@ -21,7 +20,16 @@ class Myvox_controller extends Controller
 			$data['account'] = $this->model->get_account($params[1]);
 
 			if (!empty($data['account']))
+			{
+				Session::set_value('account', $data['account']);
+
+				if ($data['account']['type'] == 'hotel')
+					Session::set_value('room', []);
+				else if ($data['account']['type'] == 'restaurant')
+					Session::set_value('table', []);
+
 				$break = false;
+			}
 		}
 		else if ($params[0] == 'room')
 		{
@@ -34,6 +42,10 @@ class Myvox_controller extends Controller
 				if (!empty($data['account']))
 				{
 					$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
+
+					Session::set_value('account', $data['account']);
+					Session::set_value('room', $data['room']);
+
 					$break = false;
 				}
 			}
@@ -47,7 +59,12 @@ class Myvox_controller extends Controller
 				$data['account'] = $this->model->get_account($data['table']['account']);
 
 				if (!empty($data['account']))
+				{
+					Session::set_value('account', $data['account']);
+					Session::set_value('table', $data['table']);
+
 					$break = false;
+				}
 			}
 		}
 
@@ -61,8 +78,6 @@ class Myvox_controller extends Controller
 
 					if (!empty($data['room']))
 					{
-						Session::set_value('room', []);
-
 						$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
 
 						Session::set_value('room', $data['room']);
@@ -85,8 +100,10 @@ class Myvox_controller extends Controller
 				{
 					$data['table'] = $this->model->get_table($_POST['table']);
 
-					if (!empty($data['room']))
+					if (!empty($data['table']))
 					{
+						Session::set_value('table', $data['table']);
+
 						Functions::environment([
 							'status' => 'success',
 							'data' => '{$lang.operation_success}'
@@ -120,13 +137,13 @@ class Myvox_controller extends Controller
 
 					if ($params[0] == 'account')
 					{
-						if ($data['account']['type'] == 'hotel')
+						if (Session::get_value('account')['type'] == 'hotel')
 						{
 							if (!isset($_POST['room']) OR empty($_POST['room']))
 								array_push($labels, ['room','']);
 						}
 
-						if ($data['account']['type'] == 'restaurant')
+						if (Session::get_value('account')['type'] == 'restaurant')
 						{
 							if (!isset($_POST['table']) OR empty($_POST['table']))
 								array_push($labels, ['table','']);
@@ -162,43 +179,43 @@ class Myvox_controller extends Controller
 
 					if (empty($labels))
 					{
-						$_POST['account'] = $data['account'];
+						$_POST['account'] = Session::get_value('account');
 
-						if ($data['account']['type'] == 'hotel')
+						if (Session::get_value('account')['type'] == 'hotel')
 						{
-							$_POST['room'] = $data['room']['id'];
+							$_POST['room'] = Session::get_value('room')['id'];
 
 							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-								$_POST['firstname'] = $data['room']['guest']['firstname'];
+								$_POST['firstname'] = Session::get_value('room')['guest']['firstname'];
 
 							if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-								$_POST['lastname'] = $data['room']['guest']['lastname'];
+								$_POST['lastname'] = Session::get_value('room')['guest']['lastname'];
 
-							$_POST['reservation_number'] = $data['room']['guest']['reservation_number'];
-							$_POST['check_in'] = $data['room']['guest']['check_in'];
-							$_POST['check_out'] = $data['room']['guest']['check_out'];
+							$_POST['reservation_number'] = Session::get_value('room')['guest']['reservation_number'];
+							$_POST['check_in'] = Session::get_value('room')['guest']['check_in'];
+							$_POST['check_out'] = Session::get_value('room')['guest']['check_out'];
 						}
 
-						if ($data['account']['type'] == 'restaurant')
-							$_POST['table'] = $data['table']['id'];
+						if (Session::get_value('account')['type'] == 'restaurant')
+							$_POST['table'] = Session::get_value('table')['id'];
 
 						$query = $this->model->new_request($_POST);
 
 						if (!empty($query))
 						{
-							$_POST['assigned_users'] = $this->model->get_assigned_users($_POST['opportunity_area'], $data['account']['id']);
+							$_POST['assigned_users'] = $this->model->get_assigned_users($_POST['opportunity_area'], Session::get_value('account')['id']);
 							$_POST['opportunity_area'] = $this->model->get_opportunity_area($_POST['opportunity_area']);
 							$_POST['opportunity_type'] = $this->model->get_opportunity_type($_POST['opportunity_type']);
 							$_POST['location'] = $this->model->get_location($_POST['location']);
 
-							if ($data['account']['language'] == 'es')
+							if (Session::get_value('account')['language'] == 'es')
 							{
 								$mail_subject = 'Tienes una nueva petición';
 
-								if ($data['account']['type'] == 'hotel')
+								if (Session::get_value('account')['type'] == 'hotel')
 									$mail_room = 'Habitación: #';
 
-								if ($data['account']['type'] == 'restaurant')
+								if (Session::get_value('account')['type'] == 'restaurant')
 									$mail_table = 'Mesa: #';
 
 								$mail_opportunity_area = 'Área de oportunidad: ';
@@ -215,14 +232,14 @@ class Myvox_controller extends Controller
 								$mail_observations = 'Observaciones: ';
 								$mail_give_follow_up = 'Dar seguimiento';
 							}
-							else if ($data['account']['language'] == 'en')
+							else if (Session::get_value('account')['language'] == 'en')
 							{
 								$mail_subject = 'You have a new request';
 
-								if ($data['account']['type'] == 'hotel')
+								if (Session::get_value('account')['type'] == 'hotel')
 									$mail_room = 'Room: #';
 
-								if ($data['account']['type'] == 'restaurant')
+								if (Session::get_value('account')['type'] == 'restaurant')
 									$mail_table = 'Table: #';
 
 								$mail_opportunity_area = 'Opportunity area: ';
@@ -270,18 +287,18 @@ class Myvox_controller extends Controller
 												<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
 													<h4 style="font-size:24px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject . '</h4>';
 
-								if ($data['account']['type'] == 'hotel')
-									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . $data['room']['number'] . ' ' . $data['room']['name'] . '</h6>';
+								if (Session::get_value('account')['type'] == 'hotel')
+									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . Session::get_value('room')['number'] . ' ' . Session::get_value('room')['name'] . '</h6>';
 
-								if ($data['account']['type'] == 'restaurant')
-									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_table . $data['table']['number'] . ' ' . $data['table']['name'] . '</h6>';
+								if (Session::get_value('account')['type'] == 'restaurant')
+									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_table . Session::get_value('table')['number'] . ' ' . Session::get_value('table')['name'] . '</h6>';
 
 								$mail->Body .=
-								'					<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_area . $_POST['opportunity_area']['name'][$data['account']['language']] . '</h6>
-													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_type . $_POST['opportunity_type']['name'][$data['account']['language']] . '</h6>
+								'					<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_area . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '</h6>
+													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_type . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M, Y') . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '</h6>
-													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_location . $_POST['location']['name'][$data['account']['language']] . '</h6>
+													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_location . $_POST['location']['name'][Session::get_value('account')['language']] . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_urgency . '</h6>
 													<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_observations . $_POST['observations'] . '</p>
 													<a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/voxes/view/details/' . $query . '">' . $mail_give_follow_up . '</a>
@@ -300,31 +317,33 @@ class Myvox_controller extends Controller
 							}
 							catch (Exception $e) { }
 
-							if ($data['account']['sms'] > 0)
+							if (Session::get_value('account')['sms'] > 0)
 							{
 								$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 								$sms_client = new \Nexmo\Client($sms_basic);
 
 								$sms_text = $mail_subject . '. ';
 
-								if ($data['account']['type'] == 'hotel')
-									$sms_text .= $mail_room . $data['room']['number'] . ' ' . $data['room']['name'] . '. ';
+								if (Session::get_value('account')['type'] == 'hotel')
+									$sms_text .= $mail_room . Session::get_value('room')['number'] . ' ' . Session::get_value('room')['name'] . '. ';
 
-								if ($data['account']['type'] == 'restaurant')
-									$sms_text .= $mail_table . $data['table']['number'] . ' ' . $data['table']['name'] . '. ';
+								if (Session::get_value('account')['type'] == 'restaurant')
+									$sms_text .= $mail_table . Session::get_value('table')['number'] . ' ' . Session::get_value('table')['name'] . '. ';
 
-								$sms_text .= $mail_opportunity_area . $_POST['opportunity_area']['name'][$data['account']['language']] . '. ';
-								$sms_text .= $mail_opportunity_type . $_POST['opportunity_type']['name'][$data['account']['language']] . '. ';
+								$sms_text .= $mail_opportunity_area . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '. ';
+								$sms_text .= $mail_opportunity_type . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '. ';
 								$sms_text .= $mail_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
 								$sms_text .= $mail_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
-								$sms_text .= $mail_location . $_POST['location']['name'][$data['account']['language']] . '. ';
+								$sms_text .= $mail_location . $_POST['location']['name'][Session::get_value('account')['language']] . '. ';
 								$sms_text .= $mail_urgency . '. ';
 								$sms_text .= $mail_observations . $_POST['observations'] . '. ';
 								$sms_text .= 'https://' . Configuration::$domain . '/voxes/view/details/' . $query;
 
+								$sms_account = Session::get_value('account');
+
 								foreach ($_POST['assigned_users'] as $value)
 								{
-									if ($data['account']['sms'] > 0)
+									if ($sms_account['sms'] > 0)
 									{
 										try {
 
@@ -334,13 +353,15 @@ class Myvox_controller extends Controller
 												'text' => $sms_text
 											]);
 
-											$data['account']['sms'] = $data['account']['sms'] - 1;
+											$sms_account['sms'] = $sms_account['sms'] - 1;
 
 										} catch (Exception $e) { }
 									}
 								}
 
-								$this->model->edit_sms($data['account']['id'], $data['account']['sms']);
+								$this->model->edit_sms($sms_account['id'], $sms_account['sms']);
+
+								Session::set_value('account', $sms_account);
 							}
 
 							Functions::environment([
@@ -371,13 +392,13 @@ class Myvox_controller extends Controller
 
 					if ($params[0] == 'account')
 					{
-						if ($data['account']['type'] == 'hotel')
+						if (Session::get_value('account')['type'] == 'hotel')
 						{
 							if (!isset($_POST['room']) OR empty($_POST['room']))
 								array_push($labels, ['room','']);
 						}
 
-						if ($data['account']['type'] == 'restaurant')
+						if (Session::get_value('account')['type'] == 'restaurant')
 						{
 							if (!isset($_POST['table']) OR empty($_POST['table']))
 								array_push($labels, ['table','']);
@@ -413,43 +434,43 @@ class Myvox_controller extends Controller
 
 					if (empty($labels))
 					{
-						$_POST['account'] = $data['account'];
+						$_POST['account'] = Session::get_value('account');
 
-						if ($data['account']['type'] == 'hotel')
+						if (Session::get_value('account')['type'] == 'hotel')
 						{
-							$_POST['room'] = $data['room']['id'];
+							$_POST['room'] = Session::get_value('room')['id'];
 
 							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-								$_POST['firstname'] = $data['room']['guest']['firstname'];
+								$_POST['firstname'] = Session::get_value('room')['guest']['firstname'];
 
 							if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-								$_POST['lastname'] = $data['room']['guest']['lastname'];
+								$_POST['lastname'] = Session::get_value('room')['guest']['lastname'];
 
-							$_POST['reservation_number'] = $data['room']['guest']['reservation_number'];
-							$_POST['check_in'] = $data['room']['guest']['check_in'];
-							$_POST['check_out'] = $data['room']['guest']['check_out'];
+							$_POST['reservation_number'] = Session::get_value('room')['guest']['reservation_number'];
+							$_POST['check_in'] = Session::get_value('room')['guest']['check_in'];
+							$_POST['check_out'] = Session::get_value('room')['guest']['check_out'];
 						}
 
-						if ($data['account']['type'] == 'restaurant')
-							$_POST['table'] = $data['table']['id'];
+						if (Session::get_value('account')['type'] == 'restaurant')
+							$_POST['table'] = Session::get_value('table')['id'];
 
 						$query = $this->model->new_incident($_POST);
 
 						if (!empty($query))
 						{
-							$_POST['assigned_users'] = $this->model->get_assigned_users($_POST['opportunity_area'], $data['account']['id']);
+							$_POST['assigned_users'] = $this->model->get_assigned_users($_POST['opportunity_area'], Session::get_value('account')['id']);
 							$_POST['opportunity_area'] = $this->model->get_opportunity_area($_POST['opportunity_area']);
 							$_POST['opportunity_type'] = $this->model->get_opportunity_type($_POST['opportunity_type']);
 							$_POST['location'] = $this->model->get_location($_POST['location']);
 
-							if ($data['account']['language'] == 'es')
+							if (Session::get_value('account')['language'] == 'es')
 							{
 								$mail_subject_1 = 'Tienes una nueva incidencia';
 
-								if ($data['account']['type'] == 'hotel')
+								if (Session::get_value('account')['type'] == 'hotel')
 									$mail_room = 'Habitación: #';
 
-								if ($data['account']['type'] == 'restaurant')
+								if (Session::get_value('account')['type'] == 'restaurant')
 									$mail_table = 'Mesa: #';
 
 								$mail_opportunity_area = 'Área de oportunidad: ';
@@ -467,14 +488,14 @@ class Myvox_controller extends Controller
 								$mail_subject_2 = 'Asunto: ';
 								$mail_give_follow_up = 'Dar seguimiento';
 							}
-							else if ($data['account']['language'] == 'en')
+							else if (Session::get_value('account')['language'] == 'en')
 							{
 								$mail_subject_1 = 'You have a new incident';
 
-								if ($data['account']['type'] == 'hotel')
+								if (Session::get_value('account')['type'] == 'hotel')
 									$mail_room = 'Room: #';
 
-								if ($data['account']['type'] == 'restaurant')
+								if (Session::get_value('account')['type'] == 'restaurant')
 									$mail_table = 'Table: #';
 
 								$mail_opportunity_area = 'Opportunity area: ';
@@ -523,18 +544,18 @@ class Myvox_controller extends Controller
 												<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
 													<h4 style="font-size:24px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject_1 . '</h4>';
 
-								if ($data['account']['type'] == 'hotel')
-									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . $data['room']['number'] . ' ' . $data['room']['name'] . '</h6>';
+								if (Session::get_value('account')['type'] == 'hotel')
+									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . Session::get_value('room')['number'] . ' ' . Session::get_value('room')['name'] . '</h6>';
 
-								if ($data['account']['type'] == 'restaurant')
-									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_table . $data['table']['number'] . ' ' . $data['table']['name'] . '</h6>';
+								if (Session::get_value('account')['type'] == 'restaurant')
+									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_table . Session::get_value('table')['number'] . ' ' . Session::get_value('table')['name'] . '</h6>';
 
 								$mail->Body .=
-								'					<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_area . $_POST['opportunity_area']['name'][$data['account']['language']] . '</h6>
-													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_type . $_POST['opportunity_type']['name'][$data['account']['language']] . '</h6>
+								'					<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_area . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '</h6>
+													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_type . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M, Y') . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '</h6>
-													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_location . $_POST['location']['name'][$data['account']['language']] . '</h6>
+													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_location . $_POST['location']['name'][Session::get_value('account')['language']] . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_urgency . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_confidentiality . '</h6>
 													<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_subject_2 . $_POST['subject'] . '</p>
@@ -554,32 +575,34 @@ class Myvox_controller extends Controller
 							}
 							catch (Exception $e) { }
 
-							if ($data['account']['sms'] > 0)
+							if (Session::get_value('account')['sms'] > 0)
 							{
 								$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 								$sms_client = new \Nexmo\Client($sms_basic);
 
 								$sms_text = $mail_subject_1 . '. ';
 
-								if ($data['account']['type'] == 'hotel')
-									$sms_text .= $mail_room . $data['room']['number'] . ' ' . $data['room']['name'] . '. ';
+								if (Session::get_value('account')['type'] == 'hotel')
+									$sms_text .= $mail_room . Session::get_value('room')['number'] . ' ' . Session::get_value('room')['name'] . '. ';
 
-								if ($data['account']['type'] == 'restaurant')
-									$sms_text .= $mail_table . $data['table']['number'] . ' ' . $data['table']['name'] . '. ';
+								if (Session::get_value('account')['type'] == 'restaurant')
+									$sms_text .= $mail_table . Session::get_value('table')['number'] . ' ' . Session::get_value('table')['name'] . '. ';
 
-								$sms_text .= $mail_opportunity_area . $_POST['opportunity_area']['name'][$data['account']['language']] . '. ';
-								$sms_text .= $mail_opportunity_type . $_POST['opportunity_type']['name'][$data['account']['language']] . '. ';
+								$sms_text .= $mail_opportunity_area . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '. ';
+								$sms_text .= $mail_opportunity_type . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '. ';
 								$sms_text .= $mail_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
 								$sms_text .= $mail_started_hour . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
-								$sms_text .= $mail_location . $_POST['location']['name'][$data['account']['language']] . '. ';
+								$sms_text .= $mail_location . $_POST['location']['name'][Session::get_value('account')['language']] . '. ';
 								$sms_text .= $mail_urgency . '. ';
 								$sms_text .= $mail_confidentiality . '. ';
 								$sms_text .= $mail_subject_2 . $_POST['subject'] . '. ';
 								$sms_text .= 'https://' . Configuration::$domain . '/voxes/view/details/' . $query;
 
+								$sms_account = Session::get_value('account');
+
 								foreach ($_POST['assigned_users'] as $value)
 								{
-									if ($data['account']['sms'] > 0)
+									if ($sms_account['sms'] > 0)
 									{
 										try {
 
@@ -589,13 +612,15 @@ class Myvox_controller extends Controller
 												'text' => $sms_text
 											]);
 
-											$data['account']['sms'] = $data['account']['sms'] - 1;
+											$sms_account['sms'] = $sms_account['sms'] - 1;
 
 										} catch (Exception $e) { }
 									}
 								}
 
-								$this->model->edit_sms($data['account']['id'], $data['account']['sms']);
+								$this->model->edit_sms($sms_account['id'], $sms_account['sms']);
+
+								Session::set_value('account', $sms_account);
 							}
 
 							Functions::environment([
@@ -649,10 +674,10 @@ class Myvox_controller extends Controller
 					{
 						$_POST['answers'] = $_POST;
 
-						if ($data['account']['type'] == 'hotel')
+						if (Session::get_value('account')['type'] == 'hotel')
 							unset($_POST['answers']['room']);
 
-						if ($data['account']['type'] == 'restaurant')
+						if (Session::get_value('account')['type'] == 'restaurant')
 							unset($_POST['answers']['table']);
 
 						unset($_POST['answers']['comment']);
@@ -733,28 +758,26 @@ class Myvox_controller extends Controller
 
 						sort($_POST['answers']);
 
-						$_POST['account'] = $data['account'];
+						$_POST['account'] = Session::get_value('account');
 						$_POST['token'] = Functions::get_random(8);
 
-						if ($data['account']['type'] == 'hotel')
+						if (Session::get_value('account')['type'] == 'hotel')
 						{
-							$data['room'] = Session::get_value('room');
-
-							$_POST['room'] = $data['room']['id'];
+							$_POST['room'] = Session::get_value('room')['id'];
 
 							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-								$_POST['firstname'] = $data['room']['guest']['firstname'];
+								$_POST['firstname'] = Session::get_value('room')['guest']['firstname'];
 
 							if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-								$_POST['lastname'] = $data['room']['guest']['lastname'];
+								$_POST['lastname'] = Session::get_value('room')['guest']['lastname'];
 
-							$_POST['reservation_number'] = $data['room']['guest']['reservation_number'];
-							$_POST['check_in'] = $data['room']['guest']['check_in'];
-							$_POST['check_out'] = $data['room']['guest']['check_out'];
+							$_POST['reservation_number'] = Session::get_value('room')['guest']['reservation_number'];
+							$_POST['check_in'] = Session::get_value('room')['guest']['check_in'];
+							$_POST['check_out'] = Session::get_value('room')['guest']['check_out'];
 						}
 
-						if ($data['account']['type'] == 'restaurant')
-							$_POST['table'] = $data['table']['id'];
+						if (Session::get_value('account')['type'] == 'restaurant')
+							$_POST['table'] = Session::get_value('table')['id'];
 
 						$query = $this->model->new_survey_answer($_POST);
 
@@ -786,7 +809,7 @@ class Myvox_controller extends Controller
 												<tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
 													<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
 														<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-															<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . $data['account']['logotype'] . '" />
+															<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['logotype'] . '" />
 														</figure>
 													</td>
 												</tr>
@@ -812,15 +835,17 @@ class Myvox_controller extends Controller
 
 							if (!empty($_POST['phone_lada']) AND !empty($_POST['phone_number']))
 							{
-								if ($data['account']['sms'] > 0)
+								if (Session::get_value('account')['sms'] > 0)
 								{
 									$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 									$sms_client = new \Nexmo\Client($sms_basic);
 
-									if ($data['account']['language'] == 'es')
+									if (Session::get_value('account')['language'] == 'es')
 										$sms_text = 'GuestVox: Gracias por contestar nuestra encuesta. Token: ' . $_POST['token'];
-									else if ($data['account']['language'] == 'en')
+									else if (Session::get_value('account')['language'] == 'en')
 										$sms_text = 'GuestVox: Thanks for answers our surver. Token: ' . $_POST['token'];
+
+									$sms_account = Session::get_value('account');
 
 									try {
 
@@ -830,11 +855,13 @@ class Myvox_controller extends Controller
 											'text' => $sms_text
 										]);
 
-										$data['account']['sms'] = $data['account']['sms'] - 1;
+										$sms_account['sms'] = $sms_account['sms'] - 1;
 
 									} catch (Exception $e) { }
 
-									$this->model->edit_sms($data['account']['id'], $data['account']['sms']);
+									$this->model->edit_sms($sms_account['id'], $sms_account['sms']);
+
+									Session::set_value('account', $sms_account);
 								}
 							}
 
@@ -868,7 +895,7 @@ class Myvox_controller extends Controller
 
 				$weather = '';
 
-				if ($data['account']['city'] == 'Cancún')
+				if (Session::get_value('account')['city'] == 'Cancún')
 				{
 					$weather .=
 					'<div class="weather">
@@ -877,7 +904,8 @@ class Myvox_controller extends Controller
 						</div>
 					</div>';
 				}
-				if ($data['account']['city'] == 'Playa del Carmen')
+
+				if (Session::get_value('account')['city'] == 'Playa del Carmen')
 				{
 					$weather .=
 					'<div class="weather">
@@ -892,9 +920,9 @@ class Myvox_controller extends Controller
 				$mdl_new_request = '';
 				$mdl_new_incident = '';
 
-				if ($data['account']['operation'] == true)
+				if (Session::get_value('account')['operation'] == true)
 				{
-					if ($data['account']['settings']['myvox']['request'] == true)
+					if (Session::get_value('account')['settings']['myvox']['request'] == true)
 					{
 						$a_new_request .= '<a data-button-modal="new_request">{$lang.make_a_request}</a>';
 
@@ -910,7 +938,7 @@ class Myvox_controller extends Controller
 
 						if ($params[0] == 'account')
 						{
-							if ($data['account']['type'] == 'hotel')
+							if (Session::get_value('account')['type'] == 'hotel')
 							{
 								$mdl_new_request .=
 								'<div class="span12">
@@ -920,7 +948,7 @@ class Myvox_controller extends Controller
 											<select name="room">
 												<option value="" selected hidden>{$lang.choose}</option>';
 
-								foreach ($this->model->get_rooms($data['account']['id']) as $value)
+								foreach ($this->model->get_rooms(Session::get_value('account')['id']) as $value)
 									$mdl_new_request .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 
 								$mdl_new_request .=
@@ -930,7 +958,7 @@ class Myvox_controller extends Controller
 								</div>';
 							}
 
-							if ($data['account']['type'] == 'restaurant')
+							if (Session::get_value('account')['type'] == 'restaurant')
 							{
 								$mdl_new_request .=
 								'<div class="span12">
@@ -940,7 +968,7 @@ class Myvox_controller extends Controller
 											<select name="table">
 												<option value="" selected hidden>{$lang.choose}</option>';
 
-								foreach ($this->model->get_tables($data['account']['id']) as $value)
+								foreach ($this->model->get_tables(Session::get_value('account')['id']) as $value)
 									$mdl_new_request .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 
 								$mdl_new_request .=
@@ -959,7 +987,7 @@ class Myvox_controller extends Controller
 														<select name="opportunity_area" data-type="request">
 															<option value="" selected hidden>{$lang.choose}</option>';
 
-						foreach ($this->model->get_opportunity_areas('request', $data['account']['id']) as $value)
+						foreach ($this->model->get_opportunity_areas('request', Session::get_value('account')['id']) as $value)
 							$mdl_new_request .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('lang')] . '</option>';
 
 						$mdl_new_request .=
@@ -1000,7 +1028,7 @@ class Myvox_controller extends Controller
 														<select name="location">
 															<option value="" selected hidden>{$lang.choose}</option>';
 
-						foreach ($this->model->get_locations('request', $data['account']['id']) as $value)
+						foreach ($this->model->get_locations('request', Session::get_value('account')['id']) as $value)
 							$mdl_new_request .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('lang')] . '</option>';
 
 						$mdl_new_request .=
@@ -1046,7 +1074,7 @@ class Myvox_controller extends Controller
 						</section>';
 					}
 
-					if ($data['account']['settings']['myvox']['incident'] == true)
+					if (Session::get_value('account')['settings']['myvox']['incident'] == true)
 					{
 						$a_new_incident .= '<a data-button-modal="new_incident">{$lang.i_want_to_leave_a_comment_complaint}</a>';
 
@@ -1062,7 +1090,7 @@ class Myvox_controller extends Controller
 
 						if ($params[0] == 'account')
 						{
-							if ($data['account']['type'] == 'hotel')
+							if (Session::get_value('account')['type'] == 'hotel')
 							{
 								$mdl_new_incident .=
 								'<div class="span12">
@@ -1072,7 +1100,7 @@ class Myvox_controller extends Controller
 											<select name="room">
 												<option value="" selected hidden>{$lang.choose}</option>';
 
-								foreach ($this->model->get_rooms($data['account']['id']) as $value)
+								foreach ($this->model->get_rooms(Session::get_value('account')['id']) as $value)
 									$mdl_new_incident .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 
 								$mdl_new_incident .=
@@ -1082,7 +1110,7 @@ class Myvox_controller extends Controller
 								</div>';
 							}
 
-							if ($data['account']['type'] == 'restaurant')
+							if (Session::get_value('account')['type'] == 'restaurant')
 							{
 								$mdl_new_incident .=
 								'<div class="span12">
@@ -1092,7 +1120,7 @@ class Myvox_controller extends Controller
 											<select name="table">
 												<option value="" selected hidden>{$lang.choose}</option>';
 
-								foreach ($this->model->get_tables($data['account']['id']) as $value)
+								foreach ($this->model->get_tables(Session::get_value('account')['id']) as $value)
 									$mdl_new_incident .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 
 								$mdl_new_incident .=
@@ -1111,7 +1139,7 @@ class Myvox_controller extends Controller
 														<select name="opportunity_area" data-type="incident">
 															<option value="" selected hidden>{$lang.choose}</option>';
 
-						foreach ($this->model->get_opportunity_areas('incident', $data['account']['id']) as $value)
+						foreach ($this->model->get_opportunity_areas('incident', Session::get_value('account')['id']) as $value)
 						   $mdl_new_incident .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('lang')] . '</option>';
 
 						$mdl_new_incident .=
@@ -1152,7 +1180,7 @@ class Myvox_controller extends Controller
 														<select name="location">
 															<option value="" selected hidden>{$lang.choose}</option>';
 
-						foreach ($this->model->get_locations('incident', $data['account']['id']) as $value)
+						foreach ($this->model->get_locations('incident', Session::get_value('account')['id']) as $value)
 						   $mdl_new_incident .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('lang')] . '</option>';
 
 						$mdl_new_incident .=
@@ -1202,11 +1230,11 @@ class Myvox_controller extends Controller
 				$a_new_survey_answer = '';
 				$mdl_new_survey_answer = '';
 
-				if ($data['account']['reputation'] == true)
+				if (Session::get_value('account')['reputation'] == true)
 				{
-					if ($data['account']['settings']['myvox']['survey'] == true)
+					if (Session::get_value('account')['settings']['myvox']['survey'] == true)
 					{
-						$a_new_survey_answer .= '<a data-button-modal="new_survey_answer" class="survey">' . $data['account']['settings']['myvox']['survey_title'][Session::get_value('lang')] . '</a>';
+						$a_new_survey_answer .= '<a data-button-modal="new_survey_answer" class="survey">' . Session::get_value('account')['settings']['myvox']['survey_title'][Session::get_value('lang')] . '</a>';
 
 						$mdl_new_survey_answer .=
 						'<section class="modal" data-modal="new_survey_answer">
@@ -1217,9 +1245,7 @@ class Myvox_controller extends Controller
 								<main>
 									<form name="new_survey_answer">';
 
-						//Primer nivel de pregunta
-
-						foreach ($this->model->get_survey_questions($data['account']['id']) as $value)
+						foreach ($this->model->get_survey_questions(Session::get_value('account')['id']) as $value)
 						{
 							$mdl_new_survey_answer .=
 							'<article>
@@ -1258,8 +1284,6 @@ class Myvox_controller extends Controller
 
 							$mdl_new_survey_answer .=
 							'</article>';
-
-							//Segundo nivel de preguntas
 
 							if (!empty($value['subquestions']))
 							{
@@ -1309,8 +1333,6 @@ class Myvox_controller extends Controller
 										   <input type="text" name="so-' . $value['id'] . '-' . $subvalue['id'] . '">
 									   </div>';
 								   }
-
-								   //Tercer nivel de preguntas
 
 								   if (!empty($subvalue['subquestions']))
 								   {
@@ -1432,7 +1454,7 @@ class Myvox_controller extends Controller
 
 										if ($params[0] == 'account')
 										{
-											if ($data['account']['type'] == 'hotel')
+											if (Session::get_value('account')['type'] == 'hotel')
 											{
 												$mdl_new_survey_answer .=
 												'<div class="label">
@@ -1441,7 +1463,7 @@ class Myvox_controller extends Controller
 														<select name="room">
 															<option value="" selected hidden>{$lang.choose}</option>';
 
-												foreach ($this->model->get_rooms($data['account']['id']) as $value)
+												foreach ($this->model->get_rooms(Session::get_value('account')['id']) as $value)
 													$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 
 												$mdl_new_survey_answer .=
@@ -1450,7 +1472,7 @@ class Myvox_controller extends Controller
 												</div>';
 											}
 
-											if ($data['account']['type'] == 'restaurant')
+											if (Session::get_value('account')['type'] == 'restaurant')
 											{
 												$mdl_new_survey_answer .=
 												'<div class="label">
@@ -1459,7 +1481,7 @@ class Myvox_controller extends Controller
 														<select name="table">
 															<option value="" selected hidden>{$lang.choose}</option>';
 
-												foreach ($this->model->get_tables($data['account']['id']) as $value)
+												foreach ($this->model->get_tables(Session::get_value('account')['id']) as $value)
 													$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 
 												$mdl_new_survey_answer .=
@@ -1483,7 +1505,7 @@ class Myvox_controller extends Controller
 				}
 
 				$replace = [
-					'{$logotype}' => '{$path.uploads}' . $data['account']['logotype'],
+					'{$logotype}' => '{$path.uploads}' . Session::get_value('account')['logotype'],
 					'{$weather}' => $weather,
 					'{$a_new_request}' => $a_new_request,
 					'{$a_new_incident}' => $a_new_incident,

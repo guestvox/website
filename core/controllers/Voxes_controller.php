@@ -22,8 +22,14 @@ class Voxes_controller extends Controller
 		foreach ($this->model->get_voxes() as $value)
 		{
 			$tbl_voxes .=
-			'<tr class="' . $value['data']['status'] . ' ' . (($value['data']['readed'] == true) ? 'readed' : 'no-readed') . '" data-id="' . $value['id'] . '">
-				<td align="left" class="touchable">{$lang.abr_' . $value['type'] . '}</td>';
+			'<tr class="' . $value['data']['status'] . ' ' . (($value['data']['readed'] == true) ? 'readed' : 'no-readed') . '" data-id="' . $value['id'] . '">';
+
+			if ($value['type'] == 'request')
+				$tbl_voxes .= '<td align="left" class="touchable icon"><span><i class="fas fa-spa"></i></span></td>';
+			else if ($value['type'] == 'incident')
+				$tbl_voxes .= '<td align="left" class="touchable icon"><span><i class="fas fa-exclamation-triangle"></i></span></td>';
+			else if ($value['type'] == 'workorder')
+				$tbl_voxes .= '<td align="left" class="touchable icon"><span><i class="fas fa-id-card-alt"></i></span></td>';
 
 			if (Session::get_value('account')['type'] == 'hotel')
 				$tbl_voxes .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['room']['number'] . ' ' . $value['data']['room']['name'] : '') . '</td>';
@@ -2405,7 +2411,7 @@ class Voxes_controller extends Controller
 			$template = $this->view->render($this, 'stats');
 
 			$replace = [
-				'{$general_average_resolution}' => $this->model->get_general_resolution_average(),
+				'{$general_average_resolution}' => $this->model->get_general_average_resolution(),
 				'{$count_created_today}' => $this->model->get_count('created_today'),
 				'{$count_created_week}' => $this->model->get_count('created_week'),
 				'{$count_created_month}' => $this->model->get_count('created_month'),

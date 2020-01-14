@@ -207,7 +207,7 @@ class Voxes_model extends Model
 
 	public function get_table($id)
 	{
-		$query = $this->database->select('rooms', [
+		$query = $this->database->select('tables', [
 			'id',
 			'number',
 			'name'
@@ -2185,6 +2185,80 @@ class Voxes_model extends Model
 		return $voxes;
 	}
 
+	public function get_general_average_resolution()
+	{
+		$query = $this->database->select('voxes', [
+			'data'
+		], [
+			'account' => Session::get_value('account')['id']
+		]);
+
+		$hours = 0;
+		$count = 0;
+		$average = 0;
+
+		foreach ($query as $key => $value)
+		{
+			$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
+
+			if (Functions::get_current_date_hour() >= Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']))
+			{
+				$date1 = new DateTime($value['data']['started_date'] . ' ' . $value['data']['started_hour']);
+				$date2 = new DateTime($value['data']['completed_date'] . ' ' . $value['data']['completed_hour']);
+				$date3 = $date1->diff($date2);
+				$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
+				$count = $count + 1;
+			}
+		}
+
+		if ($hours > 0 AND $count > 0)
+		{
+			$average = $hours / $count;
+
+			if ($average < 1)
+				$average = round(($average * 60), 2) . ' Min';
+			else
+				$average = round($average, 2) . ' Hrs';
+		}
+
+		return $average;
+	}
+
+	public function get_count($option)
+	{
+		$query = $this->database->select('voxes', [
+			'data'
+		], [
+			'account' => Session::get_value('account')['id']
+		]);
+
+		$count = 0;
+
+		foreach ($query as $key => $value)
+		{
+			$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
+
+			$break = false;
+
+			if ($option == 'created_today' AND Functions::get_formatted_date($value['data']['started_date']) != Functions::get_current_date())
+				$break = true;
+
+			if ($option == 'created_week' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_week()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_week()[1])
+				$break = true;
+
+			if ($option == 'created_month' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_month()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_month()[1])
+				$break = true;
+
+			if ($option == 'created_year' AND explode('-', Functions::get_formatted_date($value['data']['started_date']))[0] != Functions::get_current_year())
+				$break = true;
+
+			if ($break == false)
+				$count = $count + 1;
+		}
+
+		return $count;
+	}
+
 	public function get_chart_data($chart, $params, $edit = false)
 	{
 		$query = $this->database->select('voxes', [
@@ -2489,75 +2563,5 @@ class Voxes_model extends Model
 		}
 
 		return $data;
-	}
-
-	public function get_count($option)
-	{
-		$query = $this->database->select('voxes', [
-			'data'
-		], [
-			'account' => Session::get_value('account')['id']
-		]);
-
-		$count = 0;
-
-		foreach ($query as $key => $value)
-		{
-			$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
-
-			$break = false;
-
-			if ($option == 'created_today' AND Functions::get_formatted_date($value['data']['started_date']) != Functions::get_current_date())
-				$break = true;
-
-			if ($option == 'created_week' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_week()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_week()[1])
-				$break = true;
-
-			if ($option == 'created_month' AND Functions::get_formatted_date($value['data']['started_date']) < Functions::get_current_month()[0] OR Functions::get_formatted_date($value['data']['started_date']) > Functions::get_current_month()[1])
-				$break = true;
-
-			if ($option == 'created_year' AND explode('-', Functions::get_formatted_date($value['data']['started_date']))[0] != Functions::get_current_year())
-				$break = true;
-
-			if ($break == false)
-				$count = $count + 1;
-		}
-
-		return $count;
-	}
-
-	public function get_general_resolution_average()
-	{
-		$query = $this->database->select('voxes', [
-			'data'
-		], [
-			'account' => Session::get_value('account')['id']
-		]);
-
-		$hours = 0;
-		$count = 0;
-
-		foreach ($query as $key => $value)
-		{
-			$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
-
-			if (Functions::get_current_date_hour() >= Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']))
-			{
-				$date1 = new DateTime($value['data']['started_date'] . ' ' . $value['data']['started_hour']);
-				$date2 = new DateTime($value['data']['completed_date'] . ' ' . $value['data']['completed_hour']);
-				$date3 = $date1->diff($date2);
-				$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
-				$count = $count + 1;
-			}
-		}
-
-		$average = $hours / $count;
-
-		if ($average < 1)
-			$average = round(($average * 60), 2) . ' Min';
-		else
-			$average = round($average, 2) . ' Hrs';
-
-		return $average;
 	}
 }

@@ -30,10 +30,11 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
         </header>
         <main>
             <div class="voxes-counts">
-                <h2>{$average_surveys}<span>Calificación</span></h2>
-                <h2>{$count_received_today}<span>Hoy</span><strong><?php echo Functions::get_current_date('d M'); ?></strong></h2>
-                <h2>{$count_received_week}<span>Esta semana</span><strong><?php echo Functions::get_formatted_date(Functions::get_current_week()[0], 'd M'); ?> - <?php echo Functions::get_formatted_date(Functions::get_current_week()[1], 'd M'); ?></strong></h2>
-                <h2>{$count_received_month}<span>Este mes</span><strong><?php echo Functions::get_formatted_date(Functions::get_current_month()[0], 'F'); ?></strong></h2>
+                <h2>{$general_average_rate}<span>Calificación</span></h2>
+                <h2>{$count_received_today}<span>Hoy</span></h2>
+                <h2>{$count_received_week}<span>Esta semana</span></h2>
+                <h2>{$count_received_month}<span>Este mes</span></h2>
+                <h2>{$count_received_year}<span>Este año</span></h2>
                 <h2>{$count_received_total}<span>Total</span></h2>
             </div>
             <div class="charts small">
@@ -41,14 +42,17 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
             </div>
             <div class="charts small">
                 <canvas id="s_r2_chart" height="300"></canvas>
-                <h6>{$lang.total}: {$total_rate_avarage} Pts</h6>
             </div>
             <div class="charts small">
                 <canvas id="s_r3_chart" height="300"></canvas>
             </div>
-            <div class="charts small-medium">
+            <!-- <div class="charts small-medium">
                 <canvas id="s_r4_chart" height="300"></canvas>
             </div>
+            <div class="charts small-medium">
+                <canvas id="s_r5_chart" height="300"></canvas>
+            </div> -->
+            <div class="clear"></div>
         </main>
     </article>
 </main>

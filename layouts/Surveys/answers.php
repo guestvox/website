@@ -40,7 +40,12 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     <thead>
                         <tr>
                             <th align="left" width="100px">{$lang.token}</th>
+                            <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                             <th align="left" width="100px">{$lang.room}</th>
+                            <?php endif; ?>
+                            <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
+                            <th align="left" width="100px">{$lang.table}</th>
+                            <?php endif; ?>
                             <th align="left">{$lang.guest}</th>
                             <th align="left" width="100px">{$lang.date}</th>
                             <th align="left" width="100px">{$lang.points}</th>
@@ -60,9 +65,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
         <header>
             <h3>{$lang.details}</h3>
         </header>
-        <main>
-
-        </main>
+        <main></main>
         <footer>
             <div class="action-buttons">
                 <button class="btn" button-close>{$lang.accept}</button>

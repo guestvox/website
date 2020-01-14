@@ -87,6 +87,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <div class="charts small">
                 <canvas id="v_l_chart" height="300"></canvas>
             </div>
+            <div class="clear"></div>
             <form name="get_ar_chart_data">
                 <div class="row">
                     <div class="span4">
@@ -136,6 +137,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <div class="charts small">
                 <canvas id="ar_l_chart" height="300"></canvas>
             </div>
+            <div class="clear"></div>
             <form name="get_c_chart_data">
                 <div class="row">
                     <div class="span6">
