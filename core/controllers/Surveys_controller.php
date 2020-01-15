@@ -445,23 +445,39 @@ class Surveys_controller extends Controller
 
 				if (!empty($query))
 				{
-					$data = '<div><strong>{$lang.token}:</strong> ' . $query['token']  . '</div>';
+					$data = '<span><strong>{$lang.token}:</strong> ' . $query['token']  . '</span>';
 
 					if (Session::get_value('account')['type'] == 'hotel')
-						$data .= '<div><strong>{$lang.room}:</strong> ' . (!empty($query['room']) ? '#' . $query['room']['number'] . ' ' . $query['room']['name'] : '') . '</div>';
+						$data .= '<span><strong>{$lang.room}:</strong> ' . (!empty($query['room']) ? '#' . $query['room']['number'] . ' ' . $query['room']['name'] : '') . '</span>';
 
 					if (Session::get_value('account')['type'] == 'restaurant')
-						$data .= '<div><strong>{$lang.table}:</strong> ' . (!empty($query['table']) ? '#' . $query['table']['number'] . ' ' . $query['table']['name'] : '') . '</div>';
+						$data .= '<span><strong>{$lang.table}:</strong> ' . (!empty($query['table']) ? '#' . $query['table']['number'] . ' ' . $query['table']['name'] : '') . '</span>';
 
 					$data .=
-					'<div><strong>{$lang.guest}:</strong> ' . $query['guest']['firstname'] . ' ' . $query['guest']['lastname'] . '</div>
-					<div><strong>{$lang.email}:</strong> ' . $query['guest']['email'] . '</div>
-					<div><strong>{$lang.phone}:</strong> ' . $query['guest']['phone']['lada'] . ' ' . $query['guest']['phone']['number'] . '</div>
-					<div><strong>{$lang.reservation_number}:</strong> ' . $query['guest']['reservation_number'] . '</div>
-					<div><strong>{$lang.check_in}:</strong> ' . Functions::get_formatted_date($query['guest']['check_in'], 'd M, y') . '</div>
-					<div><strong>{$lang.check_out}:</strong> ' . Functions::get_formatted_date($query['guest']['check_out'], 'd M, y') . '</div>
-					<div><strong>{$lang.date}:</strong> ' . Functions::get_formatted_date($query['date'], 'd M, y')  . '</div>
-					<div><strong>{$lang.rate}:</strong> ' . $query['rate']  . ' Pts</div><br>';
+					'<div>
+						<h2>{$lang.survey_datas}</h2>
+						<span><strong>{$lang.guest}:</strong> ' . $query['guest']['guestvox']['firstname'] . ' ' . $query['guest']['guestvox']['lastname'] . '</span>
+						<span><strong>{$lang.email}:</strong> ' . $query['guest']['guestvox']['email'] . '</span>
+						<span><strong>{$lang.phone}:</strong> ' . $query['guest']['guestvox']['phone']['lada'] . ' ' . $query['guest']['guestvox']['phone']['number'] . '</span>
+						<span><strong>{$lang.date}:</strong> ' . Functions::get_formatted_date($query['date'], 'd M, y')  . '</span>
+						<span><strong>{$lang.rate}:</strong> ' . $query['rate']  . ' Pts</span>
+					</div>';
+
+					if (Session::get_value('account')['zaviapms']['status'] == true)
+					{
+						$data .=
+						'<div>
+							<h2>{$lang.zaviapms_datas}</h2>
+							<span><strong>{$lang.guest}:</strong> ' . $query['guest']['zaviapms']['firstname'] . ' ' . $query['guest']['zaviapms']['lastname'] . '</span>
+							<span><strong>{$lang.reservation_number}:</strong> ' . $query['guest']['zaviapms']['reservation_number'] . '</span>
+							<span><strong>{$lang.check_in}:</strong> ' . Functions::get_formatted_date($query['guest']['zaviapms']['check_in'], 'd M, y') . '</span>
+							<span><strong>{$lang.check_out}:</strong> ' . Functions::get_formatted_date($query['guest']['zaviapms']['check_out'], 'd M, y') . '</span>
+							<span><strong>{$lang.nationality}:</strong> ' . $query['guest']['zaviapms']['nationality'] . '</span>
+							<span><strong>{$lang.input_channel}:</strong> ' . $query['guest']['zaviapms']['input_channel'] . '</span>
+							<span><strong>{$lang.traveler_type}:</strong> ' . $query['guest']['zaviapms']['traveler_type'] . '</span>
+							<span><strong>{$lang.age_group}:</strong> ' . $query['guest']['zaviapms']['age_group'] . '</span>
+						</div>';
+					}
 
 					foreach ($query['answers'] as $value)
 	                {
@@ -574,16 +590,12 @@ class Surveys_controller extends Controller
 	                }
 
 					$data .=
-					'<div class="row">
-	                    <div class="span12">
-	                        <div class="label">
-	                            <label>
-	                                <p>{$lang.comments}</p>
-	                                <textarea disabled>' . $query['comment'] . '</textarea>
-	                            </label>
-	                        </div>
-	                    </div>
-	                </div>';
+					'<div class="label">
+						<label>
+							<p>{$lang.comments}</p>
+							<textarea disabled>' . $query['comment'] . '</textarea>
+						</label>
+					</div>';
 
 					Functions::environment([
 						'status' => 'success',
@@ -624,7 +636,7 @@ class Surveys_controller extends Controller
 					$tbl_survey_answers .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
 
 				$tbl_survey_answers .=
-				'	<td align="left">' . $value['guest']['firstname'] . ' ' . $value['guest']['lastname'] . '</td>
+				'	<td align="left">' . $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname'] . '</td>
 					<td align="left">' . Functions::get_formatted_date($value['date'], 'd M, y') . '</td>
 					<td align="left">' . $value['rate'] . ' Pts</td>
 					<td align="right" class="icon"><a data-action="view_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-bars"></i></a></td>

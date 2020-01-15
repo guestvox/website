@@ -1221,57 +1221,56 @@ div.detail > p > img {
 
 /* Survey
 ------------------------------------------------------------------------------ */
-section[data-modal="view_survey_answer"] > .content > main > article > article {
+section[data-modal="view_survey_answer"] > .content > main > div {
     width: 100%;
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px dashed #bdbdbd;
-    box-sizing: border-box;
-}
-
-
-section[data-modal="view_survey_answer"] > .content > main > article > h6,
-section[data-modal="view_survey_answer"] > .content > main > article > article > h6,
-section[data-modal="view_survey_answer"] > .content > main > article > article > article.sub > h6{
-    font-size: 14px;
-    font-weight: 400;
-    color: #757575;
-}
-
-section[data-modal="view_survey_answer"] > .content > main > article > article > div{
-    margin-bottom: 5px;
-}
-
-section[data-modal="view_survey_answer"] > .content > main > article > div > label,
-section[data-modal="view_survey_answer"] > .content > main > article > article > div > label,
-section[data-modal="view_survey_answer"] > .content > main > article > article > article.sub > div > label{
-    padding: 0px;
-    margin: 0px;
-    font-size: 12px;
-    color: #757575;
-}
-
-section[data-modal="view_survey_answer"] > .content > main > article > div > p,
-section[data-modal="view_survey_answer"] > .content > main > article > article > div > p,
-section[data-modal="view_survey_answer"] > .content > main > article > article > article.sub > div > p{
-    font-size: 12px;
-    font-weight: 400;
-    color: #757575;
-}
-
-section[data-modal="view_survey_answer"] > .content > main > article > article ,
-section[data-modal="view_survey_answer"] > .content > main > article > article > article.sub {
-    padding: 10px 15px;
-}
-
-section[data-modal="get_preview_survey"] > .content > main > article {
-    width: 100%;
-    margin-bottom: 10px;
+    margin-top: 20px;
     padding: 20px;
     box-sizing: border-box;
     background-color: #eee;
 }
 
+section[data-modal="view_survey_answer"] > .content > main > div:last-child {
+    margin-bottom: 20px;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > span,
+section[data-modal="view_survey_answer"] > .content > main > div > span {
+    width: 100%;
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > div > span > strong {
+    font-weight: 600;
+    color: #000;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > div > h2 {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #000;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > article,
+section[data-modal="get_preview_survey"] > .content > main > article {
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+section[data-modal="get_preview_survey"] > .content > main > article:first-child {
+    margin-top: 0px;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > article > h6,
+section[data-modal="view_survey_answer"] > .content > main > article > article.subquestions-sub >  h6,
 section[data-modal="get_preview_survey"] > .content > main > article > h6,
 section[data-modal="get_preview_survey"] > .content > main > article > article.subquestions-sub >  h6 {
     font-size: 14px;
@@ -1279,6 +1278,8 @@ section[data-modal="get_preview_survey"] > .content > main > article > article.s
     color: #757575;
 }
 
+section[data-modal="view_survey_answer"] > .content > main > article > div > label,
+section[data-modal="view_survey_answer"] > .content > main > article > article.subquestions-sub > div > label,
 section[data-modal="get_preview_survey"] > .content > main > article > div > label,
 section[data-modal="get_preview_survey"] > .content > main > article > article.subquestions-sub > div > label {
     padding: 0px;
@@ -1287,6 +1288,7 @@ section[data-modal="get_preview_survey"] > .content > main > article > article.s
     color: #757575;
 }
 
+section[data-modal="view_survey_answer"] > .content > main > article > div > input,
 section[data-modal="get_preview_survey"] > .content > main > article > div > input {
     width: 100%;
     padding: 5px 10px;
@@ -1294,16 +1296,19 @@ section[data-modal="get_preview_survey"] > .content > main > article > div > inp
     border: none;
 }
 
+section[data-modal="view_survey_answer"] > .content > main > article.subquestions,
 section[data-modal="get_preview_survey"] > .content > main > article.subquestions {
     padding: 20px 30px;
     box-sizing: border-box;
 }
 
+section[data-modal="view_survey_answer"] > .content > main > article.subquestions > article.subquestions-sub,
 section[data-modal="get_preview_survey"] > .content > main > article.subquestions > article.subquestions-sub {
     padding: 10px 15px;
     box-sizing: border-box;
 }
 
+section[data-modal="view_survey_answer"] > .content > main > article.subquestions > div,
 section[data-modal="get_preview_survey"] > .content > main > article.subquestions > div {
     margin-bottom: 5px;
 }
