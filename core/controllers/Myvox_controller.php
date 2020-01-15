@@ -1458,7 +1458,7 @@ class Myvox_controller extends Controller
 											{
 												$mdl_new_survey_answer .=
 												'<div class="label">
-													<label important>
+													<label>
 														<p>{$lang.do_you_know_your_room_number}</p>
 														<select name="room">
 															<option value="" selected hidden>{$lang.choose}</option>';
@@ -1476,7 +1476,7 @@ class Myvox_controller extends Controller
 											{
 												$mdl_new_survey_answer .=
 												'<div class="label">
-													<label important>
+													<label>
 														<p>{$lang.do_you_know_your_table_number}</p>
 														<select name="table">
 															<option value="" selected hidden>{$lang.choose}</option>';
