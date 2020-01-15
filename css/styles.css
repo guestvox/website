@@ -1533,6 +1533,8 @@ div.charts {
     flex-direction: column;
     padding: 40px;
     box-sizing: border-box;
+
+    border: 1px solid red;
 }
 
 div.charts.small {
@@ -1569,9 +1571,45 @@ div.charts > h6 {
 
 div.charts > div.rates {
     width: 100%;
-    padding: 20px;
+
+    border: 1px solid red;
     box-sizing: border-box;
-    background-color: #eee;
+}
+
+div.charts > div.rates > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 0px;
+    box-sizing: border-box;
+
+    border: 1px solid blue;
+    box-sizing: border-box;
+}
+
+div.charts > div.rates > div > span {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    border: 1px solid green;
+    box-sizing: border-box;
+}
+
+div.charts > div.rates > div > span:first-child,
+div.charts > div.rates > div > span:last-child {
+    width: 50px;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+div.charts > div.rates > div > span > i {
+    margin: 0px 5px;
+    font-size: 18px;
+    color: #ffeb3b;
 }
 
 /* Inputs

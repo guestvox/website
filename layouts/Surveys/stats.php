@@ -31,18 +31,62 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
         <main>
             <div class="voxes-counts">
                 <h2>{$general_average_rate}<span>Calificación</span></h2>
-                <h2>{$count_received_today}<span>Hoy</span></h2>
-                <h2>{$count_received_week}<span>Esta semana</span></h2>
-                <h2>{$count_received_month}<span>Este mes</span></h2>
-                <h2>{$count_received_year}<span>Este año</span></h2>
-                <h2>{$count_received_total}<span>Total</span></h2>
+                <h2>{$count_answered_today}<span>Hoy</span></h2>
+                <h2>{$count_answered_week}<span>Esta semana</span></h2>
+                <h2>{$count_answered_month}<span>Este mes</span></h2>
+                <h2>{$count_answered_year}<span>Este año</span></h2>
+                <h2>{$count_answered_total}<span>Total</span></h2>
             </div>
             <div class="charts small">
                 <div class="rates">
-
+                    <div>
+                        <span>5</span>
+                        <span>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </span>
+                        <span>40%</span>
+                    </div>
+                    <div>
+                        <span>4</span>
+                        <span>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </span>
+                        <span>40%</span>
+                    </div>
+                    <div>
+                        <span>3</span>
+                        <span>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </span>
+                        <span>40%</span>
+                    </div>
+                    <div>
+                        <span>2</span>
+                        <span>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </span>
+                        <span>40%</span>
+                    </div>
+                    <div>
+                        <span>1</span>
+                        <span>
+                            <i class="fas fa-star"></i>
+                        </span>
+                        <span>40%</span>
+                    </div>
                 </div>
             </div>
-            <div class="charts small">
+            <!-- <div class="charts small">
                 <canvas id="s_r1_chart" height="300"></canvas>
             </div>
             <div class="charts small">
@@ -51,7 +95,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
             <div class="charts small">
                 <canvas id="s_r3_chart" height="300"></canvas>
             </div>
-            <!-- <div class="charts small-medium">
+            <div class="charts small-medium">
                 <canvas id="s_r4_chart" height="300"></canvas>
             </div>
             <div class="charts small-medium">
