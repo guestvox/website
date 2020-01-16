@@ -29,8 +29,8 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
             <h2><i class="fas fa-chart-pie"></i>{$lang.survey_stats}</h2>
         </header>
         <main>
-            <div class="rates-surveys-count">
-                <h2>{$lang.qualification}</h2>
+            <div class="chart-rate">
+                <h2>{$lang.general_rate}</h2>
                 <div class="average">
                     {$h4_general_average_rate}
                     {$spn_general_avarage_rate}
@@ -61,29 +61,39 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     <span>{$one_percentage_rate}%</span>
                 </div>
             </div>
-            <div class="counters">
+            <div class="chart-answered">
                 <h2>{$lang.surveys_answered}</h2>
-                <span class="big">{$count_answered_total}<strong>Total</strong></span>
-                <span class="big">{$count_answered_today}<strong>Hoy</strong></span>
-                <span>{$count_answered_week}<strong>Esta semana</strong></span>
-                <span>{$count_answered_month}<strong>Este mes</strong></span>
-                <span>{$count_answered_year}<strong>Este año</strong></span>
+                <div class="counters">
+                    <span>{$count_answered_total}<strong>Total</strong></span>
+                    <span>{$count_answered_today}<strong>Hoy</strong></span>
+                    <span>{$count_answered_week}<strong>Esta semana</strong></span>
+                    <span>{$count_answered_month}<strong>Este mes</strong></span>
+                    <span>{$count_answered_year}<strong>Este año</strong></span>
+                </div>
+                <div class="chart">
+                    <canvas id="s1_chart" height="300"></canvas>
+                </div>
             </div>
-            <!-- <div class="charts small">
-                <canvas id="s_r1_chart" height="300"></canvas>
+            <!-- <div class="charts medium">
+                <canvas id="s2_chart" height="300"></canvas>
             </div>
-            <div class="charts small">
-                <canvas id="s_r2_chart" height="300"></canvas>
-            </div>
-            <div class="charts small">
-                <canvas id="s_r3_chart" height="300"></canvas>
-            </div>
-            <div class="charts small-medium">
-                <canvas id="s_r4_chart" height="300"></canvas>
-            </div>
-            <div class="charts small-medium">
-                <canvas id="s_r5_chart" height="300"></canvas>
+            <div class="charts medium">
+                <canvas id="s4_chart" height="300"></canvas>
             </div> -->
+            <?php if (Session::get_value('account')['zaviapms']['status'] == true) : ?>
+            <div class="charts little">
+                <canvas id="s5_chart" height="300"></canvas>
+            </div>
+            <div class="charts little">
+                <canvas id="s6_chart" height="300"></canvas>
+            </div>
+            <div class="charts little">
+                <canvas id="s7_chart" height="300"></canvas>
+            </div>
+            <div class="charts little">
+                <canvas id="s8_chart" height="300"></canvas>
+            </div>
+            <?php endif; ?>
             <div class="clear"></div>
         </main>
     </article>

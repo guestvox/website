@@ -686,18 +686,18 @@ class Surveys_controller extends Controller
 			</span>';
 
 			$replace = [
-				'{$count_answered_today}' => $this->model->get_count('answered_today'),
-				'{$count_answered_week}' => $this->model->get_count('answered_week'),
-				'{$count_answered_month}' => $this->model->get_count('answered_month'),
-				'{$count_answered_year}' => $this->model->get_count('answered_year'),
-				'{$count_answered_total}' => $this->model->get_count('answered_total'),
 				'{$h4_general_average_rate}' => $h4_general_average_rate,
 				'{$spn_general_avarage_rate}' => $spn_general_avarage_rate,
 				'{$five_percentage_rate}' => $this->model->get_percentage_rate('five'),
 				'{$four_percentage_rate}' => $this->model->get_percentage_rate('four'),
 				'{$tree_percentage_rate}' => $this->model->get_percentage_rate('tree'),
 				'{$two_percentage_rate}' => $this->model->get_percentage_rate('two'),
-				'{$one_percentage_rate}' => $this->model->get_percentage_rate('one')
+				'{$one_percentage_rate}' => $this->model->get_percentage_rate('one'),
+				'{$count_answered_total}' => $this->model->get_count('answered_total'),
+				'{$count_answered_today}' => $this->model->get_count('answered_today'),
+				'{$count_answered_week}' => $this->model->get_count('answered_week'),
+				'{$count_answered_month}' => $this->model->get_count('answered_month'),
+				'{$count_answered_year}' => $this->model->get_count('answered_year')
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -706,198 +706,305 @@ class Surveys_controller extends Controller
 		}
 	}
 
-	// public function charts()
-	// {
-	// 	header('Content-Type: application/javascript');
-	//
-	// 	$s_r1_chart_data = $this->model->get_chart_data('s_r1_chart');
-	// 	$s_r2_chart_data = $this->model->get_chart_data('s_r2_chart');
-	// 	$s_r3_chart_data = $this->model->get_chart_data('s_r3_chart');
-	// 	$s_r4_chart_data = $this->model->get_chart_data('s_r4_chart');
-	// 	$s_r5_chart_data = $this->model->get_chart_data('s_r5_chart');
-	//
-	// 	if (Session::get_value('account')['language'] == 'es')
-	// 	{
-	// 		if (Session::get_value('account')['type'] == 'hotel')
-	// 			$s_r1_chart_title = 'Balance de respuestas por habitación';
-	//
-	// 		if (Session::get_value('account')['type'] == 'restaurant')
-	// 			$s_r1_chart_title = 'Balance de respuestas por mesa';
-	//
-	// 		$s_r2_chart_title = 'Balance de encuestas de valoración';
-	// 		$s_r3_chart_title = 'Balance de encuestas de Si/No';
-	// 		$s_r4_chart_title = 'Promedio de preguntas';
-	// 		$s_r5_chart_title = $s_r5_chart_data['name'];
-	// 	}
-	// 	else if (Session::get_value('account')['language'] == 'en')
-	// 	{
-	// 		if (Session::get_value('account')['type'] == 'hotel')
-	// 			$s_r1_chart_title = 'Balance of responses per room';
-	//
-	// 		if (Session::get_value('account')['type'] == 'restaurant')
-	// 			$s_r1_chart_title = 'Balance of responses per table';
-	//
-	// 		$s_r2_chart_title = 'Assessment survey balance';
-	// 		$s_r3_chart_title = 'Yes/No survey balance ';
-	// 		$s_r4_chart_title = 'Average questions';
-	// 		$s_r5_chart_title = $s_r5_chart_data['name'];
-	// 	}
-	//
-	// 	$js =
-	// 	"'use strict';
-	//
-	// 	var s_r1_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $s_r1_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $s_r1_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $s_r1_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $s_r1_chart_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: true
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var s_r2_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $s_r2_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $s_r2_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $s_r2_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $s_r2_chart_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: true
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var s_r3_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $s_r3_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $s_r3_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $s_r3_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $s_r3_chart_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: true
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var s_r4_chart = {
-	// 	    type: 'line',
-	// 		data: {
-	// 			labels: [
-	//                 " . $s_r4_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	// 				label: [
-	// 					" . $s_r4_chart_data['datasets']['labels'] . "
-	// 				],
-	//                 data: [
-	//                     " . $s_r4_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $s_r4_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	// 		options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $s_r4_chart_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: true
-	// 			},
-	//             responsive: true
-    //         }
-	// 	};
-	//
-	// 	var s_r5_chart = {
-	// 	    type: 'line',
-	// 		data: {
-	// 			labels: [
-	//                 " . $s_r5_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	// 				label: [
-	// 					" . $s_r5_chart_data['datasets']['labels'] . "
-	// 				],
-	//                 data: [
-	//                     " . $s_r5_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $s_r5_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	// 		options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $s_r5_chart_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: true
-	// 			},
-	//             responsive: true
-    //         }
-	// 	};
-	//
-	// 	window.onload = function()
-	// 	{
-	// 		s_r1_chart = new Chart(document.getElementById('s_r1_chart').getContext('2d'), s_r1_chart);
-	// 		s_r2_chart = new Chart(document.getElementById('s_r2_chart').getContext('2d'), s_r2_chart);
-	// 		s_r3_chart = new Chart(document.getElementById('s_r3_chart').getContext('2d'), s_r3_chart);
-	// 		s_r4_chart = new Chart(document.getElementById('s_r4_chart').getContext('2d'), s_r4_chart);
-	// 		s_r5_chart = new Chart(document.getElementById('s_r5_chart').getContext('2d'), s_r5_chart);
-	// 	};";
-	//
-	// 	$js = trim(str_replace(array("\t\t\t"), '', $js));
-	//
-	// 	echo $js;
-	// }
+	public function charts()
+	{
+		header('Content-Type: application/javascript');
+
+		$s1_chart_data = $this->model->get_chart_data('s1_chart');
+		// $s2_chart_data = $this->model->get_chart_data('s2_chart');
+		// $s4_chart_data = $this->model->get_chart_data('s4_chart');
+
+		if (Session::get_value('account')['zaviapms']['status'] == true)
+		{
+			$s5_chart_data = $this->model->get_chart_data('s5_chart');
+			$s6_chart_data = $this->model->get_chart_data('s6_chart');
+			$s7_chart_data = $this->model->get_chart_data('s7_chart');
+			$s8_chart_data = $this->model->get_chart_data('s8_chart');
+		}
+
+		if (Session::get_value('account')['language'] == 'es')
+		{
+			if (Session::get_value('account')['type'] == 'hotel')
+				$s1_chart_title = 'Por habitación';
+			else if (Session::get_value('account')['type'] == 'hotel')
+				$s1_chart_title = 'Por mesa';
+
+			$s1_chart_label = 'Encuestas';
+			// $s2_chart_title = 'Promedio de preguntas por valoración (1 a 5 estrellas)';
+			// $s2_chart_label = 'Valoración';
+			// $s4_chart_title = 'Promedio de preguntas por valoración (1 a 5 estrellas)';
+			// $s4_chart_label = 'Valoración';
+
+			if (Session::get_value('account')['zaviapms']['status'] == true)
+			{
+				$s5_chart_title = 'Nacionalidad';
+				$s5_chart_label = 'Huespedes';
+				$s6_chart_title = 'Canal de entrada';
+				$s6_chart_label = 'Huespedes';
+				$s7_chart_title = 'Tipo de viajero';
+				$s7_chart_label = 'Huespedes';
+				$s8_chart_title = 'Grupo de edad';
+				$s8_chart_label = 'Huespedes';
+			}
+		}
+		else if (Session::get_value('account')['language'] == 'en')
+		{
+			if (Session::get_value('account')['type'] == 'hotel')
+				$s1_chart_title = 'Per room';
+			else if (Session::get_value('account')['type'] == 'hotel')
+				$s1_chart_title = 'Per table';
+
+			$s1_chart_label = 'Surveys';
+			// $s2_chart_title = 'Questions average per rating (1 to 5 stars)';
+			// $s2_chart_label = 'Rate';
+			// $s4_chart_title = 'Questions average per rating (1 to 5 stars)';
+			// $s4_chart_label = 'Rate';
+
+			if (Session::get_value('account')['zaviapms']['status'] == true)
+			{
+				$s5_chart_title = 'Nationality';
+				$s5_chart_label = 'Guests';
+				$s6_chart_title = 'Input channel';
+				$s6_chart_label = 'Guests';
+				$s7_chart_title = 'Traveler';
+				$s7_chart_label = 'Guests';
+				$s8_chart_title = 'Age group';
+				$s8_chart_label = 'Guests';
+			}
+		}
+
+		$js =
+		"'use strict';
+
+		var s1_chart = {
+	        type: 'doughnut',
+	        data: {
+				labels: [
+	                " . $s1_chart_data['labels'] . "
+	            ],
+				datasets: [{
+					data: [
+	                    " . $s1_chart_data['datasets']['data'] . "
+	                ],
+					label: '" . $s1_chart_label . "',
+	                backgroundColor: [
+	                    " . $s1_chart_data['datasets']['colors'] . "
+	                ]
+	            }]
+	        },
+	        options: {
+				title: {
+					display: true,
+					position: 'bottom',
+					text: '" . $s1_chart_title . "'
+				},
+				legend: {
+					display: false
+				},
+	            responsive: true
+            }
+        };";
+
+		if (Session::get_value('account')['zaviapms']['status'] == true)
+		{
+			$js .=
+			"var s5_chart = {
+		        type: 'pie',
+		        data: {
+					labels: [
+		                " . $s5_chart_data['labels'] . "
+		            ],
+					datasets: [{
+						data: [
+		                    " . $s5_chart_data['datasets']['data'] . "
+		                ],
+						label: 'Hola',
+		                backgroundColor: [
+		                    " . $s5_chart_data['datasets']['colors'] . "
+		                ]
+		            }]
+		        },
+		        options: {
+					title: {
+						display: true,
+						position: 'top',
+						text: '" . $s5_chart_title . "'
+					},
+					legend: {
+						display: false
+					},
+		            responsive: true
+	            }
+	        };
+
+			var s6_chart = {
+		        type: 'pie',
+		        data: {
+					labels: [
+		                " . $s6_chart_data['labels'] . "
+		            ],
+					datasets: [{
+						data: [
+		                    " . $s6_chart_data['datasets']['data'] . "
+		                ],
+						label: '" . $s6_chart_label . "',
+		                backgroundColor: [
+		                    " . $s6_chart_data['datasets']['colors'] . "
+		                ]
+		            }]
+		        },
+		        options: {
+					title: {
+						display: true,
+						position: 'top',
+						text: '" . $s6_chart_title . "'
+					},
+					legend: {
+						display: false
+					},
+		            responsive: true
+	            }
+	        };
+
+			var s7_chart = {
+		        type: 'pie',
+		        data: {
+					labels: [
+		                " . $s7_chart_data['labels'] . "
+		            ],
+					datasets: [{
+						data: [
+		                    " . $s7_chart_data['datasets']['data'] . "
+		                ],
+						label: '" . $s7_chart_label . "',
+		                backgroundColor: [
+		                    " . $s7_chart_data['datasets']['colors'] . "
+		                ]
+		            }]
+		        },
+		        options: {
+					title: {
+						display: true,
+						position: 'top',
+						text: '" . $s7_chart_title . "'
+					},
+					legend: {
+						display: false
+					},
+		            responsive: true
+	            }
+	        };
+
+			var s8_chart = {
+		        type: 'pie',
+		        data: {
+					labels: [
+		                " . $s8_chart_data['labels'] . "
+		            ],
+					datasets: [{
+						data: [
+		                    " . $s8_chart_data['datasets']['data'] . "
+		                ],
+						label: '" . $s8_chart_label . "',
+		                backgroundColor: [
+		                    " . $s8_chart_data['datasets']['colors'] . "
+		                ]
+		            }]
+		        },
+		        options: {
+					title: {
+						display: true,
+						position: 'top',
+						text: '" . $s8_chart_title . "'
+					},
+					legend: {
+						display: false
+					},
+		            responsive: true
+	            }
+	        };";
+		}
+
+		$js .=
+		"window.onload = function()
+		{
+			s1_chart = new Chart(document.getElementById('s1_chart').getContext('2d'), s1_chart);";
+
+		if (Session::get_value('account')['zaviapms']['status'] == true)
+		{
+			$js .=
+			"s5_chart = new Chart(document.getElementById('s5_chart').getContext('2d'), s5_chart);
+			s6_chart = new Chart(document.getElementById('s6_chart').getContext('2d'), s6_chart);
+			s7_chart = new Chart(document.getElementById('s7_chart').getContext('2d'), s7_chart);
+			s8_chart = new Chart(document.getElementById('s8_chart').getContext('2d'), s8_chart);";
+		}
+
+		$js .=
+		"};";
+
+		$js = trim(str_replace(array("\t\t\t"), '', $js));
+
+		echo $js;
+
+		// var s2_chart = {
+		//     type: 'line',
+		// 	data: {
+		// 		labels: [
+		// 			'',
+	    //             " . $s2_chart_data['labels'] . "
+	    //         ],
+		// 		datasets: [{
+		// 			data: [
+		// 				0,
+	    //                 " . $s2_chart_data['datasets']['data'] . "
+		// 				5
+	    //             ],
+		// 			label: '" . $s2_chart_label . "',
+		// 			fill: false,
+		// 			backgroundColor: '#00a5ab',
+	    //             borderColor: '#00a5ab'
+	    //         }]
+	    //     },
+		// 	options: {
+		// 		title: {
+		// 			display: true,
+		// 			position: 'bottom',
+		// 			text: '" . $s2_chart_title . "'
+		// 		},
+		// 		legend: {
+		// 			display: false
+		// 		},
+	    //         responsive: true
+        //     }
+		// };
+		//
+		// var s4_chart = {
+		//     type: 'line',
+		// 	data: {
+		// 		labels: [
+	    //             " . $s4_chart_data['labels'] . "
+	    //         ],
+		// 		datasets: [{
+	    //             data: [
+	    //                 " . $s4_chart_data['datasets']['data'] . "
+	    //             ],
+		// 			label: '" . $s4_chart_label . "',
+		// 			fill: false,
+		// 			backgroundColor: '#00a5ab',
+	    //             borderColor: '#00a5ab'
+	    //         }],
+	    //     },
+		// 	options: {
+		// 		title: {
+		// 			display: true,
+		// 			position: 'bottom',
+		// 			text: '" . $s2_chart_title . "'
+		// 		},
+		// 		legend: {
+		// 			display: false
+		// 		},
+	    //         responsive: true
+        //     }
+		// };
+	}
 }

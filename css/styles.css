@@ -692,52 +692,6 @@ main.voxes-stats > article > main > div.counters > h2 > strong {
     }
 }
 
-/* --- */
-
-main.surveys-stats > article > main > div.counters {
-    width: calc(100% - 400px);
-    float: right;
-    padding: 5px;
-    box-sizing: border-box;
-}
-
-main.surveys-stats > article > main > div.counters > h2 {
-    width: 100%;
-    margin: 0px 5px;
-    font-size: 18px;
-    font-weight: 600;
-    color: #757575;
-}
-
-main.surveys-stats > article > main > div.counters > span {
-    width: calc((100% / 3) - 10px);
-    height: 150px;
-    float: left;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin: 5px;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: #eee;
-    font-size: 40px;
-    font-weight: 600;
-    text-align: center;
-    line-height: 40px;
-    color: #757575;
-}
-
-main.surveys-stats > article > main > div.counters > span.big {
-    width: calc((100% / 2) - 10px);
-}
-
-main.surveys-stats > article > main > div.counters > span > strong {
-    display: block;
-    font-size: 18px;
-    text-align: center;
-}
-
 /* Vox details
 ------------------------------------------------------------------------------ */
 div.vox-details {
@@ -1584,7 +1538,7 @@ div.profile > div > a:hover {
 /* Charts
 ------------------------------------------------------------------------------ */
 div.charts {
-    min-height: 450px;
+    min-height: 400px;
     float: left;
     display: flex;
     align-items: center;
@@ -1592,24 +1546,22 @@ div.charts {
     flex-direction: column;
     padding: 40px;
     box-sizing: border-box;
+}
 
-    border: 1px solid red;
+div.charts.little {
+    width: calc(100% / 4);
 }
 
 div.charts.small {
     width: calc(100% / 3);
 }
 
-div.charts.small-medium {
+div.charts.medium {
     width: calc(100% / 2);
 }
 
-div.charts.big-medium {
-    width: calc(66.66%);
-}
-
 div.charts.big {
-    width: calc(100%);
+    width: 100%;
 }
 
 /* --- */
@@ -1628,14 +1580,13 @@ div.charts > h6 {
 
 /* --- */
 
-main.surveys-stats > article > main > div.rates-surveys-count {
-    width: 400px;
+main.surveys-stats > article > main > div.chart-rate {
+    width: 300px;
+    min-height: 340px;
     float: left;
-    padding: 5px;
-    box-sizing: border-box;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > h2 {
+main.surveys-stats > article > main > div.chart-rate > h2 {
     width: 100%;
     margin-bottom: 5px;
     font-size: 18px;
@@ -1643,7 +1594,7 @@ main.surveys-stats > article > main > div.rates-surveys-count > h2 {
     color: #757575;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.average {
+main.surveys-stats > article > main > div.chart-rate > div.average {
     width: 100%;
     display: flex;
     align-items: center;
@@ -1651,14 +1602,14 @@ main.surveys-stats > article > main > div.rates-surveys-count > div.average {
     flex-direction: column;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.average > h4 {
+main.surveys-stats > article > main > div.chart-rate > div.average > h4 {
     font-size: 80px;
     font-weight: 600;
     line-height: 80px;
     color: #757575;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.average > span {
+main.surveys-stats > article > main > div.chart-rate > div.average > span {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1666,13 +1617,13 @@ main.surveys-stats > article > main > div.rates-surveys-count > div.average > sp
     box-sizing: border-box;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.average > span > i {
+main.surveys-stats > article > main > div.chart-rate > div.average > span > i {
     margin: 0px 5px;
     font-size: 24px;
     color: #757575;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.progress {
+main.surveys-stats > article > main > div.chart-rate > div.progress {
     width: 100%;
     display: flex;
     align-items: center;
@@ -1681,11 +1632,11 @@ main.surveys-stats > article > main > div.rates-surveys-count > div.progress {
     box-sizing: border-box;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.progress:last-child {
+main.surveys-stats > article > main > div.chart-rate > div.progress:last-child {
     padding-bottom: 0px;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.progress > span {
+main.surveys-stats > article > main > div.chart-rate > div.progress > span {
     display: flex;
     align-items: center;
     font-size: 14px;
@@ -1693,51 +1644,112 @@ main.surveys-stats > article > main > div.rates-surveys-count > div.progress > s
     color: #000;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.progress > span:first-child {
+main.surveys-stats > article > main > div.chart-rate > div.progress > span:first-child {
     width: 40px;
     justify-content: flex-start;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.progress > span:first-child > i {
+main.surveys-stats > article > main > div.chart-rate > div.progress > span:first-child > i {
     margin-left: 5px;
     font-size: 14px;
     color: #ffeb3b;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.progress > span:last-child {
+main.surveys-stats > article > main > div.chart-rate > div.progress > span:last-child {
     width: 80px;
     justify-content: flex-end;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.progress > span > i {
+main.surveys-stats > article > main > div.chart-rate > div.progress > span > i {
     margin-right: 5px;
     font-size: 14px;
     color: #ffeb3b;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.progress > progress {
+main.surveys-stats > article > main > div.chart-rate > div.progress > progress {
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 100%;
     height: 20px;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.progress > progress::-webkit-progress-bar {
+main.surveys-stats > article > main > div.chart-rate > div.progress > progress::-webkit-progress-bar {
     border-radius: 20px;
     background-color: #eee;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.progress > progress::-webkit-progress-value {
+main.surveys-stats > article > main > div.chart-rate > div.progress > progress::-webkit-progress-value {
     border-radius: 20px;
     background-color: #00a5ab;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.progress > progress::-moz-progress-bar {
+main.surveys-stats > article > main > div.chart-rate > div.progress > progress::-moz-progress-bar {
     background-color: #eee;
 }
 
-main.surveys-stats > article > main > div.rates-surveys-count > div.progress > progress::-moz-progress-value {
+main.surveys-stats > article > main > div.chart-rate > div.progress > progress::-moz-progress-value {
     background-color: #00a5ab;
+}
+
+/* --- */
+
+
+main.surveys-stats > article > main > div.chart-answered {
+    width: calc(100% - 300px);
+    min-height: 340px;
+    float: right;
+}
+
+main.surveys-stats > article > main > div.chart-answered::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+main.surveys-stats > article > main > div.chart-answered > h2 {
+    width: 100%;
+    margin-bottom: 5px;
+    margin-left: 22.5px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #757575;
+}
+
+main.surveys-stats > article > main > div.chart-answered > div.counters {
+    width: calc(100% - 300px);
+    float: left;
+    padding: 0px 20px;
+    box-sizing: border-box;
+}
+
+main.surveys-stats > article > main > div.chart-answered > div.counters > span {
+    width: calc((100% / 3) - 5px);
+    height: 150px;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 2.5px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #eee;
+    font-size: 40px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 40px;
+    color: #757575;
+}
+
+main.surveys-stats > article > main > div.chart-answered > div.counters > span > strong {
+    display: block;
+    font-size: 18px;
+    text-align: center;
+}
+
+main.surveys-stats > article > main > div.chart-answered > div.chart {
+    width: 300px;
+    float: right;
 }
 
 /* Inputs
