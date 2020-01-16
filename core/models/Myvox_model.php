@@ -129,8 +129,8 @@ class Myvox_model extends Model
 				$guest['reservation_number'] = $query['FolioRefID'];
 				$guest['check_in'] = $query['StartDate'];
 				$guest['check_out'] = $query['EndDate'];
-				$guest['nationality'] = '';
-				$guest['input_channel'] = '';
+				$guest['nationality'] = $query['Country'];
+				$guest['input_channel'] = $query['Channel'];
 				$guest['traveler_type'] = $query['TravelerType'];
 				$guest['age_group'] = $query['AgeGroup'];
 			}
