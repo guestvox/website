@@ -10,7 +10,7 @@ $this->dependencies->add(['other', '<script>menu_focus("dashboard");</script>'])
 ?>
 
 %{header}%
-<main>
+<main class="dashboard">
     <?php if (Functions::check_account_access(['operation']) == true) : ?>
     <article>
         <header>
@@ -52,7 +52,7 @@ $this->dependencies->add(['other', '<script>menu_focus("dashboard");</script>'])
                     </tbody>
                 </table>
             </div>
-            <div class="voxes-counts">
+            <div class="counters">
                 <h2>{$voxes_unresolve_noreaded}<span>{$lang.noreaded}</span></h2>
                 <h2>{$voxes_unresolve_readed}<span>{$lang.readed}</span></h2>
                 <h2>{$voxes_unresolve_today}<span>{$lang.today}</span></h2>

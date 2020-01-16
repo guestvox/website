@@ -310,10 +310,7 @@ class Surveys_model extends Model
 		}
 
 		if ($rate > 0 AND $questions > 0)
-		{
-			$average = $rate / $questions;
-			$average = round($average, 2);
-		}
+			$average = round(($rate / $questions), 2);
 
 		return $average;
 	}
@@ -351,6 +348,71 @@ class Surveys_model extends Model
 		}
 
 		return $count;
+	}
+
+	public function get_percentage_rate($option)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+			'answers'
+		], [
+			'account' => Session::get_value('account')['id']
+		]));
+
+		if ($option == 'five')
+			$option = 5;
+		else if ($option == 'four')
+			$option = 4;
+		else if ($option == 'tree')
+			$option = 3;
+		else if ($option == 'two')
+			$option = 2;
+		else if ($option == 'one')
+			$option = 1;
+
+		$percentage = 0;
+		$general_rate = 0;
+		$value_rate = 0;
+
+		foreach ($query as $value)
+		{
+			foreach ($value['answers'] as $subvalue)
+			{
+				if ($subvalue['type'] == 'rate')
+				{
+					$general_rate = $general_rate + $subvalue['answer'];
+
+					if ($subvalue['answer'] == $option)
+						$value_rate = $value_rate + $subvalue['answer'];
+				}
+
+				foreach ($subvalue['subanswers'] as $parentvalue)
+				{
+					if ($parentvalue['type'] == 'rate')
+					{
+						$general_rate = $general_rate + $parentvalue['answer'];
+
+						if ($parentvalue['answer'] == $option)
+							$value_rate = $value_rate + $parentvalue['answer'];
+					}
+
+					foreach ($parentvalue['subanswers'] as $childvalue)
+					{
+						if ($childvalue['type'] == 'rate')
+						{
+							$general_rate = $general_rate + $childvalue['answer'];
+
+							if ($childvalue['answer'] == $option)
+								$value_rate = $value_rate + $childvalue['answer'];
+						}
+					}
+				}
+			}
+		}
+
+		if ($value_rate > 0 AND $general_rate > 0)
+			$percentage = round((($value_rate / $general_rate) * 100), 2);
+
+		return $percentage;
 	}
 
 	// public function get_chart_data($option)

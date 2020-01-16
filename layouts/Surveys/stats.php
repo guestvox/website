@@ -10,7 +10,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 ?>
 
 %{header}%
-<main>
+<main class="surveys-stats">
     <nav>
         <ul>
             <?php if (Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}']) == true) : ?>
@@ -29,62 +29,45 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
             <h2><i class="fas fa-chart-pie"></i>{$lang.survey_stats}</h2>
         </header>
         <main>
-            <div class="voxes-counts">
-                <h2>{$general_average_rate}<span>Calificación</span></h2>
-                <h2>{$count_answered_today}<span>Hoy</span></h2>
-                <h2>{$count_answered_week}<span>Esta semana</span></h2>
-                <h2>{$count_answered_month}<span>Este mes</span></h2>
-                <h2>{$count_answered_year}<span>Este año</span></h2>
-                <h2>{$count_answered_total}<span>Total</span></h2>
-            </div>
-            <div class="charts small">
-                <div class="rates">
-                    <div>
-                        <span>5</span>
-                        <span>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </span>
-                        <span>40%</span>
-                    </div>
-                    <div>
-                        <span>4</span>
-                        <span>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </span>
-                        <span>40%</span>
-                    </div>
-                    <div>
-                        <span>3</span>
-                        <span>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </span>
-                        <span>40%</span>
-                    </div>
-                    <div>
-                        <span>2</span>
-                        <span>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </span>
-                        <span>40%</span>
-                    </div>
-                    <div>
-                        <span>1</span>
-                        <span>
-                            <i class="fas fa-star"></i>
-                        </span>
-                        <span>40%</span>
-                    </div>
+            <div class="rates-surveys-count">
+                <h2>{$lang.qualification}</h2>
+                <div class="average">
+                    {$h4_general_average_rate}
+                    {$spn_general_avarage_rate}
                 </div>
+                <div class="progress">
+                    <span>5<i class="fas fa-star"></i></span>
+                    <progress value="{$five_percentage_rate}" max="100"></progress>
+                    <span>{$five_percentage_rate}%</span>
+                </div>
+                <div class="progress">
+                    <span>4<i class="fas fa-star"></i></span>
+                    <progress value="{$four_percentage_rate}" max="100"></progress>
+                    <span>{$four_percentage_rate}%</span>
+                </div>
+                <div class="progress">
+                    <span>3<i class="fas fa-star"></i></span>
+                    <progress value="{$tree_percentage_rate}" max="100"></progress>
+                    <span>{$tree_percentage_rate}%</span>
+                </div>
+                <div class="progress">
+                    <span>2<i class="fas fa-star"></i></span>
+                    <progress value="{$two_percentage_rate}" max="100"></progress>
+                    <span>{$two_percentage_rate}%</span>
+                </div>
+                <div class="progress">
+                    <span>1<i class="fas fa-star"></i></span>
+                    <progress value="{$one_percentage_rate}" max="100"></progress>
+                    <span>{$one_percentage_rate}%</span>
+                </div>
+            </div>
+            <div class="counters">
+                <h2>{$lang.surveys_answered}</h2>
+                <span class="big">{$count_answered_total}<strong>Total</strong></span>
+                <span class="big">{$count_answered_today}<strong>Hoy</strong></span>
+                <span>{$count_answered_week}<strong>Esta semana</strong></span>
+                <span>{$count_answered_month}<strong>Este mes</strong></span>
+                <span>{$count_answered_year}<strong>Este año</strong></span>
             </div>
             <!-- <div class="charts small">
                 <canvas id="s_r1_chart" height="300"></canvas>

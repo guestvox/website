@@ -667,13 +667,37 @@ class Surveys_controller extends Controller
 
 			$template = $this->view->render($this, 'stats');
 
+			$general_average_rate = $this->model->get_general_average_rate();
+
+			if ($general_average_rate >= 1 AND $general_average_rate < 2 OR $general_average_rate >= 2 AND $general_average_rate < 3)
+				$h4_general_average_rate = '<h4 style="color:#f44336;">' . $general_average_rate . '</h4>';
+			else if ($general_average_rate >= 3 AND $general_average_rate < 4)
+				$h4_general_average_rate = '<h4 style="color:#ff9800;">' . $general_average_rate . '</h4>';
+			else if ($general_average_rate >= 4 AND $general_average_rate < 5 OR $general_average_rate == 5)
+				$h4_general_average_rate = '<h4 style="color:#4caf50;">' . $general_average_rate . '</h4>';
+
+			$spn_general_avarage_rate =
+			'<span>
+				' . (($general_average_rate >= 1 AND $general_average_rate < 2) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
+				' . (($general_average_rate >= 2 AND $general_average_rate < 3) ? '<i class="fas fa-frown" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-frown"></i>') . '
+				' . (($general_average_rate >= 3 AND $general_average_rate < 4) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ff9800;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
+				' . (($general_average_rate >= 4 AND $general_average_rate < 5) ? '<i class="fas fa-laugh-beam" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-laugh-beam"></i>') . '
+				' . (($general_average_rate == 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-grin-stars"></i>') . '
+			</span>';
+
 			$replace = [
-				'{$general_average_rate}' => $this->model->get_general_average_rate(),
 				'{$count_answered_today}' => $this->model->get_count('answered_today'),
 				'{$count_answered_week}' => $this->model->get_count('answered_week'),
 				'{$count_answered_month}' => $this->model->get_count('answered_month'),
 				'{$count_answered_year}' => $this->model->get_count('answered_year'),
-				'{$count_answered_total}' => $this->model->get_count('answered_total')
+				'{$count_answered_total}' => $this->model->get_count('answered_total'),
+				'{$h4_general_average_rate}' => $h4_general_average_rate,
+				'{$spn_general_avarage_rate}' => $spn_general_avarage_rate,
+				'{$five_percentage_rate}' => $this->model->get_percentage_rate('five'),
+				'{$four_percentage_rate}' => $this->model->get_percentage_rate('four'),
+				'{$tree_percentage_rate}' => $this->model->get_percentage_rate('tree'),
+				'{$two_percentage_rate}' => $this->model->get_percentage_rate('two'),
+				'{$one_percentage_rate}' => $this->model->get_percentage_rate('one')
 			];
 
 			$template = $this->format->replace($replace, $template);
