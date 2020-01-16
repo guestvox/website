@@ -681,7 +681,7 @@ class Surveys_controller extends Controller
 				' . (($general_average_rate >= 1 AND $general_average_rate < 2) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
 				' . (($general_average_rate >= 2 AND $general_average_rate < 3) ? '<i class="fas fa-frown" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-frown"></i>') . '
 				' . (($general_average_rate >= 3 AND $general_average_rate < 4) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ff9800;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
-				' . (($general_average_rate >= 4 AND $general_average_rate < 5) ? '<i class="fas fa-laugh-beam" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-laugh-beam"></i>') . '
+				' . (($general_average_rate >= 4 AND $general_average_rate < 5) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
 				' . (($general_average_rate == 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-grin-stars"></i>') . '
 			</span>';
 
