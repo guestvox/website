@@ -53,17 +53,29 @@ class Myvox_model extends Model
 
     public function get_room($token)
 	{
-		$query = $this->database->select('rooms', [
-			'id',
-			'account',
-			'number',
-			'name'
-		], [
-			'OR' => [
-				'id' => $token,
-				'token' => strtoupper($token)
-			]
-		]);
+		if (!empty($token))
+		{
+			$query = $this->database->select('rooms', [
+				'id',
+				'account',
+				'number',
+				'name'
+			], [
+				'OR' => [
+					'id' => $token,
+					'token' => strtoupper($token)
+				]
+			]);
+		}
+		else
+		{
+			$query[0] = [
+				'id' => '',
+				'account' => '',
+				'number' => '',
+				'name' => ''
+			];
+		}
 
 		return !empty($query) ? $query[0] : null;
 	}
@@ -86,17 +98,29 @@ class Myvox_model extends Model
 
     public function get_table($token)
 	{
-		$query = $this->database->select('tables', [
-			'id',
-			'account',
-			'number',
-			'name'
-		], [
-			'OR' => [
-				'id' => $token,
-				'token' => strtoupper($token)
-			]
-		]);
+		if (!empty($token))
+		{
+			$query = $this->database->select('tables', [
+				'id',
+				'account',
+				'number',
+				'name'
+			], [
+				'OR' => [
+					'id' => $token,
+					'token' => strtoupper($token)
+				]
+			]);
+		}
+		else
+		{
+			$query[0] = [
+				'id' => '',
+				'account' => '',
+				'number' => '',
+				'name' => ''
+			];
+		}
 
 		return !empty($query) ? $query[0] : null;
 	}
@@ -116,7 +140,7 @@ class Myvox_model extends Model
 			'age_group' => ''
 		];
 
-		if ($zaviapms['status'] == true)
+		if ($zaviapms['status'] == true AND !empty($room))
 		{
 			$query = Functions::api('zaviapms', $zaviapms, 'get', 'room', $room);
 
@@ -484,8 +508,8 @@ class Myvox_model extends Model
 		$query = $this->database->insert('survey_answers', [
 			'account' => $data['account']['id'],
 			'token' => $data['token'],
-			'room' => ($data['account']['type'] == 'hotel') ? $data['room'] : null,
-			'table' => ($data['account']['type'] == 'restaurant') ? $data['table'] : null,
+			'room' => ($data['account']['type'] == 'hotel' AND !empty($data['room'])) ? $data['room'] : null,
+			'table' => ($data['account']['type'] == 'restaurant' AND !empty($data['table'])) ? $data['table'] : null,
 			'answers' => json_encode($data['answers']),
 			'comment' => $data['comment'],
 			'guest' => json_encode($data['guest']),
