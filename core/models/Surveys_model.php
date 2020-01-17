@@ -501,6 +501,43 @@ class Surveys_model extends Model
 					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
 				}
 			}
+
+			$empty = 0;
+
+			foreach ($query1 as $value)
+			{
+				if (Session::get_value('account')['type'] == 'hotel')
+				{
+					if (!isset($value['room']) OR empty($value['room']))
+						$empty = $empty + 1;
+				}
+				else if (Session::get_value('account')['type'] == 'restaurant')
+				{
+					if (!isset($value['table']) OR empty($value['table']))
+						$empty = $empty + 1;
+				}
+			}
+
+			if ($empty > 0)
+			{
+				if (Session::get_value('account')['type'] == 'hotel')
+				{
+					if (Session::get_value('account')['language'] == 'es')
+						$data['labels'] .= "'Sin habitación'";
+					else if (Session::get_value('account')['language'] == 'en')
+						$data['labels'] .= "'No room'";
+				}
+				else if (Session::get_value('account')['type'] == 'restaurant')
+				{
+					if (Session::get_value('account')['language'] == 'es')
+						$data['labels'] .= "'Sin mesa'";
+					else if (Session::get_value('account')['language'] == 'en')
+						$data['labels'] .= "'No table'";
+				}
+
+				$data['datasets']['data'] .= $empty;
+				$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+			}
 		}
 		else if ($option == 's2_chart')
 		{
