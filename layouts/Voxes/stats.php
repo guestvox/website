@@ -10,7 +10,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 ?>
 
 %{header}%
-<main>
+<main class="voxes-stats">
     <nav>
         <ul>
             <li><a href="/voxes"><i class="fas fa-heart"></i></a></li>
@@ -30,7 +30,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <h2><i class="fas fa-chart-pie"></i>{$lang.vox_stats}</h2>
         </header>
         <main>
-            <div class="voxes-counts">
+            <div class="counters">
                 <h2>{$general_average_resolution}<span>{$lang.average_resolution}</span></h2>
                 <h2>{$count_created_today}<span>{$lang.created_today}</span></h2>
                 <h2>{$count_created_week}<span>{$lang.created_week}</span></h2>

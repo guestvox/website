@@ -10,7 +10,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 ?>
 
 %{header}%
-<main>
+<main class="surveys-stats">
     <nav>
         <ul>
             <?php if (Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}']) == true) : ?>
@@ -29,29 +29,71 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
             <h2><i class="fas fa-chart-pie"></i>{$lang.survey_stats}</h2>
         </header>
         <main>
-            <div class="voxes-counts">
-                <h2>{$general_average_rate}<span>Calificación</span></h2>
-                <h2>{$count_received_today}<span>Hoy</span></h2>
-                <h2>{$count_received_week}<span>Esta semana</span></h2>
-                <h2>{$count_received_month}<span>Este mes</span></h2>
-                <h2>{$count_received_year}<span>Este año</span></h2>
-                <h2>{$count_received_total}<span>Total</span></h2>
+            <div class="chart-rate">
+                <h2>{$lang.general_rate}</h2>
+                <div class="average">
+                    {$h4_general_average_rate}
+                    {$spn_general_avarage_rate}
+                </div>
+                <div class="progress">
+                    <span>5<i class="fas fa-star"></i></span>
+                    <progress value="{$five_percentage_rate}" max="100"></progress>
+                    <span>{$five_percentage_rate}%</span>
+                </div>
+                <div class="progress">
+                    <span>4<i class="fas fa-star"></i></span>
+                    <progress value="{$four_percentage_rate}" max="100"></progress>
+                    <span>{$four_percentage_rate}%</span>
+                </div>
+                <div class="progress">
+                    <span>3<i class="fas fa-star"></i></span>
+                    <progress value="{$tree_percentage_rate}" max="100"></progress>
+                    <span>{$tree_percentage_rate}%</span>
+                </div>
+                <div class="progress">
+                    <span>2<i class="fas fa-star"></i></span>
+                    <progress value="{$two_percentage_rate}" max="100"></progress>
+                    <span>{$two_percentage_rate}%</span>
+                </div>
+                <div class="progress">
+                    <span>1<i class="fas fa-star"></i></span>
+                    <progress value="{$one_percentage_rate}" max="100"></progress>
+                    <span>{$one_percentage_rate}%</span>
+                </div>
             </div>
-            <div class="charts small">
-                <canvas id="s_r1_chart" height="300"></canvas>
+            <div class="chart-answered">
+                <h2>{$lang.surveys_answered}</h2>
+                <div class="counters">
+                    <span>{$count_answered_total}<strong>Total</strong></span>
+                    <span>{$count_answered_today}<strong>Hoy</strong></span>
+                    <span>{$count_answered_week}<strong>Esta semana</strong></span>
+                    <span>{$count_answered_month}<strong>Este mes</strong></span>
+                    <span>{$count_answered_year}<strong>Este año</strong></span>
+                </div>
+                <div class="chart">
+                    <canvas id="s1_chart" height="300"></canvas>
+                </div>
             </div>
-            <div class="charts small">
-                <canvas id="s_r2_chart" height="300"></canvas>
+            <!-- <div class="charts medium">
+                <canvas id="s2_chart" height="300"></canvas>
             </div>
-            <div class="charts small">
-                <canvas id="s_r3_chart" height="300"></canvas>
-            </div>
-            <!-- <div class="charts small-medium">
-                <canvas id="s_r4_chart" height="300"></canvas>
-            </div>
-            <div class="charts small-medium">
-                <canvas id="s_r5_chart" height="300"></canvas>
+            <div class="charts medium">
+                <canvas id="s4_chart" height="300"></canvas>
             </div> -->
+            <?php if (Session::get_value('account')['zaviapms']['status'] == true) : ?>
+            <div class="charts little">
+                <canvas id="s5_chart" height="300"></canvas>
+            </div>
+            <div class="charts little">
+                <canvas id="s6_chart" height="300"></canvas>
+            </div>
+            <div class="charts little">
+                <canvas id="s7_chart" height="300"></canvas>
+            </div>
+            <div class="charts little">
+                <canvas id="s8_chart" height="300"></canvas>
+            </div>
+            <?php endif; ?>
             <div class="clear"></div>
         </main>
     </article>

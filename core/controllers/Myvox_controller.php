@@ -762,19 +762,7 @@ class Myvox_controller extends Controller
 						$_POST['token'] = Functions::get_random(8);
 
 						if (Session::get_value('account')['type'] == 'hotel')
-						{
 							$_POST['room'] = Session::get_value('room')['id'];
-
-							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-								$_POST['firstname'] = Session::get_value('room')['guest']['firstname'];
-
-							if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-								$_POST['lastname'] = Session::get_value('room')['guest']['lastname'];
-
-							$_POST['reservation_number'] = Session::get_value('room')['guest']['reservation_number'];
-							$_POST['check_in'] = Session::get_value('room')['guest']['check_in'];
-							$_POST['check_out'] = Session::get_value('room')['guest']['check_out'];
-						}
 
 						if (Session::get_value('account')['type'] == 'restaurant')
 							$_POST['table'] = Session::get_value('table')['id'];
@@ -1458,7 +1446,7 @@ class Myvox_controller extends Controller
 											{
 												$mdl_new_survey_answer .=
 												'<div class="label">
-													<label important>
+													<label>
 														<p>{$lang.do_you_know_your_room_number}</p>
 														<select name="room">
 															<option value="" selected hidden>{$lang.choose}</option>';
@@ -1476,7 +1464,7 @@ class Myvox_controller extends Controller
 											{
 												$mdl_new_survey_answer .=
 												'<div class="label">
-													<label important>
+													<label>
 														<p>{$lang.do_you_know_your_table_number}</p>
 														<select name="table">
 															<option value="" selected hidden>{$lang.choose}</option>';

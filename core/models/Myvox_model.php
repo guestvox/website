@@ -109,7 +109,11 @@ class Myvox_model extends Model
 			'lastname' => '',
 			'reservation_number' => '',
 			'check_in' => '',
-			'check_out' => ''
+			'check_out' => '',
+			'nationality' => '',
+			'input_channel' => '',
+			'traveler_type' => '',
+			'age_group' => ''
 		];
 
 		if ($zaviapms['status'] == true)
@@ -125,6 +129,10 @@ class Myvox_model extends Model
 				$guest['reservation_number'] = $query['FolioRefID'];
 				$guest['check_in'] = $query['StartDate'];
 				$guest['check_out'] = $query['EndDate'];
+				$guest['nationality'] = $query['Country'];
+				$guest['input_channel'] = $query['Channel'];
+				$guest['traveler_type'] = $query['TravelerType'];
+				$guest['age_group'] = $query['AgeGroup'];
 			}
 		}
 
@@ -435,28 +443,40 @@ class Myvox_model extends Model
 		if ($data['account']['type'] == 'hotel')
 		{
 			$data['guest'] = [
-				'firstname' => $data['firstname'],
-				'lastname' => $data['lastname'],
-				'email' => $data['email'],
-				'phone' => [
-					'lada' => $data['phone_lada'],
-					'number' => $data['phone_number']
+				'guestvox' => [
+					'firstname' => $data['firstname'],
+					'lastname' => $data['lastname'],
+					'email' => $data['email'],
+					'phone' => [
+						'lada' => $data['phone_lada'],
+						'number' => $data['phone_number']
+					]
 				],
-				'reservation_number' => $data['reservation_number'],
-				'check_in' => $data['check_in'],
-				'check_out' => $data['check_out']
+				'zaviapms' => [
+					'firstname' => Session::get_value('room')['guest']['firstname'],
+					'lastname' => Session::get_value('room')['guest']['lastname'],
+					'reservation_number' => Session::get_value('room')['guest']['reservation_number'],
+					'check_in' => Session::get_value('room')['guest']['check_in'],
+					'check_out' => Session::get_value('room')['guest']['check_out'],
+					'nationality' => Session::get_value('room')['guest']['nationality'],
+					'input_channel' => Session::get_value('room')['guest']['input_channel'],
+					'traveler_type' => Session::get_value('room')['guest']['traveler_type'],
+					'age_group' => Session::get_value('room')['guest']['age_group']
+				]
 			];
 		}
 
 		if ($data['account']['type'] == 'restaurant')
 		{
 			$data['guest'] = [
-				'firstname' => $data['firstname'],
-				'lastname' => $data['lastname'],
-				'email' => $data['email'],
-				'phone' => [
-					'lada' => $data['phone_lada'],
-					'number' => $data['phone_number']
+				'guestvox' => [
+					'firstname' => $data['firstname'],
+					'lastname' => $data['lastname'],
+					'email' => $data['email'],
+					'phone' => [
+						'lada' => $data['phone_lada'],
+						'number' => $data['phone_number']
+					]
 				]
 			];
 		}

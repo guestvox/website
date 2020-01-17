@@ -445,23 +445,39 @@ class Surveys_controller extends Controller
 
 				if (!empty($query))
 				{
-					$data = '<div><strong>{$lang.token}:</strong> ' . $query['token']  . '</div>';
+					$data = '<span><strong>{$lang.token}:</strong> ' . $query['token']  . '</span>';
 
 					if (Session::get_value('account')['type'] == 'hotel')
-						$data .= '<div><strong>{$lang.room}:</strong> ' . (!empty($query['room']) ? '#' . $query['room']['number'] . ' ' . $query['room']['name'] : '') . '</div>';
+						$data .= '<span><strong>{$lang.room}:</strong> ' . (!empty($query['room']) ? '#' . $query['room']['number'] . ' ' . $query['room']['name'] : '') . '</span>';
 
 					if (Session::get_value('account')['type'] == 'restaurant')
-						$data .= '<div><strong>{$lang.table}:</strong> ' . (!empty($query['table']) ? '#' . $query['table']['number'] . ' ' . $query['table']['name'] : '') . '</div>';
+						$data .= '<span><strong>{$lang.table}:</strong> ' . (!empty($query['table']) ? '#' . $query['table']['number'] . ' ' . $query['table']['name'] : '') . '</span>';
 
 					$data .=
-					'<div><strong>{$lang.guest}:</strong> ' . $query['guest']['firstname'] . ' ' . $query['guest']['lastname'] . '</div>
-					<div><strong>{$lang.email}:</strong> ' . $query['guest']['email'] . '</div>
-					<div><strong>{$lang.phone}:</strong> ' . $query['guest']['phone']['lada'] . ' ' . $query['guest']['phone']['number'] . '</div>
-					<div><strong>{$lang.reservation_number}:</strong> ' . $query['guest']['reservation_number'] . '</div>
-					<div><strong>{$lang.check_in}:</strong> ' . Functions::get_formatted_date($query['guest']['check_in'], 'd M, y') . '</div>
-					<div><strong>{$lang.check_out}:</strong> ' . Functions::get_formatted_date($query['guest']['check_out'], 'd M, y') . '</div>
-					<div><strong>{$lang.date}:</strong> ' . Functions::get_formatted_date($query['date'], 'd M, y')  . '</div>
-					<div><strong>{$lang.rate}:</strong> ' . $query['rate']  . ' Pts</div><br>';
+					'<div>
+						<h2>{$lang.survey_datas}</h2>
+						<span><strong>{$lang.guest}:</strong> ' . $query['guest']['guestvox']['firstname'] . ' ' . $query['guest']['guestvox']['lastname'] . '</span>
+						<span><strong>{$lang.email}:</strong> ' . $query['guest']['guestvox']['email'] . '</span>
+						<span><strong>{$lang.phone}:</strong> ' . $query['guest']['guestvox']['phone']['lada'] . ' ' . $query['guest']['guestvox']['phone']['number'] . '</span>
+						<span><strong>{$lang.date}:</strong> ' . Functions::get_formatted_date($query['date'], 'd M, y')  . '</span>
+						<span><strong>{$lang.rate}:</strong> ' . $query['rate']  . ' Pts</span>
+					</div>';
+
+					if (Session::get_value('account')['zaviapms']['status'] == true)
+					{
+						$data .=
+						'<div>
+							<h2>{$lang.zaviapms_datas}</h2>
+							<span><strong>{$lang.guest}:</strong> ' . $query['guest']['zaviapms']['firstname'] . ' ' . $query['guest']['zaviapms']['lastname'] . '</span>
+							<span><strong>{$lang.reservation_number}:</strong> ' . $query['guest']['zaviapms']['reservation_number'] . '</span>
+							<span><strong>{$lang.check_in}:</strong> ' . Functions::get_formatted_date($query['guest']['zaviapms']['check_in'], 'd M, y') . '</span>
+							<span><strong>{$lang.check_out}:</strong> ' . Functions::get_formatted_date($query['guest']['zaviapms']['check_out'], 'd M, y') . '</span>
+							<span><strong>{$lang.nationality}:</strong> ' . $query['guest']['zaviapms']['nationality'] . '</span>
+							<span><strong>{$lang.input_channel}:</strong> ' . $query['guest']['zaviapms']['input_channel'] . '</span>
+							<span><strong>{$lang.traveler_type}:</strong> ' . $query['guest']['zaviapms']['traveler_type'] . '</span>
+							<span><strong>{$lang.age_group}:</strong> ' . $query['guest']['zaviapms']['age_group'] . '</span>
+						</div>';
+					}
 
 					foreach ($query['answers'] as $value)
 	                {
@@ -574,16 +590,12 @@ class Surveys_controller extends Controller
 	                }
 
 					$data .=
-					'<div class="row">
-	                    <div class="span12">
-	                        <div class="label">
-	                            <label>
-	                                <p>{$lang.comments}</p>
-	                                <textarea disabled>' . $query['comment'] . '</textarea>
-	                            </label>
-	                        </div>
-	                    </div>
-	                </div>';
+					'<div class="label">
+						<label>
+							<p>{$lang.comments}</p>
+							<textarea disabled>' . $query['comment'] . '</textarea>
+						</label>
+					</div>';
 
 					Functions::environment([
 						'status' => 'success',
@@ -624,7 +636,7 @@ class Surveys_controller extends Controller
 					$tbl_survey_answers .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
 
 				$tbl_survey_answers .=
-				'	<td align="left">' . $value['guest']['firstname'] . ' ' . $value['guest']['lastname'] . '</td>
+				'	<td align="left">' . $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname'] . '</td>
 					<td align="left">' . Functions::get_formatted_date($value['date'], 'd M, y') . '</td>
 					<td align="left">' . $value['rate'] . ' Pts</td>
 					<td align="right" class="icon"><a data-action="view_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-bars"></i></a></td>
@@ -655,13 +667,37 @@ class Surveys_controller extends Controller
 
 			$template = $this->view->render($this, 'stats');
 
+			$general_average_rate = $this->model->get_general_average_rate();
+
+			if ($general_average_rate >= 1 AND $general_average_rate < 2 OR $general_average_rate >= 2 AND $general_average_rate < 3)
+				$h4_general_average_rate = '<h4 style="color:#f44336;">' . $general_average_rate . '</h4>';
+			else if ($general_average_rate >= 3 AND $general_average_rate < 4)
+				$h4_general_average_rate = '<h4 style="color:#ff9800;">' . $general_average_rate . '</h4>';
+			else if ($general_average_rate >= 4 AND $general_average_rate < 5 OR $general_average_rate == 5)
+				$h4_general_average_rate = '<h4 style="color:#4caf50;">' . $general_average_rate . '</h4>';
+
+			$spn_general_avarage_rate =
+			'<span>
+				' . (($general_average_rate >= 1 AND $general_average_rate < 2) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
+				' . (($general_average_rate >= 2 AND $general_average_rate < 3) ? '<i class="fas fa-frown" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-frown"></i>') . '
+				' . (($general_average_rate >= 3 AND $general_average_rate < 4) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ff9800;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
+				' . (($general_average_rate >= 4 AND $general_average_rate < 5) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
+				' . (($general_average_rate == 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-grin-stars"></i>') . '
+			</span>';
+
 			$replace = [
-				'{$general_average_rate}' => $this->model->get_general_average_rate(),
-				'{$count_received_today}' => $this->model->get_count('received_today'),
-				'{$count_received_week}' => $this->model->get_count('received_week'),
-				'{$count_received_month}' => $this->model->get_count('received_month'),
-				'{$count_received_year}' => $this->model->get_count('received_year'),
-				'{$count_received_total}' => $this->model->get_count('received_total')
+				'{$h4_general_average_rate}' => $h4_general_average_rate,
+				'{$spn_general_avarage_rate}' => $spn_general_avarage_rate,
+				'{$five_percentage_rate}' => $this->model->get_percentage_rate('five'),
+				'{$four_percentage_rate}' => $this->model->get_percentage_rate('four'),
+				'{$tree_percentage_rate}' => $this->model->get_percentage_rate('tree'),
+				'{$two_percentage_rate}' => $this->model->get_percentage_rate('two'),
+				'{$one_percentage_rate}' => $this->model->get_percentage_rate('one'),
+				'{$count_answered_total}' => $this->model->get_count('answered_total'),
+				'{$count_answered_today}' => $this->model->get_count('answered_today'),
+				'{$count_answered_week}' => $this->model->get_count('answered_week'),
+				'{$count_answered_month}' => $this->model->get_count('answered_month'),
+				'{$count_answered_year}' => $this->model->get_count('answered_year')
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -674,192 +710,283 @@ class Surveys_controller extends Controller
 	{
 		header('Content-Type: application/javascript');
 
-		$s_r1_chart_data = $this->model->get_chart_data('s_r1_chart');
-		$s_r2_chart_data = $this->model->get_chart_data('s_r2_chart');
-		$s_r3_chart_data = $this->model->get_chart_data('s_r3_chart');
-		// $s_r4_chart_data = $this->model->get_chart_data('s_r4_chart');
-		// $s_r5_chart_data = $this->model->get_chart_data('s_r5_chart');
+		$s1_chart_data = $this->model->get_chart_data('s1_chart');
+		// $s2_chart_data = $this->model->get_chart_data('s2_chart');
+		// $s4_chart_data = $this->model->get_chart_data('s4_chart');
+
+		if (Session::get_value('account')['zaviapms']['status'] == true)
+		{
+			$s5_chart_data = $this->model->get_chart_data('s5_chart');
+			$s6_chart_data = $this->model->get_chart_data('s6_chart');
+			$s7_chart_data = $this->model->get_chart_data('s7_chart');
+			$s8_chart_data = $this->model->get_chart_data('s8_chart');
+		}
 
 		if (Session::get_value('account')['language'] == 'es')
 		{
 			if (Session::get_value('account')['type'] == 'hotel')
-				$s_r1_chart_title = 'Balance de respuestas por habitación';
+				$s1_chart_title = 'Por habitación';
+			else if (Session::get_value('account')['type'] == 'hotel')
+				$s1_chart_title = 'Por mesa';
 
-			if (Session::get_value('account')['type'] == 'restaurant')
-				$s_r1_chart_title = 'Balance de respuestas por mesa';
+			// $s2_chart_title = 'Promedio de preguntas por valoración (1 a 5 estrellas)';
+			// $s4_chart_title = 'Promedio de preguntas por valoración (1 a 5 estrellas)';
 
-			$s_r2_chart_title = 'Balance de encuestas de valoración';
-			$s_r3_chart_title = 'Balance de encuestas de Si/No';
-			// $s_r4_chart_title = 'Promedio de preguntas';
-			// $s_r5_chart_title = $s_r5_chart_data['name'];
+			if (Session::get_value('account')['zaviapms']['status'] == true)
+			{
+				$s5_chart_title = 'Nacionalidad';
+				$s6_chart_title = 'Canal de entrada';
+				$s7_chart_title = 'Tipo de viajero';
+				$s8_chart_title = 'Grupo de edad';
+			}
 		}
 		else if (Session::get_value('account')['language'] == 'en')
 		{
 			if (Session::get_value('account')['type'] == 'hotel')
-				$s_r1_chart_title = 'Balance of responses per room';
+				$s1_chart_title = 'Per room';
+			else if (Session::get_value('account')['type'] == 'hotel')
+				$s1_chart_title = 'Per table';
 
-			if (Session::get_value('account')['type'] == 'restaurant')
-				$s_r1_chart_title = 'Balance of responses per table';
+			// $s2_chart_title = 'Questions average per rating (1 to 5 stars)';
+			// $s4_chart_title = 'Questions average per rating (1 to 5 stars)';
 
-			$s_r2_chart_title = 'Assessment survey balance';
-			$s_r3_chart_title = 'Yes/No survey balance ';
-			// $s_r4_chart_title = 'Average questions';
-			// $s_r5_chart_title = $s_r5_chart_data['name'];
+			if (Session::get_value('account')['zaviapms']['status'] == true)
+			{
+				$s5_chart_title = 'Nationality';
+				$s6_chart_title = 'Input channel';
+				$s7_chart_title = 'Traveler';
+				$s8_chart_title = 'Age group';
+			}
 		}
 
 		$js =
 		"'use strict';
 
-		var s_r1_chart = {
-	        type: 'pie',
+		var s1_chart = {
+	        type: 'doughnut',
 	        data: {
 				labels: [
-	                " . $s_r1_chart_data['labels'] . "
+	                " . $s1_chart_data['labels'] . "
 	            ],
 				datasets: [{
-	                data: [
-	                    " . $s_r1_chart_data['datasets']['data'] . "
+					data: [
+	                    " . $s1_chart_data['datasets']['data'] . "
 	                ],
 	                backgroundColor: [
-	                    " . $s_r1_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
+	                    " . $s1_chart_data['datasets']['colors'] . "
+	                ]
+	            }]
 	        },
 	        options: {
 				title: {
 					display: true,
-					text: '" . $s_r1_chart_title . "'
+					position: 'bottom',
+					text: '" . $s1_chart_title . "'
 				},
 				legend: {
-					display: true
+					display: false
 				},
 	            responsive: true
             }
-        };
+        };";
 
-		var s_r2_chart = {
-	        type: 'pie',
-	        data: {
-				labels: [
-	                " . $s_r2_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $s_r2_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $s_r2_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . $s_r2_chart_title . "'
-				},
-				legend: {
-					display: true
-				},
-	            responsive: true
-            }
-        };
-
-		var s_r3_chart = {
-	        type: 'pie',
-	        data: {
-				labels: [
-	                " . $s_r3_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $s_r3_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $s_r3_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . $s_r3_chart_title . "'
-				},
-				legend: {
-					display: true
-				},
-	            responsive: true
-            }
-        };
-
-		window.onload = function()
+		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{
-			s_r1_chart = new Chart(document.getElementById('s_r1_chart').getContext('2d'), s_r1_chart);
-			s_r2_chart = new Chart(document.getElementById('s_r2_chart').getContext('2d'), s_r2_chart);
-			s_r3_chart = new Chart(document.getElementById('s_r3_chart').getContext('2d'), s_r3_chart);
-		};";
+			$js .=
+			"var s5_chart = {
+		        type: 'pie',
+		        data: {
+					labels: [
+		                " . $s5_chart_data['labels'] . "
+		            ],
+					datasets: [{
+						data: [
+		                    " . $s5_chart_data['datasets']['data'] . "
+		                ],
+		                backgroundColor: [
+		                    " . $s5_chart_data['datasets']['colors'] . "
+		                ]
+		            }]
+		        },
+		        options: {
+					title: {
+						display: true,
+						position: 'top',
+						text: '" . $s5_chart_title . "'
+					},
+					legend: {
+						display: false
+					},
+		            responsive: true
+	            }
+	        };
+
+			var s6_chart = {
+		        type: 'pie',
+		        data: {
+					labels: [
+		                " . $s6_chart_data['labels'] . "
+		            ],
+					datasets: [{
+						data: [
+		                    " . $s6_chart_data['datasets']['data'] . "
+		                ],
+		                backgroundColor: [
+		                    " . $s6_chart_data['datasets']['colors'] . "
+		                ]
+		            }]
+		        },
+		        options: {
+					title: {
+						display: true,
+						position: 'top',
+						text: '" . $s6_chart_title . "'
+					},
+					legend: {
+						display: false
+					},
+		            responsive: true
+	            }
+	        };
+
+			var s7_chart = {
+		        type: 'pie',
+		        data: {
+					labels: [
+		                " . $s7_chart_data['labels'] . "
+		            ],
+					datasets: [{
+						data: [
+		                    " . $s7_chart_data['datasets']['data'] . "
+		                ],
+		                backgroundColor: [
+		                    " . $s7_chart_data['datasets']['colors'] . "
+		                ]
+		            }]
+		        },
+		        options: {
+					title: {
+						display: true,
+						position: 'top',
+						text: '" . $s7_chart_title . "'
+					},
+					legend: {
+						display: false
+					},
+		            responsive: true
+	            }
+	        };
+
+			var s8_chart = {
+		        type: 'pie',
+		        data: {
+					labels: [
+		                " . $s8_chart_data['labels'] . "
+		            ],
+					datasets: [{
+						data: [
+		                    " . $s8_chart_data['datasets']['data'] . "
+		                ],
+		                backgroundColor: [
+		                    " . $s8_chart_data['datasets']['colors'] . "
+		                ]
+		            }]
+		        },
+		        options: {
+					title: {
+						display: true,
+						position: 'top',
+						text: '" . $s8_chart_title . "'
+					},
+					legend: {
+						display: false
+					},
+		            responsive: true
+	            }
+	        };";
+		}
+
+		$js .=
+		"window.onload = function()
+		{
+			s1_chart = new Chart(document.getElementById('s1_chart').getContext('2d'), s1_chart);";
+
+		if (Session::get_value('account')['zaviapms']['status'] == true)
+		{
+			$js .=
+			"s5_chart = new Chart(document.getElementById('s5_chart').getContext('2d'), s5_chart);
+			s6_chart = new Chart(document.getElementById('s6_chart').getContext('2d'), s6_chart);
+			s7_chart = new Chart(document.getElementById('s7_chart').getContext('2d'), s7_chart);
+			s8_chart = new Chart(document.getElementById('s8_chart').getContext('2d'), s8_chart);";
+		}
+
+		$js .=
+		"};";
 
 		$js = trim(str_replace(array("\t\t\t"), '', $js));
 
 		echo $js;
 
-		// var s_r4_chart = {
+		// var s2_chart = {
 		//     type: 'line',
 		// 	data: {
 		// 		labels: [
-	    //             " . $s_r4_chart_data['labels'] . "
+		// 			'',
+	    //             " . $s2_chart_data['labels'] . "
 	    //         ],
 		// 		datasets: [{
-		// 			label: [
-		// 				" . $s_r4_chart_data['datasets']['labels'] . "
-		// 			],
-	    //             data: [
-	    //                 " . $s_r4_chart_data['datasets']['data'] . "
+		// 			data: [
+		// 				0,
+	    //                 " . $s2_chart_data['datasets']['data'] . "
+		// 				5
 	    //             ],
-	    //             backgroundColor: [
-	    //                 " . $s_r4_chart_data['datasets']['colors'] . "
-	    //             ],
-	    //         }],
+		// 			fill: false,
+		// 			backgroundColor: '#00a5ab',
+	    //             borderColor: '#00a5ab'
+	    //         }]
 	    //     },
 		// 	options: {
 		// 		title: {
 		// 			display: true,
-		// 			text: '" . $s_r4_chart_title . "'
+		// 			position: 'bottom',
+		// 			text: '" . $s2_chart_title . "'
 		// 		},
 		// 		legend: {
-		// 			display: true
+		// 			display: false
 		// 		},
 	    //         responsive: true
         //     }
 		// };
 		//
-		// var s_r5_chart = {
+		// var s4_chart = {
 		//     type: 'line',
 		// 	data: {
 		// 		labels: [
-	    //             " . $s_r5_chart_data['labels'] . "
+	    //             " . $s4_chart_data['labels'] . "
 	    //         ],
 		// 		datasets: [{
-		// 			label: [
-		// 				" . $s_r5_chart_data['datasets']['labels'] . "
-		// 			],
 	    //             data: [
-	    //                 " . $s_r5_chart_data['datasets']['data'] . "
+	    //                 " . $s4_chart_data['datasets']['data'] . "
 	    //             ],
-	    //             backgroundColor: [
-	    //                 " . $s_r5_chart_data['datasets']['colors'] . "
-	    //             ],
+		// 			fill: false,
+		// 			backgroundColor: '#00a5ab',
+	    //             borderColor: '#00a5ab'
 	    //         }],
 	    //     },
 		// 	options: {
 		// 		title: {
 		// 			display: true,
-		// 			text: '" . $s_r5_chart_title . "'
+		// 			position: 'bottom',
+		// 			text: '" . $s2_chart_title . "'
 		// 		},
 		// 		legend: {
-		// 			display: true
+		// 			display: false
 		// 		},
 	    //         responsive: true
         //     }
 		// };
+		//
+		// s2_chart = new Chart(document.getElementById('s2_chart').getContext('2d'), s2_chart);
+		// s4_chart = new Chart(document.getElementById('s4_chart').getContext('2d'), s4_chart);
 	}
 }

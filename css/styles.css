@@ -621,16 +621,18 @@ main.surveys-questions table tbody > tr[data-level="3"] > td:first-child {
     padding-left: 80px !important;
 }
 
-/* Voxes counts
+/* Counters
 ------------------------------------------------------------------------------ */
-.voxes-counts {
+main.dashboard > article > main > div.counters,
+main.voxes-stats > article > main > div.counters {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.voxes-counts > h2 {
+main.dashboard > article > main > div.counters > h2,
+main.voxes-stats > article > main > div.counters > h2 {
     width: calc((100% / 6) - 10px);
     height: 160px;
     position: relative;
@@ -648,24 +650,28 @@ main.surveys-questions table tbody > tr[data-level="3"] > td:first-child {
     color: #757575;
 }
 
-.voxes-counts > h2:first-child {
+main.dashboard > article > main > div.counters > h2:first-child,
+main.voxes-stats > article > main > div.counters > h2:first-child {
     width: calc((100% / 6) - 5px);
     margin-left: 0px;
 }
 
-.voxes-counts > h2:last-child {
+main.dashboard > article > main > div.counters > h2:last-child,
+main.voxes-stats > article > main > div.counters > h2:last-child {
     width: calc((100% / 6) - 5px);
     margin-right: 0px;
 }
 
-.voxes-counts > h2 > span {
+main.dashboard > article > main > div.counters > h2 > span,
+main.voxes-stats > article > main > div.counters > h2 > span {
     display: block;
     font-size: 15px;
     text-align: center;
     text-transform: uppercase;
 }
 
-.voxes-counts > h2 > strong {
+main.dashboard > article > main > div.counters > h2 > strong,
+main.voxes-stats > article > main > div.counters > h2 > strong {
     position: absolute;
     bottom: 20px;
     font-size: 12px;
@@ -674,11 +680,13 @@ main.surveys-questions table tbody > tr[data-level="3"] > td:first-child {
 
 @media (max-width: 768px) {
 
-    .voxes-counts {
+    main.dashboard > article > main > div.counters,
+    main.voxes-stats > article > main > div.counters {
         flex-direction: column;
     }
 
-    .voxes-counts > h2 {
+    main.dashboard > article > main > div.counters > h2,
+    main.voxes-stats > article > main > div.counters > h2 {
         width: 100%;
         margin-bottom: 10px;
     }
@@ -1221,57 +1229,56 @@ div.detail > p > img {
 
 /* Survey
 ------------------------------------------------------------------------------ */
-section[data-modal="view_survey_answer"] > .content > main > article > article {
+section[data-modal="view_survey_answer"] > .content > main > div {
     width: 100%;
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px dashed #bdbdbd;
-    box-sizing: border-box;
-}
-
-
-section[data-modal="view_survey_answer"] > .content > main > article > h6,
-section[data-modal="view_survey_answer"] > .content > main > article > article > h6,
-section[data-modal="view_survey_answer"] > .content > main > article > article > article.sub > h6{
-    font-size: 14px;
-    font-weight: 400;
-    color: #757575;
-}
-
-section[data-modal="view_survey_answer"] > .content > main > article > article > div{
-    margin-bottom: 5px;
-}
-
-section[data-modal="view_survey_answer"] > .content > main > article > div > label,
-section[data-modal="view_survey_answer"] > .content > main > article > article > div > label,
-section[data-modal="view_survey_answer"] > .content > main > article > article > article.sub > div > label{
-    padding: 0px;
-    margin: 0px;
-    font-size: 12px;
-    color: #757575;
-}
-
-section[data-modal="view_survey_answer"] > .content > main > article > div > p,
-section[data-modal="view_survey_answer"] > .content > main > article > article > div > p,
-section[data-modal="view_survey_answer"] > .content > main > article > article > article.sub > div > p{
-    font-size: 12px;
-    font-weight: 400;
-    color: #757575;
-}
-
-section[data-modal="view_survey_answer"] > .content > main > article > article ,
-section[data-modal="view_survey_answer"] > .content > main > article > article > article.sub {
-    padding: 10px 15px;
-}
-
-section[data-modal="get_preview_survey"] > .content > main > article {
-    width: 100%;
-    margin-bottom: 10px;
+    margin-top: 20px;
     padding: 20px;
     box-sizing: border-box;
     background-color: #eee;
 }
 
+section[data-modal="view_survey_answer"] > .content > main > div:last-child {
+    margin-bottom: 20px;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > span,
+section[data-modal="view_survey_answer"] > .content > main > div > span {
+    width: 100%;
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > div > span > strong {
+    font-weight: 600;
+    color: #000;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > div > h2 {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #000;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > article,
+section[data-modal="get_preview_survey"] > .content > main > article {
+    width: 100%;
+    margin-top: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+section[data-modal="get_preview_survey"] > .content > main > article:first-child {
+    margin-top: 0px;
+}
+
+section[data-modal="view_survey_answer"] > .content > main > article > h6,
+section[data-modal="view_survey_answer"] > .content > main > article > article.subquestions-sub >  h6,
 section[data-modal="get_preview_survey"] > .content > main > article > h6,
 section[data-modal="get_preview_survey"] > .content > main > article > article.subquestions-sub >  h6 {
     font-size: 14px;
@@ -1279,6 +1286,8 @@ section[data-modal="get_preview_survey"] > .content > main > article > article.s
     color: #757575;
 }
 
+section[data-modal="view_survey_answer"] > .content > main > article > div > label,
+section[data-modal="view_survey_answer"] > .content > main > article > article.subquestions-sub > div > label,
 section[data-modal="get_preview_survey"] > .content > main > article > div > label,
 section[data-modal="get_preview_survey"] > .content > main > article > article.subquestions-sub > div > label {
     padding: 0px;
@@ -1287,6 +1296,7 @@ section[data-modal="get_preview_survey"] > .content > main > article > article.s
     color: #757575;
 }
 
+section[data-modal="view_survey_answer"] > .content > main > article > div > input,
 section[data-modal="get_preview_survey"] > .content > main > article > div > input {
     width: 100%;
     padding: 5px 10px;
@@ -1294,16 +1304,19 @@ section[data-modal="get_preview_survey"] > .content > main > article > div > inp
     border: none;
 }
 
+section[data-modal="view_survey_answer"] > .content > main > article.subquestions,
 section[data-modal="get_preview_survey"] > .content > main > article.subquestions {
     padding: 20px 30px;
     box-sizing: border-box;
 }
 
+section[data-modal="view_survey_answer"] > .content > main > article.subquestions > article.subquestions-sub,
 section[data-modal="get_preview_survey"] > .content > main > article.subquestions > article.subquestions-sub {
     padding: 10px 15px;
     box-sizing: border-box;
 }
 
+section[data-modal="view_survey_answer"] > .content > main > article.subquestions > div,
 section[data-modal="get_preview_survey"] > .content > main > article.subquestions > div {
     margin-bottom: 5px;
 }
@@ -1525,7 +1538,7 @@ div.profile > div > a:hover {
 /* Charts
 ------------------------------------------------------------------------------ */
 div.charts {
-    min-height: 450px;
+    min-height: 400px;
     float: left;
     display: flex;
     align-items: center;
@@ -1535,20 +1548,20 @@ div.charts {
     box-sizing: border-box;
 }
 
+div.charts.little {
+    width: calc(100% / 4);
+}
+
 div.charts.small {
     width: calc(100% / 3);
 }
 
-div.charts.small-medium {
+div.charts.medium {
     width: calc(100% / 2);
 }
 
-div.charts.big-medium {
-    width: calc(66.66%);
-}
-
 div.charts.big {
-    width: calc(100%);
+    width: 100%;
 }
 
 /* --- */
@@ -1567,11 +1580,176 @@ div.charts > h6 {
 
 /* --- */
 
-div.charts > div.rates {
+main.surveys-stats > article > main > div.chart-rate {
+    width: 300px;
+    min-height: 340px;
+    float: left;
+}
+
+main.surveys-stats > article > main > div.chart-rate > h2 {
     width: 100%;
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #757575;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.average {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.average > h4 {
+    font-size: 80px;
+    font-weight: 600;
+    line-height: 80px;
+    color: #757575;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.average > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px;
+    box-sizing: border-box;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.average > span > i {
+    margin: 0px 5px;
+    font-size: 24px;
+    color: #757575;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.progress {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 10px;
+    box-sizing: border-box;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.progress:last-child {
+    padding-bottom: 0px;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.progress > span {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #000;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.progress > span:first-child {
+    width: 40px;
+    justify-content: flex-start;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.progress > span:first-child > i {
+    margin-left: 5px;
+    font-size: 14px;
+    color: #ffeb3b;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.progress > span:last-child {
+    width: 80px;
+    justify-content: flex-end;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.progress > span > i {
+    margin-right: 5px;
+    font-size: 14px;
+    color: #ffeb3b;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.progress > progress {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    height: 20px;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.progress > progress::-webkit-progress-bar {
+    border-radius: 20px;
+    background-color: #eee;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.progress > progress::-webkit-progress-value {
+    border-radius: 20px;
+    background-color: #00a5ab;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.progress > progress::-moz-progress-bar {
+    background-color: #eee;
+}
+
+main.surveys-stats > article > main > div.chart-rate > div.progress > progress::-moz-progress-value {
+    background-color: #00a5ab;
+}
+
+/* --- */
+
+
+main.surveys-stats > article > main > div.chart-answered {
+    width: calc(100% - 300px);
+    min-height: 340px;
+    float: right;
+}
+
+main.surveys-stats > article > main > div.chart-answered::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+main.surveys-stats > article > main > div.chart-answered > h2 {
+    width: 100%;
+    margin-bottom: 5px;
+    margin-left: 22.5px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #757575;
+}
+
+main.surveys-stats > article > main > div.chart-answered > div.counters {
+    width: calc(100% - 300px);
+    float: left;
+    padding: 0px 20px;
+    box-sizing: border-box;
+}
+
+main.surveys-stats > article > main > div.chart-answered > div.counters > span {
+    width: calc((100% / 3) - 5px);
+    height: 150px;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 2.5px;
     padding: 20px;
     box-sizing: border-box;
     background-color: #eee;
+    font-size: 40px;
+    font-weight: 600;
+    text-align: center;
+    line-height: 40px;
+    color: #757575;
+}
+
+main.surveys-stats > article > main > div.chart-answered > div.counters > span > strong {
+    display: block;
+    font-size: 18px;
+    text-align: center;
+}
+
+main.surveys-stats > article > main > div.chart-answered > div.chart {
+    width: 300px;
+    float: right;
 }
 
 /* Inputs

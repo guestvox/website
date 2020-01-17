@@ -276,33 +276,41 @@ class Surveys_model extends Model
 		]));
 
 		$average = 0;
+		$rate = 0;
+		$questions = 0;
 
 		foreach ($query as $value)
 		{
-			$rate = 0;
-			$count = 0;
-
 			foreach ($value['answers'] as $subvalue)
 			{
 				if ($subvalue['type'] == 'rate')
 				{
 					$rate = $rate + $subvalue['answer'];
-					$count = $count + 1;
+					$questions = $questions + 1;
+				}
+
+				foreach ($subvalue['subanswers'] as $parentvalue)
+				{
+					if ($parentvalue['type'] == 'rate')
+					{
+						$rate = $rate + $parentvalue['answer'];
+						$questions = $questions + 1;
+					}
+
+					foreach ($parentvalue['subanswers'] as $childvalue)
+					{
+						if ($childvalue['type'] == 'rate')
+						{
+							$rate = $rate + $childvalue['answer'];
+							$questions = $questions + 1;
+						}
+					}
 				}
 			}
-
-			if ($rate > 0 AND $count > 0)
-			{
-				$rate = $rate / $count;
-				$average = $average + $rate;
-			}
 		}
 
-		if ($average > 0 AND !empty($query))
-		{
-			$average = $average / count($query);
-			$average = round($average, 2);
-		}
+		if ($rate > 0 AND $questions > 0)
+			$average = round(($rate / $questions), 2);
 
 		return $average;
 	}
@@ -323,16 +331,16 @@ class Surveys_model extends Model
 		{
 			$break = false;
 
-			if ($option == 'received_today' AND Functions::get_formatted_date($value['date']) != Functions::get_current_date())
+			if ($option == 'answered_today' AND Functions::get_formatted_date($value['date']) != Functions::get_current_date())
 				$break = true;
 
-			if ($option == 'received_week' AND Functions::get_formatted_date($value['date']) < Functions::get_current_week()[0] OR Functions::get_formatted_date($value['date']) > Functions::get_current_week()[1])
+			if ($option == 'answered_week' AND Functions::get_formatted_date($value['date']) < Functions::get_current_week()[0] OR Functions::get_formatted_date($value['date']) > Functions::get_current_week()[1])
 				$break = true;
 
-			if ($option == 'received_month' AND Functions::get_formatted_date($value['date']) < Functions::get_current_month()[0] OR Functions::get_formatted_date($value['date']) > Functions::get_current_month()[1])
+			if ($option == 'answered_month' AND Functions::get_formatted_date($value['date']) < Functions::get_current_month()[0] OR Functions::get_formatted_date($value['date']) > Functions::get_current_month()[1])
 				$break = true;
 
-			if ($option == 'received_year' AND explode('-', Functions::get_formatted_date($value['date']))[0] != Functions::get_current_year())
+			if ($option == 'answered_year' AND explode('-', Functions::get_formatted_date($value['date']))[0] != Functions::get_current_year())
 				$break = true;
 
 			if ($break == false)
@@ -342,11 +350,76 @@ class Surveys_model extends Model
 		return $count;
 	}
 
+	public function get_percentage_rate($option)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+			'answers'
+		], [
+			'account' => Session::get_value('account')['id']
+		]));
+
+		if ($option == 'five')
+			$option = 5;
+		else if ($option == 'four')
+			$option = 4;
+		else if ($option == 'tree')
+			$option = 3;
+		else if ($option == 'two')
+			$option = 2;
+		else if ($option == 'one')
+			$option = 1;
+
+		$percentage = 0;
+		$general_rate = 0;
+		$value_rate = 0;
+
+		foreach ($query as $value)
+		{
+			foreach ($value['answers'] as $subvalue)
+			{
+				if ($subvalue['type'] == 'rate')
+				{
+					$general_rate = $general_rate + $subvalue['answer'];
+
+					if ($subvalue['answer'] == $option)
+						$value_rate = $value_rate + $subvalue['answer'];
+				}
+
+				foreach ($subvalue['subanswers'] as $parentvalue)
+				{
+					if ($parentvalue['type'] == 'rate')
+					{
+						$general_rate = $general_rate + $parentvalue['answer'];
+
+						if ($parentvalue['answer'] == $option)
+							$value_rate = $value_rate + $parentvalue['answer'];
+					}
+
+					foreach ($parentvalue['subanswers'] as $childvalue)
+					{
+						if ($childvalue['type'] == 'rate')
+						{
+							$general_rate = $general_rate + $childvalue['answer'];
+
+							if ($childvalue['answer'] == $option)
+								$value_rate = $value_rate + $childvalue['answer'];
+						}
+					}
+				}
+			}
+		}
+
+		if ($value_rate > 0 AND $general_rate > 0)
+			$percentage = round((($value_rate / $general_rate) * 100), 2);
+
+		return $percentage;
+	}
+
 	public function get_chart_data($option)
 	{
 		$data = null;
 
-		if ($option == 's_r1_chart')
+		if ($option == 's1_chart')
 		{
 			if (Session::get_value('account')['type'] == 'hotel')
 			{
@@ -358,6 +431,7 @@ class Surveys_model extends Model
 
 				$query2 = $this->database->select('rooms', [
 					'id',
+					'number',
 					'name'
 				], [
 					'account' => Session::get_value('account')['id']
@@ -373,6 +447,7 @@ class Surveys_model extends Model
 
 				$query2 = $this->database->select('table', [
 					'id',
+					'number',
 					'name'
 				], [
 					'account' => Session::get_value('account')['id']
@@ -407,27 +482,205 @@ class Surveys_model extends Model
 
 				if ($count > 0)
 				{
-					$data['labels'] .= "'" . $value['name'] . "',";
+					if (Session::get_value('account')['type'] == 'hotel')
+					{
+						if (Session::get_value('account')['language'] == 'es')
+							$data['labels'] .= "'Habitación #" . $value['number'] . ' ' . $value['name'] . "',";
+						else if (Session::get_value('account')['language'] == 'en')
+							$data['labels'] .= "'Room #" . $value['number'] . ' ' . $value['name'] . "',";
+					}
+					else if (Session::get_value('account')['type'] == 'restaurant')
+					{
+						if (Session::get_value('account')['language'] == 'es')
+							$data['labels'] .= "'Mesa #" . $value['number'] . ' ' . $value['name'] . "',";
+						else if (Session::get_value('account')['language'] == 'en')
+							$data['labels'] .= "'Table #" . $value['number'] . ' ' . $value['name'] . "',";
+					}
+
 					$data['datasets']['data'] .= $count . ',';
 					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
 				}
 			}
 		}
-		else if ($option == 's_r2_chart')
+		else if ($option == 's2_chart')
 		{
 			$query1 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
 				'id',
-				'name'
+				'name',
+				'type'
 			], [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					'type' => 'rate',
-					'status' => true
-				],
+				'account' => Session::get_value('account')['id']
 			]));
 
 			$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 				'answers'
+			], [
+				'account' => Session::get_value('account')['id']
+			]));
+
+			$data = [
+				'labels' => '',
+				'datasets' => [
+					'data' => ''
+				]
+			];
+
+			foreach ($query1 as $value)
+			{
+				if ($value['type'] == 'rate')
+				{
+					$average = 0;
+					$rate = 0;
+					$count = 0;
+
+					foreach ($query2 as $subvalue)
+					{
+						foreach ($subvalue['answers'] as $parentvalue)
+						{
+							if ($value['id'] == $parentvalue['id'])
+							{
+								$rate = $rate + $parentvalue['answer'];
+								$count = $count + 1;
+
+								foreach ($parentvalue['subanswers'] as $childvalue)
+								{
+									if ($childvalue['type'] == 'rate')
+									{
+										$rate = $rate + $childvalue['answer'];
+										$count = $count + 1;
+									}
+
+									foreach ($childvalue['subanswers'] as $slavevalue)
+									{
+										if ($slavevalue['type'] == 'rate')
+										{
+											$rate = $rate + $slavevalue['answer'];
+											$count = $count + 1;
+										}
+									}
+								}
+							}
+						}
+					}
+
+					if ($rate > 0 AND $count > 0)
+						$average = round(($rate / $count), 2);
+
+					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+					$data['datasets']['data'] .= $average . ",";
+				}
+			}
+		}
+		else if ($option == 's4_chart')
+		{
+			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+				'answers',
+				'date'
+			], [
+				'account' => Session::get_value('account')['id']
+			]));
+
+			$rate_today = 0;
+			$rate_lastday_1 = 0;
+			$rate_lastday_2 = 0;
+			$rate_lastday_3 = 0;
+			$rate_lastday_4 = 0;
+			$rate_lastday_5 = 0;
+			$rate_lastday_6 = 0;
+			$answers_today = 0;
+			$answers_lastday_1 = 0;
+			$answers_lastday_2 = 0;
+			$answers_lastday_3 = 0;
+			$answers_lastday_4 = 0;
+			$answers_lastday_5 = 0;
+			$answers_lastday_6 = 0;
+			$prom_today = 0;
+			$prom_lastday_1 = 0;
+			$prom_lastday_2 = 0;
+			$prom_lastday_3 = 0;
+			$prom_lastday_4 = 0;
+			$prom_lastday_5 = 0;
+			$prom_lastday_6 = 0;
+
+			foreach ($query as $key => $value)
+			{
+				foreach ($value['answers'] as $subvalue)
+				{
+					if ($subvalue['type'] == 'rate')
+					{
+						if ($value['date'] == Functions::get_current_date())
+						{
+							$rate_today = $rate_today + $subvalue['answer'];
+							$answers_today = $answers_today + 1;
+						}
+						else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '1', 'days'))
+						{
+							$rate_lastday_1 = $rate_lastday_1 + $subvalue['answer'];
+							$answers_lastday_1 = $answers_lastday_1 + 1;
+						}
+						else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '2', 'days'))
+						{
+							$rate_lastday_2 = $rate_lastday_2 + $subvalue['answer'];
+							$answers_lastday_2 = $answers_lastday_2 + 1;
+						}
+						else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '3', 'days'))
+						{
+							$rate_lastday_3 = $rate_lastday_3 + $subvalue['answer'];
+							$answers_lastday_3 = $answers_lastday_3 + 1;
+						}
+						else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '4', 'days'))
+						{
+							$rate_lastday_4 = $rate_lastday_4 + $subvalue['answer'];
+							$answers_lastday_4 = $answers_lastday_4 + 1;
+						}
+						else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '5', 'days'))
+						{
+							$rate_lastday_5 = $rate_lastday_5 + $subvalue['answer'];
+							$answers_lastday_5 = $answers_lastday_5 + 1;
+						}
+						else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '6', 'days'))
+						{
+							$rate_lastday_6 = $rate_lastday_6 + $subvalue['answer'];
+							$answers_lastday_6 = $answers_lastday_6 + 1;
+						}
+					}
+
+				}
+
+			}
+
+			if ($rate_today > 0)
+				$prom_today = $rate_today / $answers_today;
+
+			if ($rate_lastday_1 > 0)
+				$prom_lastday_1 = $rate_lastday_1 / $answers_lastday_1;
+
+			if ($rate_lastday_2 > 0)
+				$prom_lastday_2 = $rate_lastday_2 / $answers_lastday_2;
+
+			if ($rate_lastday_3 > 0)
+				$prom_lastday_3 = $rate_lastday_3 / $answers_lastday_3;
+
+		 	if ($rate_lastday_4 > 0)
+				$prom_lastday_4 = $rate_lastday_4 / $answers_lastday_4;
+
+			if ($rate_lastday_5 > 0)
+				$prom_lastday_5 = $rate_lastday_5 / $answers_lastday_5;
+
+			if ($rate_lastday_6 > 0)
+				$prom_lastday_6 = $rate_lastday_6 / $answers_lastday_6;
+
+			$data = [
+				'labels' => '"Hoy", "1 día", "2 días", "3 días", "4 días", "5 días", "6 días"',
+				'datasets' => [
+					'data' => $prom_today . ',' . $prom_lastday_1 . ',' . $prom_lastday_2 . ',' . $prom_lastday_3 . ',' . $prom_lastday_4 . ',' . $prom_lastday_5 . ',' . $prom_lastday_6
+				]
+			];
+		}
+		else if ($option == 's5_chart' OR $option == 's6_chart' OR $option == 's7_chart' OR $option == 's8_chart')
+		{
+			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+				'guest'
 			], [
 				'account' => Session::get_value('account')['id']
 			]));
@@ -440,235 +693,59 @@ class Surveys_model extends Model
 				]
 			];
 
-			foreach ($query1 as $value)
-			{
-				$count = 0;
+			$tmp = [];
 
-				foreach ($query2 as $subvalue)
+			foreach ($query as $value)
+			{
+				if ($option == 's5_chart')
 				{
-					foreach ($subvalue['answers'] as $childvalue)
+					if (!empty($value['guest']['zaviapms']['nationality']))
 					{
-						if ($childvalue['type'] == 'rate' AND $value['id'] == $childvalue['id'])
-							$count = $count + $childvalue['answer'];
+						if (array_key_exists($value['guest']['zaviapms']['nationality'], $tmp))
+							$tmp[$value['guest']['zaviapms']['nationality']] += 1;
+						else
+							$tmp[$value['guest']['zaviapms']['nationality']] = 1;
 					}
 				}
-
-				if ($count > 0)
+				else if ($option == 's6_chart')
 				{
-					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-					$data['datasets']['data'] .= $count . ',';
-					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
-
-				}
-			}
-		}
-		else if ($option == 's_r3_chart')
-		{
-			$query1 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-				'answers'
-			], [
-				'account' => Session::get_value('account')['id']
-			]));
-
-			$yes = 0;
-			$no = 0;
-
-			foreach ($query1 as $value)
-			{
-				foreach ($value['answers'] as $subvalue)
-				{
-					if ($subvalue['type'] == 'twin' AND $subvalue['answer'] == 'yes')
-						$yes = $yes + 1;
-					else if ($subvalue['type'] == 'twin' AND $subvalue['answer'] == 'no')
-						$no = $no + 1;
-
-					foreach ($subvalue['subanswers'] as $childvalue)
+					if (!empty($value['guest']['zaviapms']['input_channel']))
 					{
-						if(!empty($childvalue['answer']))
-						{
-							if ($childvalue['type'] == 'twin' AND $childvalue['answer'] == 'yes')
-								$yes = $yes + 1;
-							else if ($childvalue['type'] == 'twin' AND $childvalue['answer'] == 'no')
-								$no = $no + 1;
-						}
-
+						if (array_key_exists($value['guest']['zaviapms']['input_channel'], $tmp))
+							$tmp[$value['guest']['zaviapms']['input_channel']] += 1;
+						else
+							$tmp[$value['guest']['zaviapms']['input_channel']] = 1;
+					}
+				}
+				else if ($option == 's7_chart')
+				{
+					if (!empty($value['guest']['zaviapms']['traveler_type']))
+					{
+						if (array_key_exists($value['guest']['zaviapms']['traveler_type'], $tmp))
+							$tmp[$value['guest']['zaviapms']['traveler_type']] += 1;
+						else
+							$tmp[$value['guest']['zaviapms']['traveler_type']] = 1;
+					}
+				}
+				else if ($option == 's8_chart')
+				{
+					if (!empty($value['guest']['zaviapms']['age_group']))
+					{
+						if (array_key_exists($value['guest']['zaviapms']['age_group'], $tmp))
+							$tmp[$value['guest']['zaviapms']['age_group']] += 1;
+						else
+							$tmp[$value['guest']['zaviapms']['age_group']] = 1;
 					}
 				}
 			}
 
-			$data = [
-				'labels' => '"Si","No"',
-				'datasets' => [
-					'data' => $yes . ',' . $no,
-					'colors' => '"#4caf50","#3f51b5"'
-				]
-			];
+			foreach ($tmp as $key => $value)
+			{
+				$data['labels'] .= "'" . $key . "',";
+				$data['datasets']['data'] .= $value . ",";
+				$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+			}
 		}
-		// else if ($option == 's_r4_chart')
-		// {
-		// 	$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-		// 		'answers',
-		// 		'date',
-		// 	], [
-		// 		'account' => Session::get_value('account')['id']
-		// 	]));
-		//
-		// 	$rate_today = 0;
-		// 	$rate_lastday_1 = 0;
-		// 	$rate_lastday_2 = 0;
-		// 	$rate_lastday_3 = 0;
-		// 	$rate_lastday_4 = 0;
-		// 	$rate_lastday_5 = 0;
-		// 	$rate_lastday_6 = 0;
-		// 	$answers_today = 0;
-		// 	$answers_lastday_1 = 0;
-		// 	$answers_lastday_2 = 0;
-		// 	$answers_lastday_3 = 0;
-		// 	$answers_lastday_4 = 0;
-		// 	$answers_lastday_5 = 0;
-		// 	$answers_lastday_6 = 0;
-		// 	$prom_today = 0;
-		// 	$prom_lastday_1 = 0;
-		// 	$prom_lastday_2 = 0;
-		// 	$prom_lastday_3 = 0;
-		// 	$prom_lastday_4 = 0;
-		// 	$prom_lastday_5 = 0;
-		// 	$prom_lastday_6 = 0;
-		//
-		// 	foreach ($query as $key => $value)
-		// 	{
-		// 		foreach ($value['answers'] as $subvalue)
-		// 		{
-		// 			if ($subvalue['type'] == 'rate')
-		// 			{
-		// 				if ($value['date'] == Functions::get_current_date())
-		// 				{
-		// 					$rate_today = $rate_today + $subvalue['answer'];
-		// 					$answers_today = $answers_today + 1;
-		// 				}
-		// 				else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '1', 'days'))
-		// 				{
-		// 					$rate_lastday_1 = $rate_lastday_1 + $subvalue['answer'];
-		// 					$answers_lastday_1 = $answers_lastday_1 + 1;
-		// 				}
-		// 				else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '2', 'days'))
-		// 				{
-		// 					$rate_lastday_2 = $rate_lastday_2 + $subvalue['answer'];
-		// 					$answers_lastday_2 = $answers_lastday_2 + 1;
-		// 				}
-		// 				else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '3', 'days'))
-		// 				{
-		// 					$rate_lastday_3 = $rate_lastday_3 + $subvalue['answer'];
-		// 					$answers_lastday_3 = $answers_lastday_3 + 1;
-		// 				}
-		// 				else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '4', 'days'))
-		// 				{
-		// 					$rate_lastday_4 = $rate_lastday_4 + $subvalue['answer'];
-		// 					$answers_lastday_4 = $answers_lastday_4 + 1;
-		// 				}
-		// 				else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '5', 'days'))
-		// 				{
-		// 					$rate_lastday_5 = $rate_lastday_5 + $subvalue['answer'];
-		// 					$answers_lastday_5 = $answers_lastday_5 + 1;
-		// 				}
-		// 				else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '6', 'days'))
-		// 				{
-		// 					$rate_lastday_6 = $rate_lastday_6 + $subvalue['answer'];
-		// 					$answers_lastday_6 = $answers_lastday_6 + 1;
-		// 				}
-		// 			}
-		//
-		// 		}
-		//
-		// 	}
-		//
-		// 	if ($rate_today > 0)
-		// 		$prom_today = $rate_today / $answers_today;
-		//
-		// 	if ($rate_lastday_1 > 0)
-		// 		$prom_lastday_1 = $rate_lastday_1 / $answers_lastday_1;
-		//
-		// 	if ($rate_lastday_2 > 0)
-		// 		$prom_lastday_2 = $rate_lastday_2 / $answers_lastday_2;
-		//
-		// 	if ($rate_lastday_3 > 0)
-		// 		$prom_lastday_3 = $rate_lastday_3 / $answers_lastday_3;
-		//
-		//  	if ($rate_lastday_4 > 0)
-		// 		$prom_lastday_4 = $rate_lastday_4 / $answers_lastday_4;
-		//
-		// 	if ($rate_lastday_5 > 0)
-		// 		$prom_lastday_5 = $rate_lastday_5 / $answers_lastday_5;
-		//
-		// 	if ($rate_lastday_6 > 0)
-		// 		$prom_lastday_6 = $rate_lastday_6 / $answers_lastday_6;
-		//
-		// 	$data = [
-		// 		'labels' => '"Hoy", "1 día", "2 días", "3 días", "4 días", "5 días", "6 días"',
-		// 		'datasets' => [
-		// 			'labels' => '"Preguntas"',
-		// 			'data' => $prom_today . ',' . $prom_lastday_1 . ',' . $prom_lastday_2 . ',' . $prom_lastday_3 . ',' . $prom_lastday_4 . ',' . $prom_lastday_5 . ',' . $prom_lastday_6,
-		// 			'colors' => '"#4caf50", "#4caf50", "#4caf50" , "#4caf50" , "#4caf50" , "#4caf50" , "#4caf50"'
-		// 		]
-		// 	];
-		// }
-		// else if ($option == 's_r5_chart')
-		// {
-		// 	$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-		// 		'answers',
-		// 		'date',
-		// 	], [
-		// 		'account' => Session::get_value('account')['id']
-		// 	]));
-		//
-		// 	$query2 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-		// 		'id',
-		// 		'name',
-		// 		'subquestions',
-		// 	], [
-		// 		'account' => Session::get_value('account')['id']
-		// 	]));
-		//
-		// 	$suma = 0;
-		// 	$average_question = 0;
-		//
-		// 	foreach ($query as $value)
-		// 	{
-		// 		foreach ($value['answers'] as $subvalue)
-		// 		{
-		// 			foreach ($query2 as $value_question)
-		// 			{
-		// 				if ($subvalue['type'] == 'rate')
-		// 				{
-		// 					if ($subvalue['id'] == 1 and $value_question['id'] == 1)
-		// 					{
-		// 						$rate_question = 0;
-		// 						$answers_question = 0;
-		//
-		// 						$rate_question = $rate_question + $subvalue['answer'];
-		// 						$answers_question = $answers_question + 1;
-		//
-		// 						$suma = $suma += $rate_question;
-		// 					}
-		// 				}
-		// 			}
-		// 		}
-		//
-		// 		if ($suma > 0)
-		// 			$average_question = $suma / $answers_question;
-		//
-		// 	}
-		//
-		// 	$data = [
-		// 		'labels' => '"Hoy"',
-		// 		'name' => 'Pregunta',
-		// 		'datasets' => [
-		// 			'labels' => '"Rate"',
-		// 			'data' => $average_question ,
-		// 			'colors' => '"#4caf50"'
-		// 		]
-		// 	];
-		// }
 
 		return $data;
 	}
