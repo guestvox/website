@@ -460,7 +460,7 @@ class Surveys_controller extends Controller
 						<span><strong>{$lang.email}:</strong> ' . $query['guest']['guestvox']['email'] . '</span>
 						<span><strong>{$lang.phone}:</strong> ' . $query['guest']['guestvox']['phone']['lada'] . ' ' . $query['guest']['guestvox']['phone']['number'] . '</span>
 						<span><strong>{$lang.date}:</strong> ' . Functions::get_formatted_date($query['date'], 'd M, y')  . '</span>
-						<span><strong>{$lang.rate}:</strong> ' . $query['rate']  . ' Pts</span>
+						<span><strong>{$lang.rate}:</strong> <i class="fas fa-star" style="margin-right:5px;color:#ffeb3b;"></i>' . $query['rate']  . '</span>
 					</div>';
 
 					if (Session::get_value('account')['zaviapms']['status'] == true)
@@ -638,7 +638,7 @@ class Surveys_controller extends Controller
 				$tbl_survey_answers .=
 				'	<td align="left">' . $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname'] . '</td>
 					<td align="left">' . Functions::get_formatted_date($value['date'], 'd M, y') . '</td>
-					<td align="left">' . $value['rate'] . ' Pts</td>
+					<td align="left"><i class="fas fa-star" style="margin-right:5px;color:#ffeb3b;"></i>' . $value['rate'] . '</td>
 					<td align="right" class="icon"><a data-action="view_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-bars"></i></a></td>
 				</tr>';
 
@@ -678,11 +678,11 @@ class Surveys_controller extends Controller
 
 			$spn_general_avarage_rate =
 			'<span>
-				' . (($general_average_rate >= 1 AND $general_average_rate < 2) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
-				' . (($general_average_rate >= 2 AND $general_average_rate < 3) ? '<i class="fas fa-frown" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-frown"></i>') . '
-				' . (($general_average_rate >= 3 AND $general_average_rate < 4) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ff9800;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
-				' . (($general_average_rate >= 4 AND $general_average_rate < 5) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
-				' . (($general_average_rate == 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-grin-stars"></i>') . '
+				' . (($general_average_rate >= 1 AND $general_average_rate < 1.8) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
+				' . (($general_average_rate >= 1.8 AND $general_average_rate < 2.8) ? '<i class="fas fa-frown" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-frown"></i>') . '
+				' . (($general_average_rate >= 2.8 AND $general_average_rate < 3.8) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ff9800;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
+				' . (($general_average_rate >= 3.8 AND $general_average_rate < 4.8) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
+				' . (($general_average_rate >= 4.8 AND $general_average_rate <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-grin-stars"></i>') . '
 			</span>';
 
 			$replace = [
