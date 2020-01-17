@@ -729,22 +729,15 @@ class Surveys_controller extends Controller
 			else if (Session::get_value('account')['type'] == 'hotel')
 				$s1_chart_title = 'Por mesa';
 
-			$s1_chart_label = 'Encuestas';
 			// $s2_chart_title = 'Promedio de preguntas por valoración (1 a 5 estrellas)';
-			// $s2_chart_label = 'Valoración';
 			// $s4_chart_title = 'Promedio de preguntas por valoración (1 a 5 estrellas)';
-			// $s4_chart_label = 'Valoración';
 
 			if (Session::get_value('account')['zaviapms']['status'] == true)
 			{
 				$s5_chart_title = 'Nacionalidad';
-				$s5_chart_label = 'Huespedes';
 				$s6_chart_title = 'Canal de entrada';
-				$s6_chart_label = 'Huespedes';
 				$s7_chart_title = 'Tipo de viajero';
-				$s7_chart_label = 'Huespedes';
 				$s8_chart_title = 'Grupo de edad';
-				$s8_chart_label = 'Huespedes';
 			}
 		}
 		else if (Session::get_value('account')['language'] == 'en')
@@ -754,22 +747,15 @@ class Surveys_controller extends Controller
 			else if (Session::get_value('account')['type'] == 'hotel')
 				$s1_chart_title = 'Per table';
 
-			$s1_chart_label = 'Surveys';
 			// $s2_chart_title = 'Questions average per rating (1 to 5 stars)';
-			// $s2_chart_label = 'Rate';
 			// $s4_chart_title = 'Questions average per rating (1 to 5 stars)';
-			// $s4_chart_label = 'Rate';
 
 			if (Session::get_value('account')['zaviapms']['status'] == true)
 			{
 				$s5_chart_title = 'Nationality';
-				$s5_chart_label = 'Guests';
 				$s6_chart_title = 'Input channel';
-				$s6_chart_label = 'Guests';
 				$s7_chart_title = 'Traveler';
-				$s7_chart_label = 'Guests';
 				$s8_chart_title = 'Age group';
-				$s8_chart_label = 'Guests';
 			}
 		}
 
@@ -786,7 +772,6 @@ class Surveys_controller extends Controller
 					data: [
 	                    " . $s1_chart_data['datasets']['data'] . "
 	                ],
-					label: '" . $s1_chart_label . "',
 	                backgroundColor: [
 	                    " . $s1_chart_data['datasets']['colors'] . "
 	                ]
@@ -818,7 +803,6 @@ class Surveys_controller extends Controller
 						data: [
 		                    " . $s5_chart_data['datasets']['data'] . "
 		                ],
-						label: 'Hola',
 		                backgroundColor: [
 		                    " . $s5_chart_data['datasets']['colors'] . "
 		                ]
@@ -847,7 +831,6 @@ class Surveys_controller extends Controller
 						data: [
 		                    " . $s6_chart_data['datasets']['data'] . "
 		                ],
-						label: '" . $s6_chart_label . "',
 		                backgroundColor: [
 		                    " . $s6_chart_data['datasets']['colors'] . "
 		                ]
@@ -876,7 +859,6 @@ class Surveys_controller extends Controller
 						data: [
 		                    " . $s7_chart_data['datasets']['data'] . "
 		                ],
-						label: '" . $s7_chart_label . "',
 		                backgroundColor: [
 		                    " . $s7_chart_data['datasets']['colors'] . "
 		                ]
@@ -905,7 +887,6 @@ class Surveys_controller extends Controller
 						data: [
 		                    " . $s8_chart_data['datasets']['data'] . "
 		                ],
-						label: '" . $s8_chart_label . "',
 		                backgroundColor: [
 		                    " . $s8_chart_data['datasets']['colors'] . "
 		                ]
@@ -959,7 +940,6 @@ class Surveys_controller extends Controller
 	    //                 " . $s2_chart_data['datasets']['data'] . "
 		// 				5
 	    //             ],
-		// 			label: '" . $s2_chart_label . "',
 		// 			fill: false,
 		// 			backgroundColor: '#00a5ab',
 	    //             borderColor: '#00a5ab'
@@ -988,7 +968,6 @@ class Surveys_controller extends Controller
 	    //             data: [
 	    //                 " . $s4_chart_data['datasets']['data'] . "
 	    //             ],
-		// 			label: '" . $s4_chart_label . "',
 		// 			fill: false,
 		// 			backgroundColor: '#00a5ab',
 	    //             borderColor: '#00a5ab'
@@ -1006,5 +985,8 @@ class Surveys_controller extends Controller
 	    //         responsive: true
         //     }
 		// };
+		//
+		// s2_chart = new Chart(document.getElementById('s2_chart').getContext('2d'), s2_chart);
+		// s4_chart = new Chart(document.getElementById('s4_chart').getContext('2d'), s4_chart);
 	}
 }
