@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-require_once 'plugins/nexmo/vendor/autoload.php';
+// require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Myvox_controller extends Controller
 {
@@ -24,11 +24,39 @@ class Myvox_controller extends Controller
 				Session::set_value('account', $data['account']);
 
 				if ($data['account']['type'] == 'hotel')
-					Session::set_value('room', []);
-				else if ($data['account']['type'] == 'restaurant')
-					Session::set_value('table', []);
+				{
+					if (Session::exists_var('room') == true AND !empty(Session::get_value('room')['id']))
+						$data['room'] = Session::get_value('room')['id'];
+					else
+						$data['room'] = '';
 
-				$break = false;
+					$data['room'] = $this->model->get_room($data['room']);
+
+					if (!empty($data['room']))
+					{
+						$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
+
+						Session::set_value('room', $data['room']);
+
+						$break = false;
+					}
+				}
+				else if ($data['account']['type'] == 'restaurant')
+				{
+					if (Session::exists_var('table') == true AND !empty(Session::get_value('table')['id']))
+						$data['table'] = Session::get_value('table')['id'];
+					else
+						$data['table'] = '';
+
+					$data['table'] = $this->model->get_table($data['table']);
+
+					if (!empty($data['table']))
+					{
+						Session::set_value('table', $data['table']);
+
+						$break = false;
+					}
+				}
 			}
 		}
 		else if ($params[0] == 'room')
@@ -771,6 +799,14 @@ class Myvox_controller extends Controller
 
 						if (!empty($query))
 						{
+							if ($params[0] == 'account')
+							{
+								if ($data['account']['type'] == 'hotel')
+									Session::unset_value('room');
+								else if ($data['account']['type'] == 'restaurant')
+									Session::unset_value('table');
+							}
+
 							if (!empty($_POST['email']))
 							{
 								$mail = new Mailer(true);
