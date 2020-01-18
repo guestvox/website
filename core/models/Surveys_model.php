@@ -448,7 +448,7 @@ class Surveys_model extends Model
 		return $count;
 	}
 
-	public function get_chart_data($option)
+	public function get_chart_data($option, $parameters = [])
 	{
 		$data = null;
 
@@ -574,178 +574,80 @@ class Surveys_model extends Model
 		}
 		else if ($option == 's2_chart')
 		{
-			$query1 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-				'id',
-				'name',
-				'type'
-			], [
-				'account' => Session::get_value('account')['id']
-			]));
-
-			$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-				'answers'
-			], [
-				'account' => Session::get_value('account')['id']
-			]));
+			// $query1 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+			// 	'id',
+			// 	'name',
+			// 	'type'
+			// ], [
+			// 	'account' => Session::get_value('account')['id']
+			// ]));
+			//
+			// $query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+			// 	'answers'
+			// ], [
+			// 	'account' => Session::get_value('account')['id']
+			// ]));
 
 			$data = [
 				'labels' => '',
 				'datasets' => [
-					'data' => ''
+					'data' => '',
+					'colors' => ''
 				]
 			];
 
-			foreach ($query1 as $value)
+			$diff = Functions::get_diff_date($parameters[1], $parameters[2], 'days');
+
+			for ($i = 0; $i < $diff; $i++)
 			{
-				if ($value['type'] == 'rate')
-				{
-					$average = 0;
-					$rate = 0;
-					$count = 0;
-
-					foreach ($query2 as $subvalue)
-					{
-						foreach ($subvalue['answers'] as $parentvalue)
-						{
-							if ($value['id'] == $parentvalue['id'])
-							{
-								$rate = $rate + $parentvalue['answer'];
-								$count = $count + 1;
-
-								foreach ($parentvalue['subanswers'] as $childvalue)
-								{
-									if ($childvalue['type'] == 'rate')
-									{
-										$rate = $rate + $childvalue['answer'];
-										$count = $count + 1;
-									}
-
-									foreach ($childvalue['subanswers'] as $slavevalue)
-									{
-										if ($slavevalue['type'] == 'rate')
-										{
-											$rate = $rate + $slavevalue['answer'];
-											$count = $count + 1;
-										}
-									}
-								}
-							}
-						}
-					}
-
-					if ($rate > 0 AND $count > 0)
-						$average = round(($rate / $count), 2);
-
-					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-					$data['datasets']['data'] .= $average . ",";
-				}
-			}
-		}
-		else if ($option == 's4_chart')
-		{
-			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-				'answers',
-				'date'
-			], [
-				'account' => Session::get_value('account')['id']
-			]));
-
-			$rate_today = 0;
-			$rate_lastday_1 = 0;
-			$rate_lastday_2 = 0;
-			$rate_lastday_3 = 0;
-			$rate_lastday_4 = 0;
-			$rate_lastday_5 = 0;
-			$rate_lastday_6 = 0;
-			$answers_today = 0;
-			$answers_lastday_1 = 0;
-			$answers_lastday_2 = 0;
-			$answers_lastday_3 = 0;
-			$answers_lastday_4 = 0;
-			$answers_lastday_5 = 0;
-			$answers_lastday_6 = 0;
-			$prom_today = 0;
-			$prom_lastday_1 = 0;
-			$prom_lastday_2 = 0;
-			$prom_lastday_3 = 0;
-			$prom_lastday_4 = 0;
-			$prom_lastday_5 = 0;
-			$prom_lastday_6 = 0;
-
-			foreach ($query as $key => $value)
-			{
-				foreach ($value['answers'] as $subvalue)
-				{
-					if ($subvalue['type'] == 'rate')
-					{
-						if ($value['date'] == Functions::get_current_date())
-						{
-							$rate_today = $rate_today + $subvalue['answer'];
-							$answers_today = $answers_today + 1;
-						}
-						else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '1', 'days'))
-						{
-							$rate_lastday_1 = $rate_lastday_1 + $subvalue['answer'];
-							$answers_lastday_1 = $answers_lastday_1 + 1;
-						}
-						else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '2', 'days'))
-						{
-							$rate_lastday_2 = $rate_lastday_2 + $subvalue['answer'];
-							$answers_lastday_2 = $answers_lastday_2 + 1;
-						}
-						else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '3', 'days'))
-						{
-							$rate_lastday_3 = $rate_lastday_3 + $subvalue['answer'];
-							$answers_lastday_3 = $answers_lastday_3 + 1;
-						}
-						else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '4', 'days'))
-						{
-							$rate_lastday_4 = $rate_lastday_4 + $subvalue['answer'];
-							$answers_lastday_4 = $answers_lastday_4 + 1;
-						}
-						else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '5', 'days'))
-						{
-							$rate_lastday_5 = $rate_lastday_5 + $subvalue['answer'];
-							$answers_lastday_5 = $answers_lastday_5 + 1;
-						}
-						else if ($value['date'] == Functions::get_past_date(Functions::get_current_date(), '6', 'days'))
-						{
-							$rate_lastday_6 = $rate_lastday_6 + $subvalue['answer'];
-							$answers_lastday_6 = $answers_lastday_6 + 1;
-						}
-					}
-
-				}
-
+				
 			}
 
-			if ($rate_today > 0)
-				$prom_today = $rate_today / $answers_today;
-
-			if ($rate_lastday_1 > 0)
-				$prom_lastday_1 = $rate_lastday_1 / $answers_lastday_1;
-
-			if ($rate_lastday_2 > 0)
-				$prom_lastday_2 = $rate_lastday_2 / $answers_lastday_2;
-
-			if ($rate_lastday_3 > 0)
-				$prom_lastday_3 = $rate_lastday_3 / $answers_lastday_3;
-
-		 	if ($rate_lastday_4 > 0)
-				$prom_lastday_4 = $rate_lastday_4 / $answers_lastday_4;
-
-			if ($rate_lastday_5 > 0)
-				$prom_lastday_5 = $rate_lastday_5 / $answers_lastday_5;
-
-			if ($rate_lastday_6 > 0)
-				$prom_lastday_6 = $rate_lastday_6 / $answers_lastday_6;
-
-			$data = [
-				'labels' => '"Hoy", "1 día", "2 días", "3 días", "4 días", "5 días", "6 días"',
-				'datasets' => [
-					'data' => $prom_today . ',' . $prom_lastday_1 . ',' . $prom_lastday_2 . ',' . $prom_lastday_3 . ',' . $prom_lastday_4 . ',' . $prom_lastday_5 . ',' . $prom_lastday_6
-				]
-			];
+			// foreach ($query1 as $value)
+			// {
+			// 	if ($value['type'] == 'rate')
+			// 	{
+			// 		$average = 0;
+			// 		$rate = 0;
+			// 		$count = 0;
+			//
+			// 		foreach ($query2 as $subvalue)
+			// 		{
+			// 			foreach ($subvalue['answers'] as $parentvalue)
+			// 			{
+			// 				if ($value['id'] == $parentvalue['id'])
+			// 				{
+			// 					$rate = $rate + $parentvalue['answer'];
+			// 					$count = $count + 1;
+			//
+			// 					foreach ($parentvalue['subanswers'] as $childvalue)
+			// 					{
+			// 						if ($childvalue['type'] == 'rate')
+			// 						{
+			// 							$rate = $rate + $childvalue['answer'];
+			// 							$count = $count + 1;
+			// 						}
+			//
+			// 						foreach ($childvalue['subanswers'] as $slavevalue)
+			// 						{
+			// 							if ($slavevalue['type'] == 'rate')
+			// 							{
+			// 								$rate = $rate + $slavevalue['answer'];
+			// 								$count = $count + 1;
+			// 							}
+			// 						}
+			// 					}
+			// 				}
+			// 			}
+			// 		}
+			//
+			// 		if ($rate > 0 AND $count > 0)
+			// 			$average = round(($rate / $count), 2);
+			//
+			// 		$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+			// 		$data['datasets']['data'] .= $average . ",";
+			// 	}
+			// }
 		}
 		else if ($option == 's5_chart' OR $option == 's6_chart' OR $option == 's7_chart' OR $option == 's8_chart')
 		{

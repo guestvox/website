@@ -25,6 +25,18 @@ class Functions
             return null;
     }
 
+    static public function get_diff_date($start_date, $end_date, $lapse)
+    {
+        $start_date = new DateTime($start_date);
+        $end_date = new DateTime($end_date);
+        $diff = $start_date->diff($end_date);
+
+        if ($lapse == 'days')
+            return $diff->days;
+        else
+            return null;
+    }
+
     static public function get_formatted_date($date, $format = 'Y-m-d')
     {
         if (!empty($date))
