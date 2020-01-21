@@ -11,10 +11,10 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
 
 %{header}%
 <main>
+    <nav>
+        <h2><i class="fas fa-bed"></i>{$lang.tables}</h2>
+    </nav>
     <article>
-        <header>
-            <h2><i class="fas fa-bed"></i>{$lang.tables}</h2>
-        </header>
         <main>
             <div class="table">
                 <aside>
