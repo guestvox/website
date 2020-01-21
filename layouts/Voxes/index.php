@@ -12,6 +12,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 %{header}%
 <main>
     <nav>
+        <h2><i class="fas fa-heart"></i>{$lang.voxes}</h2>
         <ul>
             <li><a href="/voxes" class="view"><i class="fas fa-heart"></i></a></li>
             <?php if (Functions::check_user_access(['{vox_reports_view}']) == true) : ?>
@@ -26,9 +27,6 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
         </ul>
     </nav>
     <article>
-        <header>
-            <h2><i class="fas fa-heart"></i>{$lang.voxes}</h2>
-        </header>
         <main>
             <div class="table">
                 <aside>

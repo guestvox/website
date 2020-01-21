@@ -12,10 +12,10 @@ $this->dependencies->add(['other', '<script>menu_focus("dashboard");</script>'])
 %{header}%
 <main class="dashboard">
     <?php if (Functions::check_account_access(['operation']) == true) : ?>
+    <nav>
+        <h2><i class="fas fa-heart"></i>{$lang.voxes_unresolve}</h2>
+    </nav>
     <article>
-        <header>
-            <h2><i class="fas fa-heart"></i>{$lang.voxes_unresolve}</h2>
-        </header>
         <main>
             <div class="table">
                 <aside>
