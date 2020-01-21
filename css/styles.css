@@ -153,7 +153,7 @@ header.main > section.menu > nav.open-menu {
     bottom: 0px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
     background-color: #eee;
     padding: 20px;
@@ -226,7 +226,7 @@ body > main {
 ------------------------------------------------------------------------------ */
 body > main > nav {
     width: 100%;
-    padding: 20px;
+    padding: 0px 20px;
     box-sizing: border-box;
 }
 
