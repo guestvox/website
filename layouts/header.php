@@ -1,9 +1,6 @@
 <?php defined('_EXEC') or die; ?>
 <header class="main">
     <section class="topbar">
-        <figure>
-            <img src="{$path.images}logotype-color.png">
-        </figure>
         <nav>
             <ul>
                 <li><a href="/profile"><i class="fas fa-circle"></i><?php echo Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname']; ?></a></li>
@@ -15,7 +12,10 @@
         </nav>
     </section>
     <section class="menu">
-        <nav>
+        <figure>
+            <img src="{$path.images}logotype-color.png">
+        </figure>
+        <nav class="main-menu">
             <ul>
                 <li target="dashboard"><a href="/dashboard"><i class="fas fa-home"></i>{$lang.dashboard}</a></li>
                 <?php if (Functions::check_account_access(['operation']) == true) : ?>
@@ -24,10 +24,9 @@
                 <?php if (Functions::check_account_access(['reputation']) == true AND Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}','{survey_answers_view}','{survey_stats_view}']) == true) : ?>
                 <li target="surveys"><a href="/surveys"><i class="fas fa-star"></i>{$lang.surveys}</a></li>
                 <?php endif; ?>
-                <li target="other"><a data-action="open-dash-menu"><i class="fas fa-ellipsis-h"></i></a></li>
             </ul>
         </nav>
-        <nav>
+        <nav class="open-menu">
             <figure>
                 <img src="{$path.uploads}<?php echo Session::get_value('account')['logotype']; ?>">
             </figure>

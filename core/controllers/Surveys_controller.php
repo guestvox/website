@@ -715,7 +715,7 @@ class Surveys_controller extends Controller
 		header('Content-Type: application/javascript');
 
 		$s1_chart_data = $this->model->get_chart_data('s1_chart');
-		$s2_chart_data = $this->model->get_chart_data('s2_chart', ['all', Functions::get_current_date(), Functions::get_past_date(Functions::get_current_date(), '7', 'days')]);
+		$s2_chart_data = $this->model->get_chart_data('s2_chart', [Functions::get_current_date(), Functions::get_past_date(Functions::get_current_date(), '7', 'days')]);
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{
@@ -797,15 +797,9 @@ class Surveys_controller extends Controller
 				labels: [
 	                " . $s2_chart_data['labels'] . "
 	            ],
-				datasets: [{
-					data: [
-	                    " . $s2_chart_data['datasets']['data'] . "
-	                ],
-					fill: false,
-	                borderColor: [
-						" . $s2_chart_data['datasets']['colors'] . "
-					]
-	            }]
+				datasets: [
+					" . $s2_chart_data['datasets'] . "
+				]
 	        },
 			options: {
 				title: {
@@ -815,6 +809,14 @@ class Surveys_controller extends Controller
 				},
 				legend: {
 					display: true
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
 				},
 	            responsive: true
             }
