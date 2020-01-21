@@ -194,7 +194,17 @@ $(document).ready(function()
         if ($(this).val() == '1' || $(this).val() == '2' || $(this).val() == '3' || $(this).val() == 'yes')
             $('#' + name).removeClass('hidden');
         else
+        {
             $('#' + name).addClass('hidden');
+
+            $('#' + name).find(':input').each(function() {
+                if (this.type == 'text')
+                    $(this).val('');
+                else if (this.type == 'radio')
+                    this.checked = false;
+
+            });
+        }
     });
 
     $('[data-action="open_subquestion_sub"]').on('change', function()
@@ -204,7 +214,17 @@ $(document).ready(function()
         if ($(this).val() == '1' || $(this).val() == '2' || $(this).val() == '3' || $(this).val() == 'yes')
             $('#' + name).removeClass('hidden');
         else
+        {
             $('#' + name).addClass('hidden');
+
+            $('#' + name).find(':input').each(function() {
+                if (this.type == 'text')
+                    $(this).val('');
+                else if (this.type == 'radio')
+                    this.checked = false;
+
+            });
+        }
     });
 
     $('[data-modal="new_survey_answer"]').modal().onCancel(function()

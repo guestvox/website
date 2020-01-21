@@ -129,6 +129,10 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
 </main>
 <footer class="landing-page-index">
     <div class="container">
+        <div class="widget_cs">
+            <p align="center"><a href="https://www.comparasoftware.com/guestvox/"><img src="https://www.comparasoftware.com/wp-content/uploads/2019/05/comparasoftware_verificado.png" alt="logo_verificado" width="180"/></a></p>
+            <p style="text-align: center;" align="center"><a href="https://www.comparasoftware.com/guestvox/"> GuestVox</a> se encuentra verificada como <a href="https://www.comparasoftware.com/hoteleria/"> software de Hotelería</a></p>
+        </div>
         <nav>
             <ul>
                 <li><a href="https://facebook.com/guestvox" class="btn" target="_blank"><i class="fab fa-facebook-square"></i></a></li>

@@ -636,7 +636,7 @@ class Surveys_controller extends Controller
 					$tbl_survey_answers .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
 
 				$tbl_survey_answers .=
-				'	<td align="left">' . $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname'] . '</td>
+				'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
 					<td align="left">' . Functions::get_formatted_date($value['date'], 'd M, y') . '</td>
 					<td align="left"><i class="fas fa-star" style="margin-right:5px;color:#ffeb3b;"></i>' . $value['rate'] . '</td>
 					<td align="right" class="icon"><a data-action="view_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-bars"></i></a></td>
@@ -669,20 +669,24 @@ class Surveys_controller extends Controller
 
 			$general_average_rate = $this->model->get_general_average_rate();
 
-			if ($general_average_rate >= 1 AND $general_average_rate < 2 OR $general_average_rate >= 2 AND $general_average_rate < 3)
+			if ($general_average_rate >= 1 AND $general_average_rate < 1.8)
 				$h4_general_average_rate = '<h4 style="color:#f44336;">' . $general_average_rate . '</h4>';
-			else if ($general_average_rate >= 3 AND $general_average_rate < 4)
-				$h4_general_average_rate = '<h4 style="color:#ff9800;">' . $general_average_rate . '</h4>';
-			else if ($general_average_rate >= 4 AND $general_average_rate < 5 OR $general_average_rate == 5)
+			else if ($general_average_rate >= 1.8 AND $general_average_rate < 2.8)
+				$h4_general_average_rate = '<h4 style="color:#ffc107;">' . $general_average_rate . '</h4>';
+			else if ($general_average_rate >= 2.8 AND $general_average_rate < 3.8)
+				$h4_general_average_rate = '<h4 style="color:#ffeb3b;">' . $general_average_rate . '</h4>';
+			else if ($general_average_rate >= 3.8 AND $general_average_rate < 4.8)
 				$h4_general_average_rate = '<h4 style="color:#4caf50;">' . $general_average_rate . '</h4>';
+			else if ($general_average_rate >= 4.8 AND $general_average_rate <= 5)
+				$h4_general_average_rate = '<h4 style="color:#00a5ab;">' . $general_average_rate . '</h4>';
 
 			$spn_general_avarage_rate =
 			'<span>
 				' . (($general_average_rate >= 1 AND $general_average_rate < 1.8) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
-				' . (($general_average_rate >= 1.8 AND $general_average_rate < 2.8) ? '<i class="fas fa-frown" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-frown"></i>') . '
-				' . (($general_average_rate >= 2.8 AND $general_average_rate < 3.8) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ff9800;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
+				' . (($general_average_rate >= 1.8 AND $general_average_rate < 2.8) ? '<i class="fas fa-frown" style="font-size:50px;color:#ffc107;"></i>' : '<i class="far fa-frown"></i>') . '
+				' . (($general_average_rate >= 2.8 AND $general_average_rate < 3.8) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ffeb3b;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
 				' . (($general_average_rate >= 3.8 AND $general_average_rate < 4.8) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
-				' . (($general_average_rate >= 4.8 AND $general_average_rate <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-grin-stars"></i>') . '
+				' . (($general_average_rate >= 4.8 AND $general_average_rate <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#00a5ab;"></i>' : '<i class="far fa-grin-stars"></i>') . '
 			</span>';
 
 			$replace = [
@@ -711,8 +715,7 @@ class Surveys_controller extends Controller
 		header('Content-Type: application/javascript');
 
 		$s1_chart_data = $this->model->get_chart_data('s1_chart');
-		// $s2_chart_data = $this->model->get_chart_data('s2_chart');
-		// $s4_chart_data = $this->model->get_chart_data('s4_chart');
+		$s2_chart_data = $this->model->get_chart_data('s2_chart', ['all', Functions::get_current_date(), Functions::get_past_date(Functions::get_current_date(), '7', 'days')]);
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{
@@ -729,8 +732,7 @@ class Surveys_controller extends Controller
 			else if (Session::get_value('account')['type'] == 'hotel')
 				$s1_chart_title = 'Por mesa';
 
-			// $s2_chart_title = 'Promedio de preguntas por valoración (1 a 5 estrellas)';
-			// $s4_chart_title = 'Promedio de preguntas por valoración (1 a 5 estrellas)';
+			$s2_chart_title = 'Valoración por preguntas';
 
 			if (Session::get_value('account')['zaviapms']['status'] == true)
 			{
@@ -747,8 +749,7 @@ class Surveys_controller extends Controller
 			else if (Session::get_value('account')['type'] == 'hotel')
 				$s1_chart_title = 'Per table';
 
-			// $s2_chart_title = 'Questions average per rating (1 to 5 stars)';
-			// $s4_chart_title = 'Questions average per rating (1 to 5 stars)';
+			$s2_chart_title = 'Rating by questions';
 
 			if (Session::get_value('account')['zaviapms']['status'] == true)
 			{
@@ -788,7 +789,36 @@ class Surveys_controller extends Controller
 				},
 	            responsive: true
             }
-        };";
+        };
+
+		var s2_chart = {
+		    type: 'line',
+			data: {
+				labels: [
+	                " . $s2_chart_data['labels'] . "
+	            ],
+				datasets: [{
+					data: [
+	                    " . $s2_chart_data['datasets']['data'] . "
+	                ],
+					fill: false,
+	                borderColor: [
+						" . $s2_chart_data['datasets']['colors'] . "
+					]
+	            }]
+	        },
+			options: {
+				title: {
+					display: true,
+					position: 'top',
+					text: '" . $s2_chart_title . "'
+				},
+				legend: {
+					display: true
+				},
+	            responsive: true
+            }
+		};";
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{
@@ -909,7 +939,8 @@ class Surveys_controller extends Controller
 		$js .=
 		"window.onload = function()
 		{
-			s1_chart = new Chart(document.getElementById('s1_chart').getContext('2d'), s1_chart);";
+			s1_chart = new Chart(document.getElementById('s1_chart').getContext('2d'), s1_chart);
+			s2_chart = new Chart(document.getElementById('s2_chart').getContext('2d'), s2_chart);";
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{
@@ -926,67 +957,5 @@ class Surveys_controller extends Controller
 		$js = trim(str_replace(array("\t\t\t"), '', $js));
 
 		echo $js;
-
-		// var s2_chart = {
-		//     type: 'line',
-		// 	data: {
-		// 		labels: [
-		// 			'',
-	    //             " . $s2_chart_data['labels'] . "
-	    //         ],
-		// 		datasets: [{
-		// 			data: [
-		// 				0,
-	    //                 " . $s2_chart_data['datasets']['data'] . "
-		// 				5
-	    //             ],
-		// 			fill: false,
-		// 			backgroundColor: '#00a5ab',
-	    //             borderColor: '#00a5ab'
-	    //         }]
-	    //     },
-		// 	options: {
-		// 		title: {
-		// 			display: true,
-		// 			position: 'bottom',
-		// 			text: '" . $s2_chart_title . "'
-		// 		},
-		// 		legend: {
-		// 			display: false
-		// 		},
-	    //         responsive: true
-        //     }
-		// };
-		//
-		// var s4_chart = {
-		//     type: 'line',
-		// 	data: {
-		// 		labels: [
-	    //             " . $s4_chart_data['labels'] . "
-	    //         ],
-		// 		datasets: [{
-	    //             data: [
-	    //                 " . $s4_chart_data['datasets']['data'] . "
-	    //             ],
-		// 			fill: false,
-		// 			backgroundColor: '#00a5ab',
-	    //             borderColor: '#00a5ab'
-	    //         }],
-	    //     },
-		// 	options: {
-		// 		title: {
-		// 			display: true,
-		// 			position: 'bottom',
-		// 			text: '" . $s2_chart_title . "'
-		// 		},
-		// 		legend: {
-		// 			display: false
-		// 		},
-	    //         responsive: true
-        //     }
-		// };
-		//
-		// s2_chart = new Chart(document.getElementById('s2_chart').getContext('2d'), s2_chart);
-		// s4_chart = new Chart(document.getElementById('s4_chart').getContext('2d'), s4_chart);
 	}
 }
