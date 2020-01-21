@@ -507,10 +507,26 @@ main.landing-page-index > section.team > div > span > strong {
 
 /* Footer
 ------------------------------------------------------------------------------ */
+footer.landing-page-index > div > div.widget_cs{
+    display: flex;
+    height: 120px;
+    padding: 0 40px 0 40px;
+}
+
+footer.landing-page-index > div > div.widget_cs > p:first-child{
+    height: 120px;
+}
+
+footer.landing-page-index > div > div.widget_cs > p:last-child{
+    width: 100%;
+    font-size: 25px;
+    margin: 40px 80px 40px 80px;
+}
+
 footer.landing-page-index {
     width: 100%;
-    height: 100px;
     background-color: #fff;
+    margin: 20px 0 20px 0px;
 }
 
 footer.landing-page-index > .container {
