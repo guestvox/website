@@ -64,11 +64,11 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
             <div class="chart-answered">
                 <h2>{$lang.surveys_answered}</h2>
                 <div class="counters">
-                    <span>{$count_answered_total}<strong>Total</strong></span>
-                    <span>{$count_answered_today}<strong>Hoy</strong></span>
-                    <span>{$count_answered_week}<strong>Esta semana</strong></span>
-                    <span>{$count_answered_month}<strong>Este mes</strong></span>
-                    <span>{$count_answered_year}<strong>Este año</strong></span>
+                    <span>{$count_answered_total}<strong>{$lang.total}</strong></span>
+                    <span>{$count_answered_today}<strong>{$lang.today}</strong></span>
+                    <span>{$count_answered_week}<strong>{$lang.this_week}</strong></span>
+                    <span>{$count_answered_month}<strong>{$lang.this_month}</strong></span>
+                    <span>{$count_answered_year}<strong>{$lang.this_year}</strong></span>
                 </div>
                 <div class="chart">
                     <canvas id="s1_chart" height="300"></canvas>
