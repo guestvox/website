@@ -19,7 +19,7 @@ class Functions
 
     static public function get_past_date($date, $number, $lapse, $format = 'Y-m-d')
     {
-        if (!empty($date) AND !empty($number) AND !empty($lapse))
+        if (!empty($date))
             return date($format, strtotime($date . ' - ' . $number . ' ' . $lapse));
         else
             return null;

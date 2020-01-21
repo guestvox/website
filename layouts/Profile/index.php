@@ -9,10 +9,10 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
 
 %{header}%
 <main>
+    <nav>
+        <h2><i class="fas fa-user-circle"></i>{$lang.my_profile}</h2>
+    </nav>
     <article>
-        <header>
-            <h2><i class="fas fa-user-circle"></i>{$lang.my_profile}</h2>
-        </header>
         <main>
             <div class="profile">
                 <figure>

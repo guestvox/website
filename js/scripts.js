@@ -12,6 +12,8 @@ $(window).on('ajaxStop', function()
 
 $(document).ready(function ()
 {
+    navScrollDown('header.main', 'down', 0);
+
     $('[data-action="open-dash-menu"]').on('click', function(e)
     {
         e.stopPropagation();
@@ -38,6 +40,33 @@ $(document).ready(function ()
         }
     });
 });
+
+function navScrollDown(target, style, height)
+{
+    var nav = {
+        initialize: function()
+        {
+            $(document).each(function()
+            {
+                nav.scroller()
+            });
+
+            $(document).on('scroll', function()
+            {
+                nav.scroller()
+            });
+        },
+        scroller: function()
+        {
+            if ($(document).scrollTop() > height)
+                $(target).addClass(style);
+            else
+                $(target).removeClass(style);
+        }
+    }
+
+    nav.initialize();
+}
 
 function menu_focus(target = null)
 {

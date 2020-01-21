@@ -574,80 +574,94 @@ class Surveys_model extends Model
 		}
 		else if ($option == 's2_chart')
 		{
-			// $query1 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-			// 	'id',
-			// 	'name',
-			// 	'type'
-			// ], [
-			// 	'account' => Session::get_value('account')['id']
-			// ]));
-			//
-			// $query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-			// 	'answers'
-			// ], [
-			// 	'account' => Session::get_value('account')['id']
-			// ]));
+			$query1 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+				'id',
+				'name',
+				'type'
+			], [
+				'account' => Session::get_value('account')['id']
+			]));
 
 			$data = [
 				'labels' => '',
-				'datasets' => [
-					'data' => '',
-					'colors' => ''
-				]
+				'datasets' => ''
 			];
 
-			$diff = Functions::get_diff_date($parameters[1], $parameters[2], 'days');
+			$diff = Functions::get_diff_date($parameters[0], $parameters[1], 'days');
 
 			for ($i = 0; $i < $diff; $i++)
 			{
-				
+				$data['labels'] .= "'" . Functions::get_past_date(Functions::get_current_date(), $i, 'days') . "',";
 			}
 
-			// foreach ($query1 as $value)
-			// {
-			// 	if ($value['type'] == 'rate')
-			// 	{
-			// 		$average = 0;
-			// 		$rate = 0;
-			// 		$count = 0;
-			//
-			// 		foreach ($query2 as $subvalue)
-			// 		{
-			// 			foreach ($subvalue['answers'] as $parentvalue)
-			// 			{
-			// 				if ($value['id'] == $parentvalue['id'])
-			// 				{
-			// 					$rate = $rate + $parentvalue['answer'];
-			// 					$count = $count + 1;
-			//
-			// 					foreach ($parentvalue['subanswers'] as $childvalue)
-			// 					{
-			// 						if ($childvalue['type'] == 'rate')
-			// 						{
-			// 							$rate = $rate + $childvalue['answer'];
-			// 							$count = $count + 1;
-			// 						}
-			//
-			// 						foreach ($childvalue['subanswers'] as $slavevalue)
-			// 						{
-			// 							if ($slavevalue['type'] == 'rate')
-			// 							{
-			// 								$rate = $rate + $slavevalue['answer'];
-			// 								$count = $count + 1;
-			// 							}
-			// 						}
-			// 					}
-			// 				}
-			// 			}
-			// 		}
-			//
-			// 		if ($rate > 0 AND $count > 0)
-			// 			$average = round(($rate / $count), 2);
-			//
-			// 		$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-			// 		$data['datasets']['data'] .= $average . ",";
-			// 	}
-			// }
+			foreach ($query1 as $value)
+			{
+				$data['datasets'] .= "{
+					label: '" . $value['name'][Session::get_value('account')['language']] . "',
+					data: [";
+
+				for ($i = 0; $i < $diff; $i++)
+				{
+					$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+						'answers'
+					], [
+						'AND' => [
+							'account' => Session::get_value('account')['id'],
+							'date' => Functions::get_past_date(Functions::get_current_date(), $i, 'days')
+						]
+					]));
+
+					$average = 0;
+					$rate = 0;
+					$count = 0;
+
+					foreach ($query2 as $subvalue)
+					{
+						foreach ($subvalue['answers'] as $parentvalue)
+						{
+							if ($value['id'] == $parentvalue['id'])
+							{
+								if ($parentvalue['type'] == 'rate')
+								{
+									$rate = $rate + $parentvalue['answer'];
+									$count = $count + 1;
+								}
+
+								foreach ($parentvalue['subanswers'] as $childvalue)
+								{
+									if ($childvalue['type'] == 'rate')
+									{
+										$rate = $rate + $childvalue['answer'];
+										$count = $count + 1;
+									}
+
+									foreach ($childvalue['subanswers'] as $slavevalue)
+									{
+										if ($slavevalue['type'] == 'rate')
+										{
+											$rate = $rate + $slavevalue['answer'];
+											$count = $count + 1;
+										}
+									}
+								}
+							}
+						}
+					}
+
+					if ($rate > 0 AND $count > 0)
+						$average = round(($rate / $count), 2);
+
+					$data['datasets'] .= $average . ",";
+				}
+
+				$color = str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+
+				$data['datasets'] .= "],
+					fill: false,
+					backgroundColor: '#" . $color . "',
+					borderColor: '#" . $color . "',
+				},";
+			}
 		}
 		else if ($option == 's5_chart' OR $option == 's6_chart' OR $option == 's7_chart' OR $option == 's8_chart')
 		{

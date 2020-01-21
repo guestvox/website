@@ -12,6 +12,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 %{header}%
 <main class="surveys-stats">
     <nav>
+        <h2><i class="fas fa-chart-pie"></i>{$lang.survey_stats}</h2>
         <ul>
             <?php if (Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}']) == true) : ?>
             <li><a href="/surveys/questions"><i class="fas fa-question-circle"></i></a></li>
@@ -25,9 +26,6 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
         </ul>
     </nav>
     <article>
-        <header>
-            <h2><i class="fas fa-chart-pie"></i>{$lang.survey_stats}</h2>
-        </header>
         <main>
             <div class="chart-rate">
                 <h2>{$lang.general_rate}</h2>
@@ -73,6 +71,9 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                 <div class="chart">
                     <canvas id="s1_chart" height="300"></canvas>
                 </div>
+            </div>
+            <div class="charts big">
+                <canvas id="s2_chart" height="300"></canvas>
             </div>
             <?php if (Session::get_value('account')['zaviapms']['status'] == true) : ?>
             <div class="charts little">
