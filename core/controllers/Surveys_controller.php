@@ -715,7 +715,6 @@ class Surveys_controller extends Controller
 		header('Content-Type: application/javascript');
 
 		$s1_chart_data = $this->model->get_chart_data('s1_chart');
-		$s2_chart_data = $this->model->get_chart_data('s2_chart', ['all', Functions::get_current_date(), Functions::get_past_date(Functions::get_current_date(), '7', 'days')]);
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{
@@ -732,8 +731,6 @@ class Surveys_controller extends Controller
 			else if (Session::get_value('account')['type'] == 'hotel')
 				$s1_chart_title = 'Por mesa';
 
-			$s2_chart_title = 'Valoración por preguntas';
-
 			if (Session::get_value('account')['zaviapms']['status'] == true)
 			{
 				$s5_chart_title = 'Nacionalidad';
@@ -748,8 +745,6 @@ class Surveys_controller extends Controller
 				$s1_chart_title = 'Per room';
 			else if (Session::get_value('account')['type'] == 'hotel')
 				$s1_chart_title = 'Per table';
-
-			$s2_chart_title = 'Rating by questions';
 
 			if (Session::get_value('account')['zaviapms']['status'] == true)
 			{
@@ -789,36 +784,7 @@ class Surveys_controller extends Controller
 				},
 	            responsive: true
             }
-        };
-
-		var s2_chart = {
-		    type: 'line',
-			data: {
-				labels: [
-	                " . $s2_chart_data['labels'] . "
-	            ],
-				datasets: [{
-					data: [
-	                    " . $s2_chart_data['datasets']['data'] . "
-	                ],
-					fill: false,
-	                borderColor: [
-						" . $s2_chart_data['datasets']['colors'] . "
-					]
-	            }]
-	        },
-			options: {
-				title: {
-					display: true,
-					position: 'top',
-					text: '" . $s2_chart_title . "'
-				},
-				legend: {
-					display: true
-				},
-	            responsive: true
-            }
-		};";
+        };";
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{
@@ -939,8 +905,7 @@ class Surveys_controller extends Controller
 		$js .=
 		"window.onload = function()
 		{
-			s1_chart = new Chart(document.getElementById('s1_chart').getContext('2d'), s1_chart);
-			s2_chart = new Chart(document.getElementById('s2_chart').getContext('2d'), s2_chart);";
+			s1_chart = new Chart(document.getElementById('s1_chart').getContext('2d'), s1_chart);";
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{
