@@ -117,3 +117,61 @@ public function sql()
     // 	]);
     // }
 }
+
+// Creación de QR
+
+public function sql()
+{
+    // $query = Functions::get_json_decoded_query($this->database->select('accounts', '*'));
+    //
+    // foreach ($query as $value)
+    // {
+    // 	$data['qr']['filename'] = 'qr_' . $value['path'] . '_' . $value['token'] . '.png';
+    // 	$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . $value['path'] . '/myvox';
+    // 	$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
+    // 	$data['qr']['level'] = 'H';
+    // 	$data['qr']['size'] = 5;
+    // 	$data['qr']['frame'] = 3;
+    // 	QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
+    // }
+
+    // $query = Functions::get_json_decoded_query($this->database->select('rooms', [
+    // 	'[>]accounts' => [
+    // 		'account' => 'id'
+    // 	]
+    // ], [
+    // 	'rooms.token',
+    // 	'accounts.path'
+    // ]));
+    //
+    // foreach ($query as $value)
+    // {
+    // 	$data['qr']['filename'] = 'qr_' . $value['path'] . '_room_' . $value['token'] . '.png';
+    // 	$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . $value['path'] . '/myvox/room/' . $value['token'];
+    // 	$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
+    // 	$data['qr']['level'] = 'H';
+    // 	$data['qr']['size'] = 5;
+    // 	$data['qr']['frame'] = 3;
+    // 	QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
+    // }
+
+    // $query = Functions::get_json_decoded_query($this->database->select('tables', [
+    // 	'[>]accounts' => [
+    // 		'account' => 'id'
+    // 	]
+    // ], [
+    // 	'tables.token',
+    // 	'accounts.path'
+    // ]));
+    //
+    // foreach ($query as $value)
+    // {
+    // 	$data['qr']['filename'] = 'qr_' . $value['path'] . '_table_' . $value['token'] . '.png';
+    // 	$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . $value['path'] . '/myvox/table/' . $value['token'];
+    // 	$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
+    // 	$data['qr']['level'] = 'H';
+    // 	$data['qr']['size'] = 5;
+    // 	$data['qr']['frame'] = 3;
+    // 	QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
+    // }
+}
