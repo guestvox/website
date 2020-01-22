@@ -168,12 +168,18 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                         <h2>{$lang.step_1}: {$lang.account_information}</h2>
                         <div class="row">
                             <div class="span6">
-                                <div class="span9">
+                                <div class="span6">
                                     <fieldset>
                                         <input type="text" name="name" placeholder="{$lang.name}">
                                     </fieldset>
                                 </div>
-                                <div class="span3">
+                                <div class="span6">
+                                    <fieldset class="path">
+                                        <span><?php echo Configuration::$domain; ?>/<strong>{$lang.path_my_account}</strong></span>
+                                        <input type="text" name="path" placeholder="{$lang.path}">
+                                    </fieldset>
+                                </div>
+                                <div class="span6">
                                     <fieldset>
                                         <select name="type">
                                             <option value="" selected hidden>{$lang.type}</option>
@@ -192,12 +198,12 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                         <input type="number" name="tables_number" placeholder="{$lang.n_tables}" min="1">
                                     </fieldset>
                                 </div>
-                                <div class="span4">
+                                <div class="span3">
                                     <fieldset>
                                         <input type="text" name="zip_code" placeholder="{$lang.zip_code}">
                                     </fieldset>
                                 </div>
-                                <div class="span4">
+                                <div class="span3">
                                     <fieldset>
                                         <select name="country">
                                             <option value="" selected hidden>{$lang.country}</option>
@@ -205,12 +211,12 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                         </select>
                                     </fieldset>
                                 </div>
-                                <div class="span4">
+                                <div class="span3">
                                     <fieldset>
                                         <input type="text" name="city" placeholder="{$lang.city}">
                                     </fieldset>
                                 </div>
-                                <div class="span12">
+                                <div class="span9">
                                     <fieldset>
                                         <input type="text" name="address" placeholder="{$lang.address}">
                                     </fieldset>

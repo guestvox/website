@@ -25,7 +25,11 @@ class Urls_registered_vkye
                 'controller' => 'Terms',
                 'method' => 'index'
             ],
-            '/myvox/%param%/%param%' => [
+            '/%param%/myvox' => [
+                'controller' => 'Myvox',
+                'method' => 'index'
+            ],
+            '/%param%/myvox/%param%/%param%' => [
                 'controller' => 'Myvox',
                 'method' => 'index'
             ],

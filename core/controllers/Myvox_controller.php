@@ -15,14 +15,41 @@ class Myvox_controller extends Controller
     {
 		$break = true;
 
-		if ($params[0] == 'account')
+		$data['account'] = $this->model->get_account($params[0]);
+
+		if (!empty($data['account']))
 		{
-			$data['account'] = $this->model->get_account($params[1]);
+			Session::set_value('account', $data['account']);
 
-			if (!empty($data['account']))
+			if (isset($params[1]) AND !empty($params[1]))
 			{
-				Session::set_value('account', $data['account']);
+				if ($params[1] == 'room')
+				{
+					$data['room'] = $this->model->get_room($params[2]);
 
+					if (!empty($data['room']))
+					{
+						$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
+
+						Session::set_value('room', $data['room']);
+
+						$break = false;
+					}
+				}
+				else if ($params[1] == 'table')
+				{
+					$data['table'] = $this->model->get_table($params[2]);
+
+					if (!empty($data['table']))
+					{
+						Session::set_value('table', $data['table']);
+
+						$break = false;
+					}
+				}
+			}
+			else
+			{
 				if ($data['account']['type'] == 'hotel')
 				{
 					if (Session::exists_var('room') == true AND !empty(Session::get_value('room')['id']))
@@ -56,42 +83,6 @@ class Myvox_controller extends Controller
 
 						$break = false;
 					}
-				}
-			}
-		}
-		else if ($params[0] == 'room')
-		{
-			$data['room'] = $this->model->get_room($params[1]);
-
-			if (!empty($data['room']))
-			{
-				$data['account'] = $this->model->get_account($data['room']['account']);
-
-				if (!empty($data['account']))
-				{
-					$data['room']['guest'] = $this->model->get_guest($data['account']['zaviapms'], $data['room']['number']);
-
-					Session::set_value('account', $data['account']);
-					Session::set_value('room', $data['room']);
-
-					$break = false;
-				}
-			}
-		}
-		else if ($params[0] == 'table')
-		{
-			$data['table'] = $this->model->get_table($params[1]);
-
-			if (!empty($data['table']))
-			{
-				$data['account'] = $this->model->get_account($data['table']['account']);
-
-				if (!empty($data['account']))
-				{
-					Session::set_value('account', $data['account']);
-					Session::set_value('table', $data['table']);
-
-					$break = false;
 				}
 			}
 		}
@@ -163,7 +154,7 @@ class Myvox_controller extends Controller
 				{
 					$labels = [];
 
-					if ($params[0] == 'account')
+					if (!isset($params[1]) OR empty($params[1]))
 					{
 						if (Session::get_value('account')['type'] == 'hotel')
 						{
@@ -418,7 +409,7 @@ class Myvox_controller extends Controller
 				{
 					$labels = [];
 
-					if ($params[0] == 'account')
+					if (!isset($params[1]) OR empty($params[1]))
 					{
 						if (Session::get_value('account')['type'] == 'hotel')
 						{
@@ -799,7 +790,7 @@ class Myvox_controller extends Controller
 
 						if (!empty($query))
 						{
-							if ($params[0] == 'account')
+							if (!isset($params[1]) OR empty($params[1]))
 							{
 								if ($data['account']['type'] == 'hotel')
 									Session::unset_value('room');
@@ -960,7 +951,7 @@ class Myvox_controller extends Controller
 									<form name="new_request">
 										<div class="row">';
 
-						if ($params[0] == 'account')
+						if (!isset($params[1]) OR empty($params[1]))
 						{
 							if (Session::get_value('account')['type'] == 'hotel')
 							{
@@ -1112,7 +1103,7 @@ class Myvox_controller extends Controller
 									<form name="new_incident">
 										<div class="row">';
 
-						if ($params[0] == 'account')
+						if (!isset($params[1]) OR empty($params[1]))
 						{
 							if (Session::get_value('account')['type'] == 'hotel')
 							{
@@ -1476,7 +1467,7 @@ class Myvox_controller extends Controller
 											</div>
 										</div>';
 
-										if ($params[0] == 'account')
+										if (!isset($params[1]) OR empty($params[1]))
 										{
 											if (Session::get_value('account')['type'] == 'hotel')
 											{

@@ -757,6 +757,22 @@ section.modal[data-modal="signup"] main > form > div.steps > div.step-container 
     border: 1px solid #f44336;
 }
 
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row fieldset.path {
+    position: relative;
+}
+
+section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row fieldset.path > span {
+    position: absolute;
+    top: -15px;
+    right: 0px;
+    left: 0px;
+    padding-left: 20px;
+    box-sizing: border-box;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
 section.modal[data-modal="signup"] main > form > div.steps > div.step-container > div.row div.package {
     width: 100%;
     height: 300px;

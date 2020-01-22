@@ -71,8 +71,8 @@ class Rooms_model extends Model
 					if ($this->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end'])
 					{
 						$data['token'] = Functions::get_random(8);
-						$data['qr']['filename'] = 'qr_room_' . $data['token'] . '.png';
-						$data['qr']['content'] = 'https://' . Configuration::$domain . '/myvox/room/' . $data['token'];
+						$data['qr']['filename'] = 'qr_' . Session::get_value('account')['path'] . '_room_' . $data['token'] . '.png';
+						$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/room/' . $data['token'];
 						$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
 						$data['qr']['level'] = 'H';
 						$data['qr']['size'] = 5;
@@ -105,8 +105,8 @@ class Rooms_model extends Model
 				if ($this->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end'])
 				{
 					$data['token'] = Functions::get_random(8);
-					$data['qr']['filename'] = 'qr_room_' . $data['token'] . '.png';
-					$data['qr']['content'] = 'https://' . Configuration::$domain . '/myvox/room/' . $data['token'];
+					$data['qr']['filename'] = 'qr_' . Session::get_value('account')['path'] . '_room_' . $data['token'] . '.png';
+					$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/room/' . $data['token'];
 					$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
 					$data['qr']['level'] = 'H';
 					$data['qr']['size'] = 5;

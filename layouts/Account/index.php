@@ -16,7 +16,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
         <main>
             <div class="account">
                 <div>
-                    <h6>https://<?php echo Configuration::$domain; ?>/myvox/account/{$token}</h6>
+                    <h6>https://<?php echo Configuration::$domain; ?>/<?php echo Session::get_value('account')['path']; ?>/myvox</h6>
                     <figure>
                         <img src="{$qr}">
                     </figure>

@@ -8,10 +8,30 @@ $(document).ready(function()
         $('header.landing-page nav > ul').toggleClass('open');
     });
 
+    $('[name="path"]').on('keyup', function()
+    {
+        var filter = 'abcdefghijklmnñopqrstuvwxyz';
+        var string = $(this).val();
+        var out = '';
+
+        for (var i = 0; i < string.length; i++)
+        {
+            if (filter.indexOf(string.charAt(i)) != -1)
+                out += string.charAt(i);
+        }
+
+        $(this).val(out);
+
+        if (out.length > 0)
+            $(this).parent().find('span').find('strong').html(out);
+        else
+            $(this).parent().find('span').find('strong').html('micuenta');
+    });
+
     $('[name="type"]').on('change', function()
     {
-        $('[name="name"]').parent().parent().removeClass('span9');
-        $('[name="name"]').parent().parent().addClass('span6');
+        $(this).parent().parent().removeClass('span6');
+        $(this).parent().parent().addClass('span3');
         $('[name="rooms_number"]').val('');
         $('[name="tables_number"]').val('');
 
