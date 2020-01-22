@@ -9,7 +9,7 @@ class Myvox_model extends Model
 		parent::__construct();
 	}
 
-	public function get_account($token)
+	public function get_account($path)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('accounts', [
 			'id',
@@ -24,10 +24,7 @@ class Myvox_model extends Model
 			'settings'
 		], [
 			'AND' => [
-				'OR' => [
-					'id' => $token,
-					'token' => strtoupper($token)
-				],
+				'path' => $path,
 				'status' => true
 			]
 		]));

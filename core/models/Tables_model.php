@@ -71,8 +71,8 @@ class Tables_model extends Model
 					if ($this->get_count_tables() < Session::get_value('account')['table_package']['quantity_end'])
 					{
 						$data['token'] = Functions::get_random(8);
-						$data['qr']['filename'] = 'qr_table_' . $data['token'] . '.png';
-						$data['qr']['content'] = 'https://' . Configuration::$domain . '/myvox/table/' . $data['token'];
+						$data['qr']['filename'] = 'qr_' . Session::get_value('account')['path'] . '_table_' . $data['token'] . '.png';
+						$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/table/' . $data['token'];
 						$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
 						$data['qr']['level'] = 'H';
 						$data['qr']['size'] = 5;
@@ -103,8 +103,8 @@ class Tables_model extends Model
 				if ($this->get_count_tables() < Session::get_value('account')['table_package']['quantity_end'])
 				{
 					$data['token'] = Functions::get_random(8);
-					$data['qr']['filename'] = 'qr_table_' . $data['token'] . '.png';
-					$data['qr']['content'] = 'https://' . Configuration::$domain . '/myvox/table/' . $data['token'];
+					$data['qr']['filename'] = 'qr_' . Session::get_value('account')['path'] . '_table_' . $data['token'] . '.png';
+					$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/table/' . $data['token'];
 					$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
 					$data['qr']['level'] = 'H';
 					$data['qr']['size'] = 5;

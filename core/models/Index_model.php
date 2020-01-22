@@ -153,9 +153,10 @@ class Index_model extends Model
 
 	public function new_signup($data)
 	{
+		$data['path'] = str_replace(' ', '', strtolower($data['path']));
 		$data['token'] = Functions::get_random(8);
-		$data['qr']['filename'] = 'qr_account_' . $data['token'] . '.png';
-		$data['qr']['content'] = 'https://' . Configuration::$domain . '/myvox/account/' . $data['token'];
+		$data['qr']['filename'] = 'qr_' . $data['path'] . '_' . $data['token'] . '.png';
+		$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . $data['path'] . '/myvox';
 		$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
 		$data['qr']['level'] = 'H';
 		$data['qr']['size'] = 5;
@@ -164,6 +165,7 @@ class Index_model extends Model
 		$this->database->insert('accounts', [
 			'token' => strtoupper($data['token']),
 			'name' => $data['name'],
+			'path' => $data['path'],
 			'type' => $data['type'],
 			'zip_code' => $data['zip_code'],
 			'country' => $data['country'],
@@ -466,6 +468,7 @@ class Index_model extends Model
 			'users.status(user_status)',
 			'accounts.id(account_id)',
 			'accounts.name(account_name)',
+			'accounts.path(account_path)',
 			'accounts.type(account_type)',
 			'accounts.time_zone(account_time_zone)',
 			'accounts.currency(account_currency)',
@@ -520,6 +523,7 @@ class Index_model extends Model
 				'account' => [
 					'id' => $query[0]['account_id'],
 					'name' => $query[0]['account_name'],
+					'path' => $query[0]['account_path'],
 					'type' => $query[0]['account_type'],
 					'time_zone' => $query[0]['account_time_zone'],
 					'currency' => $query[0]['account_currency'],

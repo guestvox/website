@@ -62,6 +62,9 @@ class Index_controller extends Controller
 					if (!isset($_POST['name']) OR empty($_POST['name']) OR $this->model->check_exist_account('name', $_POST['name']) == true)
 				        array_push($labels, ['name','']);
 
+					if (!isset($_POST['path']) OR empty($_POST['path']) OR $this->model->check_exist_account('path', $_POST['path']) == true)
+				        array_push($labels, ['path','']);
+
 					if (!isset($_POST['type']) OR empty($_POST['type']))
 				        array_push($labels, ['type','']);
 
