@@ -72,9 +72,6 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     <canvas id="s1_chart" height="300"></canvas>
                 </div>
             </div>
-            <div class="charts big">
-                <canvas id="s2_chart" height="300"></canvas>
-            </div>
             <?php if (Session::get_value('account')['zaviapms']['status'] == true) : ?>
             <div class="charts little">
                 <canvas id="s5_chart" height="300"></canvas>
@@ -89,6 +86,9 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                 <canvas id="s8_chart" height="300"></canvas>
             </div>
             <?php endif; ?>
+            <div class="charts big">
+                <canvas id="s2_chart" height="300"></canvas>
+            </div>
             <div class="clear"></div>
         </main>
     </article>
