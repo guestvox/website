@@ -538,7 +538,7 @@ class Voxes_model extends Model
 				'started_date' => Functions::get_formatted_date($data['started_date']),
 				'started_hour' => Functions::get_formatted_hour($data['started_hour']),
 				'location' => $data['location'],
-				'cost' => ($data['type'] == 'incident') ? $data['cost'] : null,
+				'cost' => ($data['type'] == 'incident' ||$data['type'] == 'workorder') ? $data['cost'] : null,
 				'urgency' => $data['urgency'],
 				'confidentiality' => ($data['type'] == 'incident' AND !empty($data['confidentiality'])) ? true : false,
 				'assigned_users' => !empty($data['assigned_users']) ? $data['assigned_users'] : [],
@@ -1123,10 +1123,26 @@ class Voxes_model extends Model
 				unset($data['attachments']['name'], $data['attachments']['type'], $data['attachments']['tmp_name'], $data['attachments']['error'], $data['attachments']['size']);
 			}
 
+			if (empty($editer[0]['data']['cost']))
+			{
+				if (empty($data['cost']))
+					$editer[0]['data']['cost'] = $editer[0]['data']['cost'];
+				else
+				{
+					$editer[0]['data']['cost'] = 0;
+					$editer[0]['data']['cost'] = $editer[0]['data']['cost'] += $data['cost'];
+				}
+			}
+			else if (empty($data['cost']))
+				$editer[0]['data']['cost'] = $editer[0]['data']['cost'];
+			else if (!empty($editer[0]['data']['cost']) AND !empty($data['cost']))
+				$editer[0]['data']['cost'] = $editer[0]['data']['cost'] += $data['cost'];
+
 			array_push($editer[0]['data']['comments'], [
 				'user' => Session::get_value('user')['id'],
 				'date' => Functions::get_current_date(),
 				'hour' => Functions::get_current_hour(),
+				'cost' => $data['cost'],
 				'message' => $data['response_to'] . ' ' . $data['message'],
 				'attachments' => !empty($data['attachments']) ? $data['attachments'] : []
 			]);

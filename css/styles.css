@@ -2292,6 +2292,17 @@ a.new:hover {
     transition: 400ms;
 }
 
+a.complete {
+    background-color: #98ff98 !important;
+    color: #fff !important;
+    transition: 400ms;
+}
+
+a.complete:hover {
+    background-color: #3DC81D !important;
+    transition: 400ms;
+}
+
 a.edit {
     background-color: #ffc107 !important;
     color: #fff !important;

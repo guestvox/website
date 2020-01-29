@@ -299,7 +299,7 @@ class Voxes_controller extends Controller
 							$mail_opportunity_type = 'Opportunity type: ';
 							$mail_started_date = 'Start date: ';
 							$mail_started_hour = 'Start hour: ';
-							$mail_location = 'Loaction: ';
+							$mail_location = 'Location: ';
 
 							if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($vox['data']['started_date'], $vox['data']['started_hour']))
 								$mail_urgency = 'Urgency: Programmed';
@@ -687,6 +687,7 @@ class Voxes_controller extends Controller
 							'<article>
 								<header>
 									<p><i class="fas fa-comment-alt"></i>' . $value['message'] . '</p>
+									' . (!empty($value['cost']) ? '<p><strong>{$lang.aggregate_cost}: ' . Functions::get_formatted_currency($value['cost'], Session::get_value('account')['currency']) . '</strong></p>' : '') .'
 								</header>
 								<main>';
 
@@ -716,18 +717,12 @@ class Voxes_controller extends Controller
 									<span>{$lang.commented_at_day}: ' . Functions::get_formatted_date($value['date'], 'd M, y') . ' {$lang.at} ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>';
 
 							if ($vox['data']['status'] == 'open')
-								$div_comments .= '<a data-response-to="' . $value['user']['username'] . '" data-button-modal="new_vox_comment"><i class="fas fa-comments"></i></a>';
+								$div_comments .= '<a data-response-to="' . $value['user']['username'] . '" data-button-modal="new_vox_comment" value="' . $vox['type'] . '"><i class="fas fa-comments"></i></a>';
 
 							$div_comments .=
 							'	</footer>
 							</article>';
 						}
-					}
-
-					if ($vox['data']['status'] == 'open')
-					{
-						$div_comments .=
-						'<a data-button-modal="new_vox_comment"><i class="fas fa-comment-alt"></i></a></footer>';
 					}
 
 					$div_comments .=
@@ -841,13 +836,16 @@ class Voxes_controller extends Controller
 					'{$started_date}' => Functions::get_formatted_date($vox['data']['started_date'], 'd F, Y'),
 					'{$started_hour}' => Functions::get_formatted_hour($vox['data']['started_hour'], '+ hrs'),
 					'{$location}' => $vox['data']['location']['name'][Session::get_value('account')['language']],
-					'{$h4_cost}' => ($vox['type'] == 'incident') ? '<h4>{$lang.cost}: ' . Functions::get_formatted_currency($vox['data']['cost'], Session::get_value('account')['currency']) . '</h4>' : '',
+					'{$h4_cost}' => ($vox['type'] == 'incident' || $vox['type'] == 'workorder') ? '<h4>{$lang.cost}: ' . Functions::get_formatted_currency($vox['data']['cost'], Session::get_value('account')['currency']) . '</h4>' : '',
 					'{$h4_urgency}' => $h4_urgency,
 					'{$h4_confidentiality}' => ($vox['type'] == 'incident') ? '<h4 ' . (($vox['data']['confidentiality'] == true) ? 'style="background-color:#f44336;color:#fff;"' : '') . '>{$lang.confidentiality}: ' . (($vox['data']['confidentiality'] == true) ? '{$lang.to_yes}' : '{$lang.to_not}') . '</h4>' : '',
 					'{$h4_observations}' => ($vox['type'] == 'request' OR $vox['type'] == 'workorder') ? '<h4>{$lang.observations}: ' .  $vox['data']['observations'] . '</h4>' : '',
-					'{$h4_subject}' => ($vox['type'] == 'incident') ? '<h4>{$lang.subject}: ' . $vox['data']['subject'] . '</h4>' : '',
+					'{$h4_subject}' => ($vox['type'] == 'incident') ? '<h4 style="background-color:#00a5ab;color:#fff;">{$lang.subject}: ' . $vox['data']['subject'] . '</h4>' : '',
 					'{$h4_description}' => ($vox['type'] == 'incident') ? '<h4>{$lang.description}: ' . $vox['data']['description'] . '</h4>' : '',
 					'{$h4_action_taken}' => ($vox['type'] == 'incident') ? '<h4>{$lang.action_taken}: ' . $vox['data']['action_taken'] . '</h4>' : '',
+					'{$h4_date_hour}' => '<h4 data-started-date="' . Functions::get_formatted_date_hour($vox['data']['started_date'], $vox['data']['started_hour']) . '"
+					data-completed-date="' . Functions::get_formatted_date_hour($vox['data']['completed_date'], $vox['data']['completed_hour']) . '"
+					data-status="' . $vox['data']['status'] . '" data-elapsed-time></h4>',
 					'{$div_attachments}' => $div_attachments,
 					'{$div_comments}' => $div_comments,
 					'{$div_assigned_users}' => $div_assigned_users,
@@ -867,8 +865,9 @@ class Voxes_controller extends Controller
 					'{$status}' => (($vox['data']['status'] == 'open') ? '{$lang.opened}' : '{$lang.closed}'),
 					'{$origin}' => (($vox['data']['origin'] == 'internal') ? '{$lang.internal}' : '{$lang.external}'),
 					'{$btn_reopen}' => (Functions::check_user_access(['{voxes_reopen}']) == true AND $vox['data']['status'] == 'close') ? '<a data-button-modal="reopen_vox"><i class="fas fa-redo-alt"></i></a>' : '',
-					'{$btn_complete}' => (Functions::check_user_access(['{voxes_complete}']) == true AND $vox['data']['status'] == 'open') ? '<a data-button-modal="complete_vox"><i class="fas fa-check"></i></a>' : '',
-					'{$btn_edit}' => (Functions::check_user_access(['{voxes_update}']) == true AND $vox['data']['status'] == 'open') ? '<a href="/voxes/edit/' . $vox['id'] . '" class="edit"><i class="fas fa-pen"></i></a>' : ''
+					'{$btn_complete}' => (Functions::check_user_access(['{voxes_complete}']) == true AND $vox['data']['status'] == 'open') ? '<a data-button-modal="complete_vox" class="complete"><i class="fas fa-check"></i></a>' : '',
+					'{$btn_edit}' => (Functions::check_user_access(['{voxes_update}']) == true AND $vox['data']['status'] == 'open') ? '<a href="/voxes/edit/' . $vox['id'] . '" class="edit"><i class="fas fa-pen"></i></a>' : '',
+					'{$btn_comment}' => ($vox['data']['status'] == 'open') ? '<a data-button-modal="new_vox_comment" value="' . $vox['type'] . '"><i class="fas fa-comment-alt"></i></a></footer>' : '',
 				];
 
 				$template = $this->format->replace($replace, $template);
