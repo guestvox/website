@@ -20,6 +20,12 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
             <?php if (Functions::check_user_access(['{survey_answers_view}']) == true) : ?>
             <li><a href="/surveys/answers"><i class="fas fa-comment-alt"></i></a></li>
             <?php endif; ?>
+            <?php if (Functions::check_user_access(['{survey_answers_view}']) == true) : ?>
+            <li><a href="/surveys/comments"><i class="far fa-comment-dots"></i></a></li>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{survey_answers_view}']) == true) : ?>
+            <li><a href="/surveys/contact"><i class="far fa-address-book"></i></a></li>
+            <?php endif; ?>
             <?php if (Functions::check_user_access(['{survey_stats_view}']) == true) : ?>
             <li><a href="/surveys/stats"><i class="fas fa-chart-pie"></i></a></li>
             <?php endif; ?>
