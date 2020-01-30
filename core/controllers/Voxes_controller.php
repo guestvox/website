@@ -865,7 +865,7 @@ class Voxes_controller extends Controller
 					'{$status}' => (($vox['data']['status'] == 'open') ? '{$lang.opened}' : '{$lang.closed}'),
 					'{$origin}' => (($vox['data']['origin'] == 'internal') ? '{$lang.internal}' : '{$lang.external}'),
 					'{$btn_reopen}' => (Functions::check_user_access(['{voxes_reopen}']) == true AND $vox['data']['status'] == 'close') ? '<a data-button-modal="reopen_vox"><i class="fas fa-redo-alt"></i></a>' : '',
-					'{$btn_complete}' => (Functions::check_user_access(['{voxes_complete}']) == true AND $vox['data']['status'] == 'open') ? '<a data-button-modal="complete_vox" class="complete"><i class="fas fa-check"></i></a>' : '',
+					'{$btn_complete}' => (Functions::check_user_access(['{voxes_complete}']) == true AND $vox['data']['status'] == 'open') ? '<a data-button-modal="complete_vox" class="new"><i class="fas fa-check"></i></a>' : '',
 					'{$btn_edit}' => (Functions::check_user_access(['{voxes_update}']) == true AND $vox['data']['status'] == 'open') ? '<a href="/voxes/edit/' . $vox['id'] . '" class="edit"><i class="fas fa-pen"></i></a>' : '',
 					'{$btn_comment}' => ($vox['data']['status'] == 'open') ? '<a data-button-modal="new_vox_comment" value="' . $vox['type'] . '"><i class="fas fa-comment-alt"></i></a></footer>' : '',
 				];
