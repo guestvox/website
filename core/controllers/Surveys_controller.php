@@ -792,7 +792,16 @@ class Surveys_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
-
+			if ($_POST['action'] == 'get_charts_by_date_filter')
+			{
+				Functions::environment([
+					'status' => 'success',
+					'data' => [
+						's1_chart_data' => $this->model->get_chart_data('s1_chart', [$_POST['end_date'], $_POST['started_date']], true),
+						's2_chart_data' =>$this->model->get_chart_data('s2_chart', [$_POST['end_date'], $_POST['started_date']], true)
+					],
+				]);
+			}
 		}
 		else
 		{
@@ -849,7 +858,7 @@ class Surveys_controller extends Controller
 	{
 		header('Content-Type: application/javascript');
 
-		$s1_chart_data = $this->model->get_chart_data('s1_chart');
+		$s1_chart_data = $this->model->get_chart_data('s1_chart', [Functions::get_current_date(), Functions::get_past_date(Functions::get_current_date(), '7', 'days')]);
 		$s2_chart_data = $this->model->get_chart_data('s2_chart', [Functions::get_current_date(), Functions::get_past_date(Functions::get_current_date(), '7', 'days')]);
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)

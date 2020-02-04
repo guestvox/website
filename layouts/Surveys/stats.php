@@ -33,6 +33,10 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
     </nav>
     <article>
         <main>
+            <form name="get_charts_by_date_filter" class="date-filter">
+                <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>">
+                <input type="date" name="end_date" value="<?php echo Functions::get_current_date(); ?>" max="<?php echo Functions::get_current_date(); ?>">
+            </form>
             <div class="chart-rate">
                 <h2>{$lang.general_rate}</h2>
                 <div class="average">
