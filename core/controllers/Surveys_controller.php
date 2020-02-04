@@ -636,7 +636,7 @@ class Surveys_controller extends Controller
 					$tbl_survey_answers .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
 
 				$tbl_survey_answers .=
-				'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
+				'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND $value['guest']['zaviapms']['lastname']) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
 					<td align="left">' . Functions::get_formatted_date($value['date'], 'd M, y') . '</td>
 					<td align="left"><i class="fas fa-star" style="margin-right:5px;color:#ffeb3b;"></i>' . $value['rate'] . '</td>
 					<td align="right" class="icon"><a data-action="view_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-bars"></i></a></td>
@@ -647,6 +647,139 @@ class Surveys_controller extends Controller
 
 			$replace = [
 				'{$tbl_survey_answers}' => $tbl_survey_answers
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
+	public function comments()
+	{
+		if (Format::exist_ajax_request() == true)
+		{
+
+		}
+		else
+		{
+			define('_title', 'GuestVox');
+
+			$template = $this->view->render($this, 'comments');
+
+			$tbl_survey_comments = '';
+
+			foreach ($this->model->get_survey_answers() as $value)
+			{
+				if (!empty($value['comment']))
+				{
+					$tbl_survey_comments .=
+					'<tr>
+						<td align="left">' . $value['token'] . '</td>';
+
+					if (Session::get_value('account')['type'] == 'hotel')
+						$tbl_survey_comments .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+
+					if (Session::get_value('account')['type'] == 'restaurant')
+						$tbl_survey_comments .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+
+					$tbl_survey_comments .=
+					'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND $value['guest']['zaviapms']['lastname']) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
+						<td align="left"> ' . $value['comment'] . '</td>
+					</tr>';
+
+				}
+			}
+
+			$replace = [
+				'{$tbl_survey_comments}' => $tbl_survey_comments
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
+	public function contact()
+	{
+		if (Format::exist_ajax_request() == true)
+		{
+
+		}
+		else
+		{
+			define('_title', 'GuestVox');
+
+			$template = $this->view->render($this, 'contact');
+
+			$tbl_survey_contact_information = '';
+
+			foreach ($this->model->get_survey_answers() as $value)
+			{
+				if (Session::get_value('account')['zaviapms']['status'] == true)
+				{
+					if (!empty($value['guest']['zaviapms']['firstname']) AND $value['guest']['zaviapms']['lastname'] || !empty($value['guest']['guestvox']['email']) || !empty($value['guest']['guestvox']['phone']['number']))
+					{
+						$tbl_survey_contact_information .=
+						'<tr>
+							<td align="left">' . $value['token'] . '</td>';
+
+						if (Session::get_value('account')['type'] == 'hotel')
+							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+
+						if (Session::get_value('account')['type'] == 'restaurant')
+							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+
+						$tbl_survey_contact_information .=
+						'	<td align="left">' .  $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] . '</td>
+							<td align="left"> ' . $value['guest']['guestvox']['email']  .  '</td>
+							<td align="left"> ' . $value['guest']['guestvox']['phone']['lada'] . $value['guest']['guestvox']['phone']['number']  .  '</td>
+						</tr>';
+					}
+					else if (!empty($value['guest']['guestvox']['email']) || !empty($value['guest']['guestvox']['phone']['number']))
+					{
+						$tbl_survey_contact_information .=
+						'<tr>
+							<td align="left">' . $value['token'] . '</td>';
+
+						if (Session::get_value('account')['type'] == 'hotel')
+							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+
+						if (Session::get_value('account')['type'] == 'restaurant')
+							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+
+						$tbl_survey_contact_information .=
+						'	<td align="left">' .  $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname'] . '</td>
+							<td align="left"> ' . $value['guest']['guestvox']['email']  .  '</td>
+							<td align="left"> ' . $value['guest']['guestvox']['phone']['lada'] . $value['guest']['guestvox']['phone']['number']  .  '</td>
+						</tr>';
+					}
+
+				}
+				else
+				{
+					$tbl_survey_contact_information .=
+					'<tr>
+						<td align="left">' . $value['token'] . '</td>';
+
+					if (Session::get_value('account')['type'] == 'hotel')
+						$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+
+					if (Session::get_value('account')['type'] == 'restaurant')
+						$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+
+					$tbl_survey_contact_information .=
+					'	<td align="left">' . $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname'] . '</td>
+						<td align="left"> ' . $value['guest']['guestvox']['email']  .  '</td>
+						<td align="left"> ' . $value['guest']['guestvox']['phone']['lada'] . $value['guest']['guestvox']['phone']['number']  .  '</td>
+					</tr>';
+				}
+
+			}
+
+			$replace = [
+				'{$tbl_survey_contact_information}' => $tbl_survey_contact_information
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -668,6 +801,8 @@ class Surveys_controller extends Controller
 			$template = $this->view->render($this, 'stats');
 
 			$general_average_rate = $this->model->get_general_average_rate();
+
+			$h4_general_average_rate = '';
 
 			if ($general_average_rate >= 1 AND $general_average_rate < 1.8)
 				$h4_general_average_rate = '<h4 style="color:#f44336;">' . $general_average_rate . '</h4>';

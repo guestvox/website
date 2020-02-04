@@ -67,6 +67,8 @@ class User_level
 
                 case '{survey_answers_view}' :
                     array_push($paths, '/Surveys/answers');
+                    array_push($paths, '/Surveys/comments');
+                    array_push($paths, '/Surveys/contact');
                 break;
 
                 case '{survey_stats_view}' :

@@ -39,6 +39,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         {$h4_subject}
                         {$h4_description}
                         {$h4_action_taken}
+                        {$h4_date_hour}
                     </div>
                     {$div_attachments}
                     {$div_comments}
@@ -68,6 +69,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         {$btn_reopen}
                         {$btn_complete}
                         {$btn_edit}
+                        {$btn_comment}
                     </div>
                 </aside>
             </div>
@@ -100,13 +102,19 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
         </footer>
     </div>
 </section>
-<section class="modal" data-modal="new_vox_comment">
+<section class="modal" data-modal="new_vox_comment" name="{$type}">
     <div class="content">
         <header>
             <h3>{$lang.comment}</h3>
         </header>
         <main>
             <form name="new_vox_comment">
+                <div class="label" id="cost">
+                    <label>
+                        <p>{$lang.cost} (<?php echo Session::get_value('account')['currency']; ?>)</p>
+                        <input type="number" name="cost" />
+                    </label>
+                </div>
                 <div class="label">
                     <label>
                         <p>{$lang.message}</p>

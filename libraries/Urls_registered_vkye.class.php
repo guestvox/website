@@ -89,6 +89,14 @@ class Urls_registered_vkye
                 'controller' => 'Surveys',
                 'method' => 'answers'
             ],
+            '/surveys/comments' => [
+                'controller' => 'Surveys',
+                'method' => 'comments'
+            ],
+            '/surveys/contact' => [
+                'controller' => 'Surveys',
+                'method' => 'contact'
+            ],
             '/surveys/stats' => [
                 'controller' => 'Surveys',
                 'method' => 'stats'

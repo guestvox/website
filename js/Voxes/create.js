@@ -68,8 +68,7 @@ $(document).ready(function()
 
         if ($(this).val() == 'request')
         {
-            $('[name="room"]').parent().parent().parent().removeClass('hidden');
-            $('[name="table"]').parent().parent().parent().removeClass('hidden');
+            $('[name="room"]').parents('label').attr('important', true);
             $('[name="cost"]').parent().parent().parent().addClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().addClass('hidden');
             $('[name="observations"]').parent().parent().parent().removeClass('hidden');
@@ -88,8 +87,7 @@ $(document).ready(function()
         }
         else if ($(this).val() == 'incident')
         {
-            $('[name="room"]').parent().parent().parent().removeClass('hidden');
-            $('[name="table"]').parent().parent().parent().removeClass('hidden');
+            $('[name="room"]').parents('label').attr('important', true);
             $('[name="cost"]').parent().parent().parent().removeClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().removeClass('hidden');
             $('[name="observations"]').parent().parent().parent().addClass('hidden');
@@ -108,9 +106,8 @@ $(document).ready(function()
         }
         else if ($(this).val() == 'workorder')
         {
-            $('[name="room"]').parent().parent().parent().addClass('hidden');
-            $('[name="table"]').parent().parent().parent().addClass('hidden');
-            $('[name="cost"]').parent().parent().parent().addClass('hidden');
+            $('[name="room"]').parents('label').removeAttr('important');
+            $('[name="cost"]').parent().parent().parent().removeClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().addClass('hidden');
             $('[name="observations"]').parent().parent().parent().removeClass('hidden');
             $('[name="subject"]').parent().parent().parent().addClass('hidden');

@@ -4,6 +4,7 @@
         <nav>
             <ul>
                 <li><a href="/profile"><i class="fas fa-circle"></i><?php echo Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname']; ?></a></li>
+                <li><a><?php echo Session::get_value('account')['name']; ?></a></li>
                 <?php if (Functions::check_account_access(['operation']) == true) : ?>
                 <li><a href="/voxes/create" class="new">{$lang.new_vox}</a></li>
                 <?php endif; ?>
