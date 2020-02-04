@@ -448,7 +448,7 @@ class Surveys_model extends Model
 		return $count;
 	}
 
-	public function get_chart_data($option, $parameters = [])
+	public function get_chart_data($option, $parameters = [], $edit = false)
 	{
 		$data = null;
 
@@ -456,10 +456,14 @@ class Surveys_model extends Model
 		{
 			if (Session::get_value('account')['type'] == 'hotel')
 			{
+
 				$query1 = $this->database->select('survey_answers', [
 					'room'
 				], [
-					'account' => Session::get_value('account')['id']
+					'AND' => [
+						'account' => Session::get_value('account')['id'],
+						'date[<>]' => [$parameters[1], $parameters[0]]
+					]
 				]);
 
 				$query2 = $this->database->select('rooms', [
@@ -475,7 +479,10 @@ class Surveys_model extends Model
 				$query1 = $this->database->select('survey_answers', [
 					'table'
 				], [
-					'account' => Session::get_value('account')['id']
+					'AND' => [
+						'account' => Session::get_value('account')['id'],
+						'date[<>]' => [$parameters[1], $parameters[0]]
+					]
 				]);
 
 				$query2 = $this->database->select('table', [
@@ -487,13 +494,26 @@ class Surveys_model extends Model
 				]);
 			}
 
-			$data = [
-				'labels' => '',
-				'datasets' => [
-					'data' => '',
-					'colors' => ''
-				]
-			];
+			if ($edit == true)
+			{
+				$data = [
+					'labels' => [],
+					'datasets' => [
+						'data' => [],
+						'colors' => []
+					]
+				];
+			}
+			else
+			{
+				$data = [
+					'labels' => '',
+					'datasets' => [
+						'data' => '',
+						'colors' => ''
+					]
+				];
+			}
 
 			foreach ($query2 as $value)
 			{
@@ -517,21 +537,49 @@ class Surveys_model extends Model
 				{
 					if (Session::get_value('account')['type'] == 'hotel')
 					{
-						if (Session::get_value('account')['language'] == 'es')
-							$data['labels'] .= "'Habitación #" . $value['number'] . ' ' . $value['name'] . "',";
-						else if (Session::get_value('account')['language'] == 'en')
-							$data['labels'] .= "'Room #" . $value['number'] . ' ' . $value['name'] . "',";
+						if ($edit == true)
+						{
+							if (Session::get_value('account')['language'] == 'es')
+								array_push($data['labels'], "Habitación #" . $value['number'] . ' ' . $value['name']);
+							else if (Session::get_value('account')['language'] == 'en')
+								array_push($data['labels'], "Room #" . $value['number'] . ' ' . $value['name']);
+						}
+						else
+						{
+							if (Session::get_value('account')['language'] == 'es')
+								$data['labels'] .= "'Habitación #" . $value['number'] . ' ' . $value['name'] . "',";
+							else if (Session::get_value('account')['language'] == 'en')
+								$data['labels'] .= "'Room #" . $value['number'] . ' ' . $value['name'] . "',";
+						}
 					}
 					else if (Session::get_value('account')['type'] == 'restaurant')
 					{
-						if (Session::get_value('account')['language'] == 'es')
-							$data['labels'] .= "'Mesa #" . $value['number'] . ' ' . $value['name'] . "',";
-						else if (Session::get_value('account')['language'] == 'en')
-							$data['labels'] .= "'Table #" . $value['number'] . ' ' . $value['name'] . "',";
+						if ($edit == true)
+						{
+							if (Session::get_value('account')['language'] == 'es')
+								array_push($data['labels'], "Mesa #" . $value['number'] . ' ' . $value['name']);
+							else if (Session::get_value('account')['language'] == 'en')
+								array_push($data['labels'], "Table #" . $value['number'] . ' ' . $value['name']);
+						}
+						else
+						{
+							if (Session::get_value('account')['language'] == 'es')
+								$data['labels'] .= "'Mesa #" . $value['number'] . ' ' . $value['name'] . "',";
+							else if (Session::get_value('account')['language'] == 'en')
+								$data['labels'] .= "'Table #" . $value['number'] . ' ' . $value['name'] . "',";
+						}
 					}
 
-					$data['datasets']['data'] .= $count . ',';
-					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+					if ($edit == true)
+					{
+						array_push($data['datasets']['data'], $count);
+						array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+					}
+					else
+					{
+						$data['datasets']['data'] .= $count . ',';
+						$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+					}
 				}
 			}
 
@@ -555,21 +603,49 @@ class Surveys_model extends Model
 			{
 				if (Session::get_value('account')['type'] == 'hotel')
 				{
-					if (Session::get_value('account')['language'] == 'es')
-						$data['labels'] .= "'Sin habitación'";
-					else if (Session::get_value('account')['language'] == 'en')
-						$data['labels'] .= "'No room'";
+					if ($edit == true)
+					{
+						if (Session::get_value('account')['language'] == 'es')
+							array_push($data['labels'], "Sin habitación");
+						else if (Session::get_value('account')['language'] == 'en')
+							array_push($data['labels'], "No room");
+					}
+					else
+					{
+						if (Session::get_value('account')['language'] == 'es')
+							$data['labels'] .= "'Sin habitación'";
+						else if (Session::get_value('account')['language'] == 'en')
+							$data['labels'] .= "'No room'";
+					}
 				}
 				else if (Session::get_value('account')['type'] == 'restaurant')
 				{
-					if (Session::get_value('account')['language'] == 'es')
-						$data['labels'] .= "'Sin mesa'";
-					else if (Session::get_value('account')['language'] == 'en')
-						$data['labels'] .= "'No table'";
+					if ($edit == true)
+					{
+						if (Session::get_value('account')['language'] == 'es')
+							array_push($data['labels'], "Sin mesa");
+						else if (Session::get_value('account')['language'] == 'en')
+							array_push($data['labels'], "No table");
+					}
+					else
+					{
+						if (Session::get_value('account')['language'] == 'es')
+							$data['labels'] .= "'Sin mesa'";
+						else if (Session::get_value('account')['language'] == 'en')
+							$data['labels'] .= "'No table'";
+					}
 				}
 
-				$data['datasets']['data'] .= $empty;
-				$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+				if ($edit == true)
+				{
+					array_push($data['datasets']['data'], $empty);
+					array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+				}
+				else
+				{
+					$data['datasets']['data'] .= $empty;
+					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+				}
 			}
 		}
 		else if ($option == 's2_chart')
@@ -582,23 +658,37 @@ class Surveys_model extends Model
 				'account' => Session::get_value('account')['id']
 			]));
 
-			$data = [
-				'labels' => '',
-				'datasets' => ''
-			];
+			if ($edit == true)
+			{
+				$data = [
+					'labels' => [],
+					'datasets' => []
+				];
+			}
+			else
+			{
+				$data = [
+					'labels' => '',
+					'datasets' => ''
+				];
+			}
 
 			$diff = Functions::get_diff_date($parameters[0], $parameters[1], 'days');
 
 			for ($i = 0; $i < $diff; $i++)
 			{
-				$data['labels'] .= "'" . Functions::get_past_date(Functions::get_current_date(), $i, 'days') . "',";
+				if ($edit == true)
+					array_push($data['labels'], Functions::get_past_date(Functions::get_current_date(), $i, 'days'));
+				else
+					$data['labels'] .= "'" . Functions::get_past_date(Functions::get_current_date(), $i, 'days') . "',";
 			}
 
 			foreach ($query1 as $value)
 			{
-				$data['datasets'] .= "{
-					label: '" . $value['name'][Session::get_value('account')['language']] . "',
-					data: [";
+				if ($edit == true)
+					$datas = [];
+				else
+					$datas = '';
 
 				for ($i = 0; $i < $diff; $i++)
 				{
@@ -651,16 +741,34 @@ class Surveys_model extends Model
 					if ($rate > 0 AND $count > 0)
 						$average = round(($rate / $count), 2);
 
-					$data['datasets'] .= $average . ",";
+					if ($edit == true)
+						array_push($datas, $average);
+					else
+						$datas .= $average . ",";
 				}
 
 				$color = str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
 
-				$data['datasets'] .= "],
-					fill: false,
-					backgroundColor: '#" . $color . "',
-					borderColor: '#" . $color . "',
-				},";
+				if ($edit == true)
+				{
+					array_push($data['datasets'], [
+						'label' => $value['name'][Session::get_value('account')['language']],
+						'data' => $datas,
+						'fill' => false,
+						'backgroundColor' => '#' . $color,
+						'borderColor' => '#' . $color
+					]);
+				}
+				else
+				{
+					$data['datasets'] .= "{
+						label: '" . $value['name'][Session::get_value('account')['language']] . "',
+						data: [" . $datas . "],
+						fill: false,
+						backgroundColor: '#" . $color . "',
+						borderColor: '#" . $color . "',
+					},";
+				}
 			}
 		}
 		else if ($option == 's5_chart' OR $option == 's6_chart' OR $option == 's7_chart' OR $option == 's8_chart')
