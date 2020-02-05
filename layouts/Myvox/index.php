@@ -4,6 +4,22 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.css}Myvox/index.css']);
 $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
+$this->dependencies->add(['other', "
+<script>
+        if('serviceWorker' in navigator){
+                console.log('El navegador admite service workers');
+            window.addEventListener('load', function(){
+            navigator.serviceWorker.register('sw.js').then(function(registration){
+            console.log('Service worker registrado de modo correcto');
+            console.log('Scope: ' + registration.scope)
+            },function(error){
+                console.log('El registro del Service worker ha fallado');
+                console.log(error)
+            });
+            });
+        }//Cierra validacion si el navegador admite service workers
+        </script>
+"]);
 
 ?>
 
