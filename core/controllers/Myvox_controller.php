@@ -1296,6 +1296,21 @@ class Myvox_controller extends Controller
 								   <input type="text" name="po-' . $value['id'] . '">
 								</div>';
 							}
+							else if ($value['type'] == 'check')
+							{
+								$mdl_new_survey_answer .=
+								'<div class="checkboxes">';
+								foreach ($value['name']['values'] as $key => $value_check)
+								{
+									$mdl_new_survey_answer .=
+									'
+										<input type="checkbox" name="check_answers[]" value="' . $value_check['id'] . '">
+										<span>' . $value_check['name'][Session::get_value('account')['language']] . '</span>
+									';
+								}
+								$mdl_new_survey_answer .=
+								'</div>';
+							}
 
 							$mdl_new_survey_answer .=
 							'</article>';
