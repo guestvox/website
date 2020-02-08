@@ -34,16 +34,25 @@ $(document).ready(function()
         $(this).parent().parent().addClass('span3');
         $('[name="rooms_number"]').val('');
         $('[name="tables_number"]').val('');
+        $('[name="clients_number"]').val('');
 
         if ($(this).val() == 'hotel')
         {
             $('[name="rooms_number"]').parent().parent().removeClass('hidden');
             $('[name="tables_number"]').parent().parent().addClass('hidden');
+            $('[name="clients_number"]').parent().parent().addClass('hidden');
         }
         else if ($(this).val() == 'restaurant')
         {
             $('[name="rooms_number"]').parent().parent().addClass('hidden');
             $('[name="tables_number"]').parent().parent().removeClass('hidden');
+            $('[name="clients_number"]').parent().parent().addClass('hidden');
+        }
+        else if ($(this).val() == 'others')
+        {
+            $('[name="rooms_number"]').parent().parent().addClass('hidden');
+            $('[name="tables_number"]').parent().parent().addClass('hidden');
+            $('[name="clients_number"]').parent().parent().removeClass('hidden');
         }
 
         get_total();
@@ -55,6 +64,11 @@ $(document).ready(function()
     });
 
     $('[name="tables_number"]').on('change', function()
+    {
+        get_total();
+    });
+
+    $('[name="clients_number"]').on('change', function()
     {
         get_total();
     });
@@ -202,6 +216,7 @@ $(document).ready(function()
         $('[name="name"]').parent().parent().addClass('span9');
         $('[name="rooms_number"]').parent().parent().addClass('hidden');
         $('[name="tables_number"]').parent().parent().addClass('hidden');
+        $('[name="clients_number"]').parent().parent().addClass('hidden');
         $('[name="logotype"]').parents('.uploader').find('img').attr('src', '../images/empty.png');
         get_total();
     });

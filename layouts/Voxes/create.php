@@ -18,7 +18,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 %{header}%
 <main>
     <nav>
-        <h2><i class="fas fa-heart"></i>{$lang.new_vox}</h2>
+        <h2><i class="fas fa-heart"></i>{$lang.new}</h2>
     </nav>
     <article>
         <main>
@@ -62,6 +62,19 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                                 <select name="table">
                                     <option value="" selected hidden>{$lang.choose}</option>
                                     {$opt_tables}
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    <?php if (Session::get_value('account')['type'] == 'others') : ?>
+                    <div class="span3">
+                        <div class="label">
+                            <label important>
+                                <p>{$lang.client}</p>
+                                <select name="client">
+                                    <option value="" selected hidden>{$lang.choose}</option>
+                                    {$opt_clients}
                                 </select>
                             </label>
                         </div>

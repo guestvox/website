@@ -5,7 +5,7 @@ $(document).ready(function()
     var tbl_guest_treatments = $('#tbl_guest_treatments').DataTable({
         ordering: false,
         pageLength: 25,
-        info: false,
+        info: false
     });
 
     $('[name="tbl_guest_treatments_search"]').on('keyup', function()

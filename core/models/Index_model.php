@@ -133,6 +133,22 @@ class Index_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
+	public function get_client_package($clients_number)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('client_packages', [
+			'id',
+			'quantity_end',
+			'price'
+		], [
+			'AND' => [
+				'quantity_start[<=]' => $clients_number,
+				'quantity_end[>=]' => $clients_number
+			]
+		]));
+
+		return !empty($query) ? $query[0] : null;
+	}
+
 	public function check_exist_account($field, $value)
 	{
 		$count = $this->database->count('accounts', [
@@ -176,6 +192,7 @@ class Index_model extends Model
 			'language' => $data['language'],
 			'room_package' => ($data['type'] == 'hotel') ? $this->get_room_package($data['rooms_number'])['id'] : null,
 			'table_package' => ($data['type'] == 'restaurant') ? $this->get_table_package($data['tables_number'])['id'] : null,
+			'client_package' => ($data['type'] == 'others') ? $this->get_client_package($data['clients_number'])['id'] : null,
 			'logotype' => Functions::uploader($data['logotype']),
 			'fiscal' => json_encode([
 				'id' => strtoupper($data['fiscal_id']),
@@ -390,6 +407,16 @@ class Index_model extends Model
 				'["27","1","2","3"]'
 			];
 		}
+		else if ($data['type'] == 'others')
+		{
+			$data['user_permissions']['ids'] = [
+				'["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","54","55","56","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]',
+				'["46","47","25","39","41","38","26","1","2","3"]',
+				'["46","47","25","39","41","38","28","1","2","3"]',
+				'["46","47","39","41","38","28","1","2","3"]',
+				'["27","1","2","3"]'
+			];
+		}
 
 		$this->database->insert('user_levels', [
 			[
@@ -455,6 +482,9 @@ class Index_model extends Model
 			],
 			'[>]table_packages' => [
 				'accounts.table_package' => 'id'
+			],
+			'[>]client_packages' => [
+				'accounts.client_package' => 'id'
 			]
 		], [
 			'users.id(user_id)',
@@ -482,7 +512,9 @@ class Index_model extends Model
 			'room_packages.id(room_package_id)',
 			'room_packages.quantity_end(room_package_quantity_end)',
 			'table_packages.id(table_package_id)',
-			'table_packages.quantity_end(table_package_quantity_end)'
+			'table_packages.quantity_end(table_package_quantity_end)',
+			'client_packages.id(client_package_id)',
+			'client_packages.quantity_end(client_package_quantity_end)'
 		], [
 			'AND' => [
 				'OR' => [
@@ -549,6 +581,13 @@ class Index_model extends Model
 				$data['account']['table_package'] = [
 					'id' => $query[0]['table_package_id'],
 					'quantity_end' => $query[0]['table_package_quantity_end']
+				];
+			}
+			else if ($query[0]['account_type'] == 'others')
+			{
+				$data['account']['client_package'] = [
+					'id' => $query[0]['client_package_id'],
+					'quantity_end' => $query[0]['client_package_quantity_end']
 				];
 			}
 

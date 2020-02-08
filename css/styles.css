@@ -21,7 +21,7 @@ header.main > section.topbar {
     float: right;
     padding: 0px 20px;
     box-sizing: border-box;
-    background-color: #e0e0e0;
+    background-color: #00a5ab;
 }
 
 header.main > section.topbar > nav {
@@ -45,23 +45,24 @@ header.main > section.topbar > nav > ul > li > a {
 }
 
 header.main > section.topbar > nav > ul > li > a {
-    padding: 0px 20px;
+    padding-left: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 12px;
     font-weight: 600;
-    color: #757575;
+    color: #fff;
     transition: 400ms;
 }
 
-header.main > section.topbar > nav > ul > li > a:hover {
-    background-color: #bdbdbd;
-    transition: 400ms;
-}
-
-header.main > section.topbar > nav > ul > li:first-child > a > i {
+header.main > section.topbar > nav > ul > li > a > i {
     margin-right: 5px;
+    font-size: 12px;
+}
+
+header.main > section.topbar > nav > ul > li > a.profile > i {
+    border: 1px solid #fff;
+    border-radius: 50%;
     font-size: 8px;
     color: #4caf50;
 }
@@ -75,7 +76,7 @@ header.main > section.menu {
     height: 50px;
     float: left;
     position: relative;
-    background-color: #e0e0e0;
+    background-color: #00a5ab;
 }
 
 header.main > section.menu::after {
@@ -127,18 +128,14 @@ header.main > section.menu > nav.main-menu > ul > li > a {
     justify-content: center;
     font-size: 12px;
     font-weight: 600;
-    color: #757575;
-    transition: 400ms;
-}
-
-header.main > section.menu > nav.main-menu > ul > li > a:hover {
-    background-color: #bdbdbd !important;
+    color: #fff;
     transition: 400ms;
 }
 
 header.main > section.menu > nav.main-menu > ul > li.active > a,
 header.main > section.menu > nav.main-menu > ul > li.active > a:hover {
     background-color: #fff !important;
+    color: #00a5ab;
 }
 
 header.main > section.menu > nav.main-menu > ul > li > a > i {
@@ -149,14 +146,15 @@ header.main > section.menu > nav.open-menu {
     width: 300px;
     height: 100vh;
     position: absolute;
-    top: 50px;
+    top: 0px;
     right: -200%;
     bottom: 0px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
-    background-color: #eee;
+    background-color: #fff;
+    box-shadow: 0 2px 12px -1px rgba(7, 10, 25, 0.2), 0 22px 27px -20px rgba(7, 10, 25, 0.2);
     padding: 20px;
     box-sizing: border-box;
     overflow-y: auto;
@@ -170,16 +168,18 @@ header.main > section.menu > nav.open-menu.open {
 
 header.main > section.menu > nav.open-menu > figure {
     width: auto;
-    height: 100px;
+    max-width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
 header.main > section.menu > nav.open-menu > figure > img {
     width: auto;
-    height: 100px;
+    max-width: 100%;
 }
 
 header.main > section.menu > nav.open-menu > h4 {
@@ -1356,8 +1356,8 @@ div.account > div {
     box-sizing: border-box;
 }
 
-div.account > div > figure {
-    width: 100%;
+div.account > div > figure.qr,
+div.account > div > figure.logotype {
     height: 100%;
     position: relative;
     display: flex;
@@ -1367,12 +1367,28 @@ div.account > div > figure {
     overflow: hidden;
 }
 
-div.account > div > figure > img {
+div.account > div > figure.qr {
+    width: 100%;
+}
+
+div.account > div > figure.logotype {
+    width: auto;
+    max-width: 100%;
+}
+
+div.account > div > figure.qr > img {
     width: auto;
     height: 100%;
 }
 
-div.account > div > figure > input {
+div.account > div > figure.logotype > img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+}
+
+div.account > div > figure.logotype > input {
     display: none;
 }
 
@@ -1477,6 +1493,7 @@ div.profile > figure {
     display: flex;
     align-items: center;
     justify-content: center;
+    border-radius: 50%;
     line-height: 0px;
     overflow: hidden;
 }
@@ -1487,14 +1504,15 @@ div.profile > figure > img {
 
 div.profile > figure > a {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    bottom: 20px;
-    left: 20px;
+    top: 80px;
+    right: 80px;
+    bottom: 80px;
+    left: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 50px;
+    border-radius: 50%;
+    font-size: 30px;
     color: #757575;
     background-color: #fff;
     opacity: 0;

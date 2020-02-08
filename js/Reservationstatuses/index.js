@@ -5,7 +5,7 @@ $(document).ready(function()
     var tbl_reservation_statuses = $('#tbl_reservation_statuses').DataTable({
         ordering: false,
         pageLength: 25,
-        info: false,
+        info: false
     });
 
     $('[name="tbl_reservation_statuses_search"]').on('keyup', function()

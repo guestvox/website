@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-require_once 'plugins/nexmo/vendor/autoload.php';
+// require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Voxes_controller extends Controller
 {
@@ -36,6 +36,9 @@ class Voxes_controller extends Controller
 
 			if (Session::get_value('account')['type'] == 'restaurant')
 				$tbl_voxes .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['table']['number'] . ' ' . $value['data']['table']['name'] : '') . '</td>';
+
+			if (Session::get_value('account')['type'] == 'others')
+				$tbl_voxes .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? $value['data']['client']['name'] : '') . '</td>';
 
 			$tbl_voxes .=
 			'	<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? $value['data']['firstname'] . ' ' . $value['data']['lastname'] : '') . '</td>
@@ -188,6 +191,12 @@ class Voxes_controller extends Controller
 						if (!isset($_POST['table']) OR empty($_POST['table']))
 							array_push($labels, ['table','']);
 					}
+
+					if (Session::get_value('account')['type'] == 'others')
+					{
+						if (!isset($_POST['client']) OR empty($_POST['client']))
+							array_push($labels, ['client','']);
+					}
 				}
 
 				if (!isset($_POST['opportunity_area']) OR empty($_POST['opportunity_area']))
@@ -245,6 +254,9 @@ class Voxes_controller extends Controller
 
 								if (Session::get_value('account')['type'] == 'restaurant')
 									$mail_table = 'Mesa: #';
+
+								if (Session::get_value('account')['type'] == 'others')
+									$mail_client = 'Cliente: ';
 							}
 
 							$mail_opportunity_area = 'Área de oportunidad: ';
@@ -293,6 +305,9 @@ class Voxes_controller extends Controller
 
 								if (Session::get_value('account')['type'] == 'restaurant')
 									$mail_table = 'Table: #';
+
+								if (Session::get_value('account')['type'] == 'others')
+									$mail_client = 'Client: ';
 							}
 
 							$mail_opportunity_area = 'Opportunity area: ';
@@ -363,6 +378,9 @@ class Voxes_controller extends Controller
 
 								if (Session::get_value('account')['type'] == 'restaurant')
 									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_table . $vox['data']['table']['number'] . ' ' . $vox['data']['table']['name'] . '</h6>';
+
+								if (Session::get_value('account')['type'] == 'others')
+									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_client . $vox['data']['client']['name'] . '</h6>';
 							}
 
 							$mail->Body .=
@@ -415,6 +433,9 @@ class Voxes_controller extends Controller
 
 								if (Session::get_value('account')['type'] == 'restaurant')
 									$sms_text .= $mail_table . $vox['data']['table']['number'] . ' ' . $vox['data']['table']['name'] . '. ';
+
+								if (Session::get_value('account')['type'] == 'others')
+									$sms_text .= $mail_client . $vox['data']['client']['name'] . '. ';
 							}
 
 							$sms_text .= $mail_opportunity_area . $vox['data']['opportunity_area']['name'][Session::get_value('account')['language']] . '. ';
@@ -499,6 +520,14 @@ class Voxes_controller extends Controller
 					$opt_tables .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 			}
 
+			$opt_clients = '';
+
+			if (Session::get_value('account')['type'] == 'others')
+			{
+				foreach ($this->model->get_clients() as $value)
+					$opt_clients .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+			}
+
 			$opt_opportunity_areas = '';
 
 			foreach ($this->model->get_opportunity_areas('request') as $value)
@@ -533,6 +562,7 @@ class Voxes_controller extends Controller
 			$replace = [
 				'{$opt_rooms}' => $opt_rooms,
 				'{$opt_tables}' => $opt_tables,
+				'{$opt_clients}' => $opt_clients,
 				'{$opt_opportunity_areas}' => $opt_opportunity_areas,
 				'{$opt_locations}' => $opt_locations,
 				'{$opt_guest_treatments}' => $opt_guest_treatments,
@@ -831,6 +861,7 @@ class Voxes_controller extends Controller
 					'{$type}' => $vox['type'],
 					'{$h4_room}' => (($vox['type'] == 'request' OR $vox['type'] == 'incident') AND Session::get_value('account')['type'] == 'hotel') ? '<h4>{$lang.room}: #' . $vox['data']['room']['number'] . ' ' . $vox['data']['room']['name'] . '</h4>' : '',
 					'{$h4_table}' => (($vox['type'] == 'request' OR $vox['type'] == 'incident') AND Session::get_value('account')['type'] == 'restaurant') ? '<h4>{$lang.table}: #' . $vox['data']['table']['number'] . ' ' . $vox['data']['table']['name'] . '</h4>' : '',
+					'{$h4_client}' => (($vox['type'] == 'request' OR $vox['type'] == 'incident') AND Session::get_value('account')['type'] == 'others') ? '<h4>{$lang.client}: ' . $vox['data']['client']['name'] . '</h4>' : '',
 					'{$opportunity_area}' => $vox['data']['opportunity_area']['name'][Session::get_value('account')['language']],
 					'{$opportunity_type}' => $vox['data']['opportunity_type']['name'][Session::get_value('account')['language']],
 					'{$started_date}' => Functions::get_formatted_date($vox['data']['started_date'], 'd F, Y'),
@@ -1161,6 +1192,12 @@ class Voxes_controller extends Controller
 							if (!isset($_POST['table']) OR empty($_POST['table']))
 								array_push($labels, ['table','']);
 						}
+
+						if (Session::get_value('account')['type'] == 'others')
+						{
+							if (!isset($_POST['client']) OR empty($_POST['client']))
+								array_push($labels, ['client','']);
+						}
 					}
 
 					if (!isset($_POST['opportunity_area']) OR empty($_POST['opportunity_area']))
@@ -1252,7 +1289,7 @@ class Voxes_controller extends Controller
 				if (Session::get_value('account')['type'] == 'hotel')
 				{
 					$lbl_edit_vox .=
-					'<div class="span3 ' . (($vox['type'] == 'request' OR $vox['type'] == 'incident') ? '' : 'hidden') . '">
+					'<div class="span3">
 						<div class="label">
 							<label important>
 								<p>{$lang.room}</p>
@@ -1272,7 +1309,7 @@ class Voxes_controller extends Controller
 				if (Session::get_value('account')['type'] == 'restaurant')
 				{
 					$lbl_edit_vox .=
-					'<div class="span3 ' . (($vox['type'] == 'request' OR $vox['type'] == 'incident') ? '' : 'hidden') . '">
+					'<div class="span3">
 						<div class="label">
 							<label>
 								<p>{$lang.table}</p>
@@ -1281,6 +1318,26 @@ class Voxes_controller extends Controller
 
 					foreach ($this->model->get_tables() as $value)
 						$lbl_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['data']['table']['id'] == $value['id']) ? 'selected' : '') . '>#' . $value['number'] . ' ' . $value['name'] . '</option>';
+
+					$lbl_edit_vox .=
+					'			</select>
+							</label>
+						</div>
+					</div>';
+				}
+
+				if (Session::get_value('account')['type'] == 'others')
+				{
+					$lbl_edit_vox .=
+					'<div class="span3">
+						<div class="label">
+							<label>
+								<p>{$lang.client}</p>
+								<select name="client">
+									<option value="" selected hidden>{$lang.choose}</option>';
+
+					foreach ($this->model->get_clients() as $value)
+						$lbl_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['data']['client']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'] . '</option>';
 
 					$lbl_edit_vox .=
 					'			</select>
@@ -1772,6 +1829,14 @@ class Voxes_controller extends Controller
 					$opt_tables .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 			}
 
+			$opt_clients = '';
+
+			if (Session::get_value('account')['type'] == 'others')
+			{
+				foreach ($this->model->get_clients() as $value)
+					$opt_clients .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+			}
+
 			$opt_locations = '';
 
 			foreach ($this->model->get_locations() as $value)
@@ -1815,6 +1880,7 @@ class Voxes_controller extends Controller
 				'{$opt_opportunity_areas}' => $opt_opportunity_areas,
 				'{$opt_rooms}' => $opt_rooms,
 				'{$opt_tables}' => $opt_tables,
+				'{$opt_clients}' => $opt_clients,
 				'{$opt_locations}' => $opt_locations,
 				'{$cbx_addressed_to_opportunity_areas}' => $cbx_addressed_to_opportunity_areas,
 				'{$cbx_fields}' => $cbx_fields,
@@ -2015,6 +2081,12 @@ class Voxes_controller extends Controller
 							{
 								if (($value['type'] == 'request' OR $value['type'] == 'incident') AND in_array('table', $_POST['fields']))
 									$data .= '<p><strong>{$lang.table}:</strong> #' . $value['data']['table']['number'] . ' ' . $value['data']['table']['name'] . '</p>';
+							}
+
+							if (Session::get_value('account')['type'] == 'others')
+							{
+								if (($value['type'] == 'request' OR $value['type'] == 'incident') AND in_array('client', $_POST['fields']))
+									$data .= '<p><strong>{$lang.client}:</strong> ' . $value['data']['client']['name'] . '</p>';
 							}
 
 							if (in_array('opportunity_area', $_POST['fields']))
@@ -2329,6 +2401,14 @@ class Voxes_controller extends Controller
 					$opt_tables .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 			}
 
+			$opt_clients = '';
+
+			if (Session::get_value('account')['type'] == 'others')
+			{
+				foreach ($this->model->get_clients() as $value)
+					$opt_clients .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+			}
+
 			$opt_locations = '';
 
 			foreach ($this->model->get_locations() as $value)
@@ -2350,6 +2430,7 @@ class Voxes_controller extends Controller
 				'{$opt_opportunity_areas}' => $opt_opportunity_areas,
 				'{$opt_rooms}' => $opt_rooms,
 				'{$opt_tables}' => $opt_tables,
+				'{$opt_clients}' => $opt_clients,
 				'{$opt_locations}' => $opt_locations,
 				'{$cbx_fields}' => $cbx_fields
 			];
@@ -2371,7 +2452,6 @@ class Voxes_controller extends Controller
 					'data' => [
 						'oa' => $this->model->get_chart_data('v_oa_chart', $_POST, true),
 						'r' => $this->model->get_chart_data('v_r_chart', $_POST, true),
-						't' => $this->model->get_chart_data('v_t_chart', $_POST, true),
 						'l' => $this->model->get_chart_data('v_l_chart', $_POST, true),
 					],
 				]);
@@ -2384,7 +2464,6 @@ class Voxes_controller extends Controller
 					'data' => [
 						'oa' => $this->model->get_chart_data('ar_oa_chart', $_POST, true),
 						'r' => $this->model->get_chart_data('ar_r_chart', $_POST, true),
-						't' => $this->model->get_chart_data('ar_t_chart', $_POST, true),
 						'l' => $this->model->get_chart_data('ar_l_chart', $_POST, true),
 					],
 				]);
@@ -2397,7 +2476,6 @@ class Voxes_controller extends Controller
 					'data' => [
 						'oa' => $this->model->get_chart_data('c_oa_chart', $_POST, true),
 						'r' => $this->model->get_chart_data('c_r_chart', $_POST, true),
-						't' => $this->model->get_chart_data('c_t_chart', $_POST, true),
 						'l' => $this->model->get_chart_data('c_l_chart', $_POST, true),
 					],
 				]);
@@ -2440,12 +2518,6 @@ class Voxes_controller extends Controller
 			'type' => 'all'
 		]);
 
-		$v_t_chart_data = $this->model->get_chart_data('v_t_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
 		$v_l_chart_data = $this->model->get_chart_data('v_l_chart', [
 			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
 			'date_end' => Functions::get_current_date(),
@@ -2459,12 +2531,6 @@ class Voxes_controller extends Controller
 		]);
 
 		$ar_r_chart_data = $this->model->get_chart_data('ar_r_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
-		$ar_t_chart_data = $this->model->get_chart_data('ar_t_chart', [
 			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
 			'date_end' => Functions::get_current_date(),
 			'type' => 'all'
@@ -2486,11 +2552,6 @@ class Voxes_controller extends Controller
 			'date_end' => Functions::get_current_date()
 		]);
 
-		$c_t_chart_data = $this->model->get_chart_data('c_t_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date()
-		]);
-
 		$c_l_chart_data = $this->model->get_chart_data('c_l_chart', [
 			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
 			'date_end' => Functions::get_current_date()
@@ -2499,31 +2560,83 @@ class Voxes_controller extends Controller
 		if (Session::get_value('account')['language'] == 'es')
 		{
 			$v_oa_chart_data_title = 'Voxes por áreas de oportunidad';
-			$v_r_chart_data_title = 'Voxes por habitación';
-			$v_t_chart_data_title = 'Voxes por mesa';
+
+			if (Session::get_value('account')['type'] == 'hotel')
+				$v_r_chart_data_title = 'Voxes por habitación';
+
+			if (Session::get_value('account')['type'] == 'restaurant')
+				$v_r_chart_data_title = 'Voxes por mesa';
+
+			if (Session::get_value('account')['type'] == 'others')
+				$v_r_chart_data_title = 'Voxes por cliente';
+
 			$v_l_chart_data_title = 'Voxes por ubicación';
+
 			$ar_oa_chart_data_title = 'Tiempo de resolución por áreas de oportunidad';
-			$ar_r_chart_data_title = 'Tiempo de resolución por habitación';
-			$ar_t_chart_data_title = 'Tiempo de resolución por mesa';
+
+			if (Session::get_value('account')['type'] == 'hotel')
+				$ar_r_chart_data_title = 'Tiempo de resolución por habitación';
+
+			if (Session::get_value('account')['type'] == 'restaurant')
+				$ar_r_chart_data_title = 'Tiempo de resolución por mesa';
+
+			if (Session::get_value('account')['type'] == 'others')
+				$ar_r_chart_data_title = 'Tiempo de resolución por client';
+
 			$ar_l_chart_data_title = 'Tiempo de resolución por ubicación';
+
 			$c_oa_chart_data_title = 'Costos por áreas de oportunidad';
-			$c_r_chart_data_title = 'Costos por habitación';
-			$c_t_chart_data_title = 'Costos por mesa';
+
+			if (Session::get_value('account')['type'] == 'hotel')
+				$c_r_chart_data_title = 'Costos por habitación';
+
+			if (Session::get_value('account')['type'] == 'restaurant')
+				$c_r_chart_data_title = 'Costos por mesa';
+
+			if (Session::get_value('account')['type'] == 'others')
+				$c_r_chart_data_title = 'Costos por client';
+
 			$c_l_chart_data_title = 'Costos por ubicación';
 		}
 		else if (Session::get_value('account')['language'] == 'en')
 		{
 			$v_oa_chart_data_title = 'Voxes by opportunity areas';
-			$v_r_chart_data_title = 'Voxes by room';
-			$v_t_chart_data_title = 'Voxes by table';
+
+			if (Session::get_value('account')['type'] == 'hotel')
+				$v_r_chart_data_title = 'Voxes by room';
+
+			if (Session::get_value('account')['type'] == 'restaurant')
+				$v_r_chart_data_title = 'Voxes by table';
+
+			if (Session::get_value('account')['type'] == 'others')
+				$v_r_chart_data_title = 'Voxes by client';
+
 			$v_l_chart_data_title = 'Voxes by location';
+
 			$ar_oa_chart_data_title = 'Resolution average by opportunity areas';
-			$ar_r_chart_data_title = 'Resolution average by room';
-			$ar_t_chart_data_title = 'Resolution average by table';
+
+			if (Session::get_value('account')['type'] == 'hotel')
+				$ar_r_chart_data_title = 'Resolution average by room';
+
+			if (Session::get_value('account')['type'] == 'restaurant')
+				$ar_r_chart_data_title = 'Resolution average by table';
+
+			if (Session::get_value('account')['type'] == 'others')
+				$ar_r_chart_data_title = 'Resolution average by client';
+
 			$ar_l_chart_data_title = 'Resolution average by location';
+
 			$c_oa_chart_data_title = 'Costs by opportunity areas';
-			$c_r_chart_data_title = 'Costs by room';
-			$c_t_chart_data_title = 'Costs by table';
+
+			if (Session::get_value('account')['type'] == 'hotel')
+				$c_r_chart_data_title = 'Costs by room';
+
+			if (Session::get_value('account')['type'] == 'restaurant')
+				$c_r_chart_data_title = 'Costs by table';
+
+			if (Session::get_value('account')['type'] == 'others')
+				$c_r_chart_data_title = 'Costs by client';
+
 			$c_l_chart_data_title = 'Costs by location';
 		}
 
@@ -2576,33 +2689,6 @@ class Voxes_controller extends Controller
 				title: {
 					display: true,
 					text: '" . $v_r_chart_data_title . "'
-				},
-				legend: {
-					display: false
-				},
-	            responsive: true
-            }
-        };
-
-		var v_t_chart = {
-	        type: 'pie',
-	        data: {
-				labels: [
-	                " . $v_t_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $v_t_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $v_t_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . $v_t_chart_data_title . "'
 				},
 				legend: {
 					display: false
@@ -2692,33 +2778,6 @@ class Voxes_controller extends Controller
             }
         };
 
-		var ar_t_chart = {
-	        type: 'pie',
-	        data: {
-				labels: [
-	                " . $ar_t_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $ar_t_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $ar_t_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . $ar_t_chart_data_title . "'
-				},
-				legend: {
-					display: false
-				},
-	            responsive: true
-            }
-        };
-
 		var ar_l_chart = {
 	        type: 'pie',
 	        data: {
@@ -2800,33 +2859,6 @@ class Voxes_controller extends Controller
             }
         };
 
-		var c_t_chart = {
-	        type: 'pie',
-	        data: {
-				labels: [
-	                " . $c_t_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $c_t_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $c_t_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . $c_t_chart_data_title . "'
-				},
-				legend: {
-					display: false
-				},
-	            responsive: true
-            }
-        };
-
 		var c_l_chart = {
 	        type: 'pie',
 	        data: {
@@ -2857,22 +2889,14 @@ class Voxes_controller extends Controller
 		window.onload = function()
 		{
 			v_oa_chart = new Chart(document.getElementById('v_oa_chart').getContext('2d'), v_oa_chart);
+			v_r_chart = new Chart(document.getElementById('v_r_chart').getContext('2d'), v_r_chart);
 			v_l_chart = new Chart(document.getElementById('v_l_chart').getContext('2d'), v_l_chart);
 			ar_oa_chart = new Chart(document.getElementById('ar_oa_chart').getContext('2d'), ar_oa_chart);
+			ar_r_chart = new Chart(document.getElementById('ar_r_chart').getContext('2d'), ar_r_chart);
 			ar_l_chart = new Chart(document.getElementById('ar_l_chart').getContext('2d'), ar_l_chart);
 			c_oa_chart = new Chart(document.getElementById('c_oa_chart').getContext('2d'), c_oa_chart);
+			c_r_chart = new Chart(document.getElementById('c_r_chart').getContext('2d'), c_r_chart);
 			c_l_chart = new Chart(document.getElementById('c_l_chart').getContext('2d'), c_l_chart);
-
-			try {
-
-				v_r_chart = new Chart(document.getElementById('v_r_chart').getContext('2d'), v_r_chart);
-				ar_r_chart = new Chart(document.getElementById('ar_r_chart').getContext('2d'), ar_r_chart);
-				c_r_chart = new Chart(document.getElementById('c_r_chart').getContext('2d'), c_r_chart);
-				v_t_chart = new Chart(document.getElementById('v_t_chart').getContext('2d'), v_t_chart);
-				ar_t_chart = new Chart(document.getElementById('ar_t_chart').getContext('2d'), ar_t_chart);
-				c_t_chart = new Chart(document.getElementById('c_t_chart').getContext('2d'), c_t_chart);
-
-			} catch {}
 		};";
 
 		$js = trim(str_replace(array("\t\t\t"), '', $js));

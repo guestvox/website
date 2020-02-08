@@ -185,6 +185,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                             <option value="" selected hidden>{$lang.type}</option>
                                             <option value="hotel">{$lang.hotel}</option>
                                             <option value="restaurant">{$lang.restaurant}</option>
+                                            <option value="others">{$lang.others}</option>
                                         </select>
                                     </fieldset>
                                 </div>
@@ -196,6 +197,11 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                                 <div class="span3 hidden">
                                     <fieldset>
                                         <input type="number" name="tables_number" placeholder="{$lang.n_tables}" min="1">
+                                    </fieldset>
+                                </div>
+                                <div class="span3 hidden">
+                                    <fieldset>
+                                        <input type="number" name="clients_number" placeholder="{$lang.n_clients}" min="1">
                                     </fieldset>
                                 </div>
                                 <div class="span3">

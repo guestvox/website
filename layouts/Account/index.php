@@ -17,13 +17,13 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
             <div class="account">
                 <div>
                     <h6>https://<?php echo Configuration::$domain; ?>/<?php echo Session::get_value('account')['path']; ?>/myvox</h6>
-                    <figure>
+                    <figure class="qr">
                         <img src="{$qr}">
                     </figure>
                     <a href="{$qr}" download="{$qr}"><i class="fas fa-download"></i></a>
                 </div>
                 <div>
-                    <figure>
+                    <figure class="logotype">
                         <img src="{$logotype}" data-image-preview>
                         <input type="file" name="logotype" accept="image/*" data-image-upload>
                     </figure>
@@ -101,6 +101,15 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <i class="fas fa-utensils"></i>
                         <span><strong>{$lang.table_package}</strong></span>
                         <span>{$table_package} {$lang.tables}</span>
+                    </h2>
+                </div>
+                <?php endif; ?>
+                <?php if (Session::get_value('account')['type'] == 'others') : ?>
+                <div>
+                    <h2>
+                        <i class="fas fa-user-tie"></i>
+                        <span><strong>{$lang.client_package}</strong></span>
+                        <span>{$client_package} {$lang.clients}</span>
                     </h2>
                 </div>
                 <?php endif; ?>

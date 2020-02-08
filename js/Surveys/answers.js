@@ -5,7 +5,7 @@ $(document).ready(function()
     var tbl_survey_answers = $('#tbl_survey_answers').DataTable({
         ordering: false,
         pageLength: 25,
-        info: false,
+        info: false
     });
 
     $('[name="tbl_survey_answers_search"]').on('keyup', function()

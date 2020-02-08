@@ -3,18 +3,20 @@
     <section class="topbar">
         <nav>
             <ul>
-                <li><a href="/profile"><i class="fas fa-circle"></i><?php echo Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname']; ?></a></li>
-                <li><a><?php echo Session::get_value('account')['name']; ?></a></li>
                 <?php if (Functions::check_account_access(['operation']) == true) : ?>
-                <li><a href="/voxes/create" class="new">{$lang.new_vox}</a></li>
+                <li><a href="/voxes/create"><i class="fas fa-plus"></i>{$lang.new_vox}</a></li>
                 <?php endif; ?>
+                <li><a <?php if (Functions::check_user_access(['{account_update}']) == true) : ?>href="/account"<?php endif; ?>><?php echo Session::get_value('account')['name']; ?></a></li>
+                <li><a href="/profile" class="profile"><i class="fas fa-circle"></i><?php echo Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname']; ?></a></li>
+                <li><a href="/profile"><i class="fas fa-user-circle"></i></a></li>
+                <li><a data-button-modal="logout"><i class="fas fa-power-off"></i></a></li>
                 <li><a data-action="open-dash-menu"><i class="fas fa-ellipsis-v"></i></a></li>
             </ul>
         </nav>
     </section>
     <section class="menu">
         <figure>
-            <img src="{$path.images}logotype-color.png">
+            <img src="{$path.images}logotype-white.png">
         </figure>
         <nav class="main-menu">
             <ul>
@@ -37,6 +39,9 @@
                 <?php endif; ?>
                 <?php if (Session::get_value('account')['type'] == 'restaurant' AND Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{tables_create}','{tables_update}','{tables_delete}']) == true) : ?>
                 <li><a href="/tables">{$lang.tables}<i class="fas fa-utensils"></i></a></li>
+                <?php endif; ?>
+                <?php if (Session::get_value('account')['type'] == 'others' AND Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{clients_create}','{clients_update}','{clients_delete}']) == true) : ?>
+                <li><a href="/clients">{$lang.clients}<i class="fas fa-user-tie"></i></a></li>
                 <?php endif; ?>
                 <?php if (Functions::check_account_access(['operation']) AND Functions::check_user_access(['{opportunity_areas_create}','{opportunity_areas_update}','{opportunity_areas_delete}']) == true) : ?>
                 <li><a href="/opportunityareas">{$lang.opportunity_areas}<i class="fas fa-compass"></i></a></li>
@@ -65,8 +70,6 @@
                 <?php if (Functions::check_user_access(['{account_update}']) == true) : ?>
                 <li><a href="/account">{$lang.account}<i class="far fa-user-circle"></i></a></li>
                 <?php endif; ?>
-                <li><a href="/profile">{$lang.my_profile}<i class="fas fa-user-circle"></i></a></li>
-                <li><a data-button-modal="logout">{$lang.logout}<i class="fas fa-sign-out-alt"></i></a></li>
             </ul>
         </nav>
     </section>

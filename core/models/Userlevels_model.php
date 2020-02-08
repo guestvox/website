@@ -90,6 +90,18 @@ class Userlevels_model extends Model
 			];
 		}
 
+		if (Session::get_value('account')['type'] == 'others')
+		{
+			$and = [
+				'type' => $type,
+				'OR' => [
+					'operation' => ((Functions::check_account_access(['operation']) == true) ? true : false),
+					'reputation' => ((Functions::check_account_access(['reputation']) == true) ? true : false),
+				],
+				'others' => true
+			];
+		}
+
 		$query = Functions::get_json_decoded_query($this->database->select('user_permissions', [
 			'id',
 			'name',

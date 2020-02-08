@@ -27,6 +27,8 @@ class Index_controller extends Controller
 					$query = $this->model->get_room_package($_POST['rooms_number']);
 				else if ($_POST['type'] == 'restaurant' AND $_POST['tables_number'] > 0)
 					$query = $this->model->get_table_package($_POST['tables_number']);
+				else if ($_POST['type'] == 'others' AND $_POST['clients_number'] > 0)
+					$query = $this->model->get_client_package($_POST['clients_number']);
 
 				if (!empty($query))
 				{
@@ -77,6 +79,11 @@ class Index_controller extends Controller
 					{
 						if (!isset($_POST['tables_number']) OR empty($_POST['tables_number']) OR !is_numeric($_POST['tables_number']) OR $_POST['tables_number'] < 1)
 					        array_push($labels, ['tables_number','']);
+					}
+					else if ($_POST['type'] == 'others')
+					{
+						if (!isset($_POST['clients_number']) OR empty($_POST['clients_number']) OR !is_numeric($_POST['clients_number']) OR $_POST['clients_number'] < 1)
+					        array_push($labels, ['clients_number','']);
 					}
 
 					if (!isset($_POST['zip_code']) OR empty($_POST['zip_code']))
@@ -378,8 +385,10 @@ class Index_controller extends Controller
 							'Nombre: ' . $_POST['name'] . '<br>
 							' . (($_POST['type'] == 'hotel') ? 'Tipo: Hotel<br>' : '') . '
 							' . (($_POST['type'] == 'restaurant') ? 'Tipo: Restaurante<br>' : '') . '
+							' . (($_POST['type'] == 'others') ? 'Tipo: Genérico<br>' : '') . '
 							' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms_number'] . '<br>' : '') . '
 							' . (($_POST['type'] == 'restaurant') ? 'Número de mesas: ' . $_POST['tables_number'] . '<br>' : '') . '
+							' . (($_POST['type'] == 'others') ? 'Número de clientes: ' . $_POST['clients_number'] . '<br>' : '') . '
 							Páis: ' . $_POST['zip_code'] . ' ' . $_POST['country'] . ' ' . $_POST['city'] . '<br>
 							ID Fiscal: ' . $_POST['fiscal_id'] . '<br>
 							Nombre fiscal: ' . $_POST['fiscal_name'] . '<br>

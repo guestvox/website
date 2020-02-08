@@ -192,6 +192,86 @@ form[name="new_survey_answer"] > article.subquestions > article.subquestions-sub
     color: #757575;
 }
 
+form[name="new_survey_answer"] > article > div.checkboxes {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #eee;
+    margin-top: 5px;
+}
+
+form[name="new_survey_answer"] > article > div.checkboxes > input[type="checkbox"]{
+    width: 20px;
+    height: 20px;
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    -webkit-appearance: none;
+}
+
+form[name="new_survey_answer"] > article > div.checkboxes > span {
+    padding: 0px 10px 0px 5px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+form[name="new_survey_answer"] > article > div.checkboxes > input[type="checkbox"]:checked::before {
+    height: 10px;
+    top: 0px;
+    left: 2px;
+    background: none;
+    border: 3px solid #fff;
+    border-top-style: none;
+    border-right-style: none;
+    -webkit-transform: rotate(-45deg);
+       -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+         -o-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+}
+
+form[name="new_survey_answer"] > article > div.checkboxes > input[type="checkbox"]::after {
+    width: 20px;
+    height: 20px;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    display: block;
+    content: '';
+    background-color: #00a5ab;
+    z-index: 0;
+}
+
+form[name="new_survey_answer"] > article > div.checkboxes > input[type="checkbox"]::before {
+    width: 20px;
+    height: 20px;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    display: block;
+    content: '';
+    cursor: pointer;
+    background-color: #e0e0e0;
+    z-index: 1;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+         -o-box-sizing: border-box;
+            box-sizing: border-box;
+    -webkit-transition: 0.2s ease all;
+       -moz-transition: 0.2s ease all;
+        -ms-transition: 0.2s ease all;
+         -o-transition: 0.2s ease all;
+            transition: 0.2s ease all;
+}
+
+form[name="new_survey_answer"] > article > div.checkboxes > input[type="checkbox"]:focus {
+    border: none;
+    box-shadow: none;
+}
+
 form[name="new_survey_answer"] > article > div > input {
     width: 100%;
     padding: 5px 10px;

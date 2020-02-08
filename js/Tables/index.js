@@ -5,7 +5,7 @@ $(document).ready(function()
     var tbl_tables = $('#tbl_tables').DataTable({
         ordering: false,
         pageLength: 25,
-        info: false,
+        info: false
     });
 
     $('[name="tbl_tables_search"]').on('keyup', function()

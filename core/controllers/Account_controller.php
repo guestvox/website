@@ -268,6 +268,7 @@ class Account_controller extends Controller
 				'{$reputation}' => (Functions::check_account_access(['reputation']) == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$room_package}' => (Session::get_value('account')['type'] == 'hotel') ? $account['room_package']['quantity_end'] : '',
 				'{$table_package}' => (Session::get_value('account')['type'] == 'restaurant') ? $account['table_package']['quantity_end'] : '',
+				'{$client_package}' => (Session::get_value('account')['type'] == 'others') ? $account['client_package']['quantity_end'] : '',
 				'{$sms}' => $account['sms'],
 				'{$zaviapms}' => (Session::get_value('account')['type'] == 'hotel' AND $account['zaviapms']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$opt_countries}' => $opt_countries,

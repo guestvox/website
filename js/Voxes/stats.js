@@ -78,15 +78,8 @@ function update_chart_data(action, response)
         v_oa_chart.data.datasets[0].data = response.data.oa.datasets.data;
         v_oa_chart.update();
 
-        try {
-
-            v_r_chart.data.datasets[0].data = response.data.r.datasets.data;
-            v_r_chart.update();
-
-            v_t_chart.data.datasets[0].data = response.data.t.datasets.data;
-            v_t_chart.update();
-
-        } catch (e) { }
+        v_r_chart.data.datasets[0].data = response.data.r.datasets.data;
+        v_r_chart.update();
 
         v_l_chart.data.datasets[0].data = response.data.l.datasets.data;
         v_l_chart.update();
@@ -96,15 +89,8 @@ function update_chart_data(action, response)
         ar_oa_chart.data.datasets[0].data = response.data.oa.datasets.data;
         ar_oa_chart.update();
 
-        try {
-
-            ar_r_chart.data.datasets[0].data = response.data.r.datasets.data;
-            ar_r_chart.update();
-
-            ar_t_chart.data.datasets[0].data = response.data.t.datasets.data;
-            ar_t_chart.update();
-
-        } catch (e) { }
+        ar_r_chart.data.datasets[0].data = response.data.r.datasets.data;
+        ar_r_chart.update();
 
         ar_l_chart.data.datasets[0].data = response.data.l.datasets.data;
         ar_l_chart.update();
@@ -114,15 +100,8 @@ function update_chart_data(action, response)
         c_oa_chart.data.datasets[0].data = response.data.oa.datasets.data;
         c_oa_chart.update();
 
-        try {
-
-            c_r_chart.data.datasets[0].data = response.data.r.datasets.data;
-            c_r_chart.update();
-
-            c_t_chart.data.datasets[0].data = response.data.t.datasets.data;
-            c_t_chart.update();
-
-        } catch (e) { }
+        c_r_chart.data.datasets[0].data = response.data.r.datasets.data;
+        c_r_chart.update();
 
         c_l_chart.data.datasets[0].data = response.data.l.datasets.data;
         c_l_chart.update();

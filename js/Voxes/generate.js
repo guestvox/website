@@ -25,6 +25,7 @@ $(document).ready(function ()
                         form.find('[name="opportunity_type"]').val(response.data.opportunity_type);
                         form.find('[name="room"]').val(response.data.room);
                         form.find('[name="table"]').val(response.data.table);
+                        form.find('[name="client"]').val(response.data.client);
                         form.find('[name="location"]').html(response.data.opt_locations);
                         form.find('[name="location"]').val(response.data.location);
                         form.find('[name="order"]').val(response.data.order);
