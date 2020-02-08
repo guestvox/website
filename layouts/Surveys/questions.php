@@ -130,10 +130,10 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                         					<input type="radio" name="type" value="open">
                         					<span>{$lang.open}</span>
                         				</div>
-                                        <div>
+                                        <!-- <div>
                         					<input type="radio" name="type" value="check">
                         					<span>{$lang.check}</span>
-                        				</div>
+                        				</div> -->
                                     </div>
                     			</div>
                             </div>
