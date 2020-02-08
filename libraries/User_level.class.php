@@ -99,6 +99,18 @@ class User_level
                     array_push($paths, '/Tables/index');
                 break;
 
+                case '{clients_create}' :
+                    array_push($paths, '/Clients/index');
+                break;
+
+                case '{clients_update}' :
+                    array_push($paths, '/Clients/index');
+                break;
+
+                case '{clients_delete}' :
+                    array_push($paths, '/Clients/index');
+                break;
+
                 case '{opportunity_areas_create}' :
                     array_push($paths, '/Opportunityareas/index');
                 break;

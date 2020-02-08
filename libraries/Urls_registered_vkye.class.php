@@ -113,6 +113,10 @@ class Urls_registered_vkye
                 'controller' => 'Tables',
                 'method' => 'index'
             ],
+            '/clients' => [
+                'controller' => 'Clients',
+                'method' => 'index'
+            ],
             '/opportunityareas' => [
                 'controller' => 'Opportunityareas',
                 'method' => 'index'
