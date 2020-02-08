@@ -18,7 +18,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 %{header}%
 <main>
     <nav>
-        <h2><i class="fas fa-heart"></i>{$lang.edit_vox}</h2>
+        <h2><i class="fas fa-heart"></i>{$lang.edit}</h2>
     </nav>
     <article>
         <main>

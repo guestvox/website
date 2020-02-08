@@ -5,7 +5,7 @@ $(document).ready(function ()
     var tbl_vox_reports = $('#tbl_vox_reports').DataTable({
         ordering: false,
         pageLength: 25,
-        info: false,
+        info: false
     });
 
     $('[name="tbl_vox_reports_search"]').on('keyup', function()
@@ -240,6 +240,7 @@ $(document).ready(function ()
                     $('[data-modal="new_vox_report"]').find('[name="opportunity_type"]').val(response.data.opportunity_type);
                     $('[data-modal="new_vox_report"]').find('[name="room"]').val(response.data.room);
                     $('[data-modal="new_vox_report"]').find('[name="table"]').val(response.data.table);
+                    $('[data-modal="new_vox_report"]').find('[name="client"]').val(response.data.client);
                     $('[data-modal="new_vox_report"]').find('[name="location"]').val(response.data.location);
                     $('[data-modal="new_vox_report"]').find('[name="order"]').val(response.data.order);
                     $('[data-modal="new_vox_report"]').find('[name="time_period"]').val(response.data.time_period);

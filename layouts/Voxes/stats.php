@@ -12,14 +12,11 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 %{header}%
 <main class="voxes-stats">
     <nav>
-        <h2><i class="fas fa-chart-pie"></i>{$lang.vox_stats}</h2>
+        <h2><i class="fas fa-chart-pie"></i>{$lang.stats}</h2>
         <ul>
             <li><a href="/voxes"><i class="fas fa-heart"></i></a></li>
             <?php if (Functions::check_user_access(['{vox_reports_view}']) == true) : ?>
             <li><a href="/voxes/reports/generate"><i class="fas fa-file-invoice"></i></a></li>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{vox_reports_create}','{vox_reports_update}','{vox_reports_delete}']) == true) : ?>
-            <li><a href="/voxes/reports"><i class="fas fa-file-invoice"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{vox_stats_view}']) == true) : ?>
             <li><a href="/voxes/stats" class="view"><i class="fas fa-chart-pie"></i></a></li>
@@ -72,16 +69,9 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <div class="charts small">
                 <canvas id="v_oa_chart" height="300"></canvas>
             </div>
-            <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
             <div class="charts small">
                 <canvas id="v_r_chart" height="300"></canvas>
             </div>
-            <?php endif; ?>
-            <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
-            <div class="charts small">
-                <canvas id="v_t_chart" height="300"></canvas>
-            </div>
-            <?php endif; ?>
             <div class="charts small">
                 <canvas id="v_l_chart" height="300"></canvas>
             </div>
@@ -122,16 +112,9 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <div class="charts small">
                 <canvas id="ar_oa_chart" height="300"></canvas>
             </div>
-            <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
             <div class="charts small">
                 <canvas id="ar_r_chart" height="300"></canvas>
             </div>
-            <?php endif; ?>
-            <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
-            <div class="charts small">
-                <canvas id="ar_t_chart" height="300"></canvas>
-            </div>
-            <?php endif; ?>
             <div class="charts small">
                 <canvas id="ar_l_chart" height="300"></canvas>
             </div>
@@ -159,16 +142,9 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <div class="charts small">
                 <canvas id="c_oa_chart" height="300"></canvas>
             </div>
-            <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
             <div class="charts small">
                 <canvas id="c_r_chart" height="300"></canvas>
             </div>
-            <?php endif; ?>
-            <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
-            <div class="charts small">
-                <canvas id="c_t_chart" height="300"></canvas>
-            </div>
-            <?php endif; ?>
             <div class="charts small">
                 <canvas id="c_l_chart" height="300"></canvas>
             </div>

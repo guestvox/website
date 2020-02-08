@@ -64,6 +64,9 @@ class Dashboard_model extends Model
 					if (Session::get_value('account')['type'] == 'restaurant' AND ($value['type'] == 'request' OR $value['type'] == 'incident'))
 						$value['data']['table'] = $this->get_table($value['data']['table']);
 
+					if (Session::get_value('account')['type'] == 'others' AND ($value['type'] == 'request' OR $value['type'] == 'incident'))
+						$value['data']['client'] = $this->get_client($value['data']['client']);
+
 					$value['data']['opportunity_area'] = $this->get_opportunity_area($value['data']['opportunity_area']);
 					$value['data']['opportunity_type'] = $this->get_opportunity_type($value['data']['opportunity_type']);
 					$value['data']['location'] = $this->get_location($value['data']['location']);
@@ -105,6 +108,17 @@ class Dashboard_model extends Model
 	{
 		$query = $this->database->select('tables', [
 			'number',
+			'name'
+		], [
+			'id' => $id
+		]);
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_client($id)
+	{
+		$query = $this->database->select('clients', [
 			'name'
 		], [
 			'id' => $id

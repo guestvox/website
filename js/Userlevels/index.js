@@ -5,7 +5,7 @@ $(document).ready(function()
     var tbl_user_levels = $('#tbl_user_levels').DataTable({
         ordering: false,
         pageLength: 25,
-        info: false,
+        info: false
     });
 
     $('[name="tbl_user_levels_search"]').on('keyup', function()

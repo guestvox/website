@@ -12,14 +12,11 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 %{header}%
 <main>
     <nav>
-        <h2><i class="fas fa-file-invoice"></i>{$lang.vox_reports}</h2>
+        <h2><i class="fas fa-file-invoice"></i>{$lang.reports}</h2>
         <ul>
             <li><a href="/voxes"><i class="fas fa-heart"></i></a></li>
             <?php if (Functions::check_user_access(['{vox_reports_view}']) == true) : ?>
-            <li><a href="/voxes/reports/generate"><i class="fas fa-file-invoice"></i></a></li>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{vox_reports_create}','{vox_reports_update}','{vox_reports_delete}']) == true) : ?>
-            <li><a href="/voxes/reports" class="view"><i class="fas fa-file-invoice"></i></a></li>
+            <li><a href="/voxes/reports/generate" class="view"><i class="fas fa-file-invoice"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{vox_stats_view}']) == true) : ?>
             <li><a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a></li>
@@ -135,6 +132,19 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         </div>
                     </div>
                     <?php endif; ?>
+                    <?php if (Session::get_value('account')['type'] == 'others') : ?>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.client}</p>
+                                <select name="client">
+                                    <option value="">{$lang.all}</option>
+                                    {$opt_clients}
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <?php endif; ?>
                     <div class="span6">
                         <div class="label">
                             <label>
@@ -153,11 +163,16 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                                 <select name="order">
                                     <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                                     <option value="room">{$lang.room}</option>
+                                    <option value="guest">{$lang.guest}</option>
                                     <?php endif; ?>
                                     <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
                                     <option value="table">{$lang.table}</option>
+                                    <option value="guest">{$lang.name}</option>
                                     <?php endif; ?>
-                                    <option value="guest">{$lang.guest}</option>
+                                    <?php if (Session::get_value('account')['type'] == 'others') : ?>
+                                    <option value="client">{$lang.client}</option>
+                                    <option value="guest">{$lang.name}</option>
+                                    <?php endif; ?>
                                 </select>
                             </label>
                         </div>

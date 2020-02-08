@@ -153,6 +153,7 @@ class Surveys_model extends Model
 			'token',
 			'room',
 			'table',
+			'client',
 			'answers',
 			'comment',
 			'guest',
@@ -176,6 +177,12 @@ class Surveys_model extends Model
 			{
 				if (!empty($value['table']))
 					$query[$key]['table'] = $this->get_table($value['table']);
+			}
+
+			if (Session::get_value('account')['type'] == 'others')
+			{
+				if (!empty($value['client']))
+					$query[$key]['client'] = $this->get_client($value['client']);
 			}
 
 			$query[$key]['rate'] = 0;
@@ -223,6 +230,7 @@ class Surveys_model extends Model
 			'token',
 			'room',
 			'table',
+			'client',
 			'answers',
 			'comment',
 			'guest',
@@ -243,6 +251,12 @@ class Surveys_model extends Model
 			{
 				if (!empty($query[0]['table']))
 					$query[0]['table'] = $this->get_table($query[0]['table']);
+			}
+
+			if (Session::get_value('account')['type'] == 'others')
+			{
+				if (!empty($query[0]['client']))
+					$query[0]['client'] = $this->get_client($query[0]['client']);
 			}
 
 			$query[0]['rate'] = 0;
@@ -325,6 +339,17 @@ class Surveys_model extends Model
 	{
 		$query = $this->database->select('tables', [
 			'number',
+			'name'
+		], [
+			'id' => $id
+		]);
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_client($id)
+	{
+		$query = $this->database->select('clients', [
 			'name'
 		], [
 			'id' => $id
@@ -506,7 +531,8 @@ class Surveys_model extends Model
 					'account' => Session::get_value('account')['id']
 				]);
 			}
-			else if (Session::get_value('account')['type'] == 'restaurant')
+
+			if (Session::get_value('account')['type'] == 'restaurant')
 			{
 				$query1 = $this->database->select('survey_answers', [
 					'table'
@@ -517,6 +543,22 @@ class Surveys_model extends Model
 				$query2 = $this->database->select('table', [
 					'id',
 					'number',
+					'name'
+				], [
+					'account' => Session::get_value('account')['id']
+				]);
+			}
+
+			if (Session::get_value('account')['type'] == 'others')
+			{
+				$query1 = $this->database->select('survey_answers', [
+					'client'
+				], [
+					'account' => Session::get_value('account')['id']
+				]);
+
+				$query2 = $this->database->select('clients', [
+					'id',
 					'name'
 				], [
 					'account' => Session::get_value('account')['id']
@@ -542,9 +584,16 @@ class Surveys_model extends Model
 						if ($value['id'] == $subvalue['room'])
 							$count = $count + 1;
 					}
-					else if (Session::get_value('account')['type'] == 'restaurant')
+
+					if (Session::get_value('account')['type'] == 'restaurant')
 					{
 						if ($value['id'] == $subvalue['table'])
+							$count = $count + 1;
+					}
+
+					if (Session::get_value('account')['type'] == 'others')
+					{
+						if ($value['id'] == $subvalue['client'])
 							$count = $count + 1;
 					}
 				}
@@ -558,12 +607,21 @@ class Surveys_model extends Model
 						else if (Session::get_value('account')['language'] == 'en')
 							$data['labels'] .= "'Room #" . $value['number'] . ' ' . $value['name'] . "',";
 					}
-					else if (Session::get_value('account')['type'] == 'restaurant')
+
+					if (Session::get_value('account')['type'] == 'restaurant')
 					{
 						if (Session::get_value('account')['language'] == 'es')
 							$data['labels'] .= "'Mesa #" . $value['number'] . ' ' . $value['name'] . "',";
 						else if (Session::get_value('account')['language'] == 'en')
 							$data['labels'] .= "'Table #" . $value['number'] . ' ' . $value['name'] . "',";
+					}
+
+					if (Session::get_value('account')['type'] == 'others')
+					{
+						if (Session::get_value('account')['language'] == 'es')
+							$data['labels'] .= "'Cliente " . $value['name'] . "',";
+						else if (Session::get_value('account')['language'] == 'en')
+							$data['labels'] .= "'Client " . $value['name'] . "',";
 					}
 
 					$data['datasets']['data'] .= $count . ',';
@@ -580,9 +638,16 @@ class Surveys_model extends Model
 					if (!isset($value['room']) OR empty($value['room']))
 						$empty = $empty + 1;
 				}
-				else if (Session::get_value('account')['type'] == 'restaurant')
+
+				if (Session::get_value('account')['type'] == 'restaurant')
 				{
 					if (!isset($value['table']) OR empty($value['table']))
+						$empty = $empty + 1;
+				}
+
+				if (Session::get_value('account')['type'] == 'others')
+				{
+					if (!isset($value['client']) OR empty($value['client']))
 						$empty = $empty + 1;
 				}
 			}
@@ -596,12 +661,21 @@ class Surveys_model extends Model
 					else if (Session::get_value('account')['language'] == 'en')
 						$data['labels'] .= "'No room'";
 				}
-				else if (Session::get_value('account')['type'] == 'restaurant')
+
+				if (Session::get_value('account')['type'] == 'restaurant')
 				{
 					if (Session::get_value('account')['language'] == 'es')
 						$data['labels'] .= "'Sin mesa'";
 					else if (Session::get_value('account')['language'] == 'en')
 						$data['labels'] .= "'No table'";
+				}
+
+				if (Session::get_value('account')['type'] == 'others')
+				{
+					if (Session::get_value('account')['language'] == 'es')
+						$data['labels'] .= "'Sin cliente'";
+					else if (Session::get_value('account')['language'] == 'en')
+						$data['labels'] .= "'No client'";
 				}
 
 				$data['datasets']['data'] .= $empty;

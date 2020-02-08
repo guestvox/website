@@ -510,6 +510,9 @@ class Surveys_controller extends Controller
 					if (Session::get_value('account')['type'] == 'restaurant')
 						$data .= '<span><strong>{$lang.table}:</strong> ' . (!empty($query['table']) ? '#' . $query['table']['number'] . ' ' . $query['table']['name'] : '') . '</span>';
 
+					if (Session::get_value('account')['type'] == 'others')
+						$data .= '<span><strong>{$lang.client}:</strong> ' . (!empty($query['client']) ? $query['client']['name'] : '') . '</span>';
+
 					$data .=
 					'<div>
 						<h2>{$lang.survey_datas}</h2>
@@ -692,6 +695,9 @@ class Surveys_controller extends Controller
 				if (Session::get_value('account')['type'] == 'restaurant')
 					$tbl_survey_answers .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
 
+				if (Session::get_value('account')['type'] == 'others')
+					$tbl_survey_answers .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
+
 				$tbl_survey_answers .=
 				'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND $value['guest']['zaviapms']['lastname']) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
 					<td align="left">' . Functions::get_formatted_date($value['date'], 'd M, y') . '</td>
@@ -739,6 +745,9 @@ class Surveys_controller extends Controller
 
 					if (Session::get_value('account')['type'] == 'restaurant')
 						$tbl_survey_comments .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+
+					if (Session::get_value('account')['type'] == 'others')
+						$tbl_survey_comments .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
 
 					$tbl_survey_comments .=
 					'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND $value['guest']['zaviapms']['lastname']) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
@@ -788,6 +797,9 @@ class Surveys_controller extends Controller
 						if (Session::get_value('account')['type'] == 'restaurant')
 							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
 
+						if (Session::get_value('account')['type'] == 'others')
+							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
+
 						$tbl_survey_contact_information .=
 						'	<td align="left">' .  $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] . '</td>
 							<td align="left"> ' . $value['guest']['guestvox']['email']  .  '</td>
@@ -805,6 +817,9 @@ class Surveys_controller extends Controller
 
 						if (Session::get_value('account')['type'] == 'restaurant')
 							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+
+						if (Session::get_value('account')['type'] == 'others')
+							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
 
 						$tbl_survey_contact_information .=
 						'	<td align="left">' .  $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname'] . '</td>
@@ -825,6 +840,9 @@ class Surveys_controller extends Controller
 
 					if (Session::get_value('account')['type'] == 'restaurant')
 						$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+
+					if (Session::get_value('account')['type'] == 'others')
+						$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
 
 					$tbl_survey_contact_information .=
 					'	<td align="left">' . $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname'] . '</td>
@@ -933,8 +951,10 @@ class Surveys_controller extends Controller
 		{
 			if (Session::get_value('account')['type'] == 'hotel')
 				$s1_chart_title = 'Por habitación';
-			else if (Session::get_value('account')['type'] == 'hotel')
+			else if (Session::get_value('account')['type'] == 'restaurant')
 				$s1_chart_title = 'Por mesa';
+			else if (Session::get_value('account')['type'] == 'others')
+				$s1_chart_title = 'Por cliente';
 
 			$s2_chart_title = 'Valoración por preguntas';
 
@@ -950,8 +970,10 @@ class Surveys_controller extends Controller
 		{
 			if (Session::get_value('account')['type'] == 'hotel')
 				$s1_chart_title = 'Per room';
-			else if (Session::get_value('account')['type'] == 'hotel')
+			else if (Session::get_value('account')['type'] == 'restaurant')
 				$s1_chart_title = 'Per table';
+			else if (Session::get_value('account')['type'] == 'others')
+				$s1_chart_title = 'Per client';
 
 			$s2_chart_title = 'Rating by questions';
 

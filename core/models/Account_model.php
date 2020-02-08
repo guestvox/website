@@ -24,6 +24,7 @@ class Account_model extends Model
 			'language',
 			'room_package',
 			'table_package',
+			'client_package',
 			'logotype',
 			'fiscal',
 			'contact',
@@ -51,6 +52,13 @@ class Account_model extends Model
 			{
 				$query[0]['table_package'] = $this->database->select('table_packages', '*', [
 					'id' => $query[0]['table_package']
+				])[0];
+			}
+
+			if (Session::get_value('account')['type'] == 'others')
+			{
+				$query[0]['client_package'] = $this->database->select('client_packages', '*', [
+					'id' => $query[0]['client_package']
 				])[0];
 			}
 

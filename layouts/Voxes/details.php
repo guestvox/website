@@ -14,7 +14,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 %{header}%
 <main>
     <nav>
-        <h2><i class="fas fa-heart"></i>{$lang.vox_details}</h2>
+        <h2><i class="fas fa-heart"></i>{$lang.details}</h2>
         <ul>
             <li><a href="/voxes/view/details/{$id}" class="view"><i class="fas fa-info-circle"></i></a></li>
             <li><a href="/voxes/view/history/{$id}"><i class="fas fa-history"></i></a></li>
@@ -28,6 +28,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <h4>{$lang.type}: {$lang.{$type}}</h4>
                         {$h4_room}
                         {$h4_table}
+                        {$h4_client}
                         <h4>{$lang.opportunity_area}: {$opportunity_area}</h4>
                         <h4>{$lang.opportunity_type}: {$opportunity_type}</h4>
                         <h4>{$lang.date_hour}: {$started_date} {$lang.at} {$started_hour}</h4>

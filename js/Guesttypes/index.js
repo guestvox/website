@@ -5,7 +5,7 @@ $(document).ready(function()
     var tbl_guest_types = $('#tbl_guest_types').DataTable({
         ordering: false,
         pageLength: 25,
-        info: false,
+        info: false
     });
 
     $('[name="tbl_guest_types_search"]').on('keyup', function()

@@ -12,7 +12,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 %{header}%
 <main class="surveys-questions">
     <nav>
-        <h2><i class="fas fa-question-circle"></i>{$lang.survey_questions}</h2>
+        <h2><i class="fas fa-question-circle"></i>{$lang.questions}</h2>
         <ul>
             <?php if (Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}']) == true) : ?>
             <li><a href="/surveys/questions" class="view"><i class="fas fa-question-circle"></i></a></li>

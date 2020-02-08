@@ -12,7 +12,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 %{header}%
 <main>
     <nav>
-        <h2><i class="fas fa-address-book"></i>{$lang.survey_contact_information}</h2>
+        <h2><i class="fas fa-address-book"></i>{$lang.contact_datas}</h2>
         <ul>
             <?php if (Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}']) == true) : ?>
             <li><a href="/surveys/questions"><i class="fas fa-question-circle"></i></a></li>
@@ -46,11 +46,16 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                             <th align="left" width="100px">{$lang.token}</th>
                             <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                             <th align="left" width="100px">{$lang.room}</th>
+                            <th align="left">{$lang.guest}</th>
                             <?php endif; ?>
                             <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
                             <th align="left" width="100px">{$lang.table}</th>
+                            <th align="left">{$lang.name}</th>
                             <?php endif; ?>
-                            <th align="left">{$lang.guest}</th>
+                            <?php if (Session::get_value('account')['type'] == 'others') : ?>
+                            <th align="left">{$lang.client}</th>
+                            <th align="left">{$lang.name}</th>
+                            <?php endif; ?>
                             <th align="left">{$lang.email}</th>
                             <th align="left">{$lang.cellphone}</th>
                         </tr>

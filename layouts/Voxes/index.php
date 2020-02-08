@@ -18,9 +18,6 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <?php if (Functions::check_user_access(['{vox_reports_view}']) == true) : ?>
             <li><a href="/voxes/reports/generate"><i class="fas fa-file-invoice"></i></a></li>
             <?php endif; ?>
-            <?php if (Functions::check_user_access(['{vox_reports_create}','{vox_reports_update}','{vox_reports_delete}']) == true) : ?>
-            <li><a href="/voxes/reports"><i class="fas fa-file-invoice"></i></a></li>
-            <?php endif; ?>
             <?php if (Functions::check_user_access(['{vox_stats_view}']) == true) : ?>
             <li><a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a></li>
             <?php endif; ?>
@@ -42,11 +39,16 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             <th align="left" class="icon">{$lang.abr_type}</th>
                             <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                             <th align="left">{$lang.abr_room}</th>
+                            <th align="left">{$lang.abr_guest}</th>
                             <?php endif; ?>
                             <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
                             <th align="left">{$lang.abr_table}</th>
+                            <th align="left">{$lang.abr_name}</th>
                             <?php endif; ?>
-                            <th align="left">{$lang.abr_guest}</th>
+                            <?php if (Session::get_value('account')['type'] == 'others') : ?>
+                            <th align="left">{$lang.abr_client}</th>
+                            <th align="left">{$lang.abr_name}</th>
+                            <?php endif; ?>
                             <th align="left">{$lang.abr_opportunity_area}</th>
                             <th align="left">{$lang.abr_opportunity_type}</th>
                             <th align="left">{$lang.abr_location}</th>
