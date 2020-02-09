@@ -131,6 +131,18 @@ $(document).ready(function()
         });
     });
 
+    // $('[name="type"]').on('change', function()
+    // {
+    //     if ($(this).val() == 'check')
+    //         $('#check').removeClass('hidden');
+    //     else
+    //     {
+    //         $('#check').addClass('hidden');
+    //         $('[name="check_name_es"]').val('');
+    //         $('[name="check_name_en"]').val('');
+    //     }
+    // });
+
     $(document).on('click', '[data-action="edit_survey_question"]', function()
     {
         level = $(this).parent().parent().data('level');

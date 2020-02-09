@@ -71,6 +71,21 @@ header.main > section.topbar > nav > ul > li:last-child > a > i {
     font-size: 18px;
 }
 
+header.main > section.topbar > nav > ul > li > a > span {
+    width: 15px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+header.main > section.topbar > nav > ul > li > a > span > img {
+    width: 100%;
+    height: auto;
+}
+
 header.main > section.menu {
     width: 50%;
     height: 50px;
@@ -2413,4 +2428,52 @@ div.tmp-1 > label > span > i {
 
 div.tmp-1 > label > input {
     margin: 0px;
+}
+
+/* Checkers
+------------------------------------------------------------------------------ */
+div.checkers > div.list > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 5px 5px 5px;
+    box-sizing: border-box;
+}
+
+div.checkers > div.list > div > span {
+    width: calc(100% - 140px);
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 10px;
+    box-sizing: border-box;
+    background-color: #eee;
+    color: #757575;
+}
+
+div.checkers > div.list > div > a {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    background-color: #eee;
+    color: #757575;
+}
+
+div.checkers div.label > a {
+    width: 30px;
+    height: 30px;
+    float: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+div.checkers [class*="span"] {
+    padding-bottom: 5px !important;
 }
