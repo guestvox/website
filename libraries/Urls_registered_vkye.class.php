@@ -21,6 +21,10 @@ class Urls_registered_vkye
                 'controller' => 'Hola',
                 'method' => 'index'
             ],
+            '/login' => [
+                'controller' => 'Login',
+                'method' => 'Login'
+            ],
             '/terms' => [
                 'controller' => 'Terms',
                 'method' => 'index'
