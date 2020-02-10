@@ -17,7 +17,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
             <ul>
                 <li><a href="/blog" class="btn no-border">{$lang.our_blog}</a></li>
                 <li><a data-button-modal="signup" class="btn">{$lang.start_free_demo}</a></li>
-                <li><a data-button-modal="login" class="btn">{$lang.login}</a></li>
+                <li><a href="/login" class="btn">{$lang.login}</a></li>
                 <li><a href="?<?php echo Language::get_lang_url('es'); ?>" class="btn no-border lang"><img src="{$path.images}es.png" alt="ES Lang"></a></li>
                 <li><a href="?<?php echo Language::get_lang_url('en'); ?>" class="btn no-border lang"><img src="{$path.images}en.png" alt="EN Lang"></a></li>
             </ul>

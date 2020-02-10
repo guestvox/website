@@ -23,7 +23,7 @@ class Urls_registered_vkye
             ],
             '/login' => [
                 'controller' => 'Login',
-                'method' => 'Login'
+                'method' => 'index'
             ],
             '/terms' => [
                 'controller' => 'Terms',

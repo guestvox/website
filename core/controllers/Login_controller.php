@@ -9,12 +9,13 @@ class Login_controller extends Controller
 		parent::__construct();
 	}
 
-	public function Login()
+	public function index()
 	{
 		if (Format::exist_ajax_request() == true)
 		{
-                        if ($_POST['action'] == 'login')
-                            {
+            if ($_POST['action'] == 'login')
+			{
+
 				$labels = [];
 
 				if (!isset($_POST['username']) OR empty($_POST['username']))
@@ -98,39 +99,10 @@ class Login_controller extends Controller
 		{
 			define('_title', 'GuestVox');
 
-			$template = $this->view->render($this, 'login');
-
-			$opt_countries = '';
-
-			foreach ($this->model->get_countries() as $value)
-				$opt_countries .= '<option value="' . $value['code'] . '">' . $value['name'][Session::get_value('lang')] . '</option>';
-
-			$opt_time_zones = '';
-
-			foreach ($this->model->get_time_zones() as $value)
-				$opt_time_zones .= '<option value="' . $value['code'] . '">' . $value['code'] . '</option>';
-
-			$opt_currencies = '';
-
-			foreach ($this->model->get_currencies() as $value)
-				$opt_currencies .= '<option value="' . $value['code'] . '">(' . $value['code'] . ') ' . $value['name'][Session::get_value('lang')] . '</option>';
-
-			$opt_languages = '';
-
-			foreach ($this->model->get_languages() as $value)
-				$opt_languages .= '<option value="' . $value['code'] . '">' . $value['name'] . '</option>';
-
-			$opt_ladas = '';
-
-			foreach ($this->model->get_countries() as $value)
-				$opt_ladas .= '<option value="' . $value['lada'] . '">(+' . $value['lada'] . ') ' . $value['name'][Session::get_value('lang')] . '</option>';
+			$template = $this->view->render($this, 'index');
 
 			$replace = [
-				'{$opt_countries}' => $opt_countries,
-				'{$opt_time_zones}' => $opt_time_zones,
-				'{$opt_currencies}' => $opt_currencies,
-				'{$opt_languages}' => $opt_languages,
-				'{$opt_ladas}' => $opt_ladas
+
 			];
 
 			$template = $this->format->replace($replace, $template);

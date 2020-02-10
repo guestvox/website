@@ -17,6 +17,7 @@ class Route_vkye
     {
         $paths = [
             '/Index/index',
+            '/Login/index',
             '/Index/validate',
             '/Hola/index',
             '/Terms/index',
