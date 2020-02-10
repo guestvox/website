@@ -50,6 +50,24 @@ $(document).ready(function()
         });
     });
 
+    $('[name="client"]').on('change', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'client=' + $(this).val() + '&action=get_client',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+
+                }
+            }
+        });
+    });
+
     $('[name="opportunity_area"]').on('change', function()
     {
         $.ajax({
