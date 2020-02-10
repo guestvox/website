@@ -16,7 +16,7 @@
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 		<link rel="stylesheet" href="{$path.css}valkyrie.min.css" type="text/css" media="all" />
 		<link rel="stylesheet" href="{$path.css}styles.css" type="text/css" media="all" />
-                <link rel="manifest" href="manifest.json">
+                <!-- <link rel="manifest" href="manifest.json"> -->
 		{$dependencies.css}
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-153525856-1"></script>
