@@ -122,6 +122,48 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
+	public function get_clients($account)
+	{
+		$query = $this->database->select('clients', [
+			'id',
+			'name'
+		], [
+			'account' => $account,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]);
+
+		return $query;
+	}
+
+    public function get_client($token)
+	{
+		if (!empty($token))
+		{
+			$query = $this->database->select('clients', [
+				'id',
+				'account',
+				'name'
+			], [
+				'OR' => [
+					'id' => $token,
+					'token' => strtoupper($token)
+				]
+			]);
+		}
+		else
+		{
+			$query[0] = [
+				'id' => '',
+				'account' => '',
+				'name' => ''
+			];
+		}
+
+		return !empty($query) ? $query[0] : null;
+	}
+
 	public function get_guest($zaviapms, $room)
 	{
 		$guest = [
@@ -330,6 +372,7 @@ class Myvox_model extends Model
 				'token' => Functions::get_random(8),
 				'room' => ($data['account']['type'] == 'hotel') ? $data['room'] : null,
 				'table' => ($data['account']['type'] == 'restaurant') ? $data['table'] : null,
+				'client' => ($data['account']['type'] == 'others') ? $data['client'] : null,
 				'opportunity_area' => $data['opportunity_area'],
 				'opportunity_type' => $data['opportunity_type'],
 				'started_date' => Functions::get_formatted_date($data['started_date']),
@@ -399,6 +442,7 @@ class Myvox_model extends Model
 				'token' => Functions::get_random(8),
 				'room' => ($data['account']['type'] == 'hotel') ? $data['room'] : null,
 				'table' => ($data['account']['type'] == 'restaurant') ? $data['table'] : null,
+				'client' => ($data['account']['type'] == 'others') ? $data['client'] : null,
 				'opportunity_area' => $data['opportunity_area'],
 				'opportunity_type' => $data['opportunity_type'],
 				'started_date' => Functions::get_formatted_date($data['started_date']),
@@ -507,6 +551,7 @@ class Myvox_model extends Model
 			'token' => $data['token'],
 			'room' => ($data['account']['type'] == 'hotel' AND !empty($data['room'])) ? $data['room'] : null,
 			'table' => ($data['account']['type'] == 'restaurant' AND !empty($data['table'])) ? $data['table'] : null,
+			'client' => ($data['account']['type'] == 'others' AND !empty($data['client'])) ? $data['client'] : null,
 			'answers' => json_encode($data['answers']),
 			'comment' => $data['comment'],
 			'guest' => json_encode($data['guest']),
