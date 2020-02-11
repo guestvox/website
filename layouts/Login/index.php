@@ -3,7 +3,7 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.css}Login/index.css']);
 $this->dependencies->add(['js', '{$path.js}Login/index.js']);
-$this->dependencies->add(['js', "
+$this->dependencies->add(['other', "
     <script>
         if('serviceWorker' in navigator){
                 console.log('El navegador admite service workers');
