@@ -567,6 +567,20 @@ class Surveys_controller extends Controller
 						}
 						else if ($value['type'] == 'open')
 							$data .= '<p>' . $value['answer'] . '</p>';
+						else if ($value['type'] == 'check')
+						{
+							$data .=
+							'<div class="checkboxes">';
+
+							foreach ($value['answer'] as $subkey => $subvalue)
+							{
+								$data .=
+								'<input type="checkbox" checked disabled>
+								<span>' . $subvalue . '</span>';
+							}
+							$data .=
+							'</div>';
+						}
 
 						$data .= '</div>';
 

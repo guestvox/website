@@ -16,6 +16,7 @@ class Surveys_model extends Model
 			'name',
 			'subquestions',
 			'type',
+			'values',
 			'status'
 		], [
 			'account' => Session::get_value('account')['id']
@@ -29,7 +30,8 @@ class Surveys_model extends Model
 		$query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
 			'name',
 			'subquestions',
-			'type'
+			'type',
+			'values'
 		], [
 			'id' => $id
 		]));
@@ -266,22 +268,36 @@ class Surveys_model extends Model
 			{
 				$value['question'] = $this->get_survey_question($query[0]['answers'][$key]['id']);
 
-				foreach ($value['subanswers'] as $subkey => $subvalue)
+				if ($value['type'] == 'check')
 				{
-					foreach ($value['question']['subquestions'] as $parentkey => $parentvalue)
+					foreach ($value['answer'] as $subkey => $subvalue)
 					{
-						if ($subvalue['id'] == $parentvalue['id'])
-							$query[0]['answers'][$key]['subanswers'][$subkey]['question'] = $parentvalue['name'];
-					}
-
-					foreach ($subvalue['subanswers'] as $parentkey => $parentvalue)
-					{
-						foreach ($value['question']['subquestions'] as $childkey => $childvalue)
+						foreach ($value['question']['values'] as $parentkey => $parentvalue)
 						{
-							foreach ($childvalue['subquestions'] as $slavekey => $slavevalue)
+							if ($subvalue == $parentkey)
+								$query[0]['answers'][$key]['answer'][$subkey] = $parentvalue;
+						}
+					}
+				}
+				else
+				{
+					foreach ($value['subanswers'] as $subkey => $subvalue)
+					{
+						foreach ($value['question']['subquestions'] as $parentkey => $parentvalue)
+						{
+							if ($subvalue['id'] == $parentvalue['id'])
+								$query[0]['answers'][$key]['subanswers'][$subkey]['question'] = $parentvalue['name'];
+						}
+
+						foreach ($subvalue['subanswers'] as $parentkey => $parentvalue)
+						{
+							foreach ($value['question']['subquestions'] as $childkey => $childvalue)
 							{
-								if ($parentvalue['id'] == $slavevalue['id'])
-									$query[0]['answers'][$key]['subanswers'][$subkey]['subanswers'][$parentkey]['question'] = $slavevalue['name'];
+								foreach ($childvalue['subquestions'] as $slavekey => $slavevalue)
+								{
+									if ($parentvalue['id'] == $slavevalue['id'])
+										$query[0]['answers'][$key]['subanswers'][$subkey]['subanswers'][$parentkey]['question'] = $slavevalue['name'];
+								}
 							}
 						}
 					}

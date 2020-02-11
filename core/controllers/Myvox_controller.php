@@ -800,12 +800,13 @@ class Myvox_controller extends Controller
 						unset($_POST['answers']['phone_lada']);
 						unset($_POST['answers']['phone_number']);
 						unset($_POST['answers']['action']);
+						$values_check = [];
 
 						foreach ($_POST['answers'] as $key => $value)
 						{
 							$explode = explode('-', $key);
 
-							if ($explode[0] == 'pr' OR $explode[0] == 'pt' OR $explode[0] == 'po')
+							if ($explode[0] == 'pr' OR $explode[0] == 'pt' OR $explode[0] == 'po' OR $explode[0] == 'pc')
 							{
 								if ($explode[0] == 'pr')
 									$explode[0] = 'rate';
@@ -813,13 +814,30 @@ class Myvox_controller extends Controller
 									$explode[0] = 'twin';
 								else if ($explode[0] == 'po')
 									$explode[0] = 'open';
+								else if ($explode[0] == 'pc')
+									$explode[0] = 'check';
 
-								$_POST['answers'][$explode[1]] = [
-									'id' => $explode[1],
-									'answer' => $value,
-									'type' => $explode[0],
-									'subanswers' => []
-								];
+								if ($explode[0] == 'check')
+								{
+									array_push($values_check, $value);
+
+									$_POST['answers'][$explode[1]] = [
+										'id' => $explode[1],
+										'answer' => $values_check,
+										'type' => $explode[0],
+										'subanswers' => []
+									];
+
+								}
+								else
+								{
+									$_POST['answers'][$explode[1]] = [
+										'id' => $explode[1],
+										'answer' => $value,
+										'type' => $explode[0],
+										'subanswers' => []
+									];
+								}
 
 								unset($_POST['answers'][$key]);
 							}
@@ -1437,21 +1455,21 @@ class Myvox_controller extends Controller
 								   <input type="text" name="po-' . $value['id'] . '">
 								</div>';
 							}
-							// else if ($value['type'] == 'check')
-							// {
-							// 	$mdl_new_survey_answer .=
-							// 	'<div class="checkboxes">';
-							// 	foreach ($value['name']['values'] as $key => $value_check)
-							// 	{
-							// 		$mdl_new_survey_answer .=
-							// 		'
-							// 			<input type="checkbox" name="check_answers[]" value="' . $value_check['id'] . '">
-							// 			<span>' . $value_check['name'][Session::get_value('account')['language']] . '</span>
-							// 		';
-							// 	}
-							// 	$mdl_new_survey_answer .=
-							// 	'</div>';
-							// }
+							else if ($value['type'] == 'check')
+							{
+								$mdl_new_survey_answer .=
+								'<div class="checkboxes">';
+								foreach ($value['values'] as $key_check => $value_check)
+								{
+									$mdl_new_survey_answer .=
+									'
+									<input type="checkbox" name="pc-' . $value['id'] . '-' . $key_check . '" value="' . $key_check . '">
+									<span>' . $value_check . '</span>
+									';
+								}
+								$mdl_new_survey_answer .=
+								'</div>';
+							}
 
 							$mdl_new_survey_answer .=
 							'</article>';
