@@ -4,21 +4,21 @@ defined('_EXEC') or die;
 $this->dependencies->add(['css', '{$path.css}Login/index.css']);
 $this->dependencies->add(['js', '{$path.js}Login/index.js']);
 $this->dependencies->add(['other', "
-    <script>
-        if('serviceWorker' in navigator){
-                console.log('El navegador admite service workers');
-            window.addEventListener('load', function(){
-            navigator.serviceWorker.register('sw.js').then(function(registration){
-            console.log('Service worker registrado de modo correcto');
-            console.log('Scope: ' + registration.scope)
-            },function(error){
-                console.log('El registro del Service worker ha fallado');
-                console.log(error)
-            });
-            });
-        }//Cierra validacion si el navegador admite service workers
-        </script>
-"]);
+ <script>
+         if('serviceWorker' in navigator){
+                 console.log('El navegador admite service workers');
+             window.addEventListener('load', function(){
+             navigator.serviceWorker.register('sw.js').then(function(registration){
+             console.log('Service worker registrado de modo correcto el el Login');
+             console.log('Scope: ' + registration.scope)
+             },function(error){
+                 console.log('El registro del Service worker ha fallado');
+                 console.log(error)
+             });
+             });
+         }//Cierra validacion si el navegador admite service workers
+         </script>
+ "]);
 // $this->dependencies->add(['other', '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLCea8Q6BtcTHwY3YFCiB0EoHE5KnsMUE"></script>']);
 ?>
 
