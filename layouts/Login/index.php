@@ -23,7 +23,7 @@ $this->dependencies->add(['other', "
 ?>
 
 <main class="login">
-    <form>
+    <form name="login">
         <figure>
             <img src="{$path.images}icon-color.svg" alt="GuestVox icontype">
         </figure>

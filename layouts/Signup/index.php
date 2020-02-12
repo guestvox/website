@@ -9,7 +9,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
 ?>
 
 <main class="signup">
-    <form>
+    <form name="signup">
         <h2>¡{$lang.signup}!</h2>
         <h3>{$lang.and_start_free_demo}</h3>
         <div class="steps">

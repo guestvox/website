@@ -2441,6 +2441,12 @@ div.checkers > div.list > div {
     box-sizing: border-box;
 }
 
+div.checkers > div.list > div:first-child > [data-action="up_check_value"],
+div.checkers > div.list > div:last-child > [data-action="down_check_value"] {
+    opacity: 0;
+    cursor: no-drop;
+}
+
 div.checkers > div.list > div > span {
     width: calc(100% - 140px);
     height: 30px;

@@ -110,7 +110,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                             </label>
                         </div>
                     </div>
-                    <!-- <div id="check" class="checkers hidden">
+                    <div id="check" class="checkers hidden">
                         <div class="span6">
                             <div class="label">
                                 <label>
@@ -125,19 +125,11 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                                     <p>(EN) {$lang.check_value}</p>
                                     <input type="text" name="check_name_en" />
                                 </label>
-                                <a data-action="" class="new"><i class="fas fa-check"></i></a>
+                                <a data-action="new_check_value" class="new"><i class="fas fa-check"></i></a>
                             </div>
                         </div>
-                        <div class="list">
-                            <div>
-                                <span>Hola</span>
-                                <a data-action=""><i class="fas fa-arrow-up"></i></a>
-                                <a data-action=""><i class="fas fa-arrow-down"></i></a>
-                                <a data-action="" class="delete"><i class="fas fa-trash-alt"></i></a>
-                                <a data-action="" class="edit"><i class="fas fa-pen"></i></a>
-                            </div>
-                        </div>
-                    </div> -->
+                        <div class="list"></div>
+                    </div>
                     <div class="span12">
                         <div class="label">
                             <label>

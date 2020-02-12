@@ -16,7 +16,6 @@ class Surveys_model extends Model
 			'name',
 			'subquestions',
 			'type',
-			'values',
 			'status'
 		], [
 			'account' => Session::get_value('account')['id']
@@ -41,20 +40,6 @@ class Surveys_model extends Model
 
     public function new_survey_question($data)
 	{
-		// if ($data['type'] == 'check')
-		// {
-		// 	$query = $this->database->insert('survey_questions', [
-		// 		'account' => Session::get_value('account')['id'],
-		// 		'name' => json_encode([
-		// 			'es' => $data['name_es'],
-		// 			'en' => $data['name_en'],
-		// 			'values' => []
-		// 		]),
-		// 		'subquestions' => json_encode([]),
-		// 		'type' => $data['type'],
-		// 		'status' => true
-		// 	]);
-		// }
 		$query = $this->database->insert('survey_questions', [
 			'account' => Session::get_value('account')['id'],
 			'name' => json_encode([
@@ -63,6 +48,7 @@ class Surveys_model extends Model
 			]),
 			'subquestions' => json_encode([]),
 			'type' => $data['type'],
+			'values' => $data['values'],
 			'status' => true
 		]);
 
@@ -73,24 +59,13 @@ class Surveys_model extends Model
 	{
 		if ($data['action'] == 'edit_survey_question')
 		{
-			// if ($data['type'] == 'check')
-			// {
-			// 	$fields = [
-			// 		'name' => json_encode([
-			// 			'es' => $data['name_es'],
-			// 			'en' => $data['name_en'],
-			// 			'values' => []
-			// 		]),
-			// 		'type' => $data['type']
-			// 	];
-			// }
-
 			$fields = [
 				'name' => json_encode([
 					'es' => $data['name_es'],
 					'en' => $data['name_en']
 				]),
-				'type' => $data['type']
+				'type' => $data['type'],
+				'values' => $data['values']
 			];
 		}
 		else if ($data['action'] == 'new_survey_subquestion' OR $data['action'] == 'edit_survey_subquestion' OR $data['action'] == 'deactivate_survey_subquestion' OR $data['action'] == 'activate_survey_subquestion' OR $data['action'] == 'delete_survey_subquestion')
@@ -99,16 +74,6 @@ class Surveys_model extends Model
 				'subquestions' => json_encode($data['question']['subquestions'])
 			];
 		}
-		// else if ($data['action'] == 'new_survey_check' OR $data['action'] == 'edit_survey_check' OR $data['action'] == 'deactivate_survey_check' OR $data['action'] == 'activate_survey_check' OR $data['action'] == 'delete_survey_check')
-		// {
-		// 	$fields = [
-		// 		'name' => json_encode([
-		// 			'es' => $data['question']['name']['es'],
-		// 			'en' => $data['question']['name']['en'],
-		// 			'values' => $data['question']['name']['values']
-		// 		])
-		// 	];
-		// }
 
 		$query = $this->database->update('survey_questions', $fields, [
 			'id' => $data['id']
