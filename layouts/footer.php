@@ -26,5 +26,9 @@
         <script src="https://kit.fontawesome.com/743152b0c5.js"></script>
         {$dependencies.js}
         {$dependencies.other}
+        
+        <?php if ( isset($GLOBALS['vkye_path']) && !empty($GLOBALS['vkye_path']) ): ?>
+            <?= $GLOBALS['vkye_path'] ?>
+        <?php endif; ?>
     </body>
 </html>

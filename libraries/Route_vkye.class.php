@@ -15,6 +15,9 @@ class Route_vkye
 
     public function on_change_start()
     {
+        global $vkye_path;
+        $vkye_path = $this->path;
+        
         $paths = [
             '/Index/index',
             '/Login/index',
