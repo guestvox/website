@@ -805,7 +805,7 @@ class Myvox_controller extends Controller
 						{
 							$explode = explode('-', $key);
 
-							if ($explode[0] == 'pr' OR $explode[0] == 'pt' OR $explode[0] == 'po')
+							if ($explode[0] == 'pr' OR $explode[0] == 'pt' OR $explode[0] == 'po' OR $explode[0] == 'pc')
 							{
 								if ($explode[0] == 'pr')
 									$explode[0] = 'rate';
@@ -813,6 +813,11 @@ class Myvox_controller extends Controller
 									$explode[0] = 'twin';
 								else if ($explode[0] == 'po')
 									$explode[0] = 'open';
+								else if ($explode[0] == 'pc')
+								{
+									$explode[0] = 'check';
+									$value = json_encode($value);
+								}
 
 								$_POST['answers'][$explode[1]] = [
 									'id' => $explode[1],
@@ -840,8 +845,6 @@ class Myvox_controller extends Controller
 										'answer' => $value,
 										'subanswers' => []
 									]);
-
-
 								}
 
 								unset($_POST['answers'][$key]);
@@ -1437,21 +1440,21 @@ class Myvox_controller extends Controller
 								   <input type="text" name="po-' . $value['id'] . '">
 								</div>';
 							}
-							// else if ($value['type'] == 'check')
-							// {
-							// 	$mdl_new_survey_answer .=
-							// 	'<div class="checkboxes">';
-							// 	foreach ($value['name']['values'] as $key => $value_check)
-							// 	{
-							// 		$mdl_new_survey_answer .=
-							// 		'
-							// 			<input type="checkbox" name="check_answers[]" value="' . $value_check['id'] . '">
-							// 			<span>' . $value_check['name'][Session::get_value('account')['language']] . '</span>
-							// 		';
-							// 	}
-							// 	$mdl_new_survey_answer .=
-							// 	'</div>';
-							// }
+							else if ($value['type'] == 'check')
+							{
+								$mdl_new_survey_answer .=
+								'<div class="checkboxes">';
+
+								foreach ($value['values'] as $subkey => $subvalue)
+								{
+									$mdl_new_survey_answer .=
+									'<input type="checkbox" name="pc-' . $value['id'] . '-values[]" value="' . $subkey . '">
+									<span>' . $subvalue[Session::get_value('lang')] . '</span>';
+								}
+
+								$mdl_new_survey_answer .=
+								'</div>';
+							}
 
 							$mdl_new_survey_answer .=
 							'</article>';

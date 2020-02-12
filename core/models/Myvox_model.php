@@ -352,7 +352,8 @@ class Myvox_model extends Model
             'id',
             'name',
 			'subquestions',
-			'type'
+			'type',
+			'values'
         ], [
             'AND' => [
 				'account' => $account,

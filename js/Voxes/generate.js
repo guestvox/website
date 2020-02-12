@@ -201,7 +201,7 @@ $(document).ready(function ()
                                 form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
                         });
 
-                        form.find('label.error [name]')[0].focus();
+                        // form.find('label.error [name]')[0].focus();
                     }
                     else if (response.message)
                     {

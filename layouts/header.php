@@ -6,9 +6,9 @@
                 <?php if (Functions::check_account_access(['operation']) == true) : ?>
                 <li><a href="/voxes/create"><i class="fas fa-plus"></i>{$lang.new_vox}</a></li>
                 <?php endif; ?>
-                <li><a <?php if (Functions::check_user_access(['{account_update}']) == true) : ?>href="/account"<?php endif; ?>><?php echo Session::get_value('account')['name']; ?></a></li>
+                <li><a href="<?php echo ((Functions::check_user_access(['{account_update}']) == true) ?  '/account' : ''); ?>"><?php echo Session::get_value('account')['name']; ?></a></li>
                 <li><a href="/profile" class="profile"><i class="fas fa-circle"></i><?php echo Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname']; ?></a></li>
-                <li><a href="/profile"><i class="fas fa-user-circle"></i></a></li>
+                <li><a href="/profile"><?php echo (!empty(Session::get_value('user')['avatar']) ? '<span><img src="{$path.uploads}' . Session::get_value('user')['avatar'] . '"></span>' : '<i class="fas fa-user-circle"></i>') ?></a></li>
                 <li><a data-button-modal="logout"><i class="fas fa-power-off"></i></a></li>
                 <li><a data-action="open-dash-menu"><i class="fas fa-ellipsis-v"></i></a></li>
             </ul>

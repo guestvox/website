@@ -110,6 +110,26 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                             </label>
                         </div>
                     </div>
+                    <div id="check" class="checkers hidden">
+                        <div class="span6">
+                            <div class="label">
+                                <label>
+                                    <p>(ES) {$lang.check_value}</p>
+                                    <input type="text" name="check_name_es" />
+                                </label>
+                            </div>
+                        </div>
+                        <div class="span6">
+                            <div class="label">
+                                <label>
+                                    <p>(EN) {$lang.check_value}</p>
+                                    <input type="text" name="check_name_en" />
+                                </label>
+                                <a data-action="new_check_value" class="new"><i class="fas fa-check"></i></a>
+                            </div>
+                        </div>
+                        <div class="list"></div>
+                    </div>
                     <div class="span12">
                         <div class="label">
                             <label>
@@ -130,48 +150,13 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                         					<input type="radio" name="type" value="open">
                         					<span>{$lang.open}</span>
                         				</div>
-                                        <!-- <div>
+                                        <div>
                         					<input type="radio" name="type" value="check">
                         					<span>{$lang.check}</span>
-                        				</div> -->
+                        				</div>
                                     </div>
                     			</div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </main>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
-            </div>
-        </footer>
-    </div>
-</section>
-<section class="modal new" data-modal="new_survey_check">
-    <div class="content">
-        <header>
-            <h3>{$lang.new}</h3>
-        </header>
-        <main>
-            <form name="new_survey_check">
-                <div class="row">
-                    <div class="span6">
-                        <div class="label">
-                            <label>
-                                <p>(ES) {$lang.check}</p>
-                                <input type="text" name="name_es" />
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span6">
-                        <div class="label">
-                            <label>
-                                <p>(EN) {$lang.check}</p>
-                                <input type="text" name="name_en" />
-                            </label>
                         </div>
                     </div>
                 </div>

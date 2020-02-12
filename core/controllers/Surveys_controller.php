@@ -75,6 +75,21 @@ class Surveys_controller extends Controller
 						   <input type="text">
 						</div>';
 					}
+					else if ($value['type'] == 'check')
+					{
+						$data .=
+						'<div class="checkboxes">';
+
+						foreach ($value['values'] as $subvalue)
+						{
+							$data .=
+							'<input type="checkbox" disabled>
+							<span>' . $subvalue[Session::get_value('account')['language']] . '</span>';
+						}
+
+						$data .=
+						'</div>';
+					}
 
 					$data .= '</article>';
 
@@ -191,7 +206,7 @@ class Surveys_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question' OR $_POST['action'] == 'new_survey_check' OR $_POST['action'] == 'edit_survey_check' OR $_POST['action'] == 'delete_survey_check' OR $_POST['action'] == 'deactivate_survey_check' OR $_POST['action'] == 'activate_survey_check' OR $_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'deactivate_survey_subquestion' OR $_POST['action'] == 'activate_survey_subquestion' OR $_POST['action'] == 'delete_survey_subquestion')
+			if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question' OR $_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'deactivate_survey_subquestion' OR $_POST['action'] == 'activate_survey_subquestion' OR $_POST['action'] == 'delete_survey_subquestion')
 			{
 				$labels = [];
 
@@ -205,14 +220,20 @@ class Surveys_controller extends Controller
 
 					if (!isset($_POST['type']) OR empty($_POST['type']))
 						array_push($labels, ['type','']);
-				}
-				else if ($_POST['action'] == 'new_survey_check' OR $_POST['action'] == 'edit_survey_check')
-				{
-					if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
-						array_push($labels, ['name_es','']);
 
-					if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
-						array_push($labels, ['name_en','']);
+					if ($_POST['action'] == 'new_survey_question' OR $_POST['action'] == 'edit_survey_question')
+					{
+						if ($_POST['type'] == 'check')
+						{
+							$_POST['values'] = Functions::get_json_decoded_query($_POST['values']);
+
+							if (!isset($_POST['values']) OR empty($_POST['values']))
+							{
+								array_push($labels, ['check_name_es','']);
+								array_push($labels, ['check_name_en','']);
+							}
+						}
+					}
 				}
 
 				if (empty($labels))
@@ -221,7 +242,7 @@ class Surveys_controller extends Controller
 						$query = $this->model->new_survey_question($_POST);
 					else if ($_POST['action'] == 'edit_survey_question')
 						$query = $this->model->edit_survey_question($_POST);
-					else if ($_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'new_survey_check' OR $_POST['action'] == 'edit_survey_check' OR $_POST['action'] == 'delete_survey_check' OR $_POST['action'] == 'deactivate_survey_check' OR $_POST['action'] == 'activate_survey_check' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'deactivate_survey_subquestion' OR $_POST['action'] == 'activate_survey_subquestion' OR $_POST['action'] == 'delete_survey_subquestion')
+					else if ($_POST['action'] == 'new_survey_subquestion' OR $_POST['action'] == 'edit_survey_subquestion' OR $_POST['action'] == 'deactivate_survey_subquestion' OR $_POST['action'] == 'activate_survey_subquestion' OR $_POST['action'] == 'delete_survey_subquestion')
 					{
 						$_POST['question'] = $this->model->get_survey_question($_POST['id']);
 
@@ -253,37 +274,6 @@ class Surveys_controller extends Controller
 								]);
 							}
 						}
-						// else if ($_POST['action'] == 'new_survey_check')
-						// {
-						// 	array_push($_POST['question']['name']['values'], [
-						// 		'id' => Functions::get_random(8),
-						// 		'name' => [
-						// 			'es' => $_POST['name_es'],
-						// 			'en' => $_POST['name_en']
-						// 		],
-						// 		'type' => 'check',
-						// 		'status' => true
-						// 	]);
-						// }
-						// else if ($_POST['action'] == 'edit_survey_check')
-						// {
-						// 	$_POST['question']['name']['values'][$_POST['subkey']]['name'] = [
-						// 		'es' => $_POST['name_es'],
-						// 		'en' => $_POST['name_en']
-						// 	];
-						// }
-						// else if ($_POST['action'] == 'deactivate_survey_check')
-						// {
-						// 	$_POST['question']['name']['values'][$_POST['subkey']]['status'] = false;
-						// }
-						// else if ($_POST['action'] == 'activate_survey_check')
-						// {
-						// 	$_POST['question']['name']['values'][$_POST['subkey']]['status'] = true;
-						// }
-						// else if ($_POST['action'] == 'delete_survey_check')
-						// {
-						// 	unset($_POST['question']['name']['values'][$_POST['subkey']]);
-						// }
 						else if ($_POST['action'] == 'edit_survey_subquestion')
 						{
 							if ($_POST['level'] == '2')
@@ -344,6 +334,31 @@ class Surveys_controller extends Controller
 							'message' => '{$lang.operation_error}'
 						]);
 					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'new_check_value')
+			{
+				$labels = [];
+
+				if (!isset($_POST['check_name_es']) OR empty($_POST['check_name_es']))
+					array_push($labels, ['check_name_es','']);
+
+				if (!isset($_POST['check_name_en']) OR empty($_POST['check_name_en']))
+					array_push($labels, ['check_name_en','']);
+
+				if (empty($labels))
+				{
+					Functions::environment([
+						'status' => 'success'
+					]);
 				}
 				else
 				{
@@ -429,28 +444,12 @@ class Surveys_controller extends Controller
 					<td align="left">' . $value['name'][Session::get_value('account')['language']] . '</td>
 					<td align="left">{$lang.' . $value['type'] . '}</td>
 					<td align="left">' . (($value['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
-					' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true AND $value['type'] != 'open'  AND $value['type'] != 'check') ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : (($value['status'] == true AND $value['type'] == 'check')? '<a data-action="new_survey_check" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : '')) . '</td>' : '') . '
+					' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true AND $value['type'] != 'open' AND $value['type'] != 'check') ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : '') . '</td>' : '') . '
 					' . ((Functions::check_user_access(['{survey_questions_delete}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="delete_survey_question" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
 					' . ((Functions::check_user_access(['{survey_questions_deactivate}','{survey_questions_activate}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
 					' . ((Functions::check_user_access(['{survey_questions_update}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="edit_survey_question" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a>' : '') . '</td>' : '') . '
 				</tr>';
 
-				// if (isset($value['name']['values']))
-				// {
-				// 	foreach ($value['name']['values'] as $key_check => $value_check)
-				// 	{
-				// 		$tbl_survey_questions .=
-				// 		'<tr data-level="2">
-				// 			<td align="left">' . $value_check['name'][Session::get_value('account')['language']] . '</td>
-				// 			<td align="left">{$lang.' . $value_check['type'] . '}</td>
-				// 			<td align="left">' . (($subvalue['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
-				// 			' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon">' . (($value_check['status'] == true) ? '' : '') . '</td>' : '') . '
-				// 			' . ((Functions::check_user_access(['{survey_questions_delete}']) == true) ? '<td align="right" class="icon">' . (($value_check['status'] == true) ? '<a data-action="delete_survey_check" data-id="' . $value['id'] . '" data-subkey="' . $key_check . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-				// 			' . ((Functions::check_user_access(['{survey_questions_deactivate}','{survey_questions_activate}']) == true) ? '<td align="right" class="icon">' . (($value_check['status'] == true) ? '<a data-action="deactivate_survey_check" data-id="' . $value['id'] . '" data-subkey="' . $key_check . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_check" data-id="' . $value['id'] . '" data-subkey="' . $key_check . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
-				// 			' . ((Functions::check_user_access(['{survey_questions_update}']) == true) ? '<td align="right" class="icon">' . (($value_check['status'] == true) ? '<a data-action="edit_survey_check" data-id="' . $value['id'] . '" data-subkey="' . $key_check . '" class="edit"><i class="fas fa-pen"></i></a>' : '') . '</td>' : '') . '
-				// 		</tr>';
-				// 	}
-				// }
 				foreach ($value['subquestions'] as $subkey => $subvalue)
 				{
 					$tbl_survey_questions .=
@@ -458,11 +457,12 @@ class Surveys_controller extends Controller
 						<td align="left">' . $subvalue['name'][Session::get_value('account')['language']] . '</td>
 						<td align="left">{$lang.' . $subvalue['type'] . '}</td>
 						<td align="left">' . (($subvalue['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
-						' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true AND $subvalue['type'] != 'open' AND $subvalue['type'] != 'check') ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '" data-subkey="' . $subkey . '"><i class="fas fa-plus"></i></a>' : '') . '</td>' : '') . '
+						' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true AND $subvalue['type'] != 'open') ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '" data-subkey="' . $subkey . '"><i class="fas fa-plus"></i></a>' : '') . '</td>' : '') . '
 						' . ((Functions::check_user_access(['{survey_questions_delete}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="delete_survey_subquestion" data-id="' . $value['id'] . '" data-subkey="' . $subkey . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
 						' . ((Functions::check_user_access(['{survey_questions_deactivate}','{survey_questions_activate}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true) ? '<a data-action="deactivate_survey_subquestion" data-id="' . $value['id'] . '" data-subkey="' . $subkey . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_subquestion" data-id="' . $value['id'] . '" data-subkey="' . $subkey . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
 						' . ((Functions::check_user_access(['{survey_questions_update}']) == true) ? '<td align="right" class="icon">' . (($subvalue['status'] == true AND $subvalue['type'] != 'check') ? '<a data-action="edit_survey_subquestion" data-id="' . $value['id'] . '" data-subkey="' . $subkey . '" class="edit"><i class="fas fa-pen"></i></a>' : '<a data-action="edit_survey_check" data-id="' . $value['id'] . '" data-subkey="' . $subkey . '" class="edit"><i class="fas fa-pen"></i></a>') . '</td>' : '') . '
 					</tr>';
+
 					if (isset($subvalue['subquestions']))
 					{
 						foreach ($subvalue['subquestions'] as $parentkey => $parentvalue)
@@ -567,6 +567,21 @@ class Surveys_controller extends Controller
 						}
 						else if ($value['type'] == 'open')
 							$data .= '<p>' . $value['answer'] . '</p>';
+						else if ($value['type'] == 'check')
+						{
+							$data .=
+							'<div class="checkboxes">';
+
+							foreach ($value['values'] as $subkey => $subvalue)
+							{
+								$data .=
+								'<input type="checkbox" ' . (in_array($subkey, $value['answer']) ? 'checked' : '') . ' disabled>
+								<span>' . $subvalue[Session::get_value('account')['language']] . '</span>';
+							}
+
+							$data .=
+							'</div>';
+						}
 
 						$data .= '</div>';
 

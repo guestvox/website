@@ -15,11 +15,16 @@ class Route_vkye
 
     public function on_change_start()
     {
+        global $vkye_path;
+        $vkye_path = $this->path;
+        
         $paths = [
             '/Index/index',
-            '/Index/validate',
-            '/Hola/index',
+            '/Login/index',
+            '/Signup/index',
+            '/Signup/validate',
             '/Terms/index',
+            '/Hola/index',
             '/Myvox/index',
             '/Api/execute'
         ];
