@@ -491,12 +491,14 @@ $(document).ready(function()
                         $('[data-modal="new_survey_question"]').find('[name="name_es"]').val(response.data.subquestions[subkey].name.es);
                         $('[data-modal="new_survey_question"]').find('[name="name_en"]').val(response.data.subquestions[subkey].name.en);
                         $('[data-modal="new_survey_question"]').find('[name="type"][value="' + response.data.subquestions[subkey].type + '"]').prop('checked', true);
+                        $('[data-modal="new_survey_question"]').find('[name="type"][value="check"]').parent().addClass('hidden');
                     }
                     else if (level == 3)
                     {
                         $('[data-modal="new_survey_question"]').find('[name="name_es"]').val(response.data.subquestions[subkey].subquestions[parentkey].name.es);
                         $('[data-modal="new_survey_question"]').find('[name="name_en"]').val(response.data.subquestions[subkey].subquestions[parentkey].name.en);
                         $('[data-modal="new_survey_question"]').find('[name="type"][value="' + response.data.subquestions[subkey].subquestions[parentkey].type + '"]').prop('checked', true);
+                        $('[data-modal="new_survey_question"]').find('[name="type"][value="check"]').parent().addClass('hidden');
                     }
                 }
                 else if (response.status == 'error')
