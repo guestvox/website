@@ -15,6 +15,7 @@ class Route_vkye
 
     public function on_change_start()
     {
+        print_r ($this->path);
         $paths = [
             '/Index/index',
             '/Login/index',
