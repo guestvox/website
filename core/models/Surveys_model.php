@@ -49,7 +49,7 @@ class Surveys_model extends Model
 			]),
 			'subquestions' => json_encode([]),
 			'type' => $data['type'],
-			'values' => $data['values'],
+			'values' => ($data['type'] == 'check') ? json_encode($data['values']) : [],
 			'status' => true
 		]);
 

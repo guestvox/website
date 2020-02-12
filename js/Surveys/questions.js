@@ -55,20 +55,58 @@ $(document).ready(function()
 
     $('[data-action="new_check_value"]').on('click', function()
     {
-        if (values_action == 'new')
-        {
-            values.push({
-                'es': $('[name="check_name_es"]').val(),
-                'en': $('[name="check_name_en"]').val()
-            });
-        }
-        else if (values_action == 'edit')
-        {
-            values[values_key].es = $('[name="check_name_es"]').val();
-            values[values_key].en = $('[name="check_name_en"]').val();
-        }
+        var form = $('form[name="new_survey_question"]');
 
-        load_check_values_list();
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&action=new_check_value',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                form.find('label.error').removeClass('error');
+                form.find('p.error').remove();
+
+                if (response.status == 'success')
+                {
+                    if (values_action == 'new')
+                    {
+                        values.push({
+                            'es': $('[name="check_name_es"]').val(),
+                            'en': $('[name="check_name_en"]').val()
+                        });
+                    }
+                    else if (values_action == 'edit')
+                    {
+                        values[values_key].es = $('[name="check_name_es"]').val();
+                        values[values_key].en = $('[name="check_name_en"]').val();
+                    }
+
+                    load_check_values_list();
+                }
+                else if (response.status == 'error')
+                {
+                    if (response.labels)
+                    {
+                        $.each(response.labels, function(i, label)
+                        {
+                            if (label[1].length > 0)
+                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
+                            else
+                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
+                        });
+
+                        form.find('label.error [name]')[0].focus();
+                    }
+                    else if (response.message)
+                    {
+                        $('[data-modal="error"]').addClass('view');
+                        $('[data-modal="error"]').find('main > p').html(response.message);
+                    }
+                }
+            }
+        });
     });
 
     function load_check_values_list()
@@ -98,9 +136,9 @@ $(document).ready(function()
 
     function setter_check_clicks()
     {
-        $( '[data-action="edit_check_value"]' ).each(function( index )
+        $('[data-action="edit_check_value"]').each(function( index )
         {
-            $(this).on("click", function()
+            $(this).on('click', function()
             {
                 values_action = 'edit';
                 values_key = $(this).data('key');
@@ -109,9 +147,9 @@ $(document).ready(function()
             });
         });
 
-        $( '[data-action="delete_check_value"]' ).each(function( index )
+        $('[data-action="delete_check_value"]').each(function( index )
         {
-            $(this).on("click", function()
+            $(this).on('click', function()
             {
                 values.splice($(this).data('key'), 1);
 
@@ -119,9 +157,9 @@ $(document).ready(function()
             });
         });
 
-        $( '[data-action="up_check_value"]' ).each(function( index )
+        $('[data-action="up_check_value"]').each(function( index )
         {
-            $(this).on("click", function()
+            $(this).on('click', function()
             {
                 values_key = $(this).data('key');
 
@@ -138,9 +176,9 @@ $(document).ready(function()
             });
         });
 
-        $( '[data-action="down_check_value"]' ).each(function( index )
+        $('[data-action="down_check_value"]').each(function( index )
         {
-            $(this).on("click", function()
+            $(this).on('click', function()
             {
                 values_key = $(this).data('key');
 

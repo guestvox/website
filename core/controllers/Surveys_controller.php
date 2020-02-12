@@ -225,6 +225,8 @@ class Surveys_controller extends Controller
 					{
 						if ($_POST['type'] == 'check')
 						{
+							$_POST['values'] = Functions::get_json_decoded_query($_POST['values']);
+
 							if (!isset($_POST['values']) OR empty($_POST['values']))
 							{
 								array_push($labels, ['check_name_es','']);
@@ -332,6 +334,31 @@ class Surveys_controller extends Controller
 							'message' => '{$lang.operation_error}'
 						]);
 					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'new_check_value')
+			{
+				$labels = [];
+
+				if (!isset($_POST['check_name_es']) OR empty($_POST['check_name_es']))
+					array_push($labels, ['check_name_es','']);
+
+				if (!isset($_POST['check_name_en']) OR empty($_POST['check_name_en']))
+					array_push($labels, ['check_name_en','']);
+
+				if (empty($labels))
+				{
+					Functions::environment([
+						'status' => 'success'
+					]);
 				}
 				else
 				{
