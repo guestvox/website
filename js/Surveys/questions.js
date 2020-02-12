@@ -71,53 +71,6 @@ $(document).ready(function()
         load_check_values_list();
     });
 
-    $('[data-action="edit_check_value"]').on('click', function()
-    {
-        values_action = 'edit';
-        values_key = $(this).data('key');
-        $('[name="check_name_es"]').val(values[values_key].es);
-        $('[name="check_name_en"]').val(values[values_key].en);
-    });
-
-    $('[data-action="delete_check_value"]').on('click', function()
-    {
-        values.splice($(this).data('key'), 1);
-
-        load_check_values_list();
-    });
-
-    $('[data-action="up_check_value"]').on('click', function()
-    {
-        values_key = $(this).data('key');
-
-        if (values_key > 0)
-        {
-            var values_data = values[values_key];
-            var values_key_up = (values_key - 1);
-            var values_data_up = values[values_key_up];
-            values.splice(values_key_up, 1, values_data);
-            values.splice(values_key, 1, values_data_up);
-
-            load_check_values_list();
-        }
-    });
-
-    $('[data-action="down_check_value"]').on('click', function()
-    {
-        values_key = $(this).data('key');
-
-        if (values_key < (values.length - 1))
-        {
-            var values_data = values[values_key];
-            var values_key_down = (values_key + 1);
-            var values_data_down = values[values_key_down];
-            values.splice(values_key_down, 1, values_data);
-            values.splice(values_key, 1, values_data_down);
-
-            load_check_values_list();
-        }
-    });
-
     function load_check_values_list()
     {
         $('#check > div.list').html('');
@@ -139,6 +92,70 @@ $(document).ready(function()
         values_key = null;
         $('[name="check_name_es"]').val('');
         $('[name="check_name_en"]').val('');
+
+        setter_check_clicks();
+    }
+
+    function setter_check_clicks()
+    {
+        $( '[data-action="edit_check_value"]' ).each(function( index )
+        {
+            $(this).on("click", function()
+            {
+                values_action = 'edit';
+                values_key = $(this).data('key');
+                $('[name="check_name_es"]').val(values[values_key].es);
+                $('[name="check_name_en"]').val(values[values_key].en);
+            });
+        });
+
+        $( '[data-action="delete_check_value"]' ).each(function( index )
+        {
+            $(this).on("click", function()
+            {
+                values.splice($(this).data('key'), 1);
+
+                load_check_values_list();
+            });
+        });
+
+        $( '[data-action="up_check_value"]' ).each(function( index )
+        {
+            $(this).on("click", function()
+            {
+                values_key = $(this).data('key');
+
+                if (values_key > 0)
+                {
+                    var values_data = values[values_key];
+                    var values_key_up = (values_key - 1);
+                    var values_data_up = values[values_key_up];
+                    values.splice(values_key_up, 1, values_data);
+                    values.splice(values_key, 1, values_data_up);
+
+                    load_check_values_list();
+                }
+            });
+        });
+
+        $( '[data-action="down_check_value"]' ).each(function( index )
+        {
+            $(this).on("click", function()
+            {
+                values_key = $(this).data('key');
+
+                if (values_key < (values.length - 1))
+                {
+                    var values_data = values[values_key];
+                    var values_key_down = (values_key + 1);
+                    var values_data_down = values[values_key_down];
+                    values.splice(values_key_down, 1, values_data);
+                    values.splice(values_key, 1, values_data_down);
+
+                    load_check_values_list();
+                }
+            });
+        });
     }
 
     var level;

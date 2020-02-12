@@ -75,6 +75,21 @@ class Surveys_controller extends Controller
 						   <input type="text">
 						</div>';
 					}
+					else if ($value['type'] == 'check')
+					{
+						$data .=
+						'<div class="checkboxes">';
+
+						foreach ($value['values'] as $subvalue)
+						{
+							$data .=
+							'<input type="checkbox" disabled>
+							<span>' . $subvalue[Session::get_value('account')['language']] . '</span>';
+						}
+
+						$data .=
+						'</div>';
+					}
 
 					$data .= '</article>';
 
@@ -530,12 +545,13 @@ class Surveys_controller extends Controller
 							$data .=
 							'<div class="checkboxes">';
 
-							foreach ($value['answer'] as $subkey => $subvalue)
+							foreach ($value['values'] as $subkey => $subvalue)
 							{
 								$data .=
-								'<input type="checkbox" checked disabled>
-								<span>' . $subvalue . '</span>';
+								'<input type="checkbox" ' . (in_array($subkey, $value['answer']) ? 'checked' : '') . ' disabled>
+								<span>' . $subvalue[Session::get_value('account')['language']] . '</span>';
 							}
+
 							$data .=
 							'</div>';
 						}

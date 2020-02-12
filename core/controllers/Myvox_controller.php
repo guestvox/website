@@ -800,7 +800,6 @@ class Myvox_controller extends Controller
 						unset($_POST['answers']['phone_lada']);
 						unset($_POST['answers']['phone_number']);
 						unset($_POST['answers']['action']);
-						$values_check = [];
 
 						foreach ($_POST['answers'] as $key => $value)
 						{
@@ -815,29 +814,17 @@ class Myvox_controller extends Controller
 								else if ($explode[0] == 'po')
 									$explode[0] = 'open';
 								else if ($explode[0] == 'pc')
+								{
 									$explode[0] = 'check';
-
-								if ($explode[0] == 'check')
-								{
-									array_push($values_check, $value);
-
-									$_POST['answers'][$explode[1]] = [
-										'id' => $explode[1],
-										'answer' => $values_check,
-										'type' => $explode[0],
-										'subanswers' => []
-									];
-
+									$value = json_encode($value);
 								}
-								else
-								{
-									$_POST['answers'][$explode[1]] = [
-										'id' => $explode[1],
-										'answer' => $value,
-										'type' => $explode[0],
-										'subanswers' => []
-									];
-								}
+
+								$_POST['answers'][$explode[1]] = [
+									'id' => $explode[1],
+									'answer' => $value,
+									'type' => $explode[0],
+									'subanswers' => []
+								];
 
 								unset($_POST['answers'][$key]);
 							}
@@ -858,8 +845,6 @@ class Myvox_controller extends Controller
 										'answer' => $value,
 										'subanswers' => []
 									]);
-
-
 								}
 
 								unset($_POST['answers'][$key]);
@@ -1459,14 +1444,14 @@ class Myvox_controller extends Controller
 							{
 								$mdl_new_survey_answer .=
 								'<div class="checkboxes">';
-								foreach ($value['values'] as $key_check => $value_check)
+
+								foreach ($value['values'] as $subkey => $subvalue)
 								{
 									$mdl_new_survey_answer .=
-									'
-									<input type="checkbox" name="pc-' . $value['id'] . '-' . $key_check . '" value="' . $key_check . '">
-									<span>' . $value_check . '</span>
-									';
+									'<input type="checkbox" name="pc-' . $value['id'] . '-values[]" value="' . $subkey . '">
+									<span>' . $subvalue[Session::get_value('lang')] . '</span>';
 								}
+
 								$mdl_new_survey_answer .=
 								'</div>';
 							}
