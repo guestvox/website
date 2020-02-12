@@ -11,15 +11,10 @@ class Route_vkye
     {
         $this->path = $path;
         $this->user_level = new User_level();
-        
-        global $vkye_path;
-        
-        $vkye_path = $this->path;
     }
 
     public function on_change_start()
     {
-        print_r ($this->path);
         $paths = [
             '/Index/index',
             '/Login/index',

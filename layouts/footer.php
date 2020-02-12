@@ -26,11 +26,5 @@
         <script src="https://kit.fontawesome.com/743152b0c5.js"></script>
         {$dependencies.js}
         {$dependencies.other}
-        
-        <?php
-           // global $_GLOBALS['vkye_path'];
-            
-            print_r($_GLOBALS['vkye_path']);
-        ?>
     </body>
 </html>
