@@ -15,7 +15,6 @@ class Login_controller extends Controller
 		{
             if ($_POST['action'] == 'login')
 			{
-
 				$labels = [];
 
 				if (!isset($_POST['username']) OR empty($_POST['username']))

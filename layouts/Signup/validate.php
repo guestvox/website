@@ -2,8 +2,8 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['css', '{$path.css}Index/validate.css']);
-$this->dependencies->add(['js', '{$path.js}Index/validate.js']);
+$this->dependencies->add(['css', '{$path.css}Signup/validate.css']);
+$this->dependencies->add(['js', '{$path.js}Signup/validate.js']);
 
 ?>
 

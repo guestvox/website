@@ -7,12 +7,6 @@ $(document).ready(function()
         $('form[name="login"]').submit();
     });
 
-    $('[data-modal="login"]').modal().onCancel(function()
-    {
-        $('form[name="login"]')[0].reset();
-        $('fieldset.error').removeClass('error');
-    });
-
     $('form[name="login"]').on('submit', function(e)
     {
         e.preventDefault();

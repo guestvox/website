@@ -22,11 +22,8 @@ $this->dependencies->add(['other', "
 // $this->dependencies->add(['other', '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLCea8Q6BtcTHwY3YFCiB0EoHE5KnsMUE"></script>']);
 ?>
 
-
-
-    <section class="modals">
-        <main>
-        <form name="login">
+<main class="login">
+    <form>
         <figure>
             <img src="{$path.images}icon-color.svg" alt="GuestVox icontype">
         </figure>
@@ -36,10 +33,7 @@ $this->dependencies->add(['other', "
         <fieldset>
             <input type="password" name="password" placeholder="{$lang.password}" />
         </fieldset>
-        <a class="btn btn-login" data-action="login">{$lang.login}</a>
-        <br>
-        <a button-cancel href="/" class="btn-cancel">{$lang.cancel}</a>
-    </form>            
-        </main>
-
-    </section>
+        <a data-action="login">{$lang.login}</a>
+        <a href="/">{$lang.cancel}</a>
+    </form>
+</main>

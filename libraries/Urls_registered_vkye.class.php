@@ -13,20 +13,24 @@ class Urls_registered_vkye
                 'controller' => 'Index',
                 'method' => 'index'
             ],
-            '/validate/%param%/%param%' => [
-                'controller' => 'Index',
-                'method' => 'validate'
-            ],
-            '/hola' => [
-                'controller' => 'Hola',
-                'method' => 'index'
-            ],
             '/login' => [
                 'controller' => 'Login',
                 'method' => 'index'
             ],
+            '/signup' => [
+                'controller' => 'Signup',
+                'method' => 'index'
+            ],
+            '/signup/validate/%param%/%param%' => [
+                'controller' => 'Signup',
+                'method' => 'validate'
+            ],
             '/terms' => [
                 'controller' => 'Terms',
+                'method' => 'index'
+            ],
+            '/hola' => [
+                'controller' => 'Hola',
                 'method' => 'index'
             ],
             '/%param%/myvox' => [
@@ -160,7 +164,7 @@ class Urls_registered_vkye
             '/profile' => [
                 'controller' => 'Profile',
                 'method' => 'index'
-            ],
+            ]
         ];
     }
 }

@@ -2,8 +2,6 @@
 
 defined('_EXEC') or die;
 
-require 'plugins/php-qr-code/qrlib.php';
-
 class Login_model extends Model
 {
 	public function __construct()
