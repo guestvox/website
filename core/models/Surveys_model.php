@@ -49,7 +49,7 @@ class Surveys_model extends Model
 			]),
 			'subquestions' => json_encode([]),
 			'type' => $data['type'],
-			'values' => ($data['type'] == 'check') ? json_encode($data['values']) : [],
+			'values' => ($data['type'] == 'check') ? json_encode($data['values']) : json_encode([]),
 			'status' => true
 		]);
 
@@ -66,7 +66,7 @@ class Surveys_model extends Model
 					'en' => $data['name_en']
 				]),
 				'type' => $data['type'],
-				'values' => $data['values']
+				'values' => ($data['type'] == 'check') ? json_encode($data['values']) : json_encode([])
 			];
 		}
 		else if ($data['action'] == 'new_survey_subquestion' OR $data['action'] == 'edit_survey_subquestion' OR $data['action'] == 'deactivate_survey_subquestion' OR $data['action'] == 'activate_survey_subquestion' OR $data['action'] == 'delete_survey_subquestion')
