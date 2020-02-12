@@ -31,14 +31,14 @@
             <?php if ($GLOBALS['vkye_path']=='/Login/index' ): ?>
                 <script>
                     if('serviceWorker' in navigator){
-                            console.log('El navegador admite service workers');
+                            //console.log('El navegador admite service workers');
                             window.addEventListener('load', function(){
                             navigator.serviceWorker.register('sw.js').then(function(registration){
                             console.log('Service worker registrado de modo correcto el el Login');
-                            console.log('Scope: ' + registration.scope)
+                            //console.log('Scope: ' + registration.scope);
                             },function(error){
                                 console.log('El registro del Service worker ha fallado');
-                                console.log(error)
+                                console.log(error);
                             });
                         });
                     }//Cierra validacion si el navegador admite service workers
@@ -47,10 +47,11 @@
                  <script>
                     navigator.serviceWorker.getRegistrations().then(
                     function(registrations) {
-                        for(let registration of registrations) {  
+                        for(let registration of registrations){
                             registration.unregister();
                         }
                     });
+                    document.querySelector('link[rel="manifest"]').remove();
                  </script>
             <?php endif; ?>
         <?php endif; ?>
