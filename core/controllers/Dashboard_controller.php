@@ -108,6 +108,6 @@ class Dashboard_controller extends Controller
 	{
 		Session::destroy();
 
-		header("Location: /");
+		header("Location: /login");
 	}
 }
