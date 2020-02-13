@@ -12,5 +12,4 @@ $(document).ready(function()
     {
         tbl_survey_comments.search(this.value).draw();
     });
-
 });

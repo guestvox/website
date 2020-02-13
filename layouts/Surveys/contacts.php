@@ -4,7 +4,7 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
-$this->dependencies->add(['js', '{$path.js}Surveys/contact.js']);
+$this->dependencies->add(['js', '{$path.js}Surveys/contacts.js']);
 $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 
 ?>
@@ -12,7 +12,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 %{header}%
 <main>
     <nav>
-        <h2><i class="fas fa-address-book"></i>{$lang.contact_datas}</h2>
+        <h2><i class="fas fa-address-book"></i>{$lang.contacts}</h2>
         <ul>
             <?php if (Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}']) == true) : ?>
             <li><a href="/surveys/questions"><i class="fas fa-question-circle"></i></a></li>
@@ -24,7 +24,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
             <li><a href="/surveys/comments"><i class="far fa-comment-dots"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{survey_answers_view}']) == true) : ?>
-            <li><a href="/surveys/contact" class="view"><i class="far fa-address-book"></i></a></li>
+            <li><a href="/surveys/contacts" class="view"><i class="far fa-address-book"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{survey_stats_view}']) == true) : ?>
             <li><a href="/surveys/stats"><i class="fas fa-chart-pie"></i></a></li>
@@ -37,10 +37,10 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                 <aside>
                     <label>
                         <span><i class="fas fa-search"></i></span>
-                        <input type="text" name="tbl_survey_contact_information_search">
+                        <input type="text" name="tbl_survey_contacts_search">
                     </label>
                 </aside>
-                <table id="tbl_survey_contact_information">
+                <table id="tbl_survey_contacts">
                     <thead>
                         <tr>
                             <th align="left" width="100px">{$lang.token}</th>
@@ -61,7 +61,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                         </tr>
                     </thead>
                     <tbody>
-                        {$tbl_survey_contact_information}
+                        {$tbl_survey_contacts}
                     </tbody>
                 </table>
             </div>

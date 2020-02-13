@@ -50,11 +50,11 @@ class Surveys_controller extends Controller
 						$data .=
 						'<div>
 						   <label><i class="far fa-thumbs-down"></i></label>
-						   <label><input type="radio"></label>
-						   <label><input type="radio"></label>
-						   <label><input type="radio"></label>
-						   <label><input type="radio"></label>
-						   <label><input type="radio"></label>
+						   <label><input type="radio" disabled></label>
+						   <label><input type="radio" disabled></label>
+						   <label><input type="radio" disabled></label>
+						   <label><input type="radio" disabled></label>
+						   <label><input type="radio" disabled></label>
 						   <label><i class="far fa-thumbs-up"></i></label>
 						</div>';
 					}
@@ -63,8 +63,8 @@ class Surveys_controller extends Controller
 						$data .=
 						'<div>
 						   <label>{$lang.to_yes}</label>
-						   <label><input type="radio"></label>
-						   <label><input type="radio"></label>
+						   <label><input type="radio" disabled></label>
+						   <label><input type="radio" disabled></label>
 						   <label>{$lang.to_not}</label>
 						</div>';
 					}
@@ -72,7 +72,7 @@ class Surveys_controller extends Controller
 					{
 						$data .=
 						'<div>
-						   <input type="text">
+						   <input type="text" disabled>
 						</div>';
 					}
 					else if ($value['type'] == 'check')
@@ -106,11 +106,11 @@ class Surveys_controller extends Controller
 							   $data .=
 							   '<div>
 								   <label><i class="far fa-thumbs-down"></i></label>
-								   <label><input type="radio"></label>
-								   <label><input type="radio"></label>
-								   <label><input type="radio"></label>
-								   <label><input type="radio"></label>
-								   <label><input type="radio"></label>
+								   <label><input type="radio" disabled></label>
+								   <label><input type="radio" disabled></label>
+								   <label><input type="radio" disabled></label>
+								   <label><input type="radio" disabled></label>
+								   <label><input type="radio" disabled></label>
 								   <label><i class="far fa-thumbs-up"></i></label>
 							   </div>';
 						   }
@@ -119,8 +119,8 @@ class Surveys_controller extends Controller
 							   $data .=
 							   '<div>
 								   <label>{$lang.to_yes}</label>
-								   <label><input type="radio"></label>
-								   <label><input type="radio"></label>
+								   <label><input type="radio" disabled></label>
+								   <label><input type="radio" disabled></label>
 								   <label>{$lang.to_not}</label>
 							  </div>';
 						   }
@@ -128,7 +128,7 @@ class Surveys_controller extends Controller
 						   {
 							   $data .=
 							   '<div>
-								   <input type="text"">
+								   <input type="text" disabled>
 							   </div>';
 						   }
 
@@ -145,11 +145,11 @@ class Surveys_controller extends Controller
 									   $data .=
 									   '<div>
 										   <label><i class="far fa-thumbs-down"></i></label>
-										   <label><input type="radio"></label>
-										   <label><input type="radio"></label>
-										   <label><input type="radio"></label>
-										   <label><input type="radio"></label>
-										   <label><input type="radio"></label>
+										   <label><input type="radio" disabled></label>
+										   <label><input type="radio" disabled></label>
+										   <label><input type="radio" disabled></label>
+										   <label><input type="radio" disabled></label>
+										   <label><input type="radio" disabled></label>
 										   <label><i class="far fa-thumbs-up"></i></label>
 									   </div>';
 								   }
@@ -158,8 +158,8 @@ class Surveys_controller extends Controller
 									   $data .=
 									   '<div>
 										   <label>{$lang.to_yes}</label>
-										   <label><input type="radio"></label>
-										   <label><input type="radio"></label>
+										   <label><input type="radio" disabled></label>
+										   <label><input type="radio" disabled></label>
 										   <label>{$lang.to_not}</label>
 									  </div>';
 								   }
@@ -167,7 +167,7 @@ class Surveys_controller extends Controller
 								   {
 									   $data .=
 									   '<div>
-										   <input type="text"">
+										   <input type="text" disabled>
 									   </div>';
 								   }
 							   }
@@ -714,7 +714,7 @@ class Surveys_controller extends Controller
 					$tbl_survey_answers .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
 
 				$tbl_survey_answers .=
-				'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND $value['guest']['zaviapms']['lastname']) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
+				'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
 					<td align="left">' . Functions::get_formatted_date($value['date'], 'd M, y') . '</td>
 					<td align="left"><i class="fas fa-star" style="margin-right:5px;color:#ffeb3b;"></i>' . $value['rate'] . '</td>
 					<td align="right" class="icon"><a data-action="view_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-bars"></i></a></td>
@@ -765,7 +765,7 @@ class Surveys_controller extends Controller
 						$tbl_survey_comments .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
 
 					$tbl_survey_comments .=
-					'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND $value['guest']['zaviapms']['lastname']) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
+					'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
 						<td align="left"> ' . $value['comment'] . '</td>
 					</tr>';
 
@@ -782,7 +782,7 @@ class Surveys_controller extends Controller
 		}
 	}
 
-	public function contact()
+	public function contacts()
 	{
 		if (Format::exist_ajax_request() == true)
 		{
@@ -792,84 +792,34 @@ class Surveys_controller extends Controller
 		{
 			define('_title', 'GuestVox');
 
-			$template = $this->view->render($this, 'contact');
+			$template = $this->view->render($this, 'contacts');
 
-			$tbl_survey_contact_information = '';
+			$tbl_survey_contacts = '';
 
 			foreach ($this->model->get_survey_answers() as $value)
 			{
-				if (Session::get_value('account')['zaviapms']['status'] == true)
-				{
-					if (!empty($value['guest']['zaviapms']['firstname']) AND $value['guest']['zaviapms']['lastname'] || !empty($value['guest']['guestvox']['email']) || !empty($value['guest']['guestvox']['phone']['number']))
-					{
-						$tbl_survey_contact_information .=
-						'<tr>
-							<td align="left">' . $value['token'] . '</td>';
+				$tbl_survey_contacts .=
+				'<tr>
+					<td align="left">' . $value['token'] . '</td>';
 
-						if (Session::get_value('account')['type'] == 'hotel')
-							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+				if (Session::get_value('account')['type'] == 'hotel')
+					$tbl_survey_contacts .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
 
-						if (Session::get_value('account')['type'] == 'restaurant')
-							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+				if (Session::get_value('account')['type'] == 'restaurant')
+					$tbl_survey_contacts .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
 
-						if (Session::get_value('account')['type'] == 'others')
-							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
+				if (Session::get_value('account')['type'] == 'others')
+					$tbl_survey_contacts .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
 
-						$tbl_survey_contact_information .=
-						'	<td align="left">' .  $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] . '</td>
-							<td align="left"> ' . $value['guest']['guestvox']['email']  .  '</td>
-							<td align="left"> ' . $value['guest']['guestvox']['phone']['lada'] . $value['guest']['guestvox']['phone']['number']  .  '</td>
-						</tr>';
-					}
-					else if (!empty($value['guest']['guestvox']['email']) || !empty($value['guest']['guestvox']['phone']['number']))
-					{
-						$tbl_survey_contact_information .=
-						'<tr>
-							<td align="left">' . $value['token'] . '</td>';
-
-						if (Session::get_value('account')['type'] == 'hotel')
-							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
-
-						if (Session::get_value('account')['type'] == 'restaurant')
-							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
-
-						if (Session::get_value('account')['type'] == 'others')
-							$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
-
-						$tbl_survey_contact_information .=
-						'	<td align="left">' .  $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname'] . '</td>
-							<td align="left"> ' . $value['guest']['guestvox']['email']  .  '</td>
-							<td align="left"> ' . $value['guest']['guestvox']['phone']['lada'] . $value['guest']['guestvox']['phone']['number']  .  '</td>
-						</tr>';
-					}
-
-				}
-				else
-				{
-					$tbl_survey_contact_information .=
-					'<tr>
-						<td align="left">' . $value['token'] . '</td>';
-
-					if (Session::get_value('account')['type'] == 'hotel')
-						$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
-
-					if (Session::get_value('account')['type'] == 'restaurant')
-						$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
-
-					if (Session::get_value('account')['type'] == 'others')
-						$tbl_survey_contact_information .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
-
-					$tbl_survey_contact_information .=
-					'	<td align="left">' . $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname'] . '</td>
-						<td align="left"> ' . $value['guest']['guestvox']['email']  .  '</td>
-						<td align="left"> ' . $value['guest']['guestvox']['phone']['lada'] . $value['guest']['guestvox']['phone']['number']  .  '</td>
-					</tr>';
-				}
-
+				$tbl_survey_contacts .=
+				'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
+					<td align="left"> ' . (!empty($value['guest']['guestvox']['email']) ? $value['guest']['guestvox']['email'] : '')  .  '</td>
+					<td align="left"> ' . ((!empty($value['guest']['guestvox']['phone']['lada']) AND !empty($value['guest']['guestvox']['phone']['number'])) ? '+' . $value['guest']['guestvox']['phone']['lada'] . $value['guest']['guestvox']['phone']['number'] : '')  .  '</td>
+				</tr>';
 			}
 
 			$replace = [
-				'{$tbl_survey_contact_information}' => $tbl_survey_contact_information
+				'{$tbl_survey_contacts}' => $tbl_survey_contacts
 			];
 
 			$template = $this->format->replace($replace, $template);
