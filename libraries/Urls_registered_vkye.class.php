@@ -109,9 +109,9 @@ class Urls_registered_vkye
                 'controller' => 'Surveys',
                 'method' => 'comments'
             ],
-            '/surveys/contact' => [
+            '/surveys/contacts' => [
                 'controller' => 'Surveys',
-                'method' => 'contact'
+                'method' => 'contacts'
             ],
             '/surveys/stats' => [
                 'controller' => 'Surveys',
