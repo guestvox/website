@@ -838,8 +838,12 @@ class Surveys_controller extends Controller
 					'status' => 'success',
 					'data' => [
 						's1_chart_data' => $this->model->get_chart_data('s1_chart', [$_POST['end_date'], $_POST['started_date']], true),
-						's2_chart_data' =>$this->model->get_chart_data('s2_chart', [$_POST['end_date'], $_POST['started_date']], true)
-					],
+						's2_chart_data' => $this->model->get_chart_data('s2_chart', [$_POST['end_date'], $_POST['started_date']], true),
+						's5_chart_data' => $this->model->get_chart_data('s5_chart', [$_POST['end_date'], $_POST['started_date']], true),
+						's6_chart_data' => $this->model->get_chart_data('s6_chart', [$_POST['end_date'], $_POST['started_date']], true),
+						's7_chart_data' => $this->model->get_chart_data('s7_chart', [$_POST['end_date'], $_POST['started_date']], true),
+						's8_chart_data' => $this->model->get_chart_data('s8_chart', [$_POST['end_date'], $_POST['started_date']], true)
+					]
 				]);
 			}
 		}
@@ -906,10 +910,10 @@ class Surveys_controller extends Controller
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{
-			$s5_chart_data = $this->model->get_chart_data('s5_chart');
-			$s6_chart_data = $this->model->get_chart_data('s6_chart');
-			$s7_chart_data = $this->model->get_chart_data('s7_chart');
-			$s8_chart_data = $this->model->get_chart_data('s8_chart');
+			$s5_chart_data = $this->model->get_chart_data('s5_chart', [Functions::get_current_date(), Functions::get_past_date(Functions::get_current_date(), '7', 'days')]);
+			$s6_chart_data = $this->model->get_chart_data('s6_chart', [Functions::get_current_date(), Functions::get_past_date(Functions::get_current_date(), '7', 'days')]);
+			$s7_chart_data = $this->model->get_chart_data('s7_chart', [Functions::get_current_date(), Functions::get_past_date(Functions::get_current_date(), '7', 'days')]);
+			$s8_chart_data = $this->model->get_chart_data('s8_chart', [Functions::get_current_date(), Functions::get_past_date(Functions::get_current_date(), '7', 'days')]);
 		}
 
 		if (Session::get_value('account')['language'] == 'es')
