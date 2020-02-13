@@ -17,6 +17,10 @@ class Urls_registered_vkye
                 'controller' => 'Login',
                 'method' => 'index'
             ],
+            '/%param%/login' => [
+                'controller' => 'Login',
+                'method' => 'index'
+            ],
             '/signup' => [
                 'controller' => 'Signup',
                 'method' => 'index'
