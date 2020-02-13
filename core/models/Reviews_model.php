@@ -16,8 +16,10 @@ class Reviews_model extends Model
 			'name',
 			'type',
 			'city',
+			'address',
 			'language',
 			'logotype',
+			'contact',
 			'operation',
 			'reputation',
 			'zaviapms',
@@ -33,12 +35,12 @@ class Reviews_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-    public function get_general_average_rate($param)
+    public function get_general_average_rate()
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 			'answers'
 		], [
-			'account' => $param
+			'account' =>  Session::get_value('account')['id']
 		]));
 
 		$average = 0;
@@ -81,12 +83,12 @@ class Reviews_model extends Model
 		return $average;
 	}
 
-    public function get_percentage_rate($option, $param)
+    public function get_percentage_rate($option)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 			'answers'
 		], [
-			'account' => $param
+			'account' => Session::get_value('account')['id']
 		]));
 
 		$percentage = 0;
@@ -149,14 +151,14 @@ class Reviews_model extends Model
 		return $percentage;
 	}
 
-    public function get_count($option, $param)
+    public function get_count($option)
 	{
 		$query = $this->database->select('survey_answers', [
 			'id',
 			'account',
 			'date'
 		], [
-			'account' => $param
+			'account' => Session::get_value('account')['id']
 		]);
 
 		$count = 0;
@@ -182,5 +184,65 @@ class Reviews_model extends Model
 		}
 
 		return $count;
+	}
+
+	public function get_survey_answers()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+			'id',
+			'token',
+			'room',
+			'table',
+			'client',
+			'answers',
+			'comment',
+			'guest',
+			'date'
+		], [
+			'account' => Session::get_value('account')['id'],
+			'ORDER' => [
+				'id' => 'DESC'
+			]
+		]));
+
+		foreach ($query as $key => $value)
+		{
+			$query[$key]['rate'] = 0;
+			$count = 0;
+
+			foreach ($value['answers'] as $subvalue)
+			{
+				if ($subvalue['type'] == 'rate')
+				{
+					$query[$key]['rate'] = $query[$key]['rate'] + $subvalue['answer'];
+					$count = $count + 1;
+				}
+
+				foreach ($subvalue['subanswers'] as $parentvalue)
+				{
+					if ($parentvalue['type'] == 'rate')
+					{
+						$query[$key]['rate'] = $query[$key]['rate'] + $parentvalue['answer'];
+						$count = $count + 1;
+					}
+
+					foreach ($parentvalue['subanswers'] as $childvalue)
+					{
+						if ($childvalue['type'] == 'rate')
+						{
+							$query[$key]['rate'] = $query[$key]['rate'] + $childvalue['answer'];
+							$count = $count + 1;
+						}
+					}
+				}
+			}
+
+			if ($query[$key]['rate'] > 0 AND $count > 0)
+				$query[$key]['rate'] = round(($query[$key]['rate'] / $count), 1);
+
+			$query[$key]['count'] = count($query);
+		}
+
+		return $query;
 	}
 }

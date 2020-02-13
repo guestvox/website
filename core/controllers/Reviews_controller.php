@@ -43,9 +43,12 @@ class Reviews_controller extends Controller
 
 				$template = $this->view->render($this, 'index');
 
-                $name = $data['account']['name'];
+                $name = '<h2>' . $data['account']['name'] . '</h2>';
+                $address = '<h6>' . $data['account']['address'] . '</h6>';
+                $contact_email = '<a href="mailto:' . $data['account']['contact']['email'] . '">' . $data['account']['contact']['email'] . '</a>';
+                $contact_number = '<a href="tel:' . $data['account']['contact']['phone']['lada'] . $data['account']['contact']['phone']['number'] . '">' . $data['account']['contact']['phone']['lada'] . $data['account']['contact']['phone']['number'] . '</a>';
 
-                $general_average_rate = $this->model->get_general_average_rate($data['account']['id']);
+                $general_average_rate = $this->model->get_general_average_rate();
 
     			$h4_general_average_rate = '';
 
@@ -72,20 +75,42 @@ class Reviews_controller extends Controller
     				' . (($general_average_rate >= 4.8 AND $general_average_rate <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#00a5ab;"></i>' : '<i class="far fa-grin-stars"></i>') . '
     			</span>';
 
+				$tbl_reviews_comments = '';
+
+				foreach ($this->model->get_survey_answers() as $value)
+				{
+					if (!empty($value['comment']) AND $value['guest']['guestvox']['firstname'])
+					{
+						$tbl_reviews_comments .=
+						'<tr>
+							<td align="left">' . $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname'] . '</td>
+							<td align="left"> ' . $value['comment'] . '</td>
+						</tr>';
+
+					}
+
+					$tbl_reviews_comments .= '';
+				}
+
 				$replace = [
+					'{$logotype}' => '{$path.uploads}' . $data['account']['logotype'],
                     '{$name}' => $name,
+                    '{$address}' => $address,
+                    '{$contact_email}' => $contact_email,
+                    '{$contact_number}' => $contact_number,
                     '{$h4_general_average_rate}' => $h4_general_average_rate,
     				'{$spn_general_avarage_rate}' => $spn_general_avarage_rate,
-    				'{$five_percentage_rate}' => $this->model->get_percentage_rate('five', $data['account']['id']),
-    				'{$four_percentage_rate}' => $this->model->get_percentage_rate('four', $data['account']['id']),
-    				'{$tree_percentage_rate}' => $this->model->get_percentage_rate('tree', $data['account']['id']),
-    				'{$two_percentage_rate}' => $this->model->get_percentage_rate('two', $data['account']['id']),
-    				'{$one_percentage_rate}' => $this->model->get_percentage_rate('one', $data['account']['id']),
-    				'{$count_answered_total}' => $this->model->get_count('answered_total', $data['account']['id']),
-    				'{$count_answered_today}' => $this->model->get_count('answered_today', $data['account']['id']),
-    				'{$count_answered_week}' => $this->model->get_count('answered_week', $data['account']['id']),
-    				'{$count_answered_month}' => $this->model->get_count('answered_month', $data['account']['id']),
-    				'{$count_answered_year}' => $this->model->get_count('answered_year', $data['account']['id'])
+    				'{$five_percentage_rate}' => $this->model->get_percentage_rate('five'),
+    				'{$four_percentage_rate}' => $this->model->get_percentage_rate('four'),
+    				'{$tree_percentage_rate}' => $this->model->get_percentage_rate('tree'),
+    				'{$two_percentage_rate}' => $this->model->get_percentage_rate('two'),
+    				'{$one_percentage_rate}' => $this->model->get_percentage_rate('one'),
+    				'{$count_answered_total}' => $this->model->get_count('answered_total'),
+    				'{$count_answered_today}' => $this->model->get_count('answered_today'),
+    				'{$count_answered_week}' => $this->model->get_count('answered_week'),
+    				'{$count_answered_month}' => $this->model->get_count('answered_month'),
+    				'{$count_answered_year}' => $this->model->get_count('answered_year'),
+					'{$tbl_reviews_comments}' => $tbl_reviews_comments
 				];
 
 				$template = $this->format->replace($replace, $template);
