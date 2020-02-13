@@ -279,7 +279,7 @@ class Signup_controller extends Controller
 							            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
 							                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
 												<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail1_text . '</p>
-							                    <a style="width:100%;display:block;margin:15px 0px 10px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/validate/account/' . $query['account'] . '">' . $mail1_btn . '</a>
+							                    <a style="width:100%;display:block;margin:15px 0px 10px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/signup/validate/account/' . $query['account'] . '">' . $mail1_btn . '</a>
 							                    <a style="width:100%;display:block;margin:0px 0px 20px 0px;padding:0px;box-sizing:border-box;font-size:12px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms">' . $mail1_terms . '</a>
 							                </td>
 							            </tr>
@@ -346,7 +346,7 @@ class Signup_controller extends Controller
 							            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
 							                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
 												<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail2_text . '</p>
-							                    <a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/validate/user/' . $query['user'] . '">' . $mail2_btn . '</a>
+							                    <a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/signup/validate/user/' . $query['user'] . '">' . $mail2_btn . '</a>
 							                </td>
 							            </tr>
 							            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
