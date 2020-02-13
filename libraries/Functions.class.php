@@ -25,14 +25,27 @@ class Functions
             return null;
     }
 
-    static public function get_diff_date($start_date, $end_date, $lapse)
+    static public function get_future_date($date, $number, $lapse, $format = 'Y-m-d')
+    {
+        if (!empty($date))
+            return date($format, strtotime($date . ' + ' . $number . ' ' . $lapse));
+        else
+            return null;
+    }
+
+    static public function get_diff_date($start_date, $end_date, $lapse, $big_lapse = false)
     {
         $start_date = new DateTime($start_date);
         $end_date = new DateTime($end_date);
         $diff = $start_date->diff($end_date);
 
         if ($lapse == 'days')
-            return $diff->days;
+        {
+            if ($big_lapse == true)
+                return ($diff->days) + 1;
+            else
+                return $diff->days;
+        }
         else
             return null;
     }

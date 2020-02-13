@@ -496,7 +496,7 @@ class Surveys_model extends Model
 				], [
 					'AND' => [
 						'account' => Session::get_value('account')['id'],
-						'date[<>]' => [$parameters[1], $parameters[0]]
+						'date[<>]' => [$parameters[0], $parameters[1]]
 					]
 				]);
 
@@ -516,7 +516,7 @@ class Surveys_model extends Model
 				], [
 					'AND' => [
 						'account' => Session::get_value('account')['id'],
-						'date[<>]' => [$parameters[1], $parameters[0]]
+						'date[<>]' => [$parameters[0], $parameters[1]]
 					]
 				]);
 
@@ -536,7 +536,7 @@ class Surveys_model extends Model
 				], [
 					'AND' => [
 						'account' => Session::get_value('account')['id'],
-						'date[<>]' => [$parameters[1], $parameters[0]]
+						'date[<>]' => [$parameters[0], $parameters[1]]
 					]
 				]);
 
@@ -759,6 +759,7 @@ class Surveys_model extends Model
 			$query1 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
 				'id',
 				'name',
+				'subquestions',
 				'type'
 			], [
 				'account' => Session::get_value('account')['id']
@@ -779,18 +780,21 @@ class Surveys_model extends Model
 				];
 			}
 
-			$diff = Functions::get_diff_date($parameters[0], $parameters[1], 'days');
+			$diff = Functions::get_diff_date($parameters[0], $parameters[1], 'days', true);
 
 			for ($i = 0; $i < $diff; $i++)
 			{
 				if ($edit == true)
-					array_push($data['labels'], Functions::get_past_date(Functions::get_current_date(), $i, 'days'));
+					array_push($data['labels'], Functions::get_future_date($parameters[0], $i, 'days'));
 				else
-					$data['labels'] .= "'" . Functions::get_past_date(Functions::get_current_date(), $i, 'days') . "',";
+					$data['labels'] .= "'" . Functions::get_future_date($parameters[0], $i, 'days') . "',";
 			}
 
 			foreach ($query1 as $value)
 			{
+				$break = 0;
+				$tmp = 0;
+
 				if ($edit == true)
 					$datas = [];
 				else
@@ -847,33 +851,42 @@ class Surveys_model extends Model
 					if ($rate > 0 AND $count > 0)
 						$average = round(($rate / $count), 2);
 
+					if ($average <= 0 AND $tmp > 0)
+						$average = $tmp;
+
 					if ($edit == true)
 						array_push($datas, $average);
 					else
 						$datas .= $average . ",";
+
+					$break = $break + $average;
+					$tmp = $average;
 				}
 
-				$color = str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+				if ($break > 0)
+				{
+					$color = str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
 
-				if ($edit == true)
-				{
-					array_push($data['datasets'], [
-						'label' => $value['name'][Session::get_value('account')['language']],
-						'data' => $datas,
-						'fill' => false,
-						'backgroundColor' => '#' . $color,
-						'borderColor' => '#' . $color
-					]);
-				}
-				else
-				{
-					$data['datasets'] .= "{
-						label: '" . $value['name'][Session::get_value('account')['language']] . "',
-						data: [" . $datas . "],
-						fill: false,
-						backgroundColor: '#" . $color . "',
-						borderColor: '#" . $color . "',
-					},";
+					if ($edit == true)
+					{
+						array_push($data['datasets'], [
+							'label' => $value['name'][Session::get_value('account')['language']],
+							'data' => $datas,
+							'fill' => false,
+							'backgroundColor' => '#' . $color,
+							'borderColor' => '#' . $color
+						]);
+					}
+					else
+					{
+						$data['datasets'] .= "{
+							label: '" . $value['name'][Session::get_value('account')['language']] . "',
+							data: [" . $datas . "],
+							fill: false,
+							backgroundColor: '#" . $color . "',
+							borderColor: '#" . $color . "',
+						},";
+					}
 				}
 			}
 		}
@@ -884,7 +897,7 @@ class Surveys_model extends Model
 			], [
 				'AND' => [
 					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$parameters[1], $parameters[0]]
+					'date[<>]' => [$parameters[0], $parameters[1]]
 				]
 			]));
 
