@@ -33,6 +33,10 @@ class Urls_registered_vkye
                 'controller' => 'Hola',
                 'method' => 'index'
             ],
+            '/%param%/reviews' => [
+                'controller' => 'Reviews',
+                'method' => 'index'
+            ],
             '/%param%/myvox' => [
                 'controller' => 'Myvox',
                 'method' => 'index'

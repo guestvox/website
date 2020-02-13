@@ -17,7 +17,7 @@ class Route_vkye
     {
         global $vkye_path;
         $vkye_path = $this->path;
-        
+
         $paths = [
             '/Index/index',
             '/Login/index',
@@ -26,6 +26,7 @@ class Route_vkye
             '/Terms/index',
             '/Hola/index',
             '/Myvox/index',
+            '/Reviews/index',
             '/Api/execute'
         ];
 
