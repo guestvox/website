@@ -547,6 +547,21 @@ class Myvox_model extends Model
 			];
 		}
 
+		if ($data['account']['type'] == 'others')
+		{
+			$data['guest'] = [
+				'guestvox' => [
+					'firstname' => $data['firstname'],
+					'lastname' => $data['lastname'],
+					'email' => $data['email'],
+					'phone' => [
+						'lada' => $data['phone_lada'],
+						'number' => $data['phone_number']
+					]
+				]
+			];
+		}
+
 		$query = $this->database->insert('survey_answers', [
 			'account' => $data['account']['id'],
 			'token' => $data['token'],

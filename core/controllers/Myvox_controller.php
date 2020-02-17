@@ -1442,18 +1442,14 @@ class Myvox_controller extends Controller
 							}
 							else if ($value['type'] == 'check')
 							{
-								$mdl_new_survey_answer .=
-								'<div class="checkboxes">';
-
 								foreach ($value['values'] as $subkey => $subvalue)
 								{
 									$mdl_new_survey_answer .=
-									'<input type="checkbox" name="pc-' . $value['id'] . '-values[]" value="' . $subkey . '">
-									<span>' . $subvalue[Session::get_value('lang')] . '</span>';
+									'<div class="checkboxes">
+										<input type="checkbox" name="pc-' . $value['id'] . '-values[]" value="' . $subkey . '">
+										<span>' . $subvalue[Session::get_value('lang')] . '</span>
+									</div>';
 								}
-
-								$mdl_new_survey_answer .=
-								'</div>';
 							}
 
 							$mdl_new_survey_answer .=
@@ -1671,23 +1667,23 @@ class Myvox_controller extends Controller
 												</div>';
 											}
 
-											if (Session::get_value('account')['type'] == 'others')
-											{
-												$mdl_new_survey_answer .=
-												'<div class="label">
-													<label>
-														<p>{$lang.do_you_know_your_client_number}</p>
-														<select name="client">
-															<option value="" selected hidden>{$lang.choose}</option>';
-
-												foreach ($this->model->get_clients(Session::get_value('account')['id']) as $value)
-													$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
-
-												$mdl_new_survey_answer .=
-												'		</select>
-													</label>
-												</div>';
-											}
+											// if (Session::get_value('account')['type'] == 'others')
+											// {
+											// 	$mdl_new_survey_answer .=
+											// 	'<div class="label">
+											// 		<label>
+											// 			<p>{$lang.do_you_know_your_client_number}</p>
+											// 			<select name="client">
+											// 				<option value="" selected hidden>{$lang.choose}</option>';
+											//
+											// 	foreach ($this->model->get_clients(Session::get_value('account')['id']) as $value)
+											// 		$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+											//
+											// 	$mdl_new_survey_answer .=
+											// 	'		</select>
+											// 		</label>
+											// 	</div>';
+											// }
 										}
 
 							$mdl_new_survey_answer .=

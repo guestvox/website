@@ -77,18 +77,14 @@ class Surveys_controller extends Controller
 					}
 					else if ($value['type'] == 'check')
 					{
-						$data .=
-						'<div class="checkboxes">';
-
 						foreach ($value['values'] as $subvalue)
 						{
 							$data .=
-							'<input type="checkbox" disabled>
-							<span>' . $subvalue[Session::get_value('account')['language']] . '</span>';
+							'<div class="checkboxes">
+								<input type="checkbox" disabled>
+								<span>' . $subvalue[Session::get_value('account')['language']] . '</span>
+							</div>';
 						}
-
-						$data .=
-						'</div>';
 					}
 
 					$data .= '</article>';
@@ -575,18 +571,14 @@ class Surveys_controller extends Controller
 							$data .= '<p>' . $value['answer'] . '</p>';
 						else if ($value['type'] == 'check')
 						{
-							$data .=
-							'<div class="checkboxes">';
-
 							foreach ($value['values'] as $subkey => $subvalue)
 							{
 								$data .=
-								'<input type="checkbox" ' . (in_array($subkey, $value['answer']) ? 'checked' : '') . ' disabled>
-								<span>' . $subvalue[Session::get_value('account')['language']] . '</span>';
+								'<div class="checkboxes">
+									<input type="checkbox" ' . (in_array($subkey, $value['answer']) ? 'checked' : '') . ' disabled>
+									<span>' . $subvalue[Session::get_value('account')['language']] . '</span>
+								</div>';
 							}
-
-							$data .=
-							'</div>';
 						}
 
 						$data .= '</div>';

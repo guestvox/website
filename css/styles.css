@@ -1351,7 +1351,6 @@ section[data-modal="get_preview_survey"] > .content > main > article.subquestion
 section[data-modal="view_survey_answer"] > .content > main > article > div > div.checkboxes,
 section[data-modal="get_preview_survey"] > .content > main > article > div.checkboxes {
     width: 100%;
-    padding: 20px;
     box-sizing: border-box;
     background-color: #eee;
     margin-top: 5px;
