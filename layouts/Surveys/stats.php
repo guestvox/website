@@ -33,7 +33,22 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
     </nav>
     <article>
         <main>
-            <form name="get_charts_by_date_filter" class="date-filter">
+            <form name="get_charts_by_date_filter" class="charts-filter">
+                <select name="question">
+                    <option value="all">{$lang.all_questions}</option>
+                    <optgroup label="{$lang.rate}">
+                        {$opt_survey_questions_rate}
+                    </optgroup>
+                    <optgroup label="{$lang.twin}">
+                        {$opt_survey_questions_twin}
+                    </optgroup>
+                    <optgroup label="{$lang.open}">
+                        {$opt_survey_questions_open}
+                    </optgroup>
+                    <optgroup label="{$lang.check}">
+                        {$opt_survey_questions_check}
+                    </optgroup>
+                </select>
                 <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>">
                 <input type="date" name="end_date" value="<?php echo Functions::get_current_date(); ?>" max="<?php echo Functions::get_current_date(); ?>">
             </form>
