@@ -759,17 +759,17 @@ class Myvox_controller extends Controller
 				{
 					$labels = [];
 
-					if (!empty($_POST['firstname']) OR !empty($_POST['lastname']) OR !empty($_POST['email']))
+					if (!empty($_POST['firstname']) OR !empty($_POST['lastname']))
 					{
 						if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
 						   array_push($labels, ['firstname','']);
 
 						if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
 						   array_push($labels, ['lastname','']);
-
-						if (!empty($_POST['email']) AND Functions::check_email($_POST['email']) == false)
-   							array_push($labels, ['email','']);
 					}
+
+					if (empty($_POST['email']) AND Functions::check_email($_POST['email']) == false OR !isset($_POST['email']))
+						array_push($labels, ['email','']);
 
 					if (!empty($_POST['phone_lada']) OR !empty($_POST['phone_number']))
 					{
@@ -1601,7 +1601,7 @@ class Myvox_controller extends Controller
 											</div>
 											<div class="span12">
 												<div class="label">
-													<label>
+													<label important>
 														<p>{$lang.email}</p>
 														<input type="email" name="email">
 													</label>
