@@ -5,6 +5,8 @@
     "start_url": "index.php",
     "display": "standalone",
     "orientation": "portrait",
+    "theme_color": " #258F93",
+    "background_color": "#00A5AB",
     "icons": [
         {
             "src": "images/chrome-44x44.png",
@@ -50,7 +52,5 @@
             "type": "image/png",
             "sizes": "512x512"
         }
-    ],
-    "theme_color": " #00A5AB",
-    "background_color": "#00A5AB"
+    ]
 }
