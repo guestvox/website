@@ -1215,7 +1215,10 @@ class Myvox_controller extends Controller
 
 					if (Session::get_value('account')['settings']['myvox']['incident'] == true)
 					{
-						$a_new_incident .= '<a data-button-modal="new_incident">{$lang.i_want_to_leave_a_comment_complaint}</a>';
+						if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
+							$a_new_incident .= '<a data-button-modal="new_incident">{$lang.i_want_to_leave_a_comment_complaint}</a>';
+						else if (Session::get_value('account')['type'] == 'others')
+							$a_new_incident .= '<a data-button-modal="new_incident">{$lang.open_incident}</a>';
 
 						$mdl_new_incident .=
 						'<section class="modal" data-modal="new_incident">
