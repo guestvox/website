@@ -39,11 +39,11 @@ class Surveys_controller extends Controller
 			{
 				$data = '';
 
-				foreach ($this->model->get_survey_questions() as $value)
+				foreach ($this->model->get_survey_questions(true) as $value)
 				{
 					$data .=
 					'<article>
-					   <h6>' . $value['name'][Session::get_value('account')['language']] . '</h6>';
+						<h6>' . $value['name'][Session::get_value('account')['language']] . '</h6>';
 
 					if ($value['type'] == 'rate')
 					{
@@ -77,18 +77,14 @@ class Surveys_controller extends Controller
 					}
 					else if ($value['type'] == 'check')
 					{
-						$data .=
-						'<div class="checkboxes">';
-
 						foreach ($value['values'] as $subvalue)
 						{
 							$data .=
-							'<input type="checkbox" disabled>
-							<span>' . $subvalue[Session::get_value('account')['language']] . '</span>';
+							'<div class="checkboxes">
+								<input type="checkbox" disabled>
+								<span>' . $subvalue[Session::get_value('account')['language']] . '</span>
+							</div>';
 						}
-
-						$data .=
-						'</div>';
 					}
 
 					$data .= '</article>';
@@ -99,81 +95,87 @@ class Surveys_controller extends Controller
 
 						foreach ($value['subquestions'] as $subvalue)
 						{
-						   $data .= '<h6>' . $subvalue['name'][Session::get_value('account')['language']] . '</h6>';
+							if ($subvalue['status'] == true)
+							{
+								$data .= '<h6>' . $subvalue['name'][Session::get_value('account')['language']] . '</h6>';
 
-						   if ($subvalue['type'] == 'rate')
-						   {
-							   $data .=
-							   '<div>
-								   <label><i class="far fa-thumbs-down"></i></label>
-								   <label><input type="radio" disabled></label>
-								   <label><input type="radio" disabled></label>
-								   <label><input type="radio" disabled></label>
-								   <label><input type="radio" disabled></label>
-								   <label><input type="radio" disabled></label>
-								   <label><i class="far fa-thumbs-up"></i></label>
-							   </div>';
-						   }
-						   else if ($subvalue['type'] == 'twin')
-						   {
-							   $data .=
-							   '<div>
-								   <label>{$lang.to_yes}</label>
-								   <label><input type="radio" disabled></label>
-								   <label><input type="radio" disabled></label>
-								   <label>{$lang.to_not}</label>
-							  </div>';
-						   }
-						   else if ($subvalue['type'] == 'open')
-						   {
-							   $data .=
-							   '<div>
-								   <input type="text" disabled>
-							   </div>';
-						   }
+	 						   	if ($subvalue['type'] == 'rate')
+	 						   	{
+	 							   	$data .=
+	 							   	'<div>
+	 								   	<label><i class="far fa-thumbs-down"></i></label>
+	 								   	<label><input type="radio" disabled></label>
+	 								   	<label><input type="radio" disabled></label>
+	 								   	<label><input type="radio" disabled></label>
+	 								   	<label><input type="radio" disabled></label>
+	 								   	<label><input type="radio" disabled></label>
+	 								   	<label><i class="far fa-thumbs-up"></i></label>
+	 							   	</div>';
+	 						   	}
+	 						   	else if ($subvalue['type'] == 'twin')
+	 						   	{
+	 							   	$data .=
+	 							   	'<div>
+	 								   	<label>{$lang.to_yes}</label>
+	 								   	<label><input type="radio" disabled></label>
+	 								   	<label><input type="radio" disabled></label>
+	 								   	<label>{$lang.to_not}</label>
+	 							  	</div>';
+	 						   	}
+	 						   	else if ($subvalue['type'] == 'open')
+	 						   	{
+	 							   	$data .=
+	 							   	'<div>
+	 								   	<input type="text" disabled>
+	 							   	</div>';
+	 						   	}
 
-						   if (!empty($subvalue['subquestions']))
-						   {
-								$data .= '<article class="subquestions-sub">';
+	 						   	if (!empty($subvalue['subquestions']))
+	 						   	{
+ 									$data .= '<article class="subquestions-sub">';
 
-							   foreach ($subvalue['subquestions'] as $parentvalue)
-							   {
-								   $data .= '<h6>' . $parentvalue['name'][Session::get_value('account')['language']] . '</h6>';
+	 							   	foreach ($subvalue['subquestions'] as $parentvalue)
+	 							   	{
+ 								   		if ($parentvalue['status'] == true)
+									   	{
+										   	$data .= '<h6>' . $parentvalue['name'][Session::get_value('account')['language']] . '</h6>';
 
-								   if ($parentvalue['type'] == 'rate')
-								   {
-									   $data .=
-									   '<div>
-										   <label><i class="far fa-thumbs-down"></i></label>
-										   <label><input type="radio" disabled></label>
-										   <label><input type="radio" disabled></label>
-										   <label><input type="radio" disabled></label>
-										   <label><input type="radio" disabled></label>
-										   <label><input type="radio" disabled></label>
-										   <label><i class="far fa-thumbs-up"></i></label>
-									   </div>';
-								   }
-								   else if ($parentvalue['type'] == 'twin')
-								   {
-									   $data .=
-									   '<div>
-										   <label>{$lang.to_yes}</label>
-										   <label><input type="radio" disabled></label>
-										   <label><input type="radio" disabled></label>
-										   <label>{$lang.to_not}</label>
-									  </div>';
-								   }
-								   else if ($parentvalue['type'] == 'open')
-								   {
-									   $data .=
-									   '<div>
-										   <input type="text" disabled>
-									   </div>';
-								   }
-							   }
+		 								   	if ($parentvalue['type'] == 'rate')
+		 								   	{
+		 									   	$data .=
+		 									   	'<div>
+		 										   	<label><i class="far fa-thumbs-down"></i></label>
+		 										   	<label><input type="radio" disabled></label>
+		 										   	<label><input type="radio" disabled></label>
+		 										   	<label><input type="radio" disabled></label>
+		 										   	<label><input type="radio" disabled></label>
+		 										   	<label><input type="radio" disabled></label>
+		 										   	<label><i class="far fa-thumbs-up"></i></label>
+		 									   	</div>';
+		 								   	}
+		 								   	else if ($parentvalue['type'] == 'twin')
+		 								   	{
+		 									   	$data .=
+		 									   	'<div>
+		 										   	<label>{$lang.to_yes}</label>
+		 										   	<label><input type="radio" disabled></label>
+		 										   	<label><input type="radio" disabled></label>
+		 										   	<label>{$lang.to_not}</label>
+		 									  	</div>';
+		 								   	}
+		 								   	else if ($parentvalue['type'] == 'open')
+		 								   	{
+		 									   	$data .=
+		 									   	'<div>
+		 										   	<input type="text" disabled>
+		 									   	</div>';
+		 								   	}
+									   	}
+	 							   	}
 
-								$data .= '</article>';
-						   }
+ 									$data .= '</article>';
+	 						   	}
+							}
 						}
 
 						$data .= '</article>';
@@ -569,18 +571,14 @@ class Surveys_controller extends Controller
 							$data .= '<p>' . $value['answer'] . '</p>';
 						else if ($value['type'] == 'check')
 						{
-							$data .=
-							'<div class="checkboxes">';
-
 							foreach ($value['values'] as $subkey => $subvalue)
 							{
 								$data .=
-								'<input type="checkbox" ' . (in_array($subkey, $value['answer']) ? 'checked' : '') . ' disabled>
-								<span>' . $subvalue[Session::get_value('account')['language']] . '</span>';
+								'<div class="checkboxes">
+									<input type="checkbox" ' . (in_array($subkey, $value['answer']) ? 'checked' : '') . ' disabled>
+									<span>' . $subvalue[Session::get_value('account')['language']] . '</span>
+								</div>';
 							}
-
-							$data .=
-							'</div>';
 						}
 
 						$data .= '</div>';
@@ -838,7 +836,7 @@ class Surveys_controller extends Controller
 					'status' => 'success',
 					'data' => [
 						's1_chart_data' => $this->model->get_chart_data('s1_chart', [$_POST['started_date'], $_POST['end_date']], true),
-						's2_chart_data' => $this->model->get_chart_data('s2_chart', [$_POST['started_date'], $_POST['end_date']], true),
+						's2_chart_data' => $this->model->get_chart_data('s2_chart', [$_POST['started_date'], $_POST['end_date'], $_POST['question']], true),
 						's5_chart_data' => $this->model->get_chart_data('s5_chart', [$_POST['started_date'], $_POST['end_date']], true),
 						's6_chart_data' => $this->model->get_chart_data('s6_chart', [$_POST['started_date'], $_POST['end_date']], true),
 						's7_chart_data' => $this->model->get_chart_data('s7_chart', [$_POST['started_date'], $_POST['end_date']], true),
@@ -857,9 +855,7 @@ class Surveys_controller extends Controller
 
 			$h4_general_average_rate = '';
 
-			if ($general_average_rate == 0)
-				$h4_general_average_rate = '<h4 style="color:#f44336;">' . $general_average_rate . '</h4>';
-			else if ($general_average_rate >= 1 AND $general_average_rate < 1.8)
+			if ($general_average_rate >= 0 AND $general_average_rate < 1.8)
 				$h4_general_average_rate = '<h4 style="color:#f44336;">' . $general_average_rate . '</h4>';
 			else if ($general_average_rate >= 1.8 AND $general_average_rate < 2.8)
 				$h4_general_average_rate = '<h4 style="color:#ffc107;">' . $general_average_rate . '</h4>';
@@ -872,13 +868,32 @@ class Surveys_controller extends Controller
 
 			$spn_general_avarage_rate =
 			'<span>
-				' . (($general_average_rate == 0) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
-				' . (($general_average_rate >= 1 AND $general_average_rate < 1.8) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
+				' . (($general_average_rate >= 0 AND $general_average_rate < 1.8) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
 				' . (($general_average_rate >= 1.8 AND $general_average_rate < 2.8) ? '<i class="fas fa-frown" style="font-size:50px;color:#ffc107;"></i>' : '<i class="far fa-frown"></i>') . '
 				' . (($general_average_rate >= 2.8 AND $general_average_rate < 3.8) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ffeb3b;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
 				' . (($general_average_rate >= 3.8 AND $general_average_rate < 4.8) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
 				' . (($general_average_rate >= 4.8 AND $general_average_rate <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#00a5ab;"></i>' : '<i class="far fa-grin-stars"></i>') . '
 			</span>';
+
+			$opt_survey_questions_rate = '';
+
+			foreach ($this->model->get_survey_questions(true, 'rate') as $value)
+				$opt_survey_questions_rate .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
+
+			$opt_survey_questions_twin = '';
+
+			foreach ($this->model->get_survey_questions(true, 'twin') as $value)
+				$opt_survey_questions_twin .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
+
+			$opt_survey_questions_open = '';
+
+			foreach ($this->model->get_survey_questions(true, 'open') as $value)
+				$opt_survey_questions_open .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
+
+			$opt_survey_questions_check = '';
+
+			foreach ($this->model->get_survey_questions(true, 'check') as $value)
+				$opt_survey_questions_check .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 			$replace = [
 				'{$h4_general_average_rate}' => $h4_general_average_rate,
@@ -892,7 +907,11 @@ class Surveys_controller extends Controller
 				'{$count_answered_today}' => $this->model->get_count('answered_today'),
 				'{$count_answered_week}' => $this->model->get_count('answered_week'),
 				'{$count_answered_month}' => $this->model->get_count('answered_month'),
-				'{$count_answered_year}' => $this->model->get_count('answered_year')
+				'{$count_answered_year}' => $this->model->get_count('answered_year'),
+				'{$opt_survey_questions_rate}' => $opt_survey_questions_rate,
+				'{$opt_survey_questions_twin}' => $opt_survey_questions_twin,
+				'{$opt_survey_questions_open}' => $opt_survey_questions_open,
+				'{$opt_survey_questions_check}' => $opt_survey_questions_check
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -906,7 +925,7 @@ class Surveys_controller extends Controller
 		header('Content-Type: application/javascript');
 
 		$s1_chart_data = $this->model->get_chart_data('s1_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]);
-		$s2_chart_data = $this->model->get_chart_data('s2_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]);
+		$s2_chart_data = $this->model->get_chart_data('s2_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date(), 'all']);
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{

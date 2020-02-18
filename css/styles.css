@@ -1351,7 +1351,6 @@ section[data-modal="get_preview_survey"] > .content > main > article.subquestion
 section[data-modal="view_survey_answer"] > .content > main > article > div > div.checkboxes,
 section[data-modal="get_preview_survey"] > .content > main > article > div.checkboxes {
     width: 100%;
-    padding: 20px;
     box-sizing: border-box;
     background-color: #eee;
     margin-top: 5px;
@@ -1710,14 +1709,26 @@ div.charts > h6 {
 
 /* --- */
 
-main.surveys-stats > article > main > form.date-filter {
+main.surveys-stats > article > main > form.charts-filter {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    transition: 200ms;
 }
 
-main.surveys-stats > article > main > form.date-filter > input {
+main.surveys-stats > article > main > form.charts-filter.down {
+    position: fixed;
+    top: 50px;
+    right: 0px;
+    left: 0px;
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+main.surveys-stats > article > main > form.charts-filter > input,
+main.surveys-stats > article > main > form.charts-filter > select {
     width: auto;
     height: 60px;
     margin-left: 5px;
@@ -1725,6 +1736,11 @@ main.surveys-stats > article > main > form.date-filter > input {
     border: 1px solid #eee;
     box-sizing: border-box;
     background-color: #eee;
+}
+
+main.surveys-stats > article > main > form.charts-filter.down > input,
+main.surveys-stats > article > main > form.charts-filter.down > select {
+    background-color: #fff;
 }
 
 /* --- */

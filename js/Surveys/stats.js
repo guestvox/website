@@ -2,12 +2,9 @@
 
 $(document).ready(function()
 {
-    $('[name="started_date"]').on('change', function()
-    {
-        $(this).parents('form').submit();
-    });
+    navScrollDown('main.surveys-stats > article > main > form.charts-filter', 'down', 60);
 
-    $('[name="end_date"]').on('change', function()
+    $('[name="started_date"], [name="end_date"], [name="question"]').on('change', function()
     {
         $(this).parents('form').submit();
     });

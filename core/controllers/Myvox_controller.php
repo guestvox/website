@@ -1408,7 +1408,7 @@ class Myvox_controller extends Controller
 						{
 							$mdl_new_survey_answer .=
 							'<article>
-							   <h6>' . $value['name'][Session::get_value('lang')] . '</h6>';
+						   		<h6>' . $value['name'][Session::get_value('lang')] . '</h6>';
 
 							if ($value['type'] == 'rate')
 							{
@@ -1442,18 +1442,14 @@ class Myvox_controller extends Controller
 							}
 							else if ($value['type'] == 'check')
 							{
-								$mdl_new_survey_answer .=
-								'<div class="checkboxes">';
-
 								foreach ($value['values'] as $subkey => $subvalue)
 								{
 									$mdl_new_survey_answer .=
-									'<input type="checkbox" name="pc-' . $value['id'] . '-values[]" value="' . $subkey . '">
-									<span>' . $subvalue[Session::get_value('lang')] . '</span>';
+									'<div class="checkboxes">
+										<input type="checkbox" name="pc-' . $value['id'] . '-values[]" value="' . $subkey . '">
+										<span>' . $subvalue[Session::get_value('lang')] . '</span>
+									</div>';
 								}
-
-								$mdl_new_survey_answer .=
-								'</div>';
 							}
 
 							$mdl_new_survey_answer .=
@@ -1474,92 +1470,99 @@ class Myvox_controller extends Controller
 
 								foreach ($value['subquestions'] as $subkey => $subvalue)
 								{
-								   $mdl_new_survey_answer .=
-								   '<h6>' . $subvalue['name'][Session::get_value('lang')] . '</h6>';
+								   	if ($subvalue['status'] == true)
+								   	{
+									   	$mdl_new_survey_answer .=
+									   	'<h6>' . $subvalue['name'][Session::get_value('lang')] . '</h6>';
 
-								   if ($subvalue['type'] == 'rate')
-								   {
-									   $mdl_new_survey_answer .=
-									   '<div>
-										   <label><i class="far fa-thumbs-down"></i></label>
-										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="1" data-action="open_subquestion_sub"></label>
-										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="2" data-action="open_subquestion_sub"></label>
-										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="3" data-action="open_subquestion_sub"></label>
-										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="4" data-action="open_subquestion_sub"></label>
-										   <label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="5" data-action="open_subquestion_sub"></label>
-										   <label><i class="far fa-thumbs-up"></i></i></label>
-									   </div>';
-								   }
-								   else if ($subvalue['type'] == 'twin')
-								   {
-									   $mdl_new_survey_answer .=
-									   '<div>
-										   <label>{$lang.to_yes}</label>
-										   <label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="yes" data-action="open_subquestion_sub"></label>
-										   <label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="no" data-action="open_subquestion_sub"></label>
-										   <label>{$lang.to_not}</label>
-									  </div>';
-								   }
-								   else if ($subvalue['type'] == 'open')
-								   {
-									   $mdl_new_survey_answer .=
-									   '<div>
-										   <input type="text" name="so-' . $value['id'] . '-' . $subvalue['id'] . '">
-									   </div>';
-								   }
+									   	if ($subvalue['type'] == 'rate')
+									   	{
+										   	$mdl_new_survey_answer .=
+										   	'<div>
+										   		<label><i class="far fa-thumbs-down"></i></label>
+											   	<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="1" data-action="open_subquestion_sub"></label>
+											   	<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="2" data-action="open_subquestion_sub"></label>
+											   	<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="3" data-action="open_subquestion_sub"></label>
+											   	<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="4" data-action="open_subquestion_sub"></label>
+											   	<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="5" data-action="open_subquestion_sub"></label>
+											   	<label><i class="far fa-thumbs-up"></i></i></label>
+										   	</div>';
+									   	}
+									   	else if ($subvalue['type'] == 'twin')
+									   	{
+										   	$mdl_new_survey_answer .=
+										   	'<div>
+											   	<label>{$lang.to_yes}</label>
+											   	<label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="yes" data-action="open_subquestion_sub"></label>
+											   	<label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="no" data-action="open_subquestion_sub"></label>
+											   	<label>{$lang.to_not}</label>
+										  	</div>';
+									   	}
+									   	else if ($subvalue['type'] == 'open')
+									   	{
+										   	$mdl_new_survey_answer .=
+										   	'<div>
+											   	<input type="text" name="so-' . $value['id'] . '-' . $subvalue['id'] . '">
+										   	</div>';
+									   	}
 
-								   if (!empty($subvalue['subquestions']))
-								   {
-									   if ($subvalue['type'] == 'rate')
-		   								{
-		   								   $mdl_new_survey_answer .=
-		   								   '<article id="sr-' . $value['id'] . '-' . $subvalue['id'] . '" class="subquestions-sub hidden">';
-		   								}
-		   								else if ($subvalue['type'] == 'twin')
-		   								{
-		   								   $mdl_new_survey_answer .=
-		   								   '<article id="st-' . $value['id'] . '-' . $subvalue['id'] . '" class="subquestions-sub hidden">';
-		   								}
+									   	if (!empty($subvalue['subquestions']))
+									   	{
+										   	if ($subvalue['type'] == 'rate')
+			   								{
+		   								   		$mdl_new_survey_answer .=
+			   								   	'<article id="sr-' . $value['id'] . '-' . $subvalue['id'] . '" class="subquestions-sub hidden">';
+			   								}
+			   								else if ($subvalue['type'] == 'twin')
+			   								{
+			   								   	$mdl_new_survey_answer .=
+			   								   	'<article id="st-' . $value['id'] . '-' . $subvalue['id'] . '" class="subquestions-sub hidden">';
+			   								}
 
-									   foreach ($subvalue['subquestions'] as $childkey => $childvalue)
-									   {
-										   $mdl_new_survey_answer .=
-    									  '<h6>' . $childvalue['name'][Session::get_value('lang')] . '</h6>';
+										   	foreach ($subvalue['subquestions'] as $parentkey => $parentvalue)
+										   	{
+												if ($parentvalue['status'] == true)
+												{
+													$mdl_new_survey_answer .=
+	    									  		'<h6>' . $parentvalue['name'][Session::get_value('lang')] . '</h6>';
 
-										  if ($childvalue['type'] == 'rate')
-		   								   {
-		   									   $mdl_new_survey_answer .=
-		   									   '<div>
-		   										   <label><i class="far fa-thumbs-down"></i></label>
-		   										   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="1"></label>
-		   										   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="2"></label>
-		   										   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="3"></label>
-		   										   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="4"></label>
-		   										   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="5"></label>
-		   										   <label><i class="far fa-thumbs-up"></i></label>
-		   									   </div>';
-		   								   }
-		   								   else if ($childvalue['type'] == 'twin')
-		   								   {
-		   									   $mdl_new_survey_answer .=
-		   									   '<div>
-		   										   <label>{$lang.to_yes}</label>
-		   										   <label><input type="radio" name="sst-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="yes"></label>
-		   										   <label><input type="radio" name="sst-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '" value="no"></label>
-		   										   <label>{$lang.to_not}</label>
-		   									  </div>';
-		   								   }
-		   								   else if ($childvalue['type'] == 'open')
-		   								   {
-		   									   $mdl_new_survey_answer .=
-		   									   '<div>
-		   										   <input type="text" name="sso-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $childvalue['id'] . '">
-		   									   </div>';
-		   								   }
-									   }
-										$mdl_new_survey_answer .=
-		   								'</article>';
-								   }
+												  	if ($parentvalue['type'] == 'rate')
+													{
+														$mdl_new_survey_answer .=
+														'<div>
+														   <label><i class="far fa-thumbs-down"></i></label>
+														   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="1"></label>
+														   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="2"></label>
+														   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="3"></label>
+														   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="4"></label>
+														   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="5"></label>
+														   <label><i class="far fa-thumbs-up"></i></label>
+														</div>';
+													}
+													else if ($parentvalue['type'] == 'twin')
+													{
+														$mdl_new_survey_answer .=
+														'<div>
+														   <label>{$lang.to_yes}</label>
+														   <label><input type="radio" name="sst-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="yes"></label>
+														   <label><input type="radio" name="sst-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="no"></label>
+														   <label>{$lang.to_not}</label>
+														</div>';
+													}
+													else if ($parentvalue['type'] == 'open')
+													{
+														$mdl_new_survey_answer .=
+														'<div>
+														   <input type="text" name="sso-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '">
+														</div>';
+													}
+												}
+										   	}
+
+											$mdl_new_survey_answer .=
+			   								'</article>';
+								   		}
+								   	}
 								}
 
 								$mdl_new_survey_answer .=
@@ -1664,23 +1667,23 @@ class Myvox_controller extends Controller
 												</div>';
 											}
 
-											if (Session::get_value('account')['type'] == 'others')
-											{
-												$mdl_new_survey_answer .=
-												'<div class="label">
-													<label>
-														<p>{$lang.do_you_know_your_client_number}</p>
-														<select name="client">
-															<option value="" selected hidden>{$lang.choose}</option>';
-
-												foreach ($this->model->get_clients(Session::get_value('account')['id']) as $value)
-													$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
-
-												$mdl_new_survey_answer .=
-												'		</select>
-													</label>
-												</div>';
-											}
+											// if (Session::get_value('account')['type'] == 'others')
+											// {
+											// 	$mdl_new_survey_answer .=
+											// 	'<div class="label">
+											// 		<label>
+											// 			<p>{$lang.do_you_know_your_client_number}</p>
+											// 			<select name="client">
+											// 				<option value="" selected hidden>{$lang.choose}</option>';
+											//
+											// 	foreach ($this->model->get_clients(Session::get_value('account')['id']) as $value)
+											// 		$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+											//
+											// 	$mdl_new_survey_answer .=
+											// 	'		</select>
+											// 		</label>
+											// 	</div>';
+											// }
 										}
 
 							$mdl_new_survey_answer .=

@@ -194,7 +194,6 @@ form[name="new_survey_answer"] > article.subquestions > article.subquestions-sub
 
 form[name="new_survey_answer"] > article > div.checkboxes {
     width: 100%;
-    padding: 20px;
     box-sizing: border-box;
     background-color: #eee;
     margin-top: 5px;
