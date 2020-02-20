@@ -986,7 +986,8 @@ class Myvox_controller extends Controller
 
 							Functions::environment([
 								'status' => 'success',
-								'message' => '{$lang.thanks_for_answering_our_survey}'
+								'message' => '{$lang.thanks_for_answering_our_survey}',
+								'data' => ((Session::get_value('account')['type'] == 'hotel') ? $query : '')
 							]);
 						}
 						else
