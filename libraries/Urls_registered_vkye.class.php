@@ -157,6 +157,10 @@ class Urls_registered_vkye
                 'controller' => 'Guesttypes',
                 'method' => 'index'
             ],
+            '/menus' => [
+                'controller' => 'Menus',
+                'method' => 'index'
+            ],
             '/users' => [
                 'controller' => 'Users',
                 'method' => 'index'

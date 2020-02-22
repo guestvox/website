@@ -4,8 +4,7 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
-$this->dependencies->add(['js', '{$path.js}Opportunityareas/index.js']);
-$this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
+$this->dependencies->add(['js', '{$path.js}Menus/index.js']);
 
 ?>
 
@@ -26,26 +25,16 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <a data-button-modal="new_menu" class="new"><i class="fas fa-plus"></i></a>
                     <?php endif; ?>
                 </aside>
-                <table id="tbl_menus">
+                <!-- <table id="tbl_menus">
                     <thead>
                         <tr>
-                            <th align="left">{$lang.name}</th>
-                            <th align="left" class="flag">{$lang.request}</th>
-                            <th align="left" class="flag">{$lang.incident}</th>
-                            <th align="left" class="flag">{$lang.workorder}</th>
-                            <th align="left" class="flag">{$lang.public}</th>
-                            <?php if (Functions::check_user_access(['{menus_delete}']) == true) : ?>
-                            <th align="right" class="icon"></th>
-                            <?php endif; ?>
-                            <?php if (Functions::check_user_access(['{menus_update}']) == true) : ?>
-                            <th align="right" class="icon"></th>
-                            <?php endif; ?>
+
                         </tr>
                     </thead>
                     <tbody>
                         {$tbl_menus}
                     </tbody>
-                </table>
+                </table> -->
             </div>
         </main>
     </article>
@@ -75,47 +64,39 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span3">
+                    <div class="span8">
                         <div class="label">
                             <label>
-                                <p>{$lang.request}</p>
-                                <div class="switch">
-                                    <input id="oa-request" type="checkbox" name="request" class="switch-input">
-                                    <label class="switch-label" for="oa-request"></label>
-                                </div>
+                                <p>{$lang.price}</p>
+                                <input type="number" name="price" />
                             </label>
                         </div>
                     </div>
-                    <div class="span3">
+                    <div class="span4">
                         <div class="label">
                             <label>
-                                <p>{$lang.incident}</p>
-                                <div class="switch">
-                                    <input id="oa-incident" type="checkbox" name="incident" class="switch-input">
-                                    <label class="switch-label" for="oa-incident"></label>
-                                </div>
+                                <p>{$lang.currency}</p>
+                                <select name="currency">
+                                    <option value="" selected hidden>{$lang.choose}</option>
+                                    <option value="MXN">MXN</option>
+                                    <option value="USD">USD</option>
+                                </select>
                             </label>
                         </div>
                     </div>
-                    <div class="span3">
+                    <div class="span6">
                         <div class="label">
                             <label>
-                                <p>{$lang.workorder}</p>
-                                <div class="switch">
-                                    <input id="oa-workorder" type="checkbox" name="workorder" class="switch-input">
-                                    <label class="switch-label" for="oa-workorder"></label>
-                                </div>
+                                <p>(ES) {$lang.description}</p>
+                                <textarea name="description_es"></textarea>
                             </label>
                         </div>
                     </div>
-                    <div class="span3">
+                    <div class="span6">
                         <div class="label">
                             <label>
-                                <p>{$lang.public}</p>
-                                <div class="switch">
-                                    <input id="oa-public" type="checkbox" name="public" class="switch-input">
-                                    <label class="switch-label" for="oa-public"></label>
-                                </div>
+                                <p>(EN) {$lang.description}</p>
+                                <textarea name="description_en"></textarea>
                             </label>
                         </div>
                     </div>
@@ -132,7 +113,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
 </section>
 <?php endif; ?>
 <?php if (Functions::check_user_access(['{menus_delete}']) == true) : ?>
-<section class="modal delete" data-modal="delete_menu">
+<!-- <section class="modal delete" data-modal="delete_menu">
     <div class="content">
         <header>
             <h3>{$lang.delete}</h3>
@@ -144,5 +125,5 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
             </div>
         </footer>
     </div>
-</section>
+</section> -->
 <?php endif; ?>

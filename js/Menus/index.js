@@ -2,16 +2,16 @@
 
 $(document).ready(function()
 {
-    var tbl_opportunity_areas = $('#tbl_menus').DataTable({
-        ordering: false,
-        pageLength: 25,
-        info: false
-    });
-
-    $('[name="tbl_menus_search"]').on('keyup', function()
-    {
-        tbl_menus.search(this.value).draw();
-    });
+    // var tbl_menus = $('#tbl_menus').DataTable({
+    //     ordering: false,
+    //     pageLength: 25,
+    //     info: false
+    // });
+    //
+    // $('[name="tbl_menus_search"]').on('keyup', function()
+    // {
+    //     tbl_menus.search(this.value).draw();
+    // });
 
     var id;
     var edit = false;
@@ -26,10 +26,6 @@ $(document).ready(function()
         $('[data-modal="new_menu"]').find('form')[0].reset();
         $('[data-modal="new_menu"]').find('label.error').removeClass('error');
         $('[data-modal="new_menu"]').find('p.error').remove();
-        $('[data-modal="new_menu"]').find('[name="request"]').attr('checked', false);
-        $('[data-modal="new_menu"]').find('[name="incident"]').attr('checked', false);
-        $('[data-modal="new_menu"]').find('[name="workorder"]').attr('checked', false);
-        $('[data-modal="new_menu"]').find('[name="public"]').attr('checked', false);
     });
 
     $('[data-modal="new_menu"]').modal().onSuccess(function()
@@ -89,77 +85,63 @@ $(document).ready(function()
         });
     });
 
-    $(document).on('click', '[data-action="edit_menu"]', function()
-    {
-        id = $(this).data('id');
-        edit = true;
-
-        $.ajax({
-            type: 'POST',
-            data: 'id=' + id + '&action=get_menu',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    $('[data-modal="new_menu"]').removeClass('new');
-                    $('[data-modal="new_menu"]').addClass('edit');
-                    $('[data-modal="new_menu"]').addClass('view');
-                    $('[data-modal="new_menu"]').find('header > h3').html('Editar');
-                    $('[data-modal="new_menu"]').find('[name="name_es"]').val(response.data.name.es);
-                    $('[data-modal="new_menu"]').find('[name="name_en"]').val(response.data.name.en);
-
-                    if (response.data.request == true)
-                        $('[data-modal="new_menu"]').find('[name="request"]').attr('checked', true);
-
-                    if (response.data.incident == true)
-                        $('[data-modal="new_menu"]').find('[name="incident"]').attr('checked', true);
-
-                    if (response.data.workorder == true)
-                        $('[data-modal="new_menu"]').find('[name="workorder"]').attr('checked', true);
-
-                    if (response.data.public == true)
-                        $('[data-modal="new_menu"]').find('[name="public"]').attr('checked', true);
-                }
-                else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                }
-            }
-        });
-    });
-
-    $(document).on('click', '[data-action="delete_menu"]', function()
-    {
-        id = $(this).data('id');
-        $('[data-modal="delete_menu"]').addClass('view');
-    });
-
-    $('[data-modal="delete_menu"]').modal().onSuccess(function()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'id=' + id + '&action=delete_menu',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').addClass('view');
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { location.reload(); }, 1500);
-                }
-                else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                }
-            }
-        });
-    });
+    // $(document).on('click', '[data-action="edit_menu"]', function()
+    // {
+    //     id = $(this).data('id');
+    //     edit = true;
+    //
+    //     $.ajax({
+    //         type: 'POST',
+    //         data: 'id=' + id + '&action=get_menu',
+    //         processData: false,
+    //         cache: false,
+    //         dataType: 'json',
+    //         success: function(response)
+    //         {
+    //             if (response.status == 'success')
+    //             {
+    //                 $('[data-modal="new_menu"]').removeClass('new');
+    //                 $('[data-modal="new_menu"]').addClass('edit');
+    //                 $('[data-modal="new_menu"]').addClass('view');
+    //                 $('[data-modal="new_menu"]').find('header > h3').html('Editar');
+    //             }
+    //             else if (response.status == 'error')
+    //             {
+    //                 $('[data-modal="error"]').addClass('view');
+    //                 $('[data-modal="error"]').find('main > p').html(response.message);
+    //             }
+    //         }
+    //     });
+    // });
+    //
+    // $(document).on('click', '[data-action="delete_menu"]', function()
+    // {
+    //     id = $(this).data('id');
+    //     $('[data-modal="delete_menu"]').addClass('view');
+    // });
+    //
+    // $('[data-modal="delete_menu"]').modal().onSuccess(function()
+    // {
+    //     $.ajax({
+    //         type: 'POST',
+    //         data: 'id=' + id + '&action=delete_menu',
+    //         processData: false,
+    //         cache: false,
+    //         dataType: 'json',
+    //         success: function(response)
+    //         {
+    //             if (response.status == 'success')
+    //             {
+    //                 $('[data-modal="success"]').addClass('view');
+    //                 $('[data-modal="success"]').find('main > p').html(response.message);
+    //                 setTimeout(function() { location.reload(); }, 1500);
+    //             }
+    //             else if (response.status == 'error')
+    //             {
+    //                 $('[data-modal="error"]').addClass('view');
+    //                 $('[data-modal="error"]').find('main > p').html(response.message);
+    //             }
+    //         }
+    //     });
+    // });
 });
