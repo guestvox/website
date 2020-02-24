@@ -768,8 +768,11 @@ class Myvox_controller extends Controller
 						   array_push($labels, ['lastname','']);
 					}
 
-					if (empty($_POST['email']) AND Functions::check_email($_POST['email']) == false OR !isset($_POST['email']))
-						array_push($labels, ['email','']);
+					if (Session::get_value('account')['type'] == 'others')
+					{
+						if (empty($_POST['email']) AND Functions::check_email($_POST['email']) == false OR !isset($_POST['email']))
+							array_push($labels, ['email','']);
+					}
 
 					if (!empty($_POST['phone_lada']) OR !empty($_POST['phone_number']))
 					{
@@ -1012,28 +1015,6 @@ class Myvox_controller extends Controller
 				define('_title', 'GuestVox');
 
 				$template = $this->view->render($this, 'index');
-
-				$weather = '';
-
-				if (Session::get_value('account')['city'] == 'Cancún')
-				{
-					$weather .=
-					'<div class="weather">
-						<div id="cont_c64f376b4321760765e1efb5153a415c">
-							<script type="text/javascript" async src="https://www.meteored.mx/wid_loader/c64f376b4321760765e1efb5153a415c"></script>
-						</div>
-					</div>';
-				}
-
-				if (Session::get_value('account')['city'] == 'Playa del Carmen')
-				{
-					$weather .=
-					'<div class="weather">
-			            <div id="cont_1aa2ac92f7520eecb5e4c9c9af87d4cf">
-			                <script type="text/javascript" async src="https://www.meteored.mx/wid_loader/1aa2ac92f7520eecb5e4c9c9af87d4cf"></script>
-			            </div>
-			        </div>';
-				}
 
 				$a_new_request = '';
 				$a_new_incident = '';
@@ -1602,7 +1583,7 @@ class Myvox_controller extends Controller
 											</div>
 											<div class="span12">
 												<div class="label">
-													<label important>
+													<label ' . ((Session::get_value('account')['type'] == 'others') ? 'important' : '') . '>
 														<p>{$lang.email}</p>
 														<input type="email" name="email">
 													</label>
@@ -1706,7 +1687,6 @@ class Myvox_controller extends Controller
 
 				$replace = [
 					'{$logotype}' => '{$path.uploads}' . Session::get_value('account')['logotype'],
-					'{$weather}' => $weather,
 					'{$a_new_request}' => $a_new_request,
 					'{$a_new_incident}' => $a_new_incident,
 					'{$a_new_survey_answer}' => $a_new_survey_answer,
