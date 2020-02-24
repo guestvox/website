@@ -29,16 +29,16 @@ class Urls_registered_vkye
                 'controller' => 'Signup',
                 'method' => 'validate'
             ],
-            '/terms' => [
-                'controller' => 'Terms',
-                'method' => 'index'
-            ],
             '/hola' => [
                 'controller' => 'Hola',
                 'method' => 'index'
             ],
-            '/%param%/reviews' => [
-                'controller' => 'Reviews',
+            '/reputation' => [
+                'controller' => 'Hola',
+                'method' => 'reputation'
+            ],
+            '/terms' => [
+                'controller' => 'Terms',
                 'method' => 'index'
             ],
             '/%param%/myvox' => [
@@ -47,6 +47,10 @@ class Urls_registered_vkye
             ],
             '/%param%/myvox/%param%/%param%' => [
                 'controller' => 'Myvox',
+                'method' => 'index'
+            ],
+            '/%param%/reviews' => [
+                'controller' => 'Reviews',
                 'method' => 'index'
             ],
             '/dashboard' => [
