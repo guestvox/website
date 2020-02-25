@@ -38,6 +38,16 @@ function update_charts_by_date_filter(response)
     s2_chart.data.datasets = response.data.s2_chart_data.datasets;
     s2_chart.update();
 
+    s3_chart.data.labels = response.data.s3_chart_data.labels;
+    s3_chart.data.datasets[0].data = response.data.s3_chart_data.datasets.data;
+    s3_chart.data.datasets[0].backgroundColor = response.data.s3_chart_data.datasets.colors;
+    s3_chart.update();
+
+    s4_chart.data.labels = response.data.s4_chart_data.labels;
+    s4_chart.data.datasets[0].data = response.data.s4_chart_data.datasets.data;
+    s4_chart.data.datasets[0].backgroundColor = response.data.s4_chart_data.datasets.colors;
+    s4_chart.update();
+
     s5_chart.data.labels = response.data.s5_chart_data.labels;
     s5_chart.data.datasets[0].data = response.data.s5_chart_data.datasets.data;
     s5_chart.data.datasets[0].backgroundColor = response.data.s5_chart_data.datasets.colors;
