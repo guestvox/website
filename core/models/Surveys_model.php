@@ -1055,6 +1055,15 @@ class Surveys_model extends Model
 												$rate_level_2 = $rate_level_2 + $childvalue['answer'];
 												$count_level_2 = $count_level_2 + 1;
 											}
+
+											foreach ($childvalue['subanswers'] as $slavevalue)
+											{
+												if ($slavevalue['type'] == 'rate')
+												{
+													$rate_level_2 = $rate_level_2 + $slavevalue['answer'];
+													$count_level_2 = $count_level_2 + 1;
+												}
+											}
 										}
 									}
 								}
@@ -1083,77 +1092,76 @@ class Surveys_model extends Model
 							'borderColor' => '#3f51b5'
 						]);
 					}
-				}
 
-				// print_r($query1[0]);
-				//
-				// foreach ($query1[0]['subquestions'] as $value)
-				// {
-				// 	// $datas_level_2 = [];
-				// 	// $tmp_level_2 = 0;
-				// 	// $break_level_2 = 0;
-				// 	//
-				// 	// for ($i = 0; $i < $diff; $i++)
-				// 	// {
-				// 	// 	$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-				// 	// 		'answers'
-				// 	// 	], [
-				// 	// 		'AND' => [
-				// 	// 			'account' => Session::get_value('account')['id'],
-				// 	// 			'date' => Functions::get_future_date($parameters[0], $i, 'days')
-				// 	// 		]
-				// 	// 	]));
-				// 	//
-				// 	// 	$average_level_2 = 0;
-				// 	// 	$rate_level_2 = 0;
-				// 	// 	$count_level_2 = 0;
-				// 	//
-				// 	// 	foreach ($query2 as $subvalue)
-				// 	// 	{
-				// 	// 		foreach ($subvalue['answers'] as $parentvalue)
-				// 	// 		{
-				// 	// 			if ($query1[0]['id'] == $parentvalue['id'])
-				// 	// 			{
-				// 	// 				foreach ($parentvalue['subanswers'] as $childvalue)
-				// 	// 				{
-				// 	// 					if ($value['id'] == $childvalue['id'])
-				// 	// 					{
-				// 	// 						print_r($childvalue);
-				// 	//
-				// 	// 						if ($childvalue['type'] == 'rate')
-				// 	// 						{
-				// 	// 							$rate_level_2 = $rate_level_2 + $childvalue['answer'];
-				// 	// 							$count_level_2 = $count_level_2 + 1;
-				// 	// 						}
-				// 	// 					}
-				// 	// 				}
-				// 	// 			}
-				// 	// 		}
-				// 	// 	}
-				// 	//
-				// 	// 	if ($rate_level_2 > 0 AND $count_level_2 > 0)
-				// 	// 		$average_level_2 = round(($rate_level_2 / $count_level_2), 2);
-				// 	//
-				// 	// 	if ($average_level_2 <= 0 AND $tmp_level_2 > 0)
-				// 	// 		$average_level_2 = $tmp_level_2;
-				// 	//
-				// 	// 	$tmp_level_2 = $average_level_2;
-				// 	// 	$break_level_2 = $break_level_2 + $average_level_2;
-				// 	//
-				// 	// 	array_push($datas_level_2, $average_level_2);
-				// 	// }
-				// 	//
-				// 	// if ($break_level_2 > 0)
-				// 	// {
-				// 	// 	array_push($data['datasets'], [
-				// 	// 		'label' => 'B2. ' . $value['name'][Session::get_value('account')['language']],
-				// 	// 		'data' => $datas_level_2,
-				// 	// 		'fill' => false,
-				// 	// 		'backgroundColor' => '#3f51b5',
-				// 	// 		'borderColor' => '#3f51b5'
-				// 	// 	]);
-				// 	// }
-				// }
+					foreach ($value['subquestions'] as $subvalue)
+					{
+						$datas_level_3 = [];
+						$tmp_level_3 = 0;
+						$break_level_3 = 0;
+
+						for ($i = 0; $i < $diff; $i++)
+						{
+							$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+								'answers'
+							], [
+								'AND' => [
+									'account' => Session::get_value('account')['id'],
+									'date' => Functions::get_future_date($parameters[0], $i, 'days')
+								]
+							]));
+
+							$average_level_3 = 0;
+							$rate_level_3 = 0;
+							$count_level_3 = 0;
+
+							foreach ($query2 as $parentvalue)
+							{
+								foreach ($parentvalue['answers'] as $childvalue)
+								{
+									if ($query1[0]['id'] == $childvalue['id'])
+									{
+										foreach ($childvalue['subanswers'] as $slavevalue)
+										{
+											foreach ($slavevalue['subanswers'] as $intvalue)
+											{
+												if ($subvalue['id'] == $intvalue['id'])
+												{
+													if ($intvalue['type'] == 'rate')
+													{
+														$rate_level_3 = $rate_level_3 + $intvalue['answer'];
+														$count_level_3 = $count_level_3 + 1;
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+
+							if ($rate_level_3 > 0 AND $count_level_3 > 0)
+								$average_level_3 = round(($rate_level_3 / $count_level_3), 2);
+
+							if ($average_level_3 <= 0 AND $tmp_level_3 > 0)
+								$average_level_3 = $tmp_level_3;
+
+							$tmp_level_3 = $average_level_3;
+							$break_level_3 = $break_level_3 + $average_level_3;
+
+							array_push($datas_level_3, $average_level_3);
+						}
+
+						if ($break_level_3 > 0)
+						{
+							array_push($data['datasets'], [
+								'label' => 'C3. ' . $subvalue['name'][Session::get_value('account')['language']],
+								'data' => $datas_level_3,
+								'fill' => false,
+								'backgroundColor' => '#E91E63',
+								'borderColor' => '#E91E63'
+							]);
+						}
+					}
+				}
 			}
 		}
 		else if ($option == 's5_chart' OR $option == 's6_chart' OR $option == 's7_chart' OR $option == 's8_chart')
