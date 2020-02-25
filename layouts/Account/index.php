@@ -3,6 +3,7 @@
 defined('_EXEC') or die;
 
 $this->dependencies->add(['js', '{$path.js}Account/index.js']);
+$this->dependencies->add(['other', '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLCea8Q6BtcTHwY3YFCiB0EoHE5KnsMUE"></script>']);
 $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
 
 ?>
@@ -41,6 +42,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <h6><i class="fas fa-caret-right"></i>{$time_zone}</h6>
                     <h6><i class="fas fa-caret-right"></i>{$currency}</h6>
                     <h6><i class="fas fa-caret-right"></i>{$lang.{$language}}</h6>
+                    <h6><i class="fas fa-caret-right"></i>{$lang.descriptive_information}</h6>
                     <a data-button-modal="edit_profile" class="edit"><i class="fas fa-pen"></i></a>
                 </div>
                 <div>
@@ -68,6 +70,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <?php if (Functions::check_account_access(['reputation']) == true) : ?>
                     <h6><i class="fas fa-caret-right"></i>MyVox {$lang.surveys}: {$settings_myvox_survey}</h6>
                     <h6><i class="fas fa-caret-right"></i>MyVox {$lang.survey_title}: {$settings_myvox_survey_title}</h6>
+                    <h6><i class="fas fa-caret-right"></i>MyVox {$lang.surveys_page}: {$settings_myvox_survey_page}</h6>
                     <?php endif; ?>
                     <a data-button-modal="edit_settings" class="edit"><i class="fas fa-pen"></i></a>
                 </div>
@@ -215,6 +218,17 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             </label>
                         </div>
                     </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.descriptive_information}</p>
+                                <textarea name="descriptive_information" rows="8" cols="80">{$descriptive_information}</textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- <div class="span12">
+                        <div id="map" class="map"></div>
+                    </div> -->
                 </div>
             </form>
         </main>
@@ -377,6 +391,17 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             <label>
                                 <p>(EN) {$lang.survey_title}</p>
                                 <input type="text" name="settings_myvox_survey_title_en" value="{$settings_myvox_survey_title_en}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.surveys_page}</p>
+                                <div class="switch">
+                                    <input id="st-mv-survey_page" type="checkbox" name="settings_myvox_survey_page" class="switch-input" {$settings_myvox_survey_page_ckd}>
+                                    <label class="switch-label" for="st-mv-survey_page"></label>
+                                </div>
                             </label>
                         </div>
                     </div>

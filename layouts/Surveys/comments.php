@@ -57,6 +57,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                             <th align="left">{$lang.guest}</th>
                             <?php endif; ?>
                             <th align="left">{$lang.comments}</th>
+                            <th align="right" class="icon"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,3 +68,29 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
         </main>
     </article>
 </main>
+<section class="modal" data-modal="deactivate_comment">
+    <div class="content">
+        <header>
+            <h3>{$lang.deactivate}</h3>
+        </header>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<section class="modal" data-modal="activate_comment">
+    <div class="content">
+        <header>
+            <h3>{$lang.activate}</h3>
+        </header>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>

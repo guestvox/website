@@ -153,6 +153,28 @@ class Surveys_model extends Model
 		return $query;
 	}
 
+	public function deactivate_comment($id)
+	{
+		$query = $this->database->update('survey_answers', [
+			'status' => false
+		], [
+			'id' => $id,
+		]);
+
+		return $query;
+	}
+
+	public function activate_comment($id)
+	{
+		$query = $this->database->update('survey_answers', [
+			'status' => true
+		], [
+			'id' => $id,
+		]);
+
+		return $query;
+	}
+
 	public function get_survey_answers()
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
@@ -164,7 +186,8 @@ class Surveys_model extends Model
 			'answers',
 			'comment',
 			'guest',
-			'date'
+			'date',
+			'status'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [

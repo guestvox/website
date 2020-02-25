@@ -28,6 +28,7 @@ class Account_model extends Model
 			'logotype',
 			'fiscal',
 			'contact',
+			'descriptive_information',
 			'payment',
 			'qr',
 			'operation',
@@ -198,7 +199,8 @@ class Account_model extends Model
 			'address' => $data['address'],
 			'time_zone' => $data['time_zone'],
 			'currency' => $data['currency'],
-			'language' => $data['language']
+			'language' => $data['language'],
+			'descriptive_information' => $data['descriptive_information']
 		], [
 			'id' => Session::get_value('account')['id']
 		]);
@@ -246,6 +248,9 @@ class Account_model extends Model
 						'es' => 'Responde una encuesta',
 						'en' => 'Answer a question'
 					]
+				],
+				'reviews' => [
+					'page' => (Functions::check_account_access(['reputation']) == true AND !empty($data['settings_myvox_survey_page'])) ? true : false
 				]
 			])
 		], [

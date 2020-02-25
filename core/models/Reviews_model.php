@@ -9,6 +9,82 @@ class Reviews_model extends Model
 		parent::__construct();
 	}
 
+	// public function sql ()
+	// {
+	// 	$query = Functions::get_json_decoded_query($this->database->select('accounts', [
+	// 		'id',
+	// 		'name',
+	// 		'type',
+	// 		'city',
+	// 		'address',
+	// 		'language',
+	// 		'logotype',
+	// 		'contact',
+	// 		'operation',
+	// 		'reputation',
+	// 		'zaviapms',
+	// 		'sms',
+	// 		'settings'
+	// 	], [
+	// 		'AND' => [
+	// 			'status' => true
+	// 		]
+	// 	]));
+	//
+	// 	foreach ($query as $key => $value)
+	// 	{
+	// 		if ($value['type'] == 'hotel')
+	// 		{
+	// 			$value['settings'] = [
+	// 				'myvox' => [
+	// 					'request' => $value['settings']['myvox']['request'],
+	// 					'incident' => $value['settings']['myvox']['incident'],
+	// 					'survey' => $value['settings']['myvox']['survey'],
+	// 					'survey_title' => [
+	// 						'es' => $value['settings']['myvox']['survey_title']['es'],
+	// 						'en' => $value['settings']['myvox']['survey_title']['en']
+	// 					],
+	// 					'survey_tripadvisor' => $value['settings']['myvox']['survey_tripadvisor'],
+	// 					'survey_tripadvisor_url' => $value['settings']['myvox']['survey_tripadvisor_url']
+	// 				],
+	// 				'reviews' => [
+	// 					'page' => false
+	// 				]
+	// 			];
+	//
+	// 			$sql = $this->database->update('accounts', [
+	// 				'settings' => json_encode($value['settings'])
+	// 			], [
+	// 				'id' => $value['id']
+	// 			]);
+	// 		}
+	// 	 	if ($value['type'] == 'others')
+	// 		{
+	// 			$value['settings'] = [
+	// 				'myvox' => [
+	// 					'request' => $value['settings']['myvox']['request'],
+	// 					'incident' => $value['settings']['myvox']['incident'],
+	// 					'survey' => $value['settings']['myvox']['survey'],
+	// 					'survey_title' => [
+	// 						'es' => $value['settings']['myvox']['survey_title']['es'],
+	// 						'en' => $value['settings']['myvox']['survey_title']['en']
+	// 					]
+	// 				],
+	// 				'reviews' => [
+	// 					'page' => false
+	// 				]
+	// 			];
+	//
+	// 			$sql = $this->database->update('accounts', [
+	// 				'settings' => json_encode($value['settings'])
+	// 			], [
+	// 				'id' => $value['id']
+	// 			]);
+	// 		}
+	//
+	// 	}
+	// }
+
 	public function get_account($path)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('accounts', [
@@ -20,6 +96,7 @@ class Reviews_model extends Model
 			'language',
 			'logotype',
 			'contact',
+			'descriptive_information',
 			'operation',
 			'reputation',
 			'zaviapms',

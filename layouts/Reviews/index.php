@@ -6,6 +6,7 @@ $this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.m
 $this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
 $this->dependencies->add(['css', '{$path.css}Reviews/index.css']);
 $this->dependencies->add(['js', '{$path.js}Reviews/index.js']);
+$this->dependencies->add(['other', '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLCea8Q6BtcTHwY3YFCiB0EoHE5KnsMUE"></script>']);
 
 ?>
 
@@ -17,10 +18,10 @@ $this->dependencies->add(['js', '{$path.js}Reviews/index.js']);
     </div>
 </header>
 <main class="reviews">
-        {$name}
-        {$address}
-        {$contact_email}
-        {$contact_number}
+        <h4>{$name}</h4>
+        <span>{$address}</span>
+        <a href="mailto:{$contact_email}">{$contact_email}</a>
+        <a href="tel:{$contact_number}">{$contact_number}</a>
         <div class="chart-rate">
             <div class="average">
                 {$h4_general_average_rate}
@@ -51,10 +52,13 @@ $this->dependencies->add(['js', '{$path.js}Reviews/index.js']);
                 <progress value="{$one_percentage_rate}" max="100"></progress>
                 <span>{$one_percentage_rate}%</span>
             </div>
-            <iframe width="600" height="450" frameborder="0" style="border:0"
-                src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJJzc5iSZDTo8RAhITSspkB5Q&key=AIzaSyDciZm7zomBLUwx6_Ez44OegZNMiC7tX3o" allowfullscreen>
-            </iframe>
             <div class="">
+                <span>{$descriptive_information}</span>
+            </div>
+            <div class="span12">
+                <div id="map" class="map"></div>
+            </div>
+            <div>
                 <table id="tbl_reviews_comments">
                     <thead>
                         <tr>

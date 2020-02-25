@@ -67,6 +67,9 @@ class Account_controller extends Controller
 				if (!isset($_POST['language']) OR empty($_POST['language']))
 					array_push($labels, ['language', '']);
 
+				if (!isset($_POST['descriptive_information']) OR empty($_POST['descriptive_information']))
+					array_push($labels, ['descriptive_information', '']);
+
 				if (empty($labels))
 				{
 					$query = $this->model->edit_profile($_POST);
@@ -250,6 +253,7 @@ class Account_controller extends Controller
 				'{$time_zone}' => $account['time_zone'],
 				'{$currency}' => $account['currency'],
 				'{$language}' => $account['language'],
+				'{$descriptive_information}' => (!empty($account['descriptive_information']) ? $account['descriptive_information'] : ''),
 				'{$fiscal_id}' => $account['fiscal']['id'],
 				'{$fiscal_name}' => $account['fiscal']['name'],
 				'{$fiscal_address}' => $account['fiscal']['address'],
@@ -264,6 +268,7 @@ class Account_controller extends Controller
 				'{$settings_myvox_incident}' => (Functions::check_account_access(['operation']) == true AND $account['settings']['myvox']['incident'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$settings_myvox_survey}' => (Functions::check_account_access(['reputation']) == true AND $account['settings']['myvox']['survey'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$settings_myvox_survey_title}' => (Functions::check_account_access(['operation']) == true) ? $account['settings']['myvox']['survey_title'][Session::get_value('account')['language']] : '',
+				'{$settings_myvox_survey_page}' => (Functions::check_account_access(['reputation']) == true AND $account['settings']['reviews']['page'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$operation}' => (Functions::check_account_access(['operation']) == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$reputation}' => (Functions::check_account_access(['reputation']) == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$room_package}' => (Session::get_value('account')['type'] == 'hotel') ? $account['room_package']['quantity_end'] : '',
@@ -280,7 +285,8 @@ class Account_controller extends Controller
 				'{$settings_myvox_incident_ckd}' => (Functions::check_account_access(['operation']) == true AND $account['settings']['myvox']['incident'] == true) ? 'checked' : '',
 				'{$settings_myvox_survey_ckd}' => (Functions::check_account_access(['reputation']) == true AND $account['settings']['myvox']['survey'] == true) ? 'checked' : '',
 				'{$settings_myvox_survey_title_es}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['myvox']['survey_title']['es'] : '',
-				'{$settings_myvox_survey_title_en}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['myvox']['survey_title']['en'] : ''
+				'{$settings_myvox_survey_title_en}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['myvox']['survey_title']['en'] : '',
+				'{$settings_myvox_survey_page_ckd}' => (Functions::check_account_access(['reputation']) == true AND $account['settings']['reviews']['page'] == true) ? 'checked' : ''
 			];
 
 			$template = $this->format->replace($replace, $template);

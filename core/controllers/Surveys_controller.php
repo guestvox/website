@@ -735,6 +735,45 @@ class Surveys_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'deactivate_comment')
+			{
+				$query = $this->model->deactivate_comment($_POST['id']);
+
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'activate_comment')
+			{
+				$query = $this->model->activate_comment($_POST['id']);
+
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
 
 		}
 		else
@@ -765,6 +804,7 @@ class Surveys_controller extends Controller
 					$tbl_survey_comments .=
 					'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
 						<td align="left"> ' . $value['comment'] . '</td>
+						<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_comment" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_comment" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>
 					</tr>';
 
 				}
