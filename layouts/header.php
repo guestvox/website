@@ -70,6 +70,9 @@
                 <?php if (Functions::check_user_access(['{account_update}']) == true) : ?>
                 <li><a href="/account">{$lang.account}<i class="far fa-user-circle"></i></a></li>
                 <?php endif; ?>
+                <?php if (Functions::check_user_access(['{account_update}']) == true) : ?>
+                <li><a href="/information">{$lang.myvox_information}<i class="fas fa-info-circle"></i></a></li>
+                <?php endif; ?>
             </ul>
         </nav>
     </section>

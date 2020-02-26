@@ -233,6 +233,7 @@ class User_level
 
                 case '{account_update}' :
                     array_push($paths, '/Account/index');
+                    array_push($paths, '/Information/index');
                 break;
 
                 default: break;

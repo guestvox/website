@@ -177,6 +177,10 @@ class Urls_registered_vkye
                 'controller' => 'Account',
                 'method' => 'index'
             ],
+            '/information' => [
+                'controller' => 'Information',
+                'method' => 'index'
+            ],
             '/profile' => [
                 'controller' => 'Profile',
                 'method' => 'index'
