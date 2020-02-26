@@ -1,11 +1,9 @@
 /* Header
 ------------------------------------------------------------------------------ */
 header.reviews > div.topbar {
-    height: 200px;
+    height: 300px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding-bottom: 40px;
     box-sizing: border-box;
 }
 
@@ -128,6 +126,10 @@ main.reviews > div.chart-rate > div.progress > progress::-moz-progress-bar {
 
 main.reviews > div.chart-rate > div.progress > progress::-moz-progress-value {
     background-color: #00a5ab;
+}
+
+main.reviews > div.information {
+    float: right;
 }
 
 /* Footer

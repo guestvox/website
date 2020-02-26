@@ -59,23 +59,26 @@ class Reviews_controller extends Controller
 					{
 						if (!empty($value['comment']) AND $value['guest']['guestvox']['firstname'])
 						{
-							$tbl_reviews_comments .=
-							'<tr>
-								<td align="left">' . $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname'] . '</td>
-								<td align="left"> ' . $value['comment'] . '</td>
-							</tr>';
-
+							if ($value['status'] == true)
+							{
+								$tbl_reviews_comments .=
+								'<tr>
+									<td align="left">' . $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname'] . '</td>
+									<td align="left"> ' . $value['comment'] . '</td>
+								</tr>';
+							}
 						}
-
 						$tbl_reviews_comments .= '';
 					}
 
 					$replace = [
+						'{$seo_description}' => $data['account']['review_contact']['metadescription'],
+						'{$seo_keywords}' => $data['account']['review_contact']['keywords'],
 						'{$logotype}' => '{$path.uploads}' . $data['account']['logotype'],
 	                    '{$name}' => $data['account']['name'],
 	                    '{$address}' => $data['account']['address'],
-	                    '{$contact_email}' => $data['account']['contact']['email'],
-	                    '{$contact_number}' => $data['account']['contact']['phone']['lada'] . $data['account']['contact']['phone']['number'],
+	                    '{$contact_email}' => $data['account']['review_contact']['email'],
+	                    '{$contact_number}' => $data['account']['review_contact']['phone']['lada'] . $data['account']['contact']['phone']['number'],
 	                    '{$h4_general_average_rate}' => $h4_general_average_rate,
 	    				'{$spn_general_avarage_rate}' => $spn_general_avarage_rate,
 	    				'{$five_percentage_rate}' => $this->model->get_percentage_rate('five'),
@@ -88,8 +91,14 @@ class Reviews_controller extends Controller
 	    				'{$count_answered_week}' => $this->model->get_count('answered_week'),
 	    				'{$count_answered_month}' => $this->model->get_count('answered_month'),
 	    				'{$count_answered_year}' => $this->model->get_count('answered_year'),
-						'{$descriptive_information}' => (!empty($data['account']['descriptive_information']) ? $data['account']['descriptive_information'] : ''),
-						'{$tbl_reviews_comments}' => $tbl_reviews_comments
+						'{$descriptive_information}' => (!empty($data['account']['review_contact']['description']) ? $data['account']['review_contact']['description'] : ''),
+						'{$tbl_reviews_comments}' => $tbl_reviews_comments,
+						'{$contact_facebook}' => (!empty($data['account']['review_contact']['facebook']) ? '<li><a href="' . $data['account']['review_contact']['facebook'] . '" class="btn" target="_blank"><i class="fab fa-facebook-square"></i></a></li>' : ''),
+						'{$contact_instagram}' => (!empty($data['account']['review_contact']['instagram']) ? '<li><a href="' . $data['account']['review_contact']['instagram'] . '" class="btn" target="_blank"><i class="fab fa-instagram"></i></a></li>' : ''),
+						'{$contact_twitter}' => (!empty($data['account']['review_contact']['twitter']) ? '<li><a href="' . $data['account']['review_contact']['twitter'] . '" class="btn" target="_blank"><i class="fab fa-twitter"></i></a></li>' : ''),
+						'{$contact_youtube}' => (!empty($data['account']['review_contact']['youtube']) ? '<li><a href="' . $data['account']['review_contact']['youtube'] . '" class="btn" target="_blank"><i class="fab fa-youtube"></i></a></li>' : ''),
+						'{$contact_linkedin}' => (!empty($data['account']['review_contact']['linkedin']) ? '<li><a href="' . $data['account']['review_contact']['linkedin'] . '" class="btn" target="_blank"><i class="fab fa-linkedin"></i></a></li>' : ''),
+						'{$contact_tripadvisor}' => (!empty($data['account']['review_contact']['tripadvisor']) ? '<li><a href="' . $data['account']['review_contact']['tripadvisor'] . '" class="btn" target="_blank"><i class="fab fa-tripadvisor"></i></a></li>' : '')
 					];
 
 					$template = $this->format->replace($replace, $template);

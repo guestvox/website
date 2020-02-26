@@ -571,7 +571,8 @@ class Myvox_model extends Model
 			'answers' => json_encode($data['answers']),
 			'comment' => $data['comment'],
 			'guest' => json_encode($data['guest']),
-			'date' => Functions::get_current_date()
+			'date' => Functions::get_current_date(),
+			'status' => false
 		]);
 
 		$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [

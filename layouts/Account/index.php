@@ -42,7 +42,6 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <h6><i class="fas fa-caret-right"></i>{$time_zone}</h6>
                     <h6><i class="fas fa-caret-right"></i>{$currency}</h6>
                     <h6><i class="fas fa-caret-right"></i>{$lang.{$language}}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$lang.descriptive_information}</h6>
                     <a data-button-modal="edit_profile" class="edit"><i class="fas fa-pen"></i></a>
                 </div>
                 <div>
@@ -55,6 +54,21 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <h6><i class="fas fa-caret-right"></i>{$contact_email}</h6>
                     <h6><i class="fas fa-caret-right"></i>+{$contact_phone_lada} {$contact_phone_number}</h6>
                     <a data-button-modal="edit_billing" class="edit"><i class="fas fa-pen"></i></a>
+                </div>
+                <div>
+                    <h4>{$lang.contact_information}</h4>
+                    <h6><i class="fas fa-caret-right"></i>{$review_contact_email}</h6>
+                    <h6><i class="fas fa-caret-right"></i>+{$review_contact_phone_lada} {$review_contact_phone_number}</h6>
+                    <h6><i class="fas fa-caret-right"></i>{$lang.descriptive_information}</h6>
+                    <h6><i class="fas fa-caret-right"></i>{$lang.keywords}</h6>
+                    <h6><i class="fas fa-caret-right"></i>{$lang.metadescription}</h6>
+                    <h6><i class="fas fa-caret-right"></i>Facebook: {$review_contact_facebook}</h6>
+                    <h6><i class="fas fa-caret-right"></i>Intagram: {$review_contact_instagram}</h6>
+                    <h6><i class="fas fa-caret-right"></i>Twitter: {$review_contact_twitter}</h6>
+                    <h6><i class="fas fa-caret-right"></i>Youtube: {$review_contact_youtube}</h6>
+                    <h6><i class="fas fa-caret-right"></i>LinkedIn: {$review_contact_linkedin}</h6>
+                    <h6><i class="fas fa-caret-right"></i>Tripadvisor: {$review_contact_tripadvisor}</h6>
+                    <a data-button-modal="edit_contact" class="edit"><i class="fas fa-pen"></i></a>
                 </div>
                 <div>
                     <h4>{$lang.payment_information}</h4>
@@ -218,14 +232,6 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span12">
-                        <div class="label">
-                            <label>
-                                <p>{$lang.descriptive_information}</p>
-                                <textarea name="descriptive_information" rows="8" cols="80">{$descriptive_information}</textarea>
-                            </label>
-                        </div>
-                    </div>
                     <!-- <div class="span12">
                         <div id="map" class="map"></div>
                     </div> -->
@@ -319,6 +325,123 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             <label>
                                 <p>{$lang.phone}</p>
                                 <input type="text" name="contact_phone_number" value="{$contact_phone_number}" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<section class="modal edit" data-modal="edit_contact">
+    <div class="content">
+        <header>
+            <h3>{$lang.edit}</h3>
+        </header>
+        <main>
+            <form name="edit_contact">
+                <div class="row">
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.email}</p>
+                                <input type="text" name="review_contact_email" value="{$review_contact_email}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.lada}</p>
+                                <select name="review_contact_phone_lada">
+                                    {$opt_ladas}
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.phone}</p>
+                                <input type="text" name="review_contact_phone_number" value="{$review_contact_phone_number}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.descriptive_information}</p>
+                                <textarea name="review_description" rows="8" cols="80">{$review_description}</textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.keywords}</p>
+                                <input type="text" name="review_keywords" value="{$review_keywords}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.metadescription}</p>
+                                <input type="text" name="review_metadescription" value="{$review_metadescription}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>Facebook</p>
+                                <input type="text" name="review_contact_facebook" value="{$review_contact_facebook}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>Instagram</p>
+                                <input type="text" name="review_contact_instagram" value="{$review_contact_instagram}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>Twitter</p>
+                                <input type="text" name="review_contact_twitter" value="{$review_contact_twitter}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>Youtube</p>
+                                <input type="text" name="review_contact_youtube" value="{$review_contact_youtube}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>LinkedIn</p>
+                                <input type="text" name="review_contact_linkedin" value="{$review_contact_linkedin}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>Tripadvisor</p>
+                                <input type="text" name="review_contact_tripadvisor" value="{$review_contact_tripadvisor}" />
                             </label>
                         </div>
                     </div>

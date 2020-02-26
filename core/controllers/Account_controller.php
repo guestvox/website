@@ -166,6 +166,53 @@ class Account_controller extends Controller
 				}
 			}
 
+			if ($_POST['action'] == 'edit_contact')
+			{
+				$labels = [];
+
+				if (!isset($_POST['review_contact_email']) OR empty($_POST['review_contact_email']))
+					array_push($labels, ['review_contact_email', '']);
+
+				if (!isset($_POST['review_contact_phone_lada']) OR empty($_POST['review_contact_phone_lada']))
+					array_push($labels, ['review_contact_phone_lada', '']);
+
+				if (!isset($_POST['review_contact_phone_number']) OR empty($_POST['review_contact_phone_number']))
+					array_push($labels, ['review_contact_phone_number', '']);
+
+				if (!isset($_POST['review_keywords']) OR empty($_POST['review_keywords']))
+					array_push($labels, ['review_keywords', '']);
+
+				if (!isset($_POST['review_metadescription']) OR empty($_POST['review_metadescription']))
+					array_push($labels, ['review_metadescription', '']);
+
+				if (empty($labels))
+				{
+					$query = $this->model->edit_contact($_POST);
+
+					if (!empty($query))
+					{
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
+
 			if ($_POST['action'] == 'edit_settings')
 			{
 				$labels = [];
@@ -253,7 +300,6 @@ class Account_controller extends Controller
 				'{$time_zone}' => $account['time_zone'],
 				'{$currency}' => $account['currency'],
 				'{$language}' => $account['language'],
-				'{$descriptive_information}' => (!empty($account['descriptive_information']) ? $account['descriptive_information'] : ''),
 				'{$fiscal_id}' => $account['fiscal']['id'],
 				'{$fiscal_name}' => $account['fiscal']['name'],
 				'{$fiscal_address}' => $account['fiscal']['address'],
@@ -264,6 +310,18 @@ class Account_controller extends Controller
 				'{$contact_phone_lada}' => $account['contact']['phone']['lada'],
 				'{$contact_phone_number}' => $account['contact']['phone']['number'],
 				'{$payment_type}' => $account['payment']['type'],
+				'{$review_contact_email}' => $account['review_contact']['email'],
+				'{$review_contact_phone_lada}' => $account['review_contact']['phone']['lada'],
+				'{$review_contact_phone_number}' => $account['review_contact']['phone']['number'],
+				'{$review_keywords}' => $account['review_contact']['keywords'],
+				'{$review_metadescription}' => $account['review_contact']['metadescription'],
+				'{$review_description}' => (!empty($account['review_contact']['description']) ? $account['review_contact']['description'] : ''),
+				'{$review_contact_facebook}' => $account['review_contact']['facebook'],
+				'{$review_contact_instagram}' => $account['review_contact']['instagram'],
+				'{$review_contact_twitter}' => $account['review_contact']['twitter'],
+				'{$review_contact_youtube}' => $account['review_contact']['youtube'],
+				'{$review_contact_linkedin}' => $account['review_contact']['linkedin'],
+				'{$review_contact_tripadvisor}' => $account['review_contact']['tripadvisor'],
 				'{$settings_myvox_request}' => (Functions::check_account_access(['operation']) == true AND $account['settings']['myvox']['request'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$settings_myvox_incident}' => (Functions::check_account_access(['operation']) == true AND $account['settings']['myvox']['incident'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$settings_myvox_survey}' => (Functions::check_account_access(['reputation']) == true AND $account['settings']['myvox']['survey'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',

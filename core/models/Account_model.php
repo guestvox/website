@@ -28,7 +28,7 @@ class Account_model extends Model
 			'logotype',
 			'fiscal',
 			'contact',
-			'descriptive_information',
+			'review_contact',
 			'payment',
 			'qr',
 			'operation',
@@ -199,8 +199,7 @@ class Account_model extends Model
 			'address' => $data['address'],
 			'time_zone' => $data['time_zone'],
 			'currency' => $data['currency'],
-			'language' => $data['language'],
-			'descriptive_information' => $data['descriptive_information']
+			'language' => $data['language']
 		], [
 			'id' => Session::get_value('account')['id']
 		]);
@@ -225,6 +224,32 @@ class Account_model extends Model
 					'lada' => $data['contact_phone_lada'],
 					'number' => $data['contact_phone_number']
 				]
+			])
+		], [
+			'id' => Session::get_value('account')['id']
+		]);
+
+		return $query;
+	}
+
+	public function edit_contact($data)
+	{
+		$query = $this->database->update('accounts', [
+			'review_contact' => json_encode([
+				'email' => $data['review_contact_email'],
+				'phone' => [
+					'lada' => $data['review_contact_phone_lada'],
+					'number' => $data['review_contact_phone_number']
+				],
+				'description' => $data['review_description'],
+				'keywords' => $data['review_keywords'],
+				'metadescription' => $data['review_metadescription'],
+				'facebook' => $data['review_contact_facebook'],
+				'instagram' => $data['review_contact_instagram'],
+				'twitter' => $data['review_contact_twitter'],
+				'youtube' => $data['review_contact_youtube'],
+				'linkedin' => $data['review_contact_linkedin'],
+				'tripadvisor' => $data['review_contact_tripadvisor'],
 			])
 		], [
 			'id' => Session::get_value('account')['id']

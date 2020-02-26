@@ -96,7 +96,7 @@ class Reviews_model extends Model
 			'language',
 			'logotype',
 			'contact',
-			'descriptive_information',
+			'review_contact',
 			'operation',
 			'reputation',
 			'zaviapms',
@@ -274,7 +274,8 @@ class Reviews_model extends Model
 			'answers',
 			'comment',
 			'guest',
-			'date'
+			'date',
+			'status'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [

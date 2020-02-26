@@ -8,8 +8,8 @@
 		<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
 		<meta name="author" content="GuestVox" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
+		<meta name="description" content="{$seo_description}" />
+		<meta name="keywords" content="{$seo_keywords}" />
 		<meta name="google-site-verification" content="nt4G0mNfZWU_U4U8bMwlnOi2P-bwTyTjoY0HmhaZs2M" />
 		{$dependencies.meta}
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
