@@ -575,29 +575,28 @@ class Myvox_model extends Model
 			'status' => false
 		]);
 
-		$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-			'token',
-			'room',
-			'table',
-			'client',
+		return !empty($query) ? $this->database->id() : null;
+    }
+
+	public function get_average($id)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+			'id',
 			'answers',
-			'comment',
-			'guest',
-			'date'
 		], [
-			'token' => $data['token']
+			'id' => $id
 		]));
 
-		if (!empty($query2))
+		if (!empty($query))
 		{
-			$query2[0]['rate'] = 0;
+			$average = 0;
 			$count = 0;
 
-			foreach ($query2[0]['answers'] as $key => $value)
+			foreach ($query[0]['answers'] as $key => $value)
 			{
 				if ($value['type'] == 'rate')
 				{
-					$query2[0]['rate'] = $query2[0]['rate'] + $value['answer'];
+					$average = $average + $value['answer'];
 					$count = $count + 1;
 				}
 
@@ -605,7 +604,7 @@ class Myvox_model extends Model
 				{
 					if ($subvalue['type'] == 'rate')
 					{
-						$query2[0]['rate'] = $query2[0]['rate'] + $subvalue['answer'];
+						$average = $average + $subvalue['answer'];
 						$count = $count + 1;
 					}
 
@@ -613,21 +612,21 @@ class Myvox_model extends Model
 					{
 						if ($childvalue['type'] == 'rate')
 						{
-							$query2[0]['rate'] = $query2[0]['rate'] + $childvalue['answer'];
+							$average = $average + $childvalue['answer'];
 							$count = $count + 1;
 						}
 					}
 				}
 			}
 
-			if ($query2[0]['rate'] > 0 AND $count > 0)
-				$query2[0]['rate'] = round(($query2[0]['rate'] / $count), 1);
+			if ($average > 0 AND $count > 0)
+				$average = round(($average / $count), 1);
 
-			return $query2[0];
+			return $average;
 		}
 		else
 			return null;
-    }
+	}
 
 	public function edit_sms($id, $sms)
 	{

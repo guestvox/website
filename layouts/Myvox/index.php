@@ -52,7 +52,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
                     </li>
                 </ul>
             </div>
-            <script async src="https://www.jscache.com/wejs?wtype=rated&amp;uniq=159&amp;locationId=637395&amp;lang=es_MX&amp;display_version=2" data-loadtrk onload="this.loadtrk=true"></script>
+            <script async src="{$tripadvisor_url}" data-loadtrk onload="this.loadtrk=true"></script>
         </main>
         <footer>
             <div class="action-buttons">

@@ -987,10 +987,28 @@ class Myvox_controller extends Controller
 								}
 							}
 
+							if (Session::get_value('account')['settings']['myvox']['survey_tripadvisor'] == true)
+							{
+								$average = $this->model->get_average($query);
+
+								if ($average >= 4)
+								{
+									$data = [
+										'tripadvisor' => true,
+									];
+								}
+							}
+							else
+							{
+								$data = [
+									'tripadvisor' => false
+								];
+							}
+
 							Functions::environment([
 								'status' => 'success',
 								'message' => '{$lang.thanks_for_answering_our_survey}',
-								'data' => ((Session::get_value('account')['type'] == 'hotel') ? $query : '')
+								'data' => $data
 							]);
 						}
 						else
@@ -1692,7 +1710,8 @@ class Myvox_controller extends Controller
 					'{$a_new_survey_answer}' => $a_new_survey_answer,
 					'{$mdl_new_request}' => $mdl_new_request,
 					'{$mdl_new_incident}' => $mdl_new_incident,
-					'{$mdl_new_survey_answer}' => $mdl_new_survey_answer
+					'{$mdl_new_survey_answer}' => $mdl_new_survey_answer,
+					'{$tripadvisor_url}' => Session::get_value('account')['settings']['myvox']['survey_tripadvisor_url']
 				];
 
 				$template = $this->format->replace($replace, $template);

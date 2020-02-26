@@ -273,31 +273,22 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    if (response.data.length != 0)
-                    {
-                        $('[data-modal="success"]').addClass('view');
-                        $('[data-modal="success"]').find('main > p').html(response.message);
+                    $('[data-modal="success"]').addClass('view');
+                    $('[data-modal="success"]').find('main > p').html(response.message);
 
-                        if (response.data.rate >= 4 && response.data.rate <= 5)
-                        {
-                            setTimeout(function() {
-                                $('[data-modal="success"]').removeClass('view');
-                                $('[data-modal="new_survey_answer"]').removeClass('view');
-                                $('[data-modal="new_survey_answer"]').find('form')[0].reset();
-                                $('[data-modal="new_survey_answer"]').find('label.error').removeClass('error');
-                                $('[data-modal="new_survey_answer"]').find('p.error').remove();
-                                $('[data-modal="tripadvisor"]').addClass('view');
-                            }, 5000);
-                        }
-                        else
-                            setTimeout(function() { location.reload(); }, 8000);
+                    if (response.data.tripadvisor == true)
+                    {
+                        setTimeout(function() {
+                            $('[data-modal="success"]').removeClass('view');
+                            $('[data-modal="new_survey_answer"]').removeClass('view');
+                            $('[data-modal="new_survey_answer"]').find('form')[0].reset();
+                            $('[data-modal="new_survey_answer"]').find('label.error').removeClass('error');
+                            $('[data-modal="new_survey_answer"]').find('p.error').remove();
+                            $('[data-modal="tripadvisor"]').addClass('view');
+                        }, 1500);
                     }
                     else
-                    {
-                        $('[data-modal="success"]').addClass('view');
-                        $('[data-modal="success"]').find('main > p').html(response.message);
                         setTimeout(function() { location.reload(); }, 8000);
-                    }
                 }
                 else if (response.status == 'error')
                 {
