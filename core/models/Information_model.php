@@ -15,7 +15,7 @@ class Information_model extends Model
 			'id',
 			'name',
 			'description',
-			'image',
+			'logotype',
 		], [
 			'account' => Session::get_value('account')['id'],
 		]));
@@ -29,7 +29,7 @@ class Information_model extends Model
 			'id',
 			'name',
 			'description',
-			'image',
+			'logotype',
 		], [
 			'id' => $id
 		]));
@@ -45,7 +45,8 @@ class Information_model extends Model
 				'es' => $data['name_es'],
 				'en' => $data['name_en']
 			]),
-			'description' => $data['description']
+			'description' => $data['description'],
+			'logotype' => Functions::uploader($data['logotype'])
 		]);
 
 		return $query;

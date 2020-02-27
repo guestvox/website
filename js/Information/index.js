@@ -28,10 +28,32 @@ $(document).ready(function()
         $('[data-modal="new_myvox_information"]').find('p.error').remove();
     });
 
-    // $('[data-image-select]').on('click', function()
-    // {
-    //     $(this).parent().find('[data-image-upload]').click();
-    // });
+    $('[name="logotype"]').parents('.uploader').find('a').on('click', function()
+    {
+        $('[name="logotype"]').click();
+    });
+
+    $('[name="logotype"]').on('change', function()
+    {
+        var preview = $(this).parents('.uploader').find('img');
+
+        if ($(this)[0].files[0].type.match($(this).attr('accept')))
+        {
+            var reader = new FileReader();
+
+            reader.onload = function(e)
+            {
+                preview.attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL($(this)[0].files[0]);
+        }
+        else
+        {
+            $('[data-modal="error"]').addClass('view');
+            $('[data-modal="error"]').find('main > p').html('ERROR FILE NOT PERMIT');
+        }
+    });
 
     $('[data-modal="new_myvox_information"]').modal().onSuccess(function()
     {
@@ -43,15 +65,20 @@ $(document).ready(function()
         e.preventDefault();
 
         var form = $(this);
+        var data = new FormData(form[0])
 
         if (edit == false)
-            var data = '&action=new_myvox_information';
+            data.append('action', 'new_myvox_information');
         else if (edit == true)
-            var data = '&id=' + id + '&action=edit_myvox_information';
+        {
+            data.append('id', id)
+            data.append('action', 'edit_myvox_information');
+        }
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + data,
+            data: data,
+            contentType: false,
             processData: false,
             cache: false,
             dataType: 'json',

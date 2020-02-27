@@ -29,7 +29,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <tr>
                             <th align="left">{$lang.name}</th>
                             <th align="left">{$lang.description}</th>
-                            <!-- <th align="left" class="flag">{$lang.files}</th> -->
+                            <th align="left">{$lang.files}</th>
                             <th align="right" class="icon"></th>
                             <th align="right" class="icon"></th>
                         </tr>
@@ -74,13 +74,17 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             </label>
                         </div>
                     </div>
-                    <!-- <div class="span12">
-                        <figure>
-                            <img src="{$file_image}" data-image-preview>
-                            <a data-image-select><i class="fas fa-upload"></i></a>
-                            <input type="file" name="file_image" accept="image/*" data-image-upload>
-                        </figure>
-                    </div> -->
+                    <div class="span12">
+                        <div class="uploader">
+                            <fieldset>
+                                <figure>
+                                    <img src="{$path.images}empty.png" alt="Logotype">
+                                    <a><i class="fas fa-upload"></i></a>
+                                    <input type="file" name="logotype" accept="image/*">
+                                </figure>
+                            </fieldset>
+                        </div>
+                    </div>
                 </div>
             </form>
         </main>

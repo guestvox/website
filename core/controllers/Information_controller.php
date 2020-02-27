@@ -46,6 +46,8 @@ class Information_controller extends Controller
 				if (!isset($_POST['description']) OR empty($_POST['description']))
 					array_push($labels, ['description', '']);
 
+				$_POST['logotype'] = $_FILES['logotype'];
+
 				if (empty($labels))
 				{
 					if ($_POST['action'] == 'new_myvox_information')
@@ -111,6 +113,7 @@ class Information_controller extends Controller
 				'<tr>
 					<td align="left">' . $value['name'][Session::get_value('account')['language']] . '</td>
 					<td align="left">' . $value['description'] . '</td>
+					<td align="left" class="flag">' . (!empty($value['logotype']) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
 					<td align="right" class="icon"><a data-action="delete_myvox_information" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>
 					<td align="right" class="icon"><a data-action="edit_myvox_information" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>
 				</tr>';
