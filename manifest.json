@@ -2,7 +2,7 @@
     "name": "Guestvox",
     "short_name": "Guestvox",
     "lang": "es",
-    "start_url": "index.php",
+    "start_url": "login",
     "display": "standalone",
     "orientation": "portrait",
     "theme_color": " #258F93",
