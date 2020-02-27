@@ -10,7 +10,7 @@ $(document).ready(function()
         {
             $('[data-elapsed-time]').each(function()
             {
-                get_time_elapsed($(this).data('started-date').replace(/-/g, '/'), $(this).data('completed-date').replace(/-/g, '/'), $(this).data('status'), $(this));
+                get_time_elapsed($(this).data('date-1').replace(/-/g, '/'), $(this).data('date-2').replace(/-/g, '/'), $(this).data('time-zone'), $(this).data('status'), $(this));
             });
         }
     });
@@ -26,18 +26,14 @@ $(document).ready(function()
     });
 });
 
-function get_time_elapsed(date1, date2, status, target)
+function get_time_elapsed(date_1, date_2, time_zone, status, target)
 {
+    var date_1 = new Date(date_1);
+
     if (status == 'open')
-    {
-        var date1 = new Date(date1);
-        var date2 = new Date();
-    }
+        var date_2 = new Date(moment().tz(time_zone).format('YYYY-MM-DD hh:mm:ss'));
     else if (status == 'close')
-    {
-        var date1 = new Date(date1);
-        var date2 = new Date(date2);
-    }
+        var date_2 = new Date(date_2);
 
     var months = '';
     var days = '';
@@ -46,11 +42,11 @@ function get_time_elapsed(date1, date2, status, target)
     var seconds = '';
     var time_elapsed = '';
 
-    if (date2 >= date1)
+    if (date_2 >= date_1)
     {
-        days = Math.floor((date2 - date1) / (1000*60*60*24));
+        days = Math.floor((date_2 - date_1) / (1000*60*60*24));
 
-        seconds = Math.floor((date2 - date1) / 1000);
+        seconds = Math.floor((date_2 - date_1) / 1000);
         minutes = Math.floor(seconds / 60);
         hours = Math.floor(minutes / 60);
 
@@ -101,5 +97,5 @@ function get_time_elapsed(date1, date2, status, target)
 
     target.html(time_elapsed);
 
-    setTimeout(function() { get_time_elapsed(date1, date2, status, target); }, 1000);
+    setTimeout(function() { get_time_elapsed(date_1, date_2, time_zone, status, target); }, 1000);
 }

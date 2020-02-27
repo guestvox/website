@@ -47,9 +47,11 @@ class Voxes_controller extends Controller
 				<td align="left" class="touchable">' . $value['data']['location']['name'][Session::get_value('account')['language']] . '</td>
 				<td align="left" class="touchable">' . Functions::get_formatted_date($value['data']['started_date'], 'd M, y') . '</td>
 				<td align="left" class="touchable"
-					data-started-date="' . Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']) . '"
-					data-completed-date="' . Functions::get_formatted_date_hour($value['data']['completed_date'], $value['data']['completed_hour']) . '"
-					data-status="' . $value['data']['status'] . '" data-elapsed-time></td>
+					data-date-1="' . Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']) . '"
+					data-date-2="' . Functions::get_formatted_date_hour($value['data']['completed_date'], $value['data']['completed_hour']) . '"
+					data-time-zone="' . Session::get_value('account')['time_zone'] . '"
+					data-status="' . $value['data']['status'] . '"
+					data-elapsed-time></td>
 				<td align="right" class="touchable icon">' . (($value['type'] == 'incident' AND $value['data']['confidentiality'] == true) ? '<span><i class="fas fa-key"></i></span>' : '') . '</td>
 				<td align="right" class="touchable icon">' . ((!empty($value['data']['assigned_users'])) ? '<span><i class="fas fa-users"></i></span>' : '') . '</td>
 				<td align="right" class="touchable icon">' . ((!empty($value['data']['comments'])) ? '<span><i class="fas fa-comment"></i></span>' : '') . '</td>
@@ -874,9 +876,12 @@ class Voxes_controller extends Controller
 					'{$h4_subject}' => ($vox['type'] == 'incident') ? '<h4 style="background-color:#00a5ab;color:#fff;">{$lang.subject}: ' . $vox['data']['subject'] . '</h4>' : '',
 					'{$h4_description}' => ($vox['type'] == 'incident') ? '<h4>{$lang.description}: ' . $vox['data']['description'] . '</h4>' : '',
 					'{$h4_action_taken}' => ($vox['type'] == 'incident') ? '<h4>{$lang.action_taken}: ' . $vox['data']['action_taken'] . '</h4>' : '',
-					'{$h4_date_hour}' => '<h4 data-started-date="' . Functions::get_formatted_date_hour($vox['data']['started_date'], $vox['data']['started_hour']) . '"
-					data-completed-date="' . Functions::get_formatted_date_hour($vox['data']['completed_date'], $vox['data']['completed_hour']) . '"
-					data-status="' . $vox['data']['status'] . '" data-elapsed-time></h4>',
+					'{$h4_date_hour}' => '<h4
+						data-date-1="' . Functions::get_formatted_date_hour($vox['data']['started_date'], $vox['data']['started_hour']) . '"
+						data-date-2="' . Functions::get_formatted_date_hour($vox['data']['completed_date'], $vox['data']['completed_hour']) . '"
+						data-time-zone="' . Session::get_value('account')['time_zone'] . '"
+						data-status="' . $vox['data']['status'] . '"
+						data-elapsed-time>{$_tmp_time_zone} <span></span></h4>',
 					'{$div_attachments}' => $div_attachments,
 					'{$div_comments}' => $div_comments,
 					'{$div_assigned_users}' => $div_assigned_users,

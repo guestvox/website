@@ -14,7 +14,7 @@ $(document).ready(function()
             {
                 $('[data-elapsed-time]').each(function()
                 {
-                    get_elapsed_time($(this).data('started-date').replace(/-/g, '/'), $(this));
+                    get_elapsed_time($(this).data('date-1').replace(/-/g, '/'), $(this).data('time-zone'), $(this));
                 });
             }
         });
@@ -31,10 +31,10 @@ $(document).ready(function()
     }
 });
 
-function get_elapsed_time(datehour1, target)
+function get_elapsed_time(date_1, time_zone, target)
 {
-    var datehour1 = new Date(datehour1);
-    var datehour2 = new Date();
+    var date_1 = new Date(date_1);
+    var date_2 = new Date(moment().tz(time_zone).format('YYYY-MM-DD hh:mm:ss'));
     var months = '';
     var days = '';
     var hours = '';
@@ -42,10 +42,10 @@ function get_elapsed_time(datehour1, target)
     var seconds = '';
     var elapsed_time = '';
 
-    if (datehour2 >= datehour1)
+    if (date_2 >= date_1)
     {
-        days = Math.floor((datehour2 - datehour1) / (1000*60*60*24));
-        seconds = Math.floor((datehour2 - datehour1) / 1000);
+        days = Math.floor((date_2 - date_1) / (1000*60*60*24));
+        seconds = Math.floor((date_2 - date_1) / 1000);
         minutes = Math.floor(seconds / 60);
         hours = Math.floor(minutes / 60);
 
@@ -80,5 +80,5 @@ function get_elapsed_time(datehour1, target)
 
     target.html(elapsed_time);
 
-    setTimeout(function() { get_elapsed_time(datehour1, target); }, 1000);
+    setTimeout(function() { get_elapsed_time(date_1, time_zone, target); }, 1000);
 }

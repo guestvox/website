@@ -52,7 +52,10 @@ class Dashboard_controller extends Controller
 					<td align="left" class="touchable">' . $value['data']['opportunity_type']['name'][Session::get_value('account')['language']] . '</td>
 					<td align="left" class="touchable">' . $value['data']['location']['name'][Session::get_value('account')['language']] . '</td>
 					<td align="left" class="touchable">' . Functions::get_formatted_date($value['data']['started_date'], 'd M, y') . '</td>
-					<td align="left" class="touchable" data-started-date="' . Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']) . '" data-elapsed-time></td>
+					<td align="left" class="touchable"
+						data-date-1="' . Functions::get_formatted_date_hour($value['data']['started_date'], $value['data']['started_hour']) . '"
+						data-time-zone="' . Session::get_value('account')['time_zone'] . '"
+						data-elapsed-time></td>
 					<td align="right" class="touchable icon">' . (($value['type'] == 'incident' AND $value['data']['confidentiality'] == true) ? '<span><i class="fas fa-key"></i></span>' : '') . '</td>
 					<td align="right" class="touchable icon">' . ((!empty($value['data']['assigned_users'])) ? '<span><i class="fas fa-users"></i></span>' : '') . '</td>
 					<td align="right" class="touchable icon">' . ((!empty($value['data']['comments'])) ? '<span><i class="fas fa-comment"></i></span>' : '') . '</td>

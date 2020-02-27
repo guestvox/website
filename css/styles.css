@@ -470,6 +470,14 @@ body > main > article > footer > a:hover {
     background: #d2d2d2 !important;
 }
 
+.table > span {
+    float: right;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
 table {
     border-color: #fff !important;
 }

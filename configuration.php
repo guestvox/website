@@ -91,7 +91,7 @@ class Configuration
 	 *
      * @var string $time_zone
      */
-	public static $time_zone = 'America/Cancun';
+	public static $time_zone = 'America/Mexico_City';
 
 	/**
      * Clave secreta
