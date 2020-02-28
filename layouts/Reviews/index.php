@@ -10,78 +10,63 @@ $this->dependencies->add(['js', '{$path.js}Reviews/index.js']);
 
 ?>
 
-<header class="reviews">
-    <div class="topbar">
-        <figure class="logotype">
-            <img src="{$logotype}" alt="Account logotype">
-        </figure>
+<main class="landing-page-reviews">
+    <figure>
+        <img src="{$logotype}" alt="Account logotype">
+    </figure>
+    <h4>{$name}</h4>
+    <p>{$address}</p>
+    <a href="mailto:{$email}">{$email}</a>
+    <a href="tel:{$phone}">{$phone}</a>
+    <div class="chart-rate">
+        <div class="average">
+            {$h4_general_average_rate}
+            {$spn_general_avarage_rate}
+        </div>
+        <div class="progress">
+            <span>5<i class="fas fa-star"></i></span>
+            <progress value="{$five_percentage_rate}" max="100"></progress>
+            <span>{$five_percentage_rate}%</span>
+        </div>
+        <div class="progress">
+            <span>4<i class="fas fa-star"></i></span>
+            <progress value="{$four_percentage_rate}" max="100"></progress>
+            <span>{$four_percentage_rate}%</span>
+        </div>
+        <div class="progress">
+            <span>3<i class="fas fa-star"></i></span>
+            <progress value="{$tree_percentage_rate}" max="100"></progress>
+            <span>{$tree_percentage_rate}%</span>
+        </div>
+        <div class="progress">
+            <span>2<i class="fas fa-star"></i></span>
+            <progress value="{$two_percentage_rate}" max="100"></progress>
+            <span>{$two_percentage_rate}%</span>
+        </div>
+        <div class="progress">
+            <span>1<i class="fas fa-star"></i></span>
+            <progress value="{$one_percentage_rate}" max="100"></progress>
+            <span>{$one_percentage_rate}%</span>
+        </div>
     </div>
-</header>
-<main class="reviews">
-        <h4>{$name}</h4>
-        <div class="contact">
-            <span>{$address}</span>
-            <a href="mailto:{$contact_email}">{$contact_email}</a>
-            <a href="tel:{$contact_number}">+{$contact_number}</a>
-        </div>
-        <div class="chart-rate">
-            <div class="average">
-                {$h4_general_average_rate}
-                {$spn_general_avarage_rate}
-            </div>
-            <div class="progress">
-                <span>5<i class="fas fa-star"></i></span>
-                <progress value="{$five_percentage_rate}" max="100"></progress>
-                <span>{$five_percentage_rate}%</span>
-            </div>
-            <div class="progress">
-                <span>4<i class="fas fa-star"></i></span>
-                <progress value="{$four_percentage_rate}" max="100"></progress>
-                <span>{$four_percentage_rate}%</span>
-            </div>
-            <div class="progress">
-                <span>3<i class="fas fa-star"></i></span>
-                <progress value="{$tree_percentage_rate}" max="100"></progress>
-                <span>{$tree_percentage_rate}%</span>
-            </div>
-            <div class="progress">
-                <span>2<i class="fas fa-star"></i></span>
-                <progress value="{$two_percentage_rate}" max="100"></progress>
-                <span>{$two_percentage_rate}%</span>
-            </div>
-            <div class="progress">
-                <span>1<i class="fas fa-star"></i></span>
-                <progress value="{$one_percentage_rate}" max="100"></progress>
-                <span>{$one_percentage_rate}%</span>
-            </div>
-        </div>
-        <div class="information">
-            <span>{$descriptive_information}</span>
-        </div>
-        <div>
-            <table id="tbl_reviews_comments">
-                <thead>
-                    <tr>
-                        <th align="left">{$lang.name}</th>
-                        <th align="left" width="300px" >{$lang.comments}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {$tbl_reviews_comments}
-                </tbody>
-            </table>
-        </div>
+    <p>{$description}</p>
+    <table id="tbl_comments">
+        <tbody>
+            {$tbl_comments}
+        </tbody>
+    </table>
 </main>
-<footer class="landing-page-index">
+<footer class="landing-page-reviews">
     <div class="container">
         <nav>
             <ul>
-                {$contact_facebook}
-                {$contact_instagram}
-                {$contact_twitter}
-                {$contact_youtube}
-                {$contact_linkedin}
-                {$contact_tripadvisor}
+                {$facebook}
+                {$instagram}
+                {$twitter}
+                {$linkedin}
+                {$youtube}
+                {$google}
+                {$tripadvisor}
             </ul>
         </nav>
         <figure>

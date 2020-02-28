@@ -11,55 +11,6 @@ class Signup_model extends Model
 		parent::__construct();
 	}
 
-	// public function sql()
-	// {
-	// 	$this->database->update('accounts', [
-	// 		'settings' => json_encode([
-	// 			'myvox' => [
-	// 				'request' => false,
-	// 				'incident' => false,
-	// 				'survey' => false,
-	// 				'survey_title' => [
-	// 					'es' => '',
-	// 					'en' => ''
-	// 				],
-	// 				'survey_widget' => ''
-	// 			],
-	// 			'review' => [
-	// 				'online' => false,
-	// 				'email' => '',
-	// 				'phone' => [
-	// 					'lada' => '',
-	// 					'number' => ''
-	// 				],
-	// 				'description' => [
-	// 					'es' => '',
-	// 					'en' => ''
-	// 				],
-	// 				'seo' => [
-	// 					'keywords' => [
-	// 						'es' => '',
-	// 						'en' => ''
-	// 					],
-	// 					'meta_description' => [
-	// 						'es' => '',
-	// 						'en' => ''
-	// 					]
-	// 				],
-	// 				'social_media' => [
-	// 					'facebook' => '',
-	// 					'instagram' => '',
-	// 					'twitter' => '',
-	// 					'linkedin' => '',
-	// 					'youtube' => '',
-	// 					'google' => '',
-	// 					'tripadvisor' => ''
-	// 				]
-	// 			]
-	// 		])
-	// 	]);
-	// }
-
 	public function get_countries()
 	{
 		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
