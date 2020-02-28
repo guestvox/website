@@ -28,8 +28,6 @@ class Account_model extends Model
 			'logotype',
 			'fiscal',
 			'contact',
-			'review_contact',
-			'payment',
 			'qr',
 			'operation',
 			'reputation',
@@ -192,14 +190,14 @@ class Account_model extends Model
 	public function edit_profile($data)
 	{
 		$query = $this->database->update('accounts', [
-			'name' => $data['name'],
-			'zip_code' => $data['zip_code'],
-			'country' => $data['country'],
-			'city' => $data['city'],
-			'address' => $data['address'],
-			'time_zone' => $data['time_zone'],
-			'currency' => $data['currency'],
-			'language' => $data['language']
+			'name' => $data['profile_name'],
+			'zip_code' => $data['profile_zip_code'],
+			'country' => $data['profile_country'],
+			'city' => $data['profile_city'],
+			'address' => $data['profile_address'],
+			'time_zone' => $data['profile_time_zone'],
+			'currency' => $data['profile_currency'],
+			'language' => $data['profile_language']
 		], [
 			'id' => Session::get_value('account')['id']
 		]);
@@ -211,45 +209,19 @@ class Account_model extends Model
 	{
 		$query = $this->database->update('accounts', [
 			'fiscal' => json_encode([
-				'id' => $data['fiscal_id'],
-				'name' => $data['fiscal_name'],
-				'address' => $data['fiscal_address']
+				'id' => $data['billing_fiscal_id'],
+				'name' => $data['billing_fiscal_name'],
+				'address' => $data['billing_fiscal_address']
 			]),
 			'contact' => json_encode([
-				'firstname' => $data['contact_firstname'],
-				'lastname' => $data['contact_lastname'],
-				'department' => $data['contact_department'],
-				'email' => $data['contact_email'],
+				'firstname' => $data['billing_contact_firstname'],
+				'lastname' => $data['billing_contact_lastname'],
+				'department' => $data['billing_contact_department'],
+				'email' => $data['billing_contact_email'],
 				'phone' => [
-					'lada' => $data['contact_phone_lada'],
-					'number' => $data['contact_phone_number']
+					'lada' => $data['billing_contact_phone_lada'],
+					'number' => $data['billing_contact_phone_number']
 				]
-			])
-		], [
-			'id' => Session::get_value('account')['id']
-		]);
-
-		return $query;
-	}
-
-	public function edit_contact($data)
-	{
-		$query = $this->database->update('accounts', [
-			'review_contact' => json_encode([
-				'email' => $data['review_contact_email'],
-				'phone' => [
-					'lada' => $data['review_contact_phone_lada'],
-					'number' => $data['review_contact_phone_number']
-				],
-				'description' => $data['review_description'],
-				'keywords' => $data['review_keywords'],
-				'metadescription' => $data['review_metadescription'],
-				'facebook' => $data['review_contact_facebook'],
-				'instagram' => $data['review_contact_instagram'],
-				'twitter' => $data['review_contact_twitter'],
-				'youtube' => $data['review_contact_youtube'],
-				'linkedin' => $data['review_contact_linkedin'],
-				'tripadvisor' => $data['review_contact_tripadvisor'],
 			])
 		], [
 			'id' => Session::get_value('account')['id']
@@ -260,24 +232,70 @@ class Account_model extends Model
 
 	public function edit_settings($data)
 	{
+		if ($data['action'] == 'edit_myvox_settings')
+		{
+			$data['settings']['myvox']['request'] = (Functions::check_account_access(['operation']) == true AND !empty($data['myvox_settings_request'])) ? true : false;
+			$data['settings']['myvox']['incident'] = (Functions::check_account_access(['operation']) == true AND !empty($data['myvox_settings_incident'])) ? true : false;
+			$data['settings']['myvox']['survey'] = (Functions::check_account_access(['reputation']) == true AND !empty($data['myvox_settings_survey'])) ? true : false;
+
+			$data['settings']['myvox']['survey_title'] = (Functions::check_account_access(['reputation']) == true) ? [
+				'es' => $data['myvox_settings_survey_title_es'],
+				'en' => $data['myvox_settings_survey_title_en']
+			] : [
+				'es' => '',
+				'en' => ''
+			];
+
+			$data['settings']['myvox']['survey_widget'] = (Functions::check_account_access(['reputation']) == true) ? $data['myvox_settings_survey_widget'] : '';
+		}
+		else if ($data['action'] == 'edit_review_settings')
+		{
+			$data['settings']['review']['online'] = (Functions::check_account_access(['reputation']) == true AND !empty($data['review_settings_online'])) ? true : false;
+			$data['settings']['review']['email'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_email'] : '';
+
+			$data['settings']['review']['phone'] = (Functions::check_account_access(['reputation']) == true) ? [
+				'lada' => $data['review_settings_phone_lada'],
+				'number' => $data['review_settings_phone_number']
+			] : [
+				'lada' => '',
+				'number' => ''
+			];
+
+			$data['settings']['review']['description'] = (Functions::check_account_access(['reputation']) == true) ? [
+				'es' => $data['review_settings_description_es'],
+				'en' => $data['review_settings_description_en']
+			] : [
+				'es' => '',
+				'en' => ''
+			];
+
+			$data['settings']['review']['seo']['keywords'] = (Functions::check_account_access(['reputation']) == true) ? [
+				'es' => $data['review_settings_seo_keywords_es'],
+				'en' => $data['review_settings_seo_keywords_en']
+			] : [
+				'es' => '',
+				'en' => ''
+			];
+
+			$data['settings']['review']['seo']['meta_description'] = (Functions::check_account_access(['reputation']) == true) ? [
+				'es' => $data['review_settings_seo_meta_description_es'],
+				'en' => $data['review_settings_seo_meta_description_en']
+			] : [
+				'es' => '',
+				'en' => ''
+			];
+
+			$data['settings']['review']['social_media']['facebook'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_facebook'] : '';
+			$data['settings']['review']['social_media']['instagram'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_instagram'] : '';
+			$data['settings']['review']['social_media']['twitter'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_twitter'] : '';
+			$data['settings']['review']['social_media']['linkedin'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_linkedin'] : '';
+			$data['settings']['review']['social_media']['youtube'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_youtube'] : '';
+			$data['settings']['review']['social_media']['google'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_google'] : '';
+			$data['settings']['review']['social_media']['tripadvisor'] = (Functions::check_account_access(['reputation']) == true) ? ((Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant') ? $data['review_settings_social_media_tripadvisor'] : '') : '';
+		}
+
 		$query = $this->database->update('accounts', [
-			'settings' => json_encode([
-				'myvox' => [
-					'request' => (Functions::check_account_access(['operation']) == true AND !empty($data['settings_myvox_request'])) ? true : false,
-					'incident' => (Functions::check_account_access(['operation']) == true AND !empty($data['settings_myvox_incident'])) ? true : false,
-					'survey' => (Functions::check_account_access(['reputation']) == true AND !empty($data['settings_myvox_survey'])) ? true : false,
-					'survey_title' => (Functions::check_account_access(['reputation']) == true) ? [
-						'es' => $data['settings_myvox_survey_title_es'],
-						'en' => $data['settings_myvox_survey_title_en']
-					] : [
-						'es' => 'Responde una encuesta',
-						'en' => 'Answer a question'
-					]
-				],
-				'reviews' => [
-					'page' => (Functions::check_account_access(['reputation']) == true AND !empty($data['settings_myvox_survey_page'])) ? true : false
-				]
-			])
+			'settings' => json_encode($data['settings'])
 		], [
 			'id' => Session::get_value('account')['id']
 		]);

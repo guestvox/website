@@ -1532,12 +1532,28 @@ div.account > div > h2 > figure > img {
     line-height: 0px;
 }
 
-div.account > div > h4 {
+div.account > div > div {
     width: 100%;
-    margin-bottom: 10px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+div.account > div > div > h4 {
+    width: calc(100% - 40px);
     font-size: 14px;
     font-weight: 600;
     color: #000;
+}
+
+div.account > div > div > a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 div.account > div > h6 {
