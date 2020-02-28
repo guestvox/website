@@ -14,7 +14,6 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
         </figure>
     </div>
     <div class="bottombar">
-        {$weather}
         <div class="multilanguage">
             <a href="?<?php echo Language::get_lang_url('es'); ?>">
                 <img src="{$path.images}es.png">
@@ -40,3 +39,4 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
 {$mdl_new_request}
 {$mdl_new_incident}
 {$mdl_new_survey_answer}
+{$mdl_survey_widget}

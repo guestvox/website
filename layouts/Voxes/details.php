@@ -6,6 +6,8 @@ $this->dependencies->add(['css', '{$path.plugins}fancy-box/jquery.fancybox.min.c
 $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js']);
 // $this->dependencies->add(['css', '{$path.plugins}upload-file/input-file.css']);
 // $this->dependencies->add(['js', '{$path.plugins}upload-file/input-file.js']);
+$this->dependencies->add(['js', '{$path.plugins}moment/moment.min.js']);
+$this->dependencies->add(['js', '{$path.plugins}moment/moment-timezone-with-data.min.js']);
 $this->dependencies->add(['js', '{$path.js}Voxes/details.js']);
 $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 

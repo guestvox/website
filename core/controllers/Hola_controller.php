@@ -121,4 +121,13 @@ class Hola_controller extends Controller
 			echo $template;
 		}
 	}
+
+	public function reputation()
+	{
+		define('_title', '');
+
+		$template = $this->view->render($this, 'index');
+
+		echo $template;
+	}
 }

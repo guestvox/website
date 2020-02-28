@@ -6,6 +6,11 @@ class Functions
 {
     public function __construct()
     {
+        
+    }
+
+    static public function set_default_timezone()
+    {
         if (Session::exists_var('session') == true)
             date_default_timezone_set(Session::get_value('account')['time_zone']);
         else
@@ -14,13 +19,19 @@ class Functions
 
     static public function get_current_date($format = 'Y-m-d')
     {
+        Functions::set_default_timezone();
+
 		return date($format);
     }
 
     static public function get_past_date($date, $number, $lapse, $format = 'Y-m-d')
     {
         if (!empty($date))
+        {
+            Functions::set_default_timezone();
+
             return date($format, strtotime($date . ' - ' . $number . ' ' . $lapse));
+        }
         else
             return null;
     }
@@ -28,19 +39,25 @@ class Functions
     static public function get_future_date($date, $number, $lapse, $format = 'Y-m-d')
     {
         if (!empty($date))
+        {
+            Functions::set_default_timezone();
+
             return date($format, strtotime($date . ' + ' . $number . ' ' . $lapse));
+        }
         else
             return null;
     }
 
     static public function get_diff_date($start_date, $end_date, $lapse, $big_lapse = false)
     {
-        $start_date = new DateTime($start_date);
-        $end_date = new DateTime($end_date);
-        $diff = $start_date->diff($end_date);
-
         if ($lapse == 'days')
         {
+            Functions::set_default_timezone();
+
+            $start_date = new DateTime($start_date);
+            $end_date = new DateTime($end_date);
+            $diff = $start_date->diff($end_date);
+
             if ($big_lapse == true)
                 return ($diff->days) + 1;
             else
@@ -53,13 +70,19 @@ class Functions
     static public function get_formatted_date($date, $format = 'Y-m-d')
     {
         if (!empty($date))
+        {
+            Functions::set_default_timezone();
+
             return date($format, strtotime($date));
+        }
         else
             return null;
     }
 
     static public function get_current_hour($format = 'H:i:s')
     {
+        Functions::set_default_timezone();
+
 		return date($format, time());
     }
 
@@ -67,6 +90,8 @@ class Functions
     {
         if (!empty($hour))
         {
+            Functions::set_default_timezone();
+
             if ($format == '+ hrs')
                 return $hour . ' Hrs';
             else
@@ -78,6 +103,8 @@ class Functions
 
     static public function get_current_date_hour($format = 'Y-m-d H:i:s')
     {
+        Functions::set_default_timezone();
+
 		return date($format, time());
     }
 
@@ -85,6 +112,8 @@ class Functions
     {
         if (!empty($date) AND !empty($hour))
         {
+            Functions::set_default_timezone();
+
             if ($format == '+ hrs')
                 return $date . ' ' . $hour . ' Hrs';
             else
@@ -96,16 +125,22 @@ class Functions
 
     static public function get_current_week()
     {
+        Functions::set_default_timezone();
+
         return [date('Y-m-d', strtotime('monday this week')), date('Y-m-d', strtotime('sunday this week'))];
     }
 
     static public function get_current_month()
     {
+        Functions::set_default_timezone();
+
         return [date('Y-m-d', strtotime('first day of this month')), date('Y-m-d', strtotime('last day of this month'))];
     }
 
     static public function get_current_year()
     {
+        Functions::set_default_timezone();
+
 		return explode('-', date('Y-m-d'))[0];
     }
 

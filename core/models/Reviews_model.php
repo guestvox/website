@@ -15,15 +15,8 @@ class Reviews_model extends Model
 			'id',
 			'name',
 			'type',
-			'city',
 			'address',
-			'language',
 			'logotype',
-			'contact',
-			'operation',
-			'reputation',
-			'zaviapms',
-			'sms',
 			'settings'
 		], [
 			'AND' => [
@@ -35,12 +28,12 @@ class Reviews_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-    public function get_general_average_rate()
+    public function get_general_average_rate($account)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 			'answers'
 		], [
-			'account' =>  Session::get_value('account')['id']
+			'account' =>  $account
 		]));
 
 		$average = 0;
@@ -83,12 +76,30 @@ class Reviews_model extends Model
 		return $average;
 	}
 
-    public function get_percentage_rate($option)
+	public function get_comments($account)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+			'comment',
+			'guest'
+		], [
+			'AND' => [
+				'account' => $account,
+				'status' => true
+			],
+			'ORDER' => [
+				'date' => 'DESC'
+			]
+		]));
+
+		return $query;
+	}
+
+    public function get_percentage_rate($option, $account)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 			'answers'
 		], [
-			'account' => Session::get_value('account')['id']
+			'account' => $account
 		]));
 
 		$percentage = 0;
@@ -149,100 +160,5 @@ class Reviews_model extends Model
 			$percentage = round((($option_answers / $total_answers) * 100), 2);
 
 		return $percentage;
-	}
-
-    public function get_count($option)
-	{
-		$query = $this->database->select('survey_answers', [
-			'id',
-			'account',
-			'date'
-		], [
-			'account' => Session::get_value('account')['id']
-		]);
-
-		$count = 0;
-
-		foreach ($query as $value)
-		{
-			$break = false;
-
-			if ($option == 'answered_today' AND Functions::get_formatted_date($value['date']) != Functions::get_current_date())
-				$break = true;
-
-			if ($option == 'answered_week' AND Functions::get_formatted_date($value['date']) < Functions::get_current_week()[0] OR Functions::get_formatted_date($value['date']) > Functions::get_current_week()[1])
-				$break = true;
-
-			if ($option == 'answered_month' AND Functions::get_formatted_date($value['date']) < Functions::get_current_month()[0] OR Functions::get_formatted_date($value['date']) > Functions::get_current_month()[1])
-				$break = true;
-
-			if ($option == 'answered_year' AND explode('-', Functions::get_formatted_date($value['date']))[0] != Functions::get_current_year())
-				$break = true;
-
-			if ($break == false)
-				$count = $count + 1;
-		}
-
-		return $count;
-	}
-
-	public function get_survey_answers()
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-			'id',
-			'token',
-			'room',
-			'table',
-			'client',
-			'answers',
-			'comment',
-			'guest',
-			'date'
-		], [
-			'account' => Session::get_value('account')['id'],
-			'ORDER' => [
-				'id' => 'DESC'
-			]
-		]));
-
-		foreach ($query as $key => $value)
-		{
-			$query[$key]['rate'] = 0;
-			$count = 0;
-
-			foreach ($value['answers'] as $subvalue)
-			{
-				if ($subvalue['type'] == 'rate')
-				{
-					$query[$key]['rate'] = $query[$key]['rate'] + $subvalue['answer'];
-					$count = $count + 1;
-				}
-
-				foreach ($subvalue['subanswers'] as $parentvalue)
-				{
-					if ($parentvalue['type'] == 'rate')
-					{
-						$query[$key]['rate'] = $query[$key]['rate'] + $parentvalue['answer'];
-						$count = $count + 1;
-					}
-
-					foreach ($parentvalue['subanswers'] as $childvalue)
-					{
-						if ($childvalue['type'] == 'rate')
-						{
-							$query[$key]['rate'] = $query[$key]['rate'] + $childvalue['answer'];
-							$count = $count + 1;
-						}
-					}
-				}
-			}
-
-			if ($query[$key]['rate'] > 0 AND $count > 0)
-				$query[$key]['rate'] = round(($query[$key]['rate'] / $count), 1);
-
-			$query[$key]['count'] = count($query);
-		}
-
-		return $query;
 	}
 }

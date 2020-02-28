@@ -532,22 +532,7 @@ class Myvox_model extends Model
 			];
 		}
 
-		if ($data['account']['type'] == 'restaurant')
-		{
-			$data['guest'] = [
-				'guestvox' => [
-					'firstname' => $data['firstname'],
-					'lastname' => $data['lastname'],
-					'email' => $data['email'],
-					'phone' => [
-						'lada' => $data['phone_lada'],
-						'number' => $data['phone_number']
-					]
-				]
-			];
-		}
-
-		if ($data['account']['type'] == 'others')
+		if ($data['account']['type'] == 'restaurant' OR $data['account']['type'] == 'others')
 		{
 			$data['guest'] = [
 				'guestvox' => [
@@ -571,11 +556,62 @@ class Myvox_model extends Model
 			'answers' => json_encode($data['answers']),
 			'comment' => $data['comment'],
 			'guest' => json_encode($data['guest']),
-			'date' => Functions::get_current_date()
+			'date' => Functions::get_current_date(),
+			'status' => false
 		]);
 
-		return $query;
+		return !empty($query) ? $this->database->id() : null;
     }
+
+	public function get_average($id)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+			'id',
+			'answers',
+		], [
+			'id' => $id
+		]));
+
+		if (!empty($query))
+		{
+			$average = 0;
+			$count = 0;
+
+			foreach ($query[0]['answers'] as $key => $value)
+			{
+				if ($value['type'] == 'rate')
+				{
+					$average = $average + $value['answer'];
+					$count = $count + 1;
+				}
+
+				foreach ($value['subanswers'] as $subvalue)
+				{
+					if ($subvalue['type'] == 'rate')
+					{
+						$average = $average + $subvalue['answer'];
+						$count = $count + 1;
+					}
+
+					foreach ($subvalue['subanswers'] as $childvalue)
+					{
+						if ($childvalue['type'] == 'rate')
+						{
+							$average = $average + $childvalue['answer'];
+							$count = $count + 1;
+						}
+					}
+				}
+			}
+
+			if ($average > 0 AND $count > 0)
+				$average = round(($average / $count), 1);
+
+			return $average;
+		}
+		else
+			return null;
+	}
 
 	public function edit_sms($id, $sms)
 	{

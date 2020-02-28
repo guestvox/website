@@ -223,12 +223,44 @@ class Signup_model extends Model
 			'sms' => 0,
 			'settings' => json_encode([
 				'myvox' => [
-					'request' => !empty($data['operation']) ? true : false,
-					'incident' => !empty($data['operation']) ? true : false,
-					'survey' => !empty($data['reputation']) ? true : false,
+					'request' => false,
+					'incident' => false,
+					'survey' => false,
 					'survey_title' => [
-						'es' => 'Responder encuesta',
-						'en' => 'Answer survey'
+						'es' => '',
+						'en' => ''
+					],
+					'survey_widget' => ''
+				],
+				'review' => [
+					'online' => false,
+					'email' => '',
+					'phone' => [
+						'lada' => '',
+						'number' => ''
+					],
+					'description' => [
+						'es' => '',
+						'en' => ''
+					],
+					'seo' => [
+						'keywords' => [
+							'es' => '',
+							'en' => ''
+						],
+						'meta_description' => [
+							'es' => '',
+							'en' => ''
+						]
+					],
+					'social_media' => [
+						'facebook' => '',
+						'instagram' => '',
+						'twitter' => '',
+						'linkedin' => '',
+						'youtube' => '',
+						'google' => '',
+						'tripadvisor' => ''
 					]
 				]
 			]),

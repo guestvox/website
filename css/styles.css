@@ -470,6 +470,14 @@ body > main > article > footer > a:hover {
     background: #d2d2d2 !important;
 }
 
+.table > span {
+    float: right;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
 table {
     border-color: #fff !important;
 }
@@ -1524,12 +1532,35 @@ div.account > div > h2 > figure > img {
     line-height: 0px;
 }
 
-div.account > div > h4 {
+div.account > div > div {
     width: 100%;
-    margin-bottom: 10px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+div.account > div > div > h4 {
+    width: calc(100% - 40px);
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    background-color: #eee;
     font-size: 14px;
     font-weight: 600;
-    color: #000;
+    color: #757575;
+}
+
+div.account > div > div > a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 div.account > div > h6 {
@@ -1662,6 +1693,71 @@ div.profile > div > a {
 div.profile > div > a:hover {
     background-color: #bdbdbd;
     transition: 400ms;
+}
+
+/*Informativo Myvox
+-------------------------------------------------------------------------------*/
+
+section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset {
+    width: auto !important;
+    padding: 0px !important;
+}
+
+section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset.error {
+    border: 1px solid #f44336;
+}
+
+section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset > figure {
+    width: 300px;
+    min-height: 300px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0px;
+    overflow: hidden;
+}
+
+section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset > figure > img {
+    width: 100%;
+    height: auto;
+}
+
+section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset > figure > a {
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.8);
+    opacity: 0;
+    transition: 400ms;
+}
+
+section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset > figure > a:hover {
+    opacity: 1;
+    transition: 400ms;
+}
+
+section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset > figure > a > i {
+    font-size: 40px;
+    color: #000;
+}
+
+section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset > figure > input[type="file"] {
+    display: none;
 }
 
 /* Charts

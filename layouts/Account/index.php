@@ -16,7 +16,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
         <main>
             <div class="account">
                 <div>
-                    <h6>https://<?php echo Configuration::$domain; ?>/<?php echo Session::get_value('account')['path']; ?>/myvox</h6>
+                    <h6>{$myvox_url}</h6>
                     <figure class="qr">
                         <img src="{$qr}">
                     </figure>
@@ -30,48 +30,31 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <a data-image-select><i class="fas fa-upload"></i></a>
                 </div>
                 <div>
-                    <h4>{$lang.account_information}</h4>
-                    <h6><i class="fas fa-caret-right"></i>{$token}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$name}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$lang.{$type}}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$zip_code}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$country}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$city}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$address}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$time_zone}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$currency}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$lang.{$language}}</h6>
-                    <a data-button-modal="edit_profile" class="edit"><i class="fas fa-pen"></i></a>
-                </div>
-                <div>
-                    <h4>{$lang.billing_information}</h4>
-                    <h6><i class="fas fa-caret-right"></i>{$fiscal_id}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$fiscal_name}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$fiscal_address}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$contact_firstname} {$contact_lastname}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$contact_department}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$contact_email}</h6>
-                    <h6><i class="fas fa-caret-right"></i>+{$contact_phone_lada} {$contact_phone_number}</h6>
-                    <a data-button-modal="edit_billing" class="edit"><i class="fas fa-pen"></i></a>
-                </div>
-                <div>
-                    <h4>{$lang.payment_information}</h4>
-                    <h6><i class="fas fa-caret-right"></i>{$lang.{$payment_type}}</h6>
-                </div>
-                <?php if (Functions::check_account_access(['operation','reputation']) == true) : ?>
-                <div>
-                    <h4>{$lang.settings}</h4>
-                    <?php if (Functions::check_account_access(['operation']) == true) : ?>
-                    <h6><i class="fas fa-caret-right"></i>MyVox {$lang.request}: {$settings_myvox_request}</h6>
-                    <h6><i class="fas fa-caret-right"></i>MyVox {$lang.incident}: {$settings_myvox_incident}</h6>
+                    <div>
+                        <h4>{$lang.account_information}</h4>
+                        <a data-button-modal="edit_profile" class="edit"><i class="fas fa-pen"></i></a>
+                    </div>
+                    <div>
+                        <h4>{$lang.billing_information}</h4>
+                        <a data-button-modal="edit_billing" class="edit"><i class="fas fa-pen"></i></a>
+                    </div>
+                    <?php if (Functions::check_account_access(['operation','reputation']) == true) : ?>
+                    <div>
+                        <h4>{$lang.myvox_settings}</h4>
+                        <a data-button-modal="edit_myvox_settings" class="edit"><i class="fas fa-pen"></i></a>
+                    </div>
                     <?php endif; ?>
                     <?php if (Functions::check_account_access(['reputation']) == true) : ?>
-                    <h6><i class="fas fa-caret-right"></i>MyVox {$lang.surveys}: {$settings_myvox_survey}</h6>
-                    <h6><i class="fas fa-caret-right"></i>MyVox {$lang.survey_title}: {$settings_myvox_survey_title}</h6>
+                    <div>
+                        <h4>{$lang.review_settings}</h4>
+                        <a data-button-modal="edit_review_settings" class="edit"><i class="fas fa-pen"></i></a>
+                    </div>
                     <?php endif; ?>
-                    <a data-button-modal="edit_settings" class="edit"><i class="fas fa-pen"></i></a>
+                    <!-- <div>
+                        <h4>{$lang.payment_information}</h4>
+                        <a class="edit" disabled><i class="fas fa-pen"></i></a>
+                    </div> -->
                 </div>
-                <?php endif; ?>
                 <div>
                     <h2>
                         <i class="fas fa-users"></i>
@@ -113,13 +96,6 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     </h2>
                 </div>
                 <?php endif; ?>
-                <div>
-                    <h2>
-                        <i class="fas fa-sms"></i>
-                        <span><strong>{$lang.sms_package}</strong></span>
-                        <span>{$sms} {$lang.sms}</span>
-                    </h2>
-                </div>
                 <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
                 <div>
                     <h2>
@@ -131,6 +107,13 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     </h2>
                 </div>
                 <?php endif; ?>
+                <div>
+                    <h2>
+                        <i class="fas fa-sms"></i>
+                        <span><strong>{$lang.sms_package}</strong></span>
+                        <span>{$sms} {$lang.sms}</span>
+                    </h2>
+                </div>
             </div>
         </main>
     </article>
@@ -147,7 +130,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.name}</p>
-                                <input type="text" name="name" value="{$name}" />
+                                <input type="text" name="profile_name" value="{$profile_name}" />
                             </label>
                         </div>
                     </div>
@@ -155,7 +138,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.zip_code}</p>
-                                <input type="text" name="zip_code" value="{$zip_code}" />
+                                <input type="text" name="profile_zip_code" value="{$profile_zip_code}" />
                             </label>
                         </div>
                     </div>
@@ -163,7 +146,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.country}</p>
-                                <select name="country">
+                                <select name="profile_country">
                                     {$opt_countries}
                                 </select>
                             </label>
@@ -173,7 +156,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.city}</p>
-                                <input type="text" name="city" value="{$city}" />
+                                <input type="text" name="profile_city" value="{$profile_city}" />
                             </label>
                         </div>
                     </div>
@@ -181,7 +164,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.address}</p>
-                                <input type="text" name="address" value="{$address}" />
+                                <input type="text" name="profile_address" value="{$profile_address}" />
                             </label>
                         </div>
                     </div>
@@ -189,7 +172,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.time_zone}</p>
-                                <select name="time_zone">
+                                <select name="profile_time_zone">
                                     {$opt_time_zones}
                                 </select>
                             </label>
@@ -199,7 +182,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.currency}</p>
-                                <select name="currency">
+                                <select name="profile_currency">
                                     {$opt_currencies}
                                 </select>
                             </label>
@@ -209,7 +192,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.language}</p>
-                                <select name="language">
+                                <select name="profile_language">
                                     {$opt_languages}
                                 </select>
                             </label>
@@ -220,7 +203,6 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
         </main>
         <footer>
             <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
                 <button class="btn" button-success>{$lang.accept}</button>
             </div>
         </footer>
@@ -238,7 +220,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.fiscal_id}</p>
-                                <input type="text" name="fiscal_id" value="{$fiscal_id}" />
+                                <input type="text" name="billing_fiscal_id" value="{$billing_fiscal_id}" />
                             </label>
                         </div>
                     </div>
@@ -246,7 +228,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.fiscal_name}</p>
-                                <input type="text" name="fiscal_name" value="{$fiscal_name}" />
+                                <input type="text" name="billing_fiscal_name" value="{$billing_fiscal_name}" />
                             </label>
                         </div>
                     </div>
@@ -254,7 +236,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.fiscal_address}</p>
-                                <input type="text" name="fiscal_address" value="{$fiscal_address}" />
+                                <input type="text" name="billing_fiscal_address" value="{$billing_fiscal_address}" />
                             </label>
                         </div>
                     </div>
@@ -262,7 +244,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.firstname}</p>
-                                <input type="text" name="contact_firstname" value="{$contact_firstname}" />
+                                <input type="text" name="billing_contact_firstname" value="{$billing_contact_firstname}" />
                             </label>
                         </div>
                     </div>
@@ -270,7 +252,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.lastname}</p>
-                                <input type="text" name="contact_lastname" value="{$contact_lastname}" />
+                                <input type="text" name="billing_contact_lastname" value="{$billing_contact_lastname}" />
                             </label>
                         </div>
                     </div>
@@ -278,7 +260,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.department}</p>
-                                <input type="text" name="contact_department" value="{$contact_department}" />
+                                <input type="text" name="billing_contact_department" value="{$billing_contact_department}" />
                             </label>
                         </div>
                     </div>
@@ -286,7 +268,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.email}</p>
-                                <input type="text" name="contact_email" value="{$contact_email}" />
+                                <input type="text" name="billing_contact_email" value="{$billing_contact_email}" />
                             </label>
                         </div>
                     </div>
@@ -294,8 +276,8 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.lada}</p>
-                                <select name="contact_phone_lada">
-                                    {$opt_ladas}
+                                <select name="billing_contact_phone_lada">
+                                    {$opt_billing_ladas}
                                 </select>
                             </label>
                         </div>
@@ -304,7 +286,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.phone}</p>
-                                <input type="text" name="contact_phone_number" value="{$contact_phone_number}" />
+                                <input type="text" name="billing_contact_phone_number" value="{$billing_contact_phone_number}" />
                             </label>
                         </div>
                     </div>
@@ -313,20 +295,19 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
         </main>
         <footer>
             <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
                 <button class="btn" button-success>{$lang.accept}</button>
             </div>
         </footer>
     </div>
 </section>
 <?php if (Functions::check_account_access(['operation','reputation']) == true) : ?>
-<section class="modal edit" data-modal="edit_settings">
+<section class="modal edit" data-modal="edit_myvox_settings">
     <div class="content">
         <header>
             <h3>{$lang.edit}</h3>
         </header>
         <main>
-            <form name="edit_settings">
+            <form name="edit_myvox_settings">
                 <div class="row">
                     <?php if (Functions::check_account_access(['operation']) == true) : ?>
                     <div class="span4">
@@ -334,7 +315,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             <label>
                                 <p>{$lang.request}</p>
                                 <div class="switch">
-                                    <input id="st-mv-request" type="checkbox" name="settings_myvox_request" class="switch-input" {$settings_myvox_request_ckd}>
+                                    <input id="st-mv-request" type="checkbox" name="myvox_settings_request" class="switch-input" {$myvox_settings_request}>
                                     <label class="switch-label" for="st-mv-request"></label>
                                 </div>
                             </label>
@@ -345,7 +326,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             <label>
                                 <p>{$lang.incident}</p>
                                 <div class="switch">
-                                    <input id="st-mv-incident" type="checkbox" name="settings_myvox_incident" class="switch-input" {$settings_myvox_incident_ckd}>
+                                    <input id="st-mv-incident" type="checkbox" name="myvox_settings_incident" class="switch-input" {$myvox_settings_incident}>
                                     <label class="switch-label" for="st-mv-incident"></label>
                                 </div>
                             </label>
@@ -358,25 +339,33 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             <label>
                                 <p>{$lang.surveys}</p>
                                 <div class="switch">
-                                    <input id="st-mv-survey" type="checkbox" name="settings_myvox_survey" class="switch-input" {$settings_myvox_survey_ckd}>
+                                    <input id="st-mv-survey" type="checkbox" name="myvox_settings_survey" class="switch-input" {$myvox_settings_survey}>
                                     <label class="switch-label" for="st-mv-survey"></label>
                                 </div>
                             </label>
                         </div>
                     </div>
-                    <div class="span6">
+                    <div class="span6 {$myvox_settings_survey_hidden}">
                         <div class="label">
                             <label>
                                 <p>(ES) {$lang.survey_title}</p>
-                                <input type="text" name="settings_myvox_survey_title_es" value="{$settings_myvox_survey_title_es}" />
+                                <input type="text" name="myvox_settings_survey_title_es" value="{$myvox_settings_survey_title_es}" />
                             </label>
                         </div>
                     </div>
-                    <div class="span6">
+                    <div class="span6 {$myvox_settings_survey_hidden}">
                         <div class="label">
                             <label>
                                 <p>(EN) {$lang.survey_title}</p>
-                                <input type="text" name="settings_myvox_survey_title_en" value="{$settings_myvox_survey_title_en}" />
+                                <input type="text" name="myvox_settings_survey_title_en" value="{$myvox_settings_survey_title_en}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12 {$myvox_settings_survey_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.survey_widget}</p>
+                                <textarea name="myvox_settings_survey_widget">{$myvox_settings_survey_widget}</textarea>
                             </label>
                         </div>
                     </div>
@@ -386,7 +375,171 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
         </main>
         <footer>
             <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<?php endif; ?>
+<?php if (Functions::check_account_access(['reputation']) == true) : ?>
+<section class="modal edit" data-modal="edit_review_settings">
+    <div class="content">
+        <header>
+            <h3>{$lang.edit}</h3>
+        </header>
+        <main>
+            <form name="edit_review_settings">
+                <div class="row">
+                    <div class="span4">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.online}</p>
+                                <div class="switch">
+                                    <input id="st-rv-online" type="checkbox" name="review_settings_online" class="switch-input" {$review_settings_online}>
+                                    <label class="switch-label" for="st-rv-online"></label>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="span6 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.email}</p>
+                                <input type="text" name="review_settings_email" value="{$review_settings_email}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.lada}</p>
+                                <select name="review_settings_phone_lada">
+                                    <option value="" selected hidden>{$lang.choose}</option>
+                                    {$opt_review_settings_ladas}
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.phone}</p>
+                                <input type="text" name="review_settings_phone_number" value="{$review_settings_phone_number}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>(ES) {$lang.description}</p>
+                                <textarea name="review_settings_description_es">{$review_settings_description_es}</textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>(ES) {$lang.description}</p>
+                                <textarea name="review_settings_description_en">{$review_settings_description_en}</textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>(ES) {$lang.keywords}</p>
+                                <input type="text" name="review_settings_seo_keywords_es" value="{$review_settings_seo_keywords_es}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>(EN) {$lang.keywords}</p>
+                                <input type="text" name="review_settings_seo_keywords_en" value="{$review_settings_seo_keywords_en}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>(ES) {$lang.meta_description}</p>
+                                <textarea name="review_settings_seo_meta_description_es">{$review_settings_seo_meta_description_es}</textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>(EN) {$lang.meta_description}</p>
+                                <textarea name="review_settings_seo_meta_description_en">{$review_settings_seo_meta_description_en}</textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>Facebook</p>
+                                <input type="text" name="review_settings_social_media_facebook" value="{$review_settings_social_media_facebook}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>Instagram</p>
+                                <input type="text" name="review_settings_social_media_instagram" value="{$review_settings_social_media_instagram}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>Twitter</p>
+                                <input type="text" name="review_settings_social_media_twitter" value="{$review_settings_social_media_twitter}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>LinkedIn</p>
+                                <input type="text" name="review_settings_social_media_linkedin" value="{$review_settings_social_media_linkedin}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>YouTube</p>
+                                <input type="text" name="review_settings_social_media_youtube" value="{$review_settings_social_media_youtube}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>Google</p>
+                                <input type="text" name="review_settings_social_media_google" value="{$review_settings_social_media_google}" />
+                            </label>
+                        </div>
+                    </div>
+                    <?php if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant') : ?>
+                    <div class="span12 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>Tripadvisor</p>
+                                <input type="text" name="review_settings_social_media_tripadvisor" value="{$review_settings_social_media_tripadvisor}" />
+                            </label>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                </div>
+            </form>
+        </main>
+        <footer>
+            <div class="action-buttons">
                 <button class="btn" button-success>{$lang.accept}</button>
             </div>
         </footer>

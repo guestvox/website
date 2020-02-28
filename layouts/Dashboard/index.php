@@ -4,6 +4,8 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
+$this->dependencies->add(['js', '{$path.plugins}moment/moment.min.js']);
+$this->dependencies->add(['js', '{$path.plugins}moment/moment-timezone-with-data.min.js']);
 $this->dependencies->add(['js', '{$path.js}Dashboard/index.js']);
 $this->dependencies->add(['other', '<script>menu_focus("dashboard");</script>']);
 
@@ -24,6 +26,7 @@ $this->dependencies->add(['other', '<script>menu_focus("dashboard");</script>'])
                          <input type="text" name="tbl_voxes_unresolve_search">
                     </label>
                 </aside>
+                <span>{$_tmp_time_zone}</span>
                 <table id="tbl_voxes_unresolve">
                     <thead>
                         <tr>

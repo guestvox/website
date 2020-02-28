@@ -175,3 +175,52 @@ public function sql()
     // 	QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
     // }
 }
+
+// public function sql()
+// {
+// 	$this->database->update('accounts', [
+// 		'settings' => json_encode([
+// 			'myvox' => [
+// 				'request' => false,
+// 				'incident' => false,
+// 				'survey' => false,
+// 				'survey_title' => [
+// 					'es' => '',
+// 					'en' => ''
+// 				],
+// 				'survey_widget' => ''
+// 			],
+// 			'review' => [
+// 				'online' => false,
+// 				'email' => '',
+// 				'phone' => [
+// 					'lada' => '',
+// 					'number' => ''
+// 				],
+// 				'description' => [
+// 					'es' => '',
+// 					'en' => ''
+// 				],
+// 				'seo' => [
+// 					'keywords' => [
+// 						'es' => '',
+// 						'en' => ''
+// 					],
+// 					'meta_description' => [
+// 						'es' => '',
+// 						'en' => ''
+// 					]
+// 				],
+// 				'social_media' => [
+// 					'facebook' => '',
+// 					'instagram' => '',
+// 					'twitter' => '',
+// 					'linkedin' => '',
+// 					'youtube' => '',
+// 					'google' => '',
+// 					'tripadvisor' => ''
+// 				]
+// 			]
+// 		])
+// 	]);
+// }

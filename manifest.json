@@ -2,9 +2,11 @@
     "name": "Guestvox",
     "short_name": "Guestvox",
     "lang": "es",
-    "start_url": "index.php",
+    "start_url": "login",
     "display": "standalone",
     "orientation": "portrait",
+    "theme_color": " #258F93",
+    "background_color": "#00A5AB",
     "icons": [
         {
             "src": "images/chrome-44x44.png",
@@ -50,7 +52,5 @@
             "type": "image/png",
             "sizes": "512x512"
         }
-    ],
-    "theme_color": " #00A5AB",
-    "background_color": "#00A5AB"
+    ]
 }

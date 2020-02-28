@@ -735,7 +735,45 @@ class Surveys_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'deactivate_comment')
+			{
+				$query = $this->model->deactivate_comment($_POST['id']);
 
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'activate_comment')
+			{
+				$query = $this->model->activate_comment($_POST['id']);
+
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
 		}
 		else
 		{
@@ -765,6 +803,7 @@ class Surveys_controller extends Controller
 					$tbl_survey_comments .=
 					'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
 						<td align="left"> ' . $value['comment'] . '</td>
+						<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_comment" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_comment" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>
 					</tr>';
 
 				}
@@ -837,6 +876,8 @@ class Surveys_controller extends Controller
 					'data' => [
 						's1_chart_data' => $this->model->get_chart_data('s1_chart', [$_POST['started_date'], $_POST['end_date']], true),
 						's2_chart_data' => $this->model->get_chart_data('s2_chart', [$_POST['started_date'], $_POST['end_date'], $_POST['question']], true),
+						's3_chart_data' => $this->model->get_chart_data('s3_chart', [$_POST['started_date'], $_POST['end_date'], $_POST['question']], true),
+						's4_chart_data' => $this->model->get_chart_data('s4_chart', [$_POST['started_date'], $_POST['end_date'], $_POST['question']], true),
 						's5_chart_data' => $this->model->get_chart_data('s5_chart', [$_POST['started_date'], $_POST['end_date']], true),
 						's6_chart_data' => $this->model->get_chart_data('s6_chart', [$_POST['started_date'], $_POST['end_date']], true),
 						's7_chart_data' => $this->model->get_chart_data('s7_chart', [$_POST['started_date'], $_POST['end_date']], true),
@@ -926,6 +967,8 @@ class Surveys_controller extends Controller
 
 		$s1_chart_data = $this->model->get_chart_data('s1_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]);
 		$s2_chart_data = $this->model->get_chart_data('s2_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date(), 'all']);
+		$s3_chart_data = $this->model->get_chart_data('s3_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date(), 'all']);
+		$s4_chart_data = $this->model->get_chart_data('s4_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date(), 'all']);
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{
@@ -944,7 +987,9 @@ class Surveys_controller extends Controller
 			else if (Session::get_value('account')['type'] == 'others')
 				$s1_chart_title = 'Por cliente';
 
-			$s2_chart_title = 'Valoración por preguntas';
+			$s2_chart_title = 'Valoración';
+			$s3_chart_title = 'Doble';
+			$s4_chart_title = 'Respuesta múltiple';
 
 			if (Session::get_value('account')['zaviapms']['status'] == true)
 			{
@@ -963,7 +1008,9 @@ class Surveys_controller extends Controller
 			else if (Session::get_value('account')['type'] == 'others')
 				$s1_chart_title = 'Per client';
 
-			$s2_chart_title = 'Rating by questions';
+			$s2_chart_title = 'Rating';
+			$s3_chart_title = 'Twin';
+			$s4_chart_title = 'Multipe answer';
 
 			if (Session::get_value('account')['zaviapms']['status'] == true)
 			{
@@ -1039,7 +1086,63 @@ class Surveys_controller extends Controller
 				},
 	            responsive: true
             }
-		};";
+		};
+
+		var s3_chart = {
+	        type: 'doughnut',
+	        data: {
+				labels: [
+	                " . $s3_chart_data['labels'] . "
+	            ],
+				datasets: [{
+					data: [
+	                    " . $s3_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $s3_chart_data['datasets']['colors'] . "
+	                ]
+	            }]
+	        },
+	        options: {
+				title: {
+					display: true,
+					position: 'bottom',
+					text: '" . $s3_chart_title . "'
+				},
+				legend: {
+					display: false
+				},
+	            responsive: true
+            }
+        };
+
+		var s4_chart = {
+	        type: 'doughnut',
+	        data: {
+				labels: [
+	                " . $s4_chart_data['labels'] . "
+	            ],
+				datasets: [{
+					data: [
+	                    " . $s4_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $s4_chart_data['datasets']['colors'] . "
+	                ]
+	            }]
+	        },
+	        options: {
+				title: {
+					display: true,
+					position: 'bottom',
+					text: '" . $s4_chart_title . "'
+				},
+				legend: {
+					display: false
+				},
+	            responsive: true
+            }
+        };";
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{
@@ -1161,16 +1264,18 @@ class Surveys_controller extends Controller
 		"window.onload = function()
 		{
 			s1_chart = new Chart(document.getElementById('s1_chart').getContext('2d'), s1_chart);
-			s2_chart = new Chart(document.getElementById('s2_chart').getContext('2d'), s2_chart);";
+			s2_chart = new Chart(document.getElementById('s2_chart').getContext('2d'), s2_chart);
+			s3_chart = new Chart(document.getElementById('s3_chart').getContext('2d'), s3_chart);
+			s4_chart = new Chart(document.getElementById('s4_chart').getContext('2d'), s4_chart);";
 
-		if (Session::get_value('account')['zaviapms']['status'] == true)
-		{
-			$js .=
-			"s5_chart = new Chart(document.getElementById('s5_chart').getContext('2d'), s5_chart);
-			s6_chart = new Chart(document.getElementById('s6_chart').getContext('2d'), s6_chart);
-			s7_chart = new Chart(document.getElementById('s7_chart').getContext('2d'), s7_chart);
-			s8_chart = new Chart(document.getElementById('s8_chart').getContext('2d'), s8_chart);";
-		}
+			if (Session::get_value('account')['zaviapms']['status'] == true)
+			{
+				$js .=
+				"s5_chart = new Chart(document.getElementById('s5_chart').getContext('2d'), s5_chart);
+				s6_chart = new Chart(document.getElementById('s6_chart').getContext('2d'), s6_chart);
+				s7_chart = new Chart(document.getElementById('s7_chart').getContext('2d'), s7_chart);
+				s8_chart = new Chart(document.getElementById('s8_chart').getContext('2d'), s8_chart);";
+			}
 
 		$js .=
 		"};";
