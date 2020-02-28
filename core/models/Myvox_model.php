@@ -532,22 +532,7 @@ class Myvox_model extends Model
 			];
 		}
 
-		if ($data['account']['type'] == 'restaurant')
-		{
-			$data['guest'] = [
-				'guestvox' => [
-					'firstname' => $data['firstname'],
-					'lastname' => $data['lastname'],
-					'email' => $data['email'],
-					'phone' => [
-						'lada' => $data['phone_lada'],
-						'number' => $data['phone_number']
-					]
-				]
-			];
-		}
-
-		if ($data['account']['type'] == 'others')
+		if ($data['account']['type'] == 'restaurant' OR $data['account']['type'] == 'others')
 		{
 			$data['guest'] = [
 				'guestvox' => [

@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-require_once 'plugins/nexmo/vendor/autoload.php';
+// require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Myvox_controller extends Controller
 {
@@ -987,21 +987,21 @@ class Myvox_controller extends Controller
 								}
 							}
 
-							if (Session::get_value('account')['settings']['myvox']['survey_tripadvisor'] == true)
+							if (!empty(Session::get_value('account')['settings']['myvox']['survey_widget']))
 							{
 								$average = $this->model->get_average($query);
 
 								if ($average >= 4)
 								{
 									$data = [
-										'tripadvisor' => true,
+										'widget' => true,
 									];
 								}
 							}
 							else
 							{
 								$data = [
-									'tripadvisor' => false
+									'widget' => false
 								];
 							}
 
@@ -1391,6 +1391,7 @@ class Myvox_controller extends Controller
 
 				$a_new_survey_answer = '';
 				$mdl_new_survey_answer = '';
+				$mdl_survey_widget = '';
 
 				if (Session::get_value('account')['reputation'] == true)
 				{
@@ -1700,6 +1701,21 @@ class Myvox_controller extends Controller
 								</footer>
 							</div>
 						</section>';
+
+						if (!empty(Session::get_value('account')['settings']['myvox']['survey_widget']))
+						{
+							$mdl_survey_widget .=
+							'<section class="modal" data-modal="survey_widget">
+							    <div class="content">
+							        <main>' . Session::get_value('account')['settings']['myvox']['survey_widget'] . '</main>
+							        <footer>
+							            <div class="action-buttons">
+							                <button class="btn" button-close>{$lang.accept}</button>
+							            </div>
+							        </footer>
+							    </div>
+							</section>';
+						}
 					}
 				}
 
@@ -1711,7 +1727,7 @@ class Myvox_controller extends Controller
 					'{$mdl_new_request}' => $mdl_new_request,
 					'{$mdl_new_incident}' => $mdl_new_incident,
 					'{$mdl_new_survey_answer}' => $mdl_new_survey_answer,
-					'{$tripadvisor_url}' => Session::get_value('account')['settings']['myvox']['survey_tripadvisor_url']
+					'{$mdl_survey_widget}' => $mdl_survey_widget
 				];
 
 				$template = $this->format->replace($replace, $template);

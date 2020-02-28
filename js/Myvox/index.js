@@ -276,7 +276,7 @@ $(document).ready(function()
                     $('[data-modal="success"]').addClass('view');
                     $('[data-modal="success"]').find('main > p').html(response.message);
 
-                    if (response.data.tripadvisor == true)
+                    if (response.data.widget == true)
                     {
                         setTimeout(function() {
                             $('[data-modal="success"]').removeClass('view');
@@ -284,11 +284,11 @@ $(document).ready(function()
                             $('[data-modal="new_survey_answer"]').find('form')[0].reset();
                             $('[data-modal="new_survey_answer"]').find('label.error').removeClass('error');
                             $('[data-modal="new_survey_answer"]').find('p.error').remove();
-                            $('[data-modal="tripadvisor"]').addClass('view');
+                            $('[data-modal="survey_widget"]').addClass('view');
                         }, 1500);
                     }
                     else
-                        setTimeout(function() { location.reload(); }, 8000);
+                        setTimeout(function() { location.reload(); }, 4000);
                 }
                 else if (response.status == 'error')
                 {

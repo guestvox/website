@@ -39,25 +39,4 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
 {$mdl_new_request}
 {$mdl_new_incident}
 {$mdl_new_survey_answer}
-<section class="modal" data-modal="tripadvisor">
-    <div class="content">
-        <header>
-            <h3>{$lang.to_conclude_leave_us_your_review}</h3>
-        </header>
-        <main>
-            <div id="TA_rated159" class="TA_rated">
-                <ul id="lKtoDF" class="TA_links FPRlD8">
-                    <li id="IhT9XHb" class="wD5pP6jb5CX">
-                        <a target="_blank" href="https://www.tripadvisor.com.mx/"><img src="https://www.tripadvisor.com.mx/img/cdsi/img2/badges/ollie-11424-2.gif" alt="TripAdvisor"/></a>
-                    </li>
-                </ul>
-            </div>
-            <script async src="{$tripadvisor_url}" data-loadtrk onload="this.loadtrk=true"></script>
-        </main>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.accept}</button>
-            </div>
-        </footer>
-    </div>
-</section>
+{$mdl_survey_widget}
