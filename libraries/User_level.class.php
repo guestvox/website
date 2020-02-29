@@ -183,16 +183,16 @@ class User_level
                     array_push($paths, '/Guesttypes/index');
                 break;
 
-                case '{menus_create}' :
-                    array_push($paths, '/Menus/index');
+                case '{menu_create}' :
+                    array_push($paths, '/Menu/index');
                 break;
 
-                case '{menus_update}' :
-                    array_push($paths, '/Menus/index');
+                case '{menu_update}' :
+                    array_push($paths, '/Menu/index');
                 break;
 
-                case '{menus_delete}' :
-                    array_push($paths, '/Menus/index');
+                case '{menu_delete}' :
+                    array_push($paths, '/Menu/index');
                 break;
 
                 case '{users_create}' :

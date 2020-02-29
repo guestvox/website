@@ -61,6 +61,9 @@
                 <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation']) AND Functions::check_user_access(['{reservation_statuses_create}','{reservation_statuses_update}','{reservation_statuses_delete}']) == true) : ?>
                 <li><a href="/reservationstatuses">{$lang.reservation_statuses}<i class="fas fa-check"></i></a></li>
                 <?php endif; ?>
+                <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation']) AND Functions::check_user_access(['{menu_create}','{menu_update}','{menu_delete}']) == true) : ?>
+                <li><a href="/menu">{$lang.menu}<i class="fas fa-concierge-bell"></i></a></li>
+                <?php endif; ?>
                 <?php if (Functions::check_user_access(['{users_create}','{users_update}','{users_restore_password}','{users_deactivate}','{users_activate}','{users_delete}']) == true) : ?>
                 <li><a href="/users">{$lang.users}<i class="fas fa-users"></i></a></li>
                 <?php endif; ?>
