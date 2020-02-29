@@ -225,9 +225,6 @@ main.landing-page-index > section.home > .container > div > h1 > span {
     main.landing-page-index > section.home > .container > div > h1 {
         font-size: 24px;
     }
-}
-
-@media (max-width: 425px) {
 
     main.landing-page-index > section.home {
         padding-top: 0px;
@@ -241,6 +238,7 @@ main.landing-page-index > section.home > .container > div > h1 > span {
         width: 60%;
         height: auto;
         overflow: visible;
+        margin-bottom: 20px;
     }
 
     main.landing-page-index > section.home > .container > div {
@@ -298,9 +296,10 @@ main.landing-page-index > section.features-one > .container > div > p {
     main.landing-page-index > section.features-one > .container > div {
         width: calc(100% / 2);
     }
-}
 
-@media (max-width: 425px) {
+    main.landing-page-index > section.features-one > .container > h2 {
+        font-size: 40px;
+    }
 
     main.landing-page-index > section.features-one > .container > div {
         width: 100%;
@@ -325,9 +324,18 @@ main.landing-page-index > section.features-two > div {
     background-position: right;
     background-repeat: no-repeat;
     background-size: contain;
-    background-attachment: fixed;
     background-image: url('../../images/features.png');
     background-color: #eee;
+}
+
+@media (max-width: 768px) {
+
+    main.landing-page-index > section.features-two > div {
+        height: auto;
+        padding: 50px 0px;
+        box-sizing: border-box;
+        background-position: bottom;
+    }
 }
 
 main.landing-page-index > section.features-two > div > ul {
@@ -335,6 +343,7 @@ main.landing-page-index > section.features-two > div > ul {
 }
 
 main.landing-page-index > section.features-two > div > ul > li {
+    width: 100%;
     font-size: 40px;
     font-weight: bold;
     color: #444;
@@ -346,8 +355,7 @@ main.landing-page-index > section.features-two > div > ul > li > i {
 }
 
 main.landing-page-index > section.features-two > div > ul > li > a {
-    width: 100%;
-    max-width: 400px;
+    width: 400px;
     margin: 50px auto;
     border-radius: 100px;
     padding: 20px 30px;
@@ -357,6 +365,14 @@ main.landing-page-index > section.features-two > div > ul > li > a {
     text-align: center;
     color: #FFF;
     background-color: #00a5ab;
+}
+
+@media (max-width: 768px) {
+
+    main.landing-page-index > section.features-two > div > ul > li > a {
+        width: 100%;
+        margin: 50px 0px 0px 0px;
+    }
 }
 
 main.landing-page-index > section.features-two > div > ul > li > a:hover {
@@ -372,9 +388,6 @@ main.landing-page-index > section.features-two > div > ul > li > a:hover {
         justify-content: center;
         flex-direction: column;
     }
-}
-
-@media (max-width: 425px) {
 
     main.landing-page-index > section.features-two > div > ul > li {
         font-size: 20px;
@@ -427,9 +440,13 @@ main.landing-page-index > section.clients > .container > div > figure {
 
 @media (max-width: 768px) {
 
+    main.landing-page-index > section.clients > .container > h2 {
+        font-size: 40px;
+    }
+
     main.landing-page-index > section.clients > .container > div > figure {
         width: 100%;
-        height: 150px;
+        height: auto;
         float: none;
     }
 }
@@ -534,19 +551,36 @@ main.landing-page-index > section.team > div > span > strong {
 /* Footer
 ------------------------------------------------------------------------------ */
 footer.landing-page-index > div > div.widget_cs {
-    display: flex;
-    height: 120px;
-    padding: 0 40px 0 40px;
-}
-
-footer.landing-page-index > div > div.widget_cs > p:first-child {
-    height: 120px;
-}
-
-footer.landing-page-index > div > div.widget_cs > p:last-child {
     width: 100%;
-    font-size: 25px;
-    margin: 40px 80px 40px 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0px;
+    box-sizing: border-box;
+}
+
+footer.landing-page-index > div > div.widget_cs > a > img {
+    width: 180px;
+}
+
+footer.landing-page-index > div > div.widget_cs > span {
+    margin-left: 20px;
+    font-size: 18px;
+    font-weight: 400;
+    color: #212121;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+
+    footer.landing-page-index > div > div.widget_cs {
+        flex-direction: column;
+    }
+
+    footer.landing-page-index > div > div.widget_cs > span {
+        margin-left: 0px;
+        margin-top: 20px;
+    }
 }
 
 footer.landing-page-index {
@@ -620,6 +654,10 @@ footer.landing-page-index > .container > figure > img {
         width: 100%;
         height: auto;
         flex-direction: column;
+    }
+
+    footer.landing-page-index > .container > nav > ul > li > a {
+        text-align: center;
     }
 
     footer.landing-page-index > .container > figure {

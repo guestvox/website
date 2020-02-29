@@ -15,21 +15,20 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
     <article>
         <main>
             <div class="account">
-                <div>
-                    <h6>{$myvox_url}</h6>
+                <div class="qr">
                     <figure class="qr">
                         <img src="{$qr}">
+                        <a href="{$qr}" download="{$qr}"><i class="fas fa-download"></i></a>
                     </figure>
-                    <a href="{$qr}" download="{$qr}"><i class="fas fa-download"></i></a>
                 </div>
-                <div>
-                    <figure class="logotype">
+                <div class="logotype">
+                    <figure>
                         <img src="{$logotype}" data-image-preview>
                         <input type="file" name="logotype" accept="image/*" data-image-upload>
+                        <a data-image-select><i class="fas fa-upload"></i></a>
                     </figure>
-                    <a data-image-select><i class="fas fa-upload"></i></a>
                 </div>
-                <div>
+                <div class="settings">
                     <div>
                         <h4>{$lang.account_information}</h4>
                         <a data-button-modal="edit_profile" class="edit"><i class="fas fa-pen"></i></a>
@@ -54,6 +53,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <h4>{$lang.payment_information}</h4>
                         <a class="edit" disabled><i class="fas fa-pen"></i></a>
                     </div> -->
+                    <h6>{$myvox_url}</h6>
                 </div>
                 <div>
                     <h2>

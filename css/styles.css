@@ -60,6 +60,13 @@ header.main > section.topbar > nav > ul > li > a > i {
     font-size: 12px;
 }
 
+@media (max-width: 768px) {
+
+    header.main > section.topbar > nav > ul > li > a > i {
+        margin-right: 0px;
+    }
+}
+
 header.main > section.topbar > nav > ul > li > a.profile > i {
     border: 1px solid #fff;
     border-radius: 50%;
@@ -69,6 +76,13 @@ header.main > section.topbar > nav > ul > li > a.profile > i {
 
 header.main > section.topbar > nav > ul > li:last-child > a > i {
     font-size: 18px;
+}
+
+@media (max-width: 768px) {
+
+    header.main > section.topbar > nav > ul > li:last-child > a > i {
+        font-size: 12px;
+    }
 }
 
 header.main > section.topbar > nav > ul > li > a > span {
@@ -111,9 +125,23 @@ header.main > section.menu > figure {
     box-sizing: border-box;
 }
 
+@media (max-width: 768px) {
+
+    header.main > section.menu > figure {
+        padding: 0px 10px;
+    }
+}
+
 header.main > section.menu > figure > img {
     width: auto;
     height: 30px;
+}
+
+@media (max-width: 768px) {
+
+    header.main > section.menu > figure > img {
+        height: 20px;
+    }
 }
 
 header.main > section.menu > nav.main-menu {
@@ -147,6 +175,13 @@ header.main > section.menu > nav.main-menu > ul > li > a {
     transition: 400ms;
 }
 
+@media (max-width: 768px) {
+
+    header.main > section.menu > nav.main-menu > ul > li > a {
+        padding: 0px 10px;
+    }
+}
+
 header.main > section.menu > nav.main-menu > ul > li.active > a,
 header.main > section.menu > nav.main-menu > ul > li.active > a:hover {
     background-color: #fff !important;
@@ -157,12 +192,19 @@ header.main > section.menu > nav.main-menu > ul > li > a > i {
     margin-right: 5px;
 }
 
+@media (max-width: 768px) {
+
+    header.main > section.menu > nav.main-menu > ul > li > a > i {
+        margin-right: 0px;
+    }
+}
+
 header.main > section.menu > nav.open-menu {
     width: 300px;
     height: 100vh;
     position: absolute;
     top: 0px;
-    right: -200%;
+    right: -300%;
     bottom: 0px;
     display: flex;
     align-items: center;
@@ -242,8 +284,17 @@ body > main {
 ------------------------------------------------------------------------------ */
 body > main > nav {
     width: 100%;
+    height: 50px;
     padding: 0px 20px;
     box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+
+    body > main > nav {
+        height: auto;
+        padding: 0px;
+    }
 }
 
 body > main > nav::after {
@@ -254,7 +305,7 @@ body > main > nav::after {
 
 body > main > nav > h2 {
     width: auto;
-    height: 50px;
+    height: 100%;
     float: left;
     display: flex;
     align-items: center;
@@ -262,6 +313,15 @@ body > main > nav > h2 {
     font-size: 18px;
     font-weight: 600;
     color: #757575;
+}
+
+@media (max-width: 768px) {
+
+    body > main > nav > h2 {
+        width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+    }
 }
 
 body > main > nav > h2 > i {
@@ -275,6 +335,16 @@ body > main > nav > ul {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+
+    body > main > nav > ul {
+        width: 100%;
+        height: 50px;
+        justify-content: flex-start;
+        margin-bottom: 20px;
+    }
 }
 
 body > main > nav > ul > li {
@@ -296,6 +366,14 @@ body > main > nav > ul > li > a {
     transition: 400ms;
 }
 
+@media (max-width: 768px) {
+
+    body > main > nav > ul > li > a {
+        margin-left: 0px;
+        margin-right: 10px;
+    }
+}
+
 body > main > nav > ul > li > a.view,
 body > main > nav > ul > li > a.view:hover {
     color: #fff;
@@ -314,6 +392,13 @@ body > main > article {
     padding: 20px;
     box-sizing: border-box;
     background-color: #fff;
+}
+
+@media (max-width: 768px) {
+
+    body > main > article {
+        padding: 0px;
+    }
 }
 
 body > main > article > header {
@@ -389,6 +474,13 @@ body > main > article > footer > a:hover {
     color: #757575;
 }
 
+@media (max-width: 768px) {
+
+    .table > aside > label > span {
+        width: 50px;
+    }
+}
+
 .table > aside > label > input {
     width: 100%;
     height: 100%;
@@ -396,6 +488,13 @@ body > main > article > footer > a:hover {
     padding: 0px 20px 0px 100px;
     box-sizing: border-box;
     background-color: #eee;
+}
+
+@media (max-width: 768px) {
+
+    .table > aside > label > input {
+        padding: 0px 10px 0px 50px;
+    }
 }
 
 .table > aside > a {
@@ -413,9 +512,25 @@ body > main > article > footer > a:hover {
     transition: 400ms;
 }
 
+@media (max-width: 768px) {
+
+    .table > aside > a {
+        width: 60px;
+        margin-left: 5px;
+    }
+}
+
 .table > aside > a:hover {
     background-color: #bdbdbd;
     transition: 400ms;
+}
+
+.table > span {
+    float: right;
+    margin-left: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
 }
 
 .table .dataTables_length,
@@ -470,14 +585,6 @@ body > main > article > footer > a:hover {
     background: #d2d2d2 !important;
 }
 
-.table > span {
-    float: right;
-    margin-left: 10px;
-    font-size: 14px;
-    font-weight: 400;
-    color: #757575;
-}
-
 table {
     border-color: #fff !important;
 }
@@ -509,6 +616,13 @@ table tr > td {
     box-sizing: border-box;
 }
 
+@media (max-width: 768px) {
+
+    table tr > td {
+        border-bottom: none !important;
+    }
+}
+
 table tr > th:first-child,
 table tr > td:first-child {
     padding-left: 5px !important;
@@ -520,8 +634,30 @@ table tr > td:last-child {
     padding-right: 5px !important;
 }
 
+@media (max-width: 768px) {
+
+    table tr > th:first-child,
+    table tr > td:first-child,
+    table tr > th:last-child,
+    table tr > td:last-child {
+        padding-left: 0px !important;
+        border-left: none !important;
+    }
+}
+
 table tbody > tr {
     background-color: #fff !important;
+}
+
+@media (max-width: 768px) {
+
+    table tbody > tr {
+        border-bottom: 1px dashed #e0e0e0;
+    }
+
+    table tbody > tr > td:last-child {
+        margin-bottom: 20px !important;
+    }
 }
 
 table tbody > tr:hover {
@@ -539,13 +675,20 @@ table tbody > tr > td > figure {
     align-items: center;
     justify-content: center;
     margin: 5px 0px;
-    border-radius: 50%;
     line-height: 0px;
     overflow: hidden;
 }
 
+@media (max-width: 768px) {
+
+    table tbody > tr > td > figure {
+        width: 100%;
+    }
+}
+
 table tbody > tr > td > figure > img {
-    width: 100%;
+    width: 40px;
+    border-radius: 50%;
 }
 
 table tr > th.icon,
@@ -566,6 +709,15 @@ table tr > td.icon > a {
     margin: 0px 0px 0px 3px;
 }
 
+@media (max-width: 768px) {
+
+    table tr > td.icon > span,
+    table tr > td.icon > a {
+        width: 100%;
+        margin: 0px 0px 5px 0px;
+    }
+}
+
 table tr > th.flag,
 table tr > td.flag {
     width: 100px;
@@ -582,6 +734,15 @@ table tr > td.flag > a {
     background-color: #e0e0e0;
     color: #757575;
     margin: 0px 0px 0px 3px;
+}
+
+@media (max-width: 768px) {
+
+    table tr > td.flag > span,
+    table tr > td.flag > a {
+        width: 100%;
+        margin: 0px 0px 5px 0px;
+    }
 }
 
 table tbody > tr.no-readed td:first-child {
@@ -656,6 +817,17 @@ main.surveys-questions table tbody > tr[data-level="3"] > td:first-child {
     padding-left: 80px !important;
 }
 
+@media (max-width: 768px) {
+
+    main.surveys-questions table tbody > tr[data-level="2"] > td:first-child {
+        padding-left: 0px !important;
+    }
+
+    main.surveys-questions table tbody > tr[data-level="3"] > td:first-child {
+        padding-left: 0px !important;
+    }
+}
+
 /* Counters
 ------------------------------------------------------------------------------ */
 main.dashboard > article > main > div.counters,
@@ -722,8 +894,8 @@ main.voxes-stats > article > main > div.counters > h2 > strong {
 
     main.dashboard > article > main > div.counters > h2,
     main.voxes-stats > article > main > div.counters > h2 {
-        width: 100%;
-        margin-bottom: 10px;
+        width: 100% !important;
+        margin: 0px 0px 10px 0px !important;
     }
 }
 
@@ -744,6 +916,14 @@ div.vox-details > div {
     float: left;
     padding-right: 40px;
     box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+
+    div.vox-details > div {
+        width: 100%;
+        padding-right: 0px;
+    }
 }
 
 div.vox-details > div > div {
@@ -769,6 +949,13 @@ div.vox-details > div > div.datas > h4 {
     background-color: #eee;
     margin-bottom: 10px;
     border-radius: 50px;
+}
+
+@media (max-width: 768px) {
+
+    div.vox-details > div > div.datas > h4 {
+        width: 100%;
+    }
 }
 
 div.vox-details > div > div.attachments > figure {
@@ -966,6 +1153,15 @@ div.vox-details > aside {
     padding-left: 40px;
     box-sizing: border-box;
     border-left: 1px dashed #bdbdbd;
+}
+
+@media (max-width: 768px) {
+
+    div.vox-details > aside {
+        width: 100%;
+        padding-left: 0px;
+        border-left: none;
+    }
 }
 
 div.vox-details > aside > div {
@@ -1456,47 +1652,137 @@ div.account > div {
     width: calc((100% / 3) - 20px);
     height: 300px;
     float: left;
-    position: relative;
     margin: 10px;
     padding: 20px;
     border: 1px dashed #bdbdbd;
     box-sizing: border-box;
 }
 
-div.account > div > figure.qr,
-div.account > div > figure.logotype {
+div.account > div.qr {
+    width: calc(40% - 20px);
+}
+
+div.account > div.logotype {
+    width: calc(60% - 20px);
+}
+
+@media (max-width: 768px) {
+
+    div.account > div {
+        width: 100% !important;
+        margin: 0px 0px 10px 0px;
+    }
+
+    div.account > div.qr,
+    div.account > div.logotype,
+    div.account > div.settings {
+        height: auto;
+    }
+}
+
+div.account > div.qr > figure,
+div.account > div.logotype > figure {
+    width: 100%;
     height: 100%;
-    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
     line-height: 0px;
     overflow: hidden;
 }
 
-div.account > div > figure.qr {
-    width: 100%;
-}
-
-div.account > div > figure.logotype {
-    width: auto;
-    max-width: 100%;
-}
-
-div.account > div > figure.qr > img {
+div.account > div.qr > figure > img,
+div.account > div.logotype > figure > img {
     width: auto;
     height: 100%;
 }
 
-div.account > div > figure.logotype > img {
-    width: auto;
-    max-width: 100%;
-    height: auto;
-    max-height: 100%;
+@media (max-width: 768px) {
+
+    div.account > div.qr > figure,
+    div.account > div.logotype > figure,
+    div.account > div.qr > figure > img,
+    div.account > div.logotype > figure > img {
+        width: 100%;
+        height: auto;
+    }
 }
 
-div.account > div > figure.logotype > input {
+div.account > div.qr > figure > a,
+div.account > div.logotype > figure > a {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: 200ms;
+}
+
+div.account > div.qr > figure > a:hover,
+div.account > div.logotype > figure > a:hover {
+    opacity: 1;
+}
+
+div.account > div.qr > figure > a > i,
+div.account > div.logotype > figure > a > i {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #212121;
+    font-size: 30px;
+}
+
+div.account > div.logotype > figure > input {
     display: none;
+}
+
+div.account > div.settings > div {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+div.account > div.settings > div > h4 {
+    width: calc(100% - 40px);
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    background-color: #eee;
+    font-size: 14px;
+    font-weight: 600;
+    color: #757575;
+}
+
+div.account > div.settings > div > a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.account > div.settings > h6 {
+    width: 100%;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    margin-top: 20px;
+    color: #757575;
 }
 
 div.account > div > h2 {
@@ -1532,79 +1818,6 @@ div.account > div > h2 > figure > img {
     line-height: 0px;
 }
 
-div.account > div > div {
-    width: 100%;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 5px;
-}
-
-div.account > div > div > h4 {
-    width: calc(100% - 40px);
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0px 20px;
-    box-sizing: border-box;
-    background-color: #eee;
-    font-size: 14px;
-    font-weight: 600;
-    color: #757575;
-}
-
-div.account > div > div > a {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-div.account > div > h6 {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 2px;
-    font-size: 14px;
-    font-weight: 400;
-    color: #757575;
-}
-
-div.account > div > h6 > i {
-    margin-right: 10px;
-}
-
-div.account > div > a {
-    width: 50px;
-    height: 50px;
-    position: absolute;
-    right: 20px;
-    bottom: 20px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    color: #757575;
-    background-color: #eee;
-    transition: 400ms;
-}
-
-div.account > div > a:hover {
-    background-color: #bdbdbd;
-    transition: 400ms;
-}
-
-@media (max-width: 768px) {
-
-    div.account > div {
-        width: 100%;
-        margin: 0px 0px 10px 0px;
-    }
-}
-
 /* Perfil
 ------------------------------------------------------------------- */
 div.profile {
@@ -1614,6 +1827,13 @@ div.profile {
     justify-content: center;
     padding: 50px 0px;
     box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+
+    div.profile {
+        flex-direction: column;
+    }
 }
 
 div.profile > figure {
@@ -1784,6 +2004,14 @@ div.charts.medium {
 
 div.charts.big {
     width: 100%;
+    padding: 0px;
+}
+
+@media (max-width: 768px) {
+
+    div.charts {
+        width: 100% !important;
+    }
 }
 
 /* --- */
@@ -1808,6 +2036,13 @@ main.surveys-stats > article > main > form.charts-filter {
     align-items: center;
     justify-content: flex-end;
     transition: 200ms;
+}
+
+@media (max-width: 768px) {
+
+    main.surveys-stats > article > main > form.charts-filter {
+        flex-direction: column;
+    }
 }
 
 main.surveys-stats > article > main > form.charts-filter.down {
@@ -1836,6 +2071,15 @@ main.surveys-stats > article > main > form.charts-filter.down > select {
     background-color: #fff;
 }
 
+@media (max-width: 768px) {
+
+    main.surveys-stats > article > main > form.charts-filter > input,
+    main.surveys-stats > article > main > form.charts-filter > select {
+        width: 100%;
+        margin: 0px 0px 5px 0px;
+    }
+}
+
 /* --- */
 
 main.surveys-stats > article > main > div.chart-rate {
@@ -1844,12 +2088,26 @@ main.surveys-stats > article > main > div.chart-rate {
     float: left;
 }
 
+@media (max-width: 768px) {
+
+    main.surveys-stats > article > main > div.chart-rate {
+        width: 100%;
+    }
+}
+
 main.surveys-stats > article > main > div.chart-rate > h2 {
     width: 100%;
     margin-bottom: 5px;
     font-size: 18px;
     font-weight: 600;
     color: #757575;
+}
+
+@media (max-width: 768px) {
+
+    main.surveys-stats > article > main > div.chart-rate > h2 {
+        text-align: center;
+    }
 }
 
 main.surveys-stats > article > main > div.chart-rate > div.average {
@@ -1958,6 +2216,13 @@ main.surveys-stats > article > main > div.chart-answered {
     float: right;
 }
 
+@media (max-width: 768px) {
+
+    main.surveys-stats > article > main > div.chart-answered {
+        width: 100%;
+    }
+}
+
 main.surveys-stats > article > main > div.chart-answered::after {
     content: '';
     display: block;
@@ -1973,11 +2238,27 @@ main.surveys-stats > article > main > div.chart-answered > h2 {
     color: #757575;
 }
 
+@media (max-width: 768px) {
+
+    main.surveys-stats > article > main > div.chart-answered > h2 {
+        margin-left: 0px;
+    }
+}
+
 main.surveys-stats > article > main > div.chart-answered > div.counters {
     width: calc(100% - 300px);
     float: left;
     padding: 0px 20px;
     box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+
+    main.surveys-stats > article > main > div.chart-answered > div.counters {
+        width: 100%;
+        padding: 0px;
+        margin-bottom: 20px;
+    }
 }
 
 main.surveys-stats > article > main > div.chart-answered > div.counters > span {
@@ -1999,6 +2280,14 @@ main.surveys-stats > article > main > div.chart-answered > div.counters > span {
     color: #757575;
 }
 
+@media (max-width: 768px) {
+
+    main.surveys-stats > article > main > div.chart-answered > div.counters > span {
+        width: 100%;
+        margin: 0px 0px 5px 0px;
+    }
+}
+
 main.surveys-stats > article > main > div.chart-answered > div.counters > span > strong {
     display: block;
     font-size: 18px;
@@ -2008,6 +2297,13 @@ main.surveys-stats > article > main > div.chart-answered > div.counters > span >
 main.surveys-stats > article > main > div.chart-answered > div.chart {
     width: 300px;
     float: right;
+}
+
+@media (max-width: 768px) {
+
+    main.surveys-stats > article > main > div.chart-answered > div.chart {
+        width: 100%;
+    }
 }
 
 /* Inputs
@@ -2738,4 +3034,19 @@ div.checkers div.label > a {
 
 div.checkers [class*="span"] {
     padding-bottom: 5px !important;
+}
+
+[data-mobile-on] {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    [data-mobile-on] {
+        display: block;
+    }
+
+    [data-mobile-off] {
+        display: none !important;
+    }
 }
