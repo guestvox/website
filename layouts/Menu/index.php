@@ -30,7 +30,11 @@ $this->dependencies->add(['js', '{$path.js}Menu/index.js']);
                         <tr>
                             <th align="left">{$lang.name}</th>
                             <th align="left" width="100px">{$lang.price}</th>
+                            <th align="left" width="100px">{$lang.status}</th>
                             <?php if (Functions::check_user_access(['{menu_delete}']) == true) : ?>
+                            <th align="right" class="icon"></th>
+                            <?php endif; ?>
+                            <?php if (Functions::check_user_access(['{menu_deactive}']) == true) : ?>
                             <th align="right" class="icon"></th>
                             <?php endif; ?>
                             <?php if (Functions::check_user_access(['{menu_update}']) == true) : ?>
@@ -107,9 +111,35 @@ $this->dependencies->add(['js', '{$path.js}Menu/index.js']);
                             </label>
                         </div>
                     </div>
+                    <div class="span12">
+                        <div class="uploader">
+                            <fieldset>
+                                <figure>
+                                    <img src="{$path.images}empty.png">
+                                    <a><i class="fas fa-upload"></i></a>
+                                    <input type="file" name="image" accept="image/*">
+                                </figure>
+                            </fieldset>
+                        </div>
+                    </div>
                 </div>
             </form>
         </main>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<?php endif; ?>
+<?php if (Functions::check_user_access(['{menu_deactive}']) == true) : ?>
+<section class="modal" data-modal="deactive_menu">
+    <div class="content">
+        <header>
+            <h3>{$lang.deactivate}</h3>
+        </header>
         <footer>
             <div class="action-buttons">
                 <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>

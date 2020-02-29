@@ -57,6 +57,8 @@ class Menu_controller extends Controller
 
                 if (empty($labels))
                 {
+                    $_POST['image'] = $_FILES['image'];
+
                     if ($_POST['action'] == 'new_menu')
                         $query = $this->model->new_menu($_POST);
                     else if ($_POST['action'] == 'edit_menu')
@@ -86,9 +88,14 @@ class Menu_controller extends Controller
                 }
             }
 
-            if ($_POST['action'] == 'delete_menu')
+            if ($_POST['action'] == 'deactive_menu' OR $_POST['action'] == 'active_menu' OR $_POST['action'] == 'delete_menu')
             {
-                $query = $this->model->delete_menu($_POST['id']);
+                if ($_POST['action'] == 'deactive_menu')
+                    $query = $this->model->deactive_menu($_POST['id']);
+                else if ($_POST['action'] == 'active_menu')
+                    $query = $this->model->active_menu($_POST['id']);
+                else if ($_POST['action'] == 'delete_menu')
+                    $query = $this->model->delete_menu($_POST['id']);
 
                 if (!empty($query))
                 {
@@ -120,7 +127,9 @@ class Menu_controller extends Controller
                 '<tr>
                     <td align="left">' . $value['name'][Session::get_value('account')['language']] . '</td>
                     <td align="left">$ ' . $value['price'] . ' ' . $value['currency'] . '</td>
+                    <td align="left">' . (($value['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
                     ' . ((Functions::check_user_access(['{menu_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_menu" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
+                    ' . ((Functions::check_user_access(['{menu_deactive}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactive_menu" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="active_menu" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
                     ' . ((Functions::check_user_access(['{menu_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_menu" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
                 </tr>';
             }

@@ -1697,8 +1697,7 @@ div.profile > div > a:hover {
 
 /*Informativo Myvox
 -------------------------------------------------------------------------------*/
-
-section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader {
+[data-modal="new_menu"] div.uploader {
     width: 100%;
     display: flex;
     align-items: center;
@@ -1706,18 +1705,17 @@ section.modal[data-modal="new_myvox_information"] > div.content > main > form > 
     flex-direction: column;
 }
 
-section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset {
+[data-modal="new_menu"] div.uploader > fieldset {
     width: auto !important;
     padding: 0px !important;
 }
 
-section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset.error {
+[data-modal="new_menu"] div.uploader > fieldset.error {
     border: 1px solid #f44336;
 }
 
-section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset > figure {
-    width: 300px;
-    min-height: 300px;
+[data-modal="new_menu"] div.uploader > fieldset > figure {
+    width: 100%;
     position: relative;
     display: flex;
     align-items: center;
@@ -1726,12 +1724,11 @@ section.modal[data-modal="new_myvox_information"] > div.content > main > form > 
     overflow: hidden;
 }
 
-section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset > figure > img {
+[data-modal="new_menu"] div.uploader > fieldset > figure > img {
     width: 100%;
-    height: auto;
 }
 
-section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset > figure > a {
+[data-modal="new_menu"] div.uploader > fieldset > figure > a {
     top: 0px;
     right: 0px;
     bottom: 0px;
@@ -1746,17 +1743,17 @@ section.modal[data-modal="new_myvox_information"] > div.content > main > form > 
     transition: 400ms;
 }
 
-section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset > figure > a:hover {
+[data-modal="new_menu"] div.uploader > fieldset > figure > a:hover {
     opacity: 1;
     transition: 400ms;
 }
 
-section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset > figure > a > i {
+[data-modal="new_menu"] div.uploader > fieldset > figure > a > i {
     font-size: 40px;
     color: #000;
 }
 
-section.modal[data-modal="new_myvox_information"] > div.content > main > form > div.row div.uploader > fieldset > figure > input[type="file"] {
+[data-modal="new_menu"] div.uploader > fieldset > figure > input[type="file"] {
     display: none;
 }
 
@@ -2625,6 +2622,68 @@ div.tmp-1 > label > span > i {
 
 div.tmp-1 > label > input {
     margin: 0px;
+}
+
+/* Uploader
+------------------------------------------------------------------------------ */
+div.uploader {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+div.uploader > fieldset {
+    width: auto !important;
+    padding: 0px !important;
+}
+
+div.uploader > fieldset.error {
+    border: 1px solid #f44336;
+}
+
+div.uploader > fieldset > figure {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0px;
+    overflow: hidden;
+}
+
+div.uploader > fieldset > figure > img {
+    width: 100%;
+}
+
+div.uploader > fieldset > figure > a {
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.8);
+    opacity: 0;
+    transition: 400ms;
+}
+
+div.uploader > fieldset > figure > a:hover {
+    opacity: 1;
+    transition: 400ms;
+}
+
+div.uploader > fieldset > figure > a > i {
+    font-size: 40px;
+    color: #000;
+}
+
+div.uploader > fieldset > figure > input[type="file"] {
+    display: none;
 }
 
 /* Checkers

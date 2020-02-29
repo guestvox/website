@@ -17,7 +17,8 @@ class Menu_model extends Model
                 'id',
                 'name',
                 'price',
-                'currency'
+                'currency',
+                'status'
             ], [
                 'account' => Session::get_value('account')['id'],
                 'ORDER' => [
@@ -34,6 +35,7 @@ class Menu_model extends Model
                 'name',
                 'price',
                 'currency',
+                'image',
                 'description'
             ], [
                 'id' => $id
@@ -53,11 +55,12 @@ class Menu_model extends Model
             ]),
             'price' => $data['price'],
             'currency' => $data['currency'],
-            'image' => null,
+            'image' => !empty($data['image']['name']) ? Functions::uploader($data['image']) : null,
             'description' => json_encode([
                 'es' => $data['description_es'],
                 'en' => $data['description_en']
-            ])
+            ]),
+            'status' => true
         ]);
 
         return $query;
@@ -65,20 +68,56 @@ class Menu_model extends Model
 
     public function edit_menu($data)
     {
-        $query = $this->database->update('menu', [
-            'name' => json_encode([
-                'es' => $data['name_es'],
-                'en' => $data['name_en']
-            ]),
-            'price' => $data['price'],
-            'currency' => $data['currency'],
-            'image' => null,
-            'description' => json_encode([
-                'es' => $data['description_es'],
-                'en' => $data['description_en']
-            ])
+        $query = null;
+
+        $edited = $this->database->select('menu', [
+            'image'
         ], [
             'id' => $data['id']
+        ]);
+
+        if (!empty($edited))
+        {
+            $query = $this->database->update('menu', [
+                'name' => json_encode([
+                    'es' => $data['name_es'],
+                    'en' => $data['name_en']
+                ]),
+                'price' => $data['price'],
+                'currency' => $data['currency'],
+                'image' => !empty($data['image']['name']) ? Functions::uploader($data['image']) : $edited[0]['image'],
+                'description' => json_encode([
+                    'es' => $data['description_es'],
+                    'en' => $data['description_en']
+                ])
+            ], [
+                'id' => $data['id']
+            ]);
+
+            if (!empty($query) AND !empty($data['image']['name']) AND !empty($edited[0]['image']))
+                Functions::undoloader($edited[0]['image']);
+        }
+
+        return $query;
+    }
+
+    public function deactive_menu($id)
+    {
+        $query = $this->database->update('menu', [
+            'status' => false
+        ], [
+            'id' => $id
+        ]);
+
+        return $query;
+    }
+
+    public function active_menu($id)
+    {
+        $query = $this->database->update('menu', [
+            'status' => true
+        ], [
+            'id' => $id
         ]);
 
         return $query;
@@ -86,9 +125,23 @@ class Menu_model extends Model
 
     public function delete_menu($id)
     {
-        $query = $this->database->delete('menu', [
+        $query = null;
+
+        $deleted = $this->database->select('menu', [
+            'image'
+        ], [
             'id' => $id
         ]);
+
+        if (!empty($deleted))
+        {
+            $query = $this->database->delete('menu', [
+                'id' => $id
+            ]);
+
+            if (!empty($query) AND !empty($deleted[0]['image']))
+                Functions::undoloader($deleted[0]['image']);
+        }
 
         return $query;
     }

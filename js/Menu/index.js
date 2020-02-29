@@ -13,6 +13,33 @@ $(document).ready(function()
         tbl_menu.search(this.value).draw();
     });
 
+    $('[name="image"]').parents('.uploader').find('a').on('click', function()
+    {
+        $('[name="image"]').click();
+    });
+
+    $('[name="image"]').on('change', function()
+    {
+        var preview = $(this).parents('.uploader').find('img');
+
+        if ($(this)[0].files[0].type.match($(this).attr('accept')))
+        {
+            var reader = new FileReader();
+
+            reader.onload = function(e)
+            {
+                preview.attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL($(this)[0].files[0]);
+        }
+        else
+        {
+            $('[data-modal="error"]').addClass('view');
+            $('[data-modal="error"]').find('main > p').html('ERROR FILE NOT PERMIT');
+        }
+    });
+
     var id;
     var edit = false;
 
@@ -24,6 +51,7 @@ $(document).ready(function()
         $('[data-modal="new_menu"]').addClass('new');
         $('[data-modal="new_menu"]').find('header > h3').html('Nuevo');
         $('[data-modal="new_menu"]').find('form')[0].reset();
+        $('[data-modal="new_menu"]').find('form').find('.uploader').find('img').attr('src', '../images/empty.png');
         $('[data-modal="new_menu"]').find('label.error').removeClass('error');
         $('[data-modal="new_menu"]').find('p.error').remove();
     });
@@ -38,15 +66,19 @@ $(document).ready(function()
         e.preventDefault();
 
         var form = $(this);
+        var data = new FormData(form[0]);
+
+        data.append('id', id);
 
         if (edit == false)
-            var data = '&action=new_menu';
+            data.append('action', 'new_menu');
         else if (edit == true)
-            var data = '&id=' + id + '&action=edit_menu';
+            data.append('action', 'edit_menu');
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + data,
+            data: data,
+            contentType: false,
             processData: false,
             cache: false,
             dataType: 'json',
@@ -110,6 +142,60 @@ $(document).ready(function()
                     $('[data-modal="new_menu"]').find('[name="currency"]').val(response.data.currency);
                     $('[data-modal="new_menu"]').find('[name="description_es"]').val(response.data.description.es);
                     $('[data-modal="new_menu"]').find('[name="description_en"]').val(response.data.description.en);
+                    $('[data-modal="new_menu"]').find('[name="image"]').parents('.uploader').find('img').attr('src', ((response.data.image != null) ? '../uploads/' + response.data.image : '../images/empty.png'));
+                }
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                }
+            }
+        });
+    });
+
+    var active = false;
+
+    $(document).on('click', '[data-action="deactive_menu"]', function()
+    {
+        id = $(this).data('id');
+        $('[data-modal="deactive_menu"]').addClass('view');
+    });
+
+    $(document).on('click', '[data-action="active_menu"]', function()
+    {
+        id = $(this).data('id');
+        active = true;
+        $('[data-modal="deactive_menu"]').find('header > h3').html('Activar');
+        $('[data-modal="deactive_menu"]').addClass('view');
+    });
+
+    $('[data-modal="deactive_menu"]').modal().onCancel(function()
+    {
+        id = null;
+        active = false;
+        $('[data-modal="deactive_menu"]').find('header > h3').html('Desactivar');
+    });
+
+    $('[data-modal="deactive_menu"]').modal().onSuccess(function()
+    {
+        if (active == false)
+            var data = 'id=' + id + '&action=deactive_menu';
+        else if (active == true)
+            var data = 'id=' + id + '&action=active_menu';
+
+        $.ajax({
+            type: 'POST',
+            data: data,
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="success"]').addClass('view');
+                    $('[data-modal="success"]').find('main > p').html(response.message);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {
