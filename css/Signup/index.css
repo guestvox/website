@@ -26,9 +26,23 @@ main.signup > form > h3 {
     margin: 0px;
 }
 
+@media (max-width: 768px) {
+
+    main.signup > form > h2 {
+        font-size: 28px;
+    }
+}
+
 main.signup > form > h3 {
     font-size: 20px;
     font-weight: 400;
+}
+
+@media (max-width: 768px) {
+
+    main.signup > form > h3 {
+        font-size: 16px;
+    }
 }
 
 main.signup > form > div.steps > div.step-buttons {
@@ -38,6 +52,13 @@ main.signup > form > div.steps > div.step-buttons {
     justify-content: center;
     padding: 20px;
     box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+
+    main.signup > form > div.steps > div.step-buttons {
+        padding: 20px 0px;
+    }
 }
 
 main.signup > form > div.steps > div.step-buttons > a {
@@ -56,6 +77,16 @@ main.signup > form > div.steps > div.step-buttons > a {
     font-weight: 600;
     color: #00a5ab;
     background-color: #fff;
+}
+
+@media (max-width: 768px) {
+
+    main.signup > form > div.steps > div.step-buttons > a {
+        width: 30px;
+        height: 30px;
+        margin: 0px 5px;
+        padding: 5px;
+    }
 }
 
 main.signup > form > div.steps > div.step-buttons > a::after {
@@ -91,6 +122,13 @@ main.signup > form > div.steps > div.step-container {
     box-sizing: border-box;
 }
 
+@media (max-width: 768px) {
+
+    main.signup > form > div.steps > div.step-container {
+        padding: 0px;
+    }
+}
+
 main.signup > form > div.steps > div.step-container.view {
     display: flex;
 }
@@ -103,6 +141,13 @@ main.signup > form > div.steps > div.step-container > h2 {
     color: #000;
 }
 
+@media (max-width: 768px) {
+
+    main.signup > form > div.steps > div.step-container > h2 {
+        font-size: 16px;
+    }
+}
+
 main.signup > form > div.steps > div.step-container > div.row {
     width: 100%;
     display: flex;
@@ -111,9 +156,27 @@ main.signup > form > div.steps > div.step-container > div.row {
     margin-bottom: 20px;
 }
 
+@media (max-width: 768px) {
+
+    main.signup > form > div.steps > div.step-container > div.row {
+        flex-direction: column;
+    }
+}
+
 main.signup > form > div.steps > div.step-container > div.row > [class*=span] {
     padding: 0px 10px !important;
     box-sizing: border-box !important;
+}
+
+@media (max-width: 768px) {
+
+    main.signup > form > div.steps > div.step-container > div.row > [class*=span] {
+        padding: 0px 0px 20px 0px !important;
+    }
+
+    main.signup > form > div.steps > div.step-container > div.row > [class*=span]:last-child {
+        padding: 0px !important;
+    }
 }
 
 main.signup > form > div.steps > div.step-container > div.row > [class*=span] > [class*=span] {
@@ -121,10 +184,28 @@ main.signup > form > div.steps > div.step-container > div.row > [class*=span] > 
     min-height: auto !important;
 }
 
+@media (max-width: 768px) {
+
+    main.signup > form > div.steps > div.step-container > div.row > [class*=span] > [class*=span] {
+        padding: 0px 0px 20px 0px !important;
+    }
+
+    main.signup > form > div.steps > div.step-container > div.row > [class*=span] > [class*=span]:last-child {
+        padding: 0px !important;
+    }
+}
+
 main.signup > form > div.steps > div.step-container > div.row fieldset {
     width: 100%;
     padding: 5px;
     box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+
+    main.signup > form > div.steps > div.step-container > div.row fieldset {
+        padding: 0px;
+    }
 }
 
 main.signup > form > div.steps > div.step-container > div.row fieldset > input,
@@ -152,14 +233,21 @@ main.signup > form > div.steps > div.step-container > div.row fieldset.path {
 
 main.signup > form > div.steps > div.step-container > div.row fieldset.path > span {
     position: absolute;
-    top: -15px;
-    right: 0px;
-    left: 0px;
+    top: 40px;
+    left: 5px;
     padding-left: 20px;
     box-sizing: border-box;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: 400;
-    color: #757575;
+    color: #9e9e9e;
+}
+
+@media (max-width: 768px) {
+
+    main.signup > form > div.steps > div.step-container > div.row fieldset.path > span {
+        top: 35px;
+        left: 0px;
+    }
 }
 
 main.signup > form > div.steps > div.step-container > div.row div.package {
@@ -378,6 +466,7 @@ main.signup > form > div.steps > div.step-container > p {
     margin-bottom: 20px;
     font-size: 12px;
     font-weight: 400;
+    text-align: center;
     color: #757575;
 }
 

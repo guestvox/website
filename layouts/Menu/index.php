@@ -4,14 +4,14 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
-$this->dependencies->add(['js', '{$path.js}Menus/index.js']);
+$this->dependencies->add(['js', '{$path.js}Menu/index.js']);
 
 ?>
 
 %{header}%
 <main>
     <nav>
-        <h2><i class="fas fa-compass"></i>{$lang.menus}</h2>
+        <h2><i class="fas fa-concierge-bell"></i>{$lang.menu}</h2>
     </nav>
     <article>
         <main>
@@ -19,27 +19,38 @@ $this->dependencies->add(['js', '{$path.js}Menus/index.js']);
                 <aside>
                     <label>
                         <span><i class="fas fa-search"></i></span>
-                        <input type="text" name="tbl_menus_search">
+                        <input type="text" name="tbl_menu_search">
                     </label>
-                    <?php if (Functions::check_user_access(['{menus_create}']) == true) : ?>
+                    <?php if (Functions::check_user_access(['{menu_create}']) == true) : ?>
                     <a data-button-modal="new_menu" class="new"><i class="fas fa-plus"></i></a>
                     <?php endif; ?>
                 </aside>
-                <!-- <table id="tbl_menus">
+                <table id="tbl_menu">
                     <thead>
                         <tr>
-
+                            <th align="left">{$lang.name}</th>
+                            <th align="left" width="100px">{$lang.price}</th>
+                            <th align="left" width="100px">{$lang.status}</th>
+                            <?php if (Functions::check_user_access(['{menu_delete}']) == true) : ?>
+                            <th align="right" class="icon"></th>
+                            <?php endif; ?>
+                            <?php if (Functions::check_user_access(['{menu_deactive}']) == true) : ?>
+                            <th align="right" class="icon"></th>
+                            <?php endif; ?>
+                            <?php if (Functions::check_user_access(['{menu_update}']) == true) : ?>
+                            <th align="right" class="icon"></th>
+                            <?php endif; ?>
                         </tr>
                     </thead>
                     <tbody>
-                        {$tbl_menus}
+                        {$tbl_menu}
                     </tbody>
-                </table> -->
+                </table>
             </div>
         </main>
     </article>
 </main>
-<?php if (Functions::check_user_access(['{menus_create}','{menus_update}']) == true) : ?>
+<?php if (Functions::check_user_access(['{menu_create}','{menu_update}']) == true) : ?>
 <section class="modal new" data-modal="new_menu">
     <div class="content">
         <header>
@@ -100,6 +111,17 @@ $this->dependencies->add(['js', '{$path.js}Menus/index.js']);
                             </label>
                         </div>
                     </div>
+                    <div class="span12">
+                        <div class="uploader">
+                            <fieldset>
+                                <figure>
+                                    <img src="{$path.images}empty.png">
+                                    <a><i class="fas fa-upload"></i></a>
+                                    <input type="file" name="image" accept="image/*">
+                                </figure>
+                            </fieldset>
+                        </div>
+                    </div>
                 </div>
             </form>
         </main>
@@ -112,8 +134,23 @@ $this->dependencies->add(['js', '{$path.js}Menus/index.js']);
     </div>
 </section>
 <?php endif; ?>
-<?php if (Functions::check_user_access(['{menus_delete}']) == true) : ?>
-<!-- <section class="modal delete" data-modal="delete_menu">
+<?php if (Functions::check_user_access(['{menu_deactive}']) == true) : ?>
+<section class="modal" data-modal="deactive_menu">
+    <div class="content">
+        <header>
+            <h3>{$lang.deactivate}</h3>
+        </header>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<?php endif; ?>
+<?php if (Functions::check_user_access(['{menu_delete}']) == true) : ?>
+<section class="modal delete" data-modal="delete_menu">
     <div class="content">
         <header>
             <h3>{$lang.delete}</h3>
@@ -125,5 +162,5 @@ $this->dependencies->add(['js', '{$path.js}Menus/index.js']);
             </div>
         </footer>
     </div>
-</section> -->
+</section>
 <?php endif; ?>

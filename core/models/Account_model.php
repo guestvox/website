@@ -285,6 +285,7 @@ class Account_model extends Model
 				'en' => ''
 			];
 
+			$data['settings']['review']['website'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_website'] : '';
 			$data['settings']['review']['social_media']['facebook'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_facebook'] : '';
 			$data['settings']['review']['social_media']['instagram'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_instagram'] : '';
 			$data['settings']['review']['social_media']['twitter'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_twitter'] : '';

@@ -4,10 +4,11 @@
         <nav>
             <ul>
                 <?php if (Functions::check_account_access(['operation']) == true) : ?>
-                <li><a href="/voxes/create"><i class="fas fa-plus"></i>{$lang.new_vox}</a></li>
+                <li data-mobile-off><a href="/voxes/create"><i class="fas fa-plus"></i>{$lang.new_vox}</a></li>
+                <li data-mobile-on><a href="/voxes/create"><i class="fas fa-plus"></i></a></li>
                 <?php endif; ?>
-                <li><a href="<?php echo ((Functions::check_user_access(['{account_update}']) == true) ?  '/account' : ''); ?>"><?php echo Session::get_value('account')['name']; ?></a></li>
-                <li><a href="/profile" class="profile"><i class="fas fa-circle"></i><?php echo Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname']; ?></a></li>
+                <li data-mobile-off><a href="<?php echo ((Functions::check_user_access(['{account_update}']) == true) ?  '/account' : ''); ?>"><?php echo Session::get_value('account')['name']; ?></a></li>
+                <li data-mobile-off><a href="/profile" class="profile"><i class="fas fa-circle"></i><?php echo Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname']; ?></a></li>
                 <li><a href="/profile"><?php echo (!empty(Session::get_value('user')['avatar']) ? '<span><img src="{$path.uploads}' . Session::get_value('user')['avatar'] . '"></span>' : '<i class="fas fa-user-circle"></i>') ?></a></li>
                 <li><a data-button-modal="logout"><i class="fas fa-power-off"></i></a></li>
                 <li><a data-action="open-dash-menu"><i class="fas fa-ellipsis-v"></i></a></li>
@@ -16,16 +17,20 @@
     </section>
     <section class="menu">
         <figure>
-            <img src="{$path.images}logotype-white.png">
+            <img src="{$path.images}logotype-white.png" data-mobile-off>
+            <img src="{$path.images}icon-white.svg" data-mobile-on>
         </figure>
         <nav class="main-menu">
             <ul>
-                <li target="dashboard"><a href="/dashboard"><i class="fas fa-home"></i>{$lang.dashboard}</a></li>
+                <li target="dashboard" data-mobile-off><a href="/dashboard"><i class="fas fa-home"></i>{$lang.dashboard}</a></li>
+                <li target="dashboard" data-mobile-on><a href="/dashboard"><i class="fas fa-home"></i></a></li>
                 <?php if (Functions::check_account_access(['operation']) == true) : ?>
-                <li target="voxes"><a href="/voxes"><i class="fas fa-heart"></i>{$lang.voxes}</a></li>
+                <li target="voxes" data-mobile-off><a href="/voxes"><i class="fas fa-heart"></i>{$lang.voxes}</a></li>
+                <li target="voxes" data-mobile-on><a href="/voxes"><i class="fas fa-heart"></i></a></li>
                 <?php endif; ?>
                 <?php if (Functions::check_account_access(['reputation']) == true AND Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}','{survey_answers_view}','{survey_stats_view}']) == true) : ?>
-                <li target="surveys"><a href="/surveys"><i class="fas fa-star"></i>{$lang.surveys}</a></li>
+                <li target="surveys" data-mobile-off><a href="/surveys"><i class="fas fa-star"></i>{$lang.surveys}</a></li>
+                <li target="surveys" data-mobile-on><a href="/surveys"><i class="fas fa-star"></i></a></li>
                 <?php endif; ?>
             </ul>
         </nav>
@@ -60,6 +65,9 @@
                 <?php endif; ?>
                 <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation']) AND Functions::check_user_access(['{reservation_statuses_create}','{reservation_statuses_update}','{reservation_statuses_delete}']) == true) : ?>
                 <li><a href="/reservationstatuses">{$lang.reservation_statuses}<i class="fas fa-check"></i></a></li>
+                <?php endif; ?>
+                <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation']) AND Functions::check_user_access(['{menu_create}','{menu_update}','{menu_delete}']) == true) : ?>
+                <li><a href="/menu">{$lang.menu}<i class="fas fa-concierge-bell"></i></a></li>
                 <?php endif; ?>
                 <?php if (Functions::check_user_access(['{users_create}','{users_update}','{users_restore_password}','{users_deactivate}','{users_activate}','{users_delete}']) == true) : ?>
                 <li><a href="/users">{$lang.users}<i class="fas fa-users"></i></a></li>
