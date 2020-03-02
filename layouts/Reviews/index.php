@@ -50,10 +50,10 @@ $this->dependencies->add(['js', '{$path.js}Reviews/index.js']);
         </div>
         <div class="datas">
             <h4>{$name}</h4>
-            <a href=""><i class="fas fa-map-marker-alt"></i>{$address}</a>
+            <a href="" target="_blank"><i class="fas fa-map-marker-alt"></i>{$address}</a>
             <a href="mailto:{$email}"><i class="fas fa-envelope"></i>{$email}</a>
             <a href="tel:{$phone}"><i class="fas fa-phone"></i>{$phone}</a>
-            <a href="https://{$website}"><i class="fas fa-globe"></i>{$website}</a>
+            <a href="https://{$website}" target="_blank"><i class="fas fa-globe"></i>{$website}</a>
             <p>{$description}</p>
         </div>
         <div class="clear"></div>
