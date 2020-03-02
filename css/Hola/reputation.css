@@ -1,0 +1,247 @@
+
+/*  */
+main.landing-page-reputation {
+    margin: 0px;
+    padding: 0px;
+}
+
+/*  */
+main.landing-page-reputation > section.st-1 {
+    width: 100%;
+    height: 100vh;
+    min-height: 625px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*  */
+main.landing-page-reputation > section.st-1 > figure {
+    width: auto;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    z-index: 99;
+}
+
+main.landing-page-reputation > section.st-1 > figure > img {
+    width: auto;
+    height: 100%;
+}
+
+/*  */
+main.landing-page-reputation > section.st-1 > div {
+    width: 50%;
+    height: 100%;
+    position: relative;
+}
+
+/*  */
+main.landing-page-reputation > section.st-1 > div:first-child {
+    background-color: #fff;
+}
+
+main.landing-page-reputation > section.st-1 > div:first-child > figure {
+    width: auto;
+    height: 100px;
+    position: absolute;
+    top: 40px;
+    left: 40px;
+}
+
+main.landing-page-reputation > section.st-1 > div:first-child > figure > img {
+    width: auto;
+    height: 100%;
+}
+
+main.landing-page-reputation > section.st-1 > div:first-child > h1 {
+    width: 50%;
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    font-size: 40px;
+    font-weight: 400;
+    text-align: center;
+    color: #212121;
+}
+
+/*  */
+main.landing-page-reputation > section.st-1 > div:last-child {
+    background-color: #24383f;
+}
+
+main.landing-page-reputation > section.st-1 > div:last-child > p {
+    width: 50%;
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+    color: #fff;
+}
+
+/*  */
+main.landing-page-reputation > section.st-2 {
+    width: 100%;
+    height: 100vh;
+    min-height: 625px;
+}
+
+/*  */
+main.landing-page-reputation > section.st-2 > div:first-child {
+    width: 100%;
+    height: 50%;
+    position: relative;
+    background-color: #00a5ab;
+}
+
+main.landing-page-reputation > section.st-2 > div:first-child > div {
+    width: 100%;
+    position: absolute;
+    right: 0px;
+    bottom: -100px;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main.landing-page-reputation > section.st-2 > div:first-child > div > div {
+    width: calc(100% / 3);
+    padding: 0px 20px;
+    box-sizing: border-box;
+}
+
+main.landing-page-reputation > section.st-2 > div:first-child > div > div > div > figure {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px;
+    box-sizing: border-box;
+    line-height: 0px;
+}
+
+main.landing-page-reputation > section.st-2 > div:first-child > div > div > div > figure > img {
+    width: auto;
+    height: 100%;
+}
+
+main.landing-page-reputation > section.st-2 > div:first-child > div > div > div > div {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 20px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+main.landing-page-reputation > section.st-2 > div:first-child > div > div > div > div > p {
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+    color: #757575;
+}
+
+/*  */
+main.landing-page-reputation > section.st-2 > div:last-child {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 40px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+main.landing-page-reputation > section.st-2 > div:last-child > a {
+    padding: 20px 40px;
+    box-sizing: border-box;
+    border-radius: 40px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
+    background-color: #24383f;
+}
+
+/*  */
+main.landing-page-reputation > section.st-3 {
+    width: 100%;
+    height: 100vh;
+    min-height: 625px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*  */
+main.landing-page-reputation > section.st-3 > div:first-child {
+    width: 50px;
+    height: 100%;
+    background-color: #dbb04a;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+}
+
+main.landing-page-reputation > section.st-3 > div:first-child > p {
+    font-size: 40px;
+    font-weight: 600;
+    color: #fff;
+    transform: rotate(90deg);
+    transform-origin: 50% 50%;
+    white-space: nowrap;
+}
+
+/*  */
+main.landing-page-reputation > section.st-3 > div:last-child {
+    width: calc(100% - 50px);
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    background-color: #24383f;
+}
+
+main.landing-page-reputation > section.st-3 > div:last-child > div {
+    width: 50%;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+main.landing-page-reputation > section.st-3 > div:last-child > div > h2 {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #fff;
+}
+
+main.landing-page-reputation > section.st-3 > div:last-child > div > p {
+    width: 100%;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 40px;
+    color: #fff;
+}
+
+main.landing-page-reputation > section.st-3 > div:last-child > figure {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0px 40px 40px 0px;
+    box-sizing: border-box;
+}
+
+main.landing-page-reputation > section.st-3 > div:last-child > figure > img {
+    width: 100%;
+}

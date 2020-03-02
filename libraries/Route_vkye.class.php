@@ -24,7 +24,8 @@ class Route_vkye
             '/Signup/index',
             '/Signup/validate',
             '/Terms/index',
-            '/Hola/index',
+            '/Hola/operation',
+            '/Hola/reputation',
             '/Myvox/index',
             '/Reviews/index',
             '/Api/execute'

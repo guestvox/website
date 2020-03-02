@@ -31,9 +31,13 @@ class Urls_registered_vkye
             ],
             '/hola' => [
                 'controller' => 'Hola',
-                'method' => 'index'
+                'method' => 'operation'
             ],
-            '/reputation' => [
+            '/hola/operacion' => [
+                'controller' => 'Hola',
+                'method' => 'operation'
+            ],
+            '/hola/reputacion' => [
                 'controller' => 'Hola',
                 'method' => 'reputation'
             ],
