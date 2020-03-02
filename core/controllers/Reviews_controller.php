@@ -55,11 +55,14 @@ class Reviews_controller extends Controller
 				{
 					if (!empty($value['comment']))
 					{
+						$substr_firstname = strlen($value['guest']['guestvox']['firstname']);
+						$substr_lastname = strlen($value['guest']['guestvox']['lastname']);
+
 						$tbl_comments .=
-						'<tr>
-							<td align="left">' . ((!empty($value['guest']['guestvox']['firstname']) AND !empty($value['guest']['guestvox']['lastname'])) ? substr($value['guest']['guestvox']['firstname'], 1) . '. ' . substr($value['guest']['guestvox']['lastname'], 1) . '.' : '{$lang.anonimous}')  . '</td>
-							<td align="left"> ' . $value['comment'] . '</td>
-						</tr>';
+						'<div>
+							<span><i class="fas fa-user-circle"></i>' . ((!empty($value['guest']['guestvox']['firstname']) AND !empty($value['guest']['guestvox']['lastname'])) ? substr($value['guest']['guestvox']['firstname'], -$substr_firstname, 1) . '. ' . substr($value['guest']['guestvox']['lastname'], -$substr_lastname, 1) . '.' : '{$lang.anonimous}')  . '</span>
+							<span><i class="fas fa-quote-left"></i>' . $value['comment'] . '<i class="fas fa-quote-right"></i></span>
+						</div>';
 					}
 				}
 
@@ -71,6 +74,7 @@ class Reviews_controller extends Controller
                     '{$address}' => $account['address'],
                     '{$email}' => $account['settings']['review']['email'],
                     '{$phone}' => '+' . $account['settings']['review']['phone']['lada'] . ' ' . $account['settings']['review']['phone']['number'],
+                    '{$website}' => $account['settings']['review']['website'],
                     '{$h4_general_average_rate}' => $h4_general_average_rate,
     				'{$spn_general_avarage_rate}' => $spn_general_avarage_rate,
     				'{$five_percentage_rate}' => $this->model->get_percentage_rate('five', $account['id']),

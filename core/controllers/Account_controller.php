@@ -290,9 +290,10 @@ class Account_controller extends Controller
 			}
 
 			$replace = [
-				'{$myvox_url}' => 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox',
 				'{$qr}' => '{$path.uploads}' . $account['qr'],
 				'{$logotype}' => '{$path.uploads}' . $account['logotype'],
+				'{$myvox_url}' => 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox',
+				'{$reviews_url}' => 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/reviews',
 				'{$operation}' => (Functions::check_account_access(['operation']) == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$reputation}' => (Functions::check_account_access(['reputation']) == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$room_package}' => (Session::get_value('account')['type'] == 'hotel') ? $account['room_package']['quantity_end'] : '',
@@ -333,6 +334,7 @@ class Account_controller extends Controller
 				'{$review_settings_seo_keywords_en}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['review']['seo']['keywords']['en'] : '',
 				'{$review_settings_seo_meta_description_es}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['review']['seo']['meta_description']['es'] : '',
 				'{$review_settings_seo_meta_description_en}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['review']['seo']['meta_description']['en'] : '',
+				'{$review_settings_website}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['review']['website'] : '',
 				'{$review_settings_social_media_facebook}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['review']['social_media']['facebook'] : '',
 				'{$review_settings_social_media_instagram}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['review']['social_media']['instagram'] : '',
 				'{$review_settings_social_media_twitter}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['review']['social_media']['twitter'] : '',

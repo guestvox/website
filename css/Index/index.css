@@ -645,6 +645,7 @@ footer.landing-page-index > .container > figure > img {
 
     footer.landing-page-index {
         height: auto;
+        margin: 0px;
         padding: 50px 0px;
         box-sizing: border-box;
     }
@@ -663,6 +664,7 @@ footer.landing-page-index > .container > figure > img {
     footer.landing-page-index > .container > figure {
         width: 100%;
         height: 80px;
+        margin-top: 50px;
     }
 
     footer.landing-page-index > .container > figure > img {

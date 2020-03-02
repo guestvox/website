@@ -54,6 +54,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <a class="edit" disabled><i class="fas fa-pen"></i></a>
                     </div> -->
                     <h6>{$myvox_url}</h6>
+                    <h6>{$reviews_url}</h6>
                 </div>
                 <div>
                     <h2>
@@ -474,6 +475,14 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             <label>
                                 <p>(EN) {$lang.meta_description}</p>
                                 <textarea name="review_settings_seo_meta_description_en">{$review_settings_seo_meta_description_en}</textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12 {$review_settings_hidden}">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.website}</p>
+                                <input type="text" name="review_settings_website" value="{$review_settings_website}" />
                             </label>
                         </div>
                     </div>

@@ -1,12 +1,89 @@
 
 /*  */
-main.landing-page-reviews > div.chart-rate {
+header.landing-page-reviews {
+    width: 100%;
+    height: 400px;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background-color: #00a5ab;
+}
+
+@media (max-width: 768px) {
+
+    header.landing-page-reviews {
+        height: auto;
+        align-items: center;
+        padding: 50px;
+        box-sizing: border-box;
+    }
+}
+
+header.landing-page-reviews > figure {
+    width: auto;
+    height: 400px;
+    position: absolute;
+    top: 200px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+    line-height: 0px;
+}
+
+@media (max-width: 768px) {
+
+    header.landing-page-reviews > figure {
+        height: auto;
+        position: relative;
+        top: 0px;
+        padding: 10px;
+    }
+}
+
+header.landing-page-reviews > figure > img {
+    width: auto;
+    height: 100%;
+}
+
+@media (max-width: 768px) {
+
+    header.landing-page-reviews > figure > img {
+        width: 100%;
+        height: auto;
+    }
+}
+
+/*  */
+main.landing-page-reviews {
+    width: 100%;
+    min-height: auto;
+    padding: 250px 0px 50px 0px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+
+    main.landing-page-reviews {
+        padding: 50px 0px 50px 0px;
+    }
+}
+
+/*  */
+main.landing-page-reviews > .container > div.chart-rate {
     width: 300px;
     min-height: 340px;
     float: left;
 }
 
-main.landing-page-reviews > div.chart-rate > h2 {
+@media (max-width: 768px) {
+
+    main.landing-page-reviews > .container > div.chart-rate {
+        width: 100%;
+    }
+}
+
+main.landing-page-reviews > .container > div.chart-rate > h2 {
     width: 100%;
     margin-bottom: 5px;
     font-size: 18px;
@@ -14,7 +91,7 @@ main.landing-page-reviews > div.chart-rate > h2 {
     color: #757575;
 }
 
-main.landing-page-reviews > div.chart-rate > div.average {
+main.landing-page-reviews > .container > div.chart-rate > div.average {
     width: 100%;
     display: flex;
     align-items: center;
@@ -22,14 +99,14 @@ main.landing-page-reviews > div.chart-rate > div.average {
     flex-direction: column;
 }
 
-main.landing-page-reviews > div.chart-rate > div.average > h4 {
+main.landing-page-reviews > .container > div.chart-rate > div.average > h4 {
     font-size: 80px;
     font-weight: 600;
     line-height: 80px;
     color: #757575;
 }
 
-main.landing-page-reviews > div.chart-rate > div.average > span {
+main.landing-page-reviews > .container > div.chart-rate > div.average > span {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -37,13 +114,13 @@ main.landing-page-reviews > div.chart-rate > div.average > span {
     box-sizing: border-box;
 }
 
-main.landing-page-reviews > div.chart-rate > div.average > span > i {
+main.landing-page-reviews > .container > div.chart-rate > div.average > span > i {
     margin: 0px 5px;
     font-size: 24px;
     color: #757575;
 }
 
-main.landing-page-reviews > div.chart-rate > div.progress {
+main.landing-page-reviews > .container > div.chart-rate > div.progress {
     width: 100%;
     display: flex;
     align-items: center;
@@ -52,11 +129,11 @@ main.landing-page-reviews > div.chart-rate > div.progress {
     box-sizing: border-box;
 }
 
-main.landing-page-reviews > div.chart-rate > div.progress:last-child {
+main.landing-page-reviews > .container > div.chart-rate > div.progress:last-child {
     padding-bottom: 0px;
 }
 
-main.landing-page-reviews > div.chart-rate > div.progress > span {
+main.landing-page-reviews > .container > div.chart-rate > div.progress > span {
     display: flex;
     align-items: center;
     font-size: 14px;
@@ -64,68 +141,191 @@ main.landing-page-reviews > div.chart-rate > div.progress > span {
     color: #000;
 }
 
-main.landing-page-reviews > div.chart-rate > div.progress > span:first-child {
+main.landing-page-reviews > .container > div.chart-rate > div.progress > span:first-child {
     width: 40px;
     justify-content: flex-start;
 }
 
-main.landing-page-reviews > div.chart-rate > div.progress > span:first-child > i {
+main.landing-page-reviews > .container > div.chart-rate > div.progress > span:first-child > i {
     margin-left: 5px;
     font-size: 14px;
     color: #ffeb3b;
 }
 
-main.landing-page-reviews > div.chart-rate > div.progress > span:last-child {
+main.landing-page-reviews > .container > div.chart-rate > div.progress > span:last-child {
     width: 80px;
     justify-content: flex-end;
 }
 
-main.landing-page-reviews > div.chart-rate > div.progress > span > i {
+main.landing-page-reviews > .container > div.chart-rate > div.progress > span > i {
     margin-right: 5px;
     font-size: 14px;
     color: #ffeb3b;
 }
 
-main.landing-page-reviews > div.chart-rate > div.progress > progress {
+main.landing-page-reviews > .container > div.chart-rate > div.progress > progress {
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 100%;
     height: 20px;
 }
 
-main.landing-page-reviews > div.chart-rate > div.progress > progress::-webkit-progress-bar {
+main.landing-page-reviews > .container > div.chart-rate > div.progress > progress::-webkit-progress-bar {
     border-radius: 20px;
     background-color: #eee;
 }
 
-main.landing-page-reviews > div.chart-rate > div.progress > progress::-webkit-progress-value {
+main.landing-page-reviews > .container > div.chart-rate > div.progress > progress::-webkit-progress-value {
     border-radius: 20px;
     background-color: #00a5ab;
 }
 
-main.landing-page-reviews > div.chart-rate > div.progress > progress::-moz-progress-bar {
+main.landing-page-reviews > .container > div.chart-rate > div.progress > progress::-moz-progress-bar {
     background-color: #eee;
 }
 
-main.landing-page-reviews > div.chart-rate > div.progress > progress::-moz-progress-value {
+main.landing-page-reviews > .container > div.chart-rate > div.progress > progress::-moz-progress-value {
     background-color: #00a5ab;
 }
 
 /*  */
-footer.landing-page-reviews > div.widget_cs > p:first-child {
-    height: 120px;
+main.landing-page-reviews > .container > div.datas {
+    width: calc(100% - 300px);
+    float: right;
+    padding-left: 20px;
+    box-sizing: border-box;
 }
 
-footer.landing-page-reviews > div.widget_cs > p:last-child{
+@media (max-width: 768px) {
+
+    main.landing-page-reviews > .container > div.datas {
+        width: 100%;
+        padding-left: 0px;
+    }
+}
+
+main.landing-page-reviews > .container > div.datas > h4 {
     width: 100%;
-    font-size: 25px;
-    margin: 40px 80px 40px 80px;
+    margin-bottom: 15px;
+    font-size: 30px;
+    font-weight: 400;
+    color: #212121;
 }
 
+@media (max-width: 768px) {
+
+    main.landing-page-reviews > .container > div.datas > h4 {
+        text-align: center;
+    }
+}
+
+main.landing-page-reviews > .container > div.datas > a {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+@media (max-width: 768px) {
+
+    main.landing-page-reviews > .container > div.datas > a {
+        justify-content: center;
+    }
+}
+
+main.landing-page-reviews > .container > div.datas > a > i {
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+main.landing-page-reviews > .container > div.datas > p {
+    width: 100%;
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: justify;
+    color: #757575;
+}
+
+/*  */
+main.landing-page-reviews > .container > div.comments {
+    width: 100%;
+    padding-top: 50px;
+    box-sizing: border-box;
+}
+
+main.landing-page-reviews > .container > div.comments > div {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+main.landing-page-reviews > .container > div.comments > div:last-child {
+    margin-bottom: 0px;
+}
+
+main.landing-page-reviews > .container > div.comments > div > span {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+@media (max-width: 768px) {
+
+    main.landing-page-reviews > .container > div.comments > div > span {
+        justify-content: center;
+    }
+}
+
+main.landing-page-reviews > .container > div.comments > div > span:first-child {
+    margin-bottom: 5px;
+    font-size: 18px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #212121;
+}
+
+main.landing-page-reviews > .container > div.comments > div > span:first-child > i {
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+main.landing-page-reviews > .container > div.comments > div > span:last-child {
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+main.landing-page-reviews > .container > div.comments > div > span:last-child > i {
+    font-size: 10px;
+}
+
+main.landing-page-reviews > .container > div.comments > div > span:last-child > i:first-child {
+    margin-right: 10px;
+}
+
+main.landing-page-reviews > .container > div.comments > div > span:last-child > i:last-child {
+    margin-left: 10px;
+}
+
+/*  */
 footer.landing-page-reviews {
     width: 100%;
     background-color: #fff;
     margin: 20px 0 20px 0px;
+}
+
+@media (max-width: 768px) {
+
+    footer.landing-page-reviews {
+        height: auto;
+        margin: 0px;
+        padding: 50px 0px;
+        box-sizing: border-box;
+    }
 }
 
 footer.landing-page-reviews > .container {
@@ -142,6 +342,16 @@ footer.landing-page-reviews > .container > nav > ul {
     justify-content: center;
 }
 
+@media (max-width: 768px) {
+
+    footer.landing-page-reviews > .container > nav,
+    footer.landing-page-reviews > .container > nav > ul {
+        width: 100%;
+        height: auto;
+        flex-direction: column;
+    }
+}
+
 footer.landing-page-reviews > .container > nav > ul > li > a {
     display: flex;
     align-items: center;
@@ -152,6 +362,13 @@ footer.landing-page-reviews > .container > nav > ul > li > a {
     color: #00a5ab;
     background: none;
     transition: 400ms;
+}
+
+@media (max-width: 768px) {
+
+    footer.landing-page-reviews > .container > nav > ul > li > a {
+        text-align: center;
+    }
 }
 
 footer.landing-page-reviews > .container > nav > ul > li > a.no-border {
@@ -176,29 +393,20 @@ footer.landing-page-reviews > .container > figure {
     line-height: 0px;
 }
 
+@media (max-width: 768px) {
+
+    footer.landing-page-reviews > .container > figure {
+        width: 100%;
+        height: 80px;
+        margin-top: 50px;
+    }
+}
+
 footer.landing-page-reviews > .container > figure > img {
     width: 100%;
 }
 
 @media (max-width: 768px) {
-
-    footer.landing-page-reviews {
-        height: auto;
-        padding: 50px 0px;
-        box-sizing: border-box;
-    }
-
-    footer.landing-page-reviews > .container > nav,
-    footer.landing-page-reviews > .container > nav > ul {
-        width: 100%;
-        height: auto;
-        flex-direction: column;
-    }
-
-    footer.landing-page-reviews > .container > figure {
-        width: 100%;
-        height: 80px;
-    }
 
     footer.landing-page-reviews > .container > figure > img {
         width: auto;
