@@ -231,6 +231,7 @@ $(document).ready(function()
             $('[name="review_settings_seo_keywords_en"]').parent().parent().parent().removeClass('hidden');
             $('[name="review_settings_seo_meta_description_es"]').parent().parent().parent().removeClass('hidden');
             $('[name="review_settings_seo_meta_description_en"]').parent().parent().parent().removeClass('hidden');
+            $('[name="review_settings_website"]').parent().parent().parent().removeClass('hidden');
             $('[name="review_settings_social_media_facebook"]').parent().parent().parent().removeClass('hidden');
             $('[name="review_settings_social_media_instagram"]').parent().parent().parent().removeClass('hidden');
             $('[name="review_settings_social_media_twitter"]').parent().parent().parent().removeClass('hidden');
@@ -250,6 +251,7 @@ $(document).ready(function()
             $('[name="review_settings_seo_keywords_en"]').parent().parent().parent().addClass('hidden');
             $('[name="review_settings_seo_meta_description_es"]').parent().parent().parent().addClass('hidden');
             $('[name="review_settings_seo_meta_description_en"]').parent().parent().parent().addClass('hidden');
+            $('[name="review_settings_website"]').parent().parent().parent().addClass('hidden');
             $('[name="review_settings_social_media_facebook"]').parent().parent().parent().addClass('hidden');
             $('[name="review_settings_social_media_instagram"]').parent().parent().parent().addClass('hidden');
             $('[name="review_settings_social_media_twitter"]').parent().parent().parent().addClass('hidden');
