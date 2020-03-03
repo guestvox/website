@@ -585,6 +585,13 @@ body > main > article > footer > a:hover {
     background: #d2d2d2 !important;
 }
 
+table tbody > tr > td.comment{
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
 table {
     border-color: #fff !important;
 }

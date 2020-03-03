@@ -1,0 +1,624 @@
+main.public_page {
+    position: relative;
+    background-color: #FFF;
+    padding: 0;
+}
+
+main.mkt_page {}
+
+main.mkt_page > header.topbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    max-width: 1200px;
+    width: 90%;
+    margin: 0 auto;
+    height: 100px;
+    z-index: 100;
+    display: -webkit-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+main.mkt_page > header.topbar > figure {
+    position: relative;
+    width: 200px;
+    height: 100px;
+    line-height: 0;
+}
+
+main.mkt_page > header.topbar > figure > img {
+    width: 100%;
+    height: 100%;
+}
+
+main.mkt_page > header.topbar > nav {
+    position: relative;
+    width: calc(100% - 200px);
+    height: 100px;
+}
+
+main.mkt_page > header.topbar > nav > ul {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: -webkit-box;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+main.mkt_page > header.topbar > nav > ul > li {
+    display: block;
+    position: relative;
+    margin-left: 10px;
+}
+
+main.mkt_page > header.topbar > nav > ul > li > a {
+    display: block;
+    padding: 10px;
+    color: #FFF;
+    text-decoration: none;
+}
+
+main.mkt_page > header.topbar > nav > ul > li > a.btn {
+    background-color: transparent;
+    border: 2px solid #FFF;
+    color: #FFF;
+    text-decoration: none;
+    padding: 15px 30px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+main.mkt_page > header.topbar > nav > ul > li > a.btn:hover {
+    text-decoration: none;
+    background-color: #FFF;
+    color: #00a5ab;
+}
+
+main.mkt_page > section.main {
+    position: relative;
+}
+
+main.mkt_page > section.main > header.cover {
+    position: relative;
+    box-sizing: border-box;
+    height: 900px;
+    background-color: #00a5ab;
+    overflow: hidden;
+    display: -webkit-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#00e5ff+0,00a5ab+100 */
+    background: rgb(0,229,255); /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  rgba(0,229,255,1) 0%, rgba(0,165,171,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  rgba(0,229,255,1) 0%,rgba(0,165,171,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  rgba(0,229,255,1) 0%,rgba(0,165,171,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e5ff', endColorstr='#00a5ab',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+main.mkt_page > section.main > header.cover::before,
+main.mkt_page > section.main > header.cover::after {
+    content: "";
+    position: absolute;
+    top: -45em;
+    right: -15em;
+    width: 70em;
+    height: 70em;
+    background-color: #FFF;
+    border-radius: 50%;
+    opacity: 0.1;
+    z-index: 1;
+}
+
+main.mkt_page > section.main > header.cover::after {
+    top: initial;
+    right: initial;
+    bottom: -45em;
+    left: -15em;
+}
+
+main.mkt_page > section.main > header.cover > .container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    z-index: 2;
+}
+
+main.mkt_page > section.main > header.cover > .container > .content {
+    vertical-align: middle;
+    display: -webkit-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-right: 50px;
+}
+
+main.mkt_page > section.main > header.cover > .container > .content a.btn {
+    margin: 40px 0 0;
+    padding: 20px 40px;
+    background-color: transparent;
+    border: 2px solid #FFF;
+    color: #FFF;
+    font-weight: 300;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+main.mkt_page > section.main > header.cover > .container > .content a.btn:hover {
+    background-color: #FFF;
+    color: #00a5ab;
+}
+
+main.mkt_page > section.main > header.cover > .container > figure {
+    vertical-align: middle;
+    line-height: 0;
+}
+
+main.mkt_page > section.main > header.cover > .container > .content h1,
+main.mkt_page > section.main > header.cover > .container > .content h2 {
+    position: relative;
+    margin: 0;
+    font-size: 40px;
+    font-weight: 100;
+    line-height: 1;
+    color: #FFF;
+    padding-bottom: 20px;
+}
+
+main.mkt_page > section.main > header.cover > .container > .content h2 {
+    font-weight: bold;
+    font-size: 30px;
+    padding-bottom: 0;
+}
+
+main.mkt_page > section.main > header.cover > .rocket {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 70px;
+    height: 100px;
+    margin: auto;
+    background-image: url("../../images/rocket-launch.svg");
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 2;
+}
+
+main.mkt_page > section.main > section.container {
+    position: relative;
+    padding: 50px 0;
+}
+
+main.mkt_page > section.main > section.container.background {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("../../images/background-1.png");
+}
+
+main.mkt_page > section.main .boxes {
+    position: relative;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-gap: 2%;
+}
+
+main.mkt_page > section.main .boxes.three-boxes {
+    grid-template-columns: 32% 32% 32%;
+}
+
+main.mkt_page > section.main .boxes > .box {
+    position: relative;
+    box-sizing: border-box;
+    padding: 50px 30px;
+    background-color: #00a5ab;
+    border-radius: 7px;
+    display: -webkit-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 12px -1px rgba(7, 10, 25, 0.2),
+                0 22px 27px -20px rgba(7, 10, 25, 0.2);
+}
+
+main.mkt_page > section.main span.icon-check,
+main.mkt_page > section.main span.icon-communication,
+main.mkt_page > section.main span.icon-clients,
+main.mkt_page > section.main span.icon-like {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: block;
+    width: 70px;
+    height: 70px;
+    margin-bottom: 30px;
+}
+
+main.mkt_page > section.main span.icon-check {
+    background-image: url("../../images/icon-check.svg");
+}
+
+main.mkt_page > section.main span.icon-communication {
+    background-image: url("../../images/icon-communication.svg");
+}
+
+main.mkt_page > section.main span.icon-clients {
+    background-image: url("../../images/icon-clients.svg");
+}
+
+main.mkt_page > section.main span.icon-like {
+    background-image: url("../../images/icon-like.svg");
+}
+
+main.mkt_page > section.main .boxes > .box > h4 {
+    margin: 0px;
+    text-align: center;
+    position: relative;
+    font-size: 18px;
+    color: #FFF;
+}
+
+main.mkt_page > section.main .double-section {
+    position: relative;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+main.mkt_page > section.main .double-section section {
+    padding: 50px 0;
+    display: -webkit-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+main.mkt_page > section.main .double-section section h4 span.icon-check.color {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+}
+
+main.mkt_page > section.main .double-section section h4 {
+    position: relative;
+    margin: 0;
+    font-weight: 500;
+    font-size: 16px;
+    color: #00a5ab;
+    padding: 0px 0px 10px 30px;
+}
+
+main.mkt_page > section.main .double-section section p {
+    position: relative;
+    font-size: 12px;
+    line-height: 1.4;
+    padding: 0 0 0 30px;
+    opacity: 0.4;
+    margin: 0 0 30px;
+}
+
+main.mkt_page > section.main .double-section > figure {
+    line-height: 0;
+}
+
+main.mkt_page > section.main .double-section > figure > img {
+    width: 100%;
+}
+
+main.mkt_page > section.main .double-section section > h2 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #00a5ab;
+}
+
+main.mkt_page > section.main .double-section section > p.description-one {
+    padding: 0;
+    opacity: 1;
+    font-size: 15px;
+    margin-bottom: 10px;
+}
+
+main.mkt_page > section.main .double-section section > ul {
+    display: block;
+    padding-left: 50px;
+}
+
+main.mkt_page > section.main .double-section section > ul > li {
+    font-size: 16px;
+    font-weight: 400;
+    opacity: 0.8;
+    margin-bottom: 20px;
+}
+
+
+main.mkt_page > section.main .title {
+    position: relative;
+    text-align: center;
+}
+
+main.mkt_page > section.main .title h2 {
+    padding: 0 20px;
+    text-align: center;
+    font-size: 40px;
+    font-weight: 300;
+    position: relative;
+    display: inline-block;
+    width: auto;
+    border-bottom: 2px solid #00a5ab;
+    color: #00a5ab;
+    margin-bottom: 10px;
+}
+
+main.mkt_page > section.main .title > p {
+    margin: 0;
+    font-size: 20px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #d8d8d8;
+}
+
+main.mkt_page > section.main .boxes-product {
+    display: block;
+    position: relative;
+    display: grid;
+    grid-template-columns: 32% 32% 32%;
+    grid-gap: 2%;
+    grid-row-gap: 20px;
+}
+
+main.mkt_page > section.main .boxes-product > .box {
+    position: relative;
+    border: 1px solid #F1F1F1;
+    box-sizing: border-box;
+    padding: 50px 20px;
+    border-radius: 5px;
+    text-align: center;
+    box-shadow: 0px 20px 70px 0px rgba(0,0,0,0.05);
+    background-color: #FFF;
+}
+
+main.mkt_page > section.main .boxes-product > .box > figure {
+    line-height: 0;
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 20px;
+}
+
+main.mkt_page > section.main .boxes-product > .box > h4 {
+    margin: 0 0 20px;
+    position: relative;
+    font-weight: bold;
+    font-size: 20px;
+    color: #00a5ab;
+}
+
+main.mkt_page > section.main .boxes-product > .box > p {
+    position: relative;
+    margin: 0;
+    font-weight: bold;
+    color: #000;
+    opacity: 0.4;
+    line-height: 1.7;
+    font-size: 16px;
+}
+
+
+
+main.mkt_page > section.main #screenshots {}
+
+main.mkt_page > section.main #screenshots .item {
+    position: relative;
+    width: 100%;
+    height: 490px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+main.mkt_page > section.main #screenshots .item > a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    cursor: pointer;
+}
+
+
+
+section.call-to-action {
+    position: relative;
+    background-color: #03a9f4;
+    padding: 50px 0;
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#00e5ff+0,00a5ab+100 */
+    background: rgb(0,229,255); /* Old browsers */
+    background: -moz-linear-gradient(-45deg,  rgba(0,229,255,1) 0%, rgba(0,165,171,1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(-45deg,  rgba(0,229,255,1) 0%,rgba(0,165,171,1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(135deg,  rgba(0,229,255,1) 0%,rgba(0,165,171,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e5ff', endColorstr='#00a5ab',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+section.call-to-action > .container {
+    display: -webkit-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+section.call-to-action > .container > .content {
+    position: relative;
+    width: calc(100% - 300px);
+    color: #FFF;
+}
+
+section.call-to-action > .container > .content h4 {
+    position: relative;
+    margin: 0;
+    font-weight: bold;
+    color: inherit;
+    font-size: 30px;
+}
+
+section.call-to-action > .container > .content p {
+    position: relative;
+    margin: 0;
+    color: inherit;
+    font-size: 20px;
+}
+
+section.call-to-action > .container > a {
+    position: relative;
+    display: block;
+    width: 300px;
+    box-sizing: border-box;
+    background-color: #FFF;
+    padding: 20px;
+    text-align: center;
+    border-radius: 50px;
+    font-size: 15px;
+    text-decoration: none;
+    color: #5d5d5d;
+    text-transform: uppercase;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+
+main.mkt_page > footer.main {
+    background-image: url("../../images/background-map.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 100px 0;
+}
+
+main.mkt_page > footer.main > .container {
+    text-align: center;
+}
+
+main.mkt_page > footer.main > .container > h2 {
+    margin: 0;
+    text-align: center;
+    color: #FFF;
+    font-weight: bold;
+}
+
+main.mkt_page > footer.main > .container > h3 {
+    margin: 0 auto;
+    text-align: center;
+    font-weight: 300;
+    color: #FFF;
+    font-size: 17px;
+    max-width: 600px;
+    width: 90%;
+}
+
+main.mkt_page > footer.main > .container > a.btn {
+    margin: 50px auto 0;
+    display: inline-block;
+    padding: 20px 40px;
+    background-color: #FFF;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+main.mkt_page > footer.main > .container > .copyright {
+    margin-top: 100px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 30px 0 0;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 12px;
+}
+
+main.mkt_page > footer.main > .container > ul.social_media {
+    display: -webkit-box;
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    margin-top: 50px;
+}
+
+main.mkt_page > footer.main > .container > ul.social_media > li {
+    display: block;
+    margin: 0 10px;
+}
+
+main.mkt_page > footer.main > .container > ul.social_media > li > a {
+    display: block;
+    line-height: 1;
+    color: #FFF;
+    text-decoration: none;
+}
+
+@media (max-width: 767px) {
+	main.mkt_page > header.topbar > figure {
+		width: 100px;
+	}
+
+	main.mkt_page > header.topbar > nav {
+		width: calc(100% - 100px);
+	}
+
+	main.mkt_page > section.main > header.cover {
+		height: auto;
+	}
+
+	main.mkt_page > section.main > header.cover > .container {
+		grid-template-columns: 100%;
+		padding-top: 150px;
+		padding-bottom: 150px;
+	}
+
+	main.mkt_page > section.main > header.cover > .container > .content {
+		padding: 0;
+	}
+
+	main.mkt_page > section.main > header.cover > .container > .content h1, main.mkt_page > section.main > header.cover > .container > .content h2 {
+		font-size: 30px;
+	}
+
+	main.mkt_page > section.main > header.cover > .container > .content a.btn {
+		margin: 40px auto;
+	}
+
+	main.mkt_page > section.main > header.cover > .container > figure, main.mkt_page > section.main > header.cover > .container > figure > img {
+		width: 100%;
+		height: 100%;
+		line-height: 0;
+	}
+
+	main.mkt_page > section.main .boxes.three-boxes {
+		grid-template-columns: 100%;
+	}
+
+	main.mkt_page > section.main .boxes-product {
+		grid-template-columns: 100%;
+	}
+
+	section.call-to-action > .container {
+		flex-direction: column;
+	}
+
+	section.call-to-action > .container > .content {
+		width: 100%;
+		text-align: center;
+		padding-bottom: 20px;
+	}
+}

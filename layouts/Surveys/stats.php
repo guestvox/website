@@ -36,18 +36,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
             <form name="get_charts_by_date_filter" class="charts-filter">
                 <select name="question">
                     <option value="all">{$lang.all_questions}</option>
-                    <optgroup label="{$lang.rate}">
-                        {$opt_survey_questions_rate}
-                    </optgroup>
-                    <optgroup label="{$lang.twin}">
-                        {$opt_survey_questions_twin}
-                    </optgroup>
-                    <optgroup label="{$lang.open}">
-                        {$opt_survey_questions_open}
-                    </optgroup>
-                    <optgroup label="{$lang.check}">
-                        {$opt_survey_questions_check}
-                    </optgroup>
+                    {$opt_survey_questions}
                 </select>
                 <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>">
                 <input type="date" name="end_date" value="<?php echo Functions::get_current_date(); ?>" max="<?php echo Functions::get_current_date(); ?>">
@@ -97,6 +86,9 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     <canvas id="s1_chart" height="300"></canvas>
                 </div>
             </div>
+            <div class="charts big">
+                <canvas id="s2_chart" height="300"></canvas>
+            </div>
             <?php if (Session::get_value('account')['zaviapms']['status'] == true) : ?>
             <div class="charts little">
                 <canvas id="s5_chart" height="300"></canvas>
@@ -111,15 +103,6 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                 <canvas id="s8_chart" height="300"></canvas>
             </div>
             <?php endif; ?>
-            <div class="charts big">
-                <canvas id="s2_chart" height="300"></canvas>
-            </div>
-            <div class="charts medium">
-                <canvas id="s3_chart" height="300"></canvas>
-            </div>
-            <div class="charts medium">
-                <canvas id="s4_chart" height="300"></canvas>
-            </div>
             <div class="clear"></div>
         </main>
     </article>

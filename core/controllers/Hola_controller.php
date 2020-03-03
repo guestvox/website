@@ -9,7 +9,7 @@ class Hola_controller extends Controller
 		parent::__construct();
 	}
 
-	public function index()
+	public function operation()
 	{
 		if (Format::exist_ajax_request() == true)
 		{
@@ -56,7 +56,6 @@ class Hola_controller extends Controller
 				$mail3 = new Mailer(true);
 
 				try {
-					// Administración
 					$mail1->isSMTP();
 					$mail1->setFrom('noreply@guestvox.com', 'GuestVox');
 					$mail1->addAddress('info@guestvox.com', $post['name_contact']);
@@ -72,7 +71,6 @@ class Hola_controller extends Controller
 				} catch (Exception $e) {}
 
 				try {
-					// Cliente
 					$mail2->isSMTP();
 					$mail2->setFrom('noreply@guestvox.com', 'GuestVox');
 					$mail2->addAddress($post['email'], 'GuestVox');
@@ -84,7 +82,6 @@ class Hola_controller extends Controller
 				} catch (Exception $e) {}
 
 				try {
-					// Referido
 					$mail3->isSMTP();
 					$mail3->setFrom('noreply@guestvox.com', 'GuestVox');
 					$mail3->addAddress($post['ref']['email'], $post['ref']['name']);
@@ -109,14 +106,9 @@ class Hola_controller extends Controller
 		}
 		else
 		{
-			define('_title', '');
+			define('_title', 'GuestVox');
 
-			$template = $this->view->render($this, 'index');
-
-			$replace = [
-			];
-
-			$template = $this->format->replace($replace, $template);
+			$template = $this->view->render($this, 'operation');
 
 			echo $template;
 		}
@@ -124,9 +116,9 @@ class Hola_controller extends Controller
 
 	public function reputation()
 	{
-		define('_title', '');
+		define('_title', 'GuestVox');
 
-		$template = $this->view->render($this, 'index');
+		$template = $this->view->render($this, 'reputation');
 
 		echo $template;
 	}
