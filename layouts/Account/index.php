@@ -370,6 +370,38 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             </label>
                         </div>
                     </div>
+                    <!-- <div class="span6 {$myvox_settings_survey_title_mail}">
+                        <div class="label">
+                            <label>
+                                <p>(ES) {$lang.survey_title}</p>
+                                <input type="text" name="myvox_settings_survey_title_mail_es" value="{$myvox_settings_survey_title_mail_es}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6 {$myvox_settings_survey_title_mail}">
+                        <div class="label">
+                            <label>
+                                <p>(ES) {$lang.survey_title}</p>
+                                <input type="text" name="myvox_settings_survey_title_mail_en" value="{$myvox_settings_survey_title_mail_en}" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6 {$myvox_settings_survey_paragraph_mail}">
+                        <div class="label">
+                            <label>
+                                <p>(ES) {$lang.description}</p>
+                                <textarea name="myvox_settings_survey_paragraph_mail_es">{$myvox_settings_survey_paragraph_mail_es}</textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6 {$myvox_settings_survey_paragraph_mail}">
+                        <div class="label">
+                            <label>
+                                <p>(EN) {$lang.description}</p>
+                                <textarea name="myvox_settings_survey_paragraph_mail_en">{$myvox_settings_survey_paragraph_mail_en}</textarea>
+                            </label>
+                        </div>
+                    </div> -->
                     <?php endif; ?>
                 </div>
             </form>
@@ -441,7 +473,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <div class="span6 {$review_settings_hidden}">
                         <div class="label">
                             <label>
-                                <p>(ES) {$lang.description}</p>
+                                <p>(EN) {$lang.description}</p>
                                 <textarea name="review_settings_description_en">{$review_settings_description_en}</textarea>
                             </label>
                         </div>
