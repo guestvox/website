@@ -42,19 +42,19 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                         <h4>{$lang.myvox_settings}</h4>
                         <a data-button-modal="edit_myvox_settings" class="edit"><i class="fas fa-pen"></i></a>
                     </div>
+                    <h6>{$myvox_url}</h6>
                     <?php endif; ?>
                     <?php if (Functions::check_account_access(['reputation']) == true) : ?>
                     <div>
                         <h4>{$lang.review_settings}</h4>
                         <a data-button-modal="edit_review_settings" class="edit"><i class="fas fa-pen"></i></a>
                     </div>
+                    <h6>{$reviews_url}</h6>
                     <?php endif; ?>
                     <!-- <div>
                         <h4>{$lang.payment_information}</h4>
                         <a class="edit" disabled><i class="fas fa-pen"></i></a>
                     </div> -->
-                    <h6>{$myvox_url}</h6>
-                    <h6>{$reviews_url}</h6>
                 </div>
                 <div>
                     <h2>
