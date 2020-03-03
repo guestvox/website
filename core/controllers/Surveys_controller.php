@@ -876,8 +876,6 @@ class Surveys_controller extends Controller
 					'data' => [
 						's1_chart_data' => $this->model->get_chart_data('s1_chart', [$_POST['started_date'], $_POST['end_date']], true),
 						's2_chart_data' => $this->model->get_chart_data('s2_chart', [$_POST['started_date'], $_POST['end_date'], $_POST['question']], true),
-						's3_chart_data' => $this->model->get_chart_data('s3_chart', [$_POST['started_date'], $_POST['end_date'], $_POST['question']], true),
-						's4_chart_data' => $this->model->get_chart_data('s4_chart', [$_POST['started_date'], $_POST['end_date'], $_POST['question']], true),
 						's5_chart_data' => $this->model->get_chart_data('s5_chart', [$_POST['started_date'], $_POST['end_date']], true),
 						's6_chart_data' => $this->model->get_chart_data('s6_chart', [$_POST['started_date'], $_POST['end_date']], true),
 						's7_chart_data' => $this->model->get_chart_data('s7_chart', [$_POST['started_date'], $_POST['end_date']], true),
@@ -916,25 +914,10 @@ class Surveys_controller extends Controller
 				' . (($general_average_rate >= 4.8 AND $general_average_rate <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#00a5ab;"></i>' : '<i class="far fa-grin-stars"></i>') . '
 			</span>';
 
-			$opt_survey_questions_rate = '';
+			$opt_survey_questions = '';
 
-			foreach ($this->model->get_survey_questions(true, 'rate') as $value)
-				$opt_survey_questions_rate .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
-
-			$opt_survey_questions_twin = '';
-
-			foreach ($this->model->get_survey_questions(true, 'twin') as $value)
-				$opt_survey_questions_twin .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
-
-			$opt_survey_questions_open = '';
-
-			foreach ($this->model->get_survey_questions(true, 'open') as $value)
-				$opt_survey_questions_open .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
-
-			$opt_survey_questions_check = '';
-
-			foreach ($this->model->get_survey_questions(true, 'check') as $value)
-				$opt_survey_questions_check .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
+			foreach ($this->model->get_survey_questions(true) as $value)
+				$opt_survey_questions .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 			$replace = [
 				'{$h4_general_average_rate}' => $h4_general_average_rate,
@@ -949,10 +932,7 @@ class Surveys_controller extends Controller
 				'{$count_answered_week}' => $this->model->get_count('answered_week'),
 				'{$count_answered_month}' => $this->model->get_count('answered_month'),
 				'{$count_answered_year}' => $this->model->get_count('answered_year'),
-				'{$opt_survey_questions_rate}' => $opt_survey_questions_rate,
-				'{$opt_survey_questions_twin}' => $opt_survey_questions_twin,
-				'{$opt_survey_questions_open}' => $opt_survey_questions_open,
-				'{$opt_survey_questions_check}' => $opt_survey_questions_check
+				'{$opt_survey_questions}' => $opt_survey_questions
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -967,8 +947,6 @@ class Surveys_controller extends Controller
 
 		$s1_chart_data = $this->model->get_chart_data('s1_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]);
 		$s2_chart_data = $this->model->get_chart_data('s2_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date(), 'all']);
-		$s3_chart_data = $this->model->get_chart_data('s3_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date(), 'all']);
-		$s4_chart_data = $this->model->get_chart_data('s4_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date(), 'all']);
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{
@@ -988,8 +966,6 @@ class Surveys_controller extends Controller
 				$s1_chart_title = 'Por cliente';
 
 			$s2_chart_title = 'Valoración';
-			$s3_chart_title = 'Doble';
-			$s4_chart_title = 'Respuesta múltiple';
 
 			if (Session::get_value('account')['zaviapms']['status'] == true)
 			{
@@ -1009,8 +985,6 @@ class Surveys_controller extends Controller
 				$s1_chart_title = 'Per client';
 
 			$s2_chart_title = 'Rating';
-			$s3_chart_title = 'Twin';
-			$s4_chart_title = 'Multipe answer';
 
 			if (Session::get_value('account')['zaviapms']['status'] == true)
 			{
@@ -1086,63 +1060,7 @@ class Surveys_controller extends Controller
 				},
 	            responsive: true
             }
-		};
-
-		var s3_chart = {
-	        type: 'doughnut',
-	        data: {
-				labels: [
-	                " . $s3_chart_data['labels'] . "
-	            ],
-				datasets: [{
-					data: [
-	                    " . $s3_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $s3_chart_data['datasets']['colors'] . "
-	                ]
-	            }]
-	        },
-	        options: {
-				title: {
-					display: true,
-					position: 'bottom',
-					text: '" . $s3_chart_title . "'
-				},
-				legend: {
-					display: false
-				},
-	            responsive: true
-            }
-        };
-
-		var s4_chart = {
-	        type: 'doughnut',
-	        data: {
-				labels: [
-	                " . $s4_chart_data['labels'] . "
-	            ],
-				datasets: [{
-					data: [
-	                    " . $s4_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $s4_chart_data['datasets']['colors'] . "
-	                ]
-	            }]
-	        },
-	        options: {
-				title: {
-					display: true,
-					position: 'bottom',
-					text: '" . $s4_chart_title . "'
-				},
-				legend: {
-					display: false
-				},
-	            responsive: true
-            }
-        };";
+		};";
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
 		{
@@ -1264,9 +1182,7 @@ class Surveys_controller extends Controller
 		"window.onload = function()
 		{
 			s1_chart = new Chart(document.getElementById('s1_chart').getContext('2d'), s1_chart);
-			s2_chart = new Chart(document.getElementById('s2_chart').getContext('2d'), s2_chart);
-			s3_chart = new Chart(document.getElementById('s3_chart').getContext('2d'), s3_chart);
-			s4_chart = new Chart(document.getElementById('s4_chart').getContext('2d'), s4_chart);";
+			s2_chart = new Chart(document.getElementById('s2_chart').getContext('2d'), s2_chart);";
 
 			if (Session::get_value('account')['zaviapms']['status'] == true)
 			{

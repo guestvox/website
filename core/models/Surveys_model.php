@@ -9,47 +9,22 @@ class Surveys_model extends Model
 		parent::__construct();
 	}
 
-	public function get_survey_questions($status = 'all', $type = 'all')
+	public function get_survey_questions($status = 'all')
 	{
 		if ($status == 'all')
 		{
-			if ($type == 'all')
-			{
-				$where = [
-					'account' => Session::get_value('account')['id']
-				];
-			}
-			else
-			{
-				$where = [
-					'AND' => [
-						'account' => Session::get_value('account')['id'],
-						'type' => $type
-					]
-				];
-			}
+			$where = [
+				'account' => Session::get_value('account')['id']
+			];
 		}
 		else if ($status == true OR $status == false)
 		{
-			if ($type == 'all')
-			{
-				$where = [
-					'AND' => [
-						'account' => Session::get_value('account')['id'],
-						'status' => $status
-					]
-				];
-			}
-			else
-			{
-				$where = [
-					'AND' => [
-						'account' => Session::get_value('account')['id'],
-						'type' => $type,
-						'status' => $status
-					]
-				];
-			}
+			$where = [
+				'AND' => [
+					'account' => Session::get_value('account')['id'],
+					'status' => $status
+				]
+			];
 		}
 
 		$query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
@@ -1189,287 +1164,11 @@ class Surveys_model extends Model
 		}
 		else if ($option == 's3_chart')
 		{
-			if ($parameters[2] == 'all')
-			{
-				$where = [
-					'account' => Session::get_value('account')['id']
-				];
-			}
-			else
-			{
-				$where = [
-					'id' => $parameters[2]
-				];
-			}
 
-			$query1 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-				'id',
-				'name',
-				'subquestions',
-				'type'
-			], $where));
-
-			if ($edit == true)
-			{
-				$data = [
-					'labels' => [],
-					'datasets' => [
-						'data' => [],
-						'colors' => []
-					]
-				];
-			}
-			else
-			{
-				$data = [
-					'labels' => '',
-					'datasets' => [
-						'data' => '',
-						'colors' => ''
-					]
-				];
-			}
-
-			$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-				'answers'
-			], [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$parameters[0],$parameters[1]]
-				]
-			]));
-
-			$yes = 0;
-			$no = 0;
-			$count = 0;
-
-			foreach ($query1 as $value)
-			{
-				foreach ($query2 as $subvalue)
-				{
-					foreach ($subvalue['answers'] as $parentvalue)
-					{
-						if ($value['id'] == $parentvalue['id'])
-						{
-							if ($parentvalue['type'] == 'twin')
-							{
-								if ($parentvalue['answer'] == 'yes')
-									$yes = $yes + 1;
-								else if ($parentvalue['answer'] == 'no')
-									$no = $no + 1;
-
-								$count = $count + 1;
-							}
-
-							foreach ($parentvalue['subanswers'] as $childvalue)
-							{
-								if ($childvalue['type'] == 'twin')
-								{
-									if ($childvalue['answer'] == 'yes')
-										$yes = $yes + 1;
-									else if ($childvalue['answer'] == 'no')
-										$no = $no + 1;
-
-									$count = $count + 1;
-								}
-
-								foreach ($childvalue['subanswers'] as $slavevalue)
-								{
-									if ($slavevalue['type'] == 'twin')
-									{
-										if ($slavevalue['answer'] == 'yes')
-											$yes = $yes + 1;
-										else if ($slavevalue['answer'] == 'no')
-											$no = $no + 1;
-
-										$count = $count + 1;
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-
-			if ($yes > 0 AND $count > 0)
-				$yes = round((($yes * 100) / $count), 0);
-
-			if ($no > 0 AND $count > 0)
-				$no = round((($no * 100) / $count), 0);
-
-			if ($edit == true)
-			{
-				if (Session::get_value('account')['language'] == 'es')
-				{
-					array_push($data['labels'], 'Si %');
-					array_push($data['labels'], 'No %');
-				}
-				else if (Session::get_value('account')['language'] == 'en')
-				{
-					array_push($data['labels'], 'Yes %');
-					array_push($data['labels'], 'No %');
-				}
-
-				array_push($data['datasets']['data'], $yes);
-				array_push($data['datasets']['data'], $no);
-				array_push($data['datasets']['colors'], '#00a5ab');
-				array_push($data['datasets']['colors'], '#ffc107');
-			}
-			else
-			{
-				if (Session::get_value('account')['language'] == 'es')
-				{
-					$data['labels'] .= "'Si %',";
-					$data['labels'] .= "'No %',";
-				}
-				else if (Session::get_value('account')['language'] == 'en')
-				{
-					$data['labels'] .= "'Yes %',";
-					$data['labels'] .= "'No %',";
-				}
-
-				$data['datasets']['data'] .= $yes . ',';
-				$data['datasets']['data'] .= $no . ',';
-				$data['datasets']['colors'] .= "'#00a5ab',";
-				$data['datasets']['colors'] .= "'#ffc107',";
-			}
 		}
 		else if ($option == 's4_chart')
 		{
-			if ($parameters[2] == 'all')
-			{
-				$where = [
-					'account' => Session::get_value('account')['id']
-				];
-			}
-			else
-			{
-				$where = [
-					'id' => $parameters[2]
-				];
-			}
-
-			$query1 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-				'id',
-				'name',
-				'subquestions',
-				'type'
-			], $where));
-
-			if ($edit == true)
-			{
-				$data = [
-					'labels' => [],
-					'datasets' => [
-						'data' => [],
-						'colors' => []
-					]
-				];
-			}
-			else
-			{
-				$data = [
-					'labels' => '',
-					'datasets' => [
-						'data' => '',
-						'colors' => ''
-					]
-				];
-			}
-
-			$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-				'answers'
-			], [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$parameters[0],$parameters[1]]
-				]
-			]));
-
-			foreach ($query1 as $value)
-			{
-				foreach ($query2 as $subvalue)
-				{
-					foreach ($subvalue['answers'] as $parentvalue)
-					{
-						// if ($value['id'] == $parentvalue['id'])
-						// {
-						// 	if ($parentvalue['type'] == 'twin')
-						// 	{
-						// 		if ($parentvalue['answer'] == 'yes')
-						// 			$yes = $yes + 1;
-						// 		else if ($parentvalue['answer'] == 'no')
-						// 			$no = $no + 1;
-						//
-						// 		$count = $count + 1;
-						// 	}
-						//
-						// 	foreach ($parentvalue['subanswers'] as $childvalue)
-						// 	{
-						// 		if ($childvalue['type'] == 'twin')
-						// 		{
-						// 			if ($childvalue['answer'] == 'yes')
-						// 				$yes = $yes + 1;
-						// 			else if ($childvalue['answer'] == 'no')
-						// 				$no = $no + 1;
-						//
-						// 			$count = $count + 1;
-						// 		}
-						//
-						// 		foreach ($childvalue['subanswers'] as $slavevalue)
-						// 		{
-						// 			if ($slavevalue['type'] == 'twin')
-						// 			{
-						// 				if ($slavevalue['answer'] == 'yes')
-						// 					$yes = $yes + 1;
-						// 				else if ($slavevalue['answer'] == 'no')
-						// 					$no = $no + 1;
-						//
-						// 				$count = $count + 1;
-						// 			}
-						// 		}
-						// 	}
-						// }
-					}
-				}
-			}
-
-			// if ($edit == true)
-			// {
-			// 	if (Session::get_value('account')['language'] == 'es')
-			// 	{
-			// 		array_push($data['labels'], 'Si %');
-			// 		array_push($data['labels'], 'No %');
-			// 	}
-			// 	else if (Session::get_value('account')['language'] == 'en')
-			// 	{
-			// 		array_push($data['labels'], 'Yes %');
-			// 		array_push($data['labels'], 'No %');
-			// 	}
-			//
-			// 	array_push($data['datasets']['data'], $yes);
-			// 	array_push($data['datasets']['data'], $no);
-			// 	array_push($data['datasets']['colors'], '#00a5ab');
-			// 	array_push($data['datasets']['colors'], '#ffc107');
-			// }
-			// else
-			// {
-			// 	if (Session::get_value('account')['language'] == 'es')
-			// 	{
-			// 		$data['labels'] .= "'Si %',";
-			// 		$data['labels'] .= "'No %',";
-			// 	}
-			// 	else if (Session::get_value('account')['language'] == 'en')
-			// 	{
-			// 		$data['labels'] .= "'Yes %',";
-			// 		$data['labels'] .= "'No %',";
-			// 	}
-			//
-			// 	$data['datasets']['data'] .= $yes . ',';
-			// 	$data['datasets']['data'] .= $no . ',';
-			// 	$data['datasets']['colors'] .= "'#00a5ab',";
-			// 	$data['datasets']['colors'] .= "'#ffc107',";
-			// }
+			
 		}
 		else if ($option == 's5_chart' OR $option == 's6_chart' OR $option == 's7_chart' OR $option == 's8_chart')
 		{
