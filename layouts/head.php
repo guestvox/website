@@ -15,6 +15,19 @@
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 		<link rel="stylesheet" href="{$path.css}valkyrie.min.css" type="text/css" media="all" />
 		<link rel="stylesheet" href="{$path.css}styles.css" type="text/css" media="all" />
+		<!--Inician dependencias de PWA-->
+                <link rel="manifest" href="manifest.json">
+                <meta name="theme-color" content="#00A5AB"/>
+                <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+                <!--Inician dependencias de pwa para ios-->
+                <meta name="mobile-web-app-capable" content="yes" />
+                <meta name="apple-touch-fullscreen" content="yes" />
+                <meta name="apple-mobile-web-app-title" content="GuestVox" />
+                <meta name="apple-mobile-web-app-capable" content="yes" />
+                <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+                <link rel="apple-touch-icon" sizes="180x180" href="images/icon_180x180.png" />
+		<!--Terminan dependencias de pwa para ios-->
+                <!--Terminan dependencias de PWA-->
 		{$dependencies.css}
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-153525856-1"></script>
