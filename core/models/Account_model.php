@@ -247,6 +247,58 @@ class Account_model extends Model
 			];
 
 			$data['settings']['myvox']['survey_widget'] = (Functions::check_account_access(['reputation']) == true) ? $data['myvox_settings_survey_widget'] : '';
+
+			if (!empty($data['myvox_settings_survey_attachments']))
+			{
+				$this->component->load_component('uploader');
+
+				$_com_uploader = new Upload;
+
+				if (!empty($data['myvox_settings_survey_attachments']['name']))
+				{
+					$ext = explode('.', $data['myvox_settings_survey_attachments']['name']);
+					$ext = end($ext);
+
+					if ($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx')
+						$data['myvox_settings_survey_attachments']['type'] = 'application/' . $ext;
+
+					$_com_uploader->SetFileName($data['myvox_settings_survey_attachments']['name']);
+					$_com_uploader->SetTempName($data['myvox_settings_survey_attachments']['tmp_name']);
+					$_com_uploader->SetFileType($data['myvox_settings_survey_attachments']['type']);
+					$_com_uploader->SetFileSize($data['myvox_settings_survey_attachments']['size']);
+					$_com_uploader->SetUploadDirectory(PATH_UPLOADS);
+					$_com_uploader->SetValidExtensions(['jpg','jpeg','png','pdf','doc','docx','xls','xlsx']);
+					$_com_uploader->SetMaximumFileSize('unlimited');
+
+					$data['myvox_settings_survey_attachments'] = $_com_uploader->UploadFile();
+				}
+
+				unset($data['myvox_settings_survey_attachments']['name'], $data['myvox_settings_survey_attachments']['type'], $data['myvox_settings_survey_attachments']['tmp_name'], $data['myvox_settings_survey_attachments']['error'], $data['myvox_settings_survey_attachments']['size']);
+			}
+
+			$data['settings']['myvox']['survey_mail'] = (Functions::check_account_access(['reputation']) == true) ? [
+				'title' => [
+					'es' => $data['myvox_settings_survey_title_mail_es'],
+					'en' => $data['myvox_settings_survey_title_mail_en']
+				],
+				'paragraph' => [
+					'es' => $data['myvox_settings_survey_paragraph_mail_es'],
+					'en' => $data['myvox_settings_survey_paragraph_mail_en']
+				],
+				'image' => !empty($data['myvox_settings_survey_image']['name']) ? Functions::uploader($data['myvox_settings_survey_image']) : null,
+				'attachment' => !empty($data['myvox_settings_survey_attachments']) ? $data['myvox_settings_survey_attachments'] : []
+			] : [
+				'title' => [
+					'es' => '',
+					'en' => ''
+				],
+				'paragraph' => [
+					'es' => '',
+					'en' => ''
+				],
+				'image' => null,
+				'attachment' => []
+			];
 		}
 		else if ($data['action'] == 'edit_review_settings')
 		{

@@ -166,6 +166,33 @@ $(document).ready(function()
         }
     });
 
+    $('[name="myvox_settings_survey_image"]').parents('.uploader').find('a').on('click', function()
+    {
+        $('[name="myvox_settings_survey_image"]').click();
+    });
+
+    $('[name="myvox_settings_survey_image"]').on('change', function()
+    {
+        var preview = $(this).parents('.uploader').find('img');
+
+        if ($(this)[0].files[0].type.match($(this).attr('accept')))
+        {
+            var reader = new FileReader();
+
+            reader.onload = function(e)
+            {
+                preview.attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL($(this)[0].files[0]);
+        }
+        else
+        {
+            $('[data-modal="error"]').addClass('view');
+            $('[data-modal="error"]').find('main > p').html('ERROR FILE NOT PERMIT');
+        }
+    });
+
     $('[data-modal="edit_myvox_settings"]').modal().onSuccess(function()
     {
         $('[data-modal="edit_myvox_settings"]').find('form').submit();
@@ -176,10 +203,14 @@ $(document).ready(function()
         e.preventDefault();
 
         var form = $(this);
+        var data = new FormData(form[0]);
+
+        data.append('action', 'edit_myvox_settings');
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=edit_myvox_settings',
+            data: data,
+            contentType: false,
             processData: false,
             cache: false,
             dataType: 'json',

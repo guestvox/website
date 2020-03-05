@@ -180,6 +180,21 @@ class Account_controller extends Controller
 
 							if (!isset($_POST['myvox_settings_survey_title_en']) OR empty($_POST['myvox_settings_survey_title_en']))
 								array_push($labels, ['myvox_settings_survey_title_en', '']);
+
+							if (!isset($_POST['myvox_settings_survey_title_mail_es']) OR empty($_POST['myvox_settings_survey_title_mail_es']))
+								array_push($labels, ['myvox_settings_survey_title_mail_es', '']);
+
+							if (!isset($_POST['myvox_settings_survey_title_mail_en']) OR empty($_POST['myvox_settings_survey_title_mail_en']))
+								array_push($labels, ['myvox_settings_survey_title_mail_en', '']);
+
+							if (!isset($_POST['myvox_settings_survey_paragraph_mail_es']) OR empty($_POST['myvox_settings_survey_paragraph_mail_es']))
+								array_push($labels, ['myvox_settings_survey_paragraph_mail_es', '']);
+
+							if (!isset($_POST['myvox_settings_survey_paragraph_mail_en']) OR empty($_POST['myvox_settings_survey_paragraph_mail_en']))
+								array_push($labels, ['myvox_settings_survey_paragraph_mail_en', '']);
+
+							$_POST['myvox_settings_survey_image'] = $_FILES['myvox_settings_survey_image'];
+							$_POST['myvox_settings_survey_attachments'] = $_FILES['myvox_settings_survey_attachments'];
 						}
 					}
 				}
@@ -289,6 +304,24 @@ class Account_controller extends Controller
 					$opt_review_settings_ladas .= '<option value="' . $value['lada'] . '" ' . (($account['settings']['review']['phone']['lada'] == $value['lada']) ? 'selected' : '') . '>(+' . $value['lada'] . ') ' . $value['name'][Session::get_value('account')['language']] . '</option>';
 			}
 
+			$div_attachment = '';
+
+			if (!empty($account['settings']['myvox']['survey_mail']['attachment']))
+			{
+				$div_attachment .=
+				'<div class="attachments">';
+
+				$ext = strtoupper(explode('.', $account['settings']['myvox']['survey_mail']['attachment']['file'])[1]);
+
+				if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
+					$div_attachment .= '<figure class="attachment"><img src="{$path.uploads}' . $account['settings']['myvox']['survey_mail']['attachment']['file'] . '"><a href="{$path.uploads}' . $account['settings']['myvox']['survey_mail']['attachment']['file'] . '" class="fancybox-thumb" rel="fancybox-thumb"></a></figure>';
+				else if ($ext == 'PDF' OR $ext == 'DOC' OR $ext == 'DOCX' OR $ext == 'XLS' OR $ext == 'XLSX')
+					$div_attachment .= '<iframe class="attachment" src="https://docs.google.com/viewer?url=https://' . Configuration::$domain . '/uploads/' . $account['settings']['myvox']['survey_mail']['attachment']['file'] . '&embedded=true"></iframe>';
+
+				$div_attachment .=
+				'</div>';
+			}
+
 			$replace = [
 				'{$qr}' => '{$path.uploads}' . $account['qr'],
 				'{$logotype}' => '{$path.uploads}' . $account['logotype'],
@@ -324,6 +357,12 @@ class Account_controller extends Controller
 				'{$myvox_settings_survey_title_es}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['myvox']['survey_title']['es'] : '',
 				'{$myvox_settings_survey_title_en}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['myvox']['survey_title']['en'] : '',
 				'{$myvox_settings_survey_widget}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['myvox']['survey_widget'] : '',
+				'{$myvox_settings_survey_title_mail_es}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['myvox']['survey_mail']['title']['es'] : '',
+				'{$myvox_settings_survey_title_mail_en}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['myvox']['survey_mail']['title']['en'] : '',
+				'{$myvox_settings_survey_paragraph_mail_es}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['myvox']['survey_mail']['paragraph']['es'] : '',
+				'{$myvox_settings_survey_paragraph_mail_en}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['myvox']['survey_mail']['paragraph']['en'] : '',
+				'{$myvox_settings_survey_image}' => (!empty($account['settings']['myvox']['survey_mail']['image']) ? '{$path.uploads}' . $account['settings']['myvox']['survey_mail']['image'] : '{$path.images}empty.png'),
+				'{$div_attachment}' => $div_attachment,
 				'{$myvox_settings_survey_hidden}' => ($account['settings']['myvox']['survey'] == true) ? '' : 'hidden',
 				'{$review_settings_online}' => (Functions::check_account_access(['reputation']) == true AND $account['settings']['review']['online'] == true) ? 'checked' : '',
 				'{$review_settings_email}' => (Functions::check_account_access(['reputation']) == true) ? $account['settings']['review']['email'] : '',
