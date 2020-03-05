@@ -232,7 +232,15 @@ class Account_model extends Model
 
 	public function edit_settings($data)
 	{
-		if ($data['action'] == 'edit_myvox_settings')
+		$edited = Functions::get_json_decoded_query(
+			$this->database->select('accounts', [
+	            'settings'
+	        ], [
+	            'id' => Session::get_value('account')['id']
+	        ])
+		);
+
+		if ($data['action'] == 'edit_myvox_settings' AND !empty($edited))
 		{
 			$data['settings']['myvox']['request'] = (Functions::check_account_access(['operation']) == true AND !empty($data['myvox_settings_request'])) ? true : false;
 			$data['settings']['myvox']['incident'] = (Functions::check_account_access(['operation']) == true AND !empty($data['myvox_settings_incident'])) ? true : false;
@@ -285,8 +293,8 @@ class Account_model extends Model
 					'es' => $data['myvox_settings_survey_paragraph_mail_es'],
 					'en' => $data['myvox_settings_survey_paragraph_mail_en']
 				],
-				'image' => !empty($data['myvox_settings_survey_image']['name']) ? Functions::uploader($data['myvox_settings_survey_image']) : null,
-				'attachment' => !empty($data['myvox_settings_survey_attachments']) ? $data['myvox_settings_survey_attachments'] : []
+				'image' => !empty($data['myvox_settings_survey_image']['name']) ? Functions::uploader($data['myvox_settings_survey_image']) : $edited[0]['settings']['myvox']['survey_mail']['image'],
+				'attachment' => !empty($data['myvox_settings_survey_attachments']) ? $data['myvox_settings_survey_attachments'] : $edited[0]['settings']['myvox']['survey_mail']['attachment']
 			] : [
 				'title' => [
 					'es' => '',
@@ -352,6 +360,9 @@ class Account_model extends Model
 		], [
 			'id' => Session::get_value('account')['id']
 		]);
+
+		if (!empty($query) AND !empty($data['myvox_settings_survey_image']['name']) AND $edited[0]['settings']['myvox']['survey_mail']['image'])
+			Functions::undoloader($edited[0]['settings']['myvox']['survey_mail']['image']);
 
 		return $query;
 	}
