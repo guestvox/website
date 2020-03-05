@@ -316,7 +316,7 @@ class Account_controller extends Controller
 				if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
 					$div_attachment .= '<figure class="attachment"><img src="{$path.uploads}' . $account['settings']['myvox']['survey_mail']['attachment']['file'] . '"><a href="{$path.uploads}' . $account['settings']['myvox']['survey_mail']['attachment']['file'] . '" class="fancybox-thumb" rel="fancybox-thumb"></a></figure>';
 				else if ($ext == 'PDF' OR $ext == 'DOC' OR $ext == 'DOCX' OR $ext == 'XLS' OR $ext == 'XLSX')
-					$div_attachment .= '<iframe class="attachment" src="https://docs.google.com/viewer?url=https://' . Configuration::$domain . '/uploads/' . $account['settings']['myvox']['survey_mail']['attachment']['file'] . '&embedded=true"></iframe>';
+					$div_attachment .= '<center><iframe class="attachment" src="https://docs.google.com/viewer?url=https://' . Configuration::$domain . '/uploads/' . $account['settings']['myvox']['survey_mail']['attachment']['file'] . '&embedded=true"></iframe></center>';
 
 				$div_attachment .=
 				'</div>';
