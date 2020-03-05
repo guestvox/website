@@ -370,10 +370,10 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             </label>
                         </div>
                     </div>
-                    <!-- <div class="span6 {$myvox_settings_survey_title_mail}">
+                    <div class="span6 {$myvox_settings_survey_title_mail}">
                         <div class="label">
                             <label>
-                                <p>(ES) {$lang.survey_title}</p>
+                                <p>(ES) {$lang.survey_title_mail}</p>
                                 <input type="text" name="myvox_settings_survey_title_mail_es" value="{$myvox_settings_survey_title_mail_es}" />
                             </label>
                         </div>
@@ -381,7 +381,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <div class="span6 {$myvox_settings_survey_title_mail}">
                         <div class="label">
                             <label>
-                                <p>(ES) {$lang.survey_title}</p>
+                                <p>(EN) {$lang.survey_title_mail}</p>
                                 <input type="text" name="myvox_settings_survey_title_mail_en" value="{$myvox_settings_survey_title_mail_en}" />
                             </label>
                         </div>
@@ -389,7 +389,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <div class="span6 {$myvox_settings_survey_paragraph_mail}">
                         <div class="label">
                             <label>
-                                <p>(ES) {$lang.description}</p>
+                                <p>(ES) {$lang.survey_paragraph_mail}</p>
                                 <textarea name="myvox_settings_survey_paragraph_mail_es">{$myvox_settings_survey_paragraph_mail_es}</textarea>
                             </label>
                         </div>
@@ -397,11 +397,31 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     <div class="span6 {$myvox_settings_survey_paragraph_mail}">
                         <div class="label">
                             <label>
-                                <p>(EN) {$lang.description}</p>
+                                <p>(EN) {$lang.survey_paragraph_mail}</p>
                                 <textarea name="myvox_settings_survey_paragraph_mail_en">{$myvox_settings_survey_paragraph_mail_en}</textarea>
                             </label>
                         </div>
-                    </div> -->
+                    </div>
+                    <div class="span12">
+                        <div class="uploader">
+                            <fieldset>
+                                <figure>
+                                    <img src="{$myvox_settings_survey_image}">
+                                    <a><i class="fas fa-upload"></i></a>
+                                    <input type="file" name="myvox_settings_survey_image" accept="image/*">
+                                </figure>
+                            </fieldset>
+                        </div>
+                    </div>
+                    {$div_attachment}
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.attachments}</p>
+                                <input type="file" name="myvox_settings_survey_attachments"/>
+                            </label>
+                        </div>
+                    </div>
                     <?php endif; ?>
                 </div>
             </form>

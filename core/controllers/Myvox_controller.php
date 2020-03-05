@@ -911,27 +911,27 @@ class Myvox_controller extends Controller
 
 								try
 								{
-									if (Session::get_value('lang') == 'es')
-										$mail_subject = 'Gracias por contestar nuestra encuesta';
-									else if (Session::get_value('lang') == 'en')
-										$mail_subject = 'Thanks for answers our surver';
+									$mail_title = Session::get_value('account')['settings']['myvox']['survey_mail']['title'][Session::get_value('account')['language']];
+									$mail_subject = Session::get_value('account')['settings']['myvox']['survey_mail']['paragraph'][Session::get_value('account')['language']];
+									$mail_file = (!empty(Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']) ? Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file'] : '');
+									$mail_url = (!empty(Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']) ? file_get_contents('https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file']) : '');
 
 									$mail->isSMTP();
 									$mail->setFrom('noreply@guestvox.com', 'GuestVox');
 									$mail->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
 									$mail->isHTML(true);
-									$mail->Subject = $mail_subject;
+									$mail->Subject = $mail_title;
 									$mail->Body =
 									'<html>
 										<head>
-											<title>' . $mail_subject . '</title>
+											<title>' . $mail_title . '</title>
 										</head>
 										<body>
 											<table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
 												<tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
 													<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
 														<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-															<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['logotype'] . '" />
+															<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . (!empty(Session::get_value('account')['settings']['myvox']['survey_mail']['image']) ? Session::get_value('account')['settings']['myvox']['survey_mail']['image'] : Session::get_value('account')['logotype']) . '" />
 														</figure>
 													</td>
 												</tr>
@@ -949,6 +949,10 @@ class Myvox_controller extends Controller
 											</table>
 										</body>
 									</html>';
+
+									if (!empty($mail_file))
+										$mail->addStringAttachment($mail_url, $mail_file);
+
 									$mail->AltBody = '';
 									$mail->send();
 								}
