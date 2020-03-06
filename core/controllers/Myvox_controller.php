@@ -915,6 +915,7 @@ class Myvox_controller extends Controller
 									$mail_subject = Session::get_value('account')['settings']['myvox']['survey_mail']['paragraph'][Session::get_value('account')['language']];
 									$mail_file = (!empty(Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']) ? Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file'] : '');
 									$mail_url = (!empty(Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']) ? file_get_contents('https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file']) : '');
+									$mail_attachment = (!empty(Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']) ? '<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file'] . '" download="'. Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file'] . '">Descargar archivo</a>' : '');
 
 									$mail->isSMTP();
 									$mail->setFrom('noreply@guestvox.com', 'GuestVox');
@@ -943,16 +944,17 @@ class Myvox_controller extends Controller
 												</tr>
 												<tr style="width:100%;margin:0px;border:0px;padding:0px;">
 													<td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
+														' . $mail_attachment . '
+													</td>
+												</tr>
+												<tr style="width:100%;margin:0px;border:0px;padding:0px;">
+													<td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
 														<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '">Powered by GuestVox</a>
 													</td>
 												</tr>
 											</table>
 										</body>
 									</html>';
-
-									if (!empty($mail_file))
-										$mail->addStringAttachment($mail_url, $mail_file);
-
 									$mail->AltBody = '';
 									$mail->send();
 								}
