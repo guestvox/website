@@ -40,6 +40,12 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                         <input type="text" name="tbl_survey_comments_search">
                     </label>
                 </aside>
+                <form name="poner nombre frm" class="charts-filter">
+                    <label>Fecha inicio</label>
+                    <input type="date" name="started_date" class="filtros_respuestas" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>">
+                    <label>Fecha fin</label>
+                    <input type="date" name="end_date" class="filtros_respuestas" value="<?php echo Functions::get_current_date(); ?>" max="<?php echo Functions::get_current_date(); ?>">
+                </form>
                 <table id="tbl_survey_comments">
                     <thead>
                         <tr>

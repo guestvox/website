@@ -2077,7 +2077,15 @@ main.surveys-stats > article > main > form.charts-filter.down > input,
 main.surveys-stats > article > main > form.charts-filter.down > select {
     background-color: #fff;
 }
-
+.filtros_respuestas{
+    width: auto;
+    height: 60px;
+    margin-left: 5px;
+    padding: 0px 20px;
+    border: 1px solid #eee;
+    box-sizing: border-box;
+    background-color: #eee;
+}
 @media (max-width: 768px) {
 
     main.surveys-stats > article > main > form.charts-filter > input,
