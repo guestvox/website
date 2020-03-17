@@ -477,7 +477,7 @@ body > main > article > footer > a:hover {
 @media (max-width: 768px) {
 
     .table > aside > label > span {
-        width: 50px;
+        width: 100px;
     }
 }
 

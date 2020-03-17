@@ -77,3 +77,37 @@ main.login > form > a[data-action="login"] {
     margin: 20px 0px;
     border-radius: 60px;
 }
+@media (max-width: 768px) {
+    
+    main.login > form > a{
+        display: none;
+    }
+    main.login > form > a[data-action="login"] {
+        width: 200px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 60px;
+        padding: 0px 0px;
+        box-sizing: border-box;
+        background-color: #00A5AB;
+        cursor: pointer;
+        color: #FFF;
+    }
+    .cierre{
+        display: block;
+        width: 30px !important;
+        height: 30px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        border-radius: 50% !important;
+        color: #FFF !important;
+        background-color: #00A5AB !important;
+        position: fixed;
+        top: 40px;
+        right: 60px;
+    }
+
+}

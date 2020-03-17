@@ -7,6 +7,7 @@ $this->dependencies->add(['js', '{$path.js}Login/index.js']);
 ?>
 
 <main class="login">
+    <a href="/" class="cierre"><i class="fas fa-times-circle"></i></a>
     <form name="login">
         <figure>
             <img src="{$path.images}icon-color.svg" alt="GuestVox icontype">
