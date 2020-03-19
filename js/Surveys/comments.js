@@ -9,12 +9,48 @@ $(document).ready(function()
         pageLength: 25,
         info: false
     });
-
+    
+    $('[name="started_date"], [name="end_date"], [name="room"]').on('change', function()
+    {
+        $(this).parents('form').submit();
+    });
+    
     $('[name="tbl_survey_comments_search"]').on('keyup', function()
     {
         tbl_survey_comments.search(this.value).draw();
     });
+    
+    $('[data-action="view_all"]').on('click', function(){
+        location.reload();
+    });
+    
+    
+    $('form[name="get_filter_survey_comments"]').on('submit', function(e)
+    {
+        e.preventDefault();
 
+        $.ajax({
+            type: 'POST',
+            data: $(this).serialize() + '&action=get_filter_survey_comments',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    tbl_survey_comments.clear();
+                    $('#tbl_survey_comments').find('tbody').html(response.data);
+                }
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                    $('[data-modal="error"]').addClass('view');
+                }
+            }
+        });
+    });
+    
     $(document).on('click', '[data-action="deactivate_comment"]', function()
     {
         id = $(this).data('id');

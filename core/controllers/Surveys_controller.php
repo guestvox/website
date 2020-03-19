@@ -800,6 +800,54 @@ class Surveys_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
+                        if ($_POST['action'] == 'get_filter_survey_comments')
+			{
+				$query = $this->model->get_filter_survey_answer($_POST);
+
+				if (!empty($query))
+				{
+					$data = '';
+
+					foreach ($query as $value)
+					{
+						if (!empty($value['comment']))
+                                                {
+                                                        $data .=
+                                                        '<tr>
+                                                                <td align="left">' . $value['token'] . '</td>';
+
+                                                        if (Session::get_value('account')['type'] == 'hotel')
+                                                                $data .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+
+                                                        if (Session::get_value('account')['type'] == 'restaurant')
+                                                                $data .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+
+                                                        if (Session::get_value('account')['type'] == 'others')
+                                                                $data .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
+
+                                                        $data .=
+                                                        '	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
+                                                                <td align="left" class="comment"> ' . $value['comment'] . '</td>
+                                                                <td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_comment" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_comment" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>
+                                                        </tr>';
+
+                                                }
+					}
+
+					Functions::environment([
+						'status' => 'success',
+						'data' => $data
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+                        
 			if ($_POST['action'] == 'deactivate_comment')
 			{
 				$query = $this->model->deactivate_comment($_POST['id']);
@@ -845,7 +893,19 @@ class Surveys_controller extends Controller
 			define('_title', 'GuestVox');
 
 			$template = $this->view->render($this, 'comments');
-
+                        $opt_rooms="";
+                        
+                        if (Session::get_value('account')['type'] == 'hotel')
+			{
+				foreach ($this->model->get_rooms() as $value)
+				{
+					if ($value['status'] == true)
+						$opt_rooms .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+					else
+						$opt_rooms .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
+				}
+			}
+                        
 			$tbl_survey_comments = '';
 
 			foreach ($this->model->get_survey_answers() as $value)
@@ -875,6 +935,7 @@ class Surveys_controller extends Controller
 			}
 
 			$replace = [
+				'{$opt_rooms}' => $opt_rooms,
 				'{$tbl_survey_comments}' => $tbl_survey_comments
 			];
 
