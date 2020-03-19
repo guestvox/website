@@ -229,6 +229,188 @@ class Surveys_model extends Model
 		return $query;
 	}
 
+	public function get_rooms()
+	{
+		$query = $this->database->select('rooms', [
+			'id',
+			'number',
+			'name',
+			'status'
+		], [
+			'account' => Session::get_value('account')['id'],
+			'ORDER' => [
+				'number' => 'ASC'
+			]
+		]);
+
+		return $query;
+	}
+
+	public function get_filter_survey_answer($data)
+	{
+		if ($data['room'] == 'all')
+		{
+			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+				'id',
+				'token',
+				'room',
+				'table',
+				'client',
+				'answers',
+				'comment',
+				'guest',
+				'date',
+				'status'
+			], [
+				'AND' => [
+					'account' => Session::get_value('account')['id'],
+					'date[<>]' => [$data['started_date'],$data['end_date']]
+				],
+				'ORDER' => [
+					'id' => 'DESC'
+				]
+			]));
+
+			foreach ($query as $key => $value)
+			{
+				if (Session::get_value('account')['type'] == 'hotel')
+				{
+					if (!empty($value['room']))
+						$query[$key]['room'] = $this->get_room($value['room']);
+				}
+
+				if (Session::get_value('account')['type'] == 'restaurant')
+				{
+					if (!empty($value['table']))
+						$query[$key]['table'] = $this->get_table($value['table']);
+				}
+
+				if (Session::get_value('account')['type'] == 'others')
+				{
+					if (!empty($value['client']))
+						$query[$key]['client'] = $this->get_client($value['client']);
+				}
+
+				$query[$key]['rate'] = 0;
+				$count = 0;
+
+				foreach ($value['answers'] as $subvalue)
+				{
+					if ($subvalue['type'] == 'rate')
+					{
+						$query[$key]['rate'] = $query[$key]['rate'] + $subvalue['answer'];
+						$count = $count + 1;
+					}
+
+					foreach ($subvalue['subanswers'] as $parentvalue)
+					{
+						if ($parentvalue['type'] == 'rate')
+						{
+							$query[$key]['rate'] = $query[$key]['rate'] + $parentvalue['answer'];
+							$count = $count + 1;
+						}
+
+						foreach ($parentvalue['subanswers'] as $childvalue)
+						{
+							if ($childvalue['type'] == 'rate')
+							{
+								$query[$key]['rate'] = $query[$key]['rate'] + $childvalue['answer'];
+								$count = $count + 1;
+							}
+						}
+					}
+				}
+
+				if ($query[$key]['rate'] > 0 AND $count > 0)
+					$query[$key]['rate'] = round(($query[$key]['rate'] / $count), 1);
+
+				$query[$key]['count'] = count($query);
+			}
+		}
+		else
+		{
+			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+				'id',
+				'token',
+				'room',
+				'table',
+				'client',
+				'answers',
+				'comment',
+				'guest',
+				'date',
+				'status'
+			], [
+				'AND' => [
+					'account' => Session::get_value('account')['id'],
+					'room' => $data['room'],
+					'date[<>]' => [$data['started_date'],$data['end_date']]
+				],
+				'ORDER' => [
+					'id' => 'DESC'
+				]
+			]));
+
+			foreach ($query as $key => $value)
+			{
+				if (Session::get_value('account')['type'] == 'hotel')
+				{
+					if (!empty($value['room']))
+						$query[$key]['room'] = $this->get_room($value['room']);
+				}
+
+				if (Session::get_value('account')['type'] == 'restaurant')
+				{
+					if (!empty($value['table']))
+						$query[$key]['table'] = $this->get_table($value['table']);
+				}
+
+				if (Session::get_value('account')['type'] == 'others')
+				{
+					if (!empty($value['client']))
+						$query[$key]['client'] = $this->get_client($value['client']);
+				}
+
+				$query[$key]['rate'] = 0;
+				$count = 0;
+
+				foreach ($value['answers'] as $subvalue)
+				{
+					if ($subvalue['type'] == 'rate')
+					{
+						$query[$key]['rate'] = $query[$key]['rate'] + $subvalue['answer'];
+						$count = $count + 1;
+					}
+
+					foreach ($subvalue['subanswers'] as $parentvalue)
+					{
+						if ($parentvalue['type'] == 'rate')
+						{
+							$query[$key]['rate'] = $query[$key]['rate'] + $parentvalue['answer'];
+							$count = $count + 1;
+						}
+
+						foreach ($parentvalue['subanswers'] as $childvalue)
+						{
+							if ($childvalue['type'] == 'rate')
+							{
+								$query[$key]['rate'] = $query[$key]['rate'] + $childvalue['answer'];
+								$count = $count + 1;
+							}
+						}
+					}
+				}
+
+				if ($query[$key]['rate'] > 0 AND $count > 0)
+					$query[$key]['rate'] = round(($query[$key]['rate'] / $count), 1);
+
+				$query[$key]['count'] = count($query);
+			}
+		}
+
+		return $query;
+	}
+
 	public function get_survey_answer($id)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
@@ -1168,7 +1350,7 @@ class Surveys_model extends Model
 		}
 		else if ($option == 's4_chart')
 		{
-			
+
 		}
 		else if ($option == 's5_chart' OR $option == 's6_chart' OR $option == 's7_chart' OR $option == 's8_chart')
 		{
