@@ -22,7 +22,8 @@ class Voxes_controller extends Controller
 		foreach ($this->model->get_voxes() as $value)
 		{
 			$tbl_voxes .=
-			'<tr class="' . $value['data']['status'] . ' ' . (($value['data']['readed'] == true) ? 'readed' : 'no-readed') . '" data-id="' . $value['id'] . '">';
+			'<tr class="' . $value['data']['status'] . ' ' . (($value['data']['readed'] == true) ? 'readed' : 'no-readed') . '" data-id="' . $value['id'] . '">
+				<td align="left" class="touchable" hidden>' . $value['data']['token'] . '</td>';
 
 			if ($value['type'] == 'request')
 				$tbl_voxes .= '<td align="left" class="touchable icon"><span><i class="fas fa-spa"></i></span></td>';
@@ -32,10 +33,20 @@ class Voxes_controller extends Controller
 				$tbl_voxes .= '<td align="left" class="touchable icon"><span><i class="fas fa-id-card-alt"></i></span></td>';
 
 			if (Session::get_value('account')['type'] == 'hotel')
-				$tbl_voxes .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['room']['number'] . ' ' . $value['data']['room']['name'] : '') . '</td>';
+			{
+				if (isset($value['data']['room']['status']) AND $value['data']['room']['status'] == true)
+					$tbl_voxes .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ?  $value['data']['room']['name'] : '') . '</td>';
+				else
+					$tbl_voxes .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['room']['number'] . ' ' . $value['data']['room']['name'] : '') . '</td>';
+			}
 
 			if (Session::get_value('account')['type'] == 'restaurant')
-				$tbl_voxes .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['table']['number'] . ' ' . $value['data']['table']['name'] : '') . '</td>';
+			{
+				if (isset($value['data']['table']['status']) AND $value['data']['table']['status'] == true)
+					$tbl_voxes .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? $value['data']['table']['name'] : '') . '</td>';
+				else
+					$tbl_voxes .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['table']['number'] . ' ' . $value['data']['table']['name'] : '') . '</td>';
+			}
 
 			if (Session::get_value('account')['type'] == 'others')
 				$tbl_voxes .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? $value['data']['client']['name'] : '') . '</td>';
@@ -371,7 +382,8 @@ class Voxes_controller extends Controller
 							            </tr>
 							            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
 							                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-												<h4 style="font-size:24px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject_1 . '</h4>';
+												<h4 style="font-size:24px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject_1 . '</h4>
+												<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . 'Token: ' . $vox['data']['token'] . '</h6>';
 
 							if ($vox['type'] == 'request' OR $vox['type'] == 'incident')
 							{
@@ -511,7 +523,12 @@ class Voxes_controller extends Controller
 			if (Session::get_value('account')['type'] == 'hotel')
 			{
 				foreach ($this->model->get_rooms() as $value)
-					$opt_rooms .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
+				{
+					if ($value['status'] == true)
+						$opt_rooms .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+					else
+						$opt_rooms .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
+				}
 			}
 
 			$opt_tables = '';
@@ -519,7 +536,12 @@ class Voxes_controller extends Controller
 			if (Session::get_value('account')['type'] == 'restaurant')
 			{
 				foreach ($this->model->get_tables() as $value)
-					$opt_tables .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
+				{
+					if ($value['status'] == true)
+						$opt_tables .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+					else
+						$opt_tables .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
+				}
 			}
 
 			$opt_clients = '';
@@ -589,10 +611,249 @@ class Voxes_controller extends Controller
 			{
 				if ($_POST['action'] == 'complete_vox')
 				{
-					$query = $this->model->complete_vox($params[0]);
+					$vox = $this->model->complete_vox($params[0]);
 
-					if (!empty($query))
+					if (!empty($vox))
 					{
+						if (Session::get_value('account')['language'] == 'es')
+						{
+							if ($vox['type'] == 'request')
+								$mail_subject_1 = 'Petición completada';
+							else if ($vox['type'] == 'incident')
+								$mail_subject_1 = 'Incidencia completada';
+							else if ($vox['type'] == 'workorder')
+								$mail_subject_1 = 'Orden de trabajo completada';
+
+							if ($vox['type'] == 'request' OR $vox['type'] == 'incident')
+							{
+								if (Session::get_value('account')['type'] == 'hotel')
+									$mail_room = 'Habitación: #';
+
+								if (Session::get_value('account')['type'] == 'restaurant')
+									$mail_table = 'Mesa: #';
+
+								if (Session::get_value('account')['type'] == 'others')
+									$mail_client = 'Cliente: ';
+							}
+
+							$mail_opportunity_area = 'Área de oportunidad: ';
+							$mail_opportunity_type = 'Tipo de oportunidad: ';
+							$mail_started_date = 'Fecha de inicio y Fecha de término: ';
+							$mail_started_hour = 'Hora de inicio y Hora de término: ';
+							$mail_location = 'Ubicación: ';
+
+							if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($vox['data']['started_date'], $vox['data']['started_hour']))
+								$mail_urgency = 'Urgencia: Programada';
+							else if ($vox['data']['urgency'] == 'low')
+								$mail_urgency = 'Urgencia: Baja';
+							else if ($vox['data']['urgency'] == 'medium')
+								$mail_urgency = 'Urgencia: Media';
+							else if ($vox['data']['urgency'] == 'high')
+								$mail_urgency = 'Urgencia: Alta';
+
+							if ($vox['type'] == 'request' OR $vox['type'] == 'workorder')
+								$mail_observations = 'Observaciones: ';
+
+							if ($vox['type'] == 'incident')
+							{
+								if ($vox['data']['confidentiality'] == true)
+									$mail_confidentiality = 'Confidencialidad: Si';
+								else if ($vox['data']['confidentiality'] == false)
+									$mail_confidentiality = 'Confidencialidad: No';
+
+								$mail_subject_2 = 'Asunto: ';
+							}
+
+							$mail_give_follow_up = 'Dar seguimiento';
+						}
+						else if (Session::get_value('account')['language'] == 'en')
+						{
+							if ($vox['type'] == 'request')
+								$mail_subject_1 = 'Request completed';
+							else if ($vox['type'] == 'incident')
+								$mail_subject_1 = 'Incident completed';
+							else if ($vox['type'] == 'workorder')
+								$mail_subject_1 = 'Work order completed';
+
+							if ($vox['type'] == 'request' OR $vox['type'] == 'incident')
+							{
+								if (Session::get_value('account')['type'] == 'hotel')
+									$mail_room = 'Room: #';
+
+								if (Session::get_value('account')['type'] == 'restaurant')
+									$mail_table = 'Table: #';
+
+								if (Session::get_value('account')['type'] == 'others')
+									$mail_client = 'Client: ';
+							}
+
+							$mail_opportunity_area = 'Opportunity area: ';
+							$mail_opportunity_type = 'Opportunity type: ';
+							$mail_started_date = 'Start date and End date: ';
+							$mail_started_hour = 'Start hour and End hour: ';
+							$mail_location = 'Location: ';
+
+							if (Functions::get_current_date_hour() < Functions::get_formatted_date_hour($vox['data']['started_date'], $vox['data']['started_hour']))
+								$mail_urgency = 'Urgency: Programmed';
+							else if ($vox['data']['urgency'] == 'low')
+								$mail_urgency = 'Urgency: Low';
+							else if ($vox['data']['urgency'] == 'medium')
+								$mail_urgency = 'Urgency: Medium';
+							else if ($vox['data']['urgency'] == 'high')
+								$mail_urgency = 'Urgency: High';
+
+							if ($vox['type'] == 'request' AND $vox['type'] == 'workorder')
+								$mail_observations = 'Observations: ';
+
+							if ($vox['type'] == 'incident')
+							{
+								if ($vox['data']['confidentiality'] == true)
+									$mail_confidentiality = 'Confidentiality: Yes';
+								else if ($vox['data']['confidentiality'] == false)
+									$mail_confidentiality = 'Confidentiality: No';
+
+								$mail_subject_2 = 'Subject: ';
+							}
+
+							$mail_give_follow_up = 'Give follow up';
+						}
+
+						$mail = new Mailer(true);
+
+						try
+						{
+							$mail->isSMTP();
+							$mail->setFrom('noreply@guestvox.com', 'GuestVox');
+
+							foreach ($vox['data']['assigned_users'] as $value)
+								$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
+
+							$mail->isHTML(true);
+							$mail->Subject = $mail_subject_1;
+							$mail->Body =
+							'<html>
+							    <head>
+							        <title>' . $mail_subject_1 . '</title>
+							    </head>
+							    <body>
+							        <table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
+							            <tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
+							                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+							                    <figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+							                        <img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype-color.png" />
+							                    </figure>
+							                </td>
+							            </tr>
+							            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
+							                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+												<h4 style="font-size:24px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject_1 . '</h4>
+												<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . 'Token: ' . $vox['data']['token'] . '</h6>';
+
+							if ($vox['type'] == 'request' OR $vox['type'] == 'incident')
+							{
+								if (Session::get_value('account')['type'] == 'hotel')
+									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_room . $vox['data']['room']['number'] . ' ' . $vox['data']['room']['name'] . '</h6>';
+
+								if (Session::get_value('account')['type'] == 'restaurant')
+									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_table . $vox['data']['table']['number'] . ' ' . $vox['data']['table']['name'] . '</h6>';
+
+								if (Session::get_value('account')['type'] == 'others')
+									$mail->Body .= '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_client . $vox['data']['client']['name'] . '</h6>';
+							}
+
+							$mail->Body .=
+						    '<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_area . $vox['data']['opportunity_area']['name'][Session::get_value('account')['language']] . '</h6>
+						    <h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_type . $vox['data']['opportunity_type']['name'][Session::get_value('account')['language']] . '</h6>
+							<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_date . Functions::get_formatted_date($vox['data']['started_date'], 'd M, Y') . ' | ' . Functions::get_formatted_date($vox['data']['completed_date'], 'd M, Y') . '</h6>
+							<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_hour . Functions::get_formatted_hour($vox['data']['started_hour'], '+ hrs') . ' | ' . Functions::get_formatted_hour($vox['data']['completed_hour'], '+ hrs') . '</h6>
+							<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_location . $vox['data']['location']['name'][Session::get_value('account')['language']] . '</h6>
+							<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_urgency . '</h6>';
+
+							if ($vox['type'] == 'request' OR $vox['type'] == 'workorder')
+								$mail->Body .= '<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_observations . $vox['data']['observations'] . '</p>';
+							else if ($vox['type'] == 'incident')
+							{
+								$mail->Body .=
+								'<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_confidentiality . '</h6>
+								<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_subject_2 . $vox['data']['subject'] . '</p>';
+							}
+
+							$mail->Body .=
+							'                   <a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/voxes/view/details/' . $vox['id'] . '">' . $mail_give_follow_up . '</a>
+							                </td>
+							            </tr>
+							            <tr style="width:100%;margin:0px;border:0px;padding:0px;">
+							                <td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
+							                    <a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
+							                </td>
+							            </tr>
+							        </table>
+							    </body>
+							</html>';
+							$mail->AltBody = '';
+							$mail->send();
+						}
+						catch (Exception $e) { }
+
+						$sms_coin = $this->model->get_sms();
+
+						if ($sms_coin > 0)
+						{
+							$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
+							$sms_client = new \Nexmo\Client($sms_basic);
+
+							$sms_text = $mail_subject_1 . '. ';
+
+							if ($vox['type'] == 'request' OR $vox['type'] == 'incident')
+							{
+								if (Session::get_value('account')['type'] == 'hotel')
+									$sms_text .= $mail_room . $vox['data']['room']['number'] . ' ' . $vox['data']['room']['name'] . '. ';
+
+								if (Session::get_value('account')['type'] == 'restaurant')
+									$sms_text .= $mail_table . $vox['data']['table']['number'] . ' ' . $vox['data']['table']['name'] . '. ';
+
+								if (Session::get_value('account')['type'] == 'others')
+									$sms_text .= $mail_client . $vox['data']['client']['name'] . '. ';
+							}
+
+							$sms_text .= $mail_opportunity_area . $vox['data']['opportunity_area']['name'][Session::get_value('account')['language']] . '. ';
+							$sms_text .= $mail_opportunity_type . $vox['data']['opportunity_type']['name'][Session::get_value('account')['language']] . '. ';
+							$sms_text .= $mail_started_date . Functions::get_formatted_date($vox['data']['started_date'], 'd M y') . '. ';
+							$sms_text .= $mail_started_hour . Functions::get_formatted_hour($vox['data']['started_hour'], '+ hrs') . '. ';
+							$sms_text .= $mail_location . $vox['data']['location']['name'][Session::get_value('account')['language']] . '. ';
+							$sms_text .= $mail_urgency . '. ';
+
+							if ($vox['type'] == 'request' OR $vox['type'] == 'workorder')
+								$sms_text .= $mail_observations . $vox['data']['observations'] . '. ';
+							else if ($vox['type'] == 'incident')
+							{
+								$sms_text .= $mail_confidentiality . '. ';
+								$sms_text .= $mail_subject_2 . $vox['data']['subject'] . '. ';
+							}
+
+							$sms_text .= 'https://' . Configuration::$domain . '/voxes/view/details/' . $vox['id'];
+
+							foreach ($vox['data']['assigned_users'] as $value)
+							{
+								if ($sms_coin > 0)
+								{
+									try {
+
+										$sms_client->message()->send([
+											'to' => $value['phone']['lada'] . $value['phone']['number'],
+											'from' => 'GuestVox',
+											'text' => $sms_text
+										]);
+
+										$sms_coin = $sms_coin - 1;
+
+									} catch (Exception $e) { }
+								}
+							}
+
+							$this->model->edit_sms($sms_coin);
+						}
+
 						Functions::environment([
 							'status' => 'success',
 							'message' => '{$lang.operation_success}'
@@ -1302,7 +1563,13 @@ class Voxes_controller extends Controller
 									<option value="" selected hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_rooms() as $value)
-						$lbl_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['data']['room']['id'] == $value['id']) ? 'selected' : '') . '>#' . $value['number'] . ' ' . $value['name'] . '</option>';
+					{
+						if ($value['status'] == true)
+							$lbl_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['data']['room']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['number'] . ' ' . $value['name'] . '</option>';
+						else
+							$lbl_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['data']['room']['id'] == $value['id']) ? 'selected' : '') . '>#' . $value['number'] . ' ' . $value['name'] . '</option>';
+
+					}
 
 					$lbl_edit_vox .=
 					'			</select>
@@ -1322,7 +1589,13 @@ class Voxes_controller extends Controller
 									<option value="" selected hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_tables() as $value)
-						$lbl_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['data']['table']['id'] == $value['id']) ? 'selected' : '') . '>#' . $value['number'] . ' ' . $value['name'] . '</option>';
+					{
+						if ($value['status'] == true)
+							$lbl_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['data']['table']['id'] == $value['id']) ? 'selected' : '') . '>'  . $value['name'] . '</option>';
+						else
+							$lbl_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['data']['table']['id'] == $value['id']) ? 'selected' : '') . '>#' . $value['number'] . ' ' . $value['name'] . '</option>';
+
+					}
 
 					$lbl_edit_vox .=
 					'			</select>

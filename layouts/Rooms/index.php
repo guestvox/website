@@ -12,7 +12,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
 %{header}%
 <main>
     <nav>
-        <h2><i class="fas fa-bed"></i>{$lang.rooms}</h2>
+        <h2><i class="fas fa-bed"></i>{$lang.rooms} | {$lang.departments}</h2>
     </nav>
     <article>
         <main>
@@ -71,6 +71,33 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                             </label>
                         </div>
                     </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.name}</p>
+                                <input type="text" name="name" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
+                <button class="btn" button-success>{$lang.accept}</button>
+            </div>
+        </footer>
+    </div>
+</section>
+<section class="modal edit" data-modal="edit_department">
+    <div class="content">
+        <header>
+            <h3>{$lang.edit}</h3>
+        </header>
+        <main>
+            <form name="edit_department">
+                <div class="row">
                     <div class="span12">
                         <div class="label">
                             <label>

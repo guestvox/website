@@ -38,11 +38,19 @@ class Dashboard_controller extends Controller
 					$tbl_voxes_unresolve .= '<td align="left" class="touchable icon"><span><i class="fas fa-id-card-alt"></i></span></td>';
 
 				if (Session::get_value('account')['type'] == 'hotel')
-					$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['room']['number'] . ' ' . $value['data']['room']['name'] : '') . '</td>';
-
+				{
+					if (isset($value['data']['room']['status']) AND $value['data']['room']['status'] == true)
+						$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? $value['data']['room']['name'] : '') . '</td>';
+					else
+						$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['room']['number'] . ' ' . $value['data']['room']['name'] : '') . '</td>';
+				}
 				if (Session::get_value('account')['type'] == 'restaurant')
-					$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['table']['number'] . ' ' . $value['data']['table']['name'] : '') . '</td>';
-
+				{
+					if (isset($value['data']['table']['status']) AND $value['data']['table']['status'] == true)
+						$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? $value['data']['table']['name'] : '') . '</td>';
+					else
+						$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? '#' . $value['data']['table']['number'] . ' ' . $value['data']['table']['name'] : '') . '</td>';
+				}
 				if (Session::get_value('account')['type'] == 'others')
 					$tbl_voxes_unresolve .= '<td align="left" class="touchable">' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? $value['data']['client']['name'] : '') . '</td>';
 

@@ -40,13 +40,13 @@
             </figure>
             <ul>
                 <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{rooms_create}','{rooms_update}','{rooms_delete}']) == true) : ?>
-                <li><a href="/rooms">{$lang.rooms}<i class="fas fa-bed"></i></a></li>
+                <li><a href="/rooms">{$lang.rooms} | {$lang.departments}<i class="fas fa-bed"></i><i class="fas fa-building"></i></a></li>
                 <?php endif; ?>
                 <?php if (Session::get_value('account')['type'] == 'restaurant' AND Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{tables_create}','{tables_update}','{tables_delete}']) == true) : ?>
-                <li><a href="/tables">{$lang.tables}<i class="fas fa-utensils"></i></a></li>
+                <li><a href="/tables">{$lang.tables} | {$lang.departments}<i class="fas fa-utensils"></i></a></li>
                 <?php endif; ?>
                 <?php if (Session::get_value('account')['type'] == 'others' AND Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{clients_create}','{clients_update}','{clients_delete}']) == true) : ?>
-                <li><a href="/clients">{$lang.clients}<i class="fas fa-user-tie"></i></a></li>
+                <li><a href="/clients">{$lang.clients} | {$lang.departments}<i class="fas fa-user-tie"></i></a></li>
                 <?php endif; ?>
                 <?php if (Functions::check_account_access(['operation']) AND Functions::check_user_access(['{opportunity_areas_create}','{opportunity_areas_update}','{opportunity_areas_delete}']) == true) : ?>
                 <li><a href="/opportunityareas">{$lang.opportunity_areas}<i class="fas fa-compass"></i></a></li>

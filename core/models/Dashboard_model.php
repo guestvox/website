@@ -96,7 +96,8 @@ class Dashboard_model extends Model
 	{
 		$query = $this->database->select('rooms', [
 			'number',
-			'name'
+			'name',
+			'status'
 		], [
 			'id' => $id
 		]);
@@ -108,7 +109,8 @@ class Dashboard_model extends Model
 	{
 		$query = $this->database->select('tables', [
 			'number',
-			'name'
+			'name',
+			'status'
 		], [
 			'id' => $id
 		]);

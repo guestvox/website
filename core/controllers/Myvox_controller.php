@@ -915,7 +915,7 @@ class Myvox_controller extends Controller
 									$mail_subject = Session::get_value('account')['settings']['myvox']['survey_mail']['paragraph'][Session::get_value('account')['language']];
 									$mail_file = (!empty(Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']) ? Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file'] : '');
 									$mail_url = (!empty(Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']) ? file_get_contents('https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file']) : '');
-									$mail_attachment = (!empty(Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']) ? '<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#039be5;" href="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file'] . '" download="'. Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file'] . '">Descargar archivo</a>' : '');
+									$mail_attachment = (!empty(Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']) ? '<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#039be5;" href="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file'] . '" download="'. Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file'] . '">Descargar adjunto</a>' : '');
 
 									$mail->isSMTP();
 									$mail->setFrom('noreply@guestvox.com', 'GuestVox');
@@ -1411,6 +1411,18 @@ class Myvox_controller extends Controller
 								<header>
 									<h3>{$lang.answer_survey_right_now}</h3>
 								</header>
+								<div class="bottombar">
+							        <div class="multilanguage">
+							            <a href="?' .  Language::get_lang_url('es') . '">
+							                <img src="{$path.images}es.png">
+											<span>{$lang.es}</span>
+							            </a>
+							            <a href="?' . Language::get_lang_url('en') . '">
+							                <img src="{$path.images}en.png">
+											<span>{$lang.en}</span>
+							            </a>
+							        </div>
+							    </div>
 								<main>
 									<form name="new_survey_answer">';
 
@@ -1423,14 +1435,12 @@ class Myvox_controller extends Controller
 							if ($value['type'] == 'rate')
 							{
 								$mdl_new_survey_answer .=
-								'<div>
-								   <label><i class="far fa-thumbs-down"></i></label>
-								   <label><input type="radio" name="pr-' . $value['id'] . '" value="1" data-action="open_subquestion"></label>
-								   <label><input type="radio" name="pr-' . $value['id'] . '" value="2" data-action="open_subquestion"></label>
-								   <label><input type="radio" name="pr-' . $value['id'] . '" value="3" data-action="open_subquestion"></label>
-								   <label><input type="radio" name="pr-' . $value['id'] . '" value="4" data-action="open_subquestion"></label>
-								   <label><input type="radio" name="pr-' . $value['id'] . '" value="5" data-action="open_subquestion"></label>
-								   <label><i class="far fa-thumbs-up"></i></label>
+								'<div class="rate">
+								   <label><i class="far fa-sad-cry" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="1" data-action="open_subquestion"></label>
+								   <label><i class="far fa-frown" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="2" data-action="open_subquestion"></label>
+								   <label><i class="far fa-meh-rolling-eyes" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="3" data-action="open_subquestion"></label>
+								   <label><i class="far fa-smile" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="4" data-action="open_subquestion"></label>
+								   <label><i class="far fa-grin-stars" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="5" data-action="open_subquestion"></label>
 								</div>';
 							}
 							else if ($value['type'] == 'twin')
@@ -1488,14 +1498,12 @@ class Myvox_controller extends Controller
 									   	if ($subvalue['type'] == 'rate')
 									   	{
 										   	$mdl_new_survey_answer .=
-										   	'<div>
-										   		<label><i class="far fa-thumbs-down"></i></label>
-											   	<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="1" data-action="open_subquestion_sub"></label>
-											   	<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="2" data-action="open_subquestion_sub"></label>
-											   	<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="3" data-action="open_subquestion_sub"></label>
-											   	<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="4" data-action="open_subquestion_sub"></label>
-											   	<label><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="5" data-action="open_subquestion_sub"></label>
-											   	<label><i class="far fa-thumbs-up"></i></i></label>
+										   	'<div class="rate">
+											   	<label><i class="far fa-sad-cry" style="font-size:18px;"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="1" data-action="open_subquestion_sub"></label>
+											   	<label><i class="far fa-frown" style="font-size:18px;"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="2" data-action="open_subquestion_sub"></label>
+											   	<label><i class="far fa-meh-rolling-eyes" style="font-size:18px;"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="3" data-action="open_subquestion_sub"></label>
+											   	<label><i class="far fa-smile" style="font-size:18px;"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="4" data-action="open_subquestion_sub"></label>
+											   	<label><i class="far fa-grin-stars" style="font-size:18px;"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="5" data-action="open_subquestion_sub"></label>
 										   	</div>';
 									   	}
 									   	else if ($subvalue['type'] == 'twin')
@@ -1539,14 +1547,12 @@ class Myvox_controller extends Controller
 												  	if ($parentvalue['type'] == 'rate')
 													{
 														$mdl_new_survey_answer .=
-														'<div>
-														   <label><i class="far fa-thumbs-down"></i></label>
-														   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="1"></label>
-														   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="2"></label>
-														   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="3"></label>
-														   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="4"></label>
-														   <label><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="5"></label>
-														   <label><i class="far fa-thumbs-up"></i></label>
+														'<div class="rate">
+														   <label><i class="far fa-sad-cry" style="font-size:18px;"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="1"></label>
+														   <label><i class="far fa-frown" style="font-size:18px;"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="2"></label>
+														   <label><i class="far fa-meh-rolling-eyes" style="font-size:18px;"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="3"></label>
+														   <label><i class="far fa-smile" style="font-size:18px;"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="4"></label>
+														   <label><i class="far fa-grin-stars" style="font-size:18px;"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="5"></label>
 														</div>';
 													}
 													else if ($parentvalue['type'] == 'twin')

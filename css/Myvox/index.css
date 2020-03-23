@@ -26,7 +26,8 @@ header.my-vox > div.topbar > figure.logotype > img {
 
 /*  */
 header.my-vox > div.bottombar {
-    height: 100px;
+    height: auto;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -46,18 +47,16 @@ header.my-vox > div.bottombar > div.multilanguage {
     width: auto;
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-left: 10px;
+    align-items: flex-start;
+    justify-content: flex-start;
 }
 
 header.my-vox > div.bottombar > div.multilanguage > a {
     width: auto;
     height: auto;
     line-height: 0px;
-    margin: 0px 0px 5px 0px;
-    padding: 0px;
+    margin: 0px;
+    padding: 10px;
 }
 
 header.my-vox > div.bottombar > div.multilanguage > a:last-child {
@@ -67,6 +66,15 @@ header.my-vox > div.bottombar > div.multilanguage > a:last-child {
 header.my-vox > div.bottombar > div.multilanguage > a > img {
     width: auto;
     height: 30px;
+}
+
+header.my-vox > div.bottombar > div.multilanguage > a > span {
+    display: flex;
+    width: auto;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    color: #757575;
 }
 
 /* My vox - Main
@@ -184,6 +192,48 @@ form[name="new_survey_answer"] > article.subquestions > article.subquestions-sub
     color: #757575;
 }
 
+form[name="new_survey_answer"] > article > div.rate,
+form[name="new_survey_answer"] > article.subquestions > article.subquestions-sub > div.rate {
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+}
+
+form[name="new_survey_answer"] > article > div.rate > label,
+form[name="new_survey_answer"] > article.subquestions > article.subquestions-sub > div.rate > label {
+    padding: 0px 7px;
+    align-items: center;
+}
+
+form[name="new_survey_answer"] > article > div.rate > label > i,
+form[name="new_survey_answer"] > article.subquestions > article.subquestions-sub> div.rate > label > i {
+    width: 100%;
+    height: auto;
+}
+
+form[name="new_survey_answer"] > article > div.rate > label > input,
+form[name="new_survey_answer"] > article.subquestions > article.subquestions-sub > div.rate > label > input {
+    margin: 0px;
+    display: flex;
+    width: 100%;
+}
+
+/* form[name="new_survey_answer"] > article > div.rate > label > input[type="radio"] {
+    display: none;
+}
+
+form[name="new_survey_answer"] > article > div.rate > label > i:hover {
+    color: #00a5ab;
+}
+
+form[name="new_survey_answer"] > article > div.rate > label > input[type="radio"]:checked + i {
+    color: #00a5ab;
+} */
+
+
 form[name="new_survey_answer"] > article > div > label,
 form[name="new_survey_answer"] > article.subquestions > article.subquestions-sub > div > label {
     padding: 0px;
@@ -294,6 +344,50 @@ form[name="new_survey_answer"] > article.subquestions >  article.subquestions-su
 
 form[name="new_survey_answer"] > article.subquestions  > article.subquestions-sub > div {
     margin-bottom: 5px;
+}
+
+section[data-modal="new_survey_answer"] > div.content > div.| {
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+section[data-modal="new_survey_answer"] > div.content > div.bottombar > div.multilanguage {
+    width: 100%;
+    height: auto;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    padding: 0px 20px;
+}
+
+section[data-modal="new_survey_answer"] > div.content > div.bottombar > div.multilanguage > a {
+    width: auto;
+    height: auto;
+    line-height: 0px;
+    margin: 0px 0px 0px 0px;
+    padding: 5px;
+}
+
+section[data-modal="new_survey_answer"] > div.content > div.bottombar > div.multilanguage > a:last-child {
+    margin: 0px;
+}
+
+section[data-modal="new_survey_answer"] > div.content > div.bottombar > div.multilanguage > a > img {
+    width: auto;
+    height: 30px;
+}
+
+section[data-modal="new_survey_answer"] > div.content > div.bottombar > div.multilanguage > a > span {
+    display: flex;
+    width: auto;
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    color: #757575;
 }
 
 /* My vox - Modals
