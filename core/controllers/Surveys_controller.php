@@ -847,7 +847,7 @@ class Surveys_controller extends Controller
 					]);
 				}
 			}
-                        
+
 			if ($_POST['action'] == 'deactivate_comment')
 			{
 				$query = $this->model->deactivate_comment($_POST['id']);
@@ -894,7 +894,7 @@ class Surveys_controller extends Controller
 
 			$template = $this->view->render($this, 'comments');
                         $opt_rooms="";
-                        
+
                         if (Session::get_value('account')['type'] == 'hotel')
 			{
 				foreach ($this->model->get_rooms() as $value)
@@ -905,7 +905,7 @@ class Surveys_controller extends Controller
 						$opt_rooms .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 				}
 			}
-                        
+
 			$tbl_survey_comments = '';
 
 			foreach ($this->model->get_survey_answers() as $value)
@@ -997,9 +997,42 @@ class Surveys_controller extends Controller
 		{
 			if ($_POST['action'] == 'get_charts_by_date_filter')
 			{
+				$general_average_rate = $this->model->get_general_average_rate_by_date_filter($_POST);
+
+				$h4_general_average_rate = '';
+
+				if ($general_average_rate >= 0 AND $general_average_rate < 1.8)
+					$h4_general_average_rate = '<h4 style="color:#f44336;">' . $general_average_rate . '</h4>';
+				else if ($general_average_rate >= 1.8 AND $general_average_rate < 2.8)
+					$h4_general_average_rate = '<h4 style="color:#ffc107;">' . $general_average_rate . '</h4>';
+				else if ($general_average_rate >= 2.8 AND $general_average_rate < 3.8)
+					$h4_general_average_rate = '<h4 style="color:#ffeb3b;">' . $general_average_rate . '</h4>';
+				else if ($general_average_rate >= 3.8 AND $general_average_rate < 4.8)
+					$h4_general_average_rate = '<h4 style="color:#4caf50;">' . $general_average_rate . '</h4>';
+				else if ($general_average_rate >= 4.8 AND $general_average_rate <= 5)
+					$h4_general_average_rate = '<h4 style="color:#00a5ab;">' . $general_average_rate . '</h4>';
+
+				$spn_general_avarage_rate =
+				'<span>
+					' . (($general_average_rate >= 0 AND $general_average_rate < 1.8) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
+					' . (($general_average_rate >= 1.8 AND $general_average_rate < 2.8) ? '<i class="fas fa-frown" style="font-size:50px;color:#ffc107;"></i>' : '<i class="far fa-frown"></i>') . '
+					' . (($general_average_rate >= 2.8 AND $general_average_rate < 3.8) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ffeb3b;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
+					' . (($general_average_rate >= 3.8 AND $general_average_rate < 4.8) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
+					' . (($general_average_rate >= 4.8 AND $general_average_rate <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#00a5ab;"></i>' : '<i class="far fa-grin-stars"></i>') . '
+				</span>';
+
+				$rate_general = '';
+				$rate_general = $h4_general_average_rate . $spn_general_avarage_rate;
+
 				Functions::environment([
 					'status' => 'success',
 					'data' => [
+						'rate_general' => $rate_general,
+						'five_percentage_rate' => $this->model->get_percentage_rate_by_date_filter('five', [$_POST['started_date'], $_POST['end_date']]),
+						'four_percentage_rate' => $this->model->get_percentage_rate_by_date_filter('four', [$_POST['started_date'], $_POST['end_date']]),
+						'tree_percentage_rate' => $this->model->get_percentage_rate_by_date_filter('tree', [$_POST['started_date'], $_POST['end_date']]),
+						'two_percentage_rate' => $this->model->get_percentage_rate_by_date_filter('two', [$_POST['started_date'], $_POST['end_date']]),
+						'one_percentage_rate' => $this->model->get_percentage_rate_by_date_filter('one', [$_POST['started_date'], $_POST['end_date']]),
 						's1_chart_data' => $this->model->get_chart_data('s1_chart', [$_POST['started_date'], $_POST['end_date']], true),
 						's2_chart_data' => $this->model->get_chart_data('s2_chart', [$_POST['started_date'], $_POST['end_date'], $_POST['question']], true),
 						's5_chart_data' => $this->model->get_chart_data('s5_chart', [$_POST['started_date'], $_POST['end_date']], true),
