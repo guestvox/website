@@ -20,5 +20,6 @@ $this->dependencies->add(['js', '{$path.js}Login/index.js']);
         </fieldset>
         <a data-action="login">{$lang.login}</a>
         <a href="/">{$lang.cancel}</a>
+        <img class="logotype-login" style="display: none;" src="{$path.images}logotype-color.png">
     </form>
 </main>

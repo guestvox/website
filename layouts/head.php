@@ -15,6 +15,7 @@
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 		<link rel="stylesheet" href="{$path.css}valkyrie.min.css" type="text/css" media="all" />
 		<link rel="stylesheet" href="{$path.css}styles.css" type="text/css" media="all" />
+		<link rel="stylesheet" href="{$path.css}pwa.css" type="text/css" media="all" />
                 <!--Inician dependencias de PWA-->
                 <link rel="manifest" href="manifest.json">
                 <meta name="theme-color" content="#00A5AB"/>
