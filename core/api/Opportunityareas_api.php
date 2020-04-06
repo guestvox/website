@@ -16,15 +16,20 @@ class Opportunityareas_api extends Model
                         ]
                     ], [
                         'opportunity_areas.id',
-                        'opportunity_areas.name'
+                        'opportunity_areas.name',
+                        'accounts.zaviapms'
                     ], [
-                        'AND' => [
-                            'opportunity_areas.id' => $params[3],
-                            'accounts.zav' => true
-                        ]
+                        'opportunity_areas.id' => $params[3]
                     ]));
 
-                    return !empty($query) ? $query[0] : 'No se encontraron registros';
+                    if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
+                    {
+                        unset($query[0]['zaviapms']);
+
+                        return $query[0];
+                    }
+                    else
+                        return 'No se encontraron registros';
                 }
                 else
                 {
@@ -34,15 +39,21 @@ class Opportunityareas_api extends Model
                         ]
                     ], [
                         'opportunity_areas.id',
-                        'opportunity_areas.name'
+                        'opportunity_areas.name',
+                        'accounts.zaviapms'
                     ], [
-                        'AND' => [
-                            'opportunity_areas.account' => $params[2],
-                            'accounts.zav' => true
-                        ]
+                        'opportunity_areas.account' => $params[2]
                     ]));
 
-                    return !empty($query) ? $query : 'No se encontraron registros';
+                    if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
+                    {
+                        foreach ($query as $key => $value)
+                            unset($query[$key]['zaviapms']);
+
+                        return $query;
+                    }
+                    else
+                        return 'No se encontraron registros';
                 }
             }
             else

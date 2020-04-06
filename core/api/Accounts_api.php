@@ -8,32 +8,50 @@ class Accounts_api extends Model
         {
             if (!empty($params[2]))
             {
-                $query = $this->database->select('accounts', [
+                $query = Functions::get_json_decoded_query($this->database->select('accounts', [
                     'id',
-                    'name'
+                    'name',
+                    'zaviapms'
                 ], [
                     'AND' => [
                         'id' => $params[2],
-                        'zav' => true,
                         'status' => true
                     ]
-                ]);
+                ]));
 
-                return !empty($query) ? $query[0] : 'No se encontraron registros';
+                if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
+                {
+                    unset($query[0]['zaviapms']);
+
+                    return $query[0];
+                }
+                else
+                    return 'No se encontraron registros';
             }
             else
             {
-                $query = $this->database->select('accounts', [
+                $query = Functions::get_json_decoded_query($this->database->select('accounts', [
                     'id',
-                    'name'
+                    'name',
+                    'zaviapms'
                 ], [
-                    'AND' => [
-                        'zav' => true,
-                        'status' => true
-                    ]
-                ]);
+                    'status' => true
+                ]));
 
-                return !empty($query) ? $query : 'No se encontraron registros';
+                if (!empty($query))
+                {
+                    foreach ($query as $key => $value)
+                    {
+                        if ($value['zaviapms'] == false)
+                            unset($query[$key]);
+                        else
+                            unset($query[$key]['zaviapms']);
+                    }
+
+                    return $query
+                }
+                else
+                    return 'No se encontraron registros';
             }
         }
         else

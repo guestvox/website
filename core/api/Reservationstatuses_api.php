@@ -10,39 +10,50 @@ class Reservationstatuses_api extends Model
             {
                 if (!empty($params[3]))
                 {
-                    $query = $this->database->select('reservation_statuses', [
+                    $query = Functions::get_json_decoded_query($this->database->select('reservation_statuses', [
                         '[>]accounts' => [
                             'account' => 'id'
                         ]
                     ], [
-                        'reservation_status.id',
-                        'reservation_status.name'
+                        'reservation_statuses.id',
+                        'reservation_statuses.name',
+                        'accounts.zaviapms'
                     ], [
-                        'AND' => [
-                            'reservation_status.id' => $params[3],
-                            'accounts.zav' => true
-                        ]
-                    ]);
+                        'reservation_statuses.id' => $params[3]
+                    ]));
 
-                    return !empty($query) ? $query[0] : 'No se encontraron registros';
+                    if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
+                    {
+                        unset($query[0]['zaviapms']);
+
+                        return $query[0];
+                    }
+                    else
+                        return 'No se encontraron registros';
                 }
                 else
                 {
-                    $query = $this->database->select('reservation_statuses', [
+                    $query = Functions::get_json_decoded_query($this->database->select('reservation_statuses', [
                         '[>]accounts' => [
                             'account' => 'id'
                         ]
                     ], [
-                        'reservation_status.id',
-                        'reservation_status.name'
+                        'reservation_statuses.id',
+                        'reservation_statuses.name',
+                        'accounts.zaviapms'
                     ], [
-                        'AND' => [
-                            'reservation_status.account' => $params[2],
-                            'accounts.zav' => true
-                        ]
-                    ]);
+                        'reservation_statuses.account' => $params[2]
+                    ]));
 
-                    return !empty($query) ? $query : 'No se encontraron registros';
+                    if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
+                    {
+                        foreach ($query as $key => $value)
+                            unset($query[$key]['zaviapms']);
+
+                        return $query;
+                    }
+                    else
+                        return 'No se encontraron registros';
                 }
             }
             else
