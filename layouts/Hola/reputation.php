@@ -3,9 +3,18 @@
 defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.css}Hola/reputation.css']);
+$this->dependencies->add(['js', '{$path.js}Hola/reputation.js']);
 
 ?>
 
+<header class="landingpage-reputation">
+    <a data-button-modal="contact"><i class="fas fa-qrcode"></i></a>
+    <a data-button-modal="contact"><i class="fas fa-paper-plane"></i></a>
+    <a data-button-modal="contact"><i class="fas fa-gift"></i></a>
+    <figure>
+        <img src="{$path.images}icon-white.svg" alt="Guestvox logotipo">
+    </figure>
+</header>
 <main class="landingpage-reputation">
     <section id="section-one" class="gradient hand-background">
         <div class="container">
@@ -42,7 +51,7 @@ $this->dependencies->add(['css', '{$path.css}Hola/reputation.css']);
                 </div>
             </div>
             <div class="space50"></div>
-            <a href="#" class="btn">¡Lo quiero!</a>
+            <a data-button-modal="contact" class="btn">¡Lo quiero!</a>
             <div class="space50"></div>
         </div>
     </section>
@@ -69,7 +78,7 @@ $this->dependencies->add(['css', '{$path.css}Hola/reputation.css']);
                 <div class="content">
                     <h3>Nuestra herramienta es totalmente autogestionable.</h3>
 
-                    <a href="#" class="btn">¡Agendar ahora!</a>
+                    <a data-button-modal="contact" class="btn">¡Lo quiero!</a>
                 </div>
             </div>
         </div>
@@ -96,7 +105,7 @@ $this->dependencies->add(['css', '{$path.css}Hola/reputation.css']);
     <section id="section-nine" class="gradient-c-r">
         <div class="container">
             <div class="content">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=(Poner texto o link con https...)" alt="">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://guestvox.com/demorestaurante/myvox" alt="QR Demo">
                 <h4>Contesta nuestra encuesta.</h4>
                 <p>*Si pones puntuación negativa o menos de 3, se despliega pregunta secundaria.</p>
             </div>
@@ -107,18 +116,72 @@ $this->dependencies->add(['css', '{$path.css}Hola/reputation.css']);
         <div class="container">
             <div class="content">
                 <h3>Quiero agendar una demo</h3>
-                <a href="#" class="btn">¡Agendar ahora!</a>
+                <a data-button-modal="contact" class="btn">¡Agendar ahora!</a>
             </div>
             <div class="content">
                 <figure class="logotype">
                     <img src="{$path.images}hola/reputation/logotype.svg" alt="Guestvox logotipo">
                 </figure>
 
-                <a href="#" class="social-media fb-logo" target="_blank">FB</a>
-                <a href="#" class="social-media yt-logo" target="_blank">YT</a>
-                <a href="#" class="social-media ig-logo" target="_blank">IG</a>
-                <a href="#" class="social-media in-logo" target="_blank">IN</a>
+                <a href="https://facebook.com/guestvox" class="social-media fb-logo" target="_blank">FB</a>
+                <a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" class="social-media yt-logo" target="_blank">YT</a>
+                <a href="https://instagram.com/guestvox" class="social-media ig-logo" target="_blank">IG</a>
+                <a href="https://linkedin.com/guestvox" class="social-media in-logo" target="_blank">IN</a>
             </div>
         </div>
     </section>
 </main>
+<section class="modal" data-modal="contact">
+    <div class="content">
+        <header>
+            <h3>Pongamonos en contacto</h3>
+        </header>
+        <main>
+            <form name="contact">
+                <div class="row">
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>Nombre del negocio</p>
+                                <input type="text" name="business" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
+                                <p>Nombre de contacto</p>
+                                <input type="text" name="contact" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>Correo electrónico</p>
+                                <input type="text" name="email" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>Teléfono</p>
+                                <input type="text" name="phone" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <p style="font-size: 10px; line-height: 1.3; opacity: 0.5; margin-bottom: 0px;">Al enviar este formulario, solicitará que un representante de Guestvox S.A.P.I de C.V. se ponga en contacto con usted por teléfono o correo electrónico en los próximos días.</p>
+                    </div>
+                </div>
+            </form>
+        </main>
+        <footer>
+            <div class="action-buttons">
+                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
+                <button class="btn btn-colored" button-success>¡Contáctenme!</button>
+            </div>
+        </footer>
+    </div>
+</section>

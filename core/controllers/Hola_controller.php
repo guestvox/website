@@ -116,10 +116,69 @@ class Hola_controller extends Controller
 
 	public function reputation()
 	{
-		define('_title', 'GuestVox');
+		if (Format::exist_ajax_request() == true)
+		{
+			$labels = [];
 
-		$template = $this->view->render($this, 'reputation');
+			if (!isset($_POST['business']) OR empty($_POST['business']))
+				array_push($labels, ['business', '']);
 
-		echo $template;
+			if (!isset($_POST['contact']) OR empty($_POST['contact']))
+				array_push($labels, ['contact', '']);
+
+			if (!isset($_POST['email']) OR empty($_POST['email']))
+				array_push($labels, ['email', '']);
+
+			if (!isset($_POST['phone']) OR empty($_POST['phone']))
+				array_push($labels, ['phone', '']);
+
+			if (empty($labels))
+			{
+				$mail1 = new Mailer(true);
+				$mail2 = new Mailer(true);
+
+				try {
+					$mail1->isSMTP();
+					$mail1->setFrom('noreply@guestvox.com', 'GuestVox');
+					$mail1->addAddress('info@guestvox.com', $post['contact']);
+					$mail1->isHTML(true);
+					$mail1->Subject = "Solicitud para Reputación";
+					$mail1->Body = "Hola, me llamo {$post['contact']}. Mi negocio se llama {$post['business']}. Pueden escribirme al correo electrónico {$post['email']} o llamarme a mi teléfono {$post['phone']}.";
+					$mail1->AltBody = $mail1->Body;
+					$mail1->send();
+				} catch (Exception $e) {}
+
+				try {
+					$mail2->isSMTP();
+					$mail2->setFrom('noreply@guestvox.com', 'GuestVox');
+					$mail2->addAddress($post['email'], 'GuestVox');
+					$mail2->isHTML(true);
+					$mail2->Subject = "¡Gracias! Hemos recibido tu petición.";
+					$mail2->Body = "¡Muchas gracias por ponerte en contacto con nosotros! En breve nos pondremos en contacto contigo.";
+					$mail2->AltBody = $mail2->Body;
+					$mail2->send();
+				} catch (Exception $e) {}
+
+				Functions::environment([
+					'status' => 'success',
+					'message' => '{$lang.operation_success}'
+				]);
+			}
+			else
+			{
+				Functions::environment([
+					'status' => 'error',
+					'labels' => $labels
+				]);
+			}
+		}
+		else
+		{
+			define('_title', 'GuestVox');
+
+			$template = $this->view->render($this, 'reputation');
+
+			echo $template;
+		}
 	}
 }
