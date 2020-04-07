@@ -10,9 +10,9 @@ class Api_vkye
         header('Access-Control-Allow-Origin: *');
     }
 
-    public function main( $params )
+    public function main($params)
     {
-        if ( isset($params[0]) )
+        if (isset($params[0]))
         {
             $call_api = ucwords($params[0] . '_api');
             $path = Security::DS(PATH_CORE . 'api/' . $call_api . '.php');
@@ -63,16 +63,16 @@ class Api_vkye
                     $this->response($response);
                 }
                 else
-                    $this->response(false, 405, 'No se permite este metodo de consulta en esta api.');
+                    $this->response(false, 405, 'Método de consulta no permitido');
             }
             else
-                $this->response(false, 400, 'Error, no se encuentra la api solicitada.');
+                $this->response(false, 400, 'API solicitada no disponible');
         }
         else
-            $this->response(false, 400, 'Error, no se solicito ninguna api.');
+            $this->response(false, 400, 'No se solicitó ninguna API');
     }
 
-    private function response ($data = '', $code = 200, $status = 'OK', $message = '')
+    private function response($data = '', $code = 200, $status = 'OK', $message = '')
     {
         http_response_code($code);
 
@@ -115,14 +115,33 @@ class Api_vkye
         }
     }
 
-    static public function check_access($user, $password)
+    static public function access_credentials($user = null)
     {
         $users = [
-            ['zavia', 'y329-gfc=7mq}qy(']
+            'zaviapms' => 'y329-gfc=7mq}qy(',
+            'siteminder' => 'V97+pf=:z4?Hm|0i'
         ];
 
-        if (in_array([$user, $password], $users))
-            return true;
+        if (!empty($user))
+        {
+            if (array_key_exists($user, $users))
+                return $users[$user];
+            else
+                return 'Error';
+        }
+        else
+            return $users;
+    }
+
+    static public function access_permission($user, $password)
+    {
+        if (array_key_exists($user, Api_vkye::access_credentials()))
+        {
+            if (Api_vkye::access_credentials($user) == $password)
+                return true;
+            else
+                return false;
+        }
         else
             return false;
     }

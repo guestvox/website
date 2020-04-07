@@ -4,7 +4,7 @@ class Accounts_api extends Model
 {
     public function get($params)
     {
-        if (Api_vkye::check_access($params[0], $params[1]) == true)
+        if (Api_vkye::access_permission($params[0], $params[1]) == true)
         {
             if (!empty($params[2]))
             {
@@ -42,13 +42,13 @@ class Accounts_api extends Model
                 {
                     foreach ($query as $key => $value)
                     {
-                        if ($value['zaviapms'] == false)
+                        if ($value['zaviapms']['status'] == false)
                             unset($query[$key]);
                         else
                             unset($query[$key]['zaviapms']);
                     }
 
-                    return $query
+                    return $query;
                 }
                 else
                     return 'No se encontraron registros';

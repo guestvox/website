@@ -4,7 +4,7 @@ class Locations_api extends Model
 {
     public function get($params)
     {
-        if (Api_vkye::check_access($params[0], $params[1]) == true)
+        if (Api_vkye::access_permission($params[0], $params[1]) == true)
         {
             if (!empty($params[2]))
             {
