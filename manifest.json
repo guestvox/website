@@ -4,7 +4,7 @@
     "lang": "es",
     "start_url": "login",
     "display": "standalone",
-    "orientation": "portrait",
+    "orientation": "any",
     "theme_color": " #258F93",
     "background_color": "#00A5AB",
     "icons": [

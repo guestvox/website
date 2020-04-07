@@ -18,7 +18,8 @@ class Tables_model extends Model
 			'token',
 			'number',
 			'name',
-			'qr'
+			'qr',
+			'status'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
@@ -43,7 +44,8 @@ class Tables_model extends Model
 		$query = $this->database->select('tables', [
 			'number',
 			'name',
-			'qr'
+			'qr',
+			'status'
 		], [
 			'id' => $id
 		]);
@@ -122,31 +124,48 @@ class Tables_model extends Model
 				}
 			}
 		}
+		else if($data['type'] == 'department')
+		{
+			$query = $this->database->insert('tables', [
+				'account' => Session::get_value('account')['id'],
+				'name' => $data['name'],
+				'status' => true
+			]);
+		}
 
 		return $query;
 	}
 
 	public function edit_table($data)
 	{
-		$query = null;
-
-		$exist = $this->database->count('tables', [
-			'AND' => [
-				'id[!]' => $data['id'],
-				'account' => Session::get_value('account')['id'],
-				'number' => $data['number']
-			]
-		]);
-
-		if ($exist <= 0)
+		if (!empty($data['number']) AND isset($data['number']))
 		{
-			$query = $this->database->update('tables', [
-				'number' => $data['number'],
-				'name' => $data['name']
-			], [
-				'id' => $data['id']
+			$query = null;
+
+			$exist = $this->database->count('tables', [
+				'AND' => [
+					'id[!]' => $data['id'],
+					'account' => Session::get_value('account')['id'],
+					'number' => $data['number']
+				]
 			]);
+
+			if ($exist <= 0)
+			{
+				$query = $this->database->update('tables', [
+					'number' => $data['number'],
+					'name' => $data['name']
+				], [
+					'id' => $data['id']
+				]);
+			}
 		}
+
+		$query = $this->database->update('tables', [
+			'name' => $data['name']
+		], [
+			'id' => $data['id']
+		]);
 
 		return $query;
 	}

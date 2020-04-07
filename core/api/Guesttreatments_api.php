@@ -4,45 +4,56 @@ class Guesttreatments_api extends Model
 {
     public function get($params)
     {
-        if (Api_vkye::check_access($params[0], $params[1]) == true)
+        if (Api_vkye::access_permission($params[0], $params[1]) == true)
         {
             if (!empty($params[2]))
             {
                 if (!empty($params[3]))
                 {
-                    $query = $this->database->select('guest_treatments', [
+                    $query = Functions::get_json_decoded_query($this->database->select('guest_treatments', [
                         '[>]accounts' => [
                             'account' => 'id'
                         ]
                     ], [
                         'guest_treatments.id',
-                        'guest_treatments.name'
+                        'guest_treatments.name',
+                        'accounts.zaviapms'
                     ], [
-                        'AND' => [
-                            'guest_treatments.id' => $params[3],
-                            'accounts.zav' => true
-                        ]
-                    ]);
+                        'guest_treatments.id' => $params[3]
+                    ]));
 
-                    return !empty($query) ? $query[0] : 'No se encontraron registros';
+                    if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
+                    {
+                        unset($query[0]['zaviapms']);
+
+                        return $query[0];
+                    }
+                    else
+                        return 'No se encontraron registros';
                 }
                 else
                 {
-                    $query = $this->database->select('guest_treatments', [
+                    $query = Functions::get_json_decoded_query($this->database->select('guest_treatments', [
                         '[>]accounts' => [
                             'account' => 'id'
                         ]
                     ], [
                         'guest_treatments.id',
-                        'guest_treatments.name'
+                        'guest_treatments.name',
+                        'accounts.zaviapms'
                     ], [
-                        'AND' => [
-                            'guest_treatments.account' => $params[2],
-                            'accounts.zav' => true
-                        ]
-                    ]);
+                        'guest_treatments.account' => $params[2]
+                    ]));
 
-                    return !empty($query) ? $query : 'No se encontraron registros';
+                    if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
+                    {
+                        foreach ($query as $key => $value)
+                            unset($query[$key]['zaviapms']);
+
+                        return $query;
+                    }
+                    else
+                        return 'No se encontraron registros';
                 }
             }
             else

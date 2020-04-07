@@ -47,27 +47,27 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     {$h4_general_average_rate}
                     {$spn_general_avarage_rate}
                 </div>
-                <div class="progress">
+                <div class="progress" id="progress_five">
                     <span>5<i class="fas fa-star"></i></span>
                     <progress value="{$five_percentage_rate}" max="100"></progress>
                     <span>{$five_percentage_rate}%</span>
                 </div>
-                <div class="progress">
+                <div class="progress" id="progress_four">
                     <span>4<i class="fas fa-star"></i></span>
                     <progress value="{$four_percentage_rate}" max="100"></progress>
                     <span>{$four_percentage_rate}%</span>
                 </div>
-                <div class="progress">
+                <div class="progress" id="progress_tree">
                     <span>3<i class="fas fa-star"></i></span>
                     <progress value="{$tree_percentage_rate}" max="100"></progress>
                     <span>{$tree_percentage_rate}%</span>
                 </div>
-                <div class="progress">
+                <div class="progress" id="progress_two">
                     <span>2<i class="fas fa-star"></i></span>
                     <progress value="{$two_percentage_rate}" max="100"></progress>
                     <span>{$two_percentage_rate}%</span>
                 </div>
-                <div class="progress">
+                <div class="progress" id="progress_one">
                     <span>1<i class="fas fa-star"></i></span>
                     <progress value="{$one_percentage_rate}" max="100"></progress>
                     <span>{$one_percentage_rate}%</span>

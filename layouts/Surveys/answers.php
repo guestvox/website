@@ -10,7 +10,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 ?>
 
 %{header}%
-<main>
+<main class="answers">
     <nav>
         <h2><i class="fas fa-comment-alt"></i>{$lang.answers}</h2>
         <ul>
@@ -33,6 +33,15 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
     </nav>
     <article>
         <main>
+            <form name="get_filter_survey_answer" class="charts-filter">
+                <select name="room">
+                    <option value="all">{$lang.all}</option>
+                    {$opt_rooms}
+                </select>
+                <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>">
+                <input type="date" name="end_date" value="<?php echo Functions::get_current_date(); ?>" max="<?php echo Functions::get_current_date(); ?>">
+                <a data-action="view_all" class="btn">{$lang.view_all}</a>
+            </form>
             <div class="table">
                 <aside>
                     <label>

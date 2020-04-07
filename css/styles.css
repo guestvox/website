@@ -477,7 +477,7 @@ body > main > article > footer > a:hover {
 @media (max-width: 768px) {
 
     .table > aside > label > span {
-        width: 50px;
+        width: 100px;
     }
 }
 
@@ -2063,7 +2063,9 @@ main.surveys-stats > article > main > form.charts-filter.down {
 }
 
 main.surveys-stats > article > main > form.charts-filter > input,
-main.surveys-stats > article > main > form.charts-filter > select {
+main.surveys-stats > article > main > form.charts-filter > select,
+main > article > main > form.charts-filter > input,
+main > article > main > form.charts-filter > select {
     width: auto;
     height: 60px;
     margin-left: 5px;
@@ -2081,7 +2083,9 @@ main.surveys-stats > article > main > form.charts-filter.down > select {
 @media (max-width: 768px) {
 
     main.surveys-stats > article > main > form.charts-filter > input,
-    main.surveys-stats > article > main > form.charts-filter > select {
+    main.surveys-stats > article > main > form.charts-filter > select,
+    main > article > main > form.charts-filter > input,
+    main > article > main > form.charts-filter > select {
         width: 100%;
         margin: 0px 0px 5px 0px;
     }

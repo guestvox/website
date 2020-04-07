@@ -21,6 +21,23 @@ $(document).ready(function()
             dataType: 'json',
             success: function(response)
             {
+                $('.average').html(response.data.rate_general);
+
+                $('#progress_five').find('progress').attr('value', response.data.five_percentage_rate);
+                $('#progress_five').find('span:last-child').text(response.data.five_percentage_rate + '%');
+
+                $('#progress_four').find('progress').attr('value', response.data.four_percentage_rate);
+                $('#progress_four').find('span:last-child').text(response.data.four_percentage_rate + '%');
+
+                $('#progress_tree').find('progress').attr('value', response.data.tree_percentage_rate);
+                $('#progress_tree').find('span:last-child').text(response.data.tree_percentage_rate + '%');
+
+                $('#progress_two').find('progress').attr('value', response.data.two_percentage_rate);
+                $('#progress_two').find('span:last-child').text(response.data.two_percentage_rate + '%');
+
+                $('#progress_one').find('progress').attr('value', response.data.one_percentage_rate);
+                $('#progress_one').find('span:last-child').text(response.data.one_percentage_rate + '%');
+
                 update_charts_by_date_filter(response);
             }
         });

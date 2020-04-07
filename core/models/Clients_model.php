@@ -17,7 +17,8 @@ class Clients_model extends Model
 			'id',
 			'token',
 			'name',
-			'qr'
+			'qr',
+			'status'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
@@ -41,7 +42,8 @@ class Clients_model extends Model
 	{
 		$query = $this->database->select('clients', [
 			'name',
-			'qr'
+			'qr',
+			'status'
 		], [
 			'id' => $id
 		]);
@@ -51,36 +53,47 @@ class Clients_model extends Model
 
 	public function new_client($data)
 	{
-        $query = null;
-
-		$exist = $this->database->count('clients', [
-			'AND' => [
-				'account' => Session::get_value('account')['id'],
-				'name' => $data['name']
-			]
-		]);
-
-		if ($exist <= 0)
+		if ($data['type'] == 'one')
 		{
-			if ($this->get_count_clients() < Session::get_value('account')['client_package']['quantity_end'])
-			{
-				$data['token'] = Functions::get_random(8);
-				$data['qr']['filename'] = 'qr_' . Session::get_value('account')['path'] . '_client_' . $data['token'] . '.png';
-				$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/client/' . $data['token'];
-				$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
-				$data['qr']['level'] = 'H';
-				$data['qr']['size'] = 5;
-				$data['qr']['frame'] = 3;
+			$query = null;
 
-				$query = $this->database->insert('clients', [
+			$exist = $this->database->count('clients', [
+				'AND' => [
 					'account' => Session::get_value('account')['id'],
-					'token' => strtoupper($data['token']),
-					'name' => $data['name'],
-					'qr' => $data['qr']['filename']
-				]);
+					'name' => $data['name']
+				]
+			]);
 
-				QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
+			if ($exist <= 0)
+			{
+				if ($this->get_count_clients() < Session::get_value('account')['client_package']['quantity_end'])
+				{
+					$data['token'] = Functions::get_random(8);
+					$data['qr']['filename'] = 'qr_' . Session::get_value('account')['path'] . '_client_' . $data['token'] . '.png';
+					$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/client/' . $data['token'];
+					$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
+					$data['qr']['level'] = 'H';
+					$data['qr']['size'] = 5;
+					$data['qr']['frame'] = 3;
+
+					$query = $this->database->insert('clients', [
+						'account' => Session::get_value('account')['id'],
+						'token' => strtoupper($data['token']),
+						'name' => $data['name'],
+						'qr' => $data['qr']['filename']
+					]);
+
+					QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
+				}
 			}
+		}
+		else if($data['type'] == 'department')
+		{
+			$query = $this->database->insert('clients', [
+				'account' => Session::get_value('account')['id'],
+				'name' => $data['name'],
+				'status' => true
+			]);
 		}
 
 		return $query;
@@ -88,24 +101,34 @@ class Clients_model extends Model
 
 	public function edit_client($data)
 	{
-		$query = null;
+		if ($data['action'] == 'edit_client')
+		{
+			$query = null;
 
-		$exist = $this->database->count('clients', [
-			'AND' => [
-				'id[!]' => $data['id'],
-				'account' => Session::get_value('account')['id'],
-				'name' => $data['name']
-			]
+			$exist = $this->database->count('clients', [
+				'AND' => [
+					'id[!]' => $data['id'],
+					'account' => Session::get_value('account')['id'],
+					'name' => $data['name']
+				]
+			]);
+
+			if ($exist <= 0)
+			{
+				$query = $this->database->update('clients', [
+					'name' => $data['name']
+				], [
+					'id' => $data['id']
+				]);
+			}
+		}
+
+		$query = $this->database->update('clients', [
+			'name' => $data['name']
+		], [
+			'id' => $data['id']
 		]);
 
-		if ($exist <= 0)
-		{
-			$query = $this->database->update('clients', [
-				'name' => $data['name']
-			], [
-				'id' => $data['id']
-			]);
-		}
 
 		return $query;
 	}

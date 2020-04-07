@@ -4,7 +4,7 @@ class Opportunitytypes_api extends Model
 {
     public function get($params)
     {
-        if (Api_vkye::check_access($params[0], $params[1]) == true)
+        if (Api_vkye::access_permission($params[0], $params[1]) == true)
         {
             if (!empty($params[2]))
             {
@@ -18,15 +18,20 @@ class Opportunitytypes_api extends Model
                             ]
                         ], [
                             'opportunity_types.id',
-                            'opportunity_types.name'
+                            'opportunity_types.name',
+                            'accounts.zaviapms'
                         ], [
-                            'AND' => [
-                                'opportunity_types.id' => $params[4],
-                                'accounts.zav' => true
-                            ]
+                            'opportunity_types.id' => $params[4]
                         ]));
 
-                        return !empty($query) ? $query[0] : 'No se encontraron registros';
+                        if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
+                        {
+                            unset($query[0]['zaviapms']);
+
+                            return $query[0];
+                        }
+                        else
+                            return 'No se encontraron registros';
                     }
                     else
                     {
@@ -36,15 +41,21 @@ class Opportunitytypes_api extends Model
                             ]
                         ], [
                             'opportunity_types.id',
-                            'opportunity_types.name'
+                            'opportunity_types.name',
+                            'accounts.zaviapms'
                         ], [
-                            'AND' => [
-                                'opportunity_types.opportunity_area' => $params[3],
-                                'accounts.zav' => true
-                            ]
+                            'opportunity_types.opportunity_area' => $params[3]
                         ]));
 
-                        return !empty($query) ? $query : 'No se encontraron registros';
+                        if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
+                        {
+                            foreach ($query as $key => $value)
+                                unset($query[$key]['zaviapms']);
+
+                            return $query;
+                        }
+                        else
+                            return 'No se encontraron registros';
                     }
                 }
                 else

@@ -173,7 +173,8 @@ class Voxes_model extends Model
 		$query = $this->database->select('rooms', [
 			'id',
 			'number',
-			'name'
+			'name',
+			'status'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
@@ -189,7 +190,8 @@ class Voxes_model extends Model
 		$query = $this->database->select('rooms', [
 			'id',
 			'number',
-			'name'
+			'name',
+			'status'
 		], [
 			'id' => $id
 		]);
@@ -202,7 +204,8 @@ class Voxes_model extends Model
 		$query = $this->database->select('tables', [
 			'id',
 			'number',
-			'name'
+			'name',
+			'status'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
@@ -218,7 +221,8 @@ class Voxes_model extends Model
 		$query = $this->database->select('tables', [
 			'id',
 			'number',
-			'name'
+			'name',
+			'status'
 		], [
 			'id' => $id
 		]);
@@ -1083,7 +1087,7 @@ class Voxes_model extends Model
 			]);
 		}
 
-		return $query;
+		return (!empty($query) ? $this->get_vox($id) : null);
 	}
 
 	public function reopen_vox($id)

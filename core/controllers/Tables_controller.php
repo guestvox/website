@@ -117,6 +117,41 @@ class Tables_controller extends Controller
 				}
 			}
 
+			if ($_POST['action'] == 'edit_department')
+			{
+				$labels = [];
+
+				if (!isset($_POST['name']) OR empty($_POST['name']))
+					array_push($labels, ['name', '']);
+
+				if (empty($labels))
+				{
+					$query = $this->model->edit_table($_POST);
+
+					if (!empty($query))
+					{
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
+
 			if ($_POST['action'] == 'delete_table')
 			{
 				$query = $this->model->delete_table($_POST['id']);
@@ -150,11 +185,11 @@ class Tables_controller extends Controller
 				$tbl_tables .=
 				'<tr>
 					<td align="left">' . $value['token'] . '</td>
-					<td align="left">#' . $value['number'] . '</td>
+					<td align="left">' . (!empty($value['number']) ? '#' .  $value['number'] . '' : '') . '</td>
 					<td align="left">' . $value['name'] . '</td>
-					<td align="right" class="icon"><a href="{$path.uploads}' . $value['qr'] . '" download="' . $value['qr'] . '"><i class="fas fa-qrcode"></i></a></td>
+					<td align="right" class="icon">' . (!empty($value['number']) ? '<a href="{$path.uploads}' . $value['qr'] . '" download="' . $value['qr'] . '"><i class="fas fa-qrcode"></i></a>' : '') . '</td>
 					' . ((Functions::check_user_access(['{tables_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_table" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
-					' . ((Functions::check_user_access(['{tables_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_table" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
+					' . ((Functions::check_user_access(['{tables_update}']) == true) ? (($value['status'] == false) ? '<td align="right" class="icon"><a data-action="edit_table" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '<td align="right" class="icon"><a data-action="edit_department" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>') : '') . '
 				</tr>';
 			}
 
@@ -190,6 +225,10 @@ class Tables_controller extends Controller
 		                                        <div>
 		                        					<input type="radio" name="type" value="one">
 		                        					<span>{$lang.one_table}</span>
+		                        				</div>
+												<div>
+		                        					<input type="radio" name="type" value="department">
+		                        					<span>{$lang.department}</span>
 		                        				</div>
 		                                    </div>
 		                    			</div>

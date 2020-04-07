@@ -71,6 +71,41 @@ class Clients_controller extends Controller
 				}
 			}
 
+			if ($_POST['action'] == 'edit_department')
+			{
+				$labels = [];
+
+				if (!isset($_POST['name']) OR empty($_POST['name']))
+					array_push($labels, ['name', '']);
+
+				if (empty($labels))
+				{
+					$query = $this->model->edit_client($_POST);
+
+					if (!empty($query))
+					{
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
+
 			if ($_POST['action'] == 'delete_client')
 			{
 				$query = $this->model->delete_client($_POST['id']);
@@ -105,9 +140,9 @@ class Clients_controller extends Controller
 				'<tr>
 					<td align="left">' . $value['token'] . '</td>
 					<td align="left">' . $value['name'] . '</td>
-					<td align="right" class="icon"><a href="{$path.uploads}' . $value['qr'] . '" download="' . $value['qr'] . '"><i class="fas fa-qrcode"></i></a></td>
+					<td align="right" class="icon">' . (($value['status'] != true) ? '<a href="{$path.uploads}' . $value['qr'] . '" download="' . $value['qr'] . '"><i class="fas fa-qrcode"></i></a>' : '') . '</td>
 					' . ((Functions::check_user_access(['{clients_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_client" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
-					' . ((Functions::check_user_access(['{clients_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_client" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
+					' . ((Functions::check_user_access(['{clients_update}']) == true) ? (($value['status'] == false) ? '<td align="right" class="icon"><a data-action="edit_client" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '<td align="right" class="icon"><a data-action="edit_department" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>') : '') . '
 				</tr>';
 			}
 
@@ -128,6 +163,27 @@ class Clients_controller extends Controller
 					$mdl_new_client .=
 					'<form name="new_client">
 		                <div class="row">
+						<div class="span12">
+							<div class="label">
+								<label>
+									<p>{$lang.type}</p>
+								</label>
+								<div class="checkboxes">
+									<div>
+										<div>
+											<div>
+												<input type="radio" name="type" value="one">
+												<span>{$lang.client}</span>
+											</div>
+											<div>
+												<input type="radio" name="type" value="department">
+												<span>{$lang.department}</span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 		                    <div class="span12">
 		                        <div class="label">
 		                            <label>

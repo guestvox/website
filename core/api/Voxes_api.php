@@ -6,7 +6,7 @@ class Voxes_api extends Model
 {
     public function get($params)
     {
-        if (Api_vkye::check_access($params[0], $params[1]) == true)
+        if (Api_vkye::access_permission($params[0], $params[1]) == true)
         {
             if (!empty($params[2]))
             {
@@ -20,15 +20,15 @@ class Voxes_api extends Model
                         'voxes.id',
                         'voxes.type',
                         'voxes.data',
+                        'accounts.zaviapms'
                     ], [
-                        'AND' => [
-                            'voxes.id' => $params[3],
-                            'accounts.zav' => true
-                        ]
+                        'voxes.id' => $params[3]
                     ]));
 
-                    if (!empty($query))
+                    if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
                     {
+                        unset($query[0]['zaviapms']);
+
                         $query[0]['data'] = json_decode(Functions::get_openssl('decrypt', $query[0]['data']), true);
 
                         if ($query[0]['data']['status'] == 'open')
@@ -71,7 +71,7 @@ class Voxes_api extends Model
                             return $query[0];
                         }
                         else
-                            return 'Vox no activo';
+                            return 'Vox cerrado';
                     }
                     else
                         return 'No se encontraron registros';
@@ -86,59 +86,64 @@ class Voxes_api extends Model
                         'voxes.id',
                         'voxes.type',
                         'voxes.data',
+                        'accounts.zaviapms'
                     ], [
-                        'AND' => [
-                            'voxes.account' => $params[2],
-                            'accounts.zav' => true
-                        ]
+                        'voxes.account' => $params[2]
                     ]));
 
-                    foreach ($query as $key => $value)
+                    if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
                     {
-                        $query[$key]['data'] = json_decode(Functions::get_openssl('decrypt', $query[$key]['data']), true);
-
-                        if ($query[$key]['data']['status'] == 'open')
+                        foreach ($query as $key => $value)
                         {
-                            $query[$key]['data']['room'] = $this->database->select('rooms', [
-                                'id',
-                    			'name'
-                    		], [
-                    			'id' => $query[$key]['data']['room']
-                    		]);
+                            $query[$key]['data'] = json_decode(Functions::get_openssl('decrypt', $query[$key]['data']), true);
 
-                            $query[$key]['data']['opportunity_area'] = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
-                                'id',
-                    			'name'
-                    		], [
-                    			'id' => $query[$key]['data']['opportunity_area']
-                    		]));
+                            if ($query[$key]['data']['status'] == 'open')
+                            {
+                                unset($query[$key]['zaviapms']);
 
-                            $query[$key]['data']['opportunity_type'] = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
-                                'id',
-                    			'name'
-                    		], [
-                    			'id' => $query[$key]['data']['opportunity_type']
-                    		]));
+                                $query[$key]['data']['room'] = $this->database->select('rooms', [
+                                    'id',
+                        			'name'
+                        		], [
+                        			'id' => $query[$key]['data']['room']
+                        		]);
 
-                            $query[$key]['data']['location'] = Functions::get_json_decoded_query($this->database->select('locations', [
-                                'id',
-                    			'name'
-                    		], [
-                    			'id' => $query[$key]['data']['location']
-                    		]));
+                                $query[$key]['data']['opportunity_area'] = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
+                                    'id',
+                        			'name'
+                        		], [
+                        			'id' => $query[$key]['data']['opportunity_area']
+                        		]));
 
-                            $query[$key]['data']['guest_treatment'] = $this->database->select('guest_treatments', [
-                                'id',
-                    			'name'
-                    		], [
-                    			'id' => $query[$key]['data']['guest_treatment']
-                    		]);
+                                $query[$key]['data']['opportunity_type'] = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
+                                    'id',
+                        			'name'
+                        		], [
+                        			'id' => $query[$key]['data']['opportunity_type']
+                        		]));
+
+                                $query[$key]['data']['location'] = Functions::get_json_decoded_query($this->database->select('locations', [
+                                    'id',
+                        			'name'
+                        		], [
+                        			'id' => $query[$key]['data']['location']
+                        		]));
+
+                                $query[$key]['data']['guest_treatment'] = $this->database->select('guest_treatments', [
+                                    'id',
+                        			'name'
+                        		], [
+                        			'id' => $query[$key]['data']['guest_treatment']
+                        		]);
+                            }
+                            else
+                                unset($query[$key]);
                         }
-                        else
-                            unset($query[$key]);
-                    }
 
-                    return !empty($query) ? $query : 'No se encontraron registros';
+                        return $query;
+                    }
+                    else
+                        return 'No se encontraron registros';
                 }
             }
             else
@@ -150,7 +155,7 @@ class Voxes_api extends Model
 
     public function post($params)
     {
-        if (Api_vkye::check_access($params[0], $params[1]) == true)
+        if (Api_vkye::access_permission($params[0], $params[1]) == true)
         {
             if (!empty($params[2]))
             {
@@ -164,14 +169,12 @@ class Voxes_api extends Model
                             ]
                         ], [
                             'voxes.data',
+                            'accounts.zaviapms'
                         ], [
-                            'AND' => [
-                                'voxes.id' => $params[3],
-                                'accounts.zav' => true
-                            ]
+                            'voxes.id' => $params[3]
                         ]));
 
-                        if (!empty($query))
+                        if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
                         {
                             $query[0]['data'] = json_decode(Functions::get_openssl('decrypt', $query[0]['data']), true);
                             $query[0]['data']['completed_user'] = [

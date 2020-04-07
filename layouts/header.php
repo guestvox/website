@@ -5,13 +5,15 @@
             <ul>
                 <?php if (Functions::check_account_access(['operation']) == true) : ?>
                 <li data-mobile-off><a href="/voxes/create"><i class="fas fa-plus"></i>{$lang.new_vox}</a></li>
-                <li data-mobile-on><a href="/voxes/create"><i class="fas fa-plus"></i></a></li>
+                <li class="nav-hide" data-mobile-on><a href="/voxes/create"><i class="fas fa-plus"></i></a></li>
                 <?php endif; ?>
                 <li data-mobile-off><a href="<?php echo ((Functions::check_user_access(['{account_update}']) == true) ?  '/account' : ''); ?>"><?php echo Session::get_value('account')['name']; ?></a></li>
-                <li data-mobile-off><a href="/profile" class="profile"><i class="fas fa-circle"></i><?php echo Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname']; ?></a></li>
-                <li><a href="/profile"><?php echo (!empty(Session::get_value('user')['avatar']) ? '<span><img src="{$path.uploads}' . Session::get_value('user')['avatar'] . '"></span>' : '<i class="fas fa-user-circle"></i>') ?></a></li>
-                <li><a data-button-modal="logout"><i class="fas fa-power-off"></i></a></li>
-                <li><a data-action="open-dash-menu"><i class="fas fa-ellipsis-v"></i></a></li>
+                <li class="nav-hide" data-mobile-off><a href="/profile" class="profile"><i class="fas fa-circle"></i><?php echo Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname']; ?></a></li>
+                <li class="nav-hide"><a href="/profile"><?php echo (!empty(Session::get_value('user')['avatar']) ? '<span><img src="{$path.uploads}' . Session::get_value('user')['avatar'] . '"></span>' : '<i class="fas fa-user-circle"></i>') ?></a></li>
+                <li class="nav-hide"><a data-button-modal="logout"><i class="fas fa-power-off"></i></a></li>
+                <li class="menu-pwa"><a data-action="open-dash-menu"><i class="fas fa-bars"></i></a></li>
+                <!--<li class="menu-pwa"><a data-action="open-dash-menu"><i class="fas fa-ellipsis-v"></i></a></li>-->
+                <li class="menu-pwa-search"><a><i class="fas fa-search"></i></a></li>
             </ul>
         </nav>
     </section>
@@ -19,18 +21,19 @@
         <figure>
             <img src="{$path.images}logotype-white.png" data-mobile-off>
             <img src="{$path.images}icon-white.svg" data-mobile-on>
+            <img src="{$path.images}logotype-white.png" data-mobile-on>
         </figure>
         <nav class="main-menu">
             <ul>
-                <li target="dashboard" data-mobile-off><a href="/dashboard"><i class="fas fa-home"></i>{$lang.dashboard}</a></li>
-                <li target="dashboard" data-mobile-on><a href="/dashboard"><i class="fas fa-home"></i></a></li>
+                <li class="nav-hide" target="dashboard" data-mobile-off><a href="/dashboard"><i class="fas fa-home"></i>{$lang.dashboard}</a></li>
+                <li class="nav-hide" target="dashboard" data-mobile-on><a href="/dashboard"><i class="fas fa-home"></i></a></li>
                 <?php if (Functions::check_account_access(['operation']) == true) : ?>
-                <li target="voxes" data-mobile-off><a href="/voxes"><i class="fas fa-heart"></i>{$lang.voxes}</a></li>
-                <li target="voxes" data-mobile-on><a href="/voxes"><i class="fas fa-heart"></i></a></li>
+                <li class="nav-hide" target="voxes" data-mobile-off><a href="/voxes"><i class="fas fa-heart"></i>{$lang.voxes}</a></li>
+                <li class="nav-hide" target="voxes" data-mobile-on><a href="/voxes"><i class="fas fa-heart"></i></a></li>
                 <?php endif; ?>
                 <?php if (Functions::check_account_access(['reputation']) == true AND Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}','{survey_answers_view}','{survey_stats_view}']) == true) : ?>
-                <li target="surveys" data-mobile-off><a href="/surveys"><i class="fas fa-star"></i>{$lang.surveys}</a></li>
-                <li target="surveys" data-mobile-on><a href="/surveys"><i class="fas fa-star"></i></a></li>
+                <li class="nav-hide" target="surveys" data-mobile-off><a href="/surveys"><i class="fas fa-star"></i>{$lang.surveys}</a></li>
+                <li class="nav-hide" target="surveys" data-mobile-on><a href="/surveys"><i class="fas fa-star"></i></a></li>
                 <?php endif; ?>
             </ul>
         </nav>
@@ -40,13 +43,13 @@
             </figure>
             <ul>
                 <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{rooms_create}','{rooms_update}','{rooms_delete}']) == true) : ?>
-                <li><a href="/rooms">{$lang.rooms}<i class="fas fa-bed"></i></a></li>
+                <li><a href="/rooms">{$lang.rooms} | {$lang.departments}<i class="fas fa-bed"></i><i class="fas fa-building"></i></a></li>
                 <?php endif; ?>
                 <?php if (Session::get_value('account')['type'] == 'restaurant' AND Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{tables_create}','{tables_update}','{tables_delete}']) == true) : ?>
-                <li><a href="/tables">{$lang.tables}<i class="fas fa-utensils"></i></a></li>
+                <li><a href="/tables">{$lang.tables} | {$lang.departments}<i class="fas fa-utensils"></i></a></li>
                 <?php endif; ?>
                 <?php if (Session::get_value('account')['type'] == 'others' AND Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{clients_create}','{clients_update}','{clients_delete}']) == true) : ?>
-                <li><a href="/clients">{$lang.clients}<i class="fas fa-user-tie"></i></a></li>
+                <li><a href="/clients">{$lang.clients} | {$lang.departments}<i class="fas fa-user-tie"></i></a></li>
                 <?php endif; ?>
                 <?php if (Functions::check_account_access(['operation']) AND Functions::check_user_access(['{opportunity_areas_create}','{opportunity_areas_update}','{opportunity_areas_delete}']) == true) : ?>
                 <li><a href="/opportunityareas">{$lang.opportunity_areas}<i class="fas fa-compass"></i></a></li>

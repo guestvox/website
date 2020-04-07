@@ -17,9 +17,11 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
         <div class="multilanguage">
             <a href="?<?php echo Language::get_lang_url('es'); ?>">
                 <img src="{$path.images}es.png">
+                <span>{$lang.es}</span>
             </a>
             <a href="?<?php echo Language::get_lang_url('en'); ?>">
                 <img src="{$path.images}en.png">
+                <span>{$lang.en}</span>
             </a>
         </div>
     </div>
