@@ -24,46 +24,69 @@ class Api_vkye
                 $class = new $call_api();
                 $_params = [];
 
-                switch ($_SERVER['REQUEST_METHOD'])
+                $headers = Self::all_headers();
+                $user = ( isset($headers['user']) ) ? $headers['user'] : null;
+                $password = ( isset($headers['password']) ) ? $headers['password'] : null;
+
+                if ( true )
                 {
-                    case 'GET':
-                        $method = 'GET';
-                        break;
+                    switch ($_SERVER['REQUEST_METHOD'])
+                    {
+                        case 'GET':
+                            // $xml = simplexml_load_string($string, null, null, "http://schemas.xmlsoap.org/soap/envelope/");
+                            $xml = simplexml_load_file('http://local.guestvox.com/soap_test.xml', null, null, "http://schemas.xmlsoap.org/soap/envelope/");
+                            $xml->registerXPathNamespace('soap-env', 'http://schemas.xmlsoap.org/soap/envelope/');
+                            $xml->registerXPathNamespace('wsse', 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd');
 
-                    case 'POST':
-                        $method = 'POST';
-                        $_POST = (file_get_contents("php://input")) ? json_decode(file_get_contents("php://input"), true) : $_POST;
-                        break;
+                            $username = $xml->xpath('/soap-env:Envelope/soap-env:Header/wsse:Security/wsse:UsernameToken/wsse:Username');
+                            $password = $xml->xpath('/soap-env:Envelope/soap-env:Header/wsse:Security/wsse:UsernameToken/wsse:Password');
+                            $body = $xml->xpath('/soap-env:Envelope/soap-env:Body');
+                            print_R((string) $username[0]);
+                            echo "\n";
+                            print_R((string) $password[0]);
+                            echo "\n";
+                            print_R($body[0]);
 
-                    case 'PUT':
-                        $method = 'PUT';
-                        $_REQUEST = [];
-                        $this->parse_raw_http_request($_REQUEST);
-                        break;
+                            $method = 'GET';
+                            break;
 
-                    case 'DELETE':
-                        $method = 'DELETE';
-                        $_REQUEST = [];
-                        $this->parse_raw_http_request($_REQUEST);
-                        break;
+                        case 'POST':
+                            $method = 'POST';
+                            $_POST = (file_get_contents("php://input")) ? json_decode(file_get_contents("php://input"), true) : $_POST;
+                            break;
 
-                    default:
-                        $method = 'UNKNOWN';
-                        break;
-                }
+                        case 'PUT':
+                            $method = 'PUT';
+                            $_REQUEST = [];
+                            $this->parse_raw_http_request($_REQUEST);
+                            break;
 
-                unset($params[0]);
+                        case 'DELETE':
+                            $method = 'DELETE';
+                            $_REQUEST = [];
+                            $this->parse_raw_http_request($_REQUEST);
+                            break;
 
-                foreach ($params as $value)
-                    $_params[] = $value;
+                        default:
+                            $method = 'UNKNOWN';
+                            break;
+                    }
 
-                if (isset($method) && method_exists($class, strtolower($method)))
-                {
-                    $response = $class->{$method}($_params);
-                    $this->response($response);
+                    unset($params[0]);
+
+                    foreach ($params as $value)
+                        $_params[] = $value;
+
+                    if (isset($method) && method_exists($class, strtolower($method)))
+                    {
+                        $response = $class->{$method}($_params);
+                        $this->response($response);
+                    }
+                    else
+                        $this->response(false, 405, 'Método de consulta no permitido');
                 }
                 else
-                    $this->response(false, 405, 'Método de consulta no permitido');
+                    $this->response(false, 405, 'USUARIO O CONTRASEÑA NO EXISTE');
             }
             else
                 $this->response(false, 400, 'API solicitada no disponible');
@@ -113,6 +136,15 @@ class Api_vkye
 
             $a_data[$matches[1]] = $matches[2];
         }
+    }
+
+    static public function all_headers() : array
+    {
+        $headers = [];
+
+        foreach (getallheaders() as $name => $value) $headers[$name] = $value;
+
+        return $headers;
     }
 
     static public function access_credentials($user = null)
