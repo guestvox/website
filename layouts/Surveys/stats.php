@@ -73,7 +73,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     <span>{$one_percentage_rate}%</span>
                 </div>
                 <form name="get_view_all" class="charts-filter">
-                    <a data-action="view_all" value="all" class="btn">Mostrar todo</a>
+                    <a data-action="view_all" value="all" class="btn">{$lang.view_general_rate_total}</a>
                 </form>
             </div>
             <div class="chart-answered">

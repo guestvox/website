@@ -26,7 +26,7 @@ $(document).ready(function()
             dataType: 'json',
             success: function(response)
             {
-                $('.chart-rate').find('h2').html('Valoración general total');
+                $('.chart-rate').find('h2').html('Valoración general | Total');
 
                 $('.average').html(response.data.rate_general);
 
