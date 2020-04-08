@@ -32,7 +32,7 @@ class Route_vkye
         ];
 
         if (in_array($this->path, $paths))
-            if (Session::exists_var('session')) : header('Location: /dashboard'); endif;
+            if (Session::exists_var('session')) : header('Location: ' . User_level::redirection()); endif;
         else
         {
             $hour_last_activity = (Session::exists_var('_vkye_last_access')) ? Session::get_value('_vkye_last_access') : date('Y-m-d H:i:s', strtotime('-2 hour', strtotime(Functions::get_current_date_hour())));

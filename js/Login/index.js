@@ -22,7 +22,7 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                    window.location.href = '/dashboard';
+                    window.location.href = response.path;
                 else if (response.status == 'error')
                 {
                     if (response.labels)

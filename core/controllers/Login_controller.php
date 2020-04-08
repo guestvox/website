@@ -50,7 +50,8 @@ class Login_controller extends Controller
 									Session::set_value('_vkye_last_access', Functions::get_current_date_hour());
 
 									Functions::environment([
-										'status' => 'success'
+										'status' => 'success',
+										'path' => User_level::redirection()
 									]);
 								}
 								else

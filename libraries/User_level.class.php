@@ -245,4 +245,14 @@ class User_level
 
         return in_array($path, $paths) ? true : false;
     }
+
+    static public function redirection()
+    {
+        if (Functions::check_account_access(['operation']) == true)
+            return '/voxes';
+        else if (Functions::check_account_access(['reputation']) == true AND Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}','{survey_answers_view}','{survey_stats_view}']) == true)
+            return '/surveys';
+        else
+            return '/profile';
+    }
 }
