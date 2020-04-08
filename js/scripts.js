@@ -87,6 +87,6 @@ function menu_focus(target = null)
 {
     if (target != null)
     {
-        $(document).find('header.main > section.menu > nav > ul > li[target="' + target + '"]').addClass('active');
+        $(document).find('header.rightbar > nav > ul > li[target="' + target + '"]').addClass('active');
     }
 }
