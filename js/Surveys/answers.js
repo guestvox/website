@@ -32,8 +32,8 @@ $(document).ready(function()
                 }
                 else if (response.status == 'error')
                 {
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                    $('[data-modal="error"]').addClass('view');
+                    tbl_survey_answers.clear();
+                    $('#tbl_survey_answers').find('tbody').html(response.data);
                 }
             }
         });

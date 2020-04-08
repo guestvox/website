@@ -502,6 +502,8 @@ class Surveys_controller extends Controller
 			{
 				$query = $this->model->get_survey_answers($_POST['room'], [$_POST['started_date'], $_POST['end_date']]);
 
+				$data = '';
+
 				if (!empty($query))
 				{
 					$data = '';
@@ -544,7 +546,7 @@ class Surveys_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.operation_error}'
+						'data' => $data
 					]);
 				}
 			}
@@ -804,10 +806,10 @@ class Surveys_controller extends Controller
 			{
 				$query = $this->model->get_survey_answers($_POST['room'], [$_POST['started_date'], $_POST['end_date']]);
 
+				$data = '';
+
 				if (!empty($query))
 				{
-					$data = '';
-
 					foreach ($query as $value)
 					{
 						if (!empty($value['comment']))
@@ -843,7 +845,7 @@ class Surveys_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'error',
-						'message' => '{$lang.operation_error}'
+						'data' => $data
 					]);
 				}
 			}
@@ -952,7 +954,7 @@ class Surveys_controller extends Controller
 		{
 			if ($_POST['action'] == 'get_filter_survey_contacts')
 			{
-				$query = $this->model->get_survey_answers($_POST['room'], [$_POST['started_date'], $_POST['end_date']]);
+				$query = $this->model->get_survey_answers($_POST['room'], []);
 
 				if (!empty($query))
 				{
@@ -1018,9 +1020,9 @@ class Surveys_controller extends Controller
 
 			$tbl_survey_contacts = '';
 
-			foreach ($this->model->get_survey_answers('', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]) as $value)
+			foreach ($this->model->get_survey_answers('', []) as $value)
 			{
-				if (!empty($value['guest']['guestvox']['email']) AND !empty($value['guest']['guestvox']['phone']))
+				if (!empty($value['guest']['guestvox']['email']) AND !empty($value['guest']['guestvox']['phone']['number']))
 				{
 					$tbl_survey_contacts .=
 					'<tr>

@@ -154,6 +154,22 @@ class Surveys_model extends Model
 	{
 		if ($data != 'all' AND $data != null)
 		{
+			if (!empty($parameters))
+			{
+				$where = [
+					'account' => Session::get_value('account')['id'],
+					'room' => $data,
+					'date[<>]' => [$parameters[0], $parameters[1]]
+				];
+			}
+			else
+			{
+				$where = [
+					'account' => Session::get_value('account')['id'],
+					'room' => $data
+				];
+			}
+
 			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 				'id',
 				'token',
@@ -166,11 +182,7 @@ class Surveys_model extends Model
 				'date',
 				'status'
 			], [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					'room' => $data,
-					'date[<>]' => [$parameters[0], $parameters[1]]
-				],
+				'AND' => $where,
 				'ORDER' => [
 					'id' => 'DESC'
 				]
@@ -234,6 +246,20 @@ class Surveys_model extends Model
 		}
 		else
 		{
+			if (!empty($parameters))
+			{
+				$where = [
+					'account' => Session::get_value('account')['id'],
+					'date[<>]' => [$parameters[0], $parameters[1]]
+				];
+			}
+			else
+			{
+				$where = [
+					'account' => Session::get_value('account')['id'],
+				];
+			}
+
 			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 				'id',
 				'token',
@@ -246,10 +272,7 @@ class Surveys_model extends Model
 				'date',
 				'status'
 			], [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$parameters[0], $parameters[1]]
-				],
+				'AND' => $where,
 				'ORDER' => [
 					'id' => 'DESC'
 				]

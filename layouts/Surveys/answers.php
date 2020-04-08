@@ -35,7 +35,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
         <main>
             <form name="get_filter_survey_answer" class="charts-filter">
                 <select name="room">
-                    <option value="all">{$lang.all}</option>
+                    <option value="all">{$lang.all_rooms}</option>
                     {$opt_rooms}
                 </select>
                 <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>">
