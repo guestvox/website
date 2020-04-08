@@ -1,273 +1,180 @@
 
-/* Header
+/* ------------------------------------------------------------------------------ */
+/* NEW -------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------ */
+
+/* Body
 ------------------------------------------------------------------------------ */
-header.main {
-    position: fixed;
-    top: 0px;
+body {
+    position: relative;
     left: 0px;
-    right: 0px;
-    z-index: 99;
+    transition: 400ms;
 }
 
-header.main::after {
+body.open-rightbar {
+    left: -240px;
+}
+
+/* Header
+------------------------------------------------------------------------------ */
+
+/* Topbar */
+
+body > header.topbar {
+    width: 100%;
+    height: 100px;
+    position: fixed;
+    background-color:  #00a5ab;
+    z-index: 97;
+}
+
+body > header.topbar {
     content: '';
     display: block;
     clear: both;
 }
 
-header.main > section.topbar {
-    width: 50%;
-    height: 50px;
-    float: right;
-    padding: 0px 20px;
+body > header.topbar > figure {
+    width: auto;
+    height: 100%;
+    float: left;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 20px;
+    padding-left: 20px;
     box-sizing: border-box;
-    background-color: #00a5ab;
+    line-height: 0px;
 }
 
-header.main > section.topbar > nav {
-    width: 100%;
+body > header.topbar > figure > a > img {
+    width: auto;
+    height: 40px;
+}
+
+body > header.topbar > nav {
+    width: auto;
     height: 100%;
     float: right;
+    padding-top: 20px;
+    padding-right: 10px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    background-color: #24383f;
 }
 
-header.main > section.topbar > nav > ul {
+body > header.topbar > nav > ul {
     width: 100%;
     height: 100%;
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    align-items: flex-start;
+    justify-content: center;
 }
 
-header.main > section.topbar > nav > ul > li,
-header.main > section.topbar > nav > ul > li > a {
-    width: auto;
-    height: 50px;
-}
-
-header.main > section.topbar > nav > ul > li > a {
-    padding-left: 20px;
+body > header.topbar > nav > ul > li,
+body > header.topbar > nav > ul > li > a {
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 400;
     color: #fff;
-    transition: 400ms;
 }
 
-header.main > section.topbar > nav > ul > li > a > i {
-    margin-right: 5px;
-    font-size: 12px;
+/* Rightbar */
+
+body > header.rightbar {
+    width: 240px;
+    height: 100vh;
+    position: absolute;
+    top: 0px;
+    right: -240px;
+    bottom: 0px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #24383f;
+    z-index: 99;
 }
 
-@media (max-width: 768px) {
-
-    header.main > section.topbar > nav > ul > li > a > i {
-        margin-right: 0px;
-    }
+body > header.rightbar > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
 }
 
-header.main > section.topbar > nav > ul > li > a.profile > i {
-    border: 1px solid #fff;
-    border-radius: 50%;
-    font-size: 8px;
-    color: #4caf50;
-}
-
-header.main > section.topbar > nav > ul > li:last-child > a > i {
-    font-size: 18px;
-}
-
-@media (max-width: 768px) {
-
-    header.main > section.topbar > nav > ul > li:last-child > a > i {
-        font-size: 12px;
-    }
-}
-
-header.main > section.topbar > nav > ul > li > a > span {
-    width: 15px;
-    height: 15px;
+body > header.rightbar > div > figure {
+    width: 100px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
     overflow: hidden;
+    line-height: 0px;
+    margin-bottom: 20px;
 }
 
-header.main > section.topbar > nav > ul > li > a > span > img {
+body > header.rightbar > div > figure > img {
     width: 100%;
-    height: auto;
 }
 
-header.main > section.menu {
-    width: 50%;
-    height: 50px;
-    float: left;
-    position: relative;
-    background-color: #00a5ab;
-}
-
-header.main > section.menu::after {
-    content: '';
-    display: block;
-    clear: both;
-}
-
-header.main > section.menu > figure {
-    width: auto;
-    height: 100%;
-    float: left;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0px 20px;
-    box-sizing: border-box;
-}
-
-@media (max-width: 768px) {
-
-    header.main > section.menu > figure {
-        padding: 0px 10px;
-    }
-}
-
-header.main > section.menu > figure > img {
-    width: auto;
-    height: 30px;
-}
-
-@media (max-width: 768px) {
-
-    header.main > section.menu > figure > img {
-        height: 20px;
-    }
-}
-
-header.main > section.menu > nav.main-menu {
-    width: auto;
-    height: 100%;
-    float: left;
-}
-
-header.main > section.menu > nav.main-menu > ul {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-header.main > section.menu > nav.main-menu > ul > li,
-header.main > section.menu > nav.main-menu > ul > li > a {
-    width: auto;
-    height: 100%;
-}
-
-header.main > section.menu > nav.main-menu > ul > li > a {
-    padding: 0px 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 12px;
+body > header.rightbar > div > h2 {
+    font-size: 18px;
     font-weight: 600;
     color: #fff;
-    transition: 400ms;
 }
 
-@media (max-width: 768px) {
-
-    header.main > section.menu > nav.main-menu > ul > li > a {
-        padding: 0px 10px;
-    }
+body > header.rightbar > div > h4 {
+    font-size: 12px;
+    font-weight: 400;
+    color: #fff;
 }
 
-header.main > section.menu > nav.main-menu > ul > li.active > a,
-header.main > section.menu > nav.main-menu > ul > li.active > a:hover {
-    background-color: #fff !important;
-    color: #00a5ab;
-}
-
-header.main > section.menu > nav.main-menu > ul > li > a > i {
-    margin-right: 5px;
-}
-
-@media (max-width: 768px) {
-
-    header.main > section.menu > nav.main-menu > ul > li > a > i {
-        margin-right: 0px;
-    }
-}
-
-header.main > section.menu > nav.open-menu {
-    width: 300px;
-    height: 100vh;
-    position: absolute;
-    top: 0px;
-    right: -300%;
-    bottom: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-direction: column;
-    background-color: #fff;
-    box-shadow: 0 2px 12px -1px rgba(7, 10, 25, 0.2), 0 22px 27px -20px rgba(7, 10, 25, 0.2);
-    padding: 20px;
-    box-sizing: border-box;
-    overflow-y: auto;
-    transition: 400ms;
-}
-
-header.main > section.menu > nav.open-menu.open {
-    right: -100%;
-    transition: 400ms;
-}
-
-header.main > section.menu > nav.open-menu > figure {
-    width: auto;
-    max-width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-header.main > section.menu > nav.open-menu > figure > img {
-    width: auto;
-    max-width: 100%;
-}
-
-header.main > section.menu > nav.open-menu > h4 {
+body > header.rightbar > nav,
+body > header.rightbar > nav > ul {
     width: 100%;
     margin-bottom: 20px;
-    font-size: 14px;
-    text-align: center;
-    color: #757575;
 }
 
-header.main > section.menu > nav.open-menu > ul {
+body > header.rightbar > nav:last-child,
+body > header.rightbar > nav > ul:last-child {
+    margin-bottom: 0px;
+}
+
+body > header.rightbar > nav > ul > li,
+body > header.rightbar > nav > ul > li > a {
     width: 100%;
-}
-
-header.main > section.menu > nav.open-menu > ul > li,
-header.main > section.menu > nav.open-menu > ul > li > a {
-    width: 100%;
-    height: 30px;
-}
-
-header.main > section.menu > nav.open-menu > ul > li > a {
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    font-size: 12px;
-    font-weight: 600;
-    color: #757575;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
 }
 
-header.main > section.menu > nav.open-menu > ul > li > a > i {
+body > header.rightbar > nav > ul > li:last-child,
+body > header.rightbar > nav > ul > li > a:last-child {
+    margin-bottom: 0px;
+}
+
+body > header.rightbar > nav > ul > li > a > i {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-left: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.4);
+    font-size: 14px;
+    color: #24383f;
 }
 
 /* Main
@@ -275,10 +182,25 @@ header.main > section.menu > nav.open-menu > ul > li > a > i {
 body > main {
     width: 100%;
     min-height: 100vh;
-    padding: 70px 20px 20px 20px;
-    box-sizing: border-box;
+    position: relative;
     background-color: #fff;
 }
+
+body > main > section.dashboard {
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    position: absolute;
+    top: 80px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 20px 20px 0px 0px;
+    background-color: #fff;
+    z-index: 98;
+}
+
+/* ------------------------------------------------------------------------------ */
+/* OLD -------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------ */
 
 /* Nav
 ------------------------------------------------------------------------------ */
@@ -1403,7 +1325,7 @@ div.report > div.table > div.line > p:nth-child(7) {
         padding: 0px;
     }
 
-    header.main,
+    body > header.topbar,
     section.box-container > div.main > article[step="filter"] {
         display: none;
     }

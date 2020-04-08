@@ -12,13 +12,28 @@ $(window).on('ajaxStop', function()
 
 $(document).ready(function ()
 {
-    navScrollDown('header.main', 'down', 0);
+    var open = false;
 
-    $('[data-action="open-dash-menu"]').on('click', function(e)
+    $('[data-action="open-rightbar"]').on('click', function(e)
     {
         e.stopPropagation();
 
-        $('header.main > section.menu > nav').toggleClass('open');
+        $('body').toggleClass('open-rightbar');
+
+        if (open == false)
+        {
+            open = true;
+
+            $(this).find('i').removeClass('fas fa-bars');
+            $(this).find('i').addClass('fas fa-times-circle');
+        }
+        else if (open == true)
+        {
+            open = false;
+
+            $(this).find('i').removeClass('fas fa-times-circle');
+            $(this).find('i').addClass('fas fa-bars');
+        }
     });
 
     $(document).on('click', 'section.box-container > article > header, section.box-container > aside > .widget > header', function()

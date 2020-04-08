@@ -26,7 +26,8 @@
         <script src="https://kit.fontawesome.com/743152b0c5.js"></script>
         {$dependencies.js}
         {$dependencies.other}
-        <?php if ( isset($GLOBALS['vkye_path']) && !empty($GLOBALS['vkye_path']) ): ?>
+
+        <!-- <?php if ( isset($GLOBALS['vkye_path']) && !empty($GLOBALS['vkye_path']) ): ?>
             <?php if ($GLOBALS['vkye_path']=='/Login/index' ): ?>
                 <script>
                     if('serviceWorker' in navigator){
@@ -53,6 +54,6 @@
                     document.querySelector('link[rel="manifest"]').remove();
                  </script>
             <?php endif; ?>
-        <?php endif; ?>
+        <?php endif; ?> -->
     </body>
 </html>
