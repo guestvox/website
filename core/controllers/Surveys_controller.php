@@ -500,7 +500,7 @@ class Surveys_controller extends Controller
 		{
 			if ($_POST['action'] == 'get_filter_survey_answer')
 			{
-				$query = $this->model->get_filter_survey_answer($_POST);
+				$query = $this->model->get_survey_answers($_POST['room'], [$_POST['started_date'], $_POST['end_date']]);
 
 				if (!empty($query))
 				{
@@ -757,7 +757,7 @@ class Surveys_controller extends Controller
 			$tbl_survey_answers = '';
 			$tbl_survey_answers_count = 0;
 
-			foreach ($this->model->get_survey_answers() as $value)
+			foreach ($this->model->get_survey_answers('', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]) as $value)
 			{
 				$value['count'] = $value['count'] - $tbl_survey_answers_count;
 
@@ -800,9 +800,9 @@ class Surveys_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
-                        if ($_POST['action'] == 'get_filter_survey_comments')
+            if ($_POST['action'] == 'get_filter_survey_comments')
 			{
-				$query = $this->model->get_filter_survey_answer($_POST);
+				$query = $this->model->get_survey_answers($_POST['room'], [$_POST['started_date'], $_POST['end_date']]);
 
 				if (!empty($query))
 				{
@@ -811,27 +811,27 @@ class Surveys_controller extends Controller
 					foreach ($query as $value)
 					{
 						if (!empty($value['comment']))
-                                                {
-                                                        $data .=
-                                                        '<tr>
-                                                                <td align="left">' . $value['token'] . '</td>';
+                        {
+                                $data .=
+                                '<tr>
+                                        <td align="left">' . $value['token'] . '</td>';
 
-                                                        if (Session::get_value('account')['type'] == 'hotel')
-                                                                $data .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+                                if (Session::get_value('account')['type'] == 'hotel')
+                                        $data .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
 
-                                                        if (Session::get_value('account')['type'] == 'restaurant')
-                                                                $data .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+                                if (Session::get_value('account')['type'] == 'restaurant')
+                                        $data .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
 
-                                                        if (Session::get_value('account')['type'] == 'others')
-                                                                $data .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
+                                if (Session::get_value('account')['type'] == 'others')
+                                        $data .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
 
-                                                        $data .=
-                                                        '	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
-                                                                <td align="left" class="comment"> ' . $value['comment'] . '</td>
-                                                                <td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_comment" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_comment" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>
-                                                        </tr>';
+                                $data .=
+                                '	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
+                                        <td align="left" class="comment"> ' . $value['comment'] . '</td>
+                                        <td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_comment" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_comment" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>
+                                </tr>';
 
-                                                }
+                        }
 					}
 
 					Functions::environment([
@@ -893,9 +893,10 @@ class Surveys_controller extends Controller
 			define('_title', 'GuestVox');
 
 			$template = $this->view->render($this, 'comments');
-                        $opt_rooms="";
 
-                        if (Session::get_value('account')['type'] == 'hotel')
+			$opt_rooms="";
+
+        	if (Session::get_value('account')['type'] == 'hotel')
 			{
 				foreach ($this->model->get_rooms() as $value)
 				{
@@ -908,7 +909,7 @@ class Surveys_controller extends Controller
 
 			$tbl_survey_comments = '';
 
-			foreach ($this->model->get_survey_answers() as $value)
+			foreach ($this->model->get_survey_answers('', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]) as $value)
 			{
 				if (!empty($value['comment']))
 				{
@@ -949,7 +950,52 @@ class Surveys_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'get_filter_survey_contacts')
+			{
+				$query = $this->model->get_survey_answers($_POST['room'], [$_POST['started_date'], $_POST['end_date']]);
 
+				if (!empty($query))
+				{
+					$data = '';
+
+					foreach ($query as $value)
+					{
+						if (!empty($value['guest']['guestvox']['email']) AND !empty($value['guest']['guestvox']['phone']['number']))
+						{
+							$data .=
+							'<tr>
+								<td align="left">' . $value['token'] . '</td>';
+
+							if (Session::get_value('account')['type'] == 'hotel')
+								$data .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+
+							if (Session::get_value('account')['type'] == 'restaurant')
+								$data .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+
+							if (Session::get_value('account')['type'] == 'others')
+								$data .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
+
+							$data .=
+							'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
+								<td align="left"> ' . $value['guest']['guestvox']['email'] .  '</td>
+								<td align="left"> ' . $value['guest']['guestvox']['phone']['lada'] . $value['guest']['guestvox']['phone']['number'] .  '</td>
+							</tr>';
+						}
+					}
+
+					Functions::environment([
+						'status' => 'success',
+						'data' => $data
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
 		}
 		else
 		{
@@ -957,31 +1003,48 @@ class Surveys_controller extends Controller
 
 			$template = $this->view->render($this, 'contacts');
 
+			$opt_rooms="";
+
+        	if (Session::get_value('account')['type'] == 'hotel')
+			{
+				foreach ($this->model->get_rooms() as $value)
+				{
+					if ($value['status'] == true)
+						$opt_rooms .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+					else
+						$opt_rooms .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
+				}
+			}
+
 			$tbl_survey_contacts = '';
 
-			foreach ($this->model->get_survey_answers() as $value)
+			foreach ($this->model->get_survey_answers('', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]) as $value)
 			{
-				$tbl_survey_contacts .=
-				'<tr>
-					<td align="left">' . $value['token'] . '</td>';
+				if (!empty($value['guest']['guestvox']['email']) AND !empty($value['guest']['guestvox']['phone']))
+				{
+					$tbl_survey_contacts .=
+					'<tr>
+						<td align="left">' . $value['token'] . '</td>';
 
-				if (Session::get_value('account')['type'] == 'hotel')
-					$tbl_survey_contacts .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+					if (Session::get_value('account')['type'] == 'hotel')
+						$tbl_survey_contacts .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
 
-				if (Session::get_value('account')['type'] == 'restaurant')
-					$tbl_survey_contacts .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+					if (Session::get_value('account')['type'] == 'restaurant')
+						$tbl_survey_contacts .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
 
-				if (Session::get_value('account')['type'] == 'others')
-					$tbl_survey_contacts .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
+					if (Session::get_value('account')['type'] == 'others')
+						$tbl_survey_contacts .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
 
-				$tbl_survey_contacts .=
-				'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
-					<td align="left"> ' . (!empty($value['guest']['guestvox']['email']) ? $value['guest']['guestvox']['email'] : '')  .  '</td>
-					<td align="left"> ' . ((!empty($value['guest']['guestvox']['phone']['lada']) AND !empty($value['guest']['guestvox']['phone']['number'])) ? '+' . $value['guest']['guestvox']['phone']['lada'] . $value['guest']['guestvox']['phone']['number'] : '')  .  '</td>
-				</tr>';
+					$tbl_survey_contacts .=
+					'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
+						<td align="left"> ' . $value['guest']['guestvox']['email'] .  '</td>
+						<td align="left"> ' . $value['guest']['guestvox']['phone']['lada'] . $value['guest']['guestvox']['phone']['number'] .  '</td>
+					</tr>';
+				}
 			}
 
 			$replace = [
+				'{$opt_rooms}' => $opt_rooms,
 				'{$tbl_survey_contacts}' => $tbl_survey_contacts
 			];
 
@@ -995,9 +1058,9 @@ class Surveys_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'get_charts_by_date_filter')
+			if ($_POST['action'] == 'get_view_all')
 			{
-				$general_average_rate = $this->model->get_general_average_rate_by_date_filter($_POST);
+				$general_average_rate = $this->model->get_general_average_rate($_POST['action'], []);
 
 				$h4_general_average_rate = '';
 
@@ -1028,11 +1091,53 @@ class Surveys_controller extends Controller
 					'status' => 'success',
 					'data' => [
 						'rate_general' => $rate_general,
-						'five_percentage_rate' => $this->model->get_percentage_rate_by_date_filter('five', [$_POST['started_date'], $_POST['end_date']]),
-						'four_percentage_rate' => $this->model->get_percentage_rate_by_date_filter('four', [$_POST['started_date'], $_POST['end_date']]),
-						'tree_percentage_rate' => $this->model->get_percentage_rate_by_date_filter('tree', [$_POST['started_date'], $_POST['end_date']]),
-						'two_percentage_rate' => $this->model->get_percentage_rate_by_date_filter('two', [$_POST['started_date'], $_POST['end_date']]),
-						'one_percentage_rate' => $this->model->get_percentage_rate_by_date_filter('one', [$_POST['started_date'], $_POST['end_date']]),
+						'five_percentage_rate' => $this->model->get_percentage_rate($_POST['action'], 'five', []),
+						'four_percentage_rate' => $this->model->get_percentage_rate($_POST['action'], 'four', []),
+						'tree_percentage_rate' => $this->model->get_percentage_rate($_POST['action'], 'tree', []),
+						'two_percentage_rate' => $this->model->get_percentage_rate($_POST['action'], 'two', []),
+						'one_percentage_rate' => $this->model->get_percentage_rate($_POST['action'], 'one', []),
+						]
+				]);
+			}
+
+			if ($_POST['action'] == 'get_charts_by_date_filter')
+			{
+				$general_average_rate = $this->model->get_general_average_rate('', [$_POST['started_date'], $_POST['end_date']]);
+
+				$h4_general_average_rate = '';
+
+				if ($general_average_rate >= 0 AND $general_average_rate < 1.8)
+					$h4_general_average_rate = '<h4 style="color:#f44336;">' . $general_average_rate . '</h4>';
+				else if ($general_average_rate >= 1.8 AND $general_average_rate < 2.8)
+					$h4_general_average_rate = '<h4 style="color:#ffc107;">' . $general_average_rate . '</h4>';
+				else if ($general_average_rate >= 2.8 AND $general_average_rate < 3.8)
+					$h4_general_average_rate = '<h4 style="color:#ffeb3b;">' . $general_average_rate . '</h4>';
+				else if ($general_average_rate >= 3.8 AND $general_average_rate < 4.8)
+					$h4_general_average_rate = '<h4 style="color:#4caf50;">' . $general_average_rate . '</h4>';
+				else if ($general_average_rate >= 4.8 AND $general_average_rate <= 5)
+					$h4_general_average_rate = '<h4 style="color:#00a5ab;">' . $general_average_rate . '</h4>';
+
+				$spn_general_avarage_rate =
+				'<span>
+					' . (($general_average_rate >= 0 AND $general_average_rate < 1.8) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
+					' . (($general_average_rate >= 1.8 AND $general_average_rate < 2.8) ? '<i class="fas fa-frown" style="font-size:50px;color:#ffc107;"></i>' : '<i class="far fa-frown"></i>') . '
+					' . (($general_average_rate >= 2.8 AND $general_average_rate < 3.8) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ffeb3b;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
+					' . (($general_average_rate >= 3.8 AND $general_average_rate < 4.8) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
+					' . (($general_average_rate >= 4.8 AND $general_average_rate <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#00a5ab;"></i>' : '<i class="far fa-grin-stars"></i>') . '
+				</span>';
+
+				$rate_general = '';
+				$rate_general = $h4_general_average_rate . $spn_general_avarage_rate;
+
+				Functions::environment([
+					'status' => 'success',
+					'data' => [
+						'rate_general' => $rate_general,
+						'five_percentage_rate' => $this->model->get_percentage_rate('', 'five', [$_POST['started_date'], $_POST['end_date']]),
+						'four_percentage_rate' => $this->model->get_percentage_rate('', 'four', [$_POST['started_date'], $_POST['end_date']]),
+						'tree_percentage_rate' => $this->model->get_percentage_rate('', 'tree', [$_POST['started_date'], $_POST['end_date']]),
+						'two_percentage_rate' => $this->model->get_percentage_rate('', 'two', [$_POST['started_date'], $_POST['end_date']]),
+						'one_percentage_rate' => $this->model->get_percentage_rate('', 'one', [$_POST['started_date'], $_POST['end_date']]),
 						's1_chart_data' => $this->model->get_chart_data('s1_chart', [$_POST['started_date'], $_POST['end_date']], true),
 						's2_chart_data' => $this->model->get_chart_data('s2_chart', [$_POST['started_date'], $_POST['end_date'], $_POST['question']], true),
 						's5_chart_data' => $this->model->get_chart_data('s5_chart', [$_POST['started_date'], $_POST['end_date']], true),
@@ -1049,7 +1154,7 @@ class Surveys_controller extends Controller
 
 			$template = $this->view->render($this, 'stats');
 
-			$general_average_rate = $this->model->get_general_average_rate();
+			$general_average_rate = $this->model->get_general_average_rate('', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]);
 
 			$h4_general_average_rate = '';
 
@@ -1081,11 +1186,11 @@ class Surveys_controller extends Controller
 			$replace = [
 				'{$h4_general_average_rate}' => $h4_general_average_rate,
 				'{$spn_general_avarage_rate}' => $spn_general_avarage_rate,
-				'{$five_percentage_rate}' => $this->model->get_percentage_rate('five'),
-				'{$four_percentage_rate}' => $this->model->get_percentage_rate('four'),
-				'{$tree_percentage_rate}' => $this->model->get_percentage_rate('tree'),
-				'{$two_percentage_rate}' => $this->model->get_percentage_rate('two'),
-				'{$one_percentage_rate}' => $this->model->get_percentage_rate('one'),
+				'{$five_percentage_rate}' => $this->model->get_percentage_rate('', 'five', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]),
+				'{$four_percentage_rate}' => $this->model->get_percentage_rate('', 'four', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]),
+				'{$tree_percentage_rate}' => $this->model->get_percentage_rate('', 'tree', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]),
+				'{$two_percentage_rate}' => $this->model->get_percentage_rate('', 'two', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]),
+				'{$one_percentage_rate}' => $this->model->get_percentage_rate('', 'one', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]),
 				'{$count_answered_total}' => $this->model->get_count('answered_total'),
 				'{$count_answered_today}' => $this->model->get_count('answered_today'),
 				'{$count_answered_week}' => $this->model->get_count('answered_week'),

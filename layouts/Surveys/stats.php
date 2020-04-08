@@ -72,6 +72,9 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     <progress value="{$one_percentage_rate}" max="100"></progress>
                     <span>{$one_percentage_rate}%</span>
                 </div>
+                <form name="get_view_all" class="charts-filter">
+                    <a data-action="view_all" value="all" class="btn">Mostrar todo</a>
+                </form>
             </div>
             <div class="chart-answered">
                 <h2>{$lang.surveys_answered}</h2>

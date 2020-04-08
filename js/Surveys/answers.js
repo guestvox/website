@@ -13,10 +13,6 @@ $(document).ready(function()
         $(this).parents('form').submit();
     });
 
-    $('[data-action="view_all"]').on('click', function(){
-        location.reload();
-    });
-
     $('form[name="get_filter_survey_answer"]').on('submit', function(e)
     {
         e.preventDefault();

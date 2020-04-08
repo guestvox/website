@@ -9,22 +9,17 @@ $(document).ready(function()
         pageLength: 25,
         info: false
     });
-    
+
     $('[name="started_date"], [name="end_date"], [name="room"]').on('change', function()
     {
         $(this).parents('form').submit();
     });
-    
+
     $('[name="tbl_survey_comments_search"]').on('keyup', function()
     {
         tbl_survey_comments.search(this.value).draw();
     });
-    
-    $('[data-action="view_all"]').on('click', function(){
-        location.reload();
-    });
-    
-    
+
     $('form[name="get_filter_survey_comments"]').on('submit', function(e)
     {
         e.preventDefault();
@@ -50,7 +45,7 @@ $(document).ready(function()
             }
         });
     });
-    
+
     $(document).on('click', '[data-action="deactivate_comment"]', function()
     {
         id = $(this).data('id');

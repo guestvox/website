@@ -9,6 +9,46 @@ $(document).ready(function()
         $(this).parents('form').submit();
     });
 
+    $('[data-action="view_all"]').on('click', function(e)
+    {
+        $(this).parents('form').submit();
+    });
+
+    $('form[name="get_view_all"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            data: $(this).serialize() + '&action=get_view_all',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                $('.chart-rate').find('h2').html('Valoración general total');
+
+                $('.average').html(response.data.rate_general);
+
+                $('#progress_five').find('progress').attr('value', response.data.five_percentage_rate);
+                $('#progress_five').find('span:last-child').text(response.data.five_percentage_rate + '%');
+
+                $('#progress_four').find('progress').attr('value', response.data.four_percentage_rate);
+                $('#progress_four').find('span:last-child').text(response.data.four_percentage_rate + '%');
+
+                $('#progress_tree').find('progress').attr('value', response.data.tree_percentage_rate);
+                $('#progress_tree').find('span:last-child').text(response.data.tree_percentage_rate + '%');
+
+                $('#progress_two').find('progress').attr('value', response.data.two_percentage_rate);
+                $('#progress_two').find('span:last-child').text(response.data.two_percentage_rate + '%');
+
+                $('#progress_one').find('progress').attr('value', response.data.one_percentage_rate);
+                $('#progress_one').find('span:last-child').text(response.data.one_percentage_rate + '%');
+
+            }
+        });
+    });
+
     $('form[name="get_charts_by_date_filter"]').on('submit', function(e)
     {
         e.preventDefault();

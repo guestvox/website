@@ -40,7 +40,6 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                 </select>
                 <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>">
                 <input type="date" name="end_date" value="<?php echo Functions::get_current_date(); ?>" max="<?php echo Functions::get_current_date(); ?>">
-                <a data-action="view_all" class="btn">{$lang.view_all}</a>
             </form>
             <div class="table">
                 <aside>
