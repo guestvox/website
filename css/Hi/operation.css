@@ -1,12 +1,10 @@
-main.public_page {
+main.landing-page-operation {
     position: relative;
     background-color: #FFF;
     padding: 0;
 }
 
-main.mkt_page {}
-
-main.mkt_page > header.topbar {
+main.landing-page-operation > header.topbar {
     position: absolute;
     top: 0;
     left: 0;
@@ -22,25 +20,25 @@ main.mkt_page > header.topbar {
     align-items: center;
 }
 
-main.mkt_page > header.topbar > figure {
+main.landing-page-operation > header.topbar > figure {
     position: relative;
     width: 200px;
     height: 100px;
     line-height: 0;
 }
 
-main.mkt_page > header.topbar > figure > img {
+main.landing-page-operation > header.topbar > figure > img {
     width: 100%;
     height: 100%;
 }
 
-main.mkt_page > header.topbar > nav {
+main.landing-page-operation > header.topbar > nav {
     position: relative;
     width: calc(100% - 200px);
     height: 100px;
 }
 
-main.mkt_page > header.topbar > nav > ul {
+main.landing-page-operation > header.topbar > nav > ul {
     position: relative;
     width: 100%;
     height: 100%;
@@ -50,20 +48,20 @@ main.mkt_page > header.topbar > nav > ul {
     justify-content: flex-end;
 }
 
-main.mkt_page > header.topbar > nav > ul > li {
+main.landing-page-operation > header.topbar > nav > ul > li {
     display: block;
     position: relative;
     margin-left: 10px;
 }
 
-main.mkt_page > header.topbar > nav > ul > li > a {
+main.landing-page-operation > header.topbar > nav > ul > li > a {
     display: block;
     padding: 10px;
     color: #FFF;
     text-decoration: none;
 }
 
-main.mkt_page > header.topbar > nav > ul > li > a.btn {
+main.landing-page-operation > header.topbar > nav > ul > li > a.btn {
     background-color: transparent;
     border: 2px solid #FFF;
     color: #FFF;
@@ -73,17 +71,17 @@ main.mkt_page > header.topbar > nav > ul > li > a.btn {
     cursor: pointer;
 }
 
-main.mkt_page > header.topbar > nav > ul > li > a.btn:hover {
+main.landing-page-operation > header.topbar > nav > ul > li > a.btn:hover {
     text-decoration: none;
     background-color: #FFF;
     color: #00a5ab;
 }
 
-main.mkt_page > section.main {
+main.landing-page-operation > section.main {
     position: relative;
 }
 
-main.mkt_page > section.main > header.cover {
+main.landing-page-operation > section.main > header.cover {
     position: relative;
     box-sizing: border-box;
     height: 900px;
@@ -101,8 +99,8 @@ main.mkt_page > section.main > header.cover {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e5ff', endColorstr='#00a5ab',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
-main.mkt_page > section.main > header.cover::before,
-main.mkt_page > section.main > header.cover::after {
+main.landing-page-operation > section.main > header.cover::before,
+main.landing-page-operation > section.main > header.cover::after {
     content: "";
     position: absolute;
     top: -45em;
@@ -115,20 +113,20 @@ main.mkt_page > section.main > header.cover::after {
     z-index: 1;
 }
 
-main.mkt_page > section.main > header.cover::after {
+main.landing-page-operation > section.main > header.cover::after {
     top: initial;
     right: initial;
     bottom: -45em;
     left: -15em;
 }
 
-main.mkt_page > section.main > header.cover > .container {
+main.landing-page-operation > section.main > header.cover > .container {
     display: grid;
     grid-template-columns: 50% 50%;
     z-index: 2;
 }
 
-main.mkt_page > section.main > header.cover > .container > .content {
+main.landing-page-operation > section.main > header.cover > .container > .content {
     vertical-align: middle;
     display: -webkit-box;
     display: flex;
@@ -138,7 +136,7 @@ main.mkt_page > section.main > header.cover > .container > .content {
     padding-right: 50px;
 }
 
-main.mkt_page > section.main > header.cover > .container > .content a.btn {
+main.landing-page-operation > section.main > header.cover > .container > .content a.btn {
     margin: 40px 0 0;
     padding: 20px 40px;
     background-color: transparent;
@@ -149,18 +147,18 @@ main.mkt_page > section.main > header.cover > .container > .content a.btn {
     cursor: pointer;
 }
 
-main.mkt_page > section.main > header.cover > .container > .content a.btn:hover {
+main.landing-page-operation > section.main > header.cover > .container > .content a.btn:hover {
     background-color: #FFF;
     color: #00a5ab;
 }
 
-main.mkt_page > section.main > header.cover > .container > figure {
+main.landing-page-operation > section.main > header.cover > .container > figure {
     vertical-align: middle;
     line-height: 0;
 }
 
-main.mkt_page > section.main > header.cover > .container > .content h1,
-main.mkt_page > section.main > header.cover > .container > .content h2 {
+main.landing-page-operation > section.main > header.cover > .container > .content h1,
+main.landing-page-operation > section.main > header.cover > .container > .content h2 {
     position: relative;
     margin: 0;
     font-size: 40px;
@@ -170,13 +168,13 @@ main.mkt_page > section.main > header.cover > .container > .content h2 {
     padding-bottom: 20px;
 }
 
-main.mkt_page > section.main > header.cover > .container > .content h2 {
+main.landing-page-operation > section.main > header.cover > .container > .content h2 {
     font-weight: bold;
     font-size: 30px;
     padding-bottom: 0;
 }
 
-main.mkt_page > section.main > header.cover > .rocket {
+main.landing-page-operation > section.main > header.cover > .rocket {
     position: absolute;
     bottom: 0px;
     left: 0px;
@@ -191,30 +189,30 @@ main.mkt_page > section.main > header.cover > .rocket {
     z-index: 2;
 }
 
-main.mkt_page > section.main > section.container {
+main.landing-page-operation > section.main > section.container {
     position: relative;
     padding: 50px 0;
 }
 
-main.mkt_page > section.main > section.container.background {
+main.landing-page-operation > section.main > section.container.background {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     background-image: url("../../images/background-1.png");
 }
 
-main.mkt_page > section.main .boxes {
+main.landing-page-operation > section.main .boxes {
     position: relative;
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
     grid-gap: 2%;
 }
 
-main.mkt_page > section.main .boxes.three-boxes {
+main.landing-page-operation > section.main .boxes.three-boxes {
     grid-template-columns: 32% 32% 32%;
 }
 
-main.mkt_page > section.main .boxes > .box {
+main.landing-page-operation > section.main .boxes > .box {
     position: relative;
     box-sizing: border-box;
     padding: 50px 30px;
@@ -229,10 +227,10 @@ main.mkt_page > section.main .boxes > .box {
                 0 22px 27px -20px rgba(7, 10, 25, 0.2);
 }
 
-main.mkt_page > section.main span.icon-check,
-main.mkt_page > section.main span.icon-communication,
-main.mkt_page > section.main span.icon-clients,
-main.mkt_page > section.main span.icon-like {
+main.landing-page-operation > section.main span.icon-check,
+main.landing-page-operation > section.main span.icon-communication,
+main.landing-page-operation > section.main span.icon-clients,
+main.landing-page-operation > section.main span.icon-like {
     display: inline-block;
     width: 24px;
     height: 24px;
@@ -245,23 +243,23 @@ main.mkt_page > section.main span.icon-like {
     margin-bottom: 30px;
 }
 
-main.mkt_page > section.main span.icon-check {
+main.landing-page-operation > section.main span.icon-check {
     background-image: url("../../images/icon-check.svg");
 }
 
-main.mkt_page > section.main span.icon-communication {
+main.landing-page-operation > section.main span.icon-communication {
     background-image: url("../../images/icon-communication.svg");
 }
 
-main.mkt_page > section.main span.icon-clients {
+main.landing-page-operation > section.main span.icon-clients {
     background-image: url("../../images/icon-clients.svg");
 }
 
-main.mkt_page > section.main span.icon-like {
+main.landing-page-operation > section.main span.icon-like {
     background-image: url("../../images/icon-like.svg");
 }
 
-main.mkt_page > section.main .boxes > .box > h4 {
+main.landing-page-operation > section.main .boxes > .box > h4 {
     margin: 0px;
     text-align: center;
     position: relative;
@@ -269,13 +267,13 @@ main.mkt_page > section.main .boxes > .box > h4 {
     color: #FFF;
 }
 
-main.mkt_page > section.main .double-section {
+main.landing-page-operation > section.main .double-section {
     position: relative;
     display: grid;
     grid-template-columns: 50% 50%;
 }
 
-main.mkt_page > section.main .double-section section {
+main.landing-page-operation > section.main .double-section section {
     padding: 50px 0;
     display: -webkit-box;
     display: flex;
@@ -283,7 +281,7 @@ main.mkt_page > section.main .double-section section {
     justify-content: center;
 }
 
-main.mkt_page > section.main .double-section section h4 span.icon-check.color {
+main.landing-page-operation > section.main .double-section section h4 span.icon-check.color {
     position: absolute;
     top: 0;
     left: 0;
@@ -291,7 +289,7 @@ main.mkt_page > section.main .double-section section h4 span.icon-check.color {
     height: 20px;
 }
 
-main.mkt_page > section.main .double-section section h4 {
+main.landing-page-operation > section.main .double-section section h4 {
     position: relative;
     margin: 0;
     font-weight: 500;
@@ -300,7 +298,7 @@ main.mkt_page > section.main .double-section section h4 {
     padding: 0px 0px 10px 30px;
 }
 
-main.mkt_page > section.main .double-section section p {
+main.landing-page-operation > section.main .double-section section p {
     position: relative;
     font-size: 12px;
     line-height: 1.4;
@@ -309,15 +307,15 @@ main.mkt_page > section.main .double-section section p {
     margin: 0 0 30px;
 }
 
-main.mkt_page > section.main .double-section > figure {
+main.landing-page-operation > section.main .double-section > figure {
     line-height: 0;
 }
 
-main.mkt_page > section.main .double-section > figure > img {
+main.landing-page-operation > section.main .double-section > figure > img {
     width: 100%;
 }
 
-main.mkt_page > section.main .double-section section > h2 {
+main.landing-page-operation > section.main .double-section section > h2 {
     margin: 0;
     font-size: 25px;
     font-weight: bold;
@@ -325,19 +323,19 @@ main.mkt_page > section.main .double-section section > h2 {
     color: #00a5ab;
 }
 
-main.mkt_page > section.main .double-section section > p.description-one {
+main.landing-page-operation > section.main .double-section section > p.description-one {
     padding: 0;
     opacity: 1;
     font-size: 15px;
     margin-bottom: 10px;
 }
 
-main.mkt_page > section.main .double-section section > ul {
+main.landing-page-operation > section.main .double-section section > ul {
     display: block;
     padding-left: 50px;
 }
 
-main.mkt_page > section.main .double-section section > ul > li {
+main.landing-page-operation > section.main .double-section section > ul > li {
     font-size: 16px;
     font-weight: 400;
     opacity: 0.8;
@@ -345,12 +343,12 @@ main.mkt_page > section.main .double-section section > ul > li {
 }
 
 
-main.mkt_page > section.main .title {
+main.landing-page-operation > section.main .title {
     position: relative;
     text-align: center;
 }
 
-main.mkt_page > section.main .title h2 {
+main.landing-page-operation > section.main .title h2 {
     padding: 0 20px;
     text-align: center;
     font-size: 40px;
@@ -363,7 +361,7 @@ main.mkt_page > section.main .title h2 {
     margin-bottom: 10px;
 }
 
-main.mkt_page > section.main .title > p {
+main.landing-page-operation > section.main .title > p {
     margin: 0;
     font-size: 20px;
     line-height: 1.2;
@@ -372,7 +370,7 @@ main.mkt_page > section.main .title > p {
     color: #d8d8d8;
 }
 
-main.mkt_page > section.main .boxes-product {
+main.landing-page-operation > section.main .boxes-product {
     display: block;
     position: relative;
     display: grid;
@@ -381,7 +379,7 @@ main.mkt_page > section.main .boxes-product {
     grid-row-gap: 20px;
 }
 
-main.mkt_page > section.main .boxes-product > .box {
+main.landing-page-operation > section.main .boxes-product > .box {
     position: relative;
     border: 1px solid #F1F1F1;
     box-sizing: border-box;
@@ -392,14 +390,14 @@ main.mkt_page > section.main .boxes-product > .box {
     background-color: #FFF;
 }
 
-main.mkt_page > section.main .boxes-product > .box > figure {
+main.landing-page-operation > section.main .boxes-product > .box > figure {
     line-height: 0;
     width: 70px;
     height: 70px;
     margin: 0 auto 20px;
 }
 
-main.mkt_page > section.main .boxes-product > .box > h4 {
+main.landing-page-operation > section.main .boxes-product > .box > h4 {
     margin: 0 0 20px;
     position: relative;
     font-weight: bold;
@@ -407,7 +405,7 @@ main.mkt_page > section.main .boxes-product > .box > h4 {
     color: #00a5ab;
 }
 
-main.mkt_page > section.main .boxes-product > .box > p {
+main.landing-page-operation > section.main .boxes-product > .box > p {
     position: relative;
     margin: 0;
     font-weight: bold;
@@ -419,9 +417,9 @@ main.mkt_page > section.main .boxes-product > .box > p {
 
 
 
-main.mkt_page > section.main #screenshots {}
+main.landing-page-operation > section.main #screenshots {}
 
-main.mkt_page > section.main #screenshots .item {
+main.landing-page-operation > section.main #screenshots .item {
     position: relative;
     width: 100%;
     height: 490px;
@@ -430,7 +428,7 @@ main.mkt_page > section.main #screenshots .item {
     background-repeat: no-repeat;
 }
 
-main.mkt_page > section.main #screenshots .item > a {
+main.landing-page-operation > section.main #screenshots .item > a {
     position: absolute;
     top: 0;
     left: 0;
@@ -501,7 +499,7 @@ section.call-to-action > .container > a {
 
 
 
-main.mkt_page > footer.main {
+main.landing-page-operation > footer.main {
     background-image: url("../../images/background-map.png");
     background-size: cover;
     background-repeat: no-repeat;
@@ -509,18 +507,18 @@ main.mkt_page > footer.main {
     padding: 100px 0;
 }
 
-main.mkt_page > footer.main > .container {
+main.landing-page-operation > footer.main > .container {
     text-align: center;
 }
 
-main.mkt_page > footer.main > .container > h2 {
+main.landing-page-operation > footer.main > .container > h2 {
     margin: 0;
     text-align: center;
     color: #FFF;
     font-weight: bold;
 }
 
-main.mkt_page > footer.main > .container > h3 {
+main.landing-page-operation > footer.main > .container > h3 {
     margin: 0 auto;
     text-align: center;
     font-weight: 300;
@@ -530,7 +528,7 @@ main.mkt_page > footer.main > .container > h3 {
     width: 90%;
 }
 
-main.mkt_page > footer.main > .container > a.btn {
+main.landing-page-operation > footer.main > .container > a.btn {
     margin: 50px auto 0;
     display: inline-block;
     padding: 20px 40px;
@@ -539,7 +537,7 @@ main.mkt_page > footer.main > .container > a.btn {
     font-size: 18px;
 }
 
-main.mkt_page > footer.main > .container > .copyright {
+main.landing-page-operation > footer.main > .container > .copyright {
     margin-top: 100px;
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     padding: 30px 0 0;
@@ -547,7 +545,7 @@ main.mkt_page > footer.main > .container > .copyright {
     font-size: 12px;
 }
 
-main.mkt_page > footer.main > .container > ul.social_media {
+main.landing-page-operation > footer.main > .container > ul.social_media {
     display: -webkit-box;
     display: flex;
     justify-content: center;
@@ -555,12 +553,12 @@ main.mkt_page > footer.main > .container > ul.social_media {
     margin-top: 50px;
 }
 
-main.mkt_page > footer.main > .container > ul.social_media > li {
+main.landing-page-operation > footer.main > .container > ul.social_media > li {
     display: block;
     margin: 0 10px;
 }
 
-main.mkt_page > footer.main > .container > ul.social_media > li > a {
+main.landing-page-operation > footer.main > .container > ul.social_media > li > a {
     display: block;
     line-height: 1;
     color: #FFF;
@@ -568,47 +566,47 @@ main.mkt_page > footer.main > .container > ul.social_media > li > a {
 }
 
 @media (max-width: 767px) {
-	main.mkt_page > header.topbar > figure {
+	main.landing-page-operation > header.topbar > figure {
 		width: 100px;
 	}
 
-	main.mkt_page > header.topbar > nav {
+	main.landing-page-operation > header.topbar > nav {
 		width: calc(100% - 100px);
 	}
 
-	main.mkt_page > section.main > header.cover {
+	main.landing-page-operation > section.main > header.cover {
 		height: auto;
 	}
 
-	main.mkt_page > section.main > header.cover > .container {
+	main.landing-page-operation > section.main > header.cover > .container {
 		grid-template-columns: 100%;
 		padding-top: 150px;
 		padding-bottom: 150px;
 	}
 
-	main.mkt_page > section.main > header.cover > .container > .content {
+	main.landing-page-operation > section.main > header.cover > .container > .content {
 		padding: 0;
 	}
 
-	main.mkt_page > section.main > header.cover > .container > .content h1, main.mkt_page > section.main > header.cover > .container > .content h2 {
+	main.landing-page-operation > section.main > header.cover > .container > .content h1, main.landing-page-operation > section.main > header.cover > .container > .content h2 {
 		font-size: 30px;
 	}
 
-	main.mkt_page > section.main > header.cover > .container > .content a.btn {
+	main.landing-page-operation > section.main > header.cover > .container > .content a.btn {
 		margin: 40px auto;
 	}
 
-	main.mkt_page > section.main > header.cover > .container > figure, main.mkt_page > section.main > header.cover > .container > figure > img {
+	main.landing-page-operation > section.main > header.cover > .container > figure, main.landing-page-operation > section.main > header.cover > .container > figure > img {
 		width: 100%;
 		height: 100%;
 		line-height: 0;
 	}
 
-	main.mkt_page > section.main .boxes.three-boxes {
+	main.landing-page-operation > section.main .boxes.three-boxes {
 		grid-template-columns: 100%;
 	}
 
-	main.mkt_page > section.main .boxes-product {
+	main.landing-page-operation > section.main .boxes-product {
 		grid-template-columns: 100%;
 	}
 

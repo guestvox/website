@@ -1,4 +1,5 @@
 <?php
+
 defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.css}Hi/operation.css']);
@@ -12,7 +13,6 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
 
 $this->dependencies->add(['js', '{$path.js}Hi/operation.js']);
 
-// Facebook
 $this->dependencies->add(['meta', '{$vkye_domain}/hola?ref=6500', ["property='og:url'"]]);
 $this->dependencies->add(['meta', 'website', ["property='og:type'"]]);
 $this->dependencies->add(['meta', 'Conoce GuestVox y haz inteligencia de negocios', ["property='og:title'"]]);
@@ -30,9 +30,10 @@ $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.c
         a.appendChild(r);
     })(window,document,\'https://static.hotjar.com/c/hotjar-\',\'.js?sv=\');
 </script>']);
+
 ?>
 
-<main class="public_page mkt_page">
+<main class="landing-page-operation">
     <header class="topbar">
         <figure>
             <img src="{$path.images}logotype-white.svg" alt="Guestvox">
@@ -43,7 +44,6 @@ $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.c
             </ul>
         </nav>
     </header>
-
     <section class="main">
         <header class="cover">
             <div class="container">
@@ -58,17 +58,13 @@ $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.c
             </div>
             <div class="rocket"></div>
         </header>
-
         <section class="container background">
             <div class="space50"></div>
-
             <div class="title">
                 <h2>¿Qué hacemos?</h2>
                 <p>...</p>
             </div>
-
             <div class="space50"></div>
-
             <div class="boxes three-boxes">
                 <div class="box">
                     <span class="icon-communication"></span>
@@ -83,16 +79,12 @@ $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.c
                     <h4>Recibimos la retroalimentación de tus huéspedes y los invitamos a dejar una evaluación en línea.</h4>
                 </div>
             </div>
-
             <div class="space100"></div>
-
             <div class="title">
                 <h2>¿Cómo funciona GuestVox?</h2>
                 <p>...</p>
             </div>
-
             <div class="space50"></div>
-
             <div class="boxes-product">
                 <div class="box">
                     <figure>
@@ -101,7 +93,6 @@ $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.c
                     <h4>Credenciales encriptadas</h4>
                     <p>Los colaboradores acceden fácilmente a la plataforma utilizando sus credenciales de acceso (usuario y contraseña).</p>
                 </div>
-
                 <div class="box">
                     <figure>
                         <img src="{$path.images}icon-person.svg" alt="" width="70" height="70">
@@ -109,7 +100,6 @@ $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.c
                     <h4>Asigna al área y/o persona responsable del seguimiento.</h4>
                     <p>Crea una incidencia (Vox), y asigna al área o persona responsable del seguimiento.</p>
                 </div>
-
                 <div class="box">
                     <figure>
                         <img src="{$path.images}icon-attachment.svg" alt="" width="70" height="70">
@@ -117,7 +107,6 @@ $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.c
                     <h4>Adjunta imágenes, videos, archivos PDF, Word y Excel.</h4>
                     <p>Enriquece el Vox y respalda tu información con archivos adjuntos.</p>
                 </div>
-
                 <div class="box">
                     <figure>
                         <img src="{$path.images}icon-person-follow.svg" alt="" width="70" height="70">
@@ -125,7 +114,6 @@ $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.c
                     <h4>Seguimiento de acuerdo a prioridad y tiempo transcurrido.</h4>
                     <p>Una vez creada la incidencia, los departamentos asignados dan seguimiento a cada caso.</p>
                 </div>
-
                 <div class="box">
                     <figure>
                         <img src="{$path.images}icon-time.svg" alt="" width="70" height="70">
@@ -133,7 +121,6 @@ $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.c
                     <h4>Tu información siempre en tiempo real.</h4>
                     <p>Visualiza minuto a minuto el estatus de tu hotel, el seguimiento a los Voxes y la satisfacción de tus huéspedes.</p>
                 </div>
-
                 <div class="box">
                     <figure>
                         <img src="{$path.images}icon-multi-device.svg" alt="" width="70" height="70">
@@ -143,26 +130,21 @@ $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.c
                 </div>
             </div>
         </section>
-
         <section class="call-to-action">
             <div class="container">
                 <div class="content">
                     <h4>Ahorra hasta un 20% de costos operativos</h4>
                     <!-- <p>¿No encuentras una opción de acuerdo a tus necesidades?</p> -->
                 </div>
-
                 <a data-button-modal="modal_contact">¡Solicita tu demo ahora!</a>
             </div>
         </section>
-
         <section class="container background">
             <div class="title">
                 <h2>Screenshots</h2>
                 <p>Un vistazo a nuestro software</p>
             </div>
-
             <div class="space50"></div>
-
             <div id="screenshots" class="owl-carousel owl-theme">
                 <div class="item" style="background-image: url('{$path.images}screenshot-1-thumb.jpg');">
                     <a data-fancybox="gallery" href="{$path.images}screenshot-1.jpg"></a>
@@ -182,28 +164,23 @@ $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.c
             </div>
         </section>
     </section>
-
     <footer class="main">
         <div class="container">
             <h2>Haz inteligencia de negocio</h2>
             <h3>Y ahorra hasta un 20% en costos, incrementa tu reputación en linea, calidad de servicio, productividad de colaboradores e ingresos.</h3>
-
             <a class="btn" data-button-modal="modal_contact">¡SOLICITA TU DEMO AHORA!</a>
-
             <ul class="social_media">
                 <li><a href="https://www.facebook.com/Guestvox/" target="_blank">Facebook</a></li>
                 <li><a href="https://www.instagram.com/guestvox/" target="_blank">Instagram</a></li>
                 <li><a href="https://www.linkedin.com/company/guestvox/" target="_blank">LinkedIn</a></li>
                 <li><a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" target="_blank">YouTube</a></li>
             </ul>
-
             <div class="copyright">
                 <strong>guestvox.com</strong> Todos los derechos reservados.
             </div>
         </div>
     </footer>
 </main>
-
 <section id="modal_contact" class="modal size-small" data-modal="modal_contact">
     <div class="content">
         <header>
@@ -217,28 +194,24 @@ $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.c
                         <p class="description">Nombre del hotel</p>
                     </label>
                 </div>
-
                 <div class="label">
                     <label>
                         <input type="text" name="number_rooms" value="">
                         <p class="description">Número de habitaciones</p>
                     </label>
                 </div>
-
                 <div class="label">
                     <label>
                         <input type="text" name="name_contact" value="">
                         <p class="description">Nombre completo</p>
                     </label>
                 </div>
-
                 <div class="label">
                     <label>
                         <input type="text" name="email" value="">
                         <p class="description">Correo electrónico</p>
                     </label>
                 </div>
-
                 <div class="label">
                     <label>
                         <input type="text" name="phone" value="">
@@ -262,7 +235,6 @@ $this->dependencies->add(['other', '<!-- Hotjar Tracking Code for www.guestvox.c
         </footer>
     </div>
 </section>
-
 <section id="modal_contact_success" class="modal" data-modal="modal_contact_success">
     <div class="content">
         <header>

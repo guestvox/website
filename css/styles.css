@@ -197,16 +197,16 @@ body > header.rightbar > nav > ul > li.active > a > i {
     background-color: #fff;
 }
 
-/* Main
+/* Dashboard
 ------------------------------------------------------------------------------ */
-body > main {
+body > main.dashboard {
     width: 100%;
     min-height: 100vh;
     position: relative;
     background-color: #fff;
 }
 
-body > main::before {
+body > main.dashboard::before {
     content: '';
     width: 100%;
     height: 20px;
@@ -217,9 +217,9 @@ body > main::before {
     z-index: 98;
 }
 
-/* Dashboard  */
+/* Workspace */
 
-body > main > section.dashboard {
+body > main.dashboard > section.workspace {
     width: 100%;
     min-height: calc(100vh - 100px);
     position: absolute;
@@ -232,7 +232,7 @@ body > main > section.dashboard {
 
 /* Buttons */
 
-body > main > section.buttons {
+body > main.dashboard > section.buttons {
     width: 100%;
     position: fixed;
     bottom: 0px;
@@ -245,7 +245,7 @@ body > main > section.buttons {
     z-index: 98;
 }
 
-body > main > section.buttons > a {
+body > main.dashboard > section.buttons > a {
     width: 50px;
     height: 50px;
     display: flex;
@@ -259,7 +259,7 @@ body > main > section.buttons > a {
     color: #fff;
 }
 
-body > main > section.buttons > div {
+body > main.dashboard > section.buttons > div {
     width: auto;
     height: 50px;
     display: flex;
@@ -269,7 +269,7 @@ body > main > section.buttons > div {
     background-color: #24383f;
 }
 
-body > main > section.buttons > div > a {
+body > main.dashboard > section.buttons > div > a {
     width: 40px;
     height: 40px;
     display: flex;
@@ -283,7 +283,7 @@ body > main > section.buttons > div > a {
     color: #fff;
 }
 
-body > main > section.buttons > div > a.active {
+body > main.dashboard > section.buttons > div > a.active {
     background-color: #00a5ab;
 }
 
@@ -451,7 +451,7 @@ body > main > article > footer > a {
     transition: 400ms;
 }
 
-body > main > article > footer > a:hover {
+body > main.dashboard > article > footer > a:hover {
     background-color: #bdbdbd;
     transition: 400ms;
 }
@@ -1411,7 +1411,7 @@ div.report > div.table > div.line > p:nth-child(7) {
 
 @media print {
 
-    body > main {
+    body > main.dashboard {
         padding: 0px;
     }
 

@@ -7,7 +7,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
 
 ?>
 
-<header class="landingpage-reputation">
+<header class="landing-page-reputation">
     <a data-button-modal="contact"><i class="fas fa-qrcode"></i></a>
     <a data-button-modal="contact"><i class="fas fa-paper-plane"></i></a>
     <a data-button-modal="contact"><i class="fas fa-gift"></i></a>
@@ -15,7 +15,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
         <img src="{$path.images}icon-white.svg" alt="Guestvox logotipo">
     </figure>
 </header>
-<main class="landingpage-reputation">
+<main class="landing-page-reputation">
     <section id="section-one" class="gradient hand-background">
         <div class="container">
             <figure class="logotype">

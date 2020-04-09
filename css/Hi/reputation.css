@@ -1,5 +1,5 @@
 
-header.landingpage-reputation {
+header.landing-page-reputation {
     width: 50px;
     height: 100vh;
     position: fixed;
@@ -13,7 +13,7 @@ header.landingpage-reputation {
     z-index: 99;
 }
 
-header.landingpage-reputation > a {
+header.landing-page-reputation > a {
     width: 50px;
     height: 50px;
     display: flex;
@@ -23,7 +23,7 @@ header.landingpage-reputation > a {
     color: #fff;
 }
 
-header.landingpage-reputation > figure {
+header.landing-page-reputation > figure {
     position: absolute;
     right: 0px;
     bottom: 0px;
@@ -35,7 +35,7 @@ header.landingpage-reputation > figure {
     box-sizing: border-box;
 }
 
-header.landingpage-reputation > figure > img {
+header.landing-page-reputation > figure > img {
     width: 100%;
 }
 
@@ -88,8 +88,8 @@ figure.logotype {
     padding-top: 20px;
 }
 
-main.landingpage-reputation,
-main.landingpage-reputation > section {
+main.landing-page-reputation,
+main.landing-page-reputation > section {
     position: relative;
     width: 100%;
     min-height: 100vh;

@@ -10,8 +10,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 ?>
 
 %{header}%
-<main>
-    <section class="dashboard">
+<main class="dashboard">
+    <section class="workspace">
         <table id="tbl_voxes">
             <thead>
                 <tr>
