@@ -13,63 +13,59 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 
 %{header}%
 <main>
-    <nav>
-        <h2><i class="fas fa-heart"></i>{$lang.voxes}</h2>
-        <ul>
-            <li><a href="/voxes" class="view"><i class="fas fa-heart"></i></a></li>
-            <?php if (Functions::check_user_access(['{vox_reports_view}']) == true) : ?>
-            <li><a href="/voxes/reports/generate"><i class="fas fa-file-invoice"></i></a></li>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{vox_stats_view}']) == true) : ?>
-            <li><a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a></li>
-            <?php endif; ?>
-        </ul>
-    </nav>
-    <article>
-        <main>
-            <div class="table">
-                <aside>
-                    <label>
-                        <span><i class="fas fa-search"></i></span>
-                        <input type="text" name="tbl_voxes_search">
-                    </label>
-                    <a href="/voxes/create" class="new"><i class="fas fa-plus"></i></a>
-                </aside>
-                <span>{$_tmp_time_zone}</span>
-                <table id="tbl_voxes">
-                    <thead>
-                        <tr>
-                            <th align="left" class="icon" hidden>Token</th>
-                            <th align="left" class="icon">{$lang.abr_type}</th>
-                            <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
-                            <th align="left">{$lang.abr_room} | {$lang.abr_department}</th>
-                            <th align="left">{$lang.abr_guest}</th>
-                            <?php endif; ?>
-                            <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
-                            <th align="left">{$lang.abr_table} | {$lang.abr_department}</th>
-                            <th align="left">{$lang.abr_name}</th>
-                            <?php endif; ?>
-                            <?php if (Session::get_value('account')['type'] == 'others') : ?>
-                            <th align="left">{$lang.abr_client} | {$lang.abr_department}</th>
-                            <th align="left">{$lang.abr_name}</th>
-                            <?php endif; ?>
-                            <th align="left">{$lang.abr_opportunity_area}</th>
-                            <th align="left">{$lang.abr_opportunity_type}</th>
-                            <th align="left">{$lang.abr_location}</th>
-                            <th align="left">{$lang.abr_started_date}</th>
-                            <th align="left">{$lang.abr_elapsed_time}</th>
-                            <th align="right" class="icon"></th>
-                            <th align="right" class="icon"></th>
-                            <th align="right" class="icon"></th>
-                            <th align="right" class="icon"></th>
-                            <th align="right" class="icon"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {$tbl_voxes}
-                    </tbody>
-                </table>
-            </div>
-        </main>
-    </article>
+    <section class="dashboard">
+        <table id="tbl_voxes">
+            <thead>
+                <tr>
+                    <th align="left" class="icon" hidden>Token</th>
+                    <th align="left" class="icon">{$lang.abr_type}</th>
+                    <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
+                    <th align="left">{$lang.abr_room} | {$lang.abr_department}</th>
+                    <th align="left">{$lang.abr_guest}</th>
+                    <?php endif; ?>
+                    <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
+                    <th align="left">{$lang.abr_table} | {$lang.abr_department}</th>
+                    <th align="left">{$lang.abr_name}</th>
+                    <?php endif; ?>
+                    <?php if (Session::get_value('account')['type'] == 'others') : ?>
+                    <th align="left">{$lang.abr_client} | {$lang.abr_department}</th>
+                    <th align="left">{$lang.abr_name}</th>
+                    <?php endif; ?>
+                    <th align="left">{$lang.abr_opportunity_area}</th>
+                    <th align="left">{$lang.abr_opportunity_type}</th>
+                    <th align="left">{$lang.abr_location}</th>
+                    <th align="left">{$lang.abr_started_date}</th>
+                    <th align="left">{$lang.abr_elapsed_time}</th>
+                    <th align="right" class="icon"></th>
+                    <th align="right" class="icon"></th>
+                    <th align="right" class="icon"></th>
+                    <th align="right" class="icon"></th>
+                    <th align="right" class="icon"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {$tbl_voxes}
+            </tbody>
+        </table>
+        <span>{$_tmp_time_zone}</span>
+    </section>
+    <section class="buttons">
+        <div>
+            <a href=""><i class="fas fa-plus"></i></a>
+            <a href="" class="success"><i class="fas fa-plus"></i></a>
+            <a href=""><i class="fas fa-plus"></i></a>
+        </div>
+    </section>
 </main>
+
+<!-- <nav>
+    <ul>
+        <li><a href="/voxes" class="view"><i class="fas fa-heart"></i></a></li>
+        <?php if (Functions::check_user_access(['{vox_reports_view}']) == true) : ?>
+        <li><a href="/voxes/reports/generate"><i class="fas fa-file-invoice"></i></a></li>
+        <?php endif; ?>
+        <?php if (Functions::check_user_access(['{vox_stats_view}']) == true) : ?>
+        <li><a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a></li>
+        <?php endif; ?>
+    </ul>
+</nav> -->

@@ -2,28 +2,7 @@
 
 $(document).ready(function()
 {
-    var tbl_voxes = $('#tbl_voxes').DataTable({
-        ordering: false,
-        pageLength: 50,
-        info: false,
-        'drawCallback': function()
-        {
-            $('[data-elapsed-time]').each(function()
-            {
-                get_time_elapsed($(this).data('date-1').replace(/-/g, '/'), $(this).data('date-2').replace(/-/g, '/'), $(this).data('time-zone'), $(this).data('status'), $(this));
-            });
-        }
-    });
-
-    $('[name="tbl_voxes_search"]').on('keyup', function()
-    {
-        tbl_voxes.search(this.value).draw();
-    });
-
-    $(document).on('click', '#tbl_voxes > tbody > tr > td', function()
-    {
-        window.location.href = '/voxes/view/details/' + $(this).parents('tr').data('id');
-    });
+    
 });
 
 function get_time_elapsed(date_1, date_2, time_zone, status, target)

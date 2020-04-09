@@ -1,8 +1,4 @@
 
-/* ------------------------------------------------------------------------------ */
-/* NEW -------------------------------------------------------------------------- */
-/* ------------------------------------------------------------------------------ */
-
 /* Body
 ------------------------------------------------------------------------------ */
 body {
@@ -88,14 +84,19 @@ body > header.topbar > nav > ul > li > a {
 body > header.rightbar {
     width: 240px;
     height: 100vh;
-    position: absolute;
+    position: fixed;
     top: 0px;
     right: -240px;
     bottom: 0px;
     padding: 20px;
     box-sizing: border-box;
     background-color: #24383f;
+    transition: 400ms;
     z-index: 99;
+}
+
+body.open-rightbar > header.rightbar {
+    right: 0px;
 }
 
 body > header.rightbar > div {
@@ -196,16 +197,68 @@ body > main {
     background-color: #fff;
 }
 
-body > main > section.dashboard {
+body > main::before {
+    content: '';
     width: 100%;
-    min-height: calc(100vh - 80px);
-    position: absolute;
+    height: 20px;
+    position: fixed;
     top: 80px;
-    padding: 20px;
-    box-sizing: border-box;
     border-radius: 20px 20px 0px 0px;
     background-color: #fff;
     z-index: 98;
+}
+
+/* Dashboard  */
+
+body > main > section.dashboard {
+    width: 100%;
+    min-height: calc(100vh - 100px);
+    position: absolute;
+    top: 100px;
+    padding: 0px 20px 20px 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+    z-index: 96;
+}
+
+/* Buttons */
+
+body > main > section.buttons {
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    box-sizing: border-box;
+    background: none;
+    z-index: 98;
+}
+
+body > main > section.buttons > div {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 60px;
+    box-sizing: border-box;
+    background-color: #24383f;
+}
+
+body > main > section.buttons > div > a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 5px;
+    border-radius: 50%;
+    background-color: #24383f;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
 }
 
 /* ------------------------------------------------------------------------------ */
@@ -525,6 +578,7 @@ table tbody > tr > td.comment{
 }
 
 table {
+    width: 100%;
     border-color: #fff !important;
 }
 

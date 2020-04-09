@@ -2,8 +2,8 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['css', '{$path.css}Hola/reputation.css']);
-$this->dependencies->add(['js', '{$path.js}Hola/reputation.js']);
+$this->dependencies->add(['css', '{$path.css}Hi/reputation.css']);
+$this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
 
 ?>
 
@@ -19,7 +19,7 @@ $this->dependencies->add(['js', '{$path.js}Hola/reputation.js']);
     <section id="section-one" class="gradient hand-background">
         <div class="container">
             <figure class="logotype">
-                <img src="{$path.images}hola/reputation/logotype.svg" alt="Guestvox logotipo">
+                <img src="{$path.images}hi/reputation/logotype.svg" alt="Guestvox logotipo">
             </figure>
             <div class="content">
                 <h3>Conoce la opinión de tus consumidores</h3>
@@ -59,7 +59,7 @@ $this->dependencies->add(['js', '{$path.js}Hola/reputation.js']);
         <div class="container">
             <h3>Aprovecha los comentarios y reseñas de sus usuarios, a través de nuestras herramientas.</h3>
             <figure>
-                <img src="{$path.images}hola/reputation/st-3-img-1.png" alt="Comentarios">
+                <img src="{$path.images}hi/reputation/st-3-img-1.png" alt="Comentarios">
             </figure>
         </div>
         <span class="st-2-img-1"></span>
@@ -74,7 +74,7 @@ $this->dependencies->add(['js', '{$path.js}Hola/reputation.js']);
         <div class="container">
             <h5>Personaliza</h5>
             <div>
-                <img src="{$path.images}hola/reputation/pantalla_ipad.png" alt="iPad">
+                <img src="{$path.images}hi/reputation/pantalla_ipad.png" alt="iPad">
                 <div class="content">
                     <h3>Nuestra herramienta es totalmente autogestionable.</h3>
 
@@ -92,7 +92,7 @@ $this->dependencies->add(['js', '{$path.js}Hola/reputation.js']);
         <div class="container">
             <h3>Visualiza las métricas y datos generados de las encuestas realizadas por tus clientes y toma acciones concretas para mejorar el servicio.</h3>
 
-            <img src="{$path.images}hola/reputation/graficas.png" alt="graficas">
+            <img src="{$path.images}hi/reputation/graficas.png" alt="graficas">
         </div>
     </section>
     <section id="section-eight">
@@ -120,7 +120,7 @@ $this->dependencies->add(['js', '{$path.js}Hola/reputation.js']);
             </div>
             <div class="content">
                 <figure class="logotype">
-                    <img src="{$path.images}hola/reputation/logotype.svg" alt="Guestvox logotipo">
+                    <img src="{$path.images}hi/reputation/logotype.svg" alt="Guestvox logotipo">
                 </figure>
 
                 <a href="https://facebook.com/guestvox" class="social-media fb-logo" target="_blank">FB</a>

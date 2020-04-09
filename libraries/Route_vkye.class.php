@@ -20,14 +20,14 @@ class Route_vkye
 
         $paths = [
             '/Index/index',
-            '/Login/index',
-            '/Signup/index',
-            '/Signup/validate',
-            '/Terms/index',
             '/Hola/operation',
             '/Hola/reputation',
             '/Myvox/index',
             '/Reviews/index',
+            '/Signup/index',
+            '/Signup/validate',
+            '/Login/index',
+            '/Terms/index',
             '/Api/execute'
         ];
 

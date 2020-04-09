@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-class Hola_model extends Model
+class Hi_model extends Model
 {
 	public function __construct()
 	{

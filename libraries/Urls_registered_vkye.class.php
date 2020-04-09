@@ -13,37 +13,13 @@ class Urls_registered_vkye
                 'controller' => 'Index',
                 'method' => 'index'
             ],
-            '/login' => [
-                'controller' => 'Login',
-                'method' => 'index'
-            ],
-            '/%param%/login' => [
-                'controller' => 'Login',
-                'method' => 'index'
-            ],
-            '/signup' => [
-                'controller' => 'Signup',
-                'method' => 'index'
-            ],
-            '/signup/validate/%param%/%param%' => [
-                'controller' => 'Signup',
-                'method' => 'validate'
-            ],
-            '/hola' => [
-                'controller' => 'Hola',
+            '/operacion' => [
+                'controller' => 'Hi',
                 'method' => 'operation'
             ],
-            '/hola/operacion' => [
-                'controller' => 'Hola',
-                'method' => 'operation'
-            ],
-            '/hola/reputacion' => [
-                'controller' => 'Hola',
+            '/reputacion' => [
+                'controller' => 'Hi',
                 'method' => 'reputation'
-            ],
-            '/terms' => [
-                'controller' => 'Terms',
-                'method' => 'index'
             ],
             '/%param%/myvox' => [
                 'controller' => 'Myvox',
@@ -55,6 +31,22 @@ class Urls_registered_vkye
             ],
             '/%param%/reviews' => [
                 'controller' => 'Reviews',
+                'method' => 'index'
+            ],
+            '/signup' => [
+                'controller' => 'Signup',
+                'method' => 'index'
+            ],
+            '/signup/validate/%param%/%param%' => [
+                'controller' => 'Signup',
+                'method' => 'validate'
+            ],
+            '/login' => [
+                'controller' => 'Login',
+                'method' => 'index'
+            ],
+            '/terms' => [
+                'controller' => 'Terms',
                 'method' => 'index'
             ],
             '/dashboard' => [
@@ -165,6 +157,10 @@ class Urls_registered_vkye
                 'controller' => 'Guesttypes',
                 'method' => 'index'
             ],
+            '/information' => [
+                'controller' => 'Information',
+                'method' => 'index'
+            ],
             '/menu' => [
                 'controller' => 'Menu',
                 'method' => 'index'
@@ -179,10 +175,6 @@ class Urls_registered_vkye
             ],
             '/account' => [
                 'controller' => 'Account',
-                'method' => 'index'
-            ],
-            '/information' => [
-                'controller' => 'Information',
                 'method' => 'index'
             ],
             '/profile' => [

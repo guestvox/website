@@ -24,10 +24,6 @@ class User_level
                     array_push($paths, '/Voxes/edit');
                 break;
 
-                case '{vox_reports_view}' :
-                    array_push($paths, '/Voxes/generate');
-                break;
-
                 case '{vox_reports_create}' :
                     array_push($paths, '/Voxes/reports');
                 break;
@@ -38,6 +34,10 @@ class User_level
 
                 case '{vox_reports_delete}' :
                     array_push($paths, '/Voxes/reports');
+                break;
+
+                case '{vox_reports_view}' :
+                    array_push($paths, '/Voxes/generate');
                 break;
 
                 case '{vox_stats_view}' :
@@ -183,6 +183,18 @@ class User_level
                     array_push($paths, '/Guesttypes/index');
                 break;
 
+                case '{information_create}' :
+                    array_push($paths, '/Information/index');
+                break;
+
+                case '{information_update}' :
+                    array_push($paths, '/Information/index');
+                break;
+
+                case '{information_delete}' :
+                    array_push($paths, '/Information/index');
+                break;
+
                 case '{menu_create}' :
                     array_push($paths, '/Menu/index');
                 break;
@@ -233,7 +245,6 @@ class User_level
 
                 case '{account_update}' :
                     array_push($paths, '/Account/index');
-                    array_push($paths, '/Information/index');
                 break;
 
                 default: break;

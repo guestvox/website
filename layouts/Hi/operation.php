@@ -1,7 +1,7 @@
 <?php
 defined('_EXEC') or die;
 
-$this->dependencies->add(['css', '{$path.css}Hola/operation.css']);
+$this->dependencies->add(['css', '{$path.css}Hi/operation.css']);
 
 $this->dependencies->add(['js', '{$path.plugins}owl-carousel/owl.carousel.min.js']);
 $this->dependencies->add(['css', '{$path.plugins}owl-carousel/assets/owl.carousel.min.css']);
@@ -10,7 +10,7 @@ $this->dependencies->add(['css', '{$path.plugins}owl-carousel/assets/owl.theme.d
 $this->dependencies->add(['css', '{$path.plugins}fancy-box/jquery.fancybox.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js']);
 
-$this->dependencies->add(['js', '{$path.js}Hola/operation.js']);
+$this->dependencies->add(['js', '{$path.js}Hi/operation.js']);
 
 // Facebook
 $this->dependencies->add(['meta', '{$vkye_domain}/hola?ref=6500', ["property='og:url'"]]);

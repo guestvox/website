@@ -29,7 +29,7 @@ class Placeholders_vkye
     private function placeholders()
     {
         $replace = [
-            '{$_tmp_time_zone}' => '<i class="fas fa-globe-americas"></i> ' . Session::get_value('account')['time_zone']
+            
         ];
 
         return $this->format->replace($replace, $this->buffer);

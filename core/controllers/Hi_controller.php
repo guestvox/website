@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-class Hola_controller extends Controller
+class Hi_controller extends Controller
 {
 	public function __construct()
 	{
