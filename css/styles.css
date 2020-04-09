@@ -1,4 +1,18 @@
 
+/* Generals
+------------------------------------------------------------------------------ */
+h1, h2, h3, h4, h5, h6, p { margin: 0px; padding: 0px; }
+
+figure { line-height: 0px; }
+
+a, button { margin: 0px; text-align: center !important; text-decoration: none !important; cursor: pointer !important; }
+a.success, button.success, span.success { background-color: #009688 !important; color: #fff !important; }
+a.warning, button.warning, span.warning { background-color: #ffc107 !important; color: #fff !important; }
+a.alert, button.alert, span.alert { background-color: #f44336 !important; color: #fff !important; }
+a.busy, button.busy, span.busy { background-color: #3f51b5 !important; color: #fff !important; }
+
+select { -moz-appearance: none; -webkit-appearance: none; appearance: none; cursor: pointer; }
+
 /* Body
 ------------------------------------------------------------------------------ */
 body {
@@ -20,7 +34,7 @@ body > header.topbar {
     width: 100%;
     height: 100px;
     position: fixed;
-    background-color:  #00a5ab;
+    background-color: #00a5ab;
     z-index: 97;
 }
 
@@ -37,10 +51,8 @@ body > header.topbar > figure {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: 20px;
-    padding-left: 20px;
+    padding: 20px 0px 0px 20px;
     box-sizing: border-box;
-    line-height: 0px;
 }
 
 body > header.topbar > figure > a > img {
@@ -52,9 +64,7 @@ body > header.topbar > nav {
     width: auto;
     height: 100%;
     float: right;
-    padding-top: 20px;
-    padding-right: 10px;
-    padding-left: 10px;
+    padding: 20px 10px 0px 10px;
     box-sizing: border-box;
     background-color: #24383f;
 }
@@ -114,10 +124,9 @@ body > header.rightbar > div > figure {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 20px;
     border-radius: 50%;
     overflow: hidden;
-    line-height: 0px;
-    margin-bottom: 20px;
 }
 
 body > header.rightbar > div > figure > img {
@@ -230,20 +239,33 @@ body > main > section.buttons {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
+    padding: 0px 20px 20px 20px;
     box-sizing: border-box;
     background: none;
     z-index: 98;
 }
 
-body > main > section.buttons > div {
-    width: auto;
+body > main > section.buttons > a {
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 20px;
-    border-radius: 60px;
-    box-sizing: border-box;
+    margin: 0px 5px;
+    border-radius: 50%;
+    background-color: #00a5ab;
+    font-size: 18px;
+    font-weight: 400;
+    color: #fff;
+}
+
+body > main > section.buttons > div {
+    width: auto;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
     background-color: #24383f;
 }
 
@@ -255,10 +277,14 @@ body > main > section.buttons > div > a {
     justify-content: center;
     margin: 0px 5px;
     border-radius: 50%;
-    background-color: #24383f;
-    font-size: 16px;
+    background: none;
+    font-size: 18px;
     font-weight: 400;
     color: #fff;
+}
+
+body > main > section.buttons > div > a.active {
+    background-color: #00a5ab;
 }
 
 /* ------------------------------------------------------------------------------ */

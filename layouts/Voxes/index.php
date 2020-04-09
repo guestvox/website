@@ -47,25 +47,17 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 {$tbl_voxes}
             </tbody>
         </table>
-        <span>{$_tmp_time_zone}</span>
     </section>
     <section class="buttons">
         <div>
-            <a href=""><i class="fas fa-plus"></i></a>
-            <a href="" class="success"><i class="fas fa-plus"></i></a>
-            <a href=""><i class="fas fa-plus"></i></a>
+            <a href="/voxes/create"><i class="fas fa-plus"></i></a>
+            <a href="/voxes" class="active"><i class="fas fa-list-ul"></i></a>
+            <?php if (Functions::check_user_access(['{vox_stats_view}']) == true) : ?>
+            <a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{vox_reports_view}']) == true) : ?>
+            <a href="/voxes/reports/generate"><i class="fas fa-file-invoice"></i></a>
+            <?php endif; ?>
         </div>
     </section>
 </main>
-
-<!-- <nav>
-    <ul>
-        <li><a href="/voxes" class="view"><i class="fas fa-heart"></i></a></li>
-        <?php if (Functions::check_user_access(['{vox_reports_view}']) == true) : ?>
-        <li><a href="/voxes/reports/generate"><i class="fas fa-file-invoice"></i></a></li>
-        <?php endif; ?>
-        <?php if (Functions::check_user_access(['{vox_stats_view}']) == true) : ?>
-        <li><a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a></li>
-        <?php endif; ?>
-    </ul>
-</nav> -->
