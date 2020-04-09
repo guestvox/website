@@ -12,39 +12,69 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 %{header}%
 <main class="dashboard">
     <section class="workspace">
-        <table id="tbl_voxes">
-            <thead>
-                <tr>
-                    <th align="left" class="icon" hidden>Token</th>
-                    <th align="left" class="icon">{$lang.abr_type}</th>
-                    <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
-                    <th align="left">{$lang.abr_room} | {$lang.abr_department}</th>
-                    <th align="left">{$lang.abr_guest}</th>
-                    <?php endif; ?>
-                    <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
-                    <th align="left">{$lang.abr_table} | {$lang.abr_department}</th>
-                    <th align="left">{$lang.abr_name}</th>
-                    <?php endif; ?>
-                    <?php if (Session::get_value('account')['type'] == 'others') : ?>
-                    <th align="left">{$lang.abr_client} | {$lang.abr_department}</th>
-                    <th align="left">{$lang.abr_name}</th>
-                    <?php endif; ?>
-                    <th align="left">{$lang.abr_opportunity_area}</th>
-                    <th align="left">{$lang.abr_opportunity_type}</th>
-                    <th align="left">{$lang.abr_location}</th>
-                    <th align="left">{$lang.abr_started_date}</th>
-                    <th align="left">{$lang.abr_elapsed_time}</th>
-                    <th align="right" class="icon"></th>
-                    <th align="right" class="icon"></th>
-                    <th align="right" class="icon"></th>
-                    <th align="right" class="icon"></th>
-                    <th align="right" class="icon"></th>
-                </tr>
-            </thead>
+        <div class="tbl-st-1">
+            <div>
+                <div>
+                    <div class="item-1">
+                        <figure>
+                            <img src="{$path.images}avatar.png">
+                        </figure>
+                    </div>
+                    <div class="item-2">
+                        <h2>Trato y huésped</h2>
+                        <h4>Habitación, mesa o cliente</h4>
+                        <h6>Tiempo transcurrido</h6>
+                    </div>
+                    <div class="item-3">
+                        <span>AO</span>
+                        <span>TO</span>
+                        <span>Ubicación</span>
+                        <span>Urgencia</span>
+                    </div>
+                    <div class="item-4">
+                        <span><i class="fas fa-users"></i></span>
+                        <span><i class="fas fa-comment"></i></span>
+                        <span><i class="fas fa-paperclip"></i></span>
+                        <span><i class="fas fa-clock"></i></span>
+                        <span><i class="fas fa-key"></i></span>
+                        <span><i class="fas fa-spa"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="item-1">
+                        <figure>
+                            <img src="{$path.images}avatar.png">
+                        </figure>
+                    </div>
+                    <div class="item-2">
+                        <h2>Trato y huésped</h2>
+                        <h4>Habitación, mesa o cliente</h4>
+                        <h6>Tiempo transcurrido</h6>
+                    </div>
+                    <div class="item-3">
+                        <span>AO</span>
+                        <span>TO</span>
+                        <span>Ubicación</span>
+                        <span>Urgencia</span>
+                    </div>
+                    <div class="item-4">
+                        <span><i class="fas fa-users"></i></span>
+                        <span><i class="fas fa-comment"></i></span>
+                        <span><i class="fas fa-paperclip"></i></span>
+                        <span><i class="fas fa-clock"></i></span>
+                        <span><i class="fas fa-key"></i></span>
+                        <span><i class="fas fa-spa"></i></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <table id="tbl_voxes">
             <tbody>
                 {$tbl_voxes}
             </tbody>
-        </table>
+        </table> -->
     </section>
     <section class="buttons">
         <div>

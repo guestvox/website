@@ -10,8 +10,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 ?>
 
 %{header}%
-<main>
-    <section class="dashboard">
+<main class="dashboard">
+    <section class="workspace">
         <form class="frm_vox" name="new_vox">
             <div class="row">
                 <div class="tmp-1">
@@ -298,6 +298,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 </div>
             </div>
         </form>
+        <a data-action="new_vox">Aceptar</a>
     </section>
     <section class="buttons">
         <div>

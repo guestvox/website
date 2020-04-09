@@ -26,7 +26,7 @@ class Opportunitytypes_model extends Model
 		], [
 			'opportunity_types.account' => Session::get_value('account')['id'],
 			'ORDER' => [
-				'opportunity_areas.name ' => 'ASC',
+				'opportunity_areas.name' => 'ASC',
 				'opportunity_types.name' => 'ASC'
 			]
 		]));
