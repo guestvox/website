@@ -2,11 +2,9 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.min.css']);
-$this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
+$this->dependencies->add(['js', '{$path.js}Voxes/index.js']);
 $this->dependencies->add(['js', '{$path.plugins}moment/moment.min.js']);
 $this->dependencies->add(['js', '{$path.plugins}moment/moment-timezone-with-data.min.js']);
-$this->dependencies->add(['js', '{$path.js}Voxes/index.js']);
 $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 
 ?>
