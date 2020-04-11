@@ -56,6 +56,10 @@ header.myvox > div > a > span {
 ------------------------------------------------------------------------------ */
 main.myvox {
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     padding: 50px 20px 0px 20px;
     box-sizing: border-box;
     background-color: #fff;
