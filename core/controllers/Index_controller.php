@@ -11,23 +11,10 @@ class Index_controller extends Controller
 
 	public function index()
 	{
-		if (Format::exist_ajax_request() == true)
-		{
+		define('_title', 'GuestVox | {$lang.we_are_guestvox}');
 
-		}
-		else
-		{
-			define('_title', 'GuestVox');
+		$template = $this->view->render($this, 'index');
 
-			$template = $this->view->render($this, 'index');
-
-			$replace = [
-
-			];
-
-			$template = $this->format->replace($replace, $template);
-
-			echo $template;
-		}
+		echo $template;
 	}
 }
