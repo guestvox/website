@@ -21,6 +21,14 @@ class Urls_registered_vkye
                 'controller' => 'Hi',
                 'method' => 'reputation'
             ],
+            '/about-us' => [
+                'controller' => 'About',
+                'method' => 'index'
+            ],
+            '/terms-and-conditions' => [
+                'controller' => 'Terms',
+                'method' => 'index'
+            ],
             '/%param%/myvox' => [
                 'controller' => 'Myvox',
                 'method' => 'index'
@@ -43,10 +51,6 @@ class Urls_registered_vkye
             ],
             '/login' => [
                 'controller' => 'Login',
-                'method' => 'index'
-            ],
-            '/terms' => [
-                'controller' => 'Terms',
                 'method' => 'index'
             ],
             '/dashboard' => [

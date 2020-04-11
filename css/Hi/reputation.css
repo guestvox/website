@@ -74,7 +74,7 @@ header.landing-page-reputation > figure > img {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('../../images/hola/reputation/st-1-img-1.png');
+    background-image: url('../../images/hi/reputation/st-1-img-1.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -215,15 +215,15 @@ span.st-2-img-3 {
 }
 
 span.st-2-img-1 {
-    background-image: url('../../images/hola/reputation/st-2-img-1.png');
+    background-image: url('../../images/hi/reputation/st-2-img-1.png');
 }
 
 span.st-2-img-2 {
-    background-image: url('../../images/hola/reputation/st-2-img-2.png');
+    background-image: url('../../images/hi/reputation/st-2-img-2.png');
 }
 
 span.st-2-img-3 {
-    background-image: url('../../images/hola/reputation/st-2-img-3.png');
+    background-image: url('../../images/hi/reputation/st-2-img-3.png');
 }
 
 #section-two .content {
@@ -355,13 +355,13 @@ span.st-2-img-3 {
     height: calc(100%);
     top: 0;
     left: 0;
-    background-image: url('../../images/hola/reputation/priscilla-du-preez-W3SEyZODn8U-unsplash.jpg');
+    background-image: url('../../images/hi/reputation/priscilla-du-preez-W3SEyZODn8U-unsplash.jpg');
     background-position: center;
     background-size: cover;
 }
 
 #section-six::before {
-    background-image: url('../../images/hola/reputation/damian-zaleski-RYyr-k3Ysqg-unsplash.jpg');
+    background-image: url('../../images/hi/reputation/damian-zaleski-RYyr-k3Ysqg-unsplash.jpg');
     background-position-x: left;
 }
 
@@ -579,7 +579,7 @@ span.st-2-img-3 {
 }
 
 #section-eight {
-    background-image: url('../../images/hola/reputation/marten-bjork-6dW3xyQvcYE-unsplash.jpg');
+    background-image: url('../../images/hi/reputation/marten-bjork-6dW3xyQvcYE-unsplash.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -746,19 +746,19 @@ span.st-2-img-3 {
 }
 
 #section-ten > .container .content:last-of-type > a.social-media.fb-logo {
-    background-image: url('../../images/hola/reputation/fb-logo.svg');
+    background-image: url('../../images/hi/reputation/fb-logo.svg');
 }
 
 #section-ten > .container .content:last-of-type > a.social-media.yt-logo {
-    background-image: url('../../images/hola/reputation/yt-logo.svg');
+    background-image: url('../../images/hi/reputation/yt-logo.svg');
 }
 
 #section-ten > .container .content:last-of-type > a.social-media.ig-logo {
-    background-image: url('../../images/hola/reputation/ig-logo.svg');
+    background-image: url('../../images/hi/reputation/ig-logo.svg');
 }
 
 #section-ten > .container .content:last-of-type > a.social-media.in-logo {
-    background-image: url('../../images/hola/reputation/in-logo.svg');
+    background-image: url('../../images/hi/reputation/in-logo.svg');
 }
 
 @media (max-width: 991px) {

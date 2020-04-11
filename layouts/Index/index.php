@@ -40,7 +40,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                     <p>{$lang.landing_page_index_st_2_text_4}</p>
                 </div>
             </div>
-            <a href="/operation">{$lang.know_more}</a>
+            <a href="/operacion">{$lang.know_more}</a>
 		</div>
     </section>
     <section class="st-3">
@@ -63,7 +63,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                     <p>{$lang.landing_page_index_st_3_text_4}</p>
                 </div>
             </div>
-            <a href="/reputation">{$lang.know_more}</a>
+            <a href="/reputacion">{$lang.know_more}</a>
 		</div>
     </section>
     <section class="st-4">

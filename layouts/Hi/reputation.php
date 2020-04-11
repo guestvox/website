@@ -150,6 +150,35 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
                     <div class="span12">
                         <div class="label">
                             <label>
+                                <p>Tipo de negocio</p>
+                                <select name="type">
+                                    <option value="" selected hidden>Selecciona una opción</option>
+                                    <option value="hotel">Hotel</option>
+                                    <option value="restaurant">Restaurante</option>
+                                    <option value="others">Otros</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span4 hidden">
+                        <div class="label">
+                            <label>
+                                <p>Número de habitaciones</p>
+                                <input type="number" name="rooms" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span4 hidden">
+                        <div class="label">
+                            <label>
+                                <p>Número de mesas</p>
+                                <input type="number" name="tables" />
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label>
                                 <p>Nombre de contacto</p>
                                 <input type="text" name="contact" />
                             </label>

@@ -14,12 +14,22 @@ $xml =
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/hola/operacion/</loc>
+        <loc>' . $https . '/operacion/</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/hola/reputacion/</loc>
+        <loc>' . $https . '/reputacion/</loc>
+        <changefreq>yearly</changefreq>
+        <priority>1.00</priority>
+    </url>
+    <url>
+        <loc>' . $https . '/about-us/</loc>
+        <changefreq>yearly</changefreq>
+        <priority>1.00</priority>
+    </url>
+    <url>
+        <loc>' . $https . '/terms-and-conditions/</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
     </url>';
@@ -50,6 +60,11 @@ if (!$database->connect_error)
 $xml .=
 '   <url>
         <loc>' . $https . '/signup/</loc>
+        <changefreq>yearly</changefreq>
+        <priority>0.80</priority>
+    </url>
+    <url>
+        <loc>' . $https . '/login/</loc>
         <changefreq>yearly</changefreq>
         <priority>0.80</priority>
     </url>
