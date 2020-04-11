@@ -9,7 +9,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
 
 <header class="myvox">
     <figure>
-        <img src="{$logotype}" alt="Logotype">
+        <img src="{$logotype}" alt="Client">
     </figure>
     <div>
         <a href="?<?php echo Language::get_lang_url('es'); ?>"><img src="{$path.images}es.png"><span>{$lang.es}</span></a>
@@ -23,7 +23,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
     {$a_new_survey_answer}
 </main>
 <footer class="myvox">
-    <h4>Power by <img src="{$path.images}logotype-color.png" alt="Guestvox logotype"></h4>
+    <h4>Power by <img src="{$path.images}logotype-color.png" alt="GuestVox"></h4>
     <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved}</p>
 </footer>
 {$mdl_new_request}

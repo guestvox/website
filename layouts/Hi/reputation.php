@@ -12,14 +12,14 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
     <a data-button-modal="contact"><i class="fas fa-paper-plane"></i></a>
     <a data-button-modal="contact"><i class="fas fa-gift"></i></a>
     <figure>
-        <img src="{$path.images}icon-white.svg" alt="Guestvox logotipo">
+        <img src="{$path.images}icon-white.svg" alt="GuestVox">
     </figure>
 </header>
 <main class="landing-page-reputation">
     <section id="section-one" class="gradient hand-background">
         <div class="container">
             <figure class="logotype">
-                <img src="{$path.images}hi/reputation/logotype.svg" alt="Guestvox logotipo">
+                <img src="{$path.images}hi/reputation/logotype.svg" alt="GuestVox">
             </figure>
             <div class="content">
                 <h3>Conoce la opinión de tus consumidores</h3>
@@ -59,7 +59,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
         <div class="container">
             <h3>Aprovecha los comentarios y reseñas de sus usuarios, a través de nuestras herramientas.</h3>
             <figure>
-                <img src="{$path.images}hi/reputation/st-3-img-1.png" alt="Comentarios">
+                <img src="{$path.images}hi/reputation/st-3-img-1.png" alt="Background">
             </figure>
         </div>
         <span class="st-2-img-1"></span>
@@ -74,10 +74,9 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
         <div class="container">
             <h5>Personaliza</h5>
             <div>
-                <img src="{$path.images}hi/reputation/pantalla_ipad.png" alt="iPad">
+                <img src="{$path.images}hi/reputation/pantalla_ipad.png" alt="Background">
                 <div class="content">
                     <h3>Nuestra herramienta es totalmente autogestionable.</h3>
-
                     <a data-button-modal="contact" class="btn">¡Lo quiero!</a>
                 </div>
             </div>
@@ -91,21 +90,19 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
     <section id="section-seven">
         <div class="container">
             <h3>Visualiza las métricas y datos generados de las encuestas realizadas por tus clientes y toma acciones concretas para mejorar el servicio.</h3>
-
-            <img src="{$path.images}hi/reputation/graficas.png" alt="graficas">
+            <img src="{$path.images}hi/reputation/graficas.png" alt="Background">
         </div>
     </section>
     <section id="section-eight">
         <div class="container">
             <h3>Identifica tus áreas de oportunidad y haz inteligencia de negocio.</h3>
-
             <p><span>Convierte</span> Convierte los datos en mejoras del servicio</p>
         </div>
     </section>
     <section id="section-nine" class="gradient-c-r">
         <div class="container">
             <div class="content">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://guestvox.com/demorestaurante/myvox" alt="QR Demo">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://guestvox.com/demorestaurante/myvox" alt="QR">
                 <h4>Contesta nuestra encuesta.</h4>
                 <p>*Si pones puntuación negativa o menos de 3, se despliega pregunta secundaria.</p>
             </div>
@@ -120,9 +117,8 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
             </div>
             <div class="content">
                 <figure class="logotype">
-                    <img src="{$path.images}hi/reputation/logotype.svg" alt="Guestvox logotipo">
+                    <img src="{$path.images}hi/reputation/logotype.svg" alt="GuestVox">
                 </figure>
-
                 <a href="https://facebook.com/guestvox" class="social-media fb-logo" target="_blank">FB</a>
                 <a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" class="social-media yt-logo" target="_blank">YT</a>
                 <a href="https://instagram.com/guestvox" class="social-media ig-logo" target="_blank">IG</a>

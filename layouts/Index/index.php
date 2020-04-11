@@ -14,7 +14,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
 		</figure>
         <div>
             <figure>
-                <img src="{$path.images}logotype-white.png" alt="Logotype">
+                <img src="{$path.images}logotype-white.png" alt="GuestVox">
             </figure>
 			<h1>{$lang.landing_page_index_st_1_text_1}</h1>
             <a href="/login">{$lang.login}</a>
@@ -88,16 +88,16 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
 		<h2>{$lang.landing_page_index_st_5_text_1}</h2>
         <div>
             <figure>
-                <img src="{$path.images}index/st-5-image-1.png" alt="Logotype">
+                <img src="{$path.images}index/st-5-image-1.png" alt="Client">
             </figure>
             <figure>
-                <img src="{$path.images}index/st-5-image-2.png" alt="Logotype">
+                <img src="{$path.images}index/st-5-image-2.png" alt="Client">
             </figure>
             <figure>
-                <img src="{$path.images}index/st-5-image-3.png" alt="Logotype">
+                <img src="{$path.images}index/st-5-image-3.png" alt="Client">
             </figure>
             <figure>
-                <img src="{$path.images}index/st-5-image-4.png" alt="Logotype">
+                <img src="{$path.images}index/st-5-image-4.png" alt="Client">
             </figure>
         </div>
     </section>
@@ -117,42 +117,42 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
         <h2>{$lang.landing_page_index_st_7_text_1}</h2>
         <div>
             <figure>
-                <img src="{$path.images}index/st-7-image-1.png" alt="Avatar">
+                <img src="{$path.images}index/st-7-image-1.png" alt="Work team">
             </figure>
             <h3>Daniel Basurto</h3>
             <h4>{$lang.ceo}</h4>
         </div>
         <div>
             <figure>
-                <img src="{$path.images}index/st-7-image-2.png" alt="Avatar">
+                <img src="{$path.images}index/st-7-image-2.png" alt="Work team">
             </figure>
             <h3>Alexa Zamora</h3>
             <h4>{$lang.cpo}</h4>
         </div>
         <div>
             <figure>
-                <img src="{$path.images}index/st-7-image-3.png" alt="Avatar">
+                <img src="{$path.images}index/st-7-image-3.png" alt="Work team">
             </figure>
             <h3>Gersón Gómez</h3>
             <h4>{$lang.cto}</h4>
         </div>
         <div>
             <figure>
-                <img src="{$path.images}index/st-7-image-4.png" alt="Avatar">
+                <img src="{$path.images}index/st-7-image-4.png" alt="Work team">
             </figure>
             <h3>Saúl Poot</h3>
             <h4>{$lang.programmer}</h4>
         </div>
         <div>
             <figure>
-                <img src="{$path.images}index/st-7-image-5.png" alt="Avatar">
+                <img src="{$path.images}index/st-7-image-5.png" alt="Work team">
             </figure>
             <h3>Alejandro Espinoza</h3>
             <h4>{$lang.programmer}</h4>
         </div>
         <div>
             <figure>
-                <img src="{$path.images}index/st-7-image-6.png" alt="Avatar">
+                <img src="{$path.images}index/st-7-image-6.png" alt="Work team">
             </figure>
             <h3>David Gómez</h3>
             <h4>{$lang.programmer}</h4>
@@ -162,16 +162,16 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
         <h2>{$lang.landing_page_index_st_8_text_1}</h2>
         <div>
             <figure>
-                <img src="{$path.images}index/st-8-image-1.png" alt="Logotype">
+                <img src="{$path.images}index/st-8-image-1.png" alt="Partner">
             </figure>
             <figure>
-                <img src="{$path.images}index/st-8-image-2.png" alt="Logotype">
+                <img src="{$path.images}index/st-8-image-2.png" alt="Partner">
             </figure>
             <figure>
-                <img src="{$path.images}index/st-8-image-3.png" alt="Logotype">
+                <img src="{$path.images}index/st-8-image-3.png" alt="Partner">
             </figure>
             <figure>
-                <img src="https://www.comparasoftware.com/wp-content/uploads/2019/05/comparasoftware_verificado.png" alt="Logotype">
+                <img src="https://www.comparasoftware.com/wp-content/uploads/2019/05/comparasoftware_verificado.png" alt="Partner">
             </figure>
         </div>
     </section>
