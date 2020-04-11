@@ -44,7 +44,7 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-
+                    
                 }
             }
         });

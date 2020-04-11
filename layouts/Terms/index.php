@@ -11,7 +11,7 @@ $this->dependencies->add(['js', '{$path.js}Terms/index.js']);
     <figure>
         <img src="{$path.images}icon-color.svg" alt="GuestVox">
     </figure>
-    <h1>{$lang.terms_ttl_1}</h1>
+    <h1>{$lang.terms_and_conditions}</h1>
     <p>{$lang.terms_txt_1}</p>
     <h2>{$lang.terms_ttl_2}</h2>
     <p>{$lang.terms_txt_2}</p>

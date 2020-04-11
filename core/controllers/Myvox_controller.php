@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-require_once 'plugins/nexmo/vendor/autoload.php';
+// require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Myvox_controller extends Controller
 {
@@ -1224,7 +1224,7 @@ class Myvox_controller extends Controller
 						if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
 							$a_new_incident .= '<a data-button-modal="new_incident">{$lang.i_want_to_leave_a_comment_complaint}</a>';
 						else if (Session::get_value('account')['type'] == 'others')
-							$a_new_incident .= '<a data-button-modal="new_incident">{$lang.open_incident}</a>';
+							$a_new_incident .= '<a data-button-modal="new_incident">{$lang.up_incident}</a>';
 
 						$mdl_new_incident .=
 						'<section class="modal" data-modal="new_incident">
@@ -1411,18 +1411,6 @@ class Myvox_controller extends Controller
 								<header>
 									<h3>{$lang.answer_survey_right_now}</h3>
 								</header>
-								<div class="bottombar">
-							        <div class="multilanguage">
-							            <a href="?' .  Language::get_lang_url('es') . '">
-							                <img src="{$path.images}es.png">
-											<span>{$lang.es}</span>
-							            </a>
-							            <a href="?' . Language::get_lang_url('en') . '">
-							                <img src="{$path.images}en.png">
-											<span>{$lang.en}</span>
-							            </a>
-							        </div>
-							    </div>
 								<main>
 									<form name="new_survey_answer">';
 
@@ -1682,24 +1670,6 @@ class Myvox_controller extends Controller
 													</label>
 												</div>';
 											}
-
-											// if (Session::get_value('account')['type'] == 'others')
-											// {
-											// 	$mdl_new_survey_answer .=
-											// 	'<div class="label">
-											// 		<label>
-											// 			<p>{$lang.do_you_know_your_client_number}</p>
-											// 			<select name="client">
-											// 				<option value="" selected hidden>{$lang.choose}</option>';
-											//
-											// 	foreach ($this->model->get_clients(Session::get_value('account')['id']) as $value)
-											// 		$mdl_new_survey_answer .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
-											//
-											// 	$mdl_new_survey_answer .=
-											// 	'		</select>
-											// 		</label>
-											// 	</div>';
-											// }
 										}
 
 							$mdl_new_survey_answer .=
