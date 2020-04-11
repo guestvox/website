@@ -7,9 +7,9 @@ $this->dependencies->add(['js', '{$path.js}Terms/index.js']);
 
 ?>
 
-<main class="landing-page-terms">
+<main class="landing-page-terms-and-conditions">
     <figure>
-        <img src="{$path.images}icon-color.svg" alt="GuestVox icon">
+        <img src="{$path.images}icon-color.svg" alt="GuestVox">
     </figure>
     <h1>{$lang.terms_ttl_1}</h1>
     <p>{$lang.terms_txt_1}</p>

@@ -11,15 +11,9 @@ class Terms_controller extends Controller
 
     public function index()
     {
-        define('_title', 'GuestVox');
+        define('_title', 'GuestVox | {$lang.we_are_guestvox}');
 
         $template = $this->view->render($this, 'index');
-
-        $replace = [
-
-        ];
-
-        $template = $this->format->replace($replace, $template);
 
         echo $template;
     }

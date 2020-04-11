@@ -1,7 +1,5 @@
 
-/* Main
------------------------------------------------------------------------------- */
-main.landing-page-terms {
+main.landing-page-terms-and-conditions {
     width: 100%;
     display: flex;
     align-items: center;
@@ -13,8 +11,8 @@ main.landing-page-terms {
     background-color: #fff;
 }
 
-main.landing-page-terms > figure,
-main.landing-page-terms > figure > img {
+main.landing-page-terms-and-conditions > figure,
+main.landing-page-terms-and-conditions > figure > img {
     width: auto;
     height: 150px;
     line-height: 0px;
@@ -22,19 +20,19 @@ main.landing-page-terms > figure > img {
     padding: 0px;
 }
 
-main.landing-page-terms > h1,
-main.landing-page-terms > h2 {
+main.landing-page-terms-and-conditions > h1,
+main.landing-page-terms-and-conditions > h2 {
     width: 100%;
     max-width: 800px;
     font-size: 24px;
     font-weight: 600;
 }
 
-main.landing-page-terms > h1 {
+main.landing-page-terms-and-conditions > h1 {
     text-align: center;
 }
 
-main.landing-page-terms > p {
+main.landing-page-terms-and-conditions > p {
     width: 100%;
     max-width: 800px;
     margin: 40px 0px;
