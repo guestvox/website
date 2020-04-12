@@ -14,39 +14,68 @@ class Api_vkye
     {
         if (isset($params[0]))
         {
-            $call_api = ucwords($params[0] . '_api');
-            $path = Security::DS(PATH_CORE . 'api/' . $call_api . '.php');
+            $access = false;
 
-            if (file_exists($path))
+            $users = [
+                'zaviapms' => 'y329-gfc=7mq}qy(',
+                'siteminder' => 'V97+pf=:z4?Hm|0i'
+            ];
+
+            if ($params[0] == 'siteminder')
             {
-                require_once $path;
+                // $_POST['message'] =
+                // '<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+                //     <soap-env:Header xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+                //         <wsse:Security xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" soap:mustunderstand="1">
+                //             <wsse:UsernameToken>
+                //                 <wsse:Username>siteminder</wsse:Username>
+                //                 <wsse:Password type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#passwordtext">V97+pf=:z4?Hm|0i</wsse:Password>
+                //             </wsse:UsernameToken>
+                //         </wsse:Security>
+                //     </soap-env:Header>
+                //     <soap-env:Body xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">
+                //         <OTA_HotelResNotifRQ xmlns="http://www.opentravel.org/OTA/2003/05" Version="1.001" EchoToken="879791878" ResStatus="Commit" TimeStamp="2014-10-09T18:51:45">OK</OTA_HotelResNotifRQ>
+                //     </soap-env:Body>
+                // </soap-env:Envelope>';
 
-                $class = new $call_api();
-                $_params = [];
+                $xml = simplexml_load_string($_POST['message'], null, null, 'http://schemas.xmlsoap.org/soap/envelope/');
+                $xml->registerXPathNamespace('soap-env', 'http://schemas.xmlsoap.org/soap/envelope/');
+                $xml->registerXPathNamespace('wsse', 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd');
+                $username = $xml->xpath('/soap-env:Envelope/soap-env:Header/wsse:Security/wsse:UsernameToken/wsse:Username');
+                $username = !empty($username[0]) ? json_decode(json_encode($username[0]), 1) : '';
+                $username = !empty($username[0]) ? $username[0] : '';
+                $password = $xml->xpath('/soap-env:Envelope/soap-env:Header/wsse:Security/wsse:UsernameToken/wsse:Password');
+                $password = !empty($password[0]) ? json_decode(json_encode($password[0]), 1) : '';
+                $password = !empty($password[0]) ? $password[0] : '';
+            }
+            else
+            {
+                $headers = getallheaders();
+                $username = !empty($headers['username']) ? $headers['username'] : '';
+                $password = !empty($headers['password']) ? $headers['password'] : '';
+            }
 
-                $headers = Self::all_headers();
-                $user = ( isset($headers['user']) ) ? $headers['user'] : null;
-                $password = ( isset($headers['password']) ) ? $headers['password'] : null;
+            if (array_key_exists($username, $users))
+            {
+                if ($password == $users[$username])
+                    $access = true;
+            }
 
-                if ( true )
+            if ($access == true)
+            {
+                $call_api = ucwords($params[0] . '_api');
+                $path = Security::DS(PATH_CORE . 'api/' . $call_api . '.php');
+
+                if (file_exists($path))
                 {
+                    require_once $path;
+
+                    $class = new $call_api();
+                    $_params = [];
+
                     switch ($_SERVER['REQUEST_METHOD'])
                     {
                         case 'GET':
-                            // $xml = simplexml_load_string($string, null, null, "http://schemas.xmlsoap.org/soap/envelope/");
-                            $xml = simplexml_load_file('http://local.guestvox.com/soap_test.xml', null, null, "http://schemas.xmlsoap.org/soap/envelope/");
-                            $xml->registerXPathNamespace('soap-env', 'http://schemas.xmlsoap.org/soap/envelope/');
-                            $xml->registerXPathNamespace('wsse', 'http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd');
-
-                            $username = $xml->xpath('/soap-env:Envelope/soap-env:Header/wsse:Security/wsse:UsernameToken/wsse:Username');
-                            $password = $xml->xpath('/soap-env:Envelope/soap-env:Header/wsse:Security/wsse:UsernameToken/wsse:Password');
-                            $body = $xml->xpath('/soap-env:Envelope/soap-env:Body');
-                            print_R((string) $username[0]);
-                            echo "\n";
-                            print_R((string) $password[0]);
-                            echo "\n";
-                            print_R($body[0]);
-
                             $method = 'GET';
                             break;
 
@@ -83,13 +112,13 @@ class Api_vkye
                         $this->response($response);
                     }
                     else
-                        $this->response(false, 405, 'Método de consulta no permitido');
+                        $this->response(false, 405, 'Método no permitido');
                 }
                 else
-                    $this->response(false, 405, 'USUARIO O CONTRASEÑA NO EXISTE');
+                    $this->response(false, 400, 'API no disponible');
             }
             else
-                $this->response(false, 400, 'API solicitada no disponible');
+                $this->response(false, 405, 'Acceso no permitido');
         }
         else
             $this->response(false, 400, 'No se solicitó ninguna API');
@@ -136,45 +165,5 @@ class Api_vkye
 
             $a_data[$matches[1]] = $matches[2];
         }
-    }
-
-    static public function all_headers() : array
-    {
-        $headers = [];
-
-        foreach (getallheaders() as $name => $value) $headers[$name] = $value;
-
-        return $headers;
-    }
-
-    static public function access_credentials($user = null)
-    {
-        $users = [
-            'zaviapms' => 'y329-gfc=7mq}qy(',
-            'siteminder' => 'V97+pf=:z4?Hm|0i'
-        ];
-
-        if (!empty($user))
-        {
-            if (array_key_exists($user, $users))
-                return $users[$user];
-            else
-                return 'Error';
-        }
-        else
-            return $users;
-    }
-
-    static public function access_permission($user, $password)
-    {
-        if (array_key_exists($user, Api_vkye::access_credentials()))
-        {
-            if (Api_vkye::access_credentials($user) == $password)
-                return true;
-            else
-                return false;
-        }
-        else
-            return false;
     }
 }
