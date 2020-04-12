@@ -15,7 +15,7 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=login',
+            data: form.serialize(),
             processData: false,
             cache: false,
             dataType: 'json',
