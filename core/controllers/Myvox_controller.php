@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-// require_once 'plugins/nexmo/vendor/autoload.php';
+require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Myvox_controller extends Controller
 {
@@ -1036,7 +1036,7 @@ class Myvox_controller extends Controller
 			}
 			else
 			{
-				define('_title', 'GuestVox');
+				define('_title', 'GuestVox | {$lang.myvox}');
 
 				$template = $this->view->render($this, 'index');
 

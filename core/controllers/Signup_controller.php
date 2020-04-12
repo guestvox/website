@@ -422,7 +422,7 @@ class Signup_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox');
+			define('_title', 'GuestVox | {$lang.signup}');
 
 			$template = $this->view->render($this, 'index');
 
@@ -467,7 +467,7 @@ class Signup_controller extends Controller
 
 	public function validate($params)
 	{
-		define('_title', 'GuestVox');
+		define('_title', 'GuestVox | {$lang.signup}');
 
 		$template = $this->view->render($this, 'validate');
 

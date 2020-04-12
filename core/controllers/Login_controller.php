@@ -94,7 +94,7 @@ class Login_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox');
+			define('_title', 'GuestVox | {$lang.login}');
 
 			$template = $this->view->render($this, 'index');
 

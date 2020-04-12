@@ -13,7 +13,7 @@ class Voxes_controller extends Controller
 
 	public function index()
 	{
-		define('_title', 'GuestVox');
+		define('_title', 'GuestVox | {$lang.voxes}');
 
 		$template = $this->view->render($this, 'index');
 

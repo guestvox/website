@@ -11,7 +11,7 @@ class Terms_controller extends Controller
 
     public function index()
     {
-        define('_title', 'GuestVox | {$lang.we_are_guestvox}');
+        define('_title', 'GuestVox | {$lang.terms_and_conditions}');
 
         $template = $this->view->render($this, 'index');
 

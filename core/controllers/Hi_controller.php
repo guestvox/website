@@ -90,7 +90,7 @@ class Hi_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox | {$lang.we_are_guestvox}');
+			define('_title', 'GuestVox | {$lang.operation} | {$lang.we_are_guestvox}');
 
 			$template = $this->view->render($this, 'operation');
 
@@ -179,7 +179,7 @@ class Hi_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox | {$lang.we_are_guestvox}');
+			define('_title', 'GuestVox | {$lang.reputation} | {$lang.we_are_guestvox}');
 
 			$template = $this->view->render($this, 'reputation');
 
