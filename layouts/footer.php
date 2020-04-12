@@ -3,7 +3,7 @@
             <div class="content">
                 <main>
                     <figure>
-                        <img src="{$path.images}check_white.png">
+                        <img src="{$path.images}success.png">
                     </figure>
                     <p></p>
                 </main>
