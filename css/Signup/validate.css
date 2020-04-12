@@ -1,7 +1,5 @@
 
-/* Main
------------------------------------------------------------------------------- */
-main.landing-page-validate {
+main.signup-validate {
     width: 100%;
     height: 100vh;
     display: flex;
@@ -14,8 +12,8 @@ main.landing-page-validate {
     background-color: #fff;
 }
 
-main.landing-page-validate > figure,
-main.landing-page-validate > figure > img {
+main.signup-validate > figure,
+main.signup-validate > figure > img {
     width: auto;
     height: 150px;
     line-height: 0px;
@@ -23,7 +21,7 @@ main.landing-page-validate > figure > img {
     padding: 0px;
 }
 
-main.landing-page-validate > p {
+main.signup-validate > p {
     margin: 40px 0px;
     font-size: 24px;
     font-weight: 600;
@@ -33,11 +31,11 @@ main.landing-page-validate > p {
     color: #757575;
 }
 
-main.landing-page-validate > p > strong {
+main.signup-validate > p > strong {
     color: #000;
 }
 
-main.landing-page-validate > figure:last-child {
+main.signup-validate > figure:last-child {
     width: auto;
     display: flex;
     align-items: center;
@@ -45,12 +43,12 @@ main.landing-page-validate > figure:last-child {
     flex-direction: column;
 }
 
-main.landing-page-validate > figure:last-child > img {
+main.signup-validate > figure:last-child > img {
     width: 40px;
     height: 40px;
 }
 
-main.landing-page-validate > figure:last-child > span {
+main.signup-validate > figure:last-child > span {
     font-size: 12px;
     font-weight: 400;
     color: #757575;

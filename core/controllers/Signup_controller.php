@@ -279,7 +279,7 @@ class Signup_controller extends Controller
 							            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
 							                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
 												<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail1_text . '</p>
-							                    <a style="width:100%;display:block;margin:15px 0px 10px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/signup/validate/account/' . $query['account'] . '">' . $mail1_btn . '</a>
+							                    <a style="width:100%;display:block;margin:15px 0px 10px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/signup/validate/account/' . $_POST['path'] . '">' . $mail1_btn . '</a>
 							                    <a style="width:100%;display:block;margin:0px 0px 20px 0px;padding:0px;box-sizing:border-box;font-size:12px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms">' . $mail1_terms . '</a>
 							                </td>
 							            </tr>
@@ -346,7 +346,7 @@ class Signup_controller extends Controller
 							            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
 							                <td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
 												<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail2_text . '</p>
-							                    <a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/signup/validate/user/' . $query['user'] . '">' . $mail2_btn . '</a>
+							                    <a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/signup/validate/user/' . $_POST['email'] . '">' . $mail2_btn . '</a>
 							                </td>
 							            </tr>
 							            <tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
@@ -498,13 +498,13 @@ class Signup_controller extends Controller
 								{
 									$mail_subject = 'Tu correo electrónico ha sido validado';
 									$mail_text = '¡<strong>Felicidades</strong>! Tu correo electrónico fue validado correctamente y tu cuenta ya ha sido activada ¡Bienvenido a GuestVox!';
-									$mail_btn = 'Ir a GuestVox';
+									$mail_btn = 'Inicia sesión';
 								}
 								else if ($query['language'] == 'en')
 								{
 									$mail_subject = 'Your email has been validated';
 									$mail_text = '¡<strong>Congratulations</strong>! Your email was validated correctly and you account has been activated ¡Welcome to GuestVox!';
-									$mail_btn = 'Go to GuestVox';
+									$mail_btn = 'Login';
 								}
 							}
 							else if ($params[0] == 'user')
@@ -513,13 +513,13 @@ class Signup_controller extends Controller
 								{
 									$mail_subject = 'Tu correo electrónico ha sido validado';
 									$mail_text = '¡<strong>Felicidades</strong>! Tu correo electrónico fue validado correctamente y tu usuario ya ha sido activado ¡Bienvenido a GuestVox!';
-									$mail_btn = 'Ir a GuestVox';
+									$mail_btn = 'Inicia sesión';
 								}
 								else if ($query['language'] == 'en')
 								{
 									$mail_subject = 'Your email has been validated';
 									$mail_text = '¡<strong>Congratulations</strong>! Your email was validated correctly and you user has been activated ¡Welcome to GuestVox!';
-									$mail_btn = 'Go to GuestVox';
+									$mail_btn = 'Login';
 								}
 							}
 
@@ -550,7 +550,7 @@ class Signup_controller extends Controller
 										<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
 											<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
 												<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_text . '</p>
-												<a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '">' . $mail_btn . '</a>
+												<a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/login">' . $mail_btn . '</a>
 											</td>
 										</tr>
 										<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">

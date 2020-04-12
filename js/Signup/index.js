@@ -229,7 +229,7 @@ $(document).ready(function()
                     if (step == 6)
                     {
                         $('#success').html(response.message);
-                        setTimeout(function() { location.reload(); }, 8000);
+                        setTimeout(function() { window.location.href = '/login'; }, 8000);
                     }
                 }
                 else if (response.status == 'error')

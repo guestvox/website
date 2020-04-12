@@ -495,12 +495,7 @@ class Signup_model extends Model
 			'status' => false
 		]);
 
-		$user = $this->database->id();
-
-		return [
-			'account' => $account,
-			'user' => $user
-		];
+		return true;
 	}
 
 	public function new_validation($data)
@@ -508,12 +503,13 @@ class Signup_model extends Model
 		if ($data[0] == 'account')
 		{
 			$query = Functions::get_json_decoded_query($this->database->select('accounts', [
+				'id',
 				'name',
 				'language',
 				'contact',
 				'status'
 			], [
-				'id' => $data[1]
+				'path' => $data[1]
 			]));
 
 			if (!empty($query))
@@ -523,7 +519,7 @@ class Signup_model extends Model
 					$this->database->update('accounts', [
 						'status' => true
 					], [
-						'id' => $data[1]
+						'id' => $query[0]['id']
 					]);
 				}
 			}
@@ -535,6 +531,7 @@ class Signup_model extends Model
 					'account' => 'id'
 				]
 			], [
+				'users.id',
 				'users.firstname',
 				'users.lastname',
 				'users.email',
@@ -542,7 +539,7 @@ class Signup_model extends Model
 				'users.status',
 				'accounts.language'
 			], [
-				'users.id' => $data[1]
+				'users.email' => $data[1]
 			]);
 
 			if (!empty($query))
@@ -552,7 +549,7 @@ class Signup_model extends Model
 					$this->database->update('users', [
 						'status' => true
 					], [
-						'id' => $data[1]
+						'id' => $query[0]['id']
 					]);
 				}
 			}

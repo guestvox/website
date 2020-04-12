@@ -14,7 +14,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
         <h3>{$lang.and_start_free_demo}</h3>
         <div class="steps">
             <div class="step-buttons">
-                <a class="view"><img src="{$path.images}icon-white.svg" alt="GuestVox icontype"></a>
+                <a class="view"><img src="{$path.images}icon-white.svg" alt="GuestVox"></a>
                 <a class="view" data-step="1">1</a>
                 <a data-step="2">2</a>
                 <a data-step="3">3</a>
@@ -146,7 +146,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         <div class="uploader">
                             <fieldset>
                                 <figure>
-                                    <img src="{$path.images}empty.png" alt="Account logotype">
+                                    <img src="{$path.images}empty.png" alt="Account">
                                     <a><i class="fas fa-upload"></i></a>
                                     <input type="file" name="logotype" accept="image/*">
                                 </figure>
@@ -275,7 +275,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                             <fieldset>
                                 <label>
                                     <figure>
-                                        <img src="{$path.images}mastercard_visa.png" alt="Payment logotype">
+                                        <img src="{$path.images}signup/mastercard_visa.png" alt="">
                                     </figure>
                                     <input type="radio" name="payment" value="card" checked>
                                 </label>
@@ -283,7 +283,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                             <fieldset>
                                 <label>
                                     <figure>
-                                        <img src="{$path.images}mercado_pago.png" alt="Payment logotype">
+                                        <img src="{$path.images}signup/mercado_pago.png" alt="">
                                     </figure>
                                     <input type="radio" name="payment" value="mercado_pago">
                                 </label>
@@ -291,7 +291,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                             <fieldset>
                                 <label>
                                     <figure>
-                                        <img src="{$path.images}paypal.png" alt="Payment logotype">
+                                        <img src="{$path.images}signup/paypal.png" alt="">
                                     </figure>
                                     <input type="radio" name="payment" value="paypal">
                                 </label>
@@ -311,14 +311,14 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                     <div class="span6">
                         <div class="success">
                             <figure>
-                                <img src="{$path.images}check_color.png" alt="Check icon">
+                                <img src="{$path.images}signup/check.png" alt="Icon">
                             </figure>
                             <p id="success"></p>
                         </div>
                     </div>
                 </div>
                 <figure>
-                    <img src="{$path.images}load.gif" alt="Load gif">
+                    <img src="{$path.images}signup/load.gif" alt="Icon">
                     <span>{$lang.redirect_to} <?php echo Configuration::$domain; ?></span>
                 </figure>
             </div>
