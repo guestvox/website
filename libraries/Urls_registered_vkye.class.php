@@ -30,8 +30,12 @@ class Urls_registered_vkye
                 'method' => 'index'
             ],
             '/terms-and-conditions' => [
-                'controller' => 'Terms',
-                'method' => 'index'
+                'controller' => 'Policies',
+                'method' => 'terms'
+            ],
+            '/privacy-policies' => [
+                'controller' => 'Policies',
+                'method' => 'privacy'
             ],
             '/%param%/myvox' => [
                 'controller' => 'Myvox',

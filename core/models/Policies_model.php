@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-class Terms_model extends Model
+class Policies_model extends Model
 {
 	public function __construct()
 	{
