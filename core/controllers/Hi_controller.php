@@ -75,14 +75,14 @@ class Hi_controller extends Controller
 						</head>
 						<body>
 							<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
-								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 										<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
 											<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/hi/operation/logotype-color.png" />
 										</figure>
 									</td>
 								</tr>
-								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 										<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#fff;">' . $mail2->Subject . '</h4>
 										<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">¡Muchas gracias por ponerte en contacto con nosotros! En breve uno de nuestros asesores se pondrá en contacto contigo.</p>
@@ -189,14 +189,14 @@ class Hi_controller extends Controller
 						</head>
 						<body>
 							<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
-								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 										<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
 											<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/hi/reputation/logotype-color.png" />
 										</figure>
 									</td>
 								</tr>
-								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 										<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#fff;">' . $mail2->Subject . '</h4>
 										<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">¡Muchas gracias por ponerte en contacto con nosotros! En breve uno de nuestros asesores se pondrá en contacto contigo.</p>
@@ -289,7 +289,7 @@ class Hi_controller extends Controller
 						$mail2->setFrom('contacto@guestvox.com', 'GuestVox');
 						$mail2->addAddress($_POST['email'], $_POST['name']);
 						$mail2->isHTML(true);
-						$mail2->Subject = '¡Gracias por registrarte a nuestro Webinar!';
+						$mail2->Subject = '¡Gracias por registrarte al Webinar!';
 						$mail2->Body =
 						'<html>
 							<head>
@@ -310,7 +310,7 @@ class Hi_controller extends Controller
 											<figure style="width:100%;margin:0px 0px 50px 0px;padding:0px;text-align:center;">
 												<img style="width:100%;" src="https://' . Configuration::$domain . '/images/hi/webinar/' . $webinar['image'] . '" />
 											</figure>
-											<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#fff;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#00a5ab;" href="' . $webinar['link'] . '">Ir a nuestro Webinar</a>
+											<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#fff;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#00a5ab;" href="' . $webinar['link'] . '">Ir al Webinar</a>
 										</td>
 									</tr>
 									<tr style="width:100%;margin:0px;padding:0px;border:0px;">
@@ -358,12 +358,12 @@ class Hi_controller extends Controller
 
 			if ($webinar['status'] == true)
 			{
-				$btn_signup .= '<a data-button-modal="signup">Registrate</a>';
+				$btn_signup .= '<a data-button-modal="signup">Regístrate</a>';
 				$mdl_signup .=
 				'<section class="modal" data-modal="signup">
 				    <div class="content">
 				        <header>
-				            <h3>Registrate a nuestro Webinar</h3>
+				            <h3>Regístrate al Webinar</h3>
 				        </header>
 				        <main>
 				            <form name="signup">
@@ -414,7 +414,7 @@ class Hi_controller extends Controller
 			}
 
 			$replace = [
-				'{$image}' => '{$path.images}hi/webinar/' . $webinar['image'],
+				'{$image}' => $webinar['image'],
 				'{$status}' => ($webinar['status'] == true) ? 'Faltan' : 'Cerrado',
 				'{$date}' => Functions::get_formatted_date_hour($webinar['date'], $webinar['hour']),
 				'{$btn_signup}' => $btn_signup,

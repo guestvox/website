@@ -9,8 +9,9 @@ $this->dependencies->add(['js', '{$path.js}Hi/webinar.js']);
 
 <main class="landing-page-webinar">
     <figure>
-        <img src="{$image}" alt="Background">
+        <img src="{$path.images}hi/webinar/{$image}" alt="Background">
     </figure>
+    {$btn_signup}
     <h1>{$status}</h1>
     <ul id="countdown" data-date="{$date}">
         <li><strong id="days"></strong>Días</li>
@@ -18,7 +19,6 @@ $this->dependencies->add(['js', '{$path.js}Hi/webinar.js']);
         <li><strong id="minutes"></strong>Minutos</li>
         <li><strong id="seconds"></strong>Segundos</li>
     </ul>
-    {$btn_signup}
     <figure>
         <img src="{$path.images}hi/webinar/background.png" alt="Background">
     </figure>
