@@ -95,12 +95,7 @@ main.landing-page-operation > section.main > header.cover {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#00e5ff+0,00a5ab+100 */
-    background: rgb(0,229,255); /* Old browsers */
-    background: -moz-linear-gradient(-45deg,  rgba(0,229,255,1) 0%, rgba(0,165,171,1) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(-45deg,  rgba(0,229,255,1) 0%,rgba(0,165,171,1) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(135deg,  rgba(0,229,255,1) 0%,rgba(0,165,171,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e5ff', endColorstr='#00a5ab',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    background-color: #00a5ab;
 }
 
 main.landing-page-operation > section.main > header.cover::before,
@@ -220,7 +215,7 @@ main.landing-page-operation > section.main .boxes > .box {
     position: relative;
     box-sizing: border-box;
     padding: 50px 30px;
-    background-color: #00a5ab;
+    background-color: #eee;
     border-radius: 7px;
     display: -webkit-box;
     display: flex;
@@ -263,7 +258,7 @@ main.landing-page-operation > section.main .boxes > .box > h4 {
     text-align: center;
     position: relative;
     font-size: 18px;
-    color: #FFF;
+    color: #757575;
 }
 
 main.landing-page-operation > section.main .double-section {
@@ -425,14 +420,9 @@ main.landing-page-operation > section.main #screenshots .item > a {
 
 section.call-to-action {
     position: relative;
-    background-color: #03a9f4;
+    background-color: #00a5ab;
     padding: 50px 0;
-    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#00e5ff+0,00a5ab+100 */
-    background: rgb(0,229,255); /* Old browsers */
-    background: -moz-linear-gradient(-45deg,  rgba(0,229,255,1) 0%, rgba(0,165,171,1) 100%); /* FF3.6-15 */
-    background: -webkit-linear-gradient(-45deg,  rgba(0,229,255,1) 0%,rgba(0,165,171,1) 100%); /* Chrome10-25,Safari5.1-6 */
-    background: linear-gradient(135deg,  rgba(0,229,255,1) 0%,rgba(0,165,171,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e5ff', endColorstr='#00a5ab',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    background-color: #eee;
 }
 
 section.call-to-action > .container {
@@ -452,7 +442,7 @@ section.call-to-action > .container > .content h4 {
     position: relative;
     margin: 0;
     font-weight: bold;
-    color: inherit;
+    color: #757575;
     font-size: 30px;
 }
 
@@ -547,7 +537,7 @@ main.landing-page-operation > footer.main > .container > ul.social_media > li > 
 }
 
 @media (max-width: 767px) {
-    
+
 	main.landing-page-operation > header.topbar > figure {
 		width: 100px;
 	}

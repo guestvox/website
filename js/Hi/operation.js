@@ -27,40 +27,34 @@ $(document).ready(function()
 
     $('[name="type"]').on('change', function()
     {
-        $('[name="rooms"]').val('');
-        $('[name="tables"]').val('');
-
         if ($(this).val() == 'hotel' || $(this).val() == 'restaurant')
         {
             $(this).parent().parent().parent().removeClass('span12');
             $(this).parent().parent().parent().addClass('span8');
+            $('[name="owners"]').parent().parent().parent().removeClass('hidden');
 
             if ($(this).val() == 'hotel')
-            {
-                $('[name="rooms"]').parent().parent().parent().removeClass('hidden');
-                $('[name="tables"]').parent().parent().parent().addClass('hidden');
-            }
-            else if ($(this).val() == 'restaurant')
-            {
-                $('[name="rooms"]').parent().parent().parent().addClass('hidden');
-                $('[name="tables"]').parent().parent().parent().removeClass('hidden');
-            }
+                $('[name="owners"]').parent().find('p').html('N. de habitaciones');
+            else
+                $('[name="owners"]').parent().find('p').html('N. de mesas');
         }
         else
         {
             $(this).parent().parent().parent().removeClass('span8');
             $(this).parent().parent().parent().addClass('span12');
-            $('[name="rooms"]').parent().parent().parent().addClass('hidden');
-            $('[name="tables"]').parent().parent().parent().addClass('hidden');
+            $('[name="owners"]').parent().parent().parent().addClass('hidden');
+            $('[name="owners"]').parent().find('p').html('');
         }
+
+        $('[name="owners"]').val('');
     });
 
     $('[data-modal="contact"]').modal().onCancel(function()
     {
         $('[name="type"]').parent().parent().parent().removeClass('span8');
         $('[name="type"]').parent().parent().parent().addClass('span12');
-        $('[name="rooms"]').parent().parent().parent().addClass('hidden');
-        $('[name="tables"]').parent().parent().parent().addClass('hidden');
+        $('[name="owners"]').parent().parent().parent().addClass('hidden');
+        $('[name="owners"]').parent().find('p').html('');
         $('[data-modal="contact"]').find('form')[0].reset();
         $('[data-modal="contact"]').find('label.error').removeClass('error');
         $('[data-modal="contact"]').find('p.error').remove();

@@ -101,52 +101,21 @@ class Signup_model extends Model
 		return array_merge($query1, $query2);
 	}
 
-	public function get_room_package($rooms_number)
+	public function get_packages($type, $number, $id = false)
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('room_packages', [
+		$query = Functions::get_json_decoded_query($this->database->select('packages', [
 			'id',
 			'quantity_end',
 			'price'
 		], [
 			'AND' => [
-				'quantity_start[<=]' => $rooms_number,
-				'quantity_end[>=]' => $rooms_number
+				'quantity_start[<=]' => $number,
+				'quantity_end[>=]' => $number,
+				'type' => $type
 			]
 		]));
 
-		return !empty($query) ? $query[0] : null;
-	}
-
-	public function get_table_package($tables_number)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('table_packages', [
-			'id',
-			'quantity_end',
-			'price'
-		], [
-			'AND' => [
-				'quantity_start[<=]' => $tables_number,
-				'quantity_end[>=]' => $tables_number
-			]
-		]));
-
-		return !empty($query) ? $query[0] : null;
-	}
-
-	public function get_client_package($clients_number)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('client_packages', [
-			'id',
-			'quantity_end',
-			'price'
-		], [
-			'AND' => [
-				'quantity_start[<=]' => $clients_number,
-				'quantity_end[>=]' => $clients_number
-			]
-		]));
-
-		return !empty($query) ? $query[0] : null;
+		return !empty($query) ? (($id == true) ? $query[0]['id'] : $query[0]) : null;
 	}
 
 	public function check_exist_account($field, $value)
@@ -190,9 +159,7 @@ class Signup_model extends Model
 			'time_zone' => $data['time_zone'],
 			'currency' => $data['currency'],
 			'language' => $data['language'],
-			'room_package' => ($data['type'] == 'hotel') ? $this->get_room_package($data['rooms_number'])['id'] : null,
-			'table_package' => ($data['type'] == 'restaurant') ? $this->get_table_package($data['tables_number'])['id'] : null,
-			'client_package' => ($data['type'] == 'others') ? $this->get_client_package($data['clients_number'])['id'] : null,
+			'package' => $this->get_packages($data['tyoe'], $data['owners_number'], true),
 			'logotype' => Functions::uploader($data['logotype']),
 			'fiscal' => json_encode([
 				'id' => strtoupper($data['fiscal_id']),

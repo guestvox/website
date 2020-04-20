@@ -88,6 +88,10 @@ figure.logotype {
     padding-top: 20px;
 }
 
+figure.logotype > img {
+    width: 100%;
+}
+
 main.landing-page-reputation,
 main.landing-page-reputation > section {
     position: relative;

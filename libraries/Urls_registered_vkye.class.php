@@ -21,6 +21,10 @@ class Urls_registered_vkye
                 'controller' => 'Hi',
                 'method' => 'reputation'
             ],
+            '/webinar' => [
+                'controller' => 'Hi',
+                'method' => 'webinar'
+            ],
             '/about-us' => [
                 'controller' => 'About',
                 'method' => 'index'

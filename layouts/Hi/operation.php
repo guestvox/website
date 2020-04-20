@@ -15,7 +15,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
 <main class="landing-page-operation">
     <header class="topbar">
         <figure>
-            <img src="{$path.images}logotype-white.png" alt="GuestVox">
+            <img src="{$path.images}hi/operation/logotype-white.png" alt="GuestVox">
         </figure>
         <nav>
             <ul>
@@ -191,16 +191,8 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
                     <div class="span4 hidden">
                         <div class="label">
                             <label>
-                                <p>Número de habitaciones</p>
-                                <input type="number" name="rooms" />
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span4 hidden">
-                        <div class="label">
-                            <label>
-                                <p>Número de mesas</p>
-                                <input type="number" name="tables" />
+                                <p></p>
+                                <input type="number" name="owners" />
                             </label>
                         </div>
                     </div>

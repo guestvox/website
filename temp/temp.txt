@@ -1,0 +1,1 @@
+$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);

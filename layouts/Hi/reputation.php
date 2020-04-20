@@ -19,7 +19,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
     <section id="section-one" class="gradient hand-background">
         <div class="container">
             <figure class="logotype">
-                <img src="{$path.images}hi/reputation/logotype.svg" alt="GuestVox">
+                <img src="{$path.images}hi/reputation/logotype-color.png" alt="GuestVox">
             </figure>
             <div class="content">
                 <h3>Conoce la opinión de tus consumidores</h3>
@@ -117,7 +117,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
             </div>
             <div class="content">
                 <figure class="logotype">
-                    <img src="{$path.images}hi/reputation/logotype.svg" alt="GuestVox">
+                    <img src="{$path.images}hi/reputation/logotype-color.png" alt="GuestVox">
                 </figure>
                 <a href="https://facebook.com/guestvox" class="social-media fb-logo" target="_blank">FB</a>
                 <a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" class="social-media yt-logo" target="_blank">YT</a>
@@ -159,16 +159,8 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
                     <div class="span4 hidden">
                         <div class="label">
                             <label>
-                                <p>Número de habitaciones</p>
-                                <input type="number" name="rooms" />
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span4 hidden">
-                        <div class="label">
-                            <label>
-                                <p>Número de mesas</p>
-                                <input type="number" name="tables" />
+                                <p></p>
+                                <input type="number" name="owners" />
                             </label>
                         </div>
                     </div>

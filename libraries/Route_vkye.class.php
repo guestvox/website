@@ -22,6 +22,7 @@ class Route_vkye
             '/Index/index',
             '/Hi/operation',
             '/Hi/reputation',
+            '/Hi/webinar',
             '/About/index',
             '/Terms/index',
             '/Myvox/index',

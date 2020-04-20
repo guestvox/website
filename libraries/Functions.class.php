@@ -4,11 +4,6 @@ defined('_EXEC') or die;
 
 class Functions
 {
-    public function __construct()
-    {
-        
-    }
-
     static public function set_default_timezone()
     {
         if (Session::exists_var('session') == true)

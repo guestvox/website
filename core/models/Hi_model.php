@@ -8,4 +8,35 @@ class Hi_model extends Model
 	{
 		parent::__construct();
 	}
+
+	public function get_webinar()
+	{
+		$query = $this->database->select('webinars', [
+			'id',
+			'image',
+			'link',
+			'date',
+			'hour',
+			'status'
+		], [
+			'id' => 1
+		]);
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function new_webinar_signup($data)
+	{
+		$query = $this->database->insert('webinars_records', [
+			'webinar' => $data['webinar'],
+			'name' => $data['name'],
+			'email' => $data['email'],
+			'company' => $data['company'],
+			'job' => $data['job'],
+			'date' => Functions::get_current_date(),
+			'hour' => Functions::get_current_hour()
+		]);
+
+		return $query;
+	}
 }
