@@ -4,8 +4,6 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.css}Hi/webinar.css']);
 $this->dependencies->add(['js', '{$path.js}Hi/webinar.js']);
-$this->dependencies->add(['js', '{$path.plugins}moment/moment.min.js']);
-$this->dependencies->add(['js', '{$path.plugins}moment/moment-timezone-with-data.min.js']);
 
 ?>
 

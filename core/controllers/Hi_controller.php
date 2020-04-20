@@ -74,23 +74,23 @@ class Hi_controller extends Controller
 							<title>' . $mail2->Subject . '</title>
 						</head>
 						<body>
-							<table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
-								<tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
-									<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+							<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 										<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
 											<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/hi/operation/logotype-color.png" />
 										</figure>
 									</td>
 								</tr>
-								<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
-									<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-										<h4 style="font-size:18px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail2->Subject . '</h4>
-										<p style="font-size:14px;font-weight:400;text-align:center;color:#757575;margin:0px;padding:0px;">¡Muchas gracias por ponerte en contacto con nosotros! En breve uno de nuestros asesores se pondrá en contacto contigo.</p>
+								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+										<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#fff;">' . $mail2->Subject . '</h4>
+										<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">¡Muchas gracias por ponerte en contacto con nosotros! En breve uno de nuestros asesores se pondrá en contacto contigo.</p>
 									</td>
 								</tr>
-								<tr style="width:100%;margin:0px;border:0px;padding:0px;">
-									<td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
-										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '/operacion">' . Configuration::$domain . '/operacion</a>
+								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+									<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/operacion">' . Configuration::$domain . '/operacion</a>
 									</td>
 								</tr>
 							</table>
@@ -188,23 +188,23 @@ class Hi_controller extends Controller
 							<title>' . $mail2->Subject . '</title>
 						</head>
 						<body>
-							<table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
-								<tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
-									<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+							<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 										<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
 											<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/hi/reputation/logotype-color.png" />
 										</figure>
 									</td>
 								</tr>
-								<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
-									<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-										<h4 style="font-size:18px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail2->Subject . '</h4>
-										<p style="font-size:14px;font-weight:400;text-align:center;color:#757575;margin:0px;padding:0px;">¡Muchas gracias por ponerte en contacto con nosotros! En breve uno de nuestros asesores se pondrá en contacto contigo.</p>
+								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+										<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#fff;">' . $mail2->Subject . '</h4>
+										<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">¡Muchas gracias por ponerte en contacto con nosotros! En breve uno de nuestros asesores se pondrá en contacto contigo.</p>
 									</td>
 								</tr>
-								<tr style="width:100%;margin:0px;border:0px;padding:0px;">
-									<td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
-										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '/reputacion">' . Configuration::$domain . '/reputacion</a>
+								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+									<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/reputacion">' . Configuration::$domain . '/reputacion</a>
 									</td>
 								</tr>
 							</table>
@@ -296,26 +296,26 @@ class Hi_controller extends Controller
 								<title>' . $mail2->Subject . '</title>
 							</head>
 							<body>
-								<table style="width:600px;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#eee">
-									<tr style="width:100%;margin:0px:margin-bottom:10px;border:0px;padding:0px;">
-										<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
+								<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+									<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+										<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 											<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
 												<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/hi/webinar/logotype-color.png" />
 											</figure>
 										</td>
 									</tr>
-									<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
-										<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
-											<h4 style="font-size:18px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail2->Subject . '</h4>
-											<figure style="width:100%;margin:0px;margin-bottom:20px;padding:0px;text-align:center;">
-												<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/hi/webinar/' . $webinar['image'] . '" />
+									<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+										<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#00a5ab;">
+											<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#fff;">' . $mail2->Subject . '</h4>
+											<figure style="width:100%;margin:0px 0px 50px 0px;padding:0px;text-align:center;">
+												<img style="width:100%;" src="https://' . Configuration::$domain . '/images/hi/webinar/' . $webinar['image'] . '" />
 											</figure>
-											<a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="' . $webinar['link'] . '">Ir a nuestro Webinar</a>
+											<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#fff;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#00a5ab;" href="' . $webinar['link'] . '">Ir a nuestro Webinar</a>
 										</td>
 									</tr>
-									<tr style="width:100%;margin:0px;border:0px;padding:0px;">
-										<td style="width:100%;margin:0px;border:0px;padding:20px;box-sizing:border-box;background-color:#fff;">
-											<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#201d33;" href="https://' . Configuration::$domain . '/webinar">' . Configuration::$domain . '/webinar</a>
+									<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+										<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+											<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/webinar">' . Configuration::$domain . '/webinar</a>
 										</td>
 									</tr>
 								</table>
@@ -327,7 +327,8 @@ class Hi_controller extends Controller
 
 					Functions::environment([
 						'status' => 'success',
-						'message' => '{$lang.operation_success}'
+						'message' => '{$lang.operation_success}',
+						'path' => $webinar['link']
 					]);
 				}
 				else
