@@ -26,43 +26,23 @@ $(document).ready(function()
     {
         $(this).parent().parent().removeClass('span6');
         $(this).parent().parent().addClass('span3');
-        $('[name="rooms_number"]').val('');
-        $('[name="tables_number"]').val('');
-        $('[name="clients_number"]').val('');
+
+        $('[name="owners_number"]').val('');
+        $('[name="owners_number"]').parent().parent().removeClass('hidden');
 
         if ($(this).val() == 'hotel')
-        {
-            $('[name="rooms_number"]').parent().parent().removeClass('hidden');
-            $('[name="tables_number"]').parent().parent().addClass('hidden');
-            $('[name="clients_number"]').parent().parent().addClass('hidden');
-        }
+            $('[name="owners_number"]').attr('placeholder', 'N. de habitaciones');
         else if ($(this).val() == 'restaurant')
-        {
-            $('[name="rooms_number"]').parent().parent().addClass('hidden');
-            $('[name="tables_number"]').parent().parent().removeClass('hidden');
-            $('[name="clients_number"]').parent().parent().addClass('hidden');
-        }
+            $('[name="owners_number"]').attr('placeholder', 'N. de mesas');
+        else if ($(this).val() == 'hospital')
+            $('[name="owners_number"]').attr('placeholder', 'N. de camas');
         else if ($(this).val() == 'others')
-        {
-            $('[name="rooms_number"]').parent().parent().addClass('hidden');
-            $('[name="tables_number"]').parent().parent().addClass('hidden');
-            $('[name="clients_number"]').parent().parent().removeClass('hidden');
-        }
+            $('[name="owners_number"]').attr('placeholder', 'N. de clientes');
 
         get_total();
     });
 
-    $('[name="rooms_number"]').on('change', function()
-    {
-        get_total();
-    });
-
-    $('[name="tables_number"]').on('change', function()
-    {
-        get_total();
-    });
-
-    $('[name="clients_number"]').on('change', function()
+    $('[name="owners_number"]').on('change', function()
     {
         get_total();
     });
@@ -229,7 +209,7 @@ $(document).ready(function()
                     if (step == 6)
                     {
                         $('#success').html(response.message);
-                        setTimeout(function() { window.location.href = '/login'; }, 8000);
+                        setTimeout(function() { window.location.href = '/'; }, 8000);
                     }
                 }
                 else if (response.status == 'error')

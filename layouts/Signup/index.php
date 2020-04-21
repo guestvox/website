@@ -43,23 +43,14 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                                     <option value="" selected hidden>{$lang.type}</option>
                                     <option value="hotel">{$lang.hotel}</option>
                                     <option value="restaurant">{$lang.restaurant}</option>
+                                    <option value="hospital">{$lang.hospital}</option>
                                     <option value="others">{$lang.others}</option>
                                 </select>
                             </fieldset>
                         </div>
                         <div class="span3 hidden">
                             <fieldset>
-                                <input type="number" name="rooms_number" placeholder="{$lang.n_rooms}" min="1">
-                            </fieldset>
-                        </div>
-                        <div class="span3 hidden">
-                            <fieldset>
-                                <input type="number" name="tables_number" placeholder="{$lang.n_tables}" min="1">
-                            </fieldset>
-                        </div>
-                        <div class="span3 hidden">
-                            <fieldset>
-                                <input type="number" name="clients_number" placeholder="{$lang.n_clients}" min="1">
+                                <input type="number" name="owners_number" min="1">
                             </fieldset>
                         </div>
                         <div class="span3">
@@ -319,7 +310,6 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                 </div>
                 <figure>
                     <img src="{$path.images}signup/load.gif" alt="Icon">
-                    <span>{$lang.redirect_to} <?php echo Configuration::$domain; ?></span>
                 </figure>
             </div>
         </div>

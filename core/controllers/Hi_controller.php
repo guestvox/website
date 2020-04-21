@@ -40,7 +40,8 @@ class Hi_controller extends Controller
 			{
 				$mail1 = new Mailer(true);
 
-				try {
+				try
+				{
 					$mail1->isSMTP();
 					$mail1->setFrom($_POST['email'], $_POST['contact']);
 					$mail1->addAddress('contacto@guestvox.com', 'GuestVox');
@@ -58,11 +59,13 @@ class Hi_controller extends Controller
 					'Número telefonico: ' . $_POST['phone'];
 					$mail1->AltBody = $mail1->Body;
 					$mail1->send();
-				} catch (Exception $e) {}
+				}
+				catch (Exception $e) {}
 
 				$mail2 = new Mailer(true);
 
-				try {
+				try
+				{
 					$mail2->isSMTP();
 					$mail2->setFrom('contacto@guestvox.com', 'GuestVox');
 					$mail2->addAddress($_POST['email'], $_POST['contact']);
@@ -98,7 +101,8 @@ class Hi_controller extends Controller
 					</html>';
 					$mail2->AltBody = $mail2->Body;
 					$mail2->send();
-				} catch (Exception $e) {}
+				}
+				catch (Exception $e) {}
 
 				Functions::environment([
 					'status' => 'success',
@@ -154,7 +158,8 @@ class Hi_controller extends Controller
 			{
 				$mail1 = new Mailer(true);
 
-				try {
+				try
+				{
 					$mail1->isSMTP();
 					$mail1->setFrom($_POST['email'], $_POST['contact']);
 					$mail1->addAddress('contacto@guestvox.com', 'GuestVox');
@@ -172,11 +177,13 @@ class Hi_controller extends Controller
 					'Número telefonico: ' . $_POST['phone'];
 					$mail1->AltBody = $mail1->Body;
 					$mail1->send();
-				} catch (Exception $e) {}
+				}
+				catch (Exception $e) {}
 
 				$mail2 = new Mailer(true);
 
-				try {
+				try
+				{
 					$mail2->isSMTP();
 					$mail2->setFrom('contacto@guestvox.com', 'GuestVox');
 					$mail2->addAddress($_POST['email'], $_POST['contact']);
@@ -212,7 +219,8 @@ class Hi_controller extends Controller
 					</html>';
 					$mail2->AltBody = $mail2->Body;
 					$mail2->send();
-				} catch (Exception $e) {}
+				}
+				catch (Exception $e) {}
 
 				Functions::environment([
 					'status' => 'success',
@@ -267,7 +275,8 @@ class Hi_controller extends Controller
 				{
 					$mail1 = new Mailer(true);
 
-					try {
+					try
+					{
 						$mail1->isSMTP();
 						$mail1->setFrom($_POST['email'], $_POST['name']);
 						$mail1->addAddress('contacto@guestvox.com', 'GuestVox');
@@ -280,11 +289,13 @@ class Hi_controller extends Controller
 						'Puesto: ' . $_POST['job'];
 						$mail1->AltBody = $mail1->Body;
 						$mail1->send();
-					} catch (Exception $e) {}
+					}
+					catch (Exception $e) {}
 
 					$mail2 = new Mailer(true);
 
-					try {
+					try
+					{
 						$mail2->isSMTP();
 						$mail2->setFrom('contacto@guestvox.com', 'GuestVox');
 						$mail2->addAddress($_POST['email'], $_POST['name']);
@@ -323,7 +334,8 @@ class Hi_controller extends Controller
 						</html>';
 						$mail2->AltBody = $mail2->Body;
 						$mail2->send();
-					} catch (Exception $e) {}
+					}
+					catch (Exception $e) {}
 
 					Functions::environment([
 						'status' => 'success',

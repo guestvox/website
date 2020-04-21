@@ -29,7 +29,7 @@ class Route_vkye
             '/Myvox/index',
             '/Reviews/index',
             '/Signup/index',
-            '/Signup/validate',
+            '/Signup/activate',
             '/Login/index',
             '/Api/execute'
         ];

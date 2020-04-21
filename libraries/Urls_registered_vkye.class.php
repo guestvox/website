@@ -53,9 +53,9 @@ class Urls_registered_vkye
                 'controller' => 'Signup',
                 'method' => 'index'
             ],
-            '/signup/validate/%param%/%param%' => [
+            '/activate/%param%/%param%' => [
                 'controller' => 'Signup',
-                'method' => 'validate'
+                'method' => 'activate'
             ],
             '/login' => [
                 'controller' => 'Login',

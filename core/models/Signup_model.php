@@ -101,7 +101,7 @@ class Signup_model extends Model
 		return array_merge($query1, $query2);
 	}
 
-	public function get_packages($type, $number, $id = false)
+	public function get_package($type, $number)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('packages', [
 			'id',
@@ -115,7 +115,7 @@ class Signup_model extends Model
 			]
 		]));
 
-		return !empty($query) ? (($id == true) ? $query[0]['id'] : $query[0]) : null;
+		return !empty($query) ? $query[0] : null;
 	}
 
 	public function check_exist_account($field, $value)
@@ -159,7 +159,7 @@ class Signup_model extends Model
 			'time_zone' => $data['time_zone'],
 			'currency' => $data['currency'],
 			'language' => $data['language'],
-			'package' => $this->get_packages($data['tyoe'], $data['owners_number'], true),
+			'package' => $this->get_package($data['type'], $data['owners_number'])['id'],
 			'logotype' => Functions::uploader($data['logotype']),
 			'fiscal' => json_encode([
 				'id' => strtoupper($data['fiscal_id']),
@@ -386,36 +386,13 @@ class Signup_model extends Model
 			'ids' => []
 		];
 
-		if ($data['type'] == 'hotel')
-		{
-			$data['user_permissions']['ids'] = [
-				'["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","13","14","15","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]',
-				'["46","47","25","39","41","38","26","1","2","3"]',
-				'["46","47","25","39","41","38","28","1","2","3"]',
-				'["46","47","39","41","38","28","1","2","3"]',
-				'["27","1","2","3"]'
-			];
-		}
-		else if ($data['type'] == 'restaurant')
-		{
-			$data['user_permissions']['ids'] = [
-				'["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","51","52","53","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]',
-				'["46","47","25","39","41","38","26","1","2","3"]',
-				'["46","47","25","39","41","38","28","1","2","3"]',
-				'["46","47","39","41","38","28","1","2","3"]',
-				'["27","1","2","3"]'
-			];
-		}
-		else if ($data['type'] == 'others')
-		{
-			$data['user_permissions']['ids'] = [
-				'["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","54","55","56","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]',
-				'["46","47","25","39","41","38","26","1","2","3"]',
-				'["46","47","25","39","41","38","28","1","2","3"]',
-				'["46","47","39","41","38","28","1","2","3"]',
-				'["27","1","2","3"]'
-			];
-		}
+		$data['user_permissions']['ids'] = [
+			'["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","13","14","15","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]',
+			'["46","47","25","39","41","38","26","1","2","3"]',
+			'["46","47","25","39","41","38","28","1","2","3"]',
+			'["46","47","39","41","38","28","1","2","3"]',
+			'["27","1","2","3"]'
+		];
 
 		$this->database->insert('user_levels', [
 			[
@@ -465,13 +442,12 @@ class Signup_model extends Model
 		return true;
 	}
 
-	public function new_validation($data)
+	public function new_activation($data)
 	{
 		if ($data[0] == 'account')
 		{
 			$query = Functions::get_json_decoded_query($this->database->select('accounts', [
 				'id',
-				'name',
 				'language',
 				'contact',
 				'status'
@@ -502,7 +478,6 @@ class Signup_model extends Model
 				'users.firstname',
 				'users.lastname',
 				'users.email',
-				'users.username',
 				'users.status',
 				'accounts.language'
 			], [
