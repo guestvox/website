@@ -47,16 +47,35 @@ class Surveys_controller extends Controller
 
 					if ($value['type'] == 'rate')
 					{
-						$data .=
-						'<div>
-						   <label><i class="far fa-thumbs-down"></i></label>
-						   <label><input type="radio" disabled></label>
-						   <label><input type="radio" disabled></label>
-						   <label><input type="radio" disabled></label>
-						   <label><input type="radio" disabled></label>
-						   <label><input type="radio" disabled></label>
-						   <label><i class="far fa-thumbs-up"></i></label>
-						</div>';
+						if ($value['system'] == true)
+						{
+							$data .=
+							'<div>
+							   <label><i style="font-size:18px;">1</i><input type="radio" name="prs-' . $value['id'] . '" value="1"></label>
+							   <label><i style="font-size:18px;">2</i><input type="radio" name="prs-' . $value['id'] . '" value="2"></label>
+							   <label><i style="font-size:18px;">3</i><input type="radio" name="prs-' . $value['id'] . '" value="3"></label>
+							   <label><i style="font-size:18px;">4</i><input type="radio" name="prs-' . $value['id'] . '" value="4"></label>
+							   <label><i style="font-size:18px;">5</i><input type="radio" name="prs-' . $value['id'] . '" value="5"></label>
+							   <label><i style="font-size:18px;">6</i><input type="radio" name="prs-' . $value['id'] . '" value="6"></label>
+							   <label><i style="font-size:18px;">7</i><input type="radio" name="prs-' . $value['id'] . '" value="7"></label>
+							   <label><i style="font-size:18px;">8</i><input type="radio" name="prs-' . $value['id'] . '" value="8"></label>
+							   <label><i style="font-size:18px;">9</i><input type="radio" name="prs-' . $value['id'] . '" value="9"></label>
+							   <label><i style="font-size:18px;">10</i><input type="radio" name="prs-' . $value['id'] . '" value="10"></label>
+							</div>';
+						}
+						else
+						{
+							$data .=
+							'<div>
+							   <label><i class="far fa-thumbs-down"></i></label>
+							   <label><input type="radio" disabled></label>
+							   <label><input type="radio" disabled></label>
+							   <label><input type="radio" disabled></label>
+							   <label><input type="radio" disabled></label>
+							   <label><input type="radio" disabled></label>
+							   <label><i class="far fa-thumbs-up"></i></label>
+							</div>';
+						}
 					}
 					else if ($value['type'] == 'twin')
 					{
@@ -441,16 +460,32 @@ class Surveys_controller extends Controller
 
 			foreach ($this->model->get_survey_questions() as $value)
 			{
-				$tbl_survey_questions .=
-				'<tr data-level="1">
-					<td align="left">' . $value['name'][Session::get_value('account')['language']] . '</td>
-					<td align="left">{$lang.' . $value['type'] . '}</td>
-					<td align="left">' . (($value['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
-					' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true AND $value['type'] != 'open' AND $value['type'] != 'check') ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : '') . '</td>' : '') . '
-					' . ((Functions::check_user_access(['{survey_questions_delete}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="delete_survey_question" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
-					' . ((Functions::check_user_access(['{survey_questions_deactivate}','{survey_questions_activate}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
-					' . ((Functions::check_user_access(['{survey_questions_update}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="edit_survey_question" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a>' : '') . '</td>' : '') . '
-				</tr>';
+				if ($value['system'] == true)
+				{
+					$tbl_survey_questions .=
+					'<tr data-level="1">
+						<td align="left">' . $value['name'][Session::get_value('account')['language']] . '</td>
+						<td align="left">{$lang.' . $value['type'] . '}</td>
+						<td align="left">' . (($value['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
+						<td align="right" class="icon"></td>
+						<td align="right" class="icon"></td>
+						<td align="right" class="icon"></td>
+						<td align="right" class="icon"></td>
+					</tr>';
+				}
+				else
+				{
+					$tbl_survey_questions .=
+					'<tr data-level="1">
+						<td align="left">' . $value['name'][Session::get_value('account')['language']] . '</td>
+						<td align="left">{$lang.' . $value['type'] . '}</td>
+						<td align="left">' . (($value['status'] == true) ? '{$lang.active}' : '{$lang.deactive}') . '</td>
+						' . ((Functions::check_user_access(['{survey_questions_create}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true AND $value['type'] != 'open' AND $value['type'] != 'check') ? '<a data-action="new_survey_subquestion" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>' : '') . '</td>' : '') . '
+						' . ((Functions::check_user_access(['{survey_questions_delete}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="delete_survey_question" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a>' : '') . '</td>' : '') . '
+						' . ((Functions::check_user_access(['{survey_questions_deactivate}','{survey_questions_activate}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>' : '') . '
+						' . ((Functions::check_user_access(['{survey_questions_update}']) == true) ? '<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="edit_survey_question" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a>' : '') . '</td>' : '') . '
+					</tr>';
+				}
 
 				foreach ($value['subquestions'] as $subkey => $subvalue)
 				{
@@ -600,6 +635,21 @@ class Surveys_controller extends Controller
 						'<article>
 							<h6>' . $value['question'][Session::get_value('account')['language']] . '</h6>
 							<div>';
+
+						if ($value['type'] == 'nps')
+						{
+							$data .=
+							'<label><i style="font-size:18px;">1</i><input type="radio" ' . (($value['answer'] == 1) ? 'checked' : '') . ' disabled></label>
+						   <label><i style="font-size:18px;">2</i><input type="radio" ' . (($value['answer'] == 2) ? 'checked' : '') . ' disabled></label>
+						   <label><i style="font-size:18px;">3</i><input type="radio" ' . (($value['answer'] == 3) ? 'checked' : '') . ' disabled></label>
+						   <label><i style="font-size:18px;">4</i><input type="radio" ' . (($value['answer'] == 4) ? 'checked' : '') . ' disabled></label>
+						   <label><i style="font-size:18px;">5</i><input type="radio" ' . (($value['answer'] == 5) ? 'checked' : '') . ' disabled></label>
+						   <label><i style="font-size:18px;">6</i><input type="radio" ' . (($value['answer'] == 6) ? 'checked' : '') . ' disabled></label>
+						   <label><i style="font-size:18px;">7</i><input type="radio" ' . (($value['answer'] == 7) ? 'checked' : '') . ' disabled></label>
+						   <label><i style="font-size:18px;">8</i><input type="radio" ' . (($value['answer'] == 8) ? 'checked' : '') . ' disabled></label>
+						   <label><i style="font-size:18px;">9</i><input type="radio" ' . (($value['answer'] == 9) ? 'checked' : '') . ' disabled></label>
+						   <label><i style="font-size:18px;">10</i><input type="radio" ' . (($value['answer'] == 10) ? 'checked' : '') . ' disabled></label>';
+						}
 
 	                    if ($value['type'] == 'rate')
 						{

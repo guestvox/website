@@ -33,10 +33,27 @@ class Surveys_model extends Model
 			'subquestions',
 			'type',
 			'values',
-			'status'
+			'status',
+			'system'
+		], [
+			'AND' => [
+				'account' => null,
+			]
+		]));
+
+		$query2 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+			'id',
+			'name',
+			'subquestions',
+			'type',
+			'values',
+			'status',
+			'system'
 		], $where));
 
-		return $query;
+		$arr_question = array_merge($query, $query2);
+
+		return $arr_question;
 	}
 
 	public function get_survey_question($id)

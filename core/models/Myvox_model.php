@@ -348,12 +348,26 @@ class Myvox_model extends Model
 
     public function get_survey_questions($account)
     {
-        $query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+		$query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
             'id',
             'name',
 			'subquestions',
 			'type',
-			'values'
+			'values',
+			'system'
+        ], [
+            'AND' => [
+				'account' => null,
+			]
+        ]));
+
+        $query2 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+            'id',
+            'name',
+			'subquestions',
+			'type',
+			'values',
+			'system'
         ], [
             'AND' => [
 				'account' => $account,
@@ -361,7 +375,9 @@ class Myvox_model extends Model
 			]
         ]));
 
-     	return $query;
+		$arr_question = array_merge($query, $query2);
+
+     	return $arr_question;
     }
 
     public function new_request($data)

@@ -808,9 +808,11 @@ class Myvox_controller extends Controller
 						{
 							$explode = explode('-', $key);
 
-							if ($explode[0] == 'pr' OR $explode[0] == 'pt' OR $explode[0] == 'po' OR $explode[0] == 'pc')
+							if ($explode[0] == 'prs' OR $explode[0] == 'pr' OR $explode[0] == 'pt' OR $explode[0] == 'po' OR $explode[0] == 'pc')
 							{
-								if ($explode[0] == 'pr')
+								if ($explode[0] == 'prs')
+									$explode[0] = 'nps';
+								else if ($explode[0] == 'pr')
 									$explode[0] = 'rate';
 								else if ($explode[0] == 'pt')
 									$explode[0] = 'twin';
@@ -1422,14 +1424,33 @@ class Myvox_controller extends Controller
 
 							if ($value['type'] == 'rate')
 							{
-								$mdl_new_survey_answer .=
-								'<div class="rate">
-								   <label><i class="far fa-sad-cry" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="1" data-action="open_subquestion"></label>
-								   <label><i class="far fa-frown" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="2" data-action="open_subquestion"></label>
-								   <label><i class="far fa-meh-rolling-eyes" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="3" data-action="open_subquestion"></label>
-								   <label><i class="far fa-smile" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="4" data-action="open_subquestion"></label>
-								   <label><i class="far fa-grin-stars" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="5" data-action="open_subquestion"></label>
-								</div>';
+								if ($value['system'] == true)
+								{
+									$mdl_new_survey_answer .=
+									'<div class="rate">
+									   <label><i style="font-size:18px;">1</i><input type="radio" name="prs-' . $value['id'] . '" value="1"></label>
+									   <label><i style="font-size:18px;">2</i><input type="radio" name="prs-' . $value['id'] . '" value="2"></label>
+									   <label><i style="font-size:18px;">3</i><input type="radio" name="prs-' . $value['id'] . '" value="3"></label>
+									   <label><i style="font-size:18px;">4</i><input type="radio" name="prs-' . $value['id'] . '" value="4"></label>
+									   <label><i style="font-size:18px;">5</i><input type="radio" name="prs-' . $value['id'] . '" value="5"></label>
+									   <label><i style="font-size:18px;">6</i><input type="radio" name="prs-' . $value['id'] . '" value="6"></label>
+									   <label><i style="font-size:18px;">7</i><input type="radio" name="prs-' . $value['id'] . '" value="7"></label>
+									   <label><i style="font-size:18px;">8</i><input type="radio" name="prs-' . $value['id'] . '" value="8"></label>
+									   <label><i style="font-size:18px;">9</i><input type="radio" name="prs-' . $value['id'] . '" value="9"></label>
+									   <label><i style="font-size:18px;">10</i><input type="radio" name="prs-' . $value['id'] . '" value="10"></label>
+									</div>';
+								}
+								else
+								{
+									$mdl_new_survey_answer .=
+									'<div class="rate">
+									   <label><i class="far fa-sad-cry" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="1" data-action="open_subquestion"></label>
+									   <label><i class="far fa-frown" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="2" data-action="open_subquestion"></label>
+									   <label><i class="far fa-meh-rolling-eyes" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="3" data-action="open_subquestion"></label>
+									   <label><i class="far fa-smile" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="4" data-action="open_subquestion"></label>
+									   <label><i class="far fa-grin-stars" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="5" data-action="open_subquestion"></label>
+									</div>';
+								}
 							}
 							else if ($value['type'] == 'twin')
 							{
