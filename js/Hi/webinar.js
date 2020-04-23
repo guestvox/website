@@ -80,7 +80,7 @@ $(document).ready(function()
                 {
                     $('[data-modal="success"]').addClass('view');
                     $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { window.location.href = response.path; }, 1500);
+                    setTimeout(function() { location.reload(); }, 1500);
                 }
                 else if (response.status == 'error')
                 {

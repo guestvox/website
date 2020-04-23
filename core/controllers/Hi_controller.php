@@ -106,7 +106,7 @@ class Hi_controller extends Controller
 
 				Functions::environment([
 					'status' => 'success',
-					'message' => '{$lang.operation_success}'
+					'message' => '¡Muchas gracias por ponerte en contacto con nosotros! En breve uno de nuestros asesores se pondrá en contacto contigo.'
 				]);
 			}
 			else
@@ -224,7 +224,7 @@ class Hi_controller extends Controller
 
 				Functions::environment([
 					'status' => 'success',
-					'message' => '{$lang.operation_success}'
+					'message' => '¡Muchas gracias por ponerte en contacto con nosotros! En breve uno de nuestros asesores se pondrá en contacto contigo.'
 				]);
 			}
 			else
@@ -339,8 +339,7 @@ class Hi_controller extends Controller
 
 					Functions::environment([
 						'status' => 'success',
-						'message' => '{$lang.operation_success}',
-						'path' => $webinar['link']
+						'message' => '¡Gracias por registrarte al Webinar! Te hemos enviado un correo electrónico a <strong>' $_POST['email'] . '</strong> con los detalles del Webinar.'
 					]);
 				}
 				else
