@@ -21,7 +21,7 @@ class Hi_controller extends Controller
 			if (!isset($_POST['type']) OR empty($_POST['type']))
 				array_push($labels, ['type', '']);
 
-			if ($_POST['type'] == 'hotel' OR $_POST['type'] == 'restaurant')
+			if ($_POST['type'] == 'hotel')
 			{
 				if (!isset($_POST['owners']) OR empty($_POST['owners']))
 					array_push($labels, ['owners', '']);
@@ -51,9 +51,9 @@ class Hi_controller extends Controller
 					'Negocio: ' . $_POST['business'] .
 					(($_POST['type'] == 'hotel') ? 'Tipo: Hotel' : '') .
 					(($_POST['type'] == 'restaurant') ? 'Tipo: Restaurante' : '') .
+					(($_POST['type'] == 'hospital') ? 'Tipo: Hospital' : '') .
 					(($_POST['type'] == 'others') ? 'Tipo: Otros' : '') .
 					(($_POST['type'] == 'hotel') ? 'Habitaciones: ' . $_POST['owners'] : '') .
-					(($_POST['type'] == 'restaurant') ? 'Mesas: ' . $_POST['owners'] : '') .
 					'Contacto: ' . $_POST['contact'] .
 					'Correo electrónico: ' . $_POST['email'] .
 					'Número telefonico: ' . $_POST['phone'];
@@ -139,7 +139,7 @@ class Hi_controller extends Controller
 			if (!isset($_POST['type']) OR empty($_POST['type']))
 				array_push($labels, ['type', '']);
 
-			if ($_POST['type'] == 'hotel' OR $_POST['type'] == 'restaurant')
+			if ($_POST['type'] == 'hotel')
 			{
 				if (!isset($_POST['owners']) OR empty($_POST['owners']))
 					array_push($labels, ['owners', '']);
@@ -169,9 +169,9 @@ class Hi_controller extends Controller
 					'Negocio: ' . $_POST['business'] .
 					(($_POST['type'] == 'hotel') ? 'Tipo: Hotel' : '') .
 					(($_POST['type'] == 'restaurant') ? 'Tipo: Restaurante' : '') .
+					(($_POST['type'] == 'hospital') ? 'Tipo: Hospital' : '') .
 					(($_POST['type'] == 'others') ? 'Tipo: Otros' : '') .
 					(($_POST['type'] == 'hotel') ? 'Habitaciones: ' . $_POST['owners'] : '') .
-					(($_POST['type'] == 'restaurant') ? 'Mesas: ' . $_POST['owners'] : '') .
 					'Contacto: ' . $_POST['contact'] .
 					'Correo electrónico: ' . $_POST['email'] .
 					'Número telefonico: ' . $_POST['phone'];

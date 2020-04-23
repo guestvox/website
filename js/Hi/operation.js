@@ -27,16 +27,12 @@ $(document).ready(function()
 
     $('[name="type"]').on('change', function()
     {
-        if ($(this).val() == 'hotel' || $(this).val() == 'restaurant')
+        if ($(this).val() == 'hotel')
         {
             $(this).parent().parent().parent().removeClass('span12');
             $(this).parent().parent().parent().addClass('span8');
             $('[name="owners"]').parent().parent().parent().removeClass('hidden');
-
-            if ($(this).val() == 'hotel')
-                $('[name="owners"]').parent().find('p').html('N. de habitaciones');
-            else
-                $('[name="owners"]').parent().find('p').html('N. de mesas');
+            $('[name="owners"]').parent().find('p').html('N. de habitaciones');
         }
         else
         {

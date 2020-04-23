@@ -151,6 +151,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
                                     <option value="" selected hidden>Selecciona una opción</option>
                                     <option value="hotel">Hotel</option>
                                     <option value="restaurant">Restaurante</option>
+                                    <option value="hospital">Hospital</option>
                                     <option value="others">Otros</option>
                                 </select>
                             </label>
