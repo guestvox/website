@@ -26,7 +26,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
 </script>
 
 <!-- Your customer chat code -->
-<div class="fb-customerchat" attribution=setup_tool page_id="544915395886636" theme_color="#00A5AB" logged_in_greeting="Hola, como puedo ayudarte?" logged_out_greeting="Hola, como puedo ayudarte?">
+<div class="fb-customerchat" attribution=setup_tool page_id="544915395886636" theme_color="#00A5AB" logged_in_greeting="Hola, ¿Cómo puedo ayudarte?" logged_out_greeting="Hola, ¿Cómo puedo ayudarte?">
 </div>
 <main class="landing-page-index">
     <section class="st-1">
