@@ -6,7 +6,28 @@ $this->dependencies->add(['css', '{$path.css}Index/index.css']);
 $this->dependencies->add(['js', '{$path.js}Index/index.js']);
 
 ?>
+<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            xfbml: true,
+            version: 'v6.0'
+        });
+    };
 
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = 'https://connect.facebook.net/es_ES/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+</script>
+
+<!-- Your customer chat code -->
+<div class="fb-customerchat" attribution=setup_tool page_id="544915395886636" theme_color="#00A5AB" logged_in_greeting="Hola, como puedo ayudarte?" logged_out_greeting="Hola, como puedo ayudarte?">
+</div>
 <main class="landing-page-index">
     <section class="st-1">
         <figure>
@@ -191,31 +212,6 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
             <figure>
                 <img src="https://www.comparasoftware.com/wp-content/uploads/2019/05/comparasoftware_verificado.png" alt="Partner">
             </figure>
-        </div>
-    </section>
-    <section class="st-9">
-        <!-- Load Facebook SDK for JavaScript -->
-        <div id="fb-root"></div>
-        <script>
-            window.fbAsyncInit = function() {
-                FB.init({
-                    xfbml: true,
-                    version: 'v6.0'
-                });
-            };
-
-            (function(d, s, id) {
-                var js, fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                js = d.createElement(s);
-                js.id = id;
-                js.src = 'https://connect.facebook.net/es_ES/sdk/xfbml.customerchat.js';
-                fjs.parentNode.insertBefore(js, fjs);
-            }(document, 'script', 'facebook-jssdk'));
-        </script>
-
-        <!-- Your customer chat code -->
-        <div class="fb-customerchat" attribution=setup_tool page_id="544915395886636" theme_color="#00A5AB" logged_in_greeting="Hola, como puedo ayudarte?" logged_out_greeting="Hola, como puedo ayudarte?">
         </div>
     </section>
     <section class="st-10">
