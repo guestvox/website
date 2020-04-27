@@ -9,21 +9,21 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
 
 <main class="landing-page-index">
     <section class="st-1">
-		<figure>
-			<img src="{$path.images}index/st-1-image-1.png" alt="Background">
-		</figure>
+        <figure>
+            <img src="{$path.images}index/st-1-image-1.png" alt="Background">
+        </figure>
         <div>
             <figure>
                 <img src="{$path.images}logotype-white.png" alt="GuestVox">
             </figure>
-			<h1>{$lang.landing_page_index_st_1_text_1}</h1>
+            <h1>{$lang.landing_page_index_st_1_text_1}</h1>
             <a href="/login">{$lang.login}</a>
-		</div>
+        </div>
     </section>
     <section class="st-2">
-		<figure>
-			<img src="{$path.images}index/st-2-image-1.png" alt="Background">
-		</figure>
+        <figure>
+            <img src="{$path.images}index/st-2-image-1.png" alt="Background">
+        </figure>
         <div>
             <h2>{$lang.landing_page_index_st_2_text_1}</h2>
             <div>
@@ -41,12 +41,12 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                 </div>
             </div>
             <a href="/operacion">{$lang.know_more}</a>
-		</div>
+        </div>
     </section>
     <section class="st-3">
-		<figure>
-			<img src="{$path.images}index/st-3-image-1.png" alt="Background">
-		</figure>
+        <figure>
+            <img src="{$path.images}index/st-3-image-1.png" alt="Background">
+        </figure>
         <div>
             <h2>{$lang.landing_page_index_st_3_text_1}</h2>
             <div>
@@ -64,7 +64,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                 </div>
             </div>
             <a href="/reputacion">{$lang.know_more}</a>
-		</div>
+        </div>
     </section>
     <section class="st-4">
         <div>
@@ -103,7 +103,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
         </div>
     </section>
     <section class="st-6">
-		<h2>{$lang.landing_page_index_st_6_text_1}</h2>
+        <h2>{$lang.landing_page_index_st_6_text_1}</h2>
         <div>
             <figure>
                 <img src="{$path.images}index/st-6-image-1.png" alt="Client">
@@ -191,6 +191,31 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
             <figure>
                 <img src="https://www.comparasoftware.com/wp-content/uploads/2019/05/comparasoftware_verificado.png" alt="Partner">
             </figure>
+        </div>
+    </section>
+    <section class="st-9">
+        <!-- Load Facebook SDK for JavaScript -->
+        <div id="fb-root"></div>
+        <script>
+            window.fbAsyncInit = function() {
+                FB.init({
+                    xfbml: true,
+                    version: 'v6.0'
+                });
+            };
+
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s);
+                js.id = id;
+                js.src = 'https://connect.facebook.net/es_ES/sdk/xfbml.customerchat.js';
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+
+        <!-- Your customer chat code -->
+        <div class="fb-customerchat" attribution=setup_tool page_id="544915395886636" theme_color="#00A5AB" logged_in_greeting="Hola, como puedo ayudarte?" logged_out_greeting="Hola, como puedo ayudarte?">
         </div>
     </section>
     <section class="st-10">
