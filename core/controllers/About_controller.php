@@ -11,7 +11,7 @@ class About_controller extends Controller
 
 	public function index()
 	{
-		define('_title', 'GuestVox | {$lang.about_us}');
+		define('_title', 'Guestvox | {$lang.about_us}');
 
 		$template = $this->view->render($this, 'index');
 

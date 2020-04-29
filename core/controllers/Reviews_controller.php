@@ -15,7 +15,7 @@ class Reviews_controller extends Controller
 
 		if (!empty($account) AND $account['settings']['review']['online'] == true)
 		{
-			define('_title', $account['name'] . ' | GuestVox');
+			define('_title', $account['name'] . ' | Guestvox');
 
 			$template = $this->view->render($this, 'index');
 

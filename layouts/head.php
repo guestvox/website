@@ -7,7 +7,7 @@
 		<meta charset="UTF-8" />
 		<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type" />
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
-		<meta name="author" content="GuestVox" />
+		<meta name="author" content="Guestvox" />
 		<meta name="keywords" content="{$seo_keywords}" />
 		<meta name="description" content="{$seo_meta_description}" />
 		<meta name="google-site-verification" content="nt4G0mNfZWU_U4U8bMwlnOi2P-bwTyTjoY0HmhaZs2M" />
@@ -24,7 +24,7 @@
         <!--Inician dependencias de pwa para ios-->
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-touch-fullscreen" content="yes" />
-        <meta name="apple-mobile-web-app-title" content="GuestVox" />
+        <meta name="apple-mobile-web-app-title" content="Guestvox" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <link rel="apple-touch-icon" sizes="180x180" href="images/icon_180x180.png" />

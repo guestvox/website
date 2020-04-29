@@ -227,14 +227,14 @@ class Signup_controller extends Controller
 							if ($_POST['language'] == 'es')
 							{
 								$mail1_subject = '¡Gracias por registrarte!';
-								$mail1_text = 'Hola <strong>' . $_POST['contact_firstname'] . '</strong> ¡Gracias por registrarte en GuestVox! Soy <strong>Daniel Basurto</strong>, CEO de GuestVox y espero te encuentres de lo mejor. Hémos validado tu correo electrónico. Para terminar, por favor activa tu cuenta.';
+								$mail1_text = 'Hola <strong>' . $_POST['contact_firstname'] . '</strong> ¡Gracias por registrarte en Guestvox! Soy <strong>Daniel Basurto</strong>, CEO de Guestvox y espero te encuentres de lo mejor. Hémos validado tu correo electrónico. Para terminar, por favor activa tu cuenta.';
 								$mail1_btn = 'Activar mi cuenta';
 								$mail1_terms = 'Términos y condiciones';
 							}
 							else if ($_POST['language'] == 'en')
 							{
 								$mail1_subject = '¡Thanks for sign up!';
-								$mail1_text = 'Hi <strong>' . $_POST['contact_firstname'] . '</strong> ¡Thanks for sign up in GuestVox! I am <strong>Daniel Basurto</strong>, CEO for GuestVox and I hope you find the best. We have validated your email. To finish, please activate your account.';
+								$mail1_text = 'Hi <strong>' . $_POST['contact_firstname'] . '</strong> ¡Thanks for sign up in Guestvox! I am <strong>Daniel Basurto</strong>, CEO for Guestvox and I hope you find the best. We have validated your email. To finish, please activate your account.';
 								$mail1_btn = 'Activate my account';
 								$mail1_terms = 'Terms and conditions';
 							}
@@ -297,14 +297,14 @@ class Signup_controller extends Controller
 							if ($_POST['language'] == 'es')
 							{
 								$mail2_subject = '¡Gracias por registrarte!';
-								$mail2_text = 'Hola <strong>' . $_POST['firstname'] . '</strong> ¡Gracias por registrarte en GuestVox! Soy <strong>Daniel Basurto</strong>, CEO de GuestVox y espero te encuentres de lo mejor. Hémos validado tu correo electrónico. Para terminar, por favor activa tu usuario.';
+								$mail2_text = 'Hola <strong>' . $_POST['firstname'] . '</strong> ¡Gracias por registrarte en Guestvox! Soy <strong>Daniel Basurto</strong>, CEO de Guestvox y espero te encuentres de lo mejor. Hémos validado tu correo electrónico. Para terminar, por favor activa tu usuario.';
 								$mail2_btn = 'Validar mi correo electrónico';
 								$mail2_terms = 'Términos y condiciones';
 							}
 							else if ($_POST['language'] == 'en')
 							{
 								$mail2_subject = '¡Thanks for sign up!';
-								$mail2_text = 'Hi <strong>' . $_POST['firstname'] . '</strong> ¡Thanks for sign up in GuestVox! I am <strong>Daniel Basurto</strong>, CEO for GuestVox and I hope you find the best. We have validated your email. To finish, please activate your user.';
+								$mail2_text = 'Hi <strong>' . $_POST['firstname'] . '</strong> ¡Thanks for sign up in Guestvox! I am <strong>Daniel Basurto</strong>, CEO for Guestvox and I hope you find the best. We have validated your email. To finish, please activate your user.';
 								$mail2_btn = 'Validate my email';
 								$mail2_terms = 'Terms and conditions';
 							}
@@ -364,8 +364,8 @@ class Signup_controller extends Controller
 
 						try
 						{
-							$mail3->setFrom('noreply@guestvox.com', 'GuestVox');
-							$mail3->addAddress('contacto@guestvox.com', 'GuestVox');
+							$mail3->setFrom('noreply@guestvox.com', 'Guestvox');
+							$mail3->addAddress('contacto@guestvox.com', 'Guestvox');
 							$mail3->isHTML(true);
 							$mail3->Subject = 'Nuevo registro';
 							$mail3->Body =
@@ -410,7 +410,7 @@ class Signup_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox | {$lang.signup}');
+			define('_title', 'Guestvox | {$lang.signup}');
 
 			$template = $this->view->render($this, 'index');
 
@@ -458,14 +458,14 @@ class Signup_controller extends Controller
 		if (!empty($params))
 		{
 			if ($params[0] == 'account')
-				define('_title', 'GuestVox | {$lang.activate_account}');
+				define('_title', 'Guestvox | {$lang.activate_account}');
 			else if ($params[0] == 'user')
-				define('_title', 'GuestVox | {$lang.activate_user}');
+				define('_title', 'Guestvox | {$lang.activate_user}');
 			else
-				define('_title', 'GuestVox | {$lang.error_to_activate}');
+				define('_title', 'Guestvox | {$lang.error_to_activate}');
 		}
 		else
-			define('_title', 'GuestVox | {$lang.error_to_activate}');
+			define('_title', 'Guestvox | {$lang.error_to_activate}');
 
 		$template = $this->view->render($this, 'activate');
 
@@ -495,13 +495,13 @@ class Signup_controller extends Controller
 								if ($query['language'] == 'es')
 								{
 									$mail_subject = 'Tu cuenta ha sido activada';
-									$mail_text = '¡Muchas gracias! Hemos activado tu cuenta correctamente. Ahora ya puedes iniciar sesión y empezar a configurar tu cuenta ¡Bienvenido a GuestVox!';
+									$mail_text = '¡Muchas gracias! Hemos activado tu cuenta correctamente. Ahora ya puedes iniciar sesión y empezar a configurar tu cuenta ¡Bienvenido a Guestvox!';
 									$mail_btn = 'Iniciar sesión';
 								}
 								else if ($query['language'] == 'en')
 								{
 									$mail_subject = 'Your account has been activated';
-									$mail_text = '¡Thank you! We have activated your account correctly. Now you can log in and start configuring your account ¡Welcome to GuestVox!';
+									$mail_text = '¡Thank you! We have activated your account correctly. Now you can log in and start configuring your account ¡Welcome to Guestvox!';
 									$mail_btn = 'Log in';
 								}
 							}
@@ -510,13 +510,13 @@ class Signup_controller extends Controller
 								if ($query['language'] == 'es')
 								{
 									$mail_subject = 'Tu usuario ha sido activado';
-									$mail_text = '¡Muchas gracias! Hemos activado tu usuario correctamente. Ahora ya puedes iniciar sesión y empezar a trabajar con tu equipo ¡Bienvenido a GuestVox!';
+									$mail_text = '¡Muchas gracias! Hemos activado tu usuario correctamente. Ahora ya puedes iniciar sesión y empezar a trabajar con tu equipo ¡Bienvenido a Guestvox!';
 									$mail_btn = 'Iniciar sesión';
 								}
 								else if ($query['language'] == 'en')
 								{
 									$mail_subject = 'Your user has been activated';
-									$mail_text = '¡Thank you! We have activated your user correctly. Now you can log in and start working with your team ¡Welcome to GuestVox!';
+									$mail_text = '¡Thank you! We have activated your user correctly. Now you can log in and start working with your team ¡Welcome to Guestvox!';
 									$mail_btn = 'Log in';
 								}
 							}

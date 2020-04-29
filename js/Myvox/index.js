@@ -14,56 +14,17 @@ $(document).ready(function()
             $(this).parents('label').removeClass('success');
     });
 
-    $('[name="room"]').on('change', function()
+    $('[name="owner"]').on('change', function()
     {
         $.ajax({
             type: 'POST',
-            data: 'room=' + $(this).val() + '&action=get_room',
+            data: 'owner=' + $(this).val() + '&action=get_owner',
             processData: false,
             cache: false,
             dataType: 'json',
             success: function(response)
             {
-                if (response.status == 'success')
-                {
 
-                }
-            }
-        });
-    });
-
-    $('[name="table"]').on('change', function()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'table=' + $(this).val() + '&action=get_table',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    
-                }
-            }
-        });
-    });
-
-    $('[name="client"]').on('change', function()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'client=' + $(this).val() + '&action=get_client',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-
-                }
             }
         });
     });
@@ -214,13 +175,11 @@ $(document).ready(function()
         else
         {
             $('#' + name).addClass('hidden');
-
             $('#' + name).find(':input').each(function() {
                 if (this.type == 'text')
                     $(this).val('');
                 else if (this.type == 'radio')
                     this.checked = false;
-
             });
         }
     });
@@ -234,13 +193,11 @@ $(document).ready(function()
         else
         {
             $('#' + name).addClass('hidden');
-
             $('#' + name).find(':input').each(function() {
                 if (this.type == 'text')
                     $(this).val('');
                 else if (this.type == 'radio')
                     this.checked = false;
-
             });
         }
     });

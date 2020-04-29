@@ -11,7 +11,7 @@ class Policies_controller extends Controller
 
     public function terms()
     {
-        define('_title', 'GuestVox | {$lang.terms_and_conditions}');
+        define('_title', 'Guestvox | {$lang.terms_and_conditions}');
 
         $template = $this->view->render($this, 'terms');
 
@@ -20,7 +20,7 @@ class Policies_controller extends Controller
 
 	public function privacy()
     {
-        define('_title', 'GuestVox | {$lang.privacy_policies}');
+        define('_title', 'Guestvox | {$lang.privacy_policies}');
 
         $template = $this->view->render($this, 'privacy');
 

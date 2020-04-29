@@ -12,18 +12,18 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
     <a data-button-modal="contact"><i class="fas fa-paper-plane"></i></a>
     <a data-button-modal="contact"><i class="fas fa-gift"></i></a>
     <figure>
-        <img src="{$path.images}icon-white.svg" alt="GuestVox">
+        <img src="{$path.images}icon-white.svg" alt="Guestvox">
     </figure>
 </header>
 <main class="landing-page-reputation">
     <section id="section-one" class="gradient hand-background">
         <div class="container">
             <figure class="logotype">
-                <img src="{$path.images}hi/reputation/logotype-color.png" alt="GuestVox">
+                <img src="{$path.images}hi/reputation/logotype-color.png" alt="Guestvox">
             </figure>
             <div class="content">
                 <h3>Conoce la opinión de tus consumidores</h3>
-                <p><span>GuestVox es una plataforma, en la que <strong>sólo tus clientes</strong> pueden contestar tu encuesta de satisfacción y dejar una valoración.</span></p>
+                <p><span>Guestvox es una plataforma, en la que <strong>sólo tus clientes</strong> pueden contestar tu encuesta de satisfacción y dejar una valoración.</span></p>
             </div>
         </div>
     </section>
@@ -117,7 +117,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
             </div>
             <div class="content">
                 <figure class="logotype">
-                    <img src="{$path.images}hi/reputation/logotype-color.png" alt="GuestVox">
+                    <img src="{$path.images}hi/reputation/logotype-color.png" alt="Guestvox">
                 </figure>
                 <a href="https://facebook.com/guestvox" class="social-media fb-logo" target="_blank">FB</a>
                 <a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" class="social-media yt-logo" target="_blank">YT</a>

@@ -44,7 +44,7 @@ class Hi_controller extends Controller
 				{
 					$mail1->isSMTP();
 					$mail1->setFrom($_POST['email'], $_POST['contact']);
-					$mail1->addAddress('contacto@guestvox.com', 'GuestVox');
+					$mail1->addAddress('contacto@guestvox.com', 'Guestvox');
 					$mail1->isHTML(true);
 					$mail1->Subject = 'Nueva solicitud para demo de Operación)';
 					$mail1->Body =
@@ -67,7 +67,7 @@ class Hi_controller extends Controller
 				try
 				{
 					$mail2->isSMTP();
-					$mail2->setFrom('contacto@guestvox.com', 'GuestVox');
+					$mail2->setFrom('contacto@guestvox.com', 'Guestvox');
 					$mail2->addAddress($_POST['email'], $_POST['contact']);
 					$mail2->isHTML(true);
 					$mail2->Subject = '¡Gracias! Hemos recibido tu solicitud';
@@ -119,7 +119,7 @@ class Hi_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox | {$lang.operation} | {$lang.we_are_guestvox}');
+			define('_title', 'Guestvox | {$lang.operation} | {$lang.we_are_guestvox}');
 
 			$template = $this->view->render($this, 'operation');
 
@@ -162,7 +162,7 @@ class Hi_controller extends Controller
 				{
 					$mail1->isSMTP();
 					$mail1->setFrom($_POST['email'], $_POST['contact']);
-					$mail1->addAddress('contacto@guestvox.com', 'GuestVox');
+					$mail1->addAddress('contacto@guestvox.com', 'Guestvox');
 					$mail1->isHTML(true);
 					$mail1->Subject = 'Nueva solicitud para demo de Reputación)';
 					$mail1->Body =
@@ -185,7 +185,7 @@ class Hi_controller extends Controller
 				try
 				{
 					$mail2->isSMTP();
-					$mail2->setFrom('contacto@guestvox.com', 'GuestVox');
+					$mail2->setFrom('contacto@guestvox.com', 'Guestvox');
 					$mail2->addAddress($_POST['email'], $_POST['contact']);
 					$mail2->isHTML(true);
 					$mail2->Subject = '¡Gracias! Hemos recibido tu solicitud';
@@ -237,7 +237,7 @@ class Hi_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox | {$lang.reputation} | {$lang.we_are_guestvox}');
+			define('_title', 'Guestvox | {$lang.reputation} | {$lang.we_are_guestvox}');
 
 			$template = $this->view->render($this, 'reputation');
 
@@ -279,7 +279,7 @@ class Hi_controller extends Controller
 					{
 						$mail1->isSMTP();
 						$mail1->setFrom($_POST['email'], $_POST['name']);
-						$mail1->addAddress('contacto@guestvox.com', 'GuestVox');
+						$mail1->addAddress('contacto@guestvox.com', 'Guestvox');
 						$mail1->isHTML(true);
 						$mail1->Subject = $_POST['name'] . ' se ha registrado al Webinar';
 						$mail1->Body =
@@ -297,7 +297,7 @@ class Hi_controller extends Controller
 					try
 					{
 						$mail2->isSMTP();
-						$mail2->setFrom('contacto@guestvox.com', 'GuestVox');
+						$mail2->setFrom('contacto@guestvox.com', 'Guestvox');
 						$mail2->addAddress($_POST['email'], $_POST['name']);
 						$mail2->isHTML(true);
 						$mail2->Subject = '¡Gracias por registrarte al Webinar!';
@@ -339,7 +339,7 @@ class Hi_controller extends Controller
 
 					Functions::environment([
 						'status' => 'success',
-						'message' => '¡Gracias por registrarte al Webinar! Te hemos enviado un correo electrónico a <strong>' $_POST['email'] . '</strong> con los detalles del Webinar.'
+						'message' => '¡Gracias por registrarte al Webinar! Te hemos enviado un correo electrónico a <strong>' . $_POST['email'] . '</strong> con los detalles del Webinar.'
 					]);
 				}
 				else
@@ -360,7 +360,7 @@ class Hi_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox | {$lang.webinar} | {$lang.we_are_guestvox}');
+			define('_title', 'Guestvox | {$lang.webinar} | {$lang.we_are_guestvox}');
 
 			$template = $this->view->render($this, 'webinar');
 

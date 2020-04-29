@@ -23,7 +23,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
     {$a_new_survey_answer}
 </main>
 <footer class="myvox">
-    <h4>Power by <img src="{$path.images}logotype-color.png" alt="GuestVox"></h4>
+    <h4>Power by <img src="{$path.images}logotype-color.png" alt="Guestvox"></h4>
     <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved}</p>
 </footer>
 {$mdl_new_request}

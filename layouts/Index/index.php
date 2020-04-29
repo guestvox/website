@@ -14,7 +14,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
 		</figure>
         <div>
             <figure>
-                <img src="{$path.images}logotype-white.png" alt="GuestVox">
+                <img src="{$path.images}logotype-white.png" alt="Guestvox">
             </figure>
 			<h1>{$lang.landing_page_index_st_1_text_1}</h1>
             <a href="/login">{$lang.login}</a>

@@ -26,7 +26,7 @@ class Configuration
 	 *
      * @var string $web_page
      */
-	public static $web_page = 'GuestVox';
+	public static $web_page = 'Guestvox';
 
 	/**
      * Idioma por default
