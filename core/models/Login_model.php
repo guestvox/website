@@ -15,14 +15,8 @@ class Login_model extends Model
 			'[>]accounts' => [
 				'account' => 'id'
 			],
-			'[>]room_packages' => [
-				'accounts.room_package' => 'id'
-			],
-			'[>]table_packages' => [
-				'accounts.table_package' => 'id'
-			],
-			'[>]client_packages' => [
-				'accounts.client_package' => 'id'
+			'[>]packages' => [
+				'accounts.package' => 'id'
 			]
 		], [
 			'users.id(user_id)',
@@ -47,12 +41,8 @@ class Login_model extends Model
 			'accounts.zaviapms(account_zaviapms)',
 			'accounts.sms(account_sms)',
 			'accounts.status(account_status)',
-			'room_packages.id(room_package_id)',
-			'room_packages.quantity_end(room_package_quantity_end)',
-			'table_packages.id(table_package_id)',
-			'table_packages.quantity_end(table_package_quantity_end)',
-			'client_packages.id(client_package_id)',
-			'client_packages.quantity_end(client_package_quantity_end)'
+			'packages.id(package_id)',
+			'packages.quantity_end(package_quantity_end)'
 		], [
 			'AND' => [
 				'OR' => [
@@ -103,31 +93,13 @@ class Login_model extends Model
 					'reputation' => $query[0]['account_reputation'],
 					'zaviapms' => $query[0]['account_zaviapms'],
 					'sms' => $query[0]['account_sms'],
-					'status' => $query[0]['account_status']
+					'status' => $query[0]['account_status'],
+					'package' => [
+						'id' => $query[0]['package_id'],
+						'quantity_end' => $query[0]['package_quantity_end']
+					]
 				]
 			];
-
-			if ($query[0]['account_type'] == 'hotel')
-			{
-				$data['account']['room_package'] = [
-					'id' => $query[0]['room_package_id'],
-					'quantity_end' => $query[0]['room_package_quantity_end']
-				];
-			}
-			else if ($query[0]['account_type'] == 'restaurant')
-			{
-				$data['account']['table_package'] = [
-					'id' => $query[0]['table_package_id'],
-					'quantity_end' => $query[0]['table_package_quantity_end']
-				];
-			}
-			else if ($query[0]['account_type'] == 'others')
-			{
-				$data['account']['client_package'] = [
-					'id' => $query[0]['client_package_id'],
-					'quantity_end' => $query[0]['client_package_quantity_end']
-				];
-			}
 
 			return $data;
 		}
