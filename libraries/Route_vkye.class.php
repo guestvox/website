@@ -46,7 +46,7 @@ class Route_vkye
             {
                 Session::destroy();
 
-                header("Location: /");
+                header('Location: /');
             }
 
             Session::set_value('_vkye_last_access', Functions::get_current_date_hour());
