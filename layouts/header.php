@@ -1,6 +1,5 @@
 <?php defined('_EXEC') or die; ?>
 
-
 <header class="topbar">
     <figure>
         <a href="/dashboard"><img src="{$path.images}logotype-white.png"></a>
@@ -37,14 +36,8 @@
     </nav>
     <nav>
         <ul>
-            <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{rooms_create}','{rooms_update}','{rooms_delete}']) == true) : ?>
-            <li target="rooms"><a href="/rooms">{$lang.rooms}<i class="fas fa-bed"></i></a></li>
-            <?php endif; ?>
-            <?php if (Session::get_value('account')['type'] == 'restaurant' AND Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{tables_create}','{tables_update}','{tables_delete}']) == true) : ?>
-            <li target="tables"><a href="/tables">{$lang.tables}<i class="fas fa-utensils"></i></a></li>
-            <?php endif; ?>
-            <?php if (Session::get_value('account')['type'] == 'others' AND Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{clients_create}','{clients_update}','{clients_delete}']) == true) : ?>
-            <li target="clients"><a href="/clients">{$lang.clients}<i class="fas fa-user-tie"></i></a></li>
+            <?php if (Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{owners_create}','{owners_update}','{owners_delete}']) == true) : ?>
+            <li target="owners"><a href="/owners">{$lang.owners}<i class="fas fa-user-tie"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_account_access(['operation']) AND Functions::check_user_access(['{opportunity_areas_create}','{opportunity_areas_update}','{opportunity_areas_delete}']) == true) : ?>
             <li target="opportunityareas"><a href="/opportunityareas">{$lang.opportunity_areas}<i class="fas fa-compass"></i></a></li>

@@ -76,40 +76,16 @@ class User_level
                     array_push($paths, '/Surveys/charts');
                 break;
 
-                case '{rooms_create}' :
-                    array_push($paths, '/Rooms/index');
+                case '{owners_create}' :
+                    array_push($paths, '/Owners/index');
                 break;
 
-                case '{rooms_update}' :
-                    array_push($paths, '/Rooms/index');
+                case '{owners_update}' :
+                    array_push($paths, '/Owners/index');
                 break;
 
-                case '{rooms_delete}' :
-                    array_push($paths, '/Rooms/index');
-
-                case '{tables_create}' :
-                    array_push($paths, '/Tables/index');
-                break;
-
-                case '{tables_update}' :
-                    array_push($paths, '/Tables/index');
-                break;
-
-                case '{tables_delete}' :
-                    array_push($paths, '/Tables/index');
-                break;
-
-                case '{clients_create}' :
-                    array_push($paths, '/Clients/index');
-                break;
-
-                case '{clients_update}' :
-                    array_push($paths, '/Clients/index');
-                break;
-
-                case '{clients_delete}' :
-                    array_push($paths, '/Clients/index');
-                break;
+                case '{owners_delete}' :
+                    array_push($paths, '/Owners/index');
 
                 case '{opportunity_areas_create}' :
                     array_push($paths, '/Opportunityareas/index');

@@ -137,16 +137,8 @@ class Urls_registered_vkye
                 'controller' => 'Surveys',
                 'method' => 'charts'
             ],
-            '/rooms' => [
-                'controller' => 'Rooms',
-                'method' => 'index'
-            ],
-            '/tables' => [
-                'controller' => 'Tables',
-                'method' => 'index'
-            ],
-            '/clients' => [
-                'controller' => 'Clients',
+            '/owners' => [
+                'controller' => 'Owners',
                 'method' => 'index'
             ],
             '/opportunityareas' => [

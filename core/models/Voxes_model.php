@@ -137,7 +137,6 @@ class Voxes_model extends Model
 				else
 				{
 					array_push($query[0]['viewed_by'], Session::get_value('user')['id']);
-
 					array_push($query[0]['changes_history'], [
 						'type' => 'viewed',
 						'user' => Session::get_value('user')['id'],
@@ -239,6 +238,44 @@ class Voxes_model extends Model
 		]);
 
 		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_reservation($owner)
+	{
+		$guest = [
+			'status' => 'success',
+			'firstname' => '',
+			'lastname' => '',
+			'reservation_number' => '',
+			'check_in' => '',
+			'check_out' => '',
+			'nationality' => '',
+			'input_channel' => '',
+			'traveler_type' => '',
+			'age_group' => ''
+		];
+
+		if (Session::get_value('account')['zaviapms']['status'] == true AND !empty($owner))
+		{
+			$query = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'room', $owner);
+
+			$guest['status'] = $query['Status'];
+
+			if ($guest['status'] == 'success')
+			{
+				$guest['firstname'] = $query['Name'];
+				$guest['lastname'] = $query['LastName'];
+				$guest['reservation_number'] = $query['FolioRefID'];
+				$guest['check_in'] = $query['StartDate'];
+				$guest['check_out'] = $query['EndDate'];
+				$guest['nationality'] = $query['Country'];
+				$guest['input_channel'] = $query['Channel'];
+				$guest['traveler_type'] = $query['TravelerType'];
+				$guest['age_group'] = $query['AgeGroup'];
+			}
+		}
+
+		return $guest;
 	}
 
 	public function get_opportunity_areas($option = 'all')
@@ -365,36 +402,6 @@ class Voxes_model extends Model
 		]));
 
 		return !empty($query) ? $query[0] : null;
-	}
-
-	public function get_guest($parameter)
-	{
-		$guest = [
-			'status' => 'success',
-			'firstname' => '',
-			'lastname' => '',
-			'reservation_number' => '',
-			'check_in' => '',
-			'check_out' => ''
-		];
-
-		if (Session::get_value('account')['zaviapms']['status'] == true)
-		{
-			$query = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'room', $parameter);
-
-			$guest['status'] = $query['Status'];
-
-			if ($guest['status'] == 'success')
-			{
-				$guest['firstname'] = $query['Name'];
-				$guest['lastname'] = $query['LastName'];
-				$guest['reservation_number'] = $query['FolioRefID'];
-				$guest['check_in'] = $query['StartDate'];
-				$guest['check_out'] = $query['EndDate'];
-			}
-		}
-
-		return $guest;
 	}
 
 	public function get_guest_treatments()

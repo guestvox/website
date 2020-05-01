@@ -1,4 +1,5 @@
 <?php defined('_EXEC') or die; ?>
+
         <section class="modal fullscreen" data-modal="success">
             <div class="content">
                 <main>
