@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-// require_once 'plugins/nexmo/vendor/autoload.php';
+require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Voxes_controller extends Controller
 {
