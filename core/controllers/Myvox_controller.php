@@ -41,7 +41,7 @@ class Myvox_controller extends Controller
 			if (!empty($data['owner']))
 			{
 				if (Session::get_value('account')['type'] == 'hotel')
-					$data['owner']['guest'] = $this->model->get_reservation($data['owner']['number']);
+					$data['owner']['reservation'] = $this->model->get_reservation($data['owner']['number']);
 
 				Session::set_value('owner', $data['owner']);
 
@@ -60,7 +60,7 @@ class Myvox_controller extends Controller
 					if (!empty($data['owner']))
 					{
 						if (Session::get_value('account')['type'] == 'hotel')
-							$data['owner']['guest'] = $this->model->get_reservation($data['owner']['number']);
+							$data['owner']['reservation'] = $this->model->get_reservation($data['owner']['number']);
 
 						Session::set_value('owner', $data['owner']);
 
@@ -209,7 +209,7 @@ class Myvox_controller extends Controller
 												<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
 													<h4 style="font-size:24px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject . '</h4>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_token . $_POST['token'] . '</h6>
-													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_owner . (!empty(Session::get_value('owner')['number']) ? '#' . Session::get_value('owner')['number'] . ' ' : '') . Session::get_value('owner')['name'] . '</h6>
+													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_owner . Session::get_value('owner')['name'] . (!empty(Session::get_value('owner')['number']) ? ' #' . Session::get_value('owner')['number'] : '') . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_area . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_type . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M, Y') . '</h6>
@@ -240,7 +240,7 @@ class Myvox_controller extends Controller
 
 								$sms_text = $mail_subject . '. ';
 								$sms_text .= $mail_token . $_POST['token'] . '. ';
-								$sms_text .= $mail_owner . (!empty(Session::get_value('owner')['number']) ? '#' . Session::get_value('owner')['number'] . ' ' : '') . Session::get_value('owner')['name'] . '. ';
+								$sms_text .= $mail_owner . Session::get_value('owner')['name'] . (!empty(Session::get_value('owner')['number']) ? ' #' . Session::get_value('owner')['number'] : '') . '. ';
 								$sms_text .= $mail_opportunity_area . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '. ';
 								$sms_text .= $mail_opportunity_type . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '. ';
 								$sms_text .= $mail_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
@@ -425,7 +425,7 @@ class Myvox_controller extends Controller
 												<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
 													<h4 style="font-size:24px;font-weight:600;text-align:center;color:#212121;margin:0px;margin-bottom:20px;padding:0px;">' . $mail_subject_1 . '</h4>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_token . $_POST['token'] . '</h6>
-													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_owner . (!empty(Session::get_value('owner')['number']) ? '#' . Session::get_value('owner')['number'] . ' ' : '') . Session::get_value('owner')['name'] . '</h6>
+													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_owner . Session::get_value('owner')['name'] . (!empty(Session::get_value('owner')['number']) ? ' #' . Session::get_value('owner')['number'] : '') . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_area . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_opportunity_type . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M, Y') . '</h6>
@@ -457,7 +457,7 @@ class Myvox_controller extends Controller
 
 								$sms_text = $mail_subject_1 . '. ';
 								$sms_text .= $mail_token . $_POST['token'] . '. ';
-								$sms_text .= $mail_owner . (!empty(Session::get_value('owner')['number']) ? '#' . Session::get_value('owner')['number'] . ' ' : '') . Session::get_value('owner')['name'] . '. ';
+								$sms_text .= $mail_owner . Session::get_value('owner')['name'] . (!empty(Session::get_value('owner')['number']) ? ' #' . Session::get_value('owner')['number'] : '') . '. ';
 								$sms_text .= $mail_opportunity_area . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '. ';
 								$sms_text .= $mail_opportunity_type . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '. ';
 								$sms_text .= $mail_started_date . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';

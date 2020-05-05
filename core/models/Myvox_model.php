@@ -14,7 +14,6 @@ class Myvox_model extends Model
 		$query = Functions::get_json_decoded_query($this->database->select('accounts', [
 			'id',
 			'type',
-			'city',
 			'language',
 			'logotype',
 			'operation',
@@ -36,13 +35,13 @@ class Myvox_model extends Model
 	{
 		$query = $this->database->select('owners', [
 			'id',
-			'number',
-			'name'
+			'name',
+			'number'
 		], [
 			'account' => $account,
 			'ORDER' => [
-				'number' => 'ASC',
-				'name' => 'ASC'
+				'name' => 'ASC',
+				'number' => 'ASC'
 			]
 		]);
 
@@ -55,9 +54,8 @@ class Myvox_model extends Model
 		{
 			$query = $this->database->select('owners', [
 				'id',
-				'account',
-				'number',
-				'name'
+				'name',
+				'number'
 			], [
 				'OR' => [
 					'id' => $token,
@@ -71,16 +69,15 @@ class Myvox_model extends Model
 		{
 			return [
 				'id' => '',
-				'account' => '',
-				'number' => '',
-				'name' => ''
+				'name' => '',
+				'number' => ''
 			];
 		}
 	}
 
 	public function get_reservation($owner)
 	{
-		$guest = [
+		$reservation = [
 			'status' => 'success',
 			'firstname' => '',
 			'lastname' => '',
@@ -97,23 +94,23 @@ class Myvox_model extends Model
 		{
 			$query = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'room', $owner);
 
-			$guest['status'] = $query['Status'];
+			$reservation['status'] = $query['Status'];
 
-			if ($guest['status'] == 'success')
+			if ($reservation['status'] == 'success')
 			{
-				$guest['firstname'] = $query['Name'];
-				$guest['lastname'] = $query['LastName'];
-				$guest['reservation_number'] = $query['FolioRefID'];
-				$guest['check_in'] = $query['StartDate'];
-				$guest['check_out'] = $query['EndDate'];
-				$guest['nationality'] = $query['Country'];
-				$guest['input_channel'] = $query['Channel'];
-				$guest['traveler_type'] = $query['TravelerType'];
-				$guest['age_group'] = $query['AgeGroup'];
+				$reservation['firstname'] = $query['Name'];
+				$reservation['lastname'] = $query['LastName'];
+				$reservation['reservation_number'] = $query['FolioRefID'];
+				$reservation['check_in'] = $query['StartDate'];
+				$reservation['check_out'] = $query['EndDate'];
+				$reservation['nationality'] = $query['Country'];
+				$reservation['input_channel'] = $query['Channel'];
+				$reservation['traveler_type'] = $query['TravelerType'];
+				$reservation['age_group'] = $query['AgeGroup'];
 			}
 		}
 
-		return $guest;
+		return $reservation;
 	}
 
     public function get_opportunity_areas($type)
@@ -209,7 +206,7 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-    public function get_assigned_users($opportunity_area)
+	public function get_assigned_users($opportunity_area)
 	{
         $query = Functions::get_json_decoded_query($this->database->select('users', [
             'firstname',
@@ -227,7 +224,7 @@ class Myvox_model extends Model
         foreach ($query as $key => $value)
         {
             if (!in_array($opportunity_area, $value['opportunity_areas']))
-                unset($query[$key]);
+				unset($query[$key]);
         }
 
 		return $query;
@@ -314,14 +311,14 @@ class Myvox_model extends Model
 			'description' => null,
 			'action_taken' => null,
 			'guest_treatment' => null,
-			'firstname' => (Session::get_value('account')['type'] == 'hotel') ? (!isset($data['firstname']) OR empty($data['firstname']) ? Session::get_value('owner')['guest']['firstname'] : $data['firstname']) : $data['firstname'],
-			'lastname' => (Session::get_value('account')['type'] == 'hotel') ? (!isset($data['firstname']) OR empty($data['firstname']) ? Session::get_value('owner')['guest']['lastname'] : $data['lastname']) : $data['lastname'],
+			'firstname' => (Session::get_value('account')['type'] == 'hotel') ? (!isset($data['firstname']) OR empty($data['firstname']) ? Session::get_value('owner')['reservation']['firstname'] : $data['firstname']) : $data['firstname'],
+			'lastname' => (Session::get_value('account')['type'] == 'hotel') ? (!isset($data['firstname']) OR empty($data['firstname']) ? Session::get_value('owner')['reservation']['lastname'] : $data['lastname']) : $data['lastname'],
 			'guest_id' => null,
 			'guest_type' => null,
-			'reservation_number' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['guest']['reservation_number'] : null,
+			'reservation_number' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['reservation_number'] : null,
 			'reservation_status' => null,
-			'check_in' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['guest']['check_in'] : null,
-			'check_out' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['guest']['check_out'] : null,
+			'check_in' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['check_in'] : null,
+			'check_out' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['check_out'] : null,
 			'attachments' => json_encode([]),
 			'viewed_by' => json_encode([]),
 			'comments' => json_encode([]),
@@ -329,16 +326,14 @@ class Myvox_model extends Model
 				[
 					'type' => 'create',
 					'user' => [
-						'myvox',
-						'guest'
+						'myvox'
 					],
 					'date' => Functions::get_current_date(),
 					'hour' => Functions::get_current_hour()
 				]
 			]),
 			'created_user' => json_encode([
-				'myvox',
-				'guest'
+				'myvox'
 			]),
 			'edited_user' => null,
 			'completed_user' => null,
@@ -379,14 +374,14 @@ class Myvox_model extends Model
 			'description' => null,
 			'action_taken' => null,
 			'guest_treatment' => null,
-			'firstname' => (Session::get_value('account')['type'] == 'hotel') ? (!isset($data['firstname']) OR empty($data['firstname']) ? Session::get_value('owner')['guest']['firstname'] : $data['firstname']) : $data['firstname'],
-			'lastname' => (Session::get_value('account')['type'] == 'hotel') ? (!isset($data['firstname']) OR empty($data['firstname']) ? Session::get_value('owner')['guest']['lastname'] : $data['lastname']) : $data['lastname'],
+			'firstname' => (Session::get_value('account')['type'] == 'hotel') ? (!isset($data['firstname']) OR empty($data['firstname']) ? Session::get_value('owner')['reservation']['firstname'] : $data['firstname']) : $data['firstname'],
+			'lastname' => (Session::get_value('account')['type'] == 'hotel') ? (!isset($data['firstname']) OR empty($data['firstname']) ? Session::get_value('owner')['reservation']['lastname'] : $data['lastname']) : $data['lastname'],
 			'guest_id' => null,
 			'guest_type' => null,
-			'reservation_number' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['guest']['reservation_number'] : null,
+			'reservation_number' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['reservation_number'] : null,
 			'reservation_status' => null,
-			'check_in' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['guest']['check_in'] : null,
-			'check_out' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['guest']['check_out'] : null,
+			'check_in' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['check_in'] : null,
+			'check_out' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['check_out'] : null,
 			'attachments' => json_encode([]),
 			'viewed_by' => json_encode([]),
 			'comments' => json_encode([]),
@@ -394,16 +389,14 @@ class Myvox_model extends Model
 				[
 					'type' => 'create',
 					'user' => [
-						'myvox',
-						'guest'
+						'myvox'
 					],
 					'date' => Functions::get_current_date(),
 					'hour' => Functions::get_current_hour()
 				]
 			]),
 			'created_user' => json_encode([
-				'myvox',
-				'guest'
+				'myvox'
 			]),
 			'edited_user' => null,
 			'completed_user' => null,
@@ -425,43 +418,28 @@ class Myvox_model extends Model
 
     public function new_survey_answer($data)
     {
+		$data['contact'] = [
+			'firstname' => $data['firstname'],
+			'lastname' => $data['lastname'],
+			'email' => $data['email'],
+			'phone' => [
+				'lada' => $data['phone_lada'],
+				'number' => $data['phone_number']
+			]
+		];
+
 		if (Session::get_value('account')['type'] == 'hotel')
 		{
-			$data['guest'] = [
-				'guestvox' => [
-					'firstname' => $data['firstname'],
-					'lastname' => $data['lastname'],
-					'email' => $data['email'],
-					'phone' => [
-						'lada' => $data['phone_lada'],
-						'number' => $data['phone_number']
-					]
-				],
-				'zaviapms' => [
-					'firstname' => Session::get_value('owner')['guest']['firstname'],
-					'lastname' => Session::get_value('owner')['guest']['lastname'],
-					'reservation_number' => Session::get_value('owner')['guest']['reservation_number'],
-					'check_in' => Session::get_value('owner')['guest']['check_in'],
-					'check_out' => Session::get_value('owner')['guest']['check_out'],
-					'nationality' => Session::get_value('owner')['guest']['nationality'],
-					'input_channel' => Session::get_value('owner')['guest']['input_channel'],
-					'traveler_type' => Session::get_value('owner')['guest']['traveler_type'],
-					'age_group' => Session::get_value('owner')['guest']['age_group']
-				]
-			];
-		}
-		else
-		{
-			$data['guest'] = [
-				'guestvox' => [
-					'firstname' => $data['firstname'],
-					'lastname' => $data['lastname'],
-					'email' => $data['email'],
-					'phone' => [
-						'lada' => $data['phone_lada'],
-						'number' => $data['phone_number']
-					]
-				]
+			$data['contact']['reservation'] = [
+				'firstname' => Session::get_value('owner')['reservation']['firstname'],
+				'lastname' => Session::get_value('owner')['reservation']['lastname'],
+				'reservation_number' => Session::get_value('owner')['reservation']['reservation_number'],
+				'check_in' => Session::get_value('owner')['reservation']['check_in'],
+				'check_out' => Session::get_value('owner')['reservation']['check_out'],
+				'nationality' => Session::get_value('owner')['reservation']['nationality'],
+				'input_channel' => Session::get_value('owner')['reservation']['input_channel'],
+				'traveler_type' => Session::get_value('owner')['reservation']['traveler_type'],
+				'age_group' => Session::get_value('owner')['reservation']['age_group']
 			];
 		}
 
@@ -471,7 +449,7 @@ class Myvox_model extends Model
 			'owner' => $data['owner'],
 			'answers' => json_encode($data['answers']),
 			'comment' => $data['comment'],
-			'guest' => json_encode($data['guest']),
+			'contact' => json_encode($data['contact']),
 			'date' => Functions::get_current_date(),
 			'status' => false
 		]);

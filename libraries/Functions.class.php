@@ -136,7 +136,7 @@ class Functions
     {
         Functions::set_default_timezone();
 
-		return explode('-', date('Y-m-d'))[0];
+        return [date('Y-m-d', strtotime('first day of January')), date('Y-m-d', strtotime('last day of December'))];
     }
 
     static public function get_formatted_currency($number = 0, $currency = 'MXN')

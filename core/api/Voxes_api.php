@@ -72,12 +72,16 @@ class Voxes_api extends Model
                             'id' => $query[0]['owner']
                         ]);
 
+                        array_map('current', $query[0]['owner']);
+
                         $query[0]['opportunity_area'] = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
                             'id',
                             'name'
                         ], [
                             'id' => $query[0]['opportunity_area']
                         ]));
+
+                        array_map('current', $query[0]['opportunity_area']);
 
                         $query[0]['opportunity_type'] = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
                             'id',
@@ -86,12 +90,33 @@ class Voxes_api extends Model
                             'id' => $query[0]['opportunity_type']
                         ]));
 
+                        array_map('current', $query[0]['opportunity_type']);
+
                         $query[0]['location'] = Functions::get_json_decoded_query($this->database->select('locations', [
                             'id',
                             'name'
                         ], [
                             'id' => $query[0]['location']
                         ]));
+
+                        array_map('current', $query[0]['location']);
+
+                        foreach ($query[0]['assigned_users'] as $key => $value)
+                        {
+                            $query[0]['assigned_users'][$key] = $this->database->select('users', [
+                                'id',
+                    			'firstname',
+                    			'lastname',
+                    			'email',
+                    			'phone',
+                    			'avatar',
+                    			'username'
+                            ], [
+                                'id' => $value
+                            ]);
+
+                            array_map('current', $query[0]['assigned_users'][$key]);
+                        }
 
                         $query[0]['guest_treatment'] = $this->database->select('guest_treatments', [
                             'id',
@@ -100,11 +125,42 @@ class Voxes_api extends Model
                             'id' => $query[0]['guest_treatment']
                         ]);
 
-                        array_map('current', $query[0]['owner']);
-                        array_map('current', $query[0]['opportunity_area']);
-                        array_map('current', $query[0]['opportunity_type']);
-                        array_map('current', $query[0]['location']);
                         array_map('current', $query[0]['guest_treatment']);
+
+                        $query[0]['guest_type'] = $this->database->select('guest_types', [
+                            'id',
+                            'name'
+                        ], [
+                            'id' => $query[0]['guest_type']
+                        ]);
+
+                        array_map('current', $query[0]['guest_type']);
+
+                        $query[0]['reservation_status'] = $this->database->select('reservation_statuses', [
+                            'id',
+                            'name'
+                        ], [
+                            'id' => $query[0]['reservation_status']
+                        ]);
+
+                        array_map('current', $query[0]['reservation_status']);
+
+                        foreach ($query[0]['assigned_users'] as $key => $value)
+                        {
+                            $query[0]['assigned_users'][$key] = $this->database->select('users', [
+                                'id',
+                    			'firstname',
+                    			'lastname',
+                    			'email',
+                    			'phone',
+                    			'avatar',
+                    			'username'
+                            ], [
+                                'id' => $value
+                            ]);
+
+                            array_map('current', $query[0]['assigned_users'][$key]);
+                        }
 
                         unset($query[0]['zaviapms']);
 
@@ -386,7 +442,7 @@ class Voxes_api extends Model
                             [
                                 'type' => 'create',
                                 'user' => [
-                                    'zaviapms',
+                                    'api',
                                     $_POST['username']
                                 ],
                                 'date' => Functions::get_current_date(),
@@ -394,7 +450,7 @@ class Voxes_api extends Model
                             ]
                         ]),
                         'created_user' => json_encode([
-                            'zaviapms',
+                            'api',
                             $_POST['username']
                         ]),
                         'edited_user' => null,
