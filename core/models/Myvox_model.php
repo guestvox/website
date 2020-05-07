@@ -40,8 +40,8 @@ class Myvox_model extends Model
 		], [
 			'account' => $account,
 			'ORDER' => [
-				'name' => 'ASC',
-				'number' => 'ASC'
+				'number' => 'ASC',
+				'name' => 'ASC'
 			]
 		]);
 

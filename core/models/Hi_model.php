@@ -19,7 +19,7 @@ class Hi_model extends Model
 			'hour',
 			'status'
 		], [
-			'id' => 1
+			'active' => true
 		]);
 
 		return !empty($query) ? $query[0] : null;

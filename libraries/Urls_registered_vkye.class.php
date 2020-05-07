@@ -10,15 +10,15 @@ class Urls_registered_vkye
     {
         return [
             '/' => [
-                'controller' => 'Index',
+                'controller' => 'Index', // Contenido
                 'method' => 'index'
             ],
             '/operacion' => [
-                'controller' => 'Hi',
+                'controller' => 'Hi', // Rediseño
                 'method' => 'operation'
             ],
             '/reputacion' => [
-                'controller' => 'Hi',
+                'controller' => 'Hi', // Rediseño
                 'method' => 'reputation'
             ],
             '/webinar' => [
@@ -26,7 +26,7 @@ class Urls_registered_vkye
                 'method' => 'webinar'
             ],
             '/about-us' => [
-                'controller' => 'About',
+                'controller' => 'About', // Desarrollo
                 'method' => 'index'
             ],
             '/terms-and-conditions' => [
@@ -34,7 +34,7 @@ class Urls_registered_vkye
                 'method' => 'terms'
             ],
             '/privacy-policies' => [
-                'controller' => 'Policies',
+                'controller' => 'Policies', // Contenido
                 'method' => 'privacy'
             ],
             '/%param%/myvox' => [
