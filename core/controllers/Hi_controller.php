@@ -87,7 +87,7 @@ class Hi_controller extends Controller
 								</tr>
 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-										<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#fff;">' . $mail2->Subject . '</h4>
+										<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail2->Subject . '</h4>
 										<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">¡Muchas gracias por ponerte en contacto con nosotros! En breve uno de nuestros asesores se pondrá en contacto contigo.</p>
 									</td>
 								</tr>
@@ -205,7 +205,7 @@ class Hi_controller extends Controller
 								</tr>
 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-										<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#fff;">' . $mail2->Subject . '</h4>
+										<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail2->Subject . '</h4>
 										<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">¡Muchas gracias por ponerte en contacto con nosotros! En breve uno de nuestros asesores se pondrá en contacto contigo.</p>
 									</td>
 								</tr>

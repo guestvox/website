@@ -75,7 +75,7 @@ class Myvox_model extends Model
 		}
 	}
 
-	public function get_reservation($owner)
+	public function get_reservation($number)
 	{
 		$reservation = [
 			'status' => 'success',
@@ -90,9 +90,9 @@ class Myvox_model extends Model
 			'age_group' => ''
 		];
 
-		if (Session::get_value('account')['zaviapms']['status'] == true AND !empty($owner))
+		if (Session::get_value('account')['zaviapms']['status'] == true AND !empty($number))
 		{
-			$query = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'room', $owner);
+			$query = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'room', $number);
 
 			$reservation['status'] = $query['Status'];
 
@@ -325,16 +325,12 @@ class Myvox_model extends Model
 			'changes_history' => json_encode([
 				[
 					'type' => 'create',
-					'user' => [
-						'myvox'
-					],
+					'user' => null,
 					'date' => Functions::get_current_date(),
 					'hour' => Functions::get_current_hour()
 				]
 			]),
-			'created_user' => json_encode([
-				'myvox'
-			]),
+			'created_user' => null,
 			'edited_user' => null,
 			'completed_user' => null,
 			'reopened_user' => null,
@@ -347,7 +343,7 @@ class Myvox_model extends Model
 			'reopened_date' => null,
 			'reopened_hour' => null,
 			'status' => 'open',
-			'origin' => 'external'
+			'origin' => 'myvox'
 		]);
 
 		return !empty($query) ? $this->database->id() : null;
@@ -388,16 +384,12 @@ class Myvox_model extends Model
 			'changes_history' => json_encode([
 				[
 					'type' => 'create',
-					'user' => [
-						'myvox'
-					],
+					'user' => null,
 					'date' => Functions::get_current_date(),
 					'hour' => Functions::get_current_hour()
 				]
 			]),
-			'created_user' => json_encode([
-				'myvox'
-			]),
+			'created_user' => null,
 			'edited_user' => null,
 			'completed_user' => null,
 			'reopened_user' => null,
@@ -410,7 +402,7 @@ class Myvox_model extends Model
 			'reopened_date' => null,
 			'reopened_hour' => null,
 			'status' => 'open',
-			'origin' => 'external'
+			'origin' => 'myvox'
 		]);
 
 		return !empty($query) ? $this->database->id() : null;
@@ -505,6 +497,17 @@ class Myvox_model extends Model
 		}
 		else
 			return null;
+	}
+
+	public function get_sms()
+	{
+		$query = $this->database->select('accounts', [
+			'sms'
+		], [
+			'id' => Session::get_value('account')['id']
+		]);
+
+		return !empty($query) ? $query[0]['sms'] : null;
 	}
 
 	public function edit_sms($sms)
