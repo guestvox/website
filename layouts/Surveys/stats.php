@@ -84,10 +84,14 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     <span>{$count_answered_week}<strong>{$lang.this_week}</strong></span>
                     <span>{$count_answered_month}<strong>{$lang.this_month}</strong></span>
                     <span>{$count_answered_year}<strong>{$lang.this_year}</strong></span>
+                    <span>{$general_nps}<strong>{$lang.total} NPS</strong></span>
                 </div>
                 <div class="chart">
                     <canvas id="s1_chart" height="300"></canvas>
                 </div>
+            </div>
+            <div class="charts big">
+                <canvas id="nps_chart" height="300"></canvas>
             </div>
             <div class="charts big">
                 <canvas id="s2_chart" height="300"></canvas>

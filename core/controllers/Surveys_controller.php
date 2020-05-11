@@ -1236,6 +1236,7 @@ class Surveys_controller extends Controller
 				$opt_survey_questions .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
 
 			$replace = [
+				'{$general_nps}' => $this->model->get_survey_nps(),
 				'{$h4_general_average_rate}' => $h4_general_average_rate,
 				'{$spn_general_avarage_rate}' => $spn_general_avarage_rate,
 				'{$five_percentage_rate}' => $this->model->get_percentage_rate('', 'five', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]),
@@ -1262,6 +1263,7 @@ class Surveys_controller extends Controller
 		header('Content-Type: application/javascript');
 
 		$s1_chart_data = $this->model->get_chart_data('s1_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]);
+		$nps_chart_data = $this->model->get_chart_data('nps_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date(), 'all']);
 		$s2_chart_data = $this->model->get_chart_data('s2_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date(), 'all']);
 
 		if (Session::get_value('account')['zaviapms']['status'] == true)
@@ -1281,6 +1283,7 @@ class Surveys_controller extends Controller
 			else if (Session::get_value('account')['type'] == 'others')
 				$s1_chart_title = 'Por cliente';
 
+			$nps_chart_title = 'NPS';
 			$s2_chart_title = 'Valoración';
 
 			if (Session::get_value('account')['zaviapms']['status'] == true)
@@ -1300,6 +1303,7 @@ class Surveys_controller extends Controller
 			else if (Session::get_value('account')['type'] == 'others')
 				$s1_chart_title = 'Per client';
 
+			$nps_chart_title = 'Rating';
 			$s2_chart_title = 'Rating';
 
 			if (Session::get_value('account')['zaviapms']['status'] == true)
@@ -1341,6 +1345,37 @@ class Surveys_controller extends Controller
 	            responsive: true
             }
         };
+
+		var nps_chart = {
+		    type: 'bar',
+			data: {
+				labels: [
+	                " . $nps_chart_data['labels'] . "
+	            ],
+				datasets: [
+					" . $nps_chart_data['datasets'] . "
+				]
+	        },
+			options: {
+				title: {
+					display: true,
+					position: 'top',
+					text: '" . $nps_chart_title . "'
+				},
+				legend: {
+					display: true
+				},
+				tooltips: {
+					mode: 'index',
+					intersect: false,
+				},
+				hover: {
+					mode: 'nearest',
+					intersect: true
+				},
+	            responsive: true
+            }
+		};
 
 		var s2_chart = {
 		    type: 'line',
@@ -1498,6 +1533,7 @@ class Surveys_controller extends Controller
 		"window.onload = function()
 		{
 			s1_chart = new Chart(document.getElementById('s1_chart').getContext('2d'), s1_chart);
+			nps_chart = new Chart(document.getElementById('nps_chart').getContext('2d'), nps_chart);
 			s2_chart = new Chart(document.getElementById('s2_chart').getContext('2d'), s2_chart);";
 
 			if (Session::get_value('account')['zaviapms']['status'] == true)

@@ -167,6 +167,55 @@ class Surveys_model extends Model
 		return $query;
 	}
 
+	public function get_survey_nps()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+			'id',
+			'token',
+			'room',
+			'table',
+			'client',
+			'answers',
+			'comment',
+			'guest',
+			'date',
+			'status'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+			],
+			'ORDER' => [
+				'id' => 'DESC'
+			]
+		]));
+
+		$count_detractors = 0;
+		$count_promoters = 0;
+		$total_nps = 0;
+		$result = 0;
+
+		foreach ($query as $key => $value)
+		{
+			foreach ($value['answers'] as $subvalue)
+			{
+				if ($subvalue['type'] == 'nps')
+				{
+					if ($subvalue['answer'] >= 0 AND $subvalue['answer'] <= 6)
+						$count_detractors = $count_detractors + 1;
+					else if ($subvalue['answer'] >= 9 AND $subvalue['answer'] <= 10)
+						$count_promoters = $count_promoters + 1;
+
+					$total_nps = $total_nps + 1;
+				}
+			}
+		}
+
+		if ($total_nps > 0)
+			$result = (($count_promoters - $count_detractors) / $total_nps) * 100;
+
+		return $result;
+	}
+
 	public function get_survey_answers($data = null, $parameters = [])
 	{
 		if ($data != 'all' AND $data != null)
@@ -349,6 +398,7 @@ class Surveys_model extends Model
 					$query[$key]['rate'] = round(($query[$key]['rate'] / $count), 1);
 
 				$query[$key]['count'] = count($query);
+
 			}
 		}
 
@@ -965,6 +1015,120 @@ class Surveys_model extends Model
 				{
 					$data['datasets']['data'] .= $empty;
 					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+				}
+			}
+		}
+		else if ($option == 'nps_chart')
+		{
+			$query1 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+				'id',
+				'name',
+				'subquestions',
+				'type'
+			], [
+				'account' => null
+			]));
+
+			if ($edit == true)
+			{
+				$data = [
+					'labels' => [],
+					'datasets' => []
+				];
+			}
+			else
+			{
+				$data = [
+					'labels' => '',
+					'datasets' => ''
+				];
+			}
+
+			$diff = Functions::get_diff_date($parameters[0], $parameters[1], 'days', true);
+
+			for ($i = 0; $i < $diff; $i++)
+			{
+				if ($edit == true)
+					array_push($data['labels'], Functions::get_future_date($parameters[0], $i, 'days'));
+				else
+					$data['labels'] .= "'" . Functions::get_future_date($parameters[0], $i, 'days') . "',";
+			}
+
+			if ($parameters[2] == 'all')
+			{
+				foreach ($query1 as $value)
+				{
+					if ($edit == true)
+						$datas = [];
+					else
+						$datas = '';
+
+					$tmp = 0;
+					$break = 0;
+
+					for ($i = 0; $i < $diff; $i++)
+					{
+						$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+							'answers'
+						], [
+							'AND' => [
+								'account' => Session::get_value('account')['id'],
+								'date' => Functions::get_future_date($parameters[0], $i, 'days')
+							]
+						]));
+
+						$count_detractors = 0;
+						$count_promoters = 0;
+						$total_nps = 0;
+						$result = 0;
+
+						foreach ($query2 as $subvalue)
+						{
+							foreach ($subvalue['answers'] as $parentvalue)
+							{
+								if ($parentvalue['type'] == 'nps')
+								{
+									if ($parentvalue['answer'] >= 0 AND $parentvalue['answer'] <= 6)
+										$count_detractors = $count_detractors + 1;
+									else if ($parentvalue['answer'] >= 9 AND $parentvalue['answer'] <= 10)
+										$count_promoters = $count_promoters + 1;
+
+									$total_nps = $total_nps + 1;
+								}
+							}
+						}
+
+						if ($total_nps > 0)
+							$result = (($count_promoters - $count_detractors) / $total_nps) * 100;
+
+						if ($edit == true)
+							array_push($datas, $result);
+						else
+							$datas .= $result . ",";
+					}
+
+						$color = str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+
+						if ($edit == true)
+						{
+							array_push($data['datasets'], [
+								'label' => $value['name'][Session::get_value('account')['language']],
+								'data' => $datas,
+								'fill' => false,
+								'backgroundColor' => '#' . $color,
+								'borderColor' => '#' . $color
+							]);
+						}
+						else
+						{
+							$data['datasets'] .= "{
+								label: '" . $value['name'][Session::get_value('account')['language']] . "',
+								data: [" . $datas . "],
+								fill: false,
+								backgroundColor: '#" . $color . "',
+								borderColor: '#" . $color . "',
+							},";
+						}
 				}
 			}
 		}
