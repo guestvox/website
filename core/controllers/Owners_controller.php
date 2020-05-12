@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-class Rooms_controller extends Controller
+class Owners_controller extends Controller
 {
 	public function __construct()
 	{
@@ -13,9 +13,9 @@ class Rooms_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'get_room')
+			if ($_POST['action'] == 'get_owner')
 			{
-				$query = $this->model->get_room($_POST['id']);
+				$query = $this->model->get_owner($_POST['id']);
 
                 if (!empty($query))
                 {
@@ -33,7 +33,7 @@ class Rooms_controller extends Controller
                 }
 			}
 
-			if ($_POST['action'] == 'new_room')
+			if ($_POST['action'] == 'new_owner')
 			{
 				$labels = [];
 
@@ -56,7 +56,7 @@ class Rooms_controller extends Controller
 
 				if (empty($labels))
 				{
-					$query = $this->model->new_room($_POST);
+					$query = $this->model->new_owner($_POST);
 
 					if (!empty($query))
 					{
@@ -82,15 +82,15 @@ class Rooms_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'download_rooms')
+			if ($_POST['action'] == 'download_owners')
 			{
-				$rooms = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'rooms');
+				$owners = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'owners');
 
-				if (!empty($rooms))
+				if (!empty($owners))
 				{
-					foreach ($rooms as $value)
+					foreach ($owners as $value)
 					{
-						$this->model->new_room([
+						$this->model->new_owner([
 							'type' => 'one',
 							'number' => $value['Number'],
 							'name' => ''
@@ -104,7 +104,7 @@ class Rooms_controller extends Controller
 				]);
 			}
 
-			if ($_POST['action'] == 'edit_room')
+			if ($_POST['action'] == 'edit_owner')
 			{
 				$labels = [];
 
@@ -113,7 +113,7 @@ class Rooms_controller extends Controller
 
 				if (empty($labels))
 				{
-					$query = $this->model->edit_room($_POST);
+					$query = $this->model->edit_owner($_POST);
 
 					if (!empty($query))
 					{
@@ -148,7 +148,7 @@ class Rooms_controller extends Controller
 
 				if (empty($labels))
 				{
-					$query = $this->model->edit_room($_POST);
+					$query = $this->model->edit_owner($_POST);
 
 					if (!empty($query))
 					{
@@ -174,9 +174,9 @@ class Rooms_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'delete_room')
+			if ($_POST['action'] == 'delete_owner')
 			{
-				$query = $this->model->delete_room($_POST['id']);
+				$query = $this->model->delete_owner($_POST['id']);
 
 				if (!empty($query))
 				{
@@ -200,37 +200,37 @@ class Rooms_controller extends Controller
 
 			$template = $this->view->render($this, 'index');
 
-			$tbl_rooms = '';
+			$tbl_owners = '';
 
-			foreach ($this->model->get_rooms() as $value)
+			foreach ($this->model->get_owners() as $value)
 			{
-				$tbl_rooms .=
+				$tbl_owners .=
 				'<tr>
 					<td align="left">' . $value['token'] . '</td>
 					<td align="left">' . (!empty($value['number']) ? '#' .  $value['number'] . '' : '') . '</td>
 					<td align="left">' . $value['name'] . '</td>
 					<td align="right" class="icon">' . (!empty($value['number']) ? '<a href="{$path.uploads}' . $value['qr'] . '" download="' . $value['qr'] . '"><i class="fas fa-qrcode"></i></a>' : '') . '</td>
-					' . ((Functions::check_user_access(['{rooms_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_room" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
-					' . ((Functions::check_user_access(['{rooms_update}']) == true) ? (($value['status'] == false) ? '<td align="right" class="icon"><a data-action="edit_room" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '<td align="right" class="icon"><a data-action="edit_department" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>') : '') . '
+					' . ((Functions::check_user_access(['{owners_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_owner" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
+					' . ((Functions::check_user_access(['{owners_update}']) == true) ? (($value['status'] == false) ? '<td align="right" class="icon"><a data-action="edit_owner" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '<td align="right" class="icon"><a data-action="edit_department" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>') : '') . '
 				</tr>';
 			}
 
-			$mdl_new_room = '';
+			$mdl_new_owner = '';
 
-			if (Functions::check_user_access(['{rooms_create}']) == true)
+			if (Functions::check_user_access(['{owners_create}']) == true)
 			{
-				$mdl_new_room .=
-				'<section class="modal new" data-modal="new_room">
+				$mdl_new_owner .=
+				'<section class="modal new" data-modal="new_owner">
 				    <div class="content">
 				        <header>
 				            <h3>{$lang.new}</h3>
 				        </header>
 				        <main>';
 
-				if ($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end'])
+				if ($this->model->get_count_owners() < Session::get_value('account')['owner_package']['quantity_end'])
 				{
-					$mdl_new_room .=
-					'<form name="new_room">
+					$mdl_new_owner .=
+					'<form name="new_owner">
 		                <div class="row">
 		                    <div class="span12">
 		                        <div class="label">
@@ -242,11 +242,11 @@ class Rooms_controller extends Controller
 		                    				<div>
 		                                        <div>
 		                        					<input type="radio" name="type" value="many" checked>
-		                        					<span>{$lang.many_rooms}</span>
+		                        					<span>{$lang.many_owners}</span>
 		                        				</div>
 		                                        <div>
 		                        					<input type="radio" name="type" value="one">
-		                        					<span>{$lang.one_room}</span>
+		                        					<span>{$lang.one_owner}</span>
 		                        				</div>
 		                                        <div>
 		                        					<input type="radio" name="type" value="department">
@@ -294,54 +294,54 @@ class Rooms_controller extends Controller
 				}
 				else
 				{
-					$mdl_new_room .=
+					$mdl_new_owner .=
 					'<div class="maximum-exceeded">
 						<i class="far fa-frown"></i>
-						<p>{$lang.maximum_rooms_exceeded}</p>
+						<p>{$lang.maximum_owners_exceeded}</p>
 					</div>';
 				}
 
-				$mdl_new_room .=
+				$mdl_new_owner .=
 				'        </main>
 				        <footer>
 				            <div class="action-buttons">
-				                ' . (($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn btn-flat" button-cancel>{$lang.cancel}</button>' : '') . '
-				                ' . (($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn" button-success>{$lang.accept}</button>' : '') . '
-								' . (($this->model->get_count_rooms() >= Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.accept}</accept>' : '') . '
+				                ' . (($this->model->get_count_owners() < Session::get_value('account')['owner_package']['quantity_end']) ? '<button class="btn btn-flat" button-cancel>{$lang.cancel}</button>' : '') . '
+				                ' . (($this->model->get_count_owners() < Session::get_value('account')['owner_package']['quantity_end']) ? '<button class="btn" button-success>{$lang.accept}</button>' : '') . '
+								' . (($this->model->get_count_owners() >= Session::get_value('account')['owner_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.accept}</accept>' : '') . '
 				            </div>
 				        </footer>
 				    </div>
 				</section>';
 			}
 
-			$mdl_download_rooms = '';
+			$mdl_download_owners = '';
 
-			if (Functions::check_user_access(['{rooms_create}']) == true AND Session::get_value('account')['zaviapms']['status'] == true)
+			if (Functions::check_user_access(['{owners_create}']) == true AND Session::get_value('account')['zaviapms']['status'] == true)
 			{
-				$mdl_download_rooms .=
-				'<section class="modal" data-modal="download_rooms">
+				$mdl_download_owners .=
+				'<section class="modal" data-modal="download_owners">
 				    <div class="content">
 				        <header>
 				            <h3>{$lang.download}</h3>
 				        </header>';
 
-				if ($this->model->get_count_rooms() >= Session::get_value('account')['room_package']['quantity_end'])
+				if ($this->model->get_count_owners() >= Session::get_value('account')['owner_package']['quantity_end'])
 				{
-					$mdl_download_rooms .=
+					$mdl_download_owners .=
 					'<main>
 						<div class="maximum-exceeded">
 							<i class="far fa-frown"></i>
-							<p>{$lang.maximum_rooms_exceeded}</p>
+							<p>{$lang.maximum_owners_exceeded}</p>
 						</div>
 					</main>';
 				}
 
-				$mdl_download_rooms .=
+				$mdl_download_owners .=
 				'        <footer>
 				            <div class="action-buttons">
-								' . (($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.cancel}</button>' : '') . '
-								' . (($this->model->get_count_rooms() < Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn" button-success>{$lang.accept}</button>' : '') . '
-								' . (($this->model->get_count_rooms() >= Session::get_value('account')['room_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.accept}</accept>' : '') . '
+								' . (($this->model->get_count_owners() < Session::get_value('account')['owner_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.cancel}</button>' : '') . '
+								' . (($this->model->get_count_owners() < Session::get_value('account')['owner_package']['quantity_end']) ? '<button class="btn" button-success>{$lang.accept}</button>' : '') . '
+								' . (($this->model->get_count_owners() >= Session::get_value('account')['owner_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.accept}</accept>' : '') . '
 				            </div>
 				        </footer>
 				    </div>
@@ -349,9 +349,9 @@ class Rooms_controller extends Controller
 			}
 
 			$replace = [
-				'{$tbl_rooms}' => $tbl_rooms,
-				'{$mdl_new_room}' => $mdl_new_room,
-				'{$mdl_download_rooms}' => $mdl_download_rooms
+				'{$tbl_owners}' => $tbl_owners,
+				'{$mdl_new_owner}' => $mdl_new_owner,
+				'{$mdl_download_owners}' => $mdl_download_owners
 			];
 
 			$template = $this->format->replace($replace, $template);

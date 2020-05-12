@@ -8,7 +8,7 @@ $(document).ready(function()
         info: false
     });
 
-    $('[name="started_date"], [name="end_date"], [name="room"]').on('change', function()
+    $('[name="started_date"], [name="end_date"], [name="owner"]').on('change', function()
     {
         $(this).parents('form').submit();
     });

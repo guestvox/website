@@ -535,7 +535,7 @@ class Surveys_controller extends Controller
 		{
 			if ($_POST['action'] == 'get_filter_survey_answer')
 			{
-				$query = $this->model->get_survey_answers($_POST['room'], [$_POST['started_date'], $_POST['end_date']]);
+				$query = $this->model->get_survey_answers($_POST['owner'], [$_POST['started_date'], $_POST['end_date']]);
 
 				$data = '';
 
@@ -554,13 +554,13 @@ class Surveys_controller extends Controller
 							<td align="left">' . $value['token'] . '</td>';
 
 						if (Session::get_value('account')['type'] == 'hotel')
-							$data .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+							$data .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
 
 						if (Session::get_value('account')['type'] == 'restaurant')
-							$data .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+							$data .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
 
 						if (Session::get_value('account')['type'] == 'others')
-							$data .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
+							$data .= '<td align="left">' . (!empty($value['owner']) ? $value['owner']['name'] : '') . '</td>';
 
 						$data .=
 						'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
@@ -595,13 +595,13 @@ class Surveys_controller extends Controller
 					$data = '<span><strong>{$lang.token}:</strong> ' . $query['token']  . '</span>';
 
 					if (Session::get_value('account')['type'] == 'hotel')
-						$data .= '<span><strong>{$lang.room}:</strong> ' . (!empty($query['room']) ? '#' . $query['room']['number'] . ' ' . $query['room']['name'] : '') . '</span>';
+						$data .= '<span><strong>{$lang.owner}:</strong> ' . (!empty($query['owner']) ? '#' . $query['owner']['number'] . ' ' . $query['owner']['name'] : '') . '</span>';
 
 					if (Session::get_value('account')['type'] == 'restaurant')
-						$data .= '<span><strong>{$lang.table}:</strong> ' . (!empty($query['table']) ? '#' . $query['table']['number'] . ' ' . $query['table']['name'] : '') . '</span>';
+						$data .= '<span><strong>{$lang.owner}:</strong> ' . (!empty($query['owner']) ? '#' . $query['owner']['number'] . ' ' . $query['owner']['name'] : '') . '</span>';
 
 					if (Session::get_value('account')['type'] == 'others')
-						$data .= '<span><strong>{$lang.client}:</strong> ' . (!empty($query['client']) ? $query['client']['name'] : '') . '</span>';
+						$data .= '<span><strong>{$lang.owner}:</strong> ' . (!empty($query['owner']) ? $query['owner']['name'] : '') . '</span>';
 
 					$data .=
 					'<div>
@@ -793,16 +793,16 @@ class Surveys_controller extends Controller
 
 			$template = $this->view->render($this, 'answers');
 
-			$opt_rooms = '';
+			$opt_owners = '';
 
 			if (Session::get_value('account')['type'] == 'hotel')
 			{
-				foreach ($this->model->get_rooms() as $value)
+				foreach ($this->model->get_owners() as $value)
 				{
 					if ($value['status'] == true)
-						$opt_rooms .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+						$opt_owners .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
 					else
-						$opt_rooms .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
+						$opt_owners .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 				}
 			}
 
@@ -819,13 +819,13 @@ class Surveys_controller extends Controller
 					<td align="left">' . $value['token'] . '</td>';
 
 				if (Session::get_value('account')['type'] == 'hotel')
-					$tbl_survey_answers .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+					$tbl_survey_answers .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
 
 				if (Session::get_value('account')['type'] == 'restaurant')
-					$tbl_survey_answers .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+					$tbl_survey_answers .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
 
 				if (Session::get_value('account')['type'] == 'others')
-					$tbl_survey_answers .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
+					$tbl_survey_answers .= '<td align="left">' . (!empty($value['owner']) ? $value['owner']['name'] : '') . '</td>';
 
 				$tbl_survey_answers .=
 				'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
@@ -838,7 +838,7 @@ class Surveys_controller extends Controller
 			}
 
 			$replace = [
-				'{$opt_rooms}' => $opt_rooms,
+				'{$opt_owners}' => $opt_owners,
 				'{$tbl_survey_answers}' => $tbl_survey_answers
 			];
 
@@ -854,7 +854,7 @@ class Surveys_controller extends Controller
 		{
             if ($_POST['action'] == 'get_filter_survey_comments')
 			{
-				$query = $this->model->get_survey_answers($_POST['room'], [$_POST['started_date'], $_POST['end_date']]);
+				$query = $this->model->get_survey_answers($_POST['owner'], [$_POST['started_date'], $_POST['end_date']]);
 
 				$data = '';
 
@@ -869,13 +869,13 @@ class Surveys_controller extends Controller
                                         <td align="left">' . $value['token'] . '</td>';
 
                                 if (Session::get_value('account')['type'] == 'hotel')
-                                        $data .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+                                        $data .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
 
                                 if (Session::get_value('account')['type'] == 'restaurant')
-                                        $data .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+                                        $data .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
 
                                 if (Session::get_value('account')['type'] == 'others')
-                                        $data .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
+                                        $data .= '<td align="left">' . (!empty($value['owner']) ? $value['owner']['name'] : '') . '</td>';
 
                                 $data .=
                                 '	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
@@ -946,16 +946,16 @@ class Surveys_controller extends Controller
 
 			$template = $this->view->render($this, 'comments');
 
-			$opt_rooms="";
+			$opt_owners="";
 
         	if (Session::get_value('account')['type'] == 'hotel')
 			{
-				foreach ($this->model->get_rooms() as $value)
+				foreach ($this->model->get_owners() as $value)
 				{
 					if ($value['status'] == true)
-						$opt_rooms .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+						$opt_owners .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
 					else
-						$opt_rooms .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
+						$opt_owners .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 				}
 			}
 
@@ -970,13 +970,13 @@ class Surveys_controller extends Controller
 						<td align="left">' . $value['token'] . '</td>';
 
 					if (Session::get_value('account')['type'] == 'hotel')
-						$tbl_survey_comments .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+						$tbl_survey_comments .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
 
 					if (Session::get_value('account')['type'] == 'restaurant')
-						$tbl_survey_comments .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+						$tbl_survey_comments .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
 
 					if (Session::get_value('account')['type'] == 'others')
-						$tbl_survey_comments .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
+						$tbl_survey_comments .= '<td align="left">' . (!empty($value['owner']) ? $value['owner']['name'] : '') . '</td>';
 
 					$tbl_survey_comments .=
 					'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
@@ -988,7 +988,7 @@ class Surveys_controller extends Controller
 			}
 
 			$replace = [
-				'{$opt_rooms}' => $opt_rooms,
+				'{$opt_owners}' => $opt_owners,
 				'{$tbl_survey_comments}' => $tbl_survey_comments
 			];
 
@@ -1004,7 +1004,7 @@ class Surveys_controller extends Controller
 		{
 			if ($_POST['action'] == 'get_filter_survey_contacts')
 			{
-				$query = $this->model->get_survey_answers($_POST['room'], []);
+				$query = $this->model->get_survey_answers($_POST['owner'], []);
 
 				if (!empty($query))
 				{
@@ -1019,13 +1019,13 @@ class Surveys_controller extends Controller
 								<td align="left">' . $value['token'] . '</td>';
 
 							if (Session::get_value('account')['type'] == 'hotel')
-								$data .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+								$data .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
 
 							if (Session::get_value('account')['type'] == 'restaurant')
-								$data .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+								$data .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
 
 							if (Session::get_value('account')['type'] == 'others')
-								$data .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
+								$data .= '<td align="left">' . (!empty($value['owner']) ? $value['owner']['name'] : '') . '</td>';
 
 							$data .=
 							'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
@@ -1055,16 +1055,16 @@ class Surveys_controller extends Controller
 
 			$template = $this->view->render($this, 'contacts');
 
-			$opt_rooms="";
+			$opt_owners="";
 
         	if (Session::get_value('account')['type'] == 'hotel')
 			{
-				foreach ($this->model->get_rooms() as $value)
+				foreach ($this->model->get_owners() as $value)
 				{
 					if ($value['status'] == true)
-						$opt_rooms .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+						$opt_owners .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
 					else
-						$opt_rooms .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
+						$opt_owners .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
 				}
 			}
 
@@ -1079,13 +1079,13 @@ class Surveys_controller extends Controller
 						<td align="left">' . $value['token'] . '</td>';
 
 					if (Session::get_value('account')['type'] == 'hotel')
-						$tbl_survey_contacts .= '<td align="left">' . (!empty($value['room']) ? '#' . $value['room']['number'] . ' ' . $value['room']['name'] : '') . '</td>';
+						$tbl_survey_contacts .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
 
 					if (Session::get_value('account')['type'] == 'restaurant')
-						$tbl_survey_contacts .= '<td align="left">' . (!empty($value['table']) ? '#' . $value['table']['number'] . ' ' . $value['table']['name'] : '') . '</td>';
+						$tbl_survey_contacts .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
 
 					if (Session::get_value('account')['type'] == 'others')
-						$tbl_survey_contacts .= '<td align="left">' . (!empty($value['client']) ? $value['client']['name'] : '') . '</td>';
+						$tbl_survey_contacts .= '<td align="left">' . (!empty($value['owner']) ? $value['owner']['name'] : '') . '</td>';
 
 					$tbl_survey_contacts .=
 					'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
@@ -1096,7 +1096,7 @@ class Surveys_controller extends Controller
 			}
 
 			$replace = [
-				'{$opt_rooms}' => $opt_rooms,
+				'{$opt_owners}' => $opt_owners,
 				'{$tbl_survey_contacts}' => $tbl_survey_contacts
 			];
 
@@ -1297,11 +1297,11 @@ class Surveys_controller extends Controller
 		else if (Session::get_value('account')['language'] == 'en')
 		{
 			if (Session::get_value('account')['type'] == 'hotel')
-				$s1_chart_title = 'Per room';
+				$s1_chart_title = 'Per owner';
 			else if (Session::get_value('account')['type'] == 'restaurant')
-				$s1_chart_title = 'Per table';
+				$s1_chart_title = 'Per owner';
 			else if (Session::get_value('account')['type'] == 'others')
-				$s1_chart_title = 'Per client';
+				$s1_chart_title = 'Per owner';
 
 			$nps_chart_title = 'Rating';
 			$s2_chart_title = 'Rating';

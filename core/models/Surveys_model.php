@@ -172,9 +172,7 @@ class Surveys_model extends Model
 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 			'id',
 			'token',
-			'room',
-			'table',
-			'client',
+			'owner',
 			'answers',
 			'comment',
 			'guest',
@@ -224,7 +222,7 @@ class Surveys_model extends Model
 			{
 				$where = [
 					'account' => Session::get_value('account')['id'],
-					'room' => $data,
+					'owner' => $data,
 					'date[<>]' => [$parameters[0], $parameters[1]]
 				];
 			}
@@ -232,16 +230,14 @@ class Surveys_model extends Model
 			{
 				$where = [
 					'account' => Session::get_value('account')['id'],
-					'room' => $data
+					'owner' => $data
 				];
 			}
 
 			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 				'id',
 				'token',
-				'room',
-				'table',
-				'client',
+				'owner',
 				'answers',
 				'comment',
 				'guest',
@@ -258,20 +254,20 @@ class Surveys_model extends Model
 			{
 				if (Session::get_value('account')['type'] == 'hotel')
 				{
-					if (!empty($value['room']))
-						$query[$key]['room'] = $this->get_room($value['room']);
+					if (!empty($value['owner']))
+						$query[$key]['owner'] = $this->get_owner($value['owners']);
 				}
 
 				if (Session::get_value('account')['type'] == 'restaurant')
 				{
-					if (!empty($value['table']))
-						$query[$key]['table'] = $this->get_table($value['table']);
+					if (!empty($value['owner']))
+						$query[$key]['owner'] = $this->get_owner($value['owner']);
 				}
 
 				if (Session::get_value('account')['type'] == 'others')
 				{
-					if (!empty($value['client']))
-						$query[$key]['client'] = $this->get_client($value['client']);
+					if (!empty($value['owner']))
+						$query[$key]['owner'] = $this->get_owner($value['owner']);
 				}
 
 				$query[$key]['rate'] = 0;
@@ -329,9 +325,7 @@ class Surveys_model extends Model
 			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 				'id',
 				'token',
-				'room',
-				'table',
-				'client',
+				'owners',
 				'answers',
 				'comment',
 				'guest',
@@ -348,20 +342,20 @@ class Surveys_model extends Model
 			{
 				if (Session::get_value('account')['type'] == 'hotel')
 				{
-					if (!empty($value['room']))
-						$query[$key]['room'] = $this->get_room($value['room']);
+					if (!empty($value['owner']))
+						$query[$key]['owner'] = $this->get_owner($value['owner']);
 				}
 
 				if (Session::get_value('account')['type'] == 'restaurant')
 				{
-					if (!empty($value['table']))
-						$query[$key]['table'] = $this->get_table($value['table']);
+					if (!empty($value['owner']))
+						$query[$key]['owner'] = $this->get_owner($value['owner']);
 				}
 
 				if (Session::get_value('account')['type'] == 'others')
 				{
-					if (!empty($value['client']))
-						$query[$key]['client'] = $this->get_client($value['client']);
+					if (!empty($value['owner']))
+						$query[$key]['owner'] = $this->get_owner($value['owner']);
 				}
 
 				$query[$key]['rate'] = 0;
@@ -405,9 +399,9 @@ class Surveys_model extends Model
 		return $query;
 	}
 
-	public function get_rooms()
+	public function get_owners()
 	{
-		$query = $this->database->select('rooms', [
+		$query = $this->database->select('owners', [
 			'id',
 			'number',
 			'name',
@@ -426,9 +420,7 @@ class Surveys_model extends Model
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 			'token',
-			'room',
-			'table',
-			'client',
+			'owner',
 			'answers',
 			'comment',
 			'guest',
@@ -441,20 +433,20 @@ class Surveys_model extends Model
 		{
 			if (Session::get_value('account')['type'] == 'hotel')
 			{
-				if (!empty($query[0]['room']))
-					$query[0]['room'] = $this->get_room($query[0]['room']);
+				if (!empty($query[0]['owner']))
+					$query[0]['owner'] = $this->get_owner($query[0]['owner']);
 			}
 
 			if (Session::get_value('account')['type'] == 'restaurant')
 			{
-				if (!empty($query[0]['table']))
-					$query[0]['table'] = $this->get_table($query[0]['table']);
+				if (!empty($query[0]['owner']))
+					$query[0]['owner'] = $this->get_owner($query[0]['owner']);
 			}
 
 			if (Session::get_value('account')['type'] == 'others')
 			{
-				if (!empty($query[0]['client']))
-					$query[0]['client'] = $this->get_client($query[0]['client']);
+				if (!empty($query[0]['owner']))
+					$query[0]['owner'] = $this->get_owner($query[0]['owner']);
 			}
 
 			$query[0]['rate'] = 0;
@@ -527,33 +519,10 @@ class Surveys_model extends Model
 			return null;
 	}
 
-	public function get_room($id)
+	public function get_owner($id)
 	{
-		$query = $this->database->select('rooms', [
+		$query = $this->database->select('owners', [
 			'number',
-			'name'
-		], [
-			'id' => $id
-		]);
-
-		return !empty($query) ? $query[0] : null;
-	}
-
-	public function get_table($id)
-	{
-		$query = $this->database->select('tables', [
-			'number',
-			'name'
-		], [
-			'id' => $id
-		]);
-
-		return !empty($query) ? $query[0] : null;
-	}
-
-	public function get_client($id)
-	{
-		$query = $this->database->select('clients', [
 			'name'
 		], [
 			'id' => $id
@@ -756,7 +725,7 @@ class Surveys_model extends Model
 			if (Session::get_value('account')['type'] == 'hotel')
 			{
 				$query1 = $this->database->select('survey_answers', [
-					'room'
+					'owner'
 				], [
 					'AND' => [
 						'account' => Session::get_value('account')['id'],
@@ -764,7 +733,7 @@ class Surveys_model extends Model
 					]
 				]);
 
-				$query2 = $this->database->select('rooms', [
+				$query2 = $this->database->select('owners', [
 					'id',
 					'number',
 					'name'
@@ -776,7 +745,7 @@ class Surveys_model extends Model
 			if (Session::get_value('account')['type'] == 'restaurant')
 			{
 				$query1 = $this->database->select('survey_answers', [
-					'table'
+					'owner'
 				], [
 					'AND' => [
 						'account' => Session::get_value('account')['id'],
@@ -784,7 +753,7 @@ class Surveys_model extends Model
 					]
 				]);
 
-				$query2 = $this->database->select('table', [
+				$query2 = $this->database->select('owners', [
 					'id',
 					'number',
 					'name'
@@ -796,7 +765,7 @@ class Surveys_model extends Model
 			if (Session::get_value('account')['type'] == 'others')
 			{
 				$query1 = $this->database->select('survey_answers', [
-					'client'
+					'owner'
 				], [
 					'AND' => [
 						'account' => Session::get_value('account')['id'],
@@ -804,7 +773,7 @@ class Surveys_model extends Model
 					]
 				]);
 
-				$query2 = $this->database->select('clients', [
+				$query2 = $this->database->select('owners', [
 					'id',
 					'name'
 				], [
@@ -841,19 +810,19 @@ class Surveys_model extends Model
 				{
 					if (Session::get_value('account')['type'] == 'hotel')
 					{
-						if ($value['id'] == $subvalue['room'])
+						if ($value['id'] == $subvalue['owner'])
 							$count = $count + 1;
 					}
 
 					if (Session::get_value('account')['type'] == 'restaurant')
 					{
-						if ($value['id'] == $subvalue['table'])
+						if ($value['id'] == $subvalue['owner'])
 							$count = $count + 1;
 					}
 
 					if (Session::get_value('account')['type'] == 'others')
 					{
-						if ($value['id'] == $subvalue['client'])
+						if ($value['id'] == $subvalue['owner'])
 							$count = $count + 1;
 					}
 				}
@@ -867,14 +836,14 @@ class Surveys_model extends Model
 							if (Session::get_value('account')['language'] == 'es')
 								array_push($data['labels'], 'Habitación #' . $value['number'] . ' ' . $value['name']);
 							else if (Session::get_value('account')['language'] == 'en')
-								array_push($data['labels'], 'Room #' . $value['number'] . ' ' . $value['name']);
+								array_push($data['labels'], 'Owner #' . $value['number'] . ' ' . $value['name']);
 						}
 						else
 						{
 							if (Session::get_value('account')['language'] == 'es')
 								$data['labels'] .= "'Habitación #" . $value['number'] . ' ' . $value['name'] . "',";
 							else if (Session::get_value('account')['language'] == 'en')
-								$data['labels'] .= "'Room #" . $value['number'] . ' ' . $value['name'] . "',";
+								$data['labels'] .= "'Owner #" . $value['number'] . ' ' . $value['name'] . "',";
 						}
 					}
 
@@ -885,14 +854,14 @@ class Surveys_model extends Model
 							if (Session::get_value('account')['language'] == 'es')
 								array_push($data['labels'], 'Mesa #' . $value['number'] . ' ' . $value['name']);
 							else if (Session::get_value('account')['language'] == 'en')
-								array_push($data['labels'], 'Table #' . $value['number'] . ' ' . $value['name']);
+								array_push($data['labels'], 'Owner #' . $value['number'] . ' ' . $value['name']);
 						}
 						else
 						{
 							if (Session::get_value('account')['language'] == 'es')
 								$data['labels'] .= "'Mesa #" . $value['number'] . ' ' . $value['name'] . "',";
 							else if (Session::get_value('account')['language'] == 'en')
-								$data['labels'] .= "'Table #" . $value['number'] . ' ' . $value['name'] . "',";
+								$data['labels'] .= "'Owner #" . $value['number'] . ' ' . $value['name'] . "',";
 						}
 					}
 
@@ -933,19 +902,19 @@ class Surveys_model extends Model
 			{
 				if (Session::get_value('account')['type'] == 'hotel')
 				{
-					if (!isset($value['room']) OR empty($value['room']))
+					if (!isset($value['owner']) OR empty($value['owner']))
 						$empty = $empty + 1;
 				}
 
 				if (Session::get_value('account')['type'] == 'restaurant')
 				{
-					if (!isset($value['table']) OR empty($value['table']))
+					if (!isset($value['owner']) OR empty($value['owner']))
 						$empty = $empty + 1;
 				}
 
 				if (Session::get_value('account')['type'] == 'others')
 				{
-					if (!isset($value['client']) OR empty($value['client']))
+					if (!isset($value['owner']) OR empty($value['owner']))
 						$empty = $empty + 1;
 				}
 			}
@@ -959,14 +928,14 @@ class Surveys_model extends Model
 						if (Session::get_value('account')['language'] == 'es')
 							array_push($data['labels'], 'Sin habitación');
 						else if (Session::get_value('account')['language'] == 'en')
-							array_push($data['labels'], 'No room');
+							array_push($data['labels'], 'No owner');
 					}
 					else
 					{
 						if (Session::get_value('account')['language'] == 'es')
 							$data['labels'] .= "'Sin habitación'";
 						else if (Session::get_value('account')['language'] == 'en')
-							$data['labels'] .= "'No room'";
+							$data['labels'] .= "'No owner'";
 					}
 				}
 
@@ -977,14 +946,14 @@ class Surveys_model extends Model
 						if (Session::get_value('account')['language'] == 'es')
 							array_push($data['labels'], 'Sin mesa');
 						else if (Session::get_value('account')['language'] == 'en')
-							array_push($data['labels'], 'No table');
+							array_push($data['labels'], 'No owner');
 					}
 					else
 					{
 						if (Session::get_value('account')['language'] == 'es')
 							$data['labels'] .= "'Sin mesa'";
 						else if (Session::get_value('account')['language'] == 'en')
-							$data['labels'] .= "'No table'";
+							$data['labels'] .= "'No owner'";
 					}
 				}
 
@@ -995,14 +964,14 @@ class Surveys_model extends Model
 						if (Session::get_value('account')['language'] == 'es')
 							array_push($data['labels'], 'Sin cliente');
 						else if (Session::get_value('account')['language'] == 'en')
-							array_push($data['labels'], 'No client');
+							array_push($data['labels'], 'No owner');
 					}
 					else
 					{
 						if (Session::get_value('account')['language'] == 'es')
 							$data['labels'] .= "'Sin cliente'";
 						else if (Session::get_value('account')['language'] == 'en')
-							$data['labels'] .= "'No client'";
+							$data['labels'] .= "'No owner'";
 					}
 				}
 

@@ -13,7 +13,7 @@ $(document).ready(function()
         tbl_survey_contacts.search(this.value).draw();
     });
 
-    $('[name="started_date"], [name="end_date"], [name="room"]').on('change', function()
+    $('[name="started_date"], [name="end_date"], [name="owner"]').on('change', function()
     {
         $(this).parents('form').submit();
     });
