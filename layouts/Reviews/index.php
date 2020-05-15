@@ -17,33 +17,33 @@ $this->dependencies->add(['js', '{$path.js}Reviews/index.js']);
     <div class="container">
         <div class="chart-rate">
             <div class="average">
-                {$h2_general_average_rate}
-                {$spn_general_avarage_rate}
+                {$h2_surveys_average}
+                {$spn_surveys_average}
             </div>
             <div class="progress">
                 <span>5<i class="fas fa-star"></i></span>
-                <progress value="{$five_percentage_rate}" max="100"></progress>
-                <span>{$five_percentage_rate}%</span>
+                <progress value="{$five_surveys_porcentage}" max="100"></progress>
+                <span>{$five_surveys_porcentage}%</span>
             </div>
             <div class="progress">
                 <span>4<i class="fas fa-star"></i></span>
-                <progress value="{$four_percentage_rate}" max="100"></progress>
-                <span>{$four_percentage_rate}%</span>
+                <progress value="{$four_surveys_porcentage}" max="100"></progress>
+                <span>{$four_surveys_porcentage}%</span>
             </div>
             <div class="progress">
                 <span>3<i class="fas fa-star"></i></span>
-                <progress value="{$tree_percentage_rate}" max="100"></progress>
-                <span>{$tree_percentage_rate}%</span>
+                <progress value="{$tree_surveys_porcentage}" max="100"></progress>
+                <span>{$tree_surveys_porcentage}%</span>
             </div>
             <div class="progress">
                 <span>2<i class="fas fa-star"></i></span>
-                <progress value="{$two_percentage_rate}" max="100"></progress>
-                <span>{$two_percentage_rate}%</span>
+                <progress value="{$two_surveys_porcentage}" max="100"></progress>
+                <span>{$two_surveys_porcentage}%</span>
             </div>
             <div class="progress">
                 <span>1<i class="fas fa-star"></i></span>
-                <progress value="{$one_percentage_rate}" max="100"></progress>
-                <span>{$one_percentage_rate}%</span>
+                <progress value="{$one_surveys_porcentage}" max="100"></progress>
+                <span>{$one_surveys_porcentage}%</span>
             </div>
         </div>
         <div class="datas">
@@ -55,7 +55,7 @@ $this->dependencies->add(['js', '{$path.js}Reviews/index.js']);
             <p>{$description}</p>
         </div>
         <div class="clear"></div>
-        {$tbl_comments}
+        {$tbl_surveys_comments}
         <div class="social-media">
             {$facebook}
             {$instagram}

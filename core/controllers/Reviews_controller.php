@@ -19,54 +19,54 @@ class Reviews_controller extends Controller
 
 			$template = $this->view->render($this, 'index');
 
-			$general_average_rate = $this->model->get_general_average_rate($account['id']);
+			$surveys_average = $this->model->get_surveys_average($account['id']);
 
-			$h2_general_average_rate = '';
+			$h2_surveys_average = '';
 
-			if ($general_average_rate >= 0 AND $general_average_rate < 1.8)
-				$h2_general_average_rate = '<h2 style="color:#f44336;">' . $general_average_rate . '</h2>';
-			else if ($general_average_rate >= 1.8 AND $general_average_rate < 2.8)
-				$h2_general_average_rate = '<h2 style="color:#ffc107;">' . $general_average_rate . '</h2>';
-			else if ($general_average_rate >= 2.8 AND $general_average_rate < 3.8)
-				$h2_general_average_rate = '<h2 style="color:#ffeb3b;">' . $general_average_rate . '</h2>';
-			else if ($general_average_rate >= 3.8 AND $general_average_rate < 4.8)
-				$h2_general_average_rate = '<h2 style="color:#4caf50;">' . $general_average_rate . '</h2>';
-			else if ($general_average_rate >= 4.8 AND $general_average_rate <= 5)
-				$h2_general_average_rate = '<h2 style="color:#00a5ab;">' . $general_average_rate . '</h2>';
+			if ($surveys_average >= 0 AND $surveys_average < 1.8)
+				$h2_surveys_average = '<h2 style="color:#f44336;">' . $surveys_average . '</h2>';
+			else if ($surveys_average >= 1.8 AND $surveys_average < 2.8)
+				$h2_surveys_average = '<h2 style="color:#ffc107;">' . $surveys_average . '</h2>';
+			else if ($surveys_average >= 2.8 AND $surveys_average < 3.8)
+				$h2_surveys_average = '<h2 style="color:#ffeb3b;">' . $surveys_average . '</h2>';
+			else if ($surveys_average >= 3.8 AND $surveys_average < 4.8)
+				$h2_surveys_average = '<h2 style="color:#4caf50;">' . $surveys_average . '</h2>';
+			else if ($surveys_average >= 4.8 AND $surveys_average <= 5)
+				$h2_surveys_average = '<h2 style="color:#00a5ab;">' . $surveys_average . '</h2>';
 
-			$spn_general_avarage_rate =
+			$spn_surveys_average =
 			'<span>
-				' . (($general_average_rate >= 0 AND $general_average_rate < 1.8) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
-				' . (($general_average_rate >= 1.8 AND $general_average_rate < 2.8) ? '<i class="fas fa-frown" style="font-size:50px;color:#ffc107;"></i>' : '<i class="far fa-frown"></i>') . '
-				' . (($general_average_rate >= 2.8 AND $general_average_rate < 3.8) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ffeb3b;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
-				' . (($general_average_rate >= 3.8 AND $general_average_rate < 4.8) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
-				' . (($general_average_rate >= 4.8 AND $general_average_rate <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#00a5ab;"></i>' : '<i class="far fa-grin-stars"></i>') . '
+				' . (($surveys_average >= 0 AND $surveys_average < 1.8) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
+				' . (($surveys_average >= 1.8 AND $surveys_average < 2.8) ? '<i class="fas fa-frown" style="font-size:50px;color:#ffc107;"></i>' : '<i class="far fa-frown"></i>') . '
+				' . (($surveys_average >= 2.8 AND $surveys_average < 3.8) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ffeb3b;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
+				' . (($surveys_average >= 3.8 AND $surveys_average < 4.8) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
+				' . (($surveys_average >= 4.8 AND $surveys_average <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#00a5ab;"></i>' : '<i class="far fa-grin-stars"></i>') . '
 			</span>';
 
-			$comments = $this->model->get_comments($account['id']);
+			$surveys_comments = $this->model->get_surveys_comments($account['id']);
 
-			$tbl_comments = '';
+			$tbl_surveys_comments = '';
 
-			if (!empty($comments))
+			if (!empty($surveys_comments))
 			{
-				$tbl_comments .= '<div class="comments">';
+				$tbl_surveys_comments .= '<div class="comments">';
 
-				foreach ($comments as $value)
+				foreach ($surveys_comments as $value)
 				{
 					if (!empty($value['comment']))
 					{
-						$substr_firstname = strlen($value['guest']['guestvox']['firstname']);
-						$substr_lastname = strlen($value['guest']['guestvox']['lastname']);
+						$substr_firstname = strlen($value['contact']['firstname']);
+						$substr_lastname = strlen($value['contact']['lastname']);
 
-						$tbl_comments .=
+						$tbl_surveys_comments .=
 						'<div>
-							<span><i class="fas fa-user-circle"></i>' . ((!empty($value['guest']['guestvox']['firstname']) AND !empty($value['guest']['guestvox']['lastname'])) ? substr($value['guest']['guestvox']['firstname'], -$substr_firstname, 1) . '. ' . substr($value['guest']['guestvox']['lastname'], -$substr_lastname, 1) . '.' : '{$lang.anonimous}')  . '</span>
+							<span><i class="fas fa-user-circle"></i>' . ((!empty($value['contact']['firstname']) AND !empty($value['contact']['lastname'])) ? substr($value['contact']['firstname'], -$substr_firstname, 1) . '. ' . substr($value['contact']['lastname'], -$substr_lastname, 1) . '.' : '{$lang.anonimous}')  . '</span>
 							<span><i class="fas fa-quote-left"></i>' . $value['comment'] . '<i class="fas fa-quote-right"></i></span>
 						</div>';
 					}
 				}
 
-				$tbl_comments .= '</div>';
+				$tbl_surveys_comments .= '</div>';
 			}
 
 			$replace = [
@@ -78,15 +78,15 @@ class Reviews_controller extends Controller
 				'{$email}' => $account['settings']['review']['email'],
 				'{$phone}' => '+' . $account['settings']['review']['phone']['lada'] . ' ' . $account['settings']['review']['phone']['number'],
 				'{$website}' => $account['settings']['review']['website'],
-				'{$h2_general_average_rate}' => $h2_general_average_rate,
-				'{$spn_general_avarage_rate}' => $spn_general_avarage_rate,
-				'{$five_percentage_rate}' => $this->model->get_percentage_rate('five', $account['id']),
-				'{$four_percentage_rate}' => $this->model->get_percentage_rate('four', $account['id']),
-				'{$tree_percentage_rate}' => $this->model->get_percentage_rate('tree', $account['id']),
-				'{$two_percentage_rate}' => $this->model->get_percentage_rate('two', $account['id']),
-				'{$one_percentage_rate}' => $this->model->get_percentage_rate('one', $account['id']),
+				'{$h2_surveys_average}' => $h2_surveys_average,
+				'{$spn_surveys_average}' => $spn_surveys_average,
+				'{$five_surveys_porcentage}' => $this->model->get_surveys_percentage('five', $account['id']),
+				'{$four_surveys_porcentage}' => $this->model->get_surveys_percentage('four', $account['id']),
+				'{$tree_surveys_porcentage}' => $this->model->get_surveys_percentage('tree', $account['id']),
+				'{$two_surveys_porcentage}' => $this->model->get_surveys_percentage('two', $account['id']),
+				'{$one_surveys_porcentage}' => $this->model->get_surveys_percentage('one', $account['id']),
 				'{$description}' => $account['settings']['review']['description'][Session::get_value('lang')],
-				'{$tbl_comments}' => $tbl_comments,
+				'{$tbl_surveys_comments}' => $tbl_surveys_comments,
 				'{$facebook}' => !empty($account['settings']['review']['social_media']['facebook']) ? '<a href="' . $account['settings']['review']['social_media']['facebook'] . '" target="_blank"><i class="fab fa-facebook-square"></i></a>' : '',
 				'{$instagram}' => !empty($account['settings']['review']['social_media']['instagram']) ? '<a href="' . $account['settings']['review']['social_media']['instagram'] . '" target="_blank"><i class="fab fa-instagram"></i></a>' : '',
 				'{$twitter}' => !empty($account['settings']['review']['social_media']['twitter']) ? '<a href="' . $account['settings']['review']['social_media']['twitter'] . '" target="_blank"><i class="fab fa-twitter"></i></a>' : '',

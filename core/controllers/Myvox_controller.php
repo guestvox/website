@@ -217,7 +217,7 @@ class Myvox_controller extends Controller
 													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . $mail_location . $_POST['location']['name'][Session::get_value('account')['language']] . '</h6>
 													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . $mail_urgency . '</h6>
 													<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . $mail_observations . $_POST['observations'] . '</p>
-													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/view/details/' . $query . '">' . $mail_give_follow_up . '</a>
+													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $query . '">' . $mail_give_follow_up . '</a>
 												</td>
 											</tr>
 											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
@@ -248,7 +248,7 @@ class Myvox_controller extends Controller
 								$sms_text .= $mail_location . $_POST['location']['name'][Session::get_value('account')['language']] . '. ';
 								$sms_text .= $mail_urgency . '. ';
 								$sms_text .= $mail_observations . $_POST['observations'] . '. ';
-								$sms_text .= 'https://' . Configuration::$domain . '/voxes/view/details/' . $query;
+								$sms_text .= 'https://' . Configuration::$domain . '/voxes/details/' . $query;
 
 								$data['account'] = Session::get_value('account');
 
@@ -270,7 +270,7 @@ class Myvox_controller extends Controller
 									}
 								}
 
-								$this->model->edit_sms($data['account']['sms']);
+								$this->model->edit_sms_coin($data['account']['sms']);
 
 								Session::set_value('account', $data['account']);
 							}
@@ -434,7 +434,7 @@ class Myvox_controller extends Controller
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_urgency . '</h6>
 													<h6 style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;margin-bottom:5px;padding:0px;">' . $mail_confidentiality . '</h6>
 													<p style="font-size:14px;font-weight:400;text-align:center;color:#212121;margin:0px;padding:0px;">' . $mail_subject_2 . $_POST['subject'] . '</p>
-													<a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/voxes/view/details/' . $query . '">' . $mail_give_follow_up . '</a>
+													<a style="width:100%;display:block;margin:15px 0px 20px 0px;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;background-color:#201d33;" href="https://' . Configuration::$domain . '/voxes/details/' . $query . '">' . $mail_give_follow_up . '</a>
 												</td>
 											</tr>
 											<tr style="width:100%;margin:0px;border:0px;padding:0px;">
@@ -466,7 +466,7 @@ class Myvox_controller extends Controller
 								$sms_text .= $mail_urgency . '. ';
 								$sms_text .= $mail_confidentiality . '. ';
 								$sms_text .= $mail_subject_2 . $_POST['subject'] . '. ';
-								$sms_text .= 'https://' . Configuration::$domain . '/voxes/view/details/' . $query;
+								$sms_text .= 'https://' . Configuration::$domain . '/voxes/details/' . $query;
 
 								$data['account'] = Session::get_value('account');
 
@@ -488,7 +488,7 @@ class Myvox_controller extends Controller
 									}
 								}
 
-								$this->model->edit_sms($data['account']['sms']);
+								$this->model->edit_sms_coin($data['account']['sms']);
 
 								Session::set_value('account', $data['account']);
 							}
@@ -728,7 +728,7 @@ class Myvox_controller extends Controller
 									}
 									catch (Exception $e) { }
 
-									$this->model->edit_sms($data['account']['sms']);
+									$this->model->edit_sms_coin($data['account']['sms']);
 
 									Session::set_value('account', $data['account']);
 								}
@@ -736,7 +736,7 @@ class Myvox_controller extends Controller
 
 							if (!empty(Session::get_value('account')['settings']['myvox']['survey_widget']))
 							{
-								$average = $this->model->get_average($query);
+								$average = $this->model->get_survey_average($query);
 
 								if ($average >= 4)
 								{
@@ -1082,7 +1082,7 @@ class Myvox_controller extends Controller
 								<main>
 									<form name="new_survey_answer">';
 
-						foreach ($this->model->get_survey_questions() as $value)
+						foreach ($this->model->get_surveys_questions() as $value)
 						{
 							$mdl_new_survey_answer .=
 							'<article>

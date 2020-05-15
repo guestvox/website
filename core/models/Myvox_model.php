@@ -257,39 +257,6 @@ class Myvox_model extends Model
 		return $query;
 	}
 
-    public function get_survey_questions()
-    {
-		$query1 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-            'id',
-            'name',
-			'subquestions',
-			'type',
-			'values'
-        ], [
-            'AND' => [
-				'system' => true,
-				'status' => true
-			]
-        ]));
-
-        $query2 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-            'id',
-            'name',
-			'subquestions',
-			'type',
-			'values'
-        ], [
-            'AND' => [
-				'account' => Session::get_value('account')['id'],
-				'status' => true
-			]
-        ]));
-
-		$query = array_merge($query1, $query2);
-
-     	return $query;
-    }
-
     public function new_request($data)
 	{
 		$query = $this->database->insert('voxes', [
@@ -408,50 +375,42 @@ class Myvox_model extends Model
 		return !empty($query) ? $this->database->id() : null;
 	}
 
-    public function new_survey_answer($data)
+	public function get_surveys_questions()
     {
-		$data['contact'] = [
-			'firstname' => $data['firstname'],
-			'lastname' => $data['lastname'],
-			'email' => $data['email'],
-			'phone' => [
-				'lada' => $data['phone_lada'],
-				'number' => $data['phone_number']
+		$query1 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+            'id',
+            'name',
+			'subquestions',
+			'type',
+			'values'
+        ], [
+            'AND' => [
+				'system' => true,
+				'status' => true
 			]
-		];
+        ]));
 
-		if (Session::get_value('account')['type'] == 'hotel')
-		{
-			$data['contact']['reservation'] = [
-				'firstname' => Session::get_value('owner')['reservation']['firstname'],
-				'lastname' => Session::get_value('owner')['reservation']['lastname'],
-				'reservation_number' => Session::get_value('owner')['reservation']['reservation_number'],
-				'check_in' => Session::get_value('owner')['reservation']['check_in'],
-				'check_out' => Session::get_value('owner')['reservation']['check_out'],
-				'nationality' => Session::get_value('owner')['reservation']['nationality'],
-				'input_channel' => Session::get_value('owner')['reservation']['input_channel'],
-				'traveler_type' => Session::get_value('owner')['reservation']['traveler_type'],
-				'age_group' => Session::get_value('owner')['reservation']['age_group']
-			];
-		}
+        $query2 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+            'id',
+            'name',
+			'subquestions',
+			'type',
+			'values'
+        ], [
+            'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			]
+        ]));
 
-		$query = $this->database->insert('survey_answers', [
-			'account' => Session::get_value('account')['id'],
-			'token' => $data['token'],
-			'owner' => $data['owner'],
-			'answers' => json_encode($data['answers']),
-			'comment' => $data['comment'],
-			'contact' => json_encode($data['contact']),
-			'date' => Functions::get_current_date(),
-			'status' => false
-		]);
+		$query = array_merge($query1, $query2);
 
-		return !empty($query) ? $this->database->id() : null;
+     	return $query;
     }
 
-	public function get_average($id)
+	public function get_survey_average($id)
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 			'id',
 			'answers'
 		], [
@@ -499,7 +458,48 @@ class Myvox_model extends Model
 			return null;
 	}
 
-	public function get_sms()
+    public function new_survey_answer($data)
+    {
+		$data['contact'] = [
+			'firstname' => $data['firstname'],
+			'lastname' => $data['lastname'],
+			'email' => $data['email'],
+			'phone' => [
+				'lada' => $data['phone_lada'],
+				'number' => $data['phone_number']
+			]
+		];
+
+		if (Session::get_value('account')['type'] == 'hotel')
+		{
+			$data['contact']['reservation'] = [
+				'firstname' => Session::get_value('owner')['reservation']['firstname'],
+				'lastname' => Session::get_value('owner')['reservation']['lastname'],
+				'reservation_number' => Session::get_value('owner')['reservation']['reservation_number'],
+				'check_in' => Session::get_value('owner')['reservation']['check_in'],
+				'check_out' => Session::get_value('owner')['reservation']['check_out'],
+				'nationality' => Session::get_value('owner')['reservation']['nationality'],
+				'input_channel' => Session::get_value('owner')['reservation']['input_channel'],
+				'traveler_type' => Session::get_value('owner')['reservation']['traveler_type'],
+				'age_group' => Session::get_value('owner')['reservation']['age_group']
+			];
+		}
+
+		$query = $this->database->insert('surveys_answers', [
+			'account' => Session::get_value('account')['id'],
+			'token' => $data['token'],
+			'owner' => $data['owner'],
+			'answers' => json_encode($data['answers']),
+			'comment' => $data['comment'],
+			'contact' => json_encode($data['contact']),
+			'date' => Functions::get_current_date(),
+			'status' => false
+		]);
+
+		return !empty($query) ? $this->database->id() : null;
+    }
+
+	public function get_sms_coin()
 	{
 		$query = $this->database->select('accounts', [
 			'sms'
@@ -510,7 +510,7 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0]['sms'] : null;
 	}
 
-	public function edit_sms($sms)
+	public function edit_sms_coin($sms)
 	{
 		$query = $this->database->update('accounts', [
 			'sms' => $sms
