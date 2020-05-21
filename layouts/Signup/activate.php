@@ -11,7 +11,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/activate.js']);
     <figure>
         <img src="{$path.images}logotype-color.png" alt="Guestvox">
     </figure>
-    <p>{$txt}</p>
+    <p>{$html}</p>
     <figure>
         <img src="{$path.images}signup/load.gif" alt="Icon">
     </figure>

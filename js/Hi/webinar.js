@@ -57,11 +57,6 @@ $(document).ready(function()
         $('[data-modal="signup"]').find('p.error').remove();
     });
 
-    $('[data-modal="signup"]').modal().onSuccess(function()
-    {
-        $('[data-modal="signup"]').find('form').submit();
-    });
-
     $('form[name="signup"]').on('submit', function(e)
     {
         e.preventDefault();

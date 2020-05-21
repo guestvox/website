@@ -33,11 +33,6 @@ $(document).ready(function()
         $('[data-modal="contact"]').find('p.error').remove();
     });
 
-    $('[data-modal="contact"]').modal().onSuccess(function()
-    {
-        $('[data-modal="contact"]').find('form').submit();
-    });
-
     $('form[name="contact"]').on('submit', function(e)
     {
         e.preventDefault();

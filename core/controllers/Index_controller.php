@@ -11,9 +11,9 @@ class Index_controller extends Controller
 
 	public function index()
 	{
-		define('_title', 'Guestvox | {$lang.we_are_guestvox}');
-
 		$template = $this->view->render($this, 'index');
+
+		define('_title', 'Guestvox | {$lang.we_are_guestvox}');
 
 		echo $template;
 	}

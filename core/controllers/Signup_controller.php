@@ -225,29 +225,19 @@ class Signup_controller extends Controller
 						try
 						{
 							if ($_POST['language'] == 'es')
-							{
-								$mail1_subject = '¡Gracias por registrarte!';
 								$mail1_text = 'Hola <strong>' . $_POST['contact_firstname'] . '</strong> ¡Gracias por registrarte en Guestvox! Soy <strong>Daniel Basurto</strong>, CEO de Guestvox y espero te encuentres de lo mejor. Hémos validado tu correo electrónico. Para terminar, por favor activa tu cuenta.';
-								$mail1_btn = 'Activar mi cuenta';
-								$mail1_terms = 'Términos y condiciones';
-							}
 							else if ($_POST['language'] == 'en')
-							{
-								$mail1_subject = '¡Thanks for sign up!';
 								$mail1_text = 'Hi <strong>' . $_POST['contact_firstname'] . '</strong> ¡Thanks for sign up in Guestvox! I am <strong>Daniel Basurto</strong>, CEO for Guestvox and I hope you find the best. We have validated your email. To finish, please activate your account.';
-								$mail1_btn = 'Activate my account';
-								$mail1_terms = 'Terms and conditions';
-							}
 
 							$mail1->isSMTP();
 							$mail1->setFrom('daniel@guestvox.com', 'Daniel Basurto');
 							$mail1->addAddress($_POST['contact_email'], $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname']);
 							$mail1->isHTML(true);
-							$mail1->Subject = $mail1_subject;
+							$mail1->Subject = Mailer::lang('thanks_signup')[$_POST['language']];
 							$mail1->Body =
 							'<html>
 								<head>
-									<title>' . $mail1_subject . '</title>
+									<title>' . Mailer::lang('thanks_signup')[$_POST['language']] . '</title>
 								</head>
 								<body>
 									<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
@@ -260,10 +250,10 @@ class Signup_controller extends Controller
 										</tr>
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail1_subject . '</h4>
+												<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . Mailer::lang('thanks_signup')[$_POST['language']] . '</h4>
 												<p style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . $mail1_text . '</p>
-												<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#24383f;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/account/' . $_POST['path'] . '">' . $mail1_btn . '</a>
-												<a style="width:100%;display:block;margin:0px;padding:10px 0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . $mail1_terms . '</a>
+												<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#24383f;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/account/' . $_POST['path'] . '">' . Mailer::lang('active_account')[$_POST['language']] . '</a>
+												<a style="width:100%;display:block;margin:0px;padding:10px 0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Mailer::lang('terms_and_conditions')[$_POST['language']] . '</a>
 											</td>
 										</tr>
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
@@ -295,29 +285,19 @@ class Signup_controller extends Controller
 						try
 						{
 							if ($_POST['language'] == 'es')
-							{
-								$mail2_subject = '¡Gracias por registrarte!';
 								$mail2_text = 'Hola <strong>' . $_POST['firstname'] . '</strong> ¡Gracias por registrarte en Guestvox! Soy <strong>Daniel Basurto</strong>, CEO de Guestvox y espero te encuentres de lo mejor. Hémos validado tu correo electrónico. Para terminar, por favor activa tu usuario.';
-								$mail2_btn = 'Validar mi correo electrónico';
-								$mail2_terms = 'Términos y condiciones';
-							}
 							else if ($_POST['language'] == 'en')
-							{
-								$mail2_subject = '¡Thanks for sign up!';
 								$mail2_text = 'Hi <strong>' . $_POST['firstname'] . '</strong> ¡Thanks for sign up in Guestvox! I am <strong>Daniel Basurto</strong>, CEO for Guestvox and I hope you find the best. We have validated your email. To finish, please activate your user.';
-								$mail2_btn = 'Validate my email';
-								$mail2_terms = 'Terms and conditions';
-							}
 
 							$mail2->isSMTP();
 							$mail2->setFrom('daniel@guestvox.com', 'Daniel Basurto');
 							$mail2->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
 							$mail2->isHTML(true);
-							$mail2->Subject = $mail2_subject;
+							$mail2->Subject = Mailer::lang('thanks_signup')[$_POST['language']];
 							$mail2->Body =
 							'<html>
 								<head>
-									<title>' . $mail2_subject . '</title>
+									<title>' . Mailer::lang('thanks_signup')[$_POST['language']] . '</title>
 								</head>
 								<body>
 									<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
@@ -330,10 +310,10 @@ class Signup_controller extends Controller
 										</tr>
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail2_subject . '</h4>
+												<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . Mailer::lang('thanks_signup')[$_POST['language']] . '</h4>
 												<p style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . $mail2_text . '</p>
-												<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#24383f;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/user/' . $_POST['email'] . '">' . $mail2_btn . '</a>
-												<a style="width:100%;display:block;margin:0px;padding:10px 0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . $mail2_terms . '</a>
+												<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#24383f;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/user/' . $_POST['email'] . '">' . Mailer::lang('validate_email')[$_POST['language']] . '</a>
+												<a style="width:100%;display:block;margin:0px;padding:10px 0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Mailer::lang('terms_and_conditions')[$_POST['language']] . '</a>
 											</td>
 										</tr>
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
@@ -389,13 +369,13 @@ class Signup_controller extends Controller
 						catch (Exception $e) { }
 
 						if (Session::get_value('lang') == 'es')
-							$mail_message = '¡Gracias por resgistrarte! Te hemos enviado un correo electrónico a <strong>' . $_POST['contact_email'] . '</strong> para poder activar tu cuenta y otro a <strong>' . $_POST['email'] . '</strong> para poder activar tu usuario';
+							$message = '¡Gracias por resgistrarte! Te hemos enviado un correo electrónico a <strong>' . $_POST['contact_email'] . '</strong> para poder activar tu cuenta y otro a <strong>' . $_POST['email'] . '</strong> para poder activar tu usuario';
 						else if (Session::get_value('lang') == 'en')
-							$mail_message = '¡Thanks for sign up! We have sent you an email to <strong>' . $_POST['contact_email'] . '</strong> to activate your account and other to <strong>' . $_POST['email'] . '</strong> to activate your user';
+							$message = '¡Thanks for sign up! We have sent you an email to <strong>' . $_POST['contact_email'] . '</strong> to activate your account and other to <strong>' . $_POST['email'] . '</strong> to activate your user';
 
 						Functions::environment([
                             'status' => 'success',
-                            'message' => $mail_message
+                            'message' => $message
                         ]);
 			        }
 			        else
@@ -410,9 +390,9 @@ class Signup_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'Guestvox | {$lang.signup}');
-
 			$template = $this->view->render($this, 'index');
+
+			define('_title', 'Guestvox | {$lang.signup}');
 
 			$opt_countries = '';
 
@@ -455,146 +435,98 @@ class Signup_controller extends Controller
 
 	public function activate($params)
 	{
-		if (!empty($params))
-		{
-			if ($params[0] == 'account')
-				define('_title', 'Guestvox | {$lang.activate_account}');
-			else if ($params[0] == 'user')
-				define('_title', 'Guestvox | {$lang.activate_user}');
-			else
-				define('_title', 'Guestvox | {$lang.error_to_activate}');
-		}
-		else
-			define('_title', 'Guestvox | {$lang.error_to_activate}');
-
 		$template = $this->view->render($this, 'activate');
 
-		$txt = '';
+		if ($params[0] == 'account')
+			define('_title', 'Guestvox | {$lang.activate_account}');
+		else if ($params[0] == 'user')
+			define('_title', 'Guestvox | {$lang.activate_user}');
 
-		if (!empty($params))
+		$query = $this->model->new_activation($params);
+
+		$html = '';
+
+		if (!empty($query))
 		{
-			if ($params[0] == 'account' OR $params[0] == 'user')
+			if ($query['status'] == false)
 			{
-				$query = $this->model->new_activation($params);
+				if ($params[0] == 'account')
+					$html = '{$lang.your_account_has_been_activated}';
+				else if ($params[0] == 'user')
+					$html = '{$lang.your_user_has_been_activated}';
 
-				if (!empty($query))
+				$mail = new Mailer(true);
+
+				try
 				{
-					if ($query['status'] == false)
-					{
-						if ($params[0] == 'account')
-							$txt = '{$lang.your_account_has_been_activated}';
-						else if ($params[0] == 'user')
-							$txt = '{$lang.your_user_has_been_activated}';
+					$mail->isSMTP();
+					$mail->setFrom('daniel@guestvox.com', 'Daniel Basurto');
 
-						$mail = new Mailer(true);
+					if ($params[0] == 'account')
+						$mail->addAddress($query['contact']['email'], $query['contact']['firstname'] . ' ' . $query['contact']['lastname']);
+					else if ($params[0] == 'user')
+						$mail->addAddress($query['email'], $query['firstname'] . ' ' . $query['lastname']);
 
-						try
-						{
-							if ($params[0] == 'account')
-							{
-								if ($query['language'] == 'es')
-								{
-									$mail_subject = 'Tu cuenta ha sido activada';
-									$mail_text = '¡Muchas gracias! Hemos activado tu cuenta correctamente. Ahora ya puedes iniciar sesión y empezar a configurar tu cuenta ¡Bienvenido a Guestvox!';
-									$mail_btn = 'Iniciar sesión';
-								}
-								else if ($query['language'] == 'en')
-								{
-									$mail_subject = 'Your account has been activated';
-									$mail_text = '¡Thank you! We have activated your account correctly. Now you can log in and start configuring your account ¡Welcome to Guestvox!';
-									$mail_btn = 'Log in';
-								}
-							}
-							else if ($params[0] == 'user')
-							{
-								if ($query['language'] == 'es')
-								{
-									$mail_subject = 'Tu usuario ha sido activado';
-									$mail_text = '¡Muchas gracias! Hemos activado tu usuario correctamente. Ahora ya puedes iniciar sesión y empezar a trabajar con tu equipo ¡Bienvenido a Guestvox!';
-									$mail_btn = 'Iniciar sesión';
-								}
-								else if ($query['language'] == 'en')
-								{
-									$mail_subject = 'Your user has been activated';
-									$mail_text = '¡Thank you! We have activated your user correctly. Now you can log in and start working with your team ¡Welcome to Guestvox!';
-									$mail_btn = 'Log in';
-								}
-							}
-
-							$mail->isSMTP();
-							$mail->setFrom('daniel@guestvox.com', 'Daniel Basurto');
-
-							if ($params[0] == 'account')
-								$mail->addAddress($query['contact']['email'], $query['contact']['firstname'] . ' ' . $query['contact']['lastname']);
-							else if ($params[0] == 'user')
-								$mail->addAddress($query['email'], $query['firstname'] . ' ' . $query['lastname']);
-
-							$mail->isHTML(true);
-							$mail->Subject = $mail_subject;
-							$mail->Body =
-							'<html>
-								<head>
-									<title>' . $mail_subject . '</title>
-								</head>
-								<body>
-									<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
-										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-													<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype-color.png" />
-												</figure>
-											</td>
-										</tr>
-										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail_subject . '</h4>
-												<p style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . $mail_text . '</p>
-												<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#24383f;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/login">' . $mail_btn . '</a>
-											</td>
-										</tr>
-										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-							                <td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<figure style="width:100%;margin:0px;padding:40px 0px;border:0px;box-sizing:border-box;text-align:center;">
-													<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/index/st-7-image-1.png">
-													<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
-													<span style="display:block;color:#757575;font-size:18px;">CEO</span>
-													<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
-													<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
-												</figure>
-							                </td>
-							            </tr>
-										<tr style="width:100%;margin:0px;padding:0px;border:0px;">
-											<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
-											</td>
-										</tr>
-									</table>
-								</body>
-							</html>';
-							$mail->AltBody = '';
-							$mail->send();
-						}
-						catch (Exception $e) { }
-					}
-					else
-					{
-						if ($params[0] == 'account')
-							$txt = '{$lang.account_already_activated}';
-						else if ($params[0] == 'user')
-							$txt = '{$lang.user_already_activated}';
-					}
+					$mail->isHTML(true);
+					$mail->Subject = Mailer::lang('activated_subject', $params[0])[$query['language']];
+					$mail->Body =
+					'<html>
+						<head>
+							<title>' . Mailer::lang('activated_subject', $params[0])[$query['language']] . '</title>
+						</head>
+						<body>
+							<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+										<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+											<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype-color.png" />
+										</figure>
+									</td>
+								</tr>
+								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+										<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . Mailer::lang('activated_subject', $params[0])[$query['language']] . '</h4>
+										<p style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Mailer::lang('activated_text', $params[0])[$query['language']] . '</p>
+										<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#24383f;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/login">' . Mailer::lang('login')[$query['language']] . '</a>
+									</td>
+								</tr>
+								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+										<figure style="width:100%;margin:0px;padding:40px 0px;border:0px;box-sizing:border-box;text-align:center;">
+											<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/index/st-7-image-1.png">
+											<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
+											<span style="display:block;color:#757575;font-size:18px;">CEO</span>
+											<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
+											<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
+										</figure>
+									</td>
+								</tr>
+								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+									<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
+									</td>
+								</tr>
+							</table>
+						</body>
+					</html>';
+					$mail->AltBody = '';
+					$mail->send();
 				}
-				else
-					$txt = '{$lang.error_to_activate}';
+				catch (Exception $e) { }
 			}
 			else
-				$txt = '{$lang.error_to_activate}';
+			{
+				if ($params[0] == 'account')
+					$html = '{$lang.account_already_activated}';
+				else if ($params[0] == 'user')
+					$html = '{$lang.user_already_activated}';
+			}
 		}
 		else
-			$txt = '{$lang.error_to_activate}';
+			$html = '{$lang.error_to_activate}';
 
 		$replace = [
-			'{$txt}' => $txt
+			'{$html}' => $html
 		];
 
 		$template = $this->format->replace($replace, $template);

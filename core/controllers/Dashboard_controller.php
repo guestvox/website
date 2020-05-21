@@ -11,9 +11,9 @@ class Dashboard_controller extends Controller
 
 	public function index()
 	{
-		define('_title', 'Guestvox | {$lang.dashboard}');
-
 		$template = $this->view->render($this, 'index');
+
+		define('_title', 'Guestvox | {$lang.dashboard}');
 
 		echo $template;
 	}

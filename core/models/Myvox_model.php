@@ -19,7 +19,6 @@ class Myvox_model extends Model
 			'operation',
 			'reputation',
 			'zaviapms',
-			'sms',
 			'settings'
 		], [
 			'AND' => [
@@ -31,14 +30,18 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_owners($account)
+	public function get_owners($type)
 	{
 		$query = $this->database->select('owners', [
 			'id',
 			'name',
 			'number'
 		], [
-			'account' => $account,
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				$type => true,
+				'public' => true
+			],
 			'ORDER' => [
 				'number' => 'ASC',
 				'name' => 'ASC'
@@ -90,7 +93,7 @@ class Myvox_model extends Model
 			'age_group' => ''
 		];
 
-		if (Session::get_value('account')['zaviapms']['status'] == true AND !empty($number))
+		if (!empty($number) AND Session::get_value('account')['zaviapms']['status'] == true)
 		{
 			$query = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'room', $number);
 
@@ -257,11 +260,11 @@ class Myvox_model extends Model
 		return $query;
 	}
 
-    public function new_request($data)
+    public function new_vox($data)
 	{
 		$query = $this->database->insert('voxes', [
 			'account' => Session::get_value('account')['id'],
-			'type' => 'request',
+			'type' => $data['type'],
 			'token' => $data['token'],
 			'owner' => Session::get_value('owner')['id'],
 			'opportunity_area' => $data['opportunity_area'],
@@ -273,78 +276,19 @@ class Myvox_model extends Model
 			'urgency' => 'medium',
 			'confidentiality' => false,
 			'assigned_users' => json_encode([]),
-			'observations' => $data['observations'],
-			'subject' => null,
+			'observations' => ($data['type'] == 'request') ? $data['observations'] : null,
+			'subject' => ($data['type'] == 'incident') ? $data['subject'] : null,
 			'description' => null,
 			'action_taken' => null,
 			'guest_treatment' => null,
-			'firstname' => (Session::get_value('account')['type'] == 'hotel') ? (!isset($data['firstname']) OR empty($data['firstname']) ? Session::get_value('owner')['reservation']['firstname'] : $data['firstname']) : $data['firstname'],
-			'lastname' => (Session::get_value('account')['type'] == 'hotel') ? (!isset($data['firstname']) OR empty($data['firstname']) ? Session::get_value('owner')['reservation']['lastname'] : $data['lastname']) : $data['lastname'],
+			'firstname' => (Session::get_value('account')['type'] == 'hotel' AND (!isset($data['firstname']) OR empty($data['firstname']))) ? Session::get_value('owner')['reservation']['firstname'] : $data['firstname'],
+			'lastname' => (Session::get_value('account')['type'] == 'hotel' AND (!isset($data['lastname']) OR empty($data['lastname']))) ? Session::get_value('owner')['reservation']['lastname'] : $data['lastname'],
 			'guest_id' => null,
 			'guest_type' => null,
-			'reservation_number' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['reservation_number'] : null,
+			'reservation_number' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['reservation_number'] : null,
 			'reservation_status' => null,
-			'check_in' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['check_in'] : null,
-			'check_out' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['check_out'] : null,
-			'attachments' => json_encode([]),
-			'viewed_by' => json_encode([]),
-			'comments' => json_encode([]),
-			'changes_history' => json_encode([
-				[
-					'type' => 'create',
-					'user' => null,
-					'date' => Functions::get_current_date(),
-					'hour' => Functions::get_current_hour()
-				]
-			]),
-			'created_user' => null,
-			'edited_user' => null,
-			'completed_user' => null,
-			'reopened_user' => null,
-			'created_date' => Functions::get_current_date(),
-			'created_hour' => Functions::get_current_hour(),
-			'edited_date' => null,
-			'edited_hour' => null,
-			'completed_date' => null,
-			'completed_hour' => null,
-			'reopened_date' => null,
-			'reopened_hour' => null,
-			'status' => 'open',
-			'origin' => 'myvox'
-		]);
-
-		return !empty($query) ? $this->database->id() : null;
-	}
-
-    public function new_incident($data)
-	{
-		$query = $this->database->insert('voxes', [
-			'account' => Session::get_value('account')['id'],
-			'type' => 'incident',
-			'token' => $data['token'],
-			'owner' => Session::get_value('owner')['id'],
-			'opportunity_area' => $data['opportunity_area'],
-			'opportunity_type' => $data['opportunity_type'],
-			'started_date' => Functions::get_formatted_date($data['started_date']),
-			'started_hour' => Functions::get_formatted_hour($data['started_hour']),
-			'location' => $data['location'],
-			'cost' => null,
-			'urgency' => 'medium',
-			'confidentiality' => false,
-			'assigned_users' => json_encode([]),
-			'observations' => null,
-			'subject' => $data['subject'],
-			'description' => null,
-			'action_taken' => null,
-			'guest_treatment' => null,
-			'firstname' => (Session::get_value('account')['type'] == 'hotel') ? (!isset($data['firstname']) OR empty($data['firstname']) ? Session::get_value('owner')['reservation']['firstname'] : $data['firstname']) : $data['firstname'],
-			'lastname' => (Session::get_value('account')['type'] == 'hotel') ? (!isset($data['firstname']) OR empty($data['firstname']) ? Session::get_value('owner')['reservation']['lastname'] : $data['lastname']) : $data['lastname'],
-			'guest_id' => null,
-			'guest_type' => null,
-			'reservation_number' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['reservation_number'] : null,
-			'reservation_status' => null,
-			'check_in' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['check_in'] : null,
-			'check_out' => (Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['check_out'] : null,
+			'check_in' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['check_in'] : null,
+			'check_out' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['check_out'] : null,
 			'attachments' => json_encode([]),
 			'viewed_by' => json_encode([]),
 			'comments' => json_encode([]),
@@ -499,7 +443,7 @@ class Myvox_model extends Model
 		return !empty($query) ? $this->database->id() : null;
     }
 
-	public function get_sms_coin()
+	public function get_sms()
 	{
 		$query = $this->database->select('accounts', [
 			'sms'
@@ -510,7 +454,7 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0]['sms'] : null;
 	}
 
-	public function edit_sms_coin($sms)
+	public function edit_sms($sms)
 	{
 		$query = $this->database->update('accounts', [
 			'sms' => $sms

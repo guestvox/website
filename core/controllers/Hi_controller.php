@@ -119,9 +119,9 @@ class Hi_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'Guestvox | {$lang.operation} | {$lang.we_are_guestvox}');
-
 			$template = $this->view->render($this, 'operation');
+
+			define('_title', 'Guestvox | {$lang.operation} | {$lang.we_are_guestvox}');
 
 			echo $template;
 		}
@@ -237,9 +237,9 @@ class Hi_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'Guestvox | {$lang.reputation} | {$lang.we_are_guestvox}');
-
 			$template = $this->view->render($this, 'reputation');
+
+			define('_title', 'Guestvox | {$lang.reputation} | {$lang.we_are_guestvox}');
 
 			echo $template;
 		}
@@ -360,9 +360,9 @@ class Hi_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'Guestvox | {$lang.webinar} | {$lang.we_are_guestvox}');
-
 			$template = $this->view->render($this, 'webinar');
+
+			define('_title', 'Guestvox | {$lang.webinar} | {$lang.we_are_guestvox}');
 
 			$btn_signup = '';
 			$mdl_signup = '';
@@ -373,9 +373,6 @@ class Hi_controller extends Controller
 				$mdl_signup .=
 				'<section class="modal" data-modal="signup">
 				    <div class="content">
-				        <header>
-				            <h3>Regístrate al Webinar</h3>
-				        </header>
 				        <main>
 				            <form name="signup">
 				                <div class="row">
@@ -411,15 +408,15 @@ class Hi_controller extends Controller
 				                            </label>
 				                        </div>
 				                    </div>
+				                    <div class="span12">
+										<div class="buttons">
+											<button type="submit">¡Registrate!</button>
+											<button button-cancel>{$lang.cancel}</button>
+										</div>
+				                    </div>
 				                </div>
 				            </form>
 				        </main>
-				        <footer>
-				            <div class="action-buttons">
-				                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
-				                <button class="btn btn-colored" button-success>¡Registrate!</button>
-				            </div>
-				        </footer>
 				    </div>
 				</section>';
 			}

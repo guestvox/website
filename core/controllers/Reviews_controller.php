@@ -15,9 +15,9 @@ class Reviews_controller extends Controller
 
 		if (!empty($account) AND $account['settings']['review']['online'] == true)
 		{
-			define('_title', $account['name'] . ' | Guestvox');
-
 			$template = $this->view->render($this, 'index');
+
+			define('_title', $account['name'] . ' | Guestvox');
 
 			$surveys_average = $this->model->get_surveys_average($account['id']);
 

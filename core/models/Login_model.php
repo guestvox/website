@@ -39,7 +39,6 @@ class Login_model extends Model
 			'accounts.operation(account_operation)',
 			'accounts.reputation(account_reputation)',
 			'accounts.zaviapms(account_zaviapms)',
-			'accounts.sms(account_sms)',
 			'accounts.status(account_status)',
 			'packages.id(package_id)',
 			'packages.quantity_end(package_quantity_end)'
@@ -92,7 +91,6 @@ class Login_model extends Model
 					'operation' => $query[0]['account_operation'],
 					'reputation' => $query[0]['account_reputation'],
 					'zaviapms' => $query[0]['account_zaviapms'],
-					'sms' => $query[0]['account_sms'],
 					'status' => $query[0]['account_status'],
 					'package' => [
 						'id' => $query[0]['package_id'],

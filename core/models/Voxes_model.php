@@ -9,7 +9,7 @@ class Voxes_model extends Model
 		parent::__construct();
 	}
 
-	public function get_voxes()
+	public function get_voxes($option = 'all', $data = null)
 	{
 		$where = [
 			'AND' => [
@@ -27,28 +27,116 @@ class Voxes_model extends Model
 
 		// - Condición para cargar un vox si el usuario está asignado a el.
 
-		$where['ORDER'] = [
-			'id' => 'DESC'
-		];
+		if ($option == 'all')
+		{
+			$fields = [
+				'id',
+				'type',
+				'owner',
+				'opportunity_area',
+				'opportunity_type',
+				'started_date',
+				'started_hour',
+				'location',
+				'urgency',
+				'confidentiality',
+				'assigned_users',
+				'firstname',
+				'lastname',
+				'attachments',
+				'comments',
+				'created_user',
+				'status',
+				'origin'
+			];
 
-		$query = Functions::get_json_decoded_query($this->database->select('voxes', [
-			'id',
-			'type',
-			'owner',
-			'opportunity_area',
-			'opportunity_type',
-			'started_date',
-			'started_hour',
-			'location',
-			'urgency',
-			'confidentiality',
-			'assigned_users',
-			'firstname',
-			'lastname',
-			'attachments',
-			'comments',
-			'created_user'
-		], $where));
+			$where['ORDER'] = [
+				'id' => 'DESC'
+			];
+		}
+		else if ($option == 'report')
+		{
+			$fields = [
+				'type',
+				'token',
+				'owner',
+				'opportunity_area',
+				'opportunity_type',
+				'started_date',
+				'started_hour',
+				'location',
+				'cost',
+				'urgency',
+				'confidentiality',
+				'assigned_users',
+				'observations',
+				'subject',
+				'description',
+				'action_taken',
+				'guest_treatment',
+				'firstname',
+				'lastname',
+				'guest_id',
+				'guest_type',
+				'reservation_number',
+				'reservation_status',
+				'check_in',
+				'check_out',
+				'attachments',
+				'viewed_by',
+				'comments',
+				'created_user',
+				'edited_user',
+				'completed_user',
+				'reopened_user',
+				'created_date',
+				'created_hour',
+				'edited_date',
+				'edited_hour',
+				'completed_date',
+				'completed_hour',
+				'reopened_date',
+				'reopened_hour',
+				'status',
+				'origin'
+			];
+
+			if ($data['type'] != 'all')
+				$where['AND']['type'] = $data['type'];
+
+			if ($data['owner'] != 'all')
+				$where['AND']['owner'] = $data['owner'];
+
+			if ($data['opportunity_area'] != 'all')
+				$where['AND']['opportunity_area'] = $data['opportunity_area'];
+
+			if ($data['opportunity_type'] != 'all')
+				$where['AND']['opportunity_type'] = $data['opportunity_type'];
+
+			if ($data['location'] != 'all')
+				$where['AND']['location'] = $data['location'];
+
+			$where['AND']['OR']['started_date[<]'] = $data['started_date']; // - Revisar formatos de fecha
+			$where['AND']['OR']['started_date[>]'] = $data['end_date']; // - Revisar formatos de fecha
+
+			if ($data['type'] == 'all' OR $data['type'] == 'workorder')
+			{
+				$where['ORDER']['started_date'] = 'DESC';
+				$where['ORDER']['started_hour'] = 'DESC';
+			}
+			else if ($data['type'] == 'request' OR $data['type'] == 'incident')
+			{
+				if ($data['order'] == 'owner')
+					$where['ORDER']['owner'] => 'ASC';
+				else if ($data['order'] == 'guest')
+				{
+					$where['ORDER']['firstname'] => 'ASC';
+					$where['ORDER']['lastname'] => 'ASC';
+				}
+			}
+		}
+
+		$query = Functions::get_json_decoded_query($this->database->select('voxes', $fields, $where));
 
 		foreach ($query as $key => $value)
 		{
@@ -56,21 +144,51 @@ class Voxes_model extends Model
 			$query[$key]['opportunity_area'] = $this->get_opportunity_area($value['opportunity_area']);
 			$query[$key]['opportunity_type'] = $this->get_opportunity_type($value['opportunity_type']);
 			$query[$key]['location'] = $this->get_location($value['location']);
-
-			foreach ($value['comments'] as $subvalue)
-				$query[$key]['attachments'] = array_merge($value['attachments'], $subvalue['attachments']);
-
 			$query[$key]['created_user'] = $this->get_user($value['created_user']);
+
+			if ($option == 'all')
+			{
+				foreach ($value['comments'] as $subvalue)
+					$query[$key]['attachments'] = array_merge($value['attachments'], $subvalue['attachments']);
+			}
+			else if ($option == 'report')
+			{
+				foreach ($value['assigned_users'] as $subkey => $subvalue)
+					$query[$key]['assigned_users'][$subkey] = $this->get_user($subvalue);
+
+				if (Session::get_value('account')['type'] == 'hotel')
+				{
+					if ($value['type'] == 'request' OR $value['type'] == 'incident')
+						$query[$key]['guest_treatment'] = $this->get_guest_treatment($value['guest_treatment']);
+
+					if ($value['type'] == 'incident')
+					{
+						$query[$key]['guest_type'] = $this->get_guest_type($value['guest_type']);
+						$query[$key]['reservation_status'] = $this->get_reservation_status($value['reservation_status']);
+					}
+				}
+
+				foreach ($value['viewed_by'] as $subkey => $subvalue)
+					$query[$key]['viewed_by'][$subkey] = $this->get_user($subvalue);
+
+				foreach ($value['comments'] as $subkey => $subvalue)
+					$query[$key]['comments'][$subkey]['user'] = $this->get_user($subvalue['user']);
+
+				$query[$key]['edited_user'] = $this->get_user($value['edited_user']);
+				$query[$key]['completed_user'] = $this->get_user($value['completed_user']);
+				$query[$key]['reopened_user'] = $this->get_user($value['reopened_user']);
+			}
 		}
 
 		return $query;
 	}
 
-	public function get_vox($id, $fks = true)
+	public function get_vox($id, $fks = false)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('voxes', [
 			'id',
 			'type',
+			'token',
 			'owner',
 			'opportunity_area',
 			'opportunity_type',
@@ -182,12 +300,10 @@ class Voxes_model extends Model
 				foreach ($query[0]['data']['changes_history'] as $key => $value)
 					$query[0]['changes_history'][$key]['user'] = $this->get_user($value['user']);
 
-				$query[0]['created_user'] = $this->get_user($query[0]['created_user']);
+				$query[0]['created_user'] = $this->get_user($query[0]['created_user']); // - En changes_history (create) y created_user está el problema de que cuando el vox se creó desde myvox, no se guardá ningún id.
 				$query[0]['edited_user'] = $this->get_user($query[0]['edited_user']);
 				$query[0]['completed_user'] = $this->get_user($query[0]['completed_user']);
 				$query[0]['reopened_user'] = $this->get_user($query[0]['reopened_user']);
-
-				// - En changes_history (create) y created_user está el problema de que cuando el vox se creó desde myvox, no se guardá ningún id.
 			}
 
 			return $query[0];
@@ -196,19 +312,34 @@ class Voxes_model extends Model
 			return null;
 	}
 
-	public function get_owners()
+	public function get_owners($type = 'all')
 	{
+		if ($type == 'all')
+		{
+			$where = [
+				'account' => Session::get_value('account')['id']
+			];
+		}
+		else
+		{
+			$where = [
+				'AND' => [
+					'account' => Session::get_value('account')['id'],
+					$type => true
+				]
+			];
+		}
+
+		$where['ORDER'] = [
+			'number' => 'ASC',
+			'name' => 'ASC'
+		];
+
 		$query = Functions::get_json_decoded_query($this->database->select('owners', [
 			'id',
 			'name',
 			'number'
-		], [
-			'account' => Session::get_value('account')['id'],
-			'ORDER' => [
-				'number' => 'ASC',
-				'name' => 'ASC'
-			]
-		]));
+		], $where));
 
 		return $query;
 	}
@@ -226,7 +357,7 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_reservation($number)
+	public function get_reservation($number = null)
 	{
 		$reservation = [
 			'status' => 'success',
@@ -241,7 +372,7 @@ class Voxes_model extends Model
 			'age_group' => ''
 		];
 
-		if (Session::get_value('account')['zaviapms']['status'] == true AND !empty($number))
+		if (!empty($number) AND Session::get_value('account')['zaviapms']['status'] == true)
 		{
 			$query = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'room', $number);
 
@@ -264,9 +395,9 @@ class Voxes_model extends Model
 		return $reservation;
 	}
 
-	public function get_opportunity_areas($option = 'all')
+	public function get_opportunity_areas($type = 'all')
 	{
-		if ($option == 'all')
+		if ($type == 'all')
 		{
 			$where = [
 				'account' => Session::get_value('account')['id']
@@ -277,7 +408,7 @@ class Voxes_model extends Model
 			$where = [
 				'AND' => [
 					'account' => Session::get_value('account')['id'],
-					$option => true
+					$type => true
 				]
 			];
 		}
@@ -306,9 +437,9 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_opportunity_types($opportunity_area, $option = 'all')
+	public function get_opportunity_types($opportunity_area, $type = 'all')
 	{
-		if ($option == 'all')
+		if ($type == 'all')
 		{
 			$where = [
 				'opportunity_area' => $opportunity_area
@@ -319,7 +450,7 @@ class Voxes_model extends Model
 			$where = [
 				'AND' => [
 					'opportunity_area' => $opportunity_area,
-					$option => true
+					$type => true
 				]
 			];
 		}
@@ -348,9 +479,9 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_locations($option = 'all')
+	public function get_locations($type = 'all')
 	{
-		if ($option == 'all')
+		if ($type == 'all')
 		{
 			$where = [
 				'account' => Session::get_value('account')['id']
@@ -361,7 +492,7 @@ class Voxes_model extends Model
 			$where = [
 				'AND' => [
 					'account' => Session::get_value('account')['id'],
-					$option => true
+					$type => true
 				]
 			];
 		}
@@ -577,21 +708,21 @@ class Voxes_model extends Model
 			'location' => $data['location'],
 			'cost' => ($data['type'] == 'incident' OR $data['type'] == 'workorder') ? $data['cost'] : null,
 			'urgency' => $data['urgency'],
-			'confidentiality' => ($data['type'] == 'incident') ? (!empty($data['confidentiality']) ? true : false) : false,
+			'confidentiality' => ($data['type'] == 'incident' AND !empty($data['confidentiality'])) ? true : false,
 			'assigned_users' => json_encode((!empty($data['assigned_users']) ? $data['assigned_users'] : [])),
 			'observations' => ($data['type'] == 'request' OR $data['type'] == 'workorder') ? $data['observations'] : null,
 			'subject' => ($data['type'] == 'incident') ? $data['subject'] : null,
 			'description' => ($data['type'] == 'incident') ? $data['description'] : null,
 			'action_taken' => ($data['type'] == 'incident') ? $data['action_taken'] : null,
-			'guest_treatment' => ($data['type'] == 'request' OR $data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['guest_treatment'] : null) : null,
+			'guest_treatment' => (($data['type'] == 'request' OR $data['type'] == 'incident') AND Session::get_value('account')['type'] == 'hotel') ? null : null,
 			'firstname' => ($data['type'] == 'request' OR $data['type'] == 'incident') ? $data['firstname'] : null,
 			'lastname' => ($data['type'] == 'request' OR $data['type'] == 'incident') ? $data['lastname'] : null,
-			'guest_id' => ($data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['guest_id'] : null) : null,
-			'guest_type' => ($data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['guest_type'] : null) : null,
-			'reservation_number' => ($data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['reservation_number'] : null) : null,
-			'reservation_status' => ($data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['reservation_status'] : null) : null,
-			'check_in' => ($data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['check_in'] : null) : null,
-			'check_out' => ($data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['check_out'] : null) : null,
+			'guest_id' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? $data['guest_id'] : null,
+			'guest_type' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? $data['guest_type'] : null,
+			'reservation_number' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? $data['reservation_number'] : null,
+			'reservation_status' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? $data['reservation_status'] : null,
+			'check_in' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? $data['check_in'] : null,
+			'check_out' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? $data['check_out'] : null,
 			'attachments' => json_encode((!empty($data['attachments']) ? $data['attachments'] : [])),
 			'viewed_by' => json_encode([]),
 			'comments' => json_encode([]),
@@ -625,7 +756,7 @@ class Voxes_model extends Model
 	public function edit_vox($data)
 	{
 		$query = null;
-		$editer = $this->get_vox($data['id'], false);
+		$editer = $this->get_vox($data['id']);
 
 		if (!empty($editer))
 		{
@@ -951,21 +1082,21 @@ class Voxes_model extends Model
 				'location' => $data['location'],
 				'cost' => ($data['type'] == 'incident' OR $data['type'] == 'workorder') ? $data['cost'] : null,
 				'urgency' => $data['urgency'],
-				'confidentiality' => ($data['type'] == 'incident') ? (!empty($data['confidentiality']) ? true : false) : false,
+				'confidentiality' => ($data['type'] == 'incident' AND !empty($data['confidentiality'])) ? true : false,
 				'assigned_users' => json_encode((!empty($data['assigned_users']) ? $data['assigned_users'] : [])),
 				'observations' => ($data['type'] == 'request' OR $data['type'] == 'workorder') ? $data['observations'] : null,
 				'subject' => ($data['type'] == 'incident') ? $data['subject'] : null,
 				'description' => ($data['type'] == 'incident') ? $data['description'] : null,
 				'action_taken' => ($data['type'] == 'incident') ? $data['action_taken'] : null,
-				'guest_treatment' => ($data['type'] == 'request' OR $data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['guest_treatment'] : null) : null,
+				'guest_treatment' => (($data['type'] == 'request' OR $data['type'] == 'incident') AND Session::get_value('account')['type'] == 'hotel') ? $data['guest_treatment'] : null,
 				'firstname' => ($data['type'] == 'request' OR $data['type'] == 'incident') ? $data['firstname'] : null,
 				'lastname' => ($data['type'] == 'request' OR $data['type'] == 'incident') ? $data['lastname'] : null,
-				'guest_id' => ($data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['guest_id'] : null) : null,
-				'guest_type' => ($data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['guest_type'] : null) : null,
-				'reservation_number' => ($data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['reservation_number'] : null) : null,
-				'reservation_status' => ($data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['reservation_status'] : null) : null,
-				'check_in' => ($data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['check_in'] : null) : null,
-				'check_out' => ($data['type'] == 'incident') ? ((Session::get_value('account')['type'] == 'hotel') ? $data['check_out'] : null) : null,
+				'guest_id' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? $data['guest_id'] : null,
+				'guest_type' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? $data['guest_type'] : null,
+				'reservation_number' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? $data['reservation_number'] : null,
+				'reservation_status' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? $data['reservation_status'] : null,
+				'check_in' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? $data['check_in'] : null,
+				'check_out' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? $data['check_out'] : null,
 				'attachments' => json_encode((!empty($data['attachments']) ? $data['attachments'] : [])),
 				'changes_history' => json_encode($data['changes_history']),
 				'edited_user' => Session::get_value('user')['id'],
@@ -979,66 +1110,18 @@ class Voxes_model extends Model
 		return $query;
 	}
 
-	public function complete_vox($id)
+	public function comment_vox($data)
 	{
 		$query = null;
-		$editer = $this->get_vox($id, false);
 
-		if (!empty($editer))
-		{
-			array_push($editer['changes_history'], [
-				'type' => 'completed',
-				'user' => Session::get_value('user')['id'],
-				'date' => Functions::get_current_date(),
-				'hour' => Functions::get_current_hour()
-			]);
-
-			$query = $this->database->update('voxes', [
-				'changes_history' => json_encode($editer['changes_history']),
-				'completed_user' => Session::get_value('user')['id'],
-				'completed_date' => Functions::get_current_date(),
-				'completed_hour' => Functions::get_current_hour(),
-				'status' => 'close'
-			], [
-				'id' => $id
-			]);
-		}
-
-		return $query;
-	}
-
-	public function reopen_vox($id)
-	{
-		$query = null;
-		$editer = $this->get_vox($id, false);
-
-		if (!empty($editer))
-		{
-			array_push($editer['changes_history'], [
-				'type' => 'reopened',
-				'user' => Session::get_value('user')['id'],
-				'date' => Functions::get_current_date(),
-				'hour' => Functions::get_current_hour()
-			]);
-
-			$query = $this->database->update('voxes', [
-				'changes_history' => json_encode($editer['changes_history']),
-				'reopened_user' => Session::get_value('user')['id'],
-				'reopened_date' => Functions::get_current_date(),
-				'reopened_hour' => Functions::get_current_hour(),
-				'status' => 'open'
-			], [
-				'id' => $id
-			]);
-		}
-
-		return $query;
-	}
-
-	public function new_vox_comment($data)
-	{
-		$query = null;
-		$editer = $this->get_vox($id, false);
+		$editer = $this->database->select('voxes', [
+			'type',
+			'cost',
+			'comments',
+			'changes_history'
+		], [
+			'id' => $id
+		]);
 
 		if (!empty($editer))
 		{
@@ -1077,10 +1160,10 @@ class Voxes_model extends Model
 				unset($data['attachments']['size']);
 			}
 
-			if ($editer['type'] == 'incident' OR $editer['type'] == 'workorder')
-				$editer['cost'] = (!empty($editer['cost']) ? $editer['cost'] : 0) + (!empty($data['cost']) ? $data['cost'] : 0);
+			if ($editer[0]['type'] == 'incident' OR $editer[0]['type'] == 'workorder')
+				$editer[0]['cost'] = (!empty($editer[0]['cost']) ? $editer[0]['cost'] : 0) + (!empty($data['cost']) ? $data['cost'] : 0);
 
-			array_push($editer['comments'], [
+			array_push($editer[0]['comments'], [
 				'user' => Session::get_value('user')['id'],
 				'date' => Functions::get_current_date(),
 				'hour' => Functions::get_current_hour(),
@@ -1089,7 +1172,7 @@ class Voxes_model extends Model
 				'attachments' => !empty($data['attachments']) ? $data['attachments'] : []
 			]);
 
-			array_push($editer['changes_history'], [
+			array_push($editer[0]['changes_history'], [
 				'type' => 'commented',
 				'user' => Session::get_value('user')['id'],
 				'date' => Functions::get_current_date(),
@@ -1097,9 +1180,9 @@ class Voxes_model extends Model
 			]);
 
 			$query = $this->database->update('voxes', [
-				'cost' => $editer['cost'],
-				'comments' => json_encode($editer['comments']),
-				'changes_history' => json_encode($editer['changes_history'])
+				'cost' => $editer[0]['cost'],
+				'comments' => json_encode($editer[0]['comments']),
+				'changes_history' => json_encode($editer[0]['changes_history'])
 			], [
 				'id' => $data['id']
 			]);
@@ -1108,7 +1191,73 @@ class Voxes_model extends Model
 		return $query;
 	}
 
-	public function get_sms_coin()
+	public function complete_vox($id)
+	{
+		$query = null;
+
+		$editer = $this->database->select('voxes', [
+			'changes_history'
+		], [
+			'id' => $id
+		]);
+
+		if (!empty($editer))
+		{
+			array_push($editer[0]['changes_history'], [
+				'type' => 'completed',
+				'user' => Session::get_value('user')['id'],
+				'date' => Functions::get_current_date(),
+				'hour' => Functions::get_current_hour()
+			]);
+
+			$query = $this->database->update('voxes', [
+				'changes_history' => json_encode($editer[0]['changes_history']),
+				'completed_user' => Session::get_value('user')['id'],
+				'completed_date' => Functions::get_current_date(),
+				'completed_hour' => Functions::get_current_hour(),
+				'status' => 'close'
+			], [
+				'id' => $id
+			]);
+		}
+
+		return $query;
+	}
+
+	public function reopen_vox($id)
+	{
+		$query = null;
+
+		$editer = $this->database->select('voxes', [
+			'changes_history'
+		], [
+			'id' => $id
+		]);
+
+		if (!empty($editer))
+		{
+			array_push($editer[0]['changes_history'], [
+				'type' => 'reopened',
+				'user' => Session::get_value('user')['id'],
+				'date' => Functions::get_current_date(),
+				'hour' => Functions::get_current_hour()
+			]);
+
+			$query = $this->database->update('voxes', [
+				'changes_history' => json_encode($editer[0]['changes_history']),
+				'reopened_user' => Session::get_value('user')['id'],
+				'reopened_date' => Functions::get_current_date(),
+				'reopened_hour' => Functions::get_current_hour(),
+				'status' => 'open'
+			], [
+				'id' => $id
+			]);
+		}
+
+		return $query;
+	}
+
+	public function get_sms()
 	{
 		$query = $this->database->select('accounts', [
 			'sms'
@@ -1119,7 +1268,7 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0]['sms'] : null;
 	}
 
-	public function edit_sms_coin($sms)
+	public function edit_sms($sms)
 	{
 		$query = $this->database->update('accounts', [
 			'sms' => $sms
@@ -1130,16 +1279,16 @@ class Voxes_model extends Model
 		return $query;
 	}
 
-	public function get_vox_reports()
+	public function get_voxes_reports()
 	{
 		$reports = [];
 
-		$query = Functions::get_json_decoded_query($this->database->select('vox_reports', [
+		$query = Functions::get_json_decoded_query($this->database->select('voxes_reports', [
 			'id',
 			'name',
 			'addressed_to',
-			'addressed_to_opportunity_areas',
-			'addressed_to_user'
+			'opportunity_areas',
+			'user'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
@@ -1157,7 +1306,7 @@ class Voxes_model extends Model
 
 				foreach (Session::get_value('user')['opportunity_areas'] as $subvalue)
 				{
-					if (in_array($subvalue, $value['addressed_to_opportunity_areas']))
+					if (in_array($subvalue, $value['opportunity_areas']))
 						$count = $count + 1;
 					else
 						$break = true;
@@ -1166,7 +1315,7 @@ class Voxes_model extends Model
 				if ($count > 0)
 					$break = false;
 			}
-			else if ($value['addressed_to'] == 'me' AND Session::get_value('user')['id'] != $value['addressed_to_user'])
+			else if ($value['addressed_to'] == 'me' AND Session::get_value('user')['id'] != $value['user'])
 				$break = true;
 
 			if ($break == false)
@@ -1176,9 +1325,9 @@ class Voxes_model extends Model
 		return $reports;
 	}
 
-	public function get_vox_report($id)
+	public function get_vox_report($option, $id)
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('vox_reports', [
+		$query = Functions::get_json_decoded_query($this->database->select('voxes_reports', [
 			'id',
 			'name',
 			'type',
@@ -1189,66 +1338,14 @@ class Voxes_model extends Model
 			'order',
 			'time_period',
 			'addressed_to',
-			'addressed_to_opportunity_areas',
-			'addressed_to_user',
+			'opportunity_areas',
+			'user',
 			'fields'
 		], [
 			'id' => $id
 		]));
 
 		return !empty($query) ? $query[0] : null;
-	}
-
-	public function new_vox_report($data)
-	{
-		$query = $this->database->insert('vox_reports', [
-			'account' => Session::get_value('account')['id'],
-			'name' => $data['name'],
-			'type' => $data['type'],
-			'opportunity_area' => !empty($data['opportunity_area']) ? $data['opportunity_area'] : null,
-			'opportunity_type' => !empty($data['opportunity_type']) ? $data['opportunity_type'] : null,
-			'owner' => $data['owner'],
-			'location' => !empty($data['location']) ? $data['location'] : null,
-			'order' => $data['order'],
-			'time_period' => $data['time_period'],
-			'addressed_to' => $data['addressed_to'],
-			'addressed_to_opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas') ? $data['addressed_to_opportunity_areas'] : []),
-			'addressed_to_user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,
-			'fields' => json_encode($data['fields'])
-		]);
-
-		return $query;
-	}
-
-	public function edit_vox_report($data)
-	{
-		$query = $this->database->update('vox_reports', [
-			'name' => $data['name'],
-			'type' => $data['type'],
-			'opportunity_area' => !empty($data['opportunity_area']) ? $data['opportunity_area'] : null,
-			'opportunity_type' => !empty($data['opportunity_type']) ? $data['opportunity_type'] : null,
-			'owner' => $data['owner'],
-			'location' => !empty($data['location']) ? $data['location'] : null,
-			'order' => $data['order'],
-			'time_period' => $data['time_period'],
-			'addressed_to' => $data['addressed_to'],
-			'addressed_to_opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas') ? $data['addressed_to_opportunity_areas'] : [])
-			'addressed_to_user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,
-			'fields' => json_encode($data['fields'])
-		], [
-			'id' => $data['id']
-		]);
-
-		return $query;
-	}
-
-	public function delete_vox_report($id)
-	{
-		$query = $this->database->delete('vox_reports', [
-			'id' => $id
-		]);
-
-		return $query;
 	}
 
 	public function get_vox_report_fields($type = 'all')
@@ -1260,7 +1357,7 @@ class Voxes_model extends Model
 				return [
 					[
 						'id' => 'type',
-						'name' => 'vox_type'
+						'name' => 'type'
 					],
 					[
 						'id' => 'owner',
@@ -1275,12 +1372,16 @@ class Voxes_model extends Model
 						'name' => 'opportunity_type'
 					],
 					[
-						'id' => 'started_date_hour',
-						'name' => 'started_date_hour'
+						'id' => 'date',
+						'name' => 'date'
 					],
 					[
 						'id' => 'location',
 						'name' => 'location'
+					],
+					[
+						'id' => 'cost',
+						'name' => 'cost'
 					],
 					[
 						'id' => 'urgency',
@@ -1291,8 +1392,8 @@ class Voxes_model extends Model
 						'name' => 'confidentiality'
 					],
 					[
-						'id' => 'cost',
-						'name' => 'cost'
+						'id' => 'assigned_users',
+						'name' => 'assigned_users'
 					],
 					[
 						'id' => 'observations',
@@ -1311,16 +1412,20 @@ class Voxes_model extends Model
 						'name' => 'action_taken'
 					],
 					[
-						'id' => 'guest_treatment_name_lastname',
-						'name' => 'guest_name'
+						'id' => 'guest_treatment',
+						'name' => 'guest_treatment'
 					],
 					[
-						'id' => 'guest_type',
-						'name' => 'guest_type'
+						'id' => 'name',
+						'name' => 'name'
 					],
 					[
 						'id' => 'guest_id',
 						'name' => 'guest_id'
+					],
+					[
+						'id' => 'guest_type',
+						'name' => 'guest_type'
 					],
 					[
 						'id' => 'reservation_number',
@@ -1331,36 +1436,36 @@ class Voxes_model extends Model
 						'name' => 'reservation_status'
 					],
 					[
-						'id' => 'check_in_check_out',
+						'id' => 'staying',
 						'name' => 'staying'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
 					],
 					[
 						'id' => 'attachments',
 						'name' => 'attachments'
 					],
 					[
-						'id' => 'created_user_date_hour',
-						'name' => 'created_by'
+						'id' => 'viewed_by',
+						'name' => 'viewed_by'
 					],
 					[
-						'id' => 'edited_user_date_hour',
-						'name' => 'edited_by'
+						'id' => 'comments',
+						'name' => 'comments'
 					],
 					[
-						'id' => 'completed_user_date_hour',
-						'name' => 'completed_by'
+						'id' => 'created',
+						'name' => 'created'
 					],
 					[
-						'id' => 'reopened_user_date_hour',
-						'name' => 'reopened_by'
+						'id' => 'edited',
+						'name' => 'edited'
+					],
+					[
+						'id' => 'completed',
+						'name' => 'completed'
+					],
+					[
+						'id' => 'reopened',
+						'name' => 'reopened'
 					],
 					[
 						'id' => 'status',
@@ -1373,10 +1478,6 @@ class Voxes_model extends Model
 					[
 						'id' => 'average_resolution',
 						'name' => 'average_resolution'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
 					]
 				];
 			}
@@ -1385,7 +1486,7 @@ class Voxes_model extends Model
 				return [
 					[
 						'id' => 'type',
-						'name' => 'vox_type'
+						'name' => 'type'
 					],
 					[
 						'id' => 'owner',
@@ -1400,12 +1501,16 @@ class Voxes_model extends Model
 						'name' => 'opportunity_type'
 					],
 					[
-						'id' => 'started_date_hour',
-						'name' => 'started_date_hour'
+						'id' => 'date',
+						'name' => 'date'
 					],
 					[
 						'id' => 'location',
 						'name' => 'location'
+					],
+					[
+						'id' => 'cost',
+						'name' => 'cost'
 					],
 					[
 						'id' => 'urgency',
@@ -1416,8 +1521,8 @@ class Voxes_model extends Model
 						'name' => 'confidentiality'
 					],
 					[
-						'id' => 'cost',
-						'name' => 'cost'
+						'id' => 'assigned_users',
+						'name' => 'assigned_users'
 					],
 					[
 						'id' => 'observations',
@@ -1436,36 +1541,36 @@ class Voxes_model extends Model
 						'name' => 'action_taken'
 					],
 					[
-						'id' => 'guest_treatment_name_lastname',
-						'name' => 'guest_name'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
+						'id' => 'name',
+						'name' => 'name'
 					],
 					[
 						'id' => 'attachments',
 						'name' => 'attachments'
 					],
 					[
-						'id' => 'created_user_date_hour',
-						'name' => 'created_by'
+						'id' => 'viewed_by',
+						'name' => 'viewed_by'
 					],
 					[
-						'id' => 'edited_user_date_hour',
-						'name' => 'edited_by'
+						'id' => 'comments',
+						'name' => 'comments'
 					],
 					[
-						'id' => 'completed_user_date_hour',
-						'name' => 'completed_by'
+						'id' => 'created',
+						'name' => 'created'
 					],
 					[
-						'id' => 'reopened_user_date_hour',
-						'name' => 'reopened_by'
+						'id' => 'edited',
+						'name' => 'edited'
+					],
+					[
+						'id' => 'completed',
+						'name' => 'completed'
+					],
+					[
+						'id' => 'reopened',
+						'name' => 'reopened'
 					],
 					[
 						'id' => 'status',
@@ -1478,94 +1583,178 @@ class Voxes_model extends Model
 					[
 						'id' => 'average_resolution',
 						'name' => 'average_resolution'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
 					]
 				];
 			}
 		}
 		else if ($type == 'request')
 		{
-			return [
-				[
-					'id' => 'owner',
-					'name' => 'owner'
-				],
-				[
-					'id' => 'opportunity_area',
-					'name' => 'opportunity_area'
-				],
-				[
-					'id' => 'opportunity_type',
-					'name' => 'opportunity_type'
-				],
-				[
-					'id' => 'started_date_hour',
-					'name' => 'started_date_hour'
-				],
-				[
-					'id' => 'location',
-					'name' => 'location'
-				],
-				[
-					'id' => 'urgency',
-					'name' => 'urgency'
-				],
-				[
-					'id' => 'observations',
-					'name' => 'observations'
-				],
-				[
-					'id' => 'guest_treatment_name_lastname',
-					'name' => 'guest_name'
-				],
-				[
-					'id' => 'assigned_users',
-					'name' => 'assigned_users'
-				],
-				[
-					'id' => 'viewed_by',
-					'name' => 'viewed_by'
-				],
-				[
-					'id' => 'attachments',
-					'name' => 'attachments'
-				],
-				[
-					'id' => 'created_user_date_hour',
-					'name' => 'created_by'
-				],
-				[
-					'id' => 'edited_user_date_hour',
-					'name' => 'edited_by'
-				],
-				[
-					'id' => 'completed_user_date_hour',
-					'name' => 'completed_by'
-				],
-				[
-					'id' => 'reopened_user_date_hour',
-					'name' => 'reopened_by'
-				],
-				[
-					'id' => 'status',
-					'name' => 'status'
-				],
-				[
-					'id' => 'origin',
-					'name' => 'origin'
-				],
-				[
-					'id' => 'average_resolution',
-					'name' => 'average_resolution'
-				],
-				[
-					'id' => 'comments',
-					'name' => 'comments'
-				]
-			];
+			if (Session::get_value('account')['type'] == 'hotel')
+			{
+				return [
+					[
+						'id' => 'owner',
+						'name' => 'owner'
+					],
+					[
+						'id' => 'opportunity_area',
+						'name' => 'opportunity_area'
+					],
+					[
+						'id' => 'opportunity_type',
+						'name' => 'opportunity_type'
+					],
+					[
+						'id' => 'date',
+						'name' => 'date'
+					],
+					[
+						'id' => 'location',
+						'name' => 'location'
+					],
+					[
+						'id' => 'urgency',
+						'name' => 'urgency'
+					],
+					[
+						'id' => 'assigned_users',
+						'name' => 'assigned_users'
+					],
+					[
+						'id' => 'observations',
+						'name' => 'observations'
+					],
+					[
+						'id' => 'guest_treatment',
+						'name' => 'guest_treatment'
+					],
+					[
+						'id' => 'name',
+						'name' => 'name'
+					],
+					[
+						'id' => 'attachments',
+						'name' => 'attachments'
+					],
+					[
+						'id' => 'viewed_by',
+						'name' => 'viewed_by'
+					],
+					[
+						'id' => 'comments',
+						'name' => 'comments'
+					],
+					[
+						'id' => 'created',
+						'name' => 'created'
+					],
+					[
+						'id' => 'edited',
+						'name' => 'edited'
+					],
+					[
+						'id' => 'completed',
+						'name' => 'completed'
+					],
+					[
+						'id' => 'reopened',
+						'name' => 'reopened'
+					],
+					[
+						'id' => 'status',
+						'name' => 'status'
+					],
+					[
+						'id' => 'origin',
+						'name' => 'origin'
+					],
+					[
+						'id' => 'average_resolution',
+						'name' => 'average_resolution'
+					]
+				];
+			}
+			else
+			{
+				return [
+					[
+						'id' => 'owner',
+						'name' => 'owner'
+					],
+					[
+						'id' => 'opportunity_area',
+						'name' => 'opportunity_area'
+					],
+					[
+						'id' => 'opportunity_type',
+						'name' => 'opportunity_type'
+					],
+					[
+						'id' => 'date',
+						'name' => 'date'
+					],
+					[
+						'id' => 'location',
+						'name' => 'location'
+					],
+					[
+						'id' => 'urgency',
+						'name' => 'urgency'
+					],
+					[
+						'id' => 'assigned_users',
+						'name' => 'assigned_users'
+					],
+					[
+						'id' => 'observations',
+						'name' => 'observations'
+					],
+					[
+						'id' => 'name',
+						'name' => 'name'
+					],
+					[
+						'id' => 'attachments',
+						'name' => 'attachments'
+					],
+					[
+						'id' => 'viewed_by',
+						'name' => 'viewed_by'
+					],
+					[
+						'id' => 'comments',
+						'name' => 'comments'
+					],
+					[
+						'id' => 'created',
+						'name' => 'created'
+					],
+					[
+						'id' => 'edited',
+						'name' => 'edited'
+					],
+					[
+						'id' => 'completed',
+						'name' => 'completed'
+					],
+					[
+						'id' => 'reopened',
+						'name' => 'reopened'
+					],
+					[
+						'id' => 'status',
+						'name' => 'status'
+					],
+					[
+						'id' => 'origin',
+						'name' => 'origin'
+					],
+					[
+						'id' => 'average_resolution',
+						'name' => 'average_resolution'
+					]
+				];
+			}
 		}
 		else if ($type == 'incident')
 		{
@@ -1585,12 +1774,16 @@ class Voxes_model extends Model
 						'name' => 'opportunity_type'
 					],
 					[
-						'id' => 'started_date_hour',
-						'name' => 'started_date_hour'
+						'id' => 'date',
+						'name' => 'date'
 					],
 					[
 						'id' => 'location',
 						'name' => 'location'
+					],
+					[
+						'id' => 'cost',
+						'name' => 'cost'
 					],
 					[
 						'id' => 'urgency',
@@ -1601,8 +1794,8 @@ class Voxes_model extends Model
 						'name' => 'confidentiality'
 					],
 					[
-						'id' => 'cost',
-						'name' => 'cost'
+						'id' => 'assigned_users',
+						'name' => 'assigned_users'
 					],
 					[
 						'id' => 'subject',
@@ -1617,16 +1810,20 @@ class Voxes_model extends Model
 						'name' => 'action_taken'
 					],
 					[
-						'id' => 'guest_treatment_name_lastname',
-						'name' => 'guest_name'
+						'id' => 'guest_treatment',
+						'name' => 'guest_treatment'
 					],
 					[
-						'id' => 'guest_type',
-						'name' => 'guest_type'
+						'id' => 'name',
+						'name' => 'name'
 					],
 					[
 						'id' => 'guest_id',
 						'name' => 'guest_id'
+					],
+					[
+						'id' => 'guest_type',
+						'name' => 'guest_type'
 					],
 					[
 						'id' => 'reservation_number',
@@ -1637,36 +1834,36 @@ class Voxes_model extends Model
 						'name' => 'reservation_status'
 					],
 					[
-						'id' => 'check_in_check_out',
+						'id' => 'staying',
 						'name' => 'staying'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
 					],
 					[
 						'id' => 'attachments',
 						'name' => 'attachments'
 					],
 					[
-						'id' => 'created_user_date_hour',
-						'name' => 'created_by'
+						'id' => 'viewed_by',
+						'name' => 'viewed_by'
 					],
 					[
-						'id' => 'edited_user_date_hour',
-						'name' => 'edited_by'
+						'id' => 'comments',
+						'name' => 'comments'
 					],
 					[
-						'id' => 'completed_user_date_hour',
-						'name' => 'completed_by'
+						'id' => 'created',
+						'name' => 'created'
 					],
 					[
-						'id' => 'reopened_user_date_hour',
-						'name' => 'reopened_by'
+						'id' => 'edited',
+						'name' => 'edited'
+					],
+					[
+						'id' => 'completed',
+						'name' => 'completed'
+					],
+					[
+						'id' => 'reopened',
+						'name' => 'reopened'
 					],
 					[
 						'id' => 'status',
@@ -1679,10 +1876,6 @@ class Voxes_model extends Model
 					[
 						'id' => 'average_resolution',
 						'name' => 'average_resolution'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
 					]
 				];
 			}
@@ -1702,12 +1895,16 @@ class Voxes_model extends Model
 						'name' => 'opportunity_type'
 					],
 					[
-						'id' => 'started_date_hour',
-						'name' => 'started_date_hour'
+						'id' => 'date',
+						'name' => 'date'
 					],
 					[
 						'id' => 'location',
 						'name' => 'location'
+					],
+					[
+						'id' => 'cost',
+						'name' => 'cost'
 					],
 					[
 						'id' => 'urgency',
@@ -1718,8 +1915,8 @@ class Voxes_model extends Model
 						'name' => 'confidentiality'
 					],
 					[
-						'id' => 'cost',
-						'name' => 'cost'
+						'id' => 'assigned_users',
+						'name' => 'assigned_users'
 					],
 					[
 						'id' => 'subject',
@@ -1734,36 +1931,36 @@ class Voxes_model extends Model
 						'name' => 'action_taken'
 					],
 					[
-						'id' => 'guest_treatment_name_lastname',
-						'name' => 'guest_name'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
+						'id' => 'name',
+						'name' => 'name'
 					],
 					[
 						'id' => 'attachments',
 						'name' => 'attachments'
 					],
 					[
-						'id' => 'created_user_date_hour',
-						'name' => 'created_by'
+						'id' => 'viewed_by',
+						'name' => 'viewed_by'
 					],
 					[
-						'id' => 'edited_user_date_hour',
-						'name' => 'edited_by'
+						'id' => 'comments',
+						'name' => 'comments'
 					],
 					[
-						'id' => 'completed_user_date_hour',
-						'name' => 'completed_by'
+						'id' => 'created',
+						'name' => 'created'
 					],
 					[
-						'id' => 'reopened_user_date_hour',
-						'name' => 'reopened_by'
+						'id' => 'edited',
+						'name' => 'edited'
+					],
+					[
+						'id' => 'completed',
+						'name' => 'completed'
+					],
+					[
+						'id' => 'reopened',
+						'name' => 'reopened'
 					],
 					[
 						'id' => 'status',
@@ -1776,10 +1973,6 @@ class Voxes_model extends Model
 					[
 						'id' => 'average_resolution',
 						'name' => 'average_resolution'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
 					]
 				];
 			}
@@ -1800,8 +1993,8 @@ class Voxes_model extends Model
 					'name' => 'opportunity_type'
 				],
 				[
-					'id' => 'started_date_hour',
-					'name' => 'started_date_hour'
+					'id' => 'date',
+					'name' => 'date'
 				],
 				[
 					'id' => 'location',
@@ -1812,36 +2005,40 @@ class Voxes_model extends Model
 					'name' => 'urgency'
 				],
 				[
-					'id' => 'observations',
-					'name' => 'observations'
-				],
-				[
 					'id' => 'assigned_users',
 					'name' => 'assigned_users'
 				],
 				[
-					'id' => 'viewed_by',
-					'name' => 'viewed_by'
+					'id' => 'observations',
+					'name' => 'observations'
 				],
 				[
 					'id' => 'attachments',
 					'name' => 'attachments'
 				],
 				[
-					'id' => 'created_user_date_hour',
-					'name' => 'created_by'
+					'id' => 'viewed_by',
+					'name' => 'viewed_by'
 				],
 				[
-					'id' => 'edited_user_date_hour',
-					'name' => 'edited_by'
+					'id' => 'comments',
+					'name' => 'comments'
 				],
 				[
-					'id' => 'completed_user_date_hour',
-					'name' => 'completed_by'
+					'id' => 'created',
+					'name' => 'created'
 				],
 				[
-					'id' => 'reopened_user_date_hour',
-					'name' => 'reopened_by'
+					'id' => 'edited',
+					'name' => 'edited'
+				],
+				[
+					'id' => 'completed',
+					'name' => 'completed'
+				],
+				[
+					'id' => 'reopened',
+					'name' => 'reopened'
 				],
 				[
 					'id' => 'status',
@@ -1854,117 +2051,64 @@ class Voxes_model extends Model
 				[
 					'id' => 'average_resolution',
 					'name' => 'average_resolution'
-				],
-				[
-					'id' => 'comments',
-					'name' => 'comments'
 				]
 			];
 		}
 	}
 
-	public function generate_voxes_report($data)
+	public function new_vox_report($data)
 	{
-		$where = [
-			'AND' => [
-				'account' => Session::get_value('account')['id']
-			]
-		];
-
-		if (Functions::check_user_access(['{view_opportunity_areas}']) == true)
-			$where['AND']['opportunity_area'] = Session::get_value('user')['opportunity_areas'];
-		else if (Functions::check_user_access(['{view_own}']) == true)
-			$where['AND']['created_user'] = Session::get_value('user')['id'];
-
-		if (Functions::check_user_access(['{view_confidentiality}']) == false)
-			$where['AND']['confidentiality'] = false;
-
-		// - Condición para cargar un vox si el usuario está asignado a el.
-
-		if ($data['type'] != 'all')
-			$where['AND']['type'] = $data['type'];
-
-		if ($data['owner'] != 'all')
-			$where['AND']['owner'] = $data['owner'];
-
-		if ($data['opportunity_area'] != 'all')
-			$where['AND']['opportunity_area'] = $data['opportunity_area'];
-
-		if ($data['opportunity_type'] != 'all')
-			$where['AND']['opportunity_type'] = $data['opportunity_type'];
-
-		if ($data['location'] != 'all')
-			$where['AND']['location'] = $data['location'];
-
-		$where['AND']['OR']['started_date[<]'] = $data['started_date']; // - Revisar formatos de fecha
-		$where['AND']['OR']['started_date[>]'] = $data['end_date']; // - Revisar formatos de fecha
-
-		if ($data['type'] == 'all' OR $data['type'] == 'workorder')
-		{
-			$where['ORDER']['started_date'] = 'DESC';
-			$where['ORDER']['started_hour'] = 'DESC';
-		}
-		else if ($data['type'] == 'request' OR $data['type'] == 'incident')
-		{
-			if ($data['order'] == 'owner')
-				$where['ORDER']['owner'] => 'ASC';
-			else if ($data['order'] == 'guest')
-			{
-				$where['ORDER']['firstname'] => 'ASC';
-				$where['ORDER']['lastname'] => 'ASC';
-			}
-		}
-
-		$query = Functions::get_json_decoded_query($this->database->select('voxes', [
-			'id',
-			'type',
-			'owner',
-			'opportunity_area',
-			'opportunity_type',
-			'started_date',
-			'started_hour',
-			'location',
-			'cost',
-			'urgency',
-			'confidentiality',
-			'assigned_users',
-			'observations',
-			'subject',
-			'description',
-			'action_taken',
-			'guest_treatment',
-			'firstname',
-			'lastname',
-			'guest_id',
-			'guest_type',
-			'reservation_number',
-			'reservation_status',
-			'check_in',
-			'check_out',
-			'attachments',
-			'viewed_by',
-			'comments',
-			'changes_history',
-			'created_user',
-			'edited_user',
-			'completed_user',
-			'reopened_user',
-			'created_date',
-			'created_hour',
-			'edited_date',
-			'edited_hour',
-			'completed_date',
-			'completed_hour',
-			'reopened_date',
-			'reopened_hour',
-			'status',
-			'origin'
-		], $where));
+		$query = $this->database->insert('voxes_reports', [
+			'account' => Session::get_value('account')['id'],
+			'name' => $data['name'],
+			'type' => $data['type'],
+			'opportunity_area' => $data['opportunity_area'],
+			'opportunity_type' => $data['opportunity_type'],
+			'owner' => $data['owner'],
+			'location' => $data['location'],
+			'order' => $data['order'],
+			'time_period' => $data['time_period'],
+			'addressed_to' => $data['addressed_to'],
+			'opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas') ? $data['opportunity_areas'] : []),
+			'user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,
+			'fields' => json_encode($data['fields'])
+		]);
 
 		return $query;
 	}
 
-	public function get_general_average_resolution()
+	public function edit_vox_report($data)
+	{
+		$query = $this->database->update('voxes_reports', [
+			'name' => $data['name'],
+			'type' => $data['type'],
+			'opportunity_area' => $data['opportunity_area'],
+			'opportunity_type' => $data['opportunity_type'],
+			'owner' => $data['owner'],
+			'location' => $data['location'],
+			'order' => $data['order'],
+			'time_period' => $data['time_period'],
+			'addressed_to' => $data['addressed_to'],
+			'opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas') ? $data['opportunity_areas'] : []),
+			'user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,
+			'fields' => json_encode($data['fields'])
+		], [
+			'id' => $data['id']
+		]);
+
+		return $query;
+	}
+
+	public function delete_vox_report($id)
+	{
+		$query = $this->database->delete('voxes_reports', [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function get_voxes_average_resolution()
 	{
 		$query = $this->database->select('voxes', [
 			'started_date',
@@ -2013,13 +2157,13 @@ class Voxes_model extends Model
 			]
 		];
 
-		if ($option == 'created_today')
+		if ($option == 'today')
 			$where['AND']['started_date'] = Functions::get_current_date(); // - Revisar formatos de fecha
-		else if ($option == 'created_week')
+		else if ($option == 'week')
 			$where['AND']['started_date[<>]'] = [Functions::get_current_week()[0],Functions::get_current_week()[1]]; // - Revisar formatos de fecha
-		else if ($option == 'created_month')
+		else if ($option == 'month')
 			$where['AND']['started_date[<>]'] = [Functions::get_current_month()[0],Functions::get_current_month()[1]]; // - Revisar formatos de fecha
-		else if ($option == 'created_year')
+		else if ($option == 'year')
 			$where['AND']['started_date[<>]'] = [Functions::get_current_year()[0],Functions::get_current_year()[1]]; // - Revisar formatos de fecha
 
 		$query = $this->database->count('voxes', $where);

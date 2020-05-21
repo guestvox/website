@@ -26,7 +26,6 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
     <h4>Power by <img src="{$path.images}logotype-color.png" alt="Guestvox"></h4>
     <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved}</p>
 </footer>
-{$mdl_new_request}
-{$mdl_new_incident}
+{$mdl_new_vox}
 {$mdl_new_survey_answer}
 {$mdl_survey_widget}

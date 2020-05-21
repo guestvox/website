@@ -2,7 +2,66 @@
 
 $(document).ready(function()
 {
-    $(document).on('change', '[important] [name]', function()
+    var type;
+
+    $('[data-action="new_vox"]').on('click', function()
+    {
+        type = $(this).data('type');
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + type + '&action=get_opt_owners',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    $('[name="owner"]').html(response.html);
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + type + '&action=get_opt_opportunity_areas',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    $('[name="opportunity_area"]').html(response.html);
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + type + '&action=get_opt_locations',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    $('[name="location"]').html(response.html);
+            }
+        });
+
+        if (type == 'request')
+        {
+            $('[data-modal="new_vox"]').find('[name="observations"]').parent().parent().parent().removeClass('hidden');
+            $('[data-modal="new_vox"]').find('[name="subject"]').parent().parent().parent().addClass('hidden');
+        }
+        else if (type == 'incident')
+        {
+            $('[data-modal="new_vox"]').find('[name="observations"]').parent().parent().parent().addClass('hidden');
+            $('[data-modal="new_vox"]').find('[name="subject"]').parent().parent().parent().removeClass('hidden');
+        }
+
+        $('[data-modal="new_vox"]').addClass('view');
+    });
+
+    $(document).on('change', '[required]', function()
     {
         if ($(this).val() != '')
         {
@@ -22,10 +81,7 @@ $(document).ready(function()
             processData: false,
             cache: false,
             dataType: 'json',
-            success: function(response)
-            {
-
-            }
+            success: function(response) { }
         });
     });
 
@@ -33,7 +89,7 @@ $(document).ready(function()
     {
         $.ajax({
             type: 'POST',
-            data: 'opportunity_area=' + $(this).val() + '&type=' + $(this).data('type') + '&action=get_opt_opportunity_types',
+            data: 'opportunity_area=' + $(this).val() + '&type=' + type + '&action=get_opt_opportunity_types',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -41,26 +97,23 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[name="opportunity_type"]').html(response.data);
+                    $('[name="opportunity_type"]').html(response.html);
                     $('[name="opportunity_type"]').attr('disabled', false);
                 }
             }
         });
     });
 
-    $('[data-modal="new_request"]').modal().onCancel(function()
+    $('[data-modal="new_vox"]').modal().onCancel(function()
     {
-        $('[data-modal="new_request"]').find('form')[0].reset();
-        $('[data-modal="new_request"]').find('label.error').removeClass('error');
-        $('[data-modal="new_request"]').find('p.error').remove();
+        $('[data-modal="new_vox"]').find('form')[0].reset();
+        $('[data-modal="new_vox"]').find('[name="observations"]').parent().parent().parent().addClass('hidden');
+        $('[data-modal="new_vox"]').find('[name="subject"]').parent().parent().parent().addClass('hidden');
+        $('[data-modal="new_vox"]').find('label.error').removeClass('error');
+        $('[data-modal="new_vox"]').find('p.error').remove();
     });
 
-    $('[data-modal="new_request"]').modal().onSuccess(function()
-    {
-        $('[data-modal="new_request"]').find('form').submit();
-    });
-
-    $('form[name="new_request"]').on('submit', function(e)
+    $('form[name="new_vox"]').on('submit', function(e)
     {
         e.preventDefault();
 
@@ -68,66 +121,7 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=new_request',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').addClass('view');
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { location.reload(); }, 8000);
-                }
-                else if (response.status == 'error')
-                {
-                    if (response.labels)
-                    {
-                        form.find('label.error').removeClass('error');
-                        form.find('p.error').remove();
-
-                        $.each(response.labels, function(i, label)
-                        {
-                            if (label[1].length > 0)
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-                            else
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
-                        });
-
-                        form.find('label.error [name]')[0].focus();
-                    }
-                    else if (response.message)
-                    {
-                        $('[data-modal="error"]').addClass('view');
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                    }
-                }
-            }
-        });
-    });
-
-    $('[data-modal="new_incident"]').modal().onCancel(function()
-    {
-        $('[data-modal="new_incident"]').find('form')[0].reset();
-        $('[data-modal="new_incident"]').find('label.error').removeClass('error');
-        $('[data-modal="new_incident"]').find('p.error').remove();
-    });
-
-    $('[data-modal="new_incident"]').modal().onSuccess(function()
-    {
-        $('[data-modal="new_incident"]').find('form').submit();
-    });
-
-    $('form[name="new_incident"]').on('submit', function(e)
-    {
-        e.preventDefault();
-
-        var form = $(this);
-
-        $.ajax({
-            type: 'POST',
-            data: form.serialize() + '&action=new_incident',
+            data: form.serialize() + '&type=' + type + '&action=new_vox',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -207,11 +201,6 @@ $(document).ready(function()
         $('[data-modal="new_survey_answer"]').find('form')[0].reset();
         $('[data-modal="new_survey_answer"]').find('label.error').removeClass('error');
         $('[data-modal="new_survey_answer"]').find('p.error').remove();
-    });
-
-    $('[data-modal="new_survey_answer"]').modal().onSuccess(function()
-    {
-        $('[data-modal="new_survey_answer"]').find('form').submit();
     });
 
     $('form[name="new_survey_answer"]').on('submit', function(e)

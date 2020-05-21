@@ -129,9 +129,6 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
 </main>
 <section class="modal" data-modal="contact">
     <div class="content">
-        <header>
-            <h3>Pongamonos en contacto</h3>
-        </header>
         <main>
             <form name="contact">
                 <div class="row">
@@ -192,14 +189,14 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
                     <div class="span12">
                         <p style="font-size: 10px; line-height: 1.3; opacity: 0.5; margin-bottom: 0px;">Al enviar este formulario, solicitará que un representante de Guestvox S.A.P.I de C.V. se ponga en contacto con usted por teléfono o correo electrónico en los próximos días.</p>
                     </div>
+                    <div class="span12">
+                        <div class="buttons">
+                            <button type="submit">¡Contáctenme!</button>
+                            <button button-cancel>{$lang.cancel}</button>
+                        </div>
+                    </div>
                 </div>
             </form>
         </main>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
-                <button class="btn btn-colored" button-success>¡Contáctenme!</button>
-            </div>
-        </footer>
     </div>
 </section>
