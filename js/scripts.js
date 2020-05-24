@@ -38,14 +38,16 @@ $(document).ready(function ()
 
     $(document).on('change', '[required]', function()
     {
-        if ($(this).val() != '')
+        var target = $(this).find('[name]');
+
+        if (target.val() != '')
         {
-            $(this).parents('label').addClass('success');
-            $(this).parents('label.error').removeClass('error');
-            $(this).parents('label').find('p.error').remove();
+            $(this).addClass('success');
+            $(this).removeClass('error');
+            $(this).find('p.error').remove();
         }
         else
-            $(this).parents('label').removeClass('success');
+            $(this).removeClass('success');
     });
 });
 

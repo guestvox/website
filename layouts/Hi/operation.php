@@ -224,7 +224,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
                     <div class="span12">
                         <div class="buttons">
                             <button type="submit">{$lang.request_your_demo}</button>
-                            <button button-cancel>{$lang.cancel}</button>
+                            <a button-cancel>{$lang.cancel}</a>
                         </div>
                     </div>
                 </div>
