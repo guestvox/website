@@ -16,20 +16,17 @@
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 		<link rel="stylesheet" href="{$path.css}valkyrie.min.css" type="text/css" media="all" />
 		<link rel="stylesheet" href="{$path.css}styles.css" type="text/css" media="all" />
+		{$dependencies.css}
 
         <!--Inician dependencias de PWA-->
-        <!-- <link rel="manifest" href="manifest.json"> -->
         <meta name="theme-color" content="#00A5AB"/>
         <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-
-        <!--Inician dependencias de pwa para ios-->
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-touch-fullscreen" content="yes" />
         <meta name="apple-mobile-web-app-title" content="Guestvox" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <link rel="apple-touch-icon" sizes="180x180" href="images/icon_180x180.png" />
-
         <link rel="apple-touch-startup-image" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/icon_1136x640.png" />
         <link rel="apple-touch-startup-image" media="screen and (device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: landscape)" href="images/icon_2436x1125.png" />
         <link rel="apple-touch-startup-image" media="screen and (device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/icon_1792x828.png" />
@@ -50,10 +47,7 @@
         <link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/icon_1668x2388.png" />
         <link rel="apple-touch-startup-image" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/icon_2048x1536.png" />
         <link rel="apple-touch-startup-image" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/icon_1536x2048.png" />
-        <!--Terminan dependencias de pwa para ios-->
-        <!--Terminan dependencias de PWA-->
-
-		{$dependencies.css}
+        <!-- -->
 
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-153525856-1"></script>
