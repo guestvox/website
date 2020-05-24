@@ -27,113 +27,25 @@ $(document).ready(function()
         $(this).parent().parent().removeClass('span6');
         $(this).parent().parent().addClass('span3');
 
-        $('[name="owners_number"]').val('');
-        $('[name="owners_number"]').parent().parent().removeClass('hidden');
+        $('[name="quantity"]').val('');
+        $('[name="quantity"]').parent().parent().removeClass('hidden');
 
         if ($(this).val() == 'hotel')
-            $('[name="owners_number"]').attr('placeholder', 'N. de habitaciones');
+            $('[name="quantity"]').attr('placeholder', 'N. de habitaciones');
         else if ($(this).val() == 'restaurant')
-            $('[name="owners_number"]').attr('placeholder', 'N. de mesas');
+            $('[name="quantity"]').attr('placeholder', 'N. de mesas');
         else if ($(this).val() == 'hospital')
-            $('[name="owners_number"]').attr('placeholder', 'N. de camas');
+            $('[name="quantity"]').attr('placeholder', 'N. de camas');
         else if ($(this).val() == 'others')
-            $('[name="owners_number"]').attr('placeholder', 'N. de clientes');
+            $('[name="quantity"]').attr('placeholder', 'N. de clientes');
 
         get_total();
     });
 
-    $('[name="owners_number"]').on('change', function()
+    $('[name="quantity"]').on('change', function()
     {
         get_total();
     });
-
-    // $('[name="cp"]').on('change', function()
-    // {
-    //     var self = $(this);
-    //
-    //     $.ajax({
-    //         type: 'POST',
-    //         data: 'cp=' + self.val() + '&action=get_cp',
-    //         processData: false,
-    //         cache: false,
-    //         dataType: 'json',
-    //         success: function(response)
-    //         {
-    //             if (response.status == 'success')
-    //             {
-    //                 var geocoder = new google.maps.Geocoder().geocode({
-    //
-    //                     address: self.val()
-    //
-    //                 }, function (results, status) {
-    //
-    //                     if (results.length > 0)
-    //                     {
-    //                         var map = new google.maps.Map(document.getElementById('map'), {
-    //                             center: {
-    //                                 lat: results[0].geometry.location.lat(),
-    //                                 lng: results[0].geometry.location.lng()
-    //                             },
-    //                             zoom: 12,
-    //                         });
-    //
-    //                         var circle = new google.maps.Circle({
-    //                             strokeColor: '#fa7268',
-    //                             strokeOpacity: 0.8,
-    //                             strokeWeight: 2,
-    //                             fillColor: '#fa7268',
-    //                             fillOpacity: 0.2,
-    //                             map: map,
-    //                             center: {
-    //                                 lat: results[0].geometry.location.lat(),
-    //                                 lng: results[0].geometry.location.lng(),
-    //                             },
-    //                             radius: 1000,
-    //                         });
-    //
-    //                         var marker = new google.maps.Marker({
-    //                             position: {
-    //                                 lat: results[0].geometry.location.lat(),
-    //                                 lng: results[0].geometry.location.lng()
-    //                             },
-    //                             map: map,
-    //                         });
-    //
-    //                         $('#map').parent().parent().parent().removeClass('hidden');
-    //                     }
-    //                     else
-    //                     {
-    //                         $('[data-modal="error"]').find('main > p').html('');
-    //                         $('[data-modal="error"]').addClass('view');
-    //                     }
-    //                 });
-    //             }
-    //             else if (response.status == 'error')
-    //             {
-    //                 if (response.labels)
-    //                 {
-    //                     $('label.error').removeClass('error');
-    //                     $('p.error').remove();
-    //
-    //                     $.each(response.labels, function(i, label)
-    //                     {
-    //                         if (label[1].length > 0)
-    //                             $('[name="cp"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-    //                         else
-    //                             $('[name="cp"]').parents('label').addClass('error');
-    //                     });
-    //
-    //                     $('[name="cp"]')[0].focus();
-    //                 }
-    //                 else if (response.message)
-    //                 {
-    //                     $('[data-modal="error"]').find('main > p').html(response.message);
-    //                     $('[data-modal="error"]').addClass('view');
-    //                 }
-    //             }
-    //         }
-    //     });
-    // });
 
     $('[name="operation"]').on('change', function()
     {
@@ -174,7 +86,7 @@ $(document).ready(function()
 
     var step;
 
-    $('[data-action="go_to_step"]').on('click', function()
+    $('[data-action="next"]').on('click', function()
     {
         step = $(this).parent().data('step');
         $('form[name="signup"]').submit();
@@ -188,7 +100,7 @@ $(document).ready(function()
         var data = new FormData(form[0]);
 
         data.append('step', step);
-        data.append('action', 'go_to_step');
+        data.append('action', 'next');
 
         $.ajax({
             type: 'POST',

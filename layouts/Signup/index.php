@@ -4,7 +4,6 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.css}Signup/index.css']);
 $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
-// $this->dependencies->add(['other', '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLCea8Q6BtcTHwY3YFCiB0EoHE5KnsMUE"></script>']);
 
 ?>
 
@@ -14,7 +13,6 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
         <h3>{$lang.and_start_free_demo}</h3>
         <div class="steps">
             <div class="step-buttons">
-                <a class="view"><img src="{$path.images}icon-white.png" alt="Guestvox"></a>
                 <a class="view" data-step="1">1</a>
                 <a data-step="2">2</a>
                 <a data-step="3">3</a>
@@ -33,8 +31,8 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         </div>
                         <div class="span6">
                             <fieldset class="path">
-                                <span><?php echo Configuration::$domain; ?>/<strong>{$lang.path_my_account}</strong></span>
                                 <input type="text" name="path" placeholder="{$lang.path}">
+                                <span><?php echo Configuration::$domain; ?>/<strong>{$lang.path_my_account}</strong></span>
                             </fieldset>
                         </div>
                         <div class="span6">
@@ -50,12 +48,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         </div>
                         <div class="span3 hidden">
                             <fieldset>
-                                <input type="number" name="owners_number" min="1">
-                            </fieldset>
-                        </div>
-                        <div class="span3">
-                            <fieldset>
-                                <input type="text" name="zip_code" placeholder="{$lang.zip_code}">
+                                <input type="number" name="quantity" min="1">
                             </fieldset>
                         </div>
                         <div class="span3">
@@ -69,6 +62,11 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         <div class="span3">
                             <fieldset>
                                 <input type="text" name="city" placeholder="{$lang.city}">
+                            </fieldset>
+                        </div>
+                        <div class="span3">
+                            <fieldset>
+                                <input type="text" name="zip_code" placeholder="{$lang.zip_code}">
                             </fieldset>
                         </div>
                         <div class="span9">
@@ -100,9 +98,6 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                                 </select>
                             </fieldset>
                         </div>
-                        <!-- <div class="span12 hidden">
-                            <div id="map" class="map"></div>
-                        </div> -->
                     </div>
                     <div class="span3">
                         <label>
@@ -127,7 +122,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         </label>
                     </div>
                 </div>
-                <a class="btn" data-action="go_to_step">{$lang.next}</a>
+                <a data-action="next">{$lang.next}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
             <div class="step-container" data-step="2">
@@ -145,7 +140,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         </div>
                     </div>
                 </div>
-                <a class="btn" data-action="go_to_step">{$lang.next}</a>
+                <a data-action="next">{$lang.next}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
             <div class="step-container" data-step="3">
@@ -202,7 +197,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         </div>
                     </div>
                 </div>
-                <a class="btn" data-action="go_to_step">{$lang.next}</a>
+                <a data-action="next">{$lang.next}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
             <div class="step-container" data-step="4">
@@ -249,7 +244,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         </div>
                     </div>
                 </div>
-                <a class="btn" data-action="go_to_step">{$lang.next}</a>
+                <a data-action="next">{$lang.next}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
             <div class="step-container" data-step="5">
@@ -262,39 +257,10 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                             <h4><span></span> {$lang.per_month}</h4>
                             <p>* {$lang.no_charge_generated_demo}</p>
                         </div>
-                        <!-- <div class="payment">
-                            <fieldset>
-                                <label>
-                                    <figure>
-                                        <img src="{$path.images}signup/mastercard_visa.png" alt="">
-                                    </figure>
-                                    <input type="radio" name="payment" value="card" checked>
-                                </label>
-                            </fieldset>
-                            <fieldset>
-                                <label>
-                                    <figure>
-                                        <img src="{$path.images}signup/mercado_pago.png" alt="">
-                                    </figure>
-                                    <input type="radio" name="payment" value="mercado_pago">
-                                </label>
-                            </fieldset>
-                            <fieldset>
-                                <label>
-                                    <figure>
-                                        <img src="{$path.images}signup/paypal.png" alt="">
-                                    </figure>
-                                    <input type="radio" name="payment" value="paypal">
-                                </label>
-                            </fieldset>
-                        </div> -->
-                        <!-- <fieldset>
-                            <input type="text" name="promotional_code" placeholder="{$lang.apply_promotional_code}">
-                        </fieldset> -->
                     </div>
                 </div>
-                <p>* {$lang.signup_accept_terms} <a href="/terms" target="_blank">{$lang.terms_conditions}</a></p>
-                <a class="btn" data-action="go_to_step">{$lang.start_demo}</a>
+                <p>* {$lang.signup_accept_1} <a href="/terms-and-conditions" target="_blank">{$lang.terms_conditions}</a> {$lang.signup_accept_2} <a href="/privacy-policies" target="_blank">{$lang.privacy_policies}</a></p>
+                <a data-action="next">{$lang.start_demo}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
             <div class="step-container" data-step="6">
@@ -308,9 +274,6 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         </div>
                     </div>
                 </div>
-                <figure>
-                    <img src="{$path.images}signup/load.gif" alt="Icon">
-                </figure>
             </div>
         </div>
     </form>

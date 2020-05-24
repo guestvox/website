@@ -59,6 +59,10 @@ class Lang
                 'es' => 'Términos y condiciones',
                 'en' => 'Terms and conditions'
             ],
+            'privacy_policies' => [
+                'es' => 'Políticas de privacidad',
+                'en' => 'Privacy policies'
+            ],
             'activated_subject' => [
                 'account' => [
                     'es' => 'Tu cuenta ha sido activada',

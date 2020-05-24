@@ -27,7 +27,7 @@ class Signup_controller extends Controller
 					'total' => 0
 				];
 
-				$query = $this->model->get_package($_POST['type'], $_POST['owners_number']);
+				$query = $this->model->get_package($_POST['type'], $_POST['quantity']);
 
 				if (!empty($query))
 				{
@@ -39,9 +39,6 @@ class Signup_controller extends Controller
 
 					if (!empty($_POST['reputation']))
 						$data['total'] = $data['total'] + $query['price']['reputation'];
-
-					if (!empty($_POST['operation']) AND !empty($_POST['reputation']))
-						$data['total'] = $data['total'] - ($data['total'] * 0.40);
 				}
 
 				$data['price']['operation'] = Functions::get_formatted_currency($data['price']['operation'], 'MXN');
@@ -54,7 +51,7 @@ class Signup_controller extends Controller
 				]);
 			}
 
-			if ($_POST['action'] == 'go_to_step')
+			if ($_POST['action'] == 'next')
 			{
 				if ($_POST['step'] == '1')
 				{
@@ -69,17 +66,17 @@ class Signup_controller extends Controller
 					if (!isset($_POST['type']) OR empty($_POST['type']))
 				        array_push($labels, ['type','']);
 
-					if (!isset($_POST['owners_number']) OR empty($_POST['owners_number']) OR !is_numeric($_POST['owners_number']) OR $_POST['owners_number'] < 1)
-				        array_push($labels, ['owners_number','']);
-
-					if (!isset($_POST['zip_code']) OR empty($_POST['zip_code']))
-				        array_push($labels, ['zip_code','']);
+					if (!isset($_POST['quantity']) OR empty($_POST['quantity']) OR !is_numeric($_POST['quantity']) OR $_POST['quantity'] < 1)
+				        array_push($labels, ['quantity','']);
 
 					if (!isset($_POST['country']) OR empty($_POST['country']))
 				        array_push($labels, ['country','']);
 
 					if (!isset($_POST['city']) OR empty($_POST['city']))
 				        array_push($labels, ['city','']);
+
+					if (!isset($_POST['zip_code']) OR empty($_POST['zip_code']))
+				        array_push($labels, ['zip_code','']);
 
 					if (!isset($_POST['address']) OR empty($_POST['address']))
 				        array_push($labels, ['address','']);
@@ -250,7 +247,8 @@ class Signup_controller extends Controller
 												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
 												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Lang::general('validate_signup_account')[$_POST['language']] . '</p>
 												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/account/' . $_POST['path'] . '">' . Lang::general('active_account')[$_POST['language']] . '</a>
-												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Lang::general('terms_and_conditions')[$_POST['language']] . '</a>
+												<a style="width:100%;display:block;margin:5px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Lang::general('terms_and_conditions')[$_POST['language']] . '</a>
+												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/privacy-policies">' . Lang::general('privacy_policies')[$_POST['language']] . '</a>
 											</td>
 										</tr>
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
@@ -302,7 +300,8 @@ class Signup_controller extends Controller
 												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail2->Subject . '</h4>
 												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Lang::general('validate_signup_user')[$_POST['language']] . '</p>
 												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/user/' . $_POST['email'] . '">' . Lang::general('active_user')[$_POST['language']] . '</a>
-												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Lang::general('terms_and_conditions')[$_POST['language']] . '</a>
+												<a style="width:100%;display:block;margin:5px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Lang::general('terms_and_conditions')[$_POST['language']] . '</a>
+												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/privacy-policies">' . Lang::general('privacy_policies')[$_POST['language']] . '</a>
 											</td>
 										</tr>
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
@@ -341,8 +340,8 @@ class Signup_controller extends Controller
 							' . (($_POST['type'] == 'restaurant') ? 'Tipo: Restaurante<br>' : '') . '
 							' . (($_POST['type'] == 'hospital') ? 'Tipo: Hospital<br>' : '') . '
 							' . (($_POST['type'] == 'others') ? 'Tipo: Otros<br>' : '') . '
-							Número de propietarios: ' . $_POST['owners_number'] . '<br>
-							Páis: ' . $_POST['zip_code'] . ' ' . $_POST['country'] . ' ' . $_POST['city'] . '<br>
+							Número de propietarios: ' . $_POST['quantity'] . '<br>
+							Páis: ' . $_POST['country'] . ' ' . $_POST['city'] . ' ' . $_POST['zip_code'] . '<br>
 							ID Fiscal: ' . $_POST['fiscal_id'] . '<br>
 							Nombre fiscal: ' . $_POST['fiscal_name'] . '<br>
 							Contácto: ' . $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname'] . ' ' . $_POST['contact_department'] . ' ' .  $_POST['contact_email'] . ' +' . $_POST['contact_phone_lada'] . ' ' . $_POST['contact_phone_number'] . '<br>
@@ -463,6 +462,7 @@ class Signup_controller extends Controller
 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 										<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
+										<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Lang::general('token') . ': ' . $query['token'] . '</h4>
 										<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Lang::general('activated_text', $params[0])[$query['language']] . '</p>
 										<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/login">' . Lang::general('login')[$query['language']] . '</a>
 									</td>

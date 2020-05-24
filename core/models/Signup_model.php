@@ -11,97 +11,7 @@ class Signup_model extends Model
 		parent::__construct();
 	}
 
-	public function get_countries()
-	{
-		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
-			'name',
-			'code',
-			'lada'
-		], [
-			'priority[>=]' => 1,
-			'ORDER' => [
-				'priority' => 'ASC'
-			]
-		]));
-
-		$query2 = Functions::get_json_decoded_query($this->database->select('countries', [
-			'name',
-			'code',
-			'lada'
-		], [
-			'priority[=]' => null,
-			'ORDER' => [
-				'name' => 'ASC'
-			]
-		]));
-
-		return array_merge($query1, $query2);
-	}
-
-	public function get_time_zones()
-	{
-		$query = $this->database->select('time_zones', [
-			'code'
-		], [
-			'ORDER' => [
-				'zone' => 'ASC'
-			]
-		]);
-
-		return $query;
-	}
-
-	public function get_currencies()
-	{
-		$query1 = Functions::get_json_decoded_query($this->database->select('currencies', [
-			'name',
-			'code'
-		], [
-			'priority[>=]' => 1,
-			'ORDER' => [
-				'priority' => 'ASC'
-			]
-		]));
-
-		$query2 = Functions::get_json_decoded_query($this->database->select('currencies', [
-			'name',
-			'code'
-		], [
-			'priority[=]' => null,
-			'ORDER' => [
-				'name' => 'ASC'
-			]
-		]));
-
-		return array_merge($query1, $query2);
-	}
-
-	public function get_languages()
-	{
-		$query1 = $this->database->select('languages', [
-			'name',
-			'code'
-		], [
-			'priority[>=]' => 1,
-			'ORDER' => [
-				'priority' => 'ASC'
-			]
-		]);
-
-		$query2 = $this->database->select('languages', [
-			'name',
-			'code'
-		], [
-			'priority[=]' => null,
-			'ORDER' => [
-				'name' => 'ASC'
-			]
-		]);
-
-		return array_merge($query1, $query2);
-	}
-
-	public function get_package($type, $number)
+	public function get_package($type, $quantity, $id = false)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('packages', [
 			'id',
@@ -109,13 +19,13 @@ class Signup_model extends Model
 			'price'
 		], [
 			'AND' => [
-				'quantity_start[<=]' => $number,
-				'quantity_end[>=]' => $number,
-				'type' => $type
+				'type' => $type,
+				'quantity_start[<=]' => $quantity,
+				'quantity_end[>=]' => $quantity
 			]
 		]));
 
-		return !empty($query) ? $query[0] : null;
+		return !empty($query) ? (($id == true) ? $query[0]['id'] : $query[0]) : null;
 	}
 
 	public function check_exist_account($field, $value)
@@ -138,8 +48,8 @@ class Signup_model extends Model
 
 	public function new_signup($data)
 	{
+		$data['token'] = strtoupper(Functions::get_random(8));
 		$data['path'] = str_replace(' ', '', strtolower($data['path']));
-		$data['token'] = Functions::get_random(8);
 		$data['qr']['filename'] = 'qr_' . $data['path'] . '_' . $data['token'] . '.png';
 		$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . $data['path'] . '/myvox';
 		$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
@@ -148,19 +58,17 @@ class Signup_model extends Model
 		$data['qr']['frame'] = 3;
 
 		$this->database->insert('accounts', [
-			'token' => strtoupper($data['token']),
+			'token' => $data['token'],
 			'name' => $data['name'],
 			'path' => $data['path'],
 			'type' => $data['type'],
-			'zip_code' => $data['zip_code'],
 			'country' => $data['country'],
 			'city' => $data['city'],
+			'zip_code' => $data['zip_code'],
 			'address' => $data['address'],
 			'time_zone' => $data['time_zone'],
 			'currency' => $data['currency'],
 			'language' => $data['language'],
-			'package' => $this->get_package($data['type'], $data['owners_number'])['id'],
-			'logotype' => Functions::uploader($data['logotype']),
 			'fiscal' => json_encode([
 				'id' => strtoupper($data['fiscal_id']),
 				'name' => $data['fiscal_name'],
@@ -176,16 +84,20 @@ class Signup_model extends Model
 					'number' => $data['contact_phone_number']
 				]
 			]),
-			'payment' => json_encode([
-				'type' => 'demo'
-			]),
+			'logotype' => Functions::uploader($data['logotype']),
 			'qr' => $data['qr']['filename'],
+			'package' => $this->get_package($data['type'], $data['quantity'], true),
 			'operation' => !empty($data['operation']) ? true : false,
 			'reputation' => !empty($data['reputation']) ? true : false,
+			'siteminder' => json_encode([
+				'status' => false,
+				'username' => '',
+				'password' => ''
+			]),
 			'zaviapms' => json_encode([
 				'status' => false,
 				'username' => '',
-				'password' => '',
+				'password' => ''
 			]),
 			'sms' => 0,
 			'settings' => json_encode([
@@ -218,7 +130,7 @@ class Signup_model extends Model
 					]
 				],
 				'review' => [
-					'online' => false,
+					'active' => false,
 					'email' => '',
 					'phone' => [
 						'lada' => '',
@@ -249,13 +161,16 @@ class Signup_model extends Model
 					]
 				]
 			]),
+			'payment' => json_encode([
+				'type' => ''
+			]),
 			'signup_date' => Functions::get_current_date(),
 			'status' => false
 		]);
 
-		QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
-
 		$account = $this->database->id();
+
+		QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
 
 		if ($data['type'] == 'hotel')
 		{
@@ -460,12 +375,103 @@ class Signup_model extends Model
 		return true;
 	}
 
+	public function get_countries()
+	{
+		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
+			'name',
+			'code',
+			'lada'
+		], [
+			'priority[>=]' => 1,
+			'ORDER' => [
+				'priority' => 'ASC'
+			]
+		]));
+
+		$query2 = Functions::get_json_decoded_query($this->database->select('countries', [
+			'name',
+			'code',
+			'lada'
+		], [
+			'priority[=]' => null,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		return array_merge($query1, $query2);
+	}
+
+	public function get_time_zones()
+	{
+		$query = $this->database->select('time_zones', [
+			'code'
+		], [
+			'ORDER' => [
+				'zone' => 'ASC'
+			]
+		]);
+
+		return $query;
+	}
+
+	public function get_currencies()
+	{
+		$query1 = Functions::get_json_decoded_query($this->database->select('currencies', [
+			'name',
+			'code'
+		], [
+			'priority[>=]' => 1,
+			'ORDER' => [
+				'priority' => 'ASC'
+			]
+		]));
+
+		$query2 = Functions::get_json_decoded_query($this->database->select('currencies', [
+			'name',
+			'code'
+		], [
+			'priority[=]' => null,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		return array_merge($query1, $query2);
+	}
+
+	public function get_languages()
+	{
+		$query1 = $this->database->select('languages', [
+			'name',
+			'code'
+		], [
+			'priority[>=]' => 1,
+			'ORDER' => [
+				'priority' => 'ASC'
+			]
+		]);
+
+		$query2 = $this->database->select('languages', [
+			'name',
+			'code'
+		], [
+			'priority[=]' => null,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]);
+
+		return array_merge($query1, $query2);
+	}
+
 	public function new_activation($data)
 	{
 		if ($data[0] == 'account')
 		{
 			$query = Functions::get_json_decoded_query($this->database->select('accounts', [
 				'id',
+				'token',
 				'language',
 				'contact',
 				'status'
