@@ -397,7 +397,7 @@ class Hi_controller extends Controller
 				                    <div class="span12">
 										<div class="buttons">
 											<button type="submit">¡{$lang.signup}!</button>
-											<button button-cancel>{$lang.cancel}</button>
+											<a button-cancel>{$lang.cancel}</a>
 										</div>
 				                    </div>
 				                </div>

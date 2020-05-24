@@ -71,7 +71,7 @@ $(document).ready(function()
                 {
                     $('[data-modal="success"]').addClass('view');
                     $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { location.reload(); }, 1500);
+                    setTimeout(function() { location.reload(); }, 8000);
                 }
                 else if (response.status == 'error')
                 {
