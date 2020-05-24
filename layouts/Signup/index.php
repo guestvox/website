@@ -14,7 +14,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
         <h3>{$lang.and_start_free_demo}</h3>
         <div class="steps">
             <div class="step-buttons">
-                <a class="view"><img src="{$path.images}icon-white.svg" alt="Guestvox"></a>
+                <a class="view"><img src="{$path.images}icon-white.png" alt="Guestvox"></a>
                 <a class="view" data-step="1">1</a>
                 <a data-step="2">2</a>
                 <a data-step="3">3</a>
