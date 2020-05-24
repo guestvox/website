@@ -190,14 +190,32 @@ class Signup_model extends Model
 			'sms' => 0,
 			'settings' => json_encode([
 				'myvox' => [
-					'request' => false,
-					'incident' => false,
-					'survey' => false,
-					'survey_title' => [
-						'es' => '',
-						'en' => ''
+					'request' => [
+						'active' => false
 					],
-					'survey_widget' => ''
+					'incident' => [
+						'active' => false
+					],
+					'survey' => [
+						'active' => false,
+						'title' => [
+							'es' => '',
+							'en' => ''
+						],
+						'mail' => [
+							'subject' => [
+								'es' => '',
+								'en' => ''
+							],
+							'description' => [
+								'es' => '',
+								'en' => ''
+							],
+							'image' => '',
+							'attachment' => ''
+						],
+						'widget' => ''
+					]
 				],
 				'review' => [
 					'online' => false,
@@ -215,7 +233,7 @@ class Signup_model extends Model
 							'es' => '',
 							'en' => ''
 						],
-						'meta_description' => [
+						'description' => [
 							'es' => '',
 							'en' => ''
 						]

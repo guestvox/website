@@ -2,8 +2,8 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['css', '{$path.css}Policies/terms.css']);
-$this->dependencies->add(['js', '{$path.js}Policies/terms.js']);
+$this->dependencies->add(['css', '{$path.css}Policies/privacy.css']);
+$this->dependencies->add(['js', '{$path.js}Policies/privacy.js']);
 
 ?>
 

@@ -17,29 +17,67 @@ class Mailer extends PHPMailer
         parent::__construct($exceptions);
 
         $this->isSMTP();
+        $this->isHTML(true);
         $this->Host = Configuration::$smtp_host;
         $this->SMTPAuth = true;
         $this->Username = Configuration::$smtp_user;
         $this->Password = Configuration::$smtp_pass;
         $this->SMTPSecure = Configuration::$smtp_secure;
         $this->Port = Configuration::$smtp_port;
+        $this->AltBody = '';
         $this->CharSet = 'UTF-8';
     }
 
     static public function lang($key, $subkey = null)
     {
         $langs = [
-            'thanks_signup' => [
-                'es' => 'Gracias por registrarte',
-                'en' => 'Thanks for signup'
+            'thanks_request_demo' => [
+                'es' => '¡Gracias por solicitar tu demo!',
+                'en' => '¡Thanks for requesting your demo!'
+            ],
+            'representative_contact_you' => [
+                'es' => 'En estos días, uno de nuestros representantes se pondrá en contacto contigo para agendar una cita.',
+                'en' => 'These days, one of our representatives will contact you to schedule an appointment.'
+            ],
+            'thanks_signup_webinar' => [
+                'es' => '¡Gracias por registrarte a nuestro Webinar!',
+                'en' => '¡Thanks for sign up for our Webinar!'
+            ],
+            'go_to_webinar' => [
+                'es' => 'Ir a nuestro Webinar',
+                'en' => 'Go to our Webinar'
+            ],
+            'not_name' => [
+                'es' => 'Sin nombre',
+                'en' => 'Not name'
+            ],
+            'thanks_received_vox' => [
+                'es' => '¡Gracias, hemos recibido tu vox!',
+                'en' => '¡Thanks, we have received your vox!'
+            ],
+            'download_file' => [
+                'es' => 'Descargar archivo',
+                'en' => 'Download file'
+            ],
+            'thanks_signup_guestvox' => [
+                'es' => '¡Gracias por registrarte en Guestvox!',
+                'en' => '¡Thanks for sign up in Guestvox!'
+            ],
+            'validate_signup_account' => [
+                'es' => 'Soy <strong>Daniel Basurto</strong>, CEO de Guestvox y espero te encuentres de lo mejor. Hémos validado tu correo electrónico. Para terminar, por favor activa tu cuenta.',
+                'en' => 'I am <strong>Daniel Basurto</strong>, CEO for Guestvox and I hope you find the best. We have validated your email. To finish, please activate your account.'
+            ],
+            'validate_signup_user' => [
+                'es' => 'Soy <strong>Daniel Basurto</strong>, CEO de Guestvox y espero te encuentres de lo mejor. Hémos validado tu correo electrónico. Para terminar, por favor activa tu usuario.',
+                'en' => 'I am <strong>Daniel Basurto</strong>, CEO for Guestvox and I hope you find the best. We have validated your email. To finish, please activate your user.'
             ],
             'active_account' => [
                 'es' => 'Activar mi cuenta',
                 'en' => 'Active my account'
             ],
-            'validate_email' => [
-                'es' => 'Validar mi correo electrónico',
-                'en' => 'Validate my email'
+            'active_user' => [
+                'es' => 'Activar mi usuario',
+                'en' => 'Active my user'
             ],
             'terms_and_conditions' => [
                 'es' => 'Términos y condiciones',
@@ -57,21 +95,17 @@ class Mailer extends PHPMailer
             ],
             'activated_text' => [
                 'account' => [
-                    'es' => '¡Muchas gracias! Hemos activado tu cuenta correctamente. Ahora ya puedes iniciar sesión y empezar a configurar tu cuenta ¡Bienvenido a Guestvox!',
-                    'en' => '¡Thank you! We have activated your account correctly. Now you can log in and start configuring your account ¡Welcome to Guestvox!'
+                    'es' => 'Hemos activado tu cuenta correctamente. Ahora ya puedes iniciar sesión y empezar a configurar tu cuenta ¡Bienvenido a Guestvox!',
+                    'en' => 'We have activated your account correctly. Now you can log in and start configuring your account ¡Welcome to Guestvox!'
                 ],
                 'user' => [
-                    'es' => '¡Muchas gracias! Hemos activado tu usuario correctamente. Ahora ya puedes iniciar sesión y empezar a trabajar con tu equipo ¡Bienvenido a Guestvox!',
-                    'en' => '¡Thank you! We have activated your user correctly. Now you can log in and start working with your team ¡Welcome to Guestvox!'
+                    'es' => 'Hemos activado tu usuario correctamente. Ahora ya puedes iniciar sesión y empezar a trabajar con tu equipo ¡Bienvenido a Guestvox!',
+                    'en' => 'We have activated your user correctly. Now you can log in and start working with your team ¡Welcome to Guestvox!'
                 ]
             ],
             'login' => [
                 'es' => 'Iniciar sesión',
                 'en' => 'Login'
-            ],
-            'download_file' => [
-                'es' => 'Descargar archivo',
-                'en' => 'Download file'
             ],
             'new' => [
                 'request' => [

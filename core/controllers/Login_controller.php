@@ -4,9 +4,13 @@ defined('_EXEC') or die;
 
 class Login_controller extends Controller
 {
+	private $lang;
+
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->lang = Session::get_value('lang');
 	}
 
 	public function index()

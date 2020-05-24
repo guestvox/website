@@ -209,7 +209,7 @@ $(document).ready(function()
                     if (step == 6)
                     {
                         $('#success').html(response.message);
-                        setTimeout(function() { window.location.href = '/'; }, 8000);
+                        setTimeout(function() { window.location.href = response.path; }, 8000);
                     }
                 }
                 else if (response.status == 'error')

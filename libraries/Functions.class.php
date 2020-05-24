@@ -200,13 +200,13 @@ class Functions
         return $decrypt;
     }
 
-    static public function check_account_access($parameters)
+    static public function check_account_access($params)
     {
         $access = false;
 
         if (Session::exists_var('session') == true)
         {
-            foreach ($parameters as $value)
+            foreach ($params as $value)
             {
                 if (Session::get_value('account')[$value] == true)
                     $access = true;
@@ -216,13 +216,13 @@ class Functions
         return $access;
     }
 
-    static public function check_user_access($parameters)
+    static public function check_user_access($params)
     {
         $access = false;
 
         if (Session::exists_var('session') == true)
         {
-            foreach ($parameters as $value)
+            foreach ($params as $value)
             {
                 if (in_array($value, Session::get_value('user')['user_permissions']))
                     $access = true;
@@ -351,7 +351,7 @@ class Functions
         echo json_encode($return, JSON_PRETTY_PRINT);
     }
 
-    static public function api($connection, $access, $method, $option, $parameters = null)
+    static public function api($connection, $access, $method, $option, $params = null)
     {
         if ($connection == 'zaviapms')
         {
@@ -363,7 +363,7 @@ class Functions
                     curl_setopt($api, CURLOPT_URL, 'https://admin.zaviaerp.com/pms/hotels/api/rooms/?UserName=' . $access['username'] . '&UserPassword=' . $access['password']);
 
                 if ($option == 'room')
-                    curl_setopt($api, CURLOPT_URL, 'https://admin.zaviaerp.com/pms/hotels/api/check_room2/?UserName=' . $access['username'] . '&UserPassword=' . $access['username'] . '&RoomNumber=' . $parameters);
+                    curl_setopt($api, CURLOPT_URL, 'https://admin.zaviaerp.com/pms/hotels/api/check_room2/?UserName=' . $access['username'] . '&UserPassword=' . $access['username'] . '&RoomNumber=' . $params);
 
                 curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
 

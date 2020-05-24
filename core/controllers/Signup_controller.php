@@ -4,9 +4,13 @@ defined('_EXEC') or die;
 
 class Signup_controller extends Controller
 {
+	private $lang;
+
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->lang = Session::get_value('lang');
 	}
 
 	public function index()
@@ -224,20 +228,13 @@ class Signup_controller extends Controller
 
 						try
 						{
-							if ($_POST['language'] == 'es')
-								$mail1_text = 'Hola <strong>' . $_POST['contact_firstname'] . '</strong> ¡Gracias por registrarte en Guestvox! Soy <strong>Daniel Basurto</strong>, CEO de Guestvox y espero te encuentres de lo mejor. Hémos validado tu correo electrónico. Para terminar, por favor activa tu cuenta.';
-							else if ($_POST['language'] == 'en')
-								$mail1_text = 'Hi <strong>' . $_POST['contact_firstname'] . '</strong> ¡Thanks for sign up in Guestvox! I am <strong>Daniel Basurto</strong>, CEO for Guestvox and I hope you find the best. We have validated your email. To finish, please activate your account.';
-
-							$mail1->isSMTP();
 							$mail1->setFrom('daniel@guestvox.com', 'Daniel Basurto');
 							$mail1->addAddress($_POST['contact_email'], $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname']);
-							$mail1->isHTML(true);
-							$mail1->Subject = Mailer::lang('thanks_signup')[$_POST['language']];
+							$mail1->Subject = Mailer::lang('thanks_signup_guestvox')[$_POST['language']];
 							$mail1->Body =
 							'<html>
 								<head>
-									<title>' . Mailer::lang('thanks_signup')[$_POST['language']] . '</title>
+									<title>' . $mail1->Subject . '</title>
 								</head>
 								<body>
 									<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
@@ -250,10 +247,10 @@ class Signup_controller extends Controller
 										</tr>
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . Mailer::lang('thanks_signup')[$_POST['language']] . '</h4>
-												<p style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . $mail1_text . '</p>
-												<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#24383f;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/account/' . $_POST['path'] . '">' . Mailer::lang('active_account')[$_POST['language']] . '</a>
-												<a style="width:100%;display:block;margin:0px;padding:10px 0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Mailer::lang('terms_and_conditions')[$_POST['language']] . '</a>
+												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
+												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Mailer::lang('validate_signup_account')[$_POST['language']] . '</p>
+												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/account/' . $_POST['path'] . '">' . Mailer::lang('active_account')[$_POST['language']] . '</a>
+												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Mailer::lang('terms_and_conditions')[$_POST['language']] . '</a>
 											</td>
 										</tr>
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
@@ -275,7 +272,6 @@ class Signup_controller extends Controller
 									</table>
 								</body>
 							</html>';
-							$mail1->AltBody = '';
 							$mail1->send();
 						}
 						catch (Exception $e) { }
@@ -284,20 +280,13 @@ class Signup_controller extends Controller
 
 						try
 						{
-							if ($_POST['language'] == 'es')
-								$mail2_text = 'Hola <strong>' . $_POST['firstname'] . '</strong> ¡Gracias por registrarte en Guestvox! Soy <strong>Daniel Basurto</strong>, CEO de Guestvox y espero te encuentres de lo mejor. Hémos validado tu correo electrónico. Para terminar, por favor activa tu usuario.';
-							else if ($_POST['language'] == 'en')
-								$mail2_text = 'Hi <strong>' . $_POST['firstname'] . '</strong> ¡Thanks for sign up in Guestvox! I am <strong>Daniel Basurto</strong>, CEO for Guestvox and I hope you find the best. We have validated your email. To finish, please activate your user.';
-
-							$mail2->isSMTP();
 							$mail2->setFrom('daniel@guestvox.com', 'Daniel Basurto');
 							$mail2->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
-							$mail2->isHTML(true);
-							$mail2->Subject = Mailer::lang('thanks_signup')[$_POST['language']];
+							$mail2->Subject = Mailer::lang('thanks_signup_guestvox')[$_POST['language']];
 							$mail2->Body =
 							'<html>
 								<head>
-									<title>' . Mailer::lang('thanks_signup')[$_POST['language']] . '</title>
+									<title>' . $mail2->Subject . '</title>
 								</head>
 								<body>
 									<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
@@ -310,10 +299,10 @@ class Signup_controller extends Controller
 										</tr>
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . Mailer::lang('thanks_signup')[$_POST['language']] . '</h4>
-												<p style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . $mail2_text . '</p>
-												<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#24383f;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/user/' . $_POST['email'] . '">' . Mailer::lang('validate_email')[$_POST['language']] . '</a>
-												<a style="width:100%;display:block;margin:0px;padding:10px 0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Mailer::lang('terms_and_conditions')[$_POST['language']] . '</a>
+												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail2->Subject . '</h4>
+												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Mailer::lang('validate_signup_user')[$_POST['language']] . '</p>
+												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/user/' . $_POST['email'] . '">' . Mailer::lang('active_user')[$_POST['language']] . '</a>
+												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Mailer::lang('terms_and_conditions')[$_POST['language']] . '</a>
 											</td>
 										</tr>
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
@@ -335,7 +324,6 @@ class Signup_controller extends Controller
 									</table>
 								</body>
 							</html>';
-							$mail2->AltBody = '';
 							$mail2->send();
 						}
 						catch (Exception $e) { }
@@ -346,36 +334,27 @@ class Signup_controller extends Controller
 						{
 							$mail3->setFrom('noreply@guestvox.com', 'Guestvox');
 							$mail3->addAddress('contacto@guestvox.com', 'Guestvox');
-							$mail3->isHTML(true);
-							$mail3->Subject = 'Nuevo registro';
+							$mail3->Subject = 'Guestvox | Nuevo registro';
 							$mail3->Body =
 							'Nombre: ' . $_POST['name'] . '<br>
 							' . (($_POST['type'] == 'hotel') ? 'Tipo: Hotel<br>' : '') . '
 							' . (($_POST['type'] == 'restaurant') ? 'Tipo: Restaurante<br>' : '') . '
 							' . (($_POST['type'] == 'hospital') ? 'Tipo: Hospital<br>' : '') . '
 							' . (($_POST['type'] == 'others') ? 'Tipo: Otros<br>' : '') . '
-							' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['owners_number'] . '<br>' : '') . '
-							' . (($_POST['type'] == 'restaurant') ? 'Número de mesas: ' . $_POST['owners_number'] . '<br>' : '') . '
-							' . (($_POST['type'] == 'hospital') ? 'Número de camas: ' . $_POST['owners_number'] . '<br>' : '') . '
-							' . (($_POST['type'] == 'others') ? 'Número de clientes: ' . $_POST['owners_number'] . '<br>' : '') . '
+							Número de propietarios: ' . $_POST['owners_number'] . '<br>
 							Páis: ' . $_POST['zip_code'] . ' ' . $_POST['country'] . ' ' . $_POST['city'] . '<br>
 							ID Fiscal: ' . $_POST['fiscal_id'] . '<br>
 							Nombre fiscal: ' . $_POST['fiscal_name'] . '<br>
 							Contácto: ' . $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname'] . ' ' . $_POST['contact_department'] . ' ' .  $_POST['contact_email'] . ' +' . $_POST['contact_phone_lada'] . ' ' . $_POST['contact_phone_number'] . '<br>
 							Administrador: ' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' ' . $_POST['email'] . ' +' . $_POST['phone_lada'] . ' ' . $_POST['phone_number'];
-							$mail3->AltBody = '';
 							$mail3->send();
 						}
 						catch (Exception $e) { }
 
-						if (Session::get_value('lang') == 'es')
-							$message = '¡Gracias por resgistrarte! Te hemos enviado un correo electrónico a <strong>' . $_POST['contact_email'] . '</strong> para poder activar tu cuenta y otro a <strong>' . $_POST['email'] . '</strong> para poder activar tu usuario';
-						else if (Session::get_value('lang') == 'en')
-							$message = '¡Thanks for sign up! We have sent you an email to <strong>' . $_POST['contact_email'] . '</strong> to activate your account and other to <strong>' . $_POST['email'] . '</strong> to activate your user';
-
 						Functions::environment([
                             'status' => 'success',
-                            'message' => $message
+							'path' => '/',
+                            'message' => '{$lang.thanks_signup_guestvox_1}' . $_POST['contact_email'] . '{$lang.thanks_signup_guestvox_2}' . $_POST['email'] . '{$lang.thanks_signup_guestvox_3}'
                         ]);
 			        }
 			        else
@@ -397,7 +376,7 @@ class Signup_controller extends Controller
 			$opt_countries = '';
 
 			foreach ($this->model->get_countries() as $value)
-				$opt_countries .= '<option value="' . $value['code'] . '">' . $value['name'][Session::get_value('lang')] . '</option>';
+				$opt_countries .= '<option value="' . $value['code'] . '">' . $value['name'][$this->lang] . '</option>';
 
 			$opt_time_zones = '';
 
@@ -407,7 +386,7 @@ class Signup_controller extends Controller
 			$opt_currencies = '';
 
 			foreach ($this->model->get_currencies() as $value)
-				$opt_currencies .= '<option value="' . $value['code'] . '">(' . $value['code'] . ') ' . $value['name'][Session::get_value('lang')] . '</option>';
+				$opt_currencies .= '<option value="' . $value['code'] . '">(' . $value['code'] . ') ' . $value['name'][$this->lang] . '</option>';
 
 			$opt_languages = '';
 
@@ -417,7 +396,7 @@ class Signup_controller extends Controller
 			$opt_ladas = '';
 
 			foreach ($this->model->get_countries() as $value)
-				$opt_ladas .= '<option value="' . $value['lada'] . '">(+' . $value['lada'] . ') ' . $value['name'][Session::get_value('lang')] . '</option>';
+				$opt_ladas .= '<option value="' . $value['lada'] . '">(+' . $value['lada'] . ') ' . $value['name'][$this->lang] . '</option>';
 
 			$replace = [
 				'{$opt_countries}' => $opt_countries,
@@ -459,7 +438,6 @@ class Signup_controller extends Controller
 
 				try
 				{
-					$mail->isSMTP();
 					$mail->setFrom('daniel@guestvox.com', 'Daniel Basurto');
 
 					if ($params[0] == 'account')
@@ -467,12 +445,11 @@ class Signup_controller extends Controller
 					else if ($params[0] == 'user')
 						$mail->addAddress($query['email'], $query['firstname'] . ' ' . $query['lastname']);
 
-					$mail->isHTML(true);
 					$mail->Subject = Mailer::lang('activated_subject', $params[0])[$query['language']];
 					$mail->Body =
 					'<html>
 						<head>
-							<title>' . Mailer::lang('activated_subject', $params[0])[$query['language']] . '</title>
+							<title>' . $mail->Subject . '</title>
 						</head>
 						<body>
 							<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
@@ -485,9 +462,9 @@ class Signup_controller extends Controller
 								</tr>
 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-										<h4 style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . Mailer::lang('activated_subject', $params[0])[$query['language']] . '</h4>
-										<p style="width:100%;margin:0px 0px 50px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Mailer::lang('activated_text', $params[0])[$query['language']] . '</p>
-										<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#24383f;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/login">' . Mailer::lang('login')[$query['language']] . '</a>
+										<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
+										<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Mailer::lang('activated_text', $params[0])[$query['language']] . '</p>
+										<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/login">' . Mailer::lang('login')[$query['language']] . '</a>
 									</td>
 								</tr>
 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
@@ -509,7 +486,6 @@ class Signup_controller extends Controller
 							</table>
 						</body>
 					</html>';
-					$mail->AltBody = '';
 					$mail->send();
 				}
 				catch (Exception $e) { }

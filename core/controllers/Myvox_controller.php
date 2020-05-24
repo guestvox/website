@@ -6,47 +6,55 @@ require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Myvox_controller extends Controller
 {
+	private $lang1;
+	private $lang2;
+
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->lang1 = Session::get_value('lang');
+		$this->lang2 = '';
 	}
 
     public function index($params)
     {
+		$account = $this->model->get_account($params[0]);
+
 		$break = true;
 
-		$data['account'] = $this->model->get_account($params[0]);
-
-		if (!empty($data['account']))
+		if (!empty($account))
 		{
-			Session::set_value('account', $data['account']);
+			Session::set_value('account', $account);
 
 			if (isset($params[1]) AND !empty($params[1]))
 			{
 				if (isset($params[2]) AND !empty($params[2]))
-					$data['owner'] = $params[2];
+					$owner = $params[2];
 				else
-					$data['owner'] = $params[1];
+					$owner = $params[1];
 			}
 			else
 			{
 				if (Session::exists_var('owner') == true AND !empty(Session::get_value('owner')['id']))
-					$data['owner'] = Session::get_value('owner')['id'];
+					$owner = Session::get_value('owner')['id'];
 				else
-					$data['owner'] = null;
+					$owner = null;
 			}
 
-			$data['owner'] = $this->model->get_owner($data['owner']);
+			$owner = $this->model->get_owner($owner);
 
-			if (!empty($data['owner']))
+			if (!empty($owner))
 			{
 				if (Session::get_value('account')['type'] == 'hotel')
-					$data['owner']['reservation'] = $this->model->get_reservation($data['owner']['number']);
+					$owner['reservation'] = $this->model->get_reservation($owner['number']);
 
-				Session::set_value('owner', $data['owner']);
+				Session::set_value('owner', $owner);
 
 				$break = false;
 			}
+
+			$this->lang2 = Session::get_value('account')['language'];
 		}
 
 		if ($break == false)
@@ -71,7 +79,7 @@ class Myvox_controller extends Controller
 					$html = '<option value="" selected hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_opportunity_areas($_POST['type']) as $value)
-						$html .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('lang')] . '</option>';
+						$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
 
 					Functions::environment([
 						'status' => 'success',
@@ -84,7 +92,7 @@ class Myvox_controller extends Controller
 					$html = '<option value="" selected hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['type']) as $value)
-						$html .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('lang')] . '</option>';
+						$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
 
 					Functions::environment([
 						'status' => 'success',
@@ -97,7 +105,7 @@ class Myvox_controller extends Controller
 					$html = '<option value="" selected hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_locations($_POST['type']) as $value)
-						$html .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('lang')] . '</option>';
+						$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
 
 					Functions::environment([
 						'status' => 'success',
@@ -107,14 +115,14 @@ class Myvox_controller extends Controller
 
 				if ($_POST['action'] == 'get_owner')
 				{
-					$data['owner'] = $this->model->get_owner($_POST['owner']);
+					$owner = $this->model->get_owner($_POST['owner']);
 
-					if (!empty($data['owner']))
+					if (!empty($owner))
 					{
 						if (Session::get_value('account')['type'] == 'hotel')
-							$data['owner']['reservation'] = $this->model->get_reservation($data['owner']['number']);
+							$owner['reservation'] = $this->model->get_reservation($owner['number']);
 
-						Session::set_value('owner', $data['owner']);
+						Session::set_value('owner', $owner);
 
 						Functions::environment([
 							'status' => 'success'
@@ -165,35 +173,128 @@ class Myvox_controller extends Controller
 							array_push($labels, ['subject','']);
 					}
 
+					if (!empty($_POST['firstname']) OR !empty($_POST['lastname']))
+					{
+						if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+							array_push($labels, ['firstname','']);
+
+						if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+							array_push($labels, ['lastname','']);
+					}
+
+					if (!isset($_POST['email']) OR empty($_POST['email']))
+						array_push($labels, ['email','']);
+
+					if (!empty($_POST['phone_lada']) OR !empty($_POST['phone_number']))
+					{
+						if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
+							array_push($labels, ['phone_lada','']);
+
+						if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
+							array_push($labels, ['phone_number','']);
+					}
+
 					if (empty($labels))
 					{
 						$_POST['token'] = Functions::get_random(8);
+
+						if (Session::get_value('account')['type'] == 'hotel')
+						{
+							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+								$_POST['firstname'] = Session::get_value('owner')['reservation']['firstname'];
+
+							if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+								$_POST['lastname'] = Session::get_value('owner')['reservation']['lastname'];
+						}
 
 						$query = $this->model->new_vox($_POST);
 
 						if (!empty($query))
 						{
+							$mail1 = new Mailer(true);
+
+							try
+							{
+								$mail1->setFrom('noreply@guestvox.com', 'Guestvox');
+								$mail1->addAddress($_POST['email'], ((!empty($_POST['firstname']) AND !empty($_POST['lastname'])) ? $_POST['firstname'] . ' ' . $_POST['lastname'] : Mailer::lang('not_name')[$this->lang1]));
+								$mail1->Subject = Mailer::lang('thanks_received_vox')[$this->lang1];
+								$mail1->Body =
+								'<html>
+									<head>
+										<title>' . $mail1->Subject . '</title>
+									</head>
+									<body>
+										<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+														<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['logotype'] . '" />
+													</figure>
+												</td>
+											</tr>
+											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
+													<h6 style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Mailer::lang('token')[$this->lang1] . ': ' . $_POST['token'] . '</h6>
+												</td>
+											</tr>
+											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">Power by Guestvox</a>
+												</td>
+											</tr>
+										</table>
+									</body>
+								</html>';
+								$mail1->send();
+							}
+							catch (Exception $e) { }
+
+							if (!empty($_POST['phone_lada']) AND !empty($_POST['phone_number']))
+							{
+								$sms1 = $this->model->get_sms();
+
+								if ($sms1 > 0)
+								{
+									$sms1_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
+									$sms1_client = new \Nexmo\Client($sms1_basic);
+									$sms1_text = Session::get_value('account')['name'] . '. ' . Mailer::lang('thanks_received_vox')[$this->lang1] . '. ' . Mailer::lang('token')[$this->lang1] . ': ' . $_POST['token'] . '. Power by Guestvox.';
+
+									try
+									{
+										$sms1_client->message()->send([
+											'to' => $_POST['phone_lada'] . $_POST['phone_number'],
+											'from' => 'Guestvox',
+											'text' => $sms1_text
+										]);
+
+										$sms1 = $sms1 - 1;
+									}
+									catch (Exception $e) { }
+
+									$this->model->edit_sms($sms1);
+								}
+							}
+
 							$_POST['opportunity_area'] = $this->model->get_opportunity_area($_POST['opportunity_area']);
 							$_POST['opportunity_type'] = $this->model->get_opportunity_type($_POST['opportunity_type']);
 							$_POST['location'] = $this->model->get_location($_POST['location']);
 							$_POST['assigned_users'] = $this->model->get_assigned_users($_POST['opportunity_area']['id']);
 
-							$mail = new Mailer(true);
+							$mail2 = new Mailer(true);
 
 							try
 							{
-								$mail->isSMTP();
-								$mail->setFrom('noreply@guestvox.com', 'Guestvox');
+								$mail2->setFrom('noreply@guestvox.com', 'Guestvox');
 
 								foreach ($_POST['assigned_users'] as $value)
-									$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
+									$mail2->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
 
-								$mail->isHTML(true);
-								$mail->Subject = Mailer::lang('new', $_POST['type'])[Session::get_value('account')['language']];
-								$mail->Body =
+								$mail2->Subject = Mailer::lang('new', $_POST['type'])[$this->lang2];
+								$mail2->Body =
 								'<html>
 									<head>
-										<title>' . Mailer::lang('new', $_POST['type'])[Session::get_value('account')['language']] . '</title>
+										<title>' . $mail2->Subject . '</title>
 									</head>
 									<body>
 										<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
@@ -206,27 +307,27 @@ class Myvox_controller extends Controller
 											</tr>
 											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . Mailer::lang('new', $_POST['type'])[Session::get_value('account')['language']] . '</h4>
-													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('token')[Session::get_value('account')['language']] . ': ' . $_POST['token'] . '</h6>
-													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('owner')[Session::get_value('account')['language']] . ': ' . Session::get_value('owner')['name'] . (!empty(Session::get_value('owner')['number']) ? ' #' . Session::get_value('owner')['number'] : '') . '</h6>
-													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('opportunity_area')[Session::get_value('account')['language']] . ': ' . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '</h6>
-													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('opportunity_type')[Session::get_value('account')['language']] . ': ' . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '</h6>
-													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('started_date')[Session::get_value('account')['language']] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M, Y') . '</h6>
-													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('started_hour')[Session::get_value('account')['language']] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '</h6>
-													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('location')[Session::get_value('account')['language']] . ': ' . $_POST['location']['name'][Session::get_value('account')['language']] . '</h6>
-													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('urgency')[Session::get_value('account')['language']] . ': ' . Mailer::lang('medium')[Session::get_value('account')['language']] . '</h6>';
+													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail2->Subject . '</h4>
+													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('token')[$this->lang2] . ': ' . $_POST['token'] . '</h6>
+													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('owner')[$this->lang2] . ': ' . Session::get_value('owner')['name'] . (!empty(Session::get_value('owner')['number']) ? ' #' . Session::get_value('owner')['number'] : '') . '</h6>
+													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('opportunity_area')[$this->lang2] . ': ' . $_POST['opportunity_area']['name'][$this->lang2] . '</h6>
+													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('opportunity_type')[$this->lang2] . ': ' . $_POST['opportunity_type']['name'][$this->lang2] . '</h6>
+													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('started_date')[$this->lang2] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M, Y') . '</h6>
+													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('started_hour')[$this->lang2] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '</h6>
+													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('location')[$this->lang2] . ': ' . $_POST['location']['name'][$this->lang2] . '</h6>
+													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('urgency')[$this->lang2] . ': ' . Mailer::lang('medium')[$this->lang2] . '</h6>';
 
 								if ($_POST['type'] == 'request')
-									$mail->Body = '<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:justify;color:#757575;">' . Mailer::lang('Observations')[Session::get_value('account')['language']] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Mailer::lang('empty')[Session::get_value('account')['language']]) . '</p>';
+									$mail2->Body = '<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Mailer::lang('Observations')[$this->lang2] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Mailer::lang('empty')[$this->lang2]) . '</p>';
 								else if ($vox['type'] == 'incident')
 								{
-									$mail->Body .=
-									'<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('confidentiality')[Session::get_value('account')['language']] . ': ' . Mailer::lang((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[Session::get_value('account')['language']] . '</h6>
-									<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:justify;color:#757575;">' . Mailer::lang('subject')[Session::get_value('account')['language']] . ': ' . $_POST['subject'] . '</p>';
+									$mail2->Body .=
+									'<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('confidentiality')[$this->lang2] . ': ' . Mailer::lang((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[$this->lang2] . '</h6>
+									<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Mailer::lang('subject')[$this->lang2] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Mailer::lang('empty')[$this->lang2]) . '</p>';
 								}
 
-								$mail->Body .=
-								'					<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $query . '">' . Mailer::lang('give_follow_up')[Session::get_value('account')['language']] . '</a>
+								$mail2->Body .=
+								'					<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $query . '">' . Mailer::lang('give_follow_up')[$this->lang2] . '</a>
 												</td>
 											</tr>
 											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
@@ -237,68 +338,67 @@ class Myvox_controller extends Controller
 										</table>
 									</body>
 								</html>';
-								$mail->AltBody = '';
-								$mail->send();
+								$mail2->send();
 							}
 							catch (Exception $e) { }
 
-							$sms = $this->model->get_sms();
+							$sms2 = $this->model->get_sms();
 
-							if ($sms > 0)
+							if ($sms2 > 0)
 							{
-								$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
-								$sms_client = new \Nexmo\Client($sms_basic);
-								$sms_text = Mailer::lang('new', $_POST['type'])[Session::get_value('account')['language']] . '. ';
-								$sms_text .= Mailer::lang('token')[Session::get_value('account')['language']] . ': ' . $_POST['token'] . '. ';
-								$sms_text .= Mailer::lang('owner')[Session::get_value('account')['language']] . ': ' . Session::get_value('owner')['name'] . (!empty(Session::get_value('owner')['number']) ? ' #' . Session::get_value('owner')['number'] : '') . '. ';
-								$sms_text .= Mailer::lang('opportunity_area')[Session::get_value('account')['language']] . ': ' . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '. ';
-								$sms_text .= Mailer::lang('opportunity_type')[Session::get_value('account')['language']] . ': ' . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '. ';
-								$sms_text .= Mailer::lang('started_date')[Session::get_value('account')['language']] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
-								$sms_text .= Mailer::lang('started_hour')[Session::get_value('account')['language']] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
-								$sms_text .= Mailer::lang('location')[Session::get_value('account')['language']] . ': ' . $_POST['location']['name'][Session::get_value('account')['language']] . '. ';
-								$sms_text .= Mailer::lang('urgency')[Session::get_value('account')['language']] . ': ' . Mailer::lang('medium')[Session::get_value('account')['language']] . '. ';
+								$sms2_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
+								$sms2_client = new \Nexmo\Client($sms2_basic);
+								$sms2_text = 'Guestvox. ' . Mailer::lang('new', $_POST['type'])[$this->lang2] . '. ';
+								$sms2_text .= Mailer::lang('token')[$this->lang2] . ': ' . $_POST['token'] . '. ';
+								$sms2_text .= Mailer::lang('owner')[$this->lang2] . ': ' . Session::get_value('owner')['name'] . (!empty(Session::get_value('owner')['number']) ? ' #' . Session::get_value('owner')['number'] : '') . '. ';
+								$sms2_text .= Mailer::lang('opportunity_area')[$this->lang2] . ': ' . $_POST['opportunity_area']['name'][$this->lang2] . '. ';
+								$sms2_text .= Mailer::lang('opportunity_type')[$this->lang2] . ': ' . $_POST['opportunity_type']['name'][$this->lang2] . '. ';
+								$sms2_text .= Mailer::lang('started_date')[$this->lang2] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
+								$sms2_text .= Mailer::lang('started_hour')[$this->lang2] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
+								$sms2_text .= Mailer::lang('location')[$this->lang2] . ': ' . $_POST['location']['name'][$this->lang2] . '. ';
+								$sms2_text .= Mailer::lang('urgency')[$this->lang2] . ': ' . Mailer::lang('medium')[$this->lang2] . '. ';
 
 								if ($_POST['type'] == 'request')
-									$sms_text .= Mailer::lang('observations')[Session::get_value('account')['language']] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Mailer::lang('empty')[Session::get_value('account')['language']]) . '. ';
+									$sms2_text .= Mailer::lang('observations')[$this->lang2] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Mailer::lang('empty')[$this->lang2]) . '. ';
 								else if ($_POST['type'] == 'incident')
 								{
-									$sms_text .= Mailer::lang('confidentiality')[Session::get_value('account')['language']] . ': ' . Mailer::lang((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[Session::get_value('account')['language']] . '. ';
-									$sms_text .= Mailer::lang('subject')[Session::get_value('account')['language']] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Mailer::lang('empty')[Session::get_value('account')['language']]) . '. ';
+									$sms2_text .= Mailer::lang('confidentiality')[$this->lang2] . ': ' . Mailer::lang((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[$this->lang2] . '. ';
+									$sms2_text .= Mailer::lang('subject')[$this->lang2] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Mailer::lang('empty')[$this->lang2]) . '. ';
 								}
 
-								$sms_text .= 'https://' . Configuration::$domain . '/voxes/details/' . $query;
+								$sms2_text .= 'https://' . Configuration::$domain . '/voxes/details/' . $query;
 
 								foreach ($_POST['assigned_users'] as $value)
 								{
-									if ($sms > 0)
+									if ($sms2 > 0)
 									{
 										try
 										{
-											$sms_client->message()->send([
+											$sms2_client->message()->send([
 												'to' => $value['phone']['lada'] . $value['phone']['number'],
 												'from' => 'Guestvox',
-												'text' => $sms_text
+												'text' => $sms2_text
 											]);
 
-											$sms = $sms - 1;
+											$sms2 = $sms2 - 1;
 										}
 										catch (Exception $e) { }
 									}
 								}
 
-								$this->model->edit_sms($sms);
+								$this->model->edit_sms($sms2);
 							}
 
 							if (!isset($params[1]) OR empty($params[1]))
 							{
-								$data['owner'] = $this->model->get_owner();
+								$owner = $this->model->get_owner();
 
-								Session::set_value('owner', $data['owner']);
+								Session::set_value('owner', $owner);
 							}
 
 							Functions::environment([
 								'status' => 'success',
-								'message' => '{$lang.thanks_trus_us_vox_send_correctly}'
+								'message' => '{$lang.thanks_received_vox_1}' . $_POST['email'] . '{$lang.thanks_received_vox_2}'
 							]);
 						}
 						else
@@ -322,6 +422,24 @@ class Myvox_controller extends Controller
 				{
 					$labels = [];
 
+					if (!isset($params[1]) OR empty($params[1]))
+					{
+						if (!isset($_POST['owner']) OR empty($_POST['owner']))
+							array_push($labels, ['owner','']);
+					}
+
+					if (!empty($_POST['firstname']) OR !empty($_POST['lastname']))
+					{
+						if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+							array_push($labels, ['firstname','']);
+
+						if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+							array_push($labels, ['lastname','']);
+					}
+
+					if (!isset($_POST['email']) OR empty($_POST['email']))
+						array_push($labels, ['email','']);
+
 					if (!empty($_POST['phone_lada']) OR !empty($_POST['phone_number']))
 					{
 						if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
@@ -331,24 +449,18 @@ class Myvox_controller extends Controller
 							array_push($labels, ['phone_number','']);
 					}
 
-					if (!isset($params[1]) OR empty($params[1]))
-					{
-						if (!isset($_POST['owner']) OR empty($_POST['owner']))
-							array_push($labels, ['owner','']);
-					}
-
 					if (empty($labels))
 					{
 						$_POST['token'] = Functions::get_random(8);
 						$_POST['answers'] = $_POST;
 
+						unset($_POST['answers']['owner']);
 						unset($_POST['answers']['comment']);
 						unset($_POST['answers']['firstname']);
 						unset($_POST['answers']['lastname']);
 						unset($_POST['answers']['email']);
 						unset($_POST['answers']['phone_lada']);
 						unset($_POST['answers']['phone_number']);
-						unset($_POST['answers']['owner']);
 						unset($_POST['answers']['action']);
 						unset($_POST['answers']['token']);
 
@@ -430,63 +542,58 @@ class Myvox_controller extends Controller
 
 						if (!empty($query))
 						{
-							if (!empty($_POST['email']))
+							$mail = new Mailer(true);
+
+							try
 							{
-								$mail = new Mailer(true);
+								$mail->setFrom('noreply@guestvox.com', 'Guestvox');
+								$mail->addAddress($_POST['email'], ((!empty($_POST['firstname']) AND !empty($_POST['lastname'])) ? $_POST['firstname'] . ' ' . $_POST['lastname'] : Mailer::lang('not_name')[$this->lang1]));
+								$mail->Subject = Session::get_value('account')['settings']['myvox']['survey']['mail']['subject'][$this->lang1];
+								$mail->Body =
+								'<html>
+									<head>
+										<title>' . $mail->Subject . '</title>
+									</head>
+									<body>
+										<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+														<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['logotype'] . '" />
+													</figure>
+												</td>
+											</tr>
+											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
+													<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;center:#757575;">' . Mailer::lang('token')[$this->lang1] . ': ' . $_POST['token'] . '</h6>
+													<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;center:#757575;">' . Session::get_value('account')['settings']['myvox']['survey']['mail']['description'][$this->lang1] . '</p>';
 
-								try
+								if (!empty(Session::get_value('account')['settings']['myvox']['survey']['mail']['image']))
 								{
-									$mail->isSMTP();
-									$mail->setFrom('noreply@guestvox.com', 'Guestvox');
-									$mail->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
-									$mail->isHTML(true);
-									$mail->Subject = Session::get_value('account')['settings']['myvox']['survey_mail']['title'][Session::get_value('account')['language']];
-									$mail->Body =
-									'<html>
-										<head>
-											<title>' . Session::get_value('account')['settings']['myvox']['survey_mail']['title'][Session::get_value('account')['language']] . '</title>
-										</head>
-										<body>
-											<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
-												<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-													<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-														<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-															<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['logotype'] . '" />
-														</figure>
-													</td>
-												</tr>
-												<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-													<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-														<h4 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . Session::get_value('account')['settings']['myvox']['survey_mail']['description'][Session::get_value('account')['language']] . '</h4>
-														<h6 style="width:100%;margin:0px;padding:0px;font-size:24px;font-weight:400;text-align:left;center:#757575;">' . $_POST['token'] . '</h6>';
-
-									if (!empty(Session::get_value('account')['settings']['myvox']['survey_mail']['image']))
-									{
-										$mail->Body .=
-										'<figure style="width:100%;margin:20px 0px 0px 0px;padding:0px;text-align:center;">
-											<img style="width:100%;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['survey_mail']['image'] . '" />
-										</figure>';
-									}
-
-									if (!empty(Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']))
-										$mail->Body .= '<a style="width:100%;display:block;margin:20px 0px 0px 0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file'] . '" download="'. Session::get_value('account')['settings']['myvox']['survey_mail']['attachment']['file'] . '">' . Mailer::lang('download_file')[Session::get_value('account')['language']] . '</a>';
-
 									$mail->Body .=
-									'				</td>
-												</tr>
-												<tr style="width:100%;margin:0px;padding:0px;border:0px;">
-													<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-														<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">Power by Guestvox</a>
-													</td>
-												</tr>
-											</table>
-										</body>
-									</html>';
-									$mail->AltBody = '';
-									$mail->send();
+									'<figure style="width:100%;margin:20px 0px 0px 0px;padding:0px;text-align:center;">
+										<img style="width:100%;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['survey']['mail']['image'] . '" />
+									</figure>';
 								}
-								catch (Exception $e) { }
+
+								if (!empty(Session::get_value('account')['settings']['myvox']['survey']['mail']['attachment']))
+									$mail->Body .= '<a style="width:100%;display:block;margin:20px 0px 0px 0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['survey']['mail']['attachment'] . '" download="'. Session::get_value('account')['settings']['myvox']['survey']['mail']['attachment'] . '">' . Mailer::lang('download_file')[$this->lang1] . '</a>';
+
+								$mail->Body .=
+								'				</td>
+											</tr>
+											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">Power by Guestvox</a>
+												</td>
+											</tr>
+										</table>
+									</body>
+								</html>';
+								$mail->send();
 							}
+							catch (Exception $e) { }
 
 							if (!empty($_POST['phone_lada']) AND !empty($_POST['phone_number']))
 							{
@@ -496,7 +603,7 @@ class Myvox_controller extends Controller
 								{
 									$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 									$sms_client = new \Nexmo\Client($sms_basic);
-									$sms_text = Session::get_value('account')['settings']['myvox']['survey_mail']['title'][Session::get_value('account')['language']] . '. ' . Mailer::lang('token')[Session::get_value('account')['language']] . ': ' . $_POST['token'];
+									$sms_text = Session::get_value('account')['name'] . '. ' . Session::get_value('account')['settings']['myvox']['survey']['mail']['subject'][$this->lang1] . '. ' . Mailer::lang('token')[$this->lang1] . ': ' . $_POST['token'] . '. Power by Guestvox';
 
 									try
 									{
@@ -516,7 +623,7 @@ class Myvox_controller extends Controller
 
 							$widget = false;
 
-							if (!empty(Session::get_value('account')['settings']['myvox']['survey_widget']))
+							if (!empty(Session::get_value('account')['settings']['myvox']['survey']['widget']))
 							{
 								$survey_average = $this->model->get_survey_average($query);
 
@@ -526,15 +633,15 @@ class Myvox_controller extends Controller
 
 							if (!isset($params[1]) OR empty($params[1]))
 							{
-								$data['owner'] = $this->model->get_owner();
+								$owner = $this->model->get_owner();
 
-								Session::set_value('owner', $data['owner']);
+								Session::set_value('owner', $owner);
 							}
 
 							Functions::environment([
 								'status' => 'success',
 								'widget' => $widget,
-								'message' => '{$lang.thanks_for_answering_our_survey}'
+								'message' => '{$lang.thanks_answering_survey_1}' . $_POST['email'] . '{$lang.thanks_answering_survey_2}'
 							]);
 						}
 						else
@@ -566,13 +673,13 @@ class Myvox_controller extends Controller
 
 				if (Session::get_value('account')['operation'] == true)
 				{
-					if (Session::get_value('account')['settings']['myvox']['request'] == true)
+					if (Session::get_value('account')['settings']['myvox']['request']['active'] == true)
 						$a_new_request .= '<a data-action="new_vox" data-type="request">{$lang.make_a_request}</a>';
 
-					if (Session::get_value('account')['settings']['myvox']['incident'] == true)
-						$a_new_incident .= '<a data-action="new_vox" data-type="incident">{$lang.make_a_incident_' . Session::get_value('account')['type'] . '}</a>';
+					if (Session::get_value('account')['settings']['myvox']['incident']['active'] == true)
+						$a_new_incident .= '<a data-action="new_vox" data-type="incident">{$lang.make_a_' . Session::get_value('account')['type'] . '_incident}</a>';
 
-					if (Session::get_value('account')['settings']['myvox']['request'] == true OR Session::get_value('account')['settings']['myvox']['incident'] == true)
+					if (Session::get_value('account')['settings']['myvox']['request']['active'] == true OR Session::get_value('account')['settings']['myvox']['incident']['active'] == true)
 					{
 						$mdl_new_vox .=
 						'<section class="modal" data-modal="new_vox">
@@ -595,48 +702,48 @@ class Myvox_controller extends Controller
 						}
 
 						$mdl_new_vox .=
-						'					<div class="span12">
-												<div class="label">
-													<label required>
-														<p>{$lang.opportunity_area}</p>
-														<select name="opportunity_area"></select>
-													</label>
-												</div>
-											</div>
-											<div class="span12">
-												<div class="label">
-													<label required>
-														<p>{$lang.opportunity_type}</p>
-														<select name="opportunity_type" disabled></select>
-													</label>
-												</div>
-											</div>
-											<div class="span6">
-												<div class="label">
-													<label class="success" required>
-														<p>{$lang.date}</p>
-														<input type="date" name="started_date" value="' . Functions::get_current_date('Y-m-d') . '">
-													</label>
-												</div>
-											</div>
-											<div class="span6">
-												<div class="label">
-													<label class="success" required>
-														<p>{$lang.hour}</p>
-														<input type="time" name="started_hour" value="' . Functions::get_current_hour() . '">
-													</label>
-												</div>
-											</div>
-											<div class="span12">
-												<div class="label">
-													<label required>
-														<p>{$lang.location}</p>
-														<select name="location"></select>
-													</label>
-												</div>
-											</div>';
+						'<div class="span12">
+							<div class="label">
+								<label required>
+									<p>{$lang.opportunity_area}</p>
+									<select name="opportunity_area"></select>
+								</label>
+							</div>
+						</div>
+						<div class="span12">
+							<div class="label">
+								<label required>
+									<p>{$lang.opportunity_type}</p>
+									<select name="opportunity_type" disabled></select>
+								</label>
+							</div>
+						</div>
+						<div class="span6">
+							<div class="label">
+								<label class="success" required>
+									<p>{$lang.date}</p>
+									<input type="date" name="started_date" value="' . Functions::get_current_date('Y-m-d') . '">
+								</label>
+							</div>
+						</div>
+						<div class="span6">
+							<div class="label">
+								<label class="success" required>
+									<p>{$lang.hour}</p>
+									<input type="time" name="started_hour" value="' . Functions::get_current_hour() . '">
+								</label>
+							</div>
+						</div>
+						<div class="span12">
+							<div class="label">
+								<label required>
+									<p>{$lang.location}</p>
+									<select name="location"></select>
+								</label>
+							</div>
+						</div>';
 
-						if (Session::get_value('account')['settings']['myvox']['request'] == true)
+						if (Session::get_value('account')['settings']['myvox']['request']['active'] == true)
 						{
 							$mdl_new_vox .=
 							'<div class="span12 hidden">
@@ -650,7 +757,7 @@ class Myvox_controller extends Controller
 							</div>';
 						}
 
-						if (Session::get_value('account')['settings']['myvox']['incident'] == true)
+						if (Session::get_value('account')['settings']['myvox']['incident']['active'] == true)
 						{
 							$mdl_new_vox .=
 							'<div class="span12 hidden">
@@ -665,19 +772,50 @@ class Myvox_controller extends Controller
 						}
 
 						$mdl_new_vox .=
-						'					<div class="span12">
-												<div class="label">
-													<label unrequired>
-														<p>{$lang.firstname}</p>
-														<input type="text" name="firstname" />
+						'<div class="span12">
+							<div class="label">
+								<label unrequired>
+									<p>{$lang.firstname}</p>
+									<input type="text" name="firstname" />
+								</label>
+							</div>
+						</div>
+						<div class="span12">
+							<div class="label">
+								<label unrequired>
+									<p>{$lang.lastname}</p>
+									<input type="text" name="lastname" />
+								</label>
+							</div>
+						</div>
+						<div class="span12">
+							<div class="label">
+								<label required>
+									<p>{$lang.email}</p>
+									<input type="email" name="email">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label unrequired>
+									<p>{$lang.lada}</p>
+									<select name="phone_lada">
+										<option value="" selected>({$lang.empty}) {$lang.choose}</option>';
+
+						foreach ($this->model->get_countries() as $value)
+							$mdl_new_vox .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang1] . ' (+' . $value['lada'] . ')</option>';
+
+						$mdl_new_survey_answer .=
+						'								</select>
 													</label>
 												</div>
 											</div>
-											<div class="span12">
+											<div class="span8">
 												<div class="label">
 													<label unrequired>
-														<p>{$lang.lastname}</p>
-														<input type="text" name="lastname" />
+														<p>{$lang.phone}</p>
+														<input type="number" name="phone_number">
 													</label>
 												</div>
 											</div>
@@ -701,9 +839,9 @@ class Myvox_controller extends Controller
 
 				if (Session::get_value('account')['reputation'] == true)
 				{
-					if (Session::get_value('account')['settings']['myvox']['survey'] == true)
+					if (Session::get_value('account')['settings']['myvox']['survey']['active'] == true)
 					{
-						$a_new_survey_answer .= '<a data-button-modal="new_survey_answer">' . Session::get_value('account')['settings']['myvox']['survey_title'][Session::get_value('lang')] . '</a>';
+						$a_new_survey_answer .= '<a data-button-modal="new_survey_answer">' . Session::get_value('account')['settings']['myvox']['survey']['title'][$this->lang1] . '</a>';
 
 						$mdl_new_survey_answer .=
 						'<section class="modal" data-modal="new_survey_answer">
@@ -715,33 +853,33 @@ class Myvox_controller extends Controller
 						{
 							$mdl_new_survey_answer .=
 							'<article>
-						   		<h6>' . $value['name'][Session::get_value('lang')] . '</h6>';
+						   		<h6>' . $value['name'][$this->lang1] . '</h6>';
 
 							if ($value['type'] == 'nps')
 							{
 								$mdl_new_survey_answer .=
 								'<div class="rate">
-								   <label><i style="font-size:18px;">1</i><input type="radio" name="pn-' . $value['id'] . '" value="1"></label>
-								   <label><i style="font-size:18px;">2</i><input type="radio" name="pn-' . $value['id'] . '" value="2"></label>
-								   <label><i style="font-size:18px;">3</i><input type="radio" name="pn-' . $value['id'] . '" value="3"></label>
-								   <label><i style="font-size:18px;">4</i><input type="radio" name="pn-' . $value['id'] . '" value="4"></label>
-								   <label><i style="font-size:18px;">5</i><input type="radio" name="pn-' . $value['id'] . '" value="5"></label>
-								   <label><i style="font-size:18px;">6</i><input type="radio" name="pn-' . $value['id'] . '" value="6"></label>
-								   <label><i style="font-size:18px;">7</i><input type="radio" name="pn-' . $value['id'] . '" value="7"></label>
-								   <label><i style="font-size:18px;">8</i><input type="radio" name="pn-' . $value['id'] . '" value="8"></label>
-								   <label><i style="font-size:18px;">9</i><input type="radio" name="pn-' . $value['id'] . '" value="9"></label>
-								   <label><i style="font-size:18px;">10</i><input type="radio" name="pn-' . $value['id'] . '" value="10"></label>
+								   <label><i>1</i><input type="radio" name="pn-' . $value['id'] . '" value="1"></label>
+								   <label><i>2</i><input type="radio" name="pn-' . $value['id'] . '" value="2"></label>
+								   <label><i>3</i><input type="radio" name="pn-' . $value['id'] . '" value="3"></label>
+								   <label><i>4</i><input type="radio" name="pn-' . $value['id'] . '" value="4"></label>
+								   <label><i>5</i><input type="radio" name="pn-' . $value['id'] . '" value="5"></label>
+								   <label><i>6</i><input type="radio" name="pn-' . $value['id'] . '" value="6"></label>
+								   <label><i>7</i><input type="radio" name="pn-' . $value['id'] . '" value="7"></label>
+								   <label><i>8</i><input type="radio" name="pn-' . $value['id'] . '" value="8"></label>
+								   <label><i>9</i><input type="radio" name="pn-' . $value['id'] . '" value="9"></label>
+								   <label><i>10</i><input type="radio" name="pn-' . $value['id'] . '" value="10"></label>
 								</div>';
 							}
 							else if ($value['type'] == 'rate')
 							{
 								$mdl_new_survey_answer .=
 								'<div class="rate">
-								   <label><i class="far fa-sad-cry" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="1" data-action="open_subquestion"></label>
-								   <label><i class="far fa-frown" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="2" data-action="open_subquestion"></label>
-								   <label><i class="far fa-meh-rolling-eyes" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="3" data-action="open_subquestion"></label>
-								   <label><i class="far fa-smile" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="4" data-action="open_subquestion"></label>
-								   <label><i class="far fa-grin-stars" style="font-size:18px;"></i><input type="radio" name="pr-' . $value['id'] . '" value="5" data-action="open_subquestion"></label>
+								   <label><i class="far fa-sad-cry"></i><input type="radio" name="pr-' . $value['id'] . '" value="1" data-action="open_subquestion"></label>
+								   <label><i class="far fa-frown"></i><input type="radio" name="pr-' . $value['id'] . '" value="2" data-action="open_subquestion"></label>
+								   <label><i class="far fa-meh-rolling-eyes"></i><input type="radio" name="pr-' . $value['id'] . '" value="3" data-action="open_subquestion"></label>
+								   <label><i class="far fa-smile"></i><input type="radio" name="pr-' . $value['id'] . '" value="4" data-action="open_subquestion"></label>
+								   <label><i class="far fa-grin-stars"></i><input type="radio" name="pr-' . $value['id'] . '" value="5" data-action="open_subquestion"></label>
 								</div>';
 							}
 							else if ($value['type'] == 'twin')
@@ -768,7 +906,7 @@ class Myvox_controller extends Controller
 									$mdl_new_survey_answer .=
 									'<div class="checkboxes">
 										<input type="checkbox" name="pc-' . $value['id'] . '-values[]" value="' . $subkey . '">
-										<span>' . $subvalue[Session::get_value('lang')] . '</span>
+										<span>' . $subvalue[$this->lang1] . '</span>
 									</div>';
 								}
 							}
@@ -786,17 +924,17 @@ class Myvox_controller extends Controller
 								{
 								   	if ($subvalue['status'] == true)
 								   	{
-									   	$mdl_new_survey_answer .= '<h6>' . $subvalue['name'][Session::get_value('lang')] . '</h6>';
+									   	$mdl_new_survey_answer .= '<h6>' . $subvalue['name'][$this->lang1] . '</h6>';
 
 									   	if ($subvalue['type'] == 'rate')
 									   	{
 										   	$mdl_new_survey_answer .=
 										   	'<div class="rate">
-											   	<label><i class="far fa-sad-cry" style="font-size:18px;"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="1" data-action="open_subquestion_sub"></label>
-											   	<label><i class="far fa-frown" style="font-size:18px;"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="2" data-action="open_subquestion_sub"></label>
-											   	<label><i class="far fa-meh-rolling-eyes" style="font-size:18px;"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="3" data-action="open_subquestion_sub"></label>
-											   	<label><i class="far fa-smile" style="font-size:18px;"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="4" data-action="open_subquestion_sub"></label>
-											   	<label><i class="far fa-grin-stars" style="font-size:18px;"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="5" data-action="open_subquestion_sub"></label>
+											   	<label><i class="far fa-sad-cry"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="1" data-action="open_subquestion_sub"></label>
+											   	<label><i class="far fa-frown"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="2" data-action="open_subquestion_sub"></label>
+											   	<label><i class="far fa-meh-rolling-eyes"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="3" data-action="open_subquestion_sub"></label>
+											   	<label><i class="far fa-smile"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="4" data-action="open_subquestion_sub"></label>
+											   	<label><i class="far fa-grin-stars"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="5" data-action="open_subquestion_sub"></label>
 										   	</div>';
 									   	}
 									   	else if ($subvalue['type'] == 'twin')
@@ -828,17 +966,17 @@ class Myvox_controller extends Controller
 										   	{
 												if ($parentvalue['status'] == true)
 												{
-													$mdl_new_survey_answer .= '<h6>' . $parentvalue['name'][Session::get_value('lang')] . '</h6>';
+													$mdl_new_survey_answer .= '<h6>' . $parentvalue['name'][$this->lang1] . '</h6>';
 
 												  	if ($parentvalue['type'] == 'rate')
 													{
 														$mdl_new_survey_answer .=
 														'<div class="rate">
-														   <label><i class="far fa-sad-cry" style="font-size:18px;"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="1"></label>
-														   <label><i class="far fa-frown" style="font-size:18px;"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="2"></label>
-														   <label><i class="far fa-meh-rolling-eyes" style="font-size:18px;"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="3"></label>
-														   <label><i class="far fa-smile" style="font-size:18px;"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="4"></label>
-														   <label><i class="far fa-grin-stars" style="font-size:18px;"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="5"></label>
+														   <label><i class="far fa-sad-cry"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="1"></label>
+														   <label><i class="far fa-frown"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="2"></label>
+														   <label><i class="far fa-meh-rolling-eyes"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="3"></label>
+														   <label><i class="far fa-smile"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="4"></label>
+														   <label><i class="far fa-grin-stars"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="5"></label>
 														</div>';
 													}
 													else if ($parentvalue['type'] == 'twin')
@@ -870,63 +1008,7 @@ class Myvox_controller extends Controller
 							}
 					   	}
 
-						$mdl_new_survey_answer .=
-						'<div class="row">
-							<div class="span12">
-								<div class="label">
-									<label unrequired>
-										<p>{$lang.comments}</p>
-										<textarea name="comment"></textarea>
-									</label>
-								</div>
-							</div>
-							<div class="span12">
-								<div class="label">
-									<label unrequired>
-										<p>{$lang.firstname}</p>
-										<input type="text" name="firstname" />
-									</label>
-								</div>
-							</div>
-							<div class="span12">
-								<div class="label">
-									<label unrequired>
-										<p>{$lang.lastname}</p>
-										<input type="text" name="lastname" />
-									</label>
-								</div>
-							</div>
-							<div class="span12">
-								<div class="label">
-									<label unrequired>
-										<p>{$lang.email}</p>
-										<input type="email" name="email">
-									</label>
-								</div>
-							</div>
-							<div class="span4">
-								<div class="label">
-									<label unrequired>
-										<p>{$lang.lada}</p>
-										<select name="phone_lada">
-											<option value="" selected hidden>{$lang.choose}</option>';
-
-						foreach ($this->model->get_countries() as $value)
-							$mdl_new_survey_answer .= '<option value="' . $value['lada'] . '">' . $value['name'][Session::get_value('lang')] . ' (+' . $value['lada'] . ')</option>';
-
-						$mdl_new_survey_answer .=
-						'			</select>
-								</label>
-							</div>
-						</div>
-						<div class="span8">
-							<div class="label">
-								<label unrequired>
-									<p>{$lang.phone}</p>
-									<input type="number" name="phone_number">
-								</label>
-							</div>
-						</div>';
+						$mdl_new_survey_answer .= '<div class="row">';
 
 						if (!isset($params[1]) OR empty($params[1]))
 						{
@@ -942,7 +1024,62 @@ class Myvox_controller extends Controller
 						}
 
 						$mdl_new_survey_answer .=
-						'					<div class="span12">
+						'<div class="span12">
+							<div class="label">
+								<label unrequired>
+									<p>{$lang.comments}</p>
+									<textarea name="comment"></textarea>
+								</label>
+							</div>
+						</div>
+						<div class="span12">
+							<div class="label">
+								<label unrequired>
+									<p>{$lang.firstname}</p>
+									<input type="text" name="firstname" />
+								</label>
+							</div>
+						</div>
+						<div class="span12">
+							<div class="label">
+								<label unrequired>
+									<p>{$lang.lastname}</p>
+									<input type="text" name="lastname" />
+								</label>
+							</div>
+						</div>
+						<div class="span12">
+							<div class="label">
+								<label required>
+									<p>{$lang.email}</p>
+									<input type="email" name="email">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label unrequired>
+									<p>{$lang.lada}</p>
+									<select name="phone_lada">
+										<option value="" selected>({$lang.empty}) {$lang.choose}</option>';
+
+						foreach ($this->model->get_countries() as $value)
+							$mdl_new_survey_answer .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang1] . ' (+' . $value['lada'] . ')</option>';
+
+						$mdl_new_survey_answer .=
+						'								</select>
+													</label>
+												</div>
+											</div>
+											<div class="span8">
+												<div class="label">
+													<label unrequired>
+														<p>{$lang.phone}</p>
+														<input type="number" name="phone_number">
+													</label>
+												</div>
+											</div>
+											<div class="span12">
 												<div class="buttons">
 													<button type="submit">{$lang.accept}</button>
 													<button button-cancel>{$lang.cancel}</button>
@@ -954,7 +1091,7 @@ class Myvox_controller extends Controller
 							</div>
 						</section>';
 
-						if (!empty(Session::get_value('account')['settings']['myvox']['survey_widget']))
+						if (!empty(Session::get_value('account')['settings']['myvox']['survey']['widget']))
 						{
 							$mdl_survey_widget .=
 							'<section class="modal" data-modal="survey_widget">
@@ -963,7 +1100,7 @@ class Myvox_controller extends Controller
 										<div class="row">
 											<div class="span12">
 												<div class="widget">
-													' . Session::get_value('account')['settings']['myvox']['survey_widget'] . '
+													' . Session::get_value('account')['settings']['myvox']['survey']['widget'] . '
 												</div>
 											</div>
 											<div class="span12">

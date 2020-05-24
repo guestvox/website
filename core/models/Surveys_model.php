@@ -214,16 +214,16 @@ class Surveys_model extends Model
 		return $result;
 	}
 
-	public function get_survey_answers($data = null, $parameters = [])
+	public function get_survey_answers($data = null, $params = [])
 	{
 		if ($data != 'all' AND $data != null)
 		{
-			if (!empty($parameters))
+			if (!empty($params))
 			{
 				$where = [
 					'account' => Session::get_value('account')['id'],
 					'owner' => $data,
-					'date[<>]' => [$parameters[0], $parameters[1]]
+					'date[<>]' => [$params[0], $params[1]]
 				];
 			}
 			else
@@ -308,11 +308,11 @@ class Surveys_model extends Model
 		}
 		else
 		{
-			if (!empty($parameters))
+			if (!empty($params))
 			{
 				$where = [
 					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$parameters[0], $parameters[1]]
+					'date[<>]' => [$params[0], $params[1]]
 				];
 			}
 			else
@@ -531,7 +531,7 @@ class Surveys_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_general_average_rate($data = null, $parameters = [])
+	public function get_general_average_rate($data = null, $params = [])
 	{
 		if ($data == 'get_view_all')
 		{
@@ -546,7 +546,7 @@ class Surveys_model extends Model
 			$where = [
 				'AND' => [
 					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$parameters[0],$parameters[1]]
+					'date[<>]' => [$params[0],$params[1]]
 				]
 			];
 		}
@@ -596,7 +596,7 @@ class Surveys_model extends Model
 		return $average;
 	}
 
-	public function get_percentage_rate($data = null, $option, $parameters = [])
+	public function get_percentage_rate($data = null, $option, $params = [])
 	{
 		if ($data == 'get_view_all')
 		{
@@ -611,7 +611,7 @@ class Surveys_model extends Model
 			$where = [
 				'AND' => [
 					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$parameters[0],$parameters[1]]
+					'date[<>]' => [$params[0],$params[1]]
 				]
 			];
 		}
@@ -716,7 +716,7 @@ class Surveys_model extends Model
 		return $count;
 	}
 
-	public function get_chart_data($option, $parameters = [], $edit = false)
+	public function get_chart_data($option, $params = [], $edit = false)
 	{
 		$data = null;
 
@@ -729,7 +729,7 @@ class Surveys_model extends Model
 				], [
 					'AND' => [
 						'account' => Session::get_value('account')['id'],
-						'date[<>]' => [$parameters[0],$parameters[1]]
+						'date[<>]' => [$params[0],$params[1]]
 					]
 				]);
 
@@ -749,7 +749,7 @@ class Surveys_model extends Model
 				], [
 					'AND' => [
 						'account' => Session::get_value('account')['id'],
-						'date[<>]' => [$parameters[0],$parameters[1]]
+						'date[<>]' => [$params[0],$params[1]]
 					]
 				]);
 
@@ -769,7 +769,7 @@ class Surveys_model extends Model
 				], [
 					'AND' => [
 						'account' => Session::get_value('account')['id'],
-						'date[<>]' => [$parameters[0],$parameters[1]]
+						'date[<>]' => [$params[0],$params[1]]
 					]
 				]);
 
@@ -1013,17 +1013,17 @@ class Surveys_model extends Model
 				];
 			}
 
-			$diff = Functions::get_diff_date($parameters[0], $parameters[1], 'days', true);
+			$diff = Functions::get_diff_date($params[0], $params[1], 'days', true);
 
 			for ($i = 0; $i < $diff; $i++)
 			{
 				if ($edit == true)
-					array_push($data['labels'], Functions::get_future_date($parameters[0], $i, 'days'));
+					array_push($data['labels'], Functions::get_future_date($params[0], $i, 'days'));
 				else
-					$data['labels'] .= "'" . Functions::get_future_date($parameters[0], $i, 'days') . "',";
+					$data['labels'] .= "'" . Functions::get_future_date($params[0], $i, 'days') . "',";
 			}
 
-			if ($parameters[2] == 'all')
+			if ($params[2] == 'all')
 			{
 				foreach ($query1 as $value)
 				{
@@ -1042,7 +1042,7 @@ class Surveys_model extends Model
 						], [
 							'AND' => [
 								'account' => Session::get_value('account')['id'],
-								'date' => Functions::get_future_date($parameters[0], $i, 'days')
+								'date' => Functions::get_future_date($params[0], $i, 'days')
 							]
 						]));
 
@@ -1103,7 +1103,7 @@ class Surveys_model extends Model
 		}
 		else if ($option == 's2_chart')
 		{
-			if ($parameters[2] == 'all')
+			if ($params[2] == 'all')
 			{
 				$where = [
 					'account' => Session::get_value('account')['id']
@@ -1112,7 +1112,7 @@ class Surveys_model extends Model
 			else
 			{
 				$where = [
-					'id' => $parameters[2]
+					'id' => $params[2]
 				];
 			}
 
@@ -1138,17 +1138,17 @@ class Surveys_model extends Model
 				];
 			}
 
-			$diff = Functions::get_diff_date($parameters[0], $parameters[1], 'days', true);
+			$diff = Functions::get_diff_date($params[0], $params[1], 'days', true);
 
 			for ($i = 0; $i < $diff; $i++)
 			{
 				if ($edit == true)
-					array_push($data['labels'], Functions::get_future_date($parameters[0], $i, 'days'));
+					array_push($data['labels'], Functions::get_future_date($params[0], $i, 'days'));
 				else
-					$data['labels'] .= "'" . Functions::get_future_date($parameters[0], $i, 'days') . "',";
+					$data['labels'] .= "'" . Functions::get_future_date($params[0], $i, 'days') . "',";
 			}
 
-			if ($parameters[2] == 'all')
+			if ($params[2] == 'all')
 			{
 				foreach ($query1 as $value)
 				{
@@ -1167,7 +1167,7 @@ class Surveys_model extends Model
 						], [
 							'AND' => [
 								'account' => Session::get_value('account')['id'],
-								'date' => Functions::get_future_date($parameters[0], $i, 'days')
+								'date' => Functions::get_future_date($params[0], $i, 'days')
 							]
 						]));
 
@@ -1263,7 +1263,7 @@ class Surveys_model extends Model
 					], [
 						'AND' => [
 							'account' => Session::get_value('account')['id'],
-							'date' => Functions::get_future_date($parameters[0], $i, 'days')
+							'date' => Functions::get_future_date($params[0], $i, 'days')
 						]
 					]));
 
@@ -1340,7 +1340,7 @@ class Surveys_model extends Model
 						], [
 							'AND' => [
 								'account' => Session::get_value('account')['id'],
-								'date' => Functions::get_future_date($parameters[0], $i, 'days')
+								'date' => Functions::get_future_date($params[0], $i, 'days')
 							]
 						]));
 
@@ -1414,7 +1414,7 @@ class Surveys_model extends Model
 							], [
 								'AND' => [
 									'account' => Session::get_value('account')['id'],
-									'date' => Functions::get_future_date($parameters[0], $i, 'days')
+									'date' => Functions::get_future_date($params[0], $i, 'days')
 								]
 							]));
 
@@ -1487,7 +1487,7 @@ class Surveys_model extends Model
 			], [
 				'AND' => [
 					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$parameters[0],$parameters[1]]
+					'date[<>]' => [$params[0],$params[1]]
 				]
 			]));
 

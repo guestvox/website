@@ -19,7 +19,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
         </figure>
         <nav>
             <ul>
-                <li><a class="btn" data-button-modal="contact">¡Solicita tu demo ahora!</a></li>
+                <li><a class="btn" data-button-modal="contact">{$lang.request_your_demo}</a></li>
             </ul>
         </nav>
     </header>
@@ -27,9 +27,9 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
         <header class="cover">
             <div class="container">
                 <div class="content">
-                    <h1>Solución hotelera en la nube, para la optimización de operaciones y mejora de reputación en línea.</h1>
-                    <h2>Gestiona correctamente las incidencias y peticiones de tus huéspedes.</h2>
-                    <a class="btn" data-button-modal="contact">¡Solicita tu demo ahora!</a>
+                    <h1>{$lang.landing_page_hi_operation_text_1}</h1>
+                    <h2>{$lang.landing_page_hi_operation_text_2}</h2>
+                    <a class="btn" data-button-modal="contact">{$lang.request_your_demo}</a>
                 </div>
                 <figure>
                     <img src="{$path.images}hi/operation/screen-1.jpg" alt="Background">
@@ -40,27 +40,27 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
         <section class="container background">
             <div class="space50"></div>
             <div class="title">
-                <h2>¿Qué hacemos?</h2>
+                <h2>{$lang.landing_page_hi_operation_text_3}</h2>
                 <p>...</p>
             </div>
             <div class="space50"></div>
             <div class="boxes three-boxes">
                 <div class="box">
                     <span class="icon-communication"></span>
-                    <h4>Gestionamos las órdenes de trabajo entre departamentos y mejoramos su comunicación.</h4>
+                    <h4>{$lang.landing_page_hi_operation_text_4}</h4>
                 </div>
                 <div class="box">
                     <span class="icon-clients"></span>
-                    <h4>Recibimos y damos seguimiento a las peticiones, comentarios y quejas de los huéspedes.</h4>
+                    <h4>{$lang.landing_page_hi_operation_text_5}</h4>
                 </div>
                 <div class="box">
                     <span class="icon-like"></span>
-                    <h4>Recibimos la retroalimentación de tus huéspedes y los invitamos a dejar una evaluación en línea.</h4>
+                    <h4>{$lang.landing_page_hi_operation_text_6}</h4>
                 </div>
             </div>
             <div class="space100"></div>
             <div class="title">
-                <h2>¿Cómo funciona Guestvox?</h2>
+                <h2>{$lang.landing_page_hi_operation_text_7}</h2>
                 <p>...</p>
             </div>
             <div class="space50"></div>
@@ -69,58 +69,58 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
                     <figure>
                         <img src="{$path.images}hi/operation/icon-lock.svg" alt="Icon" width="70" height="70">
                     </figure>
-                    <h4>Credenciales encriptadas</h4>
-                    <p>Los colaboradores acceden fácilmente a la plataforma utilizando sus credenciales de acceso (usuario y contraseña).</p>
+                    <h4>{$lang.landing_page_hi_operation_text_8}</h4>
+                    <p>{$lang.landing_page_hi_operation_text_9}</p>
                 </div>
                 <div class="box">
                     <figure>
                         <img src="{$path.images}hi/operation/icon-person.svg" alt="Icon" width="70" height="70">
                     </figure>
-                    <h4>Asigna al área y/o persona responsable del seguimiento.</h4>
-                    <p>Crea una incidencia (Vox), y asigna al área o persona responsable del seguimiento.</p>
+                    <h4>{$lang.landing_page_hi_operation_text_10}</h4>
+                    <p>{$lang.landing_page_hi_operation_text_11}</p>
                 </div>
                 <div class="box">
                     <figure>
                         <img src="{$path.images}hi/operation/icon-attachment.svg" alt="Icon" width="70" height="70">
                     </figure>
-                    <h4>Adjunta imágenes, videos, archivos PDF, Word y Excel.</h4>
-                    <p>Enriquece el Vox y respalda tu información con archivos adjuntos.</p>
+                    <h4>{$lang.landing_page_hi_operation_text_12}</h4>
+                    <p>{$lang.landing_page_hi_operation_text_13}</p>
                 </div>
                 <div class="box">
                     <figure>
                         <img src="{$path.images}hi/operation/icon-person-follow.svg" alt="Icon" width="70" height="70">
                     </figure>
-                    <h4>Seguimiento de acuerdo a prioridad y tiempo transcurrido.</h4>
-                    <p>Una vez creada la incidencia, los departamentos asignados dan seguimiento a cada caso.</p>
+                    <h4>{$lang.landing_page_hi_operation_text_14}</h4>
+                    <p>{$lang.landing_page_hi_operation_text_15}</p>
                 </div>
                 <div class="box">
                     <figure>
                         <img src="{$path.images}hi/operation/icon-time.svg" alt="Icon" width="70" height="70">
                     </figure>
-                    <h4>Tu información siempre en tiempo real.</h4>
-                    <p>Visualiza minuto a minuto el estatus de tu hotel, el seguimiento a los Voxes y la satisfacción de tus huéspedes.</p>
+                    <h4>{$lang.landing_page_hi_operation_text_16}</h4>
+                    <p>{$lang.landing_page_hi_operation_text_17}</p>
                 </div>
                 <div class="box">
                     <figure>
                         <img src="{$path.images}hi/operation/icon-multi-device.svg" alt="Icon" width="70" height="70">
                     </figure>
-                    <h4>Accede desde cualquier dispositivo.</h4>
-                    <p>No importa dónde estes, ni que dispositivo uses, accesa a tu información cuando quieras y donde quieras.</p>
+                    <h4>{$lang.landing_page_hi_operation_text_18}</h4>
+                    <p>{$lang.landing_page_hi_operation_text_19}</p>
                 </div>
             </div>
         </section>
         <section class="call-to-action">
             <div class="container">
                 <div class="content">
-                    <h4>Ahorra hasta un 20% de costos operativos</h4>
+                    <h4>{$lang.landing_page_hi_operation_text_20}</h4>
                 </div>
-                <a data-button-modal="contact">¡Solicita tu demo ahora!</a>
+                <a data-button-modal="contact">{$lang.request_your_demo}</a>
             </div>
         </section>
         <section class="container background">
             <div class="title">
-                <h2>Screenshots</h2>
-                <p>Un vistazo a nuestro software</p>
+                <h2>{$lang.landing_page_hi_operation_text_21}</h2>
+                <p>{$lang.landing_page_hi_operation_text_22}</p>
             </div>
             <div class="space50"></div>
             <div id="screenshots" class="owl-carousel owl-theme">
@@ -144,9 +144,9 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
     </section>
     <footer class="main">
         <div class="container">
-            <h2>Haz inteligencia de negocio</h2>
-            <h3>Y ahorra hasta un 20% en costos, incrementa tu reputación en linea, calidad de servicio, productividad de colaboradores e ingresos.</h3>
-            <a class="btn" data-button-modal="contact">¡SOLICITA TU DEMO AHORA!</a>
+            <h2>{$lang.landing_page_hi_operation_text_23}</h2>
+            <h3>{$lang.landing_page_hi_operation_text_24}</h3>
+            <a class="btn" data-button-modal="contact">{$lang.request_your_demo}</a>
             <ul class="social_media">
                 <li><a href="https://www.facebook.com/Guestvox/" target="_blank">Facebook</a></li>
                 <li><a href="https://www.instagram.com/guestvox/" target="_blank">Instagram</a></li>
@@ -154,7 +154,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
                 <li><a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" target="_blank">YouTube</a></li>
             </ul>
             <div class="copyright">
-                <strong>guestvox.com</strong> Todos los derechos reservados.
+                <strong>guestvox.com</strong> {$lang.all_right_reserved}
             </div>
         </div>
     </footer>
@@ -166,64 +166,64 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
                 <div class="row">
                     <div class="span12">
                         <div class="label">
-                            <label>
-                                <p>Nombre del negocio</p>
+                            <label required>
+                                <p>{$lang.business_name}</p>
                                 <input type="text" name="business" />
                             </label>
                         </div>
                     </div>
                     <div class="span12">
                         <div class="label">
-                            <label>
-                                <p>Tipo de negocio</p>
+                            <label required>
+                                <p>{$lang.business_type}</p>
                                 <select name="type">
-                                    <option value="" selected hidden>Selecciona una opción</option>
-                                    <option value="hotel">Hotel</option>
-                                    <option value="restaurant">Restaurante</option>
-                                    <option value="hospital">Hospital</option>
-                                    <option value="others">Otros</option>
+                                    <option value="" selected hidden>{$lang.choose}</option>
+                                    <option value="hotel">{$lang.hotel}</option>
+                                    <option value="restaurant">{$lang.restaurant}</option>
+                                    <option value="hospital">{$lang.hospital}</option>
+                                    <option value="others">{$lang.others}</option>
                                 </select>
                             </label>
                         </div>
                     </div>
                     <div class="span4 hidden">
                         <div class="label">
-                            <label>
-                                <p></p>
-                                <input type="number" name="owners" />
+                            <label required>
+                                <p>{$lang.n_rooms}</p>
+                                <input type="number" name="rooms_number" />
                             </label>
                         </div>
                     </div>
                     <div class="span12">
                         <div class="label">
-                            <label>
-                                <p>Nombre de contacto</p>
+                            <label required>
+                                <p>{$lang.contact_name}</p>
                                 <input type="text" name="contact" />
                             </label>
                         </div>
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label>
-                                <p>Correo electrónico</p>
+                            <label required>
+                                <p>{$lang.email}</p>
                                 <input type="text" name="email" />
                             </label>
                         </div>
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label>
-                                <p>Teléfono</p>
+                            <label required>
+                                <p>{$lang.phone}</p>
                                 <input type="text" name="phone" />
                             </label>
                         </div>
                     </div>
                     <div class="span12">
-                        <p style="font-size: 10px; line-height: 1.3; opacity: 0.5; margin-bottom: 0px;">Al enviar este formulario, solicitará que un representante de Guestvox S.A.P.I de C.V. se ponga en contacto con usted por teléfono o correo electrónico en los próximos días.</p>
+                        <p>{$lang.to_send_form}</p>
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <button type="submit">¡Contáctenme!</button>
+                            <button type="submit">{$lang.request_your_demo}</button>
                             <button button-cancel>{$lang.cancel}</button>
                         </div>
                     </div>

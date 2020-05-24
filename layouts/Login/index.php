@@ -18,7 +18,7 @@ $this->dependencies->add(['js', '{$path.js}Login/index.js']);
         <fieldset>
             <input type="password" name="password" placeholder="{$lang.password}" />
         </fieldset>
-        <a data-action="login">{$lang.login}</a>
+        <button type="submit">{$lang.login}</button>
         <a href="/">{$lang.cancel}</a>
     </form>
 </main>

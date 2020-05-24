@@ -35,6 +35,18 @@ $(document).ready(function ()
             $(this).find('i').addClass('fas fa-bars');
         }
     });
+
+    $(document).on('change', '[required]', function()
+    {
+        if ($(this).val() != '')
+        {
+            $(this).parents('label').addClass('success');
+            $(this).parents('label.error').removeClass('error');
+            $(this).parents('label').find('p.error').remove();
+        }
+        else
+            $(this).parents('label').removeClass('success');
+    });
 });
 
 function menu_focus(target = null)

@@ -2,11 +2,6 @@
 
 $(document).ready(function()
 {
-    $('[data-action="login"]').on('click', function()
-    {
-        $('form[name="login"]').submit();
-    });
-
     $('form[name="login"]').on('submit', function(e)
     {
         e.preventDefault();

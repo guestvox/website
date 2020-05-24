@@ -16,7 +16,6 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
             version: 'v6.0'
         });
     };
-
     (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
