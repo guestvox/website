@@ -458,16 +458,13 @@ main.signup > form > div.steps > div.step-container > a[data-action="next"] {
     color: #000;
 }
 
-main.signup > form > div.steps > div.step-container > button {
-    margin-top: 20px;
-}
-
 main.signup > form > div.steps > div.step-container > a {
     height: auto;
     background: none;
 }
 
 main.signup > form > div.steps > div.step-container > p {
+    margin-bottom: 20px;
     font-size: 12px;
     font-weight: 400;
     text-align: center;
