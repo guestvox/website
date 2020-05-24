@@ -2466,9 +2466,9 @@ div.label > label > textarea {
     /* resize: none; */
 }
 
-div.label > label[important] > input,
-div.label > label[important] > select,
-div.label > label[important] > textarea {
+div.label > label[required] > input,
+div.label > label[required] > select,
+div.label > label[required] > textarea {
     border-color: #ff9800 !important;
 }
 
