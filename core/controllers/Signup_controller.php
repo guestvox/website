@@ -230,7 +230,7 @@ class Signup_controller extends Controller
 						{
 							$mail1->setFrom('daniel@guestvox.com', 'Daniel Basurto');
 							$mail1->addAddress($_POST['contact_email'], $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname']);
-							$mail1->Subject = Mailer::lang('thanks_signup_guestvox')[$_POST['language']];
+							$mail1->Subject = Lang::general('thanks_signup_guestvox')[$_POST['language']];
 							$mail1->Body =
 							'<html>
 								<head>
@@ -248,9 +248,9 @@ class Signup_controller extends Controller
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
-												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Mailer::lang('validate_signup_account')[$_POST['language']] . '</p>
-												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/account/' . $_POST['path'] . '">' . Mailer::lang('active_account')[$_POST['language']] . '</a>
-												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Mailer::lang('terms_and_conditions')[$_POST['language']] . '</a>
+												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Lang::general('validate_signup_account')[$_POST['language']] . '</p>
+												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/account/' . $_POST['path'] . '">' . Lang::general('active_account')[$_POST['language']] . '</a>
+												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Lang::general('terms_and_conditions')[$_POST['language']] . '</a>
 											</td>
 										</tr>
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
@@ -282,7 +282,7 @@ class Signup_controller extends Controller
 						{
 							$mail2->setFrom('daniel@guestvox.com', 'Daniel Basurto');
 							$mail2->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
-							$mail2->Subject = Mailer::lang('thanks_signup_guestvox')[$_POST['language']];
+							$mail2->Subject = Lang::general('thanks_signup_guestvox')[$_POST['language']];
 							$mail2->Body =
 							'<html>
 								<head>
@@ -300,9 +300,9 @@ class Signup_controller extends Controller
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail2->Subject . '</h4>
-												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Mailer::lang('validate_signup_user')[$_POST['language']] . '</p>
-												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/user/' . $_POST['email'] . '">' . Mailer::lang('active_user')[$_POST['language']] . '</a>
-												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Mailer::lang('terms_and_conditions')[$_POST['language']] . '</a>
+												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Lang::general('validate_signup_user')[$_POST['language']] . '</p>
+												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/user/' . $_POST['email'] . '">' . Lang::general('active_user')[$_POST['language']] . '</a>
+												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Lang::general('terms_and_conditions')[$_POST['language']] . '</a>
 											</td>
 										</tr>
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
@@ -445,7 +445,7 @@ class Signup_controller extends Controller
 					else if ($params[0] == 'user')
 						$mail->addAddress($query['email'], $query['firstname'] . ' ' . $query['lastname']);
 
-					$mail->Subject = Mailer::lang('activated_subject', $params[0])[$query['language']];
+					$mail->Subject = Lang::general('activated_subject', $params[0])[$query['language']];
 					$mail->Body =
 					'<html>
 						<head>
@@ -463,8 +463,8 @@ class Signup_controller extends Controller
 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 										<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
-										<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Mailer::lang('activated_text', $params[0])[$query['language']] . '</p>
-										<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/login">' . Mailer::lang('login')[$query['language']] . '</a>
+										<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Lang::general('activated_text', $params[0])[$query['language']] . '</p>
+										<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/login">' . Lang::general('login')[$query['language']] . '</a>
 									</td>
 								</tr>
 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">

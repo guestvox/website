@@ -219,11 +219,11 @@ class Voxes_controller extends Controller
 								$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
 
 							$mail->isHTML(true);
-							$mail->Subject = Mailer::lang('new', $_POST['type'])[Session::get_value('account')['language']];
+							$mail->Subject = Lang::general('new', $_POST['type'])[Session::get_value('account')['language']];
 							$mail->Body =
 							'<html>
 							    <head>
-							        <title>' . Mailer::lang('new', $_POST['type'])[Session::get_value('account')['language']] . '</title>
+							        <title>' . Lang::general('new', $_POST['type'])[Session::get_value('account')['language']] . '</title>
 							    </head>
 							    <body>
 							        <table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
@@ -236,27 +236,27 @@ class Voxes_controller extends Controller
 										</tr>
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . Mailer::lang('new', $_POST['type'])[Session::get_value('account')['language']] . '</h4>
-												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('token')[Session::get_value('account')['language']] . ': ' . $_POST['token'] . '</h6>
-												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('owner')[Session::get_value('account')['language']] . ': ' . $_POST['owner']['name'] . (!empty($_POST['owner']['number']) ? ' #' . $_POST['owner']['number'] : '') . '</h6>
-												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('opportunity_area')[Session::get_value('account')['language']] . ': ' . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '</h6>
-						    					<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('opportunity_type')[Session::get_value('account')['language']] . ': ' . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '</h6>
-												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('started_date')[Session::get_value('account')['language']] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M, Y') . '</h6>
-												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('started_hour')[Session::get_value('account')['language']] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '</h6>
-												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('location')[Session::get_value('account')['language']] . ': ' . $_POST['location']['name'][Session::get_value('account')['language']] . '</h6>
-												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('urgency')[Session::get_value('account')['language']] . ': ' . Mailer::lang($_POST['urgency'])[Session::get_value('account')['language']] . '</h6>';
+												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . Lang::general('new', $_POST['type'])[Session::get_value('account')['language']] . '</h4>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Lang::general('token')[Session::get_value('account')['language']] . ': ' . $_POST['token'] . '</h6>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Lang::general('owner')[Session::get_value('account')['language']] . ': ' . $_POST['owner']['name'] . (!empty($_POST['owner']['number']) ? ' #' . $_POST['owner']['number'] : '') . '</h6>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Lang::general('opportunity_area')[Session::get_value('account')['language']] . ': ' . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '</h6>
+						    					<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Lang::general('opportunity_type')[Session::get_value('account')['language']] . ': ' . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '</h6>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Lang::general('started_date')[Session::get_value('account')['language']] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M, Y') . '</h6>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Lang::general('started_hour')[Session::get_value('account')['language']] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '</h6>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Lang::general('location')[Session::get_value('account')['language']] . ': ' . $_POST['location']['name'][Session::get_value('account')['language']] . '</h6>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Lang::general('urgency')[Session::get_value('account')['language']] . ': ' . Lang::general($_POST['urgency'])[Session::get_value('account')['language']] . '</h6>';
 
 							if ($_POST['type'] == 'request' OR $_POST['type'] == 'workorder')
-								$mail->Body .= '<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:justify;color:#757575;">' . Mailer::lang('Observations')[Session::get_value('account')['language']] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Mailer::lang('empty')[Session::get_value('account')['language']]) . '</p>';
+								$mail->Body .= '<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:justify;color:#757575;">' . Lang::general('Observations')[Session::get_value('account')['language']] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Lang::general('empty')[Session::get_value('account')['language']]) . '</p>';
 							else if ($vox['type'] == 'incident')
 							{
 								$mail->Body .=
-								'<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('confidentiality')[Session::get_value('account')['language']] . ': ' . Mailer::lang((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[Session::get_value('account')['language']] . '</h6>
-								<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:justify;color:#757575;">' . Mailer::lang('subject')[Session::get_value('account')['language']] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Mailer::lang('empty')[Session::get_value('account')['language']]) . '</p>';
+								'<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Lang::general('confidentiality')[Session::get_value('account')['language']] . ': ' . Lang::general((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[Session::get_value('account')['language']] . '</h6>
+								<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:justify;color:#757575;">' . Lang::general('subject')[Session::get_value('account')['language']] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Lang::general('empty')[Session::get_value('account')['language']]) . '</p>';
 							}
 
 							$mail->Body .=
-							'                   <a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $query . '">' . Mailer::lang('give_follow_up')[Session::get_value('account')['language']] . '</a>
+							'                   <a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $query . '">' . Lang::general('give_follow_up')[Session::get_value('account')['language']] . '</a>
 							                </td>
 							            </tr>
 										<tr style="width:100%;margin:0px;padding:0px;border:0px;">
@@ -278,22 +278,22 @@ class Voxes_controller extends Controller
 						{
 							$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 							$sms_client = new \Nexmo\Client($sms_basic);
-							$sms_text = Mailer::lang('new', $_POST['type'])[Session::get_value('account')['language']] . '. ';
-							$sms_text .= Mailer::lang('token')[Session::get_value('account')['language']] . ': ' . $_POST['token'] . '. ';
-							$sms_text .= Mailer::lang('owner')[Session::get_value('account')['language']] . ': ' . $_POST['owner']['name'] . (!empty($_POST['owner']['number']) ? ' #' . $_POST['owner']['number'] : '') . '. ';
-							$sms_text .= Mailer::lang('opportunity_area')[Session::get_value('account')['language']] . ': ' . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '. ';
-							$sms_text .= Mailer::lang('opportunity_type')[Session::get_value('account')['language']] . ': ' . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '. ';
-							$sms_text .= Mailer::lang('started_date')[Session::get_value('account')['language']] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
-							$sms_text .= Mailer::lang('started_hour')[Session::get_value('account')['language']] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
-							$sms_text .= Mailer::lang('location')[Session::get_value('account')['language']] . ': ' . $_POST['location']['name'][Session::get_value('account')['language']] . '. ';
-							$sms_text .= Mailer::lang('urgency')[Session::get_value('account')['language']] . ': ' . Mailer::lang($_POST['urgency'])[Session::get_value('account')['language']] . '. ';
+							$sms_text = Lang::general('new', $_POST['type'])[Session::get_value('account')['language']] . '. ';
+							$sms_text .= Lang::general('token')[Session::get_value('account')['language']] . ': ' . $_POST['token'] . '. ';
+							$sms_text .= Lang::general('owner')[Session::get_value('account')['language']] . ': ' . $_POST['owner']['name'] . (!empty($_POST['owner']['number']) ? ' #' . $_POST['owner']['number'] : '') . '. ';
+							$sms_text .= Lang::general('opportunity_area')[Session::get_value('account')['language']] . ': ' . $_POST['opportunity_area']['name'][Session::get_value('account')['language']] . '. ';
+							$sms_text .= Lang::general('opportunity_type')[Session::get_value('account')['language']] . ': ' . $_POST['opportunity_type']['name'][Session::get_value('account')['language']] . '. ';
+							$sms_text .= Lang::general('started_date')[Session::get_value('account')['language']] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
+							$sms_text .= Lang::general('started_hour')[Session::get_value('account')['language']] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
+							$sms_text .= Lang::general('location')[Session::get_value('account')['language']] . ': ' . $_POST['location']['name'][Session::get_value('account')['language']] . '. ';
+							$sms_text .= Lang::general('urgency')[Session::get_value('account')['language']] . ': ' . Lang::general($_POST['urgency'])[Session::get_value('account')['language']] . '. ';
 
 							if ($_POST['type'] == 'request' OR $_POST['type'] == 'workorder')
-								$sms_text .= Mailer::lang('observations')[Session::get_value('account')['language']] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Mailer::lang('empty')[Session::get_value('account')['language']]) . '. ';
+								$sms_text .= Lang::general('observations')[Session::get_value('account')['language']] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Lang::general('empty')[Session::get_value('account')['language']]) . '. ';
 							else if ($_POST['type'] == 'incident')
 							{
-								$sms_text .= Mailer::lang('confidentiality')[Session::get_value('account')['language']] . ': ' . Mailer::lang((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[Session::get_value('account')['language']] . '. ';
-								$sms_text .= Mailer::lang('subject')[Session::get_value('account')['language']] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Mailer::lang('empty')[Session::get_value('account')['language']]) . '. ';
+								$sms_text .= Lang::general('confidentiality')[Session::get_value('account')['language']] . ': ' . Lang::general((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[Session::get_value('account')['language']] . '. ';
+								$sms_text .= Lang::general('subject')[Session::get_value('account')['language']] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Lang::general('empty')[Session::get_value('account')['language']]) . '. ';
 							}
 
 							$sms_text .= 'https://' . Configuration::$domain . '/voxes/details/' . $query;
@@ -541,11 +541,11 @@ class Voxes_controller extends Controller
 									$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
 
 								$mail->isHTML(true);
-								$mail->Subject = Mailer::lang('edited_vox')[Session::get_value('account')['language']];
+								$mail->Subject = Lang::general('edited_vox')[Session::get_value('account')['language']];
 								$mail->Body =
 								'<html>
 								    <head>
-								        <title>' . Mailer::lang('edited_vox')[Session::get_value('account')['language']] . '</title>
+								        <title>' . Lang::general('edited_vox')[Session::get_value('account')['language']] . '</title>
 								    </head>
 								    <body>
 								        <table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
@@ -558,9 +558,9 @@ class Voxes_controller extends Controller
 											</tr>
 											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . Mailer::lang('edited_vox')[Session::get_value('account')['language']] . '</h4>
-													<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('token')[Session::get_value('account')['language']] . ': ' . $vox['token'] . '</h6>
-													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['id'] . '">' . Mailer::lang('view_details')[Session::get_value('account')['language']] . '</a>
+													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . Lang::general('edited_vox')[Session::get_value('account')['language']] . '</h4>
+													<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Lang::general('token')[Session::get_value('account')['language']] . ': ' . $vox['token'] . '</h6>
+													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['id'] . '">' . Lang::general('view_details')[Session::get_value('account')['language']] . '</a>
 								                </td>
 								            </tr>
 											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
@@ -582,7 +582,7 @@ class Voxes_controller extends Controller
 							{
 								$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 								$sms_client = new \Nexmo\Client($sms_basic);
-								$sms_text = Mailer::lang('edited_vox')[Session::get_value('account')['language']] . '. ' . Mailer::lang('token')[Session::get_value('account')['language']] . ': ' . $vox['token'] . '. ' . 'https://' . Configuration::$domain . '/voxes/details/' . $vox['id'];
+								$sms_text = Lang::general('edited_vox')[Session::get_value('account')['language']] . '. ' . Lang::general('token')[Session::get_value('account')['language']] . ': ' . $vox['token'] . '. ' . 'https://' . Configuration::$domain . '/voxes/details/' . $vox['id'];
 
 								foreach ($_POST['assigned_users'] as $value)
 								{
@@ -981,11 +981,11 @@ class Voxes_controller extends Controller
 						$mail = new Mailer(true);
 
 						if ($_POST['action'] == 'comment_vox')
-							$mail_subject = Mailer::lang('commented_vox')[Session::get_value('account')['language']];
+							$mail_subject = Lang::general('commented_vox')[Session::get_value('account')['language']];
 						else if ($_POST['action'] == 'complete_vox')
-							$mail_subject = Mailer::lang('completed_vox')[Session::get_value('account')['language']];
+							$mail_subject = Lang::general('completed_vox')[Session::get_value('account')['language']];
 						else if ($_POST['action'] == 'reopen_vox')
-							$mail_subject = Mailer::lang('reopened_vox')[Session::get_value('account')['language']];
+							$mail_subject = Lang::general('reopened_vox')[Session::get_value('account')['language']];
 
 						try
 						{
@@ -1014,8 +1014,8 @@ class Voxes_controller extends Controller
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail_subject . '</h4>
-												<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Mailer::lang('token')[Session::get_value('account')['language']] . ': ' . $vox['token'] . '</h6>
-												<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['id'] . '">' . Mailer::lang('view_details')[Session::get_value('account')['language']] . '</a>
+												<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Lang::general('token')[Session::get_value('account')['language']] . ': ' . $vox['token'] . '</h6>
+												<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['id'] . '">' . Lang::general('view_details')[Session::get_value('account')['language']] . '</a>
 											</td>
 										</tr>
 										<tr style="width:100%;margin:0px;padding:0px;border:0px;">
@@ -1037,7 +1037,7 @@ class Voxes_controller extends Controller
 						{
 							$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 							$sms_client = new \Nexmo\Client($sms_basic);
-							$sms_text = $mail_subject . '. ' . Mailer::lang('token')[Session::get_value('account')['language']] . ': ' . $vox['token'] . '. ' . 'https://' . Configuration::$domain . '/voxes/details/' . $vox['id'];
+							$sms_text = $mail_subject . '. ' . Lang::general('token')[Session::get_value('account')['language']] . ': ' . $vox['token'] . '. ' . 'https://' . Configuration::$domain . '/voxes/details/' . $vox['id'];
 
 							foreach ($vox['assigned_users'] as $value)
 							{
