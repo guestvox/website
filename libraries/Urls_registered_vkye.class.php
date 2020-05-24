@@ -34,7 +34,7 @@ class Urls_registered_vkye
                 'method' => 'terms'
             ],
             '/privacy-policies' => [
-                'controller' => 'Policies', // - Contenido
+                'controller' => 'Policies',
                 'method' => 'privacy'
             ],
             '/%param%/myvox' => [

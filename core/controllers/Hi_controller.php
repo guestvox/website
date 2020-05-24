@@ -408,7 +408,7 @@ class Hi_controller extends Controller
 			}
 
 			$replace = [
-				'{$image}' => '{$path.images}hi/webinar/' $webinar['image'],
+				'{$image}' => '{$path.images}hi/webinar/' . $webinar['image'],
 				'{$status}' => ($webinar['status'] == true) ? '{$lang.missing}' : '{$lang.closed}',
 				'{$date}' => Functions::get_formatted_date_hour($webinar['date'], $webinar['hour']),
 				'{$btn_signup}' => $btn_signup,
