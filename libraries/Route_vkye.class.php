@@ -26,10 +26,10 @@ class Route_vkye
             '/About/index',
             '/Policies/terms',
             '/Policies/privacy',
-            '/Myvox/index',
-            '/Reviews/index',
             '/Signup/index',
             '/Signup/activate',
+            '/Myvox/index',
+            '/Reviews/index',
             '/Login/index',
             '/Api/execute'
         ];

@@ -37,6 +37,14 @@ class Urls_registered_vkye
                 'controller' => 'Policies',
                 'method' => 'privacy'
             ],
+            '/signup' => [
+                'controller' => 'Signup',
+                'method' => 'index'
+            ],
+            '/activate/%param%/%param%' => [
+                'controller' => 'Signup',
+                'method' => 'activate'
+            ],
             '/%param%/myvox' => [
                 'controller' => 'Myvox',
                 'method' => 'index'
@@ -52,14 +60,6 @@ class Urls_registered_vkye
             '/%param%/reviews' => [
                 'controller' => 'Reviews',
                 'method' => 'index'
-            ],
-            '/signup' => [
-                'controller' => 'Signup',
-                'method' => 'index'
-            ],
-            '/activate/%param%/%param%' => [
-                'controller' => 'Signup',
-                'method' => 'activate'
             ],
             '/login' => [
                 'controller' => 'Login',
