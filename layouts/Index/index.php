@@ -167,7 +167,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                 <img src="{$path.images}index/st-8-image-2.png" alt="Work team">
             </figure>
             <h3>Alexa Zamora</h3>
-            <h4>{$lang.cpo}</h4>
+            <h4>{$lang.coo}</h4>
         </div>
         <div>
             <figure>
