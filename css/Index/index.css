@@ -90,7 +90,17 @@ main.landing-page-index > section.st-1 > div > figure > img {
 }
 
 main.landing-page-index > section.st-1 > div > h1 {
-    margin: 50px 0px;
+    margin: 50px 0px 0px 0px;
+    font-size: 40px;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: -2px;
+    line-height: 1.0;
+    color: #fff;
+}
+
+main.landing-page-index > section.st-1 > div > p {
+    margin: 20px 0px 50px 0px;
     font-size: 40px;
     font-weight: 600;
     text-align: center;
@@ -101,12 +111,14 @@ main.landing-page-index > section.st-1 > div > h1 {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-1 > div > h1 {
+    main.landing-page-index > section.st-1 > div > h1,
+    main.landing-page-index > section.st-1 > div > p {
         font-size: 25px;
     }
 }
 
-main.landing-page-index > section.st-1 > div > h1 > span {
+main.landing-page-index > section.st-1 > div > h1 > span,
+main.landing-page-index > section.st-1 > div > p > span {
     color: #24383f;
 }
 

@@ -38,6 +38,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
                 <img src="{$path.images}logotype-white.png" alt="Guestvox">
             </figure>
             <h1>{$lang.landing_page_index_st_1_text_1}</h1>
+            <p>{$lang.landing_page_index_st_1_text_2}</p>
             <a href="/login">{$lang.login}</a>
         </div>
     </section>
@@ -89,7 +90,7 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
     </section>
     <section class="st-4">
         <div>
-            <i class="fas fa-concierge-bell"></i>
+            <i class="fas fa-bed"></i>
             <p>{$lang.landing_page_index_st_4_text_1}</p>
         </div>
         <div>
@@ -97,11 +98,11 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
             <p>{$lang.landing_page_index_st_4_text_2}</p>
         </div>
         <div>
-            <i class="fas fa-ambulance"></i>
+            <i class="fas fa-stethoscope"></i>
             <p>{$lang.landing_page_index_st_4_text_3}</p>
         </div>
         <div>
-            <i class="fas fa-snowplow"></i>
+            <i class="fas fa-users"></i>
             <p>{$lang.landing_page_index_st_4_text_4}</p>
         </div>
     </section>
