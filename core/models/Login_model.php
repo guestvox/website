@@ -38,6 +38,7 @@ class Login_model extends Model
 			'accounts.logotype(account_logotype)',
 			'accounts.operation(account_operation)',
 			'accounts.reputation(account_reputation)',
+			'accounts.zaviapms(account_siteminder)',
 			'accounts.zaviapms(account_zaviapms)',
 			'accounts.status(account_status)',
 			'packages.id(package_id)',
@@ -90,6 +91,7 @@ class Login_model extends Model
 					'logotype' => $query[0]['account_logotype'],
 					'operation' => $query[0]['account_operation'],
 					'reputation' => $query[0]['account_reputation'],
+					'siteminder' => $query[0]['account_siteminder'],
 					'zaviapms' => $query[0]['account_zaviapms'],
 					'status' => $query[0]['account_status'],
 					'package' => [

@@ -73,8 +73,8 @@ main.login > form > fieldset.error > input {
     border: 1px solid #f44336;
 }
 
-main.login > form > a,
-main.login > form > a[data-action="login"] {
+main.login > form > button,
+main.login > form > a {
     width: auto;
     margin: 5px;
     background-color: #fff;
@@ -84,7 +84,8 @@ main.login > form > a[data-action="login"] {
     color: #24383f;
 }
 
-main.login > form > a[data-action="login"] {
+main.login > form > button,
+main.login > form > button:hover {
     height: 50px;
     display: flex;
     align-items: center;
