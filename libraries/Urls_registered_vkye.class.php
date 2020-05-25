@@ -10,39 +10,39 @@ class Urls_registered_vkye
     {
         return [
             '/' => [
-                'controller' => 'Index', // - Contenido
+                'controller' => 'Index', // + - Contenido
                 'method' => 'index'
             ],
             '/operacion' => [
-                'controller' => 'Hi', // - Rediseño
+                'controller' => 'Hi', // + - Rediseño
                 'method' => 'operation'
             ],
             '/reputacion' => [
-                'controller' => 'Hi', // - Rediseño
+                'controller' => 'Hi', // + - Rediseño
                 'method' => 'reputation'
             ],
             '/webinar' => [
-                'controller' => 'Hi',
+                'controller' => 'Hi', // +
                 'method' => 'webinar'
             ],
             '/about-us' => [
-                'controller' => 'About', // - Desarrollo
+                'controller' => 'About', // + - Desarrollo
                 'method' => 'index'
             ],
             '/terms-and-conditions' => [
-                'controller' => 'Policies',
+                'controller' => 'Policies', // +
                 'method' => 'terms'
             ],
             '/privacy-policies' => [
-                'controller' => 'Policies',
+                'controller' => 'Policies', // +
                 'method' => 'privacy'
             ],
             '/signup' => [
-                'controller' => 'Signup',
+                'controller' => 'Signup', // +
                 'method' => 'index'
             ],
             '/activate/%param%/%param%' => [
-                'controller' => 'Signup',
+                'controller' => 'Signup', // +
                 'method' => 'activate'
             ],
             '/%param%/myvox' => [
@@ -62,15 +62,15 @@ class Urls_registered_vkye
                 'method' => 'index'
             ],
             '/login' => [
-                'controller' => 'Login',
+                'controller' => 'Login', // +
                 'method' => 'index'
             ],
             '/dashboard' => [
-                'controller' => 'Dashboard',
+                'controller' => 'Dashboard', // +
                 'method' => 'index'
             ],
             '/logout' => [
-                'controller' => 'Dashboard',
+                'controller' => 'Dashboard', // +
                 'method' => 'logout'
             ],
             '/voxes' => [

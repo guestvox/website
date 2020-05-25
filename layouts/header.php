@@ -25,6 +25,11 @@
     </div>
     <nav>
         <ul>
+            <li target="profile"><a href="/profile">{$lang.my_profile}<i class="fas fa-user-circle"></i></a></li>
+        </ul>
+    </nav>
+    <nav>
+        <ul>
             <li target="dashboard"><a href="/dashboard">{$lang.dashboard}<i class="fas fa-home"></i></a></li>
             <?php if (Functions::check_account_access(['operation']) == true) : ?>
             <li target="voxes"><a href="/voxes">{$lang.voxes}<i class="fas fa-heart"></i></a></li>
