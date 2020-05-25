@@ -168,9 +168,9 @@ class Signup_model extends Model
 			'status' => false
 		]);
 
-		$account = $this->database->id();
-
 		QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
+
+		$account = $this->database->id();
 
 		if ($data['type'] == 'hotel')
 		{
