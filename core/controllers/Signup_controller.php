@@ -247,7 +247,7 @@ class Signup_controller extends Controller
 												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
 												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Lang::general('validate_signup_account')[$_POST['language']] . '</p>
 												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/account/' . $_POST['path'] . '">' . Lang::general('active_account')[$_POST['language']] . '</a>
-												<a style="width:100%;display:block;margin:5px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Lang::general('terms_and_conditions')[$_POST['language']] . '</a>
+												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Lang::general('terms_and_conditions')[$_POST['language']] . '</a>
 												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/privacy-policies">' . Lang::general('privacy_policies')[$_POST['language']] . '</a>
 											</td>
 										</tr>
@@ -300,7 +300,7 @@ class Signup_controller extends Controller
 												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail2->Subject . '</h4>
 												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Lang::general('validate_signup_user')[$_POST['language']] . '</p>
 												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/user/' . $_POST['email'] . '">' . Lang::general('active_user')[$_POST['language']] . '</a>
-												<a style="width:100%;display:block;margin:5px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Lang::general('terms_and_conditions')[$_POST['language']] . '</a>
+												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Lang::general('terms_and_conditions')[$_POST['language']] . '</a>
 												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/privacy-policies">' . Lang::general('privacy_policies')[$_POST['language']] . '</a>
 											</td>
 										</tr>
@@ -336,11 +336,8 @@ class Signup_controller extends Controller
 							$mail3->Subject = 'Guestvox | Nuevo registro';
 							$mail3->Body =
 							'Nombre: ' . $_POST['name'] . '<br>
-							' . (($_POST['type'] == 'hotel') ? 'Tipo: Hotel<br>' : '') . '
-							' . (($_POST['type'] == 'restaurant') ? 'Tipo: Restaurante<br>' : '') . '
-							' . (($_POST['type'] == 'hospital') ? 'Tipo: Hospital<br>' : '') . '
-							' . (($_POST['type'] == 'others') ? 'Tipo: Otros<br>' : '') . '
-							Número de propietarios: ' . $_POST['quantity'] . '<br>
+							Tipo: ' . Lang::general($_POST['type'])['es'] . '<br>
+							Cantidad: ' . $_POST['quantity'] . '<br>
 							Páis: ' . $_POST['country'] . ' ' . $_POST['city'] . ' ' . $_POST['zip_code'] . '<br>
 							ID Fiscal: ' . $_POST['fiscal_id'] . '<br>
 							Nombre fiscal: ' . $_POST['fiscal_name'] . '<br>
@@ -377,10 +374,10 @@ class Signup_controller extends Controller
 			foreach ($this->model->get_countries() as $value)
 				$opt_countries .= '<option value="' . $value['code'] . '">' . $value['name'][$this->lang] . '</option>';
 
-			$opt_time_zones = '';
+			$opt_times_zones = '';
 
-			foreach ($this->model->get_time_zones() as $value)
-				$opt_time_zones .= '<option value="' . $value['code'] . '">' . $value['code'] . '</option>';
+			foreach ($this->model->get_times_zones() as $value)
+				$opt_times_zones .= '<option value="' . $value['code'] . '">' . $value['code'] . '</option>';
 
 			$opt_currencies = '';
 
@@ -399,7 +396,7 @@ class Signup_controller extends Controller
 
 			$replace = [
 				'{$opt_countries}' => $opt_countries,
-				'{$opt_time_zones}' => $opt_time_zones,
+				'{$opt_times_zones}' => $opt_times_zones,
 				'{$opt_currencies}' => $opt_currencies,
 				'{$opt_languages}' => $opt_languages,
 				'{$opt_ladas}' => $opt_ladas

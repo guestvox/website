@@ -78,7 +78,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                             <fieldset>
                                 <select name="time_zone">
                                     <option value="" selected hidden>{$lang.time_zone}</option>
-                                    {$opt_time_zones}
+                                    {$opt_times_zones}
                                 </select>
                             </fieldset>
                         </div>
