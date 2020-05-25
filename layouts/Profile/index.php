@@ -3,7 +3,7 @@
 defined('_EXEC') or die;
 
 $this->dependencies->add(['js', '{$path.js}Profile/index.js']);
-$this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
+$this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
 
 ?>
 
