@@ -25,7 +25,7 @@ class Login_model extends Model
 			'users.avatar(user_avatar)',
 			'users.username(user_username)',
 			'users.password(user_password)',
-			'users.user_permissions(user_user_permissions)',
+			'users.permissions(user_permissions)',
 			'users.opportunity_areas(user_opportunity_areas)',
 			'users.status(user_status)',
 			'accounts.id(account_id)',
@@ -38,7 +38,7 @@ class Login_model extends Model
 			'accounts.logotype(account_logotype)',
 			'accounts.operation(account_operation)',
 			'accounts.reputation(account_reputation)',
-			'accounts.zaviapms(account_siteminder)',
+			'accounts.siteminder(account_siteminder)',
 			'accounts.zaviapms(account_zaviapms)',
 			'accounts.status(account_status)',
 			'packages.id(package_id)',
@@ -54,18 +54,18 @@ class Login_model extends Model
 
 		if (!empty($query))
 		{
-			foreach ($query[0]['user_user_permissions'] as $key => $value)
+			foreach ($query[0]['user_permissions'] as $key => $value)
 			{
-				$value = $this->database->select('user_permissions', [
+				$value = $this->database->select('permissions', [
 					'code'
 				], [
 					'id' => $value
 				]);
 
 				if (!empty($value))
-					$query[0]['user_user_permissions'][$key] = $value[0]['code'];
+					$query[0]['user_permissions'][$key] = $value[0]['code'];
 				else
-					unset($query[0]['user_user_permissions'][$key]);
+					unset($query[0]['user_permissions'][$key]);
 			}
 
 			$data = [
@@ -76,7 +76,7 @@ class Login_model extends Model
 					'avatar' => $query[0]['user_avatar'],
 					'username' => $query[0]['user_username'],
 					'password' => $query[0]['user_password'],
-					'user_permissions' => $query[0]['user_user_permissions'],
+					'permissions' => $query[0]['user_permissions'],
 					'opportunity_areas' => $query[0]['user_opportunity_areas'],
 					'status' => $query[0]['user_status']
 				],
