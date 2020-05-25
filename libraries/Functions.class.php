@@ -224,7 +224,7 @@ class Functions
         {
             foreach ($params as $value)
             {
-                if (in_array($value, Session::get_value('user')['user_permissions']))
+                if (in_array($value, Session::get_value('user')['permissions']))
                     $access = true;
             }
         }

@@ -48,20 +48,20 @@
             <?php if (Functions::check_account_access(['operation']) AND Functions::check_user_access(['{locations_create}','{locations_update}','{locations_delete}']) == true) : ?>
             <li target="locations"><a href="/locations">{$lang.locations}<i class="fas fa-map-marker-alt"></i></a></li>
             <?php endif; ?>
-            <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation']) AND Functions::check_user_access(['{guest_treatments_create}','{guest_treatments_update}','{guest_treatments_delete}']) == true) : ?>
-            <li target="guesttreatments"><a href="/guesttreatments">{$lang.guest_treatments}<i class="fas fa-smile"></i></a></li>
+            <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation']) AND Functions::check_user_access(['{guests_treatments_create}','{guests_treatments_update}','{guests_treatments_delete}']) == true) : ?>
+            <li target="gueststreatments"><a href="/gueststreatments">{$lang.guests_treatments}<i class="fas fa-smile"></i></a></li>
             <?php endif; ?>
-            <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation']) AND Functions::check_user_access(['{guest_types_create}','{guest_types_update}','{guest_types_delete}']) == true) : ?>
-            <li target="guesttypes"><a href="/guesttypes">{$lang.guest_types}<i class="far fa-smile"></i></a></li>
+            <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation']) AND Functions::check_user_access(['{guests_types_create}','{guests_types_update}','{guests_types_delete}']) == true) : ?>
+            <li target="gueststypes"><a href="/gueststypes">{$lang.guests_types}<i class="far fa-smile"></i></a></li>
             <?php endif; ?>
-            <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation']) AND Functions::check_user_access(['{reservation_statuses_create}','{reservation_statuses_update}','{reservation_statuses_delete}']) == true) : ?>
-            <li target="reservationstatuses"><a href="/reservationstatuses">{$lang.reservation_statuses}<i class="fas fa-check"></i></a></li>
+            <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation']) AND Functions::check_user_access(['{reservations_statuses_create}','{reservations_statuses_update}','{reservations_statuses_delete}']) == true) : ?>
+            <li target="reservationsstatuses"><a href="/reservationsstatuses">{$lang.reservations_statuses}<i class="fas fa-check"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{users_create}','{users_update}','{users_restore_password}','{users_deactivate}','{users_activate}','{users_delete}']) == true) : ?>
             <li target="users"><a href="/users">{$lang.users}<i class="fas fa-users"></i></a></li>
             <?php endif; ?>
-            <?php if (Functions::check_user_access(['{user_levels_create}','{user_levels_update}','{user_levels_delete}']) == true) : ?>
-            <li target="userlevels"><a href="/userlevels">{$lang.user_levels}<i class="fas fa-user-friends"></i></a></li>
+            <?php if (Functions::check_user_access(['{users_levels_create}','{users_levels_update}','{users_levels_delete}']) == true) : ?>
+            <li target="userslevels"><a href="/userslevels">{$lang.users_levels}<i class="fas fa-user-friends"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{account_update}']) == true) : ?>
             <li target="account"><a href="/account">{$lang.account}<i class="far fa-user-circle"></i></a></li>
