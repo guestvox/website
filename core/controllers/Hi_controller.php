@@ -356,7 +356,7 @@ class Hi_controller extends Controller
 				        <main>
 				            <form name="signup">
 				                <div class="row">
-				                    <div class="span6">
+				                    <div class="span12">
 				                        <div class="label">
 				                            <label required>
 				                                <p>{$lang.name}</p>
@@ -364,7 +364,7 @@ class Hi_controller extends Controller
 				                            </label>
 				                        </div>
 				                    </div>
-				                    <div class="span6">
+				                    <div class="span12">
 				                        <div class="label">
 				                            <label required>
 				                                <p>{$lang.email}</p>
