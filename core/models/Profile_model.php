@@ -17,69 +17,12 @@ class Profile_model extends Model
 			'email',
 			'phone',
 			'avatar',
-			'username',
-			'user_permissions'
+			'username'
 		], [
 			'id' => Session::get_value('user')['id']
 		]));
 
-		if (!empty($query))
-		{
-            $a = [
-                'supervision' => false,
-                'operational' => false,
-                'administrative' => false
-            ];
-
-            $query[0]['user_permissions'] = $this->database->select('user_permissions', [
-                'type'
-            ], [
-                'id' => $query[0]['user_permissions']
-            ]);
-
-            foreach ($query[0]['user_permissions'] as $value)
-            {
-                if ($value['type'] == 'supervision')
-                    $a['supervision'] = true;
-
-                if ($value['type'] == 'operational')
-                    $a['operational'] = true;
-
-                if ($value['type'] == 'administrative')
-                    $a['administrative'] = true;
-            }
-
-			$query[0]['user_permissions'] = $a;
-
-			return $query[0];
-		}
-		else
-			return null;
-	}
-
-	public function get_countries()
-	{
-		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
-			'name',
-			'lada'
-		], [
-			'priority[>=]' => 1,
-			'ORDER' => [
-				'priority' => 'ASC'
-			]
-		]));
-
-		$query2 = Functions::get_json_decoded_query($this->database->select('countries', [
-			'name',
-			'lada'
-		], [
-			'priority[=]' => null,
-			'ORDER' => [
-				'name' => 'ASC'
-			]
-		]));
-
-		return array_merge($query1, $query2);
+		return !empty($query) ? $query[0] : null;
 	}
 
 	public function check_exist_user($field, $value)
@@ -105,6 +48,7 @@ class Profile_model extends Model
 		if (!empty($query))
 		{
 			Functions::undoloader(Session::get_value('user')['avatar']);
+
 			return $data['avatar'];
 		}
 		else
@@ -138,5 +82,30 @@ class Profile_model extends Model
 		]);
 
 		return $query;
+	}
+
+	public function get_countries()
+	{
+		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
+			'name',
+			'lada'
+		], [
+			'priority[>=]' => 1,
+			'ORDER' => [
+				'priority' => 'ASC'
+			]
+		]));
+
+		$query2 = Functions::get_json_decoded_query($this->database->select('countries', [
+			'name',
+			'lada'
+		], [
+			'priority[=]' => null,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		return array_merge($query1, $query2);
 	}
 }

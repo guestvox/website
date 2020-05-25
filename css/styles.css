@@ -289,6 +289,70 @@ body > main.dashboard > section.buttons > div > a.active {
     background-color: #00a5ab;
 }
 
+/* Profile
+------------------------------------------------------------------------------ */
+div.profile {
+    width: 100%;
+    height: calc(100vh - 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+div.profile > figure {
+    width: 160px;
+    height: 160px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+div.profile > figure > img {
+    width: 100%;
+}
+
+div.profile > figure > a {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    font-size: 60px;
+    color: #fff;
+    transition: 400ms;
+}
+
+div.profile > figure > a:hover {
+    opacity: 1;
+}
+
+div.profile > figure > input {
+    display: none;
+}
+
+div.profile > h1 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #212121;
+}
+
+div.profile > span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
 /* Tables
 ------------------------------------------------------------------------------ */
 div.tbl-st-1 {

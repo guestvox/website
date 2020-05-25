@@ -8,66 +8,59 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
 ?>
 
 %{header}%
-<main>
-    <nav>
-        <h2><i class="fas fa-user-circle"></i>{$lang.my_profile}</h2>
-    </nav>
-    <article>
-        <main>
-            <div class="profile">
-                <figure>
-                    <img src="{$avatar}" data-image-preview>
-                    <a data-image-select><i class="fas fa-upload"></i></a>
-                    <input type="file" name="avatar" accept="image/*" data-image-upload>
-                </figure>
-                <div>
-                    <h6><i class="fas fa-caret-right"></i>{$firstname} {$lastname}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$email}</h6>
-                    <h6><i class="fas fa-caret-right"></i>+{$phone_lada} {$phone_number}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$username}</h6>
-                    <h6><i class="fas fa-caret-right"></i>{$user_permissions}</h6>
-                    <a data-button-modal="restore_password"><i class="fas fa-key"></i></a>
-                    <a data-button-modal="edit_profile" class="edit"><i class="fas fa-pen"></i></a>
-                </div>
-            </div>
-        </main>
-    </article>
+<main class="dashboard">
+    <section class="workspace">
+        <div class="profile">
+            <figure data-uploader>
+                <img src="{$avatar}" data-image-preview>
+                <a data-action="edit_avatar" data-type="fast" data-image-select><i class="fas fa-upload"></i></a>
+                <input type="file" name="avatar" accept="image/*" data-image-upload>
+            </figure>
+            <h1>{$name}</h1>
+            <span>{$username}</span>
+            <span>{$email}</span>
+            <span>{$phone}</span>
+        </div>
+    </section>
+    <section class="buttons">
+        <div>
+            <a class="active" data-action="edit_profile"><i class="fas fa-pen"></i></a>
+            <a data-button-modal="restore_password"><i class="fas fa-key"></i></a>
+        </div>
+    </section>
 </main>
-<section class="modal edit" data-modal="edit_profile">
+<section class="modal" data-modal="edit_profile">
     <div class="content">
-        <header>
-            <h3>{$lang.edit}</h3>
-        </header>
         <main>
             <form name="edit_profile">
                 <div class="row">
                     <div class="span6">
                         <div class="label">
-                            <label>
+                            <label required>
                                 <p>{$lang.firstname}</p>
-                                <input type="text" name="firstname" value="{$firstname}" />
+                                <input type="text" name="firstname" />
                             </label>
                         </div>
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label>
+                            <label required>
                                 <p>{$lang.lastname}</p>
-                                <input type="text" name="lastname" value="{$lastname}" />
+                                <input type="text" name="lastname" />
                             </label>
                         </div>
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label>
+                            <label required>
                                 <p>{$lang.email}</p>
-                                <input type="email" name="email" value="{$email}" />
+                                <input type="email" name="email" />
                             </label>
                         </div>
                     </div>
                     <div class="span3">
                         <div class="label">
-                            <label>
+                            <label required>
                                 <p>{$lang.lada}</p>
                                 <select name="phone_lada">
                                     {$opt_ladas}
@@ -77,55 +70,52 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
                     </div>
                     <div class="span3">
                         <div class="label">
-                            <label>
+                            <label required>
                                 <p>{$lang.phone}</p>
-                                <input type="text" name="phone_number" value="{$phone_number}" />
+                                <input type="text" name="phone_number" />
                             </label>
                         </div>
                     </div>
                     <div class="span12">
                         <div class="label">
-                            <label>
+                            <label required>
                                 <p>{$lang.username}</p>
-                                <input type="text" name="username" value="{$username}" />
+                                <input type="text" name="username" />
                             </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="buttons">
+                            <button type="submit">{$lang.accept}</button>
+                            <a button-cancel>{$lang.cancel}</a>
                         </div>
                     </div>
                 </div>
             </form>
         </main>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
-            </div>
-        </footer>
     </div>
 </section>
 <section class="modal" data-modal="restore_password">
     <div class="content">
-        <header>
-            <h3>{$lang.restore_password}</h3>
-        </header>
         <main>
             <form name="restore_password">
                 <div class="row">
                     <div class="span12">
                         <div class="label">
-                            <label>
+                            <label required>
                                 <p>{$lang.password}</p>
-                                <input type="text" name="password" />
+                                <input type="password" name="password" />
                             </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="buttons">
+                            <button type="submit">{$lang.accept}</button>
+                            <a button-cancel>{$lang.cancel}</a>
                         </div>
                     </div>
                 </div>
             </form>
         </main>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
-            </div>
-        </footer>
     </div>
 </section>

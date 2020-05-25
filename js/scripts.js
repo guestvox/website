@@ -36,23 +36,149 @@ $(document).ready(function ()
         }
     });
 
-    $(document).on('change', '[required]', function()
+    $('[required]').each(function()
     {
-        var target = $(this).find('[name]');
+        required_focus($(this), false);
+    });
 
-        if (target.val() != '')
+    $('[required]').on('change', function()
+    {
+        required_focus($(this), false);
+    });
+
+    $('[unrequired]').each(function()
+    {
+        required_focus($(this), false);
+    });
+
+    $('[unrequired]').on('change', function()
+    {
+        required_focus($(this), false);
+    });
+
+    $('[data-image-select]').on('click', function()
+    {
+        var type = $(this).data('type');
+        var target = $(this).parents('[data-uploader]').find('[data-image-upload]');
+        var name = null;
+        var action = null;
+
+        if (type == 'fast')
         {
-            $(this).addClass('success');
-            $(this).removeClass('error');
-            $(this).find('p.error').remove();
+            name = target.attr('name');
+            action = $(this).data('action');
         }
-        else
-            $(this).removeClass('success');
+
+        upload_image(type, target, name, action);
     });
 });
 
-function menu_focus(target = null)
+function menu_focus(target)
 {
-    if (target != null)
-        $(document).find('header.rightbar > nav > ul > li[target="' + target + '"]').addClass('active');
+    $(document).find('header.rightbar > nav > ul > li[target="' + target + '"]').addClass('active');
+}
+
+function required_focus(target, form)
+{
+    var subtarget = target.find('[name]');
+
+    if (form == true)
+    {
+        subtarget.each(function(key, value)
+        {
+            var child = target.find('[name="' + value.getAttribute('name') + '"]');
+            var parent = child.parent();
+
+            if (child.val() != '')
+            {
+                parent.addClass('success');
+                parent.removeClass('error');
+                parent.find('p.error').remove();
+            }
+            else
+                parent.removeClass('success');
+        });
+    }
+    else
+    {
+        if (subtarget.val() != '')
+        {
+            target.addClass('success');
+            target.removeClass('error');
+            target.find('p.error').remove();
+        }
+        else
+            target.removeClass('success');
+    }
+}
+
+function show_form_errors(form, response)
+{
+    if (response.labels)
+    {
+        form.find('label.error').removeClass('error');
+        form.find('p.error').remove();
+
+        $.each(response.labels, function(i, label)
+        {
+            if (label[1].length > 0)
+                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
+            else
+                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
+        });
+
+        form.find('label.error [name]')[0].focus();
+    }
+    else if (response.message)
+        show_modal_error(response.message);
+}
+
+function show_modal_success(message)
+{
+    $('[data-modal="success"]').addClass('view');
+    $('[data-modal="success"]').find('main > p').html(message);
+    setTimeout(function() { location.reload(); }, 1500);
+}
+
+function show_modal_error(message)
+{
+    $('[data-modal="error"]').addClass('view');
+    $('[data-modal="error"]').find('main > p').html(message);
+}
+
+function upload_image(type, target, name, action)
+{
+    if (type == 'fast')
+    {
+        target.click();
+
+        target.on('change', function()
+        {
+            if (target[0].files[0].type.match(target.attr('accept')))
+            {
+                var data = new FormData();
+
+                data.append(name, target[0].files[0]);
+                data.append('action', action);
+
+                $.ajax({
+                    type: 'POST',
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    dataType: 'json',
+                    success: function(response)
+                    {
+                        if (response.status == 'success')
+                            show_modal_success(response.message);
+                        else if (response.status == 'error')
+                            show_modal_error(response.message);
+                    }
+                });
+            }
+            else
+                show_modal_error('ERROR');
+        });
+    }
 }
