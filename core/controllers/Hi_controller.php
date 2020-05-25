@@ -27,12 +27,12 @@ class Hi_controller extends Controller
 
 			if ($_POST['type'] == 'hotel')
 			{
-				if (!isset($_POST['rooms_number']) OR empty($_POST['rooms_number']))
-					array_push($labels, ['rooms_number', '']);
+				if (!isset($_POST['rooms']) OR empty($_POST['rooms']))
+					array_push($labels, ['rooms', '']);
 			}
 
-			if (!isset($_POST['contact']) OR empty($_POST['contact']))
-				array_push($labels, ['contact', '']);
+			if (!isset($_POST['name']) OR empty($_POST['name']))
+				array_push($labels, ['name', '']);
 
 			if (!isset($_POST['email']) OR empty($_POST['email']))
 				array_push($labels, ['email', '']);
@@ -47,7 +47,7 @@ class Hi_controller extends Controller
 				try
 				{
 					$mail1->setFrom('noreply@guestvox.com', 'Guestvox');
-					$mail1->addAddress($_POST['email'], $_POST['contact']);
+					$mail1->addAddress($_POST['email'], $_POST['name']);
 					$mail1->Subject = Lang::general('thanks_request_demo')[$this->lang];
 					$mail1->Body =
 					'<html>
@@ -89,15 +89,12 @@ class Hi_controller extends Controller
 					$mail2->addAddress('contacto@guestvox.com', 'Guestvox');
 					$mail2->Subject = 'Operación | Nueva solicitud de demo';
 					$mail2->Body =
-					'Negocio: ' . $_POST['business'] .
-					(($_POST['type'] == 'hotel') ? 'Tipo: Hotel' : '') .
-					(($_POST['type'] == 'restaurant') ? 'Tipo: Restaurante' : '') .
-					(($_POST['type'] == 'hospital') ? 'Tipo: Hospital' : '') .
-					(($_POST['type'] == 'others') ? 'Tipo: Otros' : '') .
-					(($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms_number'] : '') .
-					'Contacto: ' . $_POST['contact'] .
-					'Correo electrónico: ' . $_POST['email'] .
-					'Número telefonico: ' . $_POST['phone'];
+					'Compañía: ' . $_POST['business'] . '<br>
+					Tipo: ' . Lang::general($_POST['type'])['es'] . '<br>
+					' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms'] . '<br>' : '') . '
+					Nombre: ' . $_POST['name'] . '<br>
+					Correo electrónico: ' . $_POST['email'] . '<br>
+					Número telefonico: ' . $_POST['phone'];
 					$mail2->send();
 				}
 				catch (Exception $e) {}
@@ -139,12 +136,12 @@ class Hi_controller extends Controller
 
 			if ($_POST['type'] == 'hotel')
 			{
-				if (!isset($_POST['rooms_number']) OR empty($_POST['rooms_number']))
-					array_push($labels, ['rooms_number', '']);
+				if (!isset($_POST['rooms']) OR empty($_POST['rooms']))
+					array_push($labels, ['rooms', '']);
 			}
 
-			if (!isset($_POST['contact']) OR empty($_POST['contact']))
-				array_push($labels, ['contact', '']);
+			if (!isset($_POST['name']) OR empty($_POST['name']))
+				array_push($labels, ['name', '']);
 
 			if (!isset($_POST['email']) OR empty($_POST['email']))
 				array_push($labels, ['email', '']);
@@ -159,7 +156,7 @@ class Hi_controller extends Controller
 				try
 				{
 					$mail1->setFrom('noreply@guestvox.com', 'Guestvox');
-					$mail1->addAddress($_POST['email'], $_POST['contact']);
+					$mail1->addAddress($_POST['email'], $_POST['name']);
 					$mail1->Subject = Lang::general('thanks_request_demo')[$this->lang];
 					$mail1->Body =
 					'<html>
@@ -197,19 +194,16 @@ class Hi_controller extends Controller
 
 				try
 				{
-					$mail2->setFrom('norepl@guestvox.com', 'Guestvox');
+					$mail2->setFrom('noreply@guestvox.com', 'Guestvox');
 					$mail2->addAddress('contacto@guestvox.com', 'Guestvox');
 					$mail2->Subject = 'Reputación | Nueva solicitud de demo';
 					$mail2->Body =
-					'Negocio: ' . $_POST['business'] .
-					(($_POST['type'] == 'hotel') ? 'Tipo: Hotel' : '') .
-					(($_POST['type'] == 'restaurant') ? 'Tipo: Restaurante' : '') .
-					(($_POST['type'] == 'hospital') ? 'Tipo: Hospital' : '') .
-					(($_POST['type'] == 'others') ? 'Tipo: Otros' : '') .
-					(($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms_number'] : '') .
-					'Contacto: ' . $_POST['contact'] .
-					'Correo electrónico: ' . $_POST['email'] .
-					'Número telefonico: ' . $_POST['phone'];
+					'Compañía: ' . $_POST['business'] . '<br>
+					Tipo: ' . Lang::general($_POST['type'])['es'] . '<br>
+					' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms'] . '<br>' : '') . '
+					Nombre: ' . $_POST['name'] . '<br>
+					Correo electrónico: ' . $_POST['email'] . '<br>
+					Número telefonico: ' . $_POST['phone'];
 					$mail2->send();
 				}
 				catch (Exception $e) {}
@@ -251,8 +245,8 @@ class Hi_controller extends Controller
 			if (!isset($_POST['email']) OR empty($_POST['email']))
 				array_push($labels, ['email', '']);
 
-			if (!isset($_POST['company']) OR empty($_POST['company']))
-				array_push($labels, ['company', '']);
+			if (!isset($_POST['business']) OR empty($_POST['business']))
+				array_push($labels, ['business', '']);
 
 			if (!isset($_POST['job']) OR empty($_POST['job']))
 				array_push($labels, ['job', '']);
@@ -315,10 +309,10 @@ class Hi_controller extends Controller
 						$mail2->addAddress('contacto@guestvox.com', 'Guestvox');
 						$mail2->Subject = 'Webinar | Nuevo resgistro';
 						$mail2->Body =
-						'Nombre: ' . $_POST['name'] .
-						'Correo electrónico: ' . $_POST['email'] .
-						'Empresa: ' . $_POST['company'] .
-						'Puesto: ' . $_POST['job'];
+						'Nombre: ' . $_POST['name'] . '<br>
+						Correo electrónico: ' . $_POST['email'] . '<br>
+						Compañía: ' . $_POST['business'] . '<br>
+						Puesto: ' . $_POST['job'];
 						$mail2->send();
 					}
 					catch (Exception $e) {}
@@ -381,8 +375,8 @@ class Hi_controller extends Controller
 				                    <div class="span6">
 				                        <div class="label">
 				                            <label required>
-				                                <p>{$lang.company}</p>
-				                                <input type="text" name="company" />
+				                                <p>{$lang.business}</p>
+				                                <input type="text" name="business" />
 				                            </label>
 				                        </div>
 				                    </div>

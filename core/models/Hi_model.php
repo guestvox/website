@@ -31,7 +31,7 @@ class Hi_model extends Model
 			'webinar' => $data['webinar'],
 			'name' => $data['name'],
 			'email' => $data['email'],
-			'company' => $data['company'],
+			'business' => $data['business'],
 			'job' => $data['job'],
 			'date' => Functions::get_current_date(),
 			'hour' => Functions::get_current_hour()

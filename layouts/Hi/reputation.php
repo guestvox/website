@@ -134,7 +134,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
                     <div class="span12">
                         <div class="label">
                             <label required>
-                                <p>{$lang.business_name}</p>
+                                <p>{$lang.business}</p>
                                 <input type="text" name="business" />
                             </label>
                         </div>
@@ -142,7 +142,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
                     <div class="span12">
                         <div class="label">
                             <label required>
-                                <p>{$lang.business_type}</p>
+                                <p>{$lang.type}</p>
                                 <select name="type">
                                     <option value="" selected hidden>{$lang.choose}</option>
                                     <option value="hotel">{$lang.hotel}</option>
@@ -157,15 +157,15 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.n_rooms}</p>
-                                <input type="number" name="rooms_number" />
+                                <input type="number" name="rooms" />
                             </label>
                         </div>
                     </div>
                     <div class="span12">
                         <div class="label">
                             <label required>
-                                <p>{$lang.contact_name}</p>
-                                <input type="text" name="contact" />
+                                <p>{$lang.name}</p>
+                                <input type="text" name="name" />
                             </label>
                         </div>
                     </div>

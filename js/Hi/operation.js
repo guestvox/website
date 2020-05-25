@@ -31,23 +31,23 @@ $(document).ready(function()
         {
             $(this).parent().parent().parent().removeClass('span12');
             $(this).parent().parent().parent().addClass('span8');
-            $('[name="rooms_number"]').parent().parent().parent().removeClass('hidden');
+            $('[name="rooms"]').parent().parent().parent().removeClass('hidden');
         }
         else
         {
             $(this).parent().parent().parent().removeClass('span8');
             $(this).parent().parent().parent().addClass('span12');
-            $('[name="rooms_number"]').parent().parent().parent().addClass('hidden');
+            $('[name="rooms"]').parent().parent().parent().addClass('hidden');
         }
 
-        $('[name="rooms_number"]').val('');
+        $('[name="rooms"]').val('');
     });
 
     $('[data-modal="contact"]').modal().onCancel(function()
     {
         $('[name="type"]').parent().parent().parent().removeClass('span8');
         $('[name="type"]').parent().parent().parent().addClass('span12');
-        $('[name="rooms_number"]').parent().parent().parent().addClass('hidden');
+        $('[name="rooms"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="contact"]').find('form')[0].reset();
         $('[data-modal="contact"]').find('label.error').removeClass('error');
         $('[data-modal="contact"]').find('p.error').remove();

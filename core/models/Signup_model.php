@@ -174,7 +174,7 @@ class Signup_model extends Model
 
 		if ($data['type'] == 'hotel')
 		{
-			$data['guest_treatments'] = [
+			$data['guests_treatments'] = [
 				'es' => [
 					'Sr.',
 					'Sra.',
@@ -187,22 +187,22 @@ class Signup_model extends Model
 				]
 			];
 
-			$this->database->insert('guest_treatments', [
+			$this->database->insert('guests_treatments', [
 				[
 					'account' => $account,
-					'name' => $data['guest_treatments'][$data['language']][0]
+					'name' => $data['guests_treatments'][$data['language']][0]
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_treatments'][$data['language']][1]
+					'name' => $data['guests_treatments'][$data['language']][1]
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_treatments'][$data['language']][2]
+					'name' => $data['guests_treatments'][$data['language']][2]
 				]
 			]);
 
-			$data['guest_types'] = [
+			$data['guests_types'] = [
 				'es' => [
 					'Club vacacional',
 					'Day pass',
@@ -223,38 +223,38 @@ class Signup_model extends Model
 				]
 			];
 
-			$this->database->insert('guest_types', [
+			$this->database->insert('guests_types', [
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][0]
+					'name' => $data['guests_types'][$data['language']][0]
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][1]
+					'name' => $data['guests_types'][$data['language']][1]
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][2]
+					'name' => $data['guests_types'][$data['language']][2]
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][3]
+					'name' => $data['guests_types'][$data['language']][3]
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][4]
+					'name' => $data['guests_types'][$data['language']][4]
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][5]
+					'name' => $data['guests_types'][$data['language']][5]
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][6]
+					'name' => $data['guests_types'][$data['language']][6]
 				]
 			]);
 
-			$data['reservation_statuses'] = [
+			$data['reservations_statuses'] = [
 				'es' => [
 					'En casa',
 					'Fuera de casa',
@@ -273,35 +273,35 @@ class Signup_model extends Model
 				]
 			];
 
-			$this->database->insert('reservation_statuses', [
+			$this->database->insert('reservations_statuses', [
 				[
 					'account' => $account,
-					'name' => $data['reservation_statuses'][$data['language']][0]
+					'name' => $data['reservations_statuses'][$data['language']][0]
 				],
 				[
 					'account' => $account,
-					'name' => $data['reservation_statuses'][$data['language']][1]
+					'name' => $data['reservations_statuses'][$data['language']][1]
 				],
 				[
 					'account' => $account,
-					'name' => $data['reservation_statuses'][$data['language']][2]
+					'name' => $data['reservations_statuses'][$data['language']][2]
 				],
 				[
 					'account' => $account,
-					'name' => $data['reservation_statuses'][$data['language']][3]
+					'name' => $data['reservations_statuses'][$data['language']][3]
 				],
 				[
 					'account' => $account,
-					'name' => $data['reservation_statuses'][$data['language']][4]
+					'name' => $data['reservations_statuses'][$data['language']][4]
 				],
 				[
 					'account' => $account,
-					'name' => $data['reservation_statuses'][$data['language']][5]
+					'name' => $data['reservations_statuses'][$data['language']][5]
 				]
 			]);
 		}
 
-		$data['user_permissions'] = [
+		$data['users_levels'] = [
 			'es' => [
 				'Administrador',
 				'Director',
@@ -316,10 +316,10 @@ class Signup_model extends Model
 				'Supervisor',
 				'Operator'
 			],
-			'ids' => []
+			'permissions' => []
 		];
 
-		$data['user_permissions']['ids'] = [
+		$data['users_levels']['permissions'] = [
 			'["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","13","14","15","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]',
 			'["46","47","25","39","41","38","26","1","2","3"]',
 			'["46","47","25","39","41","38","28","1","2","3"]',
@@ -327,31 +327,31 @@ class Signup_model extends Model
 			'["27","1","2","3"]'
 		];
 
-		$this->database->insert('user_levels', [
+		$this->database->insert('users_levels', [
 			[
 				'account' => $account,
-				'name' => $data['user_permissions'][$data['language']][0],
-				'user_permissions' => $data['user_permissions']['ids'][0]
+				'name' => $data['users_levels'][$data['language']][0],
+				'permissions' => $data['users_levels']['permissions'][0]
 			],
 			[
 				'account' => $account,
-				'name' => $data['user_permissions'][$data['language']][1],
-				'user_permissions' => $data['user_permissions']['ids'][1]
+				'name' => $data['users_levels'][$data['language']][1],
+				'permissions' => $data['users_levels']['permissions'][1]
 			],
 			[
 				'account' => $account,
-				'name' => $data['user_permissions'][$data['language']][2],
-				'user_permissions' => $data['user_permissions']['ids'][2]
+				'name' => $data['users_levels'][$data['language']][2],
+				'permissions' => $data['users_levels']['permissions'][2]
 			],
 			[
 				'account' => $account,
-				'name' => $data['user_permissions'][$data['language']][3],
-				'user_permissions' => $data['user_permissions']['ids'][3]
+				'name' => $data['users_levels'][$data['language']][3],
+				'permissions' => $data['users_levels']['permissions'][3]
 			],
 			[
 				'account' => $account,
-				'name' => $data['user_permissions'][$data['language']][4],
-				'user_permissions' => $data['user_permissions']['ids'][4]
+				'name' => $data['users_levels'][$data['language']][4],
+				'permissions' => $data['users_levels']['permissions'][4]
 			]
 		]);
 
@@ -367,7 +367,7 @@ class Signup_model extends Model
 			'avatar' => null,
 			'username' => $data['username'],
 			'password' => $this->security->create_password($data['password']),
-			'user_permissions' => $data['user_permissions']['ids'][0],
+			'permissions' => $data['users_levels']['permissions'][0],
 			'opportunity_areas' => json_encode([]),
 			'status' => false
 		]);
@@ -402,9 +402,9 @@ class Signup_model extends Model
 		return array_merge($query1, $query2);
 	}
 
-	public function get_time_zones()
+	public function get_times_zones()
 	{
-		$query = $this->database->select('time_zones', [
+		$query = $this->database->select('times_zones', [
 			'code'
 		], [
 			'ORDER' => [

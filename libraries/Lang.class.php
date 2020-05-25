@@ -15,6 +15,22 @@ class Lang
                 'es' => 'En estos días, uno de nuestros representantes se pondrá en contacto contigo para agendar una cita.',
                 'en' => 'These days, one of our representatives will contact you to schedule an appointment.'
             ],
+            'hotel' => [
+                'es' => 'Hotel',
+                'en' => 'Hotel'
+            ],
+            'restaurant' => [
+                'es' => 'Restaurante',
+                'en' => 'Restaurant'
+            ],
+            'hospital' => [
+                'es' => 'Hospital',
+                'en' => 'Hospital'
+            ],
+            'others' => [
+                'es' => 'Otros',
+                'en' => 'Others'
+            ],
             'thanks_signup_webinar' => [
                 'es' => '¡Gracias por registrarte a nuestro Webinar!',
                 'en' => '¡Thanks for sign up for our Webinar!'

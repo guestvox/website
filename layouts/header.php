@@ -29,7 +29,7 @@
             <?php if (Functions::check_account_access(['operation']) == true) : ?>
             <li target="voxes"><a href="/voxes">{$lang.voxes}<i class="fas fa-heart"></i></a></li>
             <?php endif; ?>
-            <?php if (Functions::check_account_access(['reputation']) == true AND Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}','{survey_answers_view}','{survey_stats_view}']) == true) : ?>
+            <?php if (Functions::check_account_access(['reputation']) == true AND Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}','{surveys_answers_view}','{surveys_stats_view}']) == true) : ?>
             <li target="surveys"><a href="/surveys">{$lang.surveys}<i class="fas fa-star"></i></a></li>
             <?php endif; ?>
         </ul>
