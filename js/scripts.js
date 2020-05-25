@@ -60,6 +60,7 @@ $(document).ready(function ()
     {
         var type = $(this).data('type');
         var target = $(this).parents('[data-uploader]').find('[data-image-upload]');
+        var preview = null;
         var name = null;
         var action = null;
 
@@ -68,8 +69,10 @@ $(document).ready(function ()
             name = target.attr('name');
             action = $(this).data('action');
         }
+        else if (type == 'low')
+            preview = $(this).parents('[data-uploader]').find('[data-image-preview]');
 
-        upload_image(type, target, name, action);
+        upload_image(type, target, preview, name, action);
     });
 });
 
@@ -112,6 +115,55 @@ function required_focus(target, form)
     }
 }
 
+function upload_image(type, target, preview, name, action)
+{
+    target.click();
+
+    target.on('change', function()
+    {
+        if (target[0].files[0].type.match(target.attr('accept')))
+        {
+            if (type == 'fast')
+            {
+                var data = new FormData();
+
+                data.append(name, target[0].files[0]);
+                data.append('action', action);
+
+                $.ajax({
+                    type: 'POST',
+                    data: data,
+                    contentType: false,
+                    processData: false,
+                    cache: false,
+                    dataType: 'json',
+                    success: function(response)
+                    {
+                        if (response.status == 'success')
+                            show_modal_success(response.message, 1500);
+                        else if (response.status == 'error')
+                            show_modal_error(response.message);
+                    }
+                });
+            }
+            else if (type == 'low')
+            {
+                var reader = new FileReader();
+
+                reader.onload = function(e)
+                {
+                    preview.attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(target[0].files[0]);
+            }
+        }
+        else
+            show_modal_error('ERROR');
+    });
+
+}
+
 function show_form_errors(form, response)
 {
     if (response.labels)
@@ -133,52 +185,15 @@ function show_form_errors(form, response)
         show_modal_error(response.message);
 }
 
-function show_modal_success(message)
+function show_modal_success(message, timeout)
 {
     $('[data-modal="success"]').addClass('view');
     $('[data-modal="success"]').find('main > p').html(message);
-    setTimeout(function() { location.reload(); }, 1500);
+    setTimeout(function() { location.reload(); }, timeout);
 }
 
 function show_modal_error(message)
 {
     $('[data-modal="error"]').addClass('view');
     $('[data-modal="error"]').find('main > p').html(message);
-}
-
-function upload_image(type, target, name, action)
-{
-    if (type == 'fast')
-    {
-        target.click();
-
-        target.on('change', function()
-        {
-            if (target[0].files[0].type.match(target.attr('accept')))
-            {
-                var data = new FormData();
-
-                data.append(name, target[0].files[0]);
-                data.append('action', action);
-
-                $.ajax({
-                    type: 'POST',
-                    data: data,
-                    contentType: false,
-                    processData: false,
-                    cache: false,
-                    dataType: 'json',
-                    success: function(response)
-                    {
-                        if (response.status == 'success')
-                            show_modal_success(response.message);
-                        else if (response.status == 'error')
-                            show_modal_error(response.message);
-                    }
-                });
-            }
-            else
-                show_modal_error('ERROR');
-        });
-    }
 }

@@ -57,38 +57,12 @@ $(document).ready(function()
         get_total();
     });
 
-    $('[name="logotype"]').parents('.uploader').find('a').on('click', function()
-    {
-        $('[name="logotype"]').click();
-    });
-
-    $('[name="logotype"]').on('change', function()
-    {
-        var preview = $(this).parents('.uploader').find('img');
-
-        if ($(this)[0].files[0].type.match($(this).attr('accept')))
-        {
-            var reader = new FileReader();
-
-            reader.onload = function(e)
-            {
-                preview.attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL($(this)[0].files[0]);
-        }
-        else
-        {
-            $('[data-modal="error"]').addClass('view');
-            $('[data-modal="error"]').find('main > p').html('ERROR FILE NOT PERMIT');
-        }
-    });
-
     var step;
 
     $('[data-action="next"]').on('click', function()
     {
         step = $(this).parent().data('step');
+
         $('form[name="signup"]').submit();
     });
 
@@ -170,10 +144,7 @@ function get_total()
                 $('#total').find('h4 > span').html(response.data.total);
             }
             else if (response.status == 'error')
-            {
-                $('[data-modal="error"]').addClass('view');
-                $('[data-modal="error"]').find('main > p').html(response.message);
-            }
+                show_modal_error(response.message);
         }
     });
 }

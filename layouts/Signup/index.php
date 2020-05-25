@@ -131,10 +131,10 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                     <div class="span6">
                         <div class="uploader">
                             <fieldset>
-                                <figure>
-                                    <img src="{$path.images}empty.png" alt="Account">
-                                    <a><i class="fas fa-upload"></i></a>
-                                    <input type="file" name="logotype" accept="image/*">
+                                <figure data-uploader>
+                                    <img src="{$path.images}account.png" alt="Account" data-image-preview>
+                                    <a data-type="low" data-image-select><i class="fas fa-upload"></i></a>
+                                    <input type="file" name="logotype" accept="image/*" data-image-upload>
                                 </figure>
                             </fieldset>
                         </div>

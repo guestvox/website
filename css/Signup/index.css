@@ -114,7 +114,7 @@ main.signup > form > div.steps > div.step-buttons > a > img {
 
 main.signup > form > div.steps > div.step-container {
     width: 100%;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;

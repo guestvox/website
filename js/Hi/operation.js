@@ -45,9 +45,9 @@ $(document).ready(function()
 
     $('[data-modal="contact"]').modal().onCancel(function()
     {
-        $('[name="type"]').parent().parent().parent().removeClass('span8');
-        $('[name="type"]').parent().parent().parent().addClass('span12');
-        $('[name="rooms"]').parent().parent().parent().addClass('hidden');
+        $('[data-modal="contact"]').find('[name="type"]').parent().parent().parent().removeClass('span8');
+        $('[data-modal="contact"]').find('[name="type"]').parent().parent().parent().addClass('span12');
+        $('[data-modal="contact"]').find('[name="rooms"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="contact"]').find('form')[0].reset();
         $('[data-modal="contact"]').find('label.error').removeClass('error');
         $('[data-modal="contact"]').find('p.error').remove();
@@ -68,34 +68,9 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').addClass('view');
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { location.reload(); }, 8000);
-                }
+                    show_modal_success(response.message, 8000);
                 else if (response.status == 'error')
-                {
-                    if (response.labels)
-                    {
-                        form.find('label.error').removeClass('error');
-                        form.find('p.error').remove();
-
-                        $.each(response.labels, function(i, label)
-                        {
-                            if (label[1].length > 0)
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-                            else
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
-                        });
-
-                        form.find('label.error [name]')[0].focus();
-                    }
-                    else if (response.message)
-                    {
-                        $('[data-modal="error"]').addClass('view');
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                    }
-                }
+                    how_form_errors(form, response);
             }
         });
     });

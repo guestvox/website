@@ -72,34 +72,9 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').addClass('view');
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { location.reload(); }, 8000);
-                }
+                    show_modal_success(response.message, 8000);
                 else if (response.status == 'error')
-                {
-                    if (response.labels)
-                    {
-                        form.find('label.error').removeClass('error');
-                        form.find('p.error').remove();
-
-                        $.each(response.labels, function(i, label)
-                        {
-                            if (label[1].length > 0)
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-                            else
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
-                        });
-
-                        form.find('label.error [name]')[0].focus();
-                    }
-                    else if (response.message)
-                    {
-                        $('[data-modal="error"]').addClass('view');
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                    }
-                }
+                    how_form_errors(form, response);
             }
         });
     });
