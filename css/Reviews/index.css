@@ -61,6 +61,31 @@ main.reviews > .container > div.chart-rate > div.average > h2 {
     color: #757575;
 }
 
+main.reviews > .container > div.chart-rate > div.average > h2.one,
+main.reviews > .container > div.chart-rate > div.average > span > i.one {
+    color: #f44336;
+}
+
+main.reviews > .container > div.chart-rate > div.average > h2.two,
+main.reviews > .container > div.chart-rate > div.average > span > i.two {
+    color: #ffc107;
+}
+
+main.reviews > .container > div.chart-rate > div.average > h2.three,
+main.reviews > .container > div.chart-rate > div.average > span > i.three {
+    color: #ffeb3b;
+}
+
+main.reviews > .container > div.chart-rate > div.average > h2.four,
+main.reviews > .container > div.chart-rate > div.average > span > i.four {
+    color: #4caf50;
+}
+
+main.reviews > .container > div.chart-rate > div.average > h2.five,
+main.reviews > .container > div.chart-rate > div.average > span > i.five {
+    color: #00a5ab;
+}
+
 main.reviews > .container > div.chart-rate > div.average > span {
     display: flex;
     align-items: center;
@@ -73,6 +98,14 @@ main.reviews > .container > div.chart-rate > div.average > span > i {
     margin: 0px 5px;
     font-size: 24px;
     color: #757575;
+}
+
+main.reviews > .container > div.chart-rate > div.average > span > i.one,
+main.reviews > .container > div.chart-rate > div.average > span > i.two,
+main.reviews > .container > div.chart-rate > div.average > span > i.three,
+main.reviews > .container > div.chart-rate > div.average > span > i.four,
+main.reviews > .container > div.chart-rate > div.average > span > i.five {
+    font-size: 40px;
 }
 
 main.reviews > .container > div.chart-rate > div.progress {
@@ -226,8 +259,18 @@ main.reviews > .container > div.datas > p {
 /*  */
 main.reviews > .container > div.comments {
     width: 100%;
+    display: block;
+    clear: both;
     padding-top: 50px;
     box-sizing: border-box;
+}
+
+main.reviews > .container > div.comments > p {
+    width: 100%;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+    color: #757575;
 }
 
 main.reviews > .container > div.comments > div {

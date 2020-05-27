@@ -227,6 +227,7 @@ class Signup_model extends Model
 						'lada' => '',
 						'number' => ''
 					],
+					'website' => '',
 					'description' => [
 						'es' => '',
 						'en' => ''

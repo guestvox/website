@@ -4,7 +4,6 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.css}Reviews/index.css']);
 $this->dependencies->add(['js', '{$path.js}Reviews/index.js']);
-// $this->dependencies->add(['other', '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLCea8Q6BtcTHwY3YFCiB0EoHE5KnsMUE"></script>']);
 
 ?>
 
@@ -54,8 +53,9 @@ $this->dependencies->add(['js', '{$path.js}Reviews/index.js']);
             <a href="https://{$website}" target="_blank"><i class="fas fa-globe"></i>{$website}</a>
             <p>{$description}</p>
         </div>
-        <div class="clear"></div>
-        {$tbl_surveys_comments}
+        <div class="comments">
+            {$tbl_surveys_comments}
+        </div>
         <div class="social-media">
             {$facebook}
             {$instagram}

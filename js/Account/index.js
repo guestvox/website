@@ -172,36 +172,36 @@ $(document).ready(function()
                     if (response.data.reputation == true)
                     {
                         $('[data-modal="edit_myvox_settings"]').find('[name="survey_status"]').prop('checked', ((response.data.settings.myvox.survey.status == true) ? true : false));
+                        $('[data-modal="edit_myvox_settings"]').find('[name="survey_title_es"]').val(response.data.settings.myvox.survey.title.es);
+                        $('[data-modal="edit_myvox_settings"]').find('[name="survey_title_en"]').val(response.data.settings.myvox.survey.title.en);
+                        $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_subject_es"]').val(response.data.settings.myvox.survey.mail.subject.es);
+                        $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_subject_en"]').val(response.data.settings.myvox.survey.mail.subject.en);
+                        $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_description_es"]').val(response.data.settings.myvox.survey.mail.description.es);
+                        $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_description_en"]').val(response.data.settings.myvox.survey.mail.description.en);
+                        $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_image"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', ((response.data.settings.myvox.survey.mail.image) ? '../uploads/' + response.data.settings.myvox.survey.mail.image : '../images/empty.png'));
+
+                        var att = '../images/empty.png';
+
+                        if (response.data.settings.myvox.survey.mail.attachment)
+                        {
+                            att = response.data.settings.myvox.survey.mail.attachment.split('.');
+                            att = att[1].toUpperCase();
+
+                            if (att == 'PNG' || att == 'JPG' || att == 'JPEG')
+                                att = '../uploads/' + response.data.settings.myvox.survey.mail.attachment;
+                            else if (att == 'PDF')
+                                att = '../images/pdf.png';
+                            else if (att == 'DOC' || att == 'DOCX')
+                                att = '../images/word.png';
+                            else if (att == 'XLS' || att == 'XLSX')
+                                att = '../images/excel.png';
+                        }
+
+                        $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_attachment"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', att);
+                        $('[data-modal="edit_myvox_settings"]').find('[name="survey_widget"]').val(response.data.settings.myvox.survey.widget);
 
                         if (response.data.settings.myvox.survey.status == true)
                         {
-                            $('[data-modal="edit_myvox_settings"]').find('[name="survey_title_es"]').val(response.data.settings.myvox.survey.title.es);
-                            $('[data-modal="edit_myvox_settings"]').find('[name="survey_title_en"]').val(response.data.settings.myvox.survey.title.en);
-                            $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_subject_es"]').val(response.data.settings.myvox.survey.mail.subject.es);
-                            $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_subject_en"]').val(response.data.settings.myvox.survey.mail.subject.en);
-                            $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_description_es"]').val(response.data.settings.myvox.survey.mail.description.es);
-                            $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_description_en"]').val(response.data.settings.myvox.survey.mail.description.en);
-                            $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_image"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', ((response.data.settings.myvox.survey.mail.image) ? '../uploads/' + response.data.settings.myvox.survey.mail.image : '../images/empty.png'));
-
-                            var att = '../images/empty.png';
-
-                            if (response.data.settings.myvox.survey.mail.attachment)
-                            {
-                                att = response.data.settings.myvox.survey.mail.attachment.split('.');
-                                att = att[1].toUpperCase();
-
-                                if (att == 'PNG' || att == 'JPG' || att == 'JPEG')
-                                    att = '../uploads/' + response.data.settings.myvox.survey.mail.attachment;
-                                else if (att == 'PDF')
-                                    att = '../images/pdf.png';
-                                else if (att == 'DOC' || att == 'DOCX')
-                                    att = '../images/word.png';
-                                else if (att == 'XLS' || att == 'XLSX')
-                                    att = '../images/excel.png';
-                            }
-
-                            $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_attachment"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', att);
-                            $('[data-modal="edit_myvox_settings"]').find('[name="survey_widget"]').val(response.data.settings.myvox.survey.widget);
                             $('[data-modal="edit_myvox_settings"]').find('[name="survey_title_es"]').parent().parent().parent().removeClass('hidden');
                             $('[data-modal="edit_myvox_settings"]').find('[name="survey_title_en"]').parent().parent().parent().removeClass('hidden');
                             $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_subject_es"]').parent().parent().parent().removeClass('hidden');
