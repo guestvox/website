@@ -56,10 +56,10 @@ $(document).ready(function ()
         required_focus($(this), false);
     });
 
-    $('[data-image-select]').on('click', function()
+    $('[data-select]').on('click', function()
     {
-        var type = $(this).data('type');
-        var target = $(this).parents('[data-uploader]').find('[data-image-upload]');
+        var type = $(this).parents('[data-uploader]').data('uploader');
+        var target = $(this).parents('[data-uploader]').find('[data-upload]');
         var preview = null;
         var name = null;
         var action = null;
@@ -70,7 +70,7 @@ $(document).ready(function ()
             action = $(this).data('action');
         }
         else if (type == 'low')
-            preview = $(this).parents('[data-uploader]').find('[data-image-preview]');
+            preview = $(this).parents('[data-uploader]').find('[data-preview] > img');
 
         upload_image(type, target, preview, name, action);
     });
@@ -161,7 +161,6 @@ function upload_image(type, target, preview, name, action)
         else
             show_modal_error('ERROR');
     });
-
 }
 
 function show_form_errors(form, response)

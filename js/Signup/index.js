@@ -112,10 +112,7 @@ $(document).ready(function()
                         form.find('fieldset.error [name]')[0].focus();
                     }
                     else if (response.message)
-                    {
-                        $('[data-modal="error"]').addClass('view');
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                    }
+                        show_modal_error(response.message);
                 }
             }
         });

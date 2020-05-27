@@ -258,12 +258,14 @@ class Functions
         return $query;
     }
 
-    public static function uploader($file = null, $upload_directory = PATH_UPLOADS, $valid_extensions = ['png','jpg','jpeg'], $maximum_file_size = 'unlimited', $multiple = false)
+    public static function uploader($file = null, $multiple = false, $upload_directory = PATH_UPLOADS, $valid_extensions = ['png','jpg','jpeg','pdf','doc','docx','xls','xlsx'], $maximum_file_size = 'unlimited')
 	{
         if (!empty($file))
         {
             $components = new Components;
+
             $components->load_component('uploader');
+
             $upload = new Upload;
 
             if ($multiple == true)

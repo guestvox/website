@@ -14,54 +14,49 @@ class Account_model extends Model
 		$query = Functions::get_json_decoded_query($this->database->select('accounts', [
 			'token',
 			'name',
+			'path',
 			'type',
-			'zip_code',
 			'country',
 			'city',
+			'zip_code',
 			'address',
 			'time_zone',
 			'currency',
 			'language',
-			'room_package',
-			'table_package',
-			'client_package',
-			'logotype',
 			'fiscal',
 			'contact',
+			'logotype',
 			'qr',
+			'package',
 			'operation',
 			'reputation',
+			'siteminder',
 			'zaviapms',
 			'sms',
-			'settings'
+			'settings',
+			'payment'
 		], [
 			'id' => Session::get_value('account')['id']
 		]));
 
 		if (!empty($query))
 		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				$query[0]['room_package'] = $this->database->select('room_packages', '*', [
-					'id' => $query[0]['room_package']
-				])[0];
-			}
+			$query[0]['package'] = $this->database->select('packages', [
+				'id',
+				'quantity_end',
+				'price'
+			], [
+				'id' => $query[0]['package']
+			]);
 
-			if (Session::get_value('account')['type'] == 'restaurant')
+			if (!empty($query[0]['package']))
 			{
-				$query[0]['table_package'] = $this->database->select('table_packages', '*', [
-					'id' => $query[0]['table_package']
-				])[0];
-			}
+				$query[0]['package'] = $query[0]['package'][0];
 
-			if (Session::get_value('account')['type'] == 'others')
-			{
-				$query[0]['client_package'] = $this->database->select('client_packages', '*', [
-					'id' => $query[0]['client_package']
-				])[0];
+				return $query[0];
 			}
-
-			return $query[0];
+			else
+				return null;
 		}
 		else
 			return null;
@@ -94,9 +89,9 @@ class Account_model extends Model
 		return array_merge($query1, $query2);
 	}
 
-	public function get_time_zones()
+	public function get_times_zones()
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('time_zones', [
+		$query = Functions::get_json_decoded_query($this->database->select('times_zones', [
 			'code'
 		], [
 			'ORDER' => [
@@ -187,17 +182,17 @@ class Account_model extends Model
 			return null;
 	}
 
-	public function edit_profile($data)
+	public function edit_account($data)
 	{
 		$query = $this->database->update('accounts', [
-			'name' => $data['profile_name'],
-			'zip_code' => $data['profile_zip_code'],
-			'country' => $data['profile_country'],
-			'city' => $data['profile_city'],
-			'address' => $data['profile_address'],
-			'time_zone' => $data['profile_time_zone'],
-			'currency' => $data['profile_currency'],
-			'language' => $data['profile_language']
+			'name' => $data['name'],
+			'country' => $data['country'],
+			'city' => $data['city'],
+			'zip_code' => $data['zip_code'],
+			'address' => $data['address'],
+			'time_zone' => $data['time_zone'],
+			'currency' => $data['currency'],
+			'language' => $data['language']
 		], [
 			'id' => Session::get_value('account')['id']
 		]);
@@ -209,18 +204,18 @@ class Account_model extends Model
 	{
 		$query = $this->database->update('accounts', [
 			'fiscal' => json_encode([
-				'id' => $data['billing_fiscal_id'],
-				'name' => $data['billing_fiscal_name'],
-				'address' => $data['billing_fiscal_address']
+				'id' => $data['fiscal_id'],
+				'name' => $data['fiscal_name'],
+				'address' => $data['fiscal_address']
 			]),
 			'contact' => json_encode([
-				'firstname' => $data['billing_contact_firstname'],
-				'lastname' => $data['billing_contact_lastname'],
-				'department' => $data['billing_contact_department'],
-				'email' => $data['billing_contact_email'],
+				'firstname' => $data['contact_firstname'],
+				'lastname' => $data['contact_lastname'],
+				'department' => $data['contact_department'],
+				'email' => $data['contact_email'],
 				'phone' => [
-					'lada' => $data['billing_contact_phone_lada'],
-					'number' => $data['billing_contact_phone_number']
+					'lada' => $data['contact_phone_lada'],
+					'number' => $data['contact_phone_number']
 				]
 			])
 		], [
@@ -230,139 +225,101 @@ class Account_model extends Model
 		return $query;
 	}
 
-	public function edit_settings($data)
+	public function edit_settings($field, $data)
 	{
-		$edited = Functions::get_json_decoded_query(
-			$this->database->select('accounts', [
-	            'settings'
-	        ], [
-	            'id' => Session::get_value('account')['id']
-	        ])
-		);
+		$edited1 = Functions::get_json_decoded_query($this->database->select('accounts', [
+			'settings'
+		], [
+			'id' => Session::get_value('account')['id']
+		]));
 
-		if ($data['action'] == 'edit_myvox_settings' AND !empty($edited))
+		$edited2 = $edited1[0]['settings'];
+
+		if ($field == 'myvox')
 		{
-			$data['settings']['myvox']['request'] = (Functions::check_account_access(['operation']) == true AND !empty($data['myvox_settings_request'])) ? true : false;
-			$data['settings']['myvox']['incident'] = (Functions::check_account_access(['operation']) == true AND !empty($data['myvox_settings_incident'])) ? true : false;
-			$data['settings']['myvox']['survey'] = (Functions::check_account_access(['reputation']) == true AND !empty($data['myvox_settings_survey'])) ? true : false;
-
-			$data['settings']['myvox']['survey_title'] = (Functions::check_account_access(['reputation']) == true) ? [
-				'es' => $data['myvox_settings_survey_title_es'],
-				'en' => $data['myvox_settings_survey_title_en']
-			] : [
-				'es' => '',
-				'en' => ''
+			$edited1[0]['settings']['myvox']['request'] = [
+				'active' => !empty($data['request_active']) ? true : false
 			];
 
-			$data['settings']['myvox']['survey_widget'] = (Functions::check_account_access(['reputation']) == true) ? $data['myvox_settings_survey_widget'] : '';
+			$edited1[0]['settings']['myvox']['incident'] = [
+				'active' => !empty($data['incident_active']) ? true : false
+			];
 
-			if (!empty($data['myvox_settings_survey_attachments']))
-			{
-				$this->component->load_component('uploader');
-
-				$_com_uploader = new Upload;
-
-				if (!empty($data['myvox_settings_survey_attachments']['name']))
-				{
-					$ext = explode('.', $data['myvox_settings_survey_attachments']['name']);
-					$ext = end($ext);
-
-					if ($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx')
-						$data['myvox_settings_survey_attachments']['type'] = 'application/' . $ext;
-
-					$_com_uploader->SetFileName($data['myvox_settings_survey_attachments']['name']);
-					$_com_uploader->SetTempName($data['myvox_settings_survey_attachments']['tmp_name']);
-					$_com_uploader->SetFileType($data['myvox_settings_survey_attachments']['type']);
-					$_com_uploader->SetFileSize($data['myvox_settings_survey_attachments']['size']);
-					$_com_uploader->SetUploadDirectory(PATH_UPLOADS);
-					$_com_uploader->SetValidExtensions(['jpg','jpeg','png','pdf','doc','docx','xls','xlsx']);
-					$_com_uploader->SetMaximumFileSize('unlimited');
-
-					$data['myvox_settings_survey_attachments'] = $_com_uploader->UploadFile();
-				}
-
-				unset($data['myvox_settings_survey_attachments']['name'], $data['myvox_settings_survey_attachments']['type'], $data['myvox_settings_survey_attachments']['tmp_name'], $data['myvox_settings_survey_attachments']['error'], $data['myvox_settings_survey_attachments']['size']);
-			}
-
-			$data['settings']['myvox']['survey_mail'] = (Functions::check_account_access(['reputation']) == true) ? [
+			$edited1[0]['settings']['myvox']['survey'] = [
+				'active' => !empty($data['survey_active']) ? true : false,
 				'title' => [
-					'es' => $data['myvox_settings_survey_title_mail_es'],
-					'en' => $data['myvox_settings_survey_title_mail_en']
+					'es' => $data['survey_title_es'],
+					'en' => $data['survey_title_en']
 				],
-				'paragraph' => [
-					'es' => $data['myvox_settings_survey_paragraph_mail_es'],
-					'en' => $data['myvox_settings_survey_paragraph_mail_en']
+				'mail' => [
+					'subject' => [
+						'es' => $data['survey_mail_subject_es'],
+						'en' => $data['survey_mail_subject_en']
+					],
+					'description' => [
+						'es' => $data['survey_mail_description_es'],
+						'en' => $data['survey_mail_description_en']
+					],
+					'image' => Functions::uploader($data['survey_mail_image']),
+					'attachment' => Functions::uploader($data['survey_mail_attachment'])
 				],
-				'image' => !empty($data['myvox_settings_survey_image']['name']) ? Functions::uploader($data['myvox_settings_survey_image']) : $edited[0]['settings']['myvox']['survey_mail']['image'],
-				'attachment' => !empty($data['myvox_settings_survey_attachments']) ? $data['myvox_settings_survey_attachments'] : $edited[0]['settings']['myvox']['survey_mail']['attachment']
-			] : [
-				'title' => [
-					'es' => '',
-					'en' => ''
-				],
-				'paragraph' => [
-					'es' => '',
-					'en' => ''
-				],
-				'image' => null,
-				'attachment' => []
+				'widget' => $data['survey_widget']
 			];
 		}
-		else if ($data['action'] == 'edit_review_settings')
+		else if ($field == 'reviews')
 		{
-			$data['settings']['review']['online'] = (Functions::check_account_access(['reputation']) == true AND !empty($data['review_settings_online'])) ? true : false;
-			$data['settings']['review']['email'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_email'] : '';
+			$edited1[0]['settings']['reviews']['active'] = !empty($data['active']) ? true : false;
+			$edited1[0]['settings']['reviews']['email'] = $data['email'];
 
-			$data['settings']['review']['phone'] = (Functions::check_account_access(['reputation']) == true) ? [
-				'lada' => $data['review_settings_phone_lada'],
-				'number' => $data['review_settings_phone_number']
-			] : [
-				'lada' => '',
-				'number' => ''
+			$edited1[0]['settings']['reviews']['phone'] = [
+				'lada' => $data['phone_lada'],
+				'number' => $data['phone_number']
 			];
 
-			$data['settings']['review']['description'] = (Functions::check_account_access(['reputation']) == true) ? [
-				'es' => $data['review_settings_description_es'],
-				'en' => $data['review_settings_description_en']
-			] : [
-				'es' => '',
-				'en' => ''
+			$edited1[0]['settings']['reviews']['description'] = [
+				'es' => $data['description_es'],
+				'en' => $data['description_en']
 			];
 
-			$data['settings']['review']['seo']['keywords'] = (Functions::check_account_access(['reputation']) == true) ? [
-				'es' => $data['review_settings_seo_keywords_es'],
-				'en' => $data['review_settings_seo_keywords_en']
-			] : [
-				'es' => '',
-				'en' => ''
+			$edited1[0]['settings']['reviews']['seo'] = [
+				'keywords' => [
+					'es' => $data['seo_keywords_es'],
+					'en' => $data['seo_keywords_en']
+				],
+				'description' => [
+					'es' => $data['seo_description_es'],
+					'en' => $data['seo_description_en']
+				]
 			];
 
-			$data['settings']['review']['seo']['meta_description'] = (Functions::check_account_access(['reputation']) == true) ? [
-				'es' => $data['review_settings_seo_meta_description_es'],
-				'en' => $data['review_settings_seo_meta_description_en']
-			] : [
-				'es' => '',
-				'en' => ''
+			$edited1[0]['settings']['reviews']['social_media'] = [
+				'facebook' => $data['social_media_facebook'],
+				'instagram' => $data['social_media_instagram'],
+				'twitter' => $data['social_media_twitter'],
+				'linkedin' => $data['social_media_linkedin'],
+				'youtube' => $data['social_media_youtube'],
+				'google' => $data['social_media_google'],
+				'tripadvisor' => $data['social_media_tripadvisor']
 			];
-
-			$data['settings']['review']['website'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_website'] : '';
-			$data['settings']['review']['social_media']['facebook'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_facebook'] : '';
-			$data['settings']['review']['social_media']['instagram'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_instagram'] : '';
-			$data['settings']['review']['social_media']['twitter'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_twitter'] : '';
-			$data['settings']['review']['social_media']['linkedin'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_linkedin'] : '';
-			$data['settings']['review']['social_media']['youtube'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_youtube'] : '';
-			$data['settings']['review']['social_media']['google'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_google'] : '';
-			$data['settings']['review']['social_media']['tripadvisor'] = (Functions::check_account_access(['reputation']) == true) ? ((Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant') ? $data['review_settings_social_media_tripadvisor'] : '') : '';
 		}
 
 		$query = $this->database->update('accounts', [
-			'settings' => json_encode($data['settings'])
+			'settings' => json_encode($edited1[0]['settings'])
 		], [
 			'id' => Session::get_value('account')['id']
 		]);
 
-		if (!empty($query) AND !empty($data['myvox_settings_survey_image']['name']) AND $edited[0]['settings']['myvox']['survey_mail']['image'])
-			Functions::undoloader($edited[0]['settings']['myvox']['survey_mail']['image']);
+		if ($field == 'myvox')
+		{
+			if (!empty($query))
+			{
+				if (!empty($data['survey_mail_image']['name']) AND !empty($edited2[0]['settings']['myvox']['survey']['mail']['image']))
+					Functions::undoloader($edited2[0]['settings']['myvox']['survey']['mail']['image']);
+
+				if (!empty($data['survey_mail_attachment']['name']) AND !empty($edited2[0]['settings']['myvox']['survey']['mail']['attachment']))
+					Functions::undoloader($edited2[0]['settings']['myvox']['survey']['mail']['attachment']);
+			}
+		}
 
 		return $query;
 	}

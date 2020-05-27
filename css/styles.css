@@ -57,7 +57,7 @@ body > header.topbar > figure {
     box-sizing: border-box;
 }
 
-body > header.topbar > figure > a > img {
+body > header.topbar > figure > img {
     width: auto;
     height: 40px;
 }
@@ -289,6 +289,73 @@ body > main.dashboard > section.buttons > div > a.active {
     background-color: #00a5ab;
 }
 
+/* Account
+------------------------------------------------------------------------------ */
+div.account {
+    width: 100%;
+}
+
+div.account > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    box-sizing: border-box;
+}
+
+div.account > div:last-child {
+    border-bottom: none;
+}
+
+div.account > div > figure,
+div.account > div > figure > img {
+    width: 180px;
+}
+
+div.account > div > h1,
+div.account > div > h2,
+div.account > div > h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #212121;
+}
+
+div.account > div > h1,
+div.account > div > h2 {
+    margin-bottom: 20px;
+}
+
+div.account > div > h3 {
+    margin: 20px 0px 10px 0px;
+}
+
+div.account > div > span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.account > div > a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    border-radius: 50%;
+    background-color: #ffc107;
+    font-size: 18px;
+    color: #fff;
+}
+
+div.account > div > i {
+    font-size: 100px;
+    color: #e0e0e0;
+}
+
 /* Profile
 ------------------------------------------------------------------------------ */
 div.profile {
@@ -300,48 +367,8 @@ div.profile {
     flex-direction: column;
 }
 
-div.profile > figure {
-    width: 160px;
-    height: 160px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-div.profile > figure > img {
-    width: 100%;
-}
-
-div.profile > figure > a {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    background-color: rgba(0, 0, 0, 0.8);
-    font-size: 60px;
-    color: #fff;
-    transition: 400ms;
-}
-
-div.profile > figure > a:hover {
-    opacity: 1;
-}
-
-div.profile > figure > input {
-    display: none;
-}
-
 div.profile > h1 {
-    margin-bottom: 10px;
+    margin: 20px 0px 10px 10px;
     font-size: 24px;
     font-weight: 600;
     color: #212121;
@@ -537,166 +564,6 @@ form div.buttons > a[button-cancel] {
     background-color: #f44336;
 }
 
-/* Inputs - Checkbox
------------------------------------------------------------------------------- */
-form div.checkboxes > div {
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: #eee;
-    margin-top: 5px;
-}
-
-form div.checkboxes > div > h4 {
-    width: 100%;
-    margin-bottom: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    color: #757575;
-}
-
-form div.checkboxes > div > h4 > i {
-    margin-right: 5px;
-}
-
-form div.checkboxes > div > div {
-    width: 100%;
-}
-
-form div.checkboxes > div > div::after {
-    content: '';
-    display: block;
-    clear: both;
-}
-
-form div.checkboxes > div > div > p {
-    width: 100%;
-    margin-bottom: 5px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #757575;
-    clear: both;
-}
-
-form div.checkboxes > div > div > div {
-    width: auto;
-    float: left;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 0px;
-}
-
-form div.checkboxes > div > div > div > span {
-    padding: 0px 10px 0px 5px;
-    font-size: 12px;
-    font-weight: 400;
-    color: #757575;
-}
-
-form div.checkboxes > div > div > div > input[type="checkbox"],
-form div.checkboxes > div > div > div > input[type="radio"] {
-    width: 20px;
-    height: 20px;
-    position: relative;
-    margin: 0px;
-    padding: 0px;
-    border: 0px;
-    -webkit-appearance: none;
-}
-
-form div.checkboxes > div > div > div > input[type="checkbox"]::before {
-    width: 20px;
-    height: 20px;
-    top: 0px;
-    left: 0px;
-    position: absolute;
-    display: block;
-    content: '';
-    cursor: pointer;
-    background-color: #e0e0e0;
-    z-index: 1;
-    -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-        -ms-box-sizing: border-box;
-         -o-box-sizing: border-box;
-            box-sizing: border-box;
-    -webkit-transition: 0.2s ease all;
-       -moz-transition: 0.2s ease all;
-        -ms-transition: 0.2s ease all;
-         -o-transition: 0.2s ease all;
-            transition: 0.2s ease all;
-}
-
-form div.checkboxes > div > div > div > input[type="checkbox"]:checked::before {
-    height: 10px;
-    top: 0px;
-    left: 2px;
-    background: none;
-    border: 3px solid #fff;
-    border-top-style: none;
-    border-right-style: none;
-    -webkit-transform: rotate(-45deg);
-       -moz-transform: rotate(-45deg);
-        -ms-transform: rotate(-45deg);
-         -o-transform: rotate(-45deg);
-            transform: rotate(-45deg);
-}
-
-form div.checkboxes > div > div > div > input[type="checkbox"]::after {
-    width: 20px;
-    height: 20px;
-    top: 0px;
-    left: 0px;
-    position: absolute;
-    display: block;
-    content: '';
-    background-color: #00a5ab;
-    z-index: 0;
-}
-
-form div.checkboxes > div > div > div > input[type="radio"]::before {
-    width: 20px;
-    height: 20px;
-    top: 0;
-    left: 0;
-    position: absolute;
-    display: block;
-    content: '';
-    background-color: #e0e0e0;
-    border-radius: 100%;
-    cursor: pointer;
-    z-index: 1;
-    -webkit-transition: 0.2s ease all;
-       -moz-transition: 0.2s ease all;
-        -ms-transition: 0.2s ease all;
-         -o-transition: 0.2s ease all;
-            transition: 0.2s ease all;
-}
-
-form div.checkboxes > div > div > div > input[type="radio"]:checked::before {
-    background-color: #00a5ab;
-}
-
-form div.checkboxes > div > div > div > input[type="radio"]::after {
-    width: 20px;
-    height: 20px;
-    top: 0;
-    left: 0;
-    position: absolute;
-    display: block;
-    content: '';
-    background-color: transparent;
-    border: none;
-    z-index: 0;
-}
-
-form div.checkboxes > div > div > div > input[type="checkbox"]:focus,
-form div.checkboxes > div > div > div > input[type="radio"]:focus {
-    border: none;
-    box-shadow: none;
-}
-
 /* Inputs - Switch
 ------------------------------------------------------------------------------ */
 form div.switch {
@@ -767,9 +634,57 @@ form div.switch > input {
     transition: 400ms;
 }
 
-/* Inputs - Uploader
+/* Uploader
 ------------------------------------------------------------------------------ */
-form div.uploader {
+div[data-uploader] input[type="file"] {
+    display: none;
+}
+
+/* ST-1 */
+
+div[data-uploader].st-1 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div[data-uploader].st-1 > figure {
+    width: 180px;
+    height: 180px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+div[data-uploader].st-1 > figure > img {
+    width: 100%;
+}
+
+div[data-uploader].st-1 > figure > a {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    font-size: 60px;
+    color: #fff;
+    transition: 400ms;
+}
+
+div[data-uploader].st-1 > figure > a:hover {
+    opacity: 1;
+}
+
+/* form div.uploader {
     width: 100%;
     display: flex;
     align-items: center;
@@ -827,105 +742,10 @@ form div.uploader > fieldset > figure > a > i {
 
 form div.uploader > fieldset > figure > input[type="file"] {
     display: none;
-}
-
-/* Inputs - Checkers
------------------------------------------------------------------------------- */
-form div.checkers > div.list > div {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0px 5px 5px 5px;
-    box-sizing: border-box;
-}
-
-form div.checkers > div.list > div:first-child > [data-action="up_check_value"],
-form div.checkers > div.list > div:last-child > [data-action="down_check_value"] {
-    opacity: 0;
-    cursor: no-drop;
-}
-
-form div.checkers > div.list > div > span {
-    width: calc(100% - 140px);
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0px 10px;
-    box-sizing: border-box;
-    background-color: #eee;
-    color: #757575;
-}
-
-form div.checkers > div.list > div > a {
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 5px;
-    background-color: #eee;
-    color: #757575;
-}
-
-form div.checkers form div.label > a {
-    width: 30px;
-    height: 30px;
-    float: right;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 5px;
-}
-
-form div.checkers [class*="span"] {
-    padding-bottom: 5px !important;
-}
-
-[data-mobile-on] {
-    display: none;
-}
-
-@media (max-width: 768px) {
-
-    [data-mobile-on] {
-        display: block;
-    }
-
-    [data-mobile-off] {
-        display: none !important;
-    }
-}
+} */
 
 /* Modals
 ------------------------------------------------------------------- */
-section.modal > div.content > header {
-    background-color: #fff;
-}
-
-section.modal > div.content > header > h3 {
-    color: #757575;
-}
-
-section.modal.new > div.content > header {
-    background-color: #00a5ab;
-}
-
-section.modal.edit > div.content > header {
-    background-color: #ff9800;
-}
-
-section.modal.delete > div.content > header {
-    background-color: #f44336;
-}
-
-section.modal.new > div.content > header > h3,
-section.modal.edit > div.content > header > h3,
-section.modal.delete > div.content > header > h3 {
-    color: #fff;
-}
-
 section.modal[data-modal="success"] main,
 section.modal[data-modal="error"] main {
     width: 100%;

@@ -382,7 +382,7 @@ class Signup_controller extends Controller
 			$opt_currencies = '';
 
 			foreach ($this->model->get_currencies() as $value)
-				$opt_currencies .= '<option value="' . $value['code'] . '">(' . $value['code'] . ') ' . $value['name'][$this->lang] . '</option>';
+				$opt_currencies .= '<option value="' . $value['code'] . '">' . $value['name'][$this->lang] . ' (' . $value['code'] . ')</option>';
 
 			$opt_languages = '';
 

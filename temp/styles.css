@@ -1,4 +1,233 @@
 
+/* Inputs - Checkbox
+------------------------------------------------------------------------------ */
+form div.checkboxes > div {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #eee;
+    margin-top: 5px;
+}
+
+form div.checkboxes > div > h4 {
+    width: 100%;
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #757575;
+}
+
+form div.checkboxes > div > h4 > i {
+    margin-right: 5px;
+}
+
+form div.checkboxes > div > div {
+    width: 100%;
+}
+
+form div.checkboxes > div > div::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+form div.checkboxes > div > div > p {
+    width: 100%;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+    clear: both;
+}
+
+form div.checkboxes > div > div > div {
+    width: auto;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px;
+}
+
+form div.checkboxes > div > div > div > span {
+    padding: 0px 10px 0px 5px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+form div.checkboxes > div > div > div > input[type="checkbox"],
+form div.checkboxes > div > div > div > input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    -webkit-appearance: none;
+}
+
+form div.checkboxes > div > div > div > input[type="checkbox"]::before {
+    width: 20px;
+    height: 20px;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    display: block;
+    content: '';
+    cursor: pointer;
+    background-color: #e0e0e0;
+    z-index: 1;
+    -webkit-box-sizing: border-box;
+       -moz-box-sizing: border-box;
+        -ms-box-sizing: border-box;
+         -o-box-sizing: border-box;
+            box-sizing: border-box;
+    -webkit-transition: 0.2s ease all;
+       -moz-transition: 0.2s ease all;
+        -ms-transition: 0.2s ease all;
+         -o-transition: 0.2s ease all;
+            transition: 0.2s ease all;
+}
+
+form div.checkboxes > div > div > div > input[type="checkbox"]:checked::before {
+    height: 10px;
+    top: 0px;
+    left: 2px;
+    background: none;
+    border: 3px solid #fff;
+    border-top-style: none;
+    border-right-style: none;
+    -webkit-transform: rotate(-45deg);
+       -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+         -o-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+}
+
+form div.checkboxes > div > div > div > input[type="checkbox"]::after {
+    width: 20px;
+    height: 20px;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+    display: block;
+    content: '';
+    background-color: #00a5ab;
+    z-index: 0;
+}
+
+form div.checkboxes > div > div > div > input[type="radio"]::before {
+    width: 20px;
+    height: 20px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    display: block;
+    content: '';
+    background-color: #e0e0e0;
+    border-radius: 100%;
+    cursor: pointer;
+    z-index: 1;
+    -webkit-transition: 0.2s ease all;
+       -moz-transition: 0.2s ease all;
+        -ms-transition: 0.2s ease all;
+         -o-transition: 0.2s ease all;
+            transition: 0.2s ease all;
+}
+
+form div.checkboxes > div > div > div > input[type="radio"]:checked::before {
+    background-color: #00a5ab;
+}
+
+form div.checkboxes > div > div > div > input[type="radio"]::after {
+    width: 20px;
+    height: 20px;
+    top: 0;
+    left: 0;
+    position: absolute;
+    display: block;
+    content: '';
+    background-color: transparent;
+    border: none;
+    z-index: 0;
+}
+
+form div.checkboxes > div > div > div > input[type="checkbox"]:focus,
+form div.checkboxes > div > div > div > input[type="radio"]:focus {
+    border: none;
+    box-shadow: none;
+}
+
+/* Inputs - Checkers
+------------------------------------------------------------------------------ */
+form div.checkers > div.list > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 5px 5px 5px;
+    box-sizing: border-box;
+}
+
+form div.checkers > div.list > div:first-child > [data-action="up_check_value"],
+form div.checkers > div.list > div:last-child > [data-action="down_check_value"] {
+    opacity: 0;
+    cursor: no-drop;
+}
+
+form div.checkers > div.list > div > span {
+    width: calc(100% - 140px);
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 10px;
+    box-sizing: border-box;
+    background-color: #eee;
+    color: #757575;
+}
+
+form div.checkers > div.list > div > a {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    background-color: #eee;
+    color: #757575;
+}
+
+form div.checkers form div.label > a {
+    width: 30px;
+    height: 30px;
+    float: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+form div.checkers [class*="span"] {
+    padding-bottom: 5px !important;
+}
+
+[data-mobile-on] {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    [data-mobile-on] {
+        display: block;
+    }
+
+    [data-mobile-off] {
+        display: none !important;
+    }
+}
+
 /* Nav
 ------------------------------------------------------------------------------ */
 body > main > nav {

@@ -11,11 +11,13 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
 <main class="dashboard">
     <section class="workspace">
         <div class="profile">
-            <figure data-uploader>
-                <img src="{$avatar}" data-image-preview>
-                <a data-action="edit_avatar" data-type="fast" data-image-select><i class="fas fa-upload"></i></a>
-                <input type="file" name="avatar" accept="image/*" data-image-upload>
-            </figure>
+            <div class="st-1" data-uploader="fast">
+                <figure data-preview>
+                    <img src="{$avatar}">
+                    <a data-action="edit_avatar" data-select><i class="fas fa-upload"></i></a>
+                    <input type="file" name="avatar" accept="image/*" data-upload>
+                </figure>
+            </div>
             <h1>{$name}</h1>
             <span>{$username}</span>
             <span>{$email}</span>

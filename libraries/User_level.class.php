@@ -31,6 +31,14 @@ class User_level
                     array_push($paths, '/Voxes/reports');
                 break;
 
+                case '{voxes_reports_deactivate}' :
+                    array_push($paths, '/Voxes/reports');
+                break;
+
+                case '{voxes_reports_activate}' :
+                    array_push($paths, '/Voxes/reports');
+                break;
+
                 case '{voxes_reports_delete}' :
                     array_push($paths, '/Voxes/reports');
                 break;
@@ -83,6 +91,14 @@ class User_level
                     array_push($paths, '/Owners/index');
                 break;
 
+                case '{owners_deactivate}' :
+                    array_push($paths, '/Owners/index');
+                break;
+
+                case '{owners_activate}' :
+                    array_push($paths, '/Owners/index');
+                break;
+
                 case '{owners_delete}' :
                     array_push($paths, '/Owners/index');
 
@@ -91,6 +107,14 @@ class User_level
                 break;
 
                 case '{opportunity_areas_update}' :
+                    array_push($paths, '/Opportunityareas/index');
+                break;
+
+                case '{opportunity_areas_deactivate}' :
+                    array_push($paths, '/Opportunityareas/index');
+                break;
+
+                case '{opportunity_areas_activate}' :
                     array_push($paths, '/Opportunityareas/index');
                 break;
 
@@ -106,6 +130,14 @@ class User_level
                     array_push($paths, '/Opportunitytypes/index');
                 break;
 
+                case '{opportunity_types_deactivate}' :
+                    array_push($paths, '/Opportunitytypes/index');
+                break;
+
+                case '{opportunity_types_activate}' :
+                    array_push($paths, '/Opportunitytypes/index');
+                break;
+
                 case '{opportunity_types_delete}' :
                     array_push($paths, '/Opportunitytypes/index');
                 break;
@@ -115,6 +147,14 @@ class User_level
                 break;
 
                 case '{locations_update}' :
+                    array_push($paths, '/Locations/index');
+                break;
+
+                case '{locations_deactivate}' :
+                    array_push($paths, '/Locations/index');
+                break;
+
+                case '{locations_activate}' :
                     array_push($paths, '/Locations/index');
                 break;
 
@@ -130,6 +170,14 @@ class User_level
                     array_push($paths, '/Reservationsstatuses/index');
                 break;
 
+                case '{reservations_statuses_deactivate}' :
+                    array_push($paths, '/Reservationsstatuses/index');
+                break;
+
+                case '{reservations_statuses_activate}' :
+                    array_push($paths, '/Reservationsstatuses/index');
+                break;
+
                 case '{reservations_statuses_delete}' :
                     array_push($paths, '/Reservationsstatuses/index');
                 break;
@@ -139,6 +187,14 @@ class User_level
                 break;
 
                 case '{guests_treatments_update}' :
+                    array_push($paths, '/Gueststreatments/index');
+                break;
+
+                case '{guests_treatments_deactivate}' :
+                    array_push($paths, '/Gueststreatments/index');
+                break;
+
+                case '{guests_treatments_activate}' :
                     array_push($paths, '/Gueststreatments/index');
                 break;
 
@@ -154,32 +210,16 @@ class User_level
                     array_push($paths, '/Gueststypes/index');
                 break;
 
-                case '{guests_types_delete}' :
+                case '{guests_types_deactivate}' :
                     array_push($paths, '/Gueststypes/index');
                 break;
 
-                case '{information_create}' :
-                    array_push($paths, '/Information/index');
+                case '{guests_types_activate}' :
+                    array_push($paths, '/Gueststypes/index');
                 break;
 
-                case '{information_update}' :
-                    array_push($paths, '/Information/index');
-                break;
-
-                case '{information_delete}' :
-                    array_push($paths, '/Information/index');
-                break;
-
-                case '{menu_create}' :
-                    array_push($paths, '/Menu/index');
-                break;
-
-                case '{menu_update}' :
-                    array_push($paths, '/Menu/index');
-                break;
-
-                case '{menu_delete}' :
-                    array_push($paths, '/Menu/index');
+                case '{guests_types_delete}' :
+                    array_push($paths, '/Gueststypes/index');
                 break;
 
                 case '{users_create}' :
@@ -211,6 +251,14 @@ class User_level
                 break;
 
                 case '{users_levels_update}' :
+                    array_push($paths, '/Userslevels/index');
+                break;
+
+                case '{users_levels_deactivate}' :
+                    array_push($paths, '/Userslevels/index');
+                break;
+
+                case '{users_levels_activate}' :
                     array_push($paths, '/Userslevels/index');
                 break;
 

@@ -16,10 +16,9 @@ class Hi_model extends Model
 			'image',
 			'link',
 			'date',
-			'hour',
-			'status'
+			'hour'
 		], [
-			'active' => true
+			'status' => true
 		]);
 
 		return !empty($query) ? $query[0] : null;

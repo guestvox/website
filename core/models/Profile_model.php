@@ -25,6 +25,31 @@ class Profile_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
+	public function get_countries()
+	{
+		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
+			'name',
+			'lada'
+		], [
+			'priority[>=]' => 1,
+			'ORDER' => [
+				'priority' => 'ASC'
+			]
+		]));
+
+		$query2 = Functions::get_json_decoded_query($this->database->select('countries', [
+			'name',
+			'lada'
+		], [
+			'priority[=]' => null,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		return array_merge($query1, $query2);
+	}
+
 	public function check_exist_user($field, $value)
 	{
 		$count = $this->database->count('users', [
@@ -82,30 +107,5 @@ class Profile_model extends Model
 		]);
 
 		return $query;
-	}
-
-	public function get_countries()
-	{
-		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
-			'name',
-			'lada'
-		], [
-			'priority[>=]' => 1,
-			'ORDER' => [
-				'priority' => 'ASC'
-			]
-		]));
-
-		$query2 = Functions::get_json_decoded_query($this->database->select('countries', [
-			'name',
-			'lada'
-		], [
-			'priority[=]' => null,
-			'ORDER' => [
-				'name' => 'ASC'
-			]
-		]));
-
-		return array_merge($query1, $query2);
 	}
 }

@@ -21,6 +21,8 @@ class Profile_controller extends Controller
 		{
 			if ($_POST['action'] == 'edit_avatar')
 			{
+				$labels = [];
+
 				if (!isset($_FILES['avatar']['name']) OR empty($_FILES['avatar']['name']))
 					array_push($labels, ['avatar','']);
 
