@@ -121,45 +121,58 @@ function upload_image(type, target, preview, name, action)
 
     target.on('change', function()
     {
-        if (target[0].files[0].type.match(target.attr('accept')))
+        // if (target[0].files[0].type.match(target.attr('accept')))
+        // {
+        // }
+        // else
+        //     show_modal_error('ERROR');
+
+        if (type == 'fast')
         {
-            if (type == 'fast')
-            {
-                var data = new FormData();
+            var data = new FormData();
 
-                data.append(name, target[0].files[0]);
-                data.append('action', action);
+            data.append(name, target[0].files[0]);
+            data.append('action', action);
 
-                $.ajax({
-                    type: 'POST',
-                    data: data,
-                    contentType: false,
-                    processData: false,
-                    cache: false,
-                    dataType: 'json',
-                    success: function(response)
-                    {
-                        if (response.status == 'success')
-                            show_modal_success(response.message, 1500);
-                        else if (response.status == 'error')
-                            show_modal_error(response.message);
-                    }
-                });
-            }
-            else if (type == 'low')
-            {
-                var reader = new FileReader();
-
-                reader.onload = function(e)
+            $.ajax({
+                type: 'POST',
+                data: data,
+                contentType: false,
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
                 {
-                    preview.attr('src', e.target.result);
+                    if (response.status == 'success')
+                        show_modal_success(response.message, 1500);
+                    else if (response.status == 'error')
+                        show_modal_error(response.message);
                 }
-
-                reader.readAsDataURL(target[0].files[0]);
-            }
+            });
         }
-        else
-            show_modal_error('ERROR');
+        else if (type == 'low')
+        {
+            var reader = new FileReader();
+
+            reader.onload = function(e)
+            {
+                var slt = target[0].files[0].name.split('.');
+                slt = slt[1].toUpperCase();
+
+                if (slt == 'PNG' || slt == 'JPG' || slt == 'JPEG')
+                    slt = e.target.result;
+                else if (slt == 'PDF')
+                    slt = '../images/pdf.png';
+                else if (slt == 'DOC' || slt == 'DOCX')
+                    slt = '../images/word.png';
+                else if (slt == 'XLS' || slt == 'XLSX')
+                    slt = '../images/excel.png';
+
+                preview.attr('src', slt);
+            }
+
+            reader.readAsDataURL(target[0].files[0]);
+        }
     });
 }
 

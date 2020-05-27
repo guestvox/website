@@ -16,7 +16,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <figure data-preview>
                         <img src="{$logotype}">
                         <a data-action="edit_logotype" data-select><i class="fas fa-upload"></i></a>
-                        <input type="file" name="logotype" accept="image/png,image/jpg,image/jpeg" data-upload>
+                        <input type="file" name="logotype" accept="image/*" data-upload>
                     </figure>
                 </div>
             </div>
@@ -25,6 +25,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <img src="{$qr}">
                 </figure>
             </div>
+            {$div_urls}
             <div>
                 <h1>{$name}</h1>
                 <span>{$token}</span>
@@ -35,8 +36,6 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                 <span>{$time_zone}</span>
                 <span>{$currency}</span>
                 <span>{$language}</span>
-                {$spn_myvox_url}
-                {$spn_reviews_url}
                 <a data-action="edit_account"><i class="fas fa-pen"></i></a>
             </div>
             <div>
@@ -79,7 +78,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
 <section class="modal" data-modal="edit_account">
     <div class="content">
         <main>
-            <form name="edit_profile">
+            <form name="edit_account">
                 <div class="row">
                     <div class="span12">
                         <div class="label">

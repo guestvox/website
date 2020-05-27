@@ -338,6 +338,15 @@ div.account > div > span {
     color: #757575;
 }
 
+div.account > div > p {
+    margin: 10px 0px;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 14px;
+    color: #757575;
+}
+
 div.account > div > a {
     width: 40px;
     height: 40px;
@@ -681,6 +690,38 @@ div[data-uploader].st-1 > figure > a {
 }
 
 div[data-uploader].st-1 > figure > a:hover {
+    opacity: 1;
+}
+
+/* ST-2 */
+
+div[data-uploader].st-2 {
+    width: 100%;
+}
+
+div[data-uploader].st-2 > figure,
+div[data-uploader].st-2 > figure > img {
+    width: 100%;
+    position: relative;
+}
+
+div[data-uploader].st-2 > figure > a {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    font-size: 60px;
+    color: #fff;
+    transition: 400ms;
+}
+
+div[data-uploader].st-2 > figure > a:hover {
     opacity: 1;
 }
 

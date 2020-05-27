@@ -377,4 +377,9 @@ class Functions
             }
         }
     }
+
+    public static function shorten_string($string, $length = 400)
+	{
+		return (strlen(strip_tags($string)) > $length) ? substr(strip_tags($string), 0, $length) . '...' : substr(strip_tags($string), 0, $length);
+    }
 }

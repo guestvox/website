@@ -198,7 +198,7 @@ class Account_controller extends Controller
 
 				if ($_POST['action'] == 'edit_myvox_settings')
 				{
-					if (!empty($_POST['survey_active']))
+					if (!empty($_POST['survey_status']))
 					{
 						if (!isset($_POST['survey_title_es']) OR empty($_POST['survey_title_es']))
 							array_push($labels, ['survey_title_es','']);
@@ -221,41 +221,46 @@ class Account_controller extends Controller
 				}
 				else if ($_POST['action'] == 'edit_reviews_settings')
 				{
-					if (!isset($_POST['active']) OR empty($_POST['active']))
-						array_push($labels, ['active','']);
+					if (!empty($_POST['status']))
+					{
+						if (!isset($_POST['email']) OR empty($_POST['email']))
+							array_push($labels, ['email','']);
 
-					if (!isset($_POST['email']) OR empty($_POST['email']))
-						array_push($labels, ['email','']);
+						if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
+							array_push($labels, ['phone_lada','']);
 
-					if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
-						array_push($labels, ['phone_lada','']);
+						if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
+							array_push($labels, ['phone_number','']);
 
-					if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
-						array_push($labels, ['phone_number','']);
+						if (!isset($_POST['description_es']) OR empty($_POST['description_es']))
+							array_push($labels, ['description_es','']);
 
-					if (!isset($_POST['description_es']) OR empty($_POST['description_es']))
-						array_push($labels, ['description_es','']);
+						if (!isset($_POST['description_en']) OR empty($_POST['description_en']))
+							array_push($labels, ['description_en','']);
 
-					if (!isset($_POST['description_en']) OR empty($_POST['description_en']))
-						array_push($labels, ['description_en','']);
+						if (!isset($_POST['seo_keywords_es']) OR empty($_POST['seo_keywords_es']))
+							array_push($labels, ['seo_keywords_es','']);
 
-					if (!isset($_POST['seo_keywords_es']) OR empty($_POST['seo_keywords_es']))
-						array_push($labels, ['seo_keywords_es','']);
+						if (!isset($_POST['seo_keywords_en']) OR empty($_POST['seo_keywords_en']))
+							array_push($labels, ['seo_keywords_en','']);
 
-					if (!isset($_POST['seo_keywords_en']) OR empty($_POST['seo_keywords_en']))
-						array_push($labels, ['seo_keywords_en','']);
+						if (!isset($_POST['seo_description_es']) OR empty($_POST['seo_description_es']))
+							array_push($labels, ['seo_description_es','']);
 
-					if (!isset($_POST['seo_description_es']) OR empty($_POST['seo_description_es']))
-						array_push($labels, ['seo_description_es','']);
-
-					if (!isset($_POST['seo_description_en']) OR empty($_POST['seo_description_en']))
-						array_push($labels, ['seo_description_en','']);
+						if (!isset($_POST['seo_description_en']) OR empty($_POST['seo_description_en']))
+							array_push($labels, ['seo_description_en','']);
+					}
 				}
 
 				if (empty($labels))
 				{
 					if ($_POST['action'] == 'edit_myvox_settings')
+					{
+						$_POST['survey_mail_image'] = $_FILES['survey_mail_image'];
+						$_POST['survey_mail_attachment'] = $_FILES['survey_mail_attachment'];
+
 						$query = $this->model->edit_settings('myvox', $_POST);
+					}
 					else if ($_POST['action'] == 'edit_reviews_settings')
 						$query = $this->model->edit_settings('reviews', $_POST);
 
@@ -289,15 +294,16 @@ class Account_controller extends Controller
 
 			define('_title', 'Guestvox | {$lang.account}');
 
-			$spn_myvox_url = '';
+			$div_urls = '';
 
 			if ($account['operation'] == true OR $account['reputation'] == true)
-				$spn_myvox_url .= '<span>https://' . Configuration::$domain . '/' . $account['path'] . '/myvox</span>';
-
-			$spn_reviews_url = '';
-
-			if ($account['reputation'] == true)
-				$spn_reviews_url .= '<span>https://' . Configuration::$domain . '/' . $account['path'] . '/reviews</span>';
+			{
+				$div_urls .=
+				'<div>
+					' . (($account['operation'] == true OR $account['reputation'] == true) ? '<span>https://' . Configuration::$domain . '/' . $account['path'] . '/myvox</span>' : '') . '
+					' . (($account['reputation'] == true) ? '<span>https://' . Configuration::$domain . '/' . $account['path'] . '/reviews</span>' : '') . '
+				</div>';
+			}
 
 			$div_myvox_settings = '';
 
@@ -308,20 +314,20 @@ class Account_controller extends Controller
 				if ($account['operation'] == true)
 				{
 					$div_myvox_settings .=
-					'<span>' . (($account['settings']['myvox']['request']['active'] == true) ? '{$lang.request_activated}' : '{$lang.request_deactivated}') . '</span>
-					<span>' . (($account['settings']['myvox']['incident']['active'] == true) ? '{$lang.incident_activated}' : '{$lang.incident_deactivated}') . '</span>';
+					'<span>' . (($account['settings']['myvox']['request']['status'] == true) ? '{$lang.request_activated}' : '{$lang.request_deactivated}') . '</span>
+					<span>' . (($account['settings']['myvox']['incident']['status'] == true) ? '{$lang.incident_activated}' : '{$lang.incident_deactivated}') . '</span>';
 				}
 
 				if ($account['reputation'] == true)
 				{
-					$div_myvox_settings .= '<span>' . (($account['settings']['myvox']['survey']['active'] == true) ? '{$lang.survey_activated}' : '{$lang.survey_deactivated}') . '</span>';
+					$div_myvox_settings .= '<span>' . (($account['settings']['myvox']['survey']['status'] == true) ? '{$lang.survey_activated}' : '{$lang.survey_deactivated}') . '</span>';
 
-					if ($account['settings']['myvox']['survey']['active'] == true)
+					if ($account['settings']['myvox']['survey']['status'] == true)
 					{
 						$div_myvox_settings .=
 						'<span>' . $account['settings']['myvox']['survey']['title'][$this->lang] . '</span>
 		                <span>' . $account['settings']['myvox']['survey']['mail']['subject'][$this->lang] . '</span>
-		                <span>' . $account['settings']['myvox']['survey']['mail']['description'][$this->lang] . '</span>';
+		                <p>' . Functions::shorten_string($account['settings']['myvox']['survey']['mail']['description'][$this->lang], 200) . '</p>';
 
 						if (!empty($account['settings']['myvox']['survey']['mail']['image']))
 						{
@@ -350,10 +356,7 @@ class Account_controller extends Controller
 						else
 							$div_myvox_settings .= '<span>{$lang.not_attachment}</span>';
 
-		                $div_myvox_settings .=
-						'<div>
-							' . $account['settings']['myvox']['survey']['widget'] . '
-						</div>';
+		                $div_myvox_settings .= '<span>' . (!empty($account['settings']['myvox']['survey']['widget']) ? '{$lang.widget_activated}' : '{$lang.widget_deactivated}') . '</span>';
 					}
 				}
 
@@ -368,16 +371,16 @@ class Account_controller extends Controller
 			{
 				$div_reviews_settings .=
 				'<div>
-	                <span>' . (($account['settings']['reviews']['active'] == true) ? '{$lang.reviews_activated}' : '{$lang.reviews_deactivated}') . '</span>';
+	                <span>' . (($account['settings']['reviews']['status'] == true) ? '{$lang.reviews_activated}' : '{$lang.reviews_deactivated}') . '</span>';
 
-					if ($account['settings']['reviews']['active'] == true)
+					if ($account['settings']['reviews']['status'] == true)
 					{
 						$div_reviews_settings .=
 						'<span>' . $account['settings']['reviews']['email'] . '</span>
-						<span>' . $account['settings']['reviews']['phone']['lada'] . ' ' . $account['settings']['reviews']['phone']['number'] . '</span>
-						<span>' . $account['settings']['reviews']['description'][$this->lang] . '</span>
-						<span>' . $account['settings']['reviews']['seo']['keywords'][$this->lang] . '</span>
-						<span>' . $account['settings']['reviews']['seo']['description'][$this->lang] . '</span>
+						<span>+ (' . $account['settings']['reviews']['phone']['lada'] . ') ' . $account['settings']['reviews']['phone']['number'] . '</span>
+						<p>' . Functions::shorten_string($account['settings']['reviews']['description'][$this->lang], 200) . '</p>
+						<p>' . Functions::shorten_string($account['settings']['reviews']['seo']['keywords'][$this->lang], 200) . '</p>
+						<p>' . Functions::shorten_string($account['settings']['reviews']['seo']['description'][$this->lang], 200) . '</p>
 						<span>' . (!empty($account['settings']['reviews']['social_media']['facebook']) ? '{$lang.facebook_activated}' : '{$lang.facebook_deactivated}') . '</span>
 						<span>' . (!empty($account['settings']['reviews']['social_media']['instagram']) ? '{$lang.instagram_activated}' : '{$lang.instagram_deactivated}') . '</span>
 						<span>' . (!empty($account['settings']['reviews']['social_media']['twitter']) ? '{$lang.twitter_activated}' : '{$lang.twitter_deactivated}') . '</span>
@@ -408,7 +411,7 @@ class Account_controller extends Controller
 						<img src="{$path.images}siteminder.png">
 					</figure>
 					<h3>Siteminder</h3>
-					<span>' . (($account['siteminder'][''] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+					<span>' . (($account['siteminder']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
                 </div>';
 
 				$div_zaviapms .=
@@ -417,7 +420,7 @@ class Account_controller extends Controller
 						<img src="{$path.images}zaviapms.png">
 					</figure>
 					<h3>Zavia PMS</h3>
-					<span>' . (($account['zaviapms'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+					<span>' . (($account['zaviapms']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
                 </div>';
 			}
 			else if ($account['type'] == 'restaurant')
@@ -477,22 +480,22 @@ class Account_controller extends Controller
 					$mdl_edit_myvox_settings .=
 					'<div class="span12">
 						<div class="label">
-							<label>
+							<label unrequired>
 								<p>{$lang.request}</p>
 								<div class="switch">
-									<input id="request_active" type="checkbox" name="request_active" class="switch-input">
-									<label class="switch-label" for="request_active"></label>
+									<input id="rqsw" type="checkbox" name="request_status" class="switch-input">
+									<label class="switch-label" for="rqsw"></label>
 								</div>
 							</label>
 						</div>
 					</div>
 					<div class="span12">
 						<div class="label">
-							<label>
+							<label unrequired>
 								<p>{$lang.incident}</p>
 								<div class="switch">
-									<input id="incident_active" type="checkbox" name="incident_active" class="switch-input">
-									<label class="switch-label" for="incident_active"></label>
+									<input id="insw" type="checkbox" name="incident_status" class="switch-input">
+									<label class="switch-label" for="insw"></label>
 								</div>
 							</label>
 						</div>
@@ -504,11 +507,11 @@ class Account_controller extends Controller
 					$mdl_edit_myvox_settings .=
 					'<div class="span12">
 						<div class="label">
-							<label>
+							<label unrequired>
 								<p>{$lang.survey}</p>
 								<div class="switch">
-									<input id="survey_active" type="checkbox" name="survey_active" class="switch-input">
-									<label class="switch-label" for="survey_active"></label>
+									<input id="susw" type="checkbox" name="survey_status" class="switch-input">
+									<label class="switch-label" for="susw"></label>
 								</div>
 							</label>
 						</div>
@@ -561,29 +564,29 @@ class Account_controller extends Controller
 							</label>
 						</div>
 					</div>
-					<div class="span12">
+					<div class="span12 hidden">
 						<div class="st-2" data-uploader="low">
 							<p>{$lang.image}</p>
 							<figure data-preview>
 								<img src="{$path.images}empty.png">
+								<a data-select><i class="fas fa-upload"></i></a>
+								<input type="file" name="survey_mail_image" accept="image/*" data-upload>
 							</figure>
-							<a data-select><i class="fas fa-upload"></i></a>
-							<input type="file" name="image" accept="image/png,image/jpg,image/jpeg" data-upload>
 						</div>
                     </div>
-					<div class="span12">
+					<div class="span12 hidden">
 						<div class="st-2" data-uploader="low">
 							<p>{$lang.attachment}</p>
 							<figure data-preview>
 								<img src="{$path.images}empty.png">
+								<a data-select><i class="fas fa-upload"></i></a>
+								<input type="file" name="survey_mail_attachment" accept="image/*, application/pdf, application/vnd.ms-word, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" data-upload>
 							</figure>
-							<a data-select><i class="fas fa-upload"></i></a>
-							<input type="file" name="attachment" accept="image/png,image/jpg,image/jpeg,application/pdf,application/vnd.ms-word,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" data-upload>
 						</div>
                     </div>
 					<div class="span12 hidden">
 						<div class="label">
-							<label>
+							<label unrequired>
 								<p>{$lang.widget}</p>
 								<textarea name="survey_widget"></textarea>
 							</label>
@@ -617,16 +620,16 @@ class Account_controller extends Controller
 				                <div class="row">
 									<div class="span12">
 										<div class="label">
-											<label>
+											<label unrequired>
 												<p>{$lang.reviews}</p>
 												<div class="switch">
-													<input id="active" type="checkbox" name="active" class="switch-input">
-													<label class="switch-label" for="active"></label>
+													<input id="rvsw" type="checkbox" name="status" class="switch-input">
+													<label class="switch-label" for="rvsw"></label>
 												</div>
 											</label>
 										</div>
 									</div>
-									<div class="span12 hidden">
+									<div class="span6 hidden">
 										<div class="label">
 											<label required>
 												<p>{$lang.email}</p>
@@ -634,17 +637,22 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span4 hidden">
+									<div class="span3 hidden">
 										<div class="label">
 											<label required>
 												<p>{$lang.lada}</p>
 												<select name="phone_lada">
-													{$opt_ladas}
-												</select>
+													<option value="" selected hidden>{$lang.choose}</option>';
+
+				foreach ($this->model->get_countries() as $value)
+					$mdl_edit_reviews_settings .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
+
+				$mdl_edit_reviews_settings .=
+				'								</select>
 											</label>
 										</div>
 									</div>
-									<div class="span8 hidden">
+									<div class="span3 hidden">
 										<div class="label">
 											<label required>
 												<p>{$lang.phone}</p>
@@ -702,7 +710,7 @@ class Account_controller extends Controller
 									</div>
 									<div class="span12 hidden">
 										<div class="label">
-											<label>
+											<label unrequired>
 												<p>Facebook</p>
 												<input type="text" name="social_media_facebook">
 											</label>
@@ -710,7 +718,7 @@ class Account_controller extends Controller
 									</div>
 									<div class="span12 hidden">
 										<div class="label">
-											<label>
+											<label unrequired>
 												<p>Instagram</p>
 												<input type="text" name="social_media_instagram">
 											</label>
@@ -718,7 +726,7 @@ class Account_controller extends Controller
 									</div>
 									<div class="span12 hidden">
 										<div class="label">
-											<label>
+											<label unrequired>
 												<p>Twitter</p>
 												<input type="text" name="social_media_twitter">
 											</label>
@@ -726,7 +734,7 @@ class Account_controller extends Controller
 									</div>
 									<div class="span12 hidden">
 										<div class="label">
-											<label>
+											<label unrequired>
 												<p>LinkedIn</p>
 												<input type="text" name="social_media_linkedin">
 											</label>
@@ -734,7 +742,7 @@ class Account_controller extends Controller
 									</div>
 									<div class="span12 hidden">
 										<div class="label">
-											<label>
+											<label unrequired>
 												<p>YouTube</p>
 												<input type="text" name="social_media_youtube">
 											</label>
@@ -742,7 +750,7 @@ class Account_controller extends Controller
 									</div>
 									<div class="span12 hidden">
 										<div class="label">
-											<label>
+											<label unrequired>
 												<p>Google</p>
 												<input type="text" name="social_media_google">
 											</label>
@@ -750,7 +758,7 @@ class Account_controller extends Controller
 									</div>
 									<div class="span12 hidden">
 										<div class="label">
-											<label>
+											<label unrequired>
 												<p>TripAdvisor</p>
 												<input type="text" name="social_media_tripadvisor">
 											</label>
@@ -781,8 +789,7 @@ class Account_controller extends Controller
 				'{$time_zone}' => $account['time_zone'],
 				'{$currency}' => $account['currency'],
 				'{$language}' => $account['language'],
-				'{$spn_myvox_url}' => $spn_myvox_url,
-				'{$spn_reviews_url}' => $spn_reviews_url,
+				'{$div_urls}' => $div_urls,
 				'{$fiscal_name}' => $account['fiscal']['name'],
 				'{$fiscal_id}' => $account['fiscal']['id'],
 				'{$fiscal_address}' => $account['fiscal']['address'],

@@ -21,7 +21,8 @@ class Signup_model extends Model
 			'AND' => [
 				'type' => $type,
 				'quantity_start[<=]' => $quantity,
-				'quantity_end[>=]' => $quantity
+				'quantity_end[>=]' => $quantity,
+				'status' => true
 			]
 		]));
 

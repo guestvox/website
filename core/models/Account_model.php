@@ -33,8 +33,7 @@ class Account_model extends Model
 			'siteminder',
 			'zaviapms',
 			'sms',
-			'settings',
-			'payment'
+			'settings'
 		], [
 			'id' => Session::get_value('account')['id']
 		]));
@@ -42,9 +41,7 @@ class Account_model extends Model
 		if (!empty($query))
 		{
 			$query[0]['package'] = $this->database->select('packages', [
-				'id',
-				'quantity_end',
-				'price'
+				'quantity_end'
 			], [
 				'id' => $query[0]['package']
 			]);
@@ -237,70 +234,43 @@ class Account_model extends Model
 
 		if ($field == 'myvox')
 		{
-			$edited1[0]['settings']['myvox']['request'] = [
-				'active' => !empty($data['request_active']) ? true : false
-			];
+			$edited1[0]['settings']['myvox']['request']['status'] = !empty($data['request_status']) ? true : false;
+			$edited1[0]['settings']['myvox']['incident']['status'] = !empty($data['incident_status']) ? true : false;
+			$edited1[0]['settings']['myvox']['survey']['status'] = !empty($data['survey_status']) ? true : false;
+			$edited1[0]['settings']['myvox']['survey']['title']['es'] = $data['survey_title_es'];
+			$edited1[0]['settings']['myvox']['survey']['title']['en'] = $data['survey_title_en'];
+			$edited1[0]['settings']['myvox']['survey']['mail']['subject']['es'] = $data['survey_mail_subject_es'];
+			$edited1[0]['settings']['myvox']['survey']['mail']['subject']['en'] = $data['survey_mail_subject_en'];
+			$edited1[0]['settings']['myvox']['survey']['mail']['description']['es'] = $data['survey_mail_description_es'];
+			$edited1[0]['settings']['myvox']['survey']['mail']['description']['en'] = $data['survey_mail_description_en'];
 
-			$edited1[0]['settings']['myvox']['incident'] = [
-				'active' => !empty($data['incident_active']) ? true : false
-			];
+			if (!empty($data['survey_mail_image']['name']))
+				$edited1[0]['settings']['myvox']['survey']['mail']['image'] = Functions::uploader($data['survey_mail_image']);
 
-			$edited1[0]['settings']['myvox']['survey'] = [
-				'active' => !empty($data['survey_active']) ? true : false,
-				'title' => [
-					'es' => $data['survey_title_es'],
-					'en' => $data['survey_title_en']
-				],
-				'mail' => [
-					'subject' => [
-						'es' => $data['survey_mail_subject_es'],
-						'en' => $data['survey_mail_subject_en']
-					],
-					'description' => [
-						'es' => $data['survey_mail_description_es'],
-						'en' => $data['survey_mail_description_en']
-					],
-					'image' => Functions::uploader($data['survey_mail_image']),
-					'attachment' => Functions::uploader($data['survey_mail_attachment'])
-				],
-				'widget' => $data['survey_widget']
-			];
+			if (!empty($data['survey_mail_attachment']['name']))
+				$edited1[0]['settings']['myvox']['survey']['mail']['attachment'] = Functions::uploader($data['survey_mail_attachment']);
+
+			$edited1[0]['settings']['myvox']['survey']['widget'] = $data['survey_widget'];
 		}
 		else if ($field == 'reviews')
 		{
-			$edited1[0]['settings']['reviews']['active'] = !empty($data['active']) ? true : false;
+			$edited1[0]['settings']['reviews']['status'] = !empty($data['status']) ? true : false;
 			$edited1[0]['settings']['reviews']['email'] = $data['email'];
-
-			$edited1[0]['settings']['reviews']['phone'] = [
-				'lada' => $data['phone_lada'],
-				'number' => $data['phone_number']
-			];
-
-			$edited1[0]['settings']['reviews']['description'] = [
-				'es' => $data['description_es'],
-				'en' => $data['description_en']
-			];
-
-			$edited1[0]['settings']['reviews']['seo'] = [
-				'keywords' => [
-					'es' => $data['seo_keywords_es'],
-					'en' => $data['seo_keywords_en']
-				],
-				'description' => [
-					'es' => $data['seo_description_es'],
-					'en' => $data['seo_description_en']
-				]
-			];
-
-			$edited1[0]['settings']['reviews']['social_media'] = [
-				'facebook' => $data['social_media_facebook'],
-				'instagram' => $data['social_media_instagram'],
-				'twitter' => $data['social_media_twitter'],
-				'linkedin' => $data['social_media_linkedin'],
-				'youtube' => $data['social_media_youtube'],
-				'google' => $data['social_media_google'],
-				'tripadvisor' => $data['social_media_tripadvisor']
-			];
+			$edited1[0]['settings']['reviews']['phone']['lada'] = $data['phone_lada'];
+			$edited1[0]['settings']['reviews']['phone']['number'] = $data['phone_number'];
+			$edited1[0]['settings']['reviews']['description']['es'] = $data['description_es'];
+			$edited1[0]['settings']['reviews']['description']['en'] = $data['description_en'];
+			$edited1[0]['settings']['reviews']['seo']['keywords']['es'] = $data['seo_keywords_es'];
+			$edited1[0]['settings']['reviews']['seo']['keywords']['en'] = $data['seo_keywords_en'];
+			$edited1[0]['settings']['reviews']['seo']['description']['es'] = $data['seo_description_es'];
+			$edited1[0]['settings']['reviews']['seo']['description']['en'] = $data['seo_description_en'];
+			$edited1[0]['settings']['reviews']['social_media']['facebook'] = $data['social_media_facebook'];
+			$edited1[0]['settings']['reviews']['social_media']['instagram'] = $data['social_media_instagram'];
+			$edited1[0]['settings']['reviews']['social_media']['twitter'] = $data['social_media_twitter'];
+			$edited1[0]['settings']['reviews']['social_media']['linkedin'] = $data['social_media_linkedin'];
+			$edited1[0]['settings']['reviews']['social_media']['youtube'] = $data['social_media_youtube'];
+			$edited1[0]['settings']['reviews']['social_media']['google'] = $data['social_media_google'];
+			$edited1[0]['settings']['reviews']['social_media']['tripadvisor'] = $data['social_media_tripadvisor'];
 		}
 
 		$query = $this->database->update('accounts', [
