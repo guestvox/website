@@ -232,6 +232,9 @@ class Account_controller extends Controller
 						if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
 							array_push($labels, ['phone_number','']);
 
+						if (!isset($_POST['website']) OR empty($_POST['website']))
+							array_push($labels, ['website','']);
+
 						if (!isset($_POST['description_es']) OR empty($_POST['description_es']))
 							array_push($labels, ['description_es','']);
 
@@ -378,6 +381,7 @@ class Account_controller extends Controller
 						$div_reviews_settings .=
 						'<span>' . $account['settings']['reviews']['email'] . '</span>
 						<span>+ (' . $account['settings']['reviews']['phone']['lada'] . ') ' . $account['settings']['reviews']['phone']['number'] . '</span>
+						<span>' . $account['settings']['reviews']['website'] . '</span>
 						<p>' . Functions::shorten_string($account['settings']['reviews']['description'][$this->lang], 200) . '</p>
 						<p>' . Functions::shorten_string($account['settings']['reviews']['seo']['keywords'][$this->lang], 200) . '</p>
 						<p>' . Functions::shorten_string($account['settings']['reviews']['seo']['description'][$this->lang], 200) . '</p>
@@ -657,6 +661,14 @@ class Account_controller extends Controller
 											<label required>
 												<p>{$lang.phone}</p>
 												<input type="text" name="phone_number">
+											</label>
+										</div>
+									</div>
+									<div class="span12 hidden">
+										<div class="label">
+											<label required>
+												<p>{$lang.website}</p>
+												<input type="text" name="website">
 											</label>
 										</div>
 									</div>

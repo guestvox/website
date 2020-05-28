@@ -258,6 +258,7 @@ class Account_model extends Model
 			$edited1[0]['settings']['reviews']['email'] = $data['email'];
 			$edited1[0]['settings']['reviews']['phone']['lada'] = $data['phone_lada'];
 			$edited1[0]['settings']['reviews']['phone']['number'] = $data['phone_number'];
+			$edited1[0]['settings']['reviews']['website'] = $data['website'];
 			$edited1[0]['settings']['reviews']['description']['es'] = $data['description_es'];
 			$edited1[0]['settings']['reviews']['description']['en'] = $data['description_en'];
 			$edited1[0]['settings']['reviews']['seo']['keywords']['es'] = $data['seo_keywords_es'];

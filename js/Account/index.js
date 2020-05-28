@@ -272,6 +272,7 @@ $(document).ready(function()
             $('[data-modal="edit_reviews_settings"]').find('[name="email"]').parent().parent().parent().removeClass('hidden');
             $('[data-modal="edit_reviews_settings"]').find('[name="phone_lada"]').parent().parent().parent().removeClass('hidden');
             $('[data-modal="edit_reviews_settings"]').find('[name="phone_number"]').parent().parent().parent().removeClass('hidden');
+            $('[data-modal="edit_reviews_settings"]').find('[name="website"]').parent().parent().parent().removeClass('hidden');
             $('[data-modal="edit_reviews_settings"]').find('[name="description_es"]').parent().parent().parent().removeClass('hidden');
             $('[data-modal="edit_reviews_settings"]').find('[name="description_en"]').parent().parent().parent().removeClass('hidden');
             $('[data-modal="edit_reviews_settings"]').find('[name="seo_keywords_es"]').parent().parent().parent().removeClass('hidden');
@@ -291,6 +292,7 @@ $(document).ready(function()
             $('[data-modal="edit_reviews_settings"]').find('[name="email"]').parent().parent().parent().addClass('hidden');
             $('[data-modal="edit_reviews_settings"]').find('[name="phone_lada"]').parent().parent().parent().addClass('hidden');
             $('[data-modal="edit_reviews_settings"]').find('[name="phone_number"]').parent().parent().parent().addClass('hidden');
+            $('[data-modal="edit_reviews_settings"]').find('[name="website"]').parent().parent().parent().addClass('hidden');
             $('[data-modal="edit_reviews_settings"]').find('[name="description_es"]').parent().parent().parent().addClass('hidden');
             $('[data-modal="edit_reviews_settings"]').find('[name="description_en"]').parent().parent().parent().addClass('hidden');
             $('[data-modal="edit_reviews_settings"]').find('[name="seo_keywords_es"]').parent().parent().parent().addClass('hidden');
@@ -324,6 +326,7 @@ $(document).ready(function()
                     $('[data-modal="edit_reviews_settings"]').find('[name="email"]').val(response.data.settings.reviews.email);
                     $('[data-modal="edit_reviews_settings"]').find('[name="phone_lada"]').val(response.data.settings.reviews.phone.lada);
                     $('[data-modal="edit_reviews_settings"]').find('[name="phone_number"]').val(response.data.settings.reviews.phone.number);
+                    $('[data-modal="edit_reviews_settings"]').find('[name="website"]').val(response.data.settings.reviews.website);
                     $('[data-modal="edit_reviews_settings"]').find('[name="description_es"]').val(response.data.settings.reviews.description.es);
                     $('[data-modal="edit_reviews_settings"]').find('[name="description_en"]').val(response.data.settings.reviews.description.en);
                     $('[data-modal="edit_reviews_settings"]').find('[name="seo_keywords_es"]').val(response.data.settings.reviews.seo.keywords.es);
@@ -343,6 +346,7 @@ $(document).ready(function()
                         $('[data-modal="edit_reviews_settings"]').find('[name="email"]').parent().parent().parent().removeClass('hidden');
                         $('[data-modal="edit_reviews_settings"]').find('[name="phone_lada"]').parent().parent().parent().removeClass('hidden');
                         $('[data-modal="edit_reviews_settings"]').find('[name="phone_number"]').parent().parent().parent().removeClass('hidden');
+                        $('[data-modal="edit_reviews_settings"]').find('[name="website"]').parent().parent().parent().removeClass('hidden');
                         $('[data-modal="edit_reviews_settings"]').find('[name="description_es"]').parent().parent().parent().removeClass('hidden');
                         $('[data-modal="edit_reviews_settings"]').find('[name="description_en"]').parent().parent().parent().removeClass('hidden');
                         $('[data-modal="edit_reviews_settings"]').find('[name="seo_keywords_es"]').parent().parent().parent().removeClass('hidden');
@@ -371,6 +375,7 @@ $(document).ready(function()
         $('[data-modal="edit_reviews_settings"]').find('[name="email"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="edit_reviews_settings"]').find('[name="phone_lada"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="edit_reviews_settings"]').find('[name="phone_number"]').parent().parent().parent().addClass('hidden');
+        $('[data-modal="edit_reviews_settings"]').find('[name="website"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="edit_reviews_settings"]').find('[name="description_es"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="edit_reviews_settings"]').find('[name="description_en"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="edit_reviews_settings"]').find('[name="seo_keywords_es"]').parent().parent().parent().addClass('hidden');
