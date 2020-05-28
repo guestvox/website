@@ -3,46 +3,65 @@
 ------------------------------------------------------------------------------ */
 header.reviews {
     width: 100%;
-    padding: 50px 20px 0px 20px;
+    padding: 40px;
     box-sizing: border-box;
     background-color: #fff;
 }
 
-/*  */
-header.reviews > figure {
+header.reviews > figure,
+header.reviews > figure > img {
     width: 100%;
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
 }
 
-header.reviews > figure > img {
-    width: auto;
-    height: 100%;
+@media (min-width: 768px) {
+
+    header.reviews > figure {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    header.reviews > figure > img {
+        width: 400px;
+    }
 }
 
 /* Main
 ------------------------------------------------------------------------------ */
 main.reviews {
     width: 100%;
-    padding: 50px 0px;
+    padding: 0px 40px;
     box-sizing: border-box;
     background-color: #fff;
 }
 
-/*  */
-main.reviews > .container > div.chart-rate {
-    width: 300px;
-    min-height: 340px;
-    float: left;
+main.reviews > .container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
+
+    main.reviews > .container {
+        width: 90%;
+        display: block;
+    }
+}
+
+/*  */
+main.reviews > .container > div.chart-rate {
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+@media (min-width: 768px) {
 
     main.reviews > .container > div.chart-rate {
-        width: 100%;
+        width: 400px;
+        float: left;
     }
 }
 
@@ -52,10 +71,12 @@ main.reviews > .container > div.chart-rate > div.average {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    margin-bottom: 20px;
 }
 
 main.reviews > .container > div.chart-rate > div.average > h2 {
-    font-size: 80px;
+    margin-bottom: 10px;
+    font-size: 100px;
     font-weight: 600;
     line-height: 80px;
     color: #757575;
@@ -90,8 +111,6 @@ main.reviews > .container > div.chart-rate > div.average > span {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 0px;
-    box-sizing: border-box;
 }
 
 main.reviews > .container > div.chart-rate > div.average > span > i {
@@ -113,12 +132,11 @@ main.reviews > .container > div.chart-rate > div.progress {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-bottom: 10px;
-    box-sizing: border-box;
+    margin-bottom: 10px;
 }
 
 main.reviews > .container > div.chart-rate > div.progress:last-child {
-    padding-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 main.reviews > .container > div.chart-rate > div.progress > span {
@@ -178,40 +196,31 @@ main.reviews > .container > div.chart-rate > div.progress > progress::-moz-progr
 
 /*  */
 main.reviews > .container > div.datas {
-    width: calc(100% - 300px);
-    float: right;
+    width: 100%;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     flex-direction: column;
-    padding-left: 20px;
-    box-sizing: border-box;
+    margin-bottom: 40px;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
 
     main.reviews > .container > div.datas {
-        width: 100%;
-        align-items: center;
-        padding-left: 0px;
+        width: calc(100% - 400px);
+        float: right;
+        padding-left: 20px;
+        box-sizing: border-box;
     }
 }
 
 main.reviews > .container > div.datas > h1 {
     width: 100%;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     font-size: 40px;
     font-weight: 600;
-    letter-spacing: -2px;
-    line-height: 1.0;
-    color: #444;
-}
-
-@media (max-width: 768px) {
-
-    main.reviews > .container > div.datas > h1 {
-        text-align: center;
-    }
+    text-align: center;
+    color: #424242;
 }
 
 main.reviews > .container > div.datas > a {
@@ -223,17 +232,6 @@ main.reviews > .container > div.datas > a {
     font-size: 14px;
     font-weight: 400;
     color: #757575;
-}
-
-main.reviews > .container > div.datas > a:last-child {
-    margin-bottom: 0px;
-}
-
-@media (max-width: 768px) {
-
-    main.reviews > .container > div.datas > a {
-        justify-content: center;
-    }
 }
 
 main.reviews > .container > div.datas > a > i {
@@ -250,6 +248,7 @@ main.reviews > .container > div.datas > a > i {
 
 main.reviews > .container > div.datas > p {
     width: 100%;
+    margin-top: 20px;
     font-size: 14px;
     font-weight: 400;
     text-align: justify;
@@ -259,18 +258,15 @@ main.reviews > .container > div.datas > p {
 /*  */
 main.reviews > .container > div.comments {
     width: 100%;
-    display: block;
-    clear: both;
-    padding-top: 50px;
-    box-sizing: border-box;
+    margin-bottom: 40px;
 }
 
-main.reviews > .container > div.comments > p {
-    width: 100%;
-    font-size: 18px;
-    font-weight: 400;
-    text-align: center;
-    color: #757575;
+@media (min-width: 768px) {
+
+    main.reviews > .container > div.comments {
+        display: block;
+        clear: both;
+    }
 }
 
 main.reviews > .container > div.comments > div {
@@ -282,49 +278,51 @@ main.reviews > .container > div.comments > div:last-child {
     margin-bottom: 0px;
 }
 
-main.reviews > .container > div.comments > div > span {
+main.reviews > .container > div.comments > div > h3 {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-}
-
-@media (max-width: 768px) {
-
-    main.reviews > .container > div.comments > div > span {
-        justify-content: center;
-    }
-}
-
-main.reviews > .container > div.comments > div > span:first-child {
     margin-bottom: 5px;
-    font-size: 18px;
-    font-weight: 400;
+    font-size: 14px;
+    font-weight: 600;
     text-transform: uppercase;
     color: #212121;
 }
 
-main.reviews > .container > div.comments > div > span:first-child > i {
-    font-size: 14px;
+main.reviews > .container > div.comments > div > h3 > i {
+    font-size: 12px;
     margin-right: 5px;
 }
 
-main.reviews > .container > div.comments > div > span:last-child {
-    font-size: 14px;
+main.reviews > .container > div.comments > div > p {
+    width: 100%;
+    font-size: 12px;
     font-weight: 400;
+    text-align: justify;
+    line-height: 18px;
     color: #757575;
 }
 
-main.reviews > .container > div.comments > div > span:last-child > i {
+main.reviews > .container > div.comments > div > p > i {
     font-size: 10px;
+    color: #212121;
 }
 
-main.reviews > .container > div.comments > div > span:last-child > i:first-child {
-    margin-right: 10px;
+main.reviews > .container > div.comments > div > p > i:first-child {
+    margin-right: 5px;
 }
 
-main.reviews > .container > div.comments > div > span:last-child > i:last-child {
-    margin-left: 10px;
+main.reviews > .container > div.comments > div > p > i:last-child {
+    margin-left: 5px;
+}
+
+main.reviews > .container > div.comments > p {
+    width: 100%;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+    color: #757575;
 }
 
 /*  */
@@ -333,8 +331,6 @@ main.reviews > .container > div.social-media {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: 50px;
-    box-sizing: border-box;
 }
 
 main.reviews > .container > div.social-media > a {
@@ -355,7 +351,7 @@ footer.reviews {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 0px 20px 50px 20px;
+    padding: 40px;
     box-sizing: border-box;
     background-color: #fff;
 }
