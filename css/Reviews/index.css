@@ -144,7 +144,7 @@ main.reviews > .container > div.chart-rate > div.progress > span {
     align-items: center;
     font-size: 14px;
     font-weight: 600;
-    color: #000;
+    color: #212121;
 }
 
 main.reviews > .container > div.chart-rate > div.progress > span:first-child {
@@ -220,7 +220,7 @@ main.reviews > .container > div.datas > h1 {
     font-size: 40px;
     font-weight: 600;
     text-align: center;
-    color: #424242;
+    color: #212121;
 }
 
 main.reviews > .container > div.datas > a {
@@ -264,8 +264,8 @@ main.reviews > .container > div.comments {
 @media (min-width: 768px) {
 
     main.reviews > .container > div.comments {
-        display: block;
-        clear: both;
+        width: 400px;
+        float: left;
     }
 }
 
