@@ -344,69 +344,9 @@ class Hi_controller extends Controller
 
 			define('_title', 'Guestvox | {$lang.webinar} | {$lang.we_are_guestvox}');
 
-			$btn_signup = '';
-			$mdl_signup = '';
-
-			if ($webinar['status'] == true)
-			{
-				$btn_signup .= '<a data-button-modal="signup">{$lang.signup}</a>';
-				$mdl_signup .=
-				'<section class="modal" data-modal="signup">
-				    <div class="content">
-				        <main>
-				            <form name="signup">
-				                <div class="row">
-				                    <div class="span12">
-				                        <div class="label">
-				                            <label required>
-				                                <p>{$lang.name}</p>
-				                                <input type="text" name="name" />
-				                            </label>
-				                        </div>
-				                    </div>
-				                    <div class="span12">
-				                        <div class="label">
-				                            <label required>
-				                                <p>{$lang.email}</p>
-				                                <input type="email" name="email" />
-				                            </label>
-				                        </div>
-				                    </div>
-				                    <div class="span6">
-				                        <div class="label">
-				                            <label required>
-				                                <p>{$lang.business}</p>
-				                                <input type="text" name="business" />
-				                            </label>
-				                        </div>
-				                    </div>
-				                    <div class="span6">
-				                        <div class="label">
-				                            <label required>
-				                                <p>{$lang.job}</p>
-				                                <input type="text" name="job" />
-				                            </label>
-				                        </div>
-				                    </div>
-				                    <div class="span12">
-										<div class="buttons">
-											<button type="submit">¡{$lang.signup}!</button>
-											<a button-cancel>{$lang.cancel}</a>
-										</div>
-				                    </div>
-				                </div>
-				            </form>
-				        </main>
-				    </div>
-				</section>';
-			}
-
 			$replace = [
 				'{$image}' => '{$path.images}hi/webinar/' . $webinar['image'],
-				'{$status}' => ($webinar['status'] == true) ? '{$lang.missing}' : '{$lang.closed}',
-				'{$date}' => Functions::get_formatted_date_hour($webinar['date'], $webinar['hour']),
-				'{$btn_signup}' => $btn_signup,
-				'{$mdl_signup}' => $mdl_signup
+				'{$date}' => Functions::get_formatted_date_hour($webinar['date'], $webinar['hour'])
 			];
 
 			$template = $this->format->replace($replace, $template);

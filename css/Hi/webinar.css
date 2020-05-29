@@ -1,5 +1,5 @@
 
-main.landing-page-webinar {
+main.landing_page_webinar {
     width: 100%;
     display: flex;
     align-items: center;
@@ -12,29 +12,29 @@ main.landing-page-webinar {
 
 @media (max-width: 425px) {
 
-    main.landing-page-webinar {
+    main.landing_page_webinar {
         padding: 20px 20px 0px 20px;
     }
 }
 
-main.landing-page-webinar > figure:first-child,
-main.landing-page-webinar > figure:first-child > img {
+main.landing_page_webinar > figure:first-child,
+main.landing_page_webinar > figure:first-child > img {
     width: 100%;
     max-width: 800px;
 }
 
-main.landing-page-webinar > figure:first-child {
+main.landing_page_webinar > figure:first-child {
     margin-bottom: 50px;
 }
 
 @media (max-width: 425px) {
 
-    main.landing-page-webinar > figure:first-child {
+    main.landing_page_webinar > figure:first-child {
         margin-bottom: 20px;
     }
 }
 
-main.landing-page-webinar > h1 {
+main.landing_page_webinar > h1 {
     width: auto;
     margin-bottom: 50px;
     font-size: 50px;
@@ -45,13 +45,13 @@ main.landing-page-webinar > h1 {
 
 @media (max-width: 425px) {
 
-    main.landing-page-webinar > h1 {
+    main.landing_page_webinar > h1 {
         margin-bottom: 20px;
         font-size: 30px;
     }
 }
 
-main.landing-page-webinar > ul {
+main.landing_page_webinar > ul {
     width: auto;
     display: flex;
     align-items: center;
@@ -61,12 +61,12 @@ main.landing-page-webinar > ul {
 
 @media (max-width: 425px) {
 
-    main.landing-page-webinar > ul {
+    main.landing_page_webinar > ul {
         margin-bottom: 20px;
     }
 }
 
-main.landing-page-webinar > ul > li {
+main.landing_page_webinar > ul > li {
     width: 100px;
     height: 100px;
     display: flex;
@@ -85,7 +85,7 @@ main.landing-page-webinar > ul > li {
 
 @media (max-width: 425px) {
 
-    main.landing-page-webinar > ul > li {
+    main.landing_page_webinar > ul > li {
         width: 70px;
         height: 70px;
         margin: 0px 5px;
@@ -94,7 +94,7 @@ main.landing-page-webinar > ul > li {
     }
 }
 
-main.landing-page-webinar > ul > li > strong {
+main.landing_page_webinar > ul > li > strong {
     font-size: 50px;
     font-weight: 600;
     line-height: 50px;
@@ -103,13 +103,13 @@ main.landing-page-webinar > ul > li > strong {
 
 @media (max-width: 425px) {
 
-    main.landing-page-webinar > ul > li > strong {
+    main.landing_page_webinar > ul > li > strong {
         font-size: 30px;
         line-height: 30px;
     }
 }
 
-main.landing-page-webinar > a {
+main.landing_page_webinar > a {
     width: 100%;
     max-width: 200px;
     height: 60px;
@@ -126,13 +126,13 @@ main.landing-page-webinar > a {
 
 @media (max-width: 425px) {
 
-    main.landing-page-webinar > a {
+    main.landing_page_webinar > a {
         margin-bottom: 20px;
     }
 }
 
-main.landing-page-webinar > figure:last-child,
-main.landing-page-webinar > figure:last-child > img {
+main.landing_page_webinar > figure:last-child,
+main.landing_page_webinar > figure:last-child > img {
     width: 100%;
     max-width: 400px;
 }
