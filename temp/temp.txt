@@ -1,8 +1,0 @@
-$value['data'] = json_decode(Functions::get_openssl('decrypt', $value['data']), true);
-
-
-// if (target[0].files[0].type.match(target.attr('accept')))
-// {
-// }
-// else
-//     show_modal_error('ERROR');

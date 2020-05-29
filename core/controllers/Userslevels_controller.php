@@ -4,9 +4,13 @@ defined('_EXEC') or die;
 
 class Userslevels_controller extends Controller
 {
+	private $lang;
+
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->lang = Session::get_value('account')['language'];
 	}
 
 	public function index()
@@ -17,20 +21,20 @@ class Userslevels_controller extends Controller
 			{
 				$query = $this->model->get_user_level($_POST['id']);
 
-				if (!empty($query))
-				{
-					Functions::environment([
-						'status' => 'success',
-						'data' => $query
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.operation_error}'
-					]);
-				}
+                if (!empty($query))
+                {
+                    Functions::environment([
+    					'status' => 'success',
+    					'data' => $query
+    				]);
+                }
+                else
+                {
+                    Functions::environment([
+    					'status' => 'error',
+    					'message' => '{$lang.operation_error}'
+    				]);
+                }
 			}
 
 			if ($_POST['action'] == 'new_user_level' OR $_POST['action'] == 'edit_user_level')
@@ -39,6 +43,9 @@ class Userslevels_controller extends Controller
 
 				if (!isset($_POST['name']) OR empty($_POST['name']))
 					array_push($labels, ['name', '']);
+
+				if (!isset($_POST['permissions']) OR empty($_POST['permissions']))
+					array_push($labels, ['permissions', '']);
 
 				if (empty($labels))
 				{
@@ -71,9 +78,14 @@ class Userslevels_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'delete_user_level')
+			if ($_POST['action'] == 'deactivate_user_level' OR $_POST['action'] == 'activate_user_level' OR $_POST['action'] == 'delete_user_level')
 			{
-				$query = $this->model->delete_user_level($_POST['id']);
+				if ($_POST['action'] == 'deactivate_user_level')
+					$query = $this->model->deactivate_user_level($_POST['id']);
+				else if ($_POST['action'] == 'activate_user_level')
+					$query = $this->model->activate_user_level($_POST['id']);
+				else if ($_POST['action'] == 'delete_user_level')
+					$query = $this->model->delete_user_level($_POST['id']);
 
 				if (!empty($query))
 				{
@@ -93,104 +105,102 @@ class Userslevels_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox');
-
 			$template = $this->view->render($this, 'index');
 
-			$tbl_user_levels = '';
+			define('_title', 'Guestvox | {$lang.users_levels}');
 
-			foreach ($this->model->get_user_levels() as $value)
+			$tbl_users_levels = '';
+
+			foreach ($this->model->get_users_levels() as $value)
 			{
-				$tbl_user_levels .=
-				'<tr>
-					<td align="left">' . $value['name'] . '</td>
-					<td align="left">
-                        ' . (($value['user_permissions']['supervision'] == true) ? '{$lang.supervision}.' : '') . '
-                        ' . (($value['user_permissions']['administrative'] == true) ? '{$lang.administrative}.' : '') . '
-                        ' . (($value['user_permissions']['operational'] == true) ? '{$lang.operational}.' : '') . '
-                    </td>
-					' . ((Functions::check_user_access(['{user_levels_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_user_level" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
-					' . ((Functions::check_user_access(['{user_levels_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_user_level" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
-				</tr>';
+				$tbl_users_levels .=
+				'<div>
+					<div class="datas">
+						<h2>' . $value['name'] . '</h2>
+					</div>
+					<div class="buttons flex_right">
+						' . ((Functions::check_user_access(['{users_levels_deactivate}','{users_levels_activate}']) == true)
+								? '<a data-action="' . (($value['status'] == true) ? 'deactivate_user_level' : 'activate_user_level') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>'
+								: '') . '
+						' . ((Functions::check_user_access(['{users_levels_update}']) == true) ? '<a class="edit" data-action="edit_user_level" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{users_levels_delete}']) == true) ? '<a class="delete" data-action="delete_user_level" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+					</div>
+				</div>';
 			}
 
-            $cbx_user_permissions =
+			$cbx_permissions =
             '<div>
                 <h4><i class="fas fa-user-secret"></i>{$lang.supervision}</h4>';
 
-            foreach ($this->model->get_user_permissions('supervision') as $key => $value)
+            foreach ($this->model->get_permissions('supervision') as $key => $value)
             {
-                $cbx_user_permissions .=
+                $cbx_permissions .=
     			'<div>
                     <p>{$lang.' . $key . '}</p>';
 
                 foreach ($value as $subvalue)
                 {
-                    $cbx_user_permissions .=
+                    $cbx_permissions .=
     				'<div>
-    					<input type="' . (($subvalue['unique'] == true) ? 'radio' : 'checkbox') . '" name="user_permissions[]" value="' . $subvalue['id'] . '">
-    					<span>' . $subvalue['name'][Session::get_value('account')['language']] . '</span>
+    					<input type="' . (($subvalue['unique'] == true) ? 'radio' : 'checkbox') . '" name="permissions[]" value="' . $subvalue['id'] . '">
+    					<span>' . $subvalue['name'][$this->lang] . '</span>
     				</div>';
                 }
 
-                $cbx_user_permissions .=
-                '</div>';
+                $cbx_permissions .= '</div>';
             }
 
-            $cbx_user_permissions .=
+            $cbx_permissions .=
             '</div>
             <div>
                 <h4><i class="fas fa-user-cog"></i>{$lang.administrative}</h4>';
 
-            foreach ($this->model->get_user_permissions('administrative') as $key => $value)
+            foreach ($this->model->get_permissions('administrative') as $key => $value)
             {
-                $cbx_user_permissions .=
+                $cbx_permissions .=
     			'<div>
                     <p>{$lang.' . $key . '}</p>';
 
                 foreach ($value as $subvalue)
                 {
-                    $cbx_user_permissions .=
+                    $cbx_permissions .=
     				'<div>
-    					<input type="' . (($subvalue['unique'] == true) ? 'radio' : 'checkbox') . '" name="user_permissions[]" value="' . $subvalue['id'] . '">
-    					<span>' . $subvalue['name'][Session::get_value('account')['language']] . '</span>
+    					<input type="' . (($subvalue['unique'] == true) ? 'radio' : 'checkbox') . '" name="permissions[]" value="' . $subvalue['id'] . '">
+    					<span>' . $subvalue['name'][$this->lang] . '</span>
     				</div>';
                 }
 
-                $cbx_user_permissions .=
-                '</div>';
+                $cbx_permissions .= '</div>';
             }
 
-            $cbx_user_permissions .=
+            $cbx_permissions .=
             '</div>
             <div>
                 <h4><i class="fas fa-user-tie"></i>{$lang.operational}</h4>';
 
-            foreach ($this->model->get_user_permissions('operational') as $key => $value)
+            foreach ($this->model->get_permissions('operational') as $key => $value)
             {
-                $cbx_user_permissions .=
+                $cbx_permissions .=
     			'<div>
                     <p>{$lang.' . $key . '}</p>';
 
                 foreach ($value as $subvalue)
                 {
-                    $cbx_user_permissions .=
+                    $cbx_permissions .=
     				'<div>
-    					<input type="' . (($subvalue['unique'] == true) ? 'radio' : 'checkbox') . '" name="user_permissions[]" value="' . $subvalue['id'] . '">
-    					<span>' . $subvalue['name'][Session::get_value('account')['language']] . '</span>
+    					<input type="' . (($subvalue['unique'] == true) ? 'radio' : 'checkbox') . '" name="permissions[]" value="' . $subvalue['id'] . '">
+    					<span>' . $subvalue['name'][$this->lang] . '</span>
     				</div>';
                 }
 
-                $cbx_user_permissions .=
-                '</div>';
+                $cbx_permissions .= '</div>';
             }
 
-            $cbx_user_permissions .=
-            '</div>';
+            $cbx_permissions .= '</div>';
 
 			$replace = [
-				'{$tbl_user_levels}' => $tbl_user_levels,
-				'{$cbx_user_permissions}' => $cbx_user_permissions
+				'{$tbl_users_levels}' => $tbl_users_levels,
+				'{$cbx_permissions}' => $cbx_permissions
 			];
 
 			$template = $this->format->replace($replace, $template);

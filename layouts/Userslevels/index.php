@@ -2,101 +2,88 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.min.css']);
-$this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
 $this->dependencies->add(['js', '{$path.js}Userslevels/index.js']);
-$this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
+$this->dependencies->add(['other', '<script>menu_focus("users_levels");</script>']);
 
 ?>
 
 %{header}%
-<main>
-    <nav>
-        <h2><i class="fas fa-user-friends"></i>{$lang.user_levels}</h2>
-    </nav>
-    <article>
-        <main>
-            <div class="table">
-                <aside>
-                    <label>
-                        <span><i class="fas fa-search"></i></span>
-                        <input type="text" name="tbl_user_levels_search">
-                    </label>
-                    <?php if (Functions::check_user_access(['{user_levels_create}']) == true) : ?>
-                    <a data-button-modal="new_user_level" class="new"><i class="fas fa-plus"></i></a>
-                    <?php endif; ?>
-                </aside>
-                <table id="tbl_user_levels">
-                    <thead>
-                        <tr>
-                            <th align="left" width="200px">{$lang.name}</th>
-                            <th align="left">{$lang.user_permissions}</th>
-                            <?php if (Functions::check_user_access(['{user_levels_delete}']) == true) : ?>
-                            <th align="right" class="icon"></th>
-                            <?php endif; ?>
-                            <?php if (Functions::check_user_access(['{user_levels_update}']) == true) : ?>
-                            <th align="right" class="icon"></th>
-                            <?php endif; ?>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {$tbl_user_levels}
-                    </tbody>
-                </table>
-            </div>
-        </main>
-    </article>
+<main class="dashboard">
+    <section class="workspace">
+        <div class="tbl_stl_2">
+            {$tbl_users_levels}
+        </div>
+    </section>
+    <?php if (Functions::check_user_access(['{users_levels_create}']) == true) : ?>
+    <section class="buttons">
+        <div>
+            <a class="active" data-button-modal="new_user_level"><i class="fas fa-plus"></i></a>
+        </div>
+    </section>
+    <?php endif; ?>
 </main>
-<?php if (Functions::check_user_access(['{user_levels_create}','{user_levels_update}']) == true) : ?>
-<section class="modal new" data-modal="new_user_level">
+<?php if (Functions::check_user_access(['{users_levels_create}','users_levels_update']) == true) : ?>
+<section class="modal fullscreen" data-modal="new_user_level">
     <div class="content">
-        <header>
-            <h3>{$lang.new}</h3>
-        </header>
         <main>
             <form name="new_user_level">
                 <div class="row">
                     <div class="span12">
                         <div class="label">
-                            <label>
+                            <label required>
                                 <p>{$lang.name}</p>
-                                <input type="text" name="name" />
+                                <input type="text" name="name">
                             </label>
                         </div>
                     </div>
                     <div class="span12">
                         <div class="label">
-                            <label>
-                                <p>{$lang.user_permissions}</p>
+                            <label required>
+                                <p>{$lang.permissions}</p>
                             </label>
                             <div class="checkboxes">
-                                {$cbx_user_permissions}
+                                {$cbx_permissions}
                             </div>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="buttons">
+                            <button type="submit"><i class="fas fa-check"></i></button>
+                            <a button-cancel><i class="fas fa-times"></i></a>
                         </div>
                     </div>
                 </div>
             </form>
         </main>
+    </div>
+</section>
+<?php endif; ?>
+<?php if (Functions::check_user_access(['{users_levels_deactivate}']) == true) : ?>
+<section class="modal edit" data-modal="deactivate_user_level">
+    <div class="content">
         <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
-            </div>
+            <a button-success><i class="fas fa-check"></i></a>
+            <a button-close><i class="fas fa-times"></i></a>
         </footer>
     </div>
 </section>
 <?php endif; ?>
-<?php if (Functions::check_user_access(['{user_levels_delete}']) == true) : ?>
+<?php if (Functions::check_user_access(['{users_levels_activate}']) == true) : ?>
+<section class="modal edit" data-modal="activate_user_level">
+    <div class="content">
+        <footer>
+            <a button-success><i class="fas fa-check"></i></a>
+            <a button-close><i class="fas fa-times"></i></a>
+        </footer>
+    </div>
+</section>
+<?php endif; ?>
+<?php if (Functions::check_user_access(['{users_levels_delete}']) == true) : ?>
 <section class="modal delete" data-modal="delete_user_level">
     <div class="content">
-        <header>
-            <h3>{$lang.delete}</h3>
-        </header>
         <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
-            </div>
+            <a button-success><i class="fas fa-check"></i></a>
+            <a button-close><i class="fas fa-times"></i></a>
         </footer>
     </div>
 </section>

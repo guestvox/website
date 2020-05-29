@@ -161,10 +161,10 @@ class Urls_registered_vkye
             //     'controller' => 'Users',
             //     'method' => 'index'
             // ],
-            // '/users-levels' => [
-            //     'controller' => 'Userslevels',
-            //     'method' => 'index'
-            // ],
+            '/users-levels' => [
+                'controller' => 'Userslevels',
+                'method' => 'index'
+            ],
             '/account' => [
                 'controller' => 'Account',
                 'method' => 'index'
