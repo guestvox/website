@@ -505,6 +505,16 @@ div.tbl_stl_3 > div > div.datas {
     justify-content: center;
 }
 
+div.tbl_stl_3 > div > div.datas > div.itm-1 {
+    width: calc(100% - 50px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
 div.tbl_stl_2 > div > div.datas > h2,
 div.tbl_stl_2 > div > div.datas > span,
 div.tbl_stl_3 > div > div.datas > div.itm-1 > h2,
