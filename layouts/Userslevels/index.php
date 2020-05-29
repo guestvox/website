@@ -4,7 +4,7 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
-$this->dependencies->add(['js', '{$path.js}Userlevels/index.js']);
+$this->dependencies->add(['js', '{$path.js}Userslevels/index.js']);
 $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
 
 ?>

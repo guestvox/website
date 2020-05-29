@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-class Userlevels_controller extends Controller
+class Userslevels_controller extends Controller
 {
 	public function __construct()
 	{

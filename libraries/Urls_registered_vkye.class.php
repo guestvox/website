@@ -133,10 +133,10 @@ class Urls_registered_vkye
                 'controller' => 'Owners',
                 'method' => 'index'
             ],
-            // '/opportunity-areas' => [
-            //     'controller' => 'Opportunityareas',
-            //     'method' => 'index'
-            // ],
+            '/opportunity-areas' => [
+                'controller' => 'Opportunityareas',
+                'method' => 'index'
+            ],
             // '/opportunity-types' => [
             //     'controller' => 'Opportunitytypes',
             //     'method' => 'index'

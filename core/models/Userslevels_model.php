@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-class Userlevels_model extends Model
+class Userslevels_model extends Model
 {
 	public function __construct()
 	{

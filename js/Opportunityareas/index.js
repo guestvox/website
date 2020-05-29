@@ -2,39 +2,19 @@
 
 $(document).ready(function()
 {
-    var tbl_opportunity_areas = $('#tbl_opportunity_areas').DataTable({
-        ordering: false,
-        pageLength: 25,
-        info: false
-    });
-
-    $('[name="tbl_opportunity_areas_search"]').on('keyup', function()
-    {
-        tbl_opportunity_areas.search(this.value).draw();
-    });
-
-    var id;
+    var id = null;
     var edit = false;
 
     $('[data-modal="new_opportunity_area"]').modal().onCancel(function()
     {
         id = null;
         edit = false;
-        $('[data-modal="new_opportunity_area"]').removeClass('edit');
-        $('[data-modal="new_opportunity_area"]').addClass('new');
-        $('[data-modal="new_opportunity_area"]').find('header > h3').html('Nuevo');
+
         $('[data-modal="new_opportunity_area"]').find('form')[0].reset();
         $('[data-modal="new_opportunity_area"]').find('label.error').removeClass('error');
         $('[data-modal="new_opportunity_area"]').find('p.error').remove();
-        $('[data-modal="new_opportunity_area"]').find('[name="request"]').attr('checked', false);
-        $('[data-modal="new_opportunity_area"]').find('[name="incident"]').attr('checked', false);
-        $('[data-modal="new_opportunity_area"]').find('[name="workorder"]').attr('checked', false);
-        $('[data-modal="new_opportunity_area"]').find('[name="public"]').attr('checked', false);
-    });
 
-    $('[data-modal="new_opportunity_area"]').modal().onSuccess(function()
-    {
-        $('[data-modal="new_opportunity_area"]').find('form').submit();
+        required_focus($('[data-modal="new_opportunity_area"]').find('form'), true);
     });
 
     $('form[name="new_opportunity_area"]').on('submit', function(e)
@@ -57,39 +37,14 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').addClass('view');
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { location.reload(); }, 1500);
-                }
+                    show_modal_success(response.message, 1500);
                 else if (response.status == 'error')
-                {
-                    if (response.labels)
-                    {
-                        form.find('label.error').removeClass('error');
-                        form.find('p.error').remove();
-
-                        $.each(response.labels, function(i, label)
-                        {
-                            if (label[1].length > 0)
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-                            else
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
-                        });
-
-                        form.find('label.error [name]')[0].focus();
-                    }
-                    else if (response.message)
-                    {
-                        $('[data-modal="error"]').addClass('view');
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                    }
-                }
+                    show_form_errors(form, response);
             }
         });
     });
 
-    $(document).on('click', '[data-action="edit_opportunity_area"]', function()
+    $('[data-action="edit_opportunity_area"]').on('click', function()
     {
         id = $(this).data('id');
         edit = true;
@@ -104,37 +59,77 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="new_opportunity_area"]').removeClass('new');
-                    $('[data-modal="new_opportunity_area"]').addClass('edit');
                     $('[data-modal="new_opportunity_area"]').addClass('view');
-                    $('[data-modal="new_opportunity_area"]').find('header > h3').html('Editar');
+
                     $('[data-modal="new_opportunity_area"]').find('[name="name_es"]').val(response.data.name.es);
                     $('[data-modal="new_opportunity_area"]').find('[name="name_en"]').val(response.data.name.en);
+                    $('[data-modal="new_opportunity_area"]').find('[name="request"]').prop('checked', ((response.data.request == true) ? true : false));
+                    $('[data-modal="new_opportunity_area"]').find('[name="incident"]').prop('checked', ((response.data.incident == true) ? true : false));
+                    $('[data-modal="new_opportunity_area"]').find('[name="workorder"]').prop('checked', ((response.data.workorder == true) ? true : false));
+                    $('[data-modal="new_opportunity_area"]').find('[name="public"]').prop('checked', ((response.data.public == true) ? true : false));
 
-                    if (response.data.request == true)
-                        $('[data-modal="new_opportunity_area"]').find('[name="request"]').attr('checked', true);
-
-                    if (response.data.incident == true)
-                        $('[data-modal="new_opportunity_area"]').find('[name="incident"]').attr('checked', true);
-
-                    if (response.data.workorder == true)
-                        $('[data-modal="new_opportunity_area"]').find('[name="workorder"]').attr('checked', true);
-
-                    if (response.data.public == true)
-                        $('[data-modal="new_opportunity_area"]').find('[name="public"]').attr('checked', true);
+                    required_focus($('[data-modal="new_opportunity_area"]').find('form'), true);
                 }
                 else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                }
+                    show_modal_error(response.message);
             }
         });
     });
 
-    $(document).on('click', '[data-action="delete_opportunity_area"]', function()
+    $('[data-action="deactivate_opportunity_area"]').on('click', function()
     {
         id = $(this).data('id');
+
+        $('[data-modal="deactivate_opportunity_area"]').addClass('view');
+    });
+
+    $('[data-modal="deactivate_opportunity_area"]').modal().onSuccess(function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + id + '&action=deactivate_opportunity_area',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 1500);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-action="activate_opportunity_area"]').on('click', function()
+    {
+        id = $(this).data('id');
+
+        $('[data-modal="activate_opportunity_area"]').addClass('view');
+    });
+
+    $('[data-modal="activate_opportunity_area"]').modal().onSuccess(function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + id + '&action=activate_opportunity_area',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 1500);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-action="delete_opportunity_area"]').on('click', function()
+    {
+        id = $(this).data('id');
+
         $('[data-modal="delete_opportunity_area"]').addClass('view');
     });
 
@@ -149,16 +144,9 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').addClass('view');
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { location.reload(); }, 1500);
-                }
+                    show_modal_success(response.message, 1500);
                 else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                }
+                    show_modal_error(response.message);
             }
         });
     });
