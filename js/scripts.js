@@ -193,7 +193,7 @@ function show_modal_success(message, timeout)
 {
     $('[data-modal="success"]').addClass('view');
     $('[data-modal="success"]').find('main > p').html(message);
-    
+
     setTimeout(function() { location.reload(); }, timeout);
 }
 

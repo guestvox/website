@@ -12,7 +12,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
 
 ?>
 
-<main class="landing-page-operation">
+<main class="landing_page_operation">
     <header class="topbar">
         <figure>
             <img src="{$path.images}hi/operation/logotype_white.png" alt="Guestvox">
@@ -32,7 +32,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
                     <a class="btn" data-button-modal="contact">{$lang.request_your_demo}</a>
                 </div>
                 <figure>
-                    <img src="{$path.images}hi/operation/screen-1.jpg" alt="Background">
+                    <img src="{$path.images}hi/operation/screen_1.jpg" alt="Background">
                 </figure>
             </div>
             <div class="rocket"></div>
@@ -44,17 +44,17 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
                 <p>...</p>
             </div>
             <div class="space50"></div>
-            <div class="boxes three-boxes">
+            <div class="boxes three_boxes">
                 <div class="box">
-                    <span class="icon-communication"></span>
+                    <span class="icon_communication"></span>
                     <h4>{$lang.landing_page_hi_operation_text_4}</h4>
                 </div>
                 <div class="box">
-                    <span class="icon-clients"></span>
+                    <span class="icon_clients"></span>
                     <h4>{$lang.landing_page_hi_operation_text_5}</h4>
                 </div>
                 <div class="box">
-                    <span class="icon-like"></span>
+                    <span class="icon_like"></span>
                     <h4>{$lang.landing_page_hi_operation_text_6}</h4>
                 </div>
             </div>
@@ -64,7 +64,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
                 <p>...</p>
             </div>
             <div class="space50"></div>
-            <div class="boxes-product">
+            <div class="boxes_product">
                 <div class="box">
                     <figure>
                         <img src="{$path.images}hi/operation/icon_lock.svg" alt="Icon" width="70" height="70">
@@ -74,7 +74,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
                 </div>
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}hi/operation/icon-person.svg" alt="Icon" width="70" height="70">
+                        <img src="{$path.images}hi/operation/icon_person.svg" alt="Icon" width="70" height="70">
                     </figure>
                     <h4>{$lang.landing_page_hi_operation_text_10}</h4>
                     <p>{$lang.landing_page_hi_operation_text_11}</p>
@@ -95,7 +95,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
                 </div>
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}hi/operation/icon-time.svg" alt="Icon" width="70" height="70">
+                        <img src="{$path.images}hi/operation/icon_time.svg" alt="Icon" width="70" height="70">
                     </figure>
                     <h4>{$lang.landing_page_hi_operation_text_16}</h4>
                     <p>{$lang.landing_page_hi_operation_text_17}</p>
@@ -109,7 +109,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
                 </div>
             </div>
         </section>
-        <section class="call-to-action">
+        <section class="call_to_action">
             <div class="container">
                 <div class="content">
                     <h4>{$lang.landing_page_hi_operation_text_20}</h4>
@@ -124,20 +124,20 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
             </div>
             <div class="space50"></div>
             <div id="screenshots" class="owl-carousel owl-theme">
-                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot-1-thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot-1.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot_1_thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot_1.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot-2-thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot-2.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot_2_thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot_2.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot-3-thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot-3.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot_3_thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot_3.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot-4-thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot-4.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot_4_thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot_4.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot-5-thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot-5.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot_5_thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot_5.jpg"></a>
                 </div>
             </div>
         </section>
@@ -223,8 +223,8 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <button type="submit">{$lang.request_your_demo}</button>
-                            <a button-cancel>{$lang.cancel}</a>
+                            <button type="submit"><i class="fas fa-check"></i></button>
+                            <a button-cancel><i class="fas fa-times"></i></a>
                         </div>
                     </div>
                 </div>

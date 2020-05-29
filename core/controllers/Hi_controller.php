@@ -71,7 +71,7 @@ class Hi_controller extends Controller
 								</tr>
 								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/operacion">' . Configuration::$domain . '/operacion</a>
+										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/operation">' . Configuration::$domain . '/operation</a>
 									</td>
 								</tr>
 							</table>
@@ -94,7 +94,7 @@ class Hi_controller extends Controller
 					' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms'] . '<br>' : '') . '
 					Nombre: ' . $_POST['name'] . '<br>
 					Correo electrónico: ' . $_POST['email'] . '<br>
-					Número telefonico: ' . $_POST['phone'];
+					Número telefónico: ' . $_POST['phone'];
 					$mail2->send();
 				}
 				catch (Exception $e) {}
@@ -180,7 +180,7 @@ class Hi_controller extends Controller
 								</tr>
 								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/reputacion">' . Configuration::$domain . '/reputacion</a>
+										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/reputation">' . Configuration::$domain . '/reputation</a>
 									</td>
 								</tr>
 							</table>
@@ -203,7 +203,7 @@ class Hi_controller extends Controller
 					' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms'] . '<br>' : '') . '
 					Nombre: ' . $_POST['name'] . '<br>
 					Correo electrónico: ' . $_POST['email'] . '<br>
-					Número telefonico: ' . $_POST['phone'];
+					Número telefónico: ' . $_POST['phone'];
 					$mail2->send();
 				}
 				catch (Exception $e) {}

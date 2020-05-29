@@ -1,11 +1,11 @@
 
-main.landing-page-operation {
+main.landing_page_operation {
     position: relative;
     background-color: #FFF;
     padding: 0;
 }
 
-main.landing-page-operation > header.topbar {
+main.landing_page_operation > header.topbar {
     position: absolute;
     top: 0;
     left: 0;
@@ -21,7 +21,7 @@ main.landing-page-operation > header.topbar {
     align-items: center;
 }
 
-main.landing-page-operation > header.topbar > figure {
+main.landing_page_operation > header.topbar > figure {
     position: relative;
     width: auto;
     height: 100px;
@@ -31,18 +31,18 @@ main.landing-page-operation > header.topbar > figure {
     line-height: 0;
 }
 
-main.landing-page-operation > header.topbar > figure > img {
+main.landing_page_operation > header.topbar > figure > img {
     width: auto;
     height: 70px;
 }
 
-main.landing-page-operation > header.topbar > nav {
+main.landing_page_operation > header.topbar > nav {
     position: relative;
     width: calc(100% - 200px);
     height: 100px;
 }
 
-main.landing-page-operation > header.topbar > nav > ul {
+main.landing_page_operation > header.topbar > nav > ul {
     position: relative;
     width: 100%;
     height: 100%;
@@ -52,20 +52,20 @@ main.landing-page-operation > header.topbar > nav > ul {
     justify-content: flex-end;
 }
 
-main.landing-page-operation > header.topbar > nav > ul > li {
+main.landing_page_operation > header.topbar > nav > ul > li {
     display: block;
     position: relative;
     margin-left: 10px;
 }
 
-main.landing-page-operation > header.topbar > nav > ul > li > a {
+main.landing_page_operation > header.topbar > nav > ul > li > a {
     display: block;
     padding: 10px;
     color: #FFF;
     text-decoration: none;
 }
 
-main.landing-page-operation > header.topbar > nav > ul > li > a.btn {
+main.landing_page_operation > header.topbar > nav > ul > li > a.btn {
     background-color: transparent;
     border: 2px solid #FFF;
     color: #FFF;
@@ -75,17 +75,17 @@ main.landing-page-operation > header.topbar > nav > ul > li > a.btn {
     cursor: pointer;
 }
 
-main.landing-page-operation > header.topbar > nav > ul > li > a.btn:hover {
+main.landing_page_operation > header.topbar > nav > ul > li > a.btn:hover {
     text-decoration: none;
     background-color: #FFF;
     color: #00a5ab;
 }
 
-main.landing-page-operation > section.main {
+main.landing_page_operation > section.main {
     position: relative;
 }
 
-main.landing-page-operation > section.main > header.cover {
+main.landing_page_operation > section.main > header.cover {
     position: relative;
     box-sizing: border-box;
     height: 900px;
@@ -98,8 +98,8 @@ main.landing-page-operation > section.main > header.cover {
     background-color: #00a5ab;
 }
 
-main.landing-page-operation > section.main > header.cover::before,
-main.landing-page-operation > section.main > header.cover::after {
+main.landing_page_operation > section.main > header.cover::before,
+main.landing_page_operation > section.main > header.cover::after {
     content: "";
     position: absolute;
     top: -45em;
@@ -112,20 +112,20 @@ main.landing-page-operation > section.main > header.cover::after {
     z-index: 1;
 }
 
-main.landing-page-operation > section.main > header.cover::after {
+main.landing_page_operation > section.main > header.cover::after {
     top: initial;
     right: initial;
     bottom: -45em;
     left: -15em;
 }
 
-main.landing-page-operation > section.main > header.cover > .container {
+main.landing_page_operation > section.main > header.cover > .container {
     display: grid;
     grid-template-columns: 50% 50%;
     z-index: 2;
 }
 
-main.landing-page-operation > section.main > header.cover > .container > .content {
+main.landing_page_operation > section.main > header.cover > .container > .content {
     vertical-align: middle;
     display: -webkit-box;
     display: flex;
@@ -135,7 +135,7 @@ main.landing-page-operation > section.main > header.cover > .container > .conten
     padding-right: 50px;
 }
 
-main.landing-page-operation > section.main > header.cover > .container > .content a.btn {
+main.landing_page_operation > section.main > header.cover > .container > .content a.btn {
     margin: 40px 0 0;
     padding: 20px 40px;
     background-color: transparent;
@@ -146,18 +146,18 @@ main.landing-page-operation > section.main > header.cover > .container > .conten
     cursor: pointer;
 }
 
-main.landing-page-operation > section.main > header.cover > .container > .content a.btn:hover {
+main.landing_page_operation > section.main > header.cover > .container > .content a.btn:hover {
     background-color: #FFF;
     color: #00a5ab;
 }
 
-main.landing-page-operation > section.main > header.cover > .container > figure {
+main.landing_page_operation > section.main > header.cover > .container > figure {
     vertical-align: middle;
     line-height: 0;
 }
 
-main.landing-page-operation > section.main > header.cover > .container > .content h1,
-main.landing-page-operation > section.main > header.cover > .container > .content h2 {
+main.landing_page_operation > section.main > header.cover > .container > .content h1,
+main.landing_page_operation > section.main > header.cover > .container > .content h2 {
     position: relative;
     margin: 0;
     font-size: 40px;
@@ -167,13 +167,13 @@ main.landing-page-operation > section.main > header.cover > .container > .conten
     padding-bottom: 20px;
 }
 
-main.landing-page-operation > section.main > header.cover > .container > .content h2 {
+main.landing_page_operation > section.main > header.cover > .container > .content h2 {
     font-weight: bold;
     font-size: 30px;
     padding-bottom: 0;
 }
 
-main.landing-page-operation > section.main > header.cover > .rocket {
+main.landing_page_operation > section.main > header.cover > .rocket {
     position: absolute;
     bottom: 0px;
     left: 0px;
@@ -181,37 +181,37 @@ main.landing-page-operation > section.main > header.cover > .rocket {
     width: 70px;
     height: 100px;
     margin: auto;
-    background-image: url("../../images/hi/operation/rocket-launch.svg");
+    background-image: url("../../images/hi/operation/rocket_launch.svg");
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
     z-index: 2;
 }
 
-main.landing-page-operation > section.main > section.container {
+main.landing_page_operation > section.main > section.container {
     position: relative;
     padding: 50px 0;
 }
 
-main.landing-page-operation > section.main > section.container.background {
+main.landing_page_operation > section.main > section.container.background {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     background-image: url("../../images/hi/operation/background_1.png");
 }
 
-main.landing-page-operation > section.main .boxes {
+main.landing_page_operation > section.main .boxes {
     position: relative;
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
     grid-gap: 2%;
 }
 
-main.landing-page-operation > section.main .boxes.three-boxes {
+main.landing_page_operation > section.main .boxes.three_boxes {
     grid-template-columns: 32% 32% 32%;
 }
 
-main.landing-page-operation > section.main .boxes > .box {
+main.landing_page_operation > section.main .boxes > .box {
     position: relative;
     box-sizing: border-box;
     padding: 50px 30px;
@@ -226,9 +226,9 @@ main.landing-page-operation > section.main .boxes > .box {
                 0 22px 27px -20px rgba(7, 10, 25, 0.2);
 }
 
-main.landing-page-operation > section.main span.icon-communication,
-main.landing-page-operation > section.main span.icon-clients,
-main.landing-page-operation > section.main span.icon-like {
+main.landing_page_operation > section.main span.icon_communication,
+main.landing_page_operation > section.main span.icon_clients,
+main.landing_page_operation > section.main span.icon_like {
     display: inline-block;
     width: 24px;
     height: 24px;
@@ -241,19 +241,19 @@ main.landing-page-operation > section.main span.icon-like {
     margin-bottom: 30px;
 }
 
-main.landing-page-operation > section.main span.icon-communication {
+main.landing_page_operation > section.main span.icon_communication {
     background-image: url("../../images/hi/operation/icon_communication.svg");
 }
 
-main.landing-page-operation > section.main span.icon-clients {
+main.landing_page_operation > section.main span.icon_clients {
     background-image: url("../../images/hi/operation/icon_clients.svg");
 }
 
-main.landing-page-operation > section.main span.icon-like {
+main.landing_page_operation > section.main span.icon_like {
     background-image: url("../../images/hi/operation/icon_like.svg");
 }
 
-main.landing-page-operation > section.main .boxes > .box > h4 {
+main.landing_page_operation > section.main .boxes > .box > h4 {
     margin: 0px;
     text-align: center;
     position: relative;
@@ -261,13 +261,13 @@ main.landing-page-operation > section.main .boxes > .box > h4 {
     color: #757575;
 }
 
-main.landing-page-operation > section.main .double-section {
+main.landing_page_operation > section.main .double_section {
     position: relative;
     display: grid;
     grid-template-columns: 50% 50%;
 }
 
-main.landing-page-operation > section.main .double-section section {
+main.landing_page_operation > section.main .double_section section {
     padding: 50px 0;
     display: -webkit-box;
     display: flex;
@@ -275,7 +275,7 @@ main.landing-page-operation > section.main .double-section section {
     justify-content: center;
 }
 
-main.landing-page-operation > section.main .double-section section h4 {
+main.landing_page_operation > section.main .double_section section h4 {
     position: relative;
     margin: 0;
     font-weight: 500;
@@ -284,7 +284,7 @@ main.landing-page-operation > section.main .double-section section h4 {
     padding: 0px 0px 10px 30px;
 }
 
-main.landing-page-operation > section.main .double-section section p {
+main.landing_page_operation > section.main .double_section section p {
     position: relative;
     font-size: 12px;
     line-height: 1.4;
@@ -293,15 +293,15 @@ main.landing-page-operation > section.main .double-section section p {
     margin: 0 0 30px;
 }
 
-main.landing-page-operation > section.main .double-section > figure {
+main.landing_page_operation > section.main .double_section > figure {
     line-height: 0;
 }
 
-main.landing-page-operation > section.main .double-section > figure > img {
+main.landing_page_operation > section.main .double_section > figure > img {
     width: 100%;
 }
 
-main.landing-page-operation > section.main .double-section section > h2 {
+main.landing_page_operation > section.main .double_section section > h2 {
     margin: 0;
     font-size: 25px;
     font-weight: bold;
@@ -309,31 +309,31 @@ main.landing-page-operation > section.main .double-section section > h2 {
     color: #00a5ab;
 }
 
-main.landing-page-operation > section.main .double-section section > p.description-one {
+main.landing_page_operation > section.main .double_section section > p.description_one {
     padding: 0;
     opacity: 1;
     font-size: 15px;
     margin-bottom: 10px;
 }
 
-main.landing-page-operation > section.main .double-section section > ul {
+main.landing_page_operation > section.main .double_section section > ul {
     display: block;
     padding-left: 50px;
 }
 
-main.landing-page-operation > section.main .double-section section > ul > li {
+main.landing_page_operation > section.main .double_section section > ul > li {
     font-size: 16px;
     font-weight: 400;
     opacity: 0.8;
     margin-bottom: 20px;
 }
 
-main.landing-page-operation > section.main .title {
+main.landing_page_operation > section.main .title {
     position: relative;
     text-align: center;
 }
 
-main.landing-page-operation > section.main .title h2 {
+main.landing_page_operation > section.main .title h2 {
     padding: 0 20px;
     text-align: center;
     font-size: 40px;
@@ -346,7 +346,7 @@ main.landing-page-operation > section.main .title h2 {
     margin-bottom: 10px;
 }
 
-main.landing-page-operation > section.main .title > p {
+main.landing_page_operation > section.main .title > p {
     margin: 0;
     font-size: 20px;
     line-height: 1.2;
@@ -355,7 +355,7 @@ main.landing-page-operation > section.main .title > p {
     color: #d8d8d8;
 }
 
-main.landing-page-operation > section.main .boxes-product {
+main.landing_page_operation > section.main .boxes_product {
     display: block;
     position: relative;
     display: grid;
@@ -364,7 +364,7 @@ main.landing-page-operation > section.main .boxes-product {
     grid-row-gap: 20px;
 }
 
-main.landing-page-operation > section.main .boxes-product > .box {
+main.landing_page_operation > section.main .boxes_product > .box {
     position: relative;
     border: 1px solid #F1F1F1;
     box-sizing: border-box;
@@ -375,14 +375,14 @@ main.landing-page-operation > section.main .boxes-product > .box {
     background-color: #FFF;
 }
 
-main.landing-page-operation > section.main .boxes-product > .box > figure {
+main.landing_page_operation > section.main .boxes_product > .box > figure {
     line-height: 0;
     width: 70px;
     height: 70px;
     margin: 0 auto 20px;
 }
 
-main.landing-page-operation > section.main .boxes-product > .box > h4 {
+main.landing_page_operation > section.main .boxes_product > .box > h4 {
     margin: 0 0 20px;
     position: relative;
     font-weight: bold;
@@ -390,7 +390,7 @@ main.landing-page-operation > section.main .boxes-product > .box > h4 {
     color: #00a5ab;
 }
 
-main.landing-page-operation > section.main .boxes-product > .box > p {
+main.landing_page_operation > section.main .boxes_product > .box > p {
     position: relative;
     margin: 0;
     font-weight: bold;
@@ -400,7 +400,7 @@ main.landing-page-operation > section.main .boxes-product > .box > p {
     font-size: 16px;
 }
 
-main.landing-page-operation > section.main #screenshots .item {
+main.landing_page_operation > section.main #screenshots .item {
     position: relative;
     width: 100%;
     height: 490px;
@@ -409,7 +409,7 @@ main.landing-page-operation > section.main #screenshots .item {
     background-repeat: no-repeat;
 }
 
-main.landing-page-operation > section.main #screenshots .item > a {
+main.landing_page_operation > section.main #screenshots .item > a {
     position: absolute;
     top: 0;
     left: 0;
@@ -418,27 +418,27 @@ main.landing-page-operation > section.main #screenshots .item > a {
     cursor: pointer;
 }
 
-section.call-to-action {
+section.call_to_action {
     position: relative;
     background-color: #00a5ab;
     padding: 50px 0;
     background-color: #eee;
 }
 
-section.call-to-action > .container {
+section.call_to_action > .container {
     display: -webkit-box;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-section.call-to-action > .container > .content {
+section.call_to_action > .container > .content {
     position: relative;
     width: calc(100% - 300px);
     color: #FFF;
 }
 
-section.call-to-action > .container > .content h4 {
+section.call_to_action > .container > .content h4 {
     position: relative;
     margin: 0;
     font-weight: bold;
@@ -446,14 +446,14 @@ section.call-to-action > .container > .content h4 {
     font-size: 30px;
 }
 
-section.call-to-action > .container > .content p {
+section.call_to_action > .container > .content p {
     position: relative;
     margin: 0;
     color: inherit;
     font-size: 20px;
 }
 
-section.call-to-action > .container > a {
+section.call_to_action > .container > a {
     position: relative;
     display: block;
     width: 300px;
@@ -470,7 +470,7 @@ section.call-to-action > .container > a {
     cursor: pointer;
 }
 
-main.landing-page-operation > footer.main {
+main.landing_page_operation > footer.main {
     background-image: url("../../images/hi/operation/background_map.png");
     background-size: cover;
     background-repeat: no-repeat;
@@ -478,18 +478,18 @@ main.landing-page-operation > footer.main {
     padding: 100px 0;
 }
 
-main.landing-page-operation > footer.main > .container {
+main.landing_page_operation > footer.main > .container {
     text-align: center;
 }
 
-main.landing-page-operation > footer.main > .container > h2 {
+main.landing_page_operation > footer.main > .container > h2 {
     margin: 0;
     text-align: center;
     color: #FFF;
     font-weight: bold;
 }
 
-main.landing-page-operation > footer.main > .container > h3 {
+main.landing_page_operation > footer.main > .container > h3 {
     margin: 0 auto;
     text-align: center;
     font-weight: 300;
@@ -499,7 +499,7 @@ main.landing-page-operation > footer.main > .container > h3 {
     width: 90%;
 }
 
-main.landing-page-operation > footer.main > .container > a.btn {
+main.landing_page_operation > footer.main > .container > a.btn {
     margin: 50px auto 0;
     display: inline-block;
     padding: 20px 40px;
@@ -508,7 +508,7 @@ main.landing-page-operation > footer.main > .container > a.btn {
     font-size: 18px;
 }
 
-main.landing-page-operation > footer.main > .container > .copyright {
+main.landing_page_operation > footer.main > .container > .copyright {
     margin-top: 100px;
     border-top: 1px solid rgba(255, 255, 255, 0.12);
     padding: 30px 0 0;
@@ -516,7 +516,7 @@ main.landing-page-operation > footer.main > .container > .copyright {
     font-size: 12px;
 }
 
-main.landing-page-operation > footer.main > .container > ul.social_media {
+main.landing_page_operation > footer.main > .container > ul.social_media {
     display: -webkit-box;
     display: flex;
     justify-content: center;
@@ -524,12 +524,12 @@ main.landing-page-operation > footer.main > .container > ul.social_media {
     margin-top: 50px;
 }
 
-main.landing-page-operation > footer.main > .container > ul.social_media > li {
+main.landing_page_operation > footer.main > .container > ul.social_media > li {
     display: block;
     margin: 0 10px;
 }
 
-main.landing-page-operation > footer.main > .container > ul.social_media > li > a {
+main.landing_page_operation > footer.main > .container > ul.social_media > li > a {
     display: block;
     line-height: 1;
     color: #FFF;
@@ -538,55 +538,57 @@ main.landing-page-operation > footer.main > .container > ul.social_media > li > 
 
 @media (max-width: 767px) {
 
-	main.landing-page-operation > header.topbar > figure {
+	main.landing_page_operation > header.topbar > figure {
 		width: 100px;
 	}
 
-	main.landing-page-operation > header.topbar > nav {
+	main.landing_page_operation > header.topbar > nav {
 		width: calc(100% - 100px);
 	}
 
-	main.landing-page-operation > section.main > header.cover {
+	main.landing_page_operation > section.main > header.cover {
 		height: auto;
 	}
 
-	main.landing-page-operation > section.main > header.cover > .container {
+	main.landing_page_operation > section.main > header.cover > .container {
 		grid-template-columns: 100%;
 		padding-top: 150px;
 		padding-bottom: 150px;
 	}
 
-	main.landing-page-operation > section.main > header.cover > .container > .content {
+	main.landing_page_operation > section.main > header.cover > .container > .content {
 		padding: 0;
 	}
 
-	main.landing-page-operation > section.main > header.cover > .container > .content h1, main.landing-page-operation > section.main > header.cover > .container > .content h2 {
+	main.landing_page_operation > section.main > header.cover > .container > .content h1,
+    main.landing_page_operation > section.main > header.cover > .container > .content h2 {
 		font-size: 30px;
 	}
 
-	main.landing-page-operation > section.main > header.cover > .container > .content a.btn {
+	main.landing_page_operation > section.main > header.cover > .container > .content a.btn {
 		margin: 40px auto;
 	}
 
-	main.landing-page-operation > section.main > header.cover > .container > figure, main.landing-page-operation > section.main > header.cover > .container > figure > img {
+	main.landing_page_operation > section.main > header.cover > .container > figure,
+    main.landing_page_operation > section.main > header.cover > .container > figure > img {
 		width: 100%;
 		height: 100%;
 		line-height: 0;
 	}
 
-	main.landing-page-operation > section.main .boxes.three-boxes {
+	main.landing_page_operation > section.main .boxes.three_boxes {
 		grid-template-columns: 100%;
 	}
 
-	main.landing-page-operation > section.main .boxes-product {
+	main.landing_page_operation > section.main .boxes_product {
 		grid-template-columns: 100%;
 	}
 
-	section.call-to-action > .container {
+	section.call_to_action > .container {
 		flex-direction: column;
 	}
 
-	section.call-to-action > .container > .content {
+	section.call_to_action > .container > .content {
 		width: 100%;
 		text-align: center;
 		padding-bottom: 20px;
