@@ -7,6 +7,6 @@ $this->dependencies->add(['js', '{$path.js}About/index.js']);
 
 ?>
 
-<main class="landing-page-about-us">
+<main class="landing_page_about_us">
 
 </main>

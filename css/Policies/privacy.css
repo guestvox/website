@@ -1,5 +1,5 @@
 
-main.landing-page-privacy {
+main.landing_page_privacy {
     width: 100%;
     display: flex;
     align-items: center;
@@ -11,8 +11,8 @@ main.landing-page-privacy {
     background-color: #fff;
 }
 
-main.landing-page-privacy > figure,
-main.landing-page-privacy > figure > img {
+main.landing_page_privacy > figure,
+main.landing_page_privacy > figure > img {
     width: auto;
     height: 100px;
     line-height: 0px;
@@ -20,28 +20,28 @@ main.landing-page-privacy > figure > img {
     padding: 0px;
 }
 
-main.landing-page-privacy > h1,
-main.landing-page-privacy > h2,
-main.landing-page-privacy > p,
-main.landing-page-privacy > ul {
+main.landing_page_privacy > h1,
+main.landing_page_privacy > h2,
+main.landing_page_privacy > p,
+main.landing_page_privacy > ul {
     width: 100%;
     max-width: 800px;
     margin-bottom: 40px;
 }
 
-main.landing-page-privacy > h1,
-main.landing-page-privacy > h2 {
+main.landing_page_privacy > h1,
+main.landing_page_privacy > h2 {
     font-size: 24px;
     font-weight: 600;
     color: #212121;
 }
 
-main.landing-page-privacy > h1 {
+main.landing_page_privacy > h1 {
     text-align: center;
 }
 
-main.landing-page-privacy > p,
-main.landing-page-privacy > ul > li {
+main.landing_page_privacy > p,
+main.landing_page_privacy > ul > li {
     font-size: 18px;
     font-weight: 400;
     text-align: justify;

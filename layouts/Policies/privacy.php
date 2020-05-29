@@ -7,7 +7,7 @@ $this->dependencies->add(['js', '{$path.js}Policies/privacy.js']);
 
 ?>
 
-<main class="landing-page-privacy">
+<main class="landing_page_privacy">
     <figure>
         <img src="{$path.images}logotype_color.png" alt="Guestvox">
     </figure>

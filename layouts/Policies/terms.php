@@ -7,7 +7,7 @@ $this->dependencies->add(['js', '{$path.js}Policies/terms.js']);
 
 ?>
 
-<main class="landing-page-terms">
+<main class="landing_page_terms">
     <figure>
         <img src="{$path.images}logotype_color.png" alt="Guestvox">
     </figure>
