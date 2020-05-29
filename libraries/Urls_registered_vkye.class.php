@@ -145,10 +145,10 @@ class Urls_registered_vkye
                 'controller' => 'Locations',
                 'method' => 'index'
             ],
-            // '/guests-treatments' => [
-            //     'controller' => 'Gueststreatments',
-            //     'method' => 'index'
-            // ],
+            '/guests-treatments' => [
+                'controller' => 'Gueststreatments',
+                'method' => 'index'
+            ],
             // '/guests-types' => [
             //     'controller' => 'Gueststypes',
             //     'method' => 'index'
