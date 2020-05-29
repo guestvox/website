@@ -15,6 +15,7 @@ $(document).ready(function()
                 if (response.status == 'success')
                 {
                     $('[data-modal="edit_account"]').addClass('view');
+
                     $('[data-modal="edit_account"]').find('[name="name"]').val(response.data.name);
                     $('[data-modal="edit_account"]').find('[name="country"]').val(response.data.country);
                     $('[data-modal="edit_account"]').find('[name="city"]').val(response.data.city);
@@ -74,6 +75,7 @@ $(document).ready(function()
                 if (response.status == 'success')
                 {
                     $('[data-modal="edit_billing"]').addClass('view');
+
                     $('[data-modal="edit_billing"]').find('[name="fiscal_id"]').val(response.data.fiscal.id);
                     $('[data-modal="edit_billing"]').find('[name="fiscal_name"]').val(response.data.fiscal.name);
                     $('[data-modal="edit_billing"]').find('[name="fiscal_address"]').val(response.data.fiscal.address);
@@ -225,6 +227,7 @@ $(document).ready(function()
     $('[data-modal="edit_myvox_settings"]').modal().onCancel(function()
     {
         $('[data-modal="edit_myvox_settings"]').find('[data-uploader]').find('[data-preview] > img').attr('src', '../images/empty.png');
+
         $('[data-modal="edit_myvox_settings"]').find('[name="survey_title_es"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="edit_myvox_settings"]').find('[name="survey_title_en"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_subject_es"]').parent().parent().parent().addClass('hidden');
@@ -234,6 +237,7 @@ $(document).ready(function()
         $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_image"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="edit_myvox_settings"]').find('[name="survey_mail_attachment"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="edit_myvox_settings"]').find('[name="survey_widget"]').parent().parent().parent().addClass('hidden');
+
         $('[data-modal="edit_myvox_settings"]').find('form')[0].reset();
         $('[data-modal="edit_myvox_settings"]').find('label.error').removeClass('error');
         $('[data-modal="edit_myvox_settings"]').find('p.error').remove();
@@ -322,6 +326,7 @@ $(document).ready(function()
                 if (response.status == 'success')
                 {
                     $('[data-modal="edit_reviews_settings"]').addClass('view');
+
                     $('[data-modal="edit_reviews_settings"]').find('[name="status"]').prop('checked', ((response.data.settings.reviews.status == true) ? true : false));
                     $('[data-modal="edit_reviews_settings"]').find('[name="email"]').val(response.data.settings.reviews.email);
                     $('[data-modal="edit_reviews_settings"]').find('[name="phone_lada"]').val(response.data.settings.reviews.phone.lada);
@@ -389,6 +394,7 @@ $(document).ready(function()
         $('[data-modal="edit_reviews_settings"]').find('[name="social_media_youtube"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="edit_reviews_settings"]').find('[name="social_media_google"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="edit_reviews_settings"]').find('[name="social_media_tripadvisor"]').parent().parent().parent().addClass('hidden');
+
         $('[data-modal="edit_reviews_settings"]').find('form')[0].reset();
         $('[data-modal="edit_reviews_settings"]').find('label.error').removeClass('error');
         $('[data-modal="edit_reviews_settings"]').find('p.error').remove();

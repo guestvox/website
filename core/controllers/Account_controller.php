@@ -364,7 +364,7 @@ class Account_controller extends Controller
 				}
 
 				$div_myvox_settings .=
-				'	<a data-action="edit_myvox_settings"><i class="fas fa-pen"></i></a>
+				'	<a class="edit" data-action="edit_myvox_settings"><i class="fas fa-pen"></i></a>
 				</div>';
 			}
 
@@ -395,7 +395,7 @@ class Account_controller extends Controller
 					}
 
 				$div_reviews_settings .=
-				'	<a data-action="edit_reviews_settings"><i class="fas fa-pen"></i></a>
+				'	<a class="edit" data-action="edit_reviews_settings"><i class="fas fa-pen"></i></a>
 				</div>';
 			}
 
@@ -473,7 +473,7 @@ class Account_controller extends Controller
 			if ($account['operation'] == true OR $account['reputation'] == true)
 			{
 				$mdl_edit_myvox_settings .=
-				'<section class="modal" data-modal="edit_myvox_settings">
+				'<section class="modal fullscreen" data-modal="edit_myvox_settings">
 				    <div class="content">
 				        <main>
 				            <form name="edit_myvox_settings">
@@ -487,7 +487,7 @@ class Account_controller extends Controller
 							<label unrequired>
 								<p>{$lang.request}</p>
 								<div class="switch">
-									<input id="rqsw" type="checkbox" name="request_status" class="switch-input">
+									<input id="rqsw" type="checkbox" name="request_status" class="switch_input">
 									<label class="switch-label" for="rqsw"></label>
 								</div>
 							</label>
@@ -498,7 +498,7 @@ class Account_controller extends Controller
 							<label unrequired>
 								<p>{$lang.incident}</p>
 								<div class="switch">
-									<input id="insw" type="checkbox" name="incident_status" class="switch-input">
+									<input id="insw" type="checkbox" name="incident_status" class="switch_input">
 									<label class="switch-label" for="insw"></label>
 								</div>
 							</label>
@@ -514,7 +514,7 @@ class Account_controller extends Controller
 							<label unrequired>
 								<p>{$lang.survey}</p>
 								<div class="switch">
-									<input id="susw" type="checkbox" name="survey_status" class="switch-input">
+									<input id="susw" type="checkbox" name="survey_status" class="switch_input">
 									<label class="switch-label" for="susw"></label>
 								</div>
 							</label>
@@ -601,8 +601,8 @@ class Account_controller extends Controller
 				$mdl_edit_myvox_settings .=
 			    '                	<div class="span12">
 				                        <div class="buttons">
-				                            <button type="submit">{$lang.accept}</button>
-				                            <a button-cancel>{$lang.cancel}</a>
+											<button type="submit"><i class="fas fa-check"></i></button>
+											<a button-cancel><i class="fas fa-times"></i></a>
 				                        </div>
 				                    </div>
 				                </div>
@@ -617,7 +617,7 @@ class Account_controller extends Controller
 			if ($account['reputation'] == true)
 			{
 				$mdl_edit_reviews_settings .=
-				'<section class="modal" data-modal="edit_reviews_settings">
+				'<section class="modal fullscreen" data-modal="edit_reviews_settings">
 				    <div class="content">
 				        <main>
 				            <form name="edit_reviews_settings">
@@ -627,7 +627,7 @@ class Account_controller extends Controller
 											<label unrequired>
 												<p>{$lang.reviews}</p>
 												<div class="switch">
-													<input id="rvsw" type="checkbox" name="status" class="switch-input">
+													<input id="rvsw" type="checkbox" name="status" class="switch_input">
 													<label class="switch-label" for="rvsw"></label>
 												</div>
 											</label>
@@ -778,8 +778,8 @@ class Account_controller extends Controller
 									</div>
 									<div class="span12">
 				                        <div class="buttons">
-				                            <button type="submit">{$lang.accept}</button>
-				                            <a button-cancel>{$lang.cancel}</a>
+											<button type="submit"><i class="fas fa-check"></i></button>
+											<a button-cancel><i class="fas fa-times"></i></a>
 				                        </div>
 				                    </div>
 				                </div>

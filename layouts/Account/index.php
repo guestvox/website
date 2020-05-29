@@ -12,7 +12,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
     <section class="workspace">
         <div class="account">
             <div>
-                <div class="st-1" data-uploader="fast">
+                <div class="stl_1" data-uploader="fast">
                     <figure data-preview>
                         <img src="{$logotype}">
                         <a data-action="edit_logotype" data-select><i class="fas fa-upload"></i></a>
@@ -36,7 +36,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                 <span>{$time_zone}</span>
                 <span>{$currency}</span>
                 <span>{$language}</span>
-                <a data-action="edit_account"><i class="fas fa-pen"></i></a>
+                <a class="edit" data-action="edit_account"><i class="fas fa-pen"></i></a>
             </div>
             <div>
                 <h2>{$fiscal_name}</h2>
@@ -46,7 +46,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                 <span>{$contact_department}</span>
                 <span>{$contact_email}</span>
                 <span>{$contact_phone}</span>
-                <a data-action="edit_billing"><i class="fas fa-pen"></i></a>
+                <a class="edit" data-action="edit_billing"><i class="fas fa-pen"></i></a>
             </div>
             {$div_myvox_settings}
             {$div_reviews_settings}
@@ -75,7 +75,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
         </div>
     </section>
 </main>
-<section class="modal" data-modal="edit_account">
+<section class="modal fullscreen" data-modal="edit_account">
     <div class="content">
         <main>
             <form name="edit_account">
@@ -154,8 +154,8 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <button type="submit">{$lang.accept}</button>
-                            <a button-cancel>{$lang.cancel}</a>
+                            <button type="submit"><i class="fas fa-check"></i></button>
+                            <a button-cancel><i class="fas fa-times"></i></a>
                         </div>
                     </div>
                 </div>
@@ -163,7 +163,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
         </main>
     </div>
 </section>
-<section class="modal" data-modal="edit_billing">
+<section class="modal fullscreen" data-modal="edit_billing">
     <div class="content">
         <main>
             <form name="edit_billing">
@@ -244,8 +244,8 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <button type="submit">{$lang.accept}</button>
-                            <a button-cancel>{$lang.cancel}</a>
+                            <button type="submit"><i class="fas fa-check"></i></button>
+                            <a button-cancel><i class="fas fa-times"></i></a>
                         </div>
                     </div>
                 </div>
