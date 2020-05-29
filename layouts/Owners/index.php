@@ -19,7 +19,9 @@ $this->dependencies->add(['other', '<script>menu_focus("owners");</script>']);
             <a><i class="fas fa-qrcode"></i></a>
             <?php if (Functions::check_user_access(['{owners_create}']) == true) : ?>
             <a class="active" data-button-modal="new_owner"><i class="fas fa-plus"></i></a>
+            <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
             <a><i class="fas fa-cloud-download-alt"></i></a>
+            <?php endif; ?>
             <?php endif; ?>
         </div>
     </section>
