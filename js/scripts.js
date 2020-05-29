@@ -24,13 +24,13 @@ $(document).ready(function ()
         {
             open_rightbar = true;
 
-            $(this).find('i').html('<i class="fas fa-times-circle"></i>');
+            $(this).html('<i class="fas fa-times-circle"></i>');
         }
         else if (open_rightbar == true)
         {
             open_rightbar = false;
 
-            $(this).find('i').html('<i class="fas fa-bars"></i>');
+            $(this).html('<i class="fas fa-bars"></i>');
         }
     });
 
