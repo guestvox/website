@@ -12,7 +12,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
         <h2>¡{$lang.signup}!</h2>
         <h3>{$lang.and_start_free_demo}</h3>
         <div class="steps">
-            <div class="step-buttons">
+            <div class="step_buttons">
                 <a class="view" data-step="1">1</a>
                 <a data-step="2">2</a>
                 <a data-step="3">3</a>
@@ -20,7 +20,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                 <a data-step="5">5</a>
                 <a data-step="6"><i class="fas fa-check"></i></a>
             </div>
-            <div class="step-container view" data-step="1">
+            <div class="step_container view" data-step="1">
                 <h2>{$lang.step_1}: {$lang.account_information}</h2>
                 <div class="row">
                     <div class="span6">
@@ -125,11 +125,11 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                 <a data-action="next">{$lang.next}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
-            <div class="step-container" data-step="2">
+            <div class="step_container" data-step="2">
                 <h2>{$lang.step_2}: {$lang.logotype}</h2>
                 <div class="row">
                     <div class="span6">
-                        <div class="st-1" data-uploader="low">
+                        <div class="stl_1" data-uploader="low">
                             <figure data-preview>
                                 <img src="{$path.images}account.png" alt="Account">
                                 <a data-select><i class="fas fa-upload"></i></a>
@@ -141,7 +141,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                 <a data-action="next">{$lang.next}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
-            <div class="step-container" data-step="3">
+            <div class="step_container" data-step="3">
                 <h2>{$lang.step_3}: {$lang.billing_information}</h2>
                 <div class="row">
                     <div class="span6">
@@ -198,7 +198,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                 <a data-action="next">{$lang.next}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
-            <div class="step-container" data-step="4">
+            <div class="step_container" data-step="4">
                 <h2>{$lang.step_4}: {$lang.admin_information}</h2>
                 <div class="row">
                     <div class="span6">
@@ -245,7 +245,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                 <a data-action="next">{$lang.next}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
-            <div class="step-container" data-step="5">
+            <div class="step_container" data-step="5">
                 <h2>{$lang.step_5}: {$lang.payment_information}</h2>
                 <div class="row">
                     <div class="span6">
@@ -257,16 +257,16 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         </div>
                     </div>
                 </div>
-                <p>* {$lang.signup_accept_1} <a href="/terms-and-conditions" target="_blank">{$lang.terms_conditions}</a> {$lang.signup_accept_2} <a href="/privacy-policies" target="_blank">{$lang.privacy_policies}</a></p>
+                <p>* {$lang.signup_accept_1} <a href="/terms-and-conditions" target="_blank">{$lang.terms_and_conditions}</a> {$lang.signup_accept_2} <a href="/privacy-policies" target="_blank">{$lang.privacy_policies}</a></p>
                 <a data-action="next">{$lang.start_demo}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
-            <div class="step-container" data-step="6">
+            <div class="step_container" data-step="6">
                 <div class="row">
                     <div class="span6">
                         <div class="success">
                             <figure>
-                                <img src="{$path.images}signup/check.png" alt="Icon">
+                                <img src="{$path.images}signup/success.png" alt="Icon">
                             </figure>
                             <p id="success"></p>
                         </div>

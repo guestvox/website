@@ -45,7 +45,7 @@ main.signup > form > h3 {
     }
 }
 
-main.signup > form > div.steps > div.step-buttons {
+main.signup > form > div.steps > div.step_buttons {
     width: 100%;
     display: flex;
     align-items: center;
@@ -56,12 +56,12 @@ main.signup > form > div.steps > div.step-buttons {
 
 @media (max-width: 768px) {
 
-    main.signup > form > div.steps > div.step-buttons {
+    main.signup > form > div.steps > div.step_buttons {
         padding: 20px 0px;
     }
 }
 
-main.signup > form > div.steps > div.step-buttons > a {
+main.signup > form > div.steps > div.step_buttons > a {
     width: 50px;
     height: 50px;
     position: relative;
@@ -81,7 +81,7 @@ main.signup > form > div.steps > div.step-buttons > a {
 
 @media (max-width: 768px) {
 
-    main.signup > form > div.steps > div.step-buttons > a {
+    main.signup > form > div.steps > div.step_buttons > a {
         width: 30px;
         height: 30px;
         margin: 0px 5px;
@@ -89,7 +89,7 @@ main.signup > form > div.steps > div.step-buttons > a {
     }
 }
 
-main.signup > form > div.steps > div.step-buttons > a::after {
+main.signup > form > div.steps > div.step_buttons > a::after {
     width: 22px;
     height: 2px;
     top: calc(50% - 1px);
@@ -99,20 +99,20 @@ main.signup > form > div.steps > div.step-buttons > a::after {
     background-color: #00a5ab;
 }
 
-main.signup > form > div.steps > div.step-buttons > a:last-child::after {
+main.signup > form > div.steps > div.step_buttons > a:last-child::after {
     display: none;
 }
 
-main.signup > form > div.steps > div.step-buttons > a.view {
+main.signup > form > div.steps > div.step_buttons > a.view {
     color: #fff;
     background-color: #00a5ab;
 }
 
-main.signup > form > div.steps > div.step-buttons > a > img {
+main.signup > form > div.steps > div.step_buttons > a > img {
     width: 100%;
 }
 
-main.signup > form > div.steps > div.step-container {
+main.signup > form > div.steps > div.step_container {
     width: 100%;
     display: none;
     align-items: center;
@@ -124,16 +124,16 @@ main.signup > form > div.steps > div.step-container {
 
 @media (max-width: 768px) {
 
-    main.signup > form > div.steps > div.step-container {
+    main.signup > form > div.steps > div.step_container {
         padding: 0px;
     }
 }
 
-main.signup > form > div.steps > div.step-container.view {
+main.signup > form > div.steps > div.step_container.view {
     display: flex;
 }
 
-main.signup > form > div.steps > div.step-container > h2 {
+main.signup > form > div.steps > div.step_container > h2 {
     margin: 0px 0px 20px 0px;
     font-size: 20px;
     font-weight: 400;
@@ -143,12 +143,12 @@ main.signup > form > div.steps > div.step-container > h2 {
 
 @media (max-width: 768px) {
 
-    main.signup > form > div.steps > div.step-container > h2 {
+    main.signup > form > div.steps > div.step_container > h2 {
         font-size: 16px;
     }
 }
 
-main.signup > form > div.steps > div.step-container > div.row {
+main.signup > form > div.steps > div.step_container > div.row {
     width: 100%;
     display: flex;
     align-items: center;
@@ -158,44 +158,44 @@ main.signup > form > div.steps > div.step-container > div.row {
 
 @media (max-width: 768px) {
 
-    main.signup > form > div.steps > div.step-container > div.row {
+    main.signup > form > div.steps > div.step_container > div.row {
         flex-direction: column;
     }
 }
 
-main.signup > form > div.steps > div.step-container > div.row > [class*=span] {
+main.signup > form > div.steps > div.step_container > div.row > [class*=span] {
     padding: 0px 10px !important;
     box-sizing: border-box !important;
 }
 
 @media (max-width: 768px) {
 
-    main.signup > form > div.steps > div.step-container > div.row > [class*=span] {
+    main.signup > form > div.steps > div.step_container > div.row > [class*=span] {
         padding: 0px 0px 20px 0px !important;
     }
 
-    main.signup > form > div.steps > div.step-container > div.row > [class*=span]:last-child {
+    main.signup > form > div.steps > div.step_container > div.row > [class*=span]:last-child {
         padding: 0px !important;
     }
 }
 
-main.signup > form > div.steps > div.step-container > div.row > [class*=span] > [class*=span] {
+main.signup > form > div.steps > div.step_container > div.row > [class*=span] > [class*=span] {
     padding: 0px !important;
     min-height: auto !important;
 }
 
 @media (max-width: 768px) {
 
-    main.signup > form > div.steps > div.step-container > div.row > [class*=span] > [class*=span] {
+    main.signup > form > div.steps > div.step_container > div.row > [class*=span] > [class*=span] {
         padding: 0px 0px 20px 0px !important;
     }
 
-    main.signup > form > div.steps > div.step-container > div.row > [class*=span] > [class*=span]:last-child {
+    main.signup > form > div.steps > div.step_container > div.row > [class*=span] > [class*=span]:last-child {
         padding: 0px !important;
     }
 }
 
-main.signup > form > div.steps > div.step-container > div.row fieldset {
+main.signup > form > div.steps > div.step_container > div.row fieldset {
     width: 100%;
     padding: 5px;
     box-sizing: border-box;
@@ -203,13 +203,13 @@ main.signup > form > div.steps > div.step-container > div.row fieldset {
 
 @media (max-width: 768px) {
 
-    main.signup > form > div.steps > div.step-container > div.row fieldset {
+    main.signup > form > div.steps > div.step_container > div.row fieldset {
         padding: 0px;
     }
 }
 
-main.signup > form > div.steps > div.step-container > div.row fieldset > input,
-main.signup > form > div.steps > div.step-container > div.row fieldset > select {
+main.signup > form > div.steps > div.step_container > div.row fieldset > input,
+main.signup > form > div.steps > div.step_container > div.row fieldset > select {
     width: 100%;
     height: 60px;
     border: none;
@@ -222,16 +222,16 @@ main.signup > form > div.steps > div.step-container > div.row fieldset > select 
     color: #757575;
 }
 
-main.signup > form > div.steps > div.step-container > div.row fieldset.error > input,
-main.signup > form > div.steps > div.step-container > div.row fieldset.error > select {
+main.signup > form > div.steps > div.step_container > div.row fieldset.error > input,
+main.signup > form > div.steps > div.step_container > div.row fieldset.error > select {
     border: 1px solid #f44336;
 }
 
-main.signup > form > div.steps > div.step-container > div.row fieldset.path {
+main.signup > form > div.steps > div.step_container > div.row fieldset.path {
     position: relative;
 }
 
-main.signup > form > div.steps > div.step-container > div.row fieldset.path > span {
+main.signup > form > div.steps > div.step_container > div.row fieldset.path > span {
     position: absolute;
     top: 40px;
     left: 5px;
@@ -244,13 +244,13 @@ main.signup > form > div.steps > div.step-container > div.row fieldset.path > sp
 
 @media (max-width: 768px) {
 
-    main.signup > form > div.steps > div.step-container > div.row fieldset.path > span {
+    main.signup > form > div.steps > div.step_container > div.row fieldset.path > span {
         top: 35px;
         left: 0px;
     }
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.package {
+main.signup > form > div.steps > div.step_container > div.row div.package {
     width: 100%;
     height: 300px;
     display: flex;
@@ -264,56 +264,56 @@ main.signup > form > div.steps > div.step-container > div.row div.package {
     cursor: pointer;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.package > span {
+main.signup > form > div.steps > div.step_container > div.row div.package > span {
     margin-bottom: 20px;
     font-size: 70px;
     color: #fff;
     transition: 400ms;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.package > h3,
-main.signup > form > div.steps > div.step-container > div.row div.package > h4,
-main.signup > form > div.steps > div.step-container > div.row div.package > p {
+main.signup > form > div.steps > div.step_container > div.row div.package > h3,
+main.signup > form > div.steps > div.step_container > div.row div.package > h4,
+main.signup > form > div.steps > div.step_container > div.row div.package > p {
     margin: 0px;
     text-align: center;
     color: #fff;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.package > h3 {
+main.signup > form > div.steps > div.step_container > div.row div.package > h3 {
     font-size: 14px;
     font-weight: 400;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.package > h3 > span {
+main.signup > form > div.steps > div.step_container > div.row div.package > h3 > span {
     display: block;
     font-size: 24px;
     font-weight: 600;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.package > h4 {
+main.signup > form > div.steps > div.step_container > div.row div.package > h4 {
     font-size: 14px;
     font-weight: 400;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.package > h4 > span {
+main.signup > form > div.steps > div.step_container > div.row div.package > h4 > span {
     display: block;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.package > p {
+main.signup > form > div.steps > div.step_container > div.row div.package > p {
     margin-top: 15px;
     font-size: 10px;
     font-weight: 400;
     line-height: 10px;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div[data-uploader] > figure {
+main.signup > form > div.steps > div.step_container > div.row div[data-uploader] > figure {
     width: 300px !important;
     height: 300px !important;
     border: 2px dashed #e0e0e0;
     box-sizing: border-box;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.payment {
+main.signup > form > div.steps > div.step_container > div.row div.payment {
     width: 100%;
     display: flex;
     align-items: center;
@@ -322,25 +322,25 @@ main.signup > form > div.steps > div.step-container > div.row div.payment {
     box-sizing: border-box;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.payment > fieldset {
+main.signup > form > div.steps > div.step_container > div.row div.payment > fieldset {
     width: auto;
     padding: 0px;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.payment > fieldset.error {
+main.signup > form > div.steps > div.step_container > div.row div.payment > fieldset.error {
     border-top: 1px solid #f44336;
     border-bottom: 1px solid #f44336;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.payment > fieldset:first-child.error {
+main.signup > form > div.steps > div.step_container > div.row div.payment > fieldset:first-child.error {
     border-left: 1px solid #f44336;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.payment > fieldset:last-child.error {
+main.signup > form > div.steps > div.step_container > div.row div.payment > fieldset:last-child.error {
     border-right: 1px solid #f44336;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.payment > fieldset > label {
+main.signup > form > div.steps > div.step_container > div.row div.payment > fieldset > label {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -350,17 +350,17 @@ main.signup > form > div.steps > div.step-container > div.row div.payment > fiel
     cursor: pointer;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.payment > fieldset > label > figure,
-main.signup > form > div.steps > div.step-container > div.row div.payment > fieldset > label > figure > img {
+main.signup > form > div.steps > div.step_container > div.row div.payment > fieldset > label > figure,
+main.signup > form > div.steps > div.step_container > div.row div.payment > fieldset > label > figure > img {
     width: auto;
     height: 40px;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.payment > fieldset > label > figure {
+main.signup > form > div.steps > div.step_container > div.row div.payment > fieldset > label > figure {
     margin-bottom: 10px;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.success {
+main.signup > form > div.steps > div.step_container > div.row div.success {
     width: 100%;
     display: flex;
     align-items: center;
@@ -368,17 +368,17 @@ main.signup > form > div.steps > div.step-container > div.row div.success {
     flex-direction: column;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.success > figure {
+main.signup > form > div.steps > div.step_container > div.row div.success > figure {
     width: 100%;
     max-width: 300px;
     margin-bottom: 20px;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.success > figure > img {
+main.signup > form > div.steps > div.step_container > div.row div.success > figure > img {
     width: 100%;
 }
 
-main.signup > form > div.steps > div.step-container > div.row div.success > p {
+main.signup > form > div.steps > div.step_container > div.row div.success > p {
     font-size: 16px;
     font-weight: 400;
     text-align: center;
@@ -386,9 +386,9 @@ main.signup > form > div.steps > div.step-container > div.row div.success > p {
     color: #757575;
 }
 
-main.signup > form > div.steps > div.step-container > button,
-main.signup > form > div.steps > div.step-container > a,
-main.signup > form > div.steps > div.step-container > a[data-action="next"] {
+main.signup > form > div.steps > div.step_container > button,
+main.signup > form > div.steps > div.step_container > a,
+main.signup > form > div.steps > div.step_container > a[data-action="next"] {
     width: 200px;
     height: 60px;
     display: flex;
@@ -403,12 +403,12 @@ main.signup > form > div.steps > div.step-container > a[data-action="next"] {
     color: #000;
 }
 
-main.signup > form > div.steps > div.step-container > a {
+main.signup > form > div.steps > div.step_container > a {
     height: auto;
     background: none;
 }
 
-main.signup > form > div.steps > div.step-container > p {
+main.signup > form > div.steps > div.step_container > p {
     margin-bottom: 20px;
     font-size: 12px;
     font-weight: 400;
@@ -416,13 +416,13 @@ main.signup > form > div.steps > div.step-container > p {
     color: #757575;
 }
 
-main.signup > form > div.steps > div.step-container > p > a {
+main.signup > form > div.steps > div.step_container > p > a {
     font-size: 12px;
     font-weight: 400;
     color: #000;
 }
 
-main.signup > form > div.steps > div.step-container > figure {
+main.signup > form > div.steps > div.step_container > figure {
     width: auto;
     display: flex;
     align-items: center;
@@ -430,12 +430,12 @@ main.signup > form > div.steps > div.step-container > figure {
     flex-direction: column;
 }
 
-main.signup > form > div.steps > div.step-container > figure > img {
+main.signup > form > div.steps > div.step_container > figure > img {
     width: 40px;
     height: 40px;
 }
 
-main.signup > form > div.steps > div.step-container > figure > span {
+main.signup > form > div.steps > div.step_container > figure > span {
     font-size: 12px;
     font-weight: 400;
     color: #757575;

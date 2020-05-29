@@ -1,5 +1,5 @@
 
-main.signup-activate {
+main.signup_activate {
     width: 100%;
     height: 100vh;
     display: flex;
@@ -12,8 +12,8 @@ main.signup-activate {
     background-color: #fff;
 }
 
-main.signup-activate > figure,
-main.signup-activate > figure > img {
+main.signup_activate > figure,
+main.signup_activate > figure > img {
     width: auto;
     height: 150px;
     line-height: 0px;
@@ -21,7 +21,7 @@ main.signup-activate > figure > img {
     padding: 0px;
 }
 
-main.signup-activate > p {
+main.signup_activate > p {
     margin: 40px 0px;
     font-size: 24px;
     font-weight: 600;
@@ -31,11 +31,11 @@ main.signup-activate > p {
     color: #757575;
 }
 
-main.signup-activate > p > strong {
+main.signup_activate > p > strong {
     color: #000;
 }
 
-main.signup-activate > figure:last-child {
+main.signup_activate > figure:last-child {
     width: auto;
     display: flex;
     align-items: center;
@@ -43,12 +43,12 @@ main.signup-activate > figure:last-child {
     flex-direction: column;
 }
 
-main.signup-activate > figure:last-child > img {
+main.signup_activate > figure:last-child > img {
     width: 40px;
     height: 40px;
 }
 
-main.signup-activate > figure:last-child > span {
+main.signup_activate > figure:last-child > span {
     font-size: 12px;
     font-weight: 400;
     color: #757575;

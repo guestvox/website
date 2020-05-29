@@ -19,13 +19,12 @@ $(document).ready(function()
         if (out.length > 0)
             $(this).parent().find('span').find('strong').html(out);
         else
-            $(this).parent().find('span').find('strong').html('micuenta');
+            $(this).parent().find('span').find('strong').html('mi-cuenta');
     });
 
     $('[name="type"]').on('change', function()
     {
-        $(this).parent().parent().removeClass('span6');
-        $(this).parent().parent().addClass('span3');
+        $(this).parent().parent().removeClass('span6').addClass('span3');
 
         $('[name="quantity"]').val('');
         $('[name="quantity"]').parent().parent().removeClass('hidden');

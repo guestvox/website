@@ -338,11 +338,11 @@ class Signup_controller extends Controller
 							'Nombre: ' . $_POST['name'] . '<br>
 							Tipo: ' . Lang::general($_POST['type'])['es'] . '<br>
 							Cantidad: ' . $_POST['quantity'] . '<br>
-							Páis: ' . $_POST['country'] . ' ' . $_POST['city'] . ' ' . $_POST['zip_code'] . '<br>
+							Páis: ' . $_POST['country'] . ' - ' . $_POST['city'] . ' - ' . $_POST['zip_code'] . '<br>
 							ID Fiscal: ' . $_POST['fiscal_id'] . '<br>
 							Nombre fiscal: ' . $_POST['fiscal_name'] . '<br>
-							Contácto: ' . $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname'] . ' ' . $_POST['contact_department'] . ' ' .  $_POST['contact_email'] . ' +' . $_POST['contact_phone_lada'] . ' ' . $_POST['contact_phone_number'] . '<br>
-							Administrador: ' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' ' . $_POST['email'] . ' +' . $_POST['phone_lada'] . ' ' . $_POST['phone_number'];
+							Contácto: ' . $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname'] . ' - ' . $_POST['contact_department'] . ' - ' .  $_POST['contact_email'] . ' + (' . $_POST['contact_phone_lada'] . ') ' . $_POST['contact_phone_number'] . '<br>
+							Administrador: ' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' - ' . $_POST['email'] . ' + (' . $_POST['phone_lada'] . ') ' . $_POST['phone_number'];
 							$mail3->send();
 						}
 						catch (Exception $e) { }
