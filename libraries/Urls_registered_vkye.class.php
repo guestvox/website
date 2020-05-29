@@ -13,11 +13,11 @@ class Urls_registered_vkye
                 'controller' => 'Index',
                 'method' => 'index'
             ],
-            '/operacion' => [
+            '/operation' => [
                 'controller' => 'Hi',
                 'method' => 'operation'
             ],
-            '/reputacion' => [
+            '/reputation' => [
                 'controller' => 'Hi',
                 'method' => 'reputation'
             ],
@@ -45,139 +45,131 @@ class Urls_registered_vkye
                 'controller' => 'Signup',
                 'method' => 'activate'
             ],
-            '/%param%/myvox' => [
-                'controller' => 'Myvox',
-                'method' => 'index'
-            ],
-            '/%param%/myvox/%param%' => [
-                'controller' => 'Myvox',
-                'method' => 'index'
-            ],
-            '/%param%/myvox/%param%/%param%' => [
-                'controller' => 'Myvox',
-                'method' => 'index'
-            ],
-            '/%param%/reviews' => [
-                'controller' => 'Reviews',
-                'method' => 'index'
-            ],
+            // '/%param%/myvox' => [
+            //     'controller' => 'Myvox',
+            //     'method' => 'index'
+            // ],
+            // '/%param%/myvox/%param%' => [
+            //     'controller' => 'Myvox',
+            //     'method' => 'index'
+            // ],
+            // '/%param%/myvox/%param%/%param%' => [
+            //     'controller' => 'Myvox',
+            //     'method' => 'index'
+            // ],
+            // '/%param%/reviews' => [
+            //     'controller' => 'Reviews',
+            //     'method' => 'index'
+            // ],
             '/login' => [
                 'controller' => 'Login',
                 'method' => 'index'
+            ],
+            '/logout' => [
+                'controller' => 'Login',
+                'method' => 'logout'
             ],
             '/dashboard' => [
                 'controller' => 'Dashboard',
                 'method' => 'index'
             ],
-            '/logout' => [
-                'controller' => 'Dashboard',
-                'method' => 'logout'
-            ],
-            '/voxes' => [
-                'controller' => 'Voxes',
-                'method' => 'index'
-            ],
-            '/voxes/create' => [
-                'controller' => 'Voxes',
-                'method' => 'create'
-            ],
-            '/voxes/details/%param%' => [
-                'controller' => 'Voxes',
-                'method' => 'details'
-            ],
-            '/voxes/edit/%param%' => [
-                'controller' => 'Voxes',
-                'method' => 'edit'
-            ],
-            '/voxes/reports/%param%' => [
-                'controller' => 'Voxes',
-                'method' => 'reports'
-            ],
-            '/voxes/stats' => [
-                'controller' => 'Voxes',
-                'method' => 'stats'
-            ],
-            '/voxes/charts' => [
-                'controller' => 'Voxes',
-                'method' => 'charts'
-            ],
-            '/surveys' => [
-                'controller' => 'Surveys',
-                'method' => 'index'
-            ],
-            '/surveys/questions' => [
-                'controller' => 'Surveys',
-                'method' => 'questions'
-            ],
-            '/surveys/answers' => [
-                'controller' => 'Surveys',
-                'method' => 'answers'
-            ],
-            '/surveys/comments' => [
-                'controller' => 'Surveys',
-                'method' => 'comments'
-            ],
-            '/surveys/contacts' => [
-                'controller' => 'Surveys',
-                'method' => 'contacts'
-            ],
-            '/surveys/stats' => [
-                'controller' => 'Surveys',
-                'method' => 'stats'
-            ],
-            '/surveys/charts' => [
-                'controller' => 'Surveys',
-                'method' => 'charts'
-            ],
+            // '/voxes' => [
+            //     'controller' => 'Voxes',
+            //     'method' => 'index'
+            // ],
+            // '/voxes/create' => [
+            //     'controller' => 'Voxes',
+            //     'method' => 'create'
+            // ],
+            // '/voxes/edit/%param%' => [
+            //     'controller' => 'Voxes',
+            //     'method' => 'edit'
+            // ],
+            // '/voxes/details/%param%' => [
+            //     'controller' => 'Voxes',
+            //     'method' => 'details'
+            // ],
+            // '/voxes/reports/%param%' => [
+            //     'controller' => 'Voxes',
+            //     'method' => 'reports'
+            // ],
+            // '/voxes/stats' => [
+            //     'controller' => 'Voxes',
+            //     'method' => 'stats'
+            // ],
+            // '/voxes/charts' => [
+            //     'controller' => 'Voxes',
+            //     'method' => 'charts'
+            // ],
+            // '/surveys' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'index'
+            // ],
+            // '/surveys/questions' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'questions'
+            // ],
+            // '/surveys/answers' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'answers'
+            // ],
+            // '/surveys/comments' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'comments'
+            // ],
+            // '/surveys/contacts' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'contacts'
+            // ],
+            // '/surveys/stats' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'stats'
+            // ],
+            // '/surveys/charts' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'charts'
+            // ],
             '/owners' => [
                 'controller' => 'Owners',
                 'method' => 'index'
             ],
-            '/opportunityareas' => [
-                'controller' => 'Opportunityareas',
-                'method' => 'index'
-            ],
-            '/opportunitytypes' => [
-                'controller' => 'Opportunitytypes',
-                'method' => 'index'
-            ],
-            '/locations' => [
-                'controller' => 'Locations',
-                'method' => 'index'
-            ],
-            '/reservationsstatuses' => [
-                'controller' => 'Reservationsstatuses',
-                'method' => 'index'
-            ],
-            '/gueststreatments' => [
-                'controller' => 'Gueststreatments',
-                'method' => 'index'
-            ],
-            '/gueststypes' => [
-                'controller' => 'Gueststypes',
-                'method' => 'index'
-            ],
-            '/information' => [
-                'controller' => 'Information',
-                'method' => 'index'
-            ],
-            '/menu' => [
-                'controller' => 'Menu',
-                'method' => 'index'
-            ],
-            '/users' => [
-                'controller' => 'Users',
-                'method' => 'index'
-            ],
-            '/userslevels' => [
-                'controller' => 'Userslevels',
-                'method' => 'index'
-            ],
+            // '/opportunity-areas' => [
+            //     'controller' => 'Opportunityareas',
+            //     'method' => 'index'
+            // ],
+            // '/opportunity-types' => [
+            //     'controller' => 'Opportunitytypes',
+            //     'method' => 'index'
+            // ],
+            // '/locations' => [
+            //     'controller' => 'Locations',
+            //     'method' => 'index'
+            // ],
+            // '/reservations-statuses' => [
+            //     'controller' => 'Reservationsstatuses',
+            //     'method' => 'index'
+            // ],
+            // '/guests-treatments' => [
+            //     'controller' => 'Gueststreatments',
+            //     'method' => 'index'
+            // ],
+            // '/guests-types' => [
+            //     'controller' => 'Gueststypes',
+            //     'method' => 'index'
+            // ],
+            // '/users' => [
+            //     'controller' => 'Users',
+            //     'method' => 'index'
+            // ],
+            // '/users-levels' => [
+            //     'controller' => 'Userslevels',
+            //     'method' => 'index'
+            // ],
             '/account' => [
                 'controller' => 'Account',
                 'method' => 'index'
             ],
-            '/profile' => [
+            '/my-profile' => [
                 'controller' => 'Profile',
                 'method' => 'index'
             ]

@@ -4,18 +4,18 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.css}Hi/operation.css']);
 $this->dependencies->add(['js', '{$path.js}Hi/operation.js']);
-$this->dependencies->add(['js', '{$path.plugins}owl-carousel/owl.carousel.min.js']);
-$this->dependencies->add(['css', '{$path.plugins}owl-carousel/assets/owl.carousel.min.css']);
-$this->dependencies->add(['css', '{$path.plugins}owl-carousel/assets/owl.theme.default.min.css']);
-$this->dependencies->add(['css', '{$path.plugins}fancy-box/jquery.fancybox.min.css']);
-$this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js']);
+$this->dependencies->add(['js', '{$path.plugins}owl_carousel/owl.carousel.min.js']);
+$this->dependencies->add(['css', '{$path.plugins}owl_carousel/assets/owl.carousel.min.css']);
+$this->dependencies->add(['css', '{$path.plugins}owl_carousel/assets/owl.theme.default.min.css']);
+$this->dependencies->add(['css', '{$path.plugins}fancy_box/jquery.fancybox.min.css']);
+$this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js']);
 
 ?>
 
 <main class="landing-page-operation">
     <header class="topbar">
         <figure>
-            <img src="{$path.images}hi/operation/logotype-white.png" alt="Guestvox">
+            <img src="{$path.images}hi/operation/logotype_white.png" alt="Guestvox">
         </figure>
         <nav>
             <ul>
@@ -67,7 +67,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
             <div class="boxes-product">
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}hi/operation/icon-lock.svg" alt="Icon" width="70" height="70">
+                        <img src="{$path.images}hi/operation/icon_lock.svg" alt="Icon" width="70" height="70">
                     </figure>
                     <h4>{$lang.landing_page_hi_operation_text_8}</h4>
                     <p>{$lang.landing_page_hi_operation_text_9}</p>
@@ -81,14 +81,14 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
                 </div>
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}hi/operation/icon-attachment.svg" alt="Icon" width="70" height="70">
+                        <img src="{$path.images}hi/operation/icon_attachment.svg" alt="Icon" width="70" height="70">
                     </figure>
                     <h4>{$lang.landing_page_hi_operation_text_12}</h4>
                     <p>{$lang.landing_page_hi_operation_text_13}</p>
                 </div>
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}hi/operation/icon-person-follow.svg" alt="Icon" width="70" height="70">
+                        <img src="{$path.images}hi/operation/icon_person_follow.svg" alt="Icon" width="70" height="70">
                     </figure>
                     <h4>{$lang.landing_page_hi_operation_text_14}</h4>
                     <p>{$lang.landing_page_hi_operation_text_15}</p>
@@ -102,7 +102,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js
                 </div>
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}hi/operation/icon-multi-device.svg" alt="Icon" width="70" height="70">
+                        <img src="{$path.images}hi/operation/icon_multi_device.svg" alt="Icon" width="70" height="70">
                     </figure>
                     <h4>{$lang.landing_page_hi_operation_text_18}</h4>
                     <p>{$lang.landing_page_hi_operation_text_19}</p>

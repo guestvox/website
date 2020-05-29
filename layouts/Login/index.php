@@ -9,7 +9,7 @@ $this->dependencies->add(['js', '{$path.js}Login/index.js']);
 
 <main class="login">
     <figure>
-        <img src="{$path.images}logotype-white.png" alt="Guestvox">
+        <img src="{$path.images}logotype_white.png" alt="Guestvox">
     </figure>
     <form name="login">
         <fieldset>

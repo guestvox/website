@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-require 'plugins/php-qr-code/qrlib.php';
+require 'plugins/php_qr_code/qrlib.php';
 
 class Owners_model extends Model
 {
@@ -11,44 +11,56 @@ class Owners_model extends Model
 		parent::__construct();
 	}
 
-    public function get_owners()
+    public function get_owners($count = false)
 	{
-		$query = $this->database->select('owners', [
-			'id',
-			'token',
-			'number',
-			'name',
-			'qr',
-			'status'
-		], [
-			'account' => Session::get_value('account')['id'],
-			'ORDER' => [
-				'number' => 'ASC'
-			]
-		]);
+		$query = null;
 
-		return $query;
-	}
-
-	public function get_count_owners()
-	{
-		$query = $this->database->count('owners', [
-			'account' => Session::get_value('account')['id']
-		]);
+		if ($count == true)
+		{
+			$query = $this->database->count('owners', [
+				'account' => Session::get_value('account')['id']
+			]);
+		}
+		else
+		{
+			$query = Functions::get_json_decoded_query($this->database->select('owners', [
+				'id',
+				'token',
+				'name',
+				'number',
+				'request',
+				'incident',
+				'workorder',
+				'survey',
+				'public',
+				'qr',
+				'status'
+			], [
+				'account' => Session::get_value('account')['id'],
+				'ORDER' => [
+					'number' => 'ASC',
+					'name' => 'ASC'
+				]
+			]));
+		}
 
 		return $query;
 	}
 
 	public function get_owner($id)
 	{
-		$query = $this->database->select('owners', [
-			'number',
+		$query = Functions::get_json_decoded_query($this->database->select('owners', [
 			'name',
-			'qr',
-			'status'
+			'number',
+			'request',
+			'incident',
+			'workorder',
+			'survey',
+			'public',
+			'qr'
 		], [
 			'id' => $id
-		]);
+		]));
 
 		return !empty($query) ? $query[0] : null;
 	}
@@ -57,82 +69,69 @@ class Owners_model extends Model
 	{
         $query = null;
 
+		if ($data['type'] == 'one')
+		{
+			$data['token'] = strtoupper(Functions::get_random(8));
+			$data['qr']['filename'] = 'qr_' . Session::get_value('account')['path'] . '_' . $data['token'] . '.png';
+			$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/' . $data['token'];
+			$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
+			$data['qr']['level'] = 'H';
+			$data['qr']['size'] = 5;
+			$data['qr']['frame'] = 3;
+
+			$query = $this->database->insert('owners', [
+				'account' => Session::get_value('account')['id'],
+				'token' => $data['token'],
+				'name' => json_encode([
+					'es' => $data['name_es'],
+					'en' => $data['name_en']
+				]),
+				'number' => $data['number'],
+				'request' => !empty($data['request']) ? true : false,
+				'incident' => !empty($data['incident']) ? true : false,
+				'workorder' => !empty($data['workorder']) ? true : false,
+				'survey' => !empty($data['survey']) ? true : false,
+				'public' => !empty($data['public']) ? true : false,
+				'qr' => $data['qr']['filename'],
+				'status' => true
+			]);
+
+			QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
+		}
 		if ($data['type'] == 'many')
 		{
 			for ($i = $data['since']; $i <= $data['to']; $i++)
 			{
-				$exist = $this->database->count('owners', [
-					'AND' => [
-						'account' => Session::get_value('account')['id'],
-						'number' => $i
-					]
-				]);
-
-				if ($exist <= 0)
+				if ($this->get_owners(true) < Session::get_value('account')['package']['quantity_end'])
 				{
-					if ($this->get_count_owners() < Session::get_value('account')['owner_package']['quantity_end'])
-					{
-						$data['token'] = Functions::get_random(8);
-						$data['qr']['filename'] = 'qr_' . Session::get_value('account')['path'] . '_owner_' . $data['token'] . '.png';
-						$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/owner/' . $data['token'];
-						$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
-						$data['qr']['level'] = 'H';
-						$data['qr']['size'] = 5;
-						$data['qr']['frame'] = 3;
-
-						$query = $this->database->insert('owners', [
-							'account' => Session::get_value('account')['id'],
-							'token' => strtoupper($data['token']),
-							'number' => $i,
-							'name' => null,
-							'qr' => $data['qr']['filename']
-						]);
-
-						QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
-					}
-				}
-			}
-		}
-		else if ($data['type'] == 'one')
-		{
-			$exist = $this->database->count('owners', [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					'number' => $data['number']
-				]
-			]);
-
-			if ($exist <= 0)
-			{
-				if ($this->get_count_owners() < Session::get_value('account')['owner_package']['quantity_end'])
-				{
-					$data['token'] = Functions::get_random(8);
-					$data['qr']['filename'] = 'qr_' . Session::get_value('account')['path'] . '_owner_' . $data['token'] . '.png';
-					$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/owner/' . $data['token'];
+					$data['token'] = strtoupper(Functions::get_random(8));
+					$data['qr']['filename'] = 'qr_' . Session::get_value('account')['path'] . '_' . $data['token'] . '.png';
+					$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/' . $data['token'];
 					$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
 					$data['qr']['level'] = 'H';
 					$data['qr']['size'] = 5;
 					$data['qr']['frame'] = 3;
 
 					$query = $this->database->insert('owners', [
-	                    'account' => Session::get_value('account')['id'],
-						'token' => strtoupper($data['token']),
-	                    'number' => $data['number'],
-	                    'name' => $data['name'],
-	                    'qr' => $data['qr']['filename']
+						'account' => Session::get_value('account')['id'],
+						'token' => $data['token'],
+						'name' => json_encode([
+							'es' => $data['name_es'],
+							'en' => $data['name_en']
+						]),
+						'number' => $i,
+						'request' => !empty($data['request']) ? true : false,
+						'incident' => !empty($data['incident']) ? true : false,
+						'workorder' => !empty($data['workorder']) ? true : false,
+						'survey' => !empty($data['survey']) ? true : false,
+						'public' => !empty($data['public']) ? true : false,
+						'qr' => $data['qr']['filename'],
+						'status' => true
 					]);
 
 					QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
 				}
 			}
-		}
-		else if($data['type'] == 'department')
-		{
-			$query = $this->database->insert('owners', [
-				'account' => Session::get_value('account')['id'],
-				'name' => $data['name'],
-				'status' => true
-			]);
 		}
 
 		return $query;
@@ -140,33 +139,41 @@ class Owners_model extends Model
 
 	public function edit_owner($data)
 	{
-		if (!empty($data['number']) AND isset($data['number']))
-		{
-			$query = null;
-
-			$exist = $this->database->count('owners', [
-				'AND' => [
-					'id[!]' => $data['id'],
-					'account' => Session::get_value('account')['id'],
-					'number' => $data['number']
-				]
-			]);
-
-			if ($exist <= 0)
-			{
-				$query = $this->database->update('owners', [
-					'number' => $data['number'],
-					'name' => $data['name']
-				], [
-					'id' => $data['id']
-				]);
-			}
-		}
-
 		$query = $this->database->update('owners', [
-			'name' => $data['name']
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'number' => $data['number'],
+			'request' => !empty($data['request']) ? true : false,
+			'incident' => !empty($data['incident']) ? true : false,
+			'workorder' => !empty($data['workorder']) ? true : false,
+			'survey' => !empty($data['survey']) ? true : false,
+			'public' => !empty($data['public']) ? true : false
 		], [
 			'id' => $data['id']
+		]);
+
+		return $query;
+	}
+
+	public function deactivate_owner($id)
+	{
+		$query = $this->database->update('owners', [
+			'status' => false
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function activate_owner($id)
+	{
+		$query = $this->database->update('owners', [
+			'status' => true
+		], [
+			'id' => $id
 		]);
 
 		return $query;

@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-require 'plugins/php-qr-code/qrlib.php';
+require 'plugins/php_qr_code/qrlib.php';
 
 class Signup_model extends Model
 {

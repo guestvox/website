@@ -4,9 +4,13 @@ defined('_EXEC') or die;
 
 class Owners_controller extends Controller
 {
+	private $lang;
+
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->lang = Session::get_value('account')['language'];
 	}
 
 	public function index()
@@ -33,30 +37,47 @@ class Owners_controller extends Controller
                 }
 			}
 
-			if ($_POST['action'] == 'new_owner')
+			if ($_POST['action'] == 'new_owner' OR $_POST['action'] == 'edit_owner')
 			{
 				$labels = [];
 
-				if (!isset($_POST['type']) OR empty($_POST['type']))
-					array_push($labels, ['type', '']);
-
-				if ($_POST['type'] == 'many')
+				if ($_POST['action'] == 'new_owner')
 				{
-					if (!isset($_POST['since']) OR empty($_POST['since']))
-						array_push($labels, ['since', '']);
+					if (!isset($_POST['type']) OR empty($_POST['type']))
+						array_push($labels, ['type', '']);
 
-					if (!isset($_POST['to']) OR empty($_POST['to']))
-						array_push($labels, ['to', '']);
+					if ($_POST['type'] == 'one')
+					{
+						if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
+							array_push($labels, ['name_es', '']);
+
+						if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
+							array_push($labels, ['name_en', '']);
+					}
+					else if ($_POST['type'] == 'many')
+					{
+						if (!isset($_POST['since']) OR empty($_POST['since']))
+							array_push($labels, ['since', '']);
+
+						if (!isset($_POST['to']) OR empty($_POST['to']))
+							array_push($labels, ['to', '']);
+					}
 				}
-				else if ($_POST['type'] == 'one')
+				else if ($_POST['action'] == 'edit_owner')
 				{
-					if (!isset($_POST['number']) OR empty($_POST['number']))
-						array_push($labels, ['number', '']);
+					if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
+						array_push($labels, ['name_es', '']);
+
+					if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
+						array_push($labels, ['name_en', '']);
 				}
 
 				if (empty($labels))
 				{
-					$query = $this->model->new_owner($_POST);
+					if ($_POST['action'] == 'new_owner')
+						$query = $this->model->new_owner($_POST);
+					else if ($_POST['action'] == 'edit_owner')
+						$query = $this->model->edit_owner($_POST);
 
 					if (!empty($query))
 					{
@@ -82,101 +103,14 @@ class Owners_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'download_owners')
+			if ($_POST['action'] == 'deactivate_owner' OR $_POST['action'] == 'activate_owner' OR $_POST['action'] == 'delete_owner')
 			{
-				$owners = Functions::api('zaviapms', Session::get_value('account')['zaviapms'], 'get', 'owners');
-
-				if (!empty($owners))
-				{
-					foreach ($owners as $value)
-					{
-						$this->model->new_owner([
-							'type' => 'one',
-							'number' => $value['Number'],
-							'name' => ''
-						]);
-					}
-				}
-
-				Functions::environment([
-					'status' => 'success',
-					'message' => '{$lang.operation_success}'
-				]);
-			}
-
-			if ($_POST['action'] == 'edit_owner')
-			{
-				$labels = [];
-
-				if (!isset($_POST['number']) OR empty($_POST['number']))
-					array_push($labels, ['number', '']);
-
-				if (empty($labels))
-				{
-					$query = $this->model->edit_owner($_POST);
-
-					if (!empty($query))
-					{
-						Functions::environment([
-							'status' => 'success',
-							'message' => '{$lang.operation_success}'
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.operation_error}'
-						]);
-					}
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'labels' => $labels
-					]);
-				}
-			}
-
-			if ($_POST['action'] == 'edit_department')
-			{
-				$labels = [];
-
-				if (!isset($_POST['name']) OR empty($_POST['name']))
-					array_push($labels, ['name', '']);
-
-				if (empty($labels))
-				{
-					$query = $this->model->edit_owner($_POST);
-
-					if (!empty($query))
-					{
-						Functions::environment([
-							'status' => 'success',
-							'message' => '{$lang.operation_success}'
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.operation_error}'
-						]);
-					}
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'labels' => $labels
-					]);
-				}
-			}
-
-			if ($_POST['action'] == 'delete_owner')
-			{
-				$query = $this->model->delete_owner($_POST['id']);
+				if ($_POST['action'] == 'deactivate_owner')
+					$query = $this->model->deactivate_owner($_POST['id']);
+				else if ($_POST['action'] == 'activate_owner')
+					$query = $this->model->activate_owner($_POST['id']);
+				else if ($_POST['action'] == 'delete_owner')
+					$query = $this->model->delete_owner($_POST['id']);
 
 				if (!empty($query))
 				{
@@ -196,162 +130,206 @@ class Owners_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox');
-
 			$template = $this->view->render($this, 'index');
+
+			define('_title', 'Guestvox | {$lang.owners}');
 
 			$tbl_owners = '';
 
 			foreach ($this->model->get_owners() as $value)
 			{
 				$tbl_owners .=
-				'<tr>
-					<td align="left">' . $value['token'] . '</td>
-					<td align="left">' . (!empty($value['number']) ? '#' .  $value['number'] . '' : '') . '</td>
-					<td align="left">' . $value['name'] . '</td>
-					<td align="right" class="icon">' . (!empty($value['number']) ? '<a href="{$path.uploads}' . $value['qr'] . '" download="' . $value['qr'] . '"><i class="fas fa-qrcode"></i></a>' : '') . '</td>
-					' . ((Functions::check_user_access(['{owners_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_owner" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
-					' . ((Functions::check_user_access(['{owners_update}']) == true) ? (($value['status'] == false) ? '<td align="right" class="icon"><a data-action="edit_owner" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '<td align="right" class="icon"><a data-action="edit_department" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>') : '') . '
-				</tr>';
+				'<div>
+					<div class="datas">
+						<div class="itm-1">
+							<h2>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</h2>
+							<span>' . $value['token'] . '</span>
+							<div class="checkers">
+								<div>
+									' . (($value['request'] == true) ? '<i class="fas fa-check-square success"></i>' : '<i class="fas fa-window-close"></i>') . '
+									<span>{$lang.request}</span>
+								</div>
+								<div>
+									' . (($value['incident'] == true) ? '<i class="fas fa-check-square"></i>' : '<i class="fas fa-window-close"></i>') . '
+									<span>{$lang.incident}</span>
+								</div>
+								<div>
+									' . (($value['workorder'] == true) ? '<i class="fas fa-check-square"></i>' : '<i class="fas fa-window-close"></i>') . '
+									<span>{$lang.workorder}</span>
+								</div>
+								<div>
+									' . (($value['survey'] == true) ? '<i class="fas fa-check-square"></i>' : '<i class="fas fa-window-close"></i>') . '
+									<span>{$lang.survey}</span>
+								</div>
+								<div>
+									' . (($value['public'] == true) ? '<i class="fas fa-check-square"></i>' : '<i class="fas fa-window-close"></i>') . '
+									<span>{$lang.public}</span>
+								</div>
+							</div>
+						</div>
+						<div class="itm-2">
+							<figure>
+								<a href="{$path.uploads}' . $value['qr'] . '" download="' . $value['qr'] . '"><img src="{$path.uploads}' . $value['qr'] . '"></a>
+							</figure>
+						</div>
+					</div>
+					<div class="buttons">
+						' . ((Functions::check_user_access(['{deactivate_owner}','{activate_owner}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_owner' : 'activate_owner') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{owners_update}']) == true) ? '<a data-action="edit_owner" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{owners_delete}']) == true) ? '<a data-action="delete_owner" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+					</div>
+				</div>';
 			}
 
 			$mdl_new_owner = '';
 
-			if (Functions::check_user_access(['{owners_create}']) == true)
+			if (Functions::check_user_access(['{owners_create}','{owners_update}']) == true)
 			{
 				$mdl_new_owner .=
-				'<section class="modal new" data-modal="new_owner">
+				'<section class="modal fullscreen" data-modal="new_owner">
 				    <div class="content">
-				        <header>
-				            <h3>{$lang.new}</h3>
-				        </header>
-				        <main>';
+				        <main>
+							<form name="new_owner">
+								<div class="row">';
 
-				if ($this->model->get_count_owners() < Session::get_value('account')['owner_package']['quantity_end'])
+				if ($this->model->get_owners(true) < Session::get_value('account')['package']['quantity_end'])
 				{
 					$mdl_new_owner .=
-					'<form name="new_owner">
-		                <div class="row">
-		                    <div class="span12">
-		                        <div class="label">
-		                            <label>
-		                                <p>{$lang.type}</p>
-		                            </label>
-		                            <div class="checkboxes">
-		                                <div>
-		                    				<div>
-		                                        <div>
-		                        					<input type="radio" name="type" value="many" checked>
-		                        					<span>{$lang.many_owners}</span>
-		                        				</div>
-		                                        <div>
-		                        					<input type="radio" name="type" value="one">
-		                        					<span>{$lang.one_owner}</span>
-		                        				</div>
-		                                        <div>
-		                        					<input type="radio" name="type" value="department">
-		                        					<span>{$lang.department}</span>
-		                        				</div>
-		                                    </div>
-		                    			</div>
-		                            </div>
-		                        </div>
-		                    </div>
-		                    <div class="span6">
-		                        <div class="label">
-		                            <label>
-		                                <p>{$lang.since}</p>
-		                                <input type="number" name="since" />
-		                            </label>
-		                        </div>
-		                    </div>
-		                    <div class="span6">
-		                        <div class="label">
-		                            <label>
-		                                <p>{$lang.to}</p>
-		                                <input type="number" name="to" />
-		                            </label>
-		                        </div>
-		                    </div>
-		                    <div class="span12 hidden">
-		                        <div class="label">
-		                            <label>
-		                                <p>{$lang.number}</p>
-		                                <input type="number" name="number" />
-		                            </label>
-		                        </div>
-		                    </div>
-		                    <div class="span12 hidden">
-		                        <div class="label">
-		                            <label>
-		                                <p>{$lang.name}</p>
-		                                <input type="text" name="name" />
-		                            </label>
-		                        </div>
-		                    </div>
-		                </div>
-		            </form>';
+					'<div class="span12">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.type}</p>
+								<select name="type">
+									<option value="one">{$lang.create_one_records}</option>
+									<option value="many">{$lang.create_many_records}</option>
+								</select>
+                            </label>
+                        </div>
+                    </div>
+					<div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>(ES) - {$lang.name}</p>
+                                <input type="text" name="name_es">
+                            </label>
+                        </div>
+                    </div>
+					<div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>(EN) - {$lang.name}</p>
+                                <input type="text" name="name_en">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label unrequired>
+                                <p>{$lang.number}</p>
+                                <input type="number" name="number">
+                            </label>
+                        </div>
+                    </div>
+					<div class="span6 hidden">
+						<div class="label">
+							<label required>
+								<p>{$lang.since}</p>
+								<input type="number" name="since">
+							</label>
+						</div>
+					</div>
+					<div class="span6 hidden">
+						<div class="label">
+							<label required>
+								<p>{$lang.to}</p>
+								<input type="number" name="to">
+							</label>
+						</div>
+					</div>
+					<div class="span12">
+						<div class="label">
+							<label unrequired>
+								<p>{$lang.request}</p>
+								<div class="switch">
+									<input id="rqsw" type="checkbox" name="request" class="switch-input">
+									<label class="switch-label" for="rqsw"></label>
+								</div>
+							</label>
+						</div>
+					</div>
+					<div class="span12">
+						<div class="label">
+							<label unrequired>
+								<p>{$lang.incident}</p>
+								<div class="switch">
+									<input id="insw" type="checkbox" name="incident" class="switch-input">
+									<label class="switch-label" for="insw"></label>
+								</div>
+							</label>
+						</div>
+					</div>
+					<div class="span12">
+						<div class="label">
+							<label unrequired>
+								<p>{$lang.workorder}</p>
+								<div class="switch">
+									<input id="wksw" type="checkbox" name="workorder" class="switch-input">
+									<label class="switch-label" for="wksw"></label>
+								</div>
+							</label>
+						</div>
+					</div>
+					<div class="span12">
+						<div class="label">
+							<label unrequired>
+								<p>{$lang.survey}</p>
+								<div class="switch">
+									<input id="susw" type="checkbox" name="survey" class="switch-input">
+									<label class="switch-label" for="susw"></label>
+								</div>
+							</label>
+						</div>
+					</div>
+					<div class="span12">
+						<div class="label">
+							<label unrequired>
+								<p>{$lang.public}</p>
+								<div class="switch">
+									<input id="pusw" type="checkbox" name="public" class="switch-input">
+									<label class="switch-label" for="pusw"></label>
+								</div>
+							</label>
+						</div>
+					</div>';
 				}
 				else
 				{
 					$mdl_new_owner .=
-					'<div class="maximum-exceeded">
-						<i class="far fa-frown"></i>
-						<p>{$lang.maximum_owners_exceeded}</p>
+					'<div class="span12">
+						<div class="maximum-exceeded">
+							<i class="far fa-frown"></i>
+							<p>{$lang.maximum_exceeded}</p>
+						</div>
 					</div>';
 				}
 
 				$mdl_new_owner .=
-				'        </main>
-				        <footer>
-				            <div class="action-buttons">
-				                ' . (($this->model->get_count_owners() < Session::get_value('account')['owner_package']['quantity_end']) ? '<button class="btn btn-flat" button-cancel>{$lang.cancel}</button>' : '') . '
-				                ' . (($this->model->get_count_owners() < Session::get_value('account')['owner_package']['quantity_end']) ? '<button class="btn" button-success>{$lang.accept}</button>' : '') . '
-								' . (($this->model->get_count_owners() >= Session::get_value('account')['owner_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.accept}</accept>' : '') . '
-				            </div>
-				        </footer>
-				    </div>
-				</section>';
-			}
-
-			$mdl_download_owners = '';
-
-			if (Functions::check_user_access(['{owners_create}']) == true AND Session::get_value('account')['zaviapms']['status'] == true)
-			{
-				$mdl_download_owners .=
-				'<section class="modal" data-modal="download_owners">
-				    <div class="content">
-				        <header>
-				            <h3>{$lang.download}</h3>
-				        </header>';
-
-				if ($this->model->get_count_owners() >= Session::get_value('account')['owner_package']['quantity_end'])
-				{
-					$mdl_download_owners .=
-					'<main>
-						<div class="maximum-exceeded">
-							<i class="far fa-frown"></i>
-							<p>{$lang.maximum_owners_exceeded}</p>
-						</div>
-					</main>';
-				}
-
-				$mdl_download_owners .=
-				'        <footer>
-				            <div class="action-buttons">
-								' . (($this->model->get_count_owners() < Session::get_value('account')['owner_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.cancel}</button>' : '') . '
-								' . (($this->model->get_count_owners() < Session::get_value('account')['owner_package']['quantity_end']) ? '<button class="btn" button-success>{$lang.accept}</button>' : '') . '
-								' . (($this->model->get_count_owners() >= Session::get_value('account')['owner_package']['quantity_end']) ? '<button class="btn btn-flat" button-close>{$lang.accept}</accept>' : '') . '
-				            </div>
-				        </footer>
+				'					<div class="span12">
+										<div class="buttons">
+											' . (($this->model->get_owners(true) < Session::get_value('account')['package']['quantity_end']) ? '<button type="submit"><i class="fas fa-check"></i></button>' : '') . '
+											<a ' . (($this->model->get_owners(true) < Session::get_value('account')['package']['quantity_end']) ? 'button-cancel' : 'button-close') . '><i class="fas fa-times"></i></a>
+										</div>
+									</div>
+								</div>
+							</form>
+						</main>
 				    </div>
 				</section>';
 			}
 
 			$replace = [
 				'{$tbl_owners}' => $tbl_owners,
-				'{$mdl_new_owner}' => $mdl_new_owner,
-				'{$mdl_download_owners}' => $mdl_download_owners
+				'{$mdl_new_owner}' => $mdl_new_owner
 			];
 
 			$template = $this->format->replace($replace, $template);

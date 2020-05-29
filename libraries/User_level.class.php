@@ -9,20 +9,17 @@ class User_level
         $paths = [];
 
         array_push($paths, '/Dashboard/index');
-        array_push($paths, '/Dashboard/logout');
         array_push($paths, '/Voxes/index');
         array_push($paths, '/Voxes/create');
+        array_push($paths, '/Voxes/update');
         array_push($paths, '/Voxes/details');
         array_push($paths, '/Profile/index');
+        array_push($paths, '/Login/logout');
 
         foreach (Session::get_value('user')['permissions'] as $key => $value)
         {
             switch ($value)
             {
-                case '{voxes_update}' :
-                    array_push($paths, '/Voxes/edit');
-                break;
-
                 case '{voxes_reports_create}' :
                     array_push($paths, '/Voxes/reports');
                 break;

@@ -14,12 +14,12 @@ $xml =
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/operacion/</loc>
+        <loc>' . $https . '/operation/</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/reputacion/</loc>
+        <loc>' . $https . '/reputation/</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
     </url>
@@ -42,11 +42,6 @@ $xml =
         <loc>' . $https . '/privacy-policies/</loc>
         <changefreq>yearly</changefreq>
         <priority>0.80</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/signup/</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.60</priority>
     </url>';
 
 if (!$database->connect_error)
@@ -59,11 +54,6 @@ if (!$database->connect_error)
         {
             $xml .=
             '<url>
-                <loc>' . $https . '/' . $row['path'] . '/myvox/</loc>
-                <changefreq>daily</changefreq>
-                <priority>1.00</priority>
-            </url>
-            <url>
                 <loc>' . $https . '/' . $row['path'] . '/reviews/</loc>
                 <changefreq>daily</changefreq>
                 <priority>1.00</priority>
@@ -72,13 +62,7 @@ if (!$database->connect_error)
     }
 }
 
-$xml .=
-'   <url>
-        <loc>' . $https . '/login/</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.60</priority>
-    </url>
-</urlset>';
+$xml .= '</urlset>';
 
 $database->close();
 

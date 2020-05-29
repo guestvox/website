@@ -14,25 +14,23 @@ $(document).ready(function ()
 {
     var open_rightbar = false;
 
-    $('[data-action="open-rightbar"]').on('click', function(e)
+    $('[data-action="open_rightbar"]').on('click', function(e)
     {
         e.stopPropagation();
 
-        $('body').toggleClass('open-rightbar');
+        $('body').toggleClass('open_rightbar');
 
         if (open_rightbar == false)
         {
             open_rightbar = true;
 
-            $(this).find('i').removeClass('fas fa-bars');
-            $(this).find('i').addClass('fas fa-times-circle');
+            $(this).find('i').html('<i class="fas fa-times-circle"></i>');
         }
         else if (open_rightbar == true)
         {
             open_rightbar = false;
 
-            $(this).find('i').removeClass('fas fa-times-circle');
-            $(this).find('i').addClass('fas fa-bars');
+            $(this).find('i').html('<i class="fas fa-bars"></i>');
         }
     });
 
@@ -121,12 +119,6 @@ function upload_image(type, target, preview, name, action)
 
     target.on('change', function()
     {
-        // if (target[0].files[0].type.match(target.attr('accept')))
-        // {
-        // }
-        // else
-        //     show_modal_error('ERROR');
-
         if (type == 'fast')
         {
             var data = new FormData();
@@ -201,6 +193,7 @@ function show_modal_success(message, timeout)
 {
     $('[data-modal="success"]').addClass('view');
     $('[data-modal="success"]').find('main > p').html(message);
+    
     setTimeout(function() { location.reload(); }, timeout);
 }
 

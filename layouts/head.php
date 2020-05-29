@@ -11,14 +11,13 @@
 		<meta name="author" content="Guestvox" />
 		<meta name="keywords" content="{$seo_keywords}" />
 		<meta name="description" content="{$seo_description}" />
-		<meta name="google-site-verification" content="nt4G0mNfZWU_U4U8bMwlnOi2P-bwTyTjoY0HmhaZs2M" />
 		{$dependencies.meta}
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
 		<link rel="stylesheet" href="{$path.css}valkyrie.min.css" type="text/css" media="all" />
 		<link rel="stylesheet" href="{$path.css}styles.css" type="text/css" media="all" />
 		{$dependencies.css}
 
-        <!--Inician dependencias de PWA-->
+        <!-- PWA -->
         <meta name="theme-color" content="#00A5AB"/>
         <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
         <meta name="mobile-web-app-capable" content="yes" />
@@ -49,7 +48,11 @@
         <link rel="apple-touch-startup-image" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/icon_1536x2048.png" />
         <!-- -->
 
-		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<!-- Google site verification -->
+		<meta name="google-site-verification" content="nt4G0mNfZWU_U4U8bMwlnOi2P-bwTyTjoY0HmhaZs2M" />
+		<!--  -->
+
+		<!-- Google analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-153525856-1"></script>
 		<script>
 			window.dataLayer = window.dataLayer || [];

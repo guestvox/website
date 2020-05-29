@@ -197,7 +197,7 @@ main.landing-page-operation > section.main > section.container.background {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url("../../images/hi/operation/background-1.png");
+    background-image: url("../../images/hi/operation/background_1.png");
 }
 
 main.landing-page-operation > section.main .boxes {
@@ -242,15 +242,15 @@ main.landing-page-operation > section.main span.icon-like {
 }
 
 main.landing-page-operation > section.main span.icon-communication {
-    background-image: url("../../images/hi/operation/icon-communication.svg");
+    background-image: url("../../images/hi/operation/icon_communication.svg");
 }
 
 main.landing-page-operation > section.main span.icon-clients {
-    background-image: url("../../images/hi/operation/icon-clients.svg");
+    background-image: url("../../images/hi/operation/icon_clients.svg");
 }
 
 main.landing-page-operation > section.main span.icon-like {
-    background-image: url("../../images/hi/operation/icon-like.svg");
+    background-image: url("../../images/hi/operation/icon_like.svg");
 }
 
 main.landing-page-operation > section.main .boxes > .box > h4 {
@@ -471,7 +471,7 @@ section.call-to-action > .container > a {
 }
 
 main.landing-page-operation > footer.main {
-    background-image: url("../../images/hi/operation/background-map.png");
+    background-image: url("../../images/hi/operation/background_map.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;

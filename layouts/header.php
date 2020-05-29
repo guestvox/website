@@ -2,12 +2,12 @@
 
 <header class="topbar">
     <figure>
-        <img src="{$path.images}logotype-white.png">
+        <img src="{$path.images}logotype_white.png">
     </figure>
     <nav>
         <ul>
             <li><a><i class="fas fa-search"></i></a></li>
-            <li><a data-action="open-rightbar"><i class="fas fa-bars"></i></a></li>
+            <li><a data-action="open_rightbar"><i class="fas fa-bars"></i></a></li>
         </ul>
     </nav>
 </header>
@@ -25,7 +25,7 @@
     </div>
     <nav>
         <ul>
-            <li target="profile"><a href="/profile">{$lang.my_profile}<i class="fas fa-user-circle"></i></a></li>
+            <li target="my_profile"><a href="/my-profile">{$lang.my_profile}<i class="fas fa-user-circle"></i></a></li>
         </ul>
     </nav>
     <nav>
@@ -45,28 +45,28 @@
             <li target="owners"><a href="/owners">{$lang.owners}<i class="fas fa-user-tie"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_account_access(['operation']) AND Functions::check_user_access(['{opportunity_areas_create}','{opportunity_areas_update}','{opportunity_areas_deactivate}','{opportunity_areas_activate}','{opportunity_areas_delete}']) == true) : ?>
-            <li target="opportunityareas"><a href="/opportunityareas">{$lang.opportunity_areas}<i class="fas fa-compass"></i></a></li>
+            <li target="opportunity_areas"><a href="/opportunity-areas">{$lang.opportunity_areas}<i class="fas fa-compass"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_account_access(['operation']) AND Functions::check_user_access(['{opportunity_types_create}','{opportunity_types_update}','{opportunity_types_deactivate}','{opportunity_types_activate}','{opportunity_types_delete}']) == true) : ?>
-            <li target="opportunitytypes"><a href="/opportunitytypes">{$lang.opportunity_types}<i class="far fa-compass"></i></a></li>
+            <li target="opportunity_types"><a href="/opportunity-types">{$lang.opportunity_types}<i class="far fa-compass"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_account_access(['operation']) AND Functions::check_user_access(['{locations_create}','{locations_update}','{locations_deactivate}','{locations_activate}','{locations_delete}']) == true) : ?>
             <li target="locations"><a href="/locations">{$lang.locations}<i class="fas fa-map-marker-alt"></i></a></li>
             <?php endif; ?>
             <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation']) AND Functions::check_user_access(['{guests_treatments_create}','{guests_treatments_update}','{guests_treatments_deactivate}','{guests_treatments_activate}','{guests_treatments_delete}']) == true) : ?>
-            <li target="gueststreatments"><a href="/gueststreatments">{$lang.guests_treatments}<i class="fas fa-smile"></i></a></li>
+            <li target="guests_treatments"><a href="/guests-treatments">{$lang.guests_treatments}<i class="fas fa-smile"></i></a></li>
             <?php endif; ?>
             <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation']) AND Functions::check_user_access(['{guests_types_create}','{guests_types_update}','{guests_types_deactivate}','{guests_types_activate}','{guests_types_delete}']) == true) : ?>
-            <li target="gueststypes"><a href="/gueststypes">{$lang.guests_types}<i class="far fa-smile"></i></a></li>
+            <li target="guests_types"><a href="/guests-types">{$lang.guests_types}<i class="far fa-smile"></i></a></li>
             <?php endif; ?>
             <?php if (Session::get_value('account')['type'] == 'hotel' AND Functions::check_account_access(['operation']) AND Functions::check_user_access(['{reservations_statuses_create}','{reservations_statuses_update}','{reservations_statuses_deactivate}','{reservations_statuses_activate}','{reservations_statuses_delete}']) == true) : ?>
-            <li target="reservationsstatuses"><a href="/reservationsstatuses">{$lang.reservations_statuses}<i class="fas fa-check"></i></a></li>
+            <li target="reservations_statuses"><a href="/reservations-statuses">{$lang.reservations_statuses}<i class="fas fa-check"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{users_create}','{users_update}','{users_restore_password}','{users_deactivate}','{users_activate}','{users_delete}']) == true) : ?>
             <li target="users"><a href="/users">{$lang.users}<i class="fas fa-users"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{users_levels_create}','{users_levels_update}','{users_levels_deactivate}','{users_levels_activate}','{users_levels_delete}']) == true) : ?>
-            <li target="userslevels"><a href="/userslevels">{$lang.users_levels}<i class="fas fa-user-friends"></i></a></li>
+            <li target="users_levels"><a href="/users-levels">{$lang.users_levels}<i class="fas fa-user-friends"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{account_update}']) == true) : ?>
             <li target="account"><a href="/account">{$lang.account}<i class="far fa-user-circle"></i></a></li>

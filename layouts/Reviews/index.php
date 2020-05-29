@@ -68,6 +68,6 @@ $this->dependencies->add(['js', '{$path.js}Reviews/index.js']);
     </div>
 </main>
 <footer class="reviews">
-    <h4>Power by <img src="{$path.images}logotype-color.png" alt="Guestvox"></h4>
+    <h4>Power by <img src="{$path.images}logotype_color.png" alt="Guestvox"></h4>
     <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved}</p>
 </footer>

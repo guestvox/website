@@ -6,10 +6,9 @@ h1, h2, h3, h4, h5, h6, p { margin: 0px; padding: 0px; }
 figure { line-height: 0px; }
 
 a, button { margin: 0px; text-align: center !important; text-decoration: none !important; cursor: pointer !important; }
-a.success, button.success, span.success { background-color: #009688 !important; color: #fff !important; }
-a.warning, button.warning, span.warning { background-color: #ffc107 !important; color: #fff !important; }
-a.alert, button.alert, span.alert { background-color: #f44336 !important; color: #fff !important; }
-a.busy, button.busy, span.busy { background-color: #3f51b5 !important; color: #fff !important; }
+a.create, button.create { background-color: #009688 !important; color: #fff !important; }
+a.edit, button.edit { background-color: #ffc107 !important; color: #fff !important; }
+a.delete, button.delete { background-color: #f44336 !important; color: #fff !important; }
 
 select { -moz-appearance: none; -webkit-appearance: none; appearance: none; cursor: pointer; }
 
@@ -23,7 +22,7 @@ body {
     transition: 400ms;
 }
 
-body.open-rightbar {
+body.open_rightbar {
     left: -240px;
 }
 
@@ -107,7 +106,7 @@ body > header.rightbar {
     z-index: 99;
 }
 
-body.open-rightbar > header.rightbar {
+body.open_rightbar > header.rightbar {
     right: 0px;
 }
 
@@ -348,16 +347,16 @@ div.account > div > p {
 }
 
 div.account > div > a {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 20px;
     border-radius: 50%;
-    background-color: #ffc107;
+    background-color: #e0e0e0;
     font-size: 18px;
-    color: #fff;
+    color: #757575;
 }
 
 div.account > div > i {
@@ -391,20 +390,21 @@ div.profile > span {
 
 /* Tables
 ------------------------------------------------------------------------------ */
-div.tbl-st-1 {
+
+/* Style 1 */
+
+div.tbl_stl_1 {
     width: 100%;
 }
 
-div.tbl-st-1 > div {
+div.tbl_stl_1 > div {
     width: 100%;
     margin-bottom: 10px;
     padding-left: 60px;
     box-sizing: border-box;
 }
 
-/*  */
-
-div.tbl-st-1 > div > div {
+div.tbl_stl_1 > div > div {
     width: 100%;
     position: relative;
     padding: 10px;
@@ -413,7 +413,7 @@ div.tbl-st-1 > div > div {
     background-color: #eee;
 }
 
-div.tbl-st-1 > div > div::after {
+div.tbl_stl_1 > div > div::after {
     content: '';
     width: 0px;
     height: 0px;
@@ -428,9 +428,7 @@ div.tbl-st-1 > div > div::after {
 	border-right-color: #eee;
 }
 
-/*  */
-
-div.tbl-st-1 > div > div > div.item-1 {
+div.tbl_stl_1 > div > div > div.itm_1 {
     width: 40px;
     height: 40px;
     position: absolute;
@@ -445,7 +443,7 @@ div.tbl-st-1 > div > div > div.item-1 {
     background-color: #00a5ab;
 }
 
-div.tbl-st-1 > div > div > div.item-1 > figure {
+div.tbl_stl_1 > div > div > div.itm_1 > figure {
     width: 100%;
     height: 100%;
     display: flex;
@@ -455,19 +453,108 @@ div.tbl-st-1 > div > div > div.item-1 > figure {
     overflow: hidden;
 }
 
-div.tbl-st-1 > div > div > div.item-1 > figure > img {
+div.tbl_stl_1 > div > div > div.itm_1 > figure > img {
     width: 100%;
 }
 
-/*  */
-
-div.tbl-st-1 > div > div > div.item-2 > h2,
-div.tbl-st-1 > div > div > div.item-2 > h4,
-div.tbl-st-1 > div > div > div.item-2 > h6 {
+div.tbl_stl_1 > div > div > div.itm_2 > h2,
+div.tbl_stl_1 > div > div > div.itm_2 > h4,
+div.tbl_stl_1 > div > div > div.itm_2 > h6 {
     font-size: 14px;
     font-weight: 400;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: #757575;
+}
+
+/* Style 3 */
+
+div.tbl_stl_3 {
+    width: 100%;
+}
+
+div.tbl_stl_3 > div {
+    width: 100%;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_3 > div:last-child {
+    border-bottom: none;
+}
+
+div.tbl_stl_3 > div > div.datas {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+div.tbl_stl_3 > div > div.datas > div.itm-1 {
+    width: calc(100% - 50px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_3 > div > div.datas > div.itm-1 > h2,
+div.tbl_stl_3 > div > div.datas > div.itm-1 > span {
+    font-size: 14px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+div.tbl_stl_3 > div > div.datas > div.itm-1 > h2 {
+    font-weight: 600;
+    color: #212121;
+}
+
+div.tbl_stl_3 > div > div.datas > div.itm-1 > span {
+    font-weight: 400;
+    color: #757575;
+}
+
+div.tbl_stl_3 > div > div.datas > div.itm-1 > div.checkers {
+    width: 100%;
+    margin-top: 20px;
+}
+
+div.tbl_stl_3 > div > div.datas > div.itm-2 {
+    width: 50px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+div.tbl_stl_3 > div > div.datas > div.itm-2 > figure,
+div.tbl_stl_3 > div > div.datas > div.itm-2 > figure > a,
+div.tbl_stl_3 > div > div.datas > div.itm-2 > figure > a > img {
+    width: 100%;
+}
+
+div.tbl_stl_3 > div > div.buttons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+div.tbl_stl_3 > div > div.buttons > a {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    font-size: 14px;
     color: #757575;
 }
 
@@ -542,37 +629,6 @@ form div.label > label.error > textarea {
     border-color: #f44336 !important;
 }
 
-/* Inputs - Buttons
------------------------------------------------------------------------------- */
-form div.buttons {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-form div.buttons > button,
-form div.buttons > a {
-    width: auto;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0px 5px;
-    padding: 0px 20px;
-    box-sizing: border-box;
-    border-radius: 40px;
-    color: #fff;
-}
-
-form div.buttons > button[type="submit"] {
-    background-color: #00a5ab;
-}
-
-form div.buttons > a[button-cancel] {
-    background-color: #f44336;
-}
-
 /* Inputs - Switch
 ------------------------------------------------------------------------------ */
 form div.switch {
@@ -620,27 +676,84 @@ form div.switch > input {
     display: none !important;
 }
 
-.switch-input:checked + .switch-label {
+.switch_input:checked + .switch-label {
     background-color: #00a5ab !important;
     transition: 400ms;
 }
 
-.switch-input:checked + .switch-label, .switch-input:checked + .switch-label:before {
+.switch_input:checked + .switch-label, .switch_input:checked + .switch-label:before {
     background-color: #00a5ab !important;
     transition: 400ms;
 }
 
-.switch-input:checked + .switch-label .switch-inner {
+.switch_input:checked + .switch-label .switch-inner {
     margin-left: 0 !important;
     transition: 400ms;
 }
 
-.switch-input:checked + .switch-label:before {
+.switch_input:checked + .switch-label:before {
     right: 20px !important;
     background-color: #fff !important;
     border: 1px dashed #00a5ab;
     box-sizing: border-box;
     transition: 400ms;
+}
+
+/* Inputs - Maximum exceeded
+------------------------------------------------------------------------------ */
+form div.maximum_exceeded {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+form div.maximum_exceeded > i {
+    margin-bottom: 40px;
+    font-size: 100px;
+    font-weight: 400;
+    color: #757575;
+}
+
+form div.maximum_exceeded > p {
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    color: #757575;
+}
+
+/* Inputs - Buttons
+------------------------------------------------------------------------------ */
+form div.buttons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+form div.buttons > button,
+form div.buttons > a {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 5px;
+    border-radius: 50%;
+    color: #fff;
+}
+
+form div.buttons > button[type="submit"] {
+    background-color: #00a5ab;
+}
+
+form div.buttons > a[button-cancel],
+form div.buttons > a[button-close] {
+    background-color: #f44336;
 }
 
 /* Uploader
@@ -649,16 +762,16 @@ div[data-uploader] input[type="file"] {
     display: none;
 }
 
-/* ST-1 */
+/* Style 1 */
 
-div[data-uploader].st-1 {
+div[data-uploader].stl_1 {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-div[data-uploader].st-1 > figure {
+div[data-uploader].stl_1 > figure {
     width: 180px;
     height: 180px;
     position: relative;
@@ -669,11 +782,11 @@ div[data-uploader].st-1 > figure {
     overflow: hidden;
 }
 
-div[data-uploader].st-1 > figure > img {
+div[data-uploader].stl_1 > figure > img {
     width: 100%;
 }
 
-div[data-uploader].st-1 > figure > a {
+div[data-uploader].stl_1 > figure > a {
     position: absolute;
     top: 0px;
     right: 0px;
@@ -689,23 +802,23 @@ div[data-uploader].st-1 > figure > a {
     transition: 400ms;
 }
 
-div[data-uploader].st-1 > figure > a:hover {
+div[data-uploader].stl_1 > figure > a:hover {
     opacity: 1;
 }
 
-/* ST-2 */
+/* Style 2 */
 
-div[data-uploader].st-2 {
+div[data-uploader].stl_2 {
     width: 100%;
 }
 
-div[data-uploader].st-2 > figure,
-div[data-uploader].st-2 > figure > img {
+div[data-uploader].stl_2 > figure,
+div[data-uploader].stl_2 > figure > img {
     width: 100%;
     position: relative;
 }
 
-div[data-uploader].st-2 > figure > a {
+div[data-uploader].stl_2 > figure > a {
     position: absolute;
     top: 0px;
     right: 0px;
@@ -721,12 +834,15 @@ div[data-uploader].st-2 > figure > a {
     transition: 400ms;
 }
 
-div[data-uploader].st-2 > figure > a:hover {
+div[data-uploader].stl_2 > figure > a:hover {
     opacity: 1;
 }
 
 /* Modals
 ------------------------------------------------------------------- */
+
+/* Success & error */
+
 section.modal[data-modal="success"] main,
 section.modal[data-modal="error"] main {
     width: 100%;
@@ -746,19 +862,20 @@ section.modal[data-modal="error"] main {
 }
 
 section.modal[data-modal="success"] main > figure,
-section.modal[data-modal="error"] main > figure {
-    height: 200px;
-    margin-bottom: 40px;
-}
-
+section.modal[data-modal="error"] main > figure,
 section.modal[data-modal="success"] main > figure > img,
 section.modal[data-modal="error"] main > figure > img {
-    height: 100%;
+    height: 200px;
+}
+
+section.modal[data-modal="success"] main > figure,
+section.modal[data-modal="error"] main > figure {
+    margin-bottom: 40px;
 }
 
 section.modal[data-modal="success"] main > p,
 section.modal[data-modal="error"] main > p {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 400;
     text-align: center;
     color: #fff;
@@ -769,11 +886,66 @@ section.modal[data-modal="error"] main > p {
 }
 
 section.modal[data-modal="error"] main > a {
-    font-size: 14px;
-    font-weight: 400;
-    text-decoration: none;
-    color: #fff;
-    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #fff;
+    font-size: 18px;
+    color: #f44336;
+}
+
+/* Edit & delete */
+
+section.modal.edit > .content,
+section.modal.delete > .content {
+    top: calc(100% - 160px) !important;
+}
+
+section.modal.edit > .content,
+section.modal.edit > .content > footer,
+section.modal.delete > .content,
+section.modal.delete > .content > footer {
+    border-radius: 100px;
+}
+
+section.modal.edit footer,
+section.modal.delete footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top: none !important;
+}
+
+section.modal.edit footer {
+    background-color: #ff9800;
+}
+
+section.modal.delete footer {
+    background-color: #f44336;
+}
+
+section.modal.edit footer > button,
+section.modal.delete footer > button {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 5px;
+    border-radius: 50%;
+    background-color: #fff;
+    font-size: 18px;
+}
+
+section.modal.edit footer > button {
+    color: #ff9800;
+}
+
+section.modal.delete footer > button {
+    color: #f44336;
 }
 
 /* Ajax loader

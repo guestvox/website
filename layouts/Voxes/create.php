@@ -3,8 +3,8 @@
 defined('_EXEC') or die;
 
 $this->dependencies->add(['js', '{$path.js}Voxes/create.js']);
-$this->dependencies->add(['css', '{$path.plugins}chosen-select/chosen.css']);
-$this->dependencies->add(['js', '{$path.plugins}chosen-select/chosen.jquery.js']);
+$this->dependencies->add(['css', '{$path.plugins}chosen_select/chosen.css']);
+$this->dependencies->add(['js', '{$path.plugins}chosen_select/chosen.jquery.js']);
 $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 
 ?>

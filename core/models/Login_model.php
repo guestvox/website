@@ -29,6 +29,7 @@ class Login_model extends Model
 			'users.status(user_status)',
 			'accounts.id(account_id)',
 			'accounts.name(account_name)',
+			'accounts.path(account_path)',
 			'accounts.type(account_type)',
 			'accounts.time_zone(account_time_zone)',
 			'accounts.currency(account_currency)',
@@ -80,6 +81,7 @@ class Login_model extends Model
 				'account' => [
 					'id' => $query[0]['account_id'],
 					'name' => $query[0]['account_name'],
+					'path' => $query[0]['account_path'],
 					'type' => $query[0]['account_type'],
 					'time_zone' => $query[0]['account_time_zone'],
 					'currency' => $query[0]['account_currency'],

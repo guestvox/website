@@ -2,8 +2,8 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['css', '{$path.plugins}fancy-box/jquery.fancybox.min.css']);
-$this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js']);
+$this->dependencies->add(['css', '{$path.plugins}fancy_box/jquery.fancybox.min.css']);
+$this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js']);
 // $this->dependencies->add(['css', '{$path.plugins}upload-file/input-file.css']);
 // $this->dependencies->add(['js', '{$path.plugins}upload-file/input-file.js']);
 $this->dependencies->add(['js', '{$path.plugins}moment/moment.min.js']);

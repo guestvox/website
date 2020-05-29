@@ -19,7 +19,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
     <section id="section-one" class="gradient hand-background">
         <div class="container">
             <figure class="logotype">
-                <img src="{$path.images}hi/reputation/logotype-color.png" alt="Guestvox">
+                <img src="{$path.images}hi/reputation/logotype_color.png" alt="Guestvox">
             </figure>
             <div class="content">
                 <h3>{$lang.landing_page_hi_reputation_text_1}</h3>
@@ -116,7 +116,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/reputation.js']);
             </div>
             <div class="content">
                 <figure class="logotype">
-                    <img src="{$path.images}hi/reputation/logotype-color.png" alt="Guestvox">
+                    <img src="{$path.images}hi/reputation/logotype_color.png" alt="Guestvox">
                 </figure>
                 <a href="https://facebook.com/guestvox" class="social-media fb-logo" target="_blank">Facebook</a>
                 <a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" class="social-media yt-logo" target="_blank">YouTube</a>
