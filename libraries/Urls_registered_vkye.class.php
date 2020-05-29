@@ -145,10 +145,6 @@ class Urls_registered_vkye
                 'controller' => 'Locations',
                 'method' => 'index'
             ],
-            '/reservations-statuses' => [
-                'controller' => 'Reservationsstatuses',
-                'method' => 'index'
-            ],
             // '/guests-treatments' => [
             //     'controller' => 'Gueststreatments',
             //     'method' => 'index'
@@ -157,6 +153,10 @@ class Urls_registered_vkye
             //     'controller' => 'Gueststypes',
             //     'method' => 'index'
             // ],
+            '/reservations-statuses' => [
+                'controller' => 'Reservationsstatuses',
+                'method' => 'index'
+            ],
             // '/users' => [
             //     'controller' => 'Users',
             //     'method' => 'index'

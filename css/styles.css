@@ -167,6 +167,9 @@ body > header.rightbar > nav > ul > li > a {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     color: rgba(255, 255, 255, 0.4);
 }
 
@@ -585,6 +588,16 @@ div.tbl_stl_3 > div > div.buttons {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+div.tbl_stl_2 > div > div.buttons.flex_left,
+div.tbl_stl_3 > div > div.buttons.flex_left {
+    justify-content: flex-start;
+}
+
+div.tbl_stl_2 > div > div.buttons.flex_right,
+div.tbl_stl_3 > div > div.buttons.flex_right {
+    justify-content: flex-end;
 }
 
 div.tbl_stl_2 > div > div.buttons > a,
