@@ -55,8 +55,6 @@ $(document).ready(function()
         $('[data-modal="signup"]').find('form')[0].reset();
         $('[data-modal="signup"]').find('label.error').removeClass('error');
         $('[data-modal="signup"]').find('p.error').remove();
-
-        required_focus($('[data-modal="signup"]').find('form'), true);
     });
 
     $('form[name="signup"]').on('submit', function(e)

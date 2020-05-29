@@ -65,8 +65,6 @@ $(document).ready(function()
         $('[data-modal="restore_password"]').find('form')[0].reset();
         $('[data-modal="restore_password"]').find('label.error').removeClass('error');
         $('[data-modal="restore_password"]').find('p.error').remove();
-
-        required_focus($('[data-modal="restore_password"]').find('form'), true);
     });
 
     $('form[name="restore_password"]').on('submit', function(e)

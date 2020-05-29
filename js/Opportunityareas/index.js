@@ -13,8 +13,6 @@ $(document).ready(function()
         $('[data-modal="new_opportunity_area"]').find('form')[0].reset();
         $('[data-modal="new_opportunity_area"]').find('label.error').removeClass('error');
         $('[data-modal="new_opportunity_area"]').find('p.error').remove();
-
-        required_focus($('[data-modal="new_opportunity_area"]').find('form'), true);
     });
 
     $('form[name="new_opportunity_area"]').on('submit', function(e)

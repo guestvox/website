@@ -49,8 +49,6 @@ $(document).ready(function()
         $('[data-modal="contact"]').find('form')[0].reset();
         $('[data-modal="contact"]').find('label.error').removeClass('error');
         $('[data-modal="contact"]').find('p.error').remove();
-
-        required_focus($('[data-modal="contact"]').find('form'), true);
     });
 
     $('form[name="contact"]').on('submit', function(e)

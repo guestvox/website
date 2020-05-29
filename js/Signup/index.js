@@ -94,6 +94,7 @@ $(document).ready(function()
                     if (step == 6)
                     {
                         $('#success').html(response.message);
+                        
                         setTimeout(function() { window.location.href = response.path; }, 8000);
                     }
                 }

@@ -347,8 +347,8 @@ div.account > div > p {
 }
 
 div.account > div > a {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -393,7 +393,7 @@ div.profile > span {
 
 /* Style 1 */
 
-div.tbl_stl_1 {
+/* div.tbl_stl_1 {
     width: 100%;
 }
 
@@ -465,7 +465,7 @@ div.tbl_stl_1 > div > div > div.itm_2 > h6 {
     text-overflow: ellipsis;
     white-space: nowrap;
     color: #757575;
-}
+} */
 
 /* Style 2 & Style 3 */
 
@@ -589,8 +589,8 @@ div.tbl_stl_3 > div > div.buttons {
 
 div.tbl_stl_2 > div > div.buttons > a,
 div.tbl_stl_3 > div > div.buttons > a {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -780,8 +780,8 @@ form div.buttons {
 
 form div.buttons > button,
 form div.buttons > a {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -929,8 +929,8 @@ section.modal[data-modal="error"] main > p {
 }
 
 section.modal[data-modal="error"] main > a {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -972,8 +972,8 @@ section.modal.delete footer {
 
 section.modal.edit footer > button,
 section.modal.delete footer > button {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;

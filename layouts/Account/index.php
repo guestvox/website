@@ -51,7 +51,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
             {$div_myvox_settings}
             {$div_reviews_settings}
             <div>
-                <i class="fas fa-users"></i>
+                <i class="fas fa-tasks"></i>
                 <h3>{$lang.operation_solution}</h3>
                 <span>{$operation}</span>
             </div>
@@ -61,9 +61,9 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                 <span>{$reputation}</span>
             </div>
             <div>
-                {$icn_package}
+                <i class="fas fa-shapes"></i>
                 <h3>{$lang.package_active}</h3>
-                <span>{$ttl_package}</span>
+                <span>{$package} {$lang.owners}</span>
             </div>
             {$div_siteminder}
             {$div_zaviapms}

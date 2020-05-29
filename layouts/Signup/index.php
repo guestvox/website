@@ -102,7 +102,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                     <div class="span3">
                         <label>
                             <div class="package" id="operation">
-                                <span><i class="fas fa-users"></i></span>
+                                <span><i class="fas fa-tasks"></i></span>
                                 <h3>{$lang.solution_of} <span>{$lang.operation}</span></h3>
                                 <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> {$lang.per_month}</h4>
                                 <input type="checkbox" name="operation">

@@ -30,7 +30,7 @@
     </nav>
     <nav>
         <ul>
-            <li target="dashboard"><a href="/dashboard">{$lang.dashboard}<i class="fas fa-home"></i></a></li>
+            <li target="dashboard"><a href="/dashboard">{$lang.dashboard}<i class="fas fa-tachometer-alt"></i></a></li>
             <?php if (Functions::check_account_access(['operation']) == true) : ?>
             <li target="voxes"><a href="/voxes">{$lang.voxes}<i class="fas fa-heart"></i></a></li>
             <?php endif; ?>
@@ -42,7 +42,7 @@
     <nav>
         <ul>
             <?php if (Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{owners_create}','{owners_update}','{owners_deactivate}','{owners_activate}','{owners_delete}']) == true) : ?>
-            <li target="owners"><a href="/owners">{$lang.owners}<i class="fas fa-user-tie"></i></a></li>
+            <li target="owners"><a href="/owners">{$lang.owners}<i class="fas fa-shapes"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_account_access(['operation']) AND Functions::check_user_access(['{opportunity_areas_create}','{opportunity_areas_update}','{opportunity_areas_deactivate}','{opportunity_areas_activate}','{opportunity_areas_delete}']) == true) : ?>
             <li target="opportunity_areas"><a href="/opportunity-areas">{$lang.opportunity_areas}<i class="fas fa-compass"></i></a></li>
@@ -69,7 +69,7 @@
             <li target="users_levels"><a href="/users-levels">{$lang.users_levels}<i class="fas fa-user-friends"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{account_update}']) == true) : ?>
-            <li target="account"><a href="/account">{$lang.account}<i class="far fa-user-circle"></i></a></li>
+            <li target="account"><a href="/account">{$lang.account}<i class="fas fa-house-user"></i></a></li>
             <?php endif; ?>
         </ul>
     </nav>

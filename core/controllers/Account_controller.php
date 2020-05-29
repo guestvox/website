@@ -399,16 +399,11 @@ class Account_controller extends Controller
 				</div>';
 			}
 
-			$icn_package = '';
-			$ttl_package = '';
 			$div_siteminder = '';
 			$div_zaviapms = '';
 
 			if ($account['type'] == 'hotel')
 			{
-				$icn_package .= '<i class="fas fa-bed"></i>';
-				$ttl_package .= '{$lang.rooms}';
-
 				$div_siteminder .=
 				'<div>
 					<figure>
@@ -426,21 +421,6 @@ class Account_controller extends Controller
 					<h3>Zavia PMS</h3>
 					<span>' . (($account['zaviapms']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
                 </div>';
-			}
-			else if ($account['type'] == 'restaurant')
-			{
-				$icn_package .= '<i class="fas fa-utensils"></i>';
-				$ttl_package .= '{$lang.tables}';
-			}
-			else if ($account['type'] == 'hospital')
-			{
-				$icn_package .= '<i class="fas fa-stethoscope"></i>';
-				$ttl_package .= '{$lang.beds}';
-			}
-			else if ($account['type'] == 'others')
-			{
-				$icn_package .= '<i class="fas fa-users"></i>';
-				$ttl_package .= '{$lang.clients}';
 			}
 
 			$opt_countries = '';
@@ -813,8 +793,7 @@ class Account_controller extends Controller
 				'{$div_reviews_settings}' => $div_reviews_settings,
 				'{$operation}' => ($account['operation'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$reputation}' => ($account['reputation'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
-				'{$icn_package}' => $icn_package,
-				'{$ttl_package}' => $account['package']['quantity_end'] . ' ' . $ttl_package,
+				'{$package}' => $account['package']['quantity_end'],
 				'{$div_siteminder}' => $div_siteminder,
 				'{$div_zaviapms}' => $div_zaviapms,
 				'{$sms}' => $account['sms'],
