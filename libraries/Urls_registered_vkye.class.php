@@ -137,10 +137,10 @@ class Urls_registered_vkye
                 'controller' => 'Opportunityareas',
                 'method' => 'index'
             ],
-            // '/opportunity-types' => [
-            //     'controller' => 'Opportunitytypes',
-            //     'method' => 'index'
-            // ],
+            '/opportunity-types' => [
+                'controller' => 'Opportunitytypes',
+                'method' => 'index'
+            ],
             // '/locations' => [
             //     'controller' => 'Locations',
             //     'method' => 'index'

@@ -971,7 +971,9 @@ section.modal.delete footer {
 }
 
 section.modal.edit footer > button,
-section.modal.delete footer > button {
+section.modal.delete footer > button,
+section.modal.edit footer > a,
+section.modal.delete footer > a {
     width: 40px;
     height: 40px;
     display: flex;
@@ -983,11 +985,13 @@ section.modal.delete footer > button {
     font-size: 18px;
 }
 
-section.modal.edit footer > button {
+section.modal.edit footer > button,
+section.modal.edit footer > a {
     color: #ff9800;
 }
 
-section.modal.delete footer > button {
+section.modal.delete footer > button,
+section.modal.delete footer > a {
     color: #f44336;
 }
 
