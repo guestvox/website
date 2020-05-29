@@ -801,7 +801,7 @@ class Myvox_controller extends Controller
 								<label unrequired>
 									<p>{$lang.lada}</p>
 									<select name="phone_lada">
-										<option value="" selected>({$lang.empty}) {$lang.choose}</option>';
+										<option value="" selected>{$lang.empty} ({$lang.choose})</option>';
 
 						foreach ($this->model->get_countries() as $value)
 							$mdl_new_vox .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang1] . ' (+' . $value['lada'] . ')</option>';
@@ -1061,7 +1061,7 @@ class Myvox_controller extends Controller
 								<label unrequired>
 									<p>{$lang.lada}</p>
 									<select name="phone_lada">
-										<option value="" selected>({$lang.empty}) {$lang.choose}</option>';
+										<option value="" selected>{$lang.empty} ({$lang.choose})</option>';
 
 						foreach ($this->model->get_countries() as $value)
 							$mdl_new_survey_answer .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang1] . ' (+' . $value['lada'] . ')</option>';

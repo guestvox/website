@@ -345,7 +345,7 @@ class Functions
     {
         $security = new Security;
 
-        return !empty($length) ? strtoupper($security->random_string($length)) : null;
+        return !empty($length) ? $security->random_string($length) : null;
     }
 
     static public function environment($return)

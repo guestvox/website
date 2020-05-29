@@ -22,7 +22,7 @@ $this->dependencies->add(['other', '<script>menu_focus("guests_types");</script>
     </section>
     <?php endif; ?>
 </main>
-<?php if (Functions::check_user_access(['{guests_types_create}','guests_types_update']) == true) : ?>
+<?php if (Functions::check_user_access(['{guests_types_create}','{guests_types_update}']) == true) : ?>
 <section class="modal fullscreen" data-modal="new_guest_type">
     <div class="content">
         <main>

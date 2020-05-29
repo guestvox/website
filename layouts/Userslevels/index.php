@@ -22,7 +22,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users_levels");</script>
     </section>
     <?php endif; ?>
 </main>
-<?php if (Functions::check_user_access(['{users_levels_create}','users_levels_update']) == true) : ?>
+<?php if (Functions::check_user_access(['{users_levels_create}','{users_levels_update}']) == true) : ?>
 <section class="modal fullscreen" data-modal="new_user_level">
     <div class="content">
         <main>

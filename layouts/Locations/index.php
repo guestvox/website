@@ -22,7 +22,7 @@ $this->dependencies->add(['other', '<script>menu_focus("locations");</script>'])
     </section>
     <?php endif; ?>
 </main>
-<?php if (Functions::check_user_access(['{locations_create}','locations_update']) == true) : ?>
+<?php if (Functions::check_user_access(['{locations_create}','{locations_update}']) == true) : ?>
 <section class="modal fullscreen" data-modal="new_location">
     <div class="content">
         <main>

@@ -208,6 +208,18 @@ class Lang
             'view_details' => [
                 'es' => 'Ver detalles',
                 'en' => 'View details'
+            ],
+            'restore_password' => [
+                'es' => 'Tu contraseña ha sido restaurada',
+                'en' => 'Your password has been restore'
+            ],
+            'new_password' => [
+                'es' => 'Nueva contraseña',
+                'en' => 'New password'
+            ],
+            'password' => [
+                'es' => 'Contraseña',
+                'en' => 'Password'
             ]
         ];
 

@@ -22,7 +22,7 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_types");</sc
     </section>
     <?php endif; ?>
 </main>
-<?php if (Functions::check_user_access(['{opportunity_types_create}','opportunity_types_update']) == true) : ?>
+<?php if (Functions::check_user_access(['{opportunity_types_create}','{opportunity_types_update}']) == true) : ?>
 <section class="modal fullscreen" data-modal="new_opportunity_type">
     <div class="content">
         <main>

@@ -119,9 +119,7 @@ class Userslevels_controller extends Controller
 						<h2>' . $value['name'] . '</h2>
 					</div>
 					<div class="buttons flex_right">
-						' . ((Functions::check_user_access(['{users_levels_deactivate}','{users_levels_activate}']) == true)
-								? '<a data-action="' . (($value['status'] == true) ? 'deactivate_user_level' : 'activate_user_level') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>'
-								: '') . '
+						' . ((Functions::check_user_access(['{users_levels_deactivate}','{users_levels_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_user_level' : 'activate_user_level') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
 						' . ((Functions::check_user_access(['{users_levels_update}']) == true) ? '<a class="edit" data-action="edit_user_level" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{users_levels_delete}']) == true) ? '<a class="delete" data-action="delete_user_level" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 					</div>

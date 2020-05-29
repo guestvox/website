@@ -508,7 +508,7 @@ div.tbl_stl_3 > div > div.datas {
     justify-content: center;
 }
 
-div.tbl_stl_3 > div > div.datas > div.itm-1 {
+div.tbl_stl_3 > div > div.datas > div.itm_1 {
     width: calc(100% - 50px);
     display: flex;
     align-items: flex-start;
@@ -520,8 +520,8 @@ div.tbl_stl_3 > div > div.datas > div.itm-1 {
 
 div.tbl_stl_2 > div > div.datas > h2,
 div.tbl_stl_2 > div > div.datas > span,
-div.tbl_stl_3 > div > div.datas > div.itm-1 > h2,
-div.tbl_stl_3 > div > div.datas > div.itm-1 > span {
+div.tbl_stl_3 > div > div.datas > div.itm_1 > h2,
+div.tbl_stl_3 > div > div.datas > div.itm_1 > span {
     width: 100%;
     font-size: 14px;
     text-overflow: ellipsis;
@@ -530,19 +530,19 @@ div.tbl_stl_3 > div > div.datas > div.itm-1 > span {
 }
 
 div.tbl_stl_2 > div > div.datas > h2,
-div.tbl_stl_3 > div > div.datas > div.itm-1 > h2 {
+div.tbl_stl_3 > div > div.datas > div.itm_1 > h2 {
     font-weight: 600;
     color: #212121;
 }
 
 div.tbl_stl_2 > div > div.datas > span,
-div.tbl_stl_3 > div > div.datas > div.itm-1 > span {
+div.tbl_stl_3 > div > div.datas > div.itm_1 > span {
     font-weight: 400;
-    color: #757575;
+    color: #9e9e9e;
 }
 
 div.tbl_stl_2 > div > div.datas > div.checkers,
-div.tbl_stl_3 > div > div.datas > div.itm-1 > div.checkers {
+div.tbl_stl_3 > div > div.datas > div.itm_1 > div.checkers {
     width: 100%;
     margin-top: 20px;
     display: flex;
@@ -552,33 +552,34 @@ div.tbl_stl_3 > div > div.datas > div.itm-1 > div.checkers {
 }
 
 div.tbl_stl_2 > div > div.datas > div.checkers > span,
-div.tbl_stl_3 > div > div.datas > div.itm-1 > div.checkers > span {
+div.tbl_stl_3 > div > div.datas > div.itm_1 > div.checkers > span {
     font-size: 14px;
     font-weight: 400;
     color: #757575;
 }
 
 div.tbl_stl_2 > div > div.datas > div.checkers > span > i,
-div.tbl_stl_3 > div > div.datas > div.itm-1 > div.checkers > span > i {
+div.tbl_stl_3 > div > div.datas > div.itm_1 > div.checkers > span > i {
     margin-right: 5px;
     color: #eee;
 }
 
 div.tbl_stl_2 > div > div.datas > div.checkers > span > i.success,
-div.tbl_stl_3 > div > div.datas > div.itm-1 > div.checkers > span > i.success {
+div.tbl_stl_3 > div > div.datas > div.itm_1 > div.checkers > span > i.success {
     color: #00a5ab;
 }
 
-div.tbl_stl_3 > div > div.datas > div.itm-2 {
+div.tbl_stl_3 > div > div.datas > div.itm_2 {
     width: 50px;
     display: flex;
     align-items: flex-start;
     justify-content: center;
 }
 
-div.tbl_stl_3 > div > div.datas > div.itm-2 > figure,
-div.tbl_stl_3 > div > div.datas > div.itm-2 > figure > a,
-div.tbl_stl_3 > div > div.datas > div.itm-2 > figure > a > img {
+div.tbl_stl_3 > div > div.datas > div.itm_2 > figure,
+div.tbl_stl_3 > div > div.datas > div.itm_2 > figure > a,
+div.tbl_stl_3 > div > div.datas > div.itm_2 > figure > a > img,
+div.tbl_stl_3 > div > div.datas > div.itm_2 > figure > img {
     width: 100%;
 }
 

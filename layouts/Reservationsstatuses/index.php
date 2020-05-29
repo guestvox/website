@@ -22,7 +22,7 @@ $this->dependencies->add(['other', '<script>menu_focus("reservations_statuses");
     </section>
     <?php endif; ?>
 </main>
-<?php if (Functions::check_user_access(['{reservations_statuses_create}','reservations_statuses_update']) == true) : ?>
+<?php if (Functions::check_user_access(['{reservations_statuses_create}','{reservations_statuses_update}']) == true) : ?>
 <section class="modal fullscreen" data-modal="new_reservation_status">
     <div class="content">
         <main>

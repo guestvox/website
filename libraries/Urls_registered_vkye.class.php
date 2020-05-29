@@ -157,10 +157,10 @@ class Urls_registered_vkye
                 'controller' => 'Reservationsstatuses',
                 'method' => 'index'
             ],
-            // '/users' => [
-            //     'controller' => 'Users',
-            //     'method' => 'index'
-            // ],
+            '/users' => [
+                'controller' => 'Users',
+                'method' => 'index'
+            ],
             '/users-levels' => [
                 'controller' => 'Userslevels',
                 'method' => 'index'

@@ -141,7 +141,7 @@ class Owners_controller extends Controller
 				$tbl_owners .=
 				'<div>
 					<div class="datas">
-						<div class="itm-1">
+						<div class="itm_1">
 							<h2>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</h2>
 							<span>' . $value['token'] . '</span>
 							<div class="checkers">
@@ -152,7 +152,7 @@ class Owners_controller extends Controller
 								<span><i class="fas fa-check-square ' . (($value['public'] == true) ? 'success' : '') . '"></i>{$lang.public}</span>
 							</div>
 						</div>
-						<div class="itm-2">
+						<div class="itm_2">
 							<figure>
 								<a href="{$path.uploads}' . $value['qr'] . '" download="' . $value['qr'] . '"><img src="{$path.uploads}' . $value['qr'] . '"></a>
 							</figure>
