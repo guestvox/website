@@ -505,9 +505,11 @@ div.tbl_stl_3 > div > div.datas > div.itm-1 {
 
 div.tbl_stl_3 > div > div.datas > div.itm-1 > h2,
 div.tbl_stl_3 > div > div.datas > div.itm-1 > span {
+    width: 100%;
     font-size: 14px;
-    white-space: nowrap;
     text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 div.tbl_stl_3 > div > div.datas > div.itm-1 > h2 {
@@ -523,6 +525,25 @@ div.tbl_stl_3 > div > div.datas > div.itm-1 > span {
 div.tbl_stl_3 > div > div.datas > div.itm-1 > div.checkers {
     width: 100%;
     margin-top: 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+div.tbl_stl_3 > div > div.datas > div.itm-1 > div.checkers > span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.tbl_stl_3 > div > div.datas > div.itm-1 > div.checkers > span > i {
+    margin-right: 5px;
+    color: #eee;
+}
+
+div.tbl_stl_3 > div > div.datas > div.itm-1 > div.checkers > span > i.success {
+    color: #00a5ab;
 }
 
 div.tbl_stl_3 > div > div.datas > div.itm-2 {
@@ -542,7 +563,7 @@ div.tbl_stl_3 > div > div.buttons {
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: flex-end;
 }
 
 div.tbl_stl_3 > div > div.buttons > a {
@@ -676,22 +697,22 @@ form div.switch > input {
     display: none !important;
 }
 
-.switch_input:checked + .switch-label {
+.switch_input:checked + .switch_label {
     background-color: #00a5ab !important;
     transition: 400ms;
 }
 
-.switch_input:checked + .switch-label, .switch_input:checked + .switch-label:before {
+.switch_input:checked + .switch_label, .switch_input:checked + .switch_label:before {
     background-color: #00a5ab !important;
     transition: 400ms;
 }
 
-.switch_input:checked + .switch-label .switch-inner {
+.switch_input:checked + .switch_label .switch-inner {
     margin-left: 0 !important;
     transition: 400ms;
 }
 
-.switch_input:checked + .switch-label:before {
+.switch_input:checked + .switch_label:before {
     right: 20px !important;
     background-color: #fff !important;
     border: 1px dashed #00a5ab;

@@ -488,7 +488,7 @@ class Account_controller extends Controller
 								<p>{$lang.request}</p>
 								<div class="switch">
 									<input id="rqsw" type="checkbox" name="request_status" class="switch_input">
-									<label class="switch-label" for="rqsw"></label>
+									<label class="switch_label" for="rqsw"></label>
 								</div>
 							</label>
 						</div>
@@ -499,7 +499,7 @@ class Account_controller extends Controller
 								<p>{$lang.incident}</p>
 								<div class="switch">
 									<input id="insw" type="checkbox" name="incident_status" class="switch_input">
-									<label class="switch-label" for="insw"></label>
+									<label class="switch_label" for="insw"></label>
 								</div>
 							</label>
 						</div>
@@ -515,7 +515,7 @@ class Account_controller extends Controller
 								<p>{$lang.survey}</p>
 								<div class="switch">
 									<input id="susw" type="checkbox" name="survey_status" class="switch_input">
-									<label class="switch-label" for="susw"></label>
+									<label class="switch_label" for="susw"></label>
 								</div>
 							</label>
 						</div>
@@ -628,7 +628,7 @@ class Account_controller extends Controller
 												<p>{$lang.reviews}</p>
 												<div class="switch">
 													<input id="rvsw" type="checkbox" name="status" class="switch_input">
-													<label class="switch-label" for="rvsw"></label>
+													<label class="switch_label" for="rvsw"></label>
 												</div>
 											</label>
 										</div>

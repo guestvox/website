@@ -10,21 +10,23 @@ $this->dependencies->add(['other', '<script>menu_focus("owners");</script>']);
 %{header}%
 <main class="dashboard">
     <section class="workspace">
-        <div class="tbl-stl-3">
+        <div class="tbl_stl_3">
             {$tbl_owners}
         </div>
     </section>
-    <?php if (Functions::check_user_access(['{owners_create}']) == true) : ?>
     <section class="buttons">
         <div>
+            <a><i class="fas fa-qrcode"></i></a>
+            <?php if (Functions::check_user_access(['{owners_create}']) == true) : ?>
             <a class="active" data-button-modal="new_owner"><i class="fas fa-plus"></i></a>
+            <a><i class="fas fa-cloud-download-alt"></i></a>
+            <?php endif; ?>
         </div>
     </section>
-    <?php endif; ?>
 </main>
 {$mdl_new_owner}
 <?php if (Functions::check_user_access(['{owners_deactivate}']) == true) : ?>
-<section class="modal warning" data-modal="deactivate_owner">
+<section class="modal edit" data-modal="deactivate_owner">
     <div class="content">
         <footer>
             <button button-success><i class="fas fa-check"></i></button>
@@ -34,7 +36,7 @@ $this->dependencies->add(['other', '<script>menu_focus("owners");</script>']);
 </section>
 <?php endif; ?>
 <?php if (Functions::check_user_access(['{owners_activate}']) == true) : ?>
-<section class="modal warning" data-modal="activate_owner">
+<section class="modal edit" data-modal="activate_owner">
     <div class="content">
         <footer>
             <button button-success><i class="fas fa-check"></i></button>
@@ -44,7 +46,7 @@ $this->dependencies->add(['other', '<script>menu_focus("owners");</script>']);
 </section>
 <?php endif; ?>
 <?php if (Functions::check_user_access(['{owners_delete}']) == true) : ?>
-<section class="modal alert" data-modal="delete_owner">
+<section class="modal delete" data-modal="delete_owner">
     <div class="content">
         <footer>
             <button button-success><i class="fas fa-check"></i></button>

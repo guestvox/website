@@ -145,26 +145,11 @@ class Owners_controller extends Controller
 							<h2>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</h2>
 							<span>' . $value['token'] . '</span>
 							<div class="checkers">
-								<div>
-									' . (($value['request'] == true) ? '<i class="fas fa-check-square success"></i>' : '<i class="fas fa-window-close"></i>') . '
-									<span>{$lang.request}</span>
-								</div>
-								<div>
-									' . (($value['incident'] == true) ? '<i class="fas fa-check-square"></i>' : '<i class="fas fa-window-close"></i>') . '
-									<span>{$lang.incident}</span>
-								</div>
-								<div>
-									' . (($value['workorder'] == true) ? '<i class="fas fa-check-square"></i>' : '<i class="fas fa-window-close"></i>') . '
-									<span>{$lang.workorder}</span>
-								</div>
-								<div>
-									' . (($value['survey'] == true) ? '<i class="fas fa-check-square"></i>' : '<i class="fas fa-window-close"></i>') . '
-									<span>{$lang.survey}</span>
-								</div>
-								<div>
-									' . (($value['public'] == true) ? '<i class="fas fa-check-square"></i>' : '<i class="fas fa-window-close"></i>') . '
-									<span>{$lang.public}</span>
-								</div>
+								<span><i class="fas fa-check-square ' . (($value['request'] == true) ? 'success' : '') . '"></i>{$lang.request}</span>
+								<span><i class="fas fa-check-square ' . (($value['incident'] == true) ? 'success' : '') . '"></i>{$lang.incident}</span>
+								<span><i class="fas fa-check-square ' . (($value['workorder'] == true) ? 'success' : '') . '"></i>{$lang.workorder}</span>
+								<span><i class="fas fa-check-square ' . (($value['survey'] == true) ? 'success' : '') . '"></i>{$lang.survey}</span>
+								<span><i class="fas fa-check-square ' . (($value['public'] == true) ? 'success' : '') . '"></i>{$lang.public}</span>
 							</div>
 						</div>
 						<div class="itm-2">
@@ -175,8 +160,8 @@ class Owners_controller extends Controller
 					</div>
 					<div class="buttons">
 						' . ((Functions::check_user_access(['{deactivate_owner}','{activate_owner}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_owner' : 'activate_owner') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
-						' . ((Functions::check_user_access(['{owners_update}']) == true) ? '<a data-action="edit_owner" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
-						' . ((Functions::check_user_access(['{owners_delete}']) == true) ? '<a data-action="delete_owner" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{owners_update}']) == true) ? '<a class="edit" data-action="edit_owner" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{owners_delete}']) == true) ? '<a class="delete" data-action="delete_owner" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 					</div>
 				</div>';
 			}
@@ -251,8 +236,8 @@ class Owners_controller extends Controller
 							<label unrequired>
 								<p>{$lang.request}</p>
 								<div class="switch">
-									<input id="rqsw" type="checkbox" name="request" class="switch-input">
-									<label class="switch-label" for="rqsw"></label>
+									<input id="rqsw" type="checkbox" name="request" class="switch_input">
+									<label class="switch_label" for="rqsw"></label>
 								</div>
 							</label>
 						</div>
@@ -262,8 +247,8 @@ class Owners_controller extends Controller
 							<label unrequired>
 								<p>{$lang.incident}</p>
 								<div class="switch">
-									<input id="insw" type="checkbox" name="incident" class="switch-input">
-									<label class="switch-label" for="insw"></label>
+									<input id="insw" type="checkbox" name="incident" class="switch_input">
+									<label class="switch_label" for="insw"></label>
 								</div>
 							</label>
 						</div>
@@ -273,8 +258,8 @@ class Owners_controller extends Controller
 							<label unrequired>
 								<p>{$lang.workorder}</p>
 								<div class="switch">
-									<input id="wksw" type="checkbox" name="workorder" class="switch-input">
-									<label class="switch-label" for="wksw"></label>
+									<input id="wksw" type="checkbox" name="workorder" class="switch_input">
+									<label class="switch_label" for="wksw"></label>
 								</div>
 							</label>
 						</div>
@@ -284,8 +269,8 @@ class Owners_controller extends Controller
 							<label unrequired>
 								<p>{$lang.survey}</p>
 								<div class="switch">
-									<input id="susw" type="checkbox" name="survey" class="switch-input">
-									<label class="switch-label" for="susw"></label>
+									<input id="susw" type="checkbox" name="survey" class="switch_input">
+									<label class="switch_label" for="susw"></label>
 								</div>
 							</label>
 						</div>
@@ -295,8 +280,8 @@ class Owners_controller extends Controller
 							<label unrequired>
 								<p>{$lang.public}</p>
 								<div class="switch">
-									<input id="pusw" type="checkbox" name="public" class="switch-input">
-									<label class="switch-label" for="pusw"></label>
+									<input id="pusw" type="checkbox" name="public" class="switch_input">
+									<label class="switch_label" for="pusw"></label>
 								</div>
 							</label>
 						</div>
@@ -306,7 +291,7 @@ class Owners_controller extends Controller
 				{
 					$mdl_new_owner .=
 					'<div class="span12">
-						<div class="maximum-exceeded">
+						<div class="maximum_exceeded">
 							<i class="far fa-frown"></i>
 							<p>{$lang.maximum_exceeded}</p>
 						</div>
