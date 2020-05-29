@@ -104,8 +104,8 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_areas");</sc
 <section class="modal edit" data-modal="deactivate_opportunity_area">
     <div class="content">
         <footer>
-            <button button-success><i class="fas fa-check"></i></button>
-            <button button-close><i class="fas fa-times"></i></button>
+            <a button-success><i class="fas fa-check"></i></a>
+            <a button-close><i class="fas fa-times"></i></a>
         </footer>
     </div>
 </section>
@@ -114,8 +114,8 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_areas");</sc
 <section class="modal edit" data-modal="activate_opportunity_area">
     <div class="content">
         <footer>
-            <button button-success><i class="fas fa-check"></i></button>
-            <button button-close><i class="fas fa-times"></i></button>
+            <a button-success><i class="fas fa-check"></i></a>
+            <a button-close><i class="fas fa-times"></i></a>
         </footer>
     </div>
 </section>
@@ -124,8 +124,8 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_areas");</sc
 <section class="modal delete" data-modal="delete_opportunity_area">
     <div class="content">
         <footer>
-            <button button-success><i class="fas fa-check"></i></button>
-            <button button-close><i class="fas fa-times"></i></button>
+            <a button-success><i class="fas fa-check"></i></a>
+            <a button-close><i class="fas fa-times"></i></a>
         </footer>
     </div>
 </section>

@@ -141,14 +141,14 @@ class Urls_registered_vkye
                 'controller' => 'Opportunitytypes',
                 'method' => 'index'
             ],
-            // '/locations' => [
-            //     'controller' => 'Locations',
-            //     'method' => 'index'
-            // ],
-            // '/reservations-statuses' => [
-            //     'controller' => 'Reservationsstatuses',
-            //     'method' => 'index'
-            // ],
+            '/locations' => [
+                'controller' => 'Locations',
+                'method' => 'index'
+            ],
+            '/reservations-statuses' => [
+                'controller' => 'Reservationsstatuses',
+                'method' => 'index'
+            ],
             // '/guests-treatments' => [
             //     'controller' => 'Gueststreatments',
             //     'method' => 'index'
