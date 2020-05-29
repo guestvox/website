@@ -15,6 +15,7 @@ $(document).ready(function()
                 if (response.status == 'success')
                 {
                     $('[data-modal="edit_profile"]').addClass('view');
+
                     $('[data-modal="edit_profile"]').find('[name="firstname"]').val(response.data.firstname);
                     $('[data-modal="edit_profile"]').find('[name="lastname"]').val(response.data.lastname);
                     $('[data-modal="edit_profile"]').find('[name="email"]').val(response.data.email);
@@ -64,6 +65,8 @@ $(document).ready(function()
         $('[data-modal="restore_password"]').find('form')[0].reset();
         $('[data-modal="restore_password"]').find('label.error').removeClass('error');
         $('[data-modal="restore_password"]').find('p.error').remove();
+
+        required_focus($('[data-modal="restore_password"]').find('form'), true);
     });
 
     $('form[name="restore_password"]').on('submit', function(e)

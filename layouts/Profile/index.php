@@ -11,7 +11,7 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
 <main class="dashboard">
     <section class="workspace">
         <div class="profile">
-            <div class="st-1" data-uploader="fast">
+            <div class="stl_1" data-uploader="fast">
                 <figure data-preview>
                     <img src="{$avatar}">
                     <a data-action="edit_avatar" data-select><i class="fas fa-upload"></i></a>
@@ -31,7 +31,7 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
         </div>
     </section>
 </main>
-<section class="modal" data-modal="edit_profile">
+<section class="modal fullscreen" data-modal="edit_profile">
     <div class="content">
         <main>
             <form name="edit_profile">
@@ -40,7 +40,7 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.firstname}</p>
-                                <input type="text" name="firstname" />
+                                <input type="text" name="firstname">
                             </label>
                         </div>
                     </div>
@@ -48,7 +48,7 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.lastname}</p>
-                                <input type="text" name="lastname" />
+                                <input type="text" name="lastname">
                             </label>
                         </div>
                     </div>
@@ -56,7 +56,7 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.email}</p>
-                                <input type="email" name="email" />
+                                <input type="email" name="email">
                             </label>
                         </div>
                     </div>
@@ -74,7 +74,7 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.phone}</p>
-                                <input type="text" name="phone_number" />
+                                <input type="text" name="phone_number">
                             </label>
                         </div>
                     </div>
@@ -82,14 +82,14 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.username}</p>
-                                <input type="text" name="username" />
+                                <input type="text" name="username">
                             </label>
                         </div>
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <button type="submit">{$lang.accept}</button>
-                            <a button-cancel>{$lang.cancel}</a>
+                            <button type="submit"><i class="fas fa-check"></i></button>
+                            <a button-cancel><i class="fas fa-times"></i></a>
                         </div>
                     </div>
                 </div>
@@ -97,7 +97,7 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
         </main>
     </div>
 </section>
-<section class="modal" data-modal="restore_password">
+<section class="modal fullscreen" data-modal="restore_password">
     <div class="content">
         <main>
             <form name="restore_password">
@@ -106,14 +106,14 @@ $this->dependencies->add(['other', '<script>menu_focus("profile");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.password}</p>
-                                <input type="password" name="password" />
+                                <input type="password" name="password">
                             </label>
                         </div>
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <button type="submit">{$lang.accept}</button>
-                            <a button-cancel>{$lang.cancel}</a>
+                            <button type="submit"><i class="fas fa-check"></i></button>
+                            <a button-cancel><i class="fas fa-times"></i></a>
                         </div>
                     </div>
                 </div>
