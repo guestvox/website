@@ -145,7 +145,7 @@ class Users_controller extends Controller
 											<tr style="width:100%;margin:0px;margin-bottom:10px;border:0px;padding:0px;">
 												<td style="width:100%;margin:0px;border:0px;padding:40px 20px;box-sizing:border-box;background-color:#fff;">
 													<figure style="width:100%;margin:0px;border:0px;padding:40px 0px;box-sizing:border-box;text-align:center;">
-														<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/index/st_8_image_1.png">
+														<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/index/stl_8_image_1.png">
 														<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
 														<span style="display:block;color:#757575;font-size:18px;">CEO</span>
 														<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
