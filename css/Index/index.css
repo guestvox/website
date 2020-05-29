@@ -1,10 +1,10 @@
 
-main.landing-page-index {
+main.landing_page_index {
     width: 100%;
 }
 
 /*  */
-main.landing-page-index > section.st-1 {
+main.landing_page_index > section.stl_1 {
     width: 100%;
     height: 100vh;
     min-height: 625px;
@@ -16,14 +16,14 @@ main.landing-page-index > section.st-1 {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-1 {
+    main.landing_page_index > section.stl_1 {
         height: auto;
         min-height: auto;
         flex-direction: column;
     }
 }
 
-main.landing-page-index > section.st-1 > figure {
+main.landing_page_index > section.stl_1 > figure {
     width: 40%;
     height: 100%;
     display: flex;
@@ -33,7 +33,7 @@ main.landing-page-index > section.st-1 > figure {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-1 > figure {
+    main.landing_page_index > section.stl_1 > figure {
         width: 100%;
         height: auto;
         padding: 50px 20px;
@@ -42,20 +42,20 @@ main.landing-page-index > section.st-1 > figure {
     }
 }
 
-main.landing-page-index > section.st-1 > figure > img {
+main.landing_page_index > section.stl_1 > figure > img {
     width: auto;
     height: 100%;
 }
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-1 > figure > img {
+    main.landing_page_index > section.stl_1 > figure > img {
         width: 100%;
         height: auto;
     }
 }
 
-main.landing-page-index > section.st-1 > div {
+main.landing_page_index > section.stl_1 > div {
     width: 60%;
     height: 100%;
     display: flex;
@@ -68,28 +68,28 @@ main.landing-page-index > section.st-1 > div {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-1 > div {
+    main.landing_page_index > section.stl_1 > div {
         width: 100%;
         height: auto;
         padding: 0px 20px 50px 20px;
     }
 }
 
-main.landing-page-index > section.st-1 > div > figure,
-main.landing-page-index > section.st-1 > div > figure > img {
+main.landing_page_index > section.stl_1 > div > figure,
+main.landing_page_index > section.stl_1 > div > figure > img {
     width: auto;
     height: 100px;
 }
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-1 > div > figure,
-    main.landing-page-index > section.st-1 > div > figure > img {
+    main.landing_page_index > section.stl_1 > div > figure,
+    main.landing_page_index > section.stl_1 > div > figure > img {
         height: 50px;
     }
 }
 
-main.landing-page-index > section.st-1 > div > h1 {
+main.landing_page_index > section.stl_1 > div > h1 {
     margin: 50px 0px 0px 0px;
     font-size: 40px;
     font-weight: 600;
@@ -99,7 +99,7 @@ main.landing-page-index > section.st-1 > div > h1 {
     color: #fff;
 }
 
-main.landing-page-index > section.st-1 > div > p {
+main.landing_page_index > section.stl_1 > div > p {
     margin: 20px 0px 50px 0px;
     font-size: 40px;
     font-weight: 600;
@@ -111,18 +111,18 @@ main.landing-page-index > section.st-1 > div > p {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-1 > div > h1,
-    main.landing-page-index > section.st-1 > div > p {
+    main.landing_page_index > section.stl_1 > div > h1,
+    main.landing_page_index > section.stl_1 > div > p {
         font-size: 25px;
     }
 }
 
-main.landing-page-index > section.st-1 > div > h1 > span,
-main.landing-page-index > section.st-1 > div > p > span {
+main.landing_page_index > section.stl_1 > div > h1 > span,
+main.landing_page_index > section.stl_1 > div > p > span {
     color: #24383f;
 }
 
-main.landing-page-index > section.st-1 > div > a {
+main.landing_page_index > section.stl_1 > div > a {
     width: auto;
     height: 50px;
     display: flex;
@@ -135,8 +135,8 @@ main.landing-page-index > section.st-1 > div > a {
 }
 
 /*  */
-main.landing-page-index > section.st-2,
-main.landing-page-index > section.st-3 {
+main.landing_page_index > section.stl_2,
+main.landing_page_index > section.stl_3 {
     width: 100%;
     height: 100vh;
     min-height: 625px;
@@ -144,22 +144,22 @@ main.landing-page-index > section.st-3 {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-2,
-    main.landing-page-index > section.st-3 {
+    main.landing_page_index > section.stl_2,
+    main.landing_page_index > section.stl_3 {
         height: auto;
         min-height: auto;
     }
 }
 
-main.landing-page-index > section.st-2::after,
-main.landing-page-index > section.st-3::after {
+main.landing_page_index > section.stl_2::after,
+main.landing_page_index > section.stl_3::after {
     content: '';
     display: block;
     clear: both;
 }
 
-main.landing-page-index > section.st-2 > figure,
-main.landing-page-index > section.st-3 > figure {
+main.landing_page_index > section.stl_2 > figure,
+main.landing_page_index > section.stl_3 > figure {
     width: 40%;
     height: 100%;
     float: right;
@@ -170,41 +170,41 @@ main.landing-page-index > section.st-3 > figure {
     overflow: hidden;
 }
 
-main.landing-page-index > section.st-2 > figure {
+main.landing_page_index > section.stl_2 > figure {
     float: right;
 }
 
-main.landing-page-index > section.st-3 > figure {
+main.landing_page_index > section.stl_3 > figure {
     float: left;
 }
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-2 > figure,
-    main.landing-page-index > section.st-3 > figure {
+    main.landing_page_index > section.stl_2 > figure,
+    main.landing_page_index > section.stl_3 > figure {
         width: 100%;
         height: 200px;
         float: none;
     }
 }
 
-main.landing-page-index > section.st-2 > figure > img,
-main.landing-page-index > section.st-3 > figure > img {
+main.landing_page_index > section.stl_2 > figure > img,
+main.landing_page_index > section.stl_3 > figure > img {
     width: auto;
     height: 100%;
 }
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-2 > figure > img,
-    main.landing-page-index > section.st-3 > figure > img {
+    main.landing_page_index > section.stl_2 > figure > img,
+    main.landing_page_index > section.stl_3 > figure > img {
         width: 100%;
         height: auto;
     }
 }
 
-main.landing-page-index > section.st-2 > div,
-main.landing-page-index > section.st-3 > div {
+main.landing_page_index > section.stl_2 > div,
+main.landing_page_index > section.stl_3 > div {
     width: 60%;
     height: 100%;
     display: flex;
@@ -216,26 +216,26 @@ main.landing-page-index > section.st-3 > div {
     background-color: #24383f;
 }
 
-main.landing-page-index > section.st-2 > div {
+main.landing_page_index > section.stl_2 > div {
     float: left;
 }
 
-main.landing-page-index > section.st-3 > div {
+main.landing_page_index > section.stl_3 > div {
     float: right;
 }
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-2 > div,
-    main.landing-page-index > section.st-3 > div {
+    main.landing_page_index > section.stl_2 > div,
+    main.landing_page_index > section.stl_3 > div {
         width: 100%;
         height: auto;
         padding: 50px 20px;
     }
 }
 
-main.landing-page-index > section.st-2 > div > h2,
-main.landing-page-index > section.st-3 > div > h2 {
+main.landing_page_index > section.stl_2 > div > h2,
+main.landing_page_index > section.stl_3 > div > h2 {
     font-size: 40px;
     font-weight: 600;
     text-align: center;
@@ -246,14 +246,14 @@ main.landing-page-index > section.st-3 > div > h2 {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-2 > div > h2,
-    main.landing-page-index > section.st-3 > div > h2 {
+    main.landing_page_index > section.stl_2 > div > h2,
+    main.landing_page_index > section.stl_3 > div > h2 {
         font-size: 25px;
     }
 }
 
-main.landing-page-index > section.st-2 > div > div,
-main.landing-page-index > section.st-3 > div > div {
+main.landing_page_index > section.stl_2 > div > div,
+main.landing_page_index > section.stl_3 > div > div {
     width: 100%;
     display: flex;
     align-items: center;
@@ -263,14 +263,14 @@ main.landing-page-index > section.st-3 > div > div {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-2 > div > div,
-    main.landing-page-index > section.st-3 > div > div {
+    main.landing_page_index > section.stl_2 > div > div,
+    main.landing_page_index > section.stl_3 > div > div {
         flex-direction: column;
     }
 }
 
-main.landing-page-index > section.st-2 > div > div > div,
-main.landing-page-index > section.st-3 > div > div > div {
+main.landing_page_index > section.stl_2 > div > div > div,
+main.landing_page_index > section.stl_3 > div > div > div {
     width: calc(100% / 3);
     display: flex;
     align-items: center;
@@ -280,26 +280,26 @@ main.landing-page-index > section.st-3 > div > div > div {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-2 > div > div > div,
-    main.landing-page-index > section.st-3 > div > div > div {
+    main.landing_page_index > section.stl_2 > div > div > div,
+    main.landing_page_index > section.stl_3 > div > div > div {
         width: 100%;
         margin-bottom: 50px;
     }
 
-    main.landing-page-index > section.st-2 > div > div > div:last-child,
-    main.landing-page-index > section.st-3 > div > div > div:last-child {
+    main.landing_page_index > section.stl_2 > div > div > div:last-child,
+    main.landing_page_index > section.stl_3 > div > div > div:last-child {
         margin-bottom: 0px;
     }
 }
 
-main.landing-page-index > section.st-2 > div > div > div > i,
-main.landing-page-index > section.st-3 > div > div > div > i {
+main.landing_page_index > section.stl_2 > div > div > div > i,
+main.landing_page_index > section.stl_3 > div > div > div > i {
     font-size: 80px;
     color: rgba(255, 255, 255, 0.6);
 }
 
-main.landing-page-index > section.st-2 > div > div > div > p,
-main.landing-page-index > section.st-3 > div > div > div > p {
+main.landing_page_index > section.stl_2 > div > div > div > p,
+main.landing_page_index > section.stl_3 > div > div > div > p {
     padding: 10px;
     box-sizing: border-box;
     font-size: 14px;
@@ -308,8 +308,8 @@ main.landing-page-index > section.st-3 > div > div > div > p {
     color: #fff;
 }
 
-main.landing-page-index > section.st-2 > div > a,
-main.landing-page-index > section.st-3 > div > a {
+main.landing_page_index > section.stl_2 > div > a,
+main.landing_page_index > section.stl_3 > div > a {
     width: auto;
     height: 50px;
     display: flex;
@@ -322,7 +322,7 @@ main.landing-page-index > section.st-3 > div > a {
 }
 
 /*  */
-main.landing-page-index > section.st-4 {
+main.landing_page_index > section.stl_4 {
     width: 100%;
     display: flex;
     align-items: center;
@@ -334,13 +334,13 @@ main.landing-page-index > section.st-4 {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-4 {
+    main.landing_page_index > section.stl_4 {
         flex-direction: column;
         padding: 50px 20px;
     }
 }
 
-main.landing-page-index > section.st-4 > div {
+main.landing_page_index > section.stl_4 > div {
     width: calc(100% / 4);
     display: flex;
     align-items: center;
@@ -352,22 +352,22 @@ main.landing-page-index > section.st-4 > div {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-4 > div {
+    main.landing_page_index > section.stl_4 > div {
         width: 100%;
         padding: 0px 20px 50px 20px;
     }
 
-    main.landing-page-index > section.st-4 > div:last-child {
+    main.landing_page_index > section.stl_4 > div:last-child {
         padding-bottom: 0px;
     }
 }
 
-main.landing-page-index > section.st-4 > div > i {
+main.landing_page_index > section.stl_4 > div > i {
     font-size: 80px;
     color: #24383f;
 }
 
-main.landing-page-index > section.st-4 > div > p {
+main.landing_page_index > section.stl_4 > div > p {
     padding: 10px;
     box-sizing: border-box;
     font-size: 14px;
@@ -377,7 +377,7 @@ main.landing-page-index > section.st-4 > div > p {
 }
 
 /*  */
-main.landing-page-index > section.st-5 {
+main.landing_page_index > section.stl_5 {
     width: 100%;
     display: flex;
     align-items: center;
@@ -389,13 +389,13 @@ main.landing-page-index > section.st-5 {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-5 {
+    main.landing_page_index > section.stl_5 {
         flex-direction: column;
         padding: 50px 20px;
     }
 }
 
-main.landing-page-index > section.st-5 > div {
+main.landing_page_index > section.stl_5 > div {
     width: calc(100% / 4);
     display: flex;
     align-items: center;
@@ -407,22 +407,22 @@ main.landing-page-index > section.st-5 > div {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-5 > div {
+    main.landing_page_index > section.stl_5 > div {
         width: 100%;
         padding: 0px 20px 50px 20px;
     }
 
-    main.landing-page-index > section.st-5 > div:last-child {
+    main.landing_page_index > section.stl_5 > div:last-child {
         padding-bottom: 0px;
     }
 }
 
-main.landing-page-index > section.st-5 > div > i {
+main.landing_page_index > section.stl_5 > div > i {
     font-size: 80px;
     color: #757575;
 }
 
-main.landing-page-index > section.st-5 > div > p {
+main.landing_page_index > section.stl_5 > div > p {
     padding: 10px;
     box-sizing: border-box;
     font-size: 14px;
@@ -432,8 +432,8 @@ main.landing-page-index > section.st-5 > div > p {
 }
 
 /*  */
-main.landing-page-index > section.st-6,
-main.landing-page-index > section.st-9 {
+main.landing_page_index > section.stl_6,
+main.landing_page_index > section.stl_9 {
     width: 100%;
     padding: 100px 0px;
     box-sizing: border-box;
@@ -442,14 +442,14 @@ main.landing-page-index > section.st-9 {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-6,
-    main.landing-page-index > section.st-9 {
+    main.landing_page_index > section.stl_6,
+    main.landing_page_index > section.stl_9 {
         padding: 50px 20px;
     }
 }
 
-main.landing-page-index > section.st-6 > h2,
-main.landing-page-index > section.st-9 > h2 {
+main.landing_page_index > section.stl_6 > h2,
+main.landing_page_index > section.stl_9 > h2 {
     width: 100%;
     margin-bottom: 50px;
     font-size: 40px;
@@ -462,26 +462,26 @@ main.landing-page-index > section.st-9 > h2 {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-6 > h2,
-    main.landing-page-index > section.st-9 > h2 {
+    main.landing_page_index > section.stl_6 > h2,
+    main.landing_page_index > section.stl_9 > h2 {
         font-size: 25px;
     }
 }
 
-main.landing-page-index > section.st-6 > div,
-main.landing-page-index > section.st-9 > div {
+main.landing_page_index > section.stl_6 > div,
+main.landing_page_index > section.stl_9 > div {
     width: 100%;
 }
 
-main.landing-page-index > section.st-6 > div::after,
-main.landing-page-index > section.st-9 > div::after {
+main.landing_page_index > section.stl_6 > div::after,
+main.landing_page_index > section.stl_9 > div::after {
     content: '';
     display: block;
     clear: both;
 }
 
-main.landing-page-index > section.st-6 > div > figure,
-main.landing-page-index > section.st-9 > div > figure {
+main.landing_page_index > section.stl_6 > div > figure,
+main.landing_page_index > section.stl_9 > div > figure {
     width: calc(100% / 4);
     height: 200px;
     float: left;
@@ -493,30 +493,28 @@ main.landing-page-index > section.st-9 > div > figure {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-6 > div > figure,
-    main.landing-page-index > section.st-9 > div > figure {
+    main.landing_page_index > section.stl_6 > div > figure,
+    main.landing_page_index > section.stl_9 > div > figure {
         width: 100%;
         height: auto;
         float: none;
         margin-bottom: 50px;
     }
 
-    main.landing-page-index > section.st-6 > div > figure:last-child,
-    main.landing-page-index > section.st-9 > div > figure:last-child {
+    main.landing_page_index > section.stl_6 > div > figure:last-child,
+    main.landing_page_index > section.stl_9 > div > figure:last-child {
         margin-bottom: 0px;
     }
 }
 
-main.landing-page-index > section.st-6 > div > figure > img,
-main.landing-page-index > section.st-9 > div > figure > img {
+main.landing_page_index > section.stl_6 > div > figure > img,
+main.landing_page_index > section.stl_9 > div > figure > img {
     width: 70%;
 }
 
 /*  */
-main.landing-page-index > section.st-7 {
+main.landing_page_index > section.stl_7 {
     width: 100%;
-    height: 100vh;
-    min-height: 625px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -524,54 +522,54 @@ main.landing-page-index > section.st-7 {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-7 {
+    main.landing_page_index > section.stl_7 {
         height: auto;
         min-height: auto;
         flex-direction: column;
     }
 }
 
-main.landing-page-index > section.st-7 > div {
+main.landing_page_index > section.stl_7 > div {
     width: 50%;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 50px;
+    padding: 100px 50px;
     box-sizing: border-box;
 }
 
-main.landing-page-index > section.st-7 > div:first-child {
+main.landing_page_index > section.stl_7 > div:first-child {
     background-color: #fff;
 }
 
-main.landing-page-index > section.st-7 > div:last-child {
+main.landing_page_index > section.stl_7 > div:last-child {
     background-color: #eee;
 }
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-7 > div {
+    main.landing_page_index > section.stl_7 > div {
         width: 100%;
         height: auto;
     }
 
-    main.landing-page-index > section.st-7 > div:first-child {
+    main.landing_page_index > section.stl_7 > div:first-child {
         padding: 0px 20px 50px 20px;
     }
 
-    main.landing-page-index > section.st-7 > div:last-child {
+    main.landing_page_index > section.stl_7 > div:last-child {
         padding: 50px 20px 0px 20px;
     }
 }
 
-main.landing-page-index > section.st-7 > div > i {
+main.landing_page_index > section.stl_7 > div > i {
     font-size: 80px;
     color: #757575;
 }
 
-main.landing-page-index > section.st-7 > div > h2 {
+main.landing_page_index > section.stl_7 > div > h2 {
     margin: 50px 0px;
     font-size: 25px;
     font-weight: 600;
@@ -581,7 +579,7 @@ main.landing-page-index > section.st-7 > div > h2 {
     color: #444;
 }
 
-main.landing-page-index > section.st-7 > div > a {
+main.landing_page_index > section.stl_7 > div > a {
     width: auto;
     height: 50px;
     display: flex;
@@ -594,7 +592,7 @@ main.landing-page-index > section.st-7 > div > a {
 }
 
 /*  */
-main.landing-page-index > section.st-8 {
+main.landing_page_index > section.stl_8 {
     width: 100%;
     padding: 100px 0px;
     box-sizing: border-box;
@@ -603,18 +601,18 @@ main.landing-page-index > section.st-8 {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-8 {
+    main.landing_page_index > section.stl_8 {
         padding: 50px 20px;
     }
 }
 
-main.landing-page-index > section.st-8::after {
+main.landing_page_index > section.stl_8::after {
     content: '';
     display: block;
     clear: both;
 }
 
-main.landing-page-index > section.st-8 > h2 {
+main.landing_page_index > section.stl_8 > h2 {
     width: 100%;
     margin-bottom: 50px;
     font-size: 40px;
@@ -627,12 +625,12 @@ main.landing-page-index > section.st-8 > h2 {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-8 > h2 {
+    main.landing_page_index > section.stl_8 > h2 {
         font-size: 25px;
     }
 }
 
-main.landing-page-index > section.st-8 > div {
+main.landing_page_index > section.stl_8 > div {
     width: calc(100% / 3);
     float: left;
     display: flex;
@@ -645,18 +643,18 @@ main.landing-page-index > section.st-8 > div {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-8 > div {
+    main.landing_page_index > section.stl_8 > div {
         width: 100%;
         float: none;
         padding: 0px 0px 50px 0px;
     }
 
-    main.landing-page-index > section.st-8 > div:last-child {
+    main.landing_page_index > section.stl_8 > div:last-child {
         padding-bottom: 0px;
     }
 }
 
-main.landing-page-index > section.st-8 > div > figure {
+main.landing_page_index > section.stl_8 > div > figure {
     width: 200px;
     height: 200px;
     display: flex;
@@ -670,12 +668,12 @@ main.landing-page-index > section.st-8 > div > figure {
     background-color: #fff;
 }
 
-main.landing-page-index > section.st-8 > div > figure > img {
+main.landing_page_index > section.stl_8 > div > figure > img {
     width: 100%;
     border-radius: 50%;
 }
 
-main.landing-page-index > section.st-8 > div > h3 {
+main.landing_page_index > section.stl_8 > div > h3 {
     margin-bottom: 5px;
     font-size: 25px;
     font-weight: 600;
@@ -684,14 +682,14 @@ main.landing-page-index > section.st-8 > div > h3 {
     color: #444;
 }
 
-main.landing-page-index > section.st-8 > div > h4 {
+main.landing_page_index > section.stl_8 > div > h4 {
     font-size: 16px;
     font-weight: 400;
     color: #757575;
 }
 
 /*  */
-main.landing-page-index > section.st-10 {
+main.landing_page_index > section.stl_10 {
     width: 100%;
     display: flex;
     align-items: center;
@@ -704,25 +702,25 @@ main.landing-page-index > section.st-10 {
 
 @media (max-width: 768px) {
 
-    main.landing-page-index > section.st-10 {
+    main.landing_page_index > section.stl_10 {
         padding: 50px 20px;
     }
 }
 
-main.landing-page-index > section.st-10 > div {
+main.landing_page_index > section.stl_10 > div {
     width: auto;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-main.landing-page-index > section.st-10 > div > a {
+main.landing_page_index > section.stl_10 > div > a {
     width: auto;
     font-size: 14px;
     color: #757575;
 }
 
-main.landing-page-index > section.st-10 > div > a > i {
+main.landing_page_index > section.stl_10 > div > a > i {
     width: 50px;
     height: 50px;
     display: flex;
@@ -730,19 +728,19 @@ main.landing-page-index > section.st-10 > div > a > i {
     justify-content: center;
 }
 
-main.landing-page-index > section.st-10 > div > i {
+main.landing_page_index > section.stl_10 > div > i {
     margin: 0px 10px;
     font-size: 6px;
     color: #757575;
 }
 
-main.landing-page-index > section.st-10 > p {
+main.landing_page_index > section.stl_10 > p {
     width: auto;
     font-size: 12px;
     color: #757575;
 }
 
-main.landing-page-index > section.st-10 > p > i {
+main.landing_page_index > section.stl_10 > p > i {
     margin: 0px 5px;
     font-size: 12px;
     color: #757575;
