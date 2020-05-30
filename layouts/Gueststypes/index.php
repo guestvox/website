@@ -14,13 +14,14 @@ $this->dependencies->add(['other', '<script>menu_focus("guests_types");</script>
             {$tbl_guests_types}
         </div>
     </section>
-    <?php if (Functions::check_user_access(['{guests_types_create}']) == true) : ?>
     <section class="buttons">
         <div>
+            <a data-action="search"><i class="fas fa-search"></i></a>
+            <?php if (Functions::check_user_access(['{guests_types_create}']) == true) : ?>
             <a class="active" data-button-modal="new_guest_type"><i class="fas fa-plus"></i></a>
+            <?php endif; ?>
         </div>
     </section>
-    <?php endif; ?>
 </main>
 <?php if (Functions::check_user_access(['{guests_types_create}','{guests_types_update}']) == true) : ?>
 <section class="modal fullscreen" data-modal="new_guest_type">

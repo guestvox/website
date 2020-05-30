@@ -14,13 +14,14 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_areas");</sc
             {$tbl_opportunity_areas}
         </div>
     </section>
-    <?php if (Functions::check_user_access(['{opportunity_areas_create}']) == true) : ?>
     <section class="buttons">
         <div>
+            <a data-action="search"><i class="fas fa-search"></i></a>
+            <?php if (Functions::check_user_access(['{opportunity_areas_create}']) == true) : ?>
             <a class="active" data-button-modal="new_opportunity_area"><i class="fas fa-plus"></i></a>
+            <?php endif; ?>
         </div>
     </section>
-    <?php endif; ?>
 </main>
 <?php if (Functions::check_user_access(['{opportunity_areas_create}','{opportunity_areas_update}']) == true) : ?>
 <section class="modal fullscreen" data-modal="new_opportunity_area">

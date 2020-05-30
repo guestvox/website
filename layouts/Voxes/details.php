@@ -2,18 +2,32 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['css', '{$path.plugins}fancy_box/jquery.fancybox.min.css']);
-$this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js']);
-// $this->dependencies->add(['css', '{$path.plugins}upload-file/input-file.css']);
-// $this->dependencies->add(['js', '{$path.plugins}upload-file/input-file.js']);
 $this->dependencies->add(['js', '{$path.plugins}moment/moment.min.js']);
 $this->dependencies->add(['js', '{$path.plugins}moment/moment-timezone-with-data.min.js']);
+$this->dependencies->add(['css', '{$path.plugins}fancy_box/jquery.fancybox.min.css']);
+$this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js']);
 $this->dependencies->add(['js', '{$path.js}Voxes/details.js']);
 $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 
 ?>
 
 %{header}%
+<main class="dashboard">
+    <section class="workspace">
+        
+    </section>
+    <section class="buttons">
+        <div>
+            <?php if (Functions::check_user_access(['{voxes_reports_view}']) == true) : ?>
+            <a href="/voxes/reports/generate"><i class="fas fa-file-invoice"></i></a>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
+            <a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a>
+            <?php endif; ?>
+            <a href="/voxes/create" class="active"><i class="fas fa-plus"></i></a>
+        </div>
+    </section>
+</main>
 <main>
     <nav>
         <h2><i class="fas fa-heart"></i>{$lang.details}</h2>

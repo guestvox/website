@@ -14,13 +14,14 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
             {$tbl_users}
         </div>
     </section>
-    <?php if (Functions::check_user_access(['{users_create}']) == true) : ?>
     <section class="buttons">
         <div>
+            <a data-action="search"><i class="fas fa-search"></i></a>
+            <?php if (Functions::check_user_access(['{users_create}']) == true) : ?>
             <a class="active" data-button-modal="new_user"><i class="fas fa-plus"></i></a>
+            <?php endif; ?>
         </div>
     </section>
-    <?php endif; ?>
 </main>
 <?php if (Functions::check_user_access(['{users_create}','{users_update}']) == true) : ?>
 <section class="modal fullscreen" data-modal="new_user">

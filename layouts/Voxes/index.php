@@ -18,13 +18,14 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
     </section>
     <section class="buttons">
         <div>
-            <?php if (Functions::check_user_access(['{voxes_reports_view}']) == true) : ?>
-            <a href="/voxes/reports/generate"><i class="fas fa-file-invoice"></i></a>
-            <?php endif; ?>
+            <a data-action="search"><i class="fas fa-search"></i></a>
+            <a href="/voxes/create" class="active"><i class="fas fa-plus"></i></a>
             <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
             <a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a>
             <?php endif; ?>
-            <a href="/voxes/create" class="active"><i class="fas fa-plus"></i></a>
+            <?php if (Functions::check_user_access(['{voxes_reports_view}']) == true) : ?>
+            <a href="/voxes/reports/generate"><i class="fas fa-file-invoice"></i></a>
+            <?php endif; ?>
         </div>
     </section>
 </main>
