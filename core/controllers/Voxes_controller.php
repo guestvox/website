@@ -37,12 +37,12 @@ class Voxes_controller extends Controller
 						<div>
 							<span>';
 
-							if ($value['type'] == 'request')
-								$tbl_voxes .= '<i class="fas fa-spa"></i>';
-							else if ($value['type'] == 'incident')
-								$tbl_voxes .= '<i class="fas fa-exclamation-triangle"></i>';
-							else if ($value['type'] == 'workorder')
-								$tbl_voxes .= '<i class="fas fa-id-card-alt"></i>';
+			if ($value['type'] == 'request')
+				$tbl_voxes .= '<i class="fas fa-spa"></i>';
+			else if ($value['type'] == 'incident')
+				$tbl_voxes .= '<i class="fas fa-exclamation-triangle"></i>';
+			else if ($value['type'] == 'workorder')
+				$tbl_voxes .= '<i class="fas fa-id-card-alt"></i>';
 
 			$tbl_voxes .=
 			'				</span>
