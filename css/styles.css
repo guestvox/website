@@ -228,7 +228,7 @@ body > main.dashboard > section.workspace {
     min-height: calc(100vh - 100px);
     position: absolute;
     top: 100px;
-    padding: 0px 20px 20px 20px;
+    padding: 0px 20px 90px 20px;
     box-sizing: border-box;
     background-color: #fff;
     z-index: 96;
@@ -495,6 +495,7 @@ div.tbl_stl_1 > div > div > div.itm_2 > div:last-child {
 
 div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > h2,
 div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > span {
+    width: 100%;
     font-size: 14px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -520,7 +521,7 @@ div.tbl_stl_1 > div > div > div.itm_3 {
 }
 
 div.tbl_stl_1 > div > div > div.itm_3.low {
-    background-color: #3f51b5;
+    background-color: #00a5ab;;
 }
 
 div.tbl_stl_1 > div > div > div.itm_3.medium {
@@ -541,13 +542,12 @@ div.tbl_stl_1 > div > div > div.itm_3 > span {
     width: calc(50% - 5px);
     float: left;
     margin: 2.5px;
-    padding: 5px;
+    padding: 5px 0px 5px 10px;
     border-radius: 50px;
     box-sizing: border-box;
     background-color: #fff;
     font-size: 12px;
     font-weight: 400;
-    text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -1046,6 +1046,56 @@ form div.switch > input {
     transition: 400ms;
 }
 
+/* Inputs - Checkers
+------------------------------------------------------------------------------ */
+form div.checkers {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form div.checkers > div {
+    width: 100px;
+    height: 70px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+form div.checkers > div > input {
+    width: 100%;
+    height: 100%;
+    margin: 0px !important;
+    background-color: #eee;
+    cursor: pointer;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+form div.checkers > div:first-child > input {
+    border-radius: 60px 0px 0px 60px;
+}
+
+form div.checkers > div:last-child > input {
+    border-radius: 0px 60px 60px 0px;
+}
+
+form div.checkers > div > input:checked {
+    background-color: #e0e0e0;
+}
+
+form div.checkers > div > label {
+    position: absolute;
+}
+
+form div.checkers > div > label > i {
+    font-size: 18px;
+    color: #757575;
+}
+
 /* Inputs - Maximum exceeded
 ------------------------------------------------------------------------------ */
 form div.maximum_exceeded {
@@ -1183,6 +1233,80 @@ div[data-uploader].stl_2 > figure > a {
 
 div[data-uploader].stl_2 > figure > a:hover {
     opacity: 1;
+}
+
+/* Style 3 */
+
+div[data-uploader].stl_3 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 20px 0px;
+}
+
+div[data-uploader].stl_3 > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+div[data-uploader].stl_3 > div > div {
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin: 0px 5px;
+}
+
+div[data-uploader].stl_3 > div > div > i {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    background-color: #eee;
+    font-size: 18px;
+    color: #757575;
+}
+
+div[data-uploader].stl_3 > div > div.active > i {
+    background-color: #bdbdbd;
+}
+
+div[data-uploader].stl_3 > div > div > span {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    color: #757575;
+}
+
+div[data-uploader].stl_3 > div > div > span > strong {
+    margin-right: 5px;
+    font-weight: 600;
+}
+
+div[data-uploader].stl_3 > a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #eee;
+    font-size: 14px;
+    color: #757575;
 }
 
 /* Modals

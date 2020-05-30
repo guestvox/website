@@ -154,8 +154,8 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <button type="submit"><i class="fas fa-check"></i></button>
                             <a button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit"><i class="fas fa-check"></i></button>
                         </div>
                     </div>
                 </div>
@@ -244,8 +244,8 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <button type="submit"><i class="fas fa-check"></i></button>
                             <a button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit"><i class="fas fa-check"></i></button>
                         </div>
                     </div>
                 </div>

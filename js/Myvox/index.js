@@ -85,8 +85,8 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[name="opportunity_type"]').html(response.html);
                     $('[name="opportunity_type"]').attr('disabled', false);
+                    $('[name="opportunity_type"]').html(response.html);
                 }
             }
         });

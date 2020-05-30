@@ -27,8 +27,8 @@ $this->dependencies->add(['other', '<script>menu_focus("owners");</script>']);
 <section class="modal edit" data-modal="deactivate_owner">
     <div class="content">
         <footer>
-            <a button-success><i class="fas fa-check"></i></a>
             <a button-close><i class="fas fa-times"></i></a>
+            <a button-success><i class="fas fa-check"></i></a>
         </footer>
     </div>
 </section>
@@ -37,8 +37,8 @@ $this->dependencies->add(['other', '<script>menu_focus("owners");</script>']);
 <section class="modal edit" data-modal="activate_owner">
     <div class="content">
         <footer>
-            <a button-success><i class="fas fa-check"></i></a>
             <a button-close><i class="fas fa-times"></i></a>
+            <a button-success><i class="fas fa-check"></i></a>
         </footer>
     </div>
 </section>
@@ -47,8 +47,8 @@ $this->dependencies->add(['other', '<script>menu_focus("owners");</script>']);
 <section class="modal delete" data-modal="delete_owner">
     <div class="content">
         <footer>
-            <a button-success><i class="fas fa-check"></i></a>
             <a button-close><i class="fas fa-times"></i></a>
+            <a button-success><i class="fas fa-check"></i></a>
         </footer>
     </div>
 </section>

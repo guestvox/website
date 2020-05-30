@@ -746,7 +746,7 @@ class Voxes_model extends Model
 			'origin' => 'internal'
 		]);
 
-		return !empty($query) ? $this->database->id() : null;
+		return !empty($query) ? $query : null;
 	}
 
 	public function edit_vox($data)

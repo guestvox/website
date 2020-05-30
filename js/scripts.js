@@ -69,6 +69,8 @@ $(document).ready(function ()
         }
         else if (type == 'low')
             preview = $(this).parents('[data-uploader]').find('[data-preview] > img');
+        else if (type == 'multiple')
+            preview = $(this).parents('[data-uploader]').find('[data-preview]');
 
         upload_image(type, target, preview, name, action);
     });
@@ -179,6 +181,53 @@ function upload_image(type, target, preview, name, action)
 
             reader.readAsDataURL(target[0].files[0]);
         }
+        else if (type == 'multiple')
+        {
+            var img = 0;
+            var pdf = 0;
+            var wrd = 0;
+            var exl = 0;
+
+            $.each(target[0].files, function(key, value)
+            {
+                var slt = value.name.split('.');
+                slt = slt[1].toUpperCase();
+
+                if (slt == 'PNG' || slt == 'JPG' || slt == 'JPEG')
+                    img = img + 1;
+                else if (slt == 'PDF')
+                    pdf = pdf + 1;
+                else if (slt == 'DOC' || slt == 'DOCX')
+                    wrd = wrd + 1;
+                else if (slt == 'XLS' || slt == 'XLSX')
+                    exl = exl + 1;
+            });
+
+            preview.find('[data-image]').find('strong').html(img);
+            preview.find('[data-pdf]').find('strong').html(pdf);
+            preview.find('[data-word]').find('strong').html(wrd);
+            preview.find('[data-excel]').find('strong').html(exl);
+
+            if (img > 0)
+                preview.find('[data-image]').addClass('active');
+            else
+                preview.find('[data-image]').removeClass('active');
+
+            if (pdf > 0)
+                preview.find('[data-pdf]').addClass('active');
+            else
+                preview.find('[data-pdf]').removeClass('active');
+
+            if (wrd > 0)
+                preview.find('[data-word]').addClass('active');
+            else
+                preview.find('[data-word]').removeClass('active');
+
+            if (exl > 0)
+                preview.find('[data-excel]').addClass('active');
+            else
+                preview.find('[data-excel]').removeClass('active');
+        }
     });
 }
 
@@ -189,26 +238,29 @@ function show_form_errors(form, response)
         form.find('label.error').removeClass('error');
         form.find('p.error').remove();
 
-        $.each(response.labels, function(i, label)
+        $.each(response.labels, function(key, value)
         {
             if (label[1].length > 0)
-                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
+                form.find('[name="' + value[0] + '"]').parents('label').addClass('error').append('<p class="error">' + value[1] + '</p>');
             else
-                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
+                form.find('[name="' + value[0] + '"]').parents('label').addClass('error');
         });
 
-        form.find('label.error [name]')[0].focus();
+        form.find('label.error > [name]')[0].focus();
     }
     else if (response.message)
         show_modal_error(response.message);
 }
 
-function show_modal_success(message, timeout)
+function show_modal_success(message, timeout, path)
 {
     $('[data-modal="success"]').addClass('view');
     $('[data-modal="success"]').find('main > p').html(message);
 
-    setTimeout(function() { location.reload(); }, timeout);
+    if (path)
+        setTimeout(function() { window.location.href = path; }, timeout);
+    else
+        setTimeout(function() { location.reload(); }, timeout);
 }
 
 function show_modal_error(message)

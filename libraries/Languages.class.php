@@ -2,9 +2,9 @@
 
 defined('_EXEC') or die;
 
-class Lang
+class Languages
 {
-    static public function general($key, $subkey = null)
+    static public function words($key, $subkey = null)
     {
         $langs = [
             'thanks_request_demo' => [

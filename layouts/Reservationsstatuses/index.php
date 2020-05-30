@@ -38,8 +38,8 @@ $this->dependencies->add(['other', '<script>menu_focus("reservations_statuses");
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <button type="submit"><i class="fas fa-check"></i></button>
                             <a button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit"><i class="fas fa-check"></i></button>
                         </div>
                     </div>
                 </div>
@@ -52,8 +52,8 @@ $this->dependencies->add(['other', '<script>menu_focus("reservations_statuses");
 <section class="modal edit" data-modal="deactivate_reservation_status">
     <div class="content">
         <footer>
-            <a button-success><i class="fas fa-check"></i></a>
             <a button-close><i class="fas fa-times"></i></a>
+            <a button-success><i class="fas fa-check"></i></a>
         </footer>
     </div>
 </section>
@@ -62,8 +62,8 @@ $this->dependencies->add(['other', '<script>menu_focus("reservations_statuses");
 <section class="modal edit" data-modal="activate_reservation_status">
     <div class="content">
         <footer>
-            <a button-success><i class="fas fa-check"></i></a>
             <a button-close><i class="fas fa-times"></i></a>
+            <a button-success><i class="fas fa-check"></i></a>
         </footer>
     </div>
 </section>
@@ -72,8 +72,8 @@ $this->dependencies->add(['other', '<script>menu_focus("reservations_statuses");
 <section class="modal delete" data-modal="delete_reservation_status">
     <div class="content">
         <footer>
-            <a button-success><i class="fas fa-check"></i></a>
             <a button-close><i class="fas fa-times"></i></a>
+            <a button-success><i class="fas fa-check"></i></a>
         </footer>
     </div>
 </section>

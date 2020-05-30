@@ -48,7 +48,7 @@ class Hi_controller extends Controller
 				{
 					$mail1->setFrom('noreply@guestvox.com', 'Guestvox');
 					$mail1->addAddress($_POST['email'], $_POST['name']);
-					$mail1->Subject = Lang::general('thanks_request_demo')[$this->lang];
+					$mail1->Subject = Languages::words('thanks_request_demo')[$this->lang];
 					$mail1->Body =
 					'<html>
 						<head>
@@ -66,7 +66,7 @@ class Hi_controller extends Controller
 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 										<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
-										<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Lang::general('representative_contact_you')[$this->lang] . '</p>
+										<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::words('representative_contact_you')[$this->lang] . '</p>
 									</td>
 								</tr>
 								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
@@ -90,7 +90,7 @@ class Hi_controller extends Controller
 					$mail2->Subject = 'Operación | Nueva solicitud de demo';
 					$mail2->Body =
 					'Compañía: ' . $_POST['business'] . '<br>
-					Tipo: ' . Lang::general($_POST['type'])['es'] . '<br>
+					Tipo: ' . Languages::words($_POST['type'])['es'] . '<br>
 					' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms'] . '<br>' : '') . '
 					Nombre: ' . $_POST['name'] . '<br>
 					Correo electrónico: ' . $_POST['email'] . '<br>
@@ -157,7 +157,7 @@ class Hi_controller extends Controller
 				{
 					$mail1->setFrom('noreply@guestvox.com', 'Guestvox');
 					$mail1->addAddress($_POST['email'], $_POST['name']);
-					$mail1->Subject = Lang::general('thanks_request_demo')[$this->lang];
+					$mail1->Subject = Languages::words('thanks_request_demo')[$this->lang];
 					$mail1->Body =
 					'<html>
 						<head>
@@ -175,7 +175,7 @@ class Hi_controller extends Controller
 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 										<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
-										<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Lang::general('representative_contact_you')[$this->lang] . '</p>
+										<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::words('representative_contact_you')[$this->lang] . '</p>
 									</td>
 								</tr>
 								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
@@ -199,7 +199,7 @@ class Hi_controller extends Controller
 					$mail2->Subject = 'Reputación | Nueva solicitud de demo';
 					$mail2->Body =
 					'Compañía: ' . $_POST['business'] . '<br>
-					Tipo: ' . Lang::general($_POST['type'])['es'] . '<br>
+					Tipo: ' . Languages::words($_POST['type'])['es'] . '<br>
 					' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms'] . '<br>' : '') . '
 					Nombre: ' . $_POST['name'] . '<br>
 					Correo electrónico: ' . $_POST['email'] . '<br>
@@ -265,7 +265,7 @@ class Hi_controller extends Controller
 					{
 						$mail1->setFrom('contacto@guestvox.com', 'Guestvox');
 						$mail1->addAddress($_POST['email'], $_POST['name']);
-						$mail1->Subject = Lang::general('thanks_signup_webinar')[$this->lang];
+						$mail1->Subject = Languages::words('thanks_signup_webinar')[$this->lang];
 						$mail1->Body =
 						'<html>
 							<head>
@@ -286,7 +286,7 @@ class Hi_controller extends Controller
 											<figure style="width:100%;margin:0px 0px 20px 0px;padding:0px;text-align:center;">
 												<img style="width:100%;" src="https://' . Configuration::$domain . '/images/hi/webinar/' . $webinar['image'] . '" />
 											</figure>
-											<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="' . $webinar['link'] . '">' . Lang::general('go_to_webinar')[$this->lang] . '</a>
+											<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="' . $webinar['link'] . '">' . Languages::words('go_to_webinar')[$this->lang] . '</a>
 										</td>
 									</tr>
 									<tr style="width:100%;margin:0px;padding:0px;border:0px;">

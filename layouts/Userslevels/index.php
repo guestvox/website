@@ -48,8 +48,8 @@ $this->dependencies->add(['other', '<script>menu_focus("users_levels");</script>
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <button type="submit"><i class="fas fa-check"></i></button>
                             <a button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit"><i class="fas fa-check"></i></button>
                         </div>
                     </div>
                 </div>
@@ -62,8 +62,8 @@ $this->dependencies->add(['other', '<script>menu_focus("users_levels");</script>
 <section class="modal edit" data-modal="deactivate_user_level">
     <div class="content">
         <footer>
-            <a button-success><i class="fas fa-check"></i></a>
             <a button-close><i class="fas fa-times"></i></a>
+            <a button-success><i class="fas fa-check"></i></a>
         </footer>
     </div>
 </section>
@@ -72,8 +72,8 @@ $this->dependencies->add(['other', '<script>menu_focus("users_levels");</script>
 <section class="modal edit" data-modal="activate_user_level">
     <div class="content">
         <footer>
-            <a button-success><i class="fas fa-check"></i></a>
             <a button-close><i class="fas fa-times"></i></a>
+            <a button-success><i class="fas fa-check"></i></a>
         </footer>
     </div>
 </section>
@@ -82,8 +82,8 @@ $this->dependencies->add(['other', '<script>menu_focus("users_levels");</script>
 <section class="modal delete" data-modal="delete_user_level">
     <div class="content">
         <footer>
-            <a button-success><i class="fas fa-check"></i></a>
             <a button-close><i class="fas fa-times"></i></a>
+            <a button-success><i class="fas fa-check"></i></a>
         </footer>
     </div>
 </section>

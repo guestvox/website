@@ -18,7 +18,7 @@
 		{$dependencies.css}
 
         <!-- PWA -->
-        <meta name="theme-color" content="#00A5AB"/>
+        <!-- <meta name="theme-color" content="#00A5AB"/>
         <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-touch-fullscreen" content="yes" />
@@ -45,7 +45,7 @@
         <link rel="apple-touch-startup-image" media="screen and (device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/icon_640x1136.png" />
         <link rel="apple-touch-startup-image" media="screen and (device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/icon_1668x2388.png" />
         <link rel="apple-touch-startup-image" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)" href="images/icon_2048x1536.png" />
-        <link rel="apple-touch-startup-image" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/icon_1536x2048.png" />
+        <link rel="apple-touch-startup-image" media="screen and (device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="images/icon_1536x2048.png" /> -->
         <!-- -->
 
 		<!-- Google site verification -->

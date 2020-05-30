@@ -6,7 +6,7 @@
     </figure>
     <nav>
         <ul>
-            <li><a><i class="fas fa-search"></i></a></li>
+            <li><a href="/voxes/create"><i class="fas fa-plus"></i></a></li>
             <li><a data-action="open_rightbar"><i class="fas fa-bars"></i></a></li>
         </ul>
     </nav>

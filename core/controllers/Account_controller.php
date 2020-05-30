@@ -581,8 +581,8 @@ class Account_controller extends Controller
 				$mdl_edit_myvox_settings .=
 			    '                	<div class="span12">
 				                        <div class="buttons">
-											<button type="submit"><i class="fas fa-check"></i></button>
 											<a button-cancel><i class="fas fa-times"></i></a>
+											<button type="submit"><i class="fas fa-check"></i></button>
 				                        </div>
 				                    </div>
 				                </div>
@@ -758,8 +758,8 @@ class Account_controller extends Controller
 									</div>
 									<div class="span12">
 				                        <div class="buttons">
-											<button type="submit"><i class="fas fa-check"></i></button>
 											<a button-cancel><i class="fas fa-times"></i></a>
+											<button type="submit"><i class="fas fa-check"></i></button>
 				                        </div>
 				                    </div>
 				                </div>
