@@ -14,143 +14,38 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 %{header}%
 <main class="dashboard">
     <section class="workspace">
-        
+        <div class="vox_details">
+            <div class="datas">
+                {$spn_type}
+                <h2>{$token}</h2>
+                {$h1_name}
+                {$spn_elapsed_time}
+            </div>
+            <div class="datas stl_1">
+                <span><i class="fas fa-shapes"></i>{$owner}</span>
+                <span><i class="fas fa-compass"></i>{$opportunity_area}</span>
+                <span><i class="far fa-compass"></i>{$opportunity_type}</span>
+                <span><i class="fas fa-map-marker-alt"></i>{$location}</span>
+                <span><i class="fas fa-calendar-alt"></i>{$started_date}</span>
+            </div>
+            <div class="datas">
+                {$p_observations}
+                {$spn_subject}
+                {$p_description}
+                {$p_action_taken}
+            </div>
+        </div>
     </section>
     <section class="buttons">
         <div>
-            <?php if (Functions::check_user_access(['{voxes_reports_view}']) == true) : ?>
-            <a href="/voxes/reports/generate"><i class="fas fa-file-invoice"></i></a>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
-            <a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a>
-            <?php endif; ?>
-            <a href="/voxes/create" class="active"><i class="fas fa-plus"></i></a>
+            <a href="/voxes"><i class="fas fa-heart"></i></a>
+            {$btn_comment_vox}
+            {$btn_complete_vox}
+            {$btn_reopen_vox}
+            {$btn_edit_vox}
         </div>
     </section>
 </main>
-<main>
-    <nav>
-        <h2><i class="fas fa-heart"></i>{$lang.details}</h2>
-        <ul>
-            <li><a href="/voxes/view/details/{$id}" class="view"><i class="fas fa-info-circle"></i></a></li>
-            <li><a href="/voxes/view/history/{$id}"><i class="fas fa-history"></i></a></li>
-        </ul>
-    </nav>
-    <article>
-        <main>
-            <div class="vox-details">
-                <div>
-                    <div class="datas">
-                        <h4>{$lang.type}: {$lang.{$type}}</h4>
-                        {$h4_room}
-                        {$h4_table}
-                        {$h4_client}
-                        <h4>{$lang.opportunity_area}: {$opportunity_area}</h4>
-                        <h4>{$lang.opportunity_type}: {$opportunity_type}</h4>
-                        <h4>{$lang.date_hour}: {$started_date} {$lang.at} {$started_hour}</h4>
-                        <h4>{$lang.location}: {$location}</h4>
-                        {$h4_cost}
-                        {$h4_urgency}
-                        {$h4_confidentiality}
-                        {$h4_observations}
-                        {$h4_subject}
-                        {$h4_description}
-                        {$h4_action_taken}
-                        {$h4_date_hour}
-                    </div>
-                    {$div_attachments}
-                    {$div_comments}
-                </div>
-                <aside>
-                    {$div_assigned_users}
-                    {$div_viewed_by}
-                    <div class="datas">
-                        {$h4_guest}
-                        {$h4_guest_id}
-                        {$h4_guest_type}
-                        {$h4_reservation_number}
-                        {$h4_reservation_status}
-                        {$h4_check_in}
-                        {$h4_check_out}
-                    </div>
-                    <div class="datas">
-                        <h4>Token: {$token}</h4>
-                        {$h4_created_user}
-                        {$h4_edited_user}
-                        {$h4_completed_user}
-                        {$h4_reopened_user}
-                        <h4>{$lang.status}: {$status}</h4>
-                        <h4>{$lang.origin}: {$origin}</h4>
-                    </div>
-                    <div class="actions">
-                        {$btn_reopen}
-                        {$btn_complete}
-                        {$btn_edit}
-                        {$btn_comment}
-                    </div>
-                </aside>
-            </div>
-        </main>
-    </article>
-</main>
-<section class="modal" data-modal="complete_vox">
-    <div class="content">
-        <header>
-            <h3>{$lang.complete}</h3>
-        </header>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
-            </div>
-        </footer>
-    </div>
-</section>
-<section class="modal" data-modal="reopen_vox">
-    <div class="content">
-        <header>
-            <h3>{$lang.reopen}</h3>
-        </header>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
-            </div>
-        </footer>
-    </div>
-</section>
-<section class="modal" data-modal="new_vox_comment" name="{$type}">
-    <div class="content">
-        <header>
-            <h3>{$lang.comment}</h3>
-        </header>
-        <main>
-            <form name="new_vox_comment">
-                <div class="label" id="cost">
-                    <label>
-                        <p>{$lang.cost} (<?php echo Session::get_value('account')['currency']; ?>)</p>
-                        <input type="number" name="cost" />
-                    </label>
-                </div>
-                <div class="label">
-                    <label>
-                        <p>{$lang.message}</p>
-                        <textarea name="message"></textarea>
-                    </label>
-                </div>
-                <div class="label">
-                    <label>
-                        <p>{$lang.attachments}</p>
-                        <input type="file" name="attachments[]" multiple />
-                    </label>
-                </div>
-            </form>
-        </main>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
-            </div>
-        </footer>
-    </div>
-</section>
+{$mdl_comment_vox}
+{$mdl_complete_vox}
+{$mdl_reopen_vox}

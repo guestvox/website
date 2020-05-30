@@ -308,7 +308,7 @@ class Voxes_model extends Model
 				foreach ($query[0]['comments'] as $key => $value)
 					$query[0]['comments'][$key]['user'] = $this->get_user($value['user']);
 
-				foreach ($query[0]['data']['changes_history'] as $key => $value)
+				foreach ($query[0]['changes_history'] as $key => $value)
 					$query[0]['changes_history'][$key]['user'] = $this->get_user($value['user']);
 
 				$query[0]['created_user'] = $this->get_user($query[0]['created_user']); // - En changes_history (create) y created_user está el problema de que cuando el vox se creó desde myvox, no se guardá ningún id.
@@ -1113,14 +1113,14 @@ class Voxes_model extends Model
 	{
 		$query = null;
 
-		$editer = $this->database->select('voxes', [
+		$editer = Functions::get_json_decoded_query($this->database->select('voxes', [
 			'type',
 			'cost',
 			'comments',
 			'changes_history'
 		], [
-			'id' => $id
-		]);
+			'id' => $data['id']
+		]));
 
 		if (!empty($editer))
 		{
@@ -1167,7 +1167,7 @@ class Voxes_model extends Model
 				'date' => Functions::get_current_date(),
 				'hour' => Functions::get_current_hour(),
 				'cost' => $data['cost'],
-				'message' => $data['response_to'] . ' ' . $data['message'],
+				'comment' => $data['comment'],
 				'attachments' => !empty($data['attachments']) ? $data['attachments'] : []
 			]);
 
@@ -1194,11 +1194,11 @@ class Voxes_model extends Model
 	{
 		$query = null;
 
-		$editer = $this->database->select('voxes', [
+		$editer = Functions::get_json_decoded_query($this->database->select('voxes', [
 			'changes_history'
 		], [
 			'id' => $id
-		]);
+		]));
 
 		if (!empty($editer))
 		{
@@ -1227,11 +1227,11 @@ class Voxes_model extends Model
 	{
 		$query = null;
 
-		$editer = $this->database->select('voxes', [
+		$editer = Functions::get_json_decoded_query($this->database->select('voxes', [
 			'changes_history'
 		], [
 			'id' => $id
-		]);
+		]));
 
 		if (!empty($editer))
 		{

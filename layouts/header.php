@@ -21,7 +21,7 @@
             <?php endif; ?>
         </figure>
         <h2><?php echo Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname']; ?></h2>
-        <h4><?php echo Session::get_value('account')['name']; ?></h4>
+        <h3><?php echo Session::get_value('account')['name']; ?></h3>
     </div>
     <nav>
         <ul>

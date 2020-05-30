@@ -140,7 +140,7 @@ body > header.rightbar > div > h2 {
     color: #fff;
 }
 
-body > header.rightbar > div > h4 {
+body > header.rightbar > div > h3 {
     font-size: 12px;
     font-weight: 400;
     color: #fff;
@@ -289,6 +289,93 @@ body > main.dashboard > section.buttons > div > a {
 
 body > main.dashboard > section.buttons > div > a.active {
     background-color: #00a5ab;
+}
+
+/* Vox details
+------------------------------------------------------------------------------ */
+div.vox_details {
+    width: 100%;
+}
+
+div.vox_details > div.datas {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+div.vox_details > div.datas > span.low,
+div.vox_details > div.datas > span.medium,
+div.vox_details > div.datas > span.high {
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    font-size: 60px;
+    color: #fff;
+}
+
+div.vox_details > div.datas > span.low {
+    background-color: #00a5ab;
+}
+
+div.vox_details > div.datas > span.medium {
+    background-color: #ffc107;
+}
+
+div.vox_details > div.datas > span.high {
+    background-color: #f44336;
+}
+
+div.vox_details > div.datas > h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #212121;
+}
+
+div.vox_details > div.datas > h2,
+div.vox_details > div.datas > span,
+div.vox_details > div.datas > p {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+div.vox_details > div.datas > h2,
+div.vox_details > div.datas > span {
+    color: #757575;
+}
+
+div.vox_details > div.datas > p {
+    margin-top: 10px;
+    text-align: center;
+    line-height: 20px;
+    color: #9e9e9e;
+}
+
+div.vox_details > div.datas.stl_1 > span {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+div.vox_details > div.datas.stl_1 > span > i {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    border-radius: 50%;
+    background-color: #eee;
+    font-size: 14px;
+    color: #757575;
 }
 
 /* Account

@@ -88,7 +88,7 @@ class Functions
             Functions::set_default_timezone();
 
             if ($format == '+ hrs')
-                return $hour . ' Hrs';
+                return $hour . ' {$lang.hours}';
             else
         	    return date($format, strtotime($hour));
         }
@@ -110,7 +110,7 @@ class Functions
             Functions::set_default_timezone();
 
             if ($format == '+ hrs')
-                return $date . ' ' . $hour . ' Hrs';
+                return $date . ' ' . $hour . ' {$lang.hours}';
             else
                 return date($format, strtotime($date . ' ' . $hour));
         }
