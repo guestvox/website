@@ -242,7 +242,7 @@ class Voxes_controller extends Controller
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 												<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-													<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png" />
+													<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
 												</figure>
 											</td>
 										</tr>
@@ -289,22 +289,22 @@ class Voxes_controller extends Controller
 						{
 							$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 							$sms_client = new \Nexmo\Client($sms_basic);
-							$sms_text = Languages::words('new', $_POST['type'])[$this->lang] . '. ';
-							$sms_text .= Languages::words('token')[$this->lang] . ': ' . $_POST['token'] . '. ';
-							$sms_text .= Languages::words('owner')[$this->lang] . ': ' . $_POST['owner']['name'][$this->lang] . (!empty($_POST['owner']['number']) ? ' #' . $_POST['owner']['number'] : '') . '. ';
-							$sms_text .= Languages::words('opportunity_area')[$this->lang] . ': ' . $_POST['opportunity_area']['name'][$this->lang] . '. ';
-							$sms_text .= Languages::words('opportunity_type')[$this->lang] . ': ' . $_POST['opportunity_type']['name'][$this->lang] . '. ';
-							$sms_text .= Languages::words('started_date')[$this->lang] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
-							$sms_text .= Languages::words('started_hour')[$this->lang] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
-							$sms_text .= Languages::words('location')[$this->lang] . ': ' . $_POST['location']['name'][$this->lang] . '. ';
-							$sms_text .= Languages::words('urgency')[$this->lang] . ': ' . Languages::words($_POST['urgency'])[$this->lang] . '. ';
+							$sms_text = Languages::words('new', $_POST['type'])[$this->lang] . ' . ';
+							$sms_text .= Languages::words('token')[$this->lang] . ': ' . $_POST['token'] . ' . ';
+							$sms_text .= Languages::words('owner')[$this->lang] . ': ' . $_POST['owner']['name'][$this->lang] . (!empty($_POST['owner']['number']) ? ' #' . $_POST['owner']['number'] : '') . ' . ';
+							$sms_text .= Languages::words('opportunity_area')[$this->lang] . ': ' . $_POST['opportunity_area']['name'][$this->lang] . ' . ';
+							$sms_text .= Languages::words('opportunity_type')[$this->lang] . ': ' . $_POST['opportunity_type']['name'][$this->lang] . ' . ';
+							$sms_text .= Languages::words('started_date')[$this->lang] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' . ';
+							$sms_text .= Languages::words('started_hour')[$this->lang] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' . ';
+							$sms_text .= Languages::words('location')[$this->lang] . ': ' . $_POST['location']['name'][$this->lang] . ' . ';
+							$sms_text .= Languages::words('urgency')[$this->lang] . ': ' . Languages::words($_POST['urgency'])[$this->lang] . ' . ';
 
 							if ($_POST['type'] == 'request' OR $_POST['type'] == 'workorder')
-								$sms_text .= Languages::words('observations')[$this->lang] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Languages::words('empty')[$this->lang]) . '. ';
+								$sms_text .= Languages::words('observations')[$this->lang] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Languages::words('empty')[$this->lang]) . ' . ';
 							else if ($_POST['type'] == 'incident')
 							{
-								$sms_text .= Languages::words('confidentiality')[$this->lang] . ': ' . Languages::words((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[$this->lang] . '. ';
-								$sms_text .= Languages::words('subject')[$this->lang] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Languages::words('empty')[$this->lang]) . '. ';
+								$sms_text .= Languages::words('confidentiality')[$this->lang] . ': ' . Languages::words((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[$this->lang] . ' . ';
+								$sms_text .= Languages::words('subject')[$this->lang] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Languages::words('empty')[$this->lang]) . ' . ';
 							}
 
 							$sms_text .= 'https://' . Configuration::$domain . '/voxes/details/' . $_POST['token'];
@@ -424,7 +424,7 @@ class Voxes_controller extends Controller
 					$html = '<option value="" selected hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_owners($_POST['type']) as $value)
-						$html .= '<option value="' . $value['id'] . '">' . $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+						$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 
 					Functions::environment([
 						'status' => 'success',
@@ -479,10 +479,17 @@ class Voxes_controller extends Controller
 
 				if ($_POST['action'] == 'get_opt_opportunity_types')
 				{
-					$html = '<option value="" selected hidden>{$lang.choose}</option>';
+					$html = '';
 
-					foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['type']) as $value)
-						$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+					if (!empty($_POST['opportunity_area']))
+					{
+						$html .= '<option value="" selected hidden>{$lang.choose}</option>';
+
+						foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['type']) as $value)
+							$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+					}
+					else
+						$html .= '<option value="" selected hidden>{$lang.choose_opportunity_area}</option>';
 
 					Functions::environment([
 						'status' => 'success',
@@ -546,13 +553,11 @@ class Voxes_controller extends Controller
 
 							try
 							{
-								$mail->isSMTP();
 								$mail->setFrom('noreply@guestvox.com', 'Guestvox');
 
 								foreach ($_POST['assigned_users'] as $value)
 									$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
 
-								$mail->isHTML(true);
 								$mail->Subject = Languages::words('edited_vox')[$this->lang];
 								$mail->Body =
 								'<html>
@@ -564,7 +569,7 @@ class Voxes_controller extends Controller
 											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 													<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-														<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png" />
+														<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
 													</figure>
 												</td>
 											</tr>
@@ -572,7 +577,7 @@ class Voxes_controller extends Controller
 												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . Languages::words('edited_vox')[$this->lang] . '</h4>
 													<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::words('token')[$this->lang] . ': ' . $vox['token'] . '</h6>
-													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['id'] . '">' . Languages::words('view_details')[$this->lang] . '</a>
+													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['token'] . '">' . Languages::words('view_details')[$this->lang] . '</a>
 								                </td>
 								            </tr>
 											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
@@ -583,7 +588,6 @@ class Voxes_controller extends Controller
 								        </table>
 								    </body>
 								</html>';
-								$mail->AltBody = '';
 								$mail->send();
 							}
 							catch (Exception $e) { }
@@ -594,7 +598,7 @@ class Voxes_controller extends Controller
 							{
 								$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 								$sms_client = new \Nexmo\Client($sms_basic);
-								$sms_text = Languages::words('edited_vox')[$this->lang] . '. ' . Languages::words('token')[$this->lang] . ': ' . $vox['token'] . '. ' . 'https://' . Configuration::$domain . '/voxes/details/' . $vox['id'];
+								$sms_text = Languages::words('edited_vox')[$this->lang] . ' . ' . Languages::words('token')[$this->lang] . ': ' . $vox['token'] . ' . ' . 'https://' . Configuration::$domain . '/voxes/details/' . $vox['token'];
 
 								foreach ($_POST['assigned_users'] as $value)
 								{
@@ -619,7 +623,7 @@ class Voxes_controller extends Controller
 
 							Functions::environment([
 								'status' => 'success',
-								'path' => '/voxes/details/' . $vox['id'],
+								'path' => '/voxes/details/' . $vox['token'],
 								'message' => '{$lang.operation_success}'
 							]);
 						}
@@ -648,32 +652,29 @@ class Voxes_controller extends Controller
 
 				$frm_edit_vox =
 				'<div class="span12">
-					<div class="tabs">
-						<label>
-							<span>{$lang.request}</span>
-							<span><i class="fas fa-spa"></i></span>
-							<input type="radio" name="type" value="request" ' . (($vox['type'] == 'request') ? 'checked' : '') . '>
-						</label>
-						<label>
-							<span>{$lang.incident}</span>
-							<span><i class="fas fa-exclamation-triangle"></i></span>
-							<input type="radio" name="type" value="incident" ' . (($vox['type'] == 'incident') ? 'checked' : '') . '>
-						</label>
-						<label>
-							<span>{$lang.workorder}</span>
-							<span><i class="fas fa-id-card-alt"></i></span>
-							<input type="radio" name="type" value="workorder" ' . (($vox['type'] == 'workorder') ? 'checked' : '') . '>
-						</label>
-					</div>
-				</div>
+                    <div class="checkers">
+                        <div>
+                            <input id="rqrd" type="radio" name="type" value="request" ' . (($vox['type'] == 'request') ? 'checked' : '') . '>
+                            <label for="rwrd"><i class="fas fa-spa"></i></label>
+                        </div>
+                        <div>
+                            <input id="inrd" type="radio" name="type" value="incident" ' . (($vox['type'] == 'incident') ? 'checked' : '') . '>
+                            <label for="inrd"><i class="fas fa-exclamation-triangle"></i></label>
+                        </div>
+                        <div>
+                            <input id="wkrd" type="radio" name="type" value="workorder" ' . (($vox['type'] == 'workorder') ? 'checked' : '') . '>
+                            <label for="wkrd"><i class="fas fa-id-card-alt"></i></label>
+                        </div>
+                    </div>
+                </div>
 				<div class="span3">
 					<div class="label">
-						<label class="success" required>
+						<label required>
 							<p>{$lang.owner}</p>
 							<select name="owner">';
 
 				foreach ($this->model->get_owners($vox['type']) as $value)
-					$frm_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+					$frm_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 
 				$frm_edit_vox .=
 				'			</select>
@@ -682,12 +683,12 @@ class Voxes_controller extends Controller
 				</div>
 				<div class="span3">
 					<div class="label">
-						<label class="success" required>
+						<label required>
 							<p>{$lang.opportunity_area}</p>
 							<select name="opportunity_area">';
 
 				foreach ($this->model->get_opportunity_areas($vox['type']) as $value)
-					$frm_edit_vox .= '<option value="' . $value['id'] . '"'. (($vox['opportunity_area'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
+					$frm_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['opportunity_area'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
 
 				$frm_edit_vox .=
 				'			</select>
@@ -696,12 +697,12 @@ class Voxes_controller extends Controller
 				</div>
 				<div class="span3">
 					<div class="label">
-						<label class="success" required>
+						<label required>
 							<p>{$lang.opportunity_type}</p>
 							<select name="opportunity_type">';
 
 				foreach ($this->model->get_opportunity_types($vox['opportunity_area'], $vox['type']) as $value)
-					$frm_edit_vox .= '<option value="' . $value['id'] . '"'. (($vox['opportunity_type'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
+					$frm_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['opportunity_type'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
 
 				$frm_edit_vox .=
 				'			</select>
@@ -710,37 +711,45 @@ class Voxes_controller extends Controller
 				</div>
 				<div class="span3">
 					<div class="label">
-						<label class="success" required>
+						<label required>
 							<p>{$lang.date}</p>
-							<input type="date" name="started_date" value="' . $vox['started_date'] . '" />' . '
+							<input type="date" name="started_date" value="' . $vox['started_date'] . '">' . '
 						</label>
 					</div>
 				</div>
 				<div class="span3">
 					<div class="label">
-						<label class="success" required>
+						<label required>
 							<p>{$lang.hour}</p>
-							<input type="time" name="started_hour" value="' . $vox['started_hour'] . '" />
+							<input type="time" name="started_hour" value="' . $vox['started_hour'] . '">
 						</label>
 					</div>
 				</div>
 				<div class="span3">
 					<div class="label">
-						<label class="success" required>
+						<label required>
 							<p>{$lang.location}</p>
 							<select name="location">';
 
 				foreach ($this->model->get_locations($vox['type']) as $value)
-					$frm_edit_vox .= '<option value="' . $value['id'] . '"'. (($vox['location'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
+					$frm_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['location'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
 
 				$frm_edit_vox .=
 				'			</select>
 						</label>
 					</div>
 				</div>
+				<div class="span3 ' . (($vox['type'] == 'incident' OR $vox['type'] == 'workorder') ? '' : 'hidden') . '">
+					<div class="label">
+						<label unrequired>
+							<p>{$lang.cost} ' . Session::get_value('account')['currency'] . '</p>
+							<input type="number" name="cost" value="' . $vox['cost'] . '">
+						</label>
+					</div>
+				</div>
 				<div class="span3">
 					<div class="label">
-						<label class="success" required>
+						<label required>
 							<p>{$lang.urgency}</p>
 							<select name="urgency">
 								<option value="low" ' . (($vox['urgency'] == 'low') ? 'selected' : '') . '>{$lang.low}</option>
@@ -754,48 +763,65 @@ class Voxes_controller extends Controller
 					<div class="label">
 						<label class="' . (!empty($vox['observations']) ? 'success' : '') . '" unrequired>
 							<p>{$lang.observations}</p>
-							<input type="text" name="observations" value="' . $vox['observations'] . '" maxlength="120" />
+							<input type="text" name="observations" value="' . $vox['observations'] . '">
 						</label>
 					</div>
 				</div>
 				<div class="span3 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
 					<div class="label">
-						<label class="' . (($vox['confidentiality'] == true) ? 'success' : '') . '" unrequired>
+						<label unrequired>
 							<p>{$lang.confidentiality}</p>
 							<div class="switch">
-								<input id="confidentiality" type="checkbox" name="confidentiality" class="switch-input" ' . (($vox['confidentiality'] == true) ? 'checked' : '') . '>
-								<label class="switch-label" for="confidentiality"></label>
+								<input id="cfsw" type="checkbox" name="confidentiality" class="switch_input" ' . (($vox['confidentiality'] == true) ? 'checked' : '') . '>
+								<label class="switch_label" for="cfsw"></label>
 							</div>
 						</label>
 					</div>
 				</div>
-				<div class="span3 ' . (($vox['type'] == 'incident' OR $vox['type'] == 'workorder') ? '' : 'hidden') . '">
+				<div class="span3">
 					<div class="label">
-						<label class="' . (!empty($vox['cost']) ? 'success' : '') . '" unrequired>
-							<p>{$lang.cost}</p>
-							<input type="number" name="cost" value="' . $vox['cost'] . '" />
+						<label unrequired>
+							<p>{$lang.assigned_users}</p>
+							<select name="assigned_users[]" class="chosen-select" multiple>';
+
+				foreach ($this->model->get_users() as $value)
+				{
+					foreach ($vox['assigned_users'] as $subvalue)
+						$frm_edit_vox .= '<option value="' . $value['id'] . '" ' . (($subvalue == $value['id']) ? 'selected' : '') . '>' . $value['firstname'] . ' ' . $value['lastname'] . '</option>';
+				}
+
+				$frm_edit_vox .=
+				'			</select>
 						</label>
 					</div>
 				</div>
-				<div class="span3 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
+				<div class="span3 ' . (($vox['type'] == 'request' OR $vox['type'] == 'workorder') ? '' : 'hidden') . '">
+                    <div class="label">
+                        <label unrequired>
+                            <p>{$lang.observations}</p>
+                            <input type="text" name="observations" value="' . $vox['observations'] . '">
+                        </label>
+                    </div>
+                </div>
+				<div class="span6 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
 					<div class="label">
-						<label class="' . (!empty($vox['subject']) ? 'success' : '') . '" unrequired>
+						<label unrequired>
 							<p>{$lang.subject}</p>
-							<input type="text" name="subject" value="' . $vox['subject'] . '" maxlength="120" />
+							<input type="text" name="subject" value="' . $vox['subject'] . '">
 						</label>
 					</div>
 				</div>
-				<div class="span3 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
+				<div class="span6 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
 					<div class="label">
-						<label class="' . (!empty($vox['description']) ? 'success' : '') . '" unrequired>
+						<label unrequired>
 							<p>{$lang.description}</p>
 							<textarea name="description">' . $vox['description'] . '</textarea>
 						</label>
 					</div>
 				</div>
-				<div class="span3 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
+				<div class="span6 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
 					<div class="label">
-						<label class="' . (!empty($vox['action_taken']) ? 'success' : '') . '" unrequired>
+						<label unrequired>
 							<p>{$lang.action_taken}</p>
 							<textarea name="action_taken">' . $vox['action_taken'] . '</textarea>
 						</label>
@@ -807,13 +833,13 @@ class Voxes_controller extends Controller
 					$frm_edit_vox .=
 					'<div class="span3 ' . (($vox['type'] == 'request' OR $vox['type'] == 'incident') ? '' : 'hidden') . '">
 						<div class="label">
-							<label class="' . (!empty($vox['guest_treatment']) ? 'success' : '') . '" unrequired>
+							<label unrequired>
 								<p>{$lang.guest_treatment}</p>
 								<select name="guest_treatment">
-									<option value="" ' . (empty($vox['guest_treatment']) ? 'selected' : '') . '>{$lang.empty}</option>';
+									<option value="" ' . (empty($vox['guest_treatment']) ? 'selected' : '') . '>{$lang.empty} ({$lang.choose})</option>';
 
 					foreach ($this->model->get_guests_treatments() as $value)
-						$frm_edit_vox .= '<option value="' . $value['id'] . '"'. (($vox['guest_treatment'] == $value['id']) ? 'selected' : '') . '>' . $value['name'] . '</option>';
+						$frm_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['guest_treatment'] == $value['id']) ? 'selected' : '') . '>' . $value['name'] . '</option>';
 
 					$frm_edit_vox .=
 					'			</select>
@@ -825,17 +851,17 @@ class Voxes_controller extends Controller
 				$frm_edit_vox .=
 				'<div class="span3 ' . (($vox['type'] == 'request' OR $vox['type'] == 'incident') ? '' : 'hidden') . '">
 					<div class="label">
-						<label class="' . (!empty($vox['firstname']) ? 'success' : '') . '" unrequired>
+						<label unrequired>
 							<p>{$lang.firstname}</p>
-							<input type="text" name="firstname" value="' . $vox['firstname'] . '" />
+							<input type="text" name="firstname" value="' . $vox['firstname'] . '">
 						</label>
 					</div>
 				</div>
 				<div class="span3 ' . (($vox['type'] == 'request' OR $vox['type'] == 'incident') ? '' : 'hidden') . '">
 					<div class="label">
-						<label class="' . (!empty($vox['lastname']) ? 'success' : '') . '" unrequired>
+						<label unrequired>
 							<p>{$lang.lastname}</p>
-							<input type="text" name="lastname" value="' . $vox['lastname'] . '" />
+							<input type="text" name="lastname" value="' . $vox['lastname'] . '">
 						</label>
 					</div>
 				</div>';
@@ -845,13 +871,21 @@ class Voxes_controller extends Controller
 					$frm_edit_vox .=
 					'<div class="span3 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
 						<div class="label">
-							<label class="' . (!empty($vox['guest_type']) ? 'success' : '') . '" unrequired>
+							<label unrequired>
+								<p>{$lang.guest_id}</p>
+								<input type="text" name="guest_id" value="' . $vox['guest_id'] . '">
+							</label>
+						</div>
+					</div>
+					<div class="span3 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
+						<div class="label">
+							<label unrequired>
 								<p>{$lang.guest_type}</p>
 								<select name="guest_type">
-									<option value="" ' . (empty($vox['guest_type']) ? 'selected' : '') . '>{$lang.empty}</option>';
+									<option value="" ' . (empty($vox['guest_type']) ? 'selected' : '') . '>{$lang.empty} ({$lang.choose})</option>';
 
 					foreach ($this->model->get_guests_types() as $value)
-						$frm_edit_vox .= '<option value="' . $value['id'] . '"'. (($vox['guest_type'] == $value['id']) ? 'selected' : '') . '>' . $value['name'] . '</option>';
+						$frm_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['guest_type'] == $value['id']) ? 'selected' : '') . '>' . $value['name'] . '</option>';
 
 					$frm_edit_vox .=
 					'			</select>
@@ -860,29 +894,21 @@ class Voxes_controller extends Controller
 					</div>
 					<div class="span3 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
 						<div class="label">
-							<label class="' . (!empty($vox['guest_id']) ? 'success' : '') . '" unrequired>
-								<p>{$lang.guest_id}</p>
-								<input type="text" name="guest_id" value="' . $vox['guest_id'] . '" />
-							</label>
-						</div>
-					</div>
-					<div class="span3 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
-						<div class="label">
-							<label class="' . (!empty($vox['reservation_number']) ? 'success' : '') . '" unrequired>
+							<label unrequired>
 								<p>{$lang.reservation_number}</p>
-								<input type="text" name="reservation_number" value="' . $vox['reservation_number'] . '" />
+								<input type="text" name="reservation_number" value="' . $vox['reservation_number'] . '">
 							</label>
 						</div>
 					</div>
 					<div class="span3 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
 						<div class="label">
-							<label class="' . (!empty($vox['reservation_status']) ? 'success' : '') . '" unrequired>
-								<p>{$lang.reservations_statuses}</p>
+							<label unrequired>
+								<p>{$lang.reservation_status}</p>
 								<select name="reservation_status">
-									<option value="" ' . (empty($vox['reservation_status']) ? 'selected' : '') . '>{$lang.empty}</option>';
+									<option value="" ' . (empty($vox['reservation_status']) ? 'selected' : '') . '>{$lang.empty} ({$lang.choose})</option>';
 
 					foreach ($this->model->get_reservations_statuses() as $value)
-						$frm_edit_vox .= '<option value="' . $value['id'] . '"'. (($vox['reservation_status'] == $value['id']) ? 'selected' : '') . '>' . $value['name'] . '</option>';
+						$frm_edit_vox .= '<option value="' . $value['id'] . '" ' . (($vox['reservation_status'] == $value['id']) ? 'selected' : '') . '>' . $value['name'] . '</option>';
 
 					$frm_edit_vox .=
 					'			</select>
@@ -891,73 +917,75 @@ class Voxes_controller extends Controller
 					</div>
 					<div class="span3 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
 						<div class="label">
-							<label class="' . (!empty($vox['check_in']) ? 'success' : '') . '" unrequired>
+							<label unrequired>
 								<p>{$lang.check_in}</p>
-								<input type="date" name="check_in" value="' . Functions::get_formatted_date($vox['check_in']) . '" />
+								<input type="date" name="check_in" value="' . Functions::get_formatted_date($vox['check_in']) . '">
 							</label>
 						</div>
 					</div>
 					<div class="span3 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
 						<div class="label">
-							<label class="' . (!empty($vox['check_out']) ? 'success' : '') . '" unrequired>
+							<label unrequired>
 								<p>{$lang.check_out}</p>
-								<input type="date" name="check_out" value="' . Functions::get_formatted_date($vox['check_out']) . '" />
+								<input type="date" name="check_out" value="' . Functions::get_formatted_date($vox['check_out']) . '">
 							</label>
 						</div>
 					</div>';
 				}
 
 				$frm_edit_vox .=
-				'<div class="span3">
-					<div class="label">
-						<label class="' . (!empty($vox['assigned_users']) ? 'success' : '') . '" unrequired>
-							<p>{$lang.assigned_users}</p>
-							<select name="assigned_users[]" class="chosen-select" multiple>';
+				'<div class="span12">
+                    <div class="stl_3" data-uploader="multiple">
+                        <div data-preview>';
 
-				foreach ($this->model->get_users() as $value)
+				$img = 0;
+				$pdf = 0;
+				$wrd = 0;
+				$exl = 0;
+
+				foreach ($vox['attachments'] as $value)
 				{
-					foreach ($vox['assigned_users'] as $subvalue)
-						$frm_edit_vox .= '<option value="' . $value['id'] . '" ' . (($subvalue['id'] == $value['id']) ? 'selected' : '') . '>' . $value['firstname'] . ' ' . $value['lastname'] . '</option>';
-				}
-
-				$frm_edit_vox .=
-				'			</select>
-						</label>
-					</div>
-				</div>
-				<div class="span3">
-					<div class="attachments">';
-
-				if (!empty($vox['attachments']))
-				{
-					foreach ($vox['attachments'] as $value)
+					if ($value['status'] == 'success')
 					{
-						if ($value['status'] == 'success')
-						{
-							$ext = strtoupper(explode('.', $value['file'])[1]);
+						$ext = strtoupper(explode('.', $value['file'])[1]);
 
-							if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
-								$frm_edit_vox .= '<figure><img src="{$path.uploads}' . $value['file'] . '"><a href="{$path.uploads}' . $value['file'] . '" class="fancybox-thumb" rel="fancybox-thumb"></a></figure>';
-							else if ($ext == 'PDF' OR $ext == 'DOC' OR $ext == 'DOCX' OR $ext == 'XLS' OR $ext == 'XLSX')
-								$frm_edit_vox .= '<iframe src="https://docs.google.com/viewer?url=https://' . Configuration::$domain . '/uploads/' . $value['file'] . '&embedded=true"></iframe>';
-						}
+						if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
+							$img = $img + 1;
+						else if ($ext == 'PDF')
+							$pdf = $pdf + 1;
+						else if ($ext == 'DOC' OR $ext == 'DOCX')
+							$wrd = $wrd + 1;
+						else if ($ext == 'XLS' OR $ext == 'XLSX')
+							$exl = $exl + 1;
 					}
 				}
-				else
-					$frm_edit_vox .= '<p>{$lang.not_attachments}</p>';
 
 				$frm_edit_vox .=
-				'	</div>
-					<div class="label">
-						<label class="' . (!empty($vox['attachments']) ? 'success' : '') . '" unrequired>
-							<p>{$lang.attachments}</p>
-							<input type="file" name="attachments[]" multiple />
-						</label>
-					</div>
-				</div>';
+                '       	<div data-image>
+								<i class="fas fa-file-image"></i>
+								<span><strong>' . $img . '</strong>{$lang.images}</span>
+							</div>
+							<div data-pdf>
+								<i class="fas fa-file-pdf"></i>
+								<span><strong>' . $pdf . '</strong>{$lang.pdf}</span>
+							</div>
+							<div data-word>
+								<i class="fas fa-file-word"></i>
+								<span><strong>' . $wrd . '</strong>{$lang.word}</span>
+							</div>
+							<div data-excel>
+								<i class="fas fa-file-excel"></i>
+								<span><strong>' . $exl . '</strong>{$lang.excel}</span>
+							</div>
+						</div>
+                        <a data-select><i class="fas fa-cloud-upload-alt"></i></a>
+                        <input type="file" name="attachments[]" accept="image/*, application/pdf, application/vnd.ms-word, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple data-upload>
+                    </div>
+                </div>';
 
 				$replace = [
-					'{$frm_edit_vox}' => $frm_edit_vox
+					'{$frm_edit_vox}' => $frm_edit_vox,
+					'{$token}' => $vox['token']
 				];
 
 				$template = $this->format->replace($replace, $template);
@@ -968,7 +996,7 @@ class Voxes_controller extends Controller
 		else
 			header('Location: /voxes');
 	}
-	
+
 	// public function details($params)
 	// {
 	// 	$vox = $this->model->get_vox($params[0], true);
@@ -1019,7 +1047,7 @@ class Voxes_controller extends Controller
 	// 									<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 	// 										<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 	// 											<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-	// 												<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png" />
+	// 												<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
 	// 											</figure>
 	// 										</td>
 	// 									</tr>
@@ -1049,7 +1077,7 @@ class Voxes_controller extends Controller
 	// 					{
 	// 						$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 	// 						$sms_client = new \Nexmo\Client($sms_basic);
-	// 						$sms_text = $mail_subject . '. ' . Languages::words('token')[$this->lang] . ': ' . $vox['token'] . '. ' . 'https://' . Configuration::$domain . '/voxes/details/' . $vox['id'];
+	// 						$sms_text = $mail_subject . ' . ' . Languages::words('token')[$this->lang] . ': ' . $vox['token'] . ' . ' . 'https://' . Configuration::$domain . '/voxes/details/' . $vox['id'];
 	//
 	// 						foreach ($vox['assigned_users'] as $value)
 	// 						{
@@ -1101,7 +1129,7 @@ class Voxes_controller extends Controller
 	// 					$div_assigned_users .=
 	// 					'<div>
 	// 						<figure>
-	// 							<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}avatar.png') . '" />
+	// 							<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}avatar.png') . '">
 	// 						</figure>
 	// 						<span>' . $value['firstname'] . ' ' . $value['lastname'] . '</span>
 	// 					</div>';
@@ -1118,7 +1146,7 @@ class Voxes_controller extends Controller
 	// 				{
 	// 					if ($value['status'] == 'success')
 	// 					{
-	// 						$ext = strtoupper(explode('.', $value['file'])[1]);
+	// 						$ext = strtoupper(explode(' .', $value['file'])[1]);
 	//
 	// 						if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
 	// 							$div_attachments .= '<figure><img src="{$path.uploads}' . $value['file'] . '"><a href="{$path.uploads}' . $value['file'] . '" class="fancybox-thumb" rel="fancybox-thumb"></a></figure>';
@@ -1137,7 +1165,7 @@ class Voxes_controller extends Controller
 	// 				$div_viewed_by .=
 	// 				'<div>
 	// 					<figure>
-	// 						<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}avatar.png') . '" />
+	// 						<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}avatar.png') . '">
 	// 					</figure>
 	// 					<span>' . $value['firstname'] . ' ' . $value['lastname'] . '</span>
 	// 				</div>';
@@ -1153,7 +1181,7 @@ class Voxes_controller extends Controller
 	// 					'<div>
 	// 						<div>
 	// 							<figure>
-	// 								<img src="' . (!empty($value['user']['avatar']) ? '{$path.uploads}' . $value['user']['avatar'] : '{$path.images}avatar.png') . '" />
+	// 								<img src="' . (!empty($value['user']['avatar']) ? '{$path.uploads}' . $value['user']['avatar'] : '{$path.images}avatar.png') . '">
 	// 							</figure>
 	// 							<span>' . $value['user']['firstname'] . ' ' . $value['user']['lastname'] . '</span>
 	// 							<span>{$lang.say}:</span>
@@ -1168,7 +1196,7 @@ class Voxes_controller extends Controller
 	// 						{
 	// 							if ($subvalue['status'] == 'success')
 	// 							{
-	// 								$ext = strtoupper(explode('.', $subvalue['file'])[1]);
+	// 								$ext = strtoupper(explode(' .', $subvalue['file'])[1]);
 	//
 	// 								if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
 	// 									$div_comments .= '<figure><img src="{$path.uploads}' . $subvalue['file'] . '"><a href="{$path.uploads}' . $subvalue['file'] . '" class="fancybox-thumb" rel="fancybox-thumb"></a></figure>';
@@ -1201,7 +1229,7 @@ class Voxes_controller extends Controller
 	// 				'<div>
 	// 					<div>
 	// 						<figure>
-	// 							<img src="' . (($value['type'] == 'created' AND $vox['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($value['user']['avatar']) ? '{$path.uploads}' . $value['user']['avatar'] : '{$path.images}avatar.png')) . '" />
+	// 							<img src="' . (($value['type'] == 'created' AND $vox['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($value['user']['avatar']) ? '{$path.uploads}' . $value['user']['avatar'] : '{$path.images}avatar.png')) . '">
 	// 						</figure>
 	// 						<span>' . (($value['type'] == 'created' AND $vox['origin'] == 'myvox') ? ((!empty($vox['firstname']) AND !empty($vox['lastname'])) ? $vox['firstname'] . ' ' . $vox['lastname'] : 'Myvox') : $value['user']['firstname'] . ' ' . $value['user']['lastname']) . '</span>
 	// 					</div>
@@ -1553,7 +1581,7 @@ class Voxes_controller extends Controller
 	// 								{
 	// 									if ($subvalue['status'] == 'success')
 	// 									{
-	// 										$ext = strtoupper(explode('.', $subvalue['file'])[1]);
+	// 										$ext = strtoupper(explode(' .', $subvalue['file'])[1]);
 	//
 	// 										if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
 	// 											$img = $img + 1;
@@ -1667,7 +1695,7 @@ class Voxes_controller extends Controller
 	// 										{
 	// 											if ($intvalue['status'] == 'success')
 	// 											{
-	// 												$ext = strtoupper(explode('.', $intvalue['file'])[1]);
+	// 												$ext = strtoupper(explode(' .', $intvalue['file'])[1]);
 	//
 	// 												if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
 	// 													$img = $img + 1;
@@ -1700,7 +1728,7 @@ class Voxes_controller extends Controller
 	// 									else
 	// 										$str_2 .= '{$lang.empty}';
 	//
-	// 									$str_1 .= '<p><strong>' . $subvalue['user']['firstname'] . ' ' . $subvalue['user']['lastname'] . ':</strong> ' . $subvalue['message'] . '. <strong>{$lang.attachments}:</strong> ' . $str_2 . '</p>';
+	// 									$str_1 .= '<p><strong>' . $subvalue['user']['firstname'] . ' ' . $subvalue['user']['lastname'] . ':</strong> ' . $subvalue['message'] . ' . <strong>{$lang.attachments}:</strong> ' . $str_2 . '</p>';
 	// 								}
 	// 							}
 	// 							else

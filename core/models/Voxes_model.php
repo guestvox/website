@@ -239,7 +239,10 @@ class Voxes_model extends Model
 			'status',
 			'origin'
 		], [
-			'id' => $id
+			'OR' => [
+				'id' => $id,
+				'token' => $id
+			]
 		]));
 
 		if (!empty($query))
@@ -695,7 +698,7 @@ class Voxes_model extends Model
 		$query = $this->database->insert('voxes', [
 			'account' => Session::get_value('account')['id'],
 			'type' => $data['type'],
-			'token' => $data['token'],
+			'token' => strtoupper($data['token']),
 			'owner' => $data['owner'],
 			'opportunity_area' => $data['opportunity_area'],
 			'opportunity_type' => $data['opportunity_type'],

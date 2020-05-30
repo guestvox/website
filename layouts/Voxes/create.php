@@ -168,7 +168,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <label unrequired>
                             <p>{$lang.guest_treatment}</p>
                             <select name="guest_treatment">
-                                <option value="" selected hidden>{$lang.choose}</option>
+                                <option value="" selected>{$lang.empty} ({$lang.choose})</option>
                                 {$opt_guests_treatments}
                             </select>
                         </label>
@@ -205,7 +205,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <label unrequired>
                             <p>{$lang.guest_type}</p>
                             <select name="guest_type">
-                                <option value="" selected hidden>{$lang.choose}</option>
+                                <option value="" selected>{$lang.empty} ({$lang.choose})</option>
                                 {$opt_guests_types}
                             </select>
                         </label>
@@ -224,7 +224,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <label unrequired>
                             <p>{$lang.reservation_status}</p>
                             <select name="reservation_status">
-                                <option value="" selected hidden>{$lang.choose}</option>
+                                <option value="" selected>{$lang.empty} ({$lang.choose})</option>
                                 {$opt_reservations_statuses}
                             </select>
                         </label>
