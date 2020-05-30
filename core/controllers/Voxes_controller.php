@@ -1454,21 +1454,21 @@ class Voxes_controller extends Controller
 					'{$spn_type}' => $spn_type,
 					'{$token}' => $vox['token'],
 					'{$h1_name}' => ($vox['type'] == 'request' OR $vox['type'] == 'incident') ? '<h1>' . ((!empty($vox['firstname']) AND !empty($vox['lastname'])) ? $vox['firstname'] . ' ' . $vox['lastname'] : '{$lang.not_name}') . '</h1>' : '',
-					'{$spn_elapsed_time}' => '<span
+					'{$h3_elapsed_time}' => '<h3
 	                    data-date-1="' . Functions::get_formatted_date_hour($vox['started_date'], $vox['started_hour']) . '"
 	                    data-date-2="' . ((!empty($vox['completed_date']) AND !empty($vox['completed_hour'])) ? Functions::get_formatted_date_hour($vox['completed_date'], $vox['completed_hour']) : '') . '"
 	                    data-time-zone="' . Session::get_value('account')['time_zone'] . '"
 	                    data-status="' . $vox['status'] . '"
-	                    data-elapsed-time></span>',
+	                    data-elapsed-time></h3>',
 					'{$owner}' => $vox['owner']['name'][$this->lang] . (!empty($vox['owner']['number']) ? ' #' . $vox['owner']['number'] : ''),
 					'{$opportunity_area}' => $vox['opportunity_area']['name'][$this->lang],
 					'{$opportunity_type}' => $vox['opportunity_type']['name'][$this->lang],
 					'{$location}' => $vox['location']['name'][$this->lang],
 					'{$started_date}' => Functions::get_formatted_date($vox['started_date'], 'd . m . Y') . ' ' . Functions::get_formatted_hour($vox['started_hour'], '+ hrs'),
 					'{$p_observations}' => ($vox['type'] == 'request' OR $vox['type'] == 'workorder') ? '<p>' . (!empty($vox['observations']) ? $vox['observations'] : '{$lang.not_observations}') . '</p>' : '',
-					'{$spn_subject}' => ($vox['type'] == 'incident') ? '<span>' . (!empty($vox['subject']) ? $vox['subject'] : '{$lang.not_subject}') . '</span>' : '',
-					'{$p_description}' => ($vox['type'] == 'incident') ? '<p>' . (!empty($vox['description']) ? $vox['description'] : '{$lang.not_description}') . '</p>' : '',
-					'{$p_action_taken}' => ($vox['type'] == 'incident') ? '<p>' . (!empty($vox['action_taken']) ? $vox['action_taken'] : '{$lang.not_action_taken}') . '</p>' : '',
+					'{$p_subject}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['subject']) ? $vox['subject'] : '{$lang.not_subject}') . '</p>' : '',
+					'{$p_description}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['description']) ? $vox['description'] : '{$lang.not_description}') . '</p>' : '',
+					'{$p_action_taken}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['action_taken']) ? $vox['action_taken'] : '{$lang.not_action_taken}') . '</p>' : '',
 
 					// '{$h4_date}' => '<h4
 					// 	data-date-1="' . Functions::get_formatted_date_hour($vox['started_date'], $vox['started_hour']) . '"

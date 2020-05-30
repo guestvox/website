@@ -15,22 +15,22 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 <main class="dashboard">
     <section class="workspace">
         <div class="vox_details">
-            <div class="datas">
+            <div class="datas stl_1">
                 {$spn_type}
                 <h2>{$token}</h2>
                 {$h1_name}
-                {$spn_elapsed_time}
+                {$h3_elapsed_time}
             </div>
-            <div class="datas stl_1">
+            <div class="datas stl_2">
                 <span><i class="fas fa-shapes"></i>{$owner}</span>
                 <span><i class="fas fa-compass"></i>{$opportunity_area}</span>
                 <span><i class="far fa-compass"></i>{$opportunity_type}</span>
                 <span><i class="fas fa-map-marker-alt"></i>{$location}</span>
                 <span><i class="fas fa-calendar-alt"></i>{$started_date}</span>
             </div>
-            <div class="datas">
+            <div class="datas stl_3">
                 {$p_observations}
-                {$spn_subject}
+                {$p_subject}
                 {$p_description}
                 {$p_action_taken}
             </div>
