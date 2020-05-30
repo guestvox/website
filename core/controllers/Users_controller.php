@@ -256,7 +256,7 @@ class Users_controller extends Controller
 							</figure>
 						</div>
 					</div>
-					<div class="buttons flex_right">
+					<div class="buttons">
 						' . ((Functions::check_user_access(['{users_deactivate}','{users_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_user' : 'activate_user') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
 						' . ((Functions::check_user_access(['{users_restore_password}']) == true) ? '<a data-action="restore_password_user" data-id="' . $value['id'] . '"><i class="fas fa-key"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{users_update}']) == true) ? '<a class="edit" data-action="edit_user" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
