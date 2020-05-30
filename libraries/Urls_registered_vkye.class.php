@@ -73,22 +73,22 @@ class Urls_registered_vkye
                 'controller' => 'Dashboard',
                 'method' => 'index'
             ],
-            // '/voxes' => [
-            //     'controller' => 'Voxes',
-            //     'method' => 'index'
-            // ],
-            // '/voxes/create' => [
-            //     'controller' => 'Voxes',
-            //     'method' => 'create'
-            // ],
-            // '/voxes/edit/%param%' => [
-            //     'controller' => 'Voxes',
-            //     'method' => 'edit'
-            // ],
-            // '/voxes/details/%param%' => [
-            //     'controller' => 'Voxes',
-            //     'method' => 'details'
-            // ],
+            '/voxes' => [
+                'controller' => 'Voxes',
+                'method' => 'index'
+            ],
+            '/voxes/create' => [
+                'controller' => 'Voxes',
+                'method' => 'create'
+            ],
+            '/voxes/edit/%param%' => [
+                'controller' => 'Voxes',
+                'method' => 'edit'
+            ],
+            '/voxes/details/%param%' => [
+                'controller' => 'Voxes',
+                'method' => 'details'
+            ],
             // '/voxes/reports/%param%' => [
             //     'controller' => 'Voxes',
             //     'method' => 'reports'

@@ -396,13 +396,13 @@ div.profile > span {
 
 /* Style 1 */
 
-/* div.tbl_stl_1 {
+div.tbl_stl_1 {
     width: 100%;
 }
 
 div.tbl_stl_1 > div {
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     padding-left: 60px;
     box-sizing: border-box;
 }
@@ -410,9 +410,7 @@ div.tbl_stl_1 > div {
 div.tbl_stl_1 > div > div {
     width: 100%;
     position: relative;
-    padding: 10px;
-    border-radius: 20px;
-    box-sizing: border-box;
+    border-radius: 10px;
     background-color: #eee;
 }
 
@@ -421,29 +419,29 @@ div.tbl_stl_1 > div > div::after {
     width: 0px;
     height: 0px;
     position: absolute;
-    top: 60px;
+    top: 40px;
 	right: 100%;
     pointer-events: none;
-    margin-top: -15px;
+    margin-top: -10px;
 	border: solid transparent;
-    border-width: 15px;
+    border-width: 10px;
 	border-color: rgba(238, 238, 238, 0);
 	border-right-color: #eee;
 }
+
+/*  */
 
 div.tbl_stl_1 > div > div > div.itm_1 {
     width: 40px;
     height: 40px;
     position: absolute;
-    top: calc(60px - 20px);
+    top: calc(40px - 20px);
     left: -60px;
     display: flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 50%;
     overflow: hidden;
-    background-color: #00a5ab;
 }
 
 div.tbl_stl_1 > div > div > div.itm_1 > figure {
@@ -460,15 +458,147 @@ div.tbl_stl_1 > div > div > div.itm_1 > figure > img {
     width: 100%;
 }
 
-div.tbl_stl_1 > div > div > div.itm_2 > h2,
-div.tbl_stl_1 > div > div > div.itm_2 > h4,
-div.tbl_stl_1 > div > div > div.itm_2 > h6 {
+/*  */
+
+div.tbl_stl_1 > div > div > div.itm_2 {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_1 > div > div > div.itm_2 > div:first-child,
+div.tbl_stl_1 > div > div > div.itm_2 > div:first-child > span {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.tbl_stl_1 > div > div > div.itm_2 > div:first-child > span {
+    font-size: 40px;
+    color: #bdbdbd;
+}
+
+div.tbl_stl_1 > div > div > div.itm_2 > div:last-child {
+    width: calc(100% - 50px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > h2,
+div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > span {
     font-size: 14px;
-    font-weight: 400;
     text-overflow: ellipsis;
     white-space: nowrap;
+    overflow: hidden;
+}
+
+div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > h2 {
+    font-weight: 600;
+    color: #212121;
+}
+
+div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > span {
+    font-weight: 400;
     color: #757575;
-} */
+}
+
+/*  */
+
+div.tbl_stl_1 > div > div > div.itm_3 {
+    width: 100%;
+    padding: 7.5px;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_1 > div > div > div.itm_3.low {
+    background-color: #3f51b5;
+}
+
+div.tbl_stl_1 > div > div > div.itm_3.medium {
+    background-color: #ffc107;
+}
+
+div.tbl_stl_1 > div > div > div.itm_3.high {
+    background-color: #f44336;
+}
+
+div.tbl_stl_1 > div > div > div.itm_3::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+div.tbl_stl_1 > div > div > div.itm_3 > span {
+    width: calc(50% - 5px);
+    float: left;
+    margin: 2.5px;
+    padding: 5px;
+    border-radius: 50px;
+    box-sizing: border-box;
+    background-color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #212121;
+}
+
+/*  */
+
+div.tbl_stl_1 > div > div > div.itm_4 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-radius: 0px 0px 10px 0px;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_1 > div > div > div.itm_4 > span {
+    width: calc(100% / 6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.tbl_stl_1 > div > div > div.itm_4 > span > i {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 14px;
+    color: #bdbdbd;
+}
+
+div.tbl_stl_1 > div > div > div.itm_4 > span.active > i {
+    background-color: #00a5ab;
+    color: #fff;
+}
+
+/*  */
+
+div.tbl_stl_1 > div > div > a {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    border-radius: 10px;
+}
 
 /* Style 2 & Style 3 */
 

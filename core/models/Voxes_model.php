@@ -27,10 +27,11 @@ class Voxes_model extends Model
 
 		// - Condición para cargar un vox si el usuario está asignado a el.
 
-		if ($option == 'all')
+		if ($option == 'all' OR $option == 'open' OR $option == 'close')
 		{
 			$fields = [
 				'id',
+				'token',
 				'type',
 				'owner',
 				'opportunity_area',
@@ -46,9 +47,16 @@ class Voxes_model extends Model
 				'attachments',
 				'comments',
 				'created_user',
+				'completed_date',
+				'completed_hour',
 				'status',
 				'origin'
 			];
+
+			if ($option == 'open')
+				$where['AND']['status'] = true;
+			else if ($option == 'close')
+				$where['AND']['status'] = false;
 
 			$where['ORDER'] = [
 				'id' => 'DESC'
@@ -86,15 +94,15 @@ class Voxes_model extends Model
 				'viewed_by',
 				'comments',
 				'created_user',
-				'edited_user',
-				'completed_user',
-				'reopened_user',
 				'created_date',
 				'created_hour',
+				'edited_user',
 				'edited_date',
 				'edited_hour',
+				'completed_user',
 				'completed_date',
 				'completed_hour',
+				'reopened_user',
 				'reopened_date',
 				'reopened_hour',
 				'status',
@@ -127,11 +135,11 @@ class Voxes_model extends Model
 			else if ($data['type'] == 'request' OR $data['type'] == 'incident')
 			{
 				if ($data['order'] == 'owner')
-					$where['ORDER']['owner'] => 'ASC';
+					$where['ORDER']['owner'] = 'ASC';
 				else if ($data['order'] == 'guest')
 				{
-					$where['ORDER']['firstname'] => 'ASC';
-					$where['ORDER']['lastname'] => 'ASC';
+					$where['ORDER']['firstname'] = 'ASC';
+					$where['ORDER']['lastname'] = 'ASC';
 				}
 			}
 		}
@@ -146,7 +154,7 @@ class Voxes_model extends Model
 			$query[$key]['location'] = $this->get_location($value['location']);
 			$query[$key]['created_user'] = $this->get_user($value['created_user']);
 
-			if ($option == 'all')
+			if ($option == 'all' OR $option == 'open' OR $option == 'close')
 			{
 				foreach ($value['comments'] as $subvalue)
 					$query[$key]['attachments'] = array_merge($value['attachments'], $subvalue['attachments']);
@@ -217,15 +225,15 @@ class Voxes_model extends Model
 			'comments',
 			'changes_history',
 			'created_user',
-			'edited_user',
-			'completed_user',
-			'reopened_user',
 			'created_date',
 			'created_hour',
+			'edited_user',
 			'edited_date',
 			'edited_hour',
+			'completed_user',
 			'completed_date',
 			'completed_hour',
+			'reopened_user',
 			'reopened_date',
 			'reopened_hour',
 			'status',
@@ -236,7 +244,7 @@ class Voxes_model extends Model
 
 		if (!empty($query))
 		{
-			if ($query[0]['status'] == 'open')
+			if ($query[0]['status'] == true)
 			{
 				if (in_array(Session::get_value('user')['id'], $query[0]['viewed_by']))
 				{
@@ -312,23 +320,17 @@ class Voxes_model extends Model
 			return null;
 	}
 
-	public function get_owners($type = 'all')
+	public function get_owners($type = null)
 	{
-		if ($type == 'all')
-		{
-			$where = [
-				'account' => Session::get_value('account')['id']
-			];
-		}
-		else
-		{
-			$where = [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					$type => true
-				]
-			];
-		}
+		$where = [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			]
+		];
+
+		if (!empty($type))
+			$where['AND'][$type] = true;
 
 		$where['ORDER'] = [
 			'number' => 'ASC',
@@ -395,23 +397,17 @@ class Voxes_model extends Model
 		return $reservation;
 	}
 
-	public function get_opportunity_areas($type = 'all')
+	public function get_opportunity_areas($type = null)
 	{
-		if ($type == 'all')
-		{
-			$where = [
-				'account' => Session::get_value('account')['id']
-			];
-		}
-		else
-		{
-			$where = [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					$type => true
-				]
-			];
-		}
+		$where = [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			]
+		];
+
+		if (!empty($type))
+			$where['AND'][$type] = true;
 
 		$where['ORDER'] = [
 			'name' => 'ASC'
@@ -437,23 +433,17 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_opportunity_types($opportunity_area, $type = 'all')
+	public function get_opportunity_types($opportunity_area, $type = null)
 	{
-		if ($type == 'all')
-		{
-			$where = [
-				'opportunity_area' => $opportunity_area
-			];
-		}
-		else
-		{
-			$where = [
-				'AND' => [
-					'opportunity_area' => $opportunity_area,
-					$type => true
-				]
-			];
-		}
+		$where = [
+			'AND' => [
+				'opportunity_area' => $opportunity_area,
+				'status' => true
+			]
+		];
+
+		if (!empty($type))
+			$where['AND'][$type] = true;
 
 		$where['ORDER'] = [
 			'name' => 'ASC'
@@ -479,23 +469,17 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_locations($type = 'all')
+	public function get_locations($type = null)
 	{
-		if ($type == 'all')
-		{
-			$where = [
-				'account' => Session::get_value('account')['id']
-			];
-		}
-		else
-		{
-			$where = [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					$type => true
-				]
-			];
-		}
+		$where = [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			]
+		];
+
+		if (!empty($type))
+			$where['AND'][$type] = true;
 
 		$where['ORDER'] = [
 			'name' => 'ASC'
@@ -521,13 +505,16 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_guest_treatments()
+	public function get_guests_treatments()
 	{
-		$query = $this->database->select('guest_treatments', [
+		$query = $this->database->select('guests_treatments', [
 			'id',
 			'name'
 		], [
-			'account' => Session::get_value('account')['id'],
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			],
 			'ORDER' => [
 				'name' => 'ASC'
 			]
@@ -538,7 +525,7 @@ class Voxes_model extends Model
 
 	public function get_guest_treatment($id)
 	{
-		$query = $this->database->select('guest_treatments', [
+		$query = $this->database->select('guests_treatments', [
 			'id',
 			'name'
 		], [
@@ -548,13 +535,16 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_guest_types()
+	public function get_guests_types()
 	{
-		$query = $this->database->select('guest_types', [
+		$query = $this->database->select('guests_types', [
 			'id',
 			'name'
 		], [
-			'account' => Session::get_value('account')['id'],
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			],
 			'ORDER' => [
 				'name' => 'ASC'
 			]
@@ -565,7 +555,7 @@ class Voxes_model extends Model
 
 	public function get_guest_type($id)
 	{
-		$query = $this->database->select('guest_types', [
+		$query = $this->database->select('guests_types', [
 			'id',
 			'name'
 		], [
@@ -575,13 +565,16 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_reservation_statuses()
+	public function get_reservations_statuses()
 	{
-		$query = $this->database->select('reservation_statuses', [
+		$query = $this->database->select('reservations_statuses', [
 			'id',
 			'name'
 		], [
-			'account' => Session::get_value('account')['id'],
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			],
 			'ORDER' => [
 				'name' => 'ASC'
 			]
@@ -592,7 +585,7 @@ class Voxes_model extends Model
 
 	public function get_reservation_status($id)
 	{
-		$query = $this->database->select('reservation_statuses', [
+		$query = $this->database->select('reservations_statuses', [
 			'id',
 			'name'
 		], [
@@ -610,7 +603,10 @@ class Voxes_model extends Model
 			'lastname',
 			'avatar'
 		], [
-			'account' => Session::get_value('account')['id'],
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			],
 			'ORDER' => [
 				'firstname' => 'ASC',
 				'lastname' => 'ASC'
@@ -735,18 +731,18 @@ class Voxes_model extends Model
 				]
 			]),
 			'created_user' => Session::get_value('user')['id'],
-			'edited_user' => null,
-			'completed_user' => null,
-			'reopened_user' => null,
 			'created_date' => Functions::get_current_date(),
 			'created_hour' => Functions::get_current_hour(),
+			'edited_user' => null,
 			'edited_date' => null,
 			'edited_hour' => null,
+			'completed_user' => null,
 			'completed_date' => null,
 			'completed_hour' => null,
+			'reopened_user' => null,
 			'reopened_date' => null,
 			'reopened_hour' => null,
-			'status' => 'open',
+			'status' => true,
 			'origin' => 'internal'
 		]);
 
@@ -1215,7 +1211,7 @@ class Voxes_model extends Model
 				'completed_user' => Session::get_value('user')['id'],
 				'completed_date' => Functions::get_current_date(),
 				'completed_hour' => Functions::get_current_hour(),
-				'status' => 'close'
+				'status' => false
 			], [
 				'id' => $id
 			]);
@@ -1248,7 +1244,7 @@ class Voxes_model extends Model
 				'reopened_user' => Session::get_value('user')['id'],
 				'reopened_date' => Functions::get_current_date(),
 				'reopened_hour' => Functions::get_current_hour(),
-				'status' => 'open'
+				'status' => true
 			], [
 				'id' => $id
 			]);
@@ -1279,1148 +1275,1148 @@ class Voxes_model extends Model
 		return $query;
 	}
 
-	public function get_voxes_reports()
-	{
-		$reports = [];
-
-		$query = Functions::get_json_decoded_query($this->database->select('voxes_reports', [
-			'id',
-			'name',
-			'addressed_to',
-			'opportunity_areas',
-			'user'
-		], [
-			'account' => Session::get_value('account')['id'],
-			'ORDER' => [
-				'name' => 'ASC'
-			]
-		]));
-
-		foreach ($query as $value)
-		{
-			$break = false;
-
-			if ($value['addressed_to'] == 'opportunity_areas')
-			{
-				$count = 0;
-
-				foreach (Session::get_value('user')['opportunity_areas'] as $subvalue)
-				{
-					if (in_array($subvalue, $value['opportunity_areas']))
-						$count = $count + 1;
-					else
-						$break = true;
-				}
-
-				if ($count > 0)
-					$break = false;
-			}
-			else if ($value['addressed_to'] == 'me' AND Session::get_value('user')['id'] != $value['user'])
-				$break = true;
-
-			if ($break == false)
-				array_push($reports, $value);
-		}
-
-		return $reports;
-	}
-
-	public function get_vox_report($option, $id)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('voxes_reports', [
-			'id',
-			'name',
-			'type',
-			'opportunity_area',
-			'opportunity_type',
-			'owner',
-			'location',
-			'order',
-			'time_period',
-			'addressed_to',
-			'opportunity_areas',
-			'user',
-			'fields'
-		], [
-			'id' => $id
-		]));
-
-		return !empty($query) ? $query[0] : null;
-	}
-
-	public function get_vox_report_fields($type = 'all')
-	{
-		if ($type == 'all')
-		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				return [
-					[
-						'id' => 'type',
-						'name' => 'type'
-					],
-					[
-						'id' => 'owner',
-						'name' => 'owner'
-					],
-					[
-						'id' => 'opportunity_area',
-						'name' => 'opportunity_area'
-					],
-					[
-						'id' => 'opportunity_type',
-						'name' => 'opportunity_type'
-					],
-					[
-						'id' => 'date',
-						'name' => 'date'
-					],
-					[
-						'id' => 'location',
-						'name' => 'location'
-					],
-					[
-						'id' => 'cost',
-						'name' => 'cost'
-					],
-					[
-						'id' => 'urgency',
-						'name' => 'urgency'
-					],
-					[
-						'id' => 'confidentiality',
-						'name' => 'confidentiality'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'observations',
-						'name' => 'observations'
-					],
-					[
-						'id' => 'subject',
-						'name' => 'subject'
-					],
-					[
-						'id' => 'description',
-						'name' => 'description'
-					],
-					[
-						'id' => 'action_taken',
-						'name' => 'action_taken'
-					],
-					[
-						'id' => 'guest_treatment',
-						'name' => 'guest_treatment'
-					],
-					[
-						'id' => 'name',
-						'name' => 'name'
-					],
-					[
-						'id' => 'guest_id',
-						'name' => 'guest_id'
-					],
-					[
-						'id' => 'guest_type',
-						'name' => 'guest_type'
-					],
-					[
-						'id' => 'reservation_number',
-						'name' => 'reservation_number'
-					],
-					[
-						'id' => 'reservation_status',
-						'name' => 'reservation_status'
-					],
-					[
-						'id' => 'staying',
-						'name' => 'staying'
-					],
-					[
-						'id' => 'attachments',
-						'name' => 'attachments'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
-					],
-					[
-						'id' => 'created',
-						'name' => 'created'
-					],
-					[
-						'id' => 'edited',
-						'name' => 'edited'
-					],
-					[
-						'id' => 'completed',
-						'name' => 'completed'
-					],
-					[
-						'id' => 'reopened',
-						'name' => 'reopened'
-					],
-					[
-						'id' => 'status',
-						'name' => 'status'
-					],
-					[
-						'id' => 'origin',
-						'name' => 'origin'
-					],
-					[
-						'id' => 'average_resolution',
-						'name' => 'average_resolution'
-					]
-				];
-			}
-			else
-			{
-				return [
-					[
-						'id' => 'type',
-						'name' => 'type'
-					],
-					[
-						'id' => 'owner',
-						'name' => 'owner'
-					],
-					[
-						'id' => 'opportunity_area',
-						'name' => 'opportunity_area'
-					],
-					[
-						'id' => 'opportunity_type',
-						'name' => 'opportunity_type'
-					],
-					[
-						'id' => 'date',
-						'name' => 'date'
-					],
-					[
-						'id' => 'location',
-						'name' => 'location'
-					],
-					[
-						'id' => 'cost',
-						'name' => 'cost'
-					],
-					[
-						'id' => 'urgency',
-						'name' => 'urgency'
-					],
-					[
-						'id' => 'confidentiality',
-						'name' => 'confidentiality'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'observations',
-						'name' => 'observations'
-					],
-					[
-						'id' => 'subject',
-						'name' => 'subject'
-					],
-					[
-						'id' => 'description',
-						'name' => 'description'
-					],
-					[
-						'id' => 'action_taken',
-						'name' => 'action_taken'
-					],
-					[
-						'id' => 'name',
-						'name' => 'name'
-					],
-					[
-						'id' => 'attachments',
-						'name' => 'attachments'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
-					],
-					[
-						'id' => 'created',
-						'name' => 'created'
-					],
-					[
-						'id' => 'edited',
-						'name' => 'edited'
-					],
-					[
-						'id' => 'completed',
-						'name' => 'completed'
-					],
-					[
-						'id' => 'reopened',
-						'name' => 'reopened'
-					],
-					[
-						'id' => 'status',
-						'name' => 'status'
-					],
-					[
-						'id' => 'origin',
-						'name' => 'origin'
-					],
-					[
-						'id' => 'average_resolution',
-						'name' => 'average_resolution'
-					]
-				];
-			}
-		}
-		else if ($type == 'request')
-		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				return [
-					[
-						'id' => 'owner',
-						'name' => 'owner'
-					],
-					[
-						'id' => 'opportunity_area',
-						'name' => 'opportunity_area'
-					],
-					[
-						'id' => 'opportunity_type',
-						'name' => 'opportunity_type'
-					],
-					[
-						'id' => 'date',
-						'name' => 'date'
-					],
-					[
-						'id' => 'location',
-						'name' => 'location'
-					],
-					[
-						'id' => 'urgency',
-						'name' => 'urgency'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'observations',
-						'name' => 'observations'
-					],
-					[
-						'id' => 'guest_treatment',
-						'name' => 'guest_treatment'
-					],
-					[
-						'id' => 'name',
-						'name' => 'name'
-					],
-					[
-						'id' => 'attachments',
-						'name' => 'attachments'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
-					],
-					[
-						'id' => 'created',
-						'name' => 'created'
-					],
-					[
-						'id' => 'edited',
-						'name' => 'edited'
-					],
-					[
-						'id' => 'completed',
-						'name' => 'completed'
-					],
-					[
-						'id' => 'reopened',
-						'name' => 'reopened'
-					],
-					[
-						'id' => 'status',
-						'name' => 'status'
-					],
-					[
-						'id' => 'origin',
-						'name' => 'origin'
-					],
-					[
-						'id' => 'average_resolution',
-						'name' => 'average_resolution'
-					]
-				];
-			}
-			else
-			{
-				return [
-					[
-						'id' => 'owner',
-						'name' => 'owner'
-					],
-					[
-						'id' => 'opportunity_area',
-						'name' => 'opportunity_area'
-					],
-					[
-						'id' => 'opportunity_type',
-						'name' => 'opportunity_type'
-					],
-					[
-						'id' => 'date',
-						'name' => 'date'
-					],
-					[
-						'id' => 'location',
-						'name' => 'location'
-					],
-					[
-						'id' => 'urgency',
-						'name' => 'urgency'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'observations',
-						'name' => 'observations'
-					],
-					[
-						'id' => 'name',
-						'name' => 'name'
-					],
-					[
-						'id' => 'attachments',
-						'name' => 'attachments'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
-					],
-					[
-						'id' => 'created',
-						'name' => 'created'
-					],
-					[
-						'id' => 'edited',
-						'name' => 'edited'
-					],
-					[
-						'id' => 'completed',
-						'name' => 'completed'
-					],
-					[
-						'id' => 'reopened',
-						'name' => 'reopened'
-					],
-					[
-						'id' => 'status',
-						'name' => 'status'
-					],
-					[
-						'id' => 'origin',
-						'name' => 'origin'
-					],
-					[
-						'id' => 'average_resolution',
-						'name' => 'average_resolution'
-					]
-				];
-			}
-		}
-		else if ($type == 'incident')
-		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				return [
-					[
-						'id' => 'owner',
-						'name' => 'owner'
-					],
-					[
-						'id' => 'opportunity_area',
-						'name' => 'opportunity_area'
-					],
-					[
-						'id' => 'opportunity_type',
-						'name' => 'opportunity_type'
-					],
-					[
-						'id' => 'date',
-						'name' => 'date'
-					],
-					[
-						'id' => 'location',
-						'name' => 'location'
-					],
-					[
-						'id' => 'cost',
-						'name' => 'cost'
-					],
-					[
-						'id' => 'urgency',
-						'name' => 'urgency'
-					],
-					[
-						'id' => 'confidentiality',
-						'name' => 'confidentiality'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'subject',
-						'name' => 'subject'
-					],
-					[
-						'id' => 'description',
-						'name' => 'description'
-					],
-					[
-						'id' => 'action_taken',
-						'name' => 'action_taken'
-					],
-					[
-						'id' => 'guest_treatment',
-						'name' => 'guest_treatment'
-					],
-					[
-						'id' => 'name',
-						'name' => 'name'
-					],
-					[
-						'id' => 'guest_id',
-						'name' => 'guest_id'
-					],
-					[
-						'id' => 'guest_type',
-						'name' => 'guest_type'
-					],
-					[
-						'id' => 'reservation_number',
-						'name' => 'reservation_number'
-					],
-					[
-						'id' => 'reservation_status',
-						'name' => 'reservation_status'
-					],
-					[
-						'id' => 'staying',
-						'name' => 'staying'
-					],
-					[
-						'id' => 'attachments',
-						'name' => 'attachments'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
-					],
-					[
-						'id' => 'created',
-						'name' => 'created'
-					],
-					[
-						'id' => 'edited',
-						'name' => 'edited'
-					],
-					[
-						'id' => 'completed',
-						'name' => 'completed'
-					],
-					[
-						'id' => 'reopened',
-						'name' => 'reopened'
-					],
-					[
-						'id' => 'status',
-						'name' => 'status'
-					],
-					[
-						'id' => 'origin',
-						'name' => 'origin'
-					],
-					[
-						'id' => 'average_resolution',
-						'name' => 'average_resolution'
-					]
-				];
-			}
-			else
-			{
-				return [
-					[
-						'id' => 'owner',
-						'name' => 'owner'
-					],
-					[
-						'id' => 'opportunity_area',
-						'name' => 'opportunity_area'
-					],
-					[
-						'id' => 'opportunity_type',
-						'name' => 'opportunity_type'
-					],
-					[
-						'id' => 'date',
-						'name' => 'date'
-					],
-					[
-						'id' => 'location',
-						'name' => 'location'
-					],
-					[
-						'id' => 'cost',
-						'name' => 'cost'
-					],
-					[
-						'id' => 'urgency',
-						'name' => 'urgency'
-					],
-					[
-						'id' => 'confidentiality',
-						'name' => 'confidentiality'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'subject',
-						'name' => 'subject'
-					],
-					[
-						'id' => 'description',
-						'name' => 'description'
-					],
-					[
-						'id' => 'action_taken',
-						'name' => 'action_taken'
-					],
-					[
-						'id' => 'name',
-						'name' => 'name'
-					],
-					[
-						'id' => 'attachments',
-						'name' => 'attachments'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
-					],
-					[
-						'id' => 'created',
-						'name' => 'created'
-					],
-					[
-						'id' => 'edited',
-						'name' => 'edited'
-					],
-					[
-						'id' => 'completed',
-						'name' => 'completed'
-					],
-					[
-						'id' => 'reopened',
-						'name' => 'reopened'
-					],
-					[
-						'id' => 'status',
-						'name' => 'status'
-					],
-					[
-						'id' => 'origin',
-						'name' => 'origin'
-					],
-					[
-						'id' => 'average_resolution',
-						'name' => 'average_resolution'
-					]
-				];
-			}
-		}
-		else if ($type == 'workorder')
-		{
-			return [
-				[
-					'id' => 'owner',
-					'name' => 'owner'
-				],
-				[
-					'id' => 'opportunity_area',
-					'name' => 'opportunity_area'
-				],
-				[
-					'id' => 'opportunity_type',
-					'name' => 'opportunity_type'
-				],
-				[
-					'id' => 'date',
-					'name' => 'date'
-				],
-				[
-					'id' => 'location',
-					'name' => 'location'
-				],
-				[
-					'id' => 'urgency',
-					'name' => 'urgency'
-				],
-				[
-					'id' => 'assigned_users',
-					'name' => 'assigned_users'
-				],
-				[
-					'id' => 'observations',
-					'name' => 'observations'
-				],
-				[
-					'id' => 'attachments',
-					'name' => 'attachments'
-				],
-				[
-					'id' => 'viewed_by',
-					'name' => 'viewed_by'
-				],
-				[
-					'id' => 'comments',
-					'name' => 'comments'
-				],
-				[
-					'id' => 'created',
-					'name' => 'created'
-				],
-				[
-					'id' => 'edited',
-					'name' => 'edited'
-				],
-				[
-					'id' => 'completed',
-					'name' => 'completed'
-				],
-				[
-					'id' => 'reopened',
-					'name' => 'reopened'
-				],
-				[
-					'id' => 'status',
-					'name' => 'status'
-				],
-				[
-					'id' => 'origin',
-					'name' => 'origin'
-				],
-				[
-					'id' => 'average_resolution',
-					'name' => 'average_resolution'
-				]
-			];
-		}
-	}
-
-	public function new_vox_report($data)
-	{
-		$query = $this->database->insert('voxes_reports', [
-			'account' => Session::get_value('account')['id'],
-			'name' => $data['name'],
-			'type' => $data['type'],
-			'opportunity_area' => $data['opportunity_area'],
-			'opportunity_type' => $data['opportunity_type'],
-			'owner' => $data['owner'],
-			'location' => $data['location'],
-			'order' => $data['order'],
-			'time_period' => $data['time_period'],
-			'addressed_to' => $data['addressed_to'],
-			'opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas') ? $data['opportunity_areas'] : []),
-			'user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,
-			'fields' => json_encode($data['fields'])
-		]);
-
-		return $query;
-	}
-
-	public function edit_vox_report($data)
-	{
-		$query = $this->database->update('voxes_reports', [
-			'name' => $data['name'],
-			'type' => $data['type'],
-			'opportunity_area' => $data['opportunity_area'],
-			'opportunity_type' => $data['opportunity_type'],
-			'owner' => $data['owner'],
-			'location' => $data['location'],
-			'order' => $data['order'],
-			'time_period' => $data['time_period'],
-			'addressed_to' => $data['addressed_to'],
-			'opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas') ? $data['opportunity_areas'] : []),
-			'user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,
-			'fields' => json_encode($data['fields'])
-		], [
-			'id' => $data['id']
-		]);
-
-		return $query;
-	}
-
-	public function delete_vox_report($id)
-	{
-		$query = $this->database->delete('voxes_reports', [
-			'id' => $id
-		]);
-
-		return $query;
-	}
-
-	public function get_voxes_average_resolution()
-	{
-		$query = $this->database->select('voxes', [
-			'started_date',
-			'started_hour',
-			'completed_date',
-			'completed_hour'
-		], [
-			'AND' => [
-				'account' => Session::get_value('account')['id'],
-				'started_date[>=]' => Functions::get_current_date(),
-				'started_hour[>=]' => Functions::get_current_hour()
-			]
-		]);
-
-		$hours = 0;
-		$count = 0;
-		$average = 0;
-
-		foreach ($query as $key => $value)
-		{
-			$date1 = new DateTime($value['started_date'] . ' ' . $value['started_hour']);
-			$date2 = new DateTime($value['completed_date'] . ' ' . $value['completed_hour']);
-			$date3 = $date1->diff($date2);
-			$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
-			$count = $count + 1;
-		}
-
-		if ($hours > 0 AND $count > 0)
-		{
-			$average = $hours / $count;
-
-			if ($average < 1)
-				$average = round(($average * 60), 2) . ' Min';
-			else
-				$average = round($average, 2) . ' Hrs';
-		}
-
-		return $average;
-	}
-
-	public function get_voxes_count($option)
-	{
-		$where = [
-			'AND' => [
-				'account' => Session::get_value('account')['id']
-			]
-		];
-
-		if ($option == 'today')
-			$where['AND']['started_date'] = Functions::get_current_date(); // - Revisar formatos de fecha
-		else if ($option == 'week')
-			$where['AND']['started_date[<>]'] = [Functions::get_current_week()[0],Functions::get_current_week()[1]]; // - Revisar formatos de fecha
-		else if ($option == 'month')
-			$where['AND']['started_date[<>]'] = [Functions::get_current_month()[0],Functions::get_current_month()[1]]; // - Revisar formatos de fecha
-		else if ($option == 'year')
-			$where['AND']['started_date[<>]'] = [Functions::get_current_year()[0],Functions::get_current_year()[1]]; // - Revisar formatos de fecha
-
-		$query = $this->database->count('voxes', $where);
-
-		return $query;
-	}
-
-	public function get_chart_data($chart, $params, $edit = false)
-	{
-		$where = [
-			'AND' => [
-				'account' => Session::get_value('account')['id'],
-				'started_date[<>]' => [$params['started_date'],$params['date_end']] // - Revisar formatos de fecha
-			]
-		];
-
-		if ($chart == 'c_oa_chart' OR $chart == 'c_o_chart' OR $chart == 'c_l_chart')
-			$where['AND']['type'] = 'incident';
-		else if ($params['type'] != 'all')
-			$where['AND']['type'] = $params['type'];
-
-		$query1 = $this->database->select('voxes', [
-			'owner',
-			'opportunity_area',
-			'location',
-			'cost',
-			'started_date',
-			'started_hour',
-			'completed_date',
-			'completed_hour'
-		], $where);
-
-		if ($chart == 'v_oa_chart' OR $chart == 'ar_oa_chart' OR $chart == 'c_oa_chart')
-		{
-			$query2 = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
-				'id',
-				'name'
-			], [
-				'account' => Session::get_value('account')['id']
-			]));
-		}
-		else if ($chart == 'v_o_chart' OR $chart == 'ar_o_chart' OR $chart == 'c_o_chart')
-		{
-			$query2 = Functions::get_json_decoded_query($this->database->select('owners', [
-				'id',
-				'name',
-				'number'
-			], [
-				'account' => Session::get_value('account')['id']
-			]));
-		}
-		else if ($chart == 'v_l_chart' OR $chart == 'ar_l_chart' OR $chart == 'c_l_chart')
-		{
-			$query2 = Functions::get_json_decoded_query($this->database->select('locations', [
-				'id',
-				'name'
-			], [
-				'account' => Session::get_value('account')['id']
-			]));
-		}
-
-		if ($edit == true)
-		{
-			$data = [
-				'labels' => [],
-				'datasets' => [
-					'data' => [],
-					'colors' => []
-				]
-			];
-		}
-		else
-		{
-			$data = [
-				'labels' => '',
-				'datasets' => [
-					'data' => '',
-					'colors' => ''
-				]
-			];
-		}
-
-		foreach ($query2 as $value)
-		{
-			if ($chart == 'v_oa_chart' OR $chart == 'v_o_chart' OR $chart == 'v_l_chart')
-			{
-				$count = 0;
-
-				foreach ($query1 as $subvalue)
-				{
-					if ($chart == 'v_oa_chart')
-					{
-						if ($value['id'] == $subvalue['opportunity_area'])
-							$count = $count + 1;
-					}
-					else if ($chart == 'v_o_chart')
-					{
-						if ($value['id'] == $subvalue['owner'])
-							$count = $count + 1;
-					}
-					else if ($chart == 'v_l_chart')
-					{
-						if ($value['id'] == $subvalue['location'])
-							$count = $count + 1;
-					}
-				}
-
-				if ($edit == true)
-				{
-					if ($chart == 'v_oa_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-					else if ($chart == 'v_o_chart')
-						array_push($data['labels'], $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
-					else if ($chart == 'v_l_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-
-					array_push($data['datasets']['data'], $count);
-					array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
-				}
-				else
-				{
-					if ($chart == 'v_oa_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-					else if ($chart == 'v_o_chart')
-						$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
-					else if ($chart == 'v_l_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-
-					$data['datasets']['data'] .= $count . ',';
-					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
-				}
-			}
-			else if ($chart == 'ar_oa_chart' OR $chart == 'ar_o_chart' OR $chart == 'ar_l_chart')
-			{
-				$average = 0;
-				$hours = 0;
-				$count = 0;
-
-				foreach ($query2 as $subvalue)
-				{
-					if ($chart == 'ar_oa_chart')
-					{
-						if ($value['id'] == $subvalue['opportunity_area'])
-						{
-							$date1 = new DateTime($subvalue['started_date'] . ' ' . $subvalue['started_hour']);
-							$date2 = new DateTime($subvalue['completed_date'] . ' ' . $subvalue['completed_hour']);
-							$date3 = $date1->diff($date2);
-							$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
-							$count = $count + 1;
-						}
-					}
-					else if ($chart == 'ar_o_chart')
-					{
-						if ($value['id'] == $subvalue['owner'])
-						{
-							$date1 = new DateTime($subvalue['started_date'] . ' ' . $subvalue['started_hour']);
-							$date2 = new DateTime($subvalue['completed_date'] . ' ' . $subvalue['completed_hour']);
-							$date3 = $date1->diff($date2);
-							$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
-							$count = $count + 1;
-						}
-					}
-					else if ($chart == 'ar_l_chart')
-					{
-						if ($value['id'] == $subvalue['location'])
-						{
-							$date1 = new DateTime($subvalue['started_date'] . ' ' . $subvalue['started_hour']);
-							$date2 = new DateTime($subvalue['completed_date'] . ' ' . $subvalue['completed_hour']);
-							$date3 = $date1->diff($date2);
-							$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
-							$count = $count + 1;
-						}
-					}
-				}
-
-				$average = ($count > 0) ? $hours / $count : $average;
-
-				if ($average < 1)
-					$average = round(($average * 60), 2);
-				else
-					$average = round($average, 2);
-
-				if ($edit == true)
-				{
-					if ($chart == 'ar_oa_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-					else if ($chart == 'ar_o_chart')
-						array_push($data['labels'], $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
-					else if ($chart == 'ar_l_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-
-					array_push($data['datasets']['data'], $average);
-					array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad( dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
-				}
-				else
-				{
-					if ($chart == 'ar_oa_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-					else if ($chart == 'ar_o_chart')
-						$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
-					else if ($chart == 'ar_l_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-
-					$data['datasets']['data'] .= $average . ',';
-					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
-				}
-			}
-			else if ($chart == 'c_oa_chart' OR $chart == 'c_o_chart' OR $chart == 'c_l_chart')
-			{
-				$cost = 0;
-
-				foreach ($query2 as $subvalue)
-				{
-					if ($chart == 'c_oa_chart')
-					{
-						if ($value['id'] == $subvalue['opportunity_area'])
-							$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
-					}
-					else if ($chart == 'c_o_chart')
-					{
-						if ($value['id'] == $subvalue['owner'])
-							$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
-					}
-					else if ($chart == 'c_l_chart')
-					{
-						if ($value['id'] == $subvalue['location'])
-							$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
-					}
-				}
-
-				if ($edit == true)
-				{
-					if ($chart == 'c_oa_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-					else if ($chart == 'c_o_chart')
-						array_push($data['labels'], $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
-					else if ($chart == 'c_l_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-
-					array_push($data['datasets']['data'], $cost);
-					array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
-				}
-				else
-				{
-					if ($chart == 'c_oa_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-					else if ($chart == 'c_o_chart')
-						$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
-					else if ($chart == 'c_l_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-
-					$data['datasets']['data'] .= $cost . ',';
-					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
-				}
-			}
-		}
-
-		return $data;
-	}
+	// public function get_voxes_reports()
+	// {
+	// 	$reports = [];
+	//
+	// 	$query = Functions::get_json_decoded_query($this->database->select('voxes_reports', [
+	// 		'id',
+	// 		'name',
+	// 		'addressed_to',
+	// 		'opportunity_areas',
+	// 		'user'
+	// 	], [
+	// 		'account' => Session::get_value('account')['id'],
+	// 		'ORDER' => [
+	// 			'name' => 'ASC'
+	// 		]
+	// 	]));
+	//
+	// 	foreach ($query as $value)
+	// 	{
+	// 		$break = false;
+	//
+	// 		if ($value['addressed_to'] == 'opportunity_areas')
+	// 		{
+	// 			$count = 0;
+	//
+	// 			foreach (Session::get_value('user')['opportunity_areas'] as $subvalue)
+	// 			{
+	// 				if (in_array($subvalue, $value['opportunity_areas']))
+	// 					$count = $count + 1;
+	// 				else
+	// 					$break = true;
+	// 			}
+	//
+	// 			if ($count > 0)
+	// 				$break = false;
+	// 		}
+	// 		else if ($value['addressed_to'] == 'me' AND Session::get_value('user')['id'] != $value['user'])
+	// 			$break = true;
+	//
+	// 		if ($break == false)
+	// 			array_push($reports, $value);
+	// 	}
+	//
+	// 	return $reports;
+	// }
+	//
+	// public function get_vox_report($option, $id)
+	// {
+	// 	$query = Functions::get_json_decoded_query($this->database->select('voxes_reports', [
+	// 		'id',
+	// 		'name',
+	// 		'type',
+	// 		'opportunity_area',
+	// 		'opportunity_type',
+	// 		'owner',
+	// 		'location',
+	// 		'order',
+	// 		'time_period',
+	// 		'addressed_to',
+	// 		'opportunity_areas',
+	// 		'user',
+	// 		'fields'
+	// 	], [
+	// 		'id' => $id
+	// 	]));
+	//
+	// 	return !empty($query) ? $query[0] : null;
+	// }
+	//
+	// public function get_vox_report_fields($type = 'all')
+	// {
+	// 	if ($type == 'all')
+	// 	{
+	// 		if (Session::get_value('account')['type'] == 'hotel')
+	// 		{
+	// 			return [
+	// 				[
+	// 					'id' => 'type',
+	// 					'name' => 'type'
+	// 				],
+	// 				[
+	// 					'id' => 'owner',
+	// 					'name' => 'owner'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_area',
+	// 					'name' => 'opportunity_area'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_type',
+	// 					'name' => 'opportunity_type'
+	// 				],
+	// 				[
+	// 					'id' => 'date',
+	// 					'name' => 'date'
+	// 				],
+	// 				[
+	// 					'id' => 'location',
+	// 					'name' => 'location'
+	// 				],
+	// 				[
+	// 					'id' => 'cost',
+	// 					'name' => 'cost'
+	// 				],
+	// 				[
+	// 					'id' => 'urgency',
+	// 					'name' => 'urgency'
+	// 				],
+	// 				[
+	// 					'id' => 'confidentiality',
+	// 					'name' => 'confidentiality'
+	// 				],
+	// 				[
+	// 					'id' => 'assigned_users',
+	// 					'name' => 'assigned_users'
+	// 				],
+	// 				[
+	// 					'id' => 'observations',
+	// 					'name' => 'observations'
+	// 				],
+	// 				[
+	// 					'id' => 'subject',
+	// 					'name' => 'subject'
+	// 				],
+	// 				[
+	// 					'id' => 'description',
+	// 					'name' => 'description'
+	// 				],
+	// 				[
+	// 					'id' => 'action_taken',
+	// 					'name' => 'action_taken'
+	// 				],
+	// 				[
+	// 					'id' => 'guest_treatment',
+	// 					'name' => 'guest_treatment'
+	// 				],
+	// 				[
+	// 					'id' => 'name',
+	// 					'name' => 'name'
+	// 				],
+	// 				[
+	// 					'id' => 'guest_id',
+	// 					'name' => 'guest_id'
+	// 				],
+	// 				[
+	// 					'id' => 'guest_type',
+	// 					'name' => 'guest_type'
+	// 				],
+	// 				[
+	// 					'id' => 'reservation_number',
+	// 					'name' => 'reservation_number'
+	// 				],
+	// 				[
+	// 					'id' => 'reservation_status',
+	// 					'name' => 'reservation_status'
+	// 				],
+	// 				[
+	// 					'id' => 'staying',
+	// 					'name' => 'staying'
+	// 				],
+	// 				[
+	// 					'id' => 'attachments',
+	// 					'name' => 'attachments'
+	// 				],
+	// 				[
+	// 					'id' => 'viewed_by',
+	// 					'name' => 'viewed_by'
+	// 				],
+	// 				[
+	// 					'id' => 'comments',
+	// 					'name' => 'comments'
+	// 				],
+	// 				[
+	// 					'id' => 'created',
+	// 					'name' => 'created'
+	// 				],
+	// 				[
+	// 					'id' => 'edited',
+	// 					'name' => 'edited'
+	// 				],
+	// 				[
+	// 					'id' => 'completed',
+	// 					'name' => 'completed'
+	// 				],
+	// 				[
+	// 					'id' => 'reopened',
+	// 					'name' => 'reopened'
+	// 				],
+	// 				[
+	// 					'id' => 'status',
+	// 					'name' => 'status'
+	// 				],
+	// 				[
+	// 					'id' => 'origin',
+	// 					'name' => 'origin'
+	// 				],
+	// 				[
+	// 					'id' => 'average_resolution',
+	// 					'name' => 'average_resolution'
+	// 				]
+	// 			];
+	// 		}
+	// 		else
+	// 		{
+	// 			return [
+	// 				[
+	// 					'id' => 'type',
+	// 					'name' => 'type'
+	// 				],
+	// 				[
+	// 					'id' => 'owner',
+	// 					'name' => 'owner'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_area',
+	// 					'name' => 'opportunity_area'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_type',
+	// 					'name' => 'opportunity_type'
+	// 				],
+	// 				[
+	// 					'id' => 'date',
+	// 					'name' => 'date'
+	// 				],
+	// 				[
+	// 					'id' => 'location',
+	// 					'name' => 'location'
+	// 				],
+	// 				[
+	// 					'id' => 'cost',
+	// 					'name' => 'cost'
+	// 				],
+	// 				[
+	// 					'id' => 'urgency',
+	// 					'name' => 'urgency'
+	// 				],
+	// 				[
+	// 					'id' => 'confidentiality',
+	// 					'name' => 'confidentiality'
+	// 				],
+	// 				[
+	// 					'id' => 'assigned_users',
+	// 					'name' => 'assigned_users'
+	// 				],
+	// 				[
+	// 					'id' => 'observations',
+	// 					'name' => 'observations'
+	// 				],
+	// 				[
+	// 					'id' => 'subject',
+	// 					'name' => 'subject'
+	// 				],
+	// 				[
+	// 					'id' => 'description',
+	// 					'name' => 'description'
+	// 				],
+	// 				[
+	// 					'id' => 'action_taken',
+	// 					'name' => 'action_taken'
+	// 				],
+	// 				[
+	// 					'id' => 'name',
+	// 					'name' => 'name'
+	// 				],
+	// 				[
+	// 					'id' => 'attachments',
+	// 					'name' => 'attachments'
+	// 				],
+	// 				[
+	// 					'id' => 'viewed_by',
+	// 					'name' => 'viewed_by'
+	// 				],
+	// 				[
+	// 					'id' => 'comments',
+	// 					'name' => 'comments'
+	// 				],
+	// 				[
+	// 					'id' => 'created',
+	// 					'name' => 'created'
+	// 				],
+	// 				[
+	// 					'id' => 'edited',
+	// 					'name' => 'edited'
+	// 				],
+	// 				[
+	// 					'id' => 'completed',
+	// 					'name' => 'completed'
+	// 				],
+	// 				[
+	// 					'id' => 'reopened',
+	// 					'name' => 'reopened'
+	// 				],
+	// 				[
+	// 					'id' => 'status',
+	// 					'name' => 'status'
+	// 				],
+	// 				[
+	// 					'id' => 'origin',
+	// 					'name' => 'origin'
+	// 				],
+	// 				[
+	// 					'id' => 'average_resolution',
+	// 					'name' => 'average_resolution'
+	// 				]
+	// 			];
+	// 		}
+	// 	}
+	// 	else if ($type == 'request')
+	// 	{
+	// 		if (Session::get_value('account')['type'] == 'hotel')
+	// 		{
+	// 			return [
+	// 				[
+	// 					'id' => 'owner',
+	// 					'name' => 'owner'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_area',
+	// 					'name' => 'opportunity_area'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_type',
+	// 					'name' => 'opportunity_type'
+	// 				],
+	// 				[
+	// 					'id' => 'date',
+	// 					'name' => 'date'
+	// 				],
+	// 				[
+	// 					'id' => 'location',
+	// 					'name' => 'location'
+	// 				],
+	// 				[
+	// 					'id' => 'urgency',
+	// 					'name' => 'urgency'
+	// 				],
+	// 				[
+	// 					'id' => 'assigned_users',
+	// 					'name' => 'assigned_users'
+	// 				],
+	// 				[
+	// 					'id' => 'observations',
+	// 					'name' => 'observations'
+	// 				],
+	// 				[
+	// 					'id' => 'guest_treatment',
+	// 					'name' => 'guest_treatment'
+	// 				],
+	// 				[
+	// 					'id' => 'name',
+	// 					'name' => 'name'
+	// 				],
+	// 				[
+	// 					'id' => 'attachments',
+	// 					'name' => 'attachments'
+	// 				],
+	// 				[
+	// 					'id' => 'viewed_by',
+	// 					'name' => 'viewed_by'
+	// 				],
+	// 				[
+	// 					'id' => 'comments',
+	// 					'name' => 'comments'
+	// 				],
+	// 				[
+	// 					'id' => 'created',
+	// 					'name' => 'created'
+	// 				],
+	// 				[
+	// 					'id' => 'edited',
+	// 					'name' => 'edited'
+	// 				],
+	// 				[
+	// 					'id' => 'completed',
+	// 					'name' => 'completed'
+	// 				],
+	// 				[
+	// 					'id' => 'reopened',
+	// 					'name' => 'reopened'
+	// 				],
+	// 				[
+	// 					'id' => 'status',
+	// 					'name' => 'status'
+	// 				],
+	// 				[
+	// 					'id' => 'origin',
+	// 					'name' => 'origin'
+	// 				],
+	// 				[
+	// 					'id' => 'average_resolution',
+	// 					'name' => 'average_resolution'
+	// 				]
+	// 			];
+	// 		}
+	// 		else
+	// 		{
+	// 			return [
+	// 				[
+	// 					'id' => 'owner',
+	// 					'name' => 'owner'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_area',
+	// 					'name' => 'opportunity_area'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_type',
+	// 					'name' => 'opportunity_type'
+	// 				],
+	// 				[
+	// 					'id' => 'date',
+	// 					'name' => 'date'
+	// 				],
+	// 				[
+	// 					'id' => 'location',
+	// 					'name' => 'location'
+	// 				],
+	// 				[
+	// 					'id' => 'urgency',
+	// 					'name' => 'urgency'
+	// 				],
+	// 				[
+	// 					'id' => 'assigned_users',
+	// 					'name' => 'assigned_users'
+	// 				],
+	// 				[
+	// 					'id' => 'observations',
+	// 					'name' => 'observations'
+	// 				],
+	// 				[
+	// 					'id' => 'name',
+	// 					'name' => 'name'
+	// 				],
+	// 				[
+	// 					'id' => 'attachments',
+	// 					'name' => 'attachments'
+	// 				],
+	// 				[
+	// 					'id' => 'viewed_by',
+	// 					'name' => 'viewed_by'
+	// 				],
+	// 				[
+	// 					'id' => 'comments',
+	// 					'name' => 'comments'
+	// 				],
+	// 				[
+	// 					'id' => 'created',
+	// 					'name' => 'created'
+	// 				],
+	// 				[
+	// 					'id' => 'edited',
+	// 					'name' => 'edited'
+	// 				],
+	// 				[
+	// 					'id' => 'completed',
+	// 					'name' => 'completed'
+	// 				],
+	// 				[
+	// 					'id' => 'reopened',
+	// 					'name' => 'reopened'
+	// 				],
+	// 				[
+	// 					'id' => 'status',
+	// 					'name' => 'status'
+	// 				],
+	// 				[
+	// 					'id' => 'origin',
+	// 					'name' => 'origin'
+	// 				],
+	// 				[
+	// 					'id' => 'average_resolution',
+	// 					'name' => 'average_resolution'
+	// 				]
+	// 			];
+	// 		}
+	// 	}
+	// 	else if ($type == 'incident')
+	// 	{
+	// 		if (Session::get_value('account')['type'] == 'hotel')
+	// 		{
+	// 			return [
+	// 				[
+	// 					'id' => 'owner',
+	// 					'name' => 'owner'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_area',
+	// 					'name' => 'opportunity_area'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_type',
+	// 					'name' => 'opportunity_type'
+	// 				],
+	// 				[
+	// 					'id' => 'date',
+	// 					'name' => 'date'
+	// 				],
+	// 				[
+	// 					'id' => 'location',
+	// 					'name' => 'location'
+	// 				],
+	// 				[
+	// 					'id' => 'cost',
+	// 					'name' => 'cost'
+	// 				],
+	// 				[
+	// 					'id' => 'urgency',
+	// 					'name' => 'urgency'
+	// 				],
+	// 				[
+	// 					'id' => 'confidentiality',
+	// 					'name' => 'confidentiality'
+	// 				],
+	// 				[
+	// 					'id' => 'assigned_users',
+	// 					'name' => 'assigned_users'
+	// 				],
+	// 				[
+	// 					'id' => 'subject',
+	// 					'name' => 'subject'
+	// 				],
+	// 				[
+	// 					'id' => 'description',
+	// 					'name' => 'description'
+	// 				],
+	// 				[
+	// 					'id' => 'action_taken',
+	// 					'name' => 'action_taken'
+	// 				],
+	// 				[
+	// 					'id' => 'guest_treatment',
+	// 					'name' => 'guest_treatment'
+	// 				],
+	// 				[
+	// 					'id' => 'name',
+	// 					'name' => 'name'
+	// 				],
+	// 				[
+	// 					'id' => 'guest_id',
+	// 					'name' => 'guest_id'
+	// 				],
+	// 				[
+	// 					'id' => 'guest_type',
+	// 					'name' => 'guest_type'
+	// 				],
+	// 				[
+	// 					'id' => 'reservation_number',
+	// 					'name' => 'reservation_number'
+	// 				],
+	// 				[
+	// 					'id' => 'reservation_status',
+	// 					'name' => 'reservation_status'
+	// 				],
+	// 				[
+	// 					'id' => 'staying',
+	// 					'name' => 'staying'
+	// 				],
+	// 				[
+	// 					'id' => 'attachments',
+	// 					'name' => 'attachments'
+	// 				],
+	// 				[
+	// 					'id' => 'viewed_by',
+	// 					'name' => 'viewed_by'
+	// 				],
+	// 				[
+	// 					'id' => 'comments',
+	// 					'name' => 'comments'
+	// 				],
+	// 				[
+	// 					'id' => 'created',
+	// 					'name' => 'created'
+	// 				],
+	// 				[
+	// 					'id' => 'edited',
+	// 					'name' => 'edited'
+	// 				],
+	// 				[
+	// 					'id' => 'completed',
+	// 					'name' => 'completed'
+	// 				],
+	// 				[
+	// 					'id' => 'reopened',
+	// 					'name' => 'reopened'
+	// 				],
+	// 				[
+	// 					'id' => 'status',
+	// 					'name' => 'status'
+	// 				],
+	// 				[
+	// 					'id' => 'origin',
+	// 					'name' => 'origin'
+	// 				],
+	// 				[
+	// 					'id' => 'average_resolution',
+	// 					'name' => 'average_resolution'
+	// 				]
+	// 			];
+	// 		}
+	// 		else
+	// 		{
+	// 			return [
+	// 				[
+	// 					'id' => 'owner',
+	// 					'name' => 'owner'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_area',
+	// 					'name' => 'opportunity_area'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_type',
+	// 					'name' => 'opportunity_type'
+	// 				],
+	// 				[
+	// 					'id' => 'date',
+	// 					'name' => 'date'
+	// 				],
+	// 				[
+	// 					'id' => 'location',
+	// 					'name' => 'location'
+	// 				],
+	// 				[
+	// 					'id' => 'cost',
+	// 					'name' => 'cost'
+	// 				],
+	// 				[
+	// 					'id' => 'urgency',
+	// 					'name' => 'urgency'
+	// 				],
+	// 				[
+	// 					'id' => 'confidentiality',
+	// 					'name' => 'confidentiality'
+	// 				],
+	// 				[
+	// 					'id' => 'assigned_users',
+	// 					'name' => 'assigned_users'
+	// 				],
+	// 				[
+	// 					'id' => 'subject',
+	// 					'name' => 'subject'
+	// 				],
+	// 				[
+	// 					'id' => 'description',
+	// 					'name' => 'description'
+	// 				],
+	// 				[
+	// 					'id' => 'action_taken',
+	// 					'name' => 'action_taken'
+	// 				],
+	// 				[
+	// 					'id' => 'name',
+	// 					'name' => 'name'
+	// 				],
+	// 				[
+	// 					'id' => 'attachments',
+	// 					'name' => 'attachments'
+	// 				],
+	// 				[
+	// 					'id' => 'viewed_by',
+	// 					'name' => 'viewed_by'
+	// 				],
+	// 				[
+	// 					'id' => 'comments',
+	// 					'name' => 'comments'
+	// 				],
+	// 				[
+	// 					'id' => 'created',
+	// 					'name' => 'created'
+	// 				],
+	// 				[
+	// 					'id' => 'edited',
+	// 					'name' => 'edited'
+	// 				],
+	// 				[
+	// 					'id' => 'completed',
+	// 					'name' => 'completed'
+	// 				],
+	// 				[
+	// 					'id' => 'reopened',
+	// 					'name' => 'reopened'
+	// 				],
+	// 				[
+	// 					'id' => 'status',
+	// 					'name' => 'status'
+	// 				],
+	// 				[
+	// 					'id' => 'origin',
+	// 					'name' => 'origin'
+	// 				],
+	// 				[
+	// 					'id' => 'average_resolution',
+	// 					'name' => 'average_resolution'
+	// 				]
+	// 			];
+	// 		}
+	// 	}
+	// 	else if ($type == 'workorder')
+	// 	{
+	// 		return [
+	// 			[
+	// 				'id' => 'owner',
+	// 				'name' => 'owner'
+	// 			],
+	// 			[
+	// 				'id' => 'opportunity_area',
+	// 				'name' => 'opportunity_area'
+	// 			],
+	// 			[
+	// 				'id' => 'opportunity_type',
+	// 				'name' => 'opportunity_type'
+	// 			],
+	// 			[
+	// 				'id' => 'date',
+	// 				'name' => 'date'
+	// 			],
+	// 			[
+	// 				'id' => 'location',
+	// 				'name' => 'location'
+	// 			],
+	// 			[
+	// 				'id' => 'urgency',
+	// 				'name' => 'urgency'
+	// 			],
+	// 			[
+	// 				'id' => 'assigned_users',
+	// 				'name' => 'assigned_users'
+	// 			],
+	// 			[
+	// 				'id' => 'observations',
+	// 				'name' => 'observations'
+	// 			],
+	// 			[
+	// 				'id' => 'attachments',
+	// 				'name' => 'attachments'
+	// 			],
+	// 			[
+	// 				'id' => 'viewed_by',
+	// 				'name' => 'viewed_by'
+	// 			],
+	// 			[
+	// 				'id' => 'comments',
+	// 				'name' => 'comments'
+	// 			],
+	// 			[
+	// 				'id' => 'created',
+	// 				'name' => 'created'
+	// 			],
+	// 			[
+	// 				'id' => 'edited',
+	// 				'name' => 'edited'
+	// 			],
+	// 			[
+	// 				'id' => 'completed',
+	// 				'name' => 'completed'
+	// 			],
+	// 			[
+	// 				'id' => 'reopened',
+	// 				'name' => 'reopened'
+	// 			],
+	// 			[
+	// 				'id' => 'status',
+	// 				'name' => 'status'
+	// 			],
+	// 			[
+	// 				'id' => 'origin',
+	// 				'name' => 'origin'
+	// 			],
+	// 			[
+	// 				'id' => 'average_resolution',
+	// 				'name' => 'average_resolution'
+	// 			]
+	// 		];
+	// 	}
+	// }
+	//
+	// public function new_vox_report($data)
+	// {
+	// 	$query = $this->database->insert('voxes_reports', [
+	// 		'account' => Session::get_value('account')['id'],
+	// 		'name' => $data['name'],
+	// 		'type' => $data['type'],
+	// 		'opportunity_area' => $data['opportunity_area'],
+	// 		'opportunity_type' => $data['opportunity_type'],
+	// 		'owner' => $data['owner'],
+	// 		'location' => $data['location'],
+	// 		'order' => $data['order'],
+	// 		'time_period' => $data['time_period'],
+	// 		'addressed_to' => $data['addressed_to'],
+	// 		'opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas') ? $data['opportunity_areas'] : []),
+	// 		'user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,
+	// 		'fields' => json_encode($data['fields'])
+	// 	]);
+	//
+	// 	return $query;
+	// }
+	//
+	// public function edit_vox_report($data)
+	// {
+	// 	$query = $this->database->update('voxes_reports', [
+	// 		'name' => $data['name'],
+	// 		'type' => $data['type'],
+	// 		'opportunity_area' => $data['opportunity_area'],
+	// 		'opportunity_type' => $data['opportunity_type'],
+	// 		'owner' => $data['owner'],
+	// 		'location' => $data['location'],
+	// 		'order' => $data['order'],
+	// 		'time_period' => $data['time_period'],
+	// 		'addressed_to' => $data['addressed_to'],
+	// 		'opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas') ? $data['opportunity_areas'] : []),
+	// 		'user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,
+	// 		'fields' => json_encode($data['fields'])
+	// 	], [
+	// 		'id' => $data['id']
+	// 	]);
+	//
+	// 	return $query;
+	// }
+	//
+	// public function delete_vox_report($id)
+	// {
+	// 	$query = $this->database->delete('voxes_reports', [
+	// 		'id' => $id
+	// 	]);
+	//
+	// 	return $query;
+	// }
+	//
+	// public function get_voxes_average_resolution()
+	// {
+	// 	$query = $this->database->select('voxes', [
+	// 		'started_date',
+	// 		'started_hour',
+	// 		'completed_date',
+	// 		'completed_hour'
+	// 	], [
+	// 		'AND' => [
+	// 			'account' => Session::get_value('account')['id'],
+	// 			'started_date[>=]' => Functions::get_current_date(),
+	// 			'started_hour[>=]' => Functions::get_current_hour()
+	// 		]
+	// 	]);
+	//
+	// 	$hours = 0;
+	// 	$count = 0;
+	// 	$average = 0;
+	//
+	// 	foreach ($query as $key => $value)
+	// 	{
+	// 		$date1 = new DateTime($value['started_date'] . ' ' . $value['started_hour']);
+	// 		$date2 = new DateTime($value['completed_date'] . ' ' . $value['completed_hour']);
+	// 		$date3 = $date1->diff($date2);
+	// 		$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
+	// 		$count = $count + 1;
+	// 	}
+	//
+	// 	if ($hours > 0 AND $count > 0)
+	// 	{
+	// 		$average = $hours / $count;
+	//
+	// 		if ($average < 1)
+	// 			$average = round(($average * 60), 2) . ' Min';
+	// 		else
+	// 			$average = round($average, 2) . ' Hrs';
+	// 	}
+	//
+	// 	return $average;
+	// }
+	//
+	// public function get_voxes_count($option)
+	// {
+	// 	$where = [
+	// 		'AND' => [
+	// 			'account' => Session::get_value('account')['id']
+	// 		]
+	// 	];
+	//
+	// 	if ($option == 'today')
+	// 		$where['AND']['started_date'] = Functions::get_current_date(); // - Revisar formatos de fecha
+	// 	else if ($option == 'week')
+	// 		$where['AND']['started_date[<>]'] = [Functions::get_current_week()[0],Functions::get_current_week()[1]]; // - Revisar formatos de fecha
+	// 	else if ($option == 'month')
+	// 		$where['AND']['started_date[<>]'] = [Functions::get_current_month()[0],Functions::get_current_month()[1]]; // - Revisar formatos de fecha
+	// 	else if ($option == 'year')
+	// 		$where['AND']['started_date[<>]'] = [Functions::get_current_year()[0],Functions::get_current_year()[1]]; // - Revisar formatos de fecha
+	//
+	// 	$query = $this->database->count('voxes', $where);
+	//
+	// 	return $query;
+	// }
+	//
+	// public function get_chart_data($chart, $params, $edit = false)
+	// {
+	// 	$where = [
+	// 		'AND' => [
+	// 			'account' => Session::get_value('account')['id'],
+	// 			'started_date[<>]' => [$params['started_date'],$params['date_end']] // - Revisar formatos de fecha
+	// 		]
+	// 	];
+	//
+	// 	if ($chart == 'c_oa_chart' OR $chart == 'c_o_chart' OR $chart == 'c_l_chart')
+	// 		$where['AND']['type'] = 'incident';
+	// 	else if ($params['type'] != 'all')
+	// 		$where['AND']['type'] = $params['type'];
+	//
+	// 	$query1 = $this->database->select('voxes', [
+	// 		'owner',
+	// 		'opportunity_area',
+	// 		'location',
+	// 		'cost',
+	// 		'started_date',
+	// 		'started_hour',
+	// 		'completed_date',
+	// 		'completed_hour'
+	// 	], $where);
+	//
+	// 	if ($chart == 'v_oa_chart' OR $chart == 'ar_oa_chart' OR $chart == 'c_oa_chart')
+	// 	{
+	// 		$query2 = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
+	// 			'id',
+	// 			'name'
+	// 		], [
+	// 			'account' => Session::get_value('account')['id']
+	// 		]));
+	// 	}
+	// 	else if ($chart == 'v_o_chart' OR $chart == 'ar_o_chart' OR $chart == 'c_o_chart')
+	// 	{
+	// 		$query2 = Functions::get_json_decoded_query($this->database->select('owners', [
+	// 			'id',
+	// 			'name',
+	// 			'number'
+	// 		], [
+	// 			'account' => Session::get_value('account')['id']
+	// 		]));
+	// 	}
+	// 	else if ($chart == 'v_l_chart' OR $chart == 'ar_l_chart' OR $chart == 'c_l_chart')
+	// 	{
+	// 		$query2 = Functions::get_json_decoded_query($this->database->select('locations', [
+	// 			'id',
+	// 			'name'
+	// 		], [
+	// 			'account' => Session::get_value('account')['id']
+	// 		]));
+	// 	}
+	//
+	// 	if ($edit == true)
+	// 	{
+	// 		$data = [
+	// 			'labels' => [],
+	// 			'datasets' => [
+	// 				'data' => [],
+	// 				'colors' => []
+	// 			]
+	// 		];
+	// 	}
+	// 	else
+	// 	{
+	// 		$data = [
+	// 			'labels' => '',
+	// 			'datasets' => [
+	// 				'data' => '',
+	// 				'colors' => ''
+	// 			]
+	// 		];
+	// 	}
+	//
+	// 	foreach ($query2 as $value)
+	// 	{
+	// 		if ($chart == 'v_oa_chart' OR $chart == 'v_o_chart' OR $chart == 'v_l_chart')
+	// 		{
+	// 			$count = 0;
+	//
+	// 			foreach ($query1 as $subvalue)
+	// 			{
+	// 				if ($chart == 'v_oa_chart')
+	// 				{
+	// 					if ($value['id'] == $subvalue['opportunity_area'])
+	// 						$count = $count + 1;
+	// 				}
+	// 				else if ($chart == 'v_o_chart')
+	// 				{
+	// 					if ($value['id'] == $subvalue['owner'])
+	// 						$count = $count + 1;
+	// 				}
+	// 				else if ($chart == 'v_l_chart')
+	// 				{
+	// 					if ($value['id'] == $subvalue['location'])
+	// 						$count = $count + 1;
+	// 				}
+	// 			}
+	//
+	// 			if ($edit == true)
+	// 			{
+	// 				if ($chart == 'v_oa_chart')
+	// 					array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+	// 				else if ($chart == 'v_o_chart')
+	// 					array_push($data['labels'], $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
+	// 				else if ($chart == 'v_l_chart')
+	// 					array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+	//
+	// 				array_push($data['datasets']['data'], $count);
+	// 				array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+	// 			}
+	// 			else
+	// 			{
+	// 				if ($chart == 'v_oa_chart')
+	// 					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+	// 				else if ($chart == 'v_o_chart')
+	// 					$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
+	// 				else if ($chart == 'v_l_chart')
+	// 					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+	//
+	// 				$data['datasets']['data'] .= $count . ',';
+	// 				$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+	// 			}
+	// 		}
+	// 		else if ($chart == 'ar_oa_chart' OR $chart == 'ar_o_chart' OR $chart == 'ar_l_chart')
+	// 		{
+	// 			$average = 0;
+	// 			$hours = 0;
+	// 			$count = 0;
+	//
+	// 			foreach ($query2 as $subvalue)
+	// 			{
+	// 				if ($chart == 'ar_oa_chart')
+	// 				{
+	// 					if ($value['id'] == $subvalue['opportunity_area'])
+	// 					{
+	// 						$date1 = new DateTime($subvalue['started_date'] . ' ' . $subvalue['started_hour']);
+	// 						$date2 = new DateTime($subvalue['completed_date'] . ' ' . $subvalue['completed_hour']);
+	// 						$date3 = $date1->diff($date2);
+	// 						$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
+	// 						$count = $count + 1;
+	// 					}
+	// 				}
+	// 				else if ($chart == 'ar_o_chart')
+	// 				{
+	// 					if ($value['id'] == $subvalue['owner'])
+	// 					{
+	// 						$date1 = new DateTime($subvalue['started_date'] . ' ' . $subvalue['started_hour']);
+	// 						$date2 = new DateTime($subvalue['completed_date'] . ' ' . $subvalue['completed_hour']);
+	// 						$date3 = $date1->diff($date2);
+	// 						$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
+	// 						$count = $count + 1;
+	// 					}
+	// 				}
+	// 				else if ($chart == 'ar_l_chart')
+	// 				{
+	// 					if ($value['id'] == $subvalue['location'])
+	// 					{
+	// 						$date1 = new DateTime($subvalue['started_date'] . ' ' . $subvalue['started_hour']);
+	// 						$date2 = new DateTime($subvalue['completed_date'] . ' ' . $subvalue['completed_hour']);
+	// 						$date3 = $date1->diff($date2);
+	// 						$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
+	// 						$count = $count + 1;
+	// 					}
+	// 				}
+	// 			}
+	//
+	// 			$average = ($count > 0) ? $hours / $count : $average;
+	//
+	// 			if ($average < 1)
+	// 				$average = round(($average * 60), 2);
+	// 			else
+	// 				$average = round($average, 2);
+	//
+	// 			if ($edit == true)
+	// 			{
+	// 				if ($chart == 'ar_oa_chart')
+	// 					array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+	// 				else if ($chart == 'ar_o_chart')
+	// 					array_push($data['labels'], $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
+	// 				else if ($chart == 'ar_l_chart')
+	// 					array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+	//
+	// 				array_push($data['datasets']['data'], $average);
+	// 				array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad( dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+	// 			}
+	// 			else
+	// 			{
+	// 				if ($chart == 'ar_oa_chart')
+	// 					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+	// 				else if ($chart == 'ar_o_chart')
+	// 					$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
+	// 				else if ($chart == 'ar_l_chart')
+	// 					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+	//
+	// 				$data['datasets']['data'] .= $average . ',';
+	// 				$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+	// 			}
+	// 		}
+	// 		else if ($chart == 'c_oa_chart' OR $chart == 'c_o_chart' OR $chart == 'c_l_chart')
+	// 		{
+	// 			$cost = 0;
+	//
+	// 			foreach ($query2 as $subvalue)
+	// 			{
+	// 				if ($chart == 'c_oa_chart')
+	// 				{
+	// 					if ($value['id'] == $subvalue['opportunity_area'])
+	// 						$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
+	// 				}
+	// 				else if ($chart == 'c_o_chart')
+	// 				{
+	// 					if ($value['id'] == $subvalue['owner'])
+	// 						$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
+	// 				}
+	// 				else if ($chart == 'c_l_chart')
+	// 				{
+	// 					if ($value['id'] == $subvalue['location'])
+	// 						$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
+	// 				}
+	// 			}
+	//
+	// 			if ($edit == true)
+	// 			{
+	// 				if ($chart == 'c_oa_chart')
+	// 					array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+	// 				else if ($chart == 'c_o_chart')
+	// 					array_push($data['labels'], $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
+	// 				else if ($chart == 'c_l_chart')
+	// 					array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+	//
+	// 				array_push($data['datasets']['data'], $cost);
+	// 				array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+	// 			}
+	// 			else
+	// 			{
+	// 				if ($chart == 'c_oa_chart')
+	// 					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+	// 				else if ($chart == 'c_o_chart')
+	// 					$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
+	// 				else if ($chart == 'c_l_chart')
+	// 					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+	//
+	// 				$data['datasets']['data'] .= $cost . ',';
+	// 				$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+	// 			}
+	// 		}
+	// 	}
+	//
+	// 	return $data;
+	// }
 }
