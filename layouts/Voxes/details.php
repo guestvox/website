@@ -27,6 +27,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 <span><i class="far fa-compass"></i>{$opportunity_type}</span>
                 <span><i class="fas fa-map-marker-alt"></i>{$location}</span>
                 <span><i class="fas fa-calendar-alt"></i>{$started_date}</span>
+                {$spn_cost}
             </div>
             <div class="datas stl_3">
                 {$p_observations}
@@ -34,6 +35,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 {$p_description}
                 {$p_action_taken}
             </div>
+            {$div_confidentiality}
+            {$div_guest}
         </div>
     </section>
     <section class="buttons">

@@ -68,7 +68,7 @@ class Voxes_controller extends Controller
 						<span class="' . (!empty($value['assigned_users']) ? 'active' : '') . '"><i class="fas fa-users"></i></span>
 						<span class="' . (!empty($value['comments']) ? 'active' : '') . '"><i class="fas fa-comment"></i></span>
 						<span class="' . (!empty($value['attachments']) ? 'active' : '') . '"><i class="fas fa-paperclip"></i></span>
-						<span class="' . (($value['type'] == 'incident' AND $value['confidentiality'] == true) ? 'active' : '') . '"><i class="fas fa-key"></i></span>
+						<span class="' . (($value['type'] == 'incident' AND $value['confidentiality'] == true) ? 'active' : '') . '"><i class="fas fa-lock"></i></span>
 					</div>
 					<a href="/voxes/details/' . $value['token'] . '"></a>
                 </div>
@@ -1363,6 +1363,28 @@ class Voxes_controller extends Controller
 
 				$spn_type .= '</span>';
 
+				$div_guest = '';
+
+				if (Session::get_value('account')['type'] == 'hotel')
+				{
+					if ($vox['type'] == 'incident')
+					{
+						$div_guest .=
+						'<div class="datas stl_5">
+							<div>
+								<span><i class="fas fa-key"></i>' . (!empty($vox['guest_id']) ? $vox['guest_id'] : '{$lang.not_guest_id}') . '</span>
+								<span><i class="fas fa-tag"></i>' . (!empty($vox['guest_type']) ? $vox['guest_type']['name'] : '{$lang.not_guest_type}') . '</span>
+								<span><i class="fas fa-suitcase-rolling"></i>' . (!empty($vox['reservation_number']) ? $vox['reservation_number'] : '{$lang.not_reservation_number}') . '</span>
+							</div>
+							<div>
+								<span><i class="fas fa-hotel"></i>' . (!empty($vox['reservation_status']) ? $vox['reservation_status']['name'] : '{$lang.not_reservation_status}') . '</span>
+								<span><i class="fas fa-calendar-check"></i>' . (!empty($vox['check_in']) ? Functions::get_formatted_date($vox['check_in'], 'd.m.Y') : '{$lang.not_check_in}') . '</span>
+								<span><i class="fas fa-calendar-times"></i>' . (!empty($vox['check_out']) ? Functions::get_formatted_date($vox['check_out'], 'd.m.Y') : '{$lang.not_check_out}') . '</span>
+							</div>
+						</div>';
+					}
+				}
+
 				$mdl_comment_vox = '';
 				$mdl_complete_vox = '';
 				$mdl_reopen_vox = '';
@@ -1453,7 +1475,7 @@ class Voxes_controller extends Controller
 				$replace = [
 					'{$spn_type}' => $spn_type,
 					'{$token}' => $vox['token'],
-					'{$h1_name}' => ($vox['type'] == 'request' OR $vox['type'] == 'incident') ? '<h1>' . ((!empty($vox['firstname']) AND !empty($vox['lastname'])) ? $vox['firstname'] . ' ' . $vox['lastname'] : '{$lang.not_name}') . '</h1>' : '',
+					'{$h1_name}' => ($vox['type'] == 'request' OR $vox['type'] == 'incident') ? '<h1>' . ((!empty($vox['firstname']) AND !empty($vox['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($vox['guest_treatment'])) ? $vox['guest_treatment']['name'] . ' ' : '') . $vox['firstname'] . ' ' . $vox['lastname'] : '{$lang.not_name}') . '</h1>' : '',
 					'{$h3_elapsed_time}' => '<h3
 	                    data-date-1="' . Functions::get_formatted_date_hour($vox['started_date'], $vox['started_hour']) . '"
 	                    data-date-2="' . ((!empty($vox['completed_date']) AND !empty($vox['completed_hour'])) ? Functions::get_formatted_date_hour($vox['completed_date'], $vox['completed_hour']) : '') . '"
@@ -1464,29 +1486,16 @@ class Voxes_controller extends Controller
 					'{$opportunity_area}' => $vox['opportunity_area']['name'][$this->lang],
 					'{$opportunity_type}' => $vox['opportunity_type']['name'][$this->lang],
 					'{$location}' => $vox['location']['name'][$this->lang],
-					'{$started_date}' => Functions::get_formatted_date($vox['started_date'], 'd . m . Y') . ' ' . Functions::get_formatted_hour($vox['started_hour'], '+ hrs'),
+					'{$started_date}' => Functions::get_formatted_date($vox['started_date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($vox['started_hour'], '+ hrs'),
+					'{$spn_cost}' => ($vox['type'] == 'incident' OR $vox['type'] == 'workorder') ? '<span><i class="fas fa-dollar-sign"></i>' . Functions::get_formatted_currency((!empty($vox['cost']) ? $vox['cost'] : '0'), Session::get_value('account')['currency']) . '</span>' : '',
 					'{$p_observations}' => ($vox['type'] == 'request' OR $vox['type'] == 'workorder') ? '<p>' . (!empty($vox['observations']) ? $vox['observations'] : '{$lang.not_observations}') . '</p>' : '',
 					'{$p_subject}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['subject']) ? $vox['subject'] : '{$lang.not_subject}') . '</p>' : '',
 					'{$p_description}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['description']) ? $vox['description'] : '{$lang.not_description}') . '</p>' : '',
 					'{$p_action_taken}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['action_taken']) ? $vox['action_taken'] : '{$lang.not_action_taken}') . '</p>' : '',
+					'{$div_confidentiality}' => ($vox['type'] == 'incident') ? '<div class="datas stl_4"><span class="' . (($vox['confidentiality'] == true) ? 'confidentiality' : '') . '">' . (($vox['confidentiality'] == true) ? '<i class="fas fa-lock"></i>{$lang.yes_confidentiality}' : '<i class="fas fa-lock-open"></i>{$lang.not_confidentiality}') . '</span></div>' : '',
+					'{$div_guest}' => $div_guest,
 
-					// '{$h4_date}' => '<h4
-					// 	data-date-1="' . Functions::get_formatted_date_hour($vox['started_date'], $vox['started_hour']) . '"
-					// 	data-date-2="' . ((!empty($vox['completed_date']) AND !empty($vox['completed_hour'])) ? Functions::get_formatted_date_hour($vox['completed_date'], $vox['completed_hour']) : '') . '"
-					// 	data-time-zone="' . Session::get_value('account')['time_zone'] . '"
-					// 	data-status="' . $vox['status'] . '"
-					// 	data-elapsed-time></h4>',
-					// '{$h4_cost}' => ($vox['type'] == 'incident' OR $vox['type'] == 'workorder') ? '<h4>{$lang.cost}: ' . Functions::get_formatted_currency((!empty($vox['cost']) ? $vox['cost'] : '0'), Session::get_value('account')['currency']) . '</h4>' : '',
-					// '{$urgency}' => $vox['urgency'],
-					// '{$h4_confidentiality}' => ($vox['type'] == 'incident') ? '<h4>{$lang.confidentiality}: ' . (($vox['confidentiality'] == true) ? '{$lang.yes}' : '{$lang.not}') . '</h4>' : '',
 					// '{$div_assigned_users}' => $div_assigned_users,
-					// '{$h4_guest_treatment}' => (($vox['type'] == 'request' OR $vox['type'] == 'incident') AND Session::get_value('account')['type'] == 'hotel') ? '<h4>{$lang.guest_treatment}: ' . (!empty($vox['guest_treatment']) ? $vox['guest_treatment']['name'] : '{$lang.not_guest_treatment}') . '</h4>' : '',
-					// '{$h4_guest_id}' => ($vox['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? '<h4>{$lang.guest_id}: ' . (!empty($vox['guest_id']) ? $vox['guest_id'] : '{$lang.not_guest_id}') . '</h4>' : '',
-					// '{$h4_guest_type}' => ($vox['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? '<h4>{$lang.guest_type}: ' . (!empty($vox['guest_type']) ? $vox['guest_type']['name'] : '{$lang.not_guest_type}') . '</h4>' : '',
-					// '{$h4_reservation_number}' => ($vox['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? '<h4>{$lang.reservation_number}: ' . (!empty($vox['reservation_number']) ? $vox['reservation_number'] : '{$lang.not_reservation_number}') . '</h4>' : '',
-					// '{$h4_reservation_status}' => ($vox['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? '<h4>{$lang.reservation_status}: ' . (!empty($vox['reservation_status']) ? $vox['reservation_status']['name'] : '{$lang.not_reservation_status}') . '</h4>' : '',
-					// '{$h4_check_in}' => ($vox['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? '<h4>{$lang.check_in}: ' . (!empty($vox['check_in']) ? Functions::get_formatted_date($vox['check_in'], 'd F, Y') : '{$lang.not_check_in}') . '</h4>' : '',
-					// '{$h4_check_out}' => ($vox['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? '<h4>{$lang.check_out}: ' . (!empty($vox['check_out']) ? Functions::get_formatted_date($vox['check_out'], 'd F, Y') : '{$lang.not_check_out}') . '</h4>' : '',
 					// '{$div_attachments}' => $div_attachments,
 					// '{$div_viewed_by}' => $div_viewed_by,
 					// '{$div_comments}' => $div_comments,

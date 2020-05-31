@@ -28,6 +28,7 @@ class Login_model extends Model
 			'users.opportunity_areas(user_opportunity_areas)',
 			'users.status(user_status)',
 			'accounts.id(account_id)',
+			'accounts.token(account_token)',
 			'accounts.name(account_name)',
 			'accounts.path(account_path)',
 			'accounts.type(account_type)',
@@ -80,6 +81,7 @@ class Login_model extends Model
 				],
 				'account' => [
 					'id' => $query[0]['account_id'],
+					'token' => $query[0]['account_token'],
 					'name' => $query[0]['account_name'],
 					'path' => $query[0]['account_path'],
 					'type' => $query[0]['account_type'],

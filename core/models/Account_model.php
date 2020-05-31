@@ -12,51 +12,37 @@ class Account_model extends Model
 	public function get_account()
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('accounts', [
-			'token',
-			'name',
-			'path',
-			'type',
-			'country',
-			'city',
-			'zip_code',
-			'address',
-			'time_zone',
-			'currency',
-			'language',
-			'fiscal',
-			'contact',
-			'logotype',
-			'qr',
-			'package',
-			'operation',
-			'reputation',
-			'siteminder',
-			'zaviapms',
-			'sms',
-			'settings'
+			'[>]packages' => [
+				'package' => 'id'
+			]
 		], [
-			'id' => Session::get_value('account')['id']
+			'accounts.token',
+			'accounts.name',
+			'accounts.path',
+			'accounts.type',
+			'accounts.country',
+			'accounts.city',
+			'accounts.zip_code',
+			'accounts.address',
+			'accounts.time_zone',
+			'accounts.currency',
+			'accounts.language',
+			'accounts.fiscal',
+			'accounts.contact',
+			'accounts.logotype',
+			'accounts.qr',
+			'packages.quantity_end(package)',
+			'accounts.operation',
+			'accounts.reputation',
+			'accounts.siteminder',
+			'accounts.zaviapms',
+			'accounts.sms',
+			'accounts.settings'
+		], [
+			'accounts.id' => Session::get_value('account')['id']
 		]));
 
-		if (!empty($query))
-		{
-			$query[0]['package'] = $this->database->select('packages', [
-				'quantity_end'
-			], [
-				'id' => $query[0]['package']
-			]);
-
-			if (!empty($query[0]['package']))
-			{
-				$query[0]['package'] = $query[0]['package'][0];
-
-				return $query[0];
-			}
-			else
-				return null;
-		}
-		else
-			return null;
+		return !empty($query) ? $query[0] : null;
 	}
 
 	public function get_countries()

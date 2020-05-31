@@ -93,9 +93,6 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                     </div>
                     <div class="span12">
                         <div class="label">
-                            <label required>
-                                <p>{$lang.permissions}</p>
-                            </label>
                             <div class="checkboxes">
                                 {$cbx_permissions}
                             </div>

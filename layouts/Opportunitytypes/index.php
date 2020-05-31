@@ -59,7 +59,7 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_types");</sc
                     <div class="span12">
                         <div class="label">
                             <label unrequired>
-                                <p>{$lang.request}</p>
+                                <p class="center">{$lang.request}</p>
                                 <div class="switch">
                                     <input id="rqsw" type="checkbox" name="request" class="switch_input">
                                     <label class="switch_label" for="rqsw"></label>
@@ -70,7 +70,7 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_types");</sc
                     <div class="span12">
                         <div class="label">
                             <label unrequired>
-                                <p>{$lang.incident}</p>
+                                <p class="center">{$lang.incident}</p>
                                 <div class="switch">
                                     <input id="insw" type="checkbox" name="incident" class="switch_input">
                                     <label class="switch_label" for="insw"></label>
@@ -81,7 +81,7 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_types");</sc
                     <div class="span12">
                         <div class="label">
                             <label unrequired>
-                                <p>{$lang.workorder}</p>
+                                <p class="center">{$lang.workorder}</p>
                                 <div class="switch">
                                     <input id="wksw" type="checkbox" name="workorder" class="switch_input">
                                     <label class="switch_label" for="wksw"></label>
@@ -92,7 +92,7 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_types");</sc
                     <div class="span12">
                         <div class="label">
                             <label unrequired>
-                                <p>{$lang.public}</p>
+                                <p class="center">{$lang.public}</p>
                                 <div class="switch">
                                     <input id="pusw" type="checkbox" name="public" class="switch_input">
                                     <label class="switch_label" for="pusw"></label>

@@ -228,7 +228,7 @@ body > main.dashboard > section.workspace {
     min-height: calc(100vh - 100px);
     position: absolute;
     top: 100px;
-    padding: 0px 20px 90px 20px;
+    padding-bottom: 90px;
     box-sizing: border-box;
     background-color: #fff;
     z-index: 96;
@@ -391,6 +391,60 @@ div.vox_details > div.datas.stl_3 > p > i {
     font-size: 12px;
 }
 
+/*  */
+
+div.vox_details > div.datas.stl_4 > span {
+    width: auto;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 40px;
+    box-sizing: border-box;
+    border-radius: 40px;
+    background-color: #3f51b5;
+    font-size: 14px;
+    font-weight: 400;
+    color: #fff;
+}
+
+div.vox_details > div.datas.stl_4 > span.confidentiality {
+    background-color: #f44336;
+}
+
+div.vox_details > div.datas.stl_4 > span > i {
+    margin-right: 10px;
+}
+
+/*  */
+
+div.vox_details > div.datas.stl_5 > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.vox_details > div.datas.stl_5 > div:first-child {
+    margin: 20px 0px;
+}
+
+div.vox_details > div.datas.stl_5 > div > span {
+    width: calc(100% / 3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 12px;
+    font-weight: 600;
+    color: #bdbdbd;
+}
+
+div.vox_details > div.datas.stl_5 > div > span > i {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
 /* Account
 ------------------------------------------------------------------------------ */
 div.account {
@@ -412,44 +466,45 @@ div.account > div:last-child {
     border-bottom: none;
 }
 
-div.account > div > figure,
-div.account > div > figure > img {
+/*  */
+
+div.account > div.stl_2 > figure,
+div.account > div.stl_2 > figure > img {
     width: 180px;
 }
 
-div.account > div > h1,
-div.account > div > h2,
-div.account > div > h3 {
+/*  */
+
+div.account > div.stl_3 > h1,
+div.account > div.stl_3 > h2,
+div.account > div.stl_4 > div > h2,
+div.account > div.stl_5 > h2 {
     font-size: 20px;
     font-weight: 600;
     color: #212121;
 }
 
-div.account > div > h1,
-div.account > div > h2 {
+div.account > div.stl_3 > h1,
+div.account > div.stl_3 > h2 {
     margin-bottom: 20px;
 }
 
-div.account > div > h3 {
+div.account > div.stl_4 > div > h2,
+div.account > div.stl_5 > h2 {
     margin: 20px 0px 10px 0px;
 }
 
-div.account > div > span {
+div.account > div.stl_3 > span,
+div.account > div.stl_4 > div > span,
+div.account > div.stl_5 > span {
     font-size: 14px;
     font-weight: 400;
     color: #757575;
 }
 
-div.account > div > p {
-    margin: 10px 0px;
-    font-size: 12px;
-    font-weight: 400;
-    text-align: center;
-    line-height: 14px;
-    color: #757575;
-}
-
-div.account > div > a {
+div.account > div.stl_3 > a,
+div.account > div.stl_4 > a,
+div.account > div.stl_5 > a {
     width: 40px;
     height: 40px;
     display: flex;
@@ -462,16 +517,39 @@ div.account > div > a {
     color: #757575;
 }
 
-div.account > div > i {
+/*  */
+
+div.account > div.stl_4 > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 40px;
+}
+
+div.account > div.stl_4 > div:first-child {
+    margin-top: 0px;
+}
+
+/*  */
+
+div.account > div.stl_4 > div > i,
+div.account > div.stl_5 > i {
     font-size: 100px;
     color: #e0e0e0;
+}
+
+div.account > div.stl_5 > figure,
+div.account > div.stl_5 > figure > img {
+    width: 100px;
 }
 
 /* Profile
 ------------------------------------------------------------------------------ */
 div.profile {
     width: 100%;
-    height: calc(100vh - 120px);
+    height: calc(100vh - 190px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -711,7 +789,7 @@ div.tbl_stl_2 > div,
 div.tbl_stl_3 > div {
     width: 100%;
     margin-bottom: 20px;
-    padding-bottom: 20px;
+    padding: 0px 20px 20px 20px;
     border-bottom: 1px solid #eee;
     box-sizing: border-box;
 }
@@ -864,12 +942,17 @@ form div.label > label > p {
     width: 100%;
     margin-bottom: 10px;
     padding: 0px 10px;
+    box-sizing: border-box;
     font-size: 14px;
     line-height: 1;
     white-space: nowrap;
     text-overflow: ellipsis;
     color: #757575;
     overflow: hidden;
+}
+
+form div.label > label > p.center {
+    text-align: center;
 }
 
 form div.label > label > p.description,
@@ -920,17 +1003,20 @@ form div.label > label.error > textarea {
 ------------------------------------------------------------------------------ */
 form div.checkboxes > div {
     width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    background-color: #eee;
-    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+form div.checkboxes > div:last-child {
+    margin-bottom: 0px;
 }
 
 form div.checkboxes > div > h4 {
     width: 100%;
     margin-bottom: 10px;
+    padding-left: 10px;
+    box-sizing: border-box;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 400;
     color: #757575;
 }
 
@@ -940,6 +1026,11 @@ form div.checkboxes > div > h4 > i {
 
 form div.checkboxes > div > div {
     width: 100%;
+    margin-bottom: 10px;
+}
+
+form div.checkboxes > div > div:last-child {
+    margin-bottom: 0px;
 }
 
 form div.checkboxes > div > div::after {
@@ -950,7 +1041,6 @@ form div.checkboxes > div > div::after {
 
 form div.checkboxes > div > div > p {
     width: 100%;
-    margin-bottom: 5px;
     font-size: 12px;
     font-weight: 400;
     color: #757575;
@@ -963,7 +1053,7 @@ form div.checkboxes > div > div > div {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px 0px;
+    padding: 5px 0px;
 }
 
 form div.checkboxes > div > div > div > span {
@@ -1090,14 +1180,12 @@ form div.switch {
 
 form div.switch > label {
     position: initial !important;
-}
-
-form div.switch > label {
     display: block !important;
     overflow: hidden !important;
     cursor: pointer !important;
     height: 40px !important;
-    padding: 0 !important;
+    margin-bottom: 20px;
+    padding: 0px !important;
     line-height: 40px !important;
     border: 0px solid #fff !important;
     border-radius: 60px !important;
@@ -1196,6 +1284,48 @@ form div.checkers > div > label > i {
     color: #757575;
 }
 
+/* Inputs - Copyers
+------------------------------------------------------------------------------ */
+form div.copyers {
+    width: 100%;
+}
+
+form div.copyers > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+form div.copyers > div:last-child {
+    margin-bottom: 0px;
+}
+
+form div.copyers > div > input {
+    width: calc(100% - 45px);
+    height: 40px;
+    padding: 0px 20px;
+    border: none;
+    border-radius: 40px;
+    box-sizing: border-box;
+    background-color: #eee;
+    color: #757575;
+}
+
+form div.copyers > div > a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    margin-left: 5px;
+    font-size: 14px;
+    color: #757575;
+}
+
 /* Inputs - Maximum exceeded
 ------------------------------------------------------------------------------ */
 form div.maximum_exceeded {
@@ -1244,12 +1374,12 @@ form div.buttons > a {
     color: #fff;
 }
 
-form div.buttons > button[type="submit"] {
+form div.buttons > button[type="submit"],
+form div.buttons > a[button-close] {
     background-color: #00a5ab;
 }
 
-form div.buttons > a[button-cancel],
-form div.buttons > a[button-close] {
+form div.buttons > a[button-cancel] {
     background-color: #f44336;
 }
 

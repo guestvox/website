@@ -277,7 +277,7 @@ class Users_controller extends Controller
 
 			$cbx_permissions =
             '<div>
-                <h4><i class="fas fa-user-secret"></i>{$lang.supervision}</h4>';
+                <h4>{$lang.supervision_permissions}</h4>';
 
             foreach ($this->model->get_permissions('supervision') as $key => $value)
             {
@@ -300,7 +300,7 @@ class Users_controller extends Controller
             $cbx_permissions .=
             '</div>
             <div>
-                <h4><i class="fas fa-user-cog"></i>{$lang.administrative}</h4>';
+                <h4>{$lang.administrative_permissions}</h4>';
 
             foreach ($this->model->get_permissions('administrative') as $key => $value)
             {
@@ -323,7 +323,7 @@ class Users_controller extends Controller
             $cbx_permissions .=
             '</div>
             <div>
-                <h4><i class="fas fa-user-tie"></i>{$lang.operational}</h4>';
+                <h4>{$lang.operational_permissions}</h4>';
 
             foreach ($this->model->get_permissions('operational') as $key => $value)
             {

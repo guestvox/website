@@ -181,16 +181,18 @@ class Owners_controller extends Controller
 				{
 					$mdl_new_owner .=
 					'<div class="span12">
-                        <div class="label">
-                            <label required>
-                                <p>{$lang.type}</p>
-								<select name="type">
-									<option value="one">{$lang.create_one_records}</option>
-									<option value="many">{$lang.create_many_records}</option>
-								</select>
-                            </label>
-                        </div>
-                    </div>
+	                    <div class="checkers">
+	                        <div>
+	                            <input id="onrd" type="radio" name="type" value="one" checked>
+	                            <label for="onrd"><i class="fas fa-user"></i></label>
+	                        </div>
+	                        <div>
+	                            <input id="mnrd" type="radio" name="type" value="many">
+	                            <label for="mnrd"><i class="fas fa-users"></i></label>
+	                        </div>
+	                    </div>
+	                </div>
+
 					<div class="span6">
                         <div class="label">
                             <label required>
@@ -234,7 +236,7 @@ class Owners_controller extends Controller
 					<div class="span12">
 						<div class="label">
 							<label unrequired>
-								<p>{$lang.request}</p>
+								<p class="center">{$lang.request}</p>
 								<div class="switch">
 									<input id="rqsw" type="checkbox" name="request" class="switch_input">
 									<label class="switch_label" for="rqsw"></label>
@@ -245,7 +247,7 @@ class Owners_controller extends Controller
 					<div class="span12">
 						<div class="label">
 							<label unrequired>
-								<p>{$lang.incident}</p>
+								<p class="center">{$lang.incident}</p>
 								<div class="switch">
 									<input id="insw" type="checkbox" name="incident" class="switch_input">
 									<label class="switch_label" for="insw"></label>
@@ -256,7 +258,7 @@ class Owners_controller extends Controller
 					<div class="span12">
 						<div class="label">
 							<label unrequired>
-								<p>{$lang.workorder}</p>
+								<p class="center">{$lang.workorder}</p>
 								<div class="switch">
 									<input id="wksw" type="checkbox" name="workorder" class="switch_input">
 									<label class="switch_label" for="wksw"></label>
@@ -267,7 +269,7 @@ class Owners_controller extends Controller
 					<div class="span12">
 						<div class="label">
 							<label unrequired>
-								<p>{$lang.survey}</p>
+								<p class="center">{$lang.survey}</p>
 								<div class="switch">
 									<input id="susw" type="checkbox" name="survey" class="switch_input">
 									<label class="switch_label" for="susw"></label>
@@ -278,7 +280,7 @@ class Owners_controller extends Controller
 					<div class="span12">
 						<div class="label">
 							<label unrequired>
-								<p>{$lang.public}</p>
+								<p class="center">{$lang.public}</p>
 								<div class="switch">
 									<input id="pusw" type="checkbox" name="public" class="switch_input">
 									<label class="switch_label" for="pusw"></label>
