@@ -35,7 +35,7 @@ class Voxes_controller extends Controller
                     </div>
                     <div class="itm_2">
 						<div>
-							<span>';
+							<span class="' . $value['urgency'] . '">';
 
 			if ($value['type'] == 'request')
 				$tbl_voxes .= '<i class="fas fa-spa"></i>';
@@ -48,21 +48,21 @@ class Voxes_controller extends Controller
 			'				</span>
 						</div>
 						<div>
-							<h2>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
-							<span>' . $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') . '</span>
+							<h2><i class="fas fa-user"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
+							<span><i class="fas fa-shapes"></i>' . $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') . '</span>
 							<span
 								data-date-1="' . Functions::get_formatted_date_hour($value['started_date'], $value['started_hour']) . '"
 								data-date-2="' . ((!empty($value['completed_date']) AND !empty($value['completed_hour'])) ? Functions::get_formatted_date_hour($value['completed_date'], $value['completed_hour']) : '') . '"
 								data-time-zone="' . Session::get_value('account')['time_zone'] . '"
 								data-status="' . $value['status'] . '"
-								data-elapsed-time></span>
+								data-elapsed-time><i class="fas fa-clock"></i><strong></strong></span>
 						</div>
                     </div>
-                    <div class="itm_3 ' . $value['urgency'] . '">
-						<span>' . $value['token'] . '</span>
-						<span>' . $value['location']['name'][$this->lang] . '</span>
-                        <span>' . $value['opportunity_area']['name'][$this->lang] . '</span>
-                        <span>' . $value['opportunity_type']['name'][$this->lang] . '</span>
+                    <div class="itm_3">
+						<span><i class="fas fa-key"></i>' . $value['token'] . '</span>
+						<span><i class="fas fa-map-marker-alt"></i>' . $value['location']['name'][$this->lang] . '</span>
+                        <span><i class="fas fa-compass"></i>' . $value['opportunity_area']['name'][$this->lang] . '</span>
+                        <span><i class="far fa-compass"></i>' . $value['opportunity_type']['name'][$this->lang] . '</span>
                     </div>
                     <div class="itm_4">
 						<span class="' . (!empty($value['assigned_users']) ? 'active' : '') . '"><i class="fas fa-users"></i></span>

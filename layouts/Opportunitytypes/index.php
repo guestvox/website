@@ -16,7 +16,7 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_types");</sc
     </section>
     <section class="buttons">
         <div>
-            <a data-action="search"><i class="fas fa-search"></i></a>
+            <a data-button-modal="search"><i class="fas fa-search"></i></a>
             <?php if (Functions::check_user_access(['{opportunity_types_create}']) == true) : ?>
             <a class="active" data-button-modal="new_opportunity_type"><i class="fas fa-plus"></i></a>
             <?php endif; ?>

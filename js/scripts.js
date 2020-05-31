@@ -91,7 +91,7 @@ $(document).ready(function ()
 
     $('[data-elapsed-time]').each(function()
     {
-        get_time_elapsed($(this).data('date-1').replace(/-/g, '/'), $(this).data('date-2').replace(/-/g, '/'), $(this).data('time-zone'), $(this).data('status'), $(this));
+        get_time_elapsed($(this).data('date-1').replace(/-/g, '/'), $(this).data('date-2').replace(/-/g, '/'), $(this).data('time-zone'), $(this).data('status'), $(this).find('strong'));
     });
 });
 
@@ -328,31 +328,31 @@ function get_time_elapsed(date_1, date_2, time_zone, status, target)
                 time_measure = 'Horas';
 
             if (days < 1)
-                time_elapsed = '<strong>' + hours + ':' + minutes + ':' + seconds + ' ' + time_measure + '</strong>';
+                time_elapsed = hours + ':' + minutes + ':' + seconds + ' ' + time_measure;
             else if (days >= 1 && days <= 30)
-                time_elapsed = '<strong>' + days + ' Días ' + hours + ':' + minutes + ':' + seconds + ' ' + time_measure + '</strong>';
+                time_elapsed = days + ' Días ' + hours + ':' + minutes + ':' + seconds + ' ' + time_measure;
             else if (days > 30)
-                time_elapsed = '<strong>' + months + ' Meses ' + hours + ':' + minutes + ':' + seconds + ' ' + time_measure + '</strong>';
+                time_elapsed = months + ' Meses ' + hours + ':' + minutes + ':' + seconds + ' ' + time_measure;
         }
         else
         {
             if (days < 1)
             {
                 if (minutes == '00')
-                    time_elapsed = '<strong>' + seconds + ' Segundos</strong>';
+                    time_elapsed = seconds + ' Segundos';
                 else if (hours == '00')
-                    time_elapsed = '<strong>' + minutes + ' Minutos</strong>';
+                    time_elapsed = minutes + ' Minutos';
                 else if (days == '00')
-                    time_elapsed = '<strong>' + hours + ' Horas</strong>';
+                    time_elapsed = hours + ' Horas';
             }
             else if (days >= 1 && days <= 30)
-                time_elapsed = '<strong>' + days + ' Días</strong>';
+                time_elapsed = days + ' Días';
             else if (days > 30)
-                time_elapsed = '<strong>' + months + ' Meses</strong>';
+                time_elapsed = months + ' Meses';
         }
     }
     else
-        time_elapsed = '<strong>Programada</strong>';
+        time_elapsed = 'Programada';
 
     target.html(time_elapsed);
 

@@ -580,15 +580,14 @@ div.tbl_stl_1 {
 
 div.tbl_stl_1 > div {
     width: 100%;
-    margin-bottom: 20px;
-    padding-left: 60px;
+    margin-bottom: 40px;
+    padding-top: 70px;
     box-sizing: border-box;
 }
 
 div.tbl_stl_1 > div > div {
     width: 100%;
     position: relative;
-    border-radius: 10px;
     background-color: #eee;
 }
 
@@ -597,24 +596,24 @@ div.tbl_stl_1 > div > div::after {
     width: 0px;
     height: 0px;
     position: absolute;
-    top: 40px;
-	right: 100%;
+    bottom: 100%;
+	left: calc(50% - 5px);
     pointer-events: none;
-    margin-top: -10px;
-	border: solid transparent;
+    margin-left: -10px;
+    border: solid transparent;
     border-width: 10px;
-	border-color: rgba(238, 238, 238, 0);
-	border-right-color: #eee;
+    border-color: rgba(238, 238, 238, 0);
+	border-bottom-color: #eee;
 }
 
 /*  */
 
 div.tbl_stl_1 > div > div > div.itm_1 {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     position: absolute;
-    top: calc(40px - 20px);
-    left: -60px;
+    top: -70px;
+    left: calc(50% - 30px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -643,7 +642,7 @@ div.tbl_stl_1 > div > div > div.itm_2 {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding: 10px;
+    padding: 20px;
     box-sizing: border-box;
 }
 
@@ -657,8 +656,21 @@ div.tbl_stl_1 > div > div > div.itm_2 > div:first-child > span {
 }
 
 div.tbl_stl_1 > div > div > div.itm_2 > div:first-child > span {
-    font-size: 40px;
-    color: #bdbdbd;
+    border-radius: 50%;
+    font-size: 20px;
+    color: #fff;
+}
+
+div.tbl_stl_1 > div > div > div.itm_2 > div:first-child > span.low {
+    background-color: #00a5ab;;
+}
+
+div.tbl_stl_1 > div > div > div.itm_2 > div:first-child > span.medium {
+    background-color: #ffc107;
+}
+
+div.tbl_stl_1 > div > div > div.itm_2 > div:first-child > span.high {
+    background-color: #f44336;
 }
 
 div.tbl_stl_1 > div > div > div.itm_2 > div:last-child {
@@ -690,24 +702,24 @@ div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > span {
     color: #757575;
 }
 
+div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > h2 > i,
+div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > span > i {
+    width: 15px;
+    height: 15px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-right: 5px;
+    color: #bdbdbd;
+}
+
 /*  */
 
 div.tbl_stl_1 > div > div > div.itm_3 {
     width: 100%;
-    padding: 7.5px;
+    padding: 20px 20px 0px 20px;
     box-sizing: border-box;
-}
-
-div.tbl_stl_1 > div > div > div.itm_3.low {
-    background-color: #00a5ab;;
-}
-
-div.tbl_stl_1 > div > div > div.itm_3.medium {
-    background-color: #ffc107;
-}
-
-div.tbl_stl_1 > div > div > div.itm_3.high {
-    background-color: #f44336;
+    background-color: #e0e0e0;
 }
 
 div.tbl_stl_1 > div > div > div.itm_3::after {
@@ -717,19 +729,26 @@ div.tbl_stl_1 > div > div > div.itm_3::after {
 }
 
 div.tbl_stl_1 > div > div > div.itm_3 > span {
-    width: calc(50% - 5px);
+    width: 50%;
     float: left;
-    margin: 2.5px;
-    padding: 5px 0px 5px 10px;
-    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0px 20px 20px 20px;
     box-sizing: border-box;
-    background-color: #fff;
     font-size: 12px;
     font-weight: 400;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    color: #212121;
+    color: #757575;
+}
+
+div.tbl_stl_1 > div > div > div.itm_3 > span > i {
+    margin-bottom: 5px;
+    font-size: 40px;
+    color: #bdbdbd;
 }
 
 /*  */
@@ -739,21 +758,20 @@ div.tbl_stl_1 > div > div > div.itm_4 {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 10px;
-    border-radius: 0px 0px 10px 0px;
+    padding: 20px;
     box-sizing: border-box;
 }
 
 div.tbl_stl_1 > div > div > div.itm_4 > span {
-    width: calc(100% / 6);
+    width: calc(100% / 4);
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 div.tbl_stl_1 > div > div > div.itm_4 > span > i {
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -921,6 +939,29 @@ div.tbl_stl_3 > div > div.buttons > a {
     background-color: #e0e0e0;
     font-size: 14px;
     color: #757575;
+}
+
+/* Forms
+------------------------------------------------------------------------------ */
+body > main.dashboard > section.workspace > form {
+    padding: 0px 20px;
+    box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+
+    body > main.dashboard > section.workspace > form > .row > [class*="span"] {
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+    }
+
+    body > main.dashboard > section.workspace > form > .row > [class*="span"]:first-child {
+        padding-top: 0px !important;
+    }
+
+    body > main.dashboard > section.workspace > form > .row > [class*="span"]:last-child {
+        padding-bottom: 0px !important;
+    }
 }
 
 /* Inputs - Label
