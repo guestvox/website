@@ -1476,7 +1476,7 @@ class Voxes_controller extends Controller
 						$div_changes_history .= '<ul>';
 
 						foreach ($value['fields'] as $subvalue)
-							$div_changes_history .= '<li>{$lang.' . $subvalue['field'] . '}: ' . $subvalue['before'] . '<i class="fas fa-arrow-alt-circle-right"></i>' . $subvalue['after'] . '</li>';
+							$div_changes_history .= '<li>{$lang.' . $subvalue['field'] . '}: ' . (($subvalue['field'] != 'attachments') ? $subvalue['before'] . '<i class="fas fa-chevron-right"></i>' . $subvalue['after'] : '') . '</li>';
 
 						$div_changes_history .= '</ul>';
 					}
@@ -1616,8 +1616,6 @@ class Voxes_controller extends Controller
 					'{$mdl_comment_vox}' => $mdl_comment_vox,
 					'{$mdl_complete_vox}' => $mdl_complete_vox,
 					'{$mdl_reopen_vox}' => $mdl_reopen_vox
-
-					// '{$origin}' => $vox['origin'],
 				];
 
 				$template = $this->format->replace($replace, $template);

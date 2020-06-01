@@ -309,12 +309,13 @@ class Voxes_model extends Model
 
 				foreach ($query[0]['comments'] as $key => $value)
 				{
-					$query[0]['comments'][$key]['user'] = $this->get_user($value['user']);
+					$query[0]['cost'] = (!empty($query[0]['cost']) ? $query[0]['cost'] : 0) + (!empty($value['cost']) ? $value['cost'] : 0);
 					$query[0]['attachments'] = array_merge($query[0]['attachments'], $value['attachments']);
+					$query[0]['comments'][$key]['user'] = $this->get_user($value['user']);
 				}
 
-				$query[0]['comments'] = array_reverse($query[0]['comments']);
 				$query[0]['attachments'] = array_reverse($query[0]['attachments']);
+				$query[0]['comments'] = array_reverse($query[0]['comments']);
 
 				foreach ($query[0]['changes_history'] as $key => $value)
 					$query[0]['changes_history'][$key]['user'] = $this->get_user($value['user']);
@@ -913,12 +914,12 @@ class Voxes_model extends Model
 
 			if ($data['type'] == 'incident')
 			{
-				if ($editer['confidentiality'] != $data['confidentiality'])
+				if ($editer['confidentiality'] != (!empty($data['confidentiality']) ? true : false))
 				{
 					array_push($data['changes_history'][0]['fields'], [
 						'field' => 'confidentiality',
 						'before' => $editer['confidentiality'],
-						'after' => $data['confidentiality']
+						'after' => !empty($data['confidentiality']) ? true : false
 					]);
 				}
 			}
@@ -1124,8 +1125,6 @@ class Voxes_model extends Model
 		$query = null;
 
 		$editer = Functions::get_json_decoded_query($this->database->select('voxes', [
-			'type',
-			'cost',
 			'comments',
 			'changes_history'
 		], [
@@ -1169,9 +1168,6 @@ class Voxes_model extends Model
 				unset($data['attachments']['size']);
 			}
 
-			if ($editer[0]['type'] == 'incident' OR $editer[0]['type'] == 'workorder')
-				$editer[0]['cost'] = (!empty($editer[0]['cost']) ? $editer[0]['cost'] : 0) + (!empty($data['cost']) ? $data['cost'] : 0);
-
 			array_push($editer[0]['comments'], [
 				'user' => Session::get_value('user')['id'],
 				'date' => Functions::get_current_date(),
@@ -1189,7 +1185,6 @@ class Voxes_model extends Model
 			]);
 
 			$query = $this->database->update('voxes', [
-				'cost' => $editer[0]['cost'],
 				'comments' => json_encode($editer[0]['comments']),
 				'changes_history' => json_encode($editer[0]['changes_history'])
 			], [

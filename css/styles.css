@@ -627,7 +627,7 @@ main.vox_details > div.stl_11 {
 main.vox_details > div.stl_11 > div {
     width: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     margin-bottom: 20px;
 }
@@ -672,6 +672,20 @@ main.vox_details > div.stl_11 > div > div > span {
     font-size: 12px;
     font-weight: 400;
     color: #757575;
+}
+
+main.vox_details > div.stl_11 > div > div > ul > li {
+    margin-top: 2.5px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    color: #757575;
+}
+
+main.vox_details > div.stl_11 > div > div > ul > li > i {
+    margin: 0px 5px;
+    font-size: 8px;
+    color: #bdbdbd;
 }
 
 /*  */
@@ -1495,7 +1509,9 @@ form div.checkboxes > div > div > div > input[type="radio"] {
     margin: 0px;
     padding: 0px;
     border: 0px;
+    -moz-appearance: none;
     -webkit-appearance: none;
+    appearance: none;
 }
 
 form div.checkboxes > div > div > div > input[type="checkbox"]::before {
