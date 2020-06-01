@@ -245,7 +245,7 @@ function show_form_errors(form, response)
 
         $.each(response.labels, function(key, value)
         {
-            if (label[1].length > 0)
+            if (value[1].length > 0)
                 form.find('[name="' + value[0] + '"]').parents('label').addClass('error').append('<p class="error">' + value[1] + '</p>');
             else
                 form.find('[name="' + value[0] + '"]').parents('label').addClass('error');

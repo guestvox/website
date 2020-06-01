@@ -506,9 +506,10 @@ div.vox_details > div.stl_9 > a {
     border-radius: 50%;
     font-size: 20px;
     background-color: #eee;
-    color: #bdbdbd;
+    color: #e0e0e0;
 }
 
+div.vox_details > div.stl_9 > a,
 div.vox_details > div.stl_6 > a.active {
     color: #bdbdbd;
 }
@@ -738,12 +739,6 @@ main.vox_details > div.stl_12 > div > div > p {
 main.vox_details > div.stl_12 > div > div > p:last-child {
     margin-bottom: 0px;
     font-size: 10px;
-}
-
-/*  */
-
-main.vox_details > div.stl_13 {
-    
 }
 
 /* Account

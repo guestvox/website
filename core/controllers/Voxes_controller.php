@@ -210,6 +210,7 @@ class Voxes_controller extends Controller
 				if (empty($labels))
 				{
 					$_POST['token'] = Functions::get_random(8);
+					$_POST['assigned_users'] = !empty($_POST['assigned_users']) ? $_POST['assigned_users'] : [];
 					$_POST['attachments'] = $_FILES['attachments'];
 
 					$query = $this->model->new_vox($_POST);
@@ -541,6 +542,7 @@ class Voxes_controller extends Controller
 					if (empty($labels))
 					{
 						$_POST['id'] = $vox['id'];
+						$_POST['assigned_users'] = !empty($_POST['assigned_users']) ? $_POST['assigned_users'] : [];
 						$_POST['attachments'] = $_FILES['attachments'];
 
 						$query = $this->model->edit_vox($_POST);
@@ -1587,7 +1589,7 @@ class Voxes_controller extends Controller
 					'{$location}' => $vox['location']['name'][$this->lang],
 					'{$started_date}' => Functions::get_formatted_date($vox['started_date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($vox['started_hour'], '+ hrs'),
 					'{$spn_cost}' => ($vox['type'] == 'incident' OR $vox['type'] == 'workorder') ? '<span><i class="fas fa-dollar-sign"></i>' . Functions::get_formatted_currency((!empty($vox['cost']) ? $vox['cost'] : '0'), Session::get_value('account')['currency']) . '</span>' : '',
-					'{$p_observations}' => ($vox['type'] == 'request' OR $vox['type'] == 'workorder') ? '<p>' . (!empty($vox['observations']) ? $vox['observations'] : '{$lang.not_observations}') . '</p>' : '',
+					'{$p_observations}' => ($vox['type'] == 'request' OR $vox['type'] == 'workorder') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['observations']) ? $vox['observations'] : '{$lang.not_observations}') . '</p>' : '',
 					'{$p_subject}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['subject']) ? $vox['subject'] : '{$lang.not_subject}') . '</p>' : '',
 					'{$p_description}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['description']) ? $vox['description'] : '{$lang.not_description}') . '</p>' : '',
 					'{$p_action_taken}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['action_taken']) ? $vox['action_taken'] : '{$lang.not_action_taken}') . '</p>' : '',

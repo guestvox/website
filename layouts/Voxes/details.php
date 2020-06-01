@@ -4,8 +4,6 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['js', '{$path.plugins}moment/moment.min.js']);
 $this->dependencies->add(['js', '{$path.plugins}moment/moment-timezone-with-data.min.js']);
-$this->dependencies->add(['css', '{$path.plugins}fancy_box/jquery.fancybox.min.css']);
-$this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js']);
 $this->dependencies->add(['js', '{$path.js}Voxes/details.js']);
 $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 
