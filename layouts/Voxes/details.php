@@ -11,7 +11,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 
 %{header}%
 <main class="dashboard">
-    <section class="workspace">
+    <section class="workspace grey">
         <div class="vox_details">
             <div class="stl_1">
                 {$spn_type}

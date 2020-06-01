@@ -234,6 +234,10 @@ body > main.dashboard > section.workspace {
     z-index: 96;
 }
 
+body > main.dashboard > section.workspace.grey {
+    background-color: #eee;
+}
+
 /* Buttons */
 
 body > main.dashboard > section.buttons {
@@ -295,6 +299,17 @@ body > main.dashboard > section.buttons > div > a.active {
 ------------------------------------------------------------------------------ */
 div.vox_details {
     width: 100%;
+    background-color: #fff;
+}
+
+@media (min-width: 768px) {
+
+    div.vox_details {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
 }
 
 div.vox_details > div {
@@ -305,6 +320,18 @@ div.vox_details > div {
     flex-direction: column;
     padding: 20px 20px 0px 20px;
     box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+
+    div.vox_details > div.stl_1,
+    div.vox_details > div.stl_2,
+    div.vox_details > div.stl_3,
+    div.vox_details > div.stl_4,
+    div.vox_details > div.stl_5,
+    div.vox_details > div.stl_6 {
+        max-width: 400px;
+    }
 }
 
 /*  */
@@ -477,7 +504,7 @@ div.vox_details > div.stl_5 > span.active > i {
 div.vox_details > div.stl_6 {
     position: relative;
     flex-direction: row;
-    padding-bottom: 20px;
+    padding-bottom: 40px;
 }
 
 div.vox_details > div.stl_6:after {
@@ -495,8 +522,7 @@ div.vox_details > div.stl_6:after {
 	border-top-color: #fff;
 }
 
-div.vox_details > div.stl_6 > a,
-div.vox_details > div.stl_9 > a {
+div.vox_details > div.stl_6 > a {
     width: 60px;
     height: 60px;
     display: flex;
@@ -509,7 +535,6 @@ div.vox_details > div.stl_9 > a {
     color: #e0e0e0;
 }
 
-div.vox_details > div.stl_9 > a,
 div.vox_details > div.stl_6 > a.active {
     color: #bdbdbd;
 }
@@ -518,7 +543,6 @@ div.vox_details > div.stl_6 > a.active {
 
 div.vox_details > div.stl_7 {
     padding-top: 40px;
-    padding-bottom: 20px;
     background-color: #eee;
 }
 
@@ -552,7 +576,9 @@ div.vox_details > div.stl_7 > span {
 /*  */
 
 div.vox_details > div.stl_8 {
-    padding-top: 20px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    background-color: #eee;
 }
 
 div.vox_details > div.stl_8 > div {
@@ -598,6 +624,25 @@ div.vox_details > div.stl_8 > div > div > span {
     font-size: 12px;
     font-weight: 400;
     color: #757575;
+}
+
+/*  */
+
+div.vox_details > div.stl_9 {
+    background-color: #eee;
+}
+
+div.vox_details > div.stl_9 > a {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 5px;
+    border-radius: 50%;
+    font-size: 20px;
+    background-color: #fff;
+    color: #bdbdbd;
 }
 
 /*  */
@@ -761,6 +806,15 @@ div.account {
     width: 100%;
 }
 
+@media (min-width: 768px) {
+
+    div.account::after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+
 div.account > div {
     width: 100%;
     display: flex;
@@ -772,8 +826,25 @@ div.account > div {
     box-sizing: border-box;
 }
 
+@media (min-width: 768px) {
+
+    div.account > div {
+        width: calc(100% / 4);
+        height: 400px;
+        float: left;
+        display: inline-flex;
+    }
+}
+
 div.account > div:last-child {
     border-bottom: none;
+}
+
+@media (min-width: 768px) {
+
+    div.account > div:last-child {
+        border-bottom: 1px solid #eee;
+    }
 }
 
 /*  */
@@ -787,7 +858,6 @@ div.account > div.stl_2 > figure > img {
 
 div.account > div.stl_3 > h1,
 div.account > div.stl_3 > h2,
-div.account > div.stl_4 > div > h2,
 div.account > div.stl_5 > h2 {
     font-size: 20px;
     font-weight: 600;
@@ -799,13 +869,11 @@ div.account > div.stl_3 > h2 {
     margin-bottom: 20px;
 }
 
-div.account > div.stl_4 > div > h2,
 div.account > div.stl_5 > h2 {
     margin: 20px 0px 10px 0px;
 }
 
 div.account > div.stl_3 > span,
-div.account > div.stl_4 > div > span,
 div.account > div.stl_5 > span {
     font-size: 14px;
     font-weight: 400;
@@ -813,7 +881,6 @@ div.account > div.stl_5 > span {
 }
 
 div.account > div.stl_3 > a,
-div.account > div.stl_4 > a,
 div.account > div.stl_5 > a {
     width: 40px;
     height: 40px;
@@ -829,22 +896,6 @@ div.account > div.stl_5 > a {
 
 /*  */
 
-div.account > div.stl_4 > div {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-top: 40px;
-}
-
-div.account > div.stl_4 > div:first-child {
-    margin-top: 0px;
-}
-
-/*  */
-
-div.account > div.stl_4 > div > i,
 div.account > div.stl_5 > i {
     font-size: 100px;
     color: #e0e0e0;
@@ -975,6 +1026,20 @@ div.tbl_stl_1 {
     width: 100%;
 }
 
+@media (min-width: 768px) {
+
+    div.tbl_stl_1 {
+        padding: 0px 10px;
+        box-sizing: border-box;
+    }
+
+    div.tbl_stl_1::after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+
 div.tbl_stl_1 > div {
     width: 100%;
     margin-bottom: 40px;
@@ -982,11 +1047,29 @@ div.tbl_stl_1 > div {
     box-sizing: border-box;
 }
 
+@media (min-width: 768px) {
+
+    div.tbl_stl_1 > div {
+        width: calc(100% / 4);
+        float: left;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+}
+
 div.tbl_stl_1 > div > div {
     width: 100%;
     position: relative;
     background-color: #eee;
 }
+
+@media (min-width: 768px) {
+
+    div.tbl_stl_1 > div > div {
+        border-radius: 20px;
+    }
+}
+
 
 div.tbl_stl_1 > div > div::after {
     content: '';
@@ -1241,6 +1324,19 @@ div.tbl_stl_3 > div > div.datas > div.itm_1 {
     box-sizing: border-box;
 }
 
+@media (min-width: 768px) {
+
+    div.tbl_stl_3 > div > div.datas > div.itm_1 {
+        order: 2;
+        padding-right: 0px;
+        padding-left: 20px;
+    }
+
+    div.tbl_stl_3 > div > div.datas > div.itm_2 {
+        order: 1;
+    }
+}
+
 div.tbl_stl_2 > div > div.datas > h2,
 div.tbl_stl_2 > div > div.datas > span,
 div.tbl_stl_3 > div > div.datas > div.itm_1 > h2,
@@ -1331,11 +1427,19 @@ div.tbl_stl_3 > div > div.buttons > a {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 5px;
+    margin-left: 5px;
     border-radius: 50%;
     background-color: #e0e0e0;
     font-size: 14px;
     color: #757575;
+}
+
+@media (min-width: 768px) {
+
+    div.tbl_stl_2 > div > div.buttons,
+    div.tbl_stl_3 > div > div.buttons {
+        justify-content: flex-end;
+    }
 }
 
 /* Forms

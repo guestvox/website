@@ -47,22 +47,22 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                 <span>{$contact_phone}</span>
                 <a class="edit" data-action="edit_billing"><i class="fas fa-pen"></i></a>
             </div>
-            <div class="stl_4">
-                <div>
-                    <i class="fas fa-spa"></i>
-                    <h2>{$lang.public_requests}</h2>
-                    <span>{$myvox_request}</span>
-                </div>
-                <div>
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <h2>{$lang.public_incidents}</h2>
-                    <span>{$myvox_incident}</span>
-                </div>
-                <div>
-                    <i class="fas fa-list-alt"></i>
-                    <h2>{$lang.survey}</h2>
-                    <span>{$myvox_survey}</span>
-                </div>
+            <div class="stl_5">
+                <i class="fas fa-spa"></i>
+                <h2>{$lang.public_requests}</h2>
+                <span>{$myvox_request}</span>
+                <a class="edit" data-action="edit_myvox_settings"><i class="fas fa-cog"></i></a>
+            </div>
+            <div class="stl_5">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>{$lang.public_incidents}</h2>
+                <span>{$myvox_incident}</span>
+                <a class="edit" data-action="edit_myvox_settings"><i class="fas fa-cog"></i></a>
+            </div>
+            <div class="stl_5">
+                <i class="fas fa-list-alt"></i>
+                <h2>{$lang.survey}</h2>
+                <span>{$myvox_survey}</span>
                 <a class="edit" data-action="edit_myvox_settings"><i class="fas fa-cog"></i></a>
             </div>
             <div class="stl_5">
