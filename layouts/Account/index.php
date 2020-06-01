@@ -128,28 +128,20 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
 </section>
 <section class="modal fullscreen" data-modal="get_urls">
     <div class="content">
-        <main>
-            <form>
-                <div class="row">
-                    <div class="span12">
-                        <div class="copyers">
-                            <div>
-                                <input type="text" value="{$myvox_url}" disabled>
-                                <a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
-                            </div>
-                            <div>
-                                <input type="text" value="{$reviews_url}" disabled>
-                                <a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="span12">
-                        <div class="buttons">
-                            <a button-close><i class="fas fa-check"></i></a>
-                        </div>
-                    </div>
+        <main class="account">
+            <div class="stl_6">
+                <div>
+                    <input type="text" value="{$myvox_url}" disabled>
+                    <a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
                 </div>
-            </form>
+                <div>
+                    <input type="text" value="{$reviews_url}" disabled>
+                    <a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
+                </div>
+            </div>
+            <div class="buttons">
+                <a button-close><i class="fas fa-check"></i></a>
+            </div>
         </main>
     </div>
 </section>

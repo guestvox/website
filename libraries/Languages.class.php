@@ -217,6 +217,14 @@ class Languages
                 'es' => 'Nueva contraseña',
                 'en' => 'New password'
             ],
+            'email' => [
+                'es' => 'Correo electrónico',
+                'en' => 'Email'
+            ],
+            'username' => [
+                'es' => 'Nombre de usuario',
+                'en' => 'Username'
+            ],
             'password' => [
                 'es' => 'Contraseña',
                 'en' => 'Password'

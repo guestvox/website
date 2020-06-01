@@ -1224,134 +1224,6 @@ class Voxes_controller extends Controller
 
 				define('_title', 'Guestvox | {$lang.vox_details}');
 
-				// $div_assigned_users = '';
-				//
-				// if (!empty($vox['assigned_users']))
-				// {
-				// 	foreach ($vox['assigned_users'] as $value)
-				// 	{
-				// 		$div_assigned_users .=
-				// 		'<div>
-				// 			<figure>
-				// 				<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}avatar.png') . '">
-				// 			</figure>
-				// 			<span>' . $value['firstname'] . ' ' . $value['lastname'] . '</span>
-				// 		</div>';
-				// 	}
-				// }
-				// else
-				// 	$div_assigned_users .= '<p>{$lang.not_assigned_users}<p>';
-				//
-				// $div_attachments = '';
-				//
-				// if (!empty($vox['attachments']))
-				// {
-				// 	foreach ($vox['attachments'] as $value)
-				// 	{
-				// 		if ($value['status'] == 'success')
-				// 		{
-				// 			$ext = strtoupper(explode(' .', $value['file'])[1]);
-				//
-				// 			if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
-				// 				$div_attachments .= '<figure><img src="{$path.uploads}' . $value['file'] . '"><a href="{$path.uploads}' . $value['file'] . '" class="fancybox-thumb" rel="fancybox-thumb"></a></figure>';
-				// 			else if ($ext == 'PDF' OR $ext == 'DOC' OR $ext == 'DOCX' OR $ext == 'XLS' OR $ext == 'XLSX')
-				// 				$div_attachments .= '<iframe src="https://docs.google.com/viewer?url=https://' . Configuration::$domain . '/uploads/' . $value['file'] . '&embedded=true"></iframe>';
-				// 		}
-				// 	}
-				// }
-				// else
-				// 	$div_attachments .= '<p>{$lang.not_attachments}<p>';
-				//
-				// $div_viewed_by = '';
-				//
-				// foreach ($vox['viewed_by'] as $value)
-				// {
-				// 	$div_viewed_by .=
-				// 	'<div>
-				// 		<figure>
-				// 			<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}avatar.png') . '">
-				// 		</figure>
-				// 		<span>' . $value['firstname'] . ' ' . $value['lastname'] . '</span>
-				// 	</div>';
-				// }
-				//
-				// $div_comments = '';
-				//
-				// if (!empty($vox['comments']))
-				// {
-				// 	foreach ($vox['comments'] as $value)
-				// 	{
-				// 		$div_comments .=
-				// 		'<div>
-				// 			<div>
-				// 				<figure>
-				// 					<img src="' . (!empty($value['user']['avatar']) ? '{$path.uploads}' . $value['user']['avatar'] : '{$path.images}avatar.png') . '">
-				// 				</figure>
-				// 				<span>' . $value['user']['firstname'] . ' ' . $value['user']['lastname'] . '</span>
-				// 				<span>{$lang.say}:</span>
-				// 			</div>
-				// 			<p>' . $value['message'] . '</p>
-				// 			<p>{$lang.cost}: ' . Functions::get_formatted_currency((!empty($value['cost']) ? $value['cost'] : '0'), Session::get_value('account')['currency']) . '</p>
-				// 			<div class="attachments">';
-				//
-				// 		if (!empty($value['attachments']))
-				// 		{
-				// 			foreach ($value['attachments'] as $subvalue)
-				// 			{
-				// 				if ($subvalue['status'] == 'success')
-				// 				{
-				// 					$ext = strtoupper(explode(' .', $subvalue['file'])[1]);
-				//
-				// 					if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
-				// 						$div_comments .= '<figure><img src="{$path.uploads}' . $subvalue['file'] . '"><a href="{$path.uploads}' . $subvalue['file'] . '" class="fancybox-thumb" rel="fancybox-thumb"></a></figure>';
-				// 					else if ($ext == 'PDF' OR $ext == 'DOC' OR $ext == 'DOCX' OR $ext == 'XLS' OR $ext == 'XLSX')
-				// 						$div_comments .= '<iframe src="https://docs.google.com/viewer?url=https://guestvox.com/uploads/' . $subvalue['file'] . '&embedded=true"></iframe>';
-				// 				}
-				// 			}
-				// 		}
-				// 		else
-				// 			$div_comments .= '<p>{$lang.not_attachments}<p>';
-				//
-				// 		$div_comments .=
-				// 		'</div>
-				// 		<span>{$lang.commented_at}: ' . Functions::get_formatted_date($value['date'], 'd M, y') . ' {$lang.at} ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>';
-				//
-				// 		if ($vox['status'] == 'open')
-				// 			$div_comments .= '<a data-response-to="' . $value['user']['username'] . '" data-button-modal="comment_vox" value="' . $vox['type'] . '"><i class="fas fa-reply"></i></a>';
-				//
-				// 		$div_comments .= '</div>';
-				// 	}
-				// }
-				// else
-				// 	$div_comments .= '<p>{$lang.not_comments}<p>';
-				//
-				// $div_changes_history = '';
-				//
-				// foreach ($vox['changes_history'] as $value)
-				// {
-				// 	$div_changes_history .=
-				// 	'<div>
-				// 		<div>
-				// 			<figure>
-				// 				<img src="' . (($value['type'] == 'created' AND $vox['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($value['user']['avatar']) ? '{$path.uploads}' . $value['user']['avatar'] : '{$path.images}avatar.png')) . '">
-				// 			</figure>
-				// 			<span>' . (($value['type'] == 'created' AND $vox['origin'] == 'myvox') ? ((!empty($vox['firstname']) AND !empty($vox['lastname'])) ? $vox['firstname'] . ' ' . $vox['lastname'] : 'Myvox') : $value['user']['firstname'] . ' ' . $value['user']['lastname']) . '</span>
-				// 		</div>
-				// 		<p>{$lang.' . $value['type'] . '} {$lang.the} ' . Functions::get_formatted_date($value['date'], 'd F Y') . ' {$lang.at} ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</p>';
-				//
-				// 	if ($value['type'] == 'edited')
-				// 	{
-				// 		$div_changes_history .= '<ul>';
-				//
-				// 		foreach ($value['fields'] as $subvalue)
-				// 			$div_changes_history .= '<li>{$lang.' . $subvalue['field'] . '}: ' . $subvalue['before'] . ' <i class="fas fa-arrow-alt-circle-right"></i> ' . $subvalue['after'] . '</li>';
-				//
-				// 		$div_changes_history .= '</ul>';
-				// 	}
-				//
-				// 	$div_changes_history .= '</div>';
-				// }
-
 				$spn_type = '<span class="' . $vox['urgency'] . '">';
 
 				if ($vox['type'] == 'request')
@@ -1370,19 +1242,246 @@ class Voxes_controller extends Controller
 					if ($vox['type'] == 'incident')
 					{
 						$div_guest .=
-						'<div class="datas stl_5">
+						'<div class="stl_5">
+							<span class="' . (!empty($vox['guest_id']) ? 'active' : '') . '"><i class="fas fa-key"></i>' . (!empty($vox['guest_id']) ? $vox['guest_id'] : '{$lang.not_guest_id}') . '</span>
+							<span class="' . (!empty($vox['guest_type']) ? 'active' : '') . '"><i class="fas fa-tag"></i>' . (!empty($vox['guest_type']) ? $vox['guest_type']['name'] : '{$lang.not_guest_type}') . '</span>
+							<span class="' . (!empty($vox['reservation_number']) ? 'active' : '') . '"><i class="fas fa-suitcase-rolling"></i>' . (!empty($vox['reservation_number']) ? $vox['reservation_number'] : '{$lang.not_reservation_number}') . '</span>
+							<span class="' . (!empty($vox['reservation_status']) ? 'active' : '') . '"><i class="fas fa-hotel"></i>' . (!empty($vox['reservation_status']) ? $vox['reservation_status']['name'] : '{$lang.not_reservation_status}') . '</span>
+							<span class="' . (!empty($vox['check_in']) ? 'active' : '') . '"><i class="fas fa-calendar-check"></i>' . (!empty($vox['check_in']) ? Functions::get_formatted_date($vox['check_in'], 'd.m.Y') : '{$lang.not_check_in}') . '</span>
+							<span class="' . (!empty($vox['check_out']) ? 'active' : '') . '"><i class="fas fa-calendar-times"></i>' . (!empty($vox['check_out']) ? Functions::get_formatted_date($vox['check_out'], 'd.m.Y') : '{$lang.not_check_out}') . '</span>
+						</div>';
+					}
+				}
+
+				$div_actions = '';
+
+				if ((!empty($vox['edited_date']) AND !empty($vox['edited_hour'])) OR (!empty($vox['completed_date']) AND !empty($vox['completed_hour'])) OR (!empty($vox['reopened_date']) AND !empty($vox['reopened_hour'])))
+				{
+					$div_actions .= '<div class="stl_8">';
+
+					if (!empty($vox['edited_date']) AND !empty($vox['edited_hour']))
+					{
+						$div_actions .=
+						'<div>
+							<figure>
+								<img src="' . (!empty($vox['edited_user']['avatar']) ? '{$path.uploads}' . $vox['edited_user']['avatar'] : '{$path.images}avatar.png') . '">
+							</figure>
 							<div>
-								<span><i class="fas fa-key"></i>' . (!empty($vox['guest_id']) ? $vox['guest_id'] : '{$lang.not_guest_id}') . '</span>
-								<span><i class="fas fa-tag"></i>' . (!empty($vox['guest_type']) ? $vox['guest_type']['name'] : '{$lang.not_guest_type}') . '</span>
-								<span><i class="fas fa-suitcase-rolling"></i>' . (!empty($vox['reservation_number']) ? $vox['reservation_number'] : '{$lang.not_reservation_number}') . '</span>
-							</div>
-							<div>
-								<span><i class="fas fa-hotel"></i>' . (!empty($vox['reservation_status']) ? $vox['reservation_status']['name'] : '{$lang.not_reservation_status}') . '</span>
-								<span><i class="fas fa-calendar-check"></i>' . (!empty($vox['check_in']) ? Functions::get_formatted_date($vox['check_in'], 'd.m.Y') : '{$lang.not_check_in}') . '</span>
-								<span><i class="fas fa-calendar-times"></i>' . (!empty($vox['check_out']) ? Functions::get_formatted_date($vox['check_out'], 'd.m.Y') : '{$lang.not_check_out}') . '</span>
+								<h2>' . $vox['edited_user']['firstname'] . ' ' . $vox['edited_user']['lastname'] . '</h2>
+								<span>@' . $vox['edited_user']['username'] . '</span>
+								<span>{$lang.edited_at} ' . Functions::get_formatted_date($vox['edited_date'], 'd.m.Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['edited_hour'], '+ hrs') . '</span>
 							</div>
 						</div>';
 					}
+
+					if (!empty($vox['completed_date']) AND !empty($vox['completed_hour']))
+					{
+						$div_actions .=
+						'<div>
+							<figure>
+								<img src="' . (!empty($vox['completed_user']['avatar']) ? '{$path.uploads}' . $vox['completed_user']['avatar'] : '{$path.images}avatar.png') . '">
+							</figure>
+							<div>
+								<h2>' . $vox['completed_user']['firstname'] . ' ' . $vox['completed_user']['lastname'] . '</h2>
+								<span>@' . $vox['completed_user']['username'] . '</span>
+								<span>{$lang.completed_at} ' . Functions::get_formatted_date($vox['completed_date'], 'd.m.Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['completed_hour'], '+ hrs') . '</span>
+							</div>
+						</div>';
+					}
+
+					if (!empty($vox['reopened_date']) AND !empty($vox['reopened_hour']))
+					{
+						$div_actions .=
+						'<div>
+							<figure>
+								<img src="' . (!empty($vox['reopened_user']['avatar']) ? '{$path.uploads}' . $vox['reopened_user']['avatar'] : '{$path.images}avatar.png') . '">
+							</figure>
+							<div>
+								<h2>' . $vox['reopened_user']['firstname'] . ' ' . $vox['reopened_user']['lastname'] . '</h2>
+								<span>@' . $vox['reopened_user']['username'] . '</span>
+								<span>{$lang.reopened_at} ' . Functions::get_formatted_date($vox['reopened_date'], 'd.m.Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['reopened_hour'], '+ hrs') . '</span>
+							</div>
+						</div>';
+					}
+
+					$div_actions .= '</div>';
+				}
+
+				$mdl_get_attachments = '';
+
+				if (!empty($vox['attachments']))
+				{
+					$mdl_get_attachments .=
+					'<section class="modal fullscreen" data-modal="get_attachments">
+						<div class="content">
+							<main class="vox_details">
+								<div class="stl_10">';
+
+					foreach ($vox['attachments'] as $value)
+					{
+						if ($value['status'] == 'success')
+						{
+							$ext = strtoupper(explode('.', $value['file'])[1]);
+
+							if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
+							{
+								$mdl_get_attachments .=
+								'<figure>
+									<img src="{$path.uploads}' . $value['file'] . '">
+								</figure>';
+							}
+							else if ($ext == 'PDF' OR $ext == 'DOC' OR $ext == 'DOCX' OR $ext == 'XLS' OR $ext == 'XLSX')
+								$mdl_get_attachments .= '<iframe src="https://docs.google.com/viewer?url=https://' . Configuration::$domain . '/uploads/' . $value['file'] . '&embedded=true"></iframe>';
+						}
+					}
+
+					$mdl_get_attachments .=
+					'			</div>
+								<div class="buttons">
+									<a button-close><i class="fas fa-check"></i></a>
+								</div>
+							</main>
+						</div>
+					</section>';
+				}
+
+				$mdl_get_assigned_users = '';
+
+				if (!empty($vox['assigned_users']))
+				{
+					$mdl_get_assigned_users .=
+					'<section class="modal fullscreen" data-modal="get_assigned_users">
+						<div class="content">
+							<main class="vox_details">
+								<div class="stl_11">
+									<div>
+										<span><i class="fas fa-compass"></i></span>
+										<div>
+											<h2>{$lang.opportunity_area}</h2>
+											<span>' . $vox['opportunity_area']['name'][$this->lang] . '</span>
+										</div>
+									</div>';
+
+					foreach ($vox['assigned_users'] as $value)
+					{
+						$mdl_get_assigned_users .=
+						'<div>
+							<figure>
+								<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}avatar.png') . '">
+							</figure>
+							<div>
+								<h2>' . $value['firstname'] . ' ' . $value['lastname'] . '</h2>
+								<span>@' . $value['username'] . '</span>
+							</div>
+						</div>';
+					}
+
+					$mdl_get_assigned_users .=
+					'			</div>
+								<div class="buttons">
+									<a button-close><i class="fas fa-check"></i></a>
+								</div>
+							</main>
+						</div>
+					</section>';
+				}
+
+				$mdl_get_viewed_by = '';
+
+				if (!empty($vox['viewed_by']))
+				{
+					$mdl_get_viewed_by .=
+					'<section class="modal fullscreen" data-modal="get_viewed_by">
+						<div class="content">
+							<main class="vox_details">
+								<div class="stl_11">';
+
+					foreach ($vox['viewed_by'] as $value)
+					{
+						$mdl_get_viewed_by .=
+						'<div>
+							<figure>
+								<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}avatar.png') . '">
+							</figure>
+							<div>
+								<h2>' . $value['firstname'] . ' ' . $value['lastname'] . '</h2>
+								<span>@' . $value['username'] . '</span>
+							</div>
+						</div>';
+					}
+
+					$mdl_get_viewed_by .=
+					'			</div>
+								<div class="buttons">
+									<a button-close><i class="fas fa-check"></i></a>
+								</div>
+							</main>
+						</div>
+					</section>';
+				}
+
+				$mdl_get_comments = '';
+
+				if (!empty($vox['comments']))
+				{
+					$mdl_get_comments .=
+					'<section class="modal fullscreen" data-modal="get_comments">
+						<div class="content">
+							<main class="vox_details">
+								<div class="stl_12">';
+
+					foreach ($vox['comments'] as $value)
+					{
+						$mdl_get_comments .=
+						'<div>
+							<div>
+								<figure>
+									<img src="' . (!empty($value['user']['avatar']) ? '{$path.uploads}' . $value['user']['avatar'] : '{$path.images}avatar.png') . '">
+								</figure>
+								<p>' . $value['comment'] . '</p>
+								<p>' . Functions::get_formatted_currency((!empty($value['cost']) ? $value['cost'] : '0'), Session::get_value('account')['currency']) . '</p>
+								<p><strong>' . $value['user']['firstname'] . ' ' . $value['user']['lastname'] . ' @' . $value['user']['username'] . '</strong> {$lang.the} ' . Functions::get_formatted_date($value['date'], 'd.m.y') . ' {$lang.at} ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</p>
+							</div>
+						</div>';
+					}
+
+					$mdl_get_comments .=
+					'			</div>
+								<div class="buttons">
+									<a button-close><i class="fas fa-check"></i></a>
+								</div>
+							</main>
+						</div>
+					</section>';
+				}
+
+				$div_changes_history = '';
+
+				foreach ($vox['changes_history'] as $value)
+				{
+					$div_changes_history .=
+					'<div>
+						<figure>
+							<img src="' . (($value['type'] == 'created' AND $vox['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($value['user']['avatar']) ? '{$path.uploads}' . $value['user']['avatar'] : '{$path.images}avatar.png')) . '">
+						</figure>
+						<div>
+							<h2>' . (($value['type'] == 'created' AND $vox['origin'] == 'myvox') ? 'Myvox' : $value['user']['firstname'] . ' ' . $value['user']['lastname']) . '</h2>
+							<span>@' . (($value['type'] == 'created' AND $vox['origin'] == 'myvox') ? 'myvox' : $value['user']['username']) . '</span>
+							<span>{$lang.' . $value['type'] . '_at} ' . Functions::get_formatted_date($value['date'], 'd F Y') . ' {$lang.at} ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>';
+
+					if ($value['type'] == 'edited')
+					{
+						$div_changes_history .= '<ul>';
+
+						foreach ($value['fields'] as $subvalue)
+							$div_changes_history .= '<li>{$lang.' . $subvalue['field'] . '}: ' . $subvalue['before'] . '<i class="fas fa-arrow-alt-circle-right"></i>' . $subvalue['after'] . '</li>';
+
+						$div_changes_history .= '</ul>';
+					}
+
+					$div_changes_history .=
+					'	</div>
+					</div>';
 				}
 
 				$mdl_comment_vox = '';
@@ -1475,13 +1574,13 @@ class Voxes_controller extends Controller
 				$replace = [
 					'{$spn_type}' => $spn_type,
 					'{$token}' => $vox['token'],
-					'{$h1_name}' => ($vox['type'] == 'request' OR $vox['type'] == 'incident') ? '<h1>' . ((!empty($vox['firstname']) AND !empty($vox['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($vox['guest_treatment'])) ? $vox['guest_treatment']['name'] . ' ' : '') . $vox['firstname'] . ' ' . $vox['lastname'] : '{$lang.not_name}') . '</h1>' : '',
 					'{$h3_elapsed_time}' => '<h3
 	                    data-date-1="' . Functions::get_formatted_date_hour($vox['started_date'], $vox['started_hour']) . '"
 	                    data-date-2="' . ((!empty($vox['completed_date']) AND !empty($vox['completed_hour'])) ? Functions::get_formatted_date_hour($vox['completed_date'], $vox['completed_hour']) : '') . '"
 	                    data-time-zone="' . Session::get_value('account')['time_zone'] . '"
 	                    data-status="' . $vox['status'] . '"
-	                    data-elapsed-time></h3>',
+	                    data-elapsed-time>' . (($vox['status'] == true) ? '{$lang.opened}' : '{$lang.closed}') . '<i class="fas fa-circle"></i><strong></strong></h3>',
+					'{$h1_name}' => ($vox['type'] == 'request' OR $vox['type'] == 'incident') ? '<h1>' . ((!empty($vox['firstname']) AND !empty($vox['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($vox['guest_treatment'])) ? $vox['guest_treatment']['name'] . ' ' : '') . $vox['firstname'] . ' ' . $vox['lastname'] : '{$lang.not_name}') . '</h1>' : '',
 					'{$owner}' => $vox['owner']['name'][$this->lang] . (!empty($vox['owner']['number']) ? ' #' . $vox['owner']['number'] : ''),
 					'{$opportunity_area}' => $vox['opportunity_area']['name'][$this->lang],
 					'{$opportunity_type}' => $vox['opportunity_type']['name'][$this->lang],
@@ -1492,28 +1591,31 @@ class Voxes_controller extends Controller
 					'{$p_subject}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['subject']) ? $vox['subject'] : '{$lang.not_subject}') . '</p>' : '',
 					'{$p_description}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['description']) ? $vox['description'] : '{$lang.not_description}') . '</p>' : '',
 					'{$p_action_taken}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['action_taken']) ? $vox['action_taken'] : '{$lang.not_action_taken}') . '</p>' : '',
-					'{$div_confidentiality}' => ($vox['type'] == 'incident') ? '<div class="datas stl_4"><span class="' . (($vox['confidentiality'] == true) ? 'confidentiality' : '') . '">' . (($vox['confidentiality'] == true) ? '<i class="fas fa-lock"></i>{$lang.yes_confidentiality}' : '<i class="fas fa-lock-open"></i>{$lang.not_confidentiality}') . '</span></div>' : '',
+					'{$div_confidentiality}' => ($vox['type'] == 'incident') ? '<div class="stl_4"><span class="' . (($vox['confidentiality'] == true) ? 'confidentiality' : '') . '">' . (($vox['confidentiality'] == true) ? '<i class="fas fa-lock"></i>{$lang.yes_confidentiality}' : '<i class="fas fa-lock-open"></i>{$lang.not_confidentiality}') . '</span></div>' : '',
 					'{$div_guest}' => $div_guest,
-
-					// '{$div_assigned_users}' => $div_assigned_users,
-					// '{$div_attachments}' => $div_attachments,
-					// '{$div_viewed_by}' => $div_viewed_by,
-					// '{$div_comments}' => $div_comments,
-					// '{$btn_comment}' => ($vox['status'] == 'open') ? '<a data-button-modal="comment_vox" value="' . $vox['type'] . '"><i class="fas fa-comment-alt"></i></a>' : '',
-					// '{$div_changes_history}' => $div_changes_history,
-					// '{$h4_created_user}' => '<h4>{$lang.created_by} ' . (($vox['origin'] == 'myvox') ? ((!empty($vox['firstname']) AND !empty($vox['lastname'])) ? $vox['firstname'] . ' ' . $vox['lastname'] : 'Myvox') : $vox['created_user']['firstname'] . ' ' . $vox['created_user']['lastname']) . ' {$lang.the} ' . Functions::get_formatted_date($vox['created_date'], 'd F, Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['created_hour'], '+ hrs') . '</h4>',
-					// '{$h4_edited_user}' => '<h4>' . (!empty($vox['edited_user']) ? '{$lang.edited_by} ' . $vox['edited_user']['firstname'] . ' ' . $vox['edited_user']['lastname'] . ' {$lang.the} ' . Functions::get_formatted_date($vox['edited_date'], 'd F, Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['edited_hour'], '+ hrs') : '{$lang.not_edited}') . '</h4>',
-					// '{$h4_completed_user}' => '<h4>' . (($vox['status'] == 'close' AND !empty($vox['completed_user'])) ? '{$lang.completed_by} ' . $vox['completed_user']['firstname'] . ' ' . $vox['completed_user']['lastname'] . ' {$lang.the} ' . Functions::get_formatted_date($vox['completed_date'], 'd F, Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['completed_hour'], '+ hrs') : '{$lang.not_completed}') . '</h4>',
-					// '{$h4_reopened_user}' => '<h4>' . (!empty($vox['reopened_user']) ? '{$lang.reopened_by} ' . $vox['reopened_user']['firstname'] . ' ' . $vox['reopened_user']['lastname'] . ' {$lang.the} ' . Functions::get_formatted_date($vox['reopened_date'], 'd F, Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['reopened_hour'], '+ hrs') : '{$lang.not_reopened}') . '</h4>',
-					// '{$status}' => (($vox['status'] == 'open') ? '{$lang.opened}' : '{$lang.closed}'),
-					// '{$origin}' => $vox['origin'],
+					'{$btn_get_attachments}' => '<a ' . (!empty($vox['attachments']) ? 'class="active" data-button-modal="get_attachments"' : '') . '><i class="fas fa-paperclip"></i></a>',
+					'{$btn_get_assigned_users}' => '<a ' . (!empty($vox['assigned_users']) ? 'class="active" data-button-modal="get_assigned_users"' : '') . '><i class="fas fa-users"></i></a>',
+					'{$btn_get_viewed_by}' => '<a ' . (!empty($vox['viewed_by']) ? 'class="active" data-button-modal="get_viewed_by"' : '') . '><i class="far fa-eye"></i></a>',
+					'{$btn_get_comments}' => '<a ' . (!empty($vox['comments']) ? 'class="active" data-button-modal="get_comments"' : '') . '><i class="fas fa-comments"></i></a>',
+					'{$created_user_avatar}' => ($vox['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($vox['created_user']['avatar']) ? '{$path.uploads}' . $query['created_user']['avatar'] : '{$path.images}avatar.png'),
+					'{$created_user_name}' => ($vox['origin'] == 'myvox') ? 'Myvox' : $vox['created_user']['firstname'] . ' ' . $vox['created_user']['lastname'],
+					'{$created_user_username}' => '@' . (($vox['origin'] == 'myvox') ? 'myvox' : $vox['created_user']['username']),
+					'{$created_date}' => Functions::get_formatted_date($vox['created_date'], 'd.m.Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['created_hour'], '+ hrs'),
+					'{$div_actions}' => $div_actions,
 					'{$btn_comment_vox}' => ($vox['status'] == true) ? '<a data-button-modal="comment_vox"><i class="fas fa-comment"></i></a>' : '',
 					'{$btn_complete_vox}' => ($vox['status'] == true) ? '<a class="active" data-button-modal="complete_vox"><i class="fas fa-check"></i></a>' : '',
 					'{$btn_reopen_vox}' => ($vox['status'] == false) ? '<a class="active" data-button-modal="reopen_vox"><i class="fas fa-reply"></i></a>' : '',
 					'{$btn_edit_vox}' => ($vox['status'] == true) ? '<a href="/voxes/edit/' . $vox['token'] . '" class="edit"><i class="fas fa-pen"></i></a>' : '',
+					'{$mdl_get_attachments}' => $mdl_get_attachments,
+					'{$mdl_get_assigned_users}' => $mdl_get_assigned_users,
+					'{$mdl_get_viewed_by}' => $mdl_get_viewed_by,
+					'{$mdl_get_comments}' => $mdl_get_comments,
+					'{$div_changes_history}' => $div_changes_history,
 					'{$mdl_comment_vox}' => $mdl_comment_vox,
 					'{$mdl_complete_vox}' => $mdl_complete_vox,
 					'{$mdl_reopen_vox}' => $mdl_reopen_vox
+
+					// '{$origin}' => $vox['origin'],
 				];
 
 				$template = $this->format->replace($replace, $template);

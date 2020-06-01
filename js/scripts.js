@@ -320,11 +320,11 @@ function get_time_elapsed(date_1, date_2, time_zone, status, target)
 
         if (status == true)
         {
-            if (minutes == '00')
+            if (hours == '00' && minutes == '00')
                 time_measure = 'Segundos';
             else if (hours == '00')
                 time_measure = 'Minutos';
-            else if (days == '00')
+            else
                 time_measure = 'Horas';
 
             if (days < 1)

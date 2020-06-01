@@ -305,12 +305,21 @@ class Voxes_model extends Model
 				foreach ($query[0]['viewed_by'] as $key => $value)
 					$query[0]['viewed_by'][$key] = $this->get_user($value);
 
+				$query[0]['viewed_by'] = array_reverse($query[0]['viewed_by']);
+
 				foreach ($query[0]['comments'] as $key => $value)
+				{
 					$query[0]['comments'][$key]['user'] = $this->get_user($value['user']);
+					$query[0]['attachments'] = array_merge($query[0]['attachments'], $value['attachments']);
+				}
+
+				$query[0]['comments'] = array_reverse($query[0]['comments']);
+				$query[0]['attachments'] = array_reverse($query[0]['attachments']);
 
 				foreach ($query[0]['changes_history'] as $key => $value)
 					$query[0]['changes_history'][$key]['user'] = $this->get_user($value['user']);
 
+				$query[0]['changes_history'] = array_reverse($query[0]['changes_history']);
 				$query[0]['created_user'] = $this->get_user($query[0]['created_user']); // - En changes_history (create) y created_user está el problema de que cuando el vox se creó desde myvox, no se guardá ningún id.
 				$query[0]['edited_user'] = $this->get_user($query[0]['edited_user']);
 				$query[0]['completed_user'] = $this->get_user($query[0]['completed_user']);
@@ -625,7 +634,8 @@ class Voxes_model extends Model
 			'id',
 			'firstname',
 			'lastname',
-			'avatar'
+			'avatar',
+			'username'
 		], [
 			'id' => $id
 		]));
