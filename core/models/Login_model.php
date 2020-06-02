@@ -100,6 +100,16 @@ class Login_model extends Model
 					'siteminder' => $query[0]['account_siteminder'],
 					'zaviapms' => $query[0]['account_zaviapms'],
 					'status' => $query[0]['account_status']
+				],
+				'settings' => [
+					'voxes' => [
+						'filter' => [
+							'type' => 'all',
+							'urgency' => 'all',
+							'date' => 'up',
+							'status' => 'open'
+						]
+					]
 				]
 			];
 

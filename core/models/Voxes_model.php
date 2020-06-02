@@ -27,7 +27,7 @@ class Voxes_model extends Model
 
 		// - Condición para cargar un vox si el usuario está asignado a el.
 
-		if ($option == 'all' OR $option == 'open' OR $option == 'close')
+		if ($option == 'all')
 		{
 			$fields = [
 				'id',
@@ -53,14 +53,31 @@ class Voxes_model extends Model
 				'origin'
 			];
 
-			if ($option == 'open')
+			if (Session::get_value('settings')['voxes']['filter']['type'] != 'all')
+				$where['AND']['type'] = Session::get_value('settings')['voxes']['filter']['type'];
+
+			if (Session::get_value('settings')['voxes']['filter']['urgency'] != 'all')
+				$where['AND']['urgency'] = Session::get_value('settings')['voxes']['filter']['urgency'];
+
+			if (Session::get_value('settings')['voxes']['filter']['status'] == 'open')
 				$where['AND']['status'] = true;
-			else if ($option == 'close')
+			else if (Session::get_value('settings')['voxes']['filter']['status'] == 'close')
 				$where['AND']['status'] = false;
 
-			$where['ORDER'] = [
-				'id' => 'DESC'
-			];
+			if (Session::get_value('settings')['voxes']['filter']['date'] == 'up')
+			{
+				$where['ORDER'] = [
+					'started_date' => 'ASC',
+					'started_hour' => 'ASC'
+				];
+			}
+			else if (Session::get_value('settings')['voxes']['filter']['date'] == 'down')
+			{
+				$where['ORDER'] = [
+					'started_date' => 'DESC',
+					'started_hour' => 'DESC'
+				];
+			}
 		}
 		else if ($option == 'report')
 		{

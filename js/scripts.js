@@ -2,13 +2,13 @@
 
 $(window).on('beforeunload ajaxStart', function()
 {
-    $('body').prepend('<div data-ajax-loader><div class="loader"></div></div>');
+    $('[data-ajax-loader]').addClass('view');
 });
 
-$(window).on('ajaxStop', function()
-{
-    $('body').find('[data-ajax-loader]').remove();
-});
+// $(window).on('ajaxStop', function()
+// {
+//     $('[data-ajax-loader]').removeClass('view');
+// });
 
 $(document).ready(function ()
 {

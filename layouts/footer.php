@@ -21,6 +21,9 @@
                 </main>
             </div>
         </section>
+        <div data-ajax-loader>
+            <div class="loader"></div>
+        </div>
         <script src="{$path.js}jquery-3.3.1.min.js"></script>
         <script src="{$path.js}valkyrie.min.js"></script>
         <script src="{$path.js}scripts.js"></script>

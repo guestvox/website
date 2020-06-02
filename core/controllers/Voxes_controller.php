@@ -17,71 +17,124 @@ class Voxes_controller extends Controller
 
 	public function index()
 	{
-		$template = $this->view->render($this, 'index');
-
-		define('_title', 'Guestvox | {$lang.voxes}');
-
-		$tbl_voxes = '';
-
-		foreach ($this->model->get_voxes('open') as $value)
+		if (Format::exist_ajax_request() == true)
 		{
-			$tbl_voxes .=
-			'<div>
-                <div>
-					<div class="itm_1">
-                        <figure>
-                            <img src="' . (($value['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($query['created_user']['avatar']) ? '{$path.uploads}' . $query['created_user']['avatar'] : '{$path.images}avatar.png')) . '">
-                        </figure>
-                    </div>
-                    <div class="itm_2">
-						<div>
-							<span class="' . $value['urgency'] . '">';
+			if ($_POST['action'] == 'get_filter')
+			{
+				$settings = Session::get_value('settings');
 
-			if ($value['type'] == 'request')
-				$tbl_voxes .= '<i class="fas fa-spa"></i>';
-			else if ($value['type'] == 'incident')
-				$tbl_voxes .= '<i class="fas fa-exclamation-triangle"></i>';
-			else if ($value['type'] == 'workorder')
-				$tbl_voxes .= '<i class="fas fa-id-card-alt"></i>';
+				if ($_POST['filter'] == 'type')
+				{
+					if ($settings['voxes']['filter']['type'] == 'all')
+						$settings['voxes']['filter']['type'] = 'request';
+					else if ($settings['voxes']['filter']['type'] == 'request')
+						$settings['voxes']['filter']['type'] = 'incident';
+					else if ($settings['voxes']['filter']['type'] == 'incident')
+						$settings['voxes']['filter']['type'] = 'workorder';
+					else if ($settings['voxes']['filter']['type'] == 'workorder')
+						$settings['voxes']['filter']['type'] = 'all';
+				}
+				else if ($_POST['filter'] == 'urgency')
+				{
+					if ($settings['voxes']['filter']['urgency'] == 'all')
+						$settings['voxes']['filter']['urgency'] = 'low';
+					else if ($settings['voxes']['filter']['urgency'] == 'low')
+						$settings['voxes']['filter']['urgency'] = 'medium';
+					else if ($settings['voxes']['filter']['urgency'] == 'medium')
+						$settings['voxes']['filter']['urgency'] = 'high';
+					else if ($settings['voxes']['filter']['urgency'] == 'high')
+						$settings['voxes']['filter']['urgency'] = 'all';
+				}
+				else if ($_POST['filter'] == 'date')
+				{
+					if ($settings['voxes']['filter']['date'] == 'up')
+						$settings['voxes']['filter']['date'] = 'down';
+					else if ($settings['voxes']['filter']['date'] == 'down')
+						$settings['voxes']['filter']['date'] = 'up';
+				}
+				else if ($_POST['filter'] == 'status')
+				{
+					if ($settings['voxes']['filter']['status'] == 'open')
+						$settings['voxes']['filter']['status'] = 'close';
+					else if ($settings['voxes']['filter']['status'] == 'close')
+						$settings['voxes']['filter']['status'] = 'open';
+				}
 
-			$tbl_voxes .=
-			'				</span>
-						</div>
-						<div>
-							<h2><i class="fas fa-user"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
-							<span><i class="fas fa-shapes"></i>' . $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') . '</span>
-							<span
-								data-date-1="' . Functions::get_formatted_date_hour($value['started_date'], $value['started_hour']) . '"
-								data-date-2="' . ((!empty($value['completed_date']) AND !empty($value['completed_hour'])) ? Functions::get_formatted_date_hour($value['completed_date'], $value['completed_hour']) : '') . '"
-								data-time-zone="' . Session::get_value('account')['time_zone'] . '"
-								data-status="' . $value['status'] . '"
-								data-elapsed-time><i class="fas fa-clock"></i><strong></strong></span>
-						</div>
-                    </div>
-                    <div class="itm_3">
-						<span><i class="fas fa-key"></i>' . $value['token'] . '</span>
-						<span><i class="fas fa-map-marker-alt"></i>' . $value['location']['name'][$this->lang] . '</span>
-                        <span><i class="fas fa-compass"></i>' . $value['opportunity_area']['name'][$this->lang] . '</span>
-                        <span><i class="far fa-compass"></i>' . $value['opportunity_type']['name'][$this->lang] . '</span>
-                    </div>
-                    <div class="itm_4">
-						<span class="' . (!empty($value['assigned_users']) ? 'active' : '') . '"><i class="fas fa-users"></i></span>
-						<span class="' . (!empty($value['comments']) ? 'active' : '') . '"><i class="fas fa-comment"></i></span>
-						<span class="' . (!empty($value['attachments']) ? 'active' : '') . '"><i class="fas fa-paperclip"></i></span>
-						<span class="' . (($value['type'] == 'incident' AND $value['confidentiality'] == true) ? 'active' : '') . '"><i class="fas fa-lock"></i></span>
-					</div>
-					<a href="/voxes/details/' . $value['token'] . '"></a>
-                </div>
-            </div>';
+				Session::set_value('settings', $settings);
+
+				Functions::environment([
+					'status' => 'success'
+				]);
+			}
 		}
+		else
+		{
+			$template = $this->view->render($this, 'index');
 
-		$replace = [
-			'{$tbl_voxes}' => $tbl_voxes
-		];
+			define('_title', 'Guestvox | {$lang.voxes}');
 
-		$template = $this->format->replace($replace, $template);
+			$tbl_voxes = '';
 
-		echo $template;
+			foreach ($this->model->get_voxes() as $value)
+			{
+				$tbl_voxes .=
+				'<div>
+	                <div>
+						<div class="itm_1">
+	                        <figure>
+	                            <img src="' . (($value['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($value['created_user']['avatar']) ? '{$path.uploads}' . $value['created_user']['avatar'] : '{$path.images}avatar.png')) . '">
+	                        </figure>
+	                    </div>
+	                    <div class="itm_2">
+							<div>
+								<span class="' . $value['urgency'] . '">';
+
+				if ($value['type'] == 'request')
+					$tbl_voxes .= '<i class="fas fa-spa"></i>';
+				else if ($value['type'] == 'incident')
+					$tbl_voxes .= '<i class="fas fa-exclamation-triangle"></i>';
+				else if ($value['type'] == 'workorder')
+					$tbl_voxes .= '<i class="fas fa-id-card-alt"></i>';
+
+				$tbl_voxes .=
+				'				</span>
+							</div>
+							<div>
+								<h2><i class="fas fa-user"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
+								<span><i class="fas fa-shapes"></i>' . $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') . '</span>
+								<span
+									data-date-1="' . Functions::get_formatted_date_hour($value['started_date'], $value['started_hour']) . '"
+									data-date-2="' . ((!empty($value['completed_date']) AND !empty($value['completed_hour'])) ? Functions::get_formatted_date_hour($value['completed_date'], $value['completed_hour']) : '') . '"
+									data-time-zone="' . Session::get_value('account')['time_zone'] . '"
+									data-status="' . $value['status'] . '"
+									data-elapsed-time><i class="fas fa-clock"></i><strong></strong></span>
+							</div>
+	                    </div>
+	                    <div class="itm_3">
+							<span><i class="fas fa-key"></i>' . $value['token'] . '</span>
+							<span><i class="fas fa-map-marker-alt"></i>' . $value['location']['name'][$this->lang] . '</span>
+	                        <span><i class="fas fa-compass"></i>' . $value['opportunity_area']['name'][$this->lang] . '</span>
+	                        <span><i class="far fa-compass"></i>' . $value['opportunity_type']['name'][$this->lang] . '</span>
+	                    </div>
+	                    <div class="itm_4">
+							<span class="' . (!empty($value['assigned_users']) ? 'active' : '') . '"><i class="fas fa-users"></i></span>
+							<span class="' . (!empty($value['comments']) ? 'active' : '') . '"><i class="fas fa-comment"></i></span>
+							<span class="' . (!empty($value['attachments']) ? 'active' : '') . '"><i class="fas fa-paperclip"></i></span>
+							<span class="' . (($value['type'] == 'incident' AND $value['confidentiality'] == true) ? 'active' : '') . '"><i class="fas fa-lock"></i></span>
+						</div>
+						<a href="/voxes/details/' . $value['token'] . '"></a>
+	                </div>
+	            </div>';
+			}
+
+			$replace = [
+				'{$tbl_voxes}' => $tbl_voxes
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
 	}
 
 	public function create()

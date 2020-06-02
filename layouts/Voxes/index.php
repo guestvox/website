@@ -13,6 +13,34 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 <main class="dashboard">
     <section class="workspace">
         <div class="tbl_stl_1">
+            <aside class="filter">
+                <a data-action="get_filter" data-filter="type">
+                    <?php if (Session::get_value('settings')['voxes']['filter']['type'] == 'all') : ?>
+                    <i class="fas fa-ellipsis-h"></i>
+                    <?php elseif (Session::get_value('settings')['voxes']['filter']['type'] == 'request') : ?>
+                    <i class="fas fa-spa"></i>
+                    <?php elseif (Session::get_value('settings')['voxes']['filter']['type'] == 'incident') : ?>
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <?php elseif (Session::get_value('settings')['voxes']['filter']['type'] == 'workorder') : ?>
+                    <i class="fas fa-id-card-alt"></i>
+                    <?php endif; ?>
+                </a>
+                <a class="<?php echo Session::get_value('settings')['voxes']['filter']['urgency']; ?>" data-action="get_filter" data-filter="urgency"><i class="fas fa-exclamation"></i></a>
+                <a data-action="get_filter" data-filter="date">
+                    <?php if (Session::get_value('settings')['voxes']['filter']['date'] == 'up') : ?>
+                    <i class="fas fa-clock"></i>
+                    <?php elseif (Session::get_value('settings')['voxes']['filter']['date'] == 'down') : ?>
+                    <i class="far fa-clock"></i>
+                    <?php endif; ?>
+                </a>
+                <a data-action="get_filter" data-filter="status">
+                    <?php if (Session::get_value('settings')['voxes']['filter']['status'] == 'open') : ?>
+                    <i class="fas fa-toggle-on"></i>
+                    <?php elseif (Session::get_value('settings')['voxes']['filter']['status'] == 'close') : ?>
+                    <i class="fas fa-toggle-off"></i>
+                    <?php endif; ?>
+                </a>
+            </aside>
             {$tbl_voxes}
         </div>
     </section>

@@ -48,6 +48,7 @@ class Login_controller extends Controller
 								Session::set_value('session', true);
 								Session::set_value('user', $query['user']);
 								Session::set_value('account', $query['account']);
+								Session::set_value('settings', $query['settings']);
 								Session::set_value('lang', $query['account']['language']);
 								Session::set_value('_vkye_last_access', Functions::get_current_date_hour());
 
