@@ -20,12 +20,12 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
     <h2>{$lang.how_may_i_help_you}</h2>
     {$a_new_request}
     {$a_new_incident}
-    {$a_new_survey_answer}
+    <!-- {$a_new_survey_answer} -->
 </main>
 <footer class="myvox">
     <h4>Power by <img src="{$path.images}logotype_color.png" alt="Guestvox"></h4>
     <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved}</p>
 </footer>
 {$mdl_new_vox}
-{$mdl_new_survey_answer}
-{$mdl_survey_widget}
+<!-- {$mdl_new_survey_answer}
+{$mdl_survey_widget} -->

@@ -32,7 +32,7 @@ class Myvox_model extends Model
 
 	public function get_owners($type)
 	{
-		$query = $this->database->select('owners', [
+		$query = Functions::get_json_decoded_query($this->database->select('owners', [
 			'id',
 			'name',
 			'number'
@@ -40,13 +40,14 @@ class Myvox_model extends Model
 			'AND' => [
 				'account' => Session::get_value('account')['id'],
 				$type => true,
-				'public' => true
+				'public' => true,
+				'status' => true
 			],
 			'ORDER' => [
 				'number' => 'ASC',
 				'name' => 'ASC'
 			]
-		]);
+		]));
 
 		return $query;
 	}
@@ -55,7 +56,7 @@ class Myvox_model extends Model
 	{
 		if (!empty($token))
 		{
-			$query = $this->database->select('owners', [
+			$query = Functions::get_json_decoded_query($this->database->select('owners', [
 				'id',
 				'name',
 				'number'
@@ -64,7 +65,7 @@ class Myvox_model extends Model
 					'id' => $token,
 					'token' => strtoupper($token)
 				]
-			]);
+			]));
 
 			return !empty($query) ? $query[0] : null;
 		}
@@ -78,7 +79,7 @@ class Myvox_model extends Model
 		}
 	}
 
-	public function get_reservation($number)
+	public function get_reservation($number = null)
 	{
 		$reservation = [
 			'status' => 'success',
@@ -125,7 +126,8 @@ class Myvox_model extends Model
 			'AND' => [
 				'account' => Session::get_value('account')['id'],
 				$type => true,
-				'public' => true
+				'public' => true,
+				'status' => true
 			],
 			'ORDER' => [
 				'name' => 'ASC'
@@ -156,7 +158,8 @@ class Myvox_model extends Model
 			'AND' => [
 				'opportunity_area' => $opportunity_area,
 				$type => true,
-				'public' => true
+				'public' => true,
+				'status' => true
 			],
 			'ORDER' => [
 				'name' => 'ASC'
@@ -187,7 +190,8 @@ class Myvox_model extends Model
 			'AND' => [
 				'account' => Session::get_value('account')['id'],
 				$type => true,
-				'public' => true
+				'public' => true,
+				'status' => true
 			],
 			'ORDER' => [
 				'name' => 'ASC'
@@ -265,7 +269,7 @@ class Myvox_model extends Model
 		$query = $this->database->insert('voxes', [
 			'account' => Session::get_value('account')['id'],
 			'type' => $data['type'],
-			'token' => $data['token'],
+			'token' => strtoupper($data['token']),
 			'owner' => Session::get_value('owner')['id'],
 			'opportunity_area' => $data['opportunity_area'],
 			'opportunity_type' => $data['opportunity_type'],
@@ -276,25 +280,25 @@ class Myvox_model extends Model
 			'urgency' => 'medium',
 			'confidentiality' => false,
 			'assigned_users' => json_encode([]),
-			'observations' => ($data['type'] == 'request') ? $data['observations'] : null,
-			'subject' => ($data['type'] == 'incident') ? $data['subject'] : null,
-			'description' => null,
+			'observations' => ($data['type'] == 'request' AND !empty($data['observations'])) ? $data['observations'] : null,
+			'subject' => null,
+			'description' => ($data['type'] == 'incident' AND !empty($data['description'])) ? $data['description'] : null,
 			'action_taken' => null,
 			'guest_treatment' => null,
-			'firstname' => $data['firstname'],
-			'lastname' => $data['lastname'],
+			'firstname' => !empty($data['firstname']) ? $data['firstname'] : null,
+			'lastname' => !empty($data['lastname']) ? $data['lastname'] : null,
 			'guest_id' => null,
 			'guest_type' => null,
-			'reservation_number' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['reservation_number'] : null,
+			'reservation_number' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty(Session::get_value('owner')['reservation']['reservation_number'])) ? Session::get_value('owner')['reservation']['reservation_number'] : null,
 			'reservation_status' => null,
-			'check_in' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['check_in'] : null,
-			'check_out' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel') ? Session::get_value('owner')['reservation']['check_out'] : null,
+			'check_in' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty(Session::get_value('owner')['reservation']['check_in'])) ? Session::get_value('owner')['reservation']['check_in'] : null,
+			'check_out' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty(Session::get_value('owner')['reservation']['check_out'])) ? Session::get_value('owner')['reservation']['check_out'] : null,
 			'attachments' => json_encode([]),
 			'viewed_by' => json_encode([]),
 			'comments' => json_encode([]),
 			'changes_history' => json_encode([
 				[
-					'type' => 'create',
+					'type' => 'created',
 					'user' => null,
 					'date' => Functions::get_current_date(),
 					'hour' => Functions::get_current_hour()
@@ -312,136 +316,136 @@ class Myvox_model extends Model
 			'completed_hour' => null,
 			'reopened_date' => null,
 			'reopened_hour' => null,
-			'status' => 'open',
+			'status' => true,
 			'origin' => 'myvox'
 		]);
 
-		return !empty($query) ? $this->database->id() : null;
+		return !empty($query) ? $query : null;
 	}
 
-	public function get_surveys_questions()
-    {
-		$query1 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
-            'id',
-            'name',
-			'subquestions',
-			'type',
-			'values'
-        ], [
-            'AND' => [
-				'system' => true,
-				'status' => true
-			]
-        ]));
-
-        $query2 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
-            'id',
-            'name',
-			'subquestions',
-			'type',
-			'values'
-        ], [
-            'AND' => [
-				'account' => Session::get_value('account')['id'],
-				'status' => true
-			]
-        ]));
-
-		$query = array_merge($query1, $query2);
-
-     	return $query;
-    }
-
-	public function get_survey_average($id)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
-			'id',
-			'answers'
-		], [
-			'id' => $id
-		]));
-
-		if (!empty($query))
-		{
-			$average = 0;
-			$count = 0;
-
-			foreach ($query[0]['answers'] as $key => $value)
-			{
-				if ($value['type'] == 'rate')
-				{
-					$average = $average + $value['answer'];
-					$count = $count + 1;
-				}
-
-				foreach ($value['subanswers'] as $subvalue)
-				{
-					if ($subvalue['type'] == 'rate')
-					{
-						$average = $average + $subvalue['answer'];
-						$count = $count + 1;
-					}
-
-					foreach ($subvalue['subanswers'] as $childvalue)
-					{
-						if ($childvalue['type'] == 'rate')
-						{
-							$average = $average + $childvalue['answer'];
-							$count = $count + 1;
-						}
-					}
-				}
-			}
-
-			if ($average > 0 AND $count > 0)
-				$average = round(($average / $count), 1);
-
-			return $average;
-		}
-		else
-			return null;
-	}
-
-    public function new_survey_answer($data)
-    {
-		$data['contact'] = [
-			'firstname' => $data['firstname'],
-			'lastname' => $data['lastname'],
-			'email' => $data['email'],
-			'phone' => [
-				'lada' => $data['phone_lada'],
-				'number' => $data['phone_number']
-			]
-		];
-
-		if (Session::get_value('account')['type'] == 'hotel')
-		{
-			$data['contact']['reservation'] = [
-				'firstname' => Session::get_value('owner')['reservation']['firstname'],
-				'lastname' => Session::get_value('owner')['reservation']['lastname'],
-				'reservation_number' => Session::get_value('owner')['reservation']['reservation_number'],
-				'check_in' => Session::get_value('owner')['reservation']['check_in'],
-				'check_out' => Session::get_value('owner')['reservation']['check_out'],
-				'nationality' => Session::get_value('owner')['reservation']['nationality'],
-				'input_channel' => Session::get_value('owner')['reservation']['input_channel'],
-				'traveler_type' => Session::get_value('owner')['reservation']['traveler_type'],
-				'age_group' => Session::get_value('owner')['reservation']['age_group']
-			];
-		}
-
-		$query = $this->database->insert('surveys_answers', [
-			'account' => Session::get_value('account')['id'],
-			'token' => $data['token'],
-			'owner' => $data['owner'],
-			'answers' => json_encode($data['answers']),
-			'comment' => $data['comment'],
-			'contact' => json_encode($data['contact']),
-			'date' => Functions::get_current_date(),
-			'status' => false
-		]);
-
-		return !empty($query) ? $this->database->id() : null;
-    }
+	// public function get_surveys_questions()
+    // {
+	// 	$query1 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+    //         'id',
+    //         'name',
+	// 		'subquestions',
+	// 		'type',
+	// 		'values'
+    //     ], [
+    //         'AND' => [
+	// 			'system' => true,
+	// 			'status' => true
+	// 		]
+    //     ]));
+	//
+    //     $query2 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+    //         'id',
+    //         'name',
+	// 		'subquestions',
+	// 		'type',
+	// 		'values'
+    //     ], [
+    //         'AND' => [
+	// 			'account' => Session::get_value('account')['id'],
+	// 			'status' => true
+	// 		]
+    //     ]));
+	//
+	// 	$query = array_merge($query1, $query2);
+	//
+    //  	return $query;
+    // }
+	//
+	// public function get_survey_average($id)
+	// {
+	// 	$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
+	// 		'id',
+	// 		'answers'
+	// 	], [
+	// 		'id' => $id
+	// 	]));
+	//
+	// 	if (!empty($query))
+	// 	{
+	// 		$average = 0;
+	// 		$count = 0;
+	//
+	// 		foreach ($query[0]['answers'] as $key => $value)
+	// 		{
+	// 			if ($value['type'] == 'rate')
+	// 			{
+	// 				$average = $average + $value['answer'];
+	// 				$count = $count + 1;
+	// 			}
+	//
+	// 			foreach ($value['subanswers'] as $subvalue)
+	// 			{
+	// 				if ($subvalue['type'] == 'rate')
+	// 				{
+	// 					$average = $average + $subvalue['answer'];
+	// 					$count = $count + 1;
+	// 				}
+	//
+	// 				foreach ($subvalue['subanswers'] as $childvalue)
+	// 				{
+	// 					if ($childvalue['type'] == 'rate')
+	// 					{
+	// 						$average = $average + $childvalue['answer'];
+	// 						$count = $count + 1;
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	//
+	// 		if ($average > 0 AND $count > 0)
+	// 			$average = round(($average / $count), 1);
+	//
+	// 		return $average;
+	// 	}
+	// 	else
+	// 		return null;
+	// }
+	//
+    // public function new_survey_answer($data)
+    // {
+	// 	$data['contact'] = [
+	// 		'firstname' => $data['firstname'],
+	// 		'lastname' => $data['lastname'],
+	// 		'email' => $data['email'],
+	// 		'phone' => [
+	// 			'lada' => $data['phone_lada'],
+	// 			'number' => $data['phone_number']
+	// 		]
+	// 	];
+	//
+	// 	if (Session::get_value('account')['type'] == 'hotel')
+	// 	{
+	// 		$data['contact']['reservation'] = [
+	// 			'firstname' => Session::get_value('owner')['reservation']['firstname'],
+	// 			'lastname' => Session::get_value('owner')['reservation']['lastname'],
+	// 			'reservation_number' => Session::get_value('owner')['reservation']['reservation_number'],
+	// 			'check_in' => Session::get_value('owner')['reservation']['check_in'],
+	// 			'check_out' => Session::get_value('owner')['reservation']['check_out'],
+	// 			'nationality' => Session::get_value('owner')['reservation']['nationality'],
+	// 			'input_channel' => Session::get_value('owner')['reservation']['input_channel'],
+	// 			'traveler_type' => Session::get_value('owner')['reservation']['traveler_type'],
+	// 			'age_group' => Session::get_value('owner')['reservation']['age_group']
+	// 		];
+	// 	}
+	//
+	// 	$query = $this->database->insert('surveys_answers', [
+	// 		'account' => Session::get_value('account')['id'],
+	// 		'token' => $data['token'],
+	// 		'owner' => $data['owner'],
+	// 		'answers' => json_encode($data['answers']),
+	// 		'comment' => $data['comment'],
+	// 		'contact' => json_encode($data['contact']),
+	// 		'date' => Functions::get_current_date(),
+	// 		'status' => false
+	// 	]);
+	//
+	// 	return !empty($query) ? $this->database->id() : null;
+    // }
 
 	public function get_sms()
 	{

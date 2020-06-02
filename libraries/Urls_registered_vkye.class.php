@@ -45,22 +45,22 @@ class Urls_registered_vkye
                 'controller' => 'Signup',
                 'method' => 'activate'
             ],
-            // '/%param%/myvox' => [
-            //     'controller' => 'Myvox',
-            //     'method' => 'index'
-            // ],
-            // '/%param%/myvox/%param%' => [
-            //     'controller' => 'Myvox',
-            //     'method' => 'index'
-            // ],
-            // '/%param%/myvox/%param%/%param%' => [
-            //     'controller' => 'Myvox',
-            //     'method' => 'index'
-            // ],
-            // '/%param%/reviews' => [
-            //     'controller' => 'Reviews',
-            //     'method' => 'index'
-            // ],
+            '/%param%/myvox' => [
+                'controller' => 'Myvox',
+                'method' => 'index'
+            ],
+            '/%param%/myvox/%param%' => [
+                'controller' => 'Myvox',
+                'method' => 'index'
+            ],
+            '/%param%/myvox/%param%/%param%' => [
+                'controller' => 'Myvox',
+                'method' => 'index'
+            ],
+            '/%param%/reviews' => [
+                'controller' => 'Reviews',
+                'method' => 'index'
+            ],
             '/login' => [
                 'controller' => 'Login',
                 'method' => 'index'

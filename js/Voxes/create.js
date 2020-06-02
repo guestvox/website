@@ -126,7 +126,7 @@ $(document).ready(function()
         {
             $.ajax({
                 type: 'POST',
-                data: 'owner=' + $(this).val() + '&action=get_owner',
+                data: 'owner=' + $(this).val() + '&action=get_reservation',
                 processData: false,
                 cache: false,
                 dataType: 'json',
@@ -134,11 +134,8 @@ $(document).ready(function()
                 {
                     if (response.status == 'success')
                     {
-                        if (type == 'request' || type == 'incident')
-                        {
-                            $('[name="firstname"]').val(response.data.firstname);
-                            $('[name="lastname"]').val(response.data.lastname);
-                        }
+                        $('[name="firstname"]').val(response.data.firstname);
+                        $('[name="lastname"]').val(response.data.lastname);
 
                         if (type == 'incident')
                         {

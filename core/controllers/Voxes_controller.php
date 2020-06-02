@@ -343,7 +343,7 @@ class Voxes_controller extends Controller
 						{
 							$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 							$sms_client = new \Nexmo\Client($sms_basic);
-							$sms_text = Languages::words('new', $_POST['type'])[$this->lang] . ' . ';
+							$sms_text = 'Guestvox. ' . Languages::words('new', $_POST['type'])[$this->lang] . ' . ';
 							$sms_text .= Languages::words('token')[$this->lang] . ': ' . $_POST['token'] . ' . ';
 							$sms_text .= Languages::words('owner')[$this->lang] . ': ' . $_POST['owner']['name'][$this->lang] . (!empty($_POST['owner']['number']) ? ' #' . $_POST['owner']['number'] : '') . ' . ';
 							$sms_text .= Languages::words('opportunity_area')[$this->lang] . ': ' . $_POST['opportunity_area']['name'][$this->lang] . ' . ';

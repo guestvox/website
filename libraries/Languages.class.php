@@ -197,6 +197,10 @@ class Languages
                 'es' => 'Asunto',
                 'en' => 'Subject'
             ],
+            'description' => [
+                'es' => 'Descripción',
+                'en' => 'dDescription'
+            ],
             'empty' => [
                 'es' => 'Vacío',
                 'en' => 'Empty'
