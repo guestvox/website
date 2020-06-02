@@ -1119,7 +1119,8 @@ div.maximum_exceeded > p {
 
 div.tbl_stl_1 {
     width: 100%;
-    padding-top: 80px;
+    padding: 80px 20px 0px 20px;
+    box-sizing: border-box;
 }
 
 @media (min-width: 768px) {
@@ -1143,6 +1144,7 @@ div.tbl_stl_1 > aside {
     height: 60px;
     position: fixed;
     top: 100px;
+    left: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1215,15 +1217,8 @@ div.tbl_stl_1 > div {
 div.tbl_stl_1 > div > div {
     width: 100%;
     position: relative;
-    border-radius: 20px 20px 0px 0px;
+    border-radius: 20px;
     background-color: #eee;
-}
-
-@media (min-width: 768px) {
-
-    div.tbl_stl_1 > div > div {
-        border-radius: 20px;
-    }
 }
 
 div.tbl_stl_1 > div > div::after {
