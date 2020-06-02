@@ -47,30 +47,10 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                 <span>{$contact_phone}</span>
                 <a class="edit" data-action="edit_billing"><i class="fas fa-pen"></i></a>
             </div>
-            <div class="stl_5">
-                <i class="fas fa-spa"></i>
-                <h2>{$lang.public_requests}</h2>
-                <span>{$myvox_request}</span>
-                <a class="edit" data-action="edit_myvox_settings"><i class="fas fa-cog"></i></a>
-            </div>
-            <div class="stl_5">
-                <i class="fas fa-exclamation-triangle"></i>
-                <h2>{$lang.public_incidents}</h2>
-                <span>{$myvox_incident}</span>
-                <a class="edit" data-action="edit_myvox_settings"><i class="fas fa-cog"></i></a>
-            </div>
-            <div class="stl_5">
-                <i class="fas fa-list-alt"></i>
-                <h2>{$lang.survey}</h2>
-                <span>{$myvox_survey}</span>
-                <a class="edit" data-action="edit_myvox_settings"><i class="fas fa-cog"></i></a>
-            </div>
-            <div class="stl_5">
-                <i class="fas fa-star"></i>
-                <h2>{$lang.reviews_page}</h2>
-                <span>{$reviews}</span>
-                <a class="edit" data-action="edit_reviews_settings"><i class="fas fa-cog"></i></a>
-            </div>
+            {$div_public_requests}
+            {$div_public_incidents}
+            {$div_answered_survey}
+            {$div_reviews_page}
             <div class="stl_5">
                 <i class="fas fa-tasks"></i>
                 <h2>{$lang.operation_solution}</h2>
@@ -83,30 +63,39 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
             </div>
             <div class="stl_5">
                 <i class="fas fa-shapes"></i>
-                <h2>{$lang.package_active}</h2>
+                <h2>{$lang.contracted_package}</h2>
                 <span>{$package} {$lang.owners}</span>
             </div>
-            {$div_siteminder}
-            {$div_zaviapms}
             <div class="stl_5">
                 <i class="fas fa-comment-alt"></i>
                 <h2>{$lang.sms_credit}</h2>
                 <span>{$sms} {$lang.sms}</span>
             </div>
+            {$div_siteminder}
+            {$div_zaviapms}
         </div>
     </section>
     <section class="buttons">
         <div>
-            <a data-button-modal="get_urls"><i class="fas fa-link"></i></a>
+            {$btn_get_urls}
             <a class="active" data-button-modal="get_support"><i class="fas fa-headset"></i></a>
         </div>
     </section>
 </main>
+{$mdl_get_urls}
 <section class="modal fullscreen" data-modal="get_support">
     <div class="content">
         <main>
             <form name="get_support">
                 <div class="row">
+                    <div class="span12">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.to}</p>
+                                <input type="text" value="contacto@guestvox.com" disabled>
+                            </label>
+                        </div>
+                    </div>
                     <div class="span12">
                         <div class="label">
                             <label required>
@@ -123,25 +112,6 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     </div>
                 </div>
             </form>
-        </main>
-    </div>
-</section>
-<section class="modal fullscreen" data-modal="get_urls">
-    <div class="content">
-        <main class="account">
-            <div class="stl_6">
-                <div>
-                    <input type="text" value="{$myvox_url}" disabled>
-                    <a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
-                </div>
-                <div>
-                    <input type="text" value="{$reviews_url}" disabled>
-                    <a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
-                </div>
-            </div>
-            <div class="buttons">
-                <a button-close><i class="fas fa-check"></i></a>
-            </div>
         </main>
     </div>
 </section>
@@ -323,25 +293,5 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
         </main>
     </div>
 </section>
-<section class="modal fullscreen" data-modal="edit_myvox_settings">
-    <div class="content">
-        <main>
-            <form name="edit_myvox_settings">
-                <div class="row">
-                    {$frm_edit_myvox_settings}
-                </div>
-            </form>
-        </main>
-    </div>
-</section>
-<section class="modal fullscreen" data-modal="edit_reviews_settings">
-    <div class="content">
-        <main>
-            <form name="edit_reviews_settings">
-                <div class="row">
-                    {$frm_edit_reviews_settings}
-                </div>
-            </form>
-        </main>
-    </div>
-</section>
+{$mdl_edit_myvox_survey_settings}
+{$mdl_edit_reviews_settings}

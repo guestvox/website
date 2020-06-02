@@ -906,6 +906,52 @@ div.account > div.stl_5 > figure > img {
     width: 100px;
 }
 
+div.account > div.stl_5 > div.switch,
+div.account > div.stl_5 > div.switch > input {
+    width: 100px;
+    height: 40px;
+    position: relative;
+    margin: 0px;
+    border-radius: 30px;
+    background-color: #eee;
+    cursor: pointer;
+    transition: 800ms;
+}
+
+div.account > div.stl_5 > div.switch {
+    margin-top: 20px;
+}
+
+div.account > div.stl_5 > div.switch > input {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+div.account > div.stl_5 > div.switch.checked,
+div.account > div.stl_5 > div.switch.checked > input {
+    background-color: #00a5ab;
+}
+
+div.account > div.stl_5 > div.switch > label {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    left: 5px;
+    border-radius: 50%;
+    background-color: #00a5ab;
+    cursor: pointer;
+    transition: 800ms;
+}
+
+div.account > div.stl_5 > div.switch.checked > label {
+    right: 5px;
+    left: auto;
+    background-color: #fff;
+}
+
 /*  */
 
 main.account > div.stl_6 {
@@ -1755,7 +1801,7 @@ form div.switch > input {
     display: none !important;
 }
 
-.switch_input:checked + .switch_label {
+/* .switch_input:checked + .switch_label {
     background-color: #00a5ab !important;
     transition: 400ms;
 }
@@ -1776,7 +1822,7 @@ form div.switch > input {
     border: 1px dashed #00a5ab;
     box-sizing: border-box;
     transition: 400ms;
-}
+} */
 
 /* Inputs - Checkers
 ------------------------------------------------------------------------------ */

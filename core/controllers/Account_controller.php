@@ -224,31 +224,31 @@ class Account_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'edit_myvox_settings' OR $_POST['action'] == 'edit_reviews_settings')
+			if ($_POST['action'] == 'edit_myvox_request_settings' OR $_POST['action'] == 'edit_myvox_incident_settings' OR $_POST['action'] == 'edit_myvox_survey_settings' OR $_POST['action'] == 'edit_reviews_settings')
 			{
 				$labels = [];
 
-				if ($_POST['action'] == 'edit_myvox_settings')
+				if ($_POST['action'] == 'edit_myvox_survey_settings')
 				{
-					if (!empty($_POST['survey_status']))
+					if (!empty($_POST['status']))
 					{
-						if (!isset($_POST['survey_title_es']) OR empty($_POST['survey_title_es']))
-							array_push($labels, ['survey_title_es','']);
+						if (!isset($_POST['title_es']) OR empty($_POST['title_es']))
+							array_push($labels, ['title_es','']);
 
-						if (!isset($_POST['survey_title_en']) OR empty($_POST['survey_title_en']))
-							array_push($labels, ['survey_title_en','']);
+						if (!isset($_POST['title_en']) OR empty($_POST['title_en']))
+							array_push($labels, ['title_en','']);
 
-						if (!isset($_POST['survey_mail_subject_es']) OR empty($_POST['survey_mail_subject_es']))
-							array_push($labels, ['survey_mail_subject_es','']);
+						if (!isset($_POST['mail_subject_es']) OR empty($_POST['mail_subject_es']))
+							array_push($labels, ['mail_subject_es','']);
 
-						if (!isset($_POST['survey_mail_subject_en']) OR empty($_POST['survey_mail_subject_en']))
-							array_push($labels, ['survey_mail_subject_en','']);
+						if (!isset($_POST['mail_subject_en']) OR empty($_POST['mail_subject_en']))
+							array_push($labels, ['mail_subject_en','']);
 
-						if (!isset($_POST['survey_mail_description_es']) OR empty($_POST['survey_mail_description_es']))
-							array_push($labels, ['survey_mail_description_es','']);
+						if (!isset($_POST['mail_description_es']) OR empty($_POST['mail_description_es']))
+							array_push($labels, ['mail_description_es','']);
 
-						if (!isset($_POST['survey_mail_description_en']) OR empty($_POST['survey_mail_description_en']))
-							array_push($labels, ['survey_mail_description_en','']);
+						if (!isset($_POST['mail_description_en']) OR empty($_POST['mail_description_en']))
+							array_push($labels, ['mail_description_en','']);
 					}
 				}
 				else if ($_POST['action'] == 'edit_reviews_settings')
@@ -289,12 +289,19 @@ class Account_controller extends Controller
 
 				if (empty($labels))
 				{
-					if ($_POST['action'] == 'edit_myvox_settings')
+					if ($_POST['action'] == 'edit_myvox_request_settings')
+						$query = $this->model->edit_settings('myvox_request', $_POST);
+					else if ($_POST['action'] == 'edit_myvox_incident_settings')
+						$query = $this->model->edit_settings('myvox_incident', $_POST);
+					else if ($_POST['action'] == 'edit_myvox_survey_settings')
 					{
-						$_POST['survey_mail_image'] = $_FILES['survey_mail_image'];
-						$_POST['survey_mail_attachment'] = $_FILES['survey_mail_attachment'];
+						if (!empty($_POST['status']))
+						{
+							$_POST['mail_image'] = $_FILES['mail_image'];
+							$_POST['mail_attachment'] = $_FILES['mail_attachment'];
+						}
 
-						$query = $this->model->edit_settings('myvox', $_POST);
+						$query = $this->model->edit_settings('myvox_survey', $_POST);
 					}
 					else if ($_POST['action'] == 'edit_reviews_settings')
 						$query = $this->model->edit_settings('reviews', $_POST);
@@ -329,28 +336,377 @@ class Account_controller extends Controller
 
 			define('_title', 'Guestvox | {$lang.account}');
 
+			$div_public_requests = '';
+			$div_public_incidents = '';
 			$div_siteminder = '';
 			$div_zaviapms = '';
 
-			if ($account['type'] == 'hotel')
-			{
-				$div_siteminder .=
-				'<div class="stl_5">
-					<figure>
-						<img src="{$path.images}siteminder.png">
-					</figure>
-					<h2>Siteminder</h2>
-					<span>' . (($account['siteminder']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-                </div>';
 
-				$div_zaviapms .=
+			if ($account['operation'] == true)
+			{
+				$div_public_requests .=
 				'<div class="stl_5">
-					<figure>
-						<img src="{$path.images}zaviapms.png">
-					</figure>
-					<h2>Zavia PMS</h2>
-					<span>' . (($account['zaviapms']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-                </div>';
+	                <i class="fas fa-spa"></i>
+	                <h2>{$lang.public_requests}</h2>
+	                <span>' . (($account['settings']['myvox']['request']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+					<div class="switch">
+					    <input id="a" type="checkbox" ' . (($account['settings']['myvox']['request']['status'] == true) ? 'checked' : '') . ' data-switcher>
+						<label for="a"></label>
+					</div>
+	            </div>';
+
+				$div_public_incidents .=
+				'<div class="stl_5">
+	                <i class="fas fa-exclamation-triangle"></i>
+	                <h2>{$lang.public_incidents}</h2>
+	                <span>' . (($account['settings']['myvox']['incident']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+					<div class="switch">
+					    <input id="insw" type="checkbox" ' . (($account['settings']['myvox']['incident']['status'] == true) ? 'checked' : '') . ' data-switcher>
+					    <label for="insw"></label>
+					</div>
+	            </div>';
+
+				if ($account['type'] == 'hotel')
+				{
+					$div_siteminder .=
+					'<div class="stl_5">
+						<figure>
+							<img src="{$path.images}siteminder.png">
+						</figure>
+						<h2>Siteminder</h2>
+						<span>' . (($account['siteminder']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+	                </div>';
+
+					$div_zaviapms .=
+					'<div class="stl_5">
+						<figure>
+							<img src="{$path.images}zaviapms.png">
+						</figure>
+						<h2>Zavia PMS</h2>
+						<span>' . (($account['zaviapms']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+	                </div>';
+				}
+			}
+
+			$div_answered_survey = '';
+			$div_reviews_page = '';
+			$mdl_edit_myvox_survey_settings = '';
+			$mdl_edit_reviews_settings = '';
+
+			if ($account['reputation'] == true)
+			{
+				$div_answered_survey .=
+				'<div class="stl_5">
+	                <i class="fas fa-list-alt"></i>
+	                <h2>{$lang.answer_survey}</h2>
+	                <span>' . (($account['settings']['myvox']['survey']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+					<div class="switch">
+					    <input id="susw" type="checkbox" ' . (($account['settings']['myvox']['survey']['status'] == true) ? 'checked' : '') . ' data-switcher>
+					    <label for="susw"></label>
+					</div>
+	            </div>';
+
+				$div_reviews_page .=
+				'<div class="stl_5">
+	                <i class="fas fa-star"></i>
+	                <h2>{$lang.reviews_page}</h2>
+	                <span>' . (($account['settings']['reviews']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+					<div class="switch">
+					    <input id="rvsw" type="checkbox" ' . (($account['settings']['reviews']['status'] == true) ? 'checked' : '') . ' data-switcher>
+					    <label for="rvsw"></label>
+					</div>
+	            </div>';
+
+				$mdl_edit_myvox_survey_settings .=
+				'<section class="modal fullscreen" data-modal="edit_myvox_survey_settings">
+					<div class="content">
+						<main>
+							<form name="edit_myvox_survey_settings">
+								<div class="row">
+									<div class="span6">
+										<div class="label">
+											<label required>
+												<p>(ES) {$lang.survey_title} <a data-action="get_help" data-text="{$lang.es_survey_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="title_es">
+											</label>
+										</div>
+									</div>
+									<div class="span6">
+										<div class="label">
+											<label required>
+												<p>(EN) {$lang.survey_title} <a data-action="get_help" data-text="{$lang.en_survey_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="title_en">
+											</label>
+										</div>
+									</div>
+									<div class="span6">
+										<div class="label">
+											<label required>
+												<p>(ES) {$lang.mail_subject} <a data-action="get_help" data-text="{$lang.es_mail_subject_help}"><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="mail_subject_es">
+											</label>
+										</div>
+									</div>
+									<div class="span6">
+										<div class="label">
+											<label required>
+												<p>(EN) {$lang.mail_subject} <a data-action="get_help" data-text="{$lang.en_mail_subject_help}"><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="mail_subject_en">
+											</label>
+										</div>
+									</div>
+									<div class="span6">
+										<div class="label">
+											<label required>
+												<p>(ES) {$lang.mail_description} <a data-action="get_help" data-text="{$lang.es_mail_description_help}"><i class="fas fa-question-circle"></i></a></p>
+												<textarea name="mail_description_es"></textarea>
+											</label>
+										</div>
+									</div>
+									<div class="span6">
+										<div class="label">
+											<label required>
+												<p>(EN) {$lang.mail_description} <a data-action="get_help" data-text="{$lang.en_mail_description_help}"><i class="fas fa-question-circle"></i></a></p>
+												<textarea name="mail_description_en"></textarea>
+											</label>
+										</div>
+									</div>
+									<div class="span12">
+										<div class="stl_2" data-uploader="low">
+											<p>{$lang.mail_image} <a data-action="get_help" data-text="{$lang.mail_image_help}"><i class="fas fa-question-circle"></i></a></p>
+											<figure data-preview>
+												<img src="{$path.images}empty.png">
+												<a data-select><i class="fas fa-upload"></i></a>
+												<input type="file" name="mail_image" accept="image/*" data-upload>
+											</figure>
+										</div>
+									</div>
+									<div class="span12">
+										<div class="stl_2" data-uploader="low">
+											<p>{$lang.mail_attachment} <a data-action="get_help" data-text="{$lang.mail_attachment_help}"><i class="fas fa-question-circle"></i></a></p>
+											<figure data-preview>
+												<img src="{$path.images}empty.png">
+												<a data-select><i class="fas fa-upload"></i></a>
+												<input type="file" name="mail_attachment" accept="image/*, application/pdf, application/vnd.ms-word, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" data-upload>
+											</figure>
+										</div>
+									</div>
+									<div class="span12">
+										<div class="label">
+											<label unrequired>
+												<p>{$lang.widget} <a data-action="get_help" data-text="{$lang.widget_help}"><i class="fas fa-question-circle"></i></a></p>
+												<textarea name="widget"></textarea>
+											</label>
+										</div>
+									</div>
+									<div class="span12">
+										<div class="buttons">
+											<a button-cancel><i class="fas fa-times"></i></a>
+											<button type="submit"><i class="fas fa-check"></i></button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</main>
+					</div>
+				</section>';
+
+				$mdl_edit_reviews_settings .=
+				'<section class="modal fullscreen" data-modal="edit_reviews_settings">
+				    <div class="content">
+				        <main>
+				            <form name="edit_reviews_settings">
+				                <div class="row">
+									<div class="span6 hidden">
+										<div class="label">
+											<label required>
+												<p>{$lang.email}</p>
+												<input type="email" name="email">
+											</label>
+										</div>
+									</div>
+									<div class="span3 hidden">
+										<div class="label">
+											<label required>
+												<p>{$lang.lada}</p>
+												<select name="phone_lada">
+													<option value="" selected hidden>{$lang.choose}</option>';
+
+									foreach ($this->model->get_countries() as $value)
+										$mdl_edit_reviews_settings .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
+
+									$mdl_edit_reviews_settings .=
+									'			</select>
+											</label>
+										</div>
+									</div>
+									<div class="span3 hidden">
+										<div class="label">
+											<label required>
+												<p>{$lang.phone}</p>
+												<input type="text" name="phone_number">
+											</label>
+										</div>
+									</div>
+									<div class="span12 hidden">
+										<div class="label">
+											<label required>
+												<p>{$lang.website}</p>
+												<input type="text" name="website">
+											</label>
+										</div>
+									</div>
+									<div class="span6 hidden">
+										<div class="label">
+											<label required>
+												<p>(ES) {$lang.description}</p>
+												<textarea name="description_es"></textarea>
+											</label>
+										</div>
+									</div>
+									<div class="span6 hidden">
+										<div class="label">
+											<label required>
+												<p>(EN) {$lang.description}</p>
+												<textarea name="description_en"></textarea>
+											</label>
+										</div>
+									</div>
+									<div class="span6 hidden">
+										<div class="label">
+											<label required>
+												<p>(ES) {$lang.seo_keywords} <a data-action="get_help" data-text="{$lang.es_seo_keywords_help}"><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="seo_keywords_es">
+											</label>
+										</div>
+									</div>
+									<div class="span6 hidden">
+										<div class="label">
+											<label required>
+												<p>(EN) {$lang.seo_keywords} <a data-action="get_help" data-text="{$lang.en_seo_keywords_help}"><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="seo_keywords_en">
+											</label>
+										</div>
+									</div>
+									<div class="span6 hidden">
+										<div class="label">
+											<label required>
+												<p>(ES) {$lang.seo_description} <a data-action="get_help" data-text="{$lang.en_seo_description_help}"><i class="fas fa-question-circle"></i></a></p>
+												<textarea name="seo_description_es"></textarea>
+											</label>
+										</div>
+									</div>
+									<div class="span6 hidden">
+										<div class="label">
+											<label required>
+												<p>(EN) {$lang.seo_description} <a data-action="get_help" data-text="{$lang.en_seo_description_help}"><i class="fas fa-question-circle"></i></a></p>
+												<textarea name="seo_description_en"></textarea>
+											</label>
+										</div>
+									</div>
+									<div class="span12 hidden">
+										<div class="label">
+											<label unrequired>
+												<p>Facebook</p>
+												<input type="text" name="social_media_facebook">
+											</label>
+										</div>
+									</div>
+									<div class="span12 hidden">
+										<div class="label">
+											<label unrequired>
+												<p>Instagram</p>
+												<input type="text" name="social_media_instagram">
+											</label>
+										</div>
+									</div>
+									<div class="span12 hidden">
+										<div class="label">
+											<label unrequired>
+												<p>Twitter</p>
+												<input type="text" name="social_media_twitter">
+											</label>
+										</div>
+									</div>
+									<div class="span12 hidden">
+										<div class="label">
+											<label unrequired>
+												<p>LinkedIn</p>
+												<input type="text" name="social_media_linkedin">
+											</label>
+										</div>
+									</div>
+									<div class="span12 hidden">
+										<div class="label">
+											<label unrequired>
+												<p>YouTube</p>
+												<input type="text" name="social_media_youtube">
+											</label>
+										</div>
+									</div>
+									<div class="span12 hidden">
+										<div class="label">
+											<label unrequired>
+												<p>Google</p>
+												<input type="text" name="social_media_google">
+											</label>
+										</div>
+									</div>
+									<div class="span12 hidden">
+										<div class="label">
+											<label unrequired>
+												<p>TripAdvisor</p>
+												<input type="text" name="social_media_tripadvisor">
+											</label>
+										</div>
+									</div>
+									<div class="span12">
+										<div class="buttons">
+											<a button-cancel><i class="fas fa-times"></i></a>
+											<button type="submit"><i class="fas fa-check"></i></button>
+										</div>
+									</div>
+				                </div>
+				            </form>
+				        </main>
+				    </div>
+				</section>';
+			}
+
+			$btn_get_urls = '';
+			$mdl_get_urls = '';
+
+			if ($account['operation'] == true OR $account['reputation'] == true)
+			{
+				$btn_get_urls .= '<a data-button-modal="get_urls"><i class="fas fa-link"></i></a>';
+
+				$mdl_get_urls .=
+				'<section class="modal fullscreen" data-modal="get_urls">
+				    <div class="content">
+				        <main class="account">
+				        	<div class="stl_6">
+								<div>
+									<input type="text" value="https://' . Configuration::$domain . '/' . $account['path'] . '/myvox" disabled>
+									<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
+								</div>';
+
+				if ($account['reputation'] == true)
+				{
+					$mdl_get_urls .=
+					'<div>
+						<input type="text" value="https://' . Configuration::$domain . '/' . $account['path'] . '/reviews" disabled>
+						<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
+					</div>';
+				}
+
+				$mdl_get_urls .=
+				'           </div>
+				            <div class="buttons">
+				                <a button-close><i class="fas fa-check"></i></a>
+				            </div>
+				        </main>
+				    </div>
+				</section>';
 			}
 
 			$opt_countries = '';
@@ -378,332 +734,6 @@ class Account_controller extends Controller
 			foreach ($this->model->get_countries() as $value)
 				$opt_ladas .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
 
-			$frm_edit_myvox_settings = '';
-
-			if ($account['operation'] == true)
-			{
-				$frm_edit_myvox_settings .=
-				'<div class="span12">
-					<div class="label">
-						<label unrequired>
-							<p class="center">{$lang.request}</p>
-							<div class="switch">
-								<input id="rqsw" type="checkbox" name="request_status" class="switch_input">
-								<label class="switch_label" for="rqsw"></label>
-							</div>
-						</label>
-					</div>
-				</div>
-				<div class="span12">
-					<div class="label">
-						<label unrequired>
-							<p class="center">{$lang.incident}</p>
-							<div class="switch">
-								<input id="insw" type="checkbox" name="incident_status" class="switch_input">
-								<label class="switch_label" for="insw"></label>
-							</div>
-						</label>
-					</div>
-				</div>';
-			}
-			else
-			{
-				$frm_edit_myvox_settings .=
-				'<div class="span12">
-					<div class="maximum_exceeded">
-						<i class="far fa-frown"></i>
-						<p>{$lang.operation_edit_settings_not_permit}</p>
-					</div>
-				</div>';
-			}
-
-			if ($account['reputation'] == true)
-			{
-				$frm_edit_myvox_settings .=
-				'<div class="span12">
-					<div class="label">
-						<label unrequired>
-							<p class="center">{$lang.survey}</p>
-							<div class="switch">
-								<input id="susw" type="checkbox" name="survey_status" class="switch_input">
-								<label class="switch_label" for="susw"></label>
-							</div>
-						</label>
-					</div>
-				</div>
-				<div class="span6 hidden">
-					<div class="label">
-						<label required>
-							<p>ES - {$lang.title}</p>
-							<input type="text" name="survey_title_es">
-						</label>
-					</div>
-				</div>
-				<div class="span6 hidden">
-					<div class="label">
-						<label required>
-							<p>EN - {$lang.title}</p>
-							<input type="text" name="survey_title_en">
-						</label>
-					</div>
-				</div>
-				<div class="span6 hidden">
-					<div class="label">
-						<label required>
-							<p>ES - {$lang.subject}</p>
-							<input type="text" name="survey_mail_subject_es">
-						</label>
-					</div>
-				</div>
-				<div class="span6 hidden">
-					<div class="label">
-						<label required>
-							<p>EN - {$lang.subject}</p>
-							<input type="text" name="survey_mail_subject_en">
-						</label>
-					</div>
-				</div>
-				<div class="span6 hidden">
-					<div class="label">
-						<label required>
-							<p>ES - {$lang.description}</p>
-							<textarea name="survey_mail_description_es"></textarea>
-						</label>
-					</div>
-				</div>
-				<div class="span6 hidden">
-					<div class="label">
-						<label required>
-							<p>EN - {$lang.description}</p>
-							<textarea name="survey_mail_description_en"></textarea>
-						</label>
-					</div>
-				</div>
-				<div class="span12 hidden">
-					<div class="stl_2" data-uploader="low">
-						<p>{$lang.image}</p>
-						<figure data-preview>
-							<img src="{$path.images}empty.png">
-							<a data-select><i class="fas fa-upload"></i></a>
-							<input type="file" name="survey_mail_image" accept="image/*" data-upload>
-						</figure>
-					</div>
-				</div>
-				<div class="span12 hidden">
-					<div class="stl_2" data-uploader="low">
-						<p>{$lang.attachment}</p>
-						<figure data-preview>
-							<img src="{$path.images}empty.png">
-							<a data-select><i class="fas fa-upload"></i></a>
-							<input type="file" name="survey_mail_attachment" accept="image/*, application/pdf, application/vnd.ms-word, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" data-upload>
-						</figure>
-					</div>
-				</div>
-				<div class="span12 hidden">
-					<div class="label">
-						<label unrequired>
-							<p>{$lang.widget}</p>
-							<textarea name="survey_widget"></textarea>
-						</label>
-					</div>
-				</div>';
-			}
-			else
-			{
-				$frm_edit_myvox_settings .=
-				'<div class="span12">
-					<div class="maximum_exceeded">
-						<i class="far fa-frown"></i>
-						<p>{$lang.reputation_edit_settings_not_permit}</p>
-					</div>
-				</div>';
-			}
-
-			$frm_edit_myvox_settings .=
-			'<div class="span12">
-				<div class="buttons">
-					<a ' . (($account['operation'] == true OR $account['reputation'] == true) ? 'button-cancel' : 'button-close') . '>' . (($account['operation'] == true OR $account['reputation'] == true) ? '<i class="fas fa-times"></i>' : '<i class="fas fa-check"></i>') . '</a>
-					' . (($account['operation'] == true OR $account['reputation'] == true) ? '<button type="submit"><i class="fas fa-check"></i></button>' : '') . '
-				</div>
-			</div>';
-
-			$frm_edit_reviews_settings = '';
-
-			if ($account['reputation'] == true)
-			{
-				$frm_edit_reviews_settings .=
-				'<div class="span12">
-					<div class="label">
-						<label unrequired>
-							<p class="center">{$lang.reviews}</p>
-							<div class="switch">
-								<input id="rvsw" type="checkbox" name="status" class="switch_input">
-								<label class="switch_label" for="rvsw"></label>
-							</div>
-						</label>
-					</div>
-				</div>
-				<div class="span6 hidden">
-					<div class="label">
-						<label required>
-							<p>{$lang.email}</p>
-							<input type="email" name="email">
-						</label>
-					</div>
-				</div>
-				<div class="span3 hidden">
-					<div class="label">
-						<label required>
-							<p>{$lang.lada}</p>
-							<select name="phone_lada">
-								<option value="" selected hidden>{$lang.choose}</option>';
-
-				foreach ($this->model->get_countries() as $value)
-					$frm_edit_reviews_settings .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
-
-				$frm_edit_reviews_settings .=
-				'			</select>
-						</label>
-					</div>
-				</div>
-				<div class="span3 hidden">
-					<div class="label">
-						<label required>
-							<p>{$lang.phone}</p>
-							<input type="text" name="phone_number">
-						</label>
-					</div>
-				</div>
-				<div class="span12 hidden">
-					<div class="label">
-						<label required>
-							<p>{$lang.website}</p>
-							<input type="text" name="website">
-						</label>
-					</div>
-				</div>
-				<div class="span6 hidden">
-					<div class="label">
-						<label required>
-							<p>ES - {$lang.description}</p>
-							<textarea name="description_es"></textarea>
-						</label>
-					</div>
-				</div>
-				<div class="span6 hidden">
-					<div class="label">
-						<label required>
-							<p>EN - {$lang.description}</p>
-							<textarea name="description_en"></textarea>
-						</label>
-					</div>
-				</div>
-				<div class="span6 hidden">
-					<div class="label">
-						<label required>
-							<p>ES - {$lang.seo_keywords}</p>
-							<input type="text" name="seo_keywords_es">
-						</label>
-					</div>
-				</div>
-				<div class="span6 hidden">
-					<div class="label">
-						<label required>
-							<p>EN - {$lang.seo_keywords}</p>
-							<input type="text" name="seo_keywords_en">
-						</label>
-					</div>
-				</div>
-				<div class="span6 hidden">
-					<div class="label">
-						<label required>
-							<p>ES - {$lang.seo_description}</p>
-							<textarea name="seo_description_es"></textarea>
-						</label>
-					</div>
-				</div>
-				<div class="span6 hidden">
-					<div class="label">
-						<label required>
-							<p>EN - {$lang.seo_description}</p>
-							<textarea name="seo_description_en"></textarea>
-						</label>
-					</div>
-				</div>
-				<div class="span12 hidden">
-					<div class="label">
-						<label unrequired>
-							<p>Facebook</p>
-							<input type="text" name="social_media_facebook">
-						</label>
-					</div>
-				</div>
-				<div class="span12 hidden">
-					<div class="label">
-						<label unrequired>
-							<p>Instagram</p>
-							<input type="text" name="social_media_instagram">
-						</label>
-					</div>
-				</div>
-				<div class="span12 hidden">
-					<div class="label">
-						<label unrequired>
-							<p>Twitter</p>
-							<input type="text" name="social_media_twitter">
-						</label>
-					</div>
-				</div>
-				<div class="span12 hidden">
-					<div class="label">
-						<label unrequired>
-							<p>LinkedIn</p>
-							<input type="text" name="social_media_linkedin">
-						</label>
-					</div>
-				</div>
-				<div class="span12 hidden">
-					<div class="label">
-						<label unrequired>
-							<p>YouTube</p>
-							<input type="text" name="social_media_youtube">
-						</label>
-					</div>
-				</div>
-				<div class="span12 hidden">
-					<div class="label">
-						<label unrequired>
-							<p>Google</p>
-							<input type="text" name="social_media_google">
-						</label>
-					</div>
-				</div>
-				<div class="span12 hidden">
-					<div class="label">
-						<label unrequired>
-							<p>TripAdvisor</p>
-							<input type="text" name="social_media_tripadvisor">
-						</label>
-					</div>
-				</div>
-				<div class="span12">
-					<div class="buttons">
-						<a button-cancel><i class="fas fa-times"></i></a>
-						<button type="submit"><i class="fas fa-check"></i></button>
-					</div>
-				</div>';
-			}
-			else
-			{
-				$frm_edit_reviews_settings .=
-				'<div class="span12">
-					<div class="maximum_exceeded">
-						<i class="far fa-frown"></i>
-						<p>{$lang.reputation_edit_settings_not_permit}</p>
-					</div>
-				</div>';
-			}
-
 			$replace = [
 				'{$logotype}' => '{$path.uploads}' . $account['logotype'],
 				'{$qr}' => '{$path.uploads}' . $account['qr'],
@@ -723,25 +753,25 @@ class Account_controller extends Controller
 				'{$contact_department}' => $account['contact']['department'],
 				'{$contact_email}' => $account['contact']['email'],
 				'{$contact_phone}' => $account['contact']['phone']['lada'] . ' ' . $account['contact']['phone']['number'],
-				'{$myvox_request}' => ($account['operation'] == true AND $account['settings']['myvox']['request']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
-				'{$myvox_incident}' => ($account['operation'] == true AND $account['settings']['myvox']['incident']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
-				'{$myvox_survey}' => ($account['reputation'] == true AND $account['settings']['myvox']['survey']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
-				'{$reviews}' => ($account['reputation'] == true AND $account['settings']['reviews']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
+				'{$div_public_requests}' => $div_public_requests,
+				'{$div_public_incidents}' => $div_public_incidents,
+				'{$div_answered_survey}' => $div_answered_survey,
+				'{$div_reviews_page}' => $div_reviews_page,
 				'{$operation}' => ($account['operation'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$reputation}' => ($account['reputation'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$package}' => $account['package'],
+				'{$sms}' => $account['sms'],
 				'{$div_siteminder}' => $div_siteminder,
 				'{$div_zaviapms}' => $div_zaviapms,
-				'{$sms}' => $account['sms'],
+				'{$btn_get_urls}' => $btn_get_urls,
+				'{$mdl_get_urls}' => $mdl_get_urls,
 				'{$opt_countries}' => $opt_countries,
 				'{$opt_times_zones}' => $opt_times_zones,
 				'{$opt_currencies}' => $opt_currencies,
 				'{$opt_languages}' => $opt_languages,
 				'{$opt_ladas}' => $opt_ladas,
-				'{$myvox_url}' => ($account['operation'] == true OR $account['reputation'] == true) ? 'https://' . Configuration::$domain . '/' . $account['path'] . '/myvox' : '{$lang.not_available}',
-				'{$reviews_url}' => ($account['reputation'] == true) ? 'https://' . Configuration::$domain . '/' . $account['path'] . '/reviews' : '{$lang.not_available}',
-				'{$frm_edit_myvox_settings}' => $frm_edit_myvox_settings,
-				'{$frm_edit_reviews_settings}' => $frm_edit_reviews_settings
+				'{$mdl_edit_myvox_survey_settings}' => $mdl_edit_myvox_survey_settings,
+				'{$mdl_edit_reviews_settings}' => $mdl_edit_reviews_settings
 			];
 
 			$template = $this->format->replace($replace, $template);

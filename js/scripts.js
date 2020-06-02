@@ -75,19 +75,32 @@ $(document).ready(function ()
         upload_image(type, target, preview, name, action);
     });
 
-    $('[name="checked_all"]').on('change', function()
+    $('[data-switcher]').each(function()
     {
-        if ($(this).prop('checked') == true)
-            $(this).parents('checkboxes').find('[type="checkbox"]').prop('checked', true);
-        else if ($(this).prop('checked') == false)
-            $(this).parents('checkboxes').find('[type="checkbox"]').prop('checked', false);
+        if ($(this).is(':checked'))
+            $(this).parent().addClass('checked');
+        else
+            $(this).parent().removeClass('checked');
     });
 
-    $('[type="checkbox"]').on('change', function()
+    $('[data-switcher]').on('change', function()
     {
-        if ($(this).prop('checked') == false)
-            $(this).parents('checkboxes').find('[name="checked_all"]').prop('checked', false);
+        $(this).parent().toggleClass('checked');
     });
+
+    // $('[name="checked_all"]').on('change', function()
+    // {
+    //     if ($(this).prop('checked') == true)
+    //         $(this).parents('checkboxes').find('[type="checkbox"]').prop('checked', true);
+    //     else if ($(this).prop('checked') == false)
+    //         $(this).parents('checkboxes').find('[type="checkbox"]').prop('checked', false);
+    // });
+    //
+    // $('[type="checkbox"]').on('change', function()
+    // {
+    //     if ($(this).prop('checked') == false)
+    //         $(this).parents('checkboxes').find('[name="checked_all"]').prop('checked', false);
+    // });
 
     $('[data-elapsed-time]').each(function()
     {
