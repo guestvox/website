@@ -91,7 +91,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <div class="span12">
                         <div class="label">
                             <label required>
-                                <p>{$lang.to}</p>
+                                <p>{$lang.for}</p>
                                 <input type="text" value="contacto@guestvox.com" disabled>
                             </label>
                         </div>

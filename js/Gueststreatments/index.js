@@ -10,9 +10,7 @@ $(document).ready(function()
         id = null;
         edit = false;
 
-        $('[data-modal="new_guest_treatment"]').find('form')[0].reset();
-        $('[data-modal="new_guest_treatment"]').find('label.error').removeClass('error');
-        $('[data-modal="new_guest_treatment"]').find('p.error').remove();
+        clean_form($('[data-modal="new_guest_treatment"]').find('form'));
     });
 
     $('form[name="new_guest_treatment"]').on('submit', function(e)

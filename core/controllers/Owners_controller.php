@@ -196,7 +196,7 @@ class Owners_controller extends Controller
 					<div class="span6">
                         <div class="label">
                             <label required>
-                                <p>(ES) - {$lang.name}</p>
+                                <p>(ES) {$lang.name}</p>
                                 <input type="text" name="name_es">
                             </label>
                         </div>
@@ -204,7 +204,7 @@ class Owners_controller extends Controller
 					<div class="span6">
                         <div class="label">
                             <label required>
-                                <p>(EN) - {$lang.name}</p>
+                                <p>(EN) {$lang.name}</p>
                                 <input type="text" name="name_en">
                             </label>
                         </div>
@@ -220,7 +220,7 @@ class Owners_controller extends Controller
 					<div class="span6 hidden">
 						<div class="label">
 							<label required>
-								<p>{$lang.since}</p>
+								<p>({$lang.number}) {$lang.since}</p>
 								<input type="number" name="since">
 							</label>
 						</div>
@@ -228,18 +228,21 @@ class Owners_controller extends Controller
 					<div class="span6 hidden">
 						<div class="label">
 							<label required>
-								<p>{$lang.to}</p>
+								<p>({$lang.number}) {$lang.to}</p>
 								<input type="number" name="to">
 							</label>
 						</div>
 					</div>
 					<div class="span12">
 						<div class="label">
+							<label>
+								<p class="center">{$lang.available_for_use_in}:</p>
+							</label>
 							<label unrequired>
-								<p class="center">{$lang.request}</p>
+								<p>{$lang.request}</p>
 								<div class="switch">
-									<input id="rqsw" type="checkbox" name="request" class="switch_input">
-									<label class="switch_label" for="rqsw"></label>
+									<input id="rqsw" type="checkbox" name="request" data-switcher>
+									<label for="rqsw"></label>
 								</div>
 							</label>
 						</div>
@@ -247,10 +250,10 @@ class Owners_controller extends Controller
 					<div class="span12">
 						<div class="label">
 							<label unrequired>
-								<p class="center">{$lang.incident}</p>
+								<p>{$lang.incident}</p>
 								<div class="switch">
-									<input id="insw" type="checkbox" name="incident" class="switch_input">
-									<label class="switch_label" for="insw"></label>
+									<input id="insw" type="checkbox" name="incident" data-switcher>
+									<label for="insw"></label>
 								</div>
 							</label>
 						</div>
@@ -258,10 +261,10 @@ class Owners_controller extends Controller
 					<div class="span12">
 						<div class="label">
 							<label unrequired>
-								<p class="center">{$lang.workorder}</p>
+								<p>{$lang.workorder}</p>
 								<div class="switch">
-									<input id="wksw" type="checkbox" name="workorder" class="switch_input">
-									<label class="switch_label" for="wksw"></label>
+									<input id="wksw" type="checkbox" name="workorder" data-switcher>
+									<label for="wksw"></label>
 								</div>
 							</label>
 						</div>
@@ -269,10 +272,10 @@ class Owners_controller extends Controller
 					<div class="span12">
 						<div class="label">
 							<label unrequired>
-								<p class="center">{$lang.survey}</p>
+								<p>{$lang.survey}</p>
 								<div class="switch">
-									<input id="susw" type="checkbox" name="survey" class="switch_input">
-									<label class="switch_label" for="susw"></label>
+									<input id="susw" type="checkbox" name="survey" data-switcher>
+									<label for="susw"></label>
 								</div>
 							</label>
 						</div>
@@ -280,10 +283,10 @@ class Owners_controller extends Controller
 					<div class="span12">
 						<div class="label">
 							<label unrequired>
-								<p class="center">{$lang.public}</p>
+								<p>{$lang.public}</p>
 								<div class="switch">
-									<input id="pusw" type="checkbox" name="public" class="switch_input">
-									<label class="switch_label" for="pusw"></label>
+									<input id="pusw" type="checkbox" name="public" data-switcher>
+									<label for="pusw"></label>
 								</div>
 							</label>
 						</div>

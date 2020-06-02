@@ -5,10 +5,10 @@ $(window).on('beforeunload ajaxStart', function()
     $('[data-ajax-loader]').addClass('view');
 });
 
-// $(window).on('ajaxStop', function()
-// {
-//     $('[data-ajax-loader]').removeClass('view');
-// });
+$(window).on('ajaxStop', function()
+{
+    $('[data-ajax-loader]').removeClass('view');
+});
 
 $(document).ready(function ()
 {
@@ -133,6 +133,16 @@ function required_focus(target, form)
             else
                 parent.removeClass('success');
         });
+
+        var cbxs = target.find('[data-switcher]');
+
+        cbxs.each(function(key, value)
+        {
+            if ($(this).is(':checked'))
+                $(this).parent().addClass('checked');
+            else
+                $(this).parent().removeClass('checked');
+        });
     }
     else
     {
@@ -145,6 +155,17 @@ function required_focus(target, form)
         else
             target.removeClass('success');
     }
+}
+
+function clean_form(target)
+{
+    target[0].reset();
+
+    target.find('[data-uploader]').find('[data-preview] > img').attr('src', '../images/empty.png');
+    target.find('[data-switcher]').parent().removeClass('checked');
+    target.find('label.success').removeClass('success');
+    target.find('label.error').removeClass('error');
+    target.find('p.error').remove();
 }
 
 function upload_image(type, target, preview, name, action)

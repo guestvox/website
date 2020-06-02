@@ -38,9 +38,7 @@ $(document).ready(function()
         id = null;
         edit = false;
 
-        $('[data-modal="new_user"]').find('form')[0].reset();
-        $('[data-modal="new_user"]').find('label.error').removeClass('error');
-        $('[data-modal="new_user"]').find('p.error').remove();
+        clean_form($('[data-modal="new_user"]').find('form'));
     });
 
     $('form[name="new_user"]').on('submit', function(e)

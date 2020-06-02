@@ -10,9 +10,7 @@ $(document).ready(function()
         id = null;
         edit = false;
 
-        $('[data-modal="new_reservation_status"]').find('form')[0].reset();
-        $('[data-modal="new_reservation_status"]').find('label.error').removeClass('error');
-        $('[data-modal="new_reservation_status"]').find('p.error').remove();
+        clean_form($('[data-modal="new_reservation_status"]').find('form'));
     });
 
     $('form[name="new_reservation_status"]').on('submit', function(e)

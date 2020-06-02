@@ -32,7 +32,7 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_areas");</sc
                     <div class="span6">
                         <div class="label">
                             <label required>
-                                <p>(ES) - {$lang.name}</p>
+                                <p>(ES) {$lang.name}</p>
                                 <input type="text" name="name_es">
                             </label>
                         </div>
@@ -40,7 +40,7 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_areas");</sc
                     <div class="span6">
                         <div class="label">
                             <label required>
-                                <p>(EN) - {$lang.name}</p>
+                                <p>(EN) {$lang.name}</p>
                                 <input type="text" name="name_en">
                             </label>
                         </div>
@@ -48,10 +48,13 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_areas");</sc
                     <div class="span12">
                         <div class="label">
                             <label unrequired>
-                                <p class="center">{$lang.request}</p>
+                                <p class="center">{$lang.available_for_use_in}:</p>
+                            </label>
+                            <label unrequired>
+                                <p>{$lang.request}</p>
                                 <div class="switch">
-                                    <input id="rqsw" type="checkbox" name="request" class="switch_input">
-                                    <label class="switch_label" for="rqsw"></label>
+                                    <input id="rqsw" type="checkbox" name="request" data-switcher>
+                                    <label for="rqsw"></label>
                                 </div>
                             </label>
                         </div>
@@ -59,10 +62,10 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_areas");</sc
                     <div class="span12">
                         <div class="label">
                             <label unrequired>
-                                <p class="center">{$lang.incident}</p>
+                                <p>{$lang.incident}</p>
                                 <div class="switch">
-                                    <input id="insw" type="checkbox" name="incident" class="switch_input">
-                                    <label class="switch_label" for="insw"></label>
+                                    <input id="insw" type="checkbox" name="incident" data-switcher>
+                                    <label for="insw"></label>
                                 </div>
                             </label>
                         </div>
@@ -70,10 +73,10 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_areas");</sc
                     <div class="span12">
                         <div class="label">
                             <label unrequired>
-                                <p class="center">{$lang.workorder}</p>
+                                <p>{$lang.workorder}</p>
                                 <div class="switch">
-                                    <input id="wksw" type="checkbox" name="workorder" class="switch_input">
-                                    <label class="switch_label" for="wksw"></label>
+                                    <input id="wksw" type="checkbox" name="workorder" data-switcher>
+                                    <label for="wksw"></label>
                                 </div>
                             </label>
                         </div>
@@ -81,10 +84,10 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_areas");</sc
                     <div class="span12">
                         <div class="label">
                             <label unrequired>
-                                <p class="center">{$lang.public}</p>
+                                <p>{$lang.public}</p>
                                 <div class="switch">
-                                    <input id="pusw" type="checkbox" name="public" class="switch_input">
-                                    <label class="switch_label" for="pusw"></label>
+                                    <input id="pusw" type="checkbox" name="public" data-switcher>
+                                    <label for="pusw"></label>
                                 </div>
                             </label>
                         </div>

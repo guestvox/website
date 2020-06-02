@@ -31,9 +31,7 @@ $(document).ready(function()
         $('[data-modal="new_owner"]').find('[name="since"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="new_owner"]').find('[name="to"]').parent().parent().parent().addClass('hidden');
 
-        $('[data-modal="new_owner"]').find('form')[0].reset();
-        $('[data-modal="new_owner"]').find('label.error').removeClass('error');
-        $('[data-modal="new_owner"]').find('p.error').remove();
+        clean_form($('[data-modal="new_owner"]').find('form'));
     });
 
     $('form[name="new_owner"]').on('submit', function(e)
