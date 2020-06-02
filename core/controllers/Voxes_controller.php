@@ -826,9 +826,9 @@ class Voxes_controller extends Controller
 					<div class="label">
 						<label unrequired>
 							<p>{$lang.confidentiality}</p>
-							<div class="switch">
-								<input id="cfsw" type="checkbox" name="confidentiality" class="switch_input" ' . (($vox['confidentiality'] == true) ? 'checked' : '') . '>
-								<label class="switch_label" for="cfsw"></label>
+							<div class="switch ' . (($vox['confidentiality'] == true) ? 'checked' : '') . '">
+								<input id="cfsw" type="checkbox" name="confidentiality" data-switcher ' . (($vox['confidentiality'] == true) ? 'checked' : '') . '>
+								<label for="cfsw"></label>
 							</div>
 						</label>
 					</div>
@@ -1553,17 +1553,17 @@ class Voxes_controller extends Controller
 					                <div class="row">
 					                    <div class="span12">
 					                        <div class="label">
-					                            <label unrequired>
-					                                <p>{$lang.cost} ' . Session::get_value('account')['currency'] . '</p>
-					                                <input type="number" name="cost">
-					                            </label>
-					                        </div>
-					                    </div>
-					                    <div class="span12">
-					                        <div class="label">
 					                            <label required>
 					                                <p>{$lang.comment}</p>
 					                                <textarea name="comment"></textarea>
+					                            </label>
+					                        </div>
+					                    </div>
+										<div class="span12">
+					                        <div class="label">
+					                            <label unrequired>
+					                                <p>{$lang.cost} ' . Session::get_value('account')['currency'] . '</p>
+					                                <input type="number" name="cost">
 					                            </label>
 					                        </div>
 					                    </div>
@@ -1652,7 +1652,7 @@ class Voxes_controller extends Controller
 					'{$btn_get_assigned_users}' => '<a ' . (!empty($vox['assigned_users']) ? 'class="active" data-button-modal="get_assigned_users"' : '') . '><i class="fas fa-users"></i></a>',
 					'{$btn_get_viewed_by}' => '<a ' . (!empty($vox['viewed_by']) ? 'class="active" data-button-modal="get_viewed_by"' : '') . '><i class="far fa-eye"></i></a>',
 					'{$btn_get_comments}' => '<a ' . (!empty($vox['comments']) ? 'class="active" data-button-modal="get_comments"' : '') . '><i class="fas fa-comments"></i></a>',
-					'{$created_user_avatar}' => ($vox['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($vox['created_user']['avatar']) ? '{$path.uploads}' . $query['created_user']['avatar'] : '{$path.images}avatar.png'),
+					'{$created_user_avatar}' => ($vox['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($vox['created_user']['avatar']) ? '{$path.uploads}' . $vox['created_user']['avatar'] : '{$path.images}avatar.png'),
 					'{$created_user_name}' => ($vox['origin'] == 'myvox') ? 'Myvox' : $vox['created_user']['firstname'] . ' ' . $vox['created_user']['lastname'],
 					'{$created_user_username}' => '@' . (($vox['origin'] == 'myvox') ? 'myvox' : $vox['created_user']['username']),
 					'{$created_date}' => Functions::get_formatted_date($vox['created_date'], 'd.m.Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['created_hour'], '+ hrs'),

@@ -234,8 +234,17 @@ body > main.dashboard > section.workspace {
     z-index: 96;
 }
 
-body > main.dashboard > section.workspace.grey {
+body > main.dashboard > section.workspace.gry {
     background-color: #eee;
+}
+
+@media (min-width: 768px) {
+
+    body > main.dashboard > section.workspace.dkp {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 /* Buttons */
@@ -299,16 +308,19 @@ body > main.dashboard > section.buttons > div > a.active {
 ------------------------------------------------------------------------------ */
 div.vox_details {
     width: 100%;
-    background-color: #fff;
 }
 
 @media (min-width: 768px) {
 
     div.vox_details {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
+        max-width: 1000px;
+        position: relative;
+    }
+
+    div.vox_details::after {
+        content: '';
+        display: block;
+        clear: both;
     }
 }
 
@@ -326,15 +338,37 @@ div.vox_details > div {
 
     div.vox_details > div.stl_1,
     div.vox_details > div.stl_2,
-    div.vox_details > div.stl_3,
-    div.vox_details > div.stl_4,
-    div.vox_details > div.stl_5,
-    div.vox_details > div.stl_6 {
-        max-width: 400px;
+    div.vox_details > div.stl_5 {
+        width: 300px;
+        height: 300px;
+        float: left;
+    }
+
+    div.vox_details > div.stl_3 {
+        padding: 40px 40px 20px 40px;
+    }
+
+    div.vox_details > div.stl_4 {
+        padding-bottom: 20px;
+    }
+
+    div.vox_details > div.stl_5 {
+        width: 400px;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+    }
+
+    div.vox_details > div.stl_8 > div {
+        max-width: 600px;
     }
 }
 
 /*  */
+
+div.vox_details > div.stl_1 {
+    background-color: #fff;
+}
 
 div.vox_details > div.stl_1 > span.low,
 div.vox_details > div.stl_1 > span.medium,
@@ -389,6 +423,10 @@ div.vox_details > div.stl_1 > h3 > i {
 
 /*  */
 
+div.vox_details > div.stl_2 {
+    background-color: #fff;
+}
+
 div.vox_details > div.stl_2 > span {
     width: 100%;
     height: 30px;
@@ -414,6 +452,10 @@ div.vox_details > div.stl_2 > span > i {
 
 /*  */
 
+div.vox_details > div.stl_3 {
+    background-color: #fff;
+}
+
 div.vox_details > div.stl_3 > p {
     width: 100%;
     margin-bottom: 10px;
@@ -434,6 +476,10 @@ div.vox_details > div.stl_3 > p > i {
 }
 
 /*  */
+
+div.vox_details > div.stl_4 {
+    background-color: #fff;
+}
 
 div.vox_details > div.stl_4 > span {
     width: auto;
@@ -464,6 +510,7 @@ div.vox_details > div.stl_4 > span > i {
 div.vox_details > div.stl_5 {
     display: block;
     padding: 20px 0px;
+    background-color: #fff;
 }
 
 div.vox_details > div.stl_5::after {
@@ -505,6 +552,8 @@ div.vox_details > div.stl_6 {
     position: relative;
     flex-direction: row;
     padding-bottom: 40px;
+    border-radius: 0px 0px 20px 20px;
+    background-color: #fff;
 }
 
 div.vox_details > div.stl_6:after {

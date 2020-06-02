@@ -114,8 +114,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <label unrequired>
                             <p>{$lang.confidentiality}</p>
                             <div class="switch">
-                                <input id="cfsw" type="checkbox" name="confidentiality" class="switch_input">
-                                <label class="switch_label" for="cfsw"></label>
+                                <input id="cfsw" type="checkbox" name="confidentiality" data-switcher>
+                                <label for="cfsw"></label>
                             </div>
                         </label>
                     </div>

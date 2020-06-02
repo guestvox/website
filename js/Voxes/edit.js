@@ -116,8 +116,6 @@ $(document).ready(function()
             $('[name="check_in"]').parent().parent().parent().addClass('hidden');
             $('[name="check_out"]').parent().parent().parent().addClass('hidden');
         }
-
-        required_focus($('form[name="edit_vox"]'), true);
     });
 
     $('[name="owner"]').on('change', function()
