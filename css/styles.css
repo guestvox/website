@@ -221,6 +221,23 @@ body > main.dashboard::before {
     z-index: 98;
 }
 
+body > main.dashboard.gry > section.workspace {
+    background-color: #eee;
+}
+
+@media (min-width: 768px) {
+
+    body > main.dashboard.gry::before {
+        background-color: #eee;
+    }
+
+    body > main.dashboard.dkp > section.workspace {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
 /* Workspace */
 
 body > main.dashboard > section.workspace {
@@ -232,19 +249,6 @@ body > main.dashboard > section.workspace {
     box-sizing: border-box;
     background-color: #fff;
     z-index: 96;
-}
-
-body > main.dashboard > section.workspace.gry {
-    background-color: #eee;
-}
-
-@media (min-width: 768px) {
-
-    body > main.dashboard > section.workspace.dkp {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
 }
 
 /* Buttons */
@@ -335,6 +339,11 @@ div.vox_details > div {
 }
 
 @media (min-width: 768px) {
+
+    div.vox_details {
+        border-radius: 20px 20px 0px 0px;
+        overflow: hidden;
+    }
 
     div.vox_details > div.stl_1,
     div.vox_details > div.stl_2,
@@ -1488,14 +1497,14 @@ div.tbl_stl_3 > div {
 
 @media (min-width: 768px) {
 
-    div.tbl_stl_2 > div:first-child,
-    div.tbl_stl_3 > div:first-child {
-        padding-top: 40px;
-    }
-
     div.tbl_stl_2 > div,
     div.tbl_stl_3 > div {
         padding: 0px 40px 40px 40px;
+    }
+
+    div.tbl_stl_2 > div:first-child,
+    div.tbl_stl_3 > div:first-child {
+        padding-top: 40px;
     }
 }
 
