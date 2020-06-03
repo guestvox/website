@@ -558,9 +558,9 @@ class Myvox_controller extends Controller
 
 					Functions::environment([
 						'status' => 'success',
-						'message' => '{$lang.operation_success}'
+						'message' => '{$lang.thanks_menu_cart}'
 					]);
-
+					
 					// $query = $this->model->new_vox(null, true);
 					//
 					// if (!empty($query))
@@ -572,7 +572,7 @@ class Myvox_controller extends Controller
 					//
 					// 	Functions::environment([
 					// 		'status' => 'success',
-					// 		'message' => '{$lang.success_error}'
+					// 		'message' => '{$lang.thanks_menu_cart}'
 					// 	]);
 					// }
 					// else
