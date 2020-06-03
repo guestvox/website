@@ -1005,7 +1005,7 @@ class Myvox_controller extends Controller
 						$btn_get_menu_cart .= '<a data-button-modal="get_menu_cart">' . Session::get_value('account')['settings']['myvox']['menu']['title'][$this->lang1] . '</a>';
 
 						$mdl_get_menu_cart .=
-						'<section class="modal fullscreen view" data-modal="get_menu_cart">
+						'<section class="modal fullscreen" data-modal="get_menu_cart">
 							<div class="content">
 								<main class="menu_cart">
 									<div class="stl_1" data-menu-cart>
