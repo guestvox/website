@@ -482,6 +482,8 @@ class Myvox_controller extends Controller
 									<a data-action="remove_to_menu_cart" data-id="' . $value['id'] . '"><i class="fas fa-times"></i></a>
 								</div>';
 							}
+
+							$html .= '<a class="new" data-action="send_menu_cart"><i class="fas fa-check"></i></a>';
 						}
 						else
 							$html .= '<span>{$lang.not_menu_cart}</span>';
@@ -504,6 +506,16 @@ class Myvox_controller extends Controller
 
 				if ($_POST['action'] == 'send_menu_cart')
 				{
+					Session::set_value('menu_cart', [
+						'total' => 0,
+						'items' => []
+					]);
+
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+
 					// $query = $this->model->new_vox(null, true);
 					//
 					// if (!empty($query))
@@ -948,12 +960,11 @@ class Myvox_controller extends Controller
 						$btn_get_menu_cart .= '<a data-button-modal="get_menu_cart">' . Session::get_value('account')['settings']['myvox']['menu']['title'][$this->lang1] . '</a>';
 
 						$mdl_get_menu_cart .=
-						'<section class="modal fullscreen view" data-modal="get_menu_cart">
+						'<section class="modal fullscreen" data-modal="get_menu_cart">
 							<div class="content">
 								<main class="menu_cart">
 									<div class="stl_1" data-menu-cart>
-										<div>
-											<span>' . Functions::get_formatted_currency(Session::get_value('menu_cart')['total'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>';
+										<span>' . Functions::get_formatted_currency(Session::get_value('menu_cart')['total'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>';
 
 						if (!empty(Session::get_value('menu_cart')['items']))
 						{
@@ -967,14 +978,14 @@ class Myvox_controller extends Controller
 									<a data-action="remove_to_menu_cart" data-id="' . $value['id'] . '"><i class="fas fa-times"></i></a>
 								</div>';
 							}
+
+							$mdl_get_menu_cart .= '<a class="new" data-action="send_menu_cart"><i class="fas fa-check"></i></a>';
 						}
 						else
 							$mdl_get_menu_cart .= '<span>{$lang.not_menu_cart}</span>';
 
 						$mdl_get_menu_cart .=
-						'	</div>
-							<a class="new" data-action="send_menu_cart"><i class="fas fa-check"></i></a>
-						</div>
+						'</div>
 						<div class="stl_2">
 
 						</div>
@@ -1002,6 +1013,9 @@ class Myvox_controller extends Controller
 
 						$mdl_get_menu_cart.=
 						'			</div>
+									<div class="buttons">
+										<a class="new" button-close><i class="fas fa-times"></i></a>
+									</div>
 								</main>
 							</div>
 						</section>';

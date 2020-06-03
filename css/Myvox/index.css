@@ -167,29 +167,20 @@ main.menu_cart > div.stl_1 {
     box-sizing: border-box;
 }
 
-main.menu_cart > div.stl_1 > div {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-main.menu_cart > div.stl_1 > div > span:first-child {
+main.menu_cart > div.stl_1 > span:first-child {
     margin: 20px 0px 10px 0px;
     font-size: 30px;
     font-weight: 600;
     color: #212121;
 }
 
-main.menu_cart > div.stl_1 > div > span:last-child {
+main.menu_cart > div.stl_1 > span:last-child {
     font-size: 12px;
     font-weight: 400;
     color: #757575;
 }
 
-main.menu_cart > div.stl_1 > div > div > span {
+main.menu_cart > div.stl_1 > div > span {
     position: relative;
     margin-right: 5px;
     padding-right: 10px;
@@ -199,7 +190,7 @@ main.menu_cart > div.stl_1 > div > div > span {
     color: #757575;
 }
 
-main.menu_cart > div.stl_1 > div > div > span::after {
+main.menu_cart > div.stl_1 > div > span::after {
     content: '';
     width: 1px;
     height: 8px;
@@ -209,12 +200,18 @@ main.menu_cart > div.stl_1 > div > div > span::after {
     background-color: #bdbdbd;
 }
 
+main.menu_cart > div.stl_1 > div > a {
+    font-size: 14px;
+    color: #757575;
+}
+
 main.menu_cart > div.stl_1 > a {
     width: 40px;
     height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 20px;
     border-radius: 50%;
     background-color: #e0e0e0;
     font-size: 14px;
