@@ -52,9 +52,7 @@ $(document).ready(function()
 
     $('[data-modal="signup"]').modal().onCancel(function()
     {
-        $('[data-modal="signup"]').find('form')[0].reset();
-        $('[data-modal="signup"]').find('label.error').removeClass('error');
-        $('[data-modal="signup"]').find('p.error').remove();
+        clean_form($('[data-modal="signup"]').find('form'));
     });
 
     $('form[name="signup"]').on('submit', function(e)

@@ -7,9 +7,7 @@ $(document).ready(function()
         $('[data-modal="comment_vox"]').find('[data-uploader] > [data-preview] > div').removeClass('active');
         $('[data-modal="comment_vox"]').find('[data-uploader] > [data-preview] > div > span > strong').val('0');
 
-        $('[data-modal="comment_vox"]').find('form')[0].reset();
-        $('[data-modal="comment_vox"]').find('label.error').removeClass('error');
-        $('[data-modal="comment_vox"]').find('p.error').remove();
+        clean_form($('[data-modal="comment_vox"]').find('form'));
     });
 
     $('form[name="comment_vox"]').on('submit', function(e)

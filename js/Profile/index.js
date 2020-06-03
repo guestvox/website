@@ -33,9 +33,7 @@ $(document).ready(function()
 
     $('[data-modal="edit_profile"]').modal().onCancel(function()
     {
-        $('[data-modal="edit_profile"]').find('form')[0].reset();
-        $('[data-modal="edit_profile"]').find('label.error').removeClass('error');
-        $('[data-modal="edit_profile"]').find('p.error').remove();
+        clean_form($('[data-modal="edit_profile"]').find('form'));
     });
 
     $('form[name="edit_profile"]').on('submit', function(e)
@@ -62,9 +60,7 @@ $(document).ready(function()
 
     $('[data-modal="restore_password"]').modal().onCancel(function()
     {
-        $('[data-modal="restore_password"]').find('form')[0].reset();
-        $('[data-modal="restore_password"]').find('label.error').removeClass('error');
-        $('[data-modal="restore_password"]').find('p.error').remove();
+        clean_form($('[data-modal="restore_password"]').find('form'));
     });
 
     $('form[name="restore_password"]').on('submit', function(e)

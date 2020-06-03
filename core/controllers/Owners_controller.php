@@ -181,7 +181,7 @@ class Owners_controller extends Controller
 				{
 					$mdl_new_owner .=
 					'<div class="span12">
-	                    <div class="checkers">
+	                    <div class="tabers">
 	                        <div>
 	                            <input id="onrd" type="radio" name="type" value="one" checked>
 	                            <label for="onrd"><i class="fas fa-user"></i></label>

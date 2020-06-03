@@ -4,9 +4,7 @@ $(document).ready(function()
 {
     $('[data-modal="get_support"]').modal().onCancel(function()
     {
-        $('[data-modal="get_support"]').find('form')[0].reset();
-        $('[data-modal="get_support"]').find('label.error').removeClass('error');
-        $('[data-modal="get_support"]').find('p.error').remove();
+        clean_form($('[data-modal="get_support"]').find('form'));
     });
 
     $('form[name="get_support"]').on('submit', function(e)
@@ -64,9 +62,7 @@ $(document).ready(function()
 
     $('[data-modal="edit_account"]').modal().onCancel(function()
     {
-        $('[data-modal="edit_account"]').find('form')[0].reset();
-        $('[data-modal="edit_account"]').find('label.error').removeClass('error');
-        $('[data-modal="edit_account"]').find('p.error').remove();
+        clean_form($('[data-modal="edit_account"]').find('form'));
     });
 
     $('form[name="edit_account"]').on('submit', function(e)
@@ -125,9 +121,7 @@ $(document).ready(function()
 
     $('[data-modal="edit_billing"]').modal().onCancel(function()
     {
-        $('[data-modal="edit_billing"]').find('form')[0].reset();
-        $('[data-modal="edit_billing"]').find('label.error').removeClass('error');
-        $('[data-modal="edit_billing"]').find('p.error').remove();
+        clean_form($('[data-modal="edit_billing"]').find('form'));
     });
 
     $('form[name="edit_billing"]').on('submit', function(e)
@@ -273,11 +267,7 @@ $(document).ready(function()
         $('#susw').prop('checked', false);
         $('#susw').parent().removeClass('checked');
 
-        $('[data-modal="edit_myvox_survey_settings"]').find('[data-uploader]').find('[data-preview] > img').attr('src', '../images/empty.png');
-
-        $('[data-modal="edit_myvox_survey_settings"]').find('form')[0].reset();
-        $('[data-modal="edit_myvox_survey_settings"]').find('label.error').removeClass('error');
-        $('[data-modal="edit_myvox_survey_settings"]').find('p.error').remove();
+        clean_form($('[data-modal="edit_myvox_survey_settings"]').find('form'));
     });
 
     $('form[name="edit_myvox_survey_settings"]').on('submit', function(e)
@@ -374,9 +364,7 @@ $(document).ready(function()
         $('#rvsw').prop('checked', false);
         $('#rvsw').parent().removeClass('checked');
 
-        $('[data-modal="edit_reviews_settings"]').find('form')[0].reset();
-        $('[data-modal="edit_reviews_settings"]').find('label.error').removeClass('error');
-        $('[data-modal="edit_reviews_settings"]').find('p.error').remove();
+        clean_form($('[data-modal="edit_reviews_settings"]').find('form'));
     });
 
     $('form[name="edit_reviews_settings"]').on('submit', function(e)

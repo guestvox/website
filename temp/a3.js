@@ -1,51 +1,57 @@
 'use strict';
 
-$(document).ready(function()
+$(document).ready(function ()
 {
-    $('.fancybox-thumb').fancybox({
-        prevEffect	: "none",
-        nextEffect	: "none",
-        helpers	:
-        {
-            thumbs	:
-            {
-                width	: 50,
-                height	: 50
-            }
-        }
-    });
-
-    $('.fancybox-media').fancybox({
-        openEffect  : "elastic",
-        closeEffect : "none",
-        helpers :
-        {
-            media : {}
-        }
-    });
-
-    $('[data-elapsed-time]').each(function()
+    $('[name="filter"]').on('change', function()
     {
-        get_time_elapsed($(this).data('date-1').replace(/-/g, '/'), $(this).data('date-2').replace(/-/g, '/'), $(this).data('time-zone'), $(this).data('status'), $(this).find('span'));
-    });
+        var form = $(this).parents('form');
 
-    $(document).on('change', '[important] [name]', function()
-    {
-        if ($(this).val() != '')
+        if ($(this).val() != 'free')
         {
-            $(this).parents('label').addClass('success');
-            $(this).parents('label.error').removeClass('error');
-            $(this).parents('label').find('p.error').remove();
+            $.ajax({
+                type: 'POST',
+                data: 'filter=' + $(this).val() + '&action=get_filter',
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
+                {
+                    if (response.status == 'success')
+                    {
+                        form.find('[name="type"]').val(response.data.type);
+                        form.find('[name="opportunity_area"]').html(response.data.opt_opportunity_areas);
+                        form.find('[name="opportunity_area"]').val(response.data.opportunity_area);
+                        form.find('[name="opportunity_type"]').html(response.data.opt_opportunity_types);
+                        form.find('[name="opportunity_type"]').val(response.data.opportunity_type);
+                        form.find('[name="room"]').val(response.data.room);
+                        form.find('[name="table"]').val(response.data.table);
+                        form.find('[name="client"]').val(response.data.client);
+                        form.find('[name="location"]').html(response.data.opt_locations);
+                        form.find('[name="location"]').val(response.data.location);
+                        form.find('[name="order"]').val(response.data.order);
+                        form.find('[name="started_date"]').val(response.data.started_date);
+                        form.find('[name="end_date"]').val(response.data.end_date);
+                        form.find('[name="fields[]"]').parent().parent().html(response.data.cbx_fields);
+
+                        $.each(response.data.fields, function (key, value)
+                        {
+                            form.find('[name="fields[]"][value="' + value + '"]').prop('checked', true);
+                        });
+                    }
+                }
+            });
         }
         else
-            $(this).parents('label').removeClass('success');
+            location.reload();
     });
 
-    $('[data-modal="complete_vox"]').modal().onSuccess(function()
+    $('[name="type"]').on('change', function()
     {
+        var form = $(this).parents('form');
+
         $.ajax({
             type: 'POST',
-            data: 'action=complete_vox',
+            data: 'type=' + $(this).val() + '&action=get_opt_opportunity_areas',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -53,10 +59,63 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="success"]').addClass('view');
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { window.location.href = '/voxes'; }, 1500);
+                    form.find('[name="opportunity_area"]').html(response.data);
+                    form.find('[name="opportunity_type"]').html('<option value="">Todo</option>');
                 }
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + $(this).val() + '&action=get_opt_locations',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    form.find('[name="location"]').html(response.data);
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + $(this).val() + '&action=get_cbx_addressed_to_opportunity_areas',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    form.find('[name="addressed_to_opportunity_areas[]"]').parent().parent().html(response.data);
+                else if (response.status == 'error')
+                {
+                    $('[data-modal="error"]').addClass('view');
+                    $('[data-modal="error"]').find('main > p').html(response.message);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + $(this).val() + '&action=get_cbx_fields',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    form.find('[name="fields[]"]').parent().parent().html(response.data);
                 else if (response.status == 'error')
                 {
                     $('[data-modal="error"]').addClass('view');
@@ -66,22 +125,20 @@ $(document).ready(function()
         });
     });
 
-    $('[data-modal="reopen_vox"]').modal().onSuccess(function()
+    $('[name="opportunity_area"]').on('change', function()
     {
+        var form = $(this).parents('form');
+
         $.ajax({
             type: 'POST',
-            data: 'action=reopen_vox',
+            data: 'opportunity_area=' + $(this).val() + '&type=' + form.find('[name="type"]').val() + '&action=get_opt_opportunity_types',
             processData: false,
             cache: false,
             dataType: 'json',
             success: function(response)
             {
                 if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').addClass('view');
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { location.reload(); }, 1500);
-                }
+                    form.find('[name="opportunity_type"]').html(response.data);
                 else if (response.status == 'error')
                 {
                     $('[data-modal="error"]').addClass('view');
@@ -91,63 +148,50 @@ $(document).ready(function()
         });
     });
 
-    var response_to = '';
-
-    $('[data-button-modal="new_vox_comment"]').on('click', function()
+    $(document).on('change', '[name="checked_all"]', function()
     {
-        var name = $(this).attr('value');
-
-        if (name == 'incident' || name == 'workorder')
-            $('[data-modal="new_vox_comment"]').find('#cost').show();
-        else
-            $('[data-modal="new_vox_comment"]').find('#cost').hide();
-
+        if ($(this).prop('checked') == true)
+            $(this).parent().parent().find('[type="checkbox"]').prop('checked', true);
+        else if ($(this).prop('checked') == false)
+            $(this).parent().parent().find('[type="checkbox"]').prop('checked', false);
     });
 
-    $('[data-modal="new_vox_comment"]').modal().onCancel(function()
+    $(document).on('change', '[type="checkbox"]', function()
     {
-        response_to = '';
-        $('[data-modal="new_vox_comment"]').find('form')[0].reset();
-        $('[data-modal="new_vox_comment"]').find('label.error').removeClass('error');
-        $('[data-modal="new_vox_comment"]').find('p.error').remove();
+        if ($(this).prop('checked') == false)
+            $(this).parent().parent().find('[name="checked_all"]').prop('checked', false);
     });
 
-    $('[data-modal="new_vox_comment"]').modal().onSuccess(function()
+    $('[data-action="generate_report"]').on('click', function()
     {
-        $('[data-modal="new_vox_comment"]').find('form').submit();
+        $('form[name="generate_report"]').submit();
     });
 
-    $('form[name="new_vox_comment"]').on('submit', function(e)
+    $('form[name="generate_report"]').on('submit', function(e)
     {
         e.preventDefault();
 
         var form = $(this);
-        var data = new FormData(form[0]);
-
-        data.append('action', 'new_vox_comment');
-        data.append('response_to', response_to);
 
         $.ajax({
             type: 'POST',
-            data: data,
-            contentType: false,
+            data: form.serialize() + '&action=generate_report',
             processData: false,
             cache: false,
             dataType: 'json',
-            success: function (response)
+            success: function(response)
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="success"]').addClass('view');
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { location.reload(); }, 1500);
+                    $('#report').html(response.data);
+                    $('[data-action="print_report"]').removeClass('hidden');
                 }
                 else if (response.status == 'error')
                 {
                     if (response.labels)
                     {
-                        form.find('label.error').removeClass('error');
-                        form.find('p.error').remove();
+                        $('label.error').removeClass('error');
+                        $('p.error').remove();
 
                         $.each(response.labels, function(i, label)
                         {
@@ -157,95 +201,24 @@ $(document).ready(function()
                                 form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
                         });
 
-                        form.find('label.error [name]')[0].focus();
+                        // form.find('label.error [name]')[0].focus();
                     }
                     else if (response.message)
                     {
-                        $('[data-modal="error"]').addClass('view');
                         $('[data-modal="error"]').find('main > p').html(response.message);
+                        $('[data-modal="error"]').addClass('view');
                     }
                 }
             }
         });
     });
 
-    $('[data-response-to]').on('click', function()
+    $('[data-action="print_report"]').on('click', function()
     {
-        response_to = '<span class="response-to">@' + $(this).data('response-to') + ':</span>';
-        $('form[name="new_vox_comment"]').find('[name="message"]').attr('placeholder', 'Responder a @' + $(this).data('response-to'));
+        var html1 = document.body.innerHTML;
+        var html2 = document.getElementById('report').innerHTML;
+        document.body.innerHTML = html2;
+        window.print();
+        document.body.innerHTML = html1;
     });
 });
-
-function get_time_elapsed(date_1, date_2, time_zone, status, target)
-{
-    var date_1 = new Date(date_1);
-
-    if (status == 'open')
-        var date_2 = new Date(moment().tz(time_zone).format('YYYY-MM-DD hh:mm:ss'));
-    else if (status == 'close')
-        var date_2 = new Date(date_2);
-
-    var months = '';
-    var days = '';
-    var hours = '';
-    var minutes = '';
-    var seconds = '';
-    var time_elapsed = '';
-
-    if (date_2 >= date_1)
-    {
-        days = Math.floor((date_2 - date_1) / (1000*60*60*24));
-
-        seconds = Math.floor((date_2 - date_1) / 1000);
-        minutes = Math.floor(seconds / 60);
-        hours = Math.floor(minutes / 60);
-
-        seconds = seconds - (60 * minutes);
-        minutes = minutes - (60 * hours);
-        hours = hours - (24 * days);
-
-        months = days / 30.4;
-        months = months.toFixed(1);
-
-        if (days <= 9)
-            days = '0' + days;
-
-        if (seconds <= 9)
-            seconds = '0' + seconds;
-
-        if (minutes <= 9)
-            minutes = '0' + minutes;
-
-        if (hours <= 9)
-            hours = '0' + hours;
-
-        if (status == 'open')
-        {
-            if (days == '00')
-                time_elapsed = '<strong>' + hours + ':' + minutes + ':' + seconds + ' Hrs</strong>';
-            else if (days <= 30)
-                time_elapsed = '<strong>' + days + ' Días, ' + hours + ':' + minutes + ':' + seconds + ' Hrs</strong>';
-            else if (days > 30)
-                time_elapsed = '<strong>' + months + ' Meses, ' + hours + ':' + minutes + ':' + seconds + ' Hrs</strong>';
-        }
-        else if (status == 'close')
-        {
-            if (minutes == '00')
-                time_elapsed = '<strong>' + seconds + ' Seg</strong>';
-            else if (hours == '00')
-                time_elapsed = '<strong>' + minutes + ' Min</strong>';
-            else if (days == '00')
-                time_elapsed = '<strong>' + hours + ' Min ' + minutes + ' Hrs</strong>';
-            else if (days <= 30)
-                time_elapsed = '<strong>' + days + ' Días, ' + hours + ':' + minutes + ' Hrs</strong>';
-            else if (days > 30)
-                time_elapsed = '<strong>' + months + ' Meses, ' + hours + ':' + minutes + ' Hrs</strong>';
-        }
-    }
-    else
-        time_elapsed = 'Programada';
-
-    target.html(time_elapsed);
-
-    setTimeout(function() { get_time_elapsed(date_1, date_2, time_zone, status, target); }, 1000);
-}

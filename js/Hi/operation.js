@@ -46,9 +46,7 @@ $(document).ready(function()
         $('[data-modal="contact"]').find('[name="type"]').parent().parent().parent().removeClass('span8').addClass('span12');
         $('[data-modal="contact"]').find('[name="rooms"]').parent().parent().parent().addClass('hidden');
 
-        $('[data-modal="contact"]').find('form')[0].reset();
-        $('[data-modal="contact"]').find('label.error').removeClass('error');
-        $('[data-modal="contact"]').find('p.error').remove();
+        clean_form($('[data-modal="contact"]').find('form'));
     });
 
     $('form[name="contact"]').on('submit', function(e)

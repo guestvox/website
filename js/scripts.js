@@ -88,19 +88,20 @@ $(document).ready(function ()
         $(this).parent().toggleClass('checked');
     });
 
-    // $('[name="checked_all"]').on('change', function()
-    // {
-    //     if ($(this).prop('checked') == true)
-    //         $(this).parents('checkboxes').find('[type="checkbox"]').prop('checked', true);
-    //     else if ($(this).prop('checked') == false)
-    //         $(this).parents('checkboxes').find('[type="checkbox"]').prop('checked', false);
-    // });
-    //
-    // $('[type="checkbox"]').on('change', function()
-    // {
-    //     if ($(this).prop('checked') == false)
-    //         $(this).parents('checkboxes').find('[name="checked_all"]').prop('checked', false);
-    // });
+    $(document).on('change', '[name="checked_all"]', function()
+    {
+
+        if ($(this).prop('checked') == true)
+            $(this).parents('.checkboxes').find('[type="checkbox"]').prop('checked', true);
+        else if ($(this).prop('checked') == false)
+            $(this).parents('.checkboxes').find('[type="checkbox"]').prop('checked', false);
+    });
+
+    $(document).on('change', '[type="checkbox"]', function()
+    {
+        if ($(this).prop('checked') == false)
+            $(this).parents('.checkboxes').find('[name="checked_all"]').prop('checked', false);
+    });
 
     $('[data-elapsed-time]').each(function()
     {
