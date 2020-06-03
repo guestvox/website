@@ -153,6 +153,184 @@ section.modal[data-modal="new_survey_answer"] > div.content > main > form > div.
     min-height: auto !important;
 }
 
+/* Menu cart
+------------------------------------------------------------------------------ */
+main.menu_cart > div.stl_1 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px dashed #e0e0e0;
+    box-sizing: border-box;
+}
+
+main.menu_cart > div.stl_1 > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+main.menu_cart > div.stl_1 > div > span:first-child {
+    margin: 20px 0px 10px 0px;
+    font-size: 30px;
+    font-weight: 600;
+    color: #212121;
+}
+
+main.menu_cart > div.stl_1 > div > span:last-child {
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+main.menu_cart > div.stl_1 > div > div > span {
+    position: relative;
+    margin-right: 5px;
+    padding-right: 10px;
+    box-sizing: border-box;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+main.menu_cart > div.stl_1 > div > div > span::after {
+    content: '';
+    width: 1px;
+    height: 8px;
+    position: absolute;
+    top: 3px;
+    right: 0px;
+    background-color: #bdbdbd;
+}
+
+main.menu_cart > div.stl_1 > a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    font-size: 14px;
+    color: #bdbdbd;
+}
+
+/*  */
+
+main.menu_cart > div.stl_3 {
+    width: 100%;
+}
+
+main.menu_cart > div.stl_3 > form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+    padding: 0px 20px 20px 20px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+main.menu_cart > div.stl_3 > form:last-child {
+    border-bottom: 0px;
+}
+
+main.menu_cart > div.stl_3 > form > figure {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+main.menu_cart > div.stl_3 > form > figure > img {
+    width: auto;
+    height: 100%;
+}
+
+main.menu_cart > div.stl_3 > form > h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #212121;
+}
+
+main.menu_cart > div.stl_3 > form > h3 {
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+main.menu_cart > div.stl_3 > form > p {
+    margin: 10px 0px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 14px;
+    text-align: center;
+    color: #757575;
+}
+
+main.menu_cart > div.stl_3 > form > span {
+    width: 100px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    border-radius: 30px;
+    background-color: #eee;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+main.menu_cart > div.stl_3 > form > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main.menu_cart > div.stl_3 > form > div > a,
+main.menu_cart > div.stl_3 > form > div > input {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 5px;
+    border-radius: 50%;
+    font-size: 14px;
+}
+
+main.menu_cart > div.stl_3 > form > div > a {
+    border: 1px solid #e0e0e0;
+    box-sizing: border-box;
+    color: #bdbdbd;
+}
+
+main.menu_cart > div.stl_3 > form > div > input {
+    padding-left: 16px;
+    border: none;
+    box-sizing: border-box;
+    background-color: #eee;
+    font-weight: 600;
+    color: #757575;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
 /* Survey
 ------------------------------------------------------------------------------ */
 form[name="new_survey_answer"] > article {

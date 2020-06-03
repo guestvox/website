@@ -194,10 +194,27 @@ class Signup_model extends Model
 			'settings' => json_encode([
 				'myvox' => [
 					'request' => [
-						'status' => false
+						'status' => false,
+						'title' => [
+							'es' => '',
+							'en' => ''
+						]
 					],
 					'incident' => [
-						'status' => false
+						'status' => false,
+						'title' => [
+							'es' => '',
+							'en' => ''
+						]
+					],
+					'menu' => [
+						'status' => false,
+						'title' => [
+							'es' => '',
+							'en' => ''
+						],
+						'currency' => '',
+						'opportunity_area' => ''
 					],
 					'survey' => [
 						'status' => false,

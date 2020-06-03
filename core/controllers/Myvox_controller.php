@@ -27,8 +27,6 @@ class Myvox_controller extends Controller
 		{
 			Session::set_value('account', $account);
 
-			$this->lang2 = Session::get_value('account')['language'];
-
 			if (isset($params[1]) AND !empty($params[1]))
 			{
 				if (isset($params[2]) AND !empty($params[2]))
@@ -55,6 +53,16 @@ class Myvox_controller extends Controller
 
 				$break = false;
 			}
+
+			if (Session::exists_var('menu_cart') == false OR empty(Session::get_value('menu_cart')['items']))
+			{
+				Session::set_value('menu_cart', [
+					'total' => 0,
+					'items' => []
+				]);
+			}
+
+			$this->lang2 = Session::get_value('account')['language'];
 		}
 
 		if ($break == false)
@@ -425,6 +433,100 @@ class Myvox_controller extends Controller
 					}
 				}
 
+				if ($_POST['action'] == 'add_to_menu_cart' OR $_POST['action'] == 'remove_to_menu_cart')
+				{
+					$query = $this->model->get_menu($_POST['id']);
+
+					if (!empty($query))
+					{
+						$menu_cart = Session::get_value('menu_cart');
+
+						if ($_POST['action'] == 'add_to_menu_cart')
+						{
+							$menu_cart['total'] = ($query['price'] * $_POST['quantity']) + $menu_cart['total'];
+
+							if (array_key_exists($query['id'], $menu_cart['items']))
+							{
+								$menu_cart['items'][$query['id']]['quantity'] = $menu_cart['items'][$query['id']]['quantity'] + $_POST['quantity'];
+								$menu_cart['items'][$query['id']]['total'] = $menu_cart['items'][$query['id']]['price'] * $menu_cart['items'][$query['id']]['quantity'];
+							}
+							else
+							{
+								$menu_cart['items'][$query['id']] = [
+									'quantity' => $_POST['quantity'],
+									'id' => $query['id'],
+									'name' => $query['name'],
+									'price' => $query['price'],
+									'total' => $query['price'] * $_POST['quantity']
+								];
+							}
+						}
+						else if ($_POST['action'] == 'remove_to_menu_cart')
+						{
+							$menu_cart['total'] = $menu_cart['total'] - ($menu_cart['items'][$query['id']]['price'] * $menu_cart['items'][$query['id']]['quantity']);
+
+							unset($menu_cart['items'][$query['id']]);
+						}
+
+						$html = '<span>' . Functions::get_formatted_currency($menu_cart['total'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>';
+
+						if (!empty($menu_cart['items']))
+						{
+							foreach ($menu_cart['items'] as $value)
+							{
+								$html .=
+								'<div>
+									<span>x' . $value['quantity'] . '</span>
+									<span>' . $value['name'][$this->lang1] . '</span>
+									<span>' . Functions::get_formatted_currency($value['total'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>
+									<a data-action="remove_to_menu_cart" data-id="' . $value['id'] . '"><i class="fas fa-times"></i></a>
+								</div>';
+							}
+						}
+						else
+							$html .= '<span>{$lang.not_menu_cart}</span>';
+
+						Session::set_value('menu_cart', $menu_cart);
+
+						Functions::environment([
+							'status' => 'success',
+							'html' => $html
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+
+				if ($_POST['action'] == 'send_menu_cart')
+				{
+					// $query = $this->model->new_vox(null, true);
+					//
+					// if (!empty($query))
+					// {
+					// 	Session::set_value('menu_cart', [
+					// 		'total' => 0,
+					// 		'items' => []
+					// 	]);
+					//
+					// 	Functions::environment([
+					// 		'status' => 'success',
+					// 		'message' => '{$lang.success_error}'
+					// 	]);
+					// }
+					// else
+					// {
+					// 	Functions::environment([
+					// 		'status' => 'error',
+					// 		'message' => '{$lang.operation_error}'
+					// 	]);
+					// }
+				}
+
 				// if ($_POST['action'] == 'new_survey_answer')
 				// {
 				// 	$labels = [];
@@ -674,17 +776,19 @@ class Myvox_controller extends Controller
 
 				define('_title', 'Guestvox | {$lang.myvox}');
 
-				$a_new_request = '';
-				$a_new_incident = '';
+				$btn_new_request = '';
+				$btn_new_incident = '';
+				$btn_get_menu_cart = '';
 				$mdl_new_vox = '';
+				$mdl_get_menu_cart = '';
 
 				if (Session::get_value('account')['operation'] == true)
 				{
 					if (Session::get_value('account')['settings']['myvox']['request']['status'] == true)
-						$a_new_request .= '<a data-action="new_vox" data-type="request">{$lang.make_a_request}</a>';
+						$btn_new_request .= '<a data-action="new_vox" data-type="request">' . Session::get_value('account')['settings']['myvox']['request']['title'][$this->lang1] . '</a>';
 
 					if (Session::get_value('account')['settings']['myvox']['incident']['status'] == true)
-						$a_new_incident .= '<a data-action="new_vox" data-type="incident">{$lang.make_a_' . Session::get_value('account')['type'] . '_incident}</a>';
+						$btn_new_incident .= '<a data-action="new_vox" data-type="incident">' . Session::get_value('account')['settings']['myvox']['incident']['title'][$this->lang1] . '</a>';
 
 					if (Session::get_value('account')['settings']['myvox']['request']['status'] == true OR Session::get_value('account')['settings']['myvox']['incident']['status'] == true)
 					{
@@ -838,9 +942,73 @@ class Myvox_controller extends Controller
 							</div>
 						</section>';
 					}
+
+					if (Session::get_value('account')['settings']['myvox']['menu']['status'] == true)
+					{
+						$btn_get_menu_cart .= '<a data-button-modal="get_menu_cart">' . Session::get_value('account')['settings']['myvox']['menu']['title'][$this->lang1] . '</a>';
+
+						$mdl_get_menu_cart .=
+						'<section class="modal fullscreen view" data-modal="get_menu_cart">
+							<div class="content">
+								<main class="menu_cart">
+									<div class="stl_1" data-menu-cart>
+										<div>
+											<span>' . Functions::get_formatted_currency(Session::get_value('menu_cart')['total'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>';
+
+						if (!empty(Session::get_value('menu_cart')['items']))
+						{
+							foreach (Session::get_value('menu_cart')['items'] as $value)
+							{
+								$mdl_get_menu_cart .=
+								'<div>
+									<span>x' . $value['quantity'] . '</span>
+									<span>' . $value['name'][$this->lang1] . '</span>
+									<span>' . Functions::get_formatted_currency($value['total'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>
+									<a data-action="remove_to_menu_cart" data-id="' . $value['id'] . '"><i class="fas fa-times"></i></a>
+								</div>';
+							}
+						}
+						else
+							$mdl_get_menu_cart .= '<span>{$lang.not_menu_cart}</span>';
+
+						$mdl_get_menu_cart .=
+						'	</div>
+							<a class="new" data-action="send_menu_cart"><i class="fas fa-check"></i></a>
+						</div>
+						<div class="stl_2">
+
+						</div>
+						<div class="stl_3">';
+
+						foreach ($this->model->get_menu() as $value)
+						{
+							$mdl_get_menu_cart .=
+							'<form name="add_to_menu_cart">
+								<figure>
+									<img src="{$path.uploads}' . $value['avatar'] . '">
+								</figure>
+								<h2>' . $value['name'][$this->lang1] . '</h2>
+								<h3>' . $value['category'][$this->lang1] . '</h3>
+								<p>' . $value['description'][$this->lang1] . '</p>
+								<span>' . Functions::get_formatted_currency($value['price'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>
+								<div>
+									<a data-action="minus_to_menu_cart"><i class="fas fa-minus"></i></a>
+									<input type="number" name="quantity" value="0" min="0" readonly>
+									<a data-action="plus_to_menu_cart"><i class="fas fa-plus"></i></a>
+									<a class="new" data-action="add_to_menu_cart" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>
+								</div>
+							</form>';
+						}
+
+						$mdl_get_menu_cart.=
+						'			</div>
+								</main>
+							</div>
+						</section>';
+					}
 				}
 
-				// $a_new_survey_answer = '';
+				// $btn_new_survey_answer = '';
 				// $mdl_new_survey_answer = '';
 				// $mdl_survey_widget = '';
 				//
@@ -848,7 +1016,7 @@ class Myvox_controller extends Controller
 				// {
 				// 	if (Session::get_value('account')['settings']['myvox']['survey']['status'] == true)
 				// 	{
-				// 		$a_new_survey_answer .= '<a data-button-modal="new_survey_answer">' . Session::get_value('account')['settings']['myvox']['survey']['title'][$this->lang1] . '</a>';
+				// 		$btn_new_survey_answer .= '<a data-button-modal="new_survey_answer">' . Session::get_value('account')['settings']['myvox']['survey']['title'][$this->lang1] . '</a>';
 				//
 				// 		$mdl_new_survey_answer .=
 				// 		'<section class="modal" data-modal="new_survey_answer">
@@ -1125,10 +1293,12 @@ class Myvox_controller extends Controller
 
 				$replace = [
 					'{$logotype}' => '{$path.uploads}' . Session::get_value('account')['logotype'],
-					'{$a_new_request}' => $a_new_request,
-					'{$a_new_incident}' => $a_new_incident,
-					// '{$a_new_survey_answer}' => $a_new_survey_answer,
+					'{$btn_new_request}' => $btn_new_request,
+					'{$btn_new_incident}' => $btn_new_incident,
+					'{$btn_get_menu_cart}' => $btn_get_menu_cart,
+					// '{$btn_new_survey_answer}' => $btn_new_survey_answer,
 					'{$mdl_new_vox}' => $mdl_new_vox,
+					'{$mdl_get_menu_cart}' => $mdl_get_menu_cart,
 					// '{$mdl_new_survey_answer}' => $mdl_new_survey_answer,
 					// '{$mdl_survey_widget}' => $mdl_survey_widget
 				];

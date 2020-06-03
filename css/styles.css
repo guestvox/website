@@ -6,9 +6,9 @@ h1, h2, h3, h4, h5, h6, p { margin: 0px; padding: 0px; }
 figure { line-height: 0px; }
 
 a, button { margin: 0px; text-align: center !important; text-decoration: none !important; cursor: pointer !important; }
-a.create, button.create { background-color: #009688 !important; color: #fff !important; }
-a.edit, button.edit { background-color: #ffc107 !important; color: #fff !important; }
-a.delete, button.delete { background-color: #f44336 !important; color: #fff !important; }
+a.new, button.new { background-color: #009688 !important; border-color: #009688 !important; color: #fff !important; }
+a.edit, button.edit { background-color: #ffc107 !important; border-color: #ffc107 !important; color: #fff !important; }
+a.delete, button.delete { background-color: #f44336 !important; border-color: #f44336 !important; color: #fff !important; }
 
 select { -moz-appearance: none; -webkit-appearance: none; appearance: none; cursor: pointer; }
 
