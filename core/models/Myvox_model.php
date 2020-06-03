@@ -264,20 +264,20 @@ class Myvox_model extends Model
 		return $query;
 	}
 
-	public function get_menu($id = null)
+	public function get_menu($option = 'all', $id = null)
 	{
-		if (!empty($id))
+		$query = null;
+
+		if ($option == 'all' OR $option == 'by_categories')
 		{
-			$query = Functions::get_json_decoded_query($this->database->select('menu', [
-				'id',
-				'name',
-				'price'
-			], [
-				'id' => $id
-			]));
-		}
-		else
-		{
+			$where = [
+				'menu.account' => Session::get_value('account')['id'],
+				'menu.status' => true
+			];
+
+			if ($option == 'by_categories')
+				$where['menu.category'] = $id;
+
 			$query = Functions::get_json_decoded_query($this->database->select('menu', [
 				'[>]menu_categories' => [
 					'category' => 'id'
@@ -290,18 +290,27 @@ class Myvox_model extends Model
 				'menu.description',
 				'menu.price'
 			], [
-				'AND' => [
-					'menu.account' => Session::get_value('account')['id'],
-					'menu.status' => true
-				],
+				'AND' => $where,
 				'ORDER' => [
 					'menu_categories.name' => 'ASC',
 					'menu.name' => 'ASC'
 				]
 			]));
 		}
+		else if ($option == 'by_id')
+		{
+			$query = Functions::get_json_decoded_query($this->database->select('menu', [
+				'id',
+				'name',
+				'price'
+			], [
+				'id' => $id
+			]));
 
-		return !empty($id) ? (!empty($query) ? $query[0] : null) : $query;
+			$query = !empty($query) ? $query[0] : null;
+		}
+
+		return $query;
 	}
 
 	public function get_menu_categories()

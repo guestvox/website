@@ -433,9 +433,54 @@ class Myvox_controller extends Controller
 					}
 				}
 
+				if ($_POST['action'] == 'get_menu')
+				{
+					if ($_POST['id'] == 'all')
+						$query = $this->model->get_menu();
+					else
+						$query = $this->model->get_menu('by_categories', $_POST['id']);
+
+					if (!empty($query))
+					{
+						$html = '';
+
+						foreach ($query as $value)
+						{
+							$html .=
+							'<form name="add_to_menu_cart">
+								<figure>
+									<img src="{$path.uploads}' . $value['avatar'] . '">
+								</figure>
+								<h2>' . $value['name'][$this->lang1] . '</h2>
+								<h3>' . $value['category'][$this->lang1] . '</h3>
+								<p>' . $value['description'][$this->lang1] . '</p>
+								<span>' . Functions::get_formatted_currency($value['price'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>
+								<div>
+									<a data-action="minus_to_menu_cart"><i class="fas fa-minus"></i></a>
+									<input type="number" name="quantity" value="0" min="0" readonly>
+									<a data-action="plus_to_menu_cart"><i class="fas fa-plus"></i></a>
+									<a class="new" data-action="add_to_menu_cart" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>
+								</div>
+							</form>';
+						}
+
+						Functions::environment([
+							'status' => 'success',
+							'html' => $html
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+
 				if ($_POST['action'] == 'add_to_menu_cart' OR $_POST['action'] == 'remove_to_menu_cart')
 				{
-					$query = $this->model->get_menu($_POST['id']);
+					$query = $this->model->get_menu('by_id', $_POST['id']);
 
 					if (!empty($query))
 					{
@@ -960,7 +1005,7 @@ class Myvox_controller extends Controller
 						$btn_get_menu_cart .= '<a data-button-modal="get_menu_cart">' . Session::get_value('account')['settings']['myvox']['menu']['title'][$this->lang1] . '</a>';
 
 						$mdl_get_menu_cart .=
-						'<section class="modal fullscreen" data-modal="get_menu_cart">
+						'<section class="modal fullscreen view" data-modal="get_menu_cart">
 							<div class="content">
 								<main class="menu_cart">
 									<div class="stl_1" data-menu-cart>
@@ -987,9 +1032,16 @@ class Myvox_controller extends Controller
 						$mdl_get_menu_cart .=
 						'</div>
 						<div class="stl_2">
+							<select data-action="get_menu">
+								<option value="all">{$lang.all_menu}</option>';
 
+						foreach ($this->model->get_menu_categories() as $value)
+							$mdl_get_menu_cart .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
+
+						$mdl_get_menu_cart .=
+						'	</select>
 						</div>
-						<div class="stl_3">';
+						<div class="stl_3" data-menu>';
 
 						foreach ($this->model->get_menu() as $value)
 						{
