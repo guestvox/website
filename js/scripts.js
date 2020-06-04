@@ -107,6 +107,12 @@ $(document).ready(function ()
     {
         get_time_elapsed($(this).data('date-1').replace(/-/g, '/'), $(this).data('date-2').replace(/-/g, '/'), $(this).data('time-zone'), $(this).data('status'), $(this).find('strong'));
     });
+
+    $('[data-action="get_help"]').on('click', function()
+    {
+        $('[data-modal="get_help"]').addClass('view');
+        $('[data-modal="get_help"]').find('main > p').html($(this).data('text'));
+    });
 });
 
 function menu_focus(target)

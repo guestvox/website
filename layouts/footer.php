@@ -1,11 +1,18 @@
 <?php defined('_EXEC') or die; ?>
 
+        <section class="modal fullscreen" data-modal="get_help">
+            <div class="content">
+                <main>
+                    <i class="fas fa-question-circle"></i>
+                    <p></p>
+                    <a button-close><i class="fas fa-check"></i></a>
+                </main>
+            </div>
+        </section>
         <section class="modal fullscreen" data-modal="success">
             <div class="content">
                 <main>
-                    <figure>
-                        <img src="{$path.images}success.png">
-                    </figure>
+                    <i class="fas fa-check-circle"></i>
                     <p></p>
                 </main>
             </div>
@@ -13,11 +20,9 @@
         <section class="modal fullscreen" data-modal="error">
             <div class="content">
                 <main>
-                    <figure>
-                        <img src="{$path.images}error.png">
-                    </figure>
+                    <i class="fas fa-times-circle"></i>
                     <p></p>
-                    <a button-close><i class="fas fa-times"></i></a>
+                    <a button-close><i class="fas fa-check"></i></a>
                 </main>
             </div>
         </section>

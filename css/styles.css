@@ -922,6 +922,10 @@ div.label > label.error > p {
     color: #f44336 !important;
 }
 
+div.label > label > p > a {
+    color: #e0e0e0;
+}
+
 div.label > label > input,
 div.label > label > select,
 div.label > label > textarea {
@@ -1416,6 +1420,42 @@ section.modal div.buttons > a[button-cancel] {
     background-color: #f44336;
 }
 
+/* Get help */
+
+section.modal[data-modal="get_help"] main {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+section.modal[data-modal="get_help"] main > i {
+    margin-bottom: 20px;
+    font-size: 80px;
+    color: #bdbdbd;
+}
+
+section.modal[data-modal="get_help"] main > p {
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    color: #757575;
+}
+
+section.modal[data-modal="get_help"] main > a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    font-size: 18px;
+    color: #bdbdbd;
+}
+
 /* Success & error */
 
 section.modal[data-modal="success"] main,
@@ -1436,28 +1476,23 @@ section.modal[data-modal="error"] main {
     background-color: #f44336;
 }
 
-section.modal[data-modal="success"] main > figure,
-section.modal[data-modal="error"] main > figure,
-section.modal[data-modal="success"] main > figure > img,
-section.modal[data-modal="error"] main > figure > img {
-    height: 200px;
-}
-
-section.modal[data-modal="success"] main > figure,
-section.modal[data-modal="error"] main > figure {
-    margin-bottom: 40px;
+section.modal[data-modal="success"] main > i,
+section.modal[data-modal="error"] main > i {
+    margin-bottom: 20px;
+    font-size: 140px;
+    color: #fff;
 }
 
 section.modal[data-modal="success"] main > p,
 section.modal[data-modal="error"] main > p {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
     text-align: center;
     color: #fff;
 }
 
 section.modal[data-modal="error"] main > p {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 section.modal[data-modal="error"] main > a {
