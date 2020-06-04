@@ -24,7 +24,7 @@ $this->dependencies->add(['other', '<script>menu_focus("guests_treatments");</sc
     </section>
 </main>
 <?php if (Functions::check_user_access(['{guests_treatments_create}','{guests_treatments_update}']) == true) : ?>
-<section class="modal fullscreen" data-modal="new_guest_treatment">
+<section class="modal fullscreen view" data-modal="new_guest_treatment">
     <div class="content">
         <main>
             <form name="new_guest_treatment">

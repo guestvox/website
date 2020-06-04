@@ -233,7 +233,7 @@ body > main.dashboard.gry > section.workspace {
 
     body > main.dashboard.dkp > section.workspace {
         display: flex;
-        align-items: center;
+        align-items: flex-start;
         justify-content: center;
     }
 }
@@ -1389,6 +1389,11 @@ section.modal {
     background-color: rgba(255, 255, 255, 0.6);
 }
 
+section.modal.fullscreen > .content {
+    max-width: 800px !important;
+    min-height: auto !important;
+}
+
 /* Buttons */
 
 section.modal div.buttons {
@@ -1511,7 +1516,7 @@ section.modal[data-modal="error"] main > a {
 
 section.modal.edit > .content,
 section.modal.delete > .content {
-    top: calc(100% - 160px) !important;
+    top: calc(100% - 220px) !important;
 }
 
 section.modal.edit > .content,
