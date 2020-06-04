@@ -1,7 +1,5 @@
 'use strict';
 
-var id;
-
 $(document).ready(function()
 {
     var type;
@@ -157,8 +155,7 @@ $(document).ready(function()
                 {
                     target.parents('main.menu_cart').find('[data-menu]').html(response.html);
 
-                    load_clicks_1();
-                    load_clicks_2();
+                    load_actions_2();
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);
@@ -166,8 +163,8 @@ $(document).ready(function()
         });
     });
 
-    load_clicks_1();
-    load_clicks_2();
+    load_actions_1();
+    load_actions_2();
 
     // $('[data-action="open_subquestion"]').on('change', function()
     // {
@@ -273,65 +270,9 @@ $(document).ready(function()
     // });
 });
 
-function load_clicks_1()
-{
-    $('[data-action="minus_to_menu_cart"]').on('click', function()
-    {
-        var target = $(this).parent().find('[name="quantity"]');
-        var quantity = parseInt(target.val());
-        quantity = (quantity > 0) ? quantity - 1 : 0;
-        target.val(quantity);
-    });
+var id;
 
-    $('[data-action="plus_to_menu_cart"]').on('click', function()
-    {
-        var target = $(this).parent().find('[name="quantity"]');
-        var quantity = parseInt(target.val());
-        quantity = quantity + 1;
-        target.val(quantity);
-    });
-
-    $('[data-action="add_to_menu_cart"]').on('click', function()
-    {
-        var quantity = $(this).parent().find('[name="quantity"]').val();
-
-        if (quantity > 0)
-        {
-            id = $(this).data('id');
-
-            $(this).parents('form').submit();
-        }
-    });
-
-    $('form[name="add_to_menu_cart"]').on('submit', function(e)
-    {
-        e.preventDefault();
-
-        var form = $(this);
-
-        $.ajax({
-            type: 'POST',
-            data: form.serialize() + '&id=' + id + '&action=add_to_menu_cart',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    form.parents('main.menu_cart').find('[data-menu-cart]').html(response.html);
-                    form.find('[name="quantity"]').val(0);
-
-                    load_clicks_2();
-                }
-                else if (response.status == 'error')
-                    show_modal_error(response.message);
-            }
-        });
-    });
-}
-
-function load_clicks_2()
+function load_actions_1()
 {
     $('[data-action="remove_to_menu_cart"]').on('click', function()
     {
@@ -348,7 +289,11 @@ function load_clicks_2()
             success: function(response)
             {
                 if (response.status == 'success')
+                {
                     target.parents('main.menu_cart').find('[data-menu-cart]').html(response.html);
+
+                    load_actions_1();
+                }
                 else if (response.status == 'error')
                     show_modal_error(response.message);
             }
@@ -378,6 +323,64 @@ function load_clicks_2()
                     show_modal_success(response.message, 4000);
                 else if (response.status == 'error')
                     show_form_errors(form, response);
+            }
+        });
+    });
+}
+
+function load_actions_2()
+{
+    $('[data-action="minus_to_menu_cart"]').on('click', function()
+    {
+        var target = $(this).parent().find('[name="quantity"]');
+        var quantity = parseInt(target.val());
+        quantity = (quantity > 0) ? quantity - 1 : 0;
+        target.val(quantity);
+    });
+
+    $('[data-action="plus_to_menu_cart"]').on('click', function()
+    {
+        var target = $(this).parent().find('[name="quantity"]');
+        var quantity = parseInt(target.val());
+        quantity = quantity + 1;
+        target.val(quantity);
+    });
+
+    $('[data-action="add_to_menu_cart"]').on('click', function()
+    {
+        var quantity = parseInt($(this).parent().find('[name="quantity"]').val());
+
+        if (quantity > 0)
+        {
+            id = $(this).data('id');
+
+            $(this).parents('form').submit();
+        }
+    });
+
+    $('form[name="add_to_menu_cart"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&id=' + id + '&action=add_to_menu_cart',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    form.parents('main.menu_cart').find('[data-menu-cart]').html(response.html);
+                    form.find('[name="quantity"]').val(0);
+
+                    load_actions_1();
+                }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
             }
         });
     });

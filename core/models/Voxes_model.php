@@ -783,7 +783,7 @@ class Voxes_model extends Model
 			'origin' => 'internal'
 		]);
 
-		return !empty($query) ? $query : null;
+		return $query;
 	}
 
 	public function edit_vox($data)

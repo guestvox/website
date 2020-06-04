@@ -388,7 +388,7 @@ class Myvox_model extends Model
 			'origin' => 'myvox'
 		]);
 
-		return !empty($query) ? $query : null;
+		return $query;
 	}
 
 	// public function get_surveys_questions()
