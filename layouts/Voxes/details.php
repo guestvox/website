@@ -34,7 +34,9 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 {$p_action_taken}
             </div>
             {$div_confidentiality}
-            {$div_guest}
+            <div class="stl_5">
+                {$spn_guest}
+            </div>
             <div class="stl_6">
                 {$btn_get_attachments}
                 {$btn_get_assigned_users}

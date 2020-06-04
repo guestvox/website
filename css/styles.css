@@ -1643,15 +1643,12 @@ div.vox_details {
 @media (min-width: 768px) {
 
     div.vox_details {
-        max-width: 1000px;
+        max-width: 1200px;
         margin-top: 20px;
+        padding-left: 300px;
+        padding-right: 100px;
+        box-sizing: border-box;
         position: relative;
-    }
-
-    div.vox_details::after {
-        content: '';
-        display: block;
-        clear: both;
     }
 }
 
@@ -1661,49 +1658,44 @@ div.vox_details > div {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 20px 20px 0px 20px;
+    padding: 0px 20px 20px 20px;
     box-sizing: border-box;
-}
-
-@media (min-width: 768px) {
-
-    div.vox_details {
-        border-radius: 20px 20px 0px 0px;
-        overflow: hidden;
-    }
-
-    div.vox_details > div.stl_1,
-    div.vox_details > div.stl_2,
-    div.vox_details > div.stl_5 {
-        width: 300px;
-        height: 300px;
-        float: left;
-    }
-
-    div.vox_details > div.stl_3 {
-        padding: 40px 40px 20px 40px;
-    }
-
-    div.vox_details > div.stl_4 {
-        padding-bottom: 20px;
-    }
-
-    div.vox_details > div.stl_5 {
-        width: 400px;
-        position: absolute;
-        top: 0px;
-        right: 0px;
-    }
-
-    div.vox_details > div.stl_8 > div {
-        max-width: 600px;
-    }
 }
 
 /*  */
 
 div.vox_details > div.stl_1 {
+    padding-top: 20px;
     background-color: #fff;
+}
+
+@media (min-width: 768px) {
+
+    div.vox_details > div.stl_1 {
+        height: 300px;
+        float: left;
+    }
+
+    div.vox_details > div.stl_1 {
+        width: 300px;
+        position: relative;
+        border-radius: 20px 0px 0px 0px;
+    }
+
+    div.vox_details > div.stl_1::after {
+        content: '';
+        width: 0px;
+        height: 0px;
+        position: absolute;
+        top: 100px;
+        right: 100%;
+        pointer-events: none;
+        margin-top: -20px;
+        border: solid transparent;
+        border-width: 20px;
+    	border-color: rgba(255, 255, 255, 0);
+    	border-right-color: #fff;
+    }
 }
 
 div.vox_details > div.stl_1 > span.low,
@@ -1763,6 +1755,17 @@ div.vox_details > div.stl_2 {
     background-color: #fff;
 }
 
+@media (min-width: 768px) {
+
+    div.vox_details > div.stl_2 {
+        width: calc(100% - 300px);
+        height: 300px;
+        float: left;
+        padding-top: 20px;
+        border-radius: 0px 20px 0px 0px;
+    }
+}
+
 div.vox_details > div.stl_2 > span {
     width: 100%;
     height: 30px;
@@ -1790,6 +1793,14 @@ div.vox_details > div.stl_2 > span > i {
 
 div.vox_details > div.stl_3 {
     background-color: #fff;
+}
+
+@media (min-width: 768px) {
+
+    div.vox_details > div.stl_3 {
+        padding-right: 40px;
+        padding-left: 40px;
+    }
 }
 
 div.vox_details > div.stl_3 > p {
@@ -1845,8 +1856,16 @@ div.vox_details > div.stl_4 > span > i {
 
 div.vox_details > div.stl_5 {
     display: block;
-    padding: 20px 0px;
+    padding: 0px;
     background-color: #fff;
+}
+
+@media (min-width: 768px) {
+
+    div.vox_details > div.stl_5 {
+        padding-bottom: 20px;
+        border-radius: 0px 0px 20px 20px;
+    }
 }
 
 div.vox_details > div.stl_5::after {
@@ -1887,9 +1906,23 @@ div.vox_details > div.stl_5 > span.active > i {
 div.vox_details > div.stl_6 {
     position: relative;
     flex-direction: row;
-    padding-bottom: 40px;
+    padding: 20px;
     border-radius: 0px 0px 20px 20px;
     background-color: #fff;
+}
+
+@media (min-width: 768px) {
+
+    div.vox_details > div.stl_6 {
+        width: 100px;
+        height: 320px;
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        display: block;
+        padding: 0px 20px;
+        background: none;
+    }
 }
 
 div.vox_details > div.stl_6:after {
@@ -1907,6 +1940,13 @@ div.vox_details > div.stl_6:after {
 	border-top-color: #fff;
 }
 
+@media (min-width: 768px) {
+
+    div.vox_details > div.stl_6::after {
+        display: none;
+    }
+}
+
 div.vox_details > div.stl_6 > a {
     width: 60px;
     height: 60px;
@@ -1920,6 +1960,14 @@ div.vox_details > div.stl_6 > a {
     color: #e0e0e0;
 }
 
+@media (min-width: 768px) {
+
+    div.vox_details > div.stl_6 > a {
+        margin: 20px 0px 0px 0px;
+        background-color: #fff;
+    }
+}
+
 div.vox_details > div.stl_6 > a.active {
     color: #bdbdbd;
 }
@@ -1928,7 +1976,18 @@ div.vox_details > div.stl_6 > a.active {
 
 div.vox_details > div.stl_7 {
     padding-top: 40px;
-    background-color: #eee;
+}
+
+@media (min-width: 768px) {
+
+    div.vox_details > div.stl_7 {
+        width: 300px;
+        height: 200px;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        padding: 0px 20px;
+    }
 }
 
 div.vox_details > div.stl_7 > figure {
@@ -1962,8 +2021,17 @@ div.vox_details > div.stl_7 > span {
 
 div.vox_details > div.stl_8 {
     padding-top: 40px;
-    padding-bottom: 20px;
-    background-color: #eee;
+}
+
+@media (min-width: 768px) {
+
+    div.vox_details > div.stl_8 {
+        width: 300px;
+        position: absolute;
+        top: 200px;
+        left: 0px;
+        padding: 20px;
+    }
 }
 
 div.vox_details > div.stl_8 > div {
@@ -2014,7 +2082,19 @@ div.vox_details > div.stl_8 > div > div > span {
 /*  */
 
 div.vox_details > div.stl_9 {
-    background-color: #eee;
+    padding-top: 40px;
+}
+
+@media (min-width: 768px) {
+
+    div.vox_details > div.stl_9 {
+        width: 100px;
+        height: 80px;
+        position: absolute;
+        top: 320px;
+        right: 0px;
+        padding: 0px 20px;
+    }
 }
 
 div.vox_details > div.stl_9 > a {
@@ -2028,6 +2108,13 @@ div.vox_details > div.stl_9 > a {
     font-size: 20px;
     background-color: #fff;
     color: #bdbdbd;
+}
+
+@media (min-width: 768px) {
+
+    div.vox_details > div.stl_9 > a {
+        margin: 20px 0px 0px 0px;
+    }
 }
 
 /*  */

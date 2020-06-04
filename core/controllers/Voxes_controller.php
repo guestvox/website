@@ -1290,21 +1290,19 @@ class Voxes_controller extends Controller
 
 				$spn_type .= '</span>';
 
-				$div_guest = '';
+				$spn_guest = '';
 
 				if (Session::get_value('account')['type'] == 'hotel')
 				{
 					if ($vox['type'] == 'incident')
 					{
-						$div_guest .=
-						'<div class="stl_5">
-							<span class="' . (!empty($vox['guest_id']) ? 'active' : '') . '"><i class="fas fa-key"></i>' . (!empty($vox['guest_id']) ? $vox['guest_id'] : '{$lang.not_guest_id}') . '</span>
-							<span class="' . (!empty($vox['guest_type']) ? 'active' : '') . '"><i class="fas fa-tag"></i>' . (!empty($vox['guest_type']) ? $vox['guest_type']['name'] : '{$lang.not_guest_type}') . '</span>
-							<span class="' . (!empty($vox['reservation_number']) ? 'active' : '') . '"><i class="fas fa-suitcase-rolling"></i>' . (!empty($vox['reservation_number']) ? $vox['reservation_number'] : '{$lang.not_reservation_number}') . '</span>
-							<span class="' . (!empty($vox['reservation_status']) ? 'active' : '') . '"><i class="fas fa-hotel"></i>' . (!empty($vox['reservation_status']) ? $vox['reservation_status']['name'] : '{$lang.not_reservation_status}') . '</span>
-							<span class="' . (!empty($vox['check_in']) ? 'active' : '') . '"><i class="fas fa-calendar-check"></i>' . (!empty($vox['check_in']) ? Functions::get_formatted_date($vox['check_in'], 'd.m.Y') : '{$lang.not_check_in}') . '</span>
-							<span class="' . (!empty($vox['check_out']) ? 'active' : '') . '"><i class="fas fa-calendar-times"></i>' . (!empty($vox['check_out']) ? Functions::get_formatted_date($vox['check_out'], 'd.m.Y') : '{$lang.not_check_out}') . '</span>
-						</div>';
+						$spn_guest .=
+						'<span class="' . (!empty($vox['guest_id']) ? 'active' : '') . '"><i class="fas fa-key"></i>' . (!empty($vox['guest_id']) ? $vox['guest_id'] : '{$lang.not_guest_id}') . '</span>
+						<span class="' . (!empty($vox['guest_type']) ? 'active' : '') . '"><i class="fas fa-tag"></i>' . (!empty($vox['guest_type']) ? $vox['guest_type']['name'] : '{$lang.not_guest_type}') . '</span>
+						<span class="' . (!empty($vox['reservation_number']) ? 'active' : '') . '"><i class="fas fa-suitcase-rolling"></i>' . (!empty($vox['reservation_number']) ? $vox['reservation_number'] : '{$lang.not_reservation_number}') . '</span>
+						<span class="' . (!empty($vox['reservation_status']) ? 'active' : '') . '"><i class="fas fa-hotel"></i>' . (!empty($vox['reservation_status']) ? $vox['reservation_status']['name'] : '{$lang.not_reservation_status}') . '</span>
+						<span class="' . (!empty($vox['check_in']) ? 'active' : '') . '"><i class="fas fa-calendar-check"></i>' . (!empty($vox['check_in']) ? Functions::get_formatted_date($vox['check_in'], 'd.m.Y') : '{$lang.not_check_in}') . '</span>
+						<span class="' . (!empty($vox['check_out']) ? 'active' : '') . '"><i class="fas fa-calendar-times"></i>' . (!empty($vox['check_out']) ? Functions::get_formatted_date($vox['check_out'], 'd.m.Y') : '{$lang.not_check_out}') . '</span>';
 					}
 				}
 
@@ -1647,7 +1645,7 @@ class Voxes_controller extends Controller
 					'{$p_description}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['description']) ? $vox['description'] : '{$lang.not_description}') . '</p>' : '',
 					'{$p_action_taken}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['action_taken']) ? $vox['action_taken'] : '{$lang.not_action_taken}') . '</p>' : '',
 					'{$div_confidentiality}' => ($vox['type'] == 'incident') ? '<div class="stl_4"><span class="' . (($vox['confidentiality'] == true) ? 'confidentiality' : '') . '">' . (($vox['confidentiality'] == true) ? '<i class="fas fa-lock"></i>{$lang.yes_confidentiality}' : '<i class="fas fa-lock-open"></i>{$lang.not_confidentiality}') . '</span></div>' : '',
-					'{$div_guest}' => $div_guest,
+					'{$spn_guest}' => $spn_guest,
 					'{$btn_get_attachments}' => '<a ' . (!empty($vox['attachments']) ? 'class="active" data-button-modal="get_attachments"' : '') . '><i class="fas fa-paperclip"></i></a>',
 					'{$btn_get_assigned_users}' => '<a ' . (!empty($vox['assigned_users']) ? 'class="active" data-button-modal="get_assigned_users"' : '') . '><i class="fas fa-users"></i></a>',
 					'{$btn_get_viewed_by}' => '<a ' . (!empty($vox['viewed_by']) ? 'class="active" data-button-modal="get_viewed_by"' : '') . '><i class="far fa-eye"></i></a>',
