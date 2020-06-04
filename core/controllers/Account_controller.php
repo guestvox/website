@@ -224,6 +224,19 @@ class Account_controller extends Controller
 				}
 			}
 
+			if ($_POST['action'] == 'get_opt_opportunity_types')
+			{
+				$html = '<option value="" selected hidden>{$lang.choose}</option>';
+
+				foreach ($this->model->get_opportunity_types($_POST['opportunity_area']) as $value)
+					$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+
+				Functions::environment([
+					'status' => 'success',
+					'html' => $html
+				]);
+			}
+
 			if ($_POST['action'] == 'edit_myvox_request_settings' OR $_POST['action'] == 'edit_myvox_incident_settings' OR $_POST['action'] == 'edit_myvox_menu_settings' OR $_POST['action'] == 'edit_myvox_survey_settings' OR $_POST['action'] == 'edit_reviews_settings')
 			{
 				$labels = [];
@@ -262,6 +275,12 @@ class Account_controller extends Controller
 
 						if (!isset($_POST['currency']) OR empty($_POST['currency']))
 							array_push($labels, ['currency','']);
+
+						if (!isset($_POST['opportunity_area']) OR empty($_POST['opportunity_area']))
+							array_push($labels, ['opportunity_area','']);
+
+						if (!isset($_POST['opportunity_type']) OR empty($_POST['opportunity_type']))
+							array_push($labels, ['opportunity_type','']);
 					}
 				}
 				else if ($_POST['action'] == 'edit_myvox_survey_settings')
@@ -382,7 +401,7 @@ class Account_controller extends Controller
 			{
 				$div_public_requests .=
 				'<div class="stl_5">
-	                <i class="fas fa-spa"></i>
+	                <i class="fas fa-rocket"></i>
 	                <h2>{$lang.public_requests}</h2>
 	                <span>' . (($account['settings']['myvox']['request']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
 					<div class="switch">
@@ -393,7 +412,7 @@ class Account_controller extends Controller
 
 				$div_public_incidents .=
 				'<div class="stl_5">
-	                <i class="fas fa-exclamation-circle"></i>
+	                <i class="fas fa-meteor"></i>
 	                <h2>{$lang.public_incidents}</h2>
 	                <span>' . (($account['settings']['myvox']['incident']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
 					<div class="switch">
@@ -406,7 +425,7 @@ class Account_controller extends Controller
 				{
 					$div_digital_menu .=
 					'<div class="stl_5">
-		                <i class="fas fa-wave-square"></i>
+		                <i class="fas fa-fire-alt"></i>
 		                <h2>{$lang.digital_menu}</h2>
 		                <span>' . (($account['settings']['myvox']['menu']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
 						<div class="switch">
@@ -424,7 +443,7 @@ class Account_controller extends Controller
 			{
 				$div_answered_survey .=
 				'<div class="stl_5">
-	                <i class="fas fa-list-alt"></i>
+	                <i class="fas fa-ghost"></i>
 	                <h2>{$lang.answer_survey}</h2>
 	                <span>' . (($account['settings']['myvox']['survey']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
 					<div class="switch">
@@ -631,7 +650,7 @@ class Account_controller extends Controller
 												</label>
 											</div>
 										</div>
-										<div class="span12">
+										<div class="span4">
 											<div class="label">
 												<label required>
 													<p>{$lang.currency} <a data-action="get_help" data-text="{$lang.menu_currency_help}"><i class="fas fa-question-circle"></i></a></p>
@@ -643,6 +662,36 @@ class Account_controller extends Controller
 
 					$mdl_edit_myvox_menu_settings .=
 					'								</select>
+												</label>
+											</div>
+										</div>
+										<div class="span4">
+											<div class="label">
+												<label required>
+													<p>{$lang.opportunity_area} <a data-action="get_help" data-text="{$lang.menu_opportunity_area_help}"><i class="fas fa-question-circle"></i></a></p>
+													<select name="opportunity_area">
+														<option value="" selected hidden>{$lang.choose}</option>';
+
+					foreach ($this->model->get_opportunity_areas() as $value)
+						$mdl_edit_myvox_menu_settings .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+
+					$mdl_edit_myvox_menu_settings .=
+					'								</select>
+												</label>
+											</div>
+										</div>
+										<div class="span4">
+											<div class="label">
+												<label required>
+													<p>{$lang.opportunity_type} <a data-action="get_help" data-text="{$lang.menu_opportunity_type_help}"><i class="fas fa-question-circle"></i></a></p>
+													<select name="opportunity_type">
+														<option value="" selected hidden>{$lang.choose_opportunity_area}</option>';
+
+						foreach ($this->model->get_opportunity_types() as $value)
+							$mdl_edit_myvox_menu_settings .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+
+						$mdl_edit_myvox_menu_settings .=
+						'								</select>
 												</label>
 											</div>
 										</div>
@@ -807,7 +856,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(ES) {$lang.description}</p>
+												<p>(ES) {$lang.description} <a data-action="get_help" data-text="{$lang.es_description_help}"><i class="fas fa-question-circle"></i></a></p>
 												<textarea name="description_es"></textarea>
 											</label>
 										</div>
@@ -815,7 +864,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(EN) {$lang.description}</p>
+												<p>(EN) {$lang.description} <a data-action="get_help" data-text="{$lang.en_description_help}"><i class="fas fa-question-circle"></i></a></p>
 												<textarea name="description_en"></textarea>
 											</label>
 										</div>

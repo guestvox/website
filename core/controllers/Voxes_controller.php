@@ -90,9 +90,9 @@ class Voxes_controller extends Controller
 								<span class="' . $value['urgency'] . '">';
 
 				if ($value['type'] == 'request')
-					$tbl_voxes .= '<i class="fas fa-spa"></i>';
+					$tbl_voxes .= '<i class="fas fa-rocket"></i>';
 				else if ($value['type'] == 'incident')
-					$tbl_voxes .= '<i class="fas fa-exclamation-circle"></i>';
+					$tbl_voxes .= '<i class="fas fa-meteor"></i>';
 				else if ($value['type'] == 'workorder')
 					$tbl_voxes .= '<i class="fas fa-id-card-alt"></i>';
 
@@ -111,8 +111,8 @@ class Voxes_controller extends Controller
 							</div>
 	                    </div>
 	                    <div class="itm_3">
-							<span><i class="fas fa-compass"></i>' . $value['opportunity_area']['name'][$this->lang] . '</span>
-							<span><i class="far fa-compass"></i>' . $value['opportunity_type']['name'][$this->lang] . '</span>
+							<span><i class="fas fa-mask"></i>' . $value['opportunity_area']['name'][$this->lang] . '</span>
+							<span><i class="fas fa-feather-alt"></i>' . $value['opportunity_type']['name'][$this->lang] . '</span>
 							<span><i class="fas fa-map-marker-alt"></i>' . $value['location']['name'][$this->lang] . '</span>
 							<span><i class="fas fa-key"></i><strong>' . strtoupper($value['token']) . '</strong></span>
 	                    </div>
@@ -710,11 +710,11 @@ class Voxes_controller extends Controller
                     <div class="tabers">
                         <div>
                             <input id="rqrd" type="radio" name="type" value="request" ' . (($vox['type'] == 'request') ? 'checked' : '') . '>
-                            <label for="rwrd"><i class="fas fa-spa"></i></label>
+                            <label for="rwrd"><i class="fas fa-rocket"></i></label>
                         </div>
                         <div>
                             <input id="inrd" type="radio" name="type" value="incident" ' . (($vox['type'] == 'incident') ? 'checked' : '') . '>
-                            <label for="inrd"><i class="fas fa-exclamation-circle"></i></label>
+                            <label for="inrd"><i class="fas fa-meteor"></i></label>
                         </div>
                         <div>
                             <input id="wkrd" type="radio" name="type" value="workorder" ' . (($vox['type'] == 'workorder') ? 'checked' : '') . '>
@@ -1282,9 +1282,9 @@ class Voxes_controller extends Controller
 				$spn_type = '<span class="' . $vox['urgency'] . '">';
 
 				if ($vox['type'] == 'request')
-					$spn_type .= '<i class="fas fa-spa"></i>';
+					$spn_type .= '<i class="fas fa-rocket"></i>';
 				else if ($vox['type'] == 'incident')
-					$spn_type .= '<i class="fas fa-exclamation-circle"></i>';
+					$spn_type .= '<i class="fas fa-meteor"></i>';
 				else if ($vox['type'] == 'workorder')
 					$spn_type .= '<i class="fas fa-id-card-alt"></i>';
 
@@ -1423,7 +1423,7 @@ class Voxes_controller extends Controller
 							<main class="vox_details">
 								<div class="stl_11">
 									<div>
-										<span><i class="fas fa-compass"></i></span>
+										<span><i class="fas fa-mask"></i></span>
 										<div>
 											<h2>{$lang.opportunity_area}</h2>
 											<span>' . $vox['opportunity_area']['name'][$this->lang] . '</span>

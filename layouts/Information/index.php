@@ -12,7 +12,7 @@ $this->dependencies->add(['other', '<script>menu_focus("other");</script>']);
 %{header}%
 <main>
     <nav>
-        <h2><i class="fas fa-compass"></i>{$lang.myvox_information}</h2>
+        <h2><i class="fas fa-mask"></i>{$lang.myvox_information}</h2>
     </nav>
     <article>
         <main>

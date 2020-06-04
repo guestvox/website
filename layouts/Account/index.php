@@ -53,12 +53,12 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
             {$div_answered_survey}
             {$div_reviews_page}
             <div class="stl_5">
-                <i class="fas fa-tasks"></i>
+                <i class="fas fa-space-shuttle"></i>
                 <h2>{$lang.operation_solution}</h2>
                 <span>{$operation}</span>
             </div>
             <div class="stl_5">
-                <i class="fas fa-smile"></i>
+                <i class="fas fa-robot"></i>
                 <h2>{$lang.reputation_solution}</h2>
                 <span>{$reputation}</span>
             </div>
@@ -257,7 +257,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span12">
+                    <div class="span6">
                         <div class="label">
                             <label required>
                                 <p>{$lang.email}</p>
@@ -265,7 +265,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span4">
+                    <div class="span3">
                         <div class="label">
                             <label required>
                                 <p>{$lang.lada}</p>
@@ -275,7 +275,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span8">
+                    <div class="span3">
                         <div class="label">
                             <label required>
                                 <p>{$lang.phone}</p>

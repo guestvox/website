@@ -45,6 +45,48 @@ class Account_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
+	public function get_opportunity_areas()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
+			'id',
+			'name'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'request' => true,
+				'status' => true
+			],
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		return $query;
+	}
+
+	public function get_opportunity_types($opportunity_area = null)
+	{
+		if (!empty($opportunity_area))
+			$where['opportunity_area'] = $opportunity_area;
+		else
+			$where['account'] = Session::get_value('account')['id'];
+
+		$where['request'] = true;
+		$where['status'] = true;
+
+		$query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
+			'id',
+			'name'
+		], [
+			'AND' => $where,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		return $query;
+	}
+
 	public function get_countries()
 	{
 		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
@@ -248,6 +290,8 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['menu']['title']['es'] = $data['title_es'];
 				$edited1[0]['settings']['myvox']['menu']['title']['en'] = $data['title_en'];
 				$edited1[0]['settings']['myvox']['menu']['currency'] = $data['currency'];
+				$edited1[0]['settings']['myvox']['menu']['opportunity_area'] = $data['opportunity_area'];
+				$edited1[0]['settings']['myvox']['menu']['opportunity_type'] = $data['opportunity_type'];
 			}
 			else
 				$edited1[0]['settings']['myvox']['menu']['status'] = false;

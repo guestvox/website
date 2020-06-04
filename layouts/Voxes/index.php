@@ -18,9 +18,9 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                     <?php if (Session::get_value('settings')['voxes']['filter']['type'] == 'all') : ?>
                     <i class="fas fa-ellipsis-h"></i>
                     <?php elseif (Session::get_value('settings')['voxes']['filter']['type'] == 'request') : ?>
-                    <i class="fas fa-spa"></i>
+                    <i class="fas fa-rocket"></i>
                     <?php elseif (Session::get_value('settings')['voxes']['filter']['type'] == 'incident') : ?>
-                    <i class="fas fa-exclamation-circle"></i>
+                    <i class="fas fa-meteor"></i>
                     <?php elseif (Session::get_value('settings')['voxes']['filter']['type'] == 'workorder') : ?>
                     <i class="fas fa-id-card-alt"></i>
                     <?php endif; ?>
@@ -48,7 +48,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
         <div>
             <a data-button-modal="search"><i class="fas fa-search"></i></a>
             <a href="/voxes/create" class="active"><i class="fas fa-plus"></i></a>
-            <a href="/voxes" class="active"><i class="fas fa-heart"></i></a>
+            <a href="/voxes" class="active"><i class="fas fa-atom"></i></a>
             <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
             <a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a>
             <?php endif; ?>
