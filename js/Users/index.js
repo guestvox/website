@@ -38,7 +38,7 @@ $(document).ready(function()
         id = null;
         edit = false;
 
-        clean_form($('[data-modal="new_user"]').find('form'));
+        clean_form($('form[name="new_user"]'));
     });
 
     $('form[name="new_user"]').on('submit', function(e)
@@ -102,7 +102,7 @@ $(document).ready(function()
                         $('[data-modal="new_user"]').find('[name="opportunity_areas[]"][value="' + value + '"]').prop('checked', true);
                     });
 
-                    required_focus($('[data-modal="new_user"]').find('form'), true);
+                    required_focus($('form[name="new_user"]'), true);
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);

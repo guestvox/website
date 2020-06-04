@@ -63,7 +63,7 @@ class Myvox_model extends Model
 			], [
 				'OR' => [
 					'id' => $token,
-					'token' => strtolower($token)
+					'token' => $token
 				]
 			]));
 

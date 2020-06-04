@@ -6,6 +6,8 @@ $(document).ready(function()
 
     $('[data-action="new_vox"]').on('click', function()
     {
+        $('[data-modal="new_vox"]').addClass('view');
+
         type = $(this).data('type');
 
         $.ajax({
@@ -71,9 +73,7 @@ $(document).ready(function()
             $('[data-modal="new_vox"]').find('[name="description"]').parent().parent().parent().removeClass('hidden');
         }
 
-        required_focus($('[data-modal="new_vox"]').find('form'), true);
-
-        $('[data-modal="new_vox"]').addClass('view');
+        required_focus($('form[name="new_vox"]'), true);
     });
 
     $('[name="owner"]').on('change', function()
@@ -112,7 +112,7 @@ $(document).ready(function()
         $('[data-modal="new_vox"]').find('[name="observations"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="new_vox"]').find('[name="description"]').parent().parent().parent().addClass('hidden');
 
-        clean_form($('[data-modal="new_vox"]').find('form'));
+        clean_form($('form[name="new_vox"]'));
     });
 
     $('form[name="new_vox"]').on('submit', function(e)

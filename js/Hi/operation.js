@@ -43,10 +43,10 @@ $(document).ready(function()
 
     $('[data-modal="contact"]').modal().onCancel(function()
     {
-        $('[data-modal="contact"]').find('[name="type"]').parent().parent().parent().removeClass('span8').addClass('span12');
-        $('[data-modal="contact"]').find('[name="rooms"]').parent().parent().parent().addClass('hidden');
+        $('[name="type"]').parent().parent().parent().removeClass('span8').addClass('span12');
+        $('[name="rooms"]').parent().parent().parent().addClass('hidden');
 
-        clean_form($('[data-modal="contact"]').find('form'));
+        clean_form($('form[name="contact"]'));
     });
 
     $('form[name="contact"]').on('submit', function(e)

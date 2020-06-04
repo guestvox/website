@@ -10,7 +10,7 @@ $(document).ready(function()
         id = null;
         edit = false;
 
-        clean_form($('[data-modal="new_reservation_status"]').find('form'));
+        clean_form($('form[name="new_reservation_status"]'));
     });
 
     $('form[name="new_reservation_status"]').on('submit', function(e)
@@ -59,7 +59,7 @@ $(document).ready(function()
 
                     $('[data-modal="new_reservation_status"]').find('[name="name"]').val(response.data.name);
 
-                    required_focus($('[data-modal="new_reservation_status"]').find('form'), true);
+                    required_focus($('form[name="new_reservation_status"]'), true);
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);

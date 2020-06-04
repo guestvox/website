@@ -26,7 +26,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         </div>
                         <div>
                             <input id="wkrd" type="radio" name="type" value="workorder">
-                            <label for="wkrd"><i class="fas fa-id-card-alt"></i></label>
+                            <label for="wkrd"><i class="fas fa-bomb"></i></label>
                         </div>
                     </div>
                 </div>

@@ -45,7 +45,10 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
+                {
+                    $('[name="opportunity_type"]').attr('disabled', true);
                     $('[name="opportunity_type"]').html(response.html);
+                }
             }
         });
 
@@ -116,6 +119,8 @@ $(document).ready(function()
             $('[name="check_in"]').parent().parent().parent().addClass('hidden');
             $('[name="check_out"]').parent().parent().parent().addClass('hidden');
         }
+
+        required_focus($('form[name="edit_vox"]'), true);
     });
 
     $('[name="owner"]').on('change', function()

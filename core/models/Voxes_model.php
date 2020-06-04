@@ -79,87 +79,87 @@ class Voxes_model extends Model
 				];
 			}
 		}
-		else if ($option == 'report')
-		{
-			$fields = [
-				'type',
-				'token',
-				'owner',
-				'opportunity_area',
-				'opportunity_type',
-				'started_date',
-				'started_hour',
-				'location',
-				'cost',
-				'urgency',
-				'confidentiality',
-				'assigned_users',
-				'observations',
-				'subject',
-				'description',
-				'action_taken',
-				'guest_treatment',
-				'firstname',
-				'lastname',
-				'guest_id',
-				'guest_type',
-				'reservation_number',
-				'reservation_status',
-				'check_in',
-				'check_out',
-				'attachments',
-				'viewed_by',
-				'comments',
-				'created_user',
-				'created_date',
-				'created_hour',
-				'edited_user',
-				'edited_date',
-				'edited_hour',
-				'completed_user',
-				'completed_date',
-				'completed_hour',
-				'reopened_user',
-				'reopened_date',
-				'reopened_hour',
-				'status',
-				'origin'
-			];
-
-			if ($data['type'] != 'all')
-				$where['AND']['type'] = $data['type'];
-
-			if ($data['owner'] != 'all')
-				$where['AND']['owner'] = $data['owner'];
-
-			if ($data['opportunity_area'] != 'all')
-				$where['AND']['opportunity_area'] = $data['opportunity_area'];
-
-			if ($data['opportunity_type'] != 'all')
-				$where['AND']['opportunity_type'] = $data['opportunity_type'];
-
-			if ($data['location'] != 'all')
-				$where['AND']['location'] = $data['location'];
-
-			$where['AND']['OR']['started_date[<]'] = $data['started_date']; // - Revisar formatos de fecha
-			$where['AND']['OR']['started_date[>]'] = $data['end_date']; // - Revisar formatos de fecha
-
-			if ($data['type'] == 'all' OR $data['type'] == 'workorder')
-			{
-				$where['ORDER']['started_date'] = 'DESC';
-				$where['ORDER']['started_hour'] = 'DESC';
-			}
-			else if ($data['type'] == 'request' OR $data['type'] == 'incident')
-			{
-				if ($data['order'] == 'owner')
-					$where['ORDER']['owner'] = 'ASC';
-				else if ($data['order'] == 'name')
-				{
-					$where['ORDER']['firstname'] = 'ASC';
-					$where['ORDER']['lastname'] = 'ASC';
-				}
-			}
-		}
+		// else if ($option == 'report')
+		// {
+		// 	$fields = [
+		// 		'type',
+		// 		'token',
+		// 		'owner',
+		// 		'opportunity_area',
+		// 		'opportunity_type',
+		// 		'started_date',
+		// 		'started_hour',
+		// 		'location',
+		// 		'cost',
+		// 		'urgency',
+		// 		'confidentiality',
+		// 		'assigned_users',
+		// 		'observations',
+		// 		'subject',
+		// 		'description',
+		// 		'action_taken',
+		// 		'guest_treatment',
+		// 		'firstname',
+		// 		'lastname',
+		// 		'guest_id',
+		// 		'guest_type',
+		// 		'reservation_number',
+		// 		'reservation_status',
+		// 		'check_in',
+		// 		'check_out',
+		// 		'attachments',
+		// 		'viewed_by',
+		// 		'comments',
+		// 		'created_user',
+		// 		'created_date',
+		// 		'created_hour',
+		// 		'edited_user',
+		// 		'edited_date',
+		// 		'edited_hour',
+		// 		'completed_user',
+		// 		'completed_date',
+		// 		'completed_hour',
+		// 		'reopened_user',
+		// 		'reopened_date',
+		// 		'reopened_hour',
+		// 		'status',
+		// 		'origin'
+		// 	];
+		//
+		// 	if ($data['type'] != 'all')
+		// 		$where['AND']['type'] = $data['type'];
+		//
+		// 	if ($data['owner'] != 'all')
+		// 		$where['AND']['owner'] = $data['owner'];
+		//
+		// 	if ($data['opportunity_area'] != 'all')
+		// 		$where['AND']['opportunity_area'] = $data['opportunity_area'];
+		//
+		// 	if ($data['opportunity_type'] != 'all')
+		// 		$where['AND']['opportunity_type'] = $data['opportunity_type'];
+		//
+		// 	if ($data['location'] != 'all')
+		// 		$where['AND']['location'] = $data['location'];
+		//
+		// 	$where['AND']['OR']['started_date[<]'] = $data['started_date']; // - Revisar formatos de fecha
+		// 	$where['AND']['OR']['started_date[>]'] = $data['end_date']; // - Revisar formatos de fecha
+		//
+		// 	if ($data['type'] == 'all' OR $data['type'] == 'workorder')
+		// 	{
+		// 		$where['ORDER']['started_date'] = 'DESC';
+		// 		$where['ORDER']['started_hour'] = 'DESC';
+		// 	}
+		// 	else if ($data['type'] == 'request' OR $data['type'] == 'incident')
+		// 	{
+		// 		if ($data['order'] == 'owner')
+		// 			$where['ORDER']['owner'] = 'ASC';
+		// 		else if ($data['order'] == 'name')
+		// 		{
+		// 			$where['ORDER']['firstname'] = 'ASC';
+		// 			$where['ORDER']['lastname'] = 'ASC';
+		// 		}
+		// 	}
+		// }
 
 		$query = Functions::get_json_decoded_query($this->database->select('voxes', $fields, $where));
 
@@ -174,37 +174,37 @@ class Voxes_model extends Model
 			{
 				$query[$key]['attachments'] = array_merge($value['attachments'], $subvalue['attachments']);
 
-				if ($option == 'report')
-				{
-					$query[$key]['cost'] = (!empty($value['cost']) ? $value['cost'] : 0) + (!empty($subvalue['cost']) ? $subvalue['cost'] : 0);
-					$query[$key]['comments'][$subkey]['user'] = $this->get_user($subvalue['user']);
-				}
+				// if ($option == 'report')
+				// {
+				// 	$query[$key]['cost'] = (!empty($value['cost']) ? $value['cost'] : 0) + (!empty($subvalue['cost']) ? $subvalue['cost'] : 0);
+				// 	$query[$key]['comments'][$subkey]['user'] = $this->get_user($subvalue['user']);
+				// }
 			}
 
-			if ($option == 'report')
-			{
-				foreach ($value['assigned_users'] as $subkey => $subvalue)
-					$query[$key]['assigned_users'][$subkey] = $this->get_user($subvalue);
-
-				if (Session::get_value('account')['type'] == 'hotel')
-				{
-					if ($value['type'] == 'request' OR $value['type'] == 'incident')
-						$query[$key]['guest_treatment'] = $this->get_guest_treatment($value['guest_treatment']);
-
-					if ($value['type'] == 'incident')
-					{
-						$query[$key]['guest_type'] = $this->get_guest_type($value['guest_type']);
-						$query[$key]['reservation_status'] = $this->get_reservation_status($value['reservation_status']);
-					}
-				}
-
-				foreach ($value['viewed_by'] as $subkey => $subvalue)
-					$query[$key]['viewed_by'][$subkey] = $this->get_user($subvalue);
-
-				$query[$key]['edited_user'] = $this->get_user($value['edited_user']);
-				$query[$key]['completed_user'] = $this->get_user($value['completed_user']);
-				$query[$key]['reopened_user'] = $this->get_user($value['reopened_user']);
-			}
+			// if ($option == 'report')
+			// {
+			// 	foreach ($value['assigned_users'] as $subkey => $subvalue)
+			// 		$query[$key]['assigned_users'][$subkey] = $this->get_user($subvalue);
+			//
+			// 	if (Session::get_value('account')['type'] == 'hotel')
+			// 	{
+			// 		if ($value['type'] == 'request' OR $value['type'] == 'incident')
+			// 			$query[$key]['guest_treatment'] = $this->get_guest_treatment($value['guest_treatment']);
+			//
+			// 		if ($value['type'] == 'incident')
+			// 		{
+			// 			$query[$key]['guest_type'] = $this->get_guest_type($value['guest_type']);
+			// 			$query[$key]['reservation_status'] = $this->get_reservation_status($value['reservation_status']);
+			// 		}
+			// 	}
+			//
+			// 	foreach ($value['viewed_by'] as $subkey => $subvalue)
+			// 		$query[$key]['viewed_by'][$subkey] = $this->get_user($subvalue);
+			//
+			// 	$query[$key]['edited_user'] = $this->get_user($value['edited_user']);
+			// 	$query[$key]['completed_user'] = $this->get_user($value['completed_user']);
+			// 	$query[$key]['reopened_user'] = $this->get_user($value['reopened_user']);
+			// }
 
 			$query[$key]['created_user'] = $this->get_user($value['created_user']);
 		}
@@ -357,26 +357,24 @@ class Voxes_model extends Model
 
 	public function get_owners($type = null)
 	{
-		$where = [
-			'AND' => [
-				'account' => Session::get_value('account')['id'],
-				'status' => true
-			]
-		];
+		$where['account'] = Session::get_value('account')['id'];
 
 		if (!empty($type))
-			$where['AND'][$type] = true;
+			$where[$type] = true;
 
-		$where['ORDER'] = [
-			'number' => 'ASC',
-			'name' => 'ASC'
-		];
+		$where['status'] = true;
 
 		$query = Functions::get_json_decoded_query($this->database->select('owners', [
 			'id',
 			'name',
 			'number'
-		], $where));
+		], [
+			'AND' => $where,
+			'ORDER' => [
+				'number' => 'ASC',
+				'name' => 'ASC'
+			]
+		]));
 
 		return $query;
 	}
@@ -434,24 +432,22 @@ class Voxes_model extends Model
 
 	public function get_opportunity_areas($type = null)
 	{
-		$where = [
-			'AND' => [
-				'account' => Session::get_value('account')['id'],
-				'status' => true
-			]
-		];
+		$where['account'] = Session::get_value('account')['id'];
 
 		if (!empty($type))
-			$where['AND'][$type] = true;
+			$where[$type] = true;
 
-		$where['ORDER'] = [
-			'name' => 'ASC'
-		];
+		$where['status'] = true;
 
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
 			'id',
 			'name'
-		], $where));
+		], [
+			'AND' => $where,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
 
 		return $query;
 	}
@@ -470,24 +466,22 @@ class Voxes_model extends Model
 
 	public function get_opportunity_types($opportunity_area, $type = null)
 	{
-		$where = [
-			'AND' => [
-				'opportunity_area' => $opportunity_area,
-				'status' => true
-			]
-		];
+		$where['opportunity_area'] = $opportunity_area;
 
 		if (!empty($type))
-			$where['AND'][$type] = true;
+			$where[$type] = true;
 
-		$where['ORDER'] = [
-			'name' => 'ASC'
-		];
+		$where['status'] = true;
 
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
 			'id',
 			'name'
-		], $where));
+		], [
+			'AND' => $where,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
 
 		return $query;
 	}
@@ -506,24 +500,22 @@ class Voxes_model extends Model
 
 	public function get_locations($type = null)
 	{
-		$where = [
-			'AND' => [
-				'account' => Session::get_value('account')['id'],
-				'status' => true
-			]
-		];
+		$where['account'] = Session::get_value('account')['id'];
 
 		if (!empty($type))
-			$where['AND'][$type] = true;
+			$where[$type] = true;
 
-		$where['ORDER'] = [
-			'name' => 'ASC'
-		];
+		$where['status'] = true;
 
 		$query = Functions::get_json_decoded_query($this->database->select('locations', [
 			'id',
 			'name'
-		], $where));
+		], [
+			'AND' => $where,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
 
 		return $query;
 	}
@@ -746,15 +738,15 @@ class Voxes_model extends Model
 			'subject' => ($data['type'] == 'incident' AND !empty($data['subject'])) ? $data['subject'] : null,
 			'description' => ($data['type'] == 'incident' AND !empty($data['description'])) ? $data['description'] : null,
 			'action_taken' => ($data['type'] == 'incident' AND !empty($data['action_taken'])) ? $data['action_taken'] : null,
-			'guest_treatment' => (($data['type'] == 'request' OR $data['type'] == 'incident') AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['guest_treatment'])) ? $data['guest_treatment'] : null,
+			'guest_treatment' => (Session::get_value('account')['type'] == 'hotel' AND ($data['type'] == 'request' OR $data['type'] == 'incident') AND !empty($data['guest_treatment'])) ? $data['guest_treatment'] : null,
 			'firstname' => (($data['type'] == 'request' OR $data['type'] == 'incident') AND !empty($data['firstname'])) ? $data['firstname'] : null,
 			'lastname' => (($data['type'] == 'request' OR $data['type'] == 'incident') AND !empty($data['lastname'])) ? $data['lastname'] : null,
-			'guest_id' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['guest_id'])) ? $data['guest_id'] : null,
-			'guest_type' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['guest_type'])) ? $data['guest_type'] : null,
-			'reservation_number' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['reservation_number'])) ? $data['reservation_number'] : null,
-			'reservation_status' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['reservation_status'])) ? $data['reservation_status'] : null,
-			'check_in' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['check_in'])) ? $data['check_in'] : null,
-			'check_out' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['check_out'])) ? $data['check_out'] : null,
+			'guest_id' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['guest_id'])) ? $data['guest_id'] : null,
+			'guest_type' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['guest_type'])) ? $data['guest_type'] : null,
+			'reservation_number' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['reservation_number'])) ? $data['reservation_number'] : null,
+			'reservation_status' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['reservation_status'])) ? $data['reservation_status'] : null,
+			'check_in' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['check_in'])) ? $data['check_in'] : null,
+			'check_out' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['check_out'])) ? $data['check_out'] : null,
 			'attachments' => json_encode((!empty($data['attachments']) ? $data['attachments'] : [])),
 			'viewed_by' => json_encode([]),
 			'comments' => json_encode([]),
@@ -998,9 +990,9 @@ class Voxes_model extends Model
 				}
 			}
 
-			if ($data['type'] == 'request' OR $data['type'] == 'incident')
+			if (Session::get_value('account')['type'] == 'hotel')
 			{
-				if (Session::get_value('account')['type'] == 'hotel')
+				if ($data['type'] == 'request' OR $data['type'] == 'incident')
 				{
 					if ($editer['guest_treatment'] != $data['guest_treatment'])
 					{
@@ -1011,7 +1003,10 @@ class Voxes_model extends Model
 						]);
 					}
 				}
+			}
 
+			if ($data['type'] == 'request' OR $data['type'] == 'incident')
+			{
 				if ($editer['firstname'] != $data['firstname'])
 				{
 					array_push($data['changes_history'][0]['fields'], [
@@ -1031,9 +1026,9 @@ class Voxes_model extends Model
 				}
 			}
 
-			if ($data['type'] == 'incident')
+			if (Session::get_value('account')['type'] == 'hotel')
 			{
-				if (Session::get_value('account')['type'] == 'hotel')
+				if ($data['type'] == 'incident')
 				{
 					if ($editer['guest_id'] != $data['guest_id'])
 					{
@@ -1121,15 +1116,15 @@ class Voxes_model extends Model
 				'subject' => ($data['type'] == 'incident' AND !empty($data['subject'])) ? $data['subject'] : null,
 				'description' => ($data['type'] == 'incident' AND !empty($data['description'])) ? $data['description'] : null,
 				'action_taken' => ($data['type'] == 'incident' AND !empty($data['action_taken'])) ? $data['action_taken'] : null,
-				'guest_treatment' => (($data['type'] == 'request' OR $data['type'] == 'incident') AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['guest_treatment'])) ? $data['guest_treatment'] : null,
+				'guest_treatment' => (Session::get_value('account')['type'] == 'hotel' AND ($data['type'] == 'request' OR $data['type'] == 'incident') AND !empty($data['guest_treatment'])) ? $data['guest_treatment'] : null,
 				'firstname' => (($data['type'] == 'request' OR $data['type'] == 'incident') AND !empty($data['firstname'])) ? $data['firstname'] : null,
 				'lastname' => (($data['type'] == 'request' OR $data['type'] == 'incident') AND !empty($data['lastname'])) ? $data['lastname'] : null,
-				'guest_id' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['guest_id'])) ? $data['guest_id'] : null,
-				'guest_type' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['guest_type'])) ? $data['guest_type'] : null,
-				'reservation_number' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['reservation_number'])) ? $data['reservation_number'] : null,
-				'reservation_status' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['reservation_status'])) ? $data['reservation_status'] : null,
-				'check_in' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['check_in'])) ? $data['check_in'] : null,
-				'check_out' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty($data['check_out'])) ? $data['check_out'] : null,
+				'guest_id' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['guest_id'])) ? $data['guest_id'] : null,
+				'guest_type' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['guest_type'])) ? $data['guest_type'] : null,
+				'reservation_number' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['reservation_number'])) ? $data['reservation_number'] : null,
+				'reservation_status' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['reservation_status'])) ? $data['reservation_status'] : null,
+				'check_in' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['check_in'])) ? $data['check_in'] : null,
+				'check_out' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['check_out'])) ? $data['check_out'] : null,
 				'attachments' => json_encode((!empty($data['attachments']) ? $data['attachments'] : [])),
 				'changes_history' => json_encode($data['changes_history']),
 				'edited_user' => Session::get_value('user')['id'],
@@ -1306,856 +1301,856 @@ class Voxes_model extends Model
 		return $query;
 	}
 
-	public function get_voxes_reports($option)
-	{
-		$reports = [];
-		$where = [];
-
-		if ($option == 'saved')
-			$where['account'] = Session::get_value('account')['id'];
-		else if ($option == 'print')
-		{
-			$where['AND'] = [
-				'account' => Session::get_value('account')['id'],
-				'status' => true
-			];
-		}
-
-		$where['ORDER'] = [
-			'name' => 'ASC'
-		];
-
-		$query = Functions::get_json_decoded_query($this->database->select('voxes_reports', [
-			'id',
-			'name',
-			'addressed_to',
-			'opportunity_areas',
-			'user',
-			'status'
-		], $where));
-
-		foreach ($query as $value)
-		{
-			$break = false;
-
-			if ($value['addressed_to'] == 'opportunity_areas')
-			{
-				$count = 0;
-
-				foreach (Session::get_value('user')['opportunity_areas'] as $subvalue)
-				{
-					if (in_array($subvalue, $value['opportunity_areas']))
-						$count = $count + 1;
-					else
-						$break = true;
-				}
-
-				if ($count > 0)
-					$break = false;
-			}
-			else if ($value['addressed_to'] == 'me' AND Session::get_value('user')['id'] != $value['user'])
-				$break = true;
-
-			if ($break == false)
-				array_push($reports, $value);
-		}
-
-		return $reports;
-	}
-
-	public function get_vox_report($id)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('voxes_reports', [
-			'name',
-			'type',
-			'opportunity_area',
-			'opportunity_type',
-			'owner',
-			'location',
-			'order',
-			'time_period',
-			'addressed_to',
-			'opportunity_areas',
-			'user',
-			'fields'
-		], [
-			'id' => $id
-		]));
-
-		return !empty($query) ? $query[0] : null;
-	}
-
-	public function get_vox_report_fields($type = 'all')
-	{
-		if ($type == 'all')
-		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				return [
-					[
-						'id' => 'type',
-						'name' => 'type'
-					],
-					[
-						'id' => 'owner',
-						'name' => 'owner'
-					],
-					[
-						'id' => 'opportunity_area',
-						'name' => 'opportunity_area'
-					],
-					[
-						'id' => 'opportunity_type',
-						'name' => 'opportunity_type'
-					],
-					[
-						'id' => 'date',
-						'name' => 'date'
-					],
-					[
-						'id' => 'location',
-						'name' => 'location'
-					],
-					[
-						'id' => 'cost',
-						'name' => 'cost'
-					],
-					[
-						'id' => 'urgency',
-						'name' => 'urgency'
-					],
-					[
-						'id' => 'confidentiality',
-						'name' => 'confidentiality'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'observations',
-						'name' => 'observations'
-					],
-					[
-						'id' => 'subject',
-						'name' => 'subject'
-					],
-					[
-						'id' => 'description',
-						'name' => 'description'
-					],
-					[
-						'id' => 'action_taken',
-						'name' => 'action_taken'
-					],
-					[
-						'id' => 'name',
-						'name' => 'name'
-					],
-					[
-						'id' => 'guest_id',
-						'name' => 'guest_id'
-					],
-					[
-						'id' => 'guest_type',
-						'name' => 'guest_type'
-					],
-					[
-						'id' => 'reservation_number',
-						'name' => 'reservation_number'
-					],
-					[
-						'id' => 'reservation_status',
-						'name' => 'reservation_status'
-					],
-					[
-						'id' => 'staying',
-						'name' => 'staying'
-					],
-					[
-						'id' => 'attachments',
-						'name' => 'attachments'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
-					],
-					[
-						'id' => 'created',
-						'name' => 'created'
-					],
-					[
-						'id' => 'edited',
-						'name' => 'edited'
-					],
-					[
-						'id' => 'completed',
-						'name' => 'completed'
-					],
-					[
-						'id' => 'reopened',
-						'name' => 'reopened'
-					],
-					[
-						'id' => 'status',
-						'name' => 'status'
-					],
-					[
-						'id' => 'origin',
-						'name' => 'origin'
-					],
-					[
-						'id' => 'average_resolution',
-						'name' => 'average_resolution'
-					]
-				];
-			}
-			else
-			{
-				return [
-					[
-						'id' => 'type',
-						'name' => 'type'
-					],
-					[
-						'id' => 'owner',
-						'name' => 'owner'
-					],
-					[
-						'id' => 'opportunity_area',
-						'name' => 'opportunity_area'
-					],
-					[
-						'id' => 'opportunity_type',
-						'name' => 'opportunity_type'
-					],
-					[
-						'id' => 'date',
-						'name' => 'date'
-					],
-					[
-						'id' => 'location',
-						'name' => 'location'
-					],
-					[
-						'id' => 'cost',
-						'name' => 'cost'
-					],
-					[
-						'id' => 'urgency',
-						'name' => 'urgency'
-					],
-					[
-						'id' => 'confidentiality',
-						'name' => 'confidentiality'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'observations',
-						'name' => 'observations'
-					],
-					[
-						'id' => 'subject',
-						'name' => 'subject'
-					],
-					[
-						'id' => 'description',
-						'name' => 'description'
-					],
-					[
-						'id' => 'action_taken',
-						'name' => 'action_taken'
-					],
-					[
-						'id' => 'name',
-						'name' => 'name'
-					],
-					[
-						'id' => 'attachments',
-						'name' => 'attachments'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
-					],
-					[
-						'id' => 'created',
-						'name' => 'created'
-					],
-					[
-						'id' => 'edited',
-						'name' => 'edited'
-					],
-					[
-						'id' => 'completed',
-						'name' => 'completed'
-					],
-					[
-						'id' => 'reopened',
-						'name' => 'reopened'
-					],
-					[
-						'id' => 'status',
-						'name' => 'status'
-					],
-					[
-						'id' => 'origin',
-						'name' => 'origin'
-					],
-					[
-						'id' => 'average_resolution',
-						'name' => 'average_resolution'
-					]
-				];
-			}
-		}
-		else if ($type == 'request')
-		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				return [
-					[
-						'id' => 'owner',
-						'name' => 'owner'
-					],
-					[
-						'id' => 'opportunity_area',
-						'name' => 'opportunity_area'
-					],
-					[
-						'id' => 'opportunity_type',
-						'name' => 'opportunity_type'
-					],
-					[
-						'id' => 'date',
-						'name' => 'date'
-					],
-					[
-						'id' => 'location',
-						'name' => 'location'
-					],
-					[
-						'id' => 'urgency',
-						'name' => 'urgency'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'observations',
-						'name' => 'observations'
-					],
-					[
-						'id' => 'name',
-						'name' => 'name'
-					],
-					[
-						'id' => 'attachments',
-						'name' => 'attachments'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
-					],
-					[
-						'id' => 'created',
-						'name' => 'created'
-					],
-					[
-						'id' => 'edited',
-						'name' => 'edited'
-					],
-					[
-						'id' => 'completed',
-						'name' => 'completed'
-					],
-					[
-						'id' => 'reopened',
-						'name' => 'reopened'
-					],
-					[
-						'id' => 'status',
-						'name' => 'status'
-					],
-					[
-						'id' => 'origin',
-						'name' => 'origin'
-					],
-					[
-						'id' => 'average_resolution',
-						'name' => 'average_resolution'
-					]
-				];
-			}
-			else
-			{
-				return [
-					[
-						'id' => 'owner',
-						'name' => 'owner'
-					],
-					[
-						'id' => 'opportunity_area',
-						'name' => 'opportunity_area'
-					],
-					[
-						'id' => 'opportunity_type',
-						'name' => 'opportunity_type'
-					],
-					[
-						'id' => 'date',
-						'name' => 'date'
-					],
-					[
-						'id' => 'location',
-						'name' => 'location'
-					],
-					[
-						'id' => 'urgency',
-						'name' => 'urgency'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'observations',
-						'name' => 'observations'
-					],
-					[
-						'id' => 'name',
-						'name' => 'name'
-					],
-					[
-						'id' => 'attachments',
-						'name' => 'attachments'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
-					],
-					[
-						'id' => 'created',
-						'name' => 'created'
-					],
-					[
-						'id' => 'edited',
-						'name' => 'edited'
-					],
-					[
-						'id' => 'completed',
-						'name' => 'completed'
-					],
-					[
-						'id' => 'reopened',
-						'name' => 'reopened'
-					],
-					[
-						'id' => 'status',
-						'name' => 'status'
-					],
-					[
-						'id' => 'origin',
-						'name' => 'origin'
-					],
-					[
-						'id' => 'average_resolution',
-						'name' => 'average_resolution'
-					]
-				];
-			}
-		}
-		else if ($type == 'incident')
-		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				return [
-					[
-						'id' => 'owner',
-						'name' => 'owner'
-					],
-					[
-						'id' => 'opportunity_area',
-						'name' => 'opportunity_area'
-					],
-					[
-						'id' => 'opportunity_type',
-						'name' => 'opportunity_type'
-					],
-					[
-						'id' => 'date',
-						'name' => 'date'
-					],
-					[
-						'id' => 'location',
-						'name' => 'location'
-					],
-					[
-						'id' => 'cost',
-						'name' => 'cost'
-					],
-					[
-						'id' => 'urgency',
-						'name' => 'urgency'
-					],
-					[
-						'id' => 'confidentiality',
-						'name' => 'confidentiality'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'subject',
-						'name' => 'subject'
-					],
-					[
-						'id' => 'description',
-						'name' => 'description'
-					],
-					[
-						'id' => 'action_taken',
-						'name' => 'action_taken'
-					],
-					[
-						'id' => 'name',
-						'name' => 'name'
-					],
-					[
-						'id' => 'guest_id',
-						'name' => 'guest_id'
-					],
-					[
-						'id' => 'guest_type',
-						'name' => 'guest_type'
-					],
-					[
-						'id' => 'reservation_number',
-						'name' => 'reservation_number'
-					],
-					[
-						'id' => 'reservation_status',
-						'name' => 'reservation_status'
-					],
-					[
-						'id' => 'staying',
-						'name' => 'staying'
-					],
-					[
-						'id' => 'attachments',
-						'name' => 'attachments'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
-					],
-					[
-						'id' => 'created',
-						'name' => 'created'
-					],
-					[
-						'id' => 'edited',
-						'name' => 'edited'
-					],
-					[
-						'id' => 'completed',
-						'name' => 'completed'
-					],
-					[
-						'id' => 'reopened',
-						'name' => 'reopened'
-					],
-					[
-						'id' => 'status',
-						'name' => 'status'
-					],
-					[
-						'id' => 'origin',
-						'name' => 'origin'
-					],
-					[
-						'id' => 'average_resolution',
-						'name' => 'average_resolution'
-					]
-				];
-			}
-			else
-			{
-				return [
-					[
-						'id' => 'owner',
-						'name' => 'owner'
-					],
-					[
-						'id' => 'opportunity_area',
-						'name' => 'opportunity_area'
-					],
-					[
-						'id' => 'opportunity_type',
-						'name' => 'opportunity_type'
-					],
-					[
-						'id' => 'date',
-						'name' => 'date'
-					],
-					[
-						'id' => 'location',
-						'name' => 'location'
-					],
-					[
-						'id' => 'cost',
-						'name' => 'cost'
-					],
-					[
-						'id' => 'urgency',
-						'name' => 'urgency'
-					],
-					[
-						'id' => 'confidentiality',
-						'name' => 'confidentiality'
-					],
-					[
-						'id' => 'assigned_users',
-						'name' => 'assigned_users'
-					],
-					[
-						'id' => 'subject',
-						'name' => 'subject'
-					],
-					[
-						'id' => 'description',
-						'name' => 'description'
-					],
-					[
-						'id' => 'action_taken',
-						'name' => 'action_taken'
-					],
-					[
-						'id' => 'name',
-						'name' => 'name'
-					],
-					[
-						'id' => 'attachments',
-						'name' => 'attachments'
-					],
-					[
-						'id' => 'viewed_by',
-						'name' => 'viewed_by'
-					],
-					[
-						'id' => 'comments',
-						'name' => 'comments'
-					],
-					[
-						'id' => 'created',
-						'name' => 'created'
-					],
-					[
-						'id' => 'edited',
-						'name' => 'edited'
-					],
-					[
-						'id' => 'completed',
-						'name' => 'completed'
-					],
-					[
-						'id' => 'reopened',
-						'name' => 'reopened'
-					],
-					[
-						'id' => 'status',
-						'name' => 'status'
-					],
-					[
-						'id' => 'origin',
-						'name' => 'origin'
-					],
-					[
-						'id' => 'average_resolution',
-						'name' => 'average_resolution'
-					]
-				];
-			}
-		}
-		else if ($type == 'workorder')
-		{
-			return [
-				[
-					'id' => 'owner',
-					'name' => 'owner'
-				],
-				[
-					'id' => 'opportunity_area',
-					'name' => 'opportunity_area'
-				],
-				[
-					'id' => 'opportunity_type',
-					'name' => 'opportunity_type'
-				],
-				[
-					'id' => 'date',
-					'name' => 'date'
-				],
-				[
-					'id' => 'location',
-					'name' => 'location'
-				],
-				[
-					'id' => 'urgency',
-					'name' => 'urgency'
-				],
-				[
-					'id' => 'assigned_users',
-					'name' => 'assigned_users'
-				],
-				[
-					'id' => 'observations',
-					'name' => 'observations'
-				],
-				[
-					'id' => 'attachments',
-					'name' => 'attachments'
-				],
-				[
-					'id' => 'viewed_by',
-					'name' => 'viewed_by'
-				],
-				[
-					'id' => 'comments',
-					'name' => 'comments'
-				],
-				[
-					'id' => 'created',
-					'name' => 'created'
-				],
-				[
-					'id' => 'edited',
-					'name' => 'edited'
-				],
-				[
-					'id' => 'completed',
-					'name' => 'completed'
-				],
-				[
-					'id' => 'reopened',
-					'name' => 'reopened'
-				],
-				[
-					'id' => 'status',
-					'name' => 'status'
-				],
-				[
-					'id' => 'origin',
-					'name' => 'origin'
-				],
-				[
-					'id' => 'average_resolution',
-					'name' => 'average_resolution'
-				]
-			];
-		}
-	}
-
-	public function new_vox_report($data)
-	{
-		$query = $this->database->insert('voxes_reports', [
-			'account' => Session::get_value('account')['id'],
-			'name' => $data['name'],
-			'type' => $data['type'],
-			'opportunity_area' => !empty($data['opportunity_area']) ? $data['opportunity_area'] : null,
-			'opportunity_type' => !empty($data['opportunity_type']) ? $data['opportunity_type'] : null,
-			'owner' => !empty($data['owner']) ? $data['owner'] : null,
-			'location' => !empty($data['location']) ? $data['location'] : null,
-			'order' => $data['order'],
-			'time_period' => $data['time_period'],
-			'addressed_to' => $data['addressed_to'],
-			'opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas' AND !empty( $data['opportunity_areas'])) ? $data['opportunity_areas'] : []),
-			'user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,
-			'fields' => json_encode((!empty($data['fields']) ? $data['fields'] : [])),
-			'status' => true
-		]);
-
-		return $query;
-	}
-
-	public function edit_vox_report($data)
-	{
-		$query = $this->database->update('voxes_reports', [
-			'name' => $data['name'],
-			'type' => $data['type'],
-			'opportunity_area' => !empty($data['opportunity_area']) ? $data['opportunity_area'] : null,
-			'opportunity_type' => !empty($data['opportunity_type']) ? $data['opportunity_type'] : null,
-			'owner' => !empty($data['owner']) ? $data['owner'] : null,
-			'location' => !empty($data['location']) ? $data['location'] : null,
-			'order' => $data['order'],
-			'time_period' => $data['time_period'],
-			'addressed_to' => $data['addressed_to'],
-			'opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas' AND !empty( $data['opportunity_areas'])) ? $data['opportunity_areas'] : []),
-			'user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,
-			'fields' => json_encode((!empty($data['fields']) ? $data['fields'] : []))
-		], [
-			'id' => $data['id']
-		]);
-
-		return $query;
-	}
-
-	public function deactivate_vox_report($id)
-	{
-		$query = $this->database->update('voxes_reports', [
-			'status' => false
-		], [
-			'id' => $id
-		]);
-
-		return $query;
-	}
-
-	public function activate_vox_report($id)
-	{
-		$query = $this->database->update('voxes_reports', [
-			'status' => true
-		], [
-			'id' => $id
-		]);
-
-		return $query;
-	}
-
-	public function delete_vox_report($id)
-	{
-		$query = $this->database->delete('voxes_reports', [
-			'id' => $id
-		]);
-
-		return $query;
-	}
-
+	// public function get_voxes_reports($option)
+	// {
+	// 	$reports = [];
+	// 	$where = [];
+	//
+	// 	if ($option == 'saved')
+	// 		$where['account'] = Session::get_value('account')['id'];
+	// 	else if ($option == 'print')
+	// 	{
+	// 		$where['AND'] = [
+	// 			'account' => Session::get_value('account')['id'],
+	// 			'status' => true
+	// 		];
+	// 	}
+	//
+	// 	$where['ORDER'] = [
+	// 		'name' => 'ASC'
+	// 	];
+	//
+	// 	$query = Functions::get_json_decoded_query($this->database->select('voxes_reports', [
+	// 		'id',
+	// 		'name',
+	// 		'addressed_to',
+	// 		'opportunity_areas',
+	// 		'user',
+	// 		'status'
+	// 	], $where));
+	//
+	// 	foreach ($query as $value)
+	// 	{
+	// 		$break = false;
+	//
+	// 		if ($value['addressed_to'] == 'opportunity_areas')
+	// 		{
+	// 			$count = 0;
+	//
+	// 			foreach (Session::get_value('user')['opportunity_areas'] as $subvalue)
+	// 			{
+	// 				if (in_array($subvalue, $value['opportunity_areas']))
+	// 					$count = $count + 1;
+	// 				else
+	// 					$break = true;
+	// 			}
+	//
+	// 			if ($count > 0)
+	// 				$break = false;
+	// 		}
+	// 		else if ($value['addressed_to'] == 'me' AND Session::get_value('user')['id'] != $value['user'])
+	// 			$break = true;
+	//
+	// 		if ($break == false)
+	// 			array_push($reports, $value);
+	// 	}
+	//
+	// 	return $reports;
+	// }
+	//
+	// public function get_vox_report($id)
+	// {
+	// 	$query = Functions::get_json_decoded_query($this->database->select('voxes_reports', [
+	// 		'name',
+	// 		'type',
+	// 		'opportunity_area',
+	// 		'opportunity_type',
+	// 		'owner',
+	// 		'location',
+	// 		'order',
+	// 		'time_period',
+	// 		'addressed_to',
+	// 		'opportunity_areas',
+	// 		'user',
+	// 		'fields'
+	// 	], [
+	// 		'id' => $id
+	// 	]));
+	//
+	// 	return !empty($query) ? $query[0] : null;
+	// }
+	//
+	// public function get_vox_report_fields($type = 'all')
+	// {
+	// 	if ($type == 'all')
+	// 	{
+	// 		if (Session::get_value('account')['type'] == 'hotel')
+	// 		{
+	// 			return [
+	// 				[
+	// 					'id' => 'type',
+	// 					'name' => 'type'
+	// 				],
+	// 				[
+	// 					'id' => 'owner',
+	// 					'name' => 'owner'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_area',
+	// 					'name' => 'opportunity_area'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_type',
+	// 					'name' => 'opportunity_type'
+	// 				],
+	// 				[
+	// 					'id' => 'date',
+	// 					'name' => 'date'
+	// 				],
+	// 				[
+	// 					'id' => 'location',
+	// 					'name' => 'location'
+	// 				],
+	// 				[
+	// 					'id' => 'cost',
+	// 					'name' => 'cost'
+	// 				],
+	// 				[
+	// 					'id' => 'urgency',
+	// 					'name' => 'urgency'
+	// 				],
+	// 				[
+	// 					'id' => 'confidentiality',
+	// 					'name' => 'confidentiality'
+	// 				],
+	// 				[
+	// 					'id' => 'assigned_users',
+	// 					'name' => 'assigned_users'
+	// 				],
+	// 				[
+	// 					'id' => 'observations',
+	// 					'name' => 'observations'
+	// 				],
+	// 				[
+	// 					'id' => 'subject',
+	// 					'name' => 'subject'
+	// 				],
+	// 				[
+	// 					'id' => 'description',
+	// 					'name' => 'description'
+	// 				],
+	// 				[
+	// 					'id' => 'action_taken',
+	// 					'name' => 'action_taken'
+	// 				],
+	// 				[
+	// 					'id' => 'name',
+	// 					'name' => 'name'
+	// 				],
+	// 				[
+	// 					'id' => 'guest_id',
+	// 					'name' => 'guest_id'
+	// 				],
+	// 				[
+	// 					'id' => 'guest_type',
+	// 					'name' => 'guest_type'
+	// 				],
+	// 				[
+	// 					'id' => 'reservation_number',
+	// 					'name' => 'reservation_number'
+	// 				],
+	// 				[
+	// 					'id' => 'reservation_status',
+	// 					'name' => 'reservation_status'
+	// 				],
+	// 				[
+	// 					'id' => 'staying',
+	// 					'name' => 'staying'
+	// 				],
+	// 				[
+	// 					'id' => 'attachments',
+	// 					'name' => 'attachments'
+	// 				],
+	// 				[
+	// 					'id' => 'viewed_by',
+	// 					'name' => 'viewed_by'
+	// 				],
+	// 				[
+	// 					'id' => 'comments',
+	// 					'name' => 'comments'
+	// 				],
+	// 				[
+	// 					'id' => 'created',
+	// 					'name' => 'created'
+	// 				],
+	// 				[
+	// 					'id' => 'edited',
+	// 					'name' => 'edited'
+	// 				],
+	// 				[
+	// 					'id' => 'completed',
+	// 					'name' => 'completed'
+	// 				],
+	// 				[
+	// 					'id' => 'reopened',
+	// 					'name' => 'reopened'
+	// 				],
+	// 				[
+	// 					'id' => 'status',
+	// 					'name' => 'status'
+	// 				],
+	// 				[
+	// 					'id' => 'origin',
+	// 					'name' => 'origin'
+	// 				],
+	// 				[
+	// 					'id' => 'average_resolution',
+	// 					'name' => 'average_resolution'
+	// 				]
+	// 			];
+	// 		}
+	// 		else
+	// 		{
+	// 			return [
+	// 				[
+	// 					'id' => 'type',
+	// 					'name' => 'type'
+	// 				],
+	// 				[
+	// 					'id' => 'owner',
+	// 					'name' => 'owner'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_area',
+	// 					'name' => 'opportunity_area'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_type',
+	// 					'name' => 'opportunity_type'
+	// 				],
+	// 				[
+	// 					'id' => 'date',
+	// 					'name' => 'date'
+	// 				],
+	// 				[
+	// 					'id' => 'location',
+	// 					'name' => 'location'
+	// 				],
+	// 				[
+	// 					'id' => 'cost',
+	// 					'name' => 'cost'
+	// 				],
+	// 				[
+	// 					'id' => 'urgency',
+	// 					'name' => 'urgency'
+	// 				],
+	// 				[
+	// 					'id' => 'confidentiality',
+	// 					'name' => 'confidentiality'
+	// 				],
+	// 				[
+	// 					'id' => 'assigned_users',
+	// 					'name' => 'assigned_users'
+	// 				],
+	// 				[
+	// 					'id' => 'observations',
+	// 					'name' => 'observations'
+	// 				],
+	// 				[
+	// 					'id' => 'subject',
+	// 					'name' => 'subject'
+	// 				],
+	// 				[
+	// 					'id' => 'description',
+	// 					'name' => 'description'
+	// 				],
+	// 				[
+	// 					'id' => 'action_taken',
+	// 					'name' => 'action_taken'
+	// 				],
+	// 				[
+	// 					'id' => 'name',
+	// 					'name' => 'name'
+	// 				],
+	// 				[
+	// 					'id' => 'attachments',
+	// 					'name' => 'attachments'
+	// 				],
+	// 				[
+	// 					'id' => 'viewed_by',
+	// 					'name' => 'viewed_by'
+	// 				],
+	// 				[
+	// 					'id' => 'comments',
+	// 					'name' => 'comments'
+	// 				],
+	// 				[
+	// 					'id' => 'created',
+	// 					'name' => 'created'
+	// 				],
+	// 				[
+	// 					'id' => 'edited',
+	// 					'name' => 'edited'
+	// 				],
+	// 				[
+	// 					'id' => 'completed',
+	// 					'name' => 'completed'
+	// 				],
+	// 				[
+	// 					'id' => 'reopened',
+	// 					'name' => 'reopened'
+	// 				],
+	// 				[
+	// 					'id' => 'status',
+	// 					'name' => 'status'
+	// 				],
+	// 				[
+	// 					'id' => 'origin',
+	// 					'name' => 'origin'
+	// 				],
+	// 				[
+	// 					'id' => 'average_resolution',
+	// 					'name' => 'average_resolution'
+	// 				]
+	// 			];
+	// 		}
+	// 	}
+	// 	else if ($type == 'request')
+	// 	{
+	// 		if (Session::get_value('account')['type'] == 'hotel')
+	// 		{
+	// 			return [
+	// 				[
+	// 					'id' => 'owner',
+	// 					'name' => 'owner'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_area',
+	// 					'name' => 'opportunity_area'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_type',
+	// 					'name' => 'opportunity_type'
+	// 				],
+	// 				[
+	// 					'id' => 'date',
+	// 					'name' => 'date'
+	// 				],
+	// 				[
+	// 					'id' => 'location',
+	// 					'name' => 'location'
+	// 				],
+	// 				[
+	// 					'id' => 'urgency',
+	// 					'name' => 'urgency'
+	// 				],
+	// 				[
+	// 					'id' => 'assigned_users',
+	// 					'name' => 'assigned_users'
+	// 				],
+	// 				[
+	// 					'id' => 'observations',
+	// 					'name' => 'observations'
+	// 				],
+	// 				[
+	// 					'id' => 'name',
+	// 					'name' => 'name'
+	// 				],
+	// 				[
+	// 					'id' => 'attachments',
+	// 					'name' => 'attachments'
+	// 				],
+	// 				[
+	// 					'id' => 'viewed_by',
+	// 					'name' => 'viewed_by'
+	// 				],
+	// 				[
+	// 					'id' => 'comments',
+	// 					'name' => 'comments'
+	// 				],
+	// 				[
+	// 					'id' => 'created',
+	// 					'name' => 'created'
+	// 				],
+	// 				[
+	// 					'id' => 'edited',
+	// 					'name' => 'edited'
+	// 				],
+	// 				[
+	// 					'id' => 'completed',
+	// 					'name' => 'completed'
+	// 				],
+	// 				[
+	// 					'id' => 'reopened',
+	// 					'name' => 'reopened'
+	// 				],
+	// 				[
+	// 					'id' => 'status',
+	// 					'name' => 'status'
+	// 				],
+	// 				[
+	// 					'id' => 'origin',
+	// 					'name' => 'origin'
+	// 				],
+	// 				[
+	// 					'id' => 'average_resolution',
+	// 					'name' => 'average_resolution'
+	// 				]
+	// 			];
+	// 		}
+	// 		else
+	// 		{
+	// 			return [
+	// 				[
+	// 					'id' => 'owner',
+	// 					'name' => 'owner'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_area',
+	// 					'name' => 'opportunity_area'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_type',
+	// 					'name' => 'opportunity_type'
+	// 				],
+	// 				[
+	// 					'id' => 'date',
+	// 					'name' => 'date'
+	// 				],
+	// 				[
+	// 					'id' => 'location',
+	// 					'name' => 'location'
+	// 				],
+	// 				[
+	// 					'id' => 'urgency',
+	// 					'name' => 'urgency'
+	// 				],
+	// 				[
+	// 					'id' => 'assigned_users',
+	// 					'name' => 'assigned_users'
+	// 				],
+	// 				[
+	// 					'id' => 'observations',
+	// 					'name' => 'observations'
+	// 				],
+	// 				[
+	// 					'id' => 'name',
+	// 					'name' => 'name'
+	// 				],
+	// 				[
+	// 					'id' => 'attachments',
+	// 					'name' => 'attachments'
+	// 				],
+	// 				[
+	// 					'id' => 'viewed_by',
+	// 					'name' => 'viewed_by'
+	// 				],
+	// 				[
+	// 					'id' => 'comments',
+	// 					'name' => 'comments'
+	// 				],
+	// 				[
+	// 					'id' => 'created',
+	// 					'name' => 'created'
+	// 				],
+	// 				[
+	// 					'id' => 'edited',
+	// 					'name' => 'edited'
+	// 				],
+	// 				[
+	// 					'id' => 'completed',
+	// 					'name' => 'completed'
+	// 				],
+	// 				[
+	// 					'id' => 'reopened',
+	// 					'name' => 'reopened'
+	// 				],
+	// 				[
+	// 					'id' => 'status',
+	// 					'name' => 'status'
+	// 				],
+	// 				[
+	// 					'id' => 'origin',
+	// 					'name' => 'origin'
+	// 				],
+	// 				[
+	// 					'id' => 'average_resolution',
+	// 					'name' => 'average_resolution'
+	// 				]
+	// 			];
+	// 		}
+	// 	}
+	// 	else if ($type == 'incident')
+	// 	{
+	// 		if (Session::get_value('account')['type'] == 'hotel')
+	// 		{
+	// 			return [
+	// 				[
+	// 					'id' => 'owner',
+	// 					'name' => 'owner'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_area',
+	// 					'name' => 'opportunity_area'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_type',
+	// 					'name' => 'opportunity_type'
+	// 				],
+	// 				[
+	// 					'id' => 'date',
+	// 					'name' => 'date'
+	// 				],
+	// 				[
+	// 					'id' => 'location',
+	// 					'name' => 'location'
+	// 				],
+	// 				[
+	// 					'id' => 'cost',
+	// 					'name' => 'cost'
+	// 				],
+	// 				[
+	// 					'id' => 'urgency',
+	// 					'name' => 'urgency'
+	// 				],
+	// 				[
+	// 					'id' => 'confidentiality',
+	// 					'name' => 'confidentiality'
+	// 				],
+	// 				[
+	// 					'id' => 'assigned_users',
+	// 					'name' => 'assigned_users'
+	// 				],
+	// 				[
+	// 					'id' => 'subject',
+	// 					'name' => 'subject'
+	// 				],
+	// 				[
+	// 					'id' => 'description',
+	// 					'name' => 'description'
+	// 				],
+	// 				[
+	// 					'id' => 'action_taken',
+	// 					'name' => 'action_taken'
+	// 				],
+	// 				[
+	// 					'id' => 'name',
+	// 					'name' => 'name'
+	// 				],
+	// 				[
+	// 					'id' => 'guest_id',
+	// 					'name' => 'guest_id'
+	// 				],
+	// 				[
+	// 					'id' => 'guest_type',
+	// 					'name' => 'guest_type'
+	// 				],
+	// 				[
+	// 					'id' => 'reservation_number',
+	// 					'name' => 'reservation_number'
+	// 				],
+	// 				[
+	// 					'id' => 'reservation_status',
+	// 					'name' => 'reservation_status'
+	// 				],
+	// 				[
+	// 					'id' => 'staying',
+	// 					'name' => 'staying'
+	// 				],
+	// 				[
+	// 					'id' => 'attachments',
+	// 					'name' => 'attachments'
+	// 				],
+	// 				[
+	// 					'id' => 'viewed_by',
+	// 					'name' => 'viewed_by'
+	// 				],
+	// 				[
+	// 					'id' => 'comments',
+	// 					'name' => 'comments'
+	// 				],
+	// 				[
+	// 					'id' => 'created',
+	// 					'name' => 'created'
+	// 				],
+	// 				[
+	// 					'id' => 'edited',
+	// 					'name' => 'edited'
+	// 				],
+	// 				[
+	// 					'id' => 'completed',
+	// 					'name' => 'completed'
+	// 				],
+	// 				[
+	// 					'id' => 'reopened',
+	// 					'name' => 'reopened'
+	// 				],
+	// 				[
+	// 					'id' => 'status',
+	// 					'name' => 'status'
+	// 				],
+	// 				[
+	// 					'id' => 'origin',
+	// 					'name' => 'origin'
+	// 				],
+	// 				[
+	// 					'id' => 'average_resolution',
+	// 					'name' => 'average_resolution'
+	// 				]
+	// 			];
+	// 		}
+	// 		else
+	// 		{
+	// 			return [
+	// 				[
+	// 					'id' => 'owner',
+	// 					'name' => 'owner'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_area',
+	// 					'name' => 'opportunity_area'
+	// 				],
+	// 				[
+	// 					'id' => 'opportunity_type',
+	// 					'name' => 'opportunity_type'
+	// 				],
+	// 				[
+	// 					'id' => 'date',
+	// 					'name' => 'date'
+	// 				],
+	// 				[
+	// 					'id' => 'location',
+	// 					'name' => 'location'
+	// 				],
+	// 				[
+	// 					'id' => 'cost',
+	// 					'name' => 'cost'
+	// 				],
+	// 				[
+	// 					'id' => 'urgency',
+	// 					'name' => 'urgency'
+	// 				],
+	// 				[
+	// 					'id' => 'confidentiality',
+	// 					'name' => 'confidentiality'
+	// 				],
+	// 				[
+	// 					'id' => 'assigned_users',
+	// 					'name' => 'assigned_users'
+	// 				],
+	// 				[
+	// 					'id' => 'subject',
+	// 					'name' => 'subject'
+	// 				],
+	// 				[
+	// 					'id' => 'description',
+	// 					'name' => 'description'
+	// 				],
+	// 				[
+	// 					'id' => 'action_taken',
+	// 					'name' => 'action_taken'
+	// 				],
+	// 				[
+	// 					'id' => 'name',
+	// 					'name' => 'name'
+	// 				],
+	// 				[
+	// 					'id' => 'attachments',
+	// 					'name' => 'attachments'
+	// 				],
+	// 				[
+	// 					'id' => 'viewed_by',
+	// 					'name' => 'viewed_by'
+	// 				],
+	// 				[
+	// 					'id' => 'comments',
+	// 					'name' => 'comments'
+	// 				],
+	// 				[
+	// 					'id' => 'created',
+	// 					'name' => 'created'
+	// 				],
+	// 				[
+	// 					'id' => 'edited',
+	// 					'name' => 'edited'
+	// 				],
+	// 				[
+	// 					'id' => 'completed',
+	// 					'name' => 'completed'
+	// 				],
+	// 				[
+	// 					'id' => 'reopened',
+	// 					'name' => 'reopened'
+	// 				],
+	// 				[
+	// 					'id' => 'status',
+	// 					'name' => 'status'
+	// 				],
+	// 				[
+	// 					'id' => 'origin',
+	// 					'name' => 'origin'
+	// 				],
+	// 				[
+	// 					'id' => 'average_resolution',
+	// 					'name' => 'average_resolution'
+	// 				]
+	// 			];
+	// 		}
+	// 	}
+	// 	else if ($type == 'workorder')
+	// 	{
+	// 		return [
+	// 			[
+	// 				'id' => 'owner',
+	// 				'name' => 'owner'
+	// 			],
+	// 			[
+	// 				'id' => 'opportunity_area',
+	// 				'name' => 'opportunity_area'
+	// 			],
+	// 			[
+	// 				'id' => 'opportunity_type',
+	// 				'name' => 'opportunity_type'
+	// 			],
+	// 			[
+	// 				'id' => 'date',
+	// 				'name' => 'date'
+	// 			],
+	// 			[
+	// 				'id' => 'location',
+	// 				'name' => 'location'
+	// 			],
+	// 			[
+	// 				'id' => 'urgency',
+	// 				'name' => 'urgency'
+	// 			],
+	// 			[
+	// 				'id' => 'assigned_users',
+	// 				'name' => 'assigned_users'
+	// 			],
+	// 			[
+	// 				'id' => 'observations',
+	// 				'name' => 'observations'
+	// 			],
+	// 			[
+	// 				'id' => 'attachments',
+	// 				'name' => 'attachments'
+	// 			],
+	// 			[
+	// 				'id' => 'viewed_by',
+	// 				'name' => 'viewed_by'
+	// 			],
+	// 			[
+	// 				'id' => 'comments',
+	// 				'name' => 'comments'
+	// 			],
+	// 			[
+	// 				'id' => 'created',
+	// 				'name' => 'created'
+	// 			],
+	// 			[
+	// 				'id' => 'edited',
+	// 				'name' => 'edited'
+	// 			],
+	// 			[
+	// 				'id' => 'completed',
+	// 				'name' => 'completed'
+	// 			],
+	// 			[
+	// 				'id' => 'reopened',
+	// 				'name' => 'reopened'
+	// 			],
+	// 			[
+	// 				'id' => 'status',
+	// 				'name' => 'status'
+	// 			],
+	// 			[
+	// 				'id' => 'origin',
+	// 				'name' => 'origin'
+	// 			],
+	// 			[
+	// 				'id' => 'average_resolution',
+	// 				'name' => 'average_resolution'
+	// 			]
+	// 		];
+	// 	}
+	// }
+	//
+	// public function new_vox_report($data)
+	// {
+	// 	$query = $this->database->insert('voxes_reports', [
+	// 		'account' => Session::get_value('account')['id'],
+	// 		'name' => $data['name'],
+	// 		'type' => $data['type'],
+	// 		'opportunity_area' => !empty($data['opportunity_area']) ? $data['opportunity_area'] : null,
+	// 		'opportunity_type' => !empty($data['opportunity_type']) ? $data['opportunity_type'] : null,
+	// 		'owner' => !empty($data['owner']) ? $data['owner'] : null,
+	// 		'location' => !empty($data['location']) ? $data['location'] : null,
+	// 		'order' => $data['order'],
+	// 		'time_period' => $data['time_period'],
+	// 		'addressed_to' => $data['addressed_to'],
+	// 		'opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas' AND !empty( $data['opportunity_areas'])) ? $data['opportunity_areas'] : []),
+	// 		'user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,
+	// 		'fields' => json_encode((!empty($data['fields']) ? $data['fields'] : [])),
+	// 		'status' => true
+	// 	]);
+	//
+	// 	return $query;
+	// }
+	//
+	// public function edit_vox_report($data)
+	// {
+	// 	$query = $this->database->update('voxes_reports', [
+	// 		'name' => $data['name'],
+	// 		'type' => $data['type'],
+	// 		'opportunity_area' => !empty($data['opportunity_area']) ? $data['opportunity_area'] : null,
+	// 		'opportunity_type' => !empty($data['opportunity_type']) ? $data['opportunity_type'] : null,
+	// 		'owner' => !empty($data['owner']) ? $data['owner'] : null,
+	// 		'location' => !empty($data['location']) ? $data['location'] : null,
+	// 		'order' => $data['order'],
+	// 		'time_period' => $data['time_period'],
+	// 		'addressed_to' => $data['addressed_to'],
+	// 		'opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas' AND !empty( $data['opportunity_areas'])) ? $data['opportunity_areas'] : []),
+	// 		'user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,
+	// 		'fields' => json_encode((!empty($data['fields']) ? $data['fields'] : []))
+	// 	], [
+	// 		'id' => $data['id']
+	// 	]);
+	//
+	// 	return $query;
+	// }
+	//
+	// public function deactivate_vox_report($id)
+	// {
+	// 	$query = $this->database->update('voxes_reports', [
+	// 		'status' => false
+	// 	], [
+	// 		'id' => $id
+	// 	]);
+	//
+	// 	return $query;
+	// }
+	//
+	// public function activate_vox_report($id)
+	// {
+	// 	$query = $this->database->update('voxes_reports', [
+	// 		'status' => true
+	// 	], [
+	// 		'id' => $id
+	// 	]);
+	//
+	// 	return $query;
+	// }
+	//
+	// public function delete_vox_report($id)
+	// {
+	// 	$query = $this->database->delete('voxes_reports', [
+	// 		'id' => $id
+	// 	]);
+	//
+	// 	return $query;
+	// }
+	// 
 	// public function get_voxes_average_resolution()
 	// {
 	// 	$query = $this->database->select('voxes', [

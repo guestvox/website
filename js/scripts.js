@@ -169,6 +169,8 @@ function clean_form(target)
     target[0].reset();
 
     target.find('[data-uploader]').find('[data-preview] > img').attr('src', '../images/empty.png');
+    target.find('[data-uploader]').find('[data-preview] > div').removeClass('active');
+    target.find('[data-uploader]').find('[data-preview] > div > span > strong').val('0');
     target.find('[data-switcher]').parent().removeClass('checked');
     target.find('label.success').removeClass('success');
     target.find('label.error').removeClass('error');

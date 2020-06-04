@@ -1222,7 +1222,7 @@ div.tabers > div > label {
 }
 
 div.tabers > div > label > i {
-    font-size: 18px;
+    font-size: 20px;
     color: #757575;
 }
 
@@ -1467,6 +1467,12 @@ section.modal[data-modal="get_help"] main > a {
 }
 
 /* Success & error */
+
+section.modal[data-modal="success"] > .content,
+section.modal[data-modal="error"] > .content {
+    max-width: 100% !important;
+    min-height: 100vh !important;
+}
 
 section.modal[data-modal="success"] main,
 section.modal[data-modal="error"] main {

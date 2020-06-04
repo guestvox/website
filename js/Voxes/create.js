@@ -45,7 +45,10 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
+                {
+                    $('[name="opportunity_type"]').attr('disabled', true);
                     $('[name="opportunity_type"]').html(response.html);
+                }
             }
         });
 

@@ -2,9 +2,9 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['js', '{$path.js}Voxes/index.js']);
 $this->dependencies->add(['js', '{$path.plugins}moment/moment.min.js']);
 $this->dependencies->add(['js', '{$path.plugins}moment/moment-timezone-with-data.min.js']);
+$this->dependencies->add(['js', '{$path.js}Voxes/index.js']);
 $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 
 ?>
@@ -22,10 +22,10 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                     <?php elseif (Session::get_value('settings')['voxes']['filter']['type'] == 'incident') : ?>
                     <i class="fas fa-meteor"></i>
                     <?php elseif (Session::get_value('settings')['voxes']['filter']['type'] == 'workorder') : ?>
-                    <i class="fas fa-id-card-alt"></i>
+                    <i class="fas fa-bomb"></i>
                     <?php endif; ?>
                 </a>
-                <a class="<?php echo Session::get_value('settings')['voxes']['filter']['urgency']; ?>" data-action="get_filter" data-filter="urgency"><i class="fas fa-exclamation"></i></a>
+                <a class="<?php echo Session::get_value('settings')['voxes']['filter']['urgency']; ?>" data-action="get_filter" data-filter="urgency"><i class="fas fa-exclamation-circle"></i></a>
                 <a data-action="get_filter" data-filter="date">
                     <?php if (Session::get_value('settings')['voxes']['filter']['date'] == 'up') : ?>
                     <i class="fas fa-clock"></i>

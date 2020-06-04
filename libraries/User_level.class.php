@@ -11,8 +11,8 @@ class User_level
         array_push($paths, '/Dashboard/index');
         array_push($paths, '/Voxes/index');
         array_push($paths, '/Voxes/create');
-        array_push($paths, '/Voxes/edit');
         array_push($paths, '/Voxes/details');
+        array_push($paths, '/Voxes/edit');
         array_push($paths, '/Profile/index');
         array_push($paths, '/Login/logout');
 

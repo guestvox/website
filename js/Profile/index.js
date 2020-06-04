@@ -23,7 +23,7 @@ $(document).ready(function()
                     $('[data-modal="edit_profile"]').find('[name="phone_number"]').val(response.data.phone.number);
                     $('[data-modal="edit_profile"]').find('[name="username"]').val(response.data.username);
 
-                    required_focus($('[data-modal="edit_profile"]').find('form'), true);
+                    required_focus($('form[name="edit_profile"]'), true);
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);
@@ -33,7 +33,7 @@ $(document).ready(function()
 
     $('[data-modal="edit_profile"]').modal().onCancel(function()
     {
-        clean_form($('[data-modal="edit_profile"]').find('form'));
+        clean_form($('form[name="edit_profile"]'));
     });
 
     $('form[name="edit_profile"]').on('submit', function(e)
@@ -60,7 +60,7 @@ $(document).ready(function()
 
     $('[data-modal="restore_password"]').modal().onCancel(function()
     {
-        clean_form($('[data-modal="restore_password"]').find('form'));
+        clean_form($('form[name="restore_password"]'));
     });
 
     $('form[name="restore_password"]').on('submit', function(e)

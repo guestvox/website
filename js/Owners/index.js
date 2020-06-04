@@ -6,15 +6,15 @@ $(document).ready(function()
     {
         if ($(this).val() == 'one')
         {
-            $('form[name="new_owner"]').find('[name="number"]').parent().parent().parent().removeClass('hidden');
-            $('form[name="new_owner"]').find('[name="since"]').parent().parent().parent().addClass('hidden');
-            $('form[name="new_owner"]').find('[name="to"]').parent().parent().parent().addClass('hidden');
+            $('[data-modal="new_owner"]').find('[name="number"]').parent().parent().parent().removeClass('hidden');
+            $('[data-modal="new_owner"]').find('[name="since"]').parent().parent().parent().addClass('hidden');
+            $('[data-modal="new_owner"]').find('[name="to"]').parent().parent().parent().addClass('hidden');
         }
         else if ($(this).val() == 'many')
         {
-            $('form[name="new_owner"]').find('[name="number"]').parent().parent().parent().addClass('hidden');
-            $('form[name="new_owner"]').find('[name="since"]').parent().parent().parent().removeClass('hidden');
-            $('form[name="new_owner"]').find('[name="to"]').parent().parent().parent().removeClass('hidden');
+            $('[data-modal="new_owner"]').find('[name="number"]').parent().parent().parent().addClass('hidden');
+            $('[data-modal="new_owner"]').find('[name="since"]').parent().parent().parent().removeClass('hidden');
+            $('[data-modal="new_owner"]').find('[name="to"]').parent().parent().parent().removeClass('hidden');
         }
     });
 
@@ -31,7 +31,7 @@ $(document).ready(function()
         $('[data-modal="new_owner"]').find('[name="since"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="new_owner"]').find('[name="to"]').parent().parent().parent().addClass('hidden');
 
-        clean_form($('[data-modal="new_owner"]').find('form'));
+        clean_form($('form[name="new_owner"]'));
     });
 
     $('form[name="new_owner"]').on('submit', function(e)
@@ -92,7 +92,7 @@ $(document).ready(function()
                     $('[data-modal="new_owner"]').find('[name="survey"]').prop('checked', ((response.data.survey == true) ? true : false));
                     $('[data-modal="new_owner"]').find('[name="public"]').prop('checked', ((response.data.public == true) ? true : false));
 
-                    required_focus($('[data-modal="new_owner"]').find('form'), true);
+                    required_focus($('form[name="new_owner"]'), true);
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);

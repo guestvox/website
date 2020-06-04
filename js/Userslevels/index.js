@@ -10,7 +10,7 @@ $(document).ready(function()
         id = null;
         edit = false;
 
-        clean_form($('[data-modal="new_user_level"]').find('form'));
+        clean_form($('form[name="new_user_level"]'));
     });
 
     $('form[name="new_user_level"]').on('submit', function(e)
@@ -64,7 +64,7 @@ $(document).ready(function()
                         $('[data-modal="new_user_level"]').find('[name="permissions[]"][value="' + value + '"]').prop('checked', true);
                     });
 
-                    required_focus($('[data-modal="new_user_level"]').find('form'), true);
+                    required_focus($('form[name="new_user_level"]'), true);
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);

@@ -72,7 +72,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span12">
+                    <div class="span8">
                         <div class="label">
                             <label required>
                                 <p>{$lang.username}</p>
@@ -80,7 +80,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span12">
+                    <div class="span4">
                         <div class="label">
                             <label unrequired>
                                 <p>{$lang.user_level}</p>

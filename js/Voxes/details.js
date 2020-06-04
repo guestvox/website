@@ -4,10 +4,7 @@ $(document).ready(function()
 {
     $('[data-modal="comment_vox"]').modal().onCancel(function()
     {
-        $('[data-modal="comment_vox"]').find('[data-uploader] > [data-preview] > div').removeClass('active');
-        $('[data-modal="comment_vox"]').find('[data-uploader] > [data-preview] > div > span > strong').val('0');
-
-        clean_form($('[data-modal="comment_vox"]').find('form'));
+        clean_form($('form[name="comment_vox"]'));
     });
 
     $('form[name="comment_vox"]').on('submit', function(e)

@@ -10,7 +10,7 @@ $(document).ready(function()
         id = null;
         edit = false;
 
-        clean_form($('[data-modal="new_opportunity_area"]').find('form'));
+        clean_form($('form[name="new_opportunity_area"]'));
     });
 
     $('form[name="new_opportunity_area"]').on('submit', function(e)
@@ -64,7 +64,7 @@ $(document).ready(function()
                     $('[data-modal="new_opportunity_area"]').find('[name="workorder"]').prop('checked', ((response.data.workorder == true) ? true : false));
                     $('[data-modal="new_opportunity_area"]').find('[name="public"]').prop('checked', ((response.data.public == true) ? true : false));
 
-                    required_focus($('[data-modal="new_opportunity_area"]').find('form'), true);
+                    required_focus($('form[name="new_opportunity_area"]'), true);
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);
