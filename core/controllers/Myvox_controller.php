@@ -560,7 +560,7 @@ class Myvox_controller extends Controller
 						'status' => 'success',
 						'message' => '{$lang.thanks_menu_cart}'
 					]);
-					
+
 					// $query = $this->model->new_vox(null, true);
 					//
 					// if (!empty($query))
@@ -1008,6 +1008,9 @@ class Myvox_controller extends Controller
 						'<section class="modal fullscreen" data-modal="get_menu_cart">
 							<div class="content">
 								<main class="menu_cart">
+									<div class="buttons top">
+										<a button-close><i class="fas fa-times"></i></a>
+									</div>
 									<div class="stl_1" data-menu-cart>
 										<span>' . Functions::get_formatted_currency(Session::get_value('menu_cart')['total'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>';
 
@@ -1065,9 +1068,6 @@ class Myvox_controller extends Controller
 
 						$mdl_get_menu_cart.=
 						'			</div>
-									<div class="buttons">
-										<a class="new" button-close><i class="fas fa-times"></i></a>
-									</div>
 								</main>
 							</div>
 						</section>';

@@ -1404,6 +1404,12 @@ section.modal div.buttons {
     margin-top: 20px;
 }
 
+section.modal div.buttons.top {
+    justify-content: flex-end;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
 section.modal div.buttons > button,
 section.modal div.buttons > a {
     width: 40px;
@@ -1413,11 +1419,16 @@ section.modal div.buttons > a {
     justify-content: center;
     margin: 0px 5px;
     border-radius: 50%;
-    color: #fff;
+    background-color: #e0e0e0;
+    color: #757575;
 }
 
 section.modal div.buttons > button[type="submit"],
-section.modal div.buttons > a[button-close] {
+section.modal div.buttons > a[button-cancel] {
+    color: #fff;
+}
+
+section.modal div.buttons > button[type="submit"] {
     background-color: #00a5ab;
 }
 
