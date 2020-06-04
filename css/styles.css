@@ -1737,6 +1737,7 @@ div.vox_details > div.stl_1 > span.high {
 div.vox_details > div.stl_1 > h1 {
     font-size: 24px;
     font-weight: 600;
+    text-align: center;
     color: #212121;
 }
 
@@ -1830,6 +1831,12 @@ div.vox_details > div.stl_3 > p > i {
     margin-right: 5px;
     font-size: 12px;
     color: #bdbdbd;
+}
+
+div.vox_details > div.stl_3 > span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
 }
 
 /*  */

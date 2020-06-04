@@ -257,6 +257,7 @@ class Voxes_model extends Model
 			'reopened_user',
 			'reopened_date',
 			'reopened_hour',
+			'menu',
 			'status',
 			'origin'
 		], [
@@ -777,6 +778,7 @@ class Voxes_model extends Model
 			'reopened_user' => null,
 			'reopened_date' => null,
 			'reopened_hour' => null,
+			'menu' => false,
 			'status' => true,
 			'origin' => 'internal'
 		]);

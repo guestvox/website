@@ -111,10 +111,10 @@ class Voxes_controller extends Controller
 							</div>
 	                    </div>
 	                    <div class="itm_3">
-							<span><i class="fas fa-key"></i>' . $value['token'] . '</span>
+							<span><i class="fas fa-compass"></i>' . $value['opportunity_area']['name'][$this->lang] . '</span>
+							<span><i class="far fa-compass"></i>' . $value['opportunity_type']['name'][$this->lang] . '</span>
 							<span><i class="fas fa-map-marker-alt"></i>' . $value['location']['name'][$this->lang] . '</span>
-	                        <span><i class="fas fa-compass"></i>' . $value['opportunity_area']['name'][$this->lang] . '</span>
-	                        <span><i class="far fa-compass"></i>' . $value['opportunity_type']['name'][$this->lang] . '</span>
+							<span><i class="fas fa-key"></i><strong>' . strtoupper($value['token']) . '</strong></span>
 	                    </div>
 	                    <div class="itm_4">
 							<span class="' . (!empty($value['assigned_users']) ? 'active' : '') . '"><i class="fas fa-users"></i></span>
@@ -1290,6 +1290,21 @@ class Voxes_controller extends Controller
 
 				$spn_type .= '</span>';
 
+				$p_observations = '';
+
+				if ($vox['type'] == 'request' OR $vox['type'] == 'workorder')
+				{
+					if ($vox['menu'] == true)
+					{
+						$p_observations .= '<span>{$lang.total}: ' . $vox['observations']['total'] . '</span>';
+
+						foreach ($vox['observations']['items'] as $value)
+							$p_observations .= '<span>x' . $value['quantity'] . ' - ' . $value['name'][$this->lang] . ' - ' . Functions::get_formatted_currency($value['total'], $vox['observations']['currency']) . '</span>';
+					}
+					else
+						$p_observations .= '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['observations']) ? $vox['observations'] : '{$lang.not_observations}') . '</p>';
+				}
+
 				$spn_guest = '';
 
 				if (Session::get_value('account')['type'] == 'hotel')
@@ -1640,7 +1655,7 @@ class Voxes_controller extends Controller
 					'{$location}' => $vox['location']['name'][$this->lang],
 					'{$started_date}' => Functions::get_formatted_date($vox['started_date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($vox['started_hour'], '+ hrs'),
 					'{$spn_cost}' => ($vox['type'] == 'incident' OR $vox['type'] == 'workorder') ? '<span><i class="fas fa-dollar-sign"></i>' . Functions::get_formatted_currency((!empty($vox['cost']) ? $vox['cost'] : '0'), Session::get_value('account')['currency']) . '</span>' : '',
-					'{$p_observations}' => ($vox['type'] == 'request' OR $vox['type'] == 'workorder') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['observations']) ? $vox['observations'] : '{$lang.not_observations}') . '</p>' : '',
+					'{$p_observations}' => $p_observations,
 					'{$p_subject}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['subject']) ? $vox['subject'] : '{$lang.not_subject}') . '</p>' : '',
 					'{$p_description}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['description']) ? $vox['description'] : '{$lang.not_description}') . '</p>' : '',
 					'{$p_action_taken}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['action_taken']) ? $vox['action_taken'] : '{$lang.not_action_taken}') . '</p>' : '',
@@ -1656,7 +1671,7 @@ class Voxes_controller extends Controller
 					'{$created_date}' => Functions::get_formatted_date($vox['created_date'], 'd.m.Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['created_hour'], '+ hrs'),
 					'{$div_actions}' => $div_actions,
 					'{$btn_comment_vox}' => ($vox['status'] == true) ? '<a data-button-modal="comment_vox"><i class="fas fa-comment"></i></a>' : '',
-					'{$btn_edit_vox}' => ($vox['status'] == true) ? '<a href="/voxes/edit/' . $vox['token'] . '" class="edit"><i class="fas fa-pen"></i></a>' : '',
+					'{$btn_edit_vox}' => ($vox['status'] == true AND $vox['origin'] != 'myvox') ? '<a href="/voxes/edit/' . $vox['token'] . '" class="edit"><i class="fas fa-pen"></i></a>' : '',
 					'{$btn_complete_vox}' => ($vox['status'] == true) ? '<a class="active" data-button-modal="complete_vox"><i class="fas fa-check"></i></a>' : '',
 					'{$btn_reopen_vox}' => ($vox['status'] == false) ? '<a class="active" data-button-modal="reopen_vox"><i class="fas fa-reply"></i></a>' : '',
 					'{$mdl_get_attachments}' => $mdl_get_attachments,
