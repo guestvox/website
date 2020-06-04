@@ -139,7 +139,7 @@ class Signup_model extends Model
 
 	public function new_signup($data)
 	{
-		$data['token'] = strtoupper(Functions::get_random(8));
+		$data['token'] = strtolower(Functions::get_random(8));
 		$data['path'] = str_replace(' ', '', strtolower($data['path']));
 		$data['qr']['filename'] = 'qr_' . $data['path'] . '_' . $data['token'] . '.png';
 		$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . $data['path'] . '/myvox';
@@ -213,7 +213,8 @@ class Signup_model extends Model
 							'es' => '',
 							'en' => ''
 						],
-						'currency' => ''
+						'currency' => '',
+						'opportunity_area' => ''
 					],
 					'survey' => [
 						'status' => false,

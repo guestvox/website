@@ -357,9 +357,18 @@ function load_clicks_2()
 
     $('[data-action="send_menu_cart"]').on('click', function()
     {
+        $('form[name="send_menu_cart"]').submit();
+    });
+
+    $('form[name="send_menu_cart"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
         $.ajax({
             type: 'POST',
-            data: 'action=send_menu_cart',
+            data: form.serialize() + '&action=send_menu_cart',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -368,7 +377,7 @@ function load_clicks_2()
                 if (response.status == 'success')
                     show_modal_success(response.message, 4000);
                 else if (response.status == 'error')
-                    show_modal_error(response.message);
+                    show_form_errors(form, response);
             }
         });
     });

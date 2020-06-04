@@ -211,16 +211,7 @@ class Myvox_controller extends Controller
 
 					if (empty($labels))
 					{
-						$_POST['token'] = Functions::get_random(8);
-
-						if (Session::get_value('account')['type'] == 'hotel')
-						{
-							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-								$_POST['firstname'] = Session::get_value('owner')['reservation']['firstname'];
-
-							if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-								$_POST['lastname'] = Session::get_value('owner')['reservation']['lastname'];
-						}
+						$_POST['token'] = strtolower(Functions::get_random(8));
 
 						$query = $this->model->new_vox($_POST);
 
@@ -327,7 +318,7 @@ class Myvox_controller extends Controller
 													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::words('owner')[$this->lang2] . ': ' . Session::get_value('owner')['name'][$this->lang2] . (!empty(Session::get_value('owner')['number']) ? ' #' . Session::get_value('owner')['number'] : '') . '</h6>
 													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::words('opportunity_area')[$this->lang2] . ': ' . $_POST['opportunity_area']['name'][$this->lang2] . '</h6>
 													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::words('opportunity_type')[$this->lang2] . ': ' . $_POST['opportunity_type']['name'][$this->lang2] . '</h6>
-													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::words('started_date')[$this->lang2] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M, Y') . '</h6>
+													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::words('started_date')[$this->lang2] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd.m.Y') . '</h6>
 													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::words('started_hour')[$this->lang2] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '</h6>
 													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::words('location')[$this->lang2] . ': ' . $_POST['location']['name'][$this->lang2] . '</h6>
 													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::words('urgency')[$this->lang2] . ': ' . Languages::words('medium')[$this->lang2] . '</h6>';
@@ -551,37 +542,144 @@ class Myvox_controller extends Controller
 
 				if ($_POST['action'] == 'send_menu_cart')
 				{
-					Session::set_value('menu_cart', [
-						'total' => 0,
-						'items' => []
-					]);
+					$labels = [];
 
-					Functions::environment([
-						'status' => 'success',
-						'message' => '{$lang.thanks_menu_cart}'
-					]);
+					if (!isset($params[1]) OR empty($params[1]))
+					{
+						if (!isset($_POST['owner']) OR empty($_POST['owner']))
+							array_push($labels, ['owner','']);
+					}
 
-					// $query = $this->model->new_vox(null, true);
-					//
-					// if (!empty($query))
-					// {
-					// 	Session::set_value('menu_cart', [
-					// 		'total' => 0,
-					// 		'items' => []
-					// 	]);
-					//
-					// 	Functions::environment([
-					// 		'status' => 'success',
-					// 		'message' => '{$lang.thanks_menu_cart}'
-					// 	]);
-					// }
-					// else
-					// {
-					// 	Functions::environment([
-					// 		'status' => 'error',
-					// 		'message' => '{$lang.operation_error}'
-					// 	]);
-					// }
+					if (empty($labels))
+					{
+						$_POST['type'] = 'request';
+						$_POST['token'] = strtolower(Functions::get_random(8));
+						$_POST['started_date'] = Functions::get_current_date();
+						$_POST['started_hour'] = Functions::get_current_hour();
+
+						$query = $this->model->new_vox($_POST, true);
+
+						if (!empty($query))
+						{
+							$_POST['assigned_users'] = $this->model->get_assigned_users(Session::get_value('account')['settings']['myvox']['menu']['opportunity_area']);
+
+							$mail = new Mailer(true);
+
+							try
+							{
+								$mail->setFrom('noreply@guestvox.com', 'Guestvox');
+
+								foreach ($_POST['assigned_users'] as $value)
+									$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
+
+								$mail->Subject = Languages::words('new', $_POST['type'])[$this->lang2];
+								$mail->Body =
+								'<html>
+									<head>
+										<title>' . $mail->Subject . '</title>
+									</head>
+									<body>
+										<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+														<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png" />
+													</figure>
+												</td>
+											</tr>
+											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
+													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::words('token')[$this->lang2] . ': ' . $_POST['token'] . '</h6>
+													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::words('owner')[$this->lang2] . ': ' . Session::get_value('owner')['name'][$this->lang2] . (!empty(Session::get_value('owner')['number']) ? ' #' . Session::get_value('owner')['number'] : '') . '</h6>
+													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::words('started_date')[$this->lang2] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd.m.Y') . '</h6>
+													<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::words('started_hour')[$this->lang2] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '</h6>';
+
+								foreach (Session::get_value('menu_cart')['items'] as $value)
+									$mail->Body .= '<span style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . $value['name'][$this->lang2] . ': x' . $value['quantity'] . '</span>';
+
+								$mail->Body .=
+								'					<a style="width:100%;display:block;margin:20px 0px 0px 0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $_POST['token'] . '">' . Languages::words('give_follow_up')[$this->lang2] . '</a>
+												</td>
+											</tr>
+											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
+												</td>
+											</tr>
+										</table>
+									</body>
+								</html>';
+								$mail->send();
+							}
+							catch (Exception $e) { }
+
+							$sms = $this->model->get_sms();
+
+							if ($sms > 0)
+							{
+								$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
+								$sms_client = new \Nexmo\Client($sms_basic);
+								$sms_text = 'Guestvox. ' . Languages::words('new', $_POST['type'])[$this->lang2] . '. ';
+								$sms_text .= Languages::words('token')[$this->lang2] . ': ' . $_POST['token'] . '. ';
+								$sms_text .= Languages::words('owner')[$this->lang2] . ': ' . Session::get_value('owner')['name'][$this->lang2] . (!empty(Session::get_value('owner')['number']) ? ' #' . Session::get_value('owner')['number'] : '') . '. ';
+								$sms_text .= Languages::words('started_date')[$this->lang2] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
+								$sms_text .= Languages::words('started_hour')[$this->lang2] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
+								$sms_text .= 'https://' . Configuration::$domain . '/voxes/details/' . $_POST['token'];
+
+								foreach ($_POST['assigned_users'] as $value)
+								{
+									if ($sms > 0)
+									{
+										try
+										{
+											$sms_client->message()->send([
+												'to' => $value['phone']['lada'] . $value['phone']['number'],
+												'from' => 'Guestvox',
+												'text' => $sms_text
+											]);
+
+											$sms = $sms - 1;
+										}
+										catch (Exception $e) { }
+									}
+								}
+
+								$this->model->edit_sms($sms);
+							}
+
+							Session::set_value('menu_cart', [
+								'total' => 0,
+								'items' => []
+							]);
+
+							if (!isset($params[1]) OR empty($params[1]))
+							{
+								$owner = $this->model->get_owner();
+
+								Session::set_value('owner', $owner);
+							}
+
+							Functions::environment([
+								'status' => 'success',
+								'message' => '{$lang.thanks_menu_cart}'
+							]);
+						}
+						else
+						{
+							Functions::environment([
+								'status' => 'error',
+								'message' => '{$lang.operation_error}'
+							]);
+						}
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'labels' => $labels
+						]);
+					}
 				}
 
 				// if ($_POST['action'] == 'new_survey_answer')
@@ -617,7 +715,7 @@ class Myvox_controller extends Controller
 				//
 				// 	if (empty($labels))
 				// 	{
-				// 		$_POST['token'] = Functions::get_random(8);
+				// 		$_POST['token'] = strtolower(Functions::get_random(8));
 				// 		$_POST['answers'] = $_POST;
 				//
 				// 		unset($_POST['answers']['owner']);
@@ -1008,11 +1106,34 @@ class Myvox_controller extends Controller
 						'<section class="modal fullscreen" data-modal="get_menu_cart">
 							<div class="content">
 								<main class="menu_cart">
-									<div class="buttons top">
+									<div class="buttons">
 										<a button-close><i class="fas fa-times"></i></a>
 									</div>
-									<div class="stl_1" data-menu-cart>
-										<span>' . Functions::get_formatted_currency(Session::get_value('menu_cart')['total'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>';
+									<form name="send_menu_cart">';
+
+
+						if (!isset($params[1]) OR empty($params[1]))
+						{
+							$mdl_get_menu_cart .=
+							'<div class="label">
+								<label required>
+									<p>{$lang.owner}</p>
+									<select name="owner">
+										<option value="" selected hidden>{$lang.choose}</option>';
+
+							foreach ($this->model->get_owners('request') as $value)
+								$mdl_get_menu_cart .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+
+							$mdl_get_menu_cart .=
+							'		</select>
+								</label>
+							</div>';
+						}
+
+						$mdl_get_menu_cart .=
+						'</form>
+						<div class="stl_1" data-menu-cart>
+							<span>' . Functions::get_formatted_currency(Session::get_value('menu_cart')['total'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>';
 
 						if (!empty(Session::get_value('menu_cart')['items']))
 						{
@@ -1034,17 +1155,22 @@ class Myvox_controller extends Controller
 
 						$mdl_get_menu_cart .=
 						'</div>
-						<div class="stl_2">
-							<select data-action="get_menu">
-								<option value="all">{$lang.all_menu}</option>';
+						<form>
+							<div class="label">
+								<label>
+									<p>{$lang.category}</p>
+									<select data-action="get_menu">
+										<option value="all" selected>{$lang.all}</option>';
 
 						foreach ($this->model->get_menu_categories() as $value)
 							$mdl_get_menu_cart .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
 
 						$mdl_get_menu_cart .=
-						'	</select>
-						</div>
-						<div class="stl_3" data-menu>';
+						'			</select>
+								</label>
+							</div>
+						</form>
+						<div class="stl_2" data-menu>';
 
 						foreach ($this->model->get_menu() as $value)
 						{

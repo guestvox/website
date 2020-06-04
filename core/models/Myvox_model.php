@@ -63,7 +63,7 @@ class Myvox_model extends Model
 			], [
 				'OR' => [
 					'id' => $token,
-					'token' => strtoupper($token)
+					'token' => strtolower($token)
 				]
 			]));
 
@@ -331,35 +331,35 @@ class Myvox_model extends Model
 		return $query;
 	}
 
-    public function new_vox($data)
+    public function new_vox($data, $menu = false)
 	{
 		$query = $this->database->insert('voxes', [
 			'account' => Session::get_value('account')['id'],
 			'type' => $data['type'],
-			'token' => strtoupper($data['token']),
+			'token' => $data['token'],
 			'owner' => Session::get_value('owner')['id'],
-			'opportunity_area' => $data['opportunity_area'],
-			'opportunity_type' => $data['opportunity_type'],
+			'opportunity_area' => ($menu == false) ? $data['opportunity_area'] : Session::get_value('account')['settings']['myvox']['menu']['opportunity_area'],
+			'opportunity_type' => ($menu == false) ? $data['opportunity_type'] : null,
 			'started_date' => Functions::get_formatted_date($data['started_date']),
 			'started_hour' => Functions::get_formatted_hour($data['started_hour']),
-			'location' => $data['location'],
+			'location' => ($menu == false) ? $data['location'] : null,
 			'cost' => null,
 			'urgency' => 'medium',
 			'confidentiality' => false,
 			'assigned_users' => json_encode([]),
-			'observations' => ($data['type'] == 'request' AND !empty($data['observations'])) ? $data['observations'] : null,
+			'observations' => ($menu == false AND $data['type'] == 'request' AND !empty($data['observations'])) ? $data['observations'] : null,
 			'subject' => null,
-			'description' => ($data['type'] == 'incident' AND !empty($data['description'])) ? $data['description'] : null,
+			'description' => ($menu == false AND $data['type'] == 'incident' AND !empty($data['description'])) ? $data['description'] : null,
 			'action_taken' => null,
 			'guest_treatment' => null,
-			'firstname' => !empty($data['firstname']) ? $data['firstname'] : null,
-			'lastname' => !empty($data['lastname']) ? $data['lastname'] : null,
+			'firstname' => !empty($data['firstname']) ? $data['firstname'] : ((Session::get_value('account')['type'] == 'hotel' AND !empty(Session::get_value('owner')['reservation']['firstname'])) ? Session::get_value('owner')['reservation']['firstname'] : null),
+			'lastname' => !empty($data['lastname']) ? $data['lastname'] : ((Session::get_value('account')['type'] == 'hotel' AND !empty(Session::get_value('owner')['reservation']['lastname'])) ? Session::get_value('owner')['reservation']['lastname'] : null),
 			'guest_id' => null,
 			'guest_type' => null,
-			'reservation_number' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty(Session::get_value('owner')['reservation']['reservation_number'])) ? Session::get_value('owner')['reservation']['reservation_number'] : null,
+			'reservation_number' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty(Session::get_value('owner')['reservation']['reservation_number'])) ? Session::get_value('owner')['reservation']['reservation_number'] : null,
 			'reservation_status' => null,
-			'check_in' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty(Session::get_value('owner')['reservation']['check_in'])) ? Session::get_value('owner')['reservation']['check_in'] : null,
-			'check_out' => ($data['type'] == 'incident' AND Session::get_value('account')['type'] == 'hotel' AND !empty(Session::get_value('owner')['reservation']['check_out'])) ? Session::get_value('owner')['reservation']['check_out'] : null,
+			'check_in' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty(Session::get_value('owner')['reservation']['check_in'])) ? Session::get_value('owner')['reservation']['check_in'] : null,
+			'check_out' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty(Session::get_value('owner')['reservation']['check_out'])) ? Session::get_value('owner')['reservation']['check_out'] : null,
 			'attachments' => json_encode([]),
 			'viewed_by' => json_encode([]),
 			'comments' => json_encode([]),
@@ -383,6 +383,7 @@ class Myvox_model extends Model
 			'completed_hour' => null,
 			'reopened_date' => null,
 			'reopened_hour' => null,
+			'menu' => $menu,
 			'status' => true,
 			'origin' => 'myvox'
 		]);

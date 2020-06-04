@@ -1404,12 +1404,6 @@ section.modal div.buttons {
     margin-top: 20px;
 }
 
-section.modal div.buttons.top {
-    justify-content: flex-end;
-    margin-top: 0px;
-    margin-bottom: 20px;
-}
-
 section.modal div.buttons > button,
 section.modal div.buttons > a {
     width: 40px;

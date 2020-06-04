@@ -155,6 +155,33 @@ section.modal[data-modal="new_survey_answer"] > div.content > main > form > div.
 
 /* Menu cart
 ------------------------------------------------------------------------------ */
+
+main.menu_cart > div.buttons {
+    justify-content: flex-end;
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
+/*  */
+
+main.menu_cart > form {
+    margin-bottom: 20px;
+}
+
+main.menu_cart > form > div.label > label > p {
+    margin-bottom: 5px;
+    padding-left: 5px;
+}
+
+main.menu_cart > form select {
+    height: 40px;
+    border: 1px solid #e0e0e0;
+    background-color: #fff;
+    color: #757575;
+}
+
+/*  */
+
 main.menu_cart > div.stl_1 {
     width: 100%;
     display: flex;
@@ -219,29 +246,9 @@ main.menu_cart > div.stl_1 > a {
 
 main.menu_cart > div.stl_2 {
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
 }
 
-main.menu_cart > div.stl_2 > select {
-    width: 100%;
-    height: 40px;
-    padding: 0px 20px;
-    border: 1px solid #eee;
-    box-sizing: border-box;
-    background-color: #fff;
-    color: #757575;
-}
-
-/*  */
-
-main.menu_cart > div.stl_3 {
-    width: 100%;
-}
-
-main.menu_cart > div.stl_3 > form {
+main.menu_cart > div.stl_2 > form {
     width: 100%;
     display: flex;
     align-items: center;
@@ -253,11 +260,11 @@ main.menu_cart > div.stl_3 > form {
     border-bottom: 1px solid #e0e0e0;
 }
 
-main.menu_cart > div.stl_3 > form:last-child {
+main.menu_cart > div.stl_2 > form:last-child {
     border-bottom: 0px;
 }
 
-main.menu_cart > div.stl_3 > form > figure {
+main.menu_cart > div.stl_2 > form > figure {
     width: 100px;
     height: 100px;
     display: flex;
@@ -268,24 +275,24 @@ main.menu_cart > div.stl_3 > form > figure {
     overflow: hidden;
 }
 
-main.menu_cart > div.stl_3 > form > figure > img {
+main.menu_cart > div.stl_2 > form > figure > img {
     width: auto;
     height: 100%;
 }
 
-main.menu_cart > div.stl_3 > form > h2 {
+main.menu_cart > div.stl_2 > form > h2 {
     font-size: 16px;
     font-weight: 600;
     color: #212121;
 }
 
-main.menu_cart > div.stl_3 > form > h3 {
+main.menu_cart > div.stl_2 > form > h3 {
     font-size: 14px;
     font-weight: 400;
     color: #757575;
 }
 
-main.menu_cart > div.stl_3 > form > p {
+main.menu_cart > div.stl_2 > form > p {
     margin: 10px 0px;
     font-size: 12px;
     font-weight: 400;
@@ -294,7 +301,7 @@ main.menu_cart > div.stl_3 > form > p {
     color: #757575;
 }
 
-main.menu_cart > div.stl_3 > form > span {
+main.menu_cart > div.stl_2 > form > span {
     width: 100px;
     height: 30px;
     display: flex;
@@ -308,15 +315,15 @@ main.menu_cart > div.stl_3 > form > span {
     color: #757575;
 }
 
-main.menu_cart > div.stl_3 > form > div {
+main.menu_cart > div.stl_2 > form > div {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-main.menu_cart > div.stl_3 > form > div > a,
-main.menu_cart > div.stl_3 > form > div > input {
+main.menu_cart > div.stl_2 > form > div > a,
+main.menu_cart > div.stl_2 > form > div > input {
     width: 40px;
     height: 40px;
     display: flex;
@@ -327,13 +334,13 @@ main.menu_cart > div.stl_3 > form > div > input {
     font-size: 14px;
 }
 
-main.menu_cart > div.stl_3 > form > div > a {
+main.menu_cart > div.stl_2 > form > div > a {
     border: 1px solid #e0e0e0;
     box-sizing: border-box;
     color: #bdbdbd;
 }
 
-main.menu_cart > div.stl_3 > form > div > input {
+main.menu_cart > div.stl_2 > form > div > input {
     padding-left: 16px;
     border: none;
     box-sizing: border-box;
