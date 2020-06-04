@@ -151,11 +151,67 @@ $(document).ready(function()
     $('#rqsw').on('change', function()
     {
         if ($(this).is(':checked'))
-            status = true;
+        {
+            $.ajax({
+                type: 'POST',
+                data: 'action=get_account',
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
+                {
+                    if (response.status == 'success')
+                    {
+                        status = true;
+
+                        $('[data-modal="edit_myvox_request_settings"]').addClass('view');
+
+                        $('[data-modal="edit_myvox_request_settings"]').find('[name="title_es"]').val(response.data.settings.myvox.request.title.es);
+                        $('[data-modal="edit_myvox_request_settings"]').find('[name="title_en"]').val(response.data.settings.myvox.request.title.en);
+
+                        required_focus($('[data-modal="edit_myvox_request_settings"]').find('form'), true);
+                    }
+                    else if (response.status == 'error')
+                        show_modal_error(response.message);
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: 'POST',
+                data: 'status=' + status + '&action=edit_myvox_request_settings',
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
+                {
+                    if (response.status == 'success')
+                        show_modal_success(response.message, 1500);
+                    else if (response.status == 'error')
+                        show_modal_error(response.message);
+                }
+            });
+        }
+    });
+
+    $('[data-modal="edit_myvox_request_settings"]').modal().onCancel(function()
+    {
+        $('#rqsw').prop('checked', false);
+        $('#rqsw').parent().removeClass('checked');
+
+        clean_form($('[data-modal="edit_myvox_request_settings"]').find('form'));
+    });
+
+    $('form[name="edit_myvox_request_settings"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
 
         $.ajax({
             type: 'POST',
-            data: 'status=' + status + '&action=edit_myvox_request_settings',
+            data: form.serialize() + '&status=' + status + '&action=edit_myvox_request_settings',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -164,7 +220,7 @@ $(document).ready(function()
                 if (response.status == 'success')
                     show_modal_success(response.message, 1500);
                 else if (response.status == 'error')
-                    show_modal_error(response.message);
+                    show_form_errors(form, response);
             }
         });
     });
@@ -172,11 +228,67 @@ $(document).ready(function()
     $('#insw').on('change', function()
     {
         if ($(this).is(':checked'))
-            status = true;
+        {
+            $.ajax({
+                type: 'POST',
+                data: 'action=get_account',
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
+                {
+                    if (response.status == 'success')
+                    {
+                        status = true;
+
+                        $('[data-modal="edit_myvox_incident_settings"]').addClass('view');
+
+                        $('[data-modal="edit_myvox_incident_settings"]').find('[name="title_es"]').val(response.data.settings.myvox.incident.title.es);
+                        $('[data-modal="edit_myvox_incident_settings"]').find('[name="title_en"]').val(response.data.settings.myvox.incident.title.en);
+
+                        required_focus($('[data-modal="edit_myvox_incident_settings"]').find('form'), true);
+                    }
+                    else if (response.status == 'error')
+                        show_modal_error(response.message);
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: 'POST',
+                data: 'status=' + status + '&action=edit_myvox_incident_settings',
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
+                {
+                    if (response.status == 'success')
+                        show_modal_success(response.message, 1500);
+                    else if (response.status == 'error')
+                        show_modal_error(response.message);
+                }
+            });
+        }
+    });
+
+    $('[data-modal="edit_myvox_incident_settings"]').modal().onCancel(function()
+    {
+        $('#insw').prop('checked', false);
+        $('#insw').parent().removeClass('checked');
+
+        clean_form($('[data-modal="edit_myvox_incident_settings"]').find('form'));
+    });
+
+    $('form[name="edit_myvox_incident_settings"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
 
         $.ajax({
             type: 'POST',
-            data: 'status=' + status + '&action=edit_myvox_incident_settings',
+            data: form.serialize() + '&status=' + status + '&action=edit_myvox_incident_settings',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -185,7 +297,85 @@ $(document).ready(function()
                 if (response.status == 'success')
                     show_modal_success(response.message, 1500);
                 else if (response.status == 'error')
-                    show_modal_error(response.message);
+                    show_form_errors(form, response);
+            }
+        });
+    });
+
+    $('#mnsw').on('change', function()
+    {
+        if ($(this).is(':checked'))
+        {
+            $.ajax({
+                type: 'POST',
+                data: 'action=get_account',
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
+                {
+                    if (response.status == 'success')
+                    {
+                        status = true;
+
+                        $('[data-modal="edit_myvox_menu_settings"]').addClass('view');
+
+                        $('[data-modal="edit_myvox_menu_settings"]').find('[name="title_es"]').val(response.data.settings.myvox.menu.title.es);
+                        $('[data-modal="edit_myvox_menu_settings"]').find('[name="title_en"]').val(response.data.settings.myvox.menu.title.en);
+                        $('[data-modal="edit_myvox_menu_settings"]').find('[name="currency"]').val(response.data.settings.myvox.menu.currency);
+
+                        required_focus($('[data-modal="edit_myvox_menu_settings"]').find('form'), true);
+                    }
+                    else if (response.status == 'error')
+                        show_modal_error(response.message);
+                }
+            });
+        }
+        else
+        {
+            $.ajax({
+                type: 'POST',
+                data: 'status=' + status + '&action=edit_myvox_menu_settings',
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
+                {
+                    if (response.status == 'success')
+                        show_modal_success(response.message, 1500);
+                    else if (response.status == 'error')
+                        show_modal_error(response.message);
+                }
+            });
+        }
+    });
+
+    $('[data-modal="edit_myvox_menu_settings"]').modal().onCancel(function()
+    {
+        $('#mnsw').prop('checked', false);
+        $('#mnsw').parent().removeClass('checked');
+
+        clean_form($('[data-modal="edit_myvox_menu_settings"]').find('form'));
+    });
+
+    $('form[name="edit_myvox_menu_settings"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&status=' + status + '&action=edit_myvox_menu_settings',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 1500);
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
             }
         });
     });

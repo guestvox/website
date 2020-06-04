@@ -224,11 +224,47 @@ class Account_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'edit_myvox_request_settings' OR $_POST['action'] == 'edit_myvox_incident_settings' OR $_POST['action'] == 'edit_myvox_survey_settings' OR $_POST['action'] == 'edit_reviews_settings')
+			if ($_POST['action'] == 'edit_myvox_request_settings' OR $_POST['action'] == 'edit_myvox_incident_settings' OR $_POST['action'] == 'edit_myvox_menu_settings' OR $_POST['action'] == 'edit_myvox_survey_settings' OR $_POST['action'] == 'edit_reviews_settings')
 			{
 				$labels = [];
 
-				if ($_POST['action'] == 'edit_myvox_survey_settings')
+				if ($_POST['action'] == 'edit_myvox_request_settings')
+				{
+					if (!empty($_POST['status']))
+					{
+						if (!isset($_POST['title_es']) OR empty($_POST['title_es']))
+							array_push($labels, ['title_es','']);
+
+						if (!isset($_POST['title_en']) OR empty($_POST['title_en']))
+							array_push($labels, ['title_en','']);
+					}
+				}
+				else if ($_POST['action'] == 'edit_myvox_incident_settings')
+				{
+					if (!empty($_POST['status']))
+					{
+						if (!isset($_POST['title_es']) OR empty($_POST['title_es']))
+							array_push($labels, ['title_es','']);
+
+						if (!isset($_POST['title_en']) OR empty($_POST['title_en']))
+							array_push($labels, ['title_en','']);
+					}
+				}
+				else if ($_POST['action'] == 'edit_myvox_menu_settings')
+				{
+					if (!empty($_POST['status']))
+					{
+						if (!isset($_POST['title_es']) OR empty($_POST['title_es']))
+							array_push($labels, ['title_es','']);
+
+						if (!isset($_POST['title_en']) OR empty($_POST['title_en']))
+							array_push($labels, ['title_en','']);
+
+						if (!isset($_POST['currency']) OR empty($_POST['currency']))
+							array_push($labels, ['currency','']);
+					}
+				}
+				else if ($_POST['action'] == 'edit_myvox_survey_settings')
 				{
 					if (!empty($_POST['status']))
 					{
@@ -293,6 +329,8 @@ class Account_controller extends Controller
 						$query = $this->model->edit_settings('myvox_request', $_POST);
 					else if ($_POST['action'] == 'edit_myvox_incident_settings')
 						$query = $this->model->edit_settings('myvox_incident', $_POST);
+					else if ($_POST['action'] == 'edit_myvox_menu_settings')
+						$query = $this->model->edit_settings('myvox_menu', $_POST);
 					else if ($_POST['action'] == 'edit_myvox_survey_settings')
 					{
 						if (!empty($_POST['status']))
@@ -338,9 +376,7 @@ class Account_controller extends Controller
 
 			$div_public_requests = '';
 			$div_public_incidents = '';
-			$div_siteminder = '';
-			$div_zaviapms = '';
-
+			$div_digital_menu = '';
 
 			if ($account['operation'] == true)
 			{
@@ -350,14 +386,14 @@ class Account_controller extends Controller
 	                <h2>{$lang.public_requests}</h2>
 	                <span>' . (($account['settings']['myvox']['request']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
 					<div class="switch">
-					    <input id="a" type="checkbox" ' . (($account['settings']['myvox']['request']['status'] == true) ? 'checked' : '') . ' data-switcher>
-						<label for="a"></label>
+					    <input id="rqsw" type="checkbox" ' . (($account['settings']['myvox']['request']['status'] == true) ? 'checked' : '') . ' data-switcher>
+						<label for="rqsw"></label>
 					</div>
 	            </div>';
 
 				$div_public_incidents .=
 				'<div class="stl_5">
-	                <i class="fas fa-exclamation-triangle"></i>
+	                <i class="fas fa-exclamation-circle"></i>
 	                <h2>{$lang.public_incidents}</h2>
 	                <span>' . (($account['settings']['myvox']['incident']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
 					<div class="switch">
@@ -366,32 +402,23 @@ class Account_controller extends Controller
 					</div>
 	            </div>';
 
-				if ($account['type'] == 'hotel')
+				if ($account['type'] == 'hotel' OR $account['type'] == 'restaurant')
 				{
-					$div_siteminder .=
+					$div_digital_menu .=
 					'<div class="stl_5">
-						<figure>
-							<img src="{$path.images}siteminder.png">
-						</figure>
-						<h2>Siteminder</h2>
-						<span>' . (($account['siteminder']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-	                </div>';
-
-					$div_zaviapms .=
-					'<div class="stl_5">
-						<figure>
-							<img src="{$path.images}zaviapms.png">
-						</figure>
-						<h2>Zavia PMS</h2>
-						<span>' . (($account['zaviapms']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-	                </div>';
+		                <i class="fas fa-wave-square"></i>
+		                <h2>{$lang.digital_menu}</h2>
+		                <span>' . (($account['settings']['myvox']['menu']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+						<div class="switch">
+						    <input id="mnsw" type="checkbox" ' . (($account['settings']['myvox']['menu']['status'] == true) ? 'checked' : '') . ' data-switcher>
+						    <label for="mnsw"></label>
+						</div>
+		            </div>';
 				}
 			}
 
 			$div_answered_survey = '';
 			$div_reviews_page = '';
-			$mdl_edit_myvox_survey_settings = '';
-			$mdl_edit_reviews_settings = '';
 
 			if ($account['reputation'] == true)
 			{
@@ -416,7 +443,228 @@ class Account_controller extends Controller
 					    <label for="rvsw"></label>
 					</div>
 	            </div>';
+			}
 
+			$div_siteminder = '';
+			$div_zaviapms = '';
+
+			if ($account['operation'] == true)
+			{
+				if ($account['type'] == 'hotel')
+				{
+					$div_siteminder .=
+					'<div class="stl_5">
+						<figure>
+							<img src="{$path.images}siteminder.png">
+						</figure>
+						<h2>Siteminder</h2>
+						<span>' . (($account['siteminder']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+	                </div>';
+
+					$div_zaviapms .=
+					'<div class="stl_5">
+						<figure>
+							<img src="{$path.images}zaviapms.png">
+						</figure>
+						<h2>Zavia PMS</h2>
+						<span>' . (($account['zaviapms']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+	                </div>';
+				}
+			}
+
+			$btn_get_urls = '';
+			$mdl_get_urls = '';
+
+			if ($account['operation'] == true OR $account['reputation'] == true)
+			{
+				$btn_get_urls .= '<a data-button-modal="get_urls"><i class="fas fa-link"></i></a>';
+
+				$mdl_get_urls .=
+				'<section class="modal fullscreen" data-modal="get_urls">
+				    <div class="content">
+				        <main class="account">
+				        	<div class="stl_6">
+								<div>
+									<input type="text" value="https://' . Configuration::$domain . '/' . $account['path'] . '/myvox" disabled>
+									<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
+								</div>';
+
+				if ($account['reputation'] == true)
+				{
+					$mdl_get_urls .=
+					'<div>
+						<input type="text" value="https://' . Configuration::$domain . '/' . $account['path'] . '/reviews" disabled>
+						<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
+					</div>';
+				}
+
+				$mdl_get_urls .=
+				'           </div>
+				            <div class="buttons">
+				                <a button-close><i class="fas fa-check"></i></a>
+				            </div>
+				        </main>
+				    </div>
+				</section>';
+			}
+
+			$opt_countries = '';
+
+			foreach ($this->model->get_countries() as $value)
+				$opt_countries .= '<option value="' . $value['code'] . '">' . $value['name'][$this->lang] . '</option>';
+
+			$opt_times_zones = '';
+
+			foreach ($this->model->get_times_zones() as $value)
+				$opt_times_zones .= '<option value="' . $value['code'] . '">' . $value['code'] . '</option>';
+
+			$opt_currencies = '';
+
+			foreach ($this->model->get_currencies() as $value)
+				$opt_currencies .= '<option value="' . $value['code'] . '">' . $value['name'][$this->lang] . ' (' . $value['code'] . ')</option>';
+
+			$opt_languages = '';
+
+			foreach ($this->model->get_languages() as $value)
+				$opt_languages .= '<option value="' . $value['code'] . '">' . $value['name'] . '</option>';
+
+			$opt_ladas = '';
+
+			foreach ($this->model->get_countries() as $value)
+				$opt_ladas .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
+
+			$mdl_edit_myvox_request_settings = '';
+			$mdl_edit_myvox_incident_settings = '';
+			$mdl_edit_myvox_menu_settings = '';
+
+			if ($account['operation'] == true)
+			{
+				$mdl_edit_myvox_request_settings .=
+				'<section class="modal fullscreen" data-modal="edit_myvox_request_settings">
+					<div class="content">
+						<main>
+							<form name="edit_myvox_request_settings">
+								<div class="row">
+									<div class="span6">
+										<div class="label">
+											<label required>
+												<p>(ES) {$lang.title} <a data-action="get_help" data-text="{$lang.es_request_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="title_es">
+											</label>
+										</div>
+									</div>
+									<div class="span6">
+										<div class="label">
+											<label required>
+												<p>(EN) {$lang.title} <a data-action="get_help" data-text="{$lang.en_request_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="title_en">
+											</label>
+										</div>
+									</div>
+									<div class="span12">
+										<div class="buttons">
+											<a button-cancel><i class="fas fa-times"></i></a>
+											<button type="submit"><i class="fas fa-check"></i></button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</main>
+					</div>
+				</section>';
+
+				$mdl_edit_myvox_incident_settings .=
+				'<section class="modal fullscreen" data-modal="edit_myvox_incident_settings">
+					<div class="content">
+						<main>
+							<form name="edit_myvox_incident_settings">
+								<div class="row">
+									<div class="span6">
+										<div class="label">
+											<label required>
+												<p>(ES) {$lang.title} <a data-action="get_help" data-text="{$lang.es_incident_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="title_es">
+											</label>
+										</div>
+									</div>
+									<div class="span6">
+										<div class="label">
+											<label required>
+												<p>(EN) {$lang.title} <a data-action="get_help" data-text="{$lang.en_incident_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="title_en">
+											</label>
+										</div>
+									</div>
+									<div class="span12">
+										<div class="buttons">
+											<a button-cancel><i class="fas fa-times"></i></a>
+											<button type="submit"><i class="fas fa-check"></i></button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</main>
+					</div>
+				</section>';
+
+				if ($account['type'] == 'hotel' OR $account['type'] == 'restaurant')
+				{
+					$mdl_edit_myvox_menu_settings .=
+					'<section class="modal fullscreen" data-modal="edit_myvox_menu_settings">
+						<div class="content">
+							<main>
+								<form name="edit_myvox_menu_settings">
+									<div class="row">
+										<div class="span6">
+											<div class="label">
+												<label required>
+													<p>(ES) {$lang.title} <a data-action="get_help" data-text="{$lang.es_menu_title_help}"><i class="fas fa-question-circle"></i></a></p>
+													<input type="text" name="title_es">
+												</label>
+											</div>
+										</div>
+										<div class="span6">
+											<div class="label">
+												<label required>
+													<p>(EN) {$lang.title} <a data-action="get_help" data-text="{$lang.en_menu_title_help}"><i class="fas fa-question-circle"></i></a></p>
+													<input type="text" name="title_en">
+												</label>
+											</div>
+										</div>
+										<div class="span12">
+											<div class="label">
+												<label required>
+													<p>{$lang.currency} <a data-action="get_help" data-text="{$lang.menu_currency_help}"><i class="fas fa-question-circle"></i></a></p>
+													<select name="currency">
+														<option value="" selected hidden>{$lang.choose}</option>';
+
+					foreach ($this->model->get_currencies() as $value)
+						$mdl_edit_myvox_menu_settings .= '<option value="' . $value['code'] . '">' . $value['name'][$this->lang] . ' (' . $value['code'] . ')</option>';
+
+					$mdl_edit_myvox_menu_settings .=
+					'								</select>
+												</label>
+											</div>
+										</div>
+										<div class="span12">
+											<div class="buttons">
+												<a button-cancel><i class="fas fa-times"></i></a>
+												<button type="submit"><i class="fas fa-check"></i></button>
+											</div>
+										</div>
+									</div>
+								</form>
+							</main>
+						</div>
+					</section>';
+				}
+			}
+
+			$mdl_edit_myvox_survey_settings = '';
+			$mdl_edit_reviews_settings = '';
+
+			if ($account['reputation'] == true)
+			{
 				$mdl_edit_myvox_survey_settings .=
 				'<section class="modal fullscreen" data-modal="edit_myvox_survey_settings">
 					<div class="content">
@@ -426,7 +674,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(ES) {$lang.survey_title} <a data-action="get_help" data-text="{$lang.es_survey_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(ES) {$lang.title} <a data-action="get_help" data-text="{$lang.es_survey_title_help}"><i class="fas fa-question-circle"></i></a></p>
 												<input type="text" name="title_es">
 											</label>
 										</div>
@@ -434,7 +682,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(EN) {$lang.survey_title} <a data-action="get_help" data-text="{$lang.en_survey_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(EN) {$lang.title} <a data-action="get_help" data-text="{$lang.en_survey_title_help}"><i class="fas fa-question-circle"></i></a></p>
 												<input type="text" name="title_en">
 											</label>
 										</div>
@@ -517,7 +765,7 @@ class Account_controller extends Controller
 				        <main>
 				            <form name="edit_reviews_settings">
 				                <div class="row">
-									<div class="span6 hidden">
+									<div class="span6">
 										<div class="label">
 											<label required>
 												<p>{$lang.email}</p>
@@ -525,7 +773,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span3 hidden">
+									<div class="span3">
 										<div class="label">
 											<label required>
 												<p>{$lang.lada}</p>
@@ -540,7 +788,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span3 hidden">
+									<div class="span3">
 										<div class="label">
 											<label required>
 												<p>{$lang.phone}</p>
@@ -548,7 +796,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span12 hidden">
+									<div class="span12">
 										<div class="label">
 											<label required>
 												<p>{$lang.website}</p>
@@ -556,7 +804,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span6 hidden">
+									<div class="span6">
 										<div class="label">
 											<label required>
 												<p>(ES) {$lang.description}</p>
@@ -564,7 +812,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span6 hidden">
+									<div class="span6">
 										<div class="label">
 											<label required>
 												<p>(EN) {$lang.description}</p>
@@ -572,7 +820,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span6 hidden">
+									<div class="span6">
 										<div class="label">
 											<label required>
 												<p>(ES) {$lang.seo_keywords} <a data-action="get_help" data-text="{$lang.es_seo_keywords_help}"><i class="fas fa-question-circle"></i></a></p>
@@ -580,7 +828,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span6 hidden">
+									<div class="span6">
 										<div class="label">
 											<label required>
 												<p>(EN) {$lang.seo_keywords} <a data-action="get_help" data-text="{$lang.en_seo_keywords_help}"><i class="fas fa-question-circle"></i></a></p>
@@ -588,7 +836,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span6 hidden">
+									<div class="span6">
 										<div class="label">
 											<label required>
 												<p>(ES) {$lang.seo_description} <a data-action="get_help" data-text="{$lang.en_seo_description_help}"><i class="fas fa-question-circle"></i></a></p>
@@ -596,7 +844,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span6 hidden">
+									<div class="span6">
 										<div class="label">
 											<label required>
 												<p>(EN) {$lang.seo_description} <a data-action="get_help" data-text="{$lang.en_seo_description_help}"><i class="fas fa-question-circle"></i></a></p>
@@ -604,7 +852,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span12 hidden">
+									<div class="span12">
 										<div class="label">
 											<label unrequired>
 												<p>Facebook</p>
@@ -612,7 +860,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span12 hidden">
+									<div class="span12">
 										<div class="label">
 											<label unrequired>
 												<p>Instagram</p>
@@ -620,7 +868,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span12 hidden">
+									<div class="span12">
 										<div class="label">
 											<label unrequired>
 												<p>Twitter</p>
@@ -628,7 +876,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span12 hidden">
+									<div class="span12">
 										<div class="label">
 											<label unrequired>
 												<p>LinkedIn</p>
@@ -636,7 +884,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span12 hidden">
+									<div class="span12">
 										<div class="label">
 											<label unrequired>
 												<p>YouTube</p>
@@ -644,7 +892,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span12 hidden">
+									<div class="span12">
 										<div class="label">
 											<label unrequired>
 												<p>Google</p>
@@ -652,7 +900,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span12 hidden">
+									<div class="span12">
 										<div class="label">
 											<label unrequired>
 												<p>TripAdvisor</p>
@@ -672,67 +920,6 @@ class Account_controller extends Controller
 				    </div>
 				</section>';
 			}
-
-			$btn_get_urls = '';
-			$mdl_get_urls = '';
-
-			if ($account['operation'] == true OR $account['reputation'] == true)
-			{
-				$btn_get_urls .= '<a data-button-modal="get_urls"><i class="fas fa-link"></i></a>';
-
-				$mdl_get_urls .=
-				'<section class="modal fullscreen" data-modal="get_urls">
-				    <div class="content">
-				        <main class="account">
-				        	<div class="stl_6">
-								<div>
-									<input type="text" value="https://' . Configuration::$domain . '/' . $account['path'] . '/myvox" disabled>
-									<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
-								</div>';
-
-				if ($account['reputation'] == true)
-				{
-					$mdl_get_urls .=
-					'<div>
-						<input type="text" value="https://' . Configuration::$domain . '/' . $account['path'] . '/reviews" disabled>
-						<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
-					</div>';
-				}
-
-				$mdl_get_urls .=
-				'           </div>
-				            <div class="buttons">
-				                <a button-close><i class="fas fa-check"></i></a>
-				            </div>
-				        </main>
-				    </div>
-				</section>';
-			}
-
-			$opt_countries = '';
-
-			foreach ($this->model->get_countries() as $value)
-				$opt_countries .= '<option value="' . $value['code'] . '">' . $value['name'][$this->lang] . '</option>';
-
-			$opt_times_zones = '';
-
-			foreach ($this->model->get_times_zones() as $value)
-				$opt_times_zones .= '<option value="' . $value['code'] . '">' . $value['code'] . '</option>';
-
-			$opt_currencies = '';
-
-			foreach ($this->model->get_currencies() as $value)
-				$opt_currencies .= '<option value="' . $value['code'] . '">' . $value['name'][$this->lang] . ' (' . $value['code'] . ')</option>';
-
-			$opt_languages = '';
-
-			foreach ($this->model->get_languages() as $value)
-				$opt_languages .= '<option value="' . $value['code'] . '">' . $value['name'] . '</option>';
-
-			$opt_ladas = '';
-
-			foreach ($this->model->get_countries() as $value)
-				$opt_ladas .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
 
 			$replace = [
 				'{$logotype}' => '{$path.uploads}' . $account['logotype'],
@@ -755,6 +942,7 @@ class Account_controller extends Controller
 				'{$contact_phone}' => $account['contact']['phone']['lada'] . ' ' . $account['contact']['phone']['number'],
 				'{$div_public_requests}' => $div_public_requests,
 				'{$div_public_incidents}' => $div_public_incidents,
+				'{$div_digital_menu}' => $div_digital_menu,
 				'{$div_answered_survey}' => $div_answered_survey,
 				'{$div_reviews_page}' => $div_reviews_page,
 				'{$operation}' => ($account['operation'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
@@ -770,6 +958,9 @@ class Account_controller extends Controller
 				'{$opt_currencies}' => $opt_currencies,
 				'{$opt_languages}' => $opt_languages,
 				'{$opt_ladas}' => $opt_ladas,
+				'{$mdl_edit_myvox_request_settings}' => $mdl_edit_myvox_request_settings,
+				'{$mdl_edit_myvox_incident_settings}' => $mdl_edit_myvox_incident_settings,
+				'{$mdl_edit_myvox_menu_settings}' => $mdl_edit_myvox_menu_settings,
 				'{$mdl_edit_myvox_survey_settings}' => $mdl_edit_myvox_survey_settings,
 				'{$mdl_edit_reviews_settings}' => $mdl_edit_reviews_settings
 			];

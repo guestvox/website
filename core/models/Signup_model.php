@@ -213,8 +213,7 @@ class Signup_model extends Model
 							'es' => '',
 							'en' => ''
 						],
-						'currency' => '',
-						'opportunity_area' => ''
+						'currency' => ''
 					],
 					'survey' => [
 						'status' => false,

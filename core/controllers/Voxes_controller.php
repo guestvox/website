@@ -92,7 +92,7 @@ class Voxes_controller extends Controller
 				if ($value['type'] == 'request')
 					$tbl_voxes .= '<i class="fas fa-spa"></i>';
 				else if ($value['type'] == 'incident')
-					$tbl_voxes .= '<i class="fas fa-exclamation-triangle"></i>';
+					$tbl_voxes .= '<i class="fas fa-exclamation-circle"></i>';
 				else if ($value['type'] == 'workorder')
 					$tbl_voxes .= '<i class="fas fa-id-card-alt"></i>';
 
@@ -714,7 +714,7 @@ class Voxes_controller extends Controller
                         </div>
                         <div>
                             <input id="inrd" type="radio" name="type" value="incident" ' . (($vox['type'] == 'incident') ? 'checked' : '') . '>
-                            <label for="inrd"><i class="fas fa-exclamation-triangle"></i></label>
+                            <label for="inrd"><i class="fas fa-exclamation-circle"></i></label>
                         </div>
                         <div>
                             <input id="wkrd" type="radio" name="type" value="workorder" ' . (($vox['type'] == 'workorder') ? 'checked' : '') . '>
@@ -1284,7 +1284,7 @@ class Voxes_controller extends Controller
 				if ($vox['type'] == 'request')
 					$spn_type .= '<i class="fas fa-spa"></i>';
 				else if ($vox['type'] == 'incident')
-					$spn_type .= '<i class="fas fa-exclamation-triangle"></i>';
+					$spn_type .= '<i class="fas fa-exclamation-circle"></i>';
 				else if ($vox['type'] == 'workorder')
 					$spn_type .= '<i class="fas fa-id-card-alt"></i>';
 

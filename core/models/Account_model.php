@@ -219,9 +219,39 @@ class Account_model extends Model
 		$edited2 = $edited1[0]['settings'];
 
 		if ($field == 'myvox_request')
-			$edited1[0]['settings']['myvox']['request']['status'] = !empty($data['status']) ? true : false;
+		{
+			if (!empty($data['status']))
+			{
+				$edited1[0]['settings']['myvox']['request']['status'] = true;
+				$edited1[0]['settings']['myvox']['request']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['request']['title']['en'] = $data['title_en'];
+			}
+			else
+				$edited1[0]['settings']['myvox']['request']['status'] = false;
+		}
 		else if ($field == 'myvox_incident')
-			$edited1[0]['settings']['myvox']['incident']['status'] = !empty($data['status']) ? true : false;
+		{
+			if (!empty($data['status']))
+			{
+				$edited1[0]['settings']['myvox']['incident']['status'] = true;
+				$edited1[0]['settings']['myvox']['incident']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['incident']['title']['en'] = $data['title_en'];
+			}
+			else
+				$edited1[0]['settings']['myvox']['incident']['status'] = false;
+		}
+		else if ($field == 'myvox_menu')
+		{
+			if (!empty($data['status']))
+			{
+				$edited1[0]['settings']['myvox']['menu']['status'] = true;
+				$edited1[0]['settings']['myvox']['menu']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['menu']['title']['en'] = $data['title_en'];
+				$edited1[0]['settings']['myvox']['menu']['currency'] = $data['currency'];
+			}
+			else
+				$edited1[0]['settings']['myvox']['menu']['status'] = false;
+		}
 		else if ($field == 'myvox_survey')
 		{
 			if (!empty($data['status']))

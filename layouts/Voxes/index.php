@@ -20,7 +20,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                     <?php elseif (Session::get_value('settings')['voxes']['filter']['type'] == 'request') : ?>
                     <i class="fas fa-spa"></i>
                     <?php elseif (Session::get_value('settings')['voxes']['filter']['type'] == 'incident') : ?>
-                    <i class="fas fa-exclamation-triangle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
                     <?php elseif (Session::get_value('settings')['voxes']['filter']['type'] == 'workorder') : ?>
                     <i class="fas fa-id-card-alt"></i>
                     <?php endif; ?>

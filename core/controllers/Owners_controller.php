@@ -238,6 +238,10 @@ class Owners_controller extends Controller
 							<label>
 								<p class="center">{$lang.available_for_use_in}:</p>
 							</label>
+						</div>
+					</div>
+					<div class="span4">
+						<div class="label">
 							<label unrequired>
 								<p>{$lang.request}</p>
 								<div class="switch">
@@ -247,7 +251,7 @@ class Owners_controller extends Controller
 							</label>
 						</div>
 					</div>
-					<div class="span12">
+					<div class="span4">
 						<div class="label">
 							<label unrequired>
 								<p>{$lang.incident}</p>
@@ -258,7 +262,7 @@ class Owners_controller extends Controller
 							</label>
 						</div>
 					</div>
-					<div class="span12">
+					<div class="span4">
 						<div class="label">
 							<label unrequired>
 								<p>{$lang.workorder}</p>
@@ -269,7 +273,7 @@ class Owners_controller extends Controller
 							</label>
 						</div>
 					</div>
-					<div class="span12">
+					<div class="span6">
 						<div class="label">
 							<label unrequired>
 								<p>{$lang.survey}</p>
@@ -280,7 +284,7 @@ class Owners_controller extends Controller
 							</label>
 						</div>
 					</div>
-					<div class="span12">
+					<div class="span6">
 						<div class="label">
 							<label unrequired>
 								<p>{$lang.public}</p>

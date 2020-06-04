@@ -22,7 +22,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         </div>
                         <div>
                             <input id="inrd" type="radio" name="type" value="incident">
-                            <label for="inrd"><i class="fas fa-exclamation-triangle"></i></label>
+                            <label for="inrd"><i class="fas fa-exclamation-circle"></i></label>
                         </div>
                         <div>
                             <input id="wkrd" type="radio" name="type" value="workorder">
