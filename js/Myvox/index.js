@@ -6,8 +6,6 @@ $(document).ready(function()
 
     $('[data-action="new_vox"]').on('click', function()
     {
-        $('[data-modal="new_vox"]').addClass('view');
-
         type = $(this).data('type');
 
         $.ajax({
@@ -45,7 +43,10 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
+                {
                     $('[name="opportunity_type"]').html(response.html);
+                    $('[name="opportunity_type"]').attr('disabled', true);
+                }
             }
         });
 
@@ -73,7 +74,9 @@ $(document).ready(function()
             $('[data-modal="new_vox"]').find('[name="description"]').parent().parent().parent().removeClass('hidden');
         }
 
-        required_focus($('form[name="new_vox"]'), true);
+        required_focus('form', $('form[name="new_vox"]'), null);
+
+        $('[data-modal="new_vox"]').addClass('view');
     });
 
     $('[name="owner"]').on('change', function()
@@ -100,8 +103,8 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[name="opportunity_type"]').attr('disabled', false);
                     $('[name="opportunity_type"]').html(response.html);
+                    $('[name="opportunity_type"]').attr('disabled', false);
                 }
             }
         });
@@ -109,6 +112,7 @@ $(document).ready(function()
 
     $('[data-modal="new_vox"]').modal().onCancel(function()
     {
+        $('[data-modal="new_vox"]').find('[name="opportunity_type"]').attr('disabled', true);
         $('[data-modal="new_vox"]').find('[name="observations"]').parent().parent().parent().addClass('hidden');
         $('[data-modal="new_vox"]').find('[name="description"]').parent().parent().parent().addClass('hidden');
 
@@ -374,8 +378,8 @@ function load_actions_2()
             {
                 if (response.status == 'success')
                 {
-                    form.parents('main.menu_cart').find('[data-menu-cart]').html(response.html);
                     form.find('[name="quantity"]').val(0);
+                    form.parents('main.menu_cart').find('[data-menu-cart]').html(response.html);
 
                     load_actions_1();
                 }

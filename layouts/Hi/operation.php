@@ -177,7 +177,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
                             <label required>
                                 <p>{$lang.type}</p>
                                 <select name="type">
-                                    <option value="" selected hidden>{$lang.choose}</option>
+                                    <option value="" hidden>{$lang.choose}</option>
                                     <option value="hotel">{$lang.hotel}</option>
                                     <option value="restaurant">{$lang.restaurant}</option>
                                     <option value="hospital">{$lang.hospital}</option>

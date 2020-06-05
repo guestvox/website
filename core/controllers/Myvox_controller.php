@@ -70,7 +70,7 @@ class Myvox_controller extends Controller
 			{
 				if ($_POST['action'] == 'get_opt_owners')
 				{
-					$html = '<option value="" selected hidden>{$lang.choose}</option>';
+					$html = '<option value="" hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_owners($_POST['type']) as $value)
 						$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
@@ -107,7 +107,7 @@ class Myvox_controller extends Controller
 
 				if ($_POST['action'] == 'get_opt_opportunity_areas')
 				{
-					$html = '<option value="" selected hidden>{$lang.choose}</option>';
+					$html = '<option value="" hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_opportunity_areas($_POST['type']) as $value)
 						$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
@@ -120,17 +120,13 @@ class Myvox_controller extends Controller
 
 				if ($_POST['action'] == 'get_opt_opportunity_types')
 				{
-					$html = '';
+					$html = '<option value="" hidden>{$lang.choose}</option>';
 
 					if (!empty($_POST['opportunity_area']))
 					{
-						$html .= '<option value="" selected hidden>{$lang.choose}</option>';
-
 						foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['type']) as $value)
 							$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
 					}
-					else
-						$html .= '<option value="" selected hidden>{$lang.choose_opportunity_area}</option>';
 
 					Functions::environment([
 						'status' => 'success',
@@ -140,7 +136,7 @@ class Myvox_controller extends Controller
 
 				if ($_POST['action'] == 'get_opt_locations')
 				{
-					$html = '<option value="" selected hidden>{$lang.choose}</option>';
+					$html = '<option value="" hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_locations($_POST['type']) as $value)
 						$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
@@ -1019,7 +1015,7 @@ class Myvox_controller extends Controller
 							$mdl_new_vox .=
 							'<div class="span12 hidden">
 								<div class="label">
-									<label required>
+									<label unrequired>
 										<p>{$lang.observations} <a data-action="get_help" data-text="{$lang.observations_help}"><i class="fas fa-question-circle"></i></a></p>
 										<textarea name="observations" maxlength="120"></textarea>
 										<p class="description">{$lang.max_120_characters}</p>
@@ -1072,7 +1068,7 @@ class Myvox_controller extends Controller
 								<label unrequired>
 									<p>{$lang.lada}</p>
 									<select name="phone_lada">
-										<option value="" selected>{$lang.empty} ({$lang.choose})</option>';
+										<option value="">{$lang.empty} ({$lang.choose})</option>';
 
 						foreach ($this->model->get_countries() as $value)
 							$mdl_new_vox .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang1] . ' (+' . $value['lada'] . ')</option>';
@@ -1124,7 +1120,7 @@ class Myvox_controller extends Controller
 									<label required>
 										<p>{$lang.owner}</p>
 										<select name="owner">
-											<option value="" selected hidden>{$lang.choose}</option>';
+											<option value="" hidden>{$lang.choose}</option>';
 
 								foreach ($this->model->get_owners('request') as $value)
 									$mdl_get_menu_cart .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
@@ -1142,7 +1138,7 @@ class Myvox_controller extends Controller
 										<label required>
 											<p>{$lang.where_want_take_you}</p>
 											<select name="location">
-												<option value="" selected hidden>{$lang.choose}</option>';
+												<option value="" hidden>{$lang.choose}</option>';
 
 									foreach ($this->model->get_locations('request') as $value)
 										$mdl_get_menu_cart .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
@@ -1182,7 +1178,7 @@ class Myvox_controller extends Controller
 								<label>
 									<p>{$lang.category}</p>
 									<select data-action="get_menu">
-										<option value="all" selected>{$lang.all}</option>';
+										<option value="all">{$lang.all}</option>';
 
 						foreach ($this->model->get_menu_categories() as $value)
 							$mdl_get_menu_cart .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
@@ -1450,7 +1446,7 @@ class Myvox_controller extends Controller
 				// 				<label unrequired>
 				// 					<p>{$lang.lada}</p>
 				// 					<select name="phone_lada">
-				// 						<option value="" selected>{$lang.empty} ({$lang.choose})</option>';
+				// 						<option value="">{$lang.empty} ({$lang.choose})</option>';
 				//
 				// 		foreach ($this->model->get_countries() as $value)
 				// 			$mdl_new_survey_answer .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang1] . ' (+' . $value['lada'] . ')</option>';

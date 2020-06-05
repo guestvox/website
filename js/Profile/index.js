@@ -23,7 +23,7 @@ $(document).ready(function()
                     $('[data-modal="edit_profile"]').find('[name="phone_number"]').val(response.data.phone.number);
                     $('[data-modal="edit_profile"]').find('[name="username"]').val(response.data.username);
 
-                    required_focus($('form[name="edit_profile"]'), true);
+                    required_focus('form', $('form[name="edit_profile"]'), null);
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);

@@ -64,21 +64,17 @@ class Account_model extends Model
 		return $query;
 	}
 
-	public function get_opportunity_types($opportunity_area = null)
+	public function get_opportunity_types($opportunity_area)
 	{
-		if (!empty($opportunity_area))
-			$where['opportunity_area'] = $opportunity_area;
-		else
-			$where['account'] = Session::get_value('account')['id'];
-
-		$where['request'] = true;
-		$where['status'] = true;
-
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
 			'id',
 			'name'
 		], [
-			'AND' => $where,
+			'AND' => [
+				'opportunity_area' => $opportunity_area,
+				'request' => true,
+				'status' => true
+			],
 			'ORDER' => [
 				'name' => 'ASC'
 			]

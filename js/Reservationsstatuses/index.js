@@ -55,11 +55,11 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="new_reservation_status"]').addClass('view');
-
                     $('[data-modal="new_reservation_status"]').find('[name="name"]').val(response.data.name);
 
-                    required_focus($('form[name="new_reservation_status"]'), true);
+                    required_focus('form', $('form[name="new_reservation_status"]'), null);
+
+                    $('[data-modal="new_reservation_status"]').addClass('view');
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);

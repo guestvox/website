@@ -58,7 +58,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                             <label required>
                                 <p>{$lang.lada}</p>
                                 <select name="phone_lada">
-                                    <option value="" selected hidden>{$lang.choose}</option>
+                                    <option value="" hidden>{$lang.choose}</option>
                                     {$opt_ladas}
                                 </select>
                             </label>
@@ -85,7 +85,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                             <label unrequired>
                                 <p>{$lang.user_level}</p>
                                 <select name="user_level">
-                                    <option value="" selected>{$lang.empty} ({$lang.choose})</option>
+                                    <option value="">{$lang.empty} ({$lang.choose})</option>
                                     {$opt_users_levels}
                                 </select>
                             </label>

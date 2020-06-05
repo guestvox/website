@@ -27,6 +27,8 @@ $(document).ready(function()
 
     $('[name="type"]').on('change', function()
     {
+        $('[name="rooms"]').val('');
+
         if ($(this).val() == 'hotel')
         {
             $(this).parent().parent().parent().removeClass('span12').addClass('span8');
@@ -37,8 +39,6 @@ $(document).ready(function()
             $(this).parent().parent().parent().removeClass('span8').addClass('span12');
             $('[name="rooms"]').parent().parent().parent().addClass('hidden');
         }
-
-        $('[name="rooms"]').val('');
     });
 
     $('[data-modal="contact"]').modal().onCancel(function()

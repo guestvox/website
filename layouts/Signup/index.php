@@ -38,7 +38,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         <div class="span6">
                             <fieldset>
                                 <select name="type">
-                                    <option value="" selected hidden>{$lang.type}</option>
+                                    <option value="" hidden>{$lang.type}</option>
                                     <option value="hotel">{$lang.hotel}</option>
                                     <option value="restaurant">{$lang.restaurant}</option>
                                     <option value="hospital">{$lang.hospital}</option>
@@ -54,7 +54,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         <div class="span3">
                             <fieldset>
                                 <select name="country">
-                                    <option value="" selected hidden>{$lang.country}</option>
+                                    <option value="" hidden>{$lang.country}</option>
                                     {$opt_countries}
                                 </select>
                             </fieldset>
@@ -77,7 +77,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         <div class="span4">
                             <fieldset>
                                 <select name="time_zone">
-                                    <option value="" selected hidden>{$lang.time_zone}</option>
+                                    <option value="" hidden>{$lang.time_zone}</option>
                                     {$opt_times_zones}
                                 </select>
                             </fieldset>
@@ -85,7 +85,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         <div class="span4">
                             <fieldset>
                                 <select name="currency">
-                                    <option value="" selected hidden>{$lang.currency}</option>
+                                    <option value="" hidden>{$lang.currency}</option>
                                     {$opt_currencies}
                                 </select>
                             </fieldset>
@@ -93,7 +93,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         <div class="span4">
                             <fieldset>
                                 <select name="language">
-                                    <option value="" selected hidden>{$lang.language}</option>
+                                    <option value="" hidden>{$lang.language}</option>
                                     {$opt_languages}
                                 </select>
                             </fieldset>
@@ -183,7 +183,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         <div class="span3">
                             <fieldset>
                                 <select name="contact_phone_lada">
-                                    <option value="" selected hidden>{$lang.lada}</option>
+                                    <option value="" hidden>{$lang.lada}</option>
                                     {$opt_ladas}
                                 </select>
                             </fieldset>
@@ -220,7 +220,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         <div class="span3">
                             <fieldset>
                                 <select name="phone_lada">
-                                    <option value="" selected hidden>{$lang.lada}</option>
+                                    <option value="" hidden>{$lang.lada}</option>
                                     {$opt_ladas}
                                 </select>
                             </fieldset>

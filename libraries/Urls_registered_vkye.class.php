@@ -89,10 +89,10 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'edit'
             ],
-            // '/voxes/reports/%param%' => [
-            //     'controller' => 'Voxes',
-            //     'method' => 'reports'
-            // ],
+            '/voxes/reports/%param%' => [
+                'controller' => 'Voxes',
+                'method' => 'reports'
+            ],
             // '/voxes/stats' => [
             //     'controller' => 'Voxes',
             //     'method' => 'stats'

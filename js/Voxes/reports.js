@@ -1,6 +1,6 @@
 'use strict';
 
-$(document).ready(function ()
+$(document).ready(function()
 {
     $(document).on('click', '#sasw, #gesw', function()
     {
@@ -92,6 +92,8 @@ $(document).ready(function ()
                     $('[name="fields[]"]').parent().parent().html(response.html);
             }
         });
+
+        required_focus('form', $('form[name="new_vox_report"]'), null);
     });
 
     $('[name="opportunity_area"]').on('change', function()
@@ -168,8 +170,6 @@ $(document).ready(function ()
             {
                 if (response.status == 'success')
                 {
-                    console.log(response.data);
-
                     $('[data-modal="new_vox_report"]').addClass('view');
 
                     $('[data-modal="new_vox_report"]').find('[name="name"]').val(response.data.name);
@@ -197,7 +197,7 @@ $(document).ready(function ()
                         $('[data-modal="new_vox_report"]').find('[name="fields[]"][value="' + value + '"]').prop('checked', true);
                     });
 
-                    required_focus($('[data-modal="new_vox_report"]').find('form'), true);
+                    required_focus('form', $('form[name="new_vox_report"]'), null);
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);

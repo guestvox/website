@@ -46,8 +46,8 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[name="opportunity_type"]').attr('disabled', true);
                     $('[name="opportunity_type"]').html(response.html);
+                    $('[name="opportunity_type"]').attr('disabled', true);
                 }
             }
         });
@@ -120,7 +120,7 @@ $(document).ready(function()
             $('[name="check_out"]').parent().parent().parent().addClass('hidden');
         }
 
-        required_focus($('form[name="new_vox"]'), true);
+        required_focus('form', $('form[name="new_vox"]'), null);
     });
 
     $('[name="owner"]').on('change', function()
@@ -146,6 +146,14 @@ $(document).ready(function()
                             $('[name="check_in"]').val(response.data.check_in);
                             $('[name="check_out"]').val(response.data.check_out);
                         }
+
+                        required_focus('fields', $('form[name="new_vox"]'), [
+                            'firstname',
+                            'lastname',
+                            'reservation_number',
+                            'check_in',
+                            'check_out'
+                        ]);
                     }
                     else if (response.status == 'error')
                         show_modal_error(response.message);
@@ -166,8 +174,8 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[name="opportunity_type"]').attr('disabled', false);
                     $('[name="opportunity_type"]').html(response.html);
+                    $('[name="opportunity_type"]').attr('disabled', false);
                 }
             }
         });

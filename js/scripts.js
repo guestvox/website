@@ -36,22 +36,22 @@ $(document).ready(function ()
 
     $('[required]').each(function()
     {
-        required_focus($(this), false);
+        required_focus('unique', $(this), null);
     });
 
     $('[required]').on('change', function()
     {
-        required_focus($(this), false);
+        required_focus('unique', $(this), null);
     });
 
     $('[unrequired]').each(function()
     {
-        required_focus($(this), false);
+        required_focus('unique', $(this), null);
     });
 
     $('[unrequired]').on('change', function()
     {
-        required_focus($(this), false);
+        required_focus('unique', $(this), null);
     });
 
     $('[data-select]').on('click', function()
@@ -90,7 +90,6 @@ $(document).ready(function ()
 
     $(document).on('change', '[name="checked_all"]', function()
     {
-
         if ($(this).prop('checked') == true)
             $(this).parents('.checkboxes').find('[type="checkbox"]').prop('checked', true);
         else if ($(this).prop('checked') == false)
@@ -110,8 +109,8 @@ $(document).ready(function ()
 
     $('[data-action="get_help"]').on('click', function()
     {
-        $('[data-modal="get_help"]').addClass('view');
         $('[data-modal="get_help"]').find('main > p').html($(this).data('text'));
+        $('[data-modal="get_help"]').addClass('view');
     });
 });
 
@@ -120,47 +119,66 @@ function menu_focus(target)
     $(document).find('header.rightbar > nav > ul > li[target="' + target + '"]').addClass('active');
 }
 
-function required_focus(target, form)
+function required_focus(type, target, fields)
 {
-    var subtarget = target.find('[name]');
-
-    if (form == true)
+    if (type == 'form')
     {
-        subtarget.each(function(key, value)
-        {
-            var child = target.find('[name="' + value.getAttribute('name') + '"]');
-            var parent = child.parent();
+        fields = target.find('[name]');
 
-            if (child.val() != '')
-            {
-                parent.addClass('success');
-                parent.removeClass('error');
-                parent.find('p.error').remove();
-            }
-            else
+        $.each(fields, function(key, value)
+        {
+            var field = target.find('[name="' + value.getAttribute('name') + '"]');
+            var parent = field.parent();
+
+            if (field.val() == '' || field.val() == null)
                 parent.removeClass('success');
+            else
+                parent.addClass('success');
+
+            parent.removeClass('error');
+            parent.find('p.error').remove();
         });
 
-        var cbxs = target.find('[data-switcher]');
+        fields = target.find('[data-switcher]');
 
-        cbxs.each(function(key, value)
+        $.each(fields, function(key, value)
         {
-            if ($(this).is(':checked'))
-                $(this).parent().addClass('checked');
+            var field = target.find('[name="' + value.getAttribute('name') + '"]');
+            var parent = field.parent();
+
+            if (field.is(':checked'))
+                parent.addClass('checked');
             else
-                $(this).parent().removeClass('checked');
+                parent.removeClass('checked');
         });
     }
-    else
+    else if (type == 'fields')
     {
-        if (subtarget.val() != '')
+        $.each(fields, function(key, value)
         {
-            target.addClass('success');
-            target.removeClass('error');
-            target.find('p.error').remove();
-        }
-        else
+            var field = target.find('[name="' + value + '"]');
+            var parent = field.parent();
+
+            if (field.val() == '' || field.val() == null)
+                parent.removeClass('success');
+            else
+                parent.addClass('success');
+
+            parent.removeClass('error');
+            parent.find('p.error').remove();
+        });
+    }
+    else if (type == 'unique')
+    {
+        fields = target.find('[name]');
+
+        if (fields.val() == '' || fields.val() == null)
             target.removeClass('success');
+        else
+            target.addClass('success');
+
+        target.removeClass('error');
+        target.find('p.error').remove();
     }
 }
 
@@ -302,8 +320,8 @@ function show_form_errors(form, response)
 
 function show_modal_success(message, timeout, path)
 {
-    $('[data-modal="success"]').addClass('view');
     $('[data-modal="success"]').find('main > p').html(message);
+    $('[data-modal="success"]').addClass('view');
 
     if (path)
         setTimeout(function() { window.location.href = path; }, timeout);
@@ -313,8 +331,8 @@ function show_modal_success(message, timeout, path)
 
 function show_modal_error(message)
 {
-    $('[data-modal="error"]').addClass('view');
     $('[data-modal="error"]').find('main > p').html(message);
+    $('[data-modal="error"]').addClass('view');
 }
 
 function get_time_elapsed(date_1, date_2, time_zone, status, target)

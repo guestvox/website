@@ -55,8 +55,6 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="new_opportunity_area"]').addClass('view');
-
                     $('[data-modal="new_opportunity_area"]').find('[name="name_es"]').val(response.data.name.es);
                     $('[data-modal="new_opportunity_area"]').find('[name="name_en"]').val(response.data.name.en);
                     $('[data-modal="new_opportunity_area"]').find('[name="request"]').prop('checked', ((response.data.request == true) ? true : false));
@@ -64,7 +62,9 @@ $(document).ready(function()
                     $('[data-modal="new_opportunity_area"]').find('[name="workorder"]').prop('checked', ((response.data.workorder == true) ? true : false));
                     $('[data-modal="new_opportunity_area"]').find('[name="public"]').prop('checked', ((response.data.public == true) ? true : false));
 
-                    required_focus($('form[name="new_opportunity_area"]'), true);
+                    required_focus('form', $('form[name="new_opportunity_area"]'), null);
+
+                    $('[data-modal="new_opportunity_area"]').addClass('view');
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);

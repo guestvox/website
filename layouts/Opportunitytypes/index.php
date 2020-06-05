@@ -50,7 +50,7 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_types");</sc
                             <label required>
                                 <p>{$lang.opportunity_area}</p>
                                 <select name="opportunity_area">
-                                    <option value="" selected hidden>{$lang.choose}</option>
+                                    <option value="" hidden>{$lang.choose}</option>
                                     {$opt_opportunity_areas}
                                 </select>
                             </label>

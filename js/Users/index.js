@@ -83,8 +83,6 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="new_user"]').addClass('view');
-
                     $('[data-modal="new_user"]').find('[name="firstname"]').val(response.data.firstname);
                     $('[data-modal="new_user"]').find('[name="lastname"]').val(response.data.lastname);
                     $('[data-modal="new_user"]').find('[name="email"]').val(response.data.email);
@@ -102,7 +100,9 @@ $(document).ready(function()
                         $('[data-modal="new_user"]').find('[name="opportunity_areas[]"][value="' + value + '"]').prop('checked', true);
                     });
 
-                    required_focus($('form[name="new_user"]'), true);
+                    required_focus('form', $('form[name="new_user"]'), null);
+
+                    $('[data-modal="new_user"]').addClass('view');
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);

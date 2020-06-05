@@ -35,7 +35,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <label required>
                             <p>{$lang.owner}</p>
                             <select name="owner">
-                                <option value="" selected hidden>{$lang.choose}</option>
+                                <option value="" hidden>{$lang.choose}</option>
                                 {$opt_owners}
                             </select>
                         </label>
@@ -46,7 +46,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <label required>
                             <p>{$lang.opportunity_area}</p>
                             <select name="opportunity_area">
-                                <option value="" selected hidden>{$lang.choose}</option>
+                                <option value="" hidden>{$lang.choose}</option>
                                 {$opt_opportunity_areas}
                             </select>
                         </label>
@@ -57,7 +57,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <label required>
                             <p>{$lang.opportunity_type}</p>
                             <select name="opportunity_type" disabled>
-                                <option value="" selected hidden>{$lang.choose_opportunity_area}</option>
+                                <option value="" hidden>{$lang.choose}</option>
                             </select>
                         </label>
                     </div>
@@ -83,7 +83,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <label required>
                             <p>{$lang.location}</p>
                             <select name="location">
-                                <option value="" selected hidden>{$lang.choose}</option>
+                                <option value="" hidden>{$lang.choose}</option>
                                 {$opt_locations}
                             </select>
                         </label>
@@ -102,8 +102,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <label required>
                             <p>{$lang.urgency}</p>
                             <select name="urgency">
+                                <option value="medium">{$lang.medium}</option>
                                 <option value="low">{$lang.low}</option>
-                                <option value="medium" selected>{$lang.medium}</option>
                                 <option value="high">{$lang.high}</option>
                             </select>
                         </label>
@@ -168,7 +168,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <label unrequired>
                             <p>{$lang.guest_treatment}</p>
                             <select name="guest_treatment">
-                                <option value="" selected>{$lang.empty} ({$lang.choose})</option>
+                                <option value="">{$lang.empty} ({$lang.choose})</option>
                                 {$opt_guests_treatments}
                             </select>
                         </label>
@@ -205,7 +205,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <label unrequired>
                             <p>{$lang.guest_type}</p>
                             <select name="guest_type">
-                                <option value="" selected>{$lang.empty} ({$lang.choose})</option>
+                                <option value="">{$lang.empty} ({$lang.choose})</option>
                                 {$opt_guests_types}
                             </select>
                         </label>
@@ -224,7 +224,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <label unrequired>
                             <p>{$lang.reservation_status}</p>
                             <select name="reservation_status">
-                                <option value="" selected>{$lang.empty} ({$lang.choose})</option>
+                                <option value="">{$lang.empty} ({$lang.choose})</option>
                                 {$opt_reservations_statuses}
                             </select>
                         </label>

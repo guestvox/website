@@ -55,11 +55,11 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="new_guest_type"]').addClass('view');
-
                     $('[data-modal="new_guest_type"]').find('[name="name"]').val(response.data.name);
 
-                    required_focus($('form[name="new_guest_type"]'), true);
+                    required_focus('form', $('form[name="new_guest_type"]'), null);
+
+                    $('[data-modal="new_guest_type"]').addClass('view');
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);

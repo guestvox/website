@@ -226,10 +226,13 @@ class Account_controller extends Controller
 
 			if ($_POST['action'] == 'get_opt_opportunity_types')
 			{
-				$html = '<option value="" selected hidden>{$lang.choose}</option>';
+				$html = '<option value="" hidden>{$lang.choose}</option>';
 
-				foreach ($this->model->get_opportunity_types($_POST['opportunity_area']) as $value)
-					$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+				if (!empty($_POST['opportunity_area']))
+				{
+					foreach ($this->model->get_opportunity_types($_POST['opportunity_area']) as $value)
+						$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+				}
 
 				Functions::environment([
 					'status' => 'success',
@@ -655,7 +658,7 @@ class Account_controller extends Controller
 												<label required>
 													<p>{$lang.currency} <a data-action="get_help" data-text="{$lang.menu_currency_help}"><i class="fas fa-question-circle"></i></a></p>
 													<select name="currency">
-														<option value="" selected hidden>{$lang.choose}</option>';
+														<option value="" hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_currencies() as $value)
 						$mdl_edit_myvox_menu_settings .= '<option value="' . $value['code'] . '">' . $value['name'][$this->lang] . ' (' . $value['code'] . ')</option>';
@@ -670,7 +673,7 @@ class Account_controller extends Controller
 												<label required>
 													<p>{$lang.opportunity_area} <a data-action="get_help" data-text="{$lang.menu_opportunity_area_help}"><i class="fas fa-question-circle"></i></a></p>
 													<select name="opportunity_area">
-														<option value="" selected hidden>{$lang.choose}</option>';
+														<option value="" hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_opportunity_areas() as $value)
 						$mdl_edit_myvox_menu_settings .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
@@ -684,14 +687,9 @@ class Account_controller extends Controller
 											<div class="label">
 												<label required>
 													<p>{$lang.opportunity_type} <a data-action="get_help" data-text="{$lang.menu_opportunity_type_help}"><i class="fas fa-question-circle"></i></a></p>
-													<select name="opportunity_type">
-														<option value="" selected hidden>{$lang.choose_opportunity_area}</option>';
-
-						foreach ($this->model->get_opportunity_types() as $value)
-							$mdl_edit_myvox_menu_settings .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
-
-						$mdl_edit_myvox_menu_settings .=
-						'								</select>
+													<select name="opportunity_type" disabled>
+														<option value="" hidden>{$lang.choose}</option>
+													</select>
 												</label>
 											</div>
 										</div>
@@ -827,7 +825,7 @@ class Account_controller extends Controller
 											<label required>
 												<p>{$lang.lada}</p>
 												<select name="phone_lada">
-													<option value="" selected hidden>{$lang.choose}</option>';
+													<option value="" hidden>{$lang.choose}</option>';
 
 									foreach ($this->model->get_countries() as $value)
 										$mdl_edit_reviews_settings .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';

@@ -76,13 +76,6 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="new_owner"]').addClass('view');
-
-                    $('[data-modal="new_owner"]').find('[name="type"]').parent().parent().parent().addClass('hidden');
-                    $('[data-modal="new_owner"]').find('[name="number"]').parent().parent().parent().removeClass('hidden');
-                    $('[data-modal="new_owner"]').find('[name="since"]').parent().parent().parent().addClass('hidden');
-                    $('[data-modal="new_owner"]').find('[name="to"]').parent().parent().parent().addClass('hidden');
-
                     $('[data-modal="new_owner"]').find('[name="name_es"]').val(response.data.name.es);
                     $('[data-modal="new_owner"]').find('[name="name_en"]').val(response.data.name.en);
                     $('[data-modal="new_owner"]').find('[name="number"]').val(response.data.number);
@@ -92,7 +85,14 @@ $(document).ready(function()
                     $('[data-modal="new_owner"]').find('[name="survey"]').prop('checked', ((response.data.survey == true) ? true : false));
                     $('[data-modal="new_owner"]').find('[name="public"]').prop('checked', ((response.data.public == true) ? true : false));
 
-                    required_focus($('form[name="new_owner"]'), true);
+                    $('[data-modal="new_owner"]').find('[name="type"]').parent().parent().parent().addClass('hidden');
+                    $('[data-modal="new_owner"]').find('[name="number"]').parent().parent().parent().removeClass('hidden');
+                    $('[data-modal="new_owner"]').find('[name="since"]').parent().parent().parent().addClass('hidden');
+                    $('[data-modal="new_owner"]').find('[name="to"]').parent().parent().parent().addClass('hidden');
+
+                    required_focus('form', $('form[name="new_owner"]'), null);
+
+                    $('[data-modal="new_owner"]').addClass('view');
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);

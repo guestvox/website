@@ -24,9 +24,9 @@ $(document).ready(function()
 
     $('[name="type"]').on('change', function()
     {
-        $(this).parent().parent().removeClass('span6').addClass('span3');
-
         $('[name="quantity"]').val('');
+
+        $(this).parent().parent().removeClass('span6').addClass('span3');
         $('[name="quantity"]').parent().parent().removeClass('hidden');
 
         if ($(this).val() == 'hotel')
@@ -94,7 +94,7 @@ $(document).ready(function()
                     if (step == 6)
                     {
                         $('#success').html(response.message);
-                        
+
                         setTimeout(function() { window.location.href = response.path; }, 8000);
                     }
                 }
