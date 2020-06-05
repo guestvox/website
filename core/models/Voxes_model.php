@@ -355,11 +355,11 @@ class Voxes_model extends Model
 			return null;
 	}
 
-	public function get_owners($type = null)
+	public function get_owners($type)
 	{
 		$where['account'] = Session::get_value('account')['id'];
 
-		if (!empty($type))
+		if ($type != 'all')
 			$where[$type] = true;
 
 		$where['status'] = true;
@@ -430,11 +430,11 @@ class Voxes_model extends Model
 		return $reservation;
 	}
 
-	public function get_opportunity_areas($type = null)
+	public function get_opportunity_areas($type)
 	{
 		$where['account'] = Session::get_value('account')['id'];
 
-		if (!empty($type))
+		if ($type != 'all')
 			$where[$type] = true;
 
 		$where['status'] = true;
@@ -464,11 +464,11 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_opportunity_types($opportunity_area, $type = null)
+	public function get_opportunity_types($opportunity_area, $type)
 	{
 		$where['opportunity_area'] = $opportunity_area;
 
-		if (!empty($type))
+		if ($type != 'all')
 			$where[$type] = true;
 
 		$where['status'] = true;
@@ -498,11 +498,11 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_locations($type = null)
+	public function get_locations($type)
 	{
 		$where['account'] = Session::get_value('account')['id'];
 
-		if (!empty($type))
+		if ($type != 'all')
 			$where[$type] = true;
 
 		$where['status'] = true;
@@ -1323,6 +1323,8 @@ class Voxes_model extends Model
 		$query = Functions::get_json_decoded_query($this->database->select('voxes_reports', [
 			'id',
 			'name',
+			'type',
+			'time_period',
 			'addressed_to',
 			'opportunity_areas',
 			'user',
@@ -2087,7 +2089,10 @@ class Voxes_model extends Model
 			'owner' => !empty($data['owner']) ? $data['owner'] : null,
 			'location' => !empty($data['location']) ? $data['location'] : null,
 			'order' => $data['order'],
-			'time_period' => $data['time_period'],
+			'time_period' => json_encode([
+				'type' => $data['time_period_type'],
+				'number' => $data['time_period_number']
+			]),
 			'addressed_to' => $data['addressed_to'],
 			'opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas' AND !empty( $data['opportunity_areas'])) ? $data['opportunity_areas'] : []),
 			'user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,
@@ -2108,7 +2113,10 @@ class Voxes_model extends Model
 			'owner' => !empty($data['owner']) ? $data['owner'] : null,
 			'location' => !empty($data['location']) ? $data['location'] : null,
 			'order' => $data['order'],
-			'time_period' => $data['time_period'],
+			'time_period' => json_encode([
+				'type' => $data['time_period_type'],
+				'number' => $data['time_period_number']
+			]),
 			'addressed_to' => $data['addressed_to'],
 			'opportunity_areas' => json_encode(($data['addressed_to'] == 'opportunity_areas' AND !empty( $data['opportunity_areas'])) ? $data['opportunity_areas'] : []),
 			'user' => ($data['addressed_to'] == 'me') ? Session::get_value('user')['id'] : null,

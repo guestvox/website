@@ -1739,7 +1739,7 @@ class Voxes_controller extends Controller
 			{
 				$html = '<option value="">{$lang.all}</option>';
 
-				if (!empty($_POST['opportunity_area']))
+				if (!empty($_POST['opportunity_area']) AND $_POST['opportunity_area'] != 'all')
 				{
 					foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['type']) as $value)
 						$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
@@ -1768,7 +1768,7 @@ class Voxes_controller extends Controller
 			{
 				$html =
 				'<div>
-					<input type="checkbox" name="checked_all">
+					<input type="checkbox" name="checked_all" checked>
 					<span><strong>{$lang.all}</strong></span>
 				</div>';
 
@@ -1776,7 +1776,7 @@ class Voxes_controller extends Controller
 				{
 					$html .=
 					'<div>
-						<input type="checkbox" name="opportunity_areas[]" value="' . $value['id'] . '">
+						<input type="checkbox" name="opportunity_areas[]" value="' . $value['id'] . '" checked>
 						<span>' . $value['name'][$this->lang] . '</span>
 					</div>';
 				}
@@ -1791,7 +1791,7 @@ class Voxes_controller extends Controller
 			{
 				$html =
 				'<div>
-					<input type="checkbox" name="checked_all">
+					<input type="checkbox" name="checked_all" checked>
 					<span><strong>{$lang.all}</strong></span>
 				</div>';
 
@@ -1799,7 +1799,7 @@ class Voxes_controller extends Controller
 				{
 					$html .=
 					'<div>
-						<input type="checkbox" name="fields[]" value="' . $value['id'] . '">
+						<input type="checkbox" name="fields[]" value="' . $value['id'] . '" checked>
 						<span>{$lang.' . $value['name'] . '}</span>
 					</div>';
 				}
@@ -2102,8 +2102,11 @@ class Voxes_controller extends Controller
 				if (!isset($_POST['order']) OR empty($_POST['order']))
 					array_push($labels, ['order','']);
 
-				if (!isset($_POST['time_period']) OR empty($_POST['time_period']) OR !is_numeric($_POST['time_period']) OR $_POST['time_period'] < 1)
-					array_push($labels, ['time_period','']);
+				if (!isset($_POST['time_period_type']) OR empty($_POST['time_period_type']))
+					array_push($labels, ['time_period_type','']);
+
+				if (!isset($_POST['time_period_number']) OR empty($_POST['time_period_number']) OR !is_numeric($_POST['time_period_number']) OR $_POST['time_period_number'] < 1)
+					array_push($labels, ['time_period_number','']);
 
 				if (!isset($_POST['addressed_to']) OR empty($_POST['addressed_to']))
 					array_push($labels, ['addressed_to','']);
@@ -2199,6 +2202,9 @@ class Voxes_controller extends Controller
 					'<div>
 						<div class="datas">
 							<h2>' . $value['name'] . '</h2>
+							<span>{$lang.type}: {$lang.' . $value['type'] . '}</span>
+							<span>{$lang.time_period}: ' . $value['time_period']['number'] . ' {$lang.' . $value['time_period']['type'] . '}</span>
+							<span>{$lang.addressed_to}: {$lang.' . $value['addressed_to'] . '}</span>
 						</div>
 						<div class="buttons flex_right">
 							' . ((Functions::check_user_access(['{voxes_reports_deactivate}','{voxes_reports_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_vox_report' : 'activate_vox_report') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
@@ -2249,7 +2255,7 @@ class Voxes_controller extends Controller
 													<select name="owner">
 														<option value="">{$lang.all}</option>';
 
-					foreach ($this->model->get_owners() as $value)
+					foreach ($this->model->get_owners('all') as $value)
 						$mdl_new_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 
 					$mdl_new_vox_report .=
@@ -2264,7 +2270,7 @@ class Voxes_controller extends Controller
 													<select name="opportunity_area">
 														<option value="">{$lang.all}</option>';
 
-					foreach ($this->model->get_opportunity_areas() as $value)
+					foreach ($this->model->get_opportunity_areas('all') as $value)
 						$mdl_new_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
 
 					$mdl_new_vox_report .=
@@ -2289,7 +2295,7 @@ class Voxes_controller extends Controller
 													<select name="location">
 														<option value="">{$lang.all}</option>';
 
-					foreach ($this->model->get_locations() as $value)
+					foreach ($this->model->get_locations('all') as $value)
 						$mdl_new_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
 
 					$mdl_new_vox_report .=
@@ -2308,11 +2314,23 @@ class Voxes_controller extends Controller
 												</label>
 											</div>
 										</div>
-										<div class="span6">
+										<div class="span3">
 											<div class="label">
 												<label required>
-													<p>{$lang.time_period}</p>
-													<input type="number" name="time_period" min="1" value="7">
+													<p>{$lang.time_period_type}</p>
+													<select name="time_period_type">
+														<option value="days">{$lang.days}</option>
+														<option value="months">{$lang.months}</option>
+														<option value="years">{$lang.years}</option>
+													</select>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<p>{$lang.time_period_number}</p>
+													<input type="number" name="time_period_number" min="1" value="7">
 												</label>
 											</div>
 										</div>
@@ -2321,7 +2339,7 @@ class Voxes_controller extends Controller
 												<label required>
 													<p>{$lang.addressed_to}</p>
 													<select name="addressed_to">
-														' . ((Functions::check_user_access(['{view_all}']) == true) ? '<option value="all">{$lang.alls}</option>' : '') . '
+														' . ((Functions::check_user_access(['{view_all}']) == true) ? '<option value="alls">{$lang.alls}</option>' : '') . '
 														' . ((Functions::check_user_access(['{view_all}','{view_opportunity_areas}']) == true) ? '<option value="opportunity_areas">{$lang.only_opportunity_areas}</option>' : '') . '
 														<option value="me">{$lang.only_me}</option>
 													</select>
@@ -2335,15 +2353,15 @@ class Voxes_controller extends Controller
 														<h4>{$lang.opportunity_areas}</h4>
 														<div>
 															<div>
-																<input type="checkbox" name="checked_all">
+																<input type="checkbox" name="checked_all" checked>
 																<span><strong>{$lang.all}</strong></span>
 															</div>';
 
-						foreach ($this->model->get_opportunity_areas() as $value)
+						foreach ($this->model->get_opportunity_areas('all') as $value)
 						{
 							$mdl_new_vox_report .=
 							'<div>
-								<input type="checkbox" name="opportunity_areas[]" value="' . $value['id'] . '">
+								<input type="checkbox" name="opportunity_areas[]" value="' . $value['id'] . '" checked>
 								<span>' . $value['name'][$this->lang] . '</span>
 							</div>';
 						}
@@ -2361,7 +2379,7 @@ class Voxes_controller extends Controller
 														<h4>{$lang.fields}</h4>
 														<div>
 															<div>
-																<input type="checkbox" name="checked_all">
+																<input type="checkbox" name="checked_all" checked>
 																<span><strong>{$lang.all}</strong></span>
 															</div>';
 
@@ -2369,7 +2387,7 @@ class Voxes_controller extends Controller
 						{
 							$mdl_new_vox_report .=
 							'<div>
-								<input type="checkbox" name="fields[]" value="' . $value['id'] . '">
+								<input type="checkbox" name="fields[]" value="' . $value['id'] . '" checked>
 								<span>{$lang.' . $value['name'] . '}</span>
 							</div>';
 						}
@@ -2483,7 +2501,7 @@ class Voxes_controller extends Controller
 			// 									<select name="owner">
 			// 										<option value="">{$lang.all}</option>';
 			//
-			// 	foreach ($this->model->get_owners() as $value)
+			// 	foreach ($this->model->get_owners('all') as $value)
 			// 		$mdl_filter_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 			//
 			// 	$mdl_filter_vox_report .=
@@ -2498,7 +2516,7 @@ class Voxes_controller extends Controller
 			// 									<select name="opportunity_area">
 			// 										<option value="">{$lang.all}</option>';
 			//
-			// 	foreach ($this->model->get_opportunity_areas() as $value)
+			// 	foreach ($this->model->get_opportunity_areas('all') as $value)
 			// 		$mdl_filter_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
 			//
 			// 	$mdl_filter_vox_report .=
@@ -2523,7 +2541,7 @@ class Voxes_controller extends Controller
 			// 									<select name="location">
 			// 										<option value="">{$lang.all}</option>';
 			//
-			// 	foreach ($this->model->get_locations() as $value)
+			// 	foreach ($this->model->get_locations('all') as $value)
 			// 		$mdl_filter_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
 			//
 			// 	$mdl_filter_vox_report .=
