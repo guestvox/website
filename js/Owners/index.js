@@ -6,15 +6,15 @@ $(document).ready(function()
     {
         if ($(this).val() == 'one')
         {
-            $('[data-modal="new_owner"]').find('[name="number"]').parent().parent().parent().removeClass('hidden');
-            $('[data-modal="new_owner"]').find('[name="since"]').parent().parent().parent().addClass('hidden');
-            $('[data-modal="new_owner"]').find('[name="to"]').parent().parent().parent().addClass('hidden');
+            $('[name="number"]').parent().parent().parent().removeClass('hidden');
+            $('[name="since"]').parent().parent().parent().addClass('hidden');
+            $('[name="to"]').parent().parent().parent().addClass('hidden');
         }
         else if ($(this).val() == 'many')
         {
-            $('[data-modal="new_owner"]').find('[name="number"]').parent().parent().parent().addClass('hidden');
-            $('[data-modal="new_owner"]').find('[name="since"]').parent().parent().parent().removeClass('hidden');
-            $('[data-modal="new_owner"]').find('[name="to"]').parent().parent().parent().removeClass('hidden');
+            $('[name="number"]').parent().parent().parent().addClass('hidden');
+            $('[name="since"]').parent().parent().parent().removeClass('hidden');
+            $('[name="to"]').parent().parent().parent().removeClass('hidden');
         }
     });
 
@@ -26,10 +26,10 @@ $(document).ready(function()
         id = null;
         edit = false;
 
-        $('[data-modal="new_owner"]').find('[name="type"]').parent().parent().parent().removeClass('hidden');
-        $('[data-modal="new_owner"]').find('[name="number"]').parent().parent().parent().removeClass('hidden');
-        $('[data-modal="new_owner"]').find('[name="since"]').parent().parent().parent().addClass('hidden');
-        $('[data-modal="new_owner"]').find('[name="to"]').parent().parent().parent().addClass('hidden');
+        $('[name="type"]').parent().parent().parent().removeClass('hidden');
+        $('[name="number"]').parent().parent().parent().removeClass('hidden');
+        $('[name="since"]').parent().parent().parent().addClass('hidden');
+        $('[name="to"]').parent().parent().parent().addClass('hidden');
 
         clean_form($('form[name="new_owner"]'));
     });
@@ -76,19 +76,19 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="new_owner"]').find('[name="name_es"]').val(response.data.name.es);
-                    $('[data-modal="new_owner"]').find('[name="name_en"]').val(response.data.name.en);
-                    $('[data-modal="new_owner"]').find('[name="number"]').val(response.data.number);
-                    $('[data-modal="new_owner"]').find('[name="request"]').prop('checked', ((response.data.request == true) ? true : false));
-                    $('[data-modal="new_owner"]').find('[name="incident"]').prop('checked', ((response.data.incident == true) ? true : false));
-                    $('[data-modal="new_owner"]').find('[name="workorder"]').prop('checked', ((response.data.workorder == true) ? true : false));
-                    $('[data-modal="new_owner"]').find('[name="survey"]').prop('checked', ((response.data.survey == true) ? true : false));
-                    $('[data-modal="new_owner"]').find('[name="public"]').prop('checked', ((response.data.public == true) ? true : false));
+                    $('[name="name_es"]').val(response.data.name.es);
+                    $('[name="name_en"]').val(response.data.name.en);
+                    $('[name="number"]').val(response.data.number);
+                    $('[name="request"]').prop('checked', ((response.data.request == true) ? true : false));
+                    $('[name="incident"]').prop('checked', ((response.data.incident == true) ? true : false));
+                    $('[name="workorder"]').prop('checked', ((response.data.workorder == true) ? true : false));
+                    $('[name="survey"]').prop('checked', ((response.data.survey == true) ? true : false));
+                    $('[name="public"]').prop('checked', ((response.data.public == true) ? true : false));
 
-                    $('[data-modal="new_owner"]').find('[name="type"]').parent().parent().parent().addClass('hidden');
-                    $('[data-modal="new_owner"]').find('[name="number"]').parent().parent().parent().removeClass('hidden');
-                    $('[data-modal="new_owner"]').find('[name="since"]').parent().parent().parent().addClass('hidden');
-                    $('[data-modal="new_owner"]').find('[name="to"]').parent().parent().parent().addClass('hidden');
+                    $('[name="type"]').parent().parent().parent().addClass('hidden');
+                    $('[name="number"]').parent().parent().parent().removeClass('hidden');
+                    $('[name="since"]').parent().parent().parent().addClass('hidden');
+                    $('[name="to"]').parent().parent().parent().addClass('hidden');
 
                     required_focus('form', $('form[name="new_owner"]'), null);
 

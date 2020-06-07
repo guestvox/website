@@ -55,13 +55,13 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="new_opportunity_type"]').find('[name="name_es"]').val(response.data.name.es);
-                    $('[data-modal="new_opportunity_type"]').find('[name="name_en"]').val(response.data.name.en);
-                    $('[data-modal="new_opportunity_type"]').find('[name="opportunity_area"]').val(response.data.opportunity_area);
-                    $('[data-modal="new_opportunity_type"]').find('[name="request"]').prop('checked', ((response.data.request == true) ? true : false));
-                    $('[data-modal="new_opportunity_type"]').find('[name="incident"]').prop('checked', ((response.data.incident == true) ? true : false));
-                    $('[data-modal="new_opportunity_type"]').find('[name="workorder"]').prop('checked', ((response.data.workorder == true) ? true : false));
-                    $('[data-modal="new_opportunity_type"]').find('[name="public"]').prop('checked', ((response.data.public == true) ? true : false));
+                    $('[name="name_es"]').val(response.data.name.es);
+                    $('[name="name_en"]').val(response.data.name.en);
+                    $('[name="opportunity_area"]').val(response.data.opportunity_area);
+                    $('[name="request"]').prop('checked', ((response.data.request == true) ? true : false));
+                    $('[name="incident"]').prop('checked', ((response.data.incident == true) ? true : false));
+                    $('[name="workorder"]').prop('checked', ((response.data.workorder == true) ? true : false));
+                    $('[name="public"]').prop('checked', ((response.data.public == true) ? true : false));
 
                     required_focus('form', $('form[name="new_opportunity_type"]'), null);
 

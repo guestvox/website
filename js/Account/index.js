@@ -197,8 +197,8 @@ $(document).ready(function()
 
     $('[data-modal="edit_myvox_request_settings"]').modal().onCancel(function()
     {
-        $('#rqsw').parent().removeClass('checked');
         $('#rqsw').prop('checked', false);
+        $('#rqsw').parent().removeClass('checked');
 
         clean_form($('form[name="edit_myvox_request_settings"]'));
     });
@@ -274,8 +274,8 @@ $(document).ready(function()
 
     $('[data-modal="edit_myvox_incident_settings"]').modal().onCancel(function()
     {
-        $('#insw').parent().removeClass('checked');
         $('#insw').prop('checked', false);
+        $('#insw').parent().removeClass('checked');
 
         clean_form($('form[name="edit_myvox_incident_settings"]'));
     });
@@ -323,12 +323,9 @@ $(document).ready(function()
                         $('[data-modal="edit_myvox_menu_settings"]').find('[name="currency"]').val(response1.data.settings.myvox.menu.currency);
                         $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_area"]').val(response1.data.settings.myvox.menu.opportunity_area);
 
-                        var opportunity_area = response1.data.settings.myvox.menu.opportunity_area;
-                        var opportunity_type = response1.data.settings.myvox.menu.opportunity_type;
-
                         $.ajax({
                             type: 'POST',
-                            data: 'opportunity_area=' + opportunity_area + '&action=get_opt_opportunity_types',
+                            data: 'opportunity_area=' + response1.data.settings.myvox.menu.opportunity_area + '&action=get_opt_opportunity_types',
                             processData: false,
                             cache: false,
                             dataType: 'json',
@@ -337,10 +334,10 @@ $(document).ready(function()
                                 if (response2.status == 'success')
                                 {
                                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').html(response2.html);
-                                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').attr('disabled', ((opportunity_area != '') ? false : true));
-                                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').val(opportunity_type);
+                                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').attr('disabled', ((response1.data.settings.myvox.menu.opportunity_type != '') ? false : true));
+                                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').val(response1.data.settings.myvox.menu.opportunity_type);
 
-                                    required_focus('unique', $('form[name="edit_myvox_menu_settings"]').find('[name="opportunity_type"]'), null);
+                                    required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]'), null);
                                 }
                                 else if (response2.status == 'error')
                                     show_modal_error(response2.message);
@@ -389,6 +386,8 @@ $(document).ready(function()
                 {
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').html(response.html);
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').attr('disabled', false);
+
+                    required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]'), null)
                 }
             }
         });
@@ -396,8 +395,8 @@ $(document).ready(function()
 
     $('[data-modal="edit_myvox_menu_settings"]').modal().onCancel(function()
     {
-        $('#mnsw').parent().removeClass('checked');
         $('#mnsw').prop('checked', false);
+        $('#mnsw').parent().removeClass('checked');
 
         clean_form($('form[name="edit_myvox_menu_settings"]'));
     });
@@ -498,8 +497,8 @@ $(document).ready(function()
 
     $('[data-modal="edit_myvox_survey_settings"]').modal().onCancel(function()
     {
-        $('#susw').parent().removeClass('checked');
         $('#susw').prop('checked', false);
+        $('#susw').parent().removeClass('checked');
 
         clean_form($('form[name="edit_myvox_survey_settings"]'));
     });
@@ -595,8 +594,8 @@ $(document).ready(function()
 
     $('[data-modal="edit_reviews_settings"]').modal().onCancel(function()
     {
-        $('#rvsw').parent().removeClass('checked');
         $('#rvsw').prop('checked', false);
+        $('#rvsw').parent().removeClass('checked');
 
         clean_form($('form[name="edit_reviews_settings"]'));
     });

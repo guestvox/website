@@ -1343,7 +1343,7 @@ class Voxes_controller extends Controller
                     <div class="tabers">
                         <div>
                             <input id="rqrd" type="radio" name="type" value="request" ' . (($vox['type'] == 'request') ? 'checked' : '') . '>
-                            <label for="rwrd"><i class="fas fa-rocket"></i></label>
+                            <label for="rqrd"><i class="fas fa-rocket"></i></label>
                         </div>
                         <div>
                             <input id="inrd" type="radio" name="type" value="incident" ' . (($vox['type'] == 'incident') ? 'checked' : '') . '>
@@ -2452,21 +2452,25 @@ class Voxes_controller extends Controller
 			}
 
 			// $div_vox_report_print = '';
-			// $btn_filter_vox_report = '';
-			// $mdl_filter_vox_report = '';
+			// $btn_get_vox_report = '';
+			// $mdl_get_vox_report = '';
 			//
 			// if ($params[0] == 'print' AND Functions::check_user_access(['{voxes_reports_view}']) == true)
 			// {
-			// 	$div_vox_report_print .= '<div id="voxes_reports_print"></div>';
-			// 	$btn_filter_vox_report .= '<a class="active" data-button-modal="filter_vox_report"><i class="fas fa-stream"></i></a>';
+			// 	$div_vox_report_print .=
+			// 	'<div id="vox_report_print">
 			//
-			// 	$mdl_filter_vox_report .=
+			// 	</div>';
+			//
+			// 	$btn_get_vox_report .= '<a class="active" data-button-modal="filter_vox_report"><i class="fas fa-stream"></i></a>';
+			//
+			// 	$mdl_get_vox_report .=
 			// 	'<section class="modal fullscreen" data-modal="filter_vox_report">
 			// 		<div class="content">
 			// 			<main>
 			// 				<form name="filter_vox_report">
 			// 					<div class="row">
-			// 						<div class="span3">
+			// 						<div class="span12">
 			// 							<div class="label">
 			// 								<label required>
 			// 									<p>{$lang.report}</p>
@@ -2474,130 +2478,130 @@ class Voxes_controller extends Controller
 			// 										<option value="free">{$lang.free}</option>';
 			//
 			// 	foreach ($this->model->get_voxes_reports($params[0]) as $value)
-			// 		$mdl_filter_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+			// 		$mdl_get_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
 			//
-			// 	$mdl_filter_vox_report .=
-			// 	'								</select>
-			// 								</label>
-			// 							</div>
-			// 						</div>
-			// 						<div class="span3">
-			// 							<div class="label">
-			// 								<label required>
-			// 									<p>{$lang.type}</p>
-			// 									<select name="type">
-			// 										<option value="all">{$lang.all}</option>
-			// 										<option value="request">{$lang.request}</option>
-			// 										<option value="incident">{$lang.incident}</option>
-			// 										<option value="workorder">{$lang.workorder}</option>
-			// 									</select>
-			// 								</label>
-			// 							</div>
-			// 						</div>
-			// 						<div class="span3">
-			// 							<div class="label">
-			// 								<label unrequired>
-			// 									<p>{$lang.owner}</p>
-			// 									<select name="owner">
-			// 										<option value="">{$lang.all}</option>';
+			// 	$mdl_get_vox_report .=
+			// 	'			</select>
+			// 			</label>
+			// 		</div>
+			// 	</div>
+			// 	<div class="span6">
+			// 		<div class="label">
+			// 			<label required>
+			// 				<p>{$lang.type}</p>
+			// 				<select name="type">
+			// 					<option value="all">{$lang.all}</option>
+			// 					<option value="request">{$lang.request}</option>
+			// 					<option value="incident">{$lang.incident}</option>
+			// 					<option value="workorder">{$lang.workorder}</option>
+			// 				</select>
+			// 			</label>
+			// 		</div>
+			// 	</div>
+			// 	<div class="span6">
+			// 		<div class="label">
+			// 			<label unrequired>
+			// 				<p>{$lang.owner}</p>
+			// 				<select name="owner">
+			// 					<option value="">{$lang.all}</option>';
 			//
 			// 	foreach ($this->model->get_owners('all') as $value)
-			// 		$mdl_filter_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+			// 		$mdl_get_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 			//
-			// 	$mdl_filter_vox_report .=
-			// 	'								</select>
-			// 								</label>
-			// 							</div>
-			// 						</div>
-			// 						<div class="span3">
-			// 							<div class="label">
-			// 								<label unrequired>
-			// 									<p>{$lang.opportunity_area}</p>
-			// 									<select name="opportunity_area">
-			// 										<option value="">{$lang.all}</option>';
+			// 	$mdl_get_vox_report .=
+			// 	'			</select>
+			// 			</label>
+			// 		</div>
+			// 	</div>
+			// 	<div class="span6">
+			// 		<div class="label">
+			// 			<label unrequired>
+			// 				<p>{$lang.opportunity_area}</p>
+			// 				<select name="opportunity_area">
+			// 					<option value="">{$lang.all}</option>';
 			//
 			// 	foreach ($this->model->get_opportunity_areas('all') as $value)
-			// 		$mdl_filter_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+			// 		$mdl_get_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
 			//
-			// 	$mdl_filter_vox_report .=
-			// 	'								</select>
-			// 								</label>
-			// 							</div>
-			// 						</div>
-			// 						<div class="span3">
-			// 							<div class="label">
-			// 								<label unrequired>
-			// 									<p>{$lang.opportunity_type}</p>
-			// 									<select name="opportunity_type">
-			// 										<option value="">{$lang.all}</option>
-			// 									</select>
-			// 								</label>
-			// 							</div>
-			// 						</div>
-			// 						<div class="span3">
-			// 							<div class="label">
-			// 								<label unrequired>
-			// 									<p>{$lang.location}</p>
-			// 									<select name="location">
-			// 										<option value="">{$lang.all}</option>';
+			// 	$mdl_get_vox_report .=
+			// 	'			</select>
+			// 			</label>
+			// 		</div>
+			// 	</div>
+			// 	<div class="span6">
+			// 		<div class="label">
+			// 			<label unrequired>
+			// 				<p>{$lang.opportunity_type}</p>
+			// 				<select name="opportunity_type">
+			// 					<option value="">{$lang.all}</option>
+			// 				</select>
+			// 			</label>
+			// 		</div>
+			// 	</div>
+			// 	<div class="span6">
+			// 		<div class="label">
+			// 			<label unrequired>
+			// 				<p>{$lang.location}</p>
+			// 				<select name="location">
+			// 					<option value="">{$lang.all}</option>';
 			//
 			// 	foreach ($this->model->get_locations('all') as $value)
-			// 		$mdl_filter_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+			// 		$mdl_get_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
 			//
-			// 	$mdl_filter_vox_report .=
-			// 	'								</select>
-			// 								</label>
-			// 							</div>
-			// 						</div>
-			// 						<div class="span3">
-			// 							<div class="label">
-			// 								<label required>
-			// 									<p>{$lang.order_by}</p>
-			// 									<select name="order">
-			// 										<option value="owner">{$lang.owner}</option>
-			// 										<option value="name">{$lang.name}</option>
-			// 									</select>
-			// 								</label>
-			// 							</div>
-			// 						</div>
-			// 						<div class="span3">
-			// 	                        <div class="label">
-			// 	                            <label required>
-			// 	                                <p>{$lang.started_date}</p>
-			// 	                                <input type="date" name="started_date" value="' . Functions::get_current_date() . '" max="' . Functions::get_current_date() . '">
-			// 	                            </label>
-			// 	                        </div>
-			// 	                    </div>
-			// 	                    <div class="span3">
-			// 	                        <div class="label">
-			// 	                            <label required>
-			// 	                                <p>{$lang.end_date}</p>
-			// 	                                <input type="date" name="end_date" value="' . Functions::get_current_date() . '" max="' . Functions::get_current_date() . '">
-			// 	                            </label>
-			// 	                        </div>
-			// 	                    </div>
-			// 						<div class="span12">
-			// 							<div class="label">
-			// 								<div class="checkboxes">
-			// 									<div>
-			// 										<h4>{$lang.fields}</h4>
-			// 										<div>
-			// 											<div>
-			// 												<input type="checkbox" name="checked_all">
-			// 												<span>{$lang.all}</span>
-			// 											</div>';
+			// 	$mdl_get_vox_report .=
+			// 	'			</select>
+			// 			</label>
+			// 		</div>
+			// 	</div>
+			// 	<div class="span6">
+			// 		<div class="label">
+			// 			<label required>
+			// 				<p>{$lang.order_by}</p>
+			// 				<select name="order">
+			// 					<option value="owner">{$lang.owner}</option>
+			// 					<option value="name">{$lang.name}</option>
+			// 				</select>
+			// 			</label>
+			// 		</div>
+			// 	</div>
+			// 	<div class="span6">
+            //         <div class="label">
+            //             <label required>
+            //                 <p>{$lang.started_date}</p>
+            //                 <input type="date" name="started_date" value="' . Functions::get_current_date() . '" max="' . Functions::get_current_date() . '">
+            //             </label>
+            //         </div>
+            //     </div>
+            //     <div class="span6">
+            //         <div class="label">
+            //             <label required>
+            //                 <p>{$lang.end_date}</p>
+            //                 <input type="date" name="end_date" value="' . Functions::get_current_date() . '" max="' . Functions::get_current_date() . '">
+            //             </label>
+            //         </div>
+            //     </div>
+			// 	<div class="span12">
+			// 		<div class="label">
+			// 			<div class="checkboxes">
+			// 				<div>
+			// 					<h4>{$lang.fields}</h4>
+			// 					<div>
+			// 						<div>
+			// 							<input type="checkbox" name="checked_all" checked>
+			// 							<span><strong>{$lang.all}</strong></span>
+			// 						</div>';
 			//
-			// 		foreach ($this->model->get_vox_report_fields() as $value)
-			// 		{
-			// 			$mdl_filter_vox_report .=
-			// 			'<div>
-			// 				<input type="checkbox" name="fields[]" value="' . $value['id'] . '">
-			// 				<span>{$lang.' . $value['name'] . '}</span>
-			// 			</div>';
-			// 		}
+			// 	foreach ($this->model->get_vox_report_fields() as $value)
+			// 	{
+			// 		$mdl_get_vox_report .=
+			// 		'<div>
+			// 			<input type="checkbox" name="fields[]" value="' . $value['id'] . '" checked>
+			// 			<span>{$lang.' . $value['name'] . '}</span>
+			// 		</div>';
+			// 	}
 			//
-			// 		$mdl_filter_vox_report .=
-			// 		'								</div>
+			// 	$mdl_get_vox_report .=
+			// 	'									</div>
 			// 									</div>
 			// 								</div>
 			// 							</div>
@@ -2620,12 +2624,12 @@ class Voxes_controller extends Controller
 				'{$tbl_voxes_reports}' => $tbl_voxes_reports,
 				// '{$div_vox_report_print}' => $div_vox_report_print,
 				'{$btn_new_vox_report}' => $btn_new_vox_report,
-				// '{$btn_filter_vox_report}' => $btn_filter_vox_report,
+				// '{$btn_get_vox_report}' => $btn_get_vox_report,
 				'{$mdl_new_vox_report}' => $mdl_new_vox_report,
 				'{$mdl_deactivate_vox_report}' => $mdl_deactivate_vox_report,
 				'{$mdl_activate_vox_report}' => $mdl_activate_vox_report,
 				'{$mdl_delete_vox_report}' => $mdl_delete_vox_report,
-				// '{$mdl_filter_vox_report}' => $mdl_filter_vox_report
+				// '{$mdl_get_vox_report}' => $mdl_get_vox_report
 			];
 
 			$template = $this->format->replace($replace, $template);

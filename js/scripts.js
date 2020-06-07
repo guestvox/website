@@ -36,22 +36,22 @@ $(document).ready(function ()
 
     $('[required]').each(function()
     {
-        required_focus('unique', $(this), null);
+        required_focus('label', $(this), null);
     });
 
     $('[required]').on('change', function()
     {
-        required_focus('unique', $(this), null);
+        required_focus('label', $(this), null);
     });
 
     $('[unrequired]').each(function()
     {
-        required_focus('unique', $(this), null);
+        required_focus('label', $(this), null);
     });
 
     $('[unrequired]').on('change', function()
     {
-        required_focus('unique', $(this), null);
+        required_focus('label', $(this), null);
     });
 
     $('[data-select]').on('click', function()
@@ -121,7 +121,27 @@ function menu_focus(target)
 
 function required_focus(type, target, fields)
 {
-    if (type == 'form')
+    if (type == 'label' || type == 'input')
+    {
+        var field;
+
+        if (type == 'label')
+            field = target.find('[name]');
+        else if (type == 'input')
+        {
+            field = target;
+            target = field.parent();
+        }
+
+        if (field.val() == '' || field.val() == null || field.val() == undefined)
+            target.removeClass('success');
+        else
+            target.addClass('success');
+
+        target.removeClass('error');
+        target.find('p.error').remove();
+    }
+    else if (type == 'form')
     {
         fields = target.find('[name]');
 
@@ -130,7 +150,7 @@ function required_focus(type, target, fields)
             var field = target.find('[name="' + value.getAttribute('name') + '"]');
             var parent = field.parent();
 
-            if (field.val() == '' || field.val() == null)
+            if (field.val() == '' || field.val() == null || field.val() == undefined)
                 parent.removeClass('success');
             else
                 parent.addClass('success');
@@ -152,14 +172,14 @@ function required_focus(type, target, fields)
                 parent.removeClass('checked');
         });
     }
-    else if (type == 'fields')
+    else if (type == 'names')
     {
         $.each(fields, function(key, value)
         {
             var field = target.find('[name="' + value + '"]');
             var parent = field.parent();
 
-            if (field.val() == '' || field.val() == null)
+            if (field.val() == '' || field.val() == null || field.val() == undefined)
                 parent.removeClass('success');
             else
                 parent.addClass('success');
@@ -167,18 +187,6 @@ function required_focus(type, target, fields)
             parent.removeClass('error');
             parent.find('p.error').remove();
         });
-    }
-    else if (type == 'unique')
-    {
-        fields = target.find('[name]');
-
-        if (fields.val() == '' || fields.val() == null)
-            target.removeClass('success');
-        else
-            target.addClass('success');
-
-        target.removeClass('error');
-        target.find('p.error').remove();
     }
 }
 

@@ -1219,6 +1219,7 @@ div.tabers > div > input:checked {
 
 div.tabers > div > label {
     position: absolute;
+    cursor: pointer;
 }
 
 div.tabers > div > label > i {
@@ -1396,6 +1397,7 @@ section.modal.fullscreen > .content {
 
 /* Buttons */
 
+form div.buttons,
 section.modal div.buttons {
     width: 100%;
     display: flex;
@@ -1404,6 +1406,8 @@ section.modal div.buttons {
     margin-top: 20px;
 }
 
+form div.buttons > button,
+form div.buttons > a,
 section.modal div.buttons > button,
 section.modal div.buttons > a {
     width: 40px;
@@ -1417,15 +1421,19 @@ section.modal div.buttons > a {
     color: #757575;
 }
 
+form div.buttons > button[type="submit"],
+form div.buttons > a[button-cancel],
 section.modal div.buttons > button[type="submit"],
 section.modal div.buttons > a[button-cancel] {
     color: #fff;
 }
 
+form div.buttons > button[type="submit"],
 section.modal div.buttons > button[type="submit"] {
     background-color: #00a5ab;
 }
 
+form div.buttons > a[button-cancel],
 section.modal div.buttons > a[button-cancel] {
     background-color: #f44336;
 }

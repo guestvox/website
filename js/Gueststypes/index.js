@@ -55,7 +55,7 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="new_guest_type"]').find('[name="name"]').val(response.data.name);
+                    $('[name="name"]').val(response.data.name);
 
                     required_focus('form', $('form[name="new_guest_type"]'), null);
 

@@ -19,7 +19,11 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
+                {
                     $('[name="owner"]').html(response.html);
+
+                    required_focus('input', $('[name="owner"]'), null);
+                }
             }
         });
 
@@ -32,7 +36,11 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
+                {
                     $('[name="opportunity_area"]').html(response.html);
+
+                    required_focus('input', $('[name="opportunity_area"]'), null);
+                }
             }
         });
 
@@ -48,6 +56,8 @@ $(document).ready(function()
                 {
                     $('[name="opportunity_type"]').html(response.html);
                     $('[name="opportunity_type"]').attr('disabled', true);
+
+                    required_focus('input', $('[name="opportunity_type"]'), null);
                 }
             }
         });
@@ -61,7 +71,11 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
+                {
                     $('[name="location"]').html(response.html);
+
+                    required_focus('input', $('[name="location"]'), null);
+                }
             }
         });
 
@@ -119,8 +133,6 @@ $(document).ready(function()
             $('[name="check_in"]').parent().parent().parent().addClass('hidden');
             $('[name="check_out"]').parent().parent().parent().addClass('hidden');
         }
-
-        required_focus('form', $('form[name="new_vox"]'), null);
     });
 
     $('[name="owner"]').on('change', function()
@@ -140,20 +152,23 @@ $(document).ready(function()
                         $('[name="firstname"]').val(response.data.firstname);
                         $('[name="lastname"]').val(response.data.lastname);
 
+                        required_focus('names', $('form[name="new_vox"]'), [
+                            'firstname',
+                            'lastname'
+                        ]);
+
                         if (type == 'incident')
                         {
                             $('[name="reservation_number"]').val(response.data.reservation_number);
                             $('[name="check_in"]').val(response.data.check_in);
                             $('[name="check_out"]').val(response.data.check_out);
-                        }
 
-                        required_focus('fields', $('form[name="new_vox"]'), [
-                            'firstname',
-                            'lastname',
-                            'reservation_number',
-                            'check_in',
-                            'check_out'
-                        ]);
+                            required_focus('names', $('form[name="new_vox"]'), [
+                                'reservation_number',
+                                'check_in',
+                                'check_out'
+                            ]);
+                        }
                     }
                     else if (response.status == 'error')
                         show_modal_error(response.message);
@@ -176,6 +191,8 @@ $(document).ready(function()
                 {
                     $('[name="opportunity_type"]').html(response.html);
                     $('[name="opportunity_type"]').attr('disabled', false);
+
+                    required_focus('input', $('[name="opportunity_type"]'), null);
                 }
             }
         });

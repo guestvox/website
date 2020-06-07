@@ -4,8 +4,8 @@ $(document).ready(function()
 {
     $('[name="path"]').on('keyup', function()
     {
-        var filter = 'abcdefghijklmnñopqrstuvwxyz';
         var string = $(this).val();
+        var filter = 'abcdefghijklmnñopqrstuvwxyz';
         var out = '';
 
         for (var i = 0; i < string.length; i++)

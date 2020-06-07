@@ -52,31 +52,21 @@ class Myvox_model extends Model
 		return $query;
 	}
 
-    public function get_owner($token = null)
+    public function get_owner($token)
 	{
-		if (!empty($token))
-		{
-			$query = Functions::get_json_decoded_query($this->database->select('owners', [
-				'id',
-				'name',
-				'number'
-			], [
-				'OR' => [
-					'id' => $token,
-					'token' => $token
-				]
-			]));
+		$query = Functions::get_json_decoded_query($this->database->select('owners', [
+			'id',
+			'token',
+			'name',
+			'number'
+		], [
+			'OR' => [
+				'id' => $token,
+				'token' => $token
+			]
+		]));
 
-			return !empty($query) ? $query[0] : null;
-		}
-		else
-		{
-			return [
-				'id' => '',
-				'name' => '',
-				'number' => ''
-			];
-		}
+		return !empty($query) ? $query[0] : null;
 	}
 
 	public function get_reservation($number = null)
@@ -268,14 +258,14 @@ class Myvox_model extends Model
 	{
 		$query = null;
 
-		if ($option == 'all' OR $option == 'by_categories')
+		if ($option == 'all' OR $option == 'categories')
 		{
 			$where = [
 				'menu.account' => Session::get_value('account')['id'],
 				'menu.status' => true
 			];
 
-			if ($option == 'by_categories')
+			if ($option == 'categories')
 				$where['menu.category'] = $id;
 
 			$query = Functions::get_json_decoded_query($this->database->select('menu', [
@@ -297,7 +287,7 @@ class Myvox_model extends Model
 				]
 			]));
 		}
-		else if ($option == 'by_id')
+		else if ($option == 'id')
 		{
 			$query = Functions::get_json_decoded_query($this->database->select('menu', [
 				'id',

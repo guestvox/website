@@ -7,7 +7,7 @@ $(document).ready(function()
 
     $('[name="user_level"]').on('change', function()
     {
-        $('[data-modal="new_user"]').find('[name="permissions[]"]').prop('checked', false);
+        $('[name="permissions[]"]').prop('checked', false);
 
         if ($(this).val() > 0)
         {
@@ -23,7 +23,7 @@ $(document).ready(function()
                     {
                         $.each(response.data.permissions, function (key, value)
                         {
-                            $('[data-modal="new_user"]').find('[name="permissions[]"][value="' + value + '"]').prop('checked', true);
+                            $('[name="permissions[]"][value="' + value + '"]').prop('checked', true);
                         });
                     }
                     else if (response.status == 'error')
@@ -83,21 +83,21 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="new_user"]').find('[name="firstname"]').val(response.data.firstname);
-                    $('[data-modal="new_user"]').find('[name="lastname"]').val(response.data.lastname);
-                    $('[data-modal="new_user"]').find('[name="email"]').val(response.data.email);
-                    $('[data-modal="new_user"]').find('[name="phone_lada"]').val(response.data.phone.lada);
-                    $('[data-modal="new_user"]').find('[name="phone_number"]').val(response.data.phone.number);
-                    $('[data-modal="new_user"]').find('[name="username"]').val(response.data.username);
+                    $('[name="firstname"]').val(response.data.firstname);
+                    $('[name="lastname"]').val(response.data.lastname);
+                    $('[name="email"]').val(response.data.email);
+                    $('[name="phone_lada"]').val(response.data.phone.lada);
+                    $('[name="phone_number"]').val(response.data.phone.number);
+                    $('[name="username"]').val(response.data.username);
 
                     $.each(response.data.permissions, function (key, value)
                     {
-                        $('[data-modal="new_user"]').find('[name="permissions[]"][value="' + value + '"]').prop('checked', true);
+                        $('[name="permissions[]"][value="' + value + '"]').prop('checked', true);
                     });
 
                     $.each(response.data.opportunity_areas, function (key, value)
                     {
-                        $('[data-modal="new_user"]').find('[name="opportunity_areas[]"][value="' + value + '"]').prop('checked', true);
+                        $('[name="opportunity_areas[]"][value="' + value + '"]').prop('checked', true);
                     });
 
                     required_focus('form', $('form[name="new_user"]'), null);

@@ -14,16 +14,16 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="edit_profile"]').addClass('view');
-
-                    $('[data-modal="edit_profile"]').find('[name="firstname"]').val(response.data.firstname);
-                    $('[data-modal="edit_profile"]').find('[name="lastname"]').val(response.data.lastname);
-                    $('[data-modal="edit_profile"]').find('[name="email"]').val(response.data.email);
-                    $('[data-modal="edit_profile"]').find('[name="phone_lada"]').val(response.data.phone.lada);
-                    $('[data-modal="edit_profile"]').find('[name="phone_number"]').val(response.data.phone.number);
-                    $('[data-modal="edit_profile"]').find('[name="username"]').val(response.data.username);
+                    $('[name="firstname"]').val(response.data.firstname);
+                    $('[name="lastname"]').val(response.data.lastname);
+                    $('[name="email"]').val(response.data.email);
+                    $('[name="phone_lada"]').val(response.data.phone.lada);
+                    $('[name="phone_number"]').val(response.data.phone.number);
+                    $('[name="username"]').val(response.data.username);
 
                     required_focus('form', $('form[name="edit_profile"]'), null);
+
+                    $('[data-modal="edit_profile"]').addClass('view');
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);

@@ -29,6 +29,9 @@ class Route_vkye
             '/Signup/index',
             '/Signup/activate',
             '/Myvox/index',
+            '/Myvox/vox',
+            '/Myvox/menu',
+            '/Myvox/survey',
             '/Reviews/index',
             '/Login/index',
             '/Api/execute'

@@ -55,11 +55,11 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="new_user_level"]').find('[name="name"]').val(response.data.name);
+                    $('[name="name"]').val(response.data.name);
 
                     $.each(response.data.permissions, function (key, value)
                     {
-                        $('[data-modal="new_user_level"]').find('[name="permissions[]"][value="' + value + '"]').prop('checked', true);
+                        $('[name="permissions[]"][value="' + value + '"]').prop('checked', true);
                     });
 
                     required_focus('form', $('form[name="new_user_level"]'), null);

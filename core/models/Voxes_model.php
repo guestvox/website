@@ -466,18 +466,14 @@ class Voxes_model extends Model
 
 	public function get_opportunity_types($opportunity_area, $type)
 	{
-		$where['opportunity_area'] = $opportunity_area;
-
-		if ($type != 'all')
-			$where[$type] = true;
-
-		$where['status'] = true;
-
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
 			'id',
 			'name'
 		], [
-			'AND' => $where,
+			'AND' => [
+				'opportunity_area' => $opportunity_area,
+				'status' => true
+			],
 			'ORDER' => [
 				'name' => 'ASC'
 			]

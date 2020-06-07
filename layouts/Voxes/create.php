@@ -18,7 +18,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                     <div class="tabers">
                         <div>
                             <input id="rqrd" type="radio" name="type" value="request" checked>
-                            <label for="rwrd"><i class="fas fa-rocket"></i></label>
+                            <label for="rqrd"><i class="fas fa-rocket"></i></label>
                         </div>
                         <div>
                             <input id="inrd" type="radio" name="type" value="incident">
