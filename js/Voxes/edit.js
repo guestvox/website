@@ -4,15 +4,11 @@ $(document).ready(function()
 {
     $('.chosen-select').chosen();
 
-    var type = $('[name="type"]').val();
-
     $('[name="type"]').on('change', function()
     {
-        type = $(this).val();
-
         $.ajax({
             type: 'POST',
-            data: 'type=' + type + '&action=get_opt_owners',
+            data: 'type=' + $(this).val() + '&action=get_opt_owners',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -29,7 +25,7 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: 'type=' + type + '&action=get_opt_opportunity_areas',
+            data: 'type=' + $(this).val() + '&action=get_opt_opportunity_areas',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -64,7 +60,7 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: 'type=' + type + '&action=get_opt_locations',
+            data: 'type=' + $(this).val() + '&action=get_opt_locations',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -79,7 +75,7 @@ $(document).ready(function()
             }
         });
 
-        if (type == 'request')
+        if ($(this).val() == 'request')
         {
             $('[name="cost"]').parent().parent().parent().addClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().addClass('hidden');
@@ -97,7 +93,7 @@ $(document).ready(function()
             $('[name="check_in"]').parent().parent().parent().addClass('hidden');
             $('[name="check_out"]').parent().parent().parent().addClass('hidden');
         }
-        else if (type == 'incident')
+        else if ($(this).val() == 'incident')
         {
             $('[name="cost"]').parent().parent().parent().removeClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().removeClass('hidden');
@@ -115,7 +111,7 @@ $(document).ready(function()
             $('[name="check_in"]').parent().parent().parent().removeClass('hidden');
             $('[name="check_out"]').parent().parent().parent().removeClass('hidden');
         }
-        else if (type == 'workorder')
+        else if ($(this).val() == 'workorder')
         {
             $('[name="cost"]').parent().parent().parent().removeClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().addClass('hidden');
@@ -137,7 +133,7 @@ $(document).ready(function()
 
     $('[name="owner"]').on('change', function()
     {
-        if (type == 'request' || type == 'incident')
+        if ($('[name="type"]').val() == 'request' || $('[name="type"]').val() == 'incident')
         {
             $.ajax({
                 type: 'POST',
@@ -157,7 +153,7 @@ $(document).ready(function()
                             'lastname'
                         ]);
 
-                        if (type == 'incident')
+                        if ($('[name="type"]').val() == 'incident')
                         {
                             $('[name="reservation_number"]').val(response.data.reservation_number);
                             $('[name="check_in"]').val(response.data.check_in);
@@ -181,7 +177,7 @@ $(document).ready(function()
     {
         $.ajax({
             type: 'POST',
-            data: 'opportunity_area=' + $(this).val() + '&type=' + type + '&action=get_opt_opportunity_types',
+            data: 'opportunity_area=' + $(this).val() + '&type=' + $('[name="type"]').val() + '&action=get_opt_opportunity_types',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -191,7 +187,7 @@ $(document).ready(function()
                 {
                     $('[name="opportunity_type"]').html(response.html);
                     $('[name="opportunity_type"]').attr('disabled', false);
-                    
+
                     required_focus('input', $('[name="opportunity_type"]'), null);
                 }
             }

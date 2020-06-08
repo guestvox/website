@@ -192,7 +192,6 @@ class Owners_controller extends Controller
 	                        </div>
 	                    </div>
 	                </div>
-
 					<div class="span6">
                         <div class="label">
                             <label required>
@@ -273,7 +272,7 @@ class Owners_controller extends Controller
 							</label>
 						</div>
 					</div>
-					<div class="span6">
+					<div class="span4">
 						<div class="label">
 							<label unrequired>
 								<p>{$lang.survey}</p>
@@ -284,7 +283,7 @@ class Owners_controller extends Controller
 							</label>
 						</div>
 					</div>
-					<div class="span6">
+					<div class="span4">
 						<div class="label">
 							<label unrequired>
 								<p>{$lang.public}</p>

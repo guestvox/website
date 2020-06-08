@@ -127,7 +127,6 @@ $(document).ready(function()
                 if (response.status == 'success')
                 {
                     form.find('[name="quantity"]').val(0);
-
                     form.parents('main.myvox').find('[data-menu-cart]').html(response.html);
                 }
                 else if (response.status == 'error')

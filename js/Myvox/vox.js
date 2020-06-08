@@ -27,7 +27,6 @@ $(document).ready(function()
                 if (response.status == 'success')
                 {
                     $('[name="opportunity_type"]').html(response.html);
-
                     $('[name="opportunity_type"]').attr('disabled', false);
 
                     required_focus('input', $('[name="opportunity_type"]'), null);

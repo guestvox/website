@@ -1304,13 +1304,13 @@ class Voxes_model extends Model
 
 		if ($option == 'saved')
 			$where['account'] = Session::get_value('account')['id'];
-		// else if ($option == 'print')
-		// {
-		// 	$where['AND'] = [
-		// 		'account' => Session::get_value('account')['id'],
-		// 		'status' => true
-		// 	];
-		// }
+		else if ($option == 'print')
+		{
+			$where['AND'] = [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			];
+		}
 
 		$where['ORDER'] = [
 			'name' => 'ASC'
