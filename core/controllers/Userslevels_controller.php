@@ -44,9 +44,6 @@ class Userslevels_controller extends Controller
 				if (!isset($_POST['name']) OR empty($_POST['name']))
 					array_push($labels, ['name', '']);
 
-				if (!isset($_POST['permissions']) OR empty($_POST['permissions']))
-					array_push($labels, ['permissions', '']);
-
 				if (empty($labels))
 				{
 					if ($_POST['action'] == 'new_user_level')

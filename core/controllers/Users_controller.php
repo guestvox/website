@@ -62,12 +62,6 @@ class Users_controller extends Controller
 				if (!isset($_POST['username']) OR empty($_POST['username']))
 					array_push($labels, ['username', '']);
 
-				if (!isset($_POST['permissions']) OR empty($_POST['permissions']))
-					array_push($labels, ['permissions', '']);
-
-				if (!isset($_POST['opportunity_areas']) OR empty($_POST['opportunity_areas']))
-					array_push($labels, ['opportunity_areas', '']);
-
 				if (empty($labels))
 				{
 					if ($_POST['action'] == 'new_user')
