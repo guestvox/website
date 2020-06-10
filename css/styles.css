@@ -1267,7 +1267,7 @@ div[data-uploader].stl_1 > figure > a {
     align-items: center;
     justify-content: center;
     opacity: 0;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.4);
     font-size: 60px;
     color: #fff;
     transition: 400ms;
@@ -1299,7 +1299,7 @@ div[data-uploader].stl_2 > figure > a {
     align-items: center;
     justify-content: center;
     opacity: 0;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.4);
     font-size: 60px;
     color: #fff;
     transition: 400ms;
@@ -1423,8 +1423,10 @@ section.modal div.buttons > a {
 
 form div.buttons > button[type="submit"],
 form div.buttons > a[button-cancel],
+form div.buttons > a[button-close],
 section.modal div.buttons > button[type="submit"],
-section.modal div.buttons > a[button-cancel] {
+section.modal div.buttons > a[button-cancel],
+section.modal div.buttons > a[button-close] {
     color: #fff;
 }
 
@@ -1434,7 +1436,9 @@ section.modal div.buttons > button[type="submit"] {
 }
 
 form div.buttons > a[button-cancel],
-section.modal div.buttons > a[button-cancel] {
+form div.buttons > a[button-close],
+section.modal div.buttons > a[button-cancel],
+section.modal div.buttons > a[button-close] {
     background-color: #f44336;
 }
 

@@ -10,15 +10,15 @@ class Urls_registered_vkye
     {
         return [
             '/' => [
-                'controller' => 'Index',
+                'controller' => 'Index', // - Actualización de información
                 'method' => 'index'
             ],
             '/operation' => [
-                'controller' => 'Hi',
+                'controller' => 'Hi', // - Rediseño de landing page y actualización de información
                 'method' => 'operation'
             ],
             '/reputation' => [
-                'controller' => 'Hi',
+                'controller' => 'Hi', // - Rediseño de landing page y actualización de información
                 'method' => 'reputation'
             ],
             '/webinar' => [
@@ -26,7 +26,7 @@ class Urls_registered_vkye
                 'method' => 'webinar'
             ],
             '/about-us' => [
-                'controller' => 'About',
+                'controller' => 'About', // - Diseño de landing page
                 'method' => 'index'
             ],
             '/terms-and-conditions' => [
@@ -46,7 +46,7 @@ class Urls_registered_vkye
                 'method' => 'activate'
             ],
             '/%param%/myvox' => [
-                'controller' => 'Myvox',
+                'controller' => 'Myvox', // Rediseño de GUI
                 'method' => 'index'
             ],
             '/%param%/myvox/%param%' => [
@@ -57,20 +57,24 @@ class Urls_registered_vkye
                 'controller' => 'Myvox',
                 'method' => 'index'
             ],
-            '/%param%/myvox/%param%/create' => [
+            '/%param%/myvox/request' => [
                 'controller' => 'Myvox',
-                'method' => 'vox'
+                'method' => 'request'
             ],
-            '/%param%/myvox/menu' => [
+            '/%param%/myvox/incident' => [
                 'controller' => 'Myvox',
-                'method' => 'menu'
+                'method' => 'incident'
             ],
-            '/%param%/myvox/survey' => [
-                'controller' => 'Myvox',
-                'method' => 'survey'
-            ],
+            // '/%param%/myvox/menu' => [
+            //     'controller' => 'Myvox',
+            //     'method' => 'menu'
+            // ],
+            // '/%param%/myvox/survey' => [
+            //     'controller' => 'Myvox',
+            //     'method' => 'survey'
+            // ],
             '/%param%/reviews' => [
-                'controller' => 'Reviews',
+                'controller' => 'Reviews', // Rediseño de landing page
                 'method' => 'index'
             ],
             '/login' => [
@@ -82,7 +86,7 @@ class Urls_registered_vkye
                 'method' => 'logout'
             ],
             '/dashboard' => [
-                'controller' => 'Dashboard',
+                'controller' => 'Dashboard', // Diseño de módulo
                 'method' => 'index'
             ],
             '/voxes' => [

@@ -45,7 +45,7 @@ class Account_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_opportunity_areas()
+	public function get_opportunity_areas($type)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
 			'id',
@@ -53,7 +53,7 @@ class Account_model extends Model
 		], [
 			'AND' => [
 				'account' => Session::get_value('account')['id'],
-				'request' => true,
+				$type => true,
 				'status' => true
 			],
 			'ORDER' => [
@@ -64,7 +64,7 @@ class Account_model extends Model
 		return $query;
 	}
 
-	public function get_opportunity_types($opportunity_area)
+	public function get_opportunity_types($opportunity_area, $type)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
 			'id',
@@ -72,7 +72,7 @@ class Account_model extends Model
 		], [
 			'AND' => [
 				'opportunity_area' => $opportunity_area,
-				'request' => true,
+				$type => true,
 				'status' => true
 			],
 			'ORDER' => [
@@ -340,6 +340,15 @@ class Account_model extends Model
 			}
 			else
 				$edited1[0]['settings']['reviews']['status'] = false;
+		}
+		else if ($field == 'voxes_attention_times')
+		{
+			$edited1[0]['settings']['voxes']['attention_times']['request']['low'] = $data['request_low'];
+			$edited1[0]['settings']['voxes']['attention_times']['request']['medium'] = $data['request_medium'];
+			$edited1[0]['settings']['voxes']['attention_times']['request']['high'] = $data['request_high'];
+			$edited1[0]['settings']['voxes']['attention_times']['incident']['low'] = $data['incident_low'];
+			$edited1[0]['settings']['voxes']['attention_times']['incident']['medium'] = $data['incident_medium'];
+			$edited1[0]['settings']['voxes']['attention_times']['incident']['high'] = $data['incident_high'];
 		}
 
 		$query = $this->database->update('accounts', [

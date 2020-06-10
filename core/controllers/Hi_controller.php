@@ -263,7 +263,7 @@ class Hi_controller extends Controller
 
 					try
 					{
-						$mail1->setFrom('contacto@guestvox.com', 'Guestvox');
+						$mail1->setFrom('noreply@guestvox.com', 'Guestvox');
 						$mail1->addAddress($_POST['email'], $_POST['name']);
 						$mail1->Subject = Languages::words('thanks_signup_webinar')[$this->lang];
 						$mail1->Body =
@@ -319,7 +319,7 @@ class Hi_controller extends Controller
 
 					Functions::environment([
 						'status' => 'success',
-						'message' => '{$lang.thanks_signup_webinar_1}' . $_POST['email'] . '{$lang.thanks_signup_webinar_2}'
+						'message' => '{$lang.thanks_signup_webinar_1} <strong>' . $_POST['email'] . '</strong> {$lang.thanks_signup_webinar_2}'
 					]);
 				}
 				else

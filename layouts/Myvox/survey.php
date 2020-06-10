@@ -7,7 +7,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/survey.js']);
 
 ?>
 
-<main class="myvox">
-    <!-- {$html} -->
+<!-- <main class="myvox">
+    {$html}
 </main>
-<!-- {$mdl_widget} -->
+{$mdl_widget} -->

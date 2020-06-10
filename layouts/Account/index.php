@@ -25,26 +25,16 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     <img src="{$qr}">
                 </figure>
             </div>
-            <div class="stl_3">
-                <h1>{$name}</h1>
+            <div class="stl_5">
+                <i class="fas fa-bowling-ball"></i>
+                <h2>{$name}</h2>
                 <span>{$token}</span>
-                <span>{$country}</span>
-                <span>{$city}</span>
-                <span>{$zip_code}</span>
-                <span>{$address}</span>
-                <span>{$time_zone}</span>
-                <span>{$currency}</span>
-                <span>{$language}</span>
                 <a class="edit" data-action="edit_account"><i class="fas fa-pen"></i></a>
             </div>
-            <div class="stl_3">
+            <div class="stl_5">
+                <i class="fas fa-heart"></i>
                 <h2>{$fiscal_name}</h2>
                 <span>{$fiscal_id}</span>
-                <span>{$fiscal_address}</span>
-                <span>{$contact_name}</span>
-                <span>{$contact_department}</span>
-                <span>{$contact_email}</span>
-                <span>{$contact_phone}</span>
                 <a class="edit" data-action="edit_billing"><i class="fas fa-pen"></i></a>
             </div>
             {$div_public_requests}
@@ -52,6 +42,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
             {$div_digital_menu}
             {$div_answered_survey}
             {$div_reviews_page}
+            {$div_attention_times}
             <div class="stl_5">
                 <i class="fas fa-space-shuttle"></i>
                 <h2>{$lang.operation_solution}</h2>
@@ -299,3 +290,4 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
 {$mdl_edit_myvox_menu_settings}
 {$mdl_edit_myvox_survey_settings}
 {$mdl_edit_reviews_settings}
+{$mdl_edit_voxes_attention_times_settings}

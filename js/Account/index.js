@@ -621,4 +621,60 @@ $(document).ready(function()
             }
         });
     });
+
+    $('[data-action="edit_voxes_attention_times_settings"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=get_account',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="request_low"]').val(response.data.settings.voxes.attention_times.request.low);
+                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="request_medium"]').val(response.data.settings.voxes.attention_times.request.medium);
+                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="request_high"]').val(response.data.settings.voxes.attention_times.request.high);
+                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="incident_low"]').val(response.data.settings.voxes.attention_times.incident.low);
+                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="incident_medium"]').val(response.data.settings.voxes.attention_times.incident.medium);
+                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="incident_high"]').val(response.data.settings.voxes.attention_times.incident.high);
+
+                    required_focus('form', $('form[name="edit_voxes_attention_times_settings"]'), null);
+
+                    $('[data-modal="edit_voxes_attention_times_settings"]').addClass('view');
+                }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-modal="edit_voxes_attention_times_settings"]').modal().onCancel(function()
+    {
+        clean_form($('form[name="edit_voxes_attention_times_settings"]'));
+    });
+
+    $('form[name="edit_voxes_attention_times_settings"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&action=edit_voxes_attention_times_settings',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 1500);
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
+            }
+        });
+    });
 });

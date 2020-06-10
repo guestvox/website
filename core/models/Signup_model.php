@@ -269,6 +269,20 @@ class Signup_model extends Model
 						'google' => '',
 						'tripadvisor' => ''
 					]
+				],
+				'voxes' => [
+					'attention_times' => [
+						'request' => [
+							'low' => '40',
+							'medium' => '20',
+							'high' => '10'
+						],
+						'incident' => [
+							'low' => '40',
+							'medium' => '20',
+							'high' => '10'
+						]
+					]
 				]
 			]),
 			'payment' => json_encode([

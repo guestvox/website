@@ -350,7 +350,7 @@ class Signup_controller extends Controller
 						Functions::environment([
                             'status' => 'success',
 							'path' => '/',
-                            'message' => '{$lang.thanks_signup_guestvox_1}' . $_POST['contact_email'] . '{$lang.thanks_signup_guestvox_2}' . $_POST['email'] . '{$lang.thanks_signup_guestvox_3}'
+                            'message' => '{$lang.thanks_signup_guestvox_1} <strong>' . $_POST['contact_email'] . '</strong> {$lang.thanks_signup_guestvox_2} <strong>' . $_POST['email'] . '</strong> {$lang.thanks_signup_guestvox_3}'
                         ]);
 			        }
 			        else

@@ -181,6 +181,10 @@ class Languages
                 'es' => 'Observaciones',
                 'en' => 'Observations'
             ],
+            'not_observations' => [
+                'es' => 'Sin observaciones',
+                'en' => 'Not observations'
+            ],
             'confidentiality' => [
                 'es' => 'Confidencialidad',
                 'en' => 'Confidentiality'
@@ -199,11 +203,11 @@ class Languages
             ],
             'description' => [
                 'es' => 'Descripción',
-                'en' => 'dDescription'
+                'en' => 'Description'
             ],
-            'empty' => [
-                'es' => 'Vacío',
-                'en' => 'Empty'
+            'not_description' => [
+                'es' => 'Sin descripción',
+                'en' => 'Not description'
             ],
             'give_follow_up' => [
                 'es' => 'Dar seguimiento',

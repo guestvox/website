@@ -69,7 +69,7 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_reservation($number = null)
+	public function get_reservation($number)
 	{
 		$reservation = [
 			'status' => 'success',
@@ -254,82 +254,82 @@ class Myvox_model extends Model
 		return $query;
 	}
 
-	public function get_menu($option = 'all', $id = null)
-	{
-		$query = null;
+	// public function get_menu($option = 'all', $id = null)
+	// {
+	// 	$query = null;
+	//
+	// 	if ($option == 'all' OR $option == 'categories')
+	// 	{
+	// 		$where = [
+	// 			'menu.account' => Session::get_value('account')['id'],
+	// 			'menu.status' => true
+	// 		];
+	//
+	// 		if ($option == 'categories')
+	// 			$where['menu.category'] = $id;
+	//
+	// 		$query = Functions::get_json_decoded_query($this->database->select('menu', [
+	// 			'[>]menu_categories' => [
+	// 				'category' => 'id'
+	// 			]
+	// 		], [
+	// 			'menu.id',
+	// 			'menu.name',
+	// 			'menu_categories.name(category)',
+	// 			'menu.avatar',
+	// 			'menu.description',
+	// 			'menu.price'
+	// 		], [
+	// 			'AND' => $where,
+	// 			'ORDER' => [
+	// 				'menu_categories.name' => 'ASC',
+	// 				'menu.name' => 'ASC'
+	// 			]
+	// 		]));
+	// 	}
+	// 	else if ($option == 'id')
+	// 	{
+	// 		$query = Functions::get_json_decoded_query($this->database->select('menu', [
+	// 			'id',
+	// 			'name',
+	// 			'price'
+	// 		], [
+	// 			'id' => $id
+	// 		]));
+	//
+	// 		$query = !empty($query) ? $query[0] : null;
+	// 	}
+	//
+	// 	return $query;
+	// }
+	//
+	// public function get_menu_categories()
+	// {
+	// 	$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+	// 		'id',
+	// 		'name'
+	// 	], [
+	// 		'AND' => [
+	// 			'account' => Session::get_value('account')['id'],
+	// 			'status' => true
+	// 		],
+	// 		'ORDER' => [
+	// 			'name' => 'ASC'
+	// 		]
+	// 	]));
+	//
+	// 	return $query;
+	// }
 
-		if ($option == 'all' OR $option == 'categories')
-		{
-			$where = [
-				'menu.account' => Session::get_value('account')['id'],
-				'menu.status' => true
-			];
-
-			if ($option == 'categories')
-				$where['menu.category'] = $id;
-
-			$query = Functions::get_json_decoded_query($this->database->select('menu', [
-				'[>]menu_categories' => [
-					'category' => 'id'
-				]
-			], [
-				'menu.id',
-				'menu.name',
-				'menu_categories.name(category)',
-				'menu.avatar',
-				'menu.description',
-				'menu.price'
-			], [
-				'AND' => $where,
-				'ORDER' => [
-					'menu_categories.name' => 'ASC',
-					'menu.name' => 'ASC'
-				]
-			]));
-		}
-		else if ($option == 'id')
-		{
-			$query = Functions::get_json_decoded_query($this->database->select('menu', [
-				'id',
-				'name',
-				'price'
-			], [
-				'id' => $id
-			]));
-
-			$query = !empty($query) ? $query[0] : null;
-		}
-
-		return $query;
-	}
-
-	public function get_menu_categories()
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
-			'id',
-			'name'
-		], [
-			'AND' => [
-				'account' => Session::get_value('account')['id'],
-				'status' => true
-			],
-			'ORDER' => [
-				'name' => 'ASC'
-			]
-		]));
-
-		return $query;
-	}
-
-    public function new_vox($data, $menu = false)
+    public function new_vox($data)
 	{
 		$query = $this->database->insert('voxes', [
 			'account' => Session::get_value('account')['id'],
 			'type' => $data['type'],
 			'token' => $data['token'],
 			'owner' => Session::get_value('owner')['id'],
-			'opportunity_area' => ($menu == true) ? Session::get_value('account')['settings']['myvox']['menu']['opportunity_area'] : $data['opportunity_area'],
-			'opportunity_type' => ($menu == true) ? Session::get_value('account')['settings']['myvox']['menu']['opportunity_type'] : $data['opportunity_type'],
+			'opportunity_area' => $data['opportunity_area'],
+			'opportunity_type' => $data['opportunity_type'],
 			'started_date' => Functions::get_formatted_date($data['started_date']),
 			'started_hour' => Functions::get_formatted_hour($data['started_hour']),
 			'location' => $data['location'],
@@ -337,7 +337,7 @@ class Myvox_model extends Model
 			'urgency' => 'medium',
 			'confidentiality' => false,
 			'assigned_users' => json_encode([]),
-			'observations' => ($data['type'] == 'request') ? (($menu == true) ? json_encode(Session::get_value('menu_cart')) : (!empty($data['observations']) ? $data['observations'] : null)) : null,
+			'observations' => ($data['type'] == 'request' AND !empty($data['observations'])) ? $data['observations'] : null,
 			'subject' => null,
 			'description' => ($data['type'] == 'incident' AND !empty($data['description'])) ? $data['description'] : null,
 			'action_taken' => null,
@@ -373,7 +373,7 @@ class Myvox_model extends Model
 			'completed_hour' => null,
 			'reopened_date' => null,
 			'reopened_hour' => null,
-			'menu' => $menu,
+			'menu_order' => null,
 			'status' => true,
 			'origin' => 'myvox'
 		]);

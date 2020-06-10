@@ -19,14 +19,6 @@ class Profile_controller extends Controller
 
 		if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'get_profile')
-			{
-				Functions::environment([
-					'status' => 'success',
-					'data' => $profile
-				]);
-			}
-			
 			if ($_POST['action'] == 'edit_avatar')
 			{
 				$labels = [];
@@ -66,6 +58,14 @@ class Profile_controller extends Controller
 						'labels' => $labels
 					]);
 				}
+			}
+
+			if ($_POST['action'] == 'get_profile')
+			{
+				Functions::environment([
+					'status' => 'success',
+					'data' => $profile
+				]);
 			}
 
 			if ($_POST['action'] == 'edit_profile')

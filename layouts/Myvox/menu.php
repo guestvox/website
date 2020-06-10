@@ -7,6 +7,6 @@ $this->dependencies->add(['js', '{$path.js}Myvox/menu.js']);
 
 ?>
 
-<main class="myvox">
+<!-- <main class="myvox">
     {$html}
-</main>
+</main> -->

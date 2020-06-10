@@ -128,7 +128,7 @@ class Users_controller extends Controller
 
 						Functions::environment([
 							'status' => 'success',
-							'message' => ($_POST['action'] == 'new_user') ? '{$lang.thanks_signup_guestvox_4}' . $_POST['email'] . '{$lang.thanks_signup_guestvox_5}' : '{$lang.operation_success}'
+							'message' => ($_POST['action'] == 'new_user') ? '{$lang.thanks_signup_guestvox_4} <strong>' . $_POST['email'] . '</strong> {$lang.thanks_signup_guestvox_5}' : '{$lang.operation_success}'
 						]);
 					}
 					else
@@ -197,7 +197,7 @@ class Users_controller extends Controller
 
 					Functions::environment([
 						'status' => 'success',
-						'message' => '{$lang.restore_password_1}' . $query['email'] . '{$lang.restore_password_2}'
+						'message' => '{$lang.restore_password_1} <strong>' . $query['email'] . '</strong> {$lang.restore_password_2}'
 					]);
 				}
 				else

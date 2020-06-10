@@ -216,16 +216,32 @@ class Functions
         return $access;
     }
 
-    static public function check_user_access($params)
+    static public function check_user_access($params, $all_true = false)
     {
         $access = false;
 
         if (Session::exists_var('session') == true)
         {
-            foreach ($params as $value)
+            if ($all_true == true)
             {
-                if (in_array($value, Session::get_value('user')['permissions']))
+                $all_true = [];
+
+                foreach ($params as $value)
+                {
+                    if (in_array($value, Session::get_value('user')['permissions']))
+                        array_push($all_true, $value);
+                }
+
+                if (count($all_true) == count($params))
                     $access = true;
+            }
+            else
+            {
+                foreach ($params as $value)
+                {
+                    if (in_array($value, Session::get_value('user')['permissions']))
+                        $access = true;
+                }
             }
         }
 

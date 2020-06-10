@@ -355,7 +355,7 @@ class Voxes_model extends Model
 			return null;
 	}
 
-	public function get_owners($type)
+	public function get_owners($type = 'all')
 	{
 		$where['account'] = Session::get_value('account')['id'];
 
@@ -392,7 +392,7 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_reservation($number = null)
+	public function get_reservation($number)
 	{
 		$reservation = [
 			'status' => 'success',
@@ -430,7 +430,7 @@ class Voxes_model extends Model
 		return $reservation;
 	}
 
-	public function get_opportunity_areas($type)
+	public function get_opportunity_areas($type = 'all')
 	{
 		$where['account'] = Session::get_value('account')['id'];
 
@@ -494,7 +494,7 @@ class Voxes_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_locations($type)
+	public function get_locations($type = 'all')
 	{
 		$where['account'] = Session::get_value('account')['id'];
 

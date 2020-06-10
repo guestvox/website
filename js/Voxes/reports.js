@@ -2,7 +2,7 @@
 
 $(document).ready(function()
 {
-    $(document).on('click', '#sasw, #gesw', function()
+    $(document).on('click', '#sasw, #prsw', function()
     {
         window.location.href = '/voxes/reports/' + $(this).val();
     });
@@ -318,7 +318,7 @@ $(document).ready(function()
         });
     });
 
-    $('[data-modal="get_vox_report"]').find('[name="report"]').on('change', function()
+    $('[data-modal="filter_vox_report"]').find('[name="report"]').on('change', function()
     {
         if ($(this).val() != 'free')
         {
@@ -332,9 +332,47 @@ $(document).ready(function()
                 {
                     if (response1.status == 'success')
                     {
-                        $('[data-modal="get_vox_report"]').find('[name="type"]').val(response1.data.type);
-                        $('[data-modal="get_vox_report"]').find('[name="owner"]').val(response1.data.owner);
-                        $('[data-modal="get_vox_report"]').find('[name="opportunity_area"]').val(response1.data.opportunity_area);
+                        $('[data-modal="filter_vox_report"]').find('[name="type"]').val(response1.data.type);
+
+                        $.ajax({
+                            type: 'POST',
+                            data: 'type=' + response1.data.type + '&action=get_opt_owners',
+                            processData: false,
+                            cache: false,
+                            dataType: 'json',
+                            success: function(response2)
+                            {
+                                if (response2.status == 'success')
+                                {
+                                    $('[data-modal="filter_vox_report"]').find('[name="owner"]').html(response2.html);
+                                    $('[data-modal="filter_vox_report"]').find('[name="owner"]').val(response1.data.owner);
+
+                                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="owner"]'), null);
+                                }
+                                else if (response2.status == 'error')
+                                    show_modal_error(response2.message);
+                            }
+                        });
+
+                        $.ajax({
+                            type: 'POST',
+                            data: 'type=' + response1.data.type + '&action=get_opt_opportunity_areas',
+                            processData: false,
+                            cache: false,
+                            dataType: 'json',
+                            success: function(response2)
+                            {
+                                if (response2.status == 'success')
+                                {
+                                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_area"]').html(response2.html);
+                                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_area"]').val(response1.data.opportunity_area);
+
+                                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="opportunity_area"]'), null);
+                                }
+                                else if (response2.status == 'error')
+                                    show_modal_error(response2.message);
+                            }
+                        });
 
                         $.ajax({
                             type: 'POST',
@@ -346,18 +384,37 @@ $(document).ready(function()
                             {
                                 if (response2.status == 'success')
                                 {
-                                    $('[data-modal="get_vox_report"]').find('[name="opportunity_type"]').html(response2.html);
-                                    $('[data-modal="get_vox_report"]').find('[name="opportunity_type"]').val(response1.data.opportunity_type);
+                                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]').html(response2.html);
+                                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]').val(response1.data.opportunity_type);
 
-                                    required_focus('input', $('[data-modal="get_vox_report"]').find('[name="opportunity_type"]'), null);
+                                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]'), null);
                                 }
                                 else if (response2.status == 'error')
                                     show_modal_error(response2.message);
                             }
                         });
 
-                        $('[data-modal="get_vox_report"]').find('[name="location"]').val(response1.data.location);
-                        $('[data-modal="get_vox_report"]').find('[name="order"]').val(response1.data.order);
+                        $.ajax({
+                            type: 'POST',
+                            data: 'type=' + response1.data.type + '&action=get_opt_locations',
+                            processData: false,
+                            cache: false,
+                            dataType: 'json',
+                            success: function(response2)
+                            {
+                                if (response2.status == 'success')
+                                {
+                                    $('[data-modal="filter_vox_report"]').find('[name="location"]').html(response2.html);
+                                    $('[data-modal="filter_vox_report"]').find('[name="location"]').val(response1.data.location);
+
+                                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="location"]'), null);
+                                }
+                                else if (response2.status == 'error')
+                                    show_modal_error(response2.message);
+                            }
+                        });
+
+                        $('[data-modal="filter_vox_report"]').find('[name="order"]').val(response1.data.order);
 
                         var started_date = new Date();
 
@@ -374,14 +431,31 @@ $(document).ready(function()
 
                         started_date = started_date_year + '-' + ((started_date_month <= 9) ? '0' + started_date_month : started_date_month) + '-' + ((started_date_day <= 9) ? '0' + started_date_day : started_date_day);
 
-                        $('[data-modal="get_vox_report"]').find('[name="started_date"]').val(started_date);
+                        $('[data-modal="filter_vox_report"]').find('[name="started_date"]').val(started_date);
 
-                        $.each(response1.data.fields, function (key, value)
-                        {
-                            $('[data-modal="get_vox_report"]').find('[name="fields[]"][value="' + value + '"]').prop('checked', true);
+                        $.ajax({
+                            type: 'POST',
+                            data: 'type=' + response1.data.type + '&action=get_cbx_vox_report_fields',
+                            processData: false,
+                            cache: false,
+                            dataType: 'json',
+                            success: function(response2)
+                            {
+                                if (response2.status == 'success')
+                                {
+                                    $('[data-modal="filter_vox_report"]').find('[name="fields[]"]').parent().parent().html(response2.html);
+
+                                    $.each(response1.data.fields, function (key, value)
+                                    {
+                                        $('[data-modal="filter_vox_report"]').find('[name="fields[]"][value="' + value + '"]').prop('checked', true);
+                                    });
+                                }
+                                else if (response2.status == 'error')
+                                    show_modal_error(response2.message);
+                            }
                         });
 
-                        required_focus('form', $('form[name="get_vox_report"]'), null);
+                        required_focus('form', $('form[name="filter_vox_report"]'), null);
                     }
                     else if (response1.status == 'error')
                         show_modal_error(response1.message);
@@ -390,7 +464,7 @@ $(document).ready(function()
         }
     });
 
-    $('[data-modal="get_vox_report"]').find('[name="type"]').on('change', function()
+    $('[data-modal="filter_vox_report"]').find('[name="type"]').on('change', function()
     {
         $.ajax({
             type: 'POST',
@@ -402,9 +476,9 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="get_vox_report"]').find('[name="owner"]').html(response.html);
+                    $('[data-modal="filter_vox_report"]').find('[name="owner"]').html(response.html);
 
-                    required_focus('input', $('[data-modal="get_vox_report"]').find('[name="owner"]'), null);
+                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="owner"]'), null);
                 }
             }
         });
@@ -419,9 +493,9 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="get_vox_report"]').find('[name="opportunity_area"]').html(response.html);
+                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_area"]').html(response.html);
 
-                    required_focus('input', $('[data-modal="get_vox_report"]').find('[name="opportunity_area"]'), null);
+                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="opportunity_area"]'), null);
                 }
             }
         });
@@ -436,9 +510,9 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="get_vox_report"]').find('[name="opportunity_type"]').html(response.html);
+                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]').html(response.html);
 
-                    required_focus('input', $('[data-modal="get_vox_report"]').find('[name="opportunity_type"]'), null);
+                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]'), null);
                 }
             }
         });
@@ -453,9 +527,9 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="get_vox_report"]').find('[name="location"]').html(response.html);
+                    $('[data-modal="filter_vox_report"]').find('[name="location"]').html(response.html);
 
-                    required_focus('input', $('[data-modal="get_vox_report"]').find('[name="location"]'), null);
+                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="location"]'), null);
                 }
             }
         });
@@ -469,16 +543,16 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                    $('[data-modal="get_vox_report"]').find('[name="fields[]"]').parent().parent().html(response.html);
+                    $('[data-modal="filter_vox_report"]').find('[name="fields[]"]').parent().parent().html(response.html);
             }
         });
     });
 
-    $('[data-modal="get_vox_report"]').find('[name="opportunity_area"]').on('change', function()
+    $('[data-modal="filter_vox_report"]').find('[name="opportunity_area"]').on('change', function()
     {
         $.ajax({
             type: 'POST',
-            data: 'opportunity_area=' + $(this).val() + '&type=' + $('[data-modal="get_vox_report"]').find('[name="type"]').val() + '&action=get_opt_opportunity_types',
+            data: 'opportunity_area=' + $(this).val() + '&type=' + $('[data-modal="filter_vox_report"]').find('[name="type"]').val() + '&action=get_opt_opportunity_types',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -486,20 +560,20 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="get_vox_report"]').find('[name="opportunity_type"]').html(response.html);
+                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]').html(response.html);
 
-                    required_focus('input', $('[data-modal="get_vox_report"]').find('[name="opportunity_type"]'), null)
+                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]'), null)
                 }
             }
         });
     });
 
-    $('[data-modal="get_vox_report"]').modal().onCancel(function()
+    $('[data-modal="filter_vox_report"]').modal().onCancel(function()
     {
-        clean_form($('form[name="get_vox_report"]'));
+        clean_form($('form[name="filter_vox_report"]'));
     });
 
-    $('form[name="get_vox_report"]').on('submit', function(e)
+    $('form[name="filter_vox_report"]').on('submit', function(e)
     {
         e.preventDefault();
 
@@ -507,7 +581,7 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=print_vox_report',
+            data: form.serialize() + '&action=filter_vox_report',
             processData: false,
             cache: false,
             dataType: 'json',

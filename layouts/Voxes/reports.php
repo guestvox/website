@@ -10,9 +10,9 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 %{header}%
 <main class="dashboard">
     <section class="workspace">
-        {$div_tabers}
+        {$div_options}
         {$tbl_voxes_reports}
-        {$div_vox_report_print}
+        {$div_print_vox_report}
     </section>
     <section class="buttons">
         <div>
@@ -23,9 +23,11 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{voxes_reports_view}']) == true) : ?>
             <a href="/voxes/reports/print" class="active"><i class="fas fa-bug"></i></a>
+            <?php elseif (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}','{voxes_reports_deactivate}','{voxes_reports_activate}','{voxes_reports_delete}']) == true) : ?>
+            <a href="/voxes/reports/saved" class="active"><i class="fas fa-bug"></i></a>
             <?php endif; ?>
             {$btn_new_vox_report}
-            {$btn_get_vox_report}
+            {$btn_filter_vox_report}
         </div>
     </section>
 </main>
@@ -33,4 +35,4 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 {$mdl_deactivate_vox_report}
 {$mdl_activate_vox_report}
 {$mdl_delete_vox_report}
-{$mdl_get_vox_report}
+{$mdl_filter_vox_report}

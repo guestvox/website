@@ -32,8 +32,8 @@ class Account_controller extends Controller
 					$mail2->addAddress('contacto@guestvox.com', 'Guestvox');
 					$mail2->Subject = 'Soporte técnico | Nueva reporte';
 					$mail2->Body =
-					'Cuenta: ' . Session::get_value('account')['name'] . ' #' . Session::get_value('account')['token'] . '<br>
-					Usuario: ' . Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname'] . ' @' . Session::get_value('user')['username'] . '<br>
+					'Cuenta: ' . Session::get_value('account')['name'] . ' (#' . Session::get_value('account')['token'] . ')<br>
+					Usuario: ' . Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname'] . ' (@' . Session::get_value('user')['username'] . ')<br>
 					Mensaje: ' . $_POST['message'];
 					$mail2->send();
 
@@ -49,14 +49,6 @@ class Account_controller extends Controller
 						'labels' => $labels
 					]);
 				}
-			}
-
-			if ($_POST['action'] == 'get_account')
-			{
-				Functions::environment([
-					'status' => 'success',
-					'data' => $account
-				]);
 			}
 
 			if ($_POST['action'] == 'edit_logotype')
@@ -98,6 +90,14 @@ class Account_controller extends Controller
 						'labels' => $labels
 					]);
 				}
+			}
+
+			if ($_POST['action'] == 'get_account')
+			{
+				Functions::environment([
+					'status' => 'success',
+					'data' => $account
+				]);
 			}
 
 			if ($_POST['action'] == 'edit_account')
@@ -230,7 +230,7 @@ class Account_controller extends Controller
 
 				if (!empty($_POST['opportunity_area']))
 				{
-					foreach ($this->model->get_opportunity_types($_POST['opportunity_area']) as $value)
+					foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], 'request') as $value)
 						$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
 				}
 
@@ -240,7 +240,7 @@ class Account_controller extends Controller
 				]);
 			}
 
-			if ($_POST['action'] == 'edit_myvox_request_settings' OR $_POST['action'] == 'edit_myvox_incident_settings' OR $_POST['action'] == 'edit_myvox_menu_settings' OR $_POST['action'] == 'edit_myvox_survey_settings' OR $_POST['action'] == 'edit_reviews_settings')
+			if ($_POST['action'] == 'edit_myvox_request_settings' OR $_POST['action'] == 'edit_myvox_incident_settings' OR $_POST['action'] == 'edit_myvox_menu_settings' OR $_POST['action'] == 'edit_myvox_survey_settings' OR $_POST['action'] == 'edit_reviews_settings' OR $_POST['action'] == 'edit_voxes_attention_times_settings')
 			{
 				$labels = [];
 
@@ -344,6 +344,26 @@ class Account_controller extends Controller
 							array_push($labels, ['seo_description_en','']);
 					}
 				}
+				else if ($_POST['action'] == 'edit_voxes_attention_times_settings')
+				{
+					if (!isset($_POST['request_low']) OR empty($_POST['request_low']))
+						array_push($labels, ['request_low','']);
+
+					if (!isset($_POST['request_medium']) OR empty($_POST['request_medium']))
+						array_push($labels, ['request_medium','']);
+
+					if (!isset($_POST['request_high']) OR empty($_POST['request_high']))
+						array_push($labels, ['request_high','']);
+
+					if (!isset($_POST['incident_low']) OR empty($_POST['incident_low']))
+						array_push($labels, ['incident_low','']);
+
+					if (!isset($_POST['incident_medium']) OR empty($_POST['incident_medium']))
+						array_push($labels, ['incident_medium','']);
+
+					if (!isset($_POST['incident_high']) OR empty($_POST['incident_high']))
+						array_push($labels, ['incident_high','']);
+				}
 
 				if (empty($labels))
 				{
@@ -365,6 +385,8 @@ class Account_controller extends Controller
 					}
 					else if ($_POST['action'] == 'edit_reviews_settings')
 						$query = $this->model->edit_settings('reviews', $_POST);
+					else if ($_POST['action'] == 'edit_voxes_attention_times_settings')
+						$query = $this->model->edit_settings('voxes_attention_times', $_POST);
 
 					if (!empty($query))
 					{
@@ -467,6 +489,19 @@ class Account_controller extends Controller
 	            </div>';
 			}
 
+			$div_attention_times = '';
+
+			if ($account['operation'] == true)
+			{
+				$div_attention_times .=
+				'<div class="stl_5">
+	                <i class="fas fa-clock"></i>
+	                <h2>{$lang.attention_times}</h2>
+	                <span>{$lang.activated}</span>
+					<a class="edit" data-action="edit_voxes_attention_times_settings"><i class="fas fa-pen"></i></a>
+	            </div>';
+			}
+
 			$div_siteminder = '';
 			$div_zaviapms = '';
 
@@ -523,7 +558,7 @@ class Account_controller extends Controller
 				$mdl_get_urls .=
 				'           </div>
 				            <div class="buttons">
-				                <a button-close><i class="fas fa-check"></i></a>
+				                <a button-close><i class="fas fa-times"></i></a>
 				            </div>
 				        </main>
 				    </div>
@@ -570,7 +605,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(ES) {$lang.title} <a data-action="get_help" data-text="{$lang.es_request_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(ES) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<input type="text" name="title_es">
 											</label>
 										</div>
@@ -578,7 +613,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(EN) {$lang.title} <a data-action="get_help" data-text="{$lang.en_request_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(EN) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<input type="text" name="title_en">
 											</label>
 										</div>
@@ -604,7 +639,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(ES) {$lang.title} <a data-action="get_help" data-text="{$lang.es_incident_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(ES) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<input type="text" name="title_es">
 											</label>
 										</div>
@@ -612,7 +647,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(EN) {$lang.title} <a data-action="get_help" data-text="{$lang.en_incident_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(EN) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<input type="text" name="title_en">
 											</label>
 										</div>
@@ -640,7 +675,7 @@ class Account_controller extends Controller
 										<div class="span6">
 											<div class="label">
 												<label required>
-													<p>(ES) {$lang.title} <a data-action="get_help" data-text="{$lang.es_menu_title_help}"><i class="fas fa-question-circle"></i></a></p>
+													<p>(ES) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 													<input type="text" name="title_es">
 												</label>
 											</div>
@@ -648,7 +683,7 @@ class Account_controller extends Controller
 										<div class="span6">
 											<div class="label">
 												<label required>
-													<p>(EN) {$lang.title} <a data-action="get_help" data-text="{$lang.en_menu_title_help}"><i class="fas fa-question-circle"></i></a></p>
+													<p>(EN) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 													<input type="text" name="title_en">
 												</label>
 											</div>
@@ -656,7 +691,7 @@ class Account_controller extends Controller
 										<div class="span4">
 											<div class="label">
 												<label required>
-													<p>{$lang.currency} <a data-action="get_help" data-text="{$lang.menu_currency_help}"><i class="fas fa-question-circle"></i></a></p>
+													<p>{$lang.currency} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 													<select name="currency">
 														<option value="" hidden>{$lang.choose}</option>';
 
@@ -671,11 +706,11 @@ class Account_controller extends Controller
 										<div class="span4">
 											<div class="label">
 												<label required>
-													<p>{$lang.opportunity_area} <a data-action="get_help" data-text="{$lang.menu_opportunity_area_help}"><i class="fas fa-question-circle"></i></a></p>
+													<p>{$lang.opportunity_area} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 													<select name="opportunity_area">
 														<option value="" hidden>{$lang.choose}</option>';
 
-					foreach ($this->model->get_opportunity_areas() as $value)
+					foreach ($this->model->get_opportunity_areas('request') as $value)
 						$mdl_edit_myvox_menu_settings .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
 
 					$mdl_edit_myvox_menu_settings .=
@@ -686,7 +721,7 @@ class Account_controller extends Controller
 										<div class="span4">
 											<div class="label">
 												<label required>
-													<p>{$lang.opportunity_type} <a data-action="get_help" data-text="{$lang.menu_opportunity_type_help}"><i class="fas fa-question-circle"></i></a></p>
+													<p>{$lang.opportunity_type} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 													<select name="opportunity_type" disabled>
 														<option value="" hidden>{$lang.choose}</option>
 													</select>
@@ -721,7 +756,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(ES) {$lang.title} <a data-action="get_help" data-text="{$lang.es_survey_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(ES) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<input type="text" name="title_es">
 											</label>
 										</div>
@@ -729,7 +764,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(EN) {$lang.title} <a data-action="get_help" data-text="{$lang.en_survey_title_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(EN) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<input type="text" name="title_en">
 											</label>
 										</div>
@@ -737,7 +772,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(ES) {$lang.mail_subject} <a data-action="get_help" data-text="{$lang.es_mail_subject_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(ES) {$lang.mail_subject} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<input type="text" name="mail_subject_es">
 											</label>
 										</div>
@@ -745,7 +780,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(EN) {$lang.mail_subject} <a data-action="get_help" data-text="{$lang.en_mail_subject_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(EN) {$lang.mail_subject} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<input type="text" name="mail_subject_en">
 											</label>
 										</div>
@@ -753,7 +788,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(ES) {$lang.mail_description} <a data-action="get_help" data-text="{$lang.es_mail_description_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(ES) {$lang.mail_description} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<textarea name="mail_description_es"></textarea>
 											</label>
 										</div>
@@ -761,14 +796,14 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(EN) {$lang.mail_description} <a data-action="get_help" data-text="{$lang.en_mail_description_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(EN) {$lang.mail_description} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<textarea name="mail_description_en"></textarea>
 											</label>
 										</div>
 									</div>
 									<div class="span12">
 										<div class="stl_2" data-uploader="low">
-											<p>{$lang.mail_image} <a data-action="get_help" data-text="{$lang.mail_image_help}"><i class="fas fa-question-circle"></i></a></p>
+											<p>{$lang.mail_image} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 											<figure data-preview>
 												<img src="{$path.images}empty.png">
 												<a data-select><i class="fas fa-upload"></i></a>
@@ -778,7 +813,7 @@ class Account_controller extends Controller
 									</div>
 									<div class="span12">
 										<div class="stl_2" data-uploader="low">
-											<p>{$lang.mail_attachment} <a data-action="get_help" data-text="{$lang.mail_attachment_help}"><i class="fas fa-question-circle"></i></a></p>
+											<p>{$lang.mail_attachment} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 											<figure data-preview>
 												<img src="{$path.images}empty.png">
 												<a data-select><i class="fas fa-upload"></i></a>
@@ -789,7 +824,7 @@ class Account_controller extends Controller
 									<div class="span12">
 										<div class="label">
 											<label unrequired>
-												<p>{$lang.widget} <a data-action="get_help" data-text="{$lang.widget_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>{$lang.widget} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<textarea name="widget"></textarea>
 											</label>
 										</div>
@@ -854,7 +889,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(ES) {$lang.description} <a data-action="get_help" data-text="{$lang.es_description_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(ES) {$lang.description} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<textarea name="description_es"></textarea>
 											</label>
 										</div>
@@ -862,7 +897,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(EN) {$lang.description} <a data-action="get_help" data-text="{$lang.en_description_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(EN) {$lang.description} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<textarea name="description_en"></textarea>
 											</label>
 										</div>
@@ -870,7 +905,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(ES) {$lang.seo_keywords} <a data-action="get_help" data-text="{$lang.es_seo_keywords_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(ES) {$lang.seo_keywords} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<input type="text" name="seo_keywords_es">
 											</label>
 										</div>
@@ -878,7 +913,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(EN) {$lang.seo_keywords} <a data-action="get_help" data-text="{$lang.en_seo_keywords_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(EN) {$lang.seo_keywords} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<input type="text" name="seo_keywords_en">
 											</label>
 										</div>
@@ -886,7 +921,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(ES) {$lang.seo_description} <a data-action="get_help" data-text="{$lang.en_seo_description_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(ES) {$lang.seo_description} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<textarea name="seo_description_es"></textarea>
 											</label>
 										</div>
@@ -894,7 +929,7 @@ class Account_controller extends Controller
 									<div class="span6">
 										<div class="label">
 											<label required>
-												<p>(EN) {$lang.seo_description} <a data-action="get_help" data-text="{$lang.en_seo_description_help}"><i class="fas fa-question-circle"></i></a></p>
+												<p>(EN) {$lang.seo_description} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<textarea name="seo_description_en"></textarea>
 											</label>
 										</div>
@@ -968,30 +1003,96 @@ class Account_controller extends Controller
 				</section>';
 			}
 
+			$mdl_edit_voxes_attention_times_settings = '';
+
+			if ($account['operation'] == true)
+			{
+				$mdl_edit_voxes_attention_times_settings .=
+				'<section class="modal fullscreen" data-modal="edit_voxes_attention_times_settings">
+					<div class="content">
+						<main>
+							<form name="edit_voxes_attention_times_settings">
+								<div class="row">
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>{$lang.request}</p>
+												<p>{$lang.urgency_low} ({$lang.minutes})</p>
+												<input type="number" name="request_low">
+											</label>
+										</div>
+									</div>
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>{$lang.request}</p>
+												<p>{$lang.urgency_medium} ({$lang.minutes})</p>
+												<input type="number" name="request_medium">
+											</label>
+										</div>
+									</div>
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>{$lang.request}</p>
+												<p>{$lang.urgency_high} ({$lang.minutes})</p>
+												<input type="number" name="request_high">
+											</label>
+										</div>
+									</div>
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>{$lang.incident}</p>
+												<p>{$lang.urgency_low} ({$lang.minutes})</p>
+												<input type="number" name="incident_low">
+											</label>
+										</div>
+									</div>
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>{$lang.incident}</p>
+												<p>{$lang.urgency_medium} ({$lang.minutes})</p>
+												<input type="number" name="incident_medium">
+											</label>
+										</div>
+									</div>
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>{$lang.incident}</p>
+												<p>{$lang.urgency_high} ({$lang.minutes})</p>
+												<input type="number" name="incident_high">
+											</label>
+										</div>
+									</div>
+									<div class="span12">
+										<div class="buttons">
+											<a button-cancel><i class="fas fa-times"></i></a>
+											<button type="submit"><i class="fas fa-check"></i></button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</main>
+					</div>
+				</section>';
+			}
+
 			$replace = [
 				'{$logotype}' => '{$path.uploads}' . $account['logotype'],
 				'{$qr}' => '{$path.uploads}' . $account['qr'],
 				'{$name}' => $account['name'],
 				'{$token}' => $account['token'],
-				'{$country}' => $account['country'],
-				'{$city}' => $account['city'],
-				'{$zip_code}' => $account['zip_code'],
-				'{$address}' => $account['address'],
-				'{$time_zone}' => $account['time_zone'],
-				'{$currency}' => $account['currency'],
-				'{$language}' => $account['language'],
 				'{$fiscal_name}' => $account['fiscal']['name'],
 				'{$fiscal_id}' => $account['fiscal']['id'],
-				'{$fiscal_address}' => $account['fiscal']['address'],
-				'{$contact_name}' => $account['contact']['firstname'] . ' ' . $account['contact']['lastname'],
-				'{$contact_department}' => $account['contact']['department'],
-				'{$contact_email}' => $account['contact']['email'],
-				'{$contact_phone}' => $account['contact']['phone']['lada'] . ' ' . $account['contact']['phone']['number'],
 				'{$div_public_requests}' => $div_public_requests,
 				'{$div_public_incidents}' => $div_public_incidents,
 				'{$div_digital_menu}' => $div_digital_menu,
 				'{$div_answered_survey}' => $div_answered_survey,
 				'{$div_reviews_page}' => $div_reviews_page,
+				'{$div_attention_times}' => $div_attention_times,
 				'{$operation}' => ($account['operation'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$reputation}' => ($account['reputation'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$package}' => $account['package'],
@@ -1009,7 +1110,8 @@ class Account_controller extends Controller
 				'{$mdl_edit_myvox_incident_settings}' => $mdl_edit_myvox_incident_settings,
 				'{$mdl_edit_myvox_menu_settings}' => $mdl_edit_myvox_menu_settings,
 				'{$mdl_edit_myvox_survey_settings}' => $mdl_edit_myvox_survey_settings,
-				'{$mdl_edit_reviews_settings}' => $mdl_edit_reviews_settings
+				'{$mdl_edit_reviews_settings}' => $mdl_edit_reviews_settings,
+				'{$mdl_edit_voxes_attention_times_settings}' => $mdl_edit_voxes_attention_times_settings
 			];
 
 			$template = $this->format->replace($replace, $template);

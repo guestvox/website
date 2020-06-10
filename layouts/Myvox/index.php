@@ -20,7 +20,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
     <h2>{$lang.how_may_i_help_you}</h2>
     {$btn_new_request}
     {$btn_new_incident}
-    {$btn_new_menu_cart}
+    {$btn_new_menu_order}
     {$btn_new_survey_answer}
 </main>
 <footer class="myvox">

@@ -35,7 +35,7 @@ $(document).ready(function()
         });
     });
 
-    $('form[name="new_vox"]').on('submit', function(e)
+    $('form[name="new_incident"]').on('submit', function(e)
     {
         e.preventDefault();
 
@@ -43,7 +43,7 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=new_vox',
+            data: form.serialize() + '&action=new_incident',
             processData: false,
             cache: false,
             dataType: 'json',

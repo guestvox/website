@@ -1768,7 +1768,7 @@ class Voxes_controller extends Controller
 			{
 				$html =
 				'<div>
-					<input type="checkbox" name="checked_all" checked>
+					<input type="checkbox" name="checked_all">
 					<span><strong>{$lang.all}</strong></span>
 				</div>';
 
@@ -1776,7 +1776,7 @@ class Voxes_controller extends Controller
 				{
 					$html .=
 					'<div>
-						<input type="checkbox" name="opportunity_areas[]" value="' . $value['id'] . '" checked>
+						<input type="checkbox" name="opportunity_areas[]" value="' . $value['id'] . '">
 						<span>' . $value['name'][$this->lang] . '</span>
 					</div>';
 				}
@@ -1791,7 +1791,7 @@ class Voxes_controller extends Controller
 			{
 				$html =
 				'<div>
-					<input type="checkbox" name="checked_all" checked>
+					<input type="checkbox" name="checked_all">
 					<span><strong>{$lang.all}</strong></span>
 				</div>';
 
@@ -1799,7 +1799,7 @@ class Voxes_controller extends Controller
 				{
 					$html .=
 					'<div>
-						<input type="checkbox" name="fields[]" value="' . $value['id'] . '" checked>
+						<input type="checkbox" name="fields[]" value="' . $value['id'] . '">
 						<span>{$lang.' . $value['name'] . '}</span>
 					</div>';
 				}
@@ -1810,283 +1810,285 @@ class Voxes_controller extends Controller
 				]);
 			}
 
-			if ($_POST['action'] == 'print_vox_report')
+			if ($_POST['action'] == 'filter_vox_report')
 			{
-				$labels = [];
+				print_r($_POST);
 
-				if (!isset($_POST['report']) OR empty($_POST['report']))
-					array_push($labels, ['report','']);
-
-				if (!isset($_POST['type']) OR empty($_POST['type']))
-					array_push($labels, ['type','']);
-
-				if (!isset($_POST['order']) OR empty($_POST['order']))
-					array_push($labels, ['order','']);
-
-				if (!isset($_POST['started_date']) OR empty($_POST['started_date']) OR $_POST['started_date'] > Functions::get_current_date() OR $_POST['started_date'] > $_POST['end_date'])
-					array_push($labels, ['started_date','']);
-
-				if (!isset($_POST['end_date']) OR empty($_POST['end_date']) OR $_POST['end_date'] > Functions::get_current_date() OR $_POST['end_date'] < $_POST['started_date'])
-					array_push($labels, ['end_date','']);
-
-				if (!isset($_POST['fields']) OR empty($_POST['fields']))
-					array_push($labels, ['fields[]','']);
-
-				if (empty($labels))
-				{
-					$query = $this->model->get_voxes('report', $_POST);
-
-					if (!empty($query))
-					{
-						$html = '';
-
-						foreach ($query as $value)
-						{
-							$html .= '<div>';
-
-							if (in_array('type', $_POST['fields']))
-								$html .= '<p><strong>{$lang.type}:</strong> {$lang.' . $value['type'] . '}</p>';
-
-							$html .= '<p><strong>{$lang.token}:</strong> ' . $value['token'] . '</p>';
-
-							if (in_array('owner', $_POST['fields']))
-								$html .= '<p><strong>{$lang.owner}:</strong>' . $value['owner']['name'] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') . '</p>';
-
-							if (in_array('opportunity_area', $_POST['fields']))
-								$html .= '<p><strong>{$lang.opportunity_area}:</strong> ' . $value['opportunity_area']['name'][$this->lang] . '</p>';
-
-							if (in_array('opportunity_type', $_POST['fields']))
-								$html .= '<p><strong>{$lang.opportunity_type}:</strong> ' . $value['opportunity_type']['name'][$this->lang] . '</p>';
-
-							if (in_array('date', $_POST['fields']))
-								$html .= '<p><strong>{$lang.date}:</strong> ' . Functions::get_formatted_date($value['started_date'], 'd F, Y') . ' ' . Functions::get_formatted_hour($value['started_hour'], '+ hrs') . '</p>';
-
-							if (in_array('location', $_POST['fields']))
-								$html .= '<p><strong>{$lang.location}:</strong> ' . $value['location']['name'][$this->lang] . '</p>';
-
-							if ($value['type'] == 'incident' OR $value['type'] == 'workorder')
-							{
-								if (in_array('cost', $_POST['fields']))
-									$html .= '<p><strong>{$lang.cost}:</strong> ' . Functions::get_formatted_currency((!empty($value['cost']) ? $value['cost'] : '0'), Session::get_value('account')['currency']) . '</p>';
-							}
-
-							if (in_array('urgency', $_POST['fields']))
-								$html .= '<p><strong>{$lang.urgency}:</strong> {$lang.' . $value['urgency'] . '}</p>';
-
-							if ($value['type'] == 'incident')
-							{
-								if (in_array('confidentiality', $_POST['fields']))
-									$html .= '<p><strong>{$lang.confidentiality}:</strong> {$lang.' . (($value['confidentiality'] == true) ? 'yes' : 'not') . '}</p>';
-							}
-
-							if (in_array('assigned_users', $_POST['fields']))
-							{
-								$str = '';
-
-					            if (!empty($value['assigned_users']))
-								{
-									foreach ($value['assigned_users'] as $subvalue)
-						                $str .= $subvalue['firstname'] . ' ' . $subvalue['lastname'] . ', ';
-
-						            $str = substr($str, 0, -2);
-								}
-								else
-									$str .= '{$lang.empty}';
-
-								$html .= '<p><strong>{$lang.assigned_users}:</strong> ' . $str . '</p>';
-							}
-
-							if ($value['type'] == 'request' OR $value['type'] == 'workorder')
-							{
-								if (in_array('observations', $_POST['fields']))
-									$html .= '<p><strong>{$lang.observations}:</strong> ' . (!empty($value['observations']) ? $value['observations'] : '{$lang.empty}') . '</p>';
-							}
-
-							if ($value['type'] == 'incident')
-							{
-								if (in_array('subject', $_POST['fields']))
-									$html .= '<p><strong>{$lang.subject}:</strong> ' . (!empty($value['subject']) ? $value['subject'] : '{$lang.empty}') . '</p>';
-
-								if (in_array('description', $_POST['fields']))
-									$html .= '<p><strong>{$lang.description}:</strong> ' . (!empty($value['description']) ? $value['description'] : '{$lang.empty}') . '</p>';
-
-								if (in_array('action_taken', $_POST['fields']))
-									$html .= '<p><strong>{$lang.action_taken}:</strong> ' . (!empty($value['action_taken']) ? $value['action_taken'] : '{$lang.empty}') . '</p>';
-							}
-
-							if ($value['type'] == 'request' OR $value['type'] == 'incident')
-							{
-								if (in_array('name', $_POST['fields']))
-									$html .= '<p><strong>{$lang.name}:</strong> ' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($value['guest_treatment'])) ? $value['guest_treatment']['name'] . ' ' : '') . $value['firstname'] . ' ' . $value['lastname'] : '{$lang.empty}') . '</p>';
-							}
-
-							if (Session::get_value('account')['type'] == 'hotel')
-							{
-								if ($value['type'] == 'incident')
-								{
-									if (in_array('guest_id', $_POST['fields']))
-										$html .= '<p><strong>{$lang.guest_id}:</strong> ' . (!empty($value['guest_id']) ? $value['guest_id'] : '{$lang.empty}') . '</p>';
-
-									if (in_array('guest_type', $_POST['fields']))
-										$html .= '<p><strong>{$lang.guest_type}:</strong> ' . (!empty($value['guest_type']) ? $value['guest_type']['name'] : '{$lang.empty}') . '</p>';
-
-									if (in_array('reservation_number', $_POST['fields']))
-										$html .= '<p><strong>{$lang.reservation_number}:</strong> ' . (!empty($value['reservation_number']) ? $value['reservation_number'] : '{$lang.empty}') . '</p>';
-
-									if (in_array('reservation_status', $_POST['fields']))
-										$html .= '<p><strong>{$lang.reservation_status}:</strong> ' . (!empty($value['reservation_status']) ? $value['reservation_status']['name'] : '{$lang.empty}') . '</p>';
-
-									if (in_array('staying', $_POST['fields']))
-										$html .= '<p><strong>{$lang.staying}:</strong> ' . ((!empty($value['check_in']) AND !empty($value['check_out'])) ? Functions::get_formatted_date($value['check_in'], 'd F, Y') . ' / ' . Functions::get_formatted_date($value['check_out'], 'd F, Y') : '{$lang.empty}') . '</p>';
-								}
-							}
-
-							if (in_array('attachments', $_POST['fields']))
-							{
-								$str = '';
-
-								if (!empty($value['attachments']))
-								{
-									$img = 0;
-									$pdf = 0;
-									$wrd = 0;
-									$exl = 0;
-
-									foreach ($value['attachments'] as $subvalue)
-									{
-										if ($subvalue['status'] == 'success')
-										{
-											$ext = strtoupper(explode(' .', $subvalue['file'])[1]);
-
-											if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
-												$img = $img + 1;
-											else if ($ext == 'PDF')
-												$pdf = $pdf + 1;
-											else if ($ext == 'DOC' OR $ext == 'DOCX')
-												$wrd = $wrd + 1;
-											else if ($ext == 'XLS' OR $ext == 'XLSX')
-												$exl = $exl + 1;
-										}
-									}
-
-									if ($img > 0)
-										$str .= '<img src="{$path.images}empty.png">' . $img . ' {$lang.files}, ';
-
-									if ($pdf > 0)
-										$str .= '<img src="{$path.images}pdf.png">' . $pdf . ' {$lang.files}, ';
-
-									if ($wrd > 0)
-										$str .= '<img src="{$path.images}word.png">' . $wrd . ' {$lang.files}, ';
-
-									if ($exl > 0)
-										$str .= '<img src="{$path.images}excel.png">' . $exl . ' {$lang.files}, ';
-
-									$str = substr($str, 0, -2);
-								}
-								else
-									$str .= '{$lang.empty}';
-
-								$html .= '<p><strong>{$lang.attachments}:</strong> ' . $str . '</p>';
-							}
-
-							if (in_array('viewed_by', $_POST['fields']))
-							{
-								$str = '';
-
-								if (!empty($value['viewed_by']))
-								{
-									foreach ($value['viewed_by'] as $subvalue)
-										$str .= $subvalue['firstname'] . ' ' . $subvalue['lastname'] . ', ';
-
-									$str = substr($str, 0, -2);
-								}
-								else
-									$str .= '{$lang.empty}';
-
-								$html .= '<p><strong>{$lang.viewed_by}:</strong> ' . $str . '</p>';
-							}
-
-							if (in_array('created', $_POST['fields']))
-								$html .= '<p><strong>{$lang.created}:</strong> ' . (($value['origin'] == 'myvox') ? 'Myvox' : $value['created_user']['firstname'] . ' ' . $value['created_user']['lastname']) . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['created_date'], $value['created_hour']) . '</p>';
-
-							if (in_array('edited', $_POST['fields']))
-								$html .= '<p><strong>{$lang.edited}:</strong> ' . (!empty($value['edited_user']) ? $value['edited_user']['firstname'] . ' ' . $value['edited_user']['lastname'] . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['edited_date'], $value['edited_hour']) : '{$lang.empty}') . '</p>';
-
-							if (in_array('completed', $_POST['fields']))
-								$html .= '<p><strong>{$lang.completed}:</strong> ' . (!empty($value['completed_user']) ? $value['completed_user']['firstname'] . ' ' . $value['completed_user']['lastname'] . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['completed_date'], $value['completed_hour']) : '{$lang.empty}') . '</p>';
-
-							if (in_array('reopened', $_POST['fields']))
-								$html .= '<p><strong>{$lang.reopened}:</strong> ' . (!empty($value['reopened_user']) ? $value['reopened_user']['firstname'] . ' ' . $value['reopened_user']['lastname'] . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['reopened_date'], $value['reopened_hour']) : '{$lang.empty}') . '</p>';
-
-							if (in_array('status', $_POST['fields']))
-								$html .= '<p><strong>{$lang.status}:</strong> {$lang.' . (($value['status'] == true) ? 'opened' : 'closed') . '}</p>';
-
-							if (in_array('origin', $_POST['fields']))
-								$html .= '<p><strong>{$lang.origin}:</strong> {$lang.' . $value['origin'] . '}</p>';
-
-							if (in_array('average_resolution', $_POST['fields']))
-							{
-								$str = '';
-
-								if ($value['status'] == false AND !empty($value['completed_date']) AND !empty($value['completed_hour']))
-								{
-									$date1 = new DateTime($value['started_date'] . ' ' . $value['started_hour']);
-									$date2 = new DateTime($value['completed_date'] . ' ' . $value['completed_hour']);
-									$date3 = $date1->diff($date2);
-
-									if ($date3->h == 0 AND $date3->i == 0)
-										$str .= $date3->s . ' Seg';
-									else if ($date3->h == 0 AND $date3->i > 0)
-										$str .= $date3->i . ' Min';
-									else if ($date3->h > 0 AND $date3->i == 0)
-										$str .= $date3->h . ' Hrs';
-									else if ($date3->h > 0 AND $date3->i > 0)
-										$str .= $date3->h . ' Hrs ' . $date3->i . ' Min';
-								}
-								else
-									$str .= '{$lang.empty}';
-
-								$html .= '<p><strong>{$lang.average_resolution}:</strong> ' . $str . '</p>';
-							}
-
-							if (in_array('comments', $_POST['fields']))
-							{
-								$str = '';
-
-								if (!empty($value['comments']))
-								{
-									foreach ($value['comments'] as $subvalue)
-										$str .= '<p><strong>' . $subvalue['user']['firstname'] . ' ' . $subvalue['user']['lastname'] . ':</strong> ' . $subvalue['message'] . '</p>';
-								}
-								else
-									$str .= '{$lang.empty}';
-
-								$html .= '<p><strong>{$lang.comments}:</strong></p>' . $str;
-							}
-
-							$html .= '</div>';
-						}
-
-						Functions::environment([
-							'status' => 'success',
-							'html' => $html
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.operation_error}'
-						]);
-					}
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'labels' => $labels
-					]);
-				}
+				// $labels = [];
+				//
+				// if (!isset($_POST['report']) OR empty($_POST['report']))
+				// 	array_push($labels, ['report','']);
+				//
+				// if (!isset($_POST['type']) OR empty($_POST['type']))
+				// 	array_push($labels, ['type','']);
+				//
+				// if (!isset($_POST['order']) OR empty($_POST['order']))
+				// 	array_push($labels, ['order','']);
+				//
+				// if (!isset($_POST['started_date']) OR empty($_POST['started_date']) OR $_POST['started_date'] > Functions::get_current_date() OR $_POST['started_date'] > $_POST['end_date'])
+				// 	array_push($labels, ['started_date','']);
+				//
+				// if (!isset($_POST['end_date']) OR empty($_POST['end_date']) OR $_POST['end_date'] > Functions::get_current_date() OR $_POST['end_date'] < $_POST['started_date'])
+				// 	array_push($labels, ['end_date','']);
+				//
+				// if (!isset($_POST['fields']) OR empty($_POST['fields']))
+				// 	array_push($labels, ['fields[]','']);
+				//
+				// if (empty($labels))
+				// {
+				// 	$query = $this->model->get_voxes('report', $_POST);
+				//
+				// 	if (!empty($query))
+				// 	{
+				// 		$html = '';
+				//
+				// 		foreach ($query as $value)
+				// 		{
+				// 			$html .= '<div>';
+				//
+				// 			if (in_array('type', $_POST['fields']))
+				// 				$html .= '<p><strong>{$lang.type}:</strong> {$lang.' . $value['type'] . '}</p>';
+				//
+				// 			$html .= '<p><strong>{$lang.token}:</strong> ' . $value['token'] . '</p>';
+				//
+				// 			if (in_array('owner', $_POST['fields']))
+				// 				$html .= '<p><strong>{$lang.owner}:</strong>' . $value['owner']['name'] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') . '</p>';
+				//
+				// 			if (in_array('opportunity_area', $_POST['fields']))
+				// 				$html .= '<p><strong>{$lang.opportunity_area}:</strong> ' . $value['opportunity_area']['name'][$this->lang] . '</p>';
+				//
+				// 			if (in_array('opportunity_type', $_POST['fields']))
+				// 				$html .= '<p><strong>{$lang.opportunity_type}:</strong> ' . $value['opportunity_type']['name'][$this->lang] . '</p>';
+				//
+				// 			if (in_array('date', $_POST['fields']))
+				// 				$html .= '<p><strong>{$lang.date}:</strong> ' . Functions::get_formatted_date($value['started_date'], 'd F, Y') . ' ' . Functions::get_formatted_hour($value['started_hour'], '+ hrs') . '</p>';
+				//
+				// 			if (in_array('location', $_POST['fields']))
+				// 				$html .= '<p><strong>{$lang.location}:</strong> ' . $value['location']['name'][$this->lang] . '</p>';
+				//
+				// 			if ($value['type'] == 'incident' OR $value['type'] == 'workorder')
+				// 			{
+				// 				if (in_array('cost', $_POST['fields']))
+				// 					$html .= '<p><strong>{$lang.cost}:</strong> ' . Functions::get_formatted_currency((!empty($value['cost']) ? $value['cost'] : '0'), Session::get_value('account')['currency']) . '</p>';
+				// 			}
+				//
+				// 			if (in_array('urgency', $_POST['fields']))
+				// 				$html .= '<p><strong>{$lang.urgency}:</strong> {$lang.' . $value['urgency'] . '}</p>';
+				//
+				// 			if ($value['type'] == 'incident')
+				// 			{
+				// 				if (in_array('confidentiality', $_POST['fields']))
+				// 					$html .= '<p><strong>{$lang.confidentiality}:</strong> {$lang.' . (($value['confidentiality'] == true) ? 'yes' : 'not') . '}</p>';
+				// 			}
+				//
+				// 			if (in_array('assigned_users', $_POST['fields']))
+				// 			{
+				// 				$str = '';
+				//
+				// 	            if (!empty($value['assigned_users']))
+				// 				{
+				// 					foreach ($value['assigned_users'] as $subvalue)
+				// 		                $str .= $subvalue['firstname'] . ' ' . $subvalue['lastname'] . ', ';
+				//
+				// 		            $str = substr($str, 0, -2);
+				// 				}
+				// 				else
+				// 					$str .= '{$lang.empty}';
+				//
+				// 				$html .= '<p><strong>{$lang.assigned_users}:</strong> ' . $str . '</p>';
+				// 			}
+				//
+				// 			if ($value['type'] == 'request' OR $value['type'] == 'workorder')
+				// 			{
+				// 				if (in_array('observations', $_POST['fields']))
+				// 					$html .= '<p><strong>{$lang.observations}:</strong> ' . (!empty($value['observations']) ? $value['observations'] : '{$lang.empty}') . '</p>';
+				// 			}
+				//
+				// 			if ($value['type'] == 'incident')
+				// 			{
+				// 				if (in_array('subject', $_POST['fields']))
+				// 					$html .= '<p><strong>{$lang.subject}:</strong> ' . (!empty($value['subject']) ? $value['subject'] : '{$lang.empty}') . '</p>';
+				//
+				// 				if (in_array('description', $_POST['fields']))
+				// 					$html .= '<p><strong>{$lang.description}:</strong> ' . (!empty($value['description']) ? $value['description'] : '{$lang.empty}') . '</p>';
+				//
+				// 				if (in_array('action_taken', $_POST['fields']))
+				// 					$html .= '<p><strong>{$lang.action_taken}:</strong> ' . (!empty($value['action_taken']) ? $value['action_taken'] : '{$lang.empty}') . '</p>';
+				// 			}
+				//
+				// 			if ($value['type'] == 'request' OR $value['type'] == 'incident')
+				// 			{
+				// 				if (in_array('name', $_POST['fields']))
+				// 					$html .= '<p><strong>{$lang.name}:</strong> ' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($value['guest_treatment'])) ? $value['guest_treatment']['name'] . ' ' : '') . $value['firstname'] . ' ' . $value['lastname'] : '{$lang.empty}') . '</p>';
+				// 			}
+				//
+				// 			if (Session::get_value('account')['type'] == 'hotel')
+				// 			{
+				// 				if ($value['type'] == 'incident')
+				// 				{
+				// 					if (in_array('guest_id', $_POST['fields']))
+				// 						$html .= '<p><strong>{$lang.guest_id}:</strong> ' . (!empty($value['guest_id']) ? $value['guest_id'] : '{$lang.empty}') . '</p>';
+				//
+				// 					if (in_array('guest_type', $_POST['fields']))
+				// 						$html .= '<p><strong>{$lang.guest_type}:</strong> ' . (!empty($value['guest_type']) ? $value['guest_type']['name'] : '{$lang.empty}') . '</p>';
+				//
+				// 					if (in_array('reservation_number', $_POST['fields']))
+				// 						$html .= '<p><strong>{$lang.reservation_number}:</strong> ' . (!empty($value['reservation_number']) ? $value['reservation_number'] : '{$lang.empty}') . '</p>';
+				//
+				// 					if (in_array('reservation_status', $_POST['fields']))
+				// 						$html .= '<p><strong>{$lang.reservation_status}:</strong> ' . (!empty($value['reservation_status']) ? $value['reservation_status']['name'] : '{$lang.empty}') . '</p>';
+				//
+				// 					if (in_array('staying', $_POST['fields']))
+				// 						$html .= '<p><strong>{$lang.staying}:</strong> ' . ((!empty($value['check_in']) AND !empty($value['check_out'])) ? Functions::get_formatted_date($value['check_in'], 'd F, Y') . ' / ' . Functions::get_formatted_date($value['check_out'], 'd F, Y') : '{$lang.empty}') . '</p>';
+				// 				}
+				// 			}
+				//
+				// 			if (in_array('attachments', $_POST['fields']))
+				// 			{
+				// 				$str = '';
+				//
+				// 				if (!empty($value['attachments']))
+				// 				{
+				// 					$img = 0;
+				// 					$pdf = 0;
+				// 					$wrd = 0;
+				// 					$exl = 0;
+				//
+				// 					foreach ($value['attachments'] as $subvalue)
+				// 					{
+				// 						if ($subvalue['status'] == 'success')
+				// 						{
+				// 							$ext = strtoupper(explode(' .', $subvalue['file'])[1]);
+				//
+				// 							if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
+				// 								$img = $img + 1;
+				// 							else if ($ext == 'PDF')
+				// 								$pdf = $pdf + 1;
+				// 							else if ($ext == 'DOC' OR $ext == 'DOCX')
+				// 								$wrd = $wrd + 1;
+				// 							else if ($ext == 'XLS' OR $ext == 'XLSX')
+				// 								$exl = $exl + 1;
+				// 						}
+				// 					}
+				//
+				// 					if ($img > 0)
+				// 						$str .= '<img src="{$path.images}empty.png">' . $img . ' {$lang.files}, ';
+				//
+				// 					if ($pdf > 0)
+				// 						$str .= '<img src="{$path.images}pdf.png">' . $pdf . ' {$lang.files}, ';
+				//
+				// 					if ($wrd > 0)
+				// 						$str .= '<img src="{$path.images}word.png">' . $wrd . ' {$lang.files}, ';
+				//
+				// 					if ($exl > 0)
+				// 						$str .= '<img src="{$path.images}excel.png">' . $exl . ' {$lang.files}, ';
+				//
+				// 					$str = substr($str, 0, -2);
+				// 				}
+				// 				else
+				// 					$str .= '{$lang.empty}';
+				//
+				// 				$html .= '<p><strong>{$lang.attachments}:</strong> ' . $str . '</p>';
+				// 			}
+				//
+				// 			if (in_array('viewed_by', $_POST['fields']))
+				// 			{
+				// 				$str = '';
+				//
+				// 				if (!empty($value['viewed_by']))
+				// 				{
+				// 					foreach ($value['viewed_by'] as $subvalue)
+				// 						$str .= $subvalue['firstname'] . ' ' . $subvalue['lastname'] . ', ';
+				//
+				// 					$str = substr($str, 0, -2);
+				// 				}
+				// 				else
+				// 					$str .= '{$lang.empty}';
+				//
+				// 				$html .= '<p><strong>{$lang.viewed_by}:</strong> ' . $str . '</p>';
+				// 			}
+				//
+				// 			if (in_array('created', $_POST['fields']))
+				// 				$html .= '<p><strong>{$lang.created}:</strong> ' . (($value['origin'] == 'myvox') ? 'Myvox' : $value['created_user']['firstname'] . ' ' . $value['created_user']['lastname']) . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['created_date'], $value['created_hour']) . '</p>';
+				//
+				// 			if (in_array('edited', $_POST['fields']))
+				// 				$html .= '<p><strong>{$lang.edited}:</strong> ' . (!empty($value['edited_user']) ? $value['edited_user']['firstname'] . ' ' . $value['edited_user']['lastname'] . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['edited_date'], $value['edited_hour']) : '{$lang.empty}') . '</p>';
+				//
+				// 			if (in_array('completed', $_POST['fields']))
+				// 				$html .= '<p><strong>{$lang.completed}:</strong> ' . (!empty($value['completed_user']) ? $value['completed_user']['firstname'] . ' ' . $value['completed_user']['lastname'] . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['completed_date'], $value['completed_hour']) : '{$lang.empty}') . '</p>';
+				//
+				// 			if (in_array('reopened', $_POST['fields']))
+				// 				$html .= '<p><strong>{$lang.reopened}:</strong> ' . (!empty($value['reopened_user']) ? $value['reopened_user']['firstname'] . ' ' . $value['reopened_user']['lastname'] . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['reopened_date'], $value['reopened_hour']) : '{$lang.empty}') . '</p>';
+				//
+				// 			if (in_array('status', $_POST['fields']))
+				// 				$html .= '<p><strong>{$lang.status}:</strong> {$lang.' . (($value['status'] == true) ? 'opened' : 'closed') . '}</p>';
+				//
+				// 			if (in_array('origin', $_POST['fields']))
+				// 				$html .= '<p><strong>{$lang.origin}:</strong> {$lang.' . $value['origin'] . '}</p>';
+				//
+				// 			if (in_array('average_resolution', $_POST['fields']))
+				// 			{
+				// 				$str = '';
+				//
+				// 				if ($value['status'] == false AND !empty($value['completed_date']) AND !empty($value['completed_hour']))
+				// 				{
+				// 					$date1 = new DateTime($value['started_date'] . ' ' . $value['started_hour']);
+				// 					$date2 = new DateTime($value['completed_date'] . ' ' . $value['completed_hour']);
+				// 					$date3 = $date1->diff($date2);
+				//
+				// 					if ($date3->h == 0 AND $date3->i == 0)
+				// 						$str .= $date3->s . ' Seg';
+				// 					else if ($date3->h == 0 AND $date3->i > 0)
+				// 						$str .= $date3->i . ' Min';
+				// 					else if ($date3->h > 0 AND $date3->i == 0)
+				// 						$str .= $date3->h . ' Hrs';
+				// 					else if ($date3->h > 0 AND $date3->i > 0)
+				// 						$str .= $date3->h . ' Hrs ' . $date3->i . ' Min';
+				// 				}
+				// 				else
+				// 					$str .= '{$lang.empty}';
+				//
+				// 				$html .= '<p><strong>{$lang.average_resolution}:</strong> ' . $str . '</p>';
+				// 			}
+				//
+				// 			if (in_array('comments', $_POST['fields']))
+				// 			{
+				// 				$str = '';
+				//
+				// 				if (!empty($value['comments']))
+				// 				{
+				// 					foreach ($value['comments'] as $subvalue)
+				// 						$str .= '<p><strong>' . $subvalue['user']['firstname'] . ' ' . $subvalue['user']['lastname'] . ':</strong> ' . $subvalue['message'] . '</p>';
+				// 				}
+				// 				else
+				// 					$str .= '{$lang.empty}';
+				//
+				// 				$html .= '<p><strong>{$lang.comments}:</strong></p>' . $str;
+				// 			}
+				//
+				// 			$html .= '</div>';
+				// 		}
+				//
+				// 		Functions::environment([
+				// 			'status' => 'success',
+				// 			'html' => $html
+				// 		]);
+				// 	}
+				// 	else
+				// 	{
+				// 		Functions::environment([
+				// 			'status' => 'error',
+				// 			'message' => '{$lang.operation_error}'
+				// 		]);
+				// 	}
+				// }
+				// else
+				// {
+				// 	Functions::environment([
+				// 		'status' => 'error',
+				// 		'labels' => $labels
+				// 	]);
+				// }
 			}
 
 			if ($_POST['action'] == 'new_vox_report' OR $_POST['action'] == 'edit_vox_report')
@@ -2173,17 +2175,22 @@ class Voxes_controller extends Controller
 
 			define('_title', 'Guestvox | {$lang.voxes_reports}');
 
-			$div_tabers =
-			'<div class="tabers">
-	            <div>
-	                <input id="sasw" type="radio" value="saved" ' . (($params[0] == 'saved') ? 'checked' : '') . '>
-	                <label for="sasw"><i class="fas fa-th-list"></i></label>
-	            </div>
-	            <div>
-	                <input id="gesw" type="radio" value="print" ' . (($params[0] == 'print') ? 'checked' : '') . '>
-	                <label for="gesw"><i class="fas fa-print"></i></label>
-	            </div>
-	        </div>';
+			$div_options = '';
+
+			if (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}','{voxes_reports_deactivate}','{voxes_reports_activate}','{voxes_reports_delete}']) == true AND Functions::check_user_access(['{voxes_reports_view}']) == true)
+			{
+				$div_options .=
+				'<div class="tabers">
+					<div>
+						<input id="sasw" type="radio" value="saved" ' . (($params[0] == 'saved') ? 'checked' : '') . '>
+						<label for="sasw"><i class="fas fa-th-list"></i></label>
+					</div>
+					<div>
+		                <input id="prsw" type="radio" value="print" ' . (($params[0] == 'print') ? 'checked' : '') . '>
+		                <label for="prsw"><i class="fas fa-print"></i></label>
+		            </div>
+				</div>';
+			}
 
 			$tbl_voxes_reports = '';
 			$btn_new_vox_report = '';
@@ -2192,444 +2199,450 @@ class Voxes_controller extends Controller
 			$mdl_activate_vox_report = '';
 			$mdl_delete_vox_report = '';
 
-			if ($params[0] == 'saved')
+			if (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}','{voxes_reports_deactivate}','{voxes_reports_activate}','{voxes_reports_delete}']) == true)
 			{
-				$tbl_voxes_reports .= '<div class="tbl_stl_2">';
-
-				foreach ($this->model->get_voxes_reports($params[0]) as $value)
+				if ($params[0] == 'saved')
 				{
-					$tbl_voxes_reports .=
-					'<div>
-						<div class="datas">
-							<h2>' . $value['name'] . '</h2>
-							<span>{$lang.type}: {$lang.' . $value['type'] . '}</span>
-							<span>{$lang.time_period}: ' . $value['time_period']['number'] . ' {$lang.' . $value['time_period']['type'] . '}</span>
-							<span>{$lang.addressed_to}: {$lang.' . $value['addressed_to'] . '}</span>
-						</div>
-						<div class="buttons flex_right">
-							' . ((Functions::check_user_access(['{voxes_reports_deactivate}','{voxes_reports_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_vox_report' : 'activate_vox_report') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
-							' . ((Functions::check_user_access(['{voxes_reports_update}']) == true) ? '<a class="edit" data-action="edit_vox_report" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
-							' . ((Functions::check_user_access(['{voxes_reports_delete}']) == true) ? '<a class="delete" data-action="delete_vox_report" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
-						</div>
-					</div>';
-				}
+					$tbl_voxes_reports .= '<div class="tbl_stl_2">';
 
-				$tbl_voxes_reports .= '</div>';
+					foreach ($this->model->get_voxes_reports($params[0]) as $value)
+					{
+						$tbl_voxes_reports .=
+						'<div>
+							<div class="datas">
+								<h2>' . $value['name'] . '</h2>
+								<span>{$lang.type}: {$lang.' . $value['type'] . '}</span>
+								<span>{$lang.time_period}: ' . $value['time_period']['number'] . ' {$lang.' . $value['time_period']['type'] . '}</span>
+								<span>{$lang.addressed_to}: {$lang.' . $value['addressed_to'] . '}</span>
+							</div>
+							<div class="buttons flex_right">
+								' . ((Functions::check_user_access(['{voxes_reports_deactivate}','{voxes_reports_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_vox_report' : 'activate_vox_report') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+								' . ((Functions::check_user_access(['{voxes_reports_update}']) == true) ? '<a class="edit" data-action="edit_vox_report" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+								' . ((Functions::check_user_access(['{voxes_reports_delete}']) == true) ? '<a class="delete" data-action="delete_vox_report" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+							</div>
+						</div>';
+					}
 
-				if (Functions::check_user_access(['{voxes_reports_create}']) == true)
-					$btn_new_vox_report .= '<a class="active" data-button-modal="new_vox_report"><i class="fas fa-plus"></i></a>';
+					$tbl_voxes_reports .= '</div>';
 
-				if (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}']) == true)
-				{
-					$mdl_new_vox_report .=
-					'<section class="modal fullscreen" data-modal="new_vox_report">
-					    <div class="content">
-					        <main>
-					            <form name="new_vox_report">
-					                <div class="row">
-										<div class="span12">
-											<div class="label">
-												<label required>
-													<p>{$lang.name}</p>
-													<input type="text" name="name">
-												</label>
-											</div>
-										</div>
-										<div class="span6">
-											<div class="label">
-												<label required>
-													<p>{$lang.type}</p>
-													<select name="type">
-														<option value="all">{$lang.all}</option>
-														<option value="request">{$lang.request}</option>
-														<option value="incident">{$lang.incident}</option>
-														<option value="workorder">{$lang.workorder}</option>
-													</select>
-												</label>
-											</div>
-										</div>
-										<div class="span6">
-											<div class="label">
-												<label unrequired>
-													<p>{$lang.owner}</p>
-													<select name="owner">
-														<option value="">{$lang.all}</option>';
+					if (Functions::check_user_access(['{voxes_reports_create}']) == true)
+						$btn_new_vox_report .= '<a class="active" data-button-modal="new_vox_report"><i class="fas fa-plus"></i></a>';
 
-					foreach ($this->model->get_owners('all') as $value)
-						$mdl_new_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+					if (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}']) == true)
+					{
+						$mdl_new_vox_report .=
+						'<section class="modal fullscreen" data-modal="new_vox_report">
+						    <div class="content">
+						        <main>
+						            <form name="new_vox_report">
+						                <div class="row">
+											<div class="span12">
+												<div class="label">
+													<label required>
+														<p>{$lang.name}</p>
+														<input type="text" name="name">
+													</label>
+												</div>
+											</div>
+											<div class="span6">
+												<div class="label">
+													<label required>
+														<p>{$lang.type}</p>
+														<select name="type">
+															<option value="all">{$lang.all}</option>
+															<option value="request">{$lang.request}</option>
+															<option value="incident">{$lang.incident}</option>
+															<option value="workorder">{$lang.workorder}</option>
+														</select>
+													</label>
+												</div>
+											</div>
+											<div class="span6">
+												<div class="label">
+													<label unrequired>
+														<p>{$lang.owner}</p>
+														<select name="owner">
+															<option value="">{$lang.all}</option>';
 
-					$mdl_new_vox_report .=
-					'								</select>
-												</label>
-											</div>
-										</div>
-										<div class="span6">
-											<div class="label">
-												<label unrequired>
-													<p>{$lang.opportunity_area}</p>
-													<select name="opportunity_area">
-														<option value="">{$lang.all}</option>';
-
-					foreach ($this->model->get_opportunity_areas('all') as $value)
-						$mdl_new_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
-
-					$mdl_new_vox_report .=
-					'								</select>
-												</label>
-											</div>
-										</div>
-										<div class="span6">
-											<div class="label">
-												<label unrequired>
-													<p>{$lang.opportunity_type}</p>
-													<select name="opportunity_type">
-														<option value="">{$lang.all}</option>
-													</select>
-												</label>
-											</div>
-										</div>
-										<div class="span6">
-											<div class="label">
-												<label unrequired>
-													<p>{$lang.location}</p>
-													<select name="location">
-														<option value="">{$lang.all}</option>';
-
-					foreach ($this->model->get_locations('all') as $value)
-						$mdl_new_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
-
-					$mdl_new_vox_report .=
-					'								</select>
-												</label>
-											</div>
-										</div>
-										<div class="span6">
-											<div class="label">
-												<label required>
-													<p>{$lang.order_by}</p>
-													<select name="order">
-														<option value="owner">{$lang.owner}</option>
-														<option value="name">{$lang.name}</option>
-													</select>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<p>{$lang.time_period_type}</p>
-													<select name="time_period_type">
-														<option value="days">{$lang.days}</option>
-														<option value="months">{$lang.months}</option>
-														<option value="years">{$lang.years}</option>
-													</select>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<p>{$lang.time_period_number}</p>
-													<input type="number" name="time_period_number" min="1" value="7">
-												</label>
-											</div>
-										</div>
-										<div class="span6">
-											<div class="label">
-												<label required>
-													<p>{$lang.addressed_to}</p>
-													<select name="addressed_to">
-														' . ((Functions::check_user_access(['{view_all}']) == true) ? '<option value="alls">{$lang.alls}</option>' : '') . '
-														' . ((Functions::check_user_access(['{view_all}','{view_opportunity_areas}']) == true) ? '<option value="opportunity_areas">{$lang.only_opportunity_areas}</option>' : '') . '
-														<option value="me">{$lang.only_me}</option>
-													</select>
-												</label>
-											</div>
-										</div>
-										<div class="span12 hidden">
-											<div class="label">
-												<div class="checkboxes">
-													<div>
-														<h4>{$lang.opportunity_areas}</h4>
-														<div>
-															<div>
-																<input type="checkbox" name="checked_all" checked>
-																<span><strong>{$lang.all}</strong></span>
-															</div>';
-
-						foreach ($this->model->get_opportunity_areas('all') as $value)
-						{
-							$mdl_new_vox_report .=
-							'<div>
-								<input type="checkbox" name="opportunity_areas[]" value="' . $value['id'] . '" checked>
-								<span>' . $value['name'][$this->lang] . '</span>
-							</div>';
-						}
+						foreach ($this->model->get_owners() as $value)
+							$mdl_new_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 
 						$mdl_new_vox_report .=
-						'								</div>
+						'								</select>
+													</label>
+												</div>
+											</div>
+											<div class="span6">
+												<div class="label">
+													<label unrequired>
+														<p>{$lang.opportunity_area}</p>
+														<select name="opportunity_area">
+															<option value="">{$lang.all}</option>';
+
+						foreach ($this->model->get_opportunity_areas() as $value)
+							$mdl_new_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+
+						$mdl_new_vox_report .=
+						'								</select>
+													</label>
+												</div>
+											</div>
+											<div class="span6">
+												<div class="label">
+													<label unrequired>
+														<p>{$lang.opportunity_type}</p>
+														<select name="opportunity_type">
+															<option value="">{$lang.all}</option>
+														</select>
+													</label>
+												</div>
+											</div>
+											<div class="span6">
+												<div class="label">
+													<label unrequired>
+														<p>{$lang.location}</p>
+														<select name="location">
+															<option value="">{$lang.all}</option>';
+
+						foreach ($this->model->get_locations() as $value)
+							$mdl_new_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+
+						$mdl_new_vox_report .=
+						'								</select>
+													</label>
+												</div>
+											</div>
+											<div class="span6">
+												<div class="label">
+													<label required>
+														<p>{$lang.order_by}</p>
+														<select name="order">
+															<option value="owner">{$lang.owner}</option>
+															<option value="name">{$lang.name}</option>
+														</select>
+													</label>
+												</div>
+											</div>
+											<div class="span3">
+												<div class="label">
+													<label required>
+														<p>{$lang.time_period_type}</p>
+														<select name="time_period_type">
+															<option value="days">{$lang.days}</option>
+															<option value="months">{$lang.months}</option>
+															<option value="years">{$lang.years}</option>
+														</select>
+													</label>
+												</div>
+											</div>
+											<div class="span3">
+												<div class="label">
+													<label required>
+														<p>{$lang.time_period_number}</p>
+														<input type="number" name="time_period_number" min="1" value="7">
+													</label>
+												</div>
+											</div>
+											<div class="span6">
+												<div class="label">
+													<label required>
+														<p>{$lang.addressed_to}</p>
+														<select name="addressed_to">
+															' . ((Functions::check_user_access(['{view_all}']) == true) ? '<option value="alls">{$lang.alls}</option>' : '') . '
+															' . ((Functions::check_user_access(['{view_all}','{view_opportunity_areas}']) == true) ? '<option value="opportunity_areas">{$lang.only_opportunity_areas}</option>' : '') . '
+															<option value="me">{$lang.only_me}</option>
+														</select>
+													</label>
+												</div>
+											</div>
+											<div class="span12 hidden">
+												<div class="label">
+													<div class="checkboxes">
+														<div>
+															<h4>{$lang.opportunity_areas}</h4>
+															<div>
+																<div>
+																	<input type="checkbox" name="checked_all">
+																	<span><strong>{$lang.all}</strong></span>
+																</div>';
+
+							foreach ($this->model->get_opportunity_areas() as $value)
+							{
+								$mdl_new_vox_report .=
+								'<div>
+									<input type="checkbox" name="opportunity_areas[]" value="' . $value['id'] . '">
+									<span>' . $value['name'][$this->lang] . '</span>
+								</div>';
+							}
+
+							$mdl_new_vox_report .=
+							'								</div>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-										<div class="span12">
-											<div class="label">
-												<div class="checkboxes">
-													<div>
-														<h4>{$lang.fields}</h4>
+											<div class="span12">
+												<div class="label">
+													<div class="checkboxes">
 														<div>
+															<h4>{$lang.fields}</h4>
 															<div>
-																<input type="checkbox" name="checked_all" checked>
-																<span><strong>{$lang.all}</strong></span>
-															</div>';
+																<div>
+																	<input type="checkbox" name="checked_all">
+																	<span><strong>{$lang.all}</strong></span>
+																</div>';
 
-						foreach ($this->model->get_vox_report_fields() as $value)
-						{
+							foreach ($this->model->get_vox_report_fields() as $value)
+							{
+								$mdl_new_vox_report .=
+								'<div>
+									<input type="checkbox" name="fields[]" value="' . $value['id'] . '">
+									<span>{$lang.' . $value['name'] . '}</span>
+								</div>';
+							}
+
 							$mdl_new_vox_report .=
-							'<div>
-								<input type="checkbox" name="fields[]" value="' . $value['id'] . '" checked>
-								<span>{$lang.' . $value['name'] . '}</span>
-							</div>';
-						}
-
-						$mdl_new_vox_report .=
-						'								</div>
+							'								</div>
+														</div>
 													</div>
 												</div>
 											</div>
-										</div>
-					                    <div class="span12">
-					                        <div class="buttons">
-					                            <a button-cancel><i class="fas fa-times"></i></a>
-					                            <button type="submit"><i class="fas fa-check"></i></button>
-					                        </div>
-					                    </div>
-					                </div>
-					            </form>
-					        </main>
-					    </div>
-					</section>';
-				}
+						                    <div class="span12">
+						                        <div class="buttons">
+						                            <a button-cancel><i class="fas fa-times"></i></a>
+						                            <button type="submit"><i class="fas fa-check"></i></button>
+						                        </div>
+						                    </div>
+						                </div>
+						            </form>
+						        </main>
+						    </div>
+						</section>';
+					}
 
-				if (Functions::check_user_access(['{voxes_reports_deactivate}']) == true)
-				{
-					$mdl_deactivate_vox_report .=
-					'<section class="modal edit" data-modal="deactivate_vox_report">
-					    <div class="content">
-					        <footer>
-					            <a button-close><i class="fas fa-times"></i></a>
-					            <a button-success><i class="fas fa-check"></i></a>
-					        </footer>
-					    </div>
-					</section>';
-				}
+					if (Functions::check_user_access(['{voxes_reports_deactivate}']) == true)
+					{
+						$mdl_deactivate_vox_report .=
+						'<section class="modal edit" data-modal="deactivate_vox_report">
+						    <div class="content">
+						        <footer>
+						            <a button-close><i class="fas fa-times"></i></a>
+						            <a button-success><i class="fas fa-check"></i></a>
+						        </footer>
+						    </div>
+						</section>';
+					}
 
-				if (Functions::check_user_access(['{voxes_reports_activate}']) == true)
-				{
-					$mdl_activate_vox_report .=
-					'<section class="modal edit" data-modal="activate_vox_report">
-					    <div class="content">
-					        <footer>
-					            <a button-close><i class="fas fa-times"></i></a>
-					            <a button-success><i class="fas fa-check"></i></a>
-					        </footer>
-					    </div>
-					</section>';
-				}
+					if (Functions::check_user_access(['{voxes_reports_activate}']) == true)
+					{
+						$mdl_activate_vox_report .=
+						'<section class="modal edit" data-modal="activate_vox_report">
+						    <div class="content">
+						        <footer>
+						            <a button-close><i class="fas fa-times"></i></a>
+						            <a button-success><i class="fas fa-check"></i></a>
+						        </footer>
+						    </div>
+						</section>';
+					}
 
-				if (Functions::check_user_access(['{voxes_reports_delete}']) == true)
-				{
-					$mdl_delete_vox_report .=
-					'<section class="modal delete" data-modal="delete_vox_report">
-					    <div class="content">
-					        <footer>
-					            <a button-close><i class="fas fa-times"></i></a>
-					            <a button-success><i class="fas fa-check"></i></a>
-					        </footer>
-					    </div>
-					</section>';
+					if (Functions::check_user_access(['{voxes_reports_delete}']) == true)
+					{
+						$mdl_delete_vox_report .=
+						'<section class="modal delete" data-modal="delete_vox_report">
+						    <div class="content">
+						        <footer>
+						            <a button-close><i class="fas fa-times"></i></a>
+						            <a button-success><i class="fas fa-check"></i></a>
+						        </footer>
+						    </div>
+						</section>';
+					}
 				}
 			}
 
-			$div_vox_report_print = '';
-			$btn_get_vox_report = '';
-			$mdl_get_vox_report = '';
+			$div_print_vox_report = '';
+			$btn_filter_vox_report = '';
+			$mdl_filter_vox_report = '';
 
-			if ($params[0] == 'print' AND Functions::check_user_access(['{voxes_reports_view}']) == true)
+			if (Functions::check_user_access(['{voxes_reports_view}']) == true)
 			{
-				$div_vox_report_print .=
-				'<div id="vox_report_print">
-
-				</div>';
-
-				$btn_get_vox_report .= '<a class="active" data-button-modal="get_vox_report"><i class="fas fa-stream"></i></a>';
-
-				$mdl_get_vox_report .=
-				'<section class="modal fullscreen" data-modal="get_vox_report">
-					<div class="content">
-						<main>
-							<form name="get_vox_report">
-								<div class="row">
-									<div class="span12">
-										<div class="label">
-											<label required>
-												<p>{$lang.report}</p>
-												<select name="report">
-													<option value="free">{$lang.free}</option>';
-
-				foreach ($this->model->get_voxes_reports($params[0]) as $value)
-					$mdl_get_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
-
-				$mdl_get_vox_report .=
-				'			</select>
-						</label>
-					</div>
-				</div>
-				<div class="span6">
-					<div class="label">
-						<label required>
-							<p>{$lang.type}</p>
-							<select name="type">
-								<option value="all">{$lang.all}</option>
-								<option value="request">{$lang.request}</option>
-								<option value="incident">{$lang.incident}</option>
-								<option value="workorder">{$lang.workorder}</option>
-							</select>
-						</label>
-					</div>
-				</div>
-				<div class="span6">
-					<div class="label">
-						<label unrequired>
-							<p>{$lang.owner}</p>
-							<select name="owner">
-								<option value="">{$lang.all}</option>';
-
-				foreach ($this->model->get_owners('all') as $value)
-					$mdl_get_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
-
-				$mdl_get_vox_report .=
-				'			</select>
-						</label>
-					</div>
-				</div>
-				<div class="span6">
-					<div class="label">
-						<label unrequired>
-							<p>{$lang.opportunity_area}</p>
-							<select name="opportunity_area">
-								<option value="">{$lang.all}</option>';
-
-				foreach ($this->model->get_opportunity_areas('all') as $value)
-					$mdl_get_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
-
-				$mdl_get_vox_report .=
-				'			</select>
-						</label>
-					</div>
-				</div>
-				<div class="span6">
-					<div class="label">
-						<label unrequired>
-							<p>{$lang.opportunity_type}</p>
-							<select name="opportunity_type">
-								<option value="">{$lang.all}</option>
-							</select>
-						</label>
-					</div>
-				</div>
-				<div class="span6">
-					<div class="label">
-						<label unrequired>
-							<p>{$lang.location}</p>
-							<select name="location">
-								<option value="">{$lang.all}</option>';
-
-				foreach ($this->model->get_locations('all') as $value)
-					$mdl_get_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
-
-				$mdl_get_vox_report .=
-				'			</select>
-						</label>
-					</div>
-				</div>
-				<div class="span6">
-					<div class="label">
-						<label required>
-							<p>{$lang.order_by}</p>
-							<select name="order">
-								<option value="owner">{$lang.owner}</option>
-								<option value="name">{$lang.name}</option>
-							</select>
-						</label>
-					</div>
-				</div>
-				<div class="span6">
-                    <div class="label">
-                        <label required>
-                            <p>{$lang.started_date}</p>
-                            <input type="date" name="started_date" value="' . Functions::get_current_date() . '" max="' . Functions::get_current_date() . '">
-                        </label>
-                    </div>
-                </div>
-                <div class="span6">
-                    <div class="label">
-                        <label required>
-                            <p>{$lang.end_date}</p>
-                            <input type="date" name="end_date" value="' . Functions::get_current_date() . '" max="' . Functions::get_current_date() . '">
-                        </label>
-                    </div>
-                </div>
-				<div class="span12">
-					<div class="label">
-						<div class="checkboxes">
-							<div>
-								<h4>{$lang.fields}</h4>
-								<div>
-									<div>
-										<input type="checkbox" name="checked_all" checked>
-										<span><strong>{$lang.all}</strong></span>
-									</div>';
-
-				foreach ($this->model->get_vox_report_fields() as $value)
+				if ($params[0] == 'print')
 				{
-					$mdl_get_vox_report .=
-					'<div>
-						<input type="checkbox" name="fields[]" value="' . $value['id'] . '" checked>
-						<span>{$lang.' . $value['name'] . '}</span>
-					</div>';
-				}
+					$div_print_vox_report .=
+					'<div id="print_vox_report">
 
-				$mdl_get_vox_report .=
-				'									</div>
+					</div>';
+
+					$btn_filter_vox_report .= '<a class="active" data-button-modal="filter_vox_report"><i class="fas fa-stream"></i></a>';
+
+					$mdl_filter_vox_report .=
+					'<section class="modal fullscreen" data-modal="filter_vox_report">
+						<div class="content">
+							<main>
+								<form name="filter_vox_report">
+									<div class="row">
+										<div class="span12">
+											<div class="label">
+												<label required>
+													<p>{$lang.report}</p>
+													<select name="report">
+														<option value="free">{$lang.free}</option>';
+
+					foreach ($this->model->get_voxes_reports($params[0]) as $value)
+						$mdl_filter_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
+
+					$mdl_filter_vox_report .=
+					'			</select>
+							</label>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="label">
+							<label required>
+								<p>{$lang.type}</p>
+								<select name="type">
+									<option value="all">{$lang.all}</option>
+									<option value="request">{$lang.request}</option>
+									<option value="incident">{$lang.incident}</option>
+									<option value="workorder">{$lang.workorder}</option>
+								</select>
+							</label>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="label">
+							<label unrequired>
+								<p>{$lang.owner}</p>
+								<select name="owner">
+									<option value="">{$lang.all}</option>';
+
+					foreach ($this->model->get_owners() as $value)
+						$mdl_filter_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+
+					$mdl_filter_vox_report .=
+					'			</select>
+							</label>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="label">
+							<label unrequired>
+								<p>{$lang.opportunity_area}</p>
+								<select name="opportunity_area">
+									<option value="">{$lang.all}</option>';
+
+					foreach ($this->model->get_opportunity_areas() as $value)
+						$mdl_filter_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+
+					$mdl_filter_vox_report .=
+					'			</select>
+							</label>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="label">
+							<label unrequired>
+								<p>{$lang.opportunity_type}</p>
+								<select name="opportunity_type">
+									<option value="">{$lang.all}</option>
+								</select>
+							</label>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="label">
+							<label unrequired>
+								<p>{$lang.location}</p>
+								<select name="location">
+									<option value="">{$lang.all}</option>';
+
+					foreach ($this->model->get_locations() as $value)
+						$mdl_filter_vox_report .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+
+					$mdl_filter_vox_report .=
+					'			</select>
+							</label>
+						</div>
+					</div>
+					<div class="span6">
+						<div class="label">
+							<label required>
+								<p>{$lang.order_by}</p>
+								<select name="order">
+									<option value="owner">{$lang.owner}</option>
+									<option value="name">{$lang.name}</option>
+								</select>
+							</label>
+						</div>
+					</div>
+					<div class="span6">
+	                    <div class="label">
+	                        <label required>
+	                            <p>{$lang.started_date}</p>
+	                            <input type="date" name="started_date" value="' . Functions::get_current_date() . '" max="' . Functions::get_current_date() . '">
+	                        </label>
+	                    </div>
+	                </div>
+	                <div class="span6">
+	                    <div class="label">
+	                        <label required>
+	                            <p>{$lang.end_date}</p>
+	                            <input type="date" name="end_date" value="' . Functions::get_current_date() . '" max="' . Functions::get_current_date() . '">
+	                        </label>
+	                    </div>
+	                </div>
+					<div class="span12">
+						<div class="label">
+							<div class="checkboxes">
+								<div>
+									<h4>{$lang.fields}</h4>
+									<div>
+										<div>
+											<input type="checkbox" name="checked_all">
+											<span><strong>{$lang.all}</strong></span>
+										</div>';
+
+					foreach ($this->model->get_vox_report_fields() as $value)
+					{
+						$mdl_filter_vox_report .=
+						'<div>
+							<input type="checkbox" name="fields[]" value="' . $value['id'] . '">
+							<span>{$lang.' . $value['name'] . '}</span>
+						</div>';
+					}
+
+					$mdl_filter_vox_report .=
+					'									</div>
+													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-									<div class="span12">
-										<div class="buttons">
-											<a button-cancel><i class="fas fa-times"></i></a>
-											<button type="submit"><i class="fas fa-check"></i></button>
+										<div class="span12">
+											<div class="buttons">
+												<a button-cancel><i class="fas fa-times"></i></a>
+												<button type="submit"><i class="fas fa-check"></i></button>
+											</div>
 										</div>
 									</div>
-								</div>
-							</form>
-						</main>
-					</div>
-				</section>';
+								</form>
+							</main>
+						</div>
+					</section>';
+				}
 			}
 
 			$replace = [
-				'{$div_tabers}' => $div_tabers,
+				'{$div_options}' => $div_options,
 				'{$tbl_voxes_reports}' => $tbl_voxes_reports,
-				'{$div_vox_report_print}' => $div_vox_report_print,
+				'{$div_print_vox_report}' => $div_print_vox_report,
 				'{$btn_new_vox_report}' => $btn_new_vox_report,
-				'{$btn_get_vox_report}' => $btn_get_vox_report,
+				'{$btn_filter_vox_report}' => $btn_filter_vox_report,
 				'{$mdl_new_vox_report}' => $mdl_new_vox_report,
 				'{$mdl_deactivate_vox_report}' => $mdl_deactivate_vox_report,
 				'{$mdl_activate_vox_report}' => $mdl_activate_vox_report,
 				'{$mdl_delete_vox_report}' => $mdl_delete_vox_report,
-				'{$mdl_get_vox_report}' => $mdl_get_vox_report
+				'{$mdl_filter_vox_report}' => $mdl_filter_vox_report
 			];
 
 			$template = $this->format->replace($replace, $template);
