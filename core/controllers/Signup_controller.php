@@ -183,7 +183,7 @@ class Signup_controller extends Controller
 					if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
 				        array_push($labels, ['lastname','']);
 
-					if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false OR $this->model->check_exist_user('email', $_POST['email']) == true)
+					if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
 				        array_push($labels, ['email','']);
 
 					if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))

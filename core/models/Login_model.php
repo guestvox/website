@@ -45,12 +45,7 @@ class Login_model extends Model
 			'packages.id(package_id)',
 			'packages.quantity_end(package_quantity_end)'
 		], [
-			'AND' => [
-				'OR' => [
-					'users.email' => $data['username'],
-					'users.username' => $data['username']
-				]
-			]
+			'users.username' => $data['username']
 		]));
 
 		if (!empty($query))
