@@ -34,7 +34,7 @@ class Hi_controller extends Controller
 			if (!isset($_POST['name']) OR empty($_POST['name']))
 				array_push($labels, ['name', '']);
 
-			if (!isset($_POST['email']) OR empty($_POST['email']))
+			if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
 				array_push($labels, ['email', '']);
 
 			if (!isset($_POST['phone']) OR empty($_POST['phone']))
@@ -143,7 +143,7 @@ class Hi_controller extends Controller
 			if (!isset($_POST['name']) OR empty($_POST['name']))
 				array_push($labels, ['name', '']);
 
-			if (!isset($_POST['email']) OR empty($_POST['email']))
+			if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
 				array_push($labels, ['email', '']);
 
 			if (!isset($_POST['phone']) OR empty($_POST['phone']))
@@ -242,7 +242,7 @@ class Hi_controller extends Controller
 			if (!isset($_POST['name']) OR empty($_POST['name']))
 				array_push($labels, ['name', '']);
 
-			if (!isset($_POST['email']) OR empty($_POST['email']))
+			if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
 				array_push($labels, ['email', '']);
 
 			if (!isset($_POST['business']) OR empty($_POST['business']))

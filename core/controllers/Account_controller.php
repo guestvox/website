@@ -187,7 +187,7 @@ class Account_controller extends Controller
 				if (!isset($_POST['contact_department']) OR empty($_POST['contact_department']))
 					array_push($labels, ['contact_department','']);
 
-				if (!isset($_POST['contact_email']) OR empty($_POST['contact_email']))
+				if (!isset($_POST['contact_email']) OR empty($_POST['contact_email']) OR Functions::check_email($_POST['contact_email']) == false)
 					array_push($labels, ['contact_email','']);
 
 				if (!isset($_POST['contact_phone_lada']) OR empty($_POST['contact_phone_lada']))
@@ -313,7 +313,7 @@ class Account_controller extends Controller
 				{
 					if (!empty($_POST['status']))
 					{
-						if (!isset($_POST['email']) OR empty($_POST['email']))
+						if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
 							array_push($labels, ['email','']);
 
 						if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
