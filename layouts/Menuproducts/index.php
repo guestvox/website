@@ -29,24 +29,15 @@ $this->dependencies->add(['other', '<script>menu_focus("menuproducts");</script>
         <main>
             <form name="new_menu_product">
                 <div class="row">
-                    <!-- <div class="span12">
-                        <div class="uploader">
-                            <fieldset>
-                                <figure>
-                                    <img src="{$path.images}empty.png">
-                                    <a><i class="fas fa-upload"></i></a>
-                                    <input type="file" name="avatar" accept="image/*">
-                                </figure>
-                            </fieldset>
+                    <div class="span14">
+                        <div class="stl_1" data-uploader="low">
+                            <figure data-preview>
+                                <img src="{$path.images}empty.png" alt="Food">
+                                <a data-select><i class="fas fa-upload"></i></a>
+                                <input type="file" name="avatar" accept="image/*" data-upload>
+                            </figure>
                         </div>
-                    </div> -->
-                    <!-- <div class="stl_1" data-uploader="fast">
-                        <figure data-preview>
-                            <img src="{$path.images}empty.png">
-                            <a data-action="new_avatar" data-select><i class="fas fa-upload"></i></a>
-                            <input type="file" name="avatar" accept="image/*" data-upload>
-                        </figure>
-                    </div> -->
+                    </div>
                     <div class="span6">
                         <div class="label">
                             <label required>

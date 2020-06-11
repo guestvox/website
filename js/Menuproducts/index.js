@@ -18,15 +18,19 @@ $(document).ready(function()
         e.preventDefault();
 
         var form = $(this);
+        var data = new FormData(form[0]);
+
+        data.append('id', id);
 
         if (edit == false)
-            var data = '&action=new_menu_product';
+            data.append('action', 'new_menu_product');
         else if (edit == true)
-            var data = '&id=' + id + '&action=edit_menu_product';
+            data.append('action', 'edit_menu_product');
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + data,
+            data: data,
+            contentType: false,
             processData: false,
             cache: false,
             dataType: 'json',
@@ -60,7 +64,7 @@ $(document).ready(function()
                     $('[name="description_es"]').val(response.data.description.es);
                     $('[name="description_en"]').val(response.data.description.en);
                     $('[name="price"]').val(response.data.price);
-                    // $('[name="avatar"]').parents('.uploader').find('img').attr('src', ((response.data.avatar != null) ? '../uploads/' + response.data.avatar : '../images/empty.png'));
+                    $('[name="avatar"]').parents('.stl_1').find('img').attr('src', ((response.data.avatar != null) ? '../uploads/' + response.data.avatar : '../images/empty.png'));
 
                     $.each(response.data.categories, function (key, value)
                     {

@@ -67,6 +67,7 @@ class Menuproducts_model extends Model
 	{
 		$query = $this->database->insert('menu_products', [
 			'account' => Session::get_value('account')['id'],
+			'avatar' => Functions::uploader($data['avatar']),
 			'name' => json_encode([
 				'es' => $data['name_es'],
 				'en' => $data['name_en']
@@ -85,21 +86,34 @@ class Menuproducts_model extends Model
 
 	public function edit_menu_product($data)
 	{
-		$query = $this->database->update('menu_products', [
-			'name' => json_encode([
-				'es' => $data['name_es'],
-				'en' => $data['name_en']
-			]),
-			'description' => json_encode([
-				'es' => $data['description_es'],
-				'en' => $data['description_en']
-			]),
-			'price' => $data['price'],
-			'categories' => json_encode($data['categories']),
-			'status' => true
-		], [
-			'id' => $data['id']
-		]);
+		$edited = $this->database->select('menu_products', [
+		 'avatar'
+		 ], [
+			 'id' => $data['id']
+		 ]);
+
+		if (!empty($edited))
+		{
+			$query = $this->database->update('menu_products', [
+				'avatar' => !empty($data['avatar']['name']) ? Functions::uploader($data['avatar']) : $edited[0]['avatar'],
+				'name' => json_encode([
+					'es' => $data['name_es'],
+					'en' => $data['name_en']
+				]),
+				'description' => json_encode([
+					'es' => $data['description_es'],
+					'en' => $data['description_en']
+				]),
+				'price' => $data['price'],
+				'categories' => json_encode($data['categories']),
+				'status' => true
+			], [
+				'id' => $data['id']
+			]);
+
+			if (!empty($query) AND !empty($data['avatar']['name']) AND !empty($edited[0]['avatar']))
+                Functions::undoloader($edited[0]['avatar']);
+		}
 
 		return $query;
 	}

@@ -62,6 +62,8 @@ class Menuproducts_controller extends Controller
 
 				if (empty($labels))
 				{
+					$_POST['avatar'] = $_FILES['avatar'];
+
 					if ($_POST['action'] == 'new_menu_product')
 						$query = $this->model->new_menu_product($_POST);
 					else if ($_POST['action'] == 'edit_menu_product')
