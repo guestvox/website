@@ -69,6 +69,30 @@ class User_level
                     array_push($paths, '/Surveys/questions');
                 break;
 
+                case '{menu_create}' :
+                    array_push($paths, '/Menuproducts/index');
+                break;
+
+                case '{menu_update}' :
+                    array_push($paths, '/Menuproducts/index');
+                break;
+
+                case '{menu_deactivate}' :
+                    array_push($paths, '/Menuproducts/index');
+                break;
+
+                case '{menu_activate}' :
+                    array_push($paths, '/Menuproducts/index');
+                break;
+
+                case '{menu_delete}' :
+                    array_push($paths, '/Menuproducts/index');
+                break;
+
+                case '{menu_delete}' :
+                    array_push($paths, '/Menuproducts/index');
+                break;
+
                 case '{surveys_answers_view}' :
                     array_push($paths, '/Surveys/answers');
                     array_push($paths, '/Surveys/comments');

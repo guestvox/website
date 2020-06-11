@@ -145,6 +145,10 @@ class Urls_registered_vkye
             //     'controller' => 'Surveys',
             //     'method' => 'charts'
             // ],
+            '/menu-products' => [
+                'controller' => 'Menuproducts',
+                'method' => 'index'
+            ],
             '/owners' => [
                 'controller' => 'Owners',
                 'method' => 'index'

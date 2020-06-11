@@ -42,6 +42,9 @@
             <?php if (Functions::check_account_access(['reputation']) == true AND Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}','{surveys_answers_view}','{surveys_stats_view}']) == true) : ?>
             <li target="surveys"><a href="/surveys">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
             <?php endif; ?>
+            <?php if (Functions::check_account_access(['reputation']) == true AND Functions::check_user_access(['{menu_create}','{menu_update}','{menu_deactivate}','{menu_activate}','{menu_delete}']) == true) : ?>
+            <li target="menu"><a href="/menu-products">{$lang.menu}<i class="fas fa-cocktail"></i></a></li>
+            <?php endif; ?>
         </ul>
     </nav>
     <nav>
