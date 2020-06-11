@@ -174,8 +174,8 @@ class Users_model extends Model
 			'avatar' => null,
 			'username' => $data['username'],
 			'password' => $this->security->create_password($data['password']),
-			'permissions' => json_encode($data['permissions']),
-			'opportunity_areas' => json_encode($data['opportunity_areas']),
+			'permissions' => json_encode((!empty($data['permissions']) ? $data['permissions'] : [])),
+			'opportunity_areas' => json_encode((!empty($data['opportunity_areas']) ? $data['opportunity_areas'] : [])),
 			'status' => true
 		]);
 
@@ -193,8 +193,8 @@ class Users_model extends Model
 				'number' => $data['phone_number']
 			]),
 			'username' => $data['username'],
-			'permissions' => json_encode($data['permissions']),
-			'opportunity_areas' => json_encode($data['opportunity_areas'])
+			'permissions' => json_encode((!empty($data['permissions']) ? $data['permissions'] : [])),
+			'opportunity_areas' => json_encode((!empty($data['opportunity_areas']) ? $data['opportunity_areas'] : []))
 		], [
 			'id' => $data['id']
 		]);
