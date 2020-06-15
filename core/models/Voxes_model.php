@@ -49,6 +49,7 @@ class Voxes_model extends Model
 				'created_user',
 				'completed_date',
 				'completed_hour',
+				'menu_order',
 				'status',
 				'origin'
 			];
@@ -257,7 +258,7 @@ class Voxes_model extends Model
 			'reopened_user',
 			'reopened_date',
 			'reopened_hour',
-			'menu',
+			'menu_order',
 			'status',
 			'origin'
 		], [

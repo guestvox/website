@@ -82,7 +82,7 @@ class Voxes_controller extends Controller
 	                <div>
 						<div class="itm_1">
 	                        <figure>
-	                            <img src="' . (($value['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($value['created_user']['avatar']) ? '{$path.uploads}' . $value['created_user']['avatar'] : '{$path.images}avatar.png')) . '">
+	                            <img src="' . (($value['origin'] == 'myvox') ? (!empty($value['menu_order']) ? '{$path.images}menu.png' : '{$path.images}myvox.png') : (!empty($value['created_user']['avatar']) ? '{$path.uploads}' . $value['created_user']['avatar'] : '{$path.images}avatar.png')) . '">
 	                        </figure>
 	                    </div>
 	                    <div class="itm_2">
@@ -100,7 +100,7 @@ class Voxes_controller extends Controller
 				'				</span>
 							</div>
 							<div>
-								<h2><i class="fas fa-heart"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
+								<h2><i class="fas fa-fighter-jet"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
 								<span><i class="fas fa-shapes"></i>' . $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') . '</span>
 								<span
 									data-date-1="' . Functions::get_formatted_date_hour($value['started_date'], $value['started_hour']) . '"
@@ -111,10 +111,10 @@ class Voxes_controller extends Controller
 							</div>
 	                    </div>
 	                    <div class="itm_3">
+							<span><i class="fas fa-key"></i><strong>' . strtoupper($value['token']) . '</strong></span>
 							<span><i class="fas fa-mask"></i>' . $value['opportunity_area']['name'][$this->lang] . '</span>
 							<span><i class="fas fa-feather-alt"></i>' . $value['opportunity_type']['name'][$this->lang] . '</span>
 							<span><i class="fas fa-map-marker-alt"></i>' . $value['location']['name'][$this->lang] . '</span>
-							<span><i class="fas fa-key"></i><strong>' . strtoupper($value['token']) . '</strong></span>
 	                    </div>
 	                    <div class="itm_4">
 							<span class="' . (!empty($value['assigned_users']) ? 'active' : '') . '"><i class="fas fa-users"></i></span>
