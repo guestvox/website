@@ -20,6 +20,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
             <?php if (Functions::check_user_access(['{menu_owners_create}']) == true) : ?>
             <a class="active" data-button-modal="new_menu_owner"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
+            <a href="/menu/products"><i class="fas fa-utensils"></i></a>
         </div>
     </section>
 </main>
