@@ -17,6 +17,60 @@ class Owners_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'download_zip')
+			{
+				$images = [];
+				$query = $this->model->get_owners();
+
+				if (!empty($query))
+                {
+					foreach ($query as $key => $value)
+					{
+						if ($value['status'] == true AND $value['public'] == true)
+							array_push($images,$value['qr']);
+					}
+
+					$files = $images;
+					$zip = new ZipArchive();
+					$zip_name = 'habitaciones_' . Functions::get_current_date() . '.zip';
+
+					if($zip->open($zip_name, ZipArchive::CREATE)!==TRUE)
+					{
+						Functions::environment([
+	    					'status' => 'error',
+	    					'message' => '{$lang.operation_error}'
+	    				]);
+					}
+
+					foreach ($files as $file)
+					{
+						$zip->addFile(PATH_UPLOADS . $file, $file);
+					}
+
+					$zip->close();
+
+                     // push to download the zip
+                    // header('Content-type: application/zip');
+                    // header('Content-Disposition: attachment; filename="' . $zip_name . '"');
+                    // readfile($zip_name);
+                     // remove zip file is exists in temp path
+                    // unlink($zip_name);
+
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+                }
+                else
+                {
+                    Functions::environment([
+    					'status' => 'error',
+    					'message' => '{$lang.operation_error}'
+    				]);
+                }
+
+			}
+
 			if ($_POST['action'] == 'get_owner')
 			{
 				$query = $this->model->get_owner($_POST['id']);

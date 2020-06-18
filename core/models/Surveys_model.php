@@ -51,9 +51,9 @@ class Surveys_model extends Model
 			'system'
 		], $where));
 
-		$arr_question = array_merge($query, $query2);
+		// $arr_question = array_merge($query, $query2);
 
-		return $arr_question;
+		// return $arr_question;
 	}
 
 	public function get_survey_question($id)

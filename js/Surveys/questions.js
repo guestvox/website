@@ -2,17 +2,6 @@
 
 $(document).ready(function()
 {
-    var tbl_survey_questions = $('#tbl_survey_questions').DataTable({
-        ordering: false,
-        pageLength: 25,
-        info: false
-    });
-
-    $('[name="tbl_survey_questions_search"]').on('keyup', function()
-    {
-        tbl_survey_questions.search(this.value).draw();
-    });
-
     $('[data-action="get_preview_survey"]').on('click', function()
     {
         $.ajax({

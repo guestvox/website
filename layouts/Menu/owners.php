@@ -2,8 +2,8 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['js', '{$path.js}Menuproducts/index.js']);
-$this->dependencies->add(['other', '<script>menu_focus("menuproducts");</script>']);
+$this->dependencies->add(['js', '{$path.js}Menu/owners.js']);
+$this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
 
 ?>
 
@@ -11,25 +11,25 @@ $this->dependencies->add(['other', '<script>menu_focus("menuproducts");</script>
 <main class="dashboard">
     <section class="workspace">
         <div class="tbl_stl_3">
-            {$tbl_menu_products}
+            {$tbl_menu_owners}
         </div>
     </section>
     <section class="buttons">
         <div>
             <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <?php if (Functions::check_user_access(['{menu_create}']) == true) : ?>
-            <a class="active" data-button-modal="new_menu_product"><i class="fas fa-plus"></i></a>
+            <?php if (Functions::check_user_access(['{menu_owners_create}']) == true) : ?>
+            <a class="active" data-button-modal="new_menu_owner"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
         </div>
     </section>
 </main>
-<?php if (Functions::check_user_access(['{menu_create}','{menu_update}']) == true) : ?>
-<section class="modal fullscreen" data-modal="new_menu_product">
+<?php if (Functions::check_user_access(['{menu_owners_create}','{menu_owners_update}']) == true) : ?>
+<section class="modal fullscreen" data-modal="new_menu_owner">
     <div class="content">
         <main>
-            <form name="new_menu_product">
+            <form name="new_menu_owner">
                 <div class="row">
-                    <div class="span14">
+                    <!-- <div class="span14">
                         <div class="stl_1" data-uploader="low">
                             <figure data-preview>
                                 <img src="{$path.images}empty.png" alt="Food">
@@ -37,7 +37,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menuproducts");</script>
                                 <input type="file" name="avatar" accept="image/*" data-upload>
                             </figure>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="span6">
                         <div class="label">
                             <label required>
@@ -54,40 +54,6 @@ $this->dependencies->add(['other', '<script>menu_focus("menuproducts");</script>
                             </label>
                         </div>
                     </div>
-                    <div class="span6">
-                        <div class="label">
-                            <label unrequired>
-                                <p>(ES) {$lang.description}</p>
-                                <textarea name="description_es"></textarea>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span6">
-                        <div class="label">
-                            <label unrequired>
-                                <p>(EN) {$lang.description}</p>
-                                <textarea name="description_en"></textarea>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span3">
-                        <div class="label">
-                            <label unrequired>
-                                <p>{$lang.cost} <?php echo Session::get_value('account')['currency']; ?></p>
-                                <input type="number" name="price">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span12">
-                        <div class="label">
-                            <label required>
-                                <p>{$lang.categories}</p>
-                            </label>
-                            <div class="checkboxes">
-                                {$cbx_categories}
-                            </div>
-                        </div>
-                    </div>
                     <div class="span12">
                         <div class="buttons">
                             <a button-cancel><i class="fas fa-times"></i></a>
@@ -100,8 +66,8 @@ $this->dependencies->add(['other', '<script>menu_focus("menuproducts");</script>
     </div>
 </section>
 <?php endif; ?>
-<?php if (Functions::check_user_access(['{menu_deactivate}']) == true) : ?>
-<section class="modal edit" data-modal="deactivate_menu_product">
+<?php if (Functions::check_user_access(['{menu_owners_deactivate}']) == true) : ?>
+<section class="modal edit" data-modal="deactivate_menu_owner">
     <div class="content">
         <footer>
             <a button-close><i class="fas fa-times"></i></a>
@@ -110,8 +76,8 @@ $this->dependencies->add(['other', '<script>menu_focus("menuproducts");</script>
     </div>
 </section>
 <?php endif; ?>
-<?php if (Functions::check_user_access(['{menu_activate}']) == true) : ?>
-<section class="modal edit" data-modal="activate_menu_product">
+<?php if (Functions::check_user_access(['{menu_owners_activate}']) == true) : ?>
+<section class="modal edit" data-modal="activate_menu_owner">
     <div class="content">
         <footer>
             <a button-close><i class="fas fa-times"></i></a>
@@ -120,8 +86,8 @@ $this->dependencies->add(['other', '<script>menu_focus("menuproducts");</script>
     </div>
 </section>
 <?php endif; ?>
-<?php if (Functions::check_user_access(['{menu_delete}']) == true) : ?>
-<section class="modal delete" data-modal="delete_menu_product">
+<?php if (Functions::check_user_access(['{menu_owners_delete}']) == true) : ?>
+<section class="modal delete" data-modal="delete_menu_owner">
     <div class="content">
         <footer>
             <a button-close><i class="fas fa-times"></i></a>

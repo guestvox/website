@@ -70,27 +70,43 @@ class User_level
                 break;
 
                 case '{menu_create}' :
-                    array_push($paths, '/Menuproducts/index');
+                    array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_update}' :
-                    array_push($paths, '/Menuproducts/index');
+                    array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_deactivate}' :
-                    array_push($paths, '/Menuproducts/index');
+                    array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_activate}' :
-                    array_push($paths, '/Menuproducts/index');
+                    array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_delete}' :
-                    array_push($paths, '/Menuproducts/index');
+                    array_push($paths, '/Menu/products');
                 break;
 
-                case '{menu_delete}' :
-                    array_push($paths, '/Menuproducts/index');
+                case '{menu_owners_create}' :
+                    array_push($paths, '/Menu/owners');
+                break;
+
+                case '{menu_owners_update}' :
+                    array_push($paths, '/Menu/owners');
+                break;
+
+                case '{menu_owners_deactivate}' :
+                    array_push($paths, '/Menu/owners');
+                break;
+
+                case '{menu_owners_activate}' :
+                    array_push($paths, '/Menu/owners');
+                break;
+
+                case '{menu_owners_delete}' :
+                    array_push($paths, '/Menu/owners');
                 break;
 
                 case '{surveys_answers_view}' :

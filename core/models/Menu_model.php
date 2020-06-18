@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-class Menuproducts_model extends Model
+class Menu_model extends Model
 {
 	public function __construct()
 	{
@@ -50,6 +50,39 @@ class Menuproducts_model extends Model
 		}
 	}
 
+	public function get_menu_owners($id = null)
+	{
+		if (!empty($id))
+		{
+			$query = Functions::get_json_decoded_query($this->database->select('menu_owners', [
+				'id',
+				'account',
+				'name',
+				'status'
+			], [
+				'id' => $id
+			]));
+
+			return !empty($query) ? $query[0] : null;
+		}
+		else
+		{
+			$query = Functions::get_json_decoded_query($this->database->select('menu_owners', [
+				'id',
+				'account',
+				'name',
+				'status'
+			], [
+				'account' => Session::get_value('account')['id'],
+				'ORDER' => [
+					'id' => 'ASC',
+				]
+			]));
+
+			return $query;
+		}
+	}
+
 	public function get_menu_categories()
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
@@ -78,6 +111,20 @@ class Menuproducts_model extends Model
 			]),
 			'price' => $data['price'],
 			'categories' => json_encode($data['categories']),
+			'status' => true
+		]);
+
+		return $query;
+	}
+
+	public function new_menu_owner($data)
+	{
+		$query = $this->database->insert('menu_owners', [
+			'account' => Session::get_value('account')['id'],
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
 			'status' => true
 		]);
 
@@ -118,9 +165,35 @@ class Menuproducts_model extends Model
 		return $query;
 	}
 
+	public function edit_menu_owner($data)
+	{
+		$query = $this->database->update('menu_owners', [
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'status' => true
+		], [
+			'id' => $data['id']
+		]);
+
+		return $query;
+	}
+
 	public function deactivate_menu_product($id)
 	{
 		$query = $this->database->update('menu_products', [
+			'status' => false
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function deactivate_menu_owner($id)
+	{
+		$query = $this->database->update('menu_owners', [
 			'status' => false
 		], [
 			'id' => $id
@@ -140,9 +213,29 @@ class Menuproducts_model extends Model
 		return $query;
 	}
 
+	public function activate_menu_owner($id)
+	{
+		$query = $this->database->update('menu_owners', [
+			'status' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
 	public function delete_menu_product($id)
 	{
 		$query = $this->database->delete('menu_products', [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function delete_menu_owner($id)
+	{
+		$query = $this->database->delete('menu_owners', [
 			'id' => $id
 		]);
 

@@ -2,6 +2,27 @@
 
 $(document).ready(function()
 {
+    $('[data-button-modal="download_zip"]').on('click', function(){
+
+        var data = '&action=download_zip';
+
+        $.ajax({
+            type: 'POST',
+            data: data,
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                console.log(response.status);
+                if (response.status == 'success')
+                    show_modal_success(response.message, 1500);
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
+            }
+        });
+    });
+
     $('[name="type"]').on('change', function()
     {
         if ($(this).val() == 'one')

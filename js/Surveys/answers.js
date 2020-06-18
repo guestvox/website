@@ -2,47 +2,36 @@
 
 $(document).ready(function()
 {
-    var tbl_survey_answers = $('#tbl_survey_answers').DataTable({
-        ordering: false,
-        pageLength: 25,
-        info: false
-    });
-
     $('[name="started_date"], [name="end_date"], [name="owner"]').on('change', function()
     {
         $(this).parents('form').submit();
     });
 
-    $('form[name="get_filter_survey_answer"]').on('submit', function(e)
-    {
-        e.preventDefault();
-
-        $.ajax({
-            type: 'POST',
-            data: $(this).serialize() + '&action=get_filter_survey_answer',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    tbl_survey_answers.clear();
-                    $('#tbl_survey_answers').find('tbody').html(response.data);
-                }
-                else if (response.status == 'error')
-                {
-                    tbl_survey_answers.clear();
-                    $('#tbl_survey_answers').find('tbody').html(response.data);
-                }
-            }
-        });
-    });
-
-    $('[name="tbl_survey_answers_search"]').on('keyup', function()
-    {
-        tbl_survey_answers.search(this.value).draw();
-    });
+    // $('form[name="get_filter_survey_answer"]').on('submit', function(e)
+    // {
+    //     e.preventDefault();
+    //
+    //     $.ajax({
+    //         type: 'POST',
+    //         data: $(this).serialize() + '&action=get_filter_survey_answer',
+    //         processData: false,
+    //         cache: false,
+    //         dataType: 'json',
+    //         success: function(response)
+    //         {
+    //             if (response.status == 'success')
+    //             {
+    //                 tbl_survey_answers.clear();
+    //                 $('#tbl_survey_answers').find('tbody').html(response.data);
+    //             }
+    //             else if (response.status == 'error')
+    //             {
+    //                 tbl_survey_answers.clear();
+    //                 $('#tbl_survey_answers').find('tbody').html(response.data);
+    //             }
+    //         }
+    //     });
+    // });
 
     var id;
 

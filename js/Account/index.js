@@ -2,6 +2,20 @@
 
 $(document).ready(function()
 {
+    $('[data-action="copy_to_clipboard_1"]').on('click', function(){
+        var text = $('#clipboard_1').html();
+        var temp = $('<input>').val(text).appendTo('body').select();
+        document.execCommand('copy');
+        temp.remove();
+    });
+
+    $('[data-action="copy_to_clipboard_2"]').on('click', function(){
+        var text = $('#clipboard_2').html();
+        var temp = $('<input>').val(text).appendTo('body').select();
+        document.execCommand('copy');
+        temp.remove();
+    });
+
     $('[data-modal="get_support"]').modal().onCancel(function()
     {
         clean_form($('form[name="get_support"]'));
@@ -678,3 +692,11 @@ $(document).ready(function()
         });
     });
 });
+
+function copyToClipboard(element) {
+var $temp = $("<input>");
+   $("body").append($temp);
+   $temp.val($(element).text()).select();
+   document.execCommand("copy");
+   $temp.remove();
+}
