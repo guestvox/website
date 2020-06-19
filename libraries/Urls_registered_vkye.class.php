@@ -13,6 +13,10 @@ class Urls_registered_vkye
                 'controller' => 'Index', // - Actualización de información
                 'method' => 'index'
             ],
+            '/menu' => [
+                'controller' => 'Hi', // - Rediseño de landing page y actualización de información
+                'method' => 'menu'
+            ],
             '/operation' => [
                 'controller' => 'Hi', // - Rediseño de landing page y actualización de información
                 'method' => 'operation'

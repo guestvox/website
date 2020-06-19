@@ -20,6 +20,7 @@ class Route_vkye
 
         $paths = [
             '/Index/index',
+            '/Hi/menu',
             '/Hi/operation',
             '/Hi/reputation',
             '/Hi/webinar',
