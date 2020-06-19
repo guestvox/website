@@ -42,7 +42,7 @@ class Gueststypes_controller extends Controller
 				$labels = [];
 
 				if (!isset($_POST['name']) OR empty($_POST['name']))
-					array_push($labels, ['name', '']);
+					array_push($labels, ['name','']);
 
 				if (empty($labels))
 				{

@@ -62,7 +62,7 @@ class Profile_model extends Model
 
 	public function edit_avatar($data)
 	{
-		$data['avatar'] = Functions::uploader($data['avatar']);
+		$data['avatar'] = Functions::uploader($data['avatar'], Session::get_value('account')['path'] . '_user_avatar_');
 
 		$query = $this->database->update('users', [
 			'avatar' => $data['avatar']

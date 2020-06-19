@@ -274,7 +274,7 @@ class Functions
         return $query;
     }
 
-    public static function uploader($file = null, $multiple = false, $upload_directory = PATH_UPLOADS, $valid_extensions = ['png','jpg','jpeg','pdf','doc','docx','xls','xlsx'], $maximum_file_size = 'unlimited')
+    public static function uploader($file = null, $base_name = '', $multiple = false, $upload_directory = PATH_UPLOADS, $valid_extensions = ['png','jpg','jpeg','pdf','doc','docx','xls','xlsx'], $maximum_file_size = 'unlimited')
 	{
         if (!empty($file))
         {
@@ -288,7 +288,7 @@ class Functions
             {
                 foreach ($file as $key => $value)
                 {
-                    $upload->SetFileName($value['name']);
+                    $upload->SetFileName($base_name);
                     $upload->SetTempName($value['tmp_name']);
                     $upload->SetFileType($value['type']);
                     $upload->SetFileSize($value['size']);
@@ -308,7 +308,7 @@ class Functions
             }
             else if ($multiple == false)
             {
-                $upload->SetFileName($file['name']);
+                $upload->SetFileName($base_name);
                 $upload->SetTempName($file['tmp_name']);
                 $upload->SetFileType($file['type']);
                 $upload->SetFileSize($file['size']);

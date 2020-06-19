@@ -31,11 +31,11 @@ class Route_vkye
             '/Myvox/index',
             '/Myvox/request',
             '/Myvox/incident',
-            '/Myvox/menu',
-            '/Myvox/survey',
+            // '/Myvox/menu',
+            // '/Myvox/survey',
             '/Reviews/index',
             '/Login/index',
-            '/Api/execute'
+            // '/Api/execute'
         ];
 
         if (in_array($this->path, $paths))

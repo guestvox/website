@@ -3,45 +3,45 @@
 header('Content-Type: text/xml');
 
 $https = 'https://guestvox.com';
-$database = new mysqli('guestvox.com', 'guestvox', 'Jsw90w&6', 'gv-website');
+$database = new mysqli('guestvox.com', 'guestvox', 'Jsw90w&6', 'gv_website_dev');
 
 $xml =
 '<?xml version="1.0" encoding="iso-8859-1"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>' . $https . '/</loc>
+        <loc>' . $https . '</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/operation/</loc>
+        <loc>' . $https . '/operation</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/reputation/</loc>
+        <loc>' . $https . '/reputation</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/webinar/</loc>
+        <loc>' . $https . '/webinar</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/about-us/</loc>
+        <loc>' . $https . '/about-us</loc>
         <changefreq>yearly</changefreq>
         <priority>0.80</priority>
     </url>
     <url>
-        <loc>' . $https . '/terms-and-conditions/</loc>
+        <loc>' . $https . '/terms-and-conditions</loc>
         <changefreq>yearly</changefreq>
-        <priority>0.80</priority>
+        <priority>0.60</priority>
     </url>
     <url>
-        <loc>' . $https . '/privacy-policies/</loc>
+        <loc>' . $https . '/privacy-policies</loc>
         <changefreq>yearly</changefreq>
-        <priority>0.80</priority>
+        <priority>0.60</priority>
     </url>';
 
 if (!$database->connect_error)
@@ -54,7 +54,7 @@ if (!$database->connect_error)
         {
             $xml .=
             '<url>
-                <loc>' . $https . '/' . $row['path'] . '/reviews/</loc>
+                <loc>' . $https . '/' . $row['path'] . '/reviews</loc>
                 <changefreq>daily</changefreq>
                 <priority>1.00</priority>
             </url>';

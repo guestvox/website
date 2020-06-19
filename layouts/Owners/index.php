@@ -16,11 +16,11 @@ $this->dependencies->add(['other', '<script>menu_focus("owners");</script>']);
     </section>
     <section class="buttons">
         <div>
-            <a data-button-modal="download_zip"><i class="fas fa-cloud-download-alt"></i></a>
             <a data-button-modal="search"><i class="fas fa-search"></i></a>
             <?php if (Functions::check_user_access(['{owners_create}']) == true) : ?>
             <a class="active" data-button-modal="new_owner"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
+            <a data-action="download_qrs"><i class="fas fa-cloud-download-alt"></i></a>
         </div>
     </section>
 </main>

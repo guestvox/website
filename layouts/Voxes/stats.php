@@ -39,7 +39,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.started_date}</p>
-                                <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>" />
+                                <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>">
                             </label>
                         </div>
                     </div>
@@ -47,7 +47,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.end_date}</p>
-                                <input type="date" name="date_end" value="<?php echo Functions::get_current_date(); ?>" />
+                                <input type="date" name="date_end" value="<?php echo Functions::get_current_date(); ?>">
                             </label>
                         </div>
                     </div>
@@ -82,7 +82,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.started_date}</p>
-                                <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>" />
+                                <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>">
                             </label>
                         </div>
                     </div>
@@ -90,7 +90,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.end_date}</p>
-                                <input type="date" name="date_end" value="<?php echo Functions::get_current_date(); ?>" />
+                                <input type="date" name="date_end" value="<?php echo Functions::get_current_date(); ?>">
                             </label>
                         </div>
                     </div>
@@ -125,7 +125,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.started_date}</p>
-                                <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>" />
+                                <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>">
                             </label>
                         </div>
                     </div>
@@ -133,7 +133,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <div class="label">
                             <label>
                                 <p>{$lang.end_date}</p>
-                                <input type="date" name="date_end" value="<?php echo Functions::get_current_date(); ?>" />
+                                <input type="date" name="date_end" value="<?php echo Functions::get_current_date(); ?>">
                             </label>
                         </div>
                     </div>

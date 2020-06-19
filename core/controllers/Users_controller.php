@@ -45,22 +45,25 @@ class Users_controller extends Controller
 				$labels = [];
 
 				if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-					array_push($labels, ['firstname', '']);
+					array_push($labels, ['firstname','']);
 
 				if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-					array_push($labels, ['lastname', '']);
+					array_push($labels, ['lastname','']);
 
 				if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
-					array_push($labels, ['email', '']);
+					array_push($labels, ['email','']);
 
 				if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
-					array_push($labels, ['phone_lada', '']);
+					array_push($labels, ['phone_lada','']);
 
 				if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
-					array_push($labels, ['phone_number', '']);
+					array_push($labels, ['phone_number','']);
 
 				if (!isset($_POST['username']) OR empty($_POST['username']))
-					array_push($labels, ['username', '']);
+					array_push($labels, ['username','']);
+
+				if (!isset($_POST['permissions']) OR empty($_POST['permissions']))
+					array_push($labels, ['permissions','']);
 
 				if (empty($labels))
 				{
@@ -94,7 +97,7 @@ class Users_controller extends Controller
 											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 													<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-														<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png" />
+														<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
 													</figure>
 												</td>
 											</tr>
@@ -166,7 +169,7 @@ class Users_controller extends Controller
 									<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 										<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 											<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-												<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png" />
+												<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
 											</figure>
 										</td>
 									</tr>
@@ -270,9 +273,7 @@ class Users_controller extends Controller
 			foreach ($this->model->get_users_levels() as $value)
 				$opt_users_levels .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
 
-			$cbx_permissions =
-            '<div>
-                <h4>{$lang.supervision_permissions}</h4>';
+			$cbx_permissions = '<p>{$lang.supervision_permissions}</p>';
 
             foreach ($this->model->get_permissions('supervision') as $key => $value)
             {
@@ -292,10 +293,7 @@ class Users_controller extends Controller
                 $cbx_permissions .= '</div>';
             }
 
-            $cbx_permissions .=
-            '</div>
-            <div>
-                <h4>{$lang.administrative_permissions}</h4>';
+            $cbx_permissions .= '<p>{$lang.administrative_permissions}</p>';
 
             foreach ($this->model->get_permissions('administrative') as $key => $value)
             {
@@ -315,10 +313,7 @@ class Users_controller extends Controller
                 $cbx_permissions .= '</div>';
             }
 
-            $cbx_permissions .=
-            '</div>
-            <div>
-                <h4>{$lang.operational_permissions}</h4>';
+            $cbx_permissions .= '<p>{$lang.operational_permissions}</p>';
 
             foreach ($this->model->get_permissions('operational') as $key => $value)
             {
@@ -338,15 +333,11 @@ class Users_controller extends Controller
                 $cbx_permissions .= '</div>';
             }
 
-            $cbx_permissions .= '</div>';
-
 			$cbx_opportunity_areas =
             '<div>
-				<div>
-					<div>
-						<input type="checkbox" name="checked_all">
-						<span>{$lang.all}</span>
-					</div>';
+				<input type="checkbox" name="checked_all">
+				<span>{$lang.all}</span>
+			</div>';
 
             foreach ($this->model->get_opportunity_areas() as $key => $value)
             {
@@ -356,10 +347,6 @@ class Users_controller extends Controller
 					<span>' . $value['name'][$this->lang] . '</span>
 				</div>';
             }
-
-            $cbx_opportunity_areas .=
-            '	</div>
-			</div>';
 
 			$replace = [
 				'{$tbl_users}' => $tbl_users,

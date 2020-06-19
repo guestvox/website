@@ -1,13 +1,14 @@
 <?php
+
 defined('_EXEC') or die;
 
 /**
- *
  * @author David Miguel Gómez Macías < davidgomezmacias@gmail.com >
  * @package Valkyrie.Libraries
  * @since 1.0.0
  * @version 1.0.0
  */
+
 class Configuration
 {
 	/**
@@ -91,7 +92,7 @@ class Configuration
 	 *
      * @var string $time_zone
      */
-	public static $time_zone = 'America/Mexico_City';
+	public static $time_zone = 'America/Cancun';
 
 	/**
      * Clave secreta

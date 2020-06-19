@@ -962,18 +962,13 @@ div.label > label.error > textarea {
 
 /* Checkboxes
 ------------------------------------------------------------------------------ */
-div.checkboxes > div {
+div.checkboxes {
     width: 100%;
-    margin-bottom: 20px;
 }
 
-div.checkboxes > div:last-child {
-    margin-bottom: 0px;
-}
-
-div.checkboxes > div > h4 {
+div.checkboxes > p {
     width: 100%;
-    margin-bottom: 10px;
+    margin-top: 20px;
     padding-left: 10px;
     box-sizing: border-box;
     font-size: 14px;
@@ -981,35 +976,39 @@ div.checkboxes > div > h4 {
     color: #757575;
 }
 
-div.checkboxes > div > h4 > i {
-    margin-right: 5px;
+div.checkboxes > p:first-child {
+    margin-top: 0px;
 }
 
-div.checkboxes > div > div {
+/*  */
+
+div.checkboxes.stl_2 > div {
     width: 100%;
     margin-bottom: 10px;
 }
 
-div.checkboxes > div > div:last-child {
+div.checkboxes.stl_2 > div:last-child {
     margin-bottom: 0px;
 }
 
-div.checkboxes > div > div::after {
+div.checkboxes.stl_2 > div::after {
     content: '';
     display: block;
     clear: both;
 }
 
-div.checkboxes > div > div > p {
+div.checkboxes.stl_2 > div > p {
     width: 100%;
     font-size: 12px;
     font-weight: 400;
     color: #757575;
-    clear: both;
 }
 
-div.checkboxes > div > div > div {
-    width: auto;
+/*  */
+
+div.checkboxes.stl_1 > div,
+div.checkboxes.stl_2 > div > div {
+    width: auto !important;
     float: left;
     display: flex;
     align-items: center;
@@ -1017,37 +1016,40 @@ div.checkboxes > div > div > div {
     padding: 5px 0px;
 }
 
-div.checkboxes > div > div > div > span {
+div.checkboxes.stl_1 > div > span,
+div.checkboxes.stl_2 > div > div > span {
     padding: 0px 10px 0px 5px;
     font-size: 12px;
     font-weight: 400;
     color: #757575;
 }
 
-div.checkboxes > div > div > div > input[type="checkbox"],
-div.checkboxes > div > div > div > input[type="radio"] {
+div.checkboxes.stl_1 > div > input[type="checkbox"],
+div.checkboxes.stl_2 > div > div > input[type="checkbox"],
+div.checkboxes.stl_1 > div > input[type="radio"],
+div.checkboxes.stl_2 > div > div > input[type="radio"] {
     width: 20px;
     height: 20px;
     position: relative;
     margin: 0px;
     padding: 0px;
     border: 0px;
+    appearance: none;
     -moz-appearance: none;
     -webkit-appearance: none;
-    appearance: none;
 }
 
-div.checkboxes > div > div > div > input[type="checkbox"]::before {
+div.checkboxes.stl_1 > div > input[type="checkbox"]::before,
+div.checkboxes.stl_2 > div > div > input[type="checkbox"]::before {
+    content: '';
     width: 20px;
     height: 20px;
+    position: absolute;
     top: 0px;
     left: 0px;
-    position: absolute;
     display: block;
-    content: '';
-    cursor: pointer;
     background-color: #e0e0e0;
-    z-index: 1;
+    cursor: pointer;
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
         -ms-box-sizing: border-box;
@@ -1058,9 +1060,11 @@ div.checkboxes > div > div > div > input[type="checkbox"]::before {
         -ms-transition: 0.2s ease all;
          -o-transition: 0.2s ease all;
             transition: 0.2s ease all;
+    z-index: 1;
 }
 
-div.checkboxes > div > div > div > input[type="checkbox"]:checked::before {
+div.checkboxes.stl_1 > div > input[type="checkbox"]:checked::before,
+div.checkboxes.stl_2 > div > div > input[type="checkbox"]:checked::before {
     height: 10px;
     top: 0px;
     left: 2px;
@@ -1075,56 +1079,62 @@ div.checkboxes > div > div > div > input[type="checkbox"]:checked::before {
             transform: rotate(-45deg);
 }
 
-div.checkboxes > div > div > div > input[type="checkbox"]::after {
+div.checkboxes.stl_1 > div > input[type="checkbox"]::after,
+div.checkboxes.stl_2 > div > div > input[type="checkbox"]::after {
+    content: '';
     width: 20px;
     height: 20px;
+    display: block;
+    position: absolute;
     top: 0px;
     left: 0px;
-    position: absolute;
-    display: block;
-    content: '';
     background-color: #00a5ab;
     z-index: 0;
 }
 
-div.checkboxes > div > div > div > input[type="radio"]::before {
+div.checkboxes.stl_1 > div > input[type="radio"]::before,
+div.checkboxes.stl_2 > div > div > input[type="radio"]::before {
+    content: '';
     width: 20px;
     height: 20px;
+    display: block;
+    position: absolute;
     top: 0;
     left: 0;
-    position: absolute;
-    display: block;
-    content: '';
-    background-color: #e0e0e0;
     border-radius: 100%;
+    background-color: #e0e0e0;
     cursor: pointer;
-    z-index: 1;
     -webkit-transition: 0.2s ease all;
        -moz-transition: 0.2s ease all;
         -ms-transition: 0.2s ease all;
          -o-transition: 0.2s ease all;
             transition: 0.2s ease all;
+    z-index: 1;
 }
 
-div.checkboxes > div > div > div > input[type="radio"]:checked::before {
+div.checkboxes.stl_1 > div > input[type="radio"]:checked::before,
+div.checkboxes.stl_2 > div > div > input[type="radio"]:checked::before {
     background-color: #00a5ab;
 }
 
-div.checkboxes > div > div > div > input[type="radio"]::after {
+div.checkboxes.stl_1 > div > input[type="radio"]::after,
+div.checkboxes.stl_2 > div > div > input[type="radio"]::after {
+    content: '';
     width: 20px;
     height: 20px;
+    display: block;
+    position: absolute;
     top: 0;
     left: 0;
-    position: absolute;
-    display: block;
-    content: '';
-    background-color: transparent;
     border: none;
+    background-color: transparent;
     z-index: 0;
 }
 
-div.checkboxes > div > div > div > input[type="checkbox"]:focus,
-div.checkboxes > div > div > div > input[type="radio"]:focus {
+div.checkboxes.stl_1 > div > input[type="checkbox"]:focus,
+div.checkboxes.stl_2 > div > div > input[type="checkbox"]:focus,
+div.checkboxes.stl_1 > div > input[type="radio"]:focus,
+div.checkboxes.stl_2 > div > div > input[type="radio"]:focus {
     border: none;
     box-shadow: none;
 }
@@ -1281,6 +1291,23 @@ div[data-uploader].stl_1 > figure > a:hover {
 
 div[data-uploader].stl_2 {
     width: 100%;
+}
+
+div[data-uploader].stl_2 > p {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 0px 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+    line-height: 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #757575;
+    overflow: hidden;
+}
+
+div[data-uploader].stl_2 > p > a {
+    color: #e0e0e0;
 }
 
 div[data-uploader].stl_2 > figure,
@@ -2447,8 +2474,11 @@ main.account > div.stl_6 > div:last-child {
     margin-bottom: 0px;
 }
 
-main.account > div.stl_6 > div > input {
+main.account > div.stl_6 > div > p {
     width: calc(100% - 45px);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
     height: 40px;
     padding: 0px 20px;
     border: none;

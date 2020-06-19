@@ -16,6 +16,14 @@ class Mailer extends PHPMailer
     {
         parent::__construct($exceptions);
 
+        $this->SMTPOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+                'allow_self_signed' => true
+            ]
+        ];
+
         $this->isSMTP();
         $this->isHTML(true);
         $this->Host = Configuration::$smtp_host;

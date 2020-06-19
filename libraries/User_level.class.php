@@ -44,30 +44,41 @@ class User_level
                     array_push($paths, '/Voxes/reports');
                 break;
 
-                case '{voxes_stats_view}' :
-                    array_push($paths, '/Voxes/stats');
-                    array_push($paths, '/Voxes/charts');
-                break;
-
-                case '{surveys_questions_create}' :
-                    array_push($paths, '/Surveys/questions');
-                break;
-
-                case '{surveys_questions_update}' :
-                    array_push($paths, '/Surveys/questions');
-                break;
-
-                case '{surveys_questions_deactivate}' :
-                    array_push($paths, '/Surveys/questions');
-                break;
-
-                case '{surveys_questions_activate}' :
-                    array_push($paths, '/Surveys/questions');
-                break;
-
-                case '{surveys_questions_delete}' :
-                    array_push($paths, '/Surveys/questions');
-                break;
+                // case '{voxes_stats_view}' :
+                //     array_push($paths, '/Voxes/stats');
+                //     array_push($paths, '/Voxes/charts');
+                // break;
+                // 
+                // case '{surveys_questions_create}' :
+                //     array_push($paths, '/Surveys/questions');
+                // break;
+                //
+                // case '{surveys_questions_update}' :
+                //     array_push($paths, '/Surveys/questions');
+                // break;
+                //
+                // case '{surveys_questions_deactivate}' :
+                //     array_push($paths, '/Surveys/questions');
+                // break;
+                //
+                // case '{surveys_questions_activate}' :
+                //     array_push($paths, '/Surveys/questions');
+                // break;
+                //
+                // case '{surveys_questions_delete}' :
+                //     array_push($paths, '/Surveys/questions');
+                // break;
+                //
+                // case '{surveys_answers_view}' :
+                //     array_push($paths, '/Surveys/answers');
+                //     array_push($paths, '/Surveys/comments');
+                //     array_push($paths, '/Surveys/contacts');
+                // break;
+                //
+                // case '{surveys_stats_view}' :
+                //     array_push($paths, '/Surveys/stats');
+                //     array_push($paths, '/Surveys/charts');
+                // break;
 
                 case '{menu_create}' :
                     array_push($paths, '/Menu/products');
@@ -107,17 +118,6 @@ class User_level
 
                 case '{menu_owners_delete}' :
                     array_push($paths, '/Menu/owners');
-                break;
-
-                case '{surveys_answers_view}' :
-                    array_push($paths, '/Surveys/answers');
-                    array_push($paths, '/Surveys/comments');
-                    array_push($paths, '/Surveys/contacts');
-                break;
-
-                case '{surveys_stats_view}' :
-                    array_push($paths, '/Surveys/stats');
-                    array_push($paths, '/Surveys/charts');
                 break;
 
                 case '{owners_create}' :

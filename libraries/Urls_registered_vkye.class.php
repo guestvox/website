@@ -121,14 +121,14 @@ class Urls_registered_vkye
             //     'controller' => 'Surveys',
             //     'method' => 'index'
             // ],
-            '/surveys/questions' => [
-                'controller' => 'Surveys',
-                'method' => 'questions'
-            ],
-            '/surveys/answers' => [
-                'controller' => 'Surveys',
-                'method' => 'answers'
-            ],
+            // '/surveys/questions' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'questions'
+            // ],
+            // '/surveys/answers' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'answers'
+            // ],
             // '/surveys/comments' => [
             //     'controller' => 'Surveys',
             //     'method' => 'comments'

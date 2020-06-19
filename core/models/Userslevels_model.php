@@ -80,7 +80,7 @@ class Userslevels_model extends Model
 		$query = $this->database->insert('users_levels', [
 			'account' => Session::get_value('account')['id'],
 			'name' => $data['name'],
-			'permissions' => json_encode((!empty($data['permissions']) ? $data['permissions'] : [])),
+			'permissions' => json_encode($data['permissions']),
 			'status' => true
 		]);
 
@@ -91,7 +91,7 @@ class Userslevels_model extends Model
 	{
 		$query = $this->database->update('users_levels', [
 			'name' => $data['name'],
-			'permissions' => json_encode((!empty($data['permissions']) ? $data['permissions'] : []))
+			'permissions' => json_encode($data['permissions'])
 		], [
 			'id' => $data['id']
 		]);

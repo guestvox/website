@@ -73,22 +73,22 @@ class Profile_controller extends Controller
 				$labels = [];
 
 				if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-					array_push($labels, ['firstname', '']);
+					array_push($labels, ['firstname','']);
 
 				if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-					array_push($labels, ['lastname', '']);
+					array_push($labels, ['lastname','']);
 
 				if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
-					array_push($labels, ['email', '']);
+					array_push($labels, ['email','']);
 
 				if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
-					array_push($labels, ['phone_lada', '']);
+					array_push($labels, ['phone_lada','']);
 
 				if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
-					array_push($labels, ['phone_number', '']);
+					array_push($labels, ['phone_number','']);
 
 				if (!isset($_POST['username']) OR empty($_POST['username']) AND $this->model->check_exist_user('username', $_POST['username']) == true)
-					array_push($labels, ['username', '']);
+					array_push($labels, ['username','']);
 
 				if (empty($labels))
 				{
@@ -130,7 +130,7 @@ class Profile_controller extends Controller
 				$labels = [];
 
 				if (!isset($_POST['password']) OR empty($_POST['password']))
-					array_push($labels, ['password', '']);
+					array_push($labels, ['password','']);
 
 				if (empty($labels))
 				{

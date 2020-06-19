@@ -116,7 +116,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.name}</p>
-                                <input type="text" name="name" />
+                                <input type="text" name="name">
                             </label>
                         </div>
                     </div>
@@ -134,7 +134,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.city}</p>
-                                <input type="text" name="city" />
+                                <input type="text" name="city">
                             </label>
                         </div>
                     </div>
@@ -142,7 +142,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.zip_code}</p>
-                                <input type="text" name="zip_code" />
+                                <input type="text" name="zip_code">
                             </label>
                         </div>
                     </div>
@@ -150,7 +150,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.address}</p>
-                                <input type="text" name="address" />
+                                <input type="text" name="address">
                             </label>
                         </div>
                     </div>
@@ -204,7 +204,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.fiscal_id}</p>
-                                <input type="text" name="fiscal_id" />
+                                <input type="text" name="fiscal_id">
                             </label>
                         </div>
                     </div>
@@ -212,7 +212,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.fiscal_name}</p>
-                                <input type="text" name="fiscal_name" />
+                                <input type="text" name="fiscal_name">
                             </label>
                         </div>
                     </div>
@@ -220,7 +220,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.fiscal_address}</p>
-                                <input type="text" name="fiscal_address" />
+                                <input type="text" name="fiscal_address">
                             </label>
                         </div>
                     </div>
@@ -228,7 +228,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.firstname}</p>
-                                <input type="text" name="contact_firstname" />
+                                <input type="text" name="contact_firstname">
                             </label>
                         </div>
                     </div>
@@ -236,7 +236,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.lastname}</p>
-                                <input type="text" name="contact_lastname" />
+                                <input type="text" name="contact_lastname">
                             </label>
                         </div>
                     </div>
@@ -244,7 +244,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.department}</p>
-                                <input type="text" name="contact_department" />
+                                <input type="text" name="contact_department">
                             </label>
                         </div>
                     </div>
@@ -252,7 +252,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.email}</p>
-                                <input type="text" name="contact_email" />
+                                <input type="text" name="contact_email">
                             </label>
                         </div>
                     </div>
@@ -270,7 +270,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.phone}</p>
-                                <input type="text" name="contact_phone_number" />
+                                <input type="text" name="contact_phone_number">
                             </label>
                         </div>
                     </div>

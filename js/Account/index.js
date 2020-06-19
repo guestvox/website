@@ -2,18 +2,14 @@
 
 $(document).ready(function()
 {
-    $('[data-action="copy_to_clipboard_1"]').on('click', function(){
-        var text = $('#clipboard_1').html();
-        var temp = $('<input>').val(text).appendTo('body').select();
-        document.execCommand('copy');
-        temp.remove();
-    });
+    $('[data-action="copy_to_clipboard"]').on('click', function()
+    {
+        var string = $(this).parent().find('p').html();
+        var input = $('<input>').val(string).appendTo('body').select();
 
-    $('[data-action="copy_to_clipboard_2"]').on('click', function(){
-        var text = $('#clipboard_2').html();
-        var temp = $('<input>').val(text).appendTo('body').select();
         document.execCommand('copy');
-        temp.remove();
+
+        input.remove();
     });
 
     $('[data-modal="get_support"]').modal().onCancel(function()

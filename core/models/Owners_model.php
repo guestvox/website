@@ -72,7 +72,7 @@ class Owners_model extends Model
 		if ($data['type'] == 'one')
 		{
 			$data['token'] = strtolower(Functions::get_random(8));
-			$data['qr']['filename'] = 'qr_' . Session::get_value('account')['path'] . '_' . $data['token'] . '.png';
+			$data['qr']['filename'] = Session::get_value('account')['path'] . '_owner_qr_' . $data['token'] . '.png';
 			$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/' . $data['token'];
 			$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
 			$data['qr']['level'] = 'H';
@@ -105,7 +105,7 @@ class Owners_model extends Model
 				if ($this->get_owners(true) < Session::get_value('account')['package']['quantity_end'])
 				{
 					$data['token'] = strtolower(Functions::get_random(8));
-					$data['qr']['filename'] = 'qr_' . Session::get_value('account')['path'] . '_' . $data['token'] . '.png';
+					$data['qr']['filename'] = Session::get_value('account')['path'] . '_owner_qr_' . $data['token'] . '.png';
 					$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/' . $data['token'];
 					$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
 					$data['qr']['level'] = 'H';
@@ -183,7 +183,11 @@ class Owners_model extends Model
 	{
 		$query = null;
 
-		$deleted = $this->get_owner($id);
+		$deleted = $this->database->select('owners', [
+			'qr'
+		], [
+			'id' => $id
+		]);
 
 		if (!empty($deleted))
 		{
@@ -192,7 +196,7 @@ class Owners_model extends Model
 			]);
 
 			if (!empty($query))
-				Functions::undoloader($deleted['qr']);
+				Functions::undoloader($deleted[0]['qr']);
 		}
 
 		return $query;

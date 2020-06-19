@@ -18,19 +18,15 @@ $(document).ready(function()
         e.preventDefault();
 
         var form = $(this);
-        var data = new FormData(form[0]);
-
-        data.append('id', id);
 
         if (edit == false)
-            data.append('action', 'new_menu_owner');
+            var data = '&action=new_menu_owner';
         else if (edit == true)
-            data.append('action', 'edit_menu_owner');
+            var data = '&id=' + id + '&action=edit_menu_owner';
 
         $.ajax({
             type: 'POST',
-            data: data,
-            contentType: false,
+            data: form.serialize() + data,
             processData: false,
             cache: false,
             dataType: 'json',
@@ -61,11 +57,6 @@ $(document).ready(function()
                 {
                     $('[name="name_es"]').val(response.data.name.es);
                     $('[name="name_en"]').val(response.data.name.en);
-
-                    $.each(response.data.categories, function (key, value)
-                    {
-                        $('[name="categories[]"][value="' + value + '"]').prop('checked', true);
-                    });
 
                     required_focus('form', $('form[name="new_menu_owner"]'), null);
 

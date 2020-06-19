@@ -185,7 +185,7 @@ class Account_model extends Model
 
 	public function edit_logotype($data)
 	{
-		$data['logotype'] = Functions::uploader($data['logotype']);
+		$data['logotype'] = Functions::uploader($data['logotype'], Session::get_value('account')['path'] . '_account_logotype_');
 
 		$query = $this->database->update('accounts', [
 			'logotype' => $data['logotype']
@@ -305,10 +305,10 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['survey']['mail']['description']['en'] = $data['mail_description_en'];
 
 				if (!empty($data['mail_image']['name']))
-					$edited1[0]['settings']['myvox']['survey']['mail']['image'] = Functions::uploader($data['mail_image']);
+					$edited1[0]['settings']['myvox']['survey']['mail']['image'] = Functions::uploader($data['mail_image'], Session::get_value('account')['path'] . '_settings_myvox_survey_mail_image_');
 
 				if (!empty($data['mail_attachment']['name']))
-					$edited1[0]['settings']['myvox']['survey']['mail']['attachment'] = Functions::uploader($data['mail_attachment']);
+					$edited1[0]['settings']['myvox']['survey']['mail']['attachment'] = Functions::uploader($data['mail_attachment'], Session::get_value('account')['path'] . '_settings_myvox_survey_mail_attachment_');
 
 				$edited1[0]['settings']['myvox']['survey']['widget'] = $data['widget'];
 			}

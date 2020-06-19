@@ -32,7 +32,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/webinar.js']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.name}</p>
-                                <input type="text" name="name" />
+                                <input type="text" name="name">
                             </label>
                         </div>
                     </div>
@@ -40,7 +40,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/webinar.js']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.email}</p>
-                                <input type="email" name="email" />
+                                <input type="email" name="email">
                             </label>
                         </div>
                     </div>
@@ -48,7 +48,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/webinar.js']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.business}</p>
-                                <input type="text" name="business" />
+                                <input type="text" name="business">
                             </label>
                         </div>
                     </div>
@@ -56,7 +56,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/webinar.js']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.job}</p>
-                                <input type="text" name="job" />
+                                <input type="text" name="job">
                             </label>
                         </div>
                     </div>

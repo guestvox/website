@@ -141,7 +141,7 @@ class Signup_model extends Model
 	{
 		$data['token'] = strtolower(Functions::get_random(8));
 		$data['path'] = str_replace(' ', '', strtolower($data['path']));
-		$data['qr']['filename'] = 'qr_' . $data['path'] . '_' . $data['token'] . '.png';
+		$data['qr']['filename'] = $data['path'] . '_account_qr_' . $data['token'] . '.png';
 		$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . $data['path'] . '/myvox';
 		$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
 		$data['qr']['level'] = 'H';
@@ -175,7 +175,7 @@ class Signup_model extends Model
 					'number' => $data['contact_phone_number']
 				]
 			]),
-			'logotype' => Functions::uploader($data['logotype']),
+			'logotype' => Functions::uploader($data['logotype'], $data['path'] . '_account_logotype_'),
 			'qr' => $data['qr']['filename'],
 			'package' => $this->get_package($data['type'], $data['quantity'], true),
 			'operation' => !empty($data['operation']) ? true : false,

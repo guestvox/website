@@ -12,7 +12,8 @@
             "src": "images/chrome-44x44.png",
             "type": "image/png",
             "sizes": "44x44"
-        }, {
+        },
+        {
             "src": "images/chrome-72x72.png",
             "sizes": "72x72",
             "type": "image/png"

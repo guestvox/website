@@ -19,8 +19,7 @@ class Menu_controller extends Controller
 		{
 			if ($_POST['action'] == 'get_menu_product')
 			{
-				if ($_POST['action'] == 'get_menu_product')
-					$query = $this->model->get_menu_products($_POST['id']);
+				$query = $this->model->get_menu_product($_POST['id']);
 
                 if (!empty($query))
                 {
@@ -42,23 +41,26 @@ class Menu_controller extends Controller
 			{
 				$labels = [];
 
+				if (!isset($_FILES['avatar']['name']) OR empty($_FILES['avatar']['name']))
+					array_push($labels, ['avatar','']);
+
 				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
-					array_push($labels, ['name_es', '']);
+					array_push($labels, ['name_es','']);
 
 				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
-					array_push($labels, ['name_en', '']);
+					array_push($labels, ['name_en','']);
 
 				if (!isset($_POST['description_es']) OR empty($_POST['description_es']))
-					array_push($labels, ['description_es', '']);
+					array_push($labels, ['description_es','']);
 
 				if (!isset($_POST['description_en']) OR empty($_POST['description_en']))
-					array_push($labels, ['description_en', '']);
+					array_push($labels, ['description_en','']);
 
 				if (!isset($_POST['price']) OR empty($_POST['price']))
-					array_push($labels, ['price', '']);
+					array_push($labels, ['price','']);
 
 				if (!isset($_POST['categories']) OR empty($_POST['categories']))
-					array_push($labels, ['categories', '']);
+					array_push($labels, ['categories','']);
 
 				if (empty($labels))
 				{
@@ -122,11 +124,15 @@ class Menu_controller extends Controller
 		{
 			$template = $this->view->render($this, 'products');
 
-			define('_title', 'Guestvox | {$lang.menu}');
+			define('_title', 'Guestvox | {$lang.menu_products}');
+
+			$menu_settings = $this->model->get_menu_settings();
+			
+			$menu_currency = !empty($menu_settings['currency']) ? $menu_settings['currency'] : Session::get_value('account')['currency'];
 
 			$tbl_menu_products = '';
 
-			foreach ($this->model->get_menu_products(null) as $value)
+			foreach ($this->model->get_menu_products() as $value)
 			{
 				$tbl_menu_products .=
 				'<div>
@@ -134,11 +140,11 @@ class Menu_controller extends Controller
 						<div class="itm_1">
 							<h2>' . $value['name'][$this->lang] .'</h2>
 							<span>' . $value['description'][$this->lang] . '</span>
-							<span>'  . Functions::get_formatted_currency((!empty($value['price']) ? $value['price'] : '0'), Session::get_value('account')['currency']) .  '</span>
+							<span>' . Functions::get_formatted_currency($value['price'], $menu_currency) . '</span>
 						</div>
 						<div class="itm_2">
 							<figure>
-								<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}empty.png') . '">
+								<img src="{$path.uploads}' . $value['avatar'] . '">
 							</figure>
 						</div>
 					</div>
@@ -150,26 +156,21 @@ class Menu_controller extends Controller
 				</div>';
 			}
 
-			$cbx_categories =
-            '<div>
-				<div>';
+			$cbx_categories = '';
 
             foreach ($this->model->get_menu_categories() as $key => $value)
             {
 				$cbx_categories .=
 				'<div>
-						<input type="checkbox" name="categories[]" value="' . $value['id'] . '">
-						<span>' . $value['name'][$this->lang] . '</span>
+					<input type="checkbox" name="categories[]" value="' . $value['id'] . '">
+					<span>' . $value['name'][$this->lang] . '</span>
 				</div>';
             }
 
-			$cbx_categories .=
-            '	</div>
-			</div>';
-
 			$replace = [
 				'{$tbl_menu_products}' => $tbl_menu_products,
-				'{$cbx_categories}' => $cbx_categories,
+				'{$menu_currency}' => $menu_currency,
+				'{$cbx_categories}' => $cbx_categories
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -184,8 +185,7 @@ class Menu_controller extends Controller
 		{
 			if ($_POST['action'] == 'get_menu_owner')
 			{
-				if ($_POST['action'] == 'get_menu_owner')
-					$query = $this->model->get_menu_owners($_POST['id']);
+				$query = $this->model->get_menu_owner($_POST['id']);
 
                 if (!empty($query))
                 {
@@ -208,10 +208,10 @@ class Menu_controller extends Controller
 				$labels = [];
 
 				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
-					array_push($labels, ['name_es', '']);
+					array_push($labels, ['name_es','']);
 
 				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
-					array_push($labels, ['name_en', '']);
+					array_push($labels, ['name_en','']);
 
 				if (empty($labels))
 				{
@@ -273,7 +273,7 @@ class Menu_controller extends Controller
 		{
 			$template = $this->view->render($this, 'owners');
 
-			define('_title', 'Guestvox | {$lang.menu}');
+			define('_title', 'Guestvox | {$lang.menu_owners}');
 
 			$tbl_menu_owners = '';
 
@@ -282,16 +282,9 @@ class Menu_controller extends Controller
 				$tbl_menu_owners .=
 				'<div>
 					<div class="datas">
-						<div class="itm_1">
-							<h2>' . $value['name'][$this->lang] .'</h2>
-						</div>
-						<div class="itm_2">
-							<figure>
-								<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}empty.png') . '">
-							</figure>
-						</div>
+						<h2>' . $value['name'][$this->lang] . '</h2>
 					</div>
-					<div class="buttons">
+					<div class="buttons flex_right">
 						' . ((Functions::check_user_access(['{menu_owners_deactivate}','{menu_owners_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_menu_owner' : 'activate_menu_owner') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
 						' . ((Functions::check_user_access(['{menu_owners_update}']) == true) ? '<a class="edit" data-action="edit_menu_owner" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{menu_owners_delete}']) == true) ? '<a class="delete" data-action="delete_menu_owner" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
@@ -299,26 +292,8 @@ class Menu_controller extends Controller
 				</div>';
 			}
 
-			$cbx_categories =
-            '<div>
-				<div>';
-
-            foreach ($this->model->get_menu_categories() as $key => $value)
-            {
-				$cbx_categories .=
-				'<div>
-						<input type="checkbox" name="categories[]" value="' . $value['id'] . '">
-						<span>' . $value['name'][$this->lang] . '</span>
-				</div>';
-            }
-
-			$cbx_categories .=
-            '	</div>
-			</div>';
-
 			$replace = [
-				'{$tbl_menu_owners}' => $tbl_menu_owners,
-				'{$cbx_categories}' => $cbx_categories,
+				'{$tbl_menu_owners}' => $tbl_menu_owners
 			];
 
 			$template = $this->format->replace($replace, $template);

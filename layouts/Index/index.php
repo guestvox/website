@@ -4,16 +4,13 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.css}Index/index.css']);
 $this->dependencies->add(['js', '{$path.js}Index/index.js']);
-
-?>
-
-<!-- Facebook chatboot -->
-<div id="fb-root"></div>
+$this->dependencies->add(['others',
+'<div id="fb-root"></div>
 <script>
     window.fbAsyncInit = function() {
         FB.init({
             xfbml: true,
-            version: 'v6.0'
+            version: "v6.0"
         });
     };
     (function(d, s, id) {
@@ -21,12 +18,13 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
         if (d.getElementById(id)) return;
         js = d.createElement(s);
         js.id = id;
-        js.src = 'https://connect.facebook.net/es_ES/sdk/xfbml.customerchat.js';
+        js.src = "https://connect.facebook.net/es_ES/sdk/xfbml.customerchat.js";
         fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
+    }(document, "script", "facebook-jssdk"));
 </script>
-<div class="fb-customerchat" attribution=setup_tool page_id="544915395886636" theme_color="#00A5AB" logged_in_greeting="Hola, ¿Cómo puedo ayudarte?" logged_out_greeting="Hola, ¿Cómo puedo ayudarte?"></div>
-<!--  -->
+<div class="fb-customerchat" attribution=setup_tool page_id="544915395886636" theme_color="#00A5AB" logged_in_greeting="Hola, ¿Cómo puedo ayudarte?" logged_out_greeting="Hola, ¿Cómo puedo ayudarte?"></div>']);
+
+?>
 
 <main class="landing_page_index">
     <section class="stl_1">
@@ -39,7 +37,10 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
             </figure>
             <h1>{$lang.landing_page_index_stl_1_text_1}</h1>
             <p>{$lang.landing_page_index_stl_1_text_2}</p>
-            <a href="/login">{$lang.login}</a>
+            <div>
+                <a href="/signup">¡{$lang.signup}!</a>
+                <a href="/login">{$lang.login}</a>
+            </div>
         </div>
     </section>
     <section class="stl_2">
@@ -88,24 +89,6 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
             <a href="/reputation">{$lang.know_more}</a>
         </div>
     </section>
-    <section class="stl_4">
-        <div>
-            <i class="fas fa-bed"></i>
-            <p>{$lang.landing_page_index_stl_4_text_1}</p>
-        </div>
-        <div>
-            <i class="fas fa-utensils"></i>
-            <p>{$lang.landing_page_index_stl_4_text_2}</p>
-        </div>
-        <div>
-            <i class="fas fa-stethoscope"></i>
-            <p>{$lang.landing_page_index_stl_4_text_3}</p>
-        </div>
-        <div>
-            <i class="fas fa-users"></i>
-            <p>{$lang.landing_page_index_stl_4_text_4}</p>
-        </div>
-    </section>
     <section class="stl_5">
         <div>
             <i class="fas fa-tablet-alt"></i>
@@ -122,6 +105,23 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
         <div>
             <i class="fas fa-chart-area"></i>
             <p>{$lang.landing_page_index_stl_5_text_4}</p>
+        </div>
+    </section>
+    <section class="stl_4">
+        <h2>{$lang.landing_page_index_stl_4_text_1}</h2>
+        <div>
+            <div>
+                <i class="fas fa-bed"></i>
+                <p>{$lang.landing_page_index_stl_4_text_2}</p>
+            </div>
+            <div>
+                <i class="fas fa-utensils"></i>
+                <p>{$lang.landing_page_index_stl_4_text_3}</p>
+            </div>
+            <div>
+                <i class="fas fa-stethoscope"></i>
+                <p>{$lang.landing_page_index_stl_4_text_4}</p>
+            </div>
         </div>
     </section>
     <section class="stl_6">
@@ -142,16 +142,9 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
         </div>
     </section>
     <section class="stl_7">
-        <div>
-            <i class="fas fa-user-plus"></i>
-            <h2>{$lang.landing_page_index_stl_7_text_1}</h2>
-            <a href="/signup">{$lang.signup}</a>
-        </div>
-        <div>
-            <i class="fas fa-th"></i>
-            <h2>{$lang.landing_page_index_stl_7_text_2}</h2>
-            <a href="/blog">{$lang.blog}</a>
-        </div>
+        <i class="fas fa-user-plus"></i>
+        <h2>{$lang.landing_page_index_stl_7_text_1}</h2>
+        <a href="/signup">¡{$lang.signup}!</a>
     </section>
     <section class="stl_8">
         <h2>{$lang.landing_page_index_stl_8_text_1}</h2>
@@ -185,16 +178,16 @@ $this->dependencies->add(['js', '{$path.js}Index/index.js']);
         </div>
         <div>
             <figure>
-                <img src="{$path.images}index/stl_8_image_5.png" alt="Work team">
+                <img src="{$path.images}index/stl_8_image_6.png" alt="Work team">
             </figure>
-            <h3>Alejandro Espinoza</h3>
+            <h3>David Gómez</h3>
             <h4>{$lang.programmer}</h4>
         </div>
         <div>
             <figure>
-                <img src="{$path.images}index/stl_8_image_6.png" alt="Work team">
+                <img src="{$path.images}index/stl_8_image_5.png" alt="Work team">
             </figure>
-            <h3>David Gómez</h3>
+            <h3>Alejandro Espinoza</h3>
             <h4>{$lang.programmer}</h4>
         </div>
     </section>

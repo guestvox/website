@@ -17,60 +17,6 @@ class Owners_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'download_zip')
-			{
-				$images = [];
-				$query = $this->model->get_owners();
-
-				if (!empty($query))
-                {
-					foreach ($query as $key => $value)
-					{
-						if ($value['status'] == true AND $value['public'] == true)
-							array_push($images,$value['qr']);
-					}
-
-					$files = $images;
-					$zip = new ZipArchive();
-					$zip_name = 'habitaciones_' . Functions::get_current_date() . '.zip';
-
-					if($zip->open($zip_name, ZipArchive::CREATE)!==TRUE)
-					{
-						Functions::environment([
-	    					'status' => 'error',
-	    					'message' => '{$lang.operation_error}'
-	    				]);
-					}
-
-					foreach ($files as $file)
-					{
-						$zip->addFile(PATH_UPLOADS . $file, $file);
-					}
-
-					$zip->close();
-
-                     // push to download the zip
-                    // header('Content-type: application/zip');
-                    // header('Content-Disposition: attachment; filename="' . $zip_name . '"');
-                    // readfile($zip_name);
-                     // remove zip file is exists in temp path
-                    // unlink($zip_name);
-
-					Functions::environment([
-						'status' => 'success',
-						'message' => '{$lang.operation_success}'
-					]);
-                }
-                else
-                {
-                    Functions::environment([
-    					'status' => 'error',
-    					'message' => '{$lang.operation_error}'
-    				]);
-                }
-
-			}
-
 			if ($_POST['action'] == 'get_owner')
 			{
 				$query = $this->model->get_owner($_POST['id']);
@@ -98,32 +44,32 @@ class Owners_controller extends Controller
 				if ($_POST['action'] == 'new_owner')
 				{
 					if (!isset($_POST['type']) OR empty($_POST['type']))
-						array_push($labels, ['type', '']);
+						array_push($labels, ['type','']);
 
 					if ($_POST['type'] == 'one')
 					{
 						if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
-							array_push($labels, ['name_es', '']);
+							array_push($labels, ['name_es','']);
 
 						if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
-							array_push($labels, ['name_en', '']);
+							array_push($labels, ['name_en','']);
 					}
 					else if ($_POST['type'] == 'many')
 					{
 						if (!isset($_POST['since']) OR empty($_POST['since']))
-							array_push($labels, ['since', '']);
+							array_push($labels, ['since','']);
 
 						if (!isset($_POST['to']) OR empty($_POST['to']))
-							array_push($labels, ['to', '']);
+							array_push($labels, ['to','']);
 					}
 				}
 				else if ($_POST['action'] == 'edit_owner')
 				{
 					if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
-						array_push($labels, ['name_es', '']);
+						array_push($labels, ['name_es','']);
 
 					if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
-						array_push($labels, ['name_en', '']);
+						array_push($labels, ['name_en','']);
 				}
 
 				if (empty($labels))
@@ -180,6 +126,36 @@ class Owners_controller extends Controller
 						'message' => '{$lang.operation_error}'
 					]);
 				}
+			}
+
+			if ($_POST['action'] == 'download_qrs')
+			{
+				$query = $this->model->get_owners();
+
+				if (!empty($query))
+                {
+					$zip_archive = new ZipArchive();
+					$zip_name = Session::get_value('account')['path'] . '_owners_' . Functions::get_current_date() . '.zip';
+
+					$zip_archive->open($zip_name, ZipArchive::CREATE);
+
+					foreach ($query as $value)
+						$zip_archive->addFile(PATH_UPLOADS . $value['qr'], $value['qr']);
+
+					$zip_archive->close();
+
+					// header('Content-type: application/zip');
+					// header('Content-Disposition: attachment; filename="' . $zip_name . '"');
+					// readfile($zip_name);
+					// unlink($zip_name);
+                }
+                else
+                {
+                    Functions::environment([
+    					'status' => 'error',
+    					'message' => '{$lang.operation_error}'
+    				]);
+                }
 			}
 		}
 		else

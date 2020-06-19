@@ -168,7 +168,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
                         <div class="label">
                             <label required>
                                 <p>{$lang.business}</p>
-                                <input type="text" name="business" />
+                                <input type="text" name="business">
                             </label>
                         </div>
                     </div>
@@ -190,7 +190,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
                         <div class="label">
                             <label required>
                                 <p>{$lang.n_rooms}</p>
-                                <input type="number" name="rooms" />
+                                <input type="number" name="rooms">
                             </label>
                         </div>
                     </div>
@@ -198,7 +198,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
                         <div class="label">
                             <label required>
                                 <p>{$lang.name}</p>
-                                <input type="text" name="name" />
+                                <input type="text" name="name">
                             </label>
                         </div>
                     </div>
@@ -206,7 +206,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
                         <div class="label">
                             <label required>
                                 <p>{$lang.email}</p>
-                                <input type="text" name="email" />
+                                <input type="text" name="email">
                             </label>
                         </div>
                     </div>
@@ -214,7 +214,7 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
                         <div class="label">
                             <label required>
                                 <p>{$lang.phone}</p>
-                                <input type="text" name="phone" />
+                                <input type="text" name="phone">
                             </label>
                         </div>
                     </div>

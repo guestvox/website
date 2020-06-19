@@ -20,25 +20,25 @@ class Hi_controller extends Controller
 			$labels = [];
 
 			if (!isset($_POST['business']) OR empty($_POST['business']))
-				array_push($labels, ['business', '']);
+				array_push($labels, ['business','']);
 
 			if (!isset($_POST['type']) OR empty($_POST['type']))
-				array_push($labels, ['type', '']);
+				array_push($labels, ['type','']);
 
 			if ($_POST['type'] == 'hotel')
 			{
 				if (!isset($_POST['rooms']) OR empty($_POST['rooms']))
-					array_push($labels, ['rooms', '']);
+					array_push($labels, ['rooms','']);
 			}
 
 			if (!isset($_POST['name']) OR empty($_POST['name']))
-				array_push($labels, ['name', '']);
+				array_push($labels, ['name','']);
 
 			if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
-				array_push($labels, ['email', '']);
+				array_push($labels, ['email','']);
 
 			if (!isset($_POST['phone']) OR empty($_POST['phone']))
-				array_push($labels, ['phone', '']);
+				array_push($labels, ['phone','']);
 
 			if (empty($labels))
 			{
@@ -59,7 +59,7 @@ class Hi_controller extends Controller
 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 										<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-											<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/hi/operation/logotype_color.png" />
+											<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/hi/operation/logotype_color.png">
 										</figure>
 									</td>
 								</tr>
@@ -129,25 +129,25 @@ class Hi_controller extends Controller
 			$labels = [];
 
 			if (!isset($_POST['business']) OR empty($_POST['business']))
-				array_push($labels, ['business', '']);
+				array_push($labels, ['business','']);
 
 			if (!isset($_POST['type']) OR empty($_POST['type']))
-				array_push($labels, ['type', '']);
+				array_push($labels, ['type','']);
 
 			if ($_POST['type'] == 'hotel')
 			{
 				if (!isset($_POST['rooms']) OR empty($_POST['rooms']))
-					array_push($labels, ['rooms', '']);
+					array_push($labels, ['rooms','']);
 			}
 
 			if (!isset($_POST['name']) OR empty($_POST['name']))
-				array_push($labels, ['name', '']);
+				array_push($labels, ['name','']);
 
 			if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
-				array_push($labels, ['email', '']);
+				array_push($labels, ['email','']);
 
 			if (!isset($_POST['phone']) OR empty($_POST['phone']))
-				array_push($labels, ['phone', '']);
+				array_push($labels, ['phone','']);
 
 			if (empty($labels))
 			{
@@ -168,7 +168,7 @@ class Hi_controller extends Controller
 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 										<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-											<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/hi/reputation/logotype_color.png" />
+											<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/hi/reputation/logotype_color.png">
 										</figure>
 									</td>
 								</tr>
@@ -240,16 +240,16 @@ class Hi_controller extends Controller
 			$labels = [];
 
 			if (!isset($_POST['name']) OR empty($_POST['name']))
-				array_push($labels, ['name', '']);
+				array_push($labels, ['name','']);
 
 			if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
-				array_push($labels, ['email', '']);
+				array_push($labels, ['email','']);
 
 			if (!isset($_POST['business']) OR empty($_POST['business']))
-				array_push($labels, ['business', '']);
+				array_push($labels, ['business','']);
 
 			if (!isset($_POST['job']) OR empty($_POST['job']))
-				array_push($labels, ['job', '']);
+				array_push($labels, ['job','']);
 
 			if (empty($labels))
 			{
@@ -276,7 +276,7 @@ class Hi_controller extends Controller
 									<tr style="width:100%;margin:0px;padding:0px;border:0px;">
 										<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 											<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-												<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/hi/webinar/logotype_color.png" />
+												<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/hi/webinar/logotype_color.png">
 											</figure>
 										</td>
 									</tr>
@@ -284,7 +284,7 @@ class Hi_controller extends Controller
 										<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 											<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
 											<figure style="width:100%;margin:0px 0px 20px 0px;padding:0px;text-align:center;">
-												<img style="width:100%;" src="https://' . Configuration::$domain . '/images/hi/webinar/' . $webinar['image'] . '" />
+												<img style="width:100%;" src="https://' . Configuration::$domain . '/images/hi/webinar/' . $webinar['image'] . '">
 											</figure>
 											<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="' . $webinar['link'] . '">' . Languages::words('go_to_webinar')[$this->lang] . '</a>
 										</td>
@@ -345,7 +345,7 @@ class Hi_controller extends Controller
 			define('_title', 'Guestvox | {$lang.webinar} | {$lang.we_are_guestvox}');
 
 			$replace = [
-				'{$image}' => '{$path.images}hi/webinar/' . $webinar['image'],
+				'{$image}' => '{$path.uploads}' . $webinar['image'],
 				'{$date}' => Functions::get_formatted_date_hour($webinar['date'], $webinar['hour'])
 			];
 

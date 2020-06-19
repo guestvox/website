@@ -42,7 +42,10 @@ class Userslevels_controller extends Controller
 				$labels = [];
 
 				if (!isset($_POST['name']) OR empty($_POST['name']))
-					array_push($labels, ['name', '']);
+					array_push($labels, ['name','']);
+
+				if (!isset($_POST['permissions']) OR empty($_POST['permissions']))
+					array_push($labels, ['permissions','']);
 
 				if (empty($labels))
 				{
@@ -123,9 +126,7 @@ class Userslevels_controller extends Controller
 				</div>';
 			}
 
-			$cbx_permissions =
-            '<div>
-                <h4>{$lang.supervision_permissions}</h4>';
+			$cbx_permissions = '<p>{$lang.supervision_permissions}</p>';
 
             foreach ($this->model->get_permissions('supervision') as $key => $value)
             {
@@ -145,10 +146,7 @@ class Userslevels_controller extends Controller
                 $cbx_permissions .= '</div>';
             }
 
-            $cbx_permissions .=
-            '</div>
-            <div>
-                <h4>{$lang.administrative_permissions}</h4>';
+            $cbx_permissions .= '<p>{$lang.administrative_permissions}</p>';
 
             foreach ($this->model->get_permissions('administrative') as $key => $value)
             {
@@ -168,10 +166,7 @@ class Userslevels_controller extends Controller
                 $cbx_permissions .= '</div>';
             }
 
-            $cbx_permissions .=
-            '</div>
-            <div>
-                <h4>{$lang.operational_permissions}</h4>';
+            $cbx_permissions .= '<p>{$lang.operational_permissions}</p>';
 
             foreach ($this->model->get_permissions('operational') as $key => $value)
             {
@@ -190,8 +185,6 @@ class Userslevels_controller extends Controller
 
                 $cbx_permissions .= '</div>';
             }
-
-            $cbx_permissions .= '</div>';
 
 			$replace = [
 				'{$tbl_users_levels}' => $tbl_users_levels,

@@ -15,21 +15,21 @@ class Placeholders_vkye
 
     public function run()
     {
-        $this->buffer = $this->main_header();
-        $this->buffer = $this->placeholders();
+        $this->buffer = $this->replace_header();
+        $this->buffer = $this->replace_placeholders();
 
         return $this->buffer;
     }
 
-    private function main_header()
+    private function replace_header()
     {
         return $this->format->include_file($this->buffer, 'header');
     }
 
-    private function placeholders()
+    private function replace_placeholders()
     {
         $replace = [
-            
+
         ];
 
         return $this->format->replace($replace, $this->buffer);

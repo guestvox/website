@@ -20,7 +20,12 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
             <?php if (Functions::check_user_access(['{menu_create}']) == true) : ?>
             <a class="active" data-button-modal="new_menu_product"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
+            <?php if (Functions::check_user_access(['{menu_create}','{menu_update}','{menu_deactivate}','{menu_activate}','{menu_delete}']) == true) : ?>
+            <a class="active" href="/menu/products"><i class="fas fa-concierge-bell"></i></a>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{menu_owners_create}','{menu_owners_update}','{menu_owners_deactivate}','{menu_owners_activate}','{menu_owners_delete}']) == true) : ?>
             <a href="/menu/owners"><i class="fas fa-shapes"></i></a>
+            <?php endif; ?>
         </div>
     </section>
 </main>
@@ -33,7 +38,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                     <div class="span14">
                         <div class="stl_1" data-uploader="low">
                             <figure data-preview>
-                                <img src="{$path.images}empty.png" alt="Food">
+                                <img src="{$path.images}empty.png">
                                 <a data-select><i class="fas fa-upload"></i></a>
                                 <input type="file" name="avatar" accept="image/*" data-upload>
                             </figure>
@@ -42,7 +47,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                     <div class="span6">
                         <div class="label">
                             <label required>
-                                <p>(ES) {$lang.firstname}</p>
+                                <p>(ES) {$lang.name}</p>
                                 <input type="text" name="name_es">
                             </label>
                         </div>
@@ -50,14 +55,14 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                     <div class="span6">
                         <div class="label">
                             <label required>
-                                <p>(EN) {$lang.firstname}</p>
+                                <p>(EN) {$lang.name}</p>
                                 <input type="text" name="name_en">
                             </label>
                         </div>
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label unrequired>
+                            <label required>
                                 <p>(ES) {$lang.description}</p>
                                 <textarea name="description_es"></textarea>
                             </label>
@@ -65,26 +70,24 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label unrequired>
+                            <label required>
                                 <p>(EN) {$lang.description}</p>
                                 <textarea name="description_en"></textarea>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span3">
-                        <div class="label">
-                            <label unrequired>
-                                <p>{$lang.cost} <?php echo Session::get_value('account')['currency']; ?></p>
-                                <input type="number" name="price">
                             </label>
                         </div>
                     </div>
                     <div class="span12">
                         <div class="label">
                             <label required>
-                                <p>{$lang.categories}</p>
+                                <p>({$menu_currency}) {$lang.cost}</p>
+                                <input type="number" name="price">
                             </label>
-                            <div class="checkboxes">
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <div class="checkboxes stl_1">
+                                <p>{$lang.categories}</p>
                                 {$cbx_categories}
                             </div>
                         </div>

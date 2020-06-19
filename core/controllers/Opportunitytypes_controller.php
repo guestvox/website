@@ -42,13 +42,13 @@ class Opportunitytypes_controller extends Controller
 				$labels = [];
 
 				if (!isset($_POST['opportunity_area']) OR empty($_POST['opportunity_area']))
-					array_push($labels, ['opportunity_area', '']);
+					array_push($labels, ['opportunity_area','']);
 
 				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
-					array_push($labels, ['name_es', '']);
+					array_push($labels, ['name_es','']);
 
 				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
-					array_push($labels, ['name_en', '']);
+					array_push($labels, ['name_en','']);
 
 				if (empty($labels))
 				{

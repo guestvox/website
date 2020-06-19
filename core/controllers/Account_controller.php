@@ -542,18 +542,16 @@ class Account_controller extends Controller
 				        <main class="account">
 				        	<div class="stl_6">
 								<div>
-									<!--<input type="text" value="https://' . Configuration::$domain . '/' . $account['path'] . '/myvox" disabled>-->
-									<p id="clipboard_1" >https://' . Configuration::$domain . '/' . $account['path'] . '/myvox</p>
-									<a data-action="copy_to_clipboard_1"><i class="fas fa-copy"></i></a>
+									<p>https://' . Configuration::$domain . '/' . $account['path'] . '/myvox</p>
+									<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
 								</div>';
 
 				if ($account['reputation'] == true)
 				{
 					$mdl_get_urls .=
 					'<div>
-						<!--<input type="text" value="https://' . Configuration::$domain . '/' . $account['path'] . '/reviews" disabled>-->
-						<p id="clipboard_2">https://' . Configuration::$domain . '/' . $account['path'] . '/reviews</p>
-						<a data-action="copy_to_clipboard_2"><i class="fas fa-copy"></i></a>
+						<p>https://' . Configuration::$domain . '/' . $account['path'] . '/reviews</p>
+						<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
 					</div>';
 				}
 

@@ -51,7 +51,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                         <div class="label">
                             <label>
                                 <p>(ES) {$lang.name}</p>
-                                <input type="text" name="name_es" />
+                                <input type="text" name="name_es">
                             </label>
                         </div>
                     </div>
@@ -59,7 +59,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                         <div class="label">
                             <label>
                                 <p>(EN) {$lang.name}</p>
-                                <input type="text" name="name_en" />
+                                <input type="text" name="name_en">
                             </label>
                         </div>
                     </div>
@@ -68,7 +68,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                             <div class="label">
                                 <label>
                                     <p>(ES) {$lang.check_value}</p>
-                                    <input type="text" name="check_name_es" />
+                                    <input type="text" name="check_name_es">
                                 </label>
                             </div>
                         </div>
@@ -76,7 +76,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                             <div class="label">
                                 <label>
                                     <p>(EN) {$lang.check_value}</p>
-                                    <input type="text" name="check_name_en" />
+                                    <input type="text" name="check_name_en">
                                 </label>
                                 <a data-action="new_check_value" class="new"><i class="fas fa-check"></i></a>
                             </div>
