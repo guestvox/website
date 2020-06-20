@@ -74,8 +74,8 @@ header.landing_page_menu > figure > img {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('../../images/hi/reputation/st_1_img_1.png');
-    background-size: contain;
+    background-image: url('../../images/hi/menu/st_1_img_1.png');
+    background-size: 700px;
     background-position: center;
     background-repeat: no-repeat;
     z-index: -1;
@@ -118,7 +118,7 @@ main.landing_page_menu > section {
     padding-right: 150px;
     text-align: center;
     font-weight: 300;
-    font-size: 40px;
+    font-size: 28px;
 }
 
 #section_one .content > p {
@@ -127,7 +127,7 @@ main.landing_page_menu > section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 30px;
+    font-size: 26px;
     text-align: center;
     color: #FFF;
     font-weight: 200;
@@ -149,13 +149,13 @@ main.landing_page_menu > section {
     }
 
     #section_one .content {
-        grid-template-columns: 100%;
+        grid-template-columns: 99%;
         width: 60%;
     }
 
     #section_one .content > h3 {
         padding: 0 0 20px;
-        font-size: 20px;
+        font-size: 28px;
         font-weight: bold;
     }
 
@@ -163,7 +163,7 @@ main.landing_page_menu > section {
         padding: 0;
         text-align: center;
         color: #222;
-        font-size: 20px;
+        font-size: 26px;
         font-weight: 300;
     }
 }
@@ -219,15 +219,15 @@ span.st_2_img_3 {
 }
 
 span.st_2_img_1 {
-    background-image: url('../../images/hi/reputation/st_2_img_1.png');
+    background-image: url('../../images/hi/menu/st_2_img_1.png');
 }
 
 span.st_2_img_2 {
-    background-image: url('../../images/hi/reputation/st_2_img_2.png');
+    background-image: url('../../images/hi/menu/st_2_img_2.png');
 }
 
 span.st_2_img_3 {
-    background-image: url('../../images/hi/reputation/st_2_img_3.png');
+    background-image: url('../../images/hi/menu/st_2_img_3.png');
 }
 
 #section_two .content {
@@ -311,7 +311,7 @@ span.st_2_img_3 {
 #section_three > .container h3 {
     color: #FFF;
     font-weight: 200;
-    font-size: 40px;
+    font-size: 43px;
     line-height: 1.8;
 }
 
@@ -359,13 +359,13 @@ span.st_2_img_3 {
     height: calc(100%);
     top: 0;
     left: 0;
-    background-image: url('../../images/hi/reputation/background_1.jpg');
-    background-position: center;
+    background-image: url('../../images/hi/menu/background_1.jpg');
+    background-position: left;
     background-size: cover;
 }
 
 #section_six::before {
-    background-image: url('../../images/hi/reputation/background_2.jpg');
+    background-image: url('../../images/hi/menu/background_2.jpg');
     background-position-x: left;
 }
 
@@ -389,14 +389,25 @@ span.st_2_img_3 {
     background: linear-gradient(to right,  rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 60%, #24383f 60%, #24383f 100%);
 }
 
-#section_four h3,
+#section_four h3{
+    position: relative;
+    width: 40%;
+    margin-left: 60%;
+    color: #949494;
+    font-weight: 200;
+    font-size: 40px; /*Eran 28px*/
+    text-align: left;
+}
+
 #section_six h3 {
     position: relative;
     width: 40%;
     margin-left: 60%;
     color: #949494;
     font-weight: 200;
-    font-size: 40px;
+    font-size: 34px;
+    text-align: center;
+    line-height: 65px;
 }
 
 #section_six h3 {
@@ -411,7 +422,7 @@ span.st_2_img_3 {
     background-color: #24383f;
     padding: 50px 50px 200px 50px;
     border-radius: 30px;
-    font-size: 30px;
+    font-size: 28px;
     line-height: 1.2;
     color: #FFF;
     text-align: center;
@@ -454,7 +465,7 @@ span.st_2_img_3 {
         position: relative;
         width: 100%;
         margin-left: 0%;
-        font-size: 30px;
+        font-size: 34px;
     }
 
     #section_four > span {
@@ -583,7 +594,7 @@ span.st_2_img_3 {
 }
 
 #section_eight {
-    background-image: url('../../images/hi/reputation/background_3.jpg');
+    background-image: url('../../images/hi/menu/background_3.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -640,6 +651,7 @@ span.st_2_img_3 {
     margin-top: 20px;
     font-weight: bold;
     color: #00a5ab;
+    font-size: 21px;
 }
 
 #section_nine > .container > .content > p {
@@ -648,6 +660,7 @@ span.st_2_img_3 {
     color: #00a5ab;
     font-weight: 500;
     line-height: 1.5;
+    font-size: 21px;
 }
 
 #section_nine > .container > h3 {
@@ -657,7 +670,7 @@ span.st_2_img_3 {
     align-items: center;
     justify-content: center;
     color: #FFF;
-    font-size: 50px;
+    font-size: 68px;
     line-height: 1.3;
     font-weight: 200;
 }
@@ -718,7 +731,7 @@ span.st_2_img_3 {
     color: #24383f;
     font-weight: 400;
     text-transform: uppercase;
-    font-size: 20px;
+    font-size: 18px;
     text-decoration: none !important;
     box-shadow: 0 3px 12px -1px rgba(7, 10, 25, 0.2), 0 22px 27px -20px rgba(7, 10, 25, 0.2);
 }
@@ -750,19 +763,19 @@ span.st_2_img_3 {
 }
 
 #section_ten > .container .content:last-of-type > a.social_media.fb_logo {
-    background-image: url('../../images/hi/reputation/fb_logo.svg');
+    background-image: url('../../images/hi/menu/fb_logo.svg');
 }
 
 #section_ten > .container .content:last-of-type > a.social_media.yt_logo {
-    background-image: url('../../images/hi/reputation/yt_logo.svg');
+    background-image: url('../../images/hi/menu/yt_logo.svg');
 }
 
 #section_ten > .container .content:last-of-type > a.social_media.ig_logo {
-    background-image: url('../../images/hi/reputation/ig_logo.svg');
+    background-image: url('../../images/hi/menu/ig_logo.svg');
 }
 
 #section_ten > .container .content:last-of-type > a.social_media.in_logo {
-    background-image: url('../../images/hi/reputation/in_logo.svg');
+    background-image: url('../../images/hi/menu/in_logo.svg');
 }
 
 @media (max-width: 991px) {
@@ -788,5 +801,9 @@ span.st_2_img_3 {
 
     #section_ten > .container .content:last-of-type > a.social_media {
             margin: 0 10px 0;
+    }
+
+    #section_ten > .container .content > .logotype {
+            padding-top: 50px;
     }
 }

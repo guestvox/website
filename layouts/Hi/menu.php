@@ -55,7 +55,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/menu.js']);
             <div class="space50"></div>
         </div>
     </section>
-    <section id="section_three">
+    <!-- <section id="section_three">
         <div class="container">
             <h3>{$lang.landing_page_hi_menu_text_6}</h3>
             <figure>
@@ -63,7 +63,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/menu.js']);
             </figure>
         </div>
         <span class="st_2_img_1"></span>
-    </section>
+    </section> -->
     <section id="section_four">
         <div class="container">
             <h3>{$lang.landing_page_hi_menu_text_7}</h3>
@@ -87,7 +87,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/menu.js']);
             <h3>{$lang.landing_page_hi_menu_text_11}</h3>
         </div>
     </section>
-    <section id="section_seven">
+    <!-- <section id="section_seven">
         <div class="container">
             <h3>{$lang.landing_page_hi_menu_text_12}</h3>
             <img src="{$path.images}hi/menu/graficas.png" alt="Background">
@@ -98,7 +98,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/menu.js']);
             <h3>{$lang.landing_page_hi_menu_text_13}</h3>
             <p>{$lang.landing_page_hi_menu_text_14}</p>
         </div>
-    </section>
+    </section> -->
     <section id="section_nine" class="gradient_c_r">
         <div class="container">
             <div class="content">

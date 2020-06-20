@@ -114,7 +114,7 @@ class Hi_controller extends Controller
 		}
 		else
 		{
-			$template = $this->view->render($this, 'reputation');
+			$template = $this->view->render($this, 'menu');
 
 			define('_title', 'Guestvox | {$lang.menu} | {$lang.we_are_guestvox}');
 
