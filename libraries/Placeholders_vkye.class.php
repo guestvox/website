@@ -29,7 +29,8 @@ class Placeholders_vkye
     private function replace_placeholders()
     {
         $replace = [
-
+            '{$seo_keywords}' => '',
+            '{$seo_description}' => ''
         ];
 
         return $this->format->replace($replace, $this->buffer);

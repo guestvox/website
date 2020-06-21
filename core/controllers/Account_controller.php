@@ -420,7 +420,7 @@ class Account_controller extends Controller
 
 			$div_public_requests = '';
 			$div_public_incidents = '';
-			$div_digital_menu = '';
+			$div_menu = '';
 
 			if ($account['operation'] == true)
 			{
@@ -448,10 +448,10 @@ class Account_controller extends Controller
 
 				if ($account['type'] == 'hotel' OR $account['type'] == 'restaurant')
 				{
-					$div_digital_menu .=
+					$div_menu .=
 					'<div class="stl_5">
 		                <i class="fas fa-fire-alt"></i>
-		                <h2>{$lang.digital_menu}</h2>
+		                <h2>{$lang.menu}</h2>
 		                <span>' . (($account['settings']['myvox']['menu']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
 						<div class="switch">
 						    <input id="mnsw" type="checkbox" ' . (($account['settings']['myvox']['menu']['status'] == true) ? 'checked' : '') . ' data-switcher>
@@ -1089,7 +1089,7 @@ class Account_controller extends Controller
 				'{$fiscal_id}' => $account['fiscal']['id'],
 				'{$div_public_requests}' => $div_public_requests,
 				'{$div_public_incidents}' => $div_public_incidents,
-				'{$div_digital_menu}' => $div_digital_menu,
+				'{$div_menu}' => $div_menu,
 				'{$div_answered_survey}' => $div_answered_survey,
 				'{$div_reviews_page}' => $div_reviews_page,
 				'{$div_attention_times}' => $div_attention_times,

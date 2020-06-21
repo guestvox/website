@@ -10,28 +10,24 @@ class Urls_registered_vkye
     {
         return [
             '/' => [
-                'controller' => 'Index', // - Actualización de información
+                'controller' => 'Index',
                 'method' => 'index'
             ],
-            '/menu' => [
-                'controller' => 'Hi', // - Rediseño de landing page y actualización de información
-                'method' => 'menu'
-            ],
             '/operation' => [
-                'controller' => 'Hi', // - Rediseño de landing page y actualización de información
+                'controller' => 'Hi', // Rediseño - Actualización de información - Mencionar el qr y Myvox.
                 'method' => 'operation'
             ],
             '/reputation' => [
-                'controller' => 'Hi', // - Rediseño de landing page y actualización de información
+                'controller' => 'Hi',
                 'method' => 'reputation'
+            ],
+            '/menu' => [
+                'controller' => 'Hi', // Rediseño
+                'method' => 'menu'
             ],
             '/webinar' => [
                 'controller' => 'Hi',
                 'method' => 'webinar'
-            ],
-            '/about-us' => [
-                'controller' => 'About', // - Diseño de landing page
-                'method' => 'index'
             ],
             '/terms-and-conditions' => [
                 'controller' => 'Policies',
@@ -50,7 +46,7 @@ class Urls_registered_vkye
                 'method' => 'activate'
             ],
             '/%param%/myvox' => [
-                'controller' => 'Myvox', // Rediseño de GUI
+                'controller' => 'Myvox', // Rediseño
                 'method' => 'index'
             ],
             '/%param%/myvox/%param%' => [
@@ -62,11 +58,11 @@ class Urls_registered_vkye
                 'method' => 'index'
             ],
             '/%param%/myvox/request' => [
-                'controller' => 'Myvox',
+                'controller' => 'Myvox', // Rediseño
                 'method' => 'request'
             ],
             '/%param%/myvox/incident' => [
-                'controller' => 'Myvox',
+                'controller' => 'Myvox', // Rediseño
                 'method' => 'incident'
             ],
             // '/%param%/myvox/menu' => [
@@ -78,7 +74,7 @@ class Urls_registered_vkye
             //     'method' => 'survey'
             // ],
             '/%param%/reviews' => [
-                'controller' => 'Reviews', // Rediseño de landing page
+                'controller' => 'Reviews', // Rediseño
                 'method' => 'index'
             ],
             '/login' => [
@@ -90,7 +86,11 @@ class Urls_registered_vkye
                 'method' => 'logout'
             ],
             '/dashboard' => [
-                'controller' => 'Dashboard', // Diseño de módulo
+                'controller' => 'Dashboard', // Rediseño
+                'method' => 'index'
+            ],
+            '/qr' => [
+                'controller' => 'Qr',
                 'method' => 'index'
             ],
             '/voxes' => [
@@ -109,10 +109,10 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'edit'
             ],
-            '/voxes/reports/%param%' => [
-                'controller' => 'Voxes',
-                'method' => 'reports'
-            ],
+            // '/voxes/reports/%param%' => [
+            //     'controller' => 'Voxes',
+            //     'method' => 'reports'
+            // ],
             // '/voxes/stats' => [
             //     'controller' => 'Voxes',
             //     'method' => 'stats'
@@ -149,13 +149,17 @@ class Urls_registered_vkye
             //     'controller' => 'Surveys',
             //     'method' => 'charts'
             // ],
+            '/menu' => [
+                'controller' => 'Menu',
+                'method' => 'index'
+            ],
             '/menu/products' => [
                 'controller' => 'Menu',
                 'method' => 'products'
             ],
-            '/menu/owners' => [
+            '/menu/restaurants' => [
                 'controller' => 'Menu',
-                'method' => 'owners'
+                'method' => 'restaurants'
             ],
             '/owners' => [
                 'controller' => 'Owners',

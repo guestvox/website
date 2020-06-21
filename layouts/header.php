@@ -10,7 +10,7 @@
             <li><a href="/voxes/create"><i class="fas fa-plus"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_account_access(['operation','reputation']) == true) : ?>
-            <li><a href="/dashboard"><i class="fas fa-qrcode"></i></a></li>
+            <li><a href="/qr"><i class="fas fa-qrcode"></i></a></li>
             <?php endif; ?>
             <li><a data-action="open_rightbar"><i class="fas fa-bars"></i></a></li>
         </ul>
@@ -40,10 +40,10 @@
             <li target="voxes"><a href="/voxes">{$lang.voxes}<i class="fas fa-atom"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_account_access(['reputation']) == true AND Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}','{surveys_answers_view}','{surveys_stats_view}']) == true) : ?>
-            <li target="surveys"><a href="/surveys/questions">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
+            <li target="surveys"><a href="/surveys">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
             <?php endif; ?>
-            <?php if (Functions::check_account_access(['operation']) == true AND Functions::check_user_access(['{menu_create}','{menu_update}','{menu_deactivate}','{menu_activate}','{menu_delete}','{menu_owners_create}','{menu_owners_update}','{menu_owners_deactivate}','{menu_owners_activate}','{menu_owners_delete}']) == true) : ?>
-            <li target="menu"><a href="/menu/products">{$lang.menu}<i class="fas fa-concierge-bell"></i></a></li>
+            <?php if (Functions::check_account_access(['operation']) == true AND Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}','{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
+            <li target="menu"><a href="/menu">{$lang.menu}<i class="fas fa-concierge-bell"></i></a></li>
             <?php endif; ?>
         </ul>
     </nav>

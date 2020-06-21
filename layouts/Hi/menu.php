@@ -12,7 +12,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/menu.js']);
     <a data-button-modal="contact"><i class="fas fa-paper-plane"></i></a>
     <a data-button-modal="contact"><i class="fas fa-gift"></i></a>
     <figure>
-        <img src="{$path.images}icon_white.png" alt="Guestvox">
+        <img src="{$path.images}imagotype_white.png" alt="Guestvox">
     </figure>
 </header>
 <main class="landing_page_menu">

@@ -39,7 +39,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
             </div>
             {$div_public_requests}
             {$div_public_incidents}
-            {$div_digital_menu}
+            {$div_menu}
             {$div_answered_survey}
             {$div_reviews_page}
             {$div_attention_times}

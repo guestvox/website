@@ -24,14 +24,14 @@ $xml =
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/webinar</loc>
+        <loc>' . $https . '/menu</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/about-us</loc>
+        <loc>' . $https . '/webinar</loc>
         <changefreq>yearly</changefreq>
-        <priority>0.80</priority>
+        <priority>1.00</priority>
     </url>
     <url>
         <loc>' . $https . '/terms-and-conditions</loc>
