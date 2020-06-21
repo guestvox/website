@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 
 defined('_EXEC') or die;
 
@@ -151,4 +151,4 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <div class="clear"></div>
         </main>
     </article>
-</main>
+</main> -->

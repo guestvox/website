@@ -92,7 +92,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 <div class="span3 hidden">
                     <div class="label">
                         <label unrequired>
-                            <p>{$lang.cost} <?php echo Session::get_value('account')['currency']; ?></p>
+                            <p>(<?php echo Session::get_value('account')['currency']; ?>) {$lang.cost}</p>
                             <input type="number" name="cost">
                         </label>
                     </div>

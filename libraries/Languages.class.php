@@ -185,6 +185,10 @@ class Languages
                 'es' => 'Sin observaciones',
                 'en' => 'Not observations'
             ],
+            'not_subject' => [
+                'es' => 'Sin asunto',
+                'en' => 'Not subject'
+            ],
             'confidentiality' => [
                 'es' => 'Confidencialidad',
                 'en' => 'Confidentiality'

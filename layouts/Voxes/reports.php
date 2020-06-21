@@ -1,4 +1,4 @@
-<?php
+<!-- <?php
 
 defined('_EXEC') or die;
 
@@ -35,4 +35,4 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 {$mdl_deactivate_vox_report}
 {$mdl_activate_vox_report}
 {$mdl_delete_vox_report}
-{$mdl_filter_vox_report}
+{$mdl_filter_vox_report} -->
