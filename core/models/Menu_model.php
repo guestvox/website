@@ -2,6 +2,8 @@
 
 defined('_EXEC') or die;
 
+require 'plugins/php_qr_code/qrlib.php';
+
 class Menu_model extends Model
 {
 	public function __construct()
@@ -12,16 +14,21 @@ class Menu_model extends Model
     public function get_menu_products()
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
-			'id',
-			'avatar',
-			'name',
-			'description',
-			'price',
-			'status'
+			'[>]menu_restaurants' => [
+				'restaurant' => 'id'
+			]
 		], [
-			'account' => Session::get_value('account')['id'],
+			'menu_products.id',
+			'menu_products.name',
+			'menu_products.description',
+			'menu_products.price',
+			'menu_products.avatar',
+			'menu_restaurants.name(restaurant)',
+			'menu_products.status'
+		], [
+			'menu_products.account' => Session::get_value('account')['id'],
 			'ORDER' => [
-				'name' => 'ASC'
+				'menu_products.name' => 'ASC'
 			]
 		]));
 
@@ -31,11 +38,12 @@ class Menu_model extends Model
     public function get_menu_product($id)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
-			'avatar',
 			'name',
 			'description',
 			'price',
-			'categories'
+			'avatar',
+			'categories',
+			'restaurant'
 		], [
 			'id' => $id
 		]));
@@ -51,7 +59,10 @@ class Menu_model extends Model
 			'type',
 			'accounts'
 		], [
-			'status' => true
+			'status' => true,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
 		]));
 
 		foreach ($query as $key => $value)
@@ -66,22 +77,10 @@ class Menu_model extends Model
 		return $query;
 	}
 
-	public function get_menu_settings()
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('accounts', [
-			'settings'
-		], [
-			'id' => Session::get_value('account')['id']
-		]));
-
-		return !empty($query) ? $query[0]['settings']['myvox']['menu'] : null;
-	}
-
 	public function new_menu_product($data)
 	{
 		$query = $this->database->insert('menu_products', [
 			'account' => Session::get_value('account')['id'],
-			'avatar' => Functions::uploader($data['avatar'], Session::get_value('account')['path'] . '_menu_product_'),
 			'name' => json_encode([
 				'es' => $data['name_es'],
 				'en' => $data['name_en']
@@ -91,7 +90,9 @@ class Menu_model extends Model
 				'en' => $data['description_en']
 			]),
 			'price' => $data['price'],
+			'avatar' => Functions::uploader($data['avatar'], Session::get_value('account')['path'] . '_menu_product_avatar_'),
 			'categories' => json_encode($data['categories']),
+			'restaurant' => (Session::get_value('account')['settings']['menu']['multi'] == true) ? $data['restaurant'] : null,
 			'status' => true
 		]);
 
@@ -111,7 +112,6 @@ class Menu_model extends Model
 		if (!empty($edited))
 		{
 			$query = $this->database->update('menu_products', [
-				'avatar' => !empty($data['avatar']['name']) ? Functions::uploader($data['avatar']) : $edited[0]['avatar'],
 				'name' => json_encode([
 					'es' => $data['name_es'],
 					'en' => $data['name_en']
@@ -121,7 +121,9 @@ class Menu_model extends Model
 					'en' => $data['description_en']
 				]),
 				'price' => $data['price'],
-				'categories' => json_encode($data['categories'])
+				'avatar' => !empty($data['avatar']['name']) ? Functions::uploader($data['avatar']) : $edited[0]['avatar'],
+				'categories' => json_encode($data['categories']),
+				'restaurant' => (Session::get_value('account')['settings']['menu']['multi'] == true) ? $data['restaurant'] : null
 			], [
 				'id' => $data['id']
 			]);
@@ -181,25 +183,38 @@ class Menu_model extends Model
 		return $query;
 	}
 
-	public function get_menu_owners()
+	public function get_menu_restaurants($option = 'all')
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('menu_owners', [
+		$where = [];
+
+		if ($option == 'all')
+			$where['account'] = Session::get_value('account')['id'];
+		else if ($option == 'actives')
+		{
+			$where['AND'] = [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			];
+		}
+
+		$where['ORDER'] = [
+			'name' => 'ASC'
+		];
+
+		$query = Functions::get_json_decoded_query($this->database->select('menu_restaurants', [
 			'id',
+			'token',
 			'name',
+			'qr',
 			'status'
-		], [
-			'account' => Session::get_value('account')['id'],
-			'ORDER' => [
-				'name' => 'ASC'
-			]
-		]));
+		], $where));
 
 		return $query;
 	}
 
-	public function get_menu_owner($id)
+	public function get_menu_restaurant($id)
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('menu_owners', [
+		$query = Functions::get_json_decoded_query($this->database->select('menu_restaurants', [
 			'name'
 		], [
 			'id' => $id
@@ -208,23 +223,35 @@ class Menu_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function new_menu_owner($data)
+	public function new_menu_restaurant($data)
 	{
-		$query = $this->database->insert('menu_owners', [
+		$data['token'] = strtolower(Functions::get_random(8));
+		$data['qr']['filename'] = Session::get_value('account')['path'] . '_menu_restaurant_qr_' . $data['token'] . '.png';
+		$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/menu/' . $data['token'];
+		$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
+		$data['qr']['level'] = 'H';
+		$data['qr']['size'] = 5;
+		$data['qr']['frame'] = 3;
+
+		$query = $this->database->insert('menu_restaurants', [
 			'account' => Session::get_value('account')['id'],
+			'token' => $data['token'],
 			'name' => json_encode([
 				'es' => $data['name_es'],
 				'en' => $data['name_en']
 			]),
+			'qr' => $data['qr']['filename'],
 			'status' => true
 		]);
+
+		QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
 
 		return $query;
 	}
 
-	public function edit_menu_owner($data)
+	public function edit_menu_restaurant($data)
 	{
-		$query = $this->database->update('menu_owners', [
+		$query = $this->database->update('menu_restaurants', [
 			'name' => json_encode([
 				'es' => $data['name_es'],
 				'en' => $data['name_en']
@@ -236,9 +263,9 @@ class Menu_model extends Model
 		return $query;
 	}
 
-	public function deactivate_menu_owner($id)
+	public function deactivate_menu_restaurant($id)
 	{
-		$query = $this->database->update('menu_owners', [
+		$query = $this->database->update('menu_restaurants', [
 			'status' => false
 		], [
 			'id' => $id
@@ -247,9 +274,9 @@ class Menu_model extends Model
 		return $query;
 	}
 
-	public function activate_menu_owner($id)
+	public function activate_menu_restaurant($id)
 	{
-		$query = $this->database->update('menu_owners', [
+		$query = $this->database->update('menu_restaurants', [
 			'status' => true
 		], [
 			'id' => $id
@@ -258,11 +285,25 @@ class Menu_model extends Model
 		return $query;
 	}
 
-	public function delete_menu_owner($id)
+	public function delete_menu_restaurant($id)
 	{
-		$query = $this->database->delete('menu_owners', [
+		$query = null;
+
+		$deleted = $this->database->select('menu_restaurants', [
+			'qr'
+		], [
 			'id' => $id
 		]);
+
+		if (!empty($deleted))
+		{
+			$query = $this->database->delete('menu_restaurants', [
+				'id' => $id
+			]);
+
+			if (!empty($query))
+				Functions::undoloader($deleted[0]['qr']);
+		}
 
 		return $query;
 	}

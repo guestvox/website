@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['js', '{$path.js}Menu/owners.js']);
+$this->dependencies->add(['js', '{$path.js}Menu/restaurants.js']);
 $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
 
 ?>
@@ -10,30 +10,30 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
 %{header}%
 <main class="dashboard">
     <section class="workspace">
-        <div class="tbl_stl_2">
-            {$tbl_menu_owners}
+        <div class="tbl_stl_3">
+            {$tbl_menu_restaurants}
         </div>
     </section>
     <section class="buttons">
         <div>
             <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <?php if (Functions::check_user_access(['{menu_create}','{menu_update}','{menu_deactivate}','{menu_activate}','{menu_delete}']) == true) : ?>
-            <a href="/menu/products"><i class="fas fa-concierge-bell"></i></a>
+            <?php if (Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}']) == true) : ?>
+            <a href="/menu/products"><i class="fas fa-cocktail"></i></a>
             <?php endif; ?>
-            <?php if (Functions::check_user_access(['{menu_owners_create}','{menu_owners_update}','{menu_owners_deactivate}','{menu_owners_activate}','{menu_owners_delete}']) == true) : ?>
-            <a class="active" href="/menu/owners"><i class="fas fa-shapes"></i></a>
+            <?php if (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
+            <a class="active" href="/menu/restaurants"><i class="fas fa-shapes"></i></a>
             <?php endif; ?>
-            <?php if (Functions::check_user_access(['{menu_owners_create}']) == true) : ?>
-            <a class="active" data-button-modal="new_menu_owner"><i class="fas fa-plus"></i></a>
+            <?php if (Functions::check_user_access(['{menu_restaurants_create}']) == true) : ?>
+            <a class="active" data-button-modal="new_menu_restaurant"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
         </div>
     </section>
 </main>
-<?php if (Functions::check_user_access(['{menu_owners_create}','{menu_owners_update}']) == true) : ?>
-<section class="modal fullscreen" data-modal="new_menu_owner">
+<?php if (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}']) == true) : ?>
+<section class="modal fullscreen" data-modal="new_menu_restaurant">
     <div class="content">
         <main>
-            <form name="new_menu_owner">
+            <form name="new_menu_restaurant">
                 <div class="row">
                     <div class="span6">
                         <div class="label">
@@ -63,8 +63,8 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
     </div>
 </section>
 <?php endif; ?>
-<?php if (Functions::check_user_access(['{menu_owners_deactivate}']) == true) : ?>
-<section class="modal edit" data-modal="deactivate_menu_owner">
+<?php if (Functions::check_user_access(['{menu_restaurants_deactivate}']) == true) : ?>
+<section class="modal edit" data-modal="deactivate_menu_restaurant">
     <div class="content">
         <footer>
             <a button-close><i class="fas fa-times"></i></a>
@@ -73,8 +73,8 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
     </div>
 </section>
 <?php endif; ?>
-<?php if (Functions::check_user_access(['{menu_owners_activate}']) == true) : ?>
-<section class="modal edit" data-modal="activate_menu_owner">
+<?php if (Functions::check_user_access(['{menu_restaurants_activate}']) == true) : ?>
+<section class="modal edit" data-modal="activate_menu_restaurant">
     <div class="content">
         <footer>
             <a button-close><i class="fas fa-times"></i></a>
@@ -83,8 +83,8 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
     </div>
 </section>
 <?php endif; ?>
-<?php if (Functions::check_user_access(['{menu_owners_delete}']) == true) : ?>
-<section class="modal delete" data-modal="delete_menu_owner">
+<?php if (Functions::check_user_access(['{menu_restaurants_delete}']) == true) : ?>
+<section class="modal delete" data-modal="delete_menu_restaurant">
     <div class="content">
         <footer>
             <a button-close><i class="fas fa-times"></i></a>

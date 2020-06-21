@@ -5,24 +5,24 @@ $(document).ready(function()
     var id = null;
     var edit = false;
 
-    $('[data-modal="new_menu_owner"]').modal().onCancel(function()
+    $('[data-modal="new_menu_restaurant"]').modal().onCancel(function()
     {
         id = null;
         edit = false;
 
-        clean_form($('form[name="new_menu_owner"]'));
+        clean_form($('form[name="new_menu_restaurant"]'));
     });
 
-    $('form[name="new_menu_owner"]').on('submit', function(e)
+    $('form[name="new_menu_restaurant"]').on('submit', function(e)
     {
         e.preventDefault();
 
         var form = $(this);
 
         if (edit == false)
-            var data = '&action=new_menu_owner';
+            var data = '&action=new_menu_restaurant';
         else if (edit == true)
-            var data = '&id=' + id + '&action=edit_menu_owner';
+            var data = '&id=' + id + '&action=edit_menu_restaurant';
 
         $.ajax({
             type: 'POST',
@@ -40,14 +40,14 @@ $(document).ready(function()
         });
     });
 
-    $('[data-action="edit_menu_owner"]').on('click', function()
+    $('[data-action="edit_menu_restaurant"]').on('click', function()
     {
         id = $(this).data('id');
         edit = true;
 
         $.ajax({
             type: 'POST',
-            data: 'id=' + id + '&action=get_menu_owner',
+            data: 'id=' + id + '&action=get_menu_restaurant',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -58,9 +58,9 @@ $(document).ready(function()
                     $('[name="name_es"]').val(response.data.name.es);
                     $('[name="name_en"]').val(response.data.name.en);
 
-                    required_focus('form', $('form[name="new_menu_owner"]'), null);
+                    required_focus('form', $('form[name="new_menu_restaurant"]'), null);
 
-                    $('[data-modal="new_menu_owner"]').addClass('view');
+                    $('[data-modal="new_menu_restaurant"]').addClass('view');
                 }
                 else if (response.status == 'error')
                     show_modal_error(response.message);
@@ -68,18 +68,18 @@ $(document).ready(function()
         });
     });
 
-    $('[data-action="deactivate_menu_owner"]').on('click', function()
+    $('[data-action="deactivate_menu_restaurant"]').on('click', function()
     {
         id = $(this).data('id');
 
-        $('[data-modal="deactivate_menu_owner"]').addClass('view');
+        $('[data-modal="deactivate_menu_restaurant"]').addClass('view');
     });
 
-    $('[data-modal="deactivate_menu_owner"]').modal().onSuccess(function()
+    $('[data-modal="deactivate_menu_restaurant"]').modal().onSuccess(function()
     {
         $.ajax({
             type: 'POST',
-            data: 'id=' + id + '&action=deactivate_menu_owner',
+            data: 'id=' + id + '&action=deactivate_menu_restaurant',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -93,18 +93,18 @@ $(document).ready(function()
         });
     });
 
-    $('[data-action="activate_menu_owner"]').on('click', function()
+    $('[data-action="activate_menu_restaurant"]').on('click', function()
     {
         id = $(this).data('id');
 
-        $('[data-modal="activate_menu_owner"]').addClass('view');
+        $('[data-modal="activate_menu_restaurant"]').addClass('view');
     });
 
-    $('[data-modal="activate_menu_owner"]').modal().onSuccess(function()
+    $('[data-modal="activate_menu_restaurant"]').modal().onSuccess(function()
     {
         $.ajax({
             type: 'POST',
-            data: 'id=' + id + '&action=activate_menu_owner',
+            data: 'id=' + id + '&action=activate_menu_restaurant',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -118,18 +118,18 @@ $(document).ready(function()
         });
     });
 
-    $('[data-action="delete_menu_owner"]').on('click', function()
+    $('[data-action="delete_menu_restaurant"]').on('click', function()
     {
         id = $(this).data('id');
 
-        $('[data-modal="delete_menu_owner"]').addClass('view');
+        $('[data-modal="delete_menu_restaurant"]').addClass('view');
     });
 
-    $('[data-modal="delete_menu_owner"]').modal().onSuccess(function()
+    $('[data-modal="delete_menu_restaurant"]').modal().onSuccess(function()
     {
         $.ajax({
             type: 'POST',
-            data: 'id=' + id + '&action=delete_menu_owner',
+            data: 'id=' + id + '&action=delete_menu_restaurant',
             processData: false,
             cache: false,
             dataType: 'json',

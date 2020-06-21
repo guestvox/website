@@ -390,6 +390,16 @@ class Account_controller extends Controller
 
 					if (!empty($query))
 					{
+						if ($_POST['action'] == 'edit_myvox_menu_settings')
+						{
+							$account = Session::get_value('account');
+
+							$account['settings']['menu']['currency'] = $_POST['currency'];
+							$account['settings']['menu']['multi'] = !empty($_POST['multi']) ? true : false;
+
+							Session::set_value('account', $account);
+						}
+
 						Functions::environment([
 							'status' => 'success',
 							'message' => '{$lang.operation_success}'

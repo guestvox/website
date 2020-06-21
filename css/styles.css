@@ -1310,10 +1310,18 @@ div[data-uploader].stl_2 > p > a {
     color: #e0e0e0;
 }
 
-div[data-uploader].stl_2 > figure,
-div[data-uploader].stl_2 > figure > img {
+div[data-uploader].stl_2 > figure {
     width: 100%;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #eee;
+}
+
+div[data-uploader].stl_2 > figure > img {
+    width: auto;
+    max-height: 300px;
 }
 
 div[data-uploader].stl_2 > figure > a {

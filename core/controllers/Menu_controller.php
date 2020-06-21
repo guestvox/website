@@ -13,6 +13,20 @@ class Menu_controller extends Controller
 		$this->lang = Session::get_value('account')['language'];
 	}
 
+	public function index()
+	{
+		$template = $this->view->render($this, 'index');
+
+		define('_title', 'Guestvox | {$lang.menu}');
+
+		if (Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}']) == true)
+			header('Location: /menu/products');
+		else if (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true)
+			header('Location: /menu/restaurants');
+
+		echo $template;
+	}
+
 	public function products()
 	{
         if (Format::exist_ajax_request() == true)
@@ -41,9 +55,6 @@ class Menu_controller extends Controller
 			{
 				$labels = [];
 
-				if (!isset($_FILES['avatar']['name']) OR empty($_FILES['avatar']['name']))
-					array_push($labels, ['avatar','']);
-
 				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
 					array_push($labels, ['name_es','']);
 
@@ -59,8 +70,17 @@ class Menu_controller extends Controller
 				if (!isset($_POST['price']) OR empty($_POST['price']))
 					array_push($labels, ['price','']);
 
+				if (!isset($_FILES['avatar']['name']) OR empty($_FILES['avatar']['name']))
+					array_push($labels, ['avatar','']);
+
 				if (!isset($_POST['categories']) OR empty($_POST['categories']))
 					array_push($labels, ['categories','']);
+
+				if (Session::get_value('account')['settings']['menu']['multi'] == true)
+				{
+					if (!isset($_POST['restaurant']) OR empty($_POST['restaurant']))
+						array_push($labels, ['restaurant','']);
+				}
 
 				if (empty($labels))
 				{
@@ -126,10 +146,6 @@ class Menu_controller extends Controller
 
 			define('_title', 'Guestvox | {$lang.menu_products}');
 
-			$menu_settings = $this->model->get_menu_settings();
-			
-			$menu_currency = !empty($menu_settings['currency']) ? $menu_settings['currency'] : Session::get_value('account')['currency'];
-
 			$tbl_menu_products = '';
 
 			foreach ($this->model->get_menu_products() as $value)
@@ -140,7 +156,8 @@ class Menu_controller extends Controller
 						<div class="itm_1">
 							<h2>' . $value['name'][$this->lang] .'</h2>
 							<span>' . $value['description'][$this->lang] . '</span>
-							<span>' . Functions::get_formatted_currency($value['price'], $menu_currency) . '</span>
+							' . ((Session::get_value('account')['settings']['menu']['multi'] == true) ? '<span>' . (!empty($value['restaurant']) ? $value['restaurant'][$this->lang] : '{$lang.not_restaurant}') . '</span>' : '') . '
+							<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . '</span>
 						</div>
 						<div class="itm_2">
 							<figure>
@@ -149,28 +166,33 @@ class Menu_controller extends Controller
 						</div>
 					</div>
 					<div class="buttons">
-						' . ((Functions::check_user_access(['{menu_deactivate}','{menu_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_menu_product' : 'activate_menu_product') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
-						' . ((Functions::check_user_access(['{menu_update}']) == true) ? '<a class="edit" data-action="edit_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
-						' . ((Functions::check_user_access(['{menu_delete}']) == true) ? '<a class="delete" data-action="delete_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{menu_products_deactivate}','{menu_products_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_menu_product' : 'activate_menu_product') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{menu_products_update}']) == true) ? '<a class="edit" data-action="edit_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{menu_products_delete}']) == true) ? '<a class="delete" data-action="delete_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 					</div>
 				</div>';
 			}
 
-			$cbx_categories = '';
+			$cbx_menu_categories = '';
 
-            foreach ($this->model->get_menu_categories() as $key => $value)
+            foreach ($this->model->get_menu_categories() as $value)
             {
-				$cbx_categories .=
+				$cbx_menu_categories .=
 				'<div>
 					<input type="checkbox" name="categories[]" value="' . $value['id'] . '">
 					<span>' . $value['name'][$this->lang] . '</span>
 				</div>';
             }
 
+			$opt_menu_restaurants = '';
+
+            foreach ($this->model->get_menu_restaurants('actives') as $value)
+				$opt_menu_restaurants .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+
 			$replace = [
 				'{$tbl_menu_products}' => $tbl_menu_products,
-				'{$menu_currency}' => $menu_currency,
-				'{$cbx_categories}' => $cbx_categories
+				'{$cbx_menu_categories}' => $cbx_menu_categories,
+				'{$opt_menu_restaurants}' => $opt_menu_restaurants
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -179,13 +201,13 @@ class Menu_controller extends Controller
 		}
 	}
 
-	public function owners()
+	public function restaurants()
 	{
         if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'get_menu_owner')
+			if ($_POST['action'] == 'get_menu_restaurant')
 			{
-				$query = $this->model->get_menu_owner($_POST['id']);
+				$query = $this->model->get_menu_restaurant($_POST['id']);
 
                 if (!empty($query))
                 {
@@ -203,7 +225,7 @@ class Menu_controller extends Controller
                 }
 			}
 
-			if ($_POST['action'] == 'new_menu_owner' OR $_POST['action'] == 'edit_menu_owner')
+			if ($_POST['action'] == 'new_menu_restaurant' OR $_POST['action'] == 'edit_menu_restaurant')
 			{
 				$labels = [];
 
@@ -215,10 +237,10 @@ class Menu_controller extends Controller
 
 				if (empty($labels))
 				{
-					if ($_POST['action'] == 'new_menu_owner')
-						$query = $this->model->new_menu_owner($_POST);
-					else if ($_POST['action'] == 'edit_menu_owner')
-						$query = $this->model->edit_menu_owner($_POST);
+					if ($_POST['action'] == 'new_menu_restaurant')
+						$query = $this->model->new_menu_restaurant($_POST);
+					else if ($_POST['action'] == 'edit_menu_restaurant')
+						$query = $this->model->edit_menu_restaurant($_POST);
 
 					if (!empty($query))
 					{
@@ -244,14 +266,14 @@ class Menu_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'deactivate_menu_owner' OR $_POST['action'] == 'activate_menu_owner' OR $_POST['action'] == 'delete_menu_owner')
+			if ($_POST['action'] == 'deactivate_menu_restaurant' OR $_POST['action'] == 'activate_menu_restaurant' OR $_POST['action'] == 'delete_menu_restaurant')
 			{
-				if ($_POST['action'] == 'deactivate_menu_owner')
-					$query = $this->model->deactivate_menu_owner($_POST['id']);
-				else if ($_POST['action'] == 'activate_menu_owner')
-					$query = $this->model->activate_menu_owner($_POST['id']);
-				else if ($_POST['action'] == 'delete_menu_owner')
-					$query = $this->model->delete_menu_owner($_POST['id']);
+				if ($_POST['action'] == 'deactivate_menu_restaurant')
+					$query = $this->model->deactivate_menu_restaurant($_POST['id']);
+				else if ($_POST['action'] == 'activate_menu_restaurant')
+					$query = $this->model->activate_menu_restaurant($_POST['id']);
+				else if ($_POST['action'] == 'delete_menu_restaurant')
+					$query = $this->model->delete_menu_restaurant($_POST['id']);
 
 				if (!empty($query))
 				{
@@ -271,29 +293,37 @@ class Menu_controller extends Controller
 		}
 		else
 		{
-			$template = $this->view->render($this, 'owners');
+			$template = $this->view->render($this, 'restaurants');
 
-			define('_title', 'Guestvox | {$lang.menu_owners}');
+			define('_title', 'Guestvox | {$lang.menu_restaurants}');
 
-			$tbl_menu_owners = '';
+			$tbl_menu_restaurants = '';
 
-			foreach ($this->model->get_menu_owners() as $value)
+			foreach ($this->model->get_menu_restaurants() as $value)
 			{
-				$tbl_menu_owners .=
+				$tbl_menu_restaurants .=
 				'<div>
 					<div class="datas">
-						<h2>' . $value['name'][$this->lang] . '</h2>
+						<div class="itm_1">
+							<h2>' . $value['name'][$this->lang] . '</h2>
+							<span>' . $value['token'] . '</span>
+						</div>
+						<div class="itm_2">
+							<figure>
+								<a href="{$path.uploads}' . $value['qr'] . '" download="' . $value['qr'] . '"><img src="{$path.uploads}' . $value['qr'] . '"></a>
+							</figure>
+						</div>
 					</div>
-					<div class="buttons flex_right">
-						' . ((Functions::check_user_access(['{menu_owners_deactivate}','{menu_owners_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_menu_owner' : 'activate_menu_owner') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
-						' . ((Functions::check_user_access(['{menu_owners_update}']) == true) ? '<a class="edit" data-action="edit_menu_owner" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
-						' . ((Functions::check_user_access(['{menu_owners_delete}']) == true) ? '<a class="delete" data-action="delete_menu_owner" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+					<div class="buttons">
+						' . ((Functions::check_user_access(['{menu_restaurants_deactivate}','{menu_restaurants_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_menu_restaurant' : 'activate_menu_restaurant') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{menu_restaurants_update}']) == true) ? '<a class="edit" data-action="edit_menu_restaurant" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{menu_restaurants_delete}']) == true) ? '<a class="delete" data-action="delete_menu_restaurant" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 					</div>
 				</div>';
 			}
 
 			$replace = [
-				'{$tbl_menu_owners}' => $tbl_menu_owners
+				'{$tbl_menu_restaurants}' => $tbl_menu_restaurants
 			];
 
 			$template = $this->format->replace($replace, $template);

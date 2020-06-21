@@ -72,6 +72,8 @@ $(document).ready(function()
                         $('[name="categories[]"][value="' + value + '"]').prop('checked', true);
                     });
 
+                    $('[name="restaurant"]').val(response.data.restaurant);
+
                     required_focus('form', $('form[name="new_menu_product"]'), null);
 
                     $('[data-modal="new_menu_product"]').addClass('view');

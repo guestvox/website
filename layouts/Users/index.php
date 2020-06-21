@@ -92,18 +92,14 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                         </div>
                     </div>
                     <div class="span12">
-                        <div class="label">
-                            <div class="checkboxes stl_2">
-                                {$cbx_permissions}
-                            </div>
+                        <div class="checkboxes stl_2">
+                            {$cbx_permissions}
                         </div>
                     </div>
                     <div class="span12">
-                        <div class="label">
-                            <div class="checkboxes stl_1">
-                                <p>{$lang.opportunity_areas}</p>
-                                {$cbx_opportunity_areas}
-                            </div>
+                        <div class="checkboxes stl_1">
+                            <p>{$lang.opportunity_areas}</p>
+                            {$cbx_opportunity_areas}
                         </div>
                     </div>
                     <div class="span12">

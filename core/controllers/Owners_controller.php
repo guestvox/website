@@ -135,7 +135,7 @@ class Owners_controller extends Controller
 				if (!empty($query))
                 {
 					$zip_archive = new ZipArchive();
-					$zip_name = Session::get_value('account')['path'] . '_owners_' . Functions::get_current_date() . '.zip';
+					$zip_name = Session::get_value('account')['path'] . '_owners_export_' . Functions::get_current_date() . '.zip';
 
 					$zip_archive->open($zip_name, ZipArchive::CREATE);
 
@@ -144,10 +144,10 @@ class Owners_controller extends Controller
 
 					$zip_archive->close();
 
-					// header('Content-type: application/zip');
-					// header('Content-Disposition: attachment; filename="' . $zip_name . '"');
-					// readfile($zip_name);
-					// unlink($zip_name);
+					header('Content-type: application/zip');
+					header('Content-Disposition: attachment; filename="' . $zip_name . '"');
+					readfile($zip_name);
+					unlink($zip_name);
                 }
                 else
                 {

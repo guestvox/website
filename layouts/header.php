@@ -43,7 +43,7 @@
             <li target="surveys"><a href="/surveys">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_account_access(['operation']) == true AND Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}','{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
-            <li target="menu"><a href="/menu">{$lang.menu}<i class="fas fa-concierge-bell"></i></a></li>
+            <li target="menu"><a href="/menu">{$lang.menu}<i class="fas fa-cocktail"></i></a></li>
             <?php endif; ?>
         </ul>
     </nav>

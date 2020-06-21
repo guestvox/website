@@ -38,10 +38,8 @@ $this->dependencies->add(['other', '<script>menu_focus("users_levels");</script>
                         </div>
                     </div>
                     <div class="span12">
-                        <div class="label">
-                            <div class="checkboxes stl_2">
-                                {$cbx_permissions}
-                            </div>
+                        <div class="checkboxes stl_2">
+                            {$cbx_permissions}
                         </div>
                     </div>
                     <div class="span12">

@@ -82,42 +82,52 @@ class User_level
                 // break;
 
                 case '{menu_products_create}' :
+                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_products_update}' :
+                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_products_deactivate}' :
+                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_products_activate}' :
+                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_products_delete}' :
+                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_restaurants_create}' :
+                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/restaurants');
                 break;
 
                 case '{menu_restaurants_update}' :
+                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/restaurants');
                 break;
 
                 case '{menu_restaurants_deactivate}' :
+                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/restaurants');
                 break;
 
                 case '{menu_restaurants_activate}' :
+                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/restaurants');
                 break;
 
                 case '{menu_restaurants_delete}' :
+                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/restaurants');
                 break;
 

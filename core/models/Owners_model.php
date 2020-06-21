@@ -73,7 +73,7 @@ class Owners_model extends Model
 		{
 			$data['token'] = strtolower(Functions::get_random(8));
 			$data['qr']['filename'] = Session::get_value('account')['path'] . '_owner_qr_' . $data['token'] . '.png';
-			$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/' . $data['token'];
+			$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/owner/' . $data['token'];
 			$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
 			$data['qr']['level'] = 'H';
 			$data['qr']['size'] = 5;
@@ -106,7 +106,7 @@ class Owners_model extends Model
 				{
 					$data['token'] = strtolower(Functions::get_random(8));
 					$data['qr']['filename'] = Session::get_value('account')['path'] . '_owner_qr_' . $data['token'] . '.png';
-					$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/' . $data['token'];
+					$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox/owner/' . $data['token'];
 					$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
 					$data['qr']['level'] = 'H';
 					$data['qr']['size'] = 5;

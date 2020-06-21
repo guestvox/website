@@ -2356,15 +2356,14 @@ class Voxes_controller extends Controller
 												</div>
 											</div>
 											<div class="span12 hidden">
-												<div class="label">
-													<div class="checkboxes">
+												<div class="checkboxes">
+													<div>
+														<h4>{$lang.opportunity_areas}</h4>
 														<div>
-															<h4>{$lang.opportunity_areas}</h4>
 															<div>
-																<div>
-																	<input type="checkbox" name="checked_all">
-																	<span><strong>{$lang.all}</strong></span>
-																</div>';
+																<input type="checkbox" name="checked_all">
+																<span><strong>{$lang.all}</strong></span>
+															</div>';
 
 							foreach ($this->model->get_opportunity_areas() as $value)
 							{
@@ -2376,21 +2375,19 @@ class Voxes_controller extends Controller
 							}
 
 							$mdl_new_vox_report .=
-							'								</div>
-														</div>
+							'							</div>
 													</div>
 												</div>
 											</div>
 											<div class="span12">
-												<div class="label">
-													<div class="checkboxes">
+												<div class="checkboxes">
+													<div>
+														<h4>{$lang.fields}</h4>
 														<div>
-															<h4>{$lang.fields}</h4>
 															<div>
-																<div>
-																	<input type="checkbox" name="checked_all">
-																	<span><strong>{$lang.all}</strong></span>
-																</div>';
+																<input type="checkbox" name="checked_all">
+																<span><strong>{$lang.all}</strong></span>
+															</div>';
 
 							foreach ($this->model->get_vox_report_fields() as $value)
 							{
@@ -2402,8 +2399,7 @@ class Voxes_controller extends Controller
 							}
 
 							$mdl_new_vox_report .=
-							'								</div>
-														</div>
+							'							</div>
 													</div>
 												</div>
 											</div>
@@ -2593,15 +2589,14 @@ class Voxes_controller extends Controller
 	                    </div>
 	                </div>
 					<div class="span12">
-						<div class="label">
-							<div class="checkboxes">
+						<div class="checkboxes">
+							<div>
+								<h4>{$lang.fields}</h4>
 								<div>
-									<h4>{$lang.fields}</h4>
 									<div>
-										<div>
-											<input type="checkbox" name="checked_all">
-											<span><strong>{$lang.all}</strong></span>
-										</div>';
+										<input type="checkbox" name="checked_all">
+										<span><strong>{$lang.all}</strong></span>
+									</div>';
 
 					foreach ($this->model->get_vox_report_fields() as $value)
 					{
@@ -2613,8 +2608,7 @@ class Voxes_controller extends Controller
 					}
 
 					$mdl_filter_vox_report .=
-					'									</div>
-													</div>
+					'								</div>
 												</div>
 											</div>
 										</div>
