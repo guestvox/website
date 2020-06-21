@@ -288,6 +288,7 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['menu']['currency'] = $data['currency'];
 				$edited1[0]['settings']['myvox']['menu']['opportunity_area'] = $data['opportunity_area'];
 				$edited1[0]['settings']['myvox']['menu']['opportunity_type'] = $data['opportunity_type'];
+				$edited1[0]['settings']['myvox']['menu']['multi'] = !empty($data['multi']) ? true : false;
 			}
 			else
 				$edited1[0]['settings']['myvox']['menu']['status'] = false;

@@ -41,6 +41,7 @@ class Login_model extends Model
 			'accounts.reputation(account_reputation)',
 			'accounts.siteminder(account_siteminder)',
 			'accounts.zaviapms(account_zaviapms)',
+			'accounts.settings(account_settings)',
 			'accounts.status(account_status)',
 			'packages.id(package_id)',
 			'packages.quantity_end(package_quantity_end)'
@@ -94,6 +95,12 @@ class Login_model extends Model
 					'reputation' => $query[0]['account_reputation'],
 					'siteminder' => $query[0]['account_siteminder'],
 					'zaviapms' => $query[0]['account_zaviapms'],
+					'settings' => [
+						'menu' => [
+							'currency' => $query[0]['account_settings']['myvox']['menu']['currency'],
+							'multi' => $query[0]['account_settings']['myvox']['menu']['multi']
+						]
+					],
 					'status' => $query[0]['account_status']
 				],
 				'settings' => [

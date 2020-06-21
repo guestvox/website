@@ -354,6 +354,8 @@ $(document).ready(function()
                             }
                         });
 
+                        $('[data-modal="edit_myvox_menu_settings"]').find('[name="multi"]').prop('checked', ((response1.data.settings.myvox.menu.multi == true) ? true : false));
+
                         required_focus('form', $('form[name="edit_myvox_menu_settings"]'), null);
 
                         $('[data-modal="edit_myvox_menu_settings"]').addClass('view');
@@ -688,11 +690,3 @@ $(document).ready(function()
         });
     });
 });
-
-function copyToClipboard(element) {
-var $temp = $("<input>");
-   $("body").append($temp);
-   $temp.val($(element).text()).select();
-   document.execCommand("copy");
-   $temp.remove();
-}
