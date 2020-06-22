@@ -37,21 +37,9 @@ $(document).ready(function()
             $('[name="quantity"]').attr('placeholder', 'N. de camas');
         else if ($(this).val() == 'others')
             $('[name="quantity"]').attr('placeholder', 'N. de clientes');
-
-        get_total();
     });
 
-    $('[name="quantity"]').on('change', function()
-    {
-        get_total();
-    });
-
-    $('[name="operation"]').on('change', function()
-    {
-        get_total();
-    });
-
-    $('[name="reputation"]').on('change', function()
+    $(document).on('change', '[name="type"], [name="quantity"], [name="operation"], [name="reputation"]', function()
     {
         get_total();
     });

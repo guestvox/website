@@ -21,30 +21,30 @@ class User_level
         {
             switch ($value)
             {
-                // case '{voxes_reports_create}' :
-                //     array_push($paths, '/Voxes/reports');
-                // break;
-                //
-                // case '{voxes_reports_update}' :
-                //     array_push($paths, '/Voxes/reports');
-                // break;
-                //
-                // case '{voxes_reports_deactivate}' :
-                //     array_push($paths, '/Voxes/reports');
-                // break;
-                //
-                // case '{voxes_reports_activate}' :
-                //     array_push($paths, '/Voxes/reports');
-                // break;
-                //
-                // case '{voxes_reports_delete}' :
-                //     array_push($paths, '/Voxes/reports');
-                // break;
-                //
-                // case '{voxes_reports_view}' :
-                //     array_push($paths, '/Voxes/reports');
-                // break;
-                //
+                case '{voxes_reports_create}' :
+                    array_push($paths, '/Voxes/reports');
+                break;
+
+                case '{voxes_reports_update}' :
+                    array_push($paths, '/Voxes/reports');
+                break;
+
+                case '{voxes_reports_deactivate}' :
+                    array_push($paths, '/Voxes/reports');
+                break;
+
+                case '{voxes_reports_activate}' :
+                    array_push($paths, '/Voxes/reports');
+                break;
+
+                case '{voxes_reports_delete}' :
+                    array_push($paths, '/Voxes/reports');
+                break;
+
+                case '{voxes_reports_print}' :
+                    array_push($paths, '/Voxes/reports');
+                break;
+                
                 // case '{voxes_stats_view}' :
                 //     array_push($paths, '/Voxes/stats');
                 //     array_push($paths, '/Voxes/charts');

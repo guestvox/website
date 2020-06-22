@@ -52,7 +52,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
             <a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a>
             <?php endif; ?>
-            <?php if (Functions::check_user_access(['{voxes_reports_view}']) == true) : ?>
+            <?php if (Functions::check_user_access(['{voxes_reports_print}']) == true) : ?>
             <a href="/voxes/reports/print"><i class="fas fa-bug"></i></a>
             <?php endif; ?>
         </div>

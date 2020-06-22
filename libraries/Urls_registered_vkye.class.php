@@ -13,15 +13,15 @@ class Urls_registered_vkye
                 'controller' => 'Index',
                 'method' => 'index'
             ],
-            '/operation' => [
+            '/solucion/operacion' => [
                 'controller' => 'Hi', // Rediseño - Actualización de información - Mencionar el qr y Myvox.
                 'method' => 'operation'
             ],
-            '/reputation' => [
+            '/solucion/reputacion' => [
                 'controller' => 'Hi',
                 'method' => 'reputation'
             ],
-            '/menu' => [
+            '/solucion/menu' => [
                 'controller' => 'Hi', // Rediseño
                 'method' => 'menu'
             ],
@@ -50,7 +50,7 @@ class Urls_registered_vkye
                 'method' => 'index'
             ],
             '/%param%/myvox/%param%/%param%' => [
-                'controller' => 'Myvox',
+                'controller' => 'Myvox', // Rediseño
                 'method' => 'index'
             ],
             '/%param%/myvox/request' => [
@@ -105,10 +105,14 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'edit'
             ],
-            // '/voxes/reports/%param%' => [
-            //     'controller' => 'Voxes',
-            //     'method' => 'reports'
-            // ],
+            '/voxes/reports' => [
+                'controller' => 'Voxes',
+                'method' => 'reports'
+            ],
+            '/voxes/reports/%param%' => [
+                'controller' => 'Voxes',
+                'method' => 'reports'
+            ],
             // '/voxes/stats' => [
             //     'controller' => 'Voxes',
             //     'method' => 'stats'

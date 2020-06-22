@@ -71,7 +71,7 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_2_text_4}</p>
                 </div>
             </div>
-            <a href="/operation">{$lang.know_more}</a>
+            <a href="/solucion/operacion">{$lang.know_more}</a>
         </div>
     </section>
     <section class="stl_3">
@@ -94,7 +94,7 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_3_text_4}</p>
                 </div>
             </div>
-            <a href="/reputation">{$lang.know_more}</a>
+            <a href="/solucion/reputacion">{$lang.know_more}</a>
         </div>
     </section>
     <section class="stl_2">
@@ -117,7 +117,7 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_2_text_8}</p>
                 </div>
             </div>
-            <a href="/menu">{$lang.know_more}</a>
+            <a href="/solucion/menu">{$lang.know_more}</a>
         </div>
     </section>
     <section class="stl_3">
@@ -140,7 +140,7 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_3_text_8}</p>
                 </div>
             </div>
-            <a href="/reviews-page">{$lang.know_more}</a>
+            <a href="/solucion/reseñas">{$lang.know_more}</a>
         </div>
     </section>
     <section class="stl_4">
