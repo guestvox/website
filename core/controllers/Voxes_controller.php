@@ -1844,45 +1844,52 @@ class Voxes_controller extends Controller
 
 					if (!empty($query))
 					{
-						$html = '';
+						$html =
+						'<div style="width:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:0px 40px 40px 40px;border-bottom:1px solid #eee;box-sizing:border-box;">
+							<figure style="width:auto;height:200px;">
+								<img style="width:auto;height:200px;" src="{$path.uploads}' . Session::get_value('account')['logotype'] . '">
+							</figure>
+							<p style="font-size:14px;font-weight:400;text-align:center;color:#757575;"><strong style="color:#212121;">' . Session::get_value('account')['name'] . '</strong></p>
+							<p style="font-size:14px;font-weight:400;text-align:center;color:#757575;">{$lang.report_generate_by} ' . Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname'] . ' {$lang.the} ' . Functions::get_current_date() . ' {$lang.at} ' . Functions::get_formatted_hour(Functions::get_current_hour(), '+ hrs') . '</p>
+						</div>';
 
 						foreach ($query as $value)
 						{
-							$html .= '<div>';
+							$html .= '<div style="width:100%;padding:40px;border-bottom:1px solid #eee;box-sizing:border-box;">';
 
 							if (in_array('type', $_POST['fields']))
-								$html .= '<span><strong>{$lang.type}:</strong> {$lang.' . $value['type'] . '}</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.type}:</strong> {$lang.' . $value['type'] . '}</p>';
 
-							$html .= '<span><strong>{$lang.token}:</strong> ' . $value['token'] . '</span>';
+							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.token}:</strong> ' . $value['token'] . '</p>';
 
 							if (in_array('owner', $_POST['fields']))
-								$html .= '<span><strong>{$lang.owner}:</strong> ' . $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.owner}:</strong> ' . $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') . '</p>';
 
 							if (in_array('opportunity_area', $_POST['fields']))
-								$html .= '<span><strong>{$lang.opportunity_area}:</strong> ' . $value['opportunity_area']['name'][$this->lang] . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.opportunity_area}:</strong> ' . $value['opportunity_area']['name'][$this->lang] . '</p>';
 
 							if (in_array('opportunity_type', $_POST['fields']))
-								$html .= '<span><strong>{$lang.opportunity_type}:</strong> ' . $value['opportunity_type']['name'][$this->lang] . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.opportunity_type}:</strong> ' . $value['opportunity_type']['name'][$this->lang] . '</p>';
 
 							if (in_array('date', $_POST['fields']))
-								$html .= '<span><strong>{$lang.date}:</strong> ' . Functions::get_formatted_date($value['started_date'], 'd F, Y') . ' ' . Functions::get_formatted_hour($value['started_hour'], '+ hrs') . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.date}:</strong> ' . Functions::get_formatted_date($value['started_date'], 'd F, Y') . ' ' . Functions::get_formatted_hour($value['started_hour'], '+ hrs') . '</p>';
 
 							if (in_array('location', $_POST['fields']))
-								$html .= '<span><strong>{$lang.location}:</strong> ' . $value['location']['name'][$this->lang] . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.location}:</strong> ' . $value['location']['name'][$this->lang] . '</p>';
 
 							if ($value['type'] == 'incident' OR $value['type'] == 'workorder')
 							{
 								if (in_array('cost', $_POST['fields']))
-									$html .= '<span><strong>{$lang.cost}:</strong> ' . Functions::get_formatted_currency((!empty($value['cost']) ? $value['cost'] : '0'), Session::get_value('account')['currency']) . '</span>';
+									$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.cost}:</strong> ' . Functions::get_formatted_currency((!empty($value['cost']) ? $value['cost'] : '0'), Session::get_value('account')['currency']) . '</p>';
 							}
 
 							if (in_array('urgency', $_POST['fields']))
-								$html .= '<span><strong>{$lang.urgency}:</strong> {$lang.' . $value['urgency'] . '}</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.urgency}:</strong> {$lang.' . $value['urgency'] . '}</p>';
 
 							if ($value['type'] == 'incident')
 							{
 								if (in_array('confidentiality', $_POST['fields']))
-									$html .= '<span><strong>{$lang.confidentiality}:</strong> {$lang.' . (($value['confidentiality'] == true) ? 'yes' : 'not') . '}</span>';
+									$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.confidentiality}:</strong> {$lang.' . (($value['confidentiality'] == true) ? 'yes' : 'not') . '}</p>';
 							}
 
 							if (in_array('assigned_users', $_POST['fields']))
@@ -1899,31 +1906,31 @@ class Voxes_controller extends Controller
 								else
 									$str .= '{$lang.empty}';
 
-								$html .= '<span><strong>{$lang.assigned_users}:</strong> ' . $str . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.assigned_users}:</strong> ' . $str . '</p>';
 							}
 
 							if ($value['type'] == 'request' OR $value['type'] == 'workorder')
 							{
 								if (in_array('observations', $_POST['fields']))
-									$html .= '<span><strong>{$lang.observations}:</strong> ' . (!empty($value['observations']) ? $value['observations'] : '{$lang.empty}') . '</span>';
+									$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.observations}:</strong> ' . (!empty($value['observations']) ? $value['observations'] : '{$lang.empty}') . '</p>';
 							}
 
 							if ($value['type'] == 'incident')
 							{
 								if (in_array('subject', $_POST['fields']))
-									$html .= '<span><strong>{$lang.subject}:</strong> ' . (!empty($value['subject']) ? $value['subject'] : '{$lang.empty}') . '</span>';
+									$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.subject}:</strong> ' . (!empty($value['subject']) ? $value['subject'] : '{$lang.empty}') . '</p>';
 
 								if (in_array('description', $_POST['fields']))
-									$html .= '<span><strong>{$lang.description}:</strong> ' . (!empty($value['description']) ? $value['description'] : '{$lang.empty}') . '</span>';
+									$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.description}:</strong> ' . (!empty($value['description']) ? $value['description'] : '{$lang.empty}') . '</p>';
 
 								if (in_array('action_taken', $_POST['fields']))
-									$html .= '<span><strong>{$lang.action_taken}:</strong> ' . (!empty($value['action_taken']) ? $value['action_taken'] : '{$lang.empty}') . '</span>';
+									$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.action_taken}:</strong> ' . (!empty($value['action_taken']) ? $value['action_taken'] : '{$lang.empty}') . '</p>';
 							}
 
 							if ($value['type'] == 'request' OR $value['type'] == 'incident')
 							{
 								if (in_array('name', $_POST['fields']))
-									$html .= '<span><strong>{$lang.name}:</strong> ' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($value['guest_treatment'])) ? $value['guest_treatment']['name'] . ' ' : '') . $value['firstname'] . ' ' . $value['lastname'] : '{$lang.empty}') . '</span>';
+									$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.name}:</strong> ' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($value['guest_treatment'])) ? $value['guest_treatment']['name'] . ' ' : '') . $value['firstname'] . ' ' . $value['lastname'] : '{$lang.empty}') . '</p>';
 							}
 
 							if (Session::get_value('account')['type'] == 'hotel')
@@ -1931,19 +1938,19 @@ class Voxes_controller extends Controller
 								if ($value['type'] == 'incident')
 								{
 									if (in_array('guest_id', $_POST['fields']))
-										$html .= '<span><strong>{$lang.guest_id}:</strong> ' . (!empty($value['guest_id']) ? $value['guest_id'] : '{$lang.empty}') . '</span>';
+										$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.guest_id}:</strong> ' . (!empty($value['guest_id']) ? $value['guest_id'] : '{$lang.empty}') . '</p>';
 
 									if (in_array('guest_type', $_POST['fields']))
-										$html .= '<span><strong>{$lang.guest_type}:</strong> ' . (!empty($value['guest_type']) ? $value['guest_type']['name'] : '{$lang.empty}') . '</span>';
+										$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.guest_type}:</strong> ' . (!empty($value['guest_type']) ? $value['guest_type']['name'] : '{$lang.empty}') . '</p>';
 
 									if (in_array('reservation_number', $_POST['fields']))
-										$html .= '<span><strong>{$lang.reservation_number}:</strong> ' . (!empty($value['reservation_number']) ? $value['reservation_number'] : '{$lang.empty}') . '</span>';
+										$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.reservation_number}:</strong> ' . (!empty($value['reservation_number']) ? $value['reservation_number'] : '{$lang.empty}') . '</p>';
 
 									if (in_array('reservation_status', $_POST['fields']))
-										$html .= '<span><strong>{$lang.reservation_status}:</strong> ' . (!empty($value['reservation_status']) ? $value['reservation_status']['name'] : '{$lang.empty}') . '</span>';
+										$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.reservation_status}:</strong> ' . (!empty($value['reservation_status']) ? $value['reservation_status']['name'] : '{$lang.empty}') . '</p>';
 
 									if (in_array('staying', $_POST['fields']))
-										$html .= '<span><strong>{$lang.staying}:</strong> ' . ((!empty($value['check_in']) AND !empty($value['check_out'])) ? Functions::get_formatted_date($value['check_in'], 'd F, Y') . ' / ' . Functions::get_formatted_date($value['check_out'], 'd F, Y') : '{$lang.empty}') . '</span>';
+										$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.staying}:</strong> ' . ((!empty($value['check_in']) AND !empty($value['check_out'])) ? Functions::get_formatted_date($value['check_in'], 'd F, Y') . ' / ' . Functions::get_formatted_date($value['check_out'], 'd F, Y') : '{$lang.empty}') . '</p>';
 								}
 							}
 
@@ -1976,23 +1983,23 @@ class Voxes_controller extends Controller
 									}
 
 									if ($img > 0)
-										$str .= '<img src="{$path.images}empty.png">' . $img . ' {$lang.files}, ';
+										$str .= '<img style="width:auto;height:20px;margin-right:5px;" src="{$path.images}empty.png">' . $img . ' {$lang.files}, ';
 
 									if ($pdf > 0)
-										$str .= '<img src="{$path.images}pdf.png">' . $pdf . ' {$lang.files}, ';
+										$str .= '<img style="width:auto;height:20px;margin-right:5px;" src="{$path.images}pdf.png">' . $pdf . ' {$lang.files}, ';
 
 									if ($wrd > 0)
-										$str .= '<img src="{$path.images}word.png">' . $wrd . ' {$lang.files}, ';
+										$str .= '<img style="width:auto;height:20px;margin-right:5px;" src="{$path.images}word.png">' . $wrd . ' {$lang.files}, ';
 
 									if ($exl > 0)
-										$str .= '<img src="{$path.images}excel.png">' . $exl . ' {$lang.files}, ';
+										$str .= '<img style="width:auto;height:20px;margin-right:5px;" src="{$path.images}excel.png">' . $exl . ' {$lang.files}, ';
 
 									$str = substr($str, 0, -2);
 								}
 								else
 									$str .= '{$lang.empty}';
 
-								$html .= '<span><strong>{$lang.attachments}:</strong> ' . $str . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.attachments}:</strong> ' . $str . '</p>';
 							}
 
 							if (in_array('viewed_by', $_POST['fields']))
@@ -2009,26 +2016,26 @@ class Voxes_controller extends Controller
 								else
 									$str .= '{$lang.empty}';
 
-								$html .= '<span><strong>{$lang.viewed_by}:</strong> ' . $str . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.viewed_by}:</strong> ' . $str . '</p>';
 							}
 
 							if (in_array('created', $_POST['fields']))
-								$html .= '<span><strong>{$lang.created}:</strong> ' . (($value['origin'] == 'myvox') ? 'Myvox' : $value['created_user']['firstname'] . ' ' . $value['created_user']['lastname']) . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['created_date'], $value['created_hour']) . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.created}:</strong> ' . (($value['origin'] == 'myvox') ? 'Myvox' : $value['created_user']['firstname'] . ' ' . $value['created_user']['lastname']) . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['created_date'], $value['created_hour']) . '</p>';
 
 							if (in_array('edited', $_POST['fields']))
-								$html .= '<span><strong>{$lang.edited}:</strong> ' . (!empty($value['edited_user']) ? $value['edited_user']['firstname'] . ' ' . $value['edited_user']['lastname'] . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['edited_date'], $value['edited_hour']) : '{$lang.empty}') . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.edited}:</strong> ' . (!empty($value['edited_user']) ? $value['edited_user']['firstname'] . ' ' . $value['edited_user']['lastname'] . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['edited_date'], $value['edited_hour']) : '{$lang.empty}') . '</p>';
 
 							if (in_array('completed', $_POST['fields']))
-								$html .= '<span><strong>{$lang.completed}:</strong> ' . (!empty($value['completed_user']) ? $value['completed_user']['firstname'] . ' ' . $value['completed_user']['lastname'] . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['completed_date'], $value['completed_hour']) : '{$lang.empty}') . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.completed}:</strong> ' . (!empty($value['completed_user']) ? $value['completed_user']['firstname'] . ' ' . $value['completed_user']['lastname'] . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['completed_date'], $value['completed_hour']) : '{$lang.empty}') . '</p>';
 
 							if (in_array('reopened', $_POST['fields']))
-								$html .= '<span><strong>{$lang.reopened}:</strong> ' . (!empty($value['reopened_user']) ? $value['reopened_user']['firstname'] . ' ' . $value['reopened_user']['lastname'] . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['reopened_date'], $value['reopened_hour']) : '{$lang.empty}') . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.reopened}:</strong> ' . (!empty($value['reopened_user']) ? $value['reopened_user']['firstname'] . ' ' . $value['reopened_user']['lastname'] . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['reopened_date'], $value['reopened_hour']) : '{$lang.empty}') . '</p>';
 
 							if (in_array('status', $_POST['fields']))
-								$html .= '<span><strong>{$lang.status}:</strong> {$lang.' . (($value['status'] == true) ? 'opened' : 'closed') . '}</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.status}:</strong> {$lang.' . (($value['status'] == true) ? 'opened' : 'closed') . '}</p>';
 
 							if (in_array('origin', $_POST['fields']))
-								$html .= '<span><strong>{$lang.origin}:</strong> {$lang.' . $value['origin'] . '}</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.origin}:</strong> {$lang.' . $value['origin'] . '}</p>';
 
 							if (in_array('average_resolution', $_POST['fields']))
 							{
@@ -2052,7 +2059,7 @@ class Voxes_controller extends Controller
 								else
 									$str .= '{$lang.empty}';
 
-								$html .= '<span><strong>{$lang.average_resolution}:</strong> ' . $str . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.average_resolution}:</strong> ' . $str . '</p>';
 							}
 
 							if (in_array('comments', $_POST['fields']))
@@ -2062,16 +2069,23 @@ class Voxes_controller extends Controller
 								if (!empty($value['comments']))
 								{
 									foreach ($value['comments'] as $subvalue)
-										$str .= '<span><strong>' . $subvalue['user']['firstname'] . ' ' . $subvalue['user']['lastname'] . ':</strong> ' . $subvalue['message'] . '</span>';
+										$str .= $subvalue['user']['firstname'] . ' ' . $subvalue['user']['lastname'] . ': ' . $subvalue['message'];
 								}
 								else
 									$str .= '{$lang.empty}';
 
-								$html .= '<span><strong>{$lang.comments}:</strong> ' . $str . '</span>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.comments}:</strong> ' . $str . '</p>';
 							}
 
 							$html .= '</div>';
 						}
+
+						$html .=
+						'<div style="width:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:40px 40px 0px 40px;border-bottom:0px;box-sizing:border-box;">
+							<p style="display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:400;text-align:center;color:#757575;"><strong style="color:#212121;">Power by</strong> <img style="width:auto;height:20px;margin:0px 5px;" src="images/logotype_color.png"></p>
+							<p style="display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:400;text-align:center;color:#757575;">Copyright <i style="margin:0px 5px;" class="far fa-copyright" aria-hidden="true"></i> {$lang.all_right_reserved} Guestvox S.A.P.I. de C.V.</p>
+							<p style="font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Configuration::$domain . '</p>
+						</div>';
 
 						Functions::environment([
 							'status' => 'success',
@@ -2464,6 +2478,7 @@ class Voxes_controller extends Controller
 
 			$div_print_vox_report = '';
 			$btn_filter_vox_report = '';
+			$btn_print_vox_report = '';
 			$mdl_filter_vox_report = '';
 
 			if (Functions::check_user_access(['{voxes_reports_print}']) == true)
@@ -2472,6 +2487,7 @@ class Voxes_controller extends Controller
 				{
 					$div_print_vox_report .= '<div id="print_vox_report" class="tbl_stl_4"></div>';
 					$btn_filter_vox_report .= '<a class="active" data-button-modal="filter_vox_report"><i class="fas fa-stream"></i></a>';
+					$btn_print_vox_report .= '<a class="active" data-action="print_vox_report"><i class="fas fa-print"></i></a>';
 					$mdl_filter_vox_report .=
 					'<section class="modal fullscreen" data-modal="filter_vox_report">
 						<div class="content">
@@ -2628,6 +2644,7 @@ class Voxes_controller extends Controller
 				'{$div_print_vox_report}' => $div_print_vox_report,
 				'{$btn_new_vox_report}' => $btn_new_vox_report,
 				'{$btn_filter_vox_report}' => $btn_filter_vox_report,
+				'{$btn_print_vox_report}' => $btn_print_vox_report,
 				'{$mdl_new_vox_report}' => $mdl_new_vox_report,
 				'{$mdl_deactivate_vox_report}' => $mdl_deactivate_vox_report,
 				'{$mdl_activate_vox_report}' => $mdl_activate_vox_report,

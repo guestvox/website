@@ -662,12 +662,24 @@ $(document).ready(function()
                 if (response.status == 'success')
                 {
                     $('#print_vox_report').html(response.html);
-                    
+
                     $('[data-modal="filter_vox_report"]').removeClass('view');
                 }
                 else if (response.status == 'error')
                     show_form_errors(form, response);
             }
         });
+    });
+
+    $('[data-action="print_vox_report"]').on('click', function()
+    {
+        var html1 = document.body.innerHTML;
+        var html2 = document.getElementById('print_vox_report').innerHTML;
+
+        document.body.innerHTML = html2;
+
+        window.print();
+
+        document.body.innerHTML = html1;
     });
 });

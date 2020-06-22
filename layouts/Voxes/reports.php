@@ -28,6 +28,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <?php endif; ?>
             {$btn_new_vox_report}
             {$btn_filter_vox_report}
+            {$btn_print_vox_report}
         </div>
     </section>
 </main>
