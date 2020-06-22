@@ -2648,408 +2648,408 @@ class Voxes_controller extends Controller
 		}
 	}
 
-	// public function stats()
-	// {
-	// 	if (Format::exist_ajax_request() == true)
-	// 	{
-	// 		if ($_POST['action'] == 'get_v_chart_data')
-	// 		{
-	// 			Functions::environment([
-	// 				'status' => 'success',
-	// 				'data' => [
-	// 					'oa' => $this->model->get_chart_data('v_oa_chart', $_POST, true),
-	// 					'o' => $this->model->get_chart_data('v_o_chart', $_POST, true),
-	// 					'l' => $this->model->get_chart_data('v_l_chart', $_POST, true)
-	// 				]
-	// 			]);
-	// 		}
-	//
-	// 		if ($_POST['action'] == 'get_ar_chart_data')
-	// 		{
-	// 			Functions::environment([
-	// 				'status' => 'success',
-	// 				'data' => [
-	// 					'oa' => $this->model->get_chart_data('ar_oa_chart', $_POST, true),
-	// 					'o' => $this->model->get_chart_data('ar_o_chart', $_POST, true),
-	// 					'l' => $this->model->get_chart_data('ar_l_chart', $_POST, true)
-	// 				]
-	// 			]);
-	// 		}
-	//
-	// 		if ($_POST['action'] == 'get_c_chart_data')
-	// 		{
-	// 			Functions::environment([
-	// 				'status' => 'success',
-	// 				'data' => [
-	// 					'oa' => $this->model->get_chart_data('c_oa_chart', $_POST, true),
-	// 					'o' => $this->model->get_chart_data('c_o_chart', $_POST, true),
-	// 					'l' => $this->model->get_chart_data('c_l_chart', $_POST, true)
-	// 				]
-	// 			]);
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		$template = $this->view->render($this, 'stats');
-	//
-	// 		define('_title', 'Guestvox | {$lang.voxes_stats}');
-	//
-	// 		$replace = [
-	// 			'{$voxes_average_resolution}' => $this->model->get_voxes_average_resolution(),
-	// 			'{$voxes_today}' => $this->model->get_voxes_count('today'),
-	// 			'{$voxes_week}' => $this->model->get_voxes_count('week'),
-	// 			'{$voxes_month}' => $this->model->get_voxes_count('month'),
-	// 			'{$voxes_year}' => $this->model->get_voxes_count('year'),
-	// 			'{$voxes_total}' => $this->model->get_voxes_count('total')
-	// 		];
-	//
-	// 		$template = $this->format->replace($replace, $template);
-	//
-	// 		echo $template;
-	// 	}
-	// }
-	//
-	// public function charts()
-	// {
-	// 	header('Content-Type: application/javascript');
-	//
-	// 	if ($this->lang == 'es')
-	// 	{
-	// 		$v_oa_chart_data_title = 'Voxes por áreas de oportunidad';
-	// 		$v_o_chart_data_title = 'Voxes por propietario';
-	// 		$v_l_chart_data_title = 'Voxes por ubicación';
-	// 		$ar_oa_chart_data_title = 'Tiempo de resolución por áreas de oportunidad';
-	// 		$ar_o_chart_data_title = 'Tiempo de resolución por propietario';
-	// 		$ar_l_chart_data_title = 'Tiempo de resolución por ubicación';
-	// 		$c_oa_chart_data_title = 'Costos por áreas de oportunidad';
-	// 		$c_o_chart_data_title = 'Costos por propietario';
-	// 		$c_l_chart_data_title = 'Costos por ubicación';
-	// 	}
-	// 	else if ($this->lang == 'en')
-	// 	{
-	// 		$v_oa_chart_data_title = 'Voxes by opportunity areas';
-	// 		$v_o_chart_data_title = 'Voxes by owner';
-	// 		$v_l_chart_data_title = 'Voxes by location';
-	// 		$ar_oa_chart_data_title = 'Resolution average by opportunity areas';
-	// 		$ar_o_chart_data_title = 'Resolution average by owner';
-	// 		$ar_l_chart_data_title = 'Resolution average by location';
-	// 		$c_oa_chart_data_title = 'Costs by opportunity areas';
-	// 		$c_o_chart_data_title = 'Costs by owner';
-	// 		$c_l_chart_data_title = 'Costs by location';
-	// 	}
-	//
-	// 	$v_oa_chart_data = $this->model->get_chart_data('v_oa_chart', [
-	// 		'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-	// 		'date_end' => Functions::get_current_date(),
-	// 		'type' => 'all'
-	// 	]);
-	//
-	// 	$v_o_chart_data = $this->model->get_chart_data('v_o_chart', [
-	// 		'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-	// 		'date_end' => Functions::get_current_date(),
-	// 		'type' => 'all'
-	// 	]);
-	//
-	// 	$v_l_chart_data = $this->model->get_chart_data('v_l_chart', [
-	// 		'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-	// 		'date_end' => Functions::get_current_date(),
-	// 		'type' => 'all'
-	// 	]);
-	//
-	// 	$ar_oa_chart_data = $this->model->get_chart_data('ar_oa_chart', [
-	// 		'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-	// 		'date_end' => Functions::get_current_date(),
-	// 		'type' => 'all'
-	// 	]);
-	//
-	// 	$ar_o_chart_data = $this->model->get_chart_data('ar_o_chart', [
-	// 		'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-	// 		'date_end' => Functions::get_current_date(),
-	// 		'type' => 'all'
-	// 	]);
-	//
-	// 	$ar_l_chart_data = $this->model->get_chart_data('ar_l_chart', [
-	// 		'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-	// 		'date_end' => Functions::get_current_date(),
-	// 		'type' => 'all'
-	// 	]);
-	//
-	// 	$c_oa_chart_data = $this->model->get_chart_data('c_oa_chart', [
-	// 		'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-	// 		'date_end' => Functions::get_current_date()
-	// 	]);
-	//
-	// 	$c_o_chart_data = $this->model->get_chart_data('c_o_chart', [
-	// 		'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-	// 		'date_end' => Functions::get_current_date()
-	// 	]);
-	//
-	// 	$c_l_chart_data = $this->model->get_chart_data('c_l_chart', [
-	// 		'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-	// 		'date_end' => Functions::get_current_date()
-	// 	]);
-	//
-	// 	$js =
-	// 	"'use strict';
-	//
-	// 	var v_oa_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $v_oa_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $v_oa_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $v_oa_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $v_oa_chart_data_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: false
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var v_o_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $v_o_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $v_o_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $v_o_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $v_o_chart_data_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: false
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var v_l_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $v_l_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $v_l_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $v_l_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $v_l_chart_data_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: false
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var ar_oa_chart = {
-	//         type: 'horizontalBar',
-	//         data: {
-	// 			labels: [
-	//                 " . $ar_oa_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $ar_oa_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $ar_oa_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $ar_oa_chart_data_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: false
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var ar_o_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $ar_o_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $ar_o_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $ar_o_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $ar_o_chart_data_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: false
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var ar_l_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $ar_l_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $ar_l_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $ar_l_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $ar_l_chart_data_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: false
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var c_oa_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $c_oa_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $c_oa_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $c_oa_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $c_oa_chart_data_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: false
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var c_o_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $c_o_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $c_o_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $c_o_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $c_o_chart_data_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: false
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var c_l_chart = {
-	//         type: 'pie',
-	//         data: {
-	// 			labels: [
-	//                 " . $c_l_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	//                 data: [
-	//                     " . $c_l_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $c_l_chart_data['datasets']['colors'] . "
-	//                 ],
-	//             }],
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				text: '" . $c_l_chart_data_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: false
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	window.onload = function()
-	// 	{
-	// 		v_oa_chart = new Chart(document.getElementById('v_oa_chart').getContext('2d'), v_oa_chart);
-	// 		v_o_chart = new Chart(document.getElementById('v_o_chart').getContext('2d'), v_o_chart);
-	// 		v_l_chart = new Chart(document.getElementById('v_l_chart').getContext('2d'), v_l_chart);
-	// 		ar_oa_chart = new Chart(document.getElementById('ar_oa_chart').getContext('2d'), ar_oa_chart);
-	// 		ar_o_chart = new Chart(document.getElementById('ar_o_chart').getContext('2d'), ar_o_chart);
-	// 		ar_l_chart = new Chart(document.getElementById('ar_l_chart').getContext('2d'), ar_l_chart);
-	// 		c_oa_chart = new Chart(document.getElementById('c_oa_chart').getContext('2d'), c_oa_chart);
-	// 		c_o_chart = new Chart(document.getElementById('c_o_chart').getContext('2d'), c_o_chart);
-	// 		c_l_chart = new Chart(document.getElementById('c_l_chart').getContext('2d'), c_l_chart);
-	// 	};";
-	//
-	// 	$js = trim(str_replace(array("\t\t\t"), '', $js));
-	//
-	// 	echo $js;
-	// }
+	public function stats()
+	{
+		if (Format::exist_ajax_request() == true)
+		{
+			if ($_POST['action'] == 'get_v_chart_data')
+			{
+				Functions::environment([
+					'status' => 'success',
+					'data' => [
+						'oa' => $this->model->get_chart_data('v_oa_chart', $_POST, true),
+						'o' => $this->model->get_chart_data('v_o_chart', $_POST, true),
+						'l' => $this->model->get_chart_data('v_l_chart', $_POST, true)
+					]
+				]);
+			}
+
+			if ($_POST['action'] == 'get_ar_chart_data')
+			{
+				Functions::environment([
+					'status' => 'success',
+					'data' => [
+						'oa' => $this->model->get_chart_data('ar_oa_chart', $_POST, true),
+						'o' => $this->model->get_chart_data('ar_o_chart', $_POST, true),
+						'l' => $this->model->get_chart_data('ar_l_chart', $_POST, true)
+					]
+				]);
+			}
+
+			if ($_POST['action'] == 'get_c_chart_data')
+			{
+				Functions::environment([
+					'status' => 'success',
+					'data' => [
+						'oa' => $this->model->get_chart_data('c_oa_chart', $_POST, true),
+						'o' => $this->model->get_chart_data('c_o_chart', $_POST, true),
+						'l' => $this->model->get_chart_data('c_l_chart', $_POST, true)
+					]
+				]);
+			}
+		}
+		else
+		{
+			$template = $this->view->render($this, 'stats');
+
+			define('_title', 'Guestvox | {$lang.voxes_stats}');
+
+			$replace = [
+				// '{$voxes_average_resolution}' => $this->model->get_voxes_average_resolution(),
+				// '{$voxes_today}' => $this->model->get_voxes_count('today'),
+				// '{$voxes_week}' => $this->model->get_voxes_count('week'),
+				// '{$voxes_month}' => $this->model->get_voxes_count('month'),
+				// '{$voxes_year}' => $this->model->get_voxes_count('year'),
+				// '{$voxes_total}' => $this->model->get_voxes_count('total')
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
+	public function charts()
+	{
+		header('Content-Type: application/javascript');
+
+		if ($this->lang == 'es')
+		{
+			$v_oa_chart_data_title = 'Voxes por áreas de oportunidad';
+			$v_o_chart_data_title = 'Voxes por propietario';
+			$v_l_chart_data_title = 'Voxes por ubicación';
+			$ar_oa_chart_data_title = 'Tiempo de resolución por áreas de oportunidad';
+			$ar_o_chart_data_title = 'Tiempo de resolución por propietario';
+			$ar_l_chart_data_title = 'Tiempo de resolución por ubicación';
+			$c_oa_chart_data_title = 'Costos por áreas de oportunidad';
+			$c_o_chart_data_title = 'Costos por propietario';
+			$c_l_chart_data_title = 'Costos por ubicación';
+		}
+		else if ($this->lang == 'en')
+		{
+			$v_oa_chart_data_title = 'Voxes by opportunity areas';
+			$v_o_chart_data_title = 'Voxes by owner';
+			$v_l_chart_data_title = 'Voxes by location';
+			$ar_oa_chart_data_title = 'Resolution average by opportunity areas';
+			$ar_o_chart_data_title = 'Resolution average by owner';
+			$ar_l_chart_data_title = 'Resolution average by location';
+			$c_oa_chart_data_title = 'Costs by opportunity areas';
+			$c_o_chart_data_title = 'Costs by owner';
+			$c_l_chart_data_title = 'Costs by location';
+		}
+
+		$v_oa_chart_data = $this->model->get_chart_data('v_oa_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date(),
+			'type' => 'all'
+		]);
+
+		$v_o_chart_data = $this->model->get_chart_data('v_o_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date(),
+			'type' => 'all'
+		]);
+
+		$v_l_chart_data = $this->model->get_chart_data('v_l_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date(),
+			'type' => 'all'
+		]);
+
+		$ar_oa_chart_data = $this->model->get_chart_data('ar_oa_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date(),
+			'type' => 'all'
+		]);
+
+		$ar_o_chart_data = $this->model->get_chart_data('ar_o_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date(),
+			'type' => 'all'
+		]);
+
+		$ar_l_chart_data = $this->model->get_chart_data('ar_l_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date(),
+			'type' => 'all'
+		]);
+
+		$c_oa_chart_data = $this->model->get_chart_data('c_oa_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date()
+		]);
+
+		$c_o_chart_data = $this->model->get_chart_data('c_o_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date()
+		]);
+
+		$c_l_chart_data = $this->model->get_chart_data('c_l_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date()
+		]);
+
+		$js =
+		"'use strict';
+
+		var v_oa_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $v_oa_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $v_oa_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $v_oa_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . $v_oa_chart_data_title . "'
+				},
+				legend: {
+					display: false
+				},
+	            responsive: true
+            }
+        };
+
+		var v_o_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $v_o_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $v_o_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $v_o_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . $v_o_chart_data_title . "'
+				},
+				legend: {
+					display: false
+				},
+	            responsive: true
+            }
+        };
+
+		var v_l_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $v_l_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $v_l_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $v_l_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . $v_l_chart_data_title . "'
+				},
+				legend: {
+					display: false
+				},
+	            responsive: true
+            }
+        };
+
+		var ar_oa_chart = {
+	        type: 'horizontalBar',
+	        data: {
+				labels: [
+	                " . $ar_oa_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $ar_oa_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $ar_oa_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . $ar_oa_chart_data_title . "'
+				},
+				legend: {
+					display: false
+				},
+	            responsive: true
+            }
+        };
+
+		var ar_o_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $ar_o_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $ar_o_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $ar_o_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . $ar_o_chart_data_title . "'
+				},
+				legend: {
+					display: false
+				},
+	            responsive: true
+            }
+        };
+
+		var ar_l_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $ar_l_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $ar_l_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $ar_l_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . $ar_l_chart_data_title . "'
+				},
+				legend: {
+					display: false
+				},
+	            responsive: true
+            }
+        };
+
+		var c_oa_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $c_oa_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $c_oa_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $c_oa_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . $c_oa_chart_data_title . "'
+				},
+				legend: {
+					display: false
+				},
+	            responsive: true
+            }
+        };
+
+		var c_o_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $c_o_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $c_o_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $c_o_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . $c_o_chart_data_title . "'
+				},
+				legend: {
+					display: false
+				},
+	            responsive: true
+            }
+        };
+
+		var c_l_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $c_l_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $c_l_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $c_l_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . $c_l_chart_data_title . "'
+				},
+				legend: {
+					display: false
+				},
+	            responsive: true
+            }
+        };
+
+		window.onload = function()
+		{
+			v_oa_chart = new Chart(document.getElementById('v_oa_chart').getContext('2d'), v_oa_chart);
+			v_o_chart = new Chart(document.getElementById('v_o_chart').getContext('2d'), v_o_chart);
+			v_l_chart = new Chart(document.getElementById('v_l_chart').getContext('2d'), v_l_chart);
+			ar_oa_chart = new Chart(document.getElementById('ar_oa_chart').getContext('2d'), ar_oa_chart);
+			ar_o_chart = new Chart(document.getElementById('ar_o_chart').getContext('2d'), ar_o_chart);
+			ar_l_chart = new Chart(document.getElementById('ar_l_chart').getContext('2d'), ar_l_chart);
+			c_oa_chart = new Chart(document.getElementById('c_oa_chart').getContext('2d'), c_oa_chart);
+			c_o_chart = new Chart(document.getElementById('c_o_chart').getContext('2d'), c_o_chart);
+			c_l_chart = new Chart(document.getElementById('c_l_chart').getContext('2d'), c_l_chart);
+		};";
+
+		$js = trim(str_replace(array("\t\t\t"), '', $js));
+
+		echo $js;
+	}
 }

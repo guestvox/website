@@ -1,5 +1,5 @@
 
-header.landing_page_reputation {
+header.landing_page_surveys {
     width: 50px;
     height: 100vh;
     position: fixed;
@@ -13,7 +13,7 @@ header.landing_page_reputation {
     z-index: 99;
 }
 
-header.landing_page_reputation > a {
+header.landing_page_surveys > a {
     width: 50px;
     height: 50px;
     display: flex;
@@ -23,7 +23,7 @@ header.landing_page_reputation > a {
     color: #fff;
 }
 
-header.landing_page_reputation > figure {
+header.landing_page_surveys > figure {
     position: absolute;
     right: 0px;
     bottom: 0px;
@@ -35,7 +35,7 @@ header.landing_page_reputation > figure {
     box-sizing: border-box;
 }
 
-header.landing_page_reputation > figure > img {
+header.landing_page_surveys > figure > img {
     width: 100%;
 }
 
@@ -74,7 +74,7 @@ header.landing_page_reputation > figure > img {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('../../images/hi/reputation/st_1_img_1.png');
+    background-image: url('../../images/hi/surveys/st_1_img_1.png');
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -92,8 +92,8 @@ figure.logotype > img {
     width: 100%;
 }
 
-main.landing_page_reputation,
-main.landing_page_reputation > section {
+main.landing_page_surveys,
+main.landing_page_surveys > section {
     position: relative;
     width: 100%;
     min-height: 100vh;
@@ -219,15 +219,15 @@ span.st_2_img_3 {
 }
 
 span.st_2_img_1 {
-    background-image: url('../../images/hi/reputation/st_2_img_1.png');
+    background-image: url('../../images/hi/surveys/st_2_img_1.png');
 }
 
 span.st_2_img_2 {
-    background-image: url('../../images/hi/reputation/st_2_img_2.png');
+    background-image: url('../../images/hi/surveys/st_2_img_2.png');
 }
 
 span.st_2_img_3 {
-    background-image: url('../../images/hi/reputation/st_2_img_3.png');
+    background-image: url('../../images/hi/surveys/st_2_img_3.png');
 }
 
 #section_two .content {
@@ -359,13 +359,13 @@ span.st_2_img_3 {
     height: calc(100%);
     top: 0;
     left: 0;
-    background-image: url('../../images/hi/reputation/background_1.jpg');
+    background-image: url('../../images/hi/surveys/background_1.jpg');
     background-position: center;
     background-size: cover;
 }
 
 #section_six::before {
-    background-image: url('../../images/hi/reputation/background_2.jpg');
+    background-image: url('../../images/hi/surveys/background_2.jpg');
     background-position-x: left;
 }
 
@@ -583,7 +583,7 @@ span.st_2_img_3 {
 }
 
 #section_eight {
-    background-image: url('../../images/hi/reputation/background_3.jpg');
+    background-image: url('../../images/hi/surveys/background_3.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -750,19 +750,19 @@ span.st_2_img_3 {
 }
 
 #section_ten > .container .content:last-of-type > a.social_media.fb_logo {
-    background-image: url('../../images/hi/reputation/fb_logo.svg');
+    background-image: url('../../images/hi/surveys/fb_logo.svg');
 }
 
 #section_ten > .container .content:last-of-type > a.social_media.yt_logo {
-    background-image: url('../../images/hi/reputation/yt_logo.svg');
+    background-image: url('../../images/hi/surveys/yt_logo.svg');
 }
 
 #section_ten > .container .content:last-of-type > a.social_media.ig_logo {
-    background-image: url('../../images/hi/reputation/ig_logo.svg');
+    background-image: url('../../images/hi/surveys/ig_logo.svg');
 }
 
 #section_ten > .container .content:last-of-type > a.social_media.in_logo {
-    background-image: url('../../images/hi/reputation/in_logo.svg');
+    background-image: url('../../images/hi/surveys/in_logo.svg');
 }
 
 @media (max-width: 991px) {

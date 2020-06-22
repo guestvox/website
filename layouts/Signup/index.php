@@ -265,9 +265,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                 <div class="row">
                     <div class="span6">
                         <div class="success">
-                            <figure>
-                                <img src="{$path.images}signup/success.png" alt="Icon">
-                            </figure>
+                            <i class="fas fa-check-circle"></i>
                             <p id="success"></p>
                         </div>
                     </div>

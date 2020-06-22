@@ -20,9 +20,13 @@ class Route_vkye
 
         $paths = [
             '/Index/index',
-            '/Hi/operation',
-            '/Hi/reputation',
+            '/Hi/voxes',
             '/Hi/menu',
+            '/Hi/surveys',
+            '/Hi/reviews',
+            '/Hi/hotels',
+            '/Hi/restaurants',
+            '/Hi/hospitals',
             '/Hi/webinar',
             '/Policies/terms',
             '/Policies/privacy',
@@ -31,11 +35,11 @@ class Route_vkye
             '/Myvox/index',
             '/Myvox/request',
             '/Myvox/incident',
-            // '/Myvox/menu',
-            // '/Myvox/survey',
+            '/Myvox/menu',
+            '/Myvox/surveys',
             '/Reviews/index',
             '/Login/index',
-            // '/Api/execute'
+            '/Api/execute'
         ];
 
         if (in_array($this->path, $paths))

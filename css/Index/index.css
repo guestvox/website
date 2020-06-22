@@ -365,6 +365,17 @@ main.landing_page_index > section.stl_4 > div > div > p {
     color: #fff;
 }
 
+main.landing_page_index > section.stl_4 > div > div a {
+    width: auto;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    background-color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    color: #24383f;
+}
+
 main.landing_page_index > section.stl_4 > figure {
     position: absolute;
     right: 0px;

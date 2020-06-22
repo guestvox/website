@@ -2,20 +2,20 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['css', '{$path.css}Hi/operation.css']);
-$this->dependencies->add(['js', '{$path.js}Hi/operation.js']);
 $this->dependencies->add(['js', '{$path.plugins}owl_carousel/owl.carousel.min.js']);
 $this->dependencies->add(['css', '{$path.plugins}owl_carousel/assets/owl.carousel.min.css']);
 $this->dependencies->add(['css', '{$path.plugins}owl_carousel/assets/owl.theme.default.min.css']);
 $this->dependencies->add(['css', '{$path.plugins}fancy_box/jquery.fancybox.min.css']);
 $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js']);
+$this->dependencies->add(['css', '{$path.css}Hi/voxes.css']);
+$this->dependencies->add(['js', '{$path.js}Hi/voxes.js']);
 
 ?>
 
-<main class="landing_page_operation">
+<main class="landing_page_voxes">
     <header class="topbar">
         <figure>
-            <img src="{$path.images}hi/operation/logotype_white.png" alt="Guestvox">
+            <img src="{$path.images}hi/voxes/logotype_white.png" alt="Guestvox">
         </figure>
         <nav>
             <ul>
@@ -27,12 +27,12 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
         <header class="cover">
             <div class="container">
                 <div class="content">
-                    <h1>{$lang.landing_page_hi_operation_text_1}</h1>
-                    <h2>{$lang.landing_page_hi_operation_text_2}</h2>
+                    <h1>{$lang.landing_page_hi_voxes_text_1}</h1>
+                    <h2>{$lang.landing_page_hi_voxes_text_2}</h2>
                     <a class="btn" data-button-modal="contact">{$lang.request_your_demo}</a>
                 </div>
                 <figure>
-                    <img src="{$path.images}hi/operation/screen_1.jpg" alt="Background">
+                    <img src="{$path.images}hi/voxes/screen_1.jpg" alt="Background">
                 </figure>
             </div>
             <div class="rocket"></div>
@@ -40,112 +40,112 @@ $this->dependencies->add(['js', '{$path.plugins}fancy_box/jquery.fancybox.min.js
         <section class="container background">
             <div class="space50"></div>
             <div class="title">
-                <h2>{$lang.landing_page_hi_operation_text_3}</h2>
+                <h2>{$lang.landing_page_hi_voxes_text_3}</h2>
                 <p>...</p>
             </div>
             <div class="space50"></div>
             <div class="boxes three_boxes">
                 <div class="box">
                     <span class="icon_communication"></span>
-                    <h4>{$lang.landing_page_hi_operation_text_4}</h4>
+                    <h4>{$lang.landing_page_hi_voxes_text_4}</h4>
                 </div>
                 <div class="box">
                     <span class="icon_clients"></span>
-                    <h4>{$lang.landing_page_hi_operation_text_5}</h4>
+                    <h4>{$lang.landing_page_hi_voxes_text_5}</h4>
                 </div>
                 <div class="box">
                     <span class="icon_like"></span>
-                    <h4>{$lang.landing_page_hi_operation_text_6}</h4>
+                    <h4>{$lang.landing_page_hi_voxes_text_6}</h4>
                 </div>
             </div>
             <div class="space100"></div>
             <div class="title">
-                <h2>{$lang.landing_page_hi_operation_text_7}</h2>
+                <h2>{$lang.landing_page_hi_voxes_text_7}</h2>
                 <p>...</p>
             </div>
             <div class="space50"></div>
             <div class="boxes_product">
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}hi/operation/icon_lock.svg" alt="Icon" width="70" height="70">
+                        <img src="{$path.images}hi/voxes/icon_lock.svg" alt="Icon" width="70" height="70">
                     </figure>
-                    <h4>{$lang.landing_page_hi_operation_text_8}</h4>
-                    <p>{$lang.landing_page_hi_operation_text_9}</p>
+                    <h4>{$lang.landing_page_hi_voxes_text_8}</h4>
+                    <p>{$lang.landing_page_hi_voxes_text_9}</p>
                 </div>
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}hi/operation/icon_person.svg" alt="Icon" width="70" height="70">
+                        <img src="{$path.images}hi/voxes/icon_person.svg" alt="Icon" width="70" height="70">
                     </figure>
-                    <h4>{$lang.landing_page_hi_operation_text_10}</h4>
-                    <p>{$lang.landing_page_hi_operation_text_11}</p>
+                    <h4>{$lang.landing_page_hi_voxes_text_10}</h4>
+                    <p>{$lang.landing_page_hi_voxes_text_11}</p>
                 </div>
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}hi/operation/icon_attachment.svg" alt="Icon" width="70" height="70">
+                        <img src="{$path.images}hi/voxes/icon_attachment.svg" alt="Icon" width="70" height="70">
                     </figure>
-                    <h4>{$lang.landing_page_hi_operation_text_12}</h4>
-                    <p>{$lang.landing_page_hi_operation_text_13}</p>
+                    <h4>{$lang.landing_page_hi_voxes_text_12}</h4>
+                    <p>{$lang.landing_page_hi_voxes_text_13}</p>
                 </div>
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}hi/operation/icon_person_follow.svg" alt="Icon" width="70" height="70">
+                        <img src="{$path.images}hi/voxes/icon_person_follow.svg" alt="Icon" width="70" height="70">
                     </figure>
-                    <h4>{$lang.landing_page_hi_operation_text_14}</h4>
-                    <p>{$lang.landing_page_hi_operation_text_15}</p>
+                    <h4>{$lang.landing_page_hi_voxes_text_14}</h4>
+                    <p>{$lang.landing_page_hi_voxes_text_15}</p>
                 </div>
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}hi/operation/icon_time.svg" alt="Icon" width="70" height="70">
+                        <img src="{$path.images}hi/voxes/icon_time.svg" alt="Icon" width="70" height="70">
                     </figure>
-                    <h4>{$lang.landing_page_hi_operation_text_16}</h4>
-                    <p>{$lang.landing_page_hi_operation_text_17}</p>
+                    <h4>{$lang.landing_page_hi_voxes_text_16}</h4>
+                    <p>{$lang.landing_page_hi_voxes_text_17}</p>
                 </div>
                 <div class="box">
                     <figure>
-                        <img src="{$path.images}hi/operation/icon_multi_device.svg" alt="Icon" width="70" height="70">
+                        <img src="{$path.images}hi/voxes/icon_multi_device.svg" alt="Icon" width="70" height="70">
                     </figure>
-                    <h4>{$lang.landing_page_hi_operation_text_18}</h4>
-                    <p>{$lang.landing_page_hi_operation_text_19}</p>
+                    <h4>{$lang.landing_page_hi_voxes_text_18}</h4>
+                    <p>{$lang.landing_page_hi_voxes_text_19}</p>
                 </div>
             </div>
         </section>
         <section class="call_to_action">
             <div class="container">
                 <div class="content">
-                    <h4>{$lang.landing_page_hi_operation_text_20}</h4>
+                    <h4>{$lang.landing_page_hi_voxes_text_20}</h4>
                 </div>
                 <a data-button-modal="contact">{$lang.request_your_demo}</a>
             </div>
         </section>
         <section class="container background">
             <div class="title">
-                <h2>{$lang.landing_page_hi_operation_text_21}</h2>
-                <p>{$lang.landing_page_hi_operation_text_22}</p>
+                <h2>{$lang.landing_page_hi_voxes_text_21}</h2>
+                <p>{$lang.landing_page_hi_voxes_text_22}</p>
             </div>
             <div class="space50"></div>
             <div id="screenshots" class="owl-carousel owl-theme">
-                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot_1_thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot_1.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}hi/voxes/screenshot_1_thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}hi/voxes/screenshot_1.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot_2_thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot_2.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}hi/voxes/screenshot_2_thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}hi/voxes/screenshot_2.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot_3_thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot_3.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}hi/voxes/screenshot_3_thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}hi/voxes/screenshot_3.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot_4_thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot_4.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}hi/voxes/screenshot_4_thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}hi/voxes/screenshot_4.jpg"></a>
                 </div>
-                <div class="item" style="background-image: url('{$path.images}hi/operation/screenshot_5_thumb.jpg');">
-                    <a data-fancybox="gallery" href="{$path.images}hi/operation/screenshot_5.jpg"></a>
+                <div class="item" style="background-image: url('{$path.images}hi/voxes/screenshot_5_thumb.jpg');">
+                    <a data-fancybox="gallery" href="{$path.images}hi/voxes/screenshot_5.jpg"></a>
                 </div>
             </div>
         </section>
     </section>
     <footer class="main">
         <div class="container">
-            <h2>{$lang.landing_page_hi_operation_text_23}</h2>
-            <h3>{$lang.landing_page_hi_operation_text_24}</h3>
+            <h2>{$lang.landing_page_hi_voxes_text_23}</h2>
+            <h3>{$lang.landing_page_hi_voxes_text_24}</h3>
             <a class="btn" data-button-modal="contact">{$lang.request_your_demo}</a>
             <ul class="social_media">
                 <li><a href="https://www.facebook.com/Guestvox/" target="_blank">Facebook</a></li>

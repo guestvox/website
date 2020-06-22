@@ -41,7 +41,7 @@ $this->dependencies->add(['others',
     </header>
     <section class="stl_1">
         <video autoplay loop muted>
-            <source src="{$path.images}index/stl_1_video_2.mp4" type="video/mp4">
+            <source src="{$path.images}index/stl_1_video_1.mp4" type="video/mp4">
         </video>
         <div>
             <figure>
@@ -71,33 +71,10 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_2_text_4}</p>
                 </div>
             </div>
-            <a href="/operacion">{$lang.know_more}</a>
+            <a href="/hola/voxes">{$lang.know_more}</a>
         </div>
     </section>
     <section class="stl_3">
-        <figure>
-            <img src="{$path.images}index/stl_3_image_1.png" alt="Background">
-        </figure>
-        <div>
-            <h2>{$lang.landing_page_index_stl_3_text_1}</h2>
-            <div>
-                <div>
-                    <i class="fas fa-comments"></i>
-                    <p>{$lang.landing_page_index_stl_3_text_2}</p>
-                </div>
-                <div>
-                    <i class="fas fa-clipboard-list"></i>
-                    <p>{$lang.landing_page_index_stl_3_text_3}</p>
-                </div>
-                <div>
-                    <i class="fas fa-chart-area"></i>
-                    <p>{$lang.landing_page_index_stl_3_text_4}</p>
-                </div>
-            </div>
-            <a href="/reputacion">{$lang.know_more}</a>
-        </div>
-    </section>
-    <section class="stl_2">
         <figure>
             <img src="{$path.images}index/stl_2_image_2.png" alt="Background">
         </figure>
@@ -117,30 +94,53 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_2_text_8}</p>
                 </div>
             </div>
-            <a href="/menu">{$lang.know_more}</a>
+            <a href="/hola/menu">{$lang.know_more}</a>
+        </div>
+    </section>
+    <section class="stl_2">
+        <figure>
+            <img src="{$path.images}index/stl_2_image_3.png" alt="Background">
+        </figure>
+        <div>
+            <h2>{$lang.landing_page_index_stl_2_text_9}</h2>
+            <div>
+                <div>
+                    <i class="fas fa-comments"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_10}</p>
+                </div>
+                <div>
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_11}</p>
+                </div>
+                <div>
+                    <i class="fas fa-chart-area"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_12}</p>
+                </div>
+            </div>
+            <a href="/hola/encuestas">{$lang.know_more}</a>
         </div>
     </section>
     <section class="stl_3">
         <figure>
-            <img src="{$path.images}index/stl_3_image_2.png" alt="Background">
+            <img src="{$path.images}index/stl_2_image_4.png" alt="Background">
         </figure>
         <div>
-            <h2>{$lang.landing_page_index_stl_3_text_5}</h2>
+            <h2>{$lang.landing_page_index_stl_2_text_13}</h2>
             <div>
                 <div>
                     <i class="fas fa-star"></i>
-                    <p>{$lang.landing_page_index_stl_3_text_6}</p>
+                    <p>{$lang.landing_page_index_stl_2_text_14}</p>
                 </div>
                 <div>
                     <i class="fas fa-comment"></i>
-                    <p>{$lang.landing_page_index_stl_3_text_7}</p>
+                    <p>{$lang.landing_page_index_stl_2_text_15}</p>
                 </div>
                 <div>
                     <i class="fas fa-qrcode"></i>
-                    <p>{$lang.landing_page_index_stl_3_text_8}</p>
+                    <p>{$lang.landing_page_index_stl_2_text_16}</p>
                 </div>
             </div>
-            <a href="/solucion/reseñas">{$lang.know_more}</a>
+            <a href="/hola/reseñas">{$lang.know_more}</a>
         </div>
     </section>
     <section class="stl_4">
@@ -148,14 +148,17 @@ $this->dependencies->add(['others',
             <div>
                 <i class="fas fa-bed"></i>
                 <p>{$lang.landing_page_index_stl_4_text_1}</p>
+                <a href="/hola/hoteles">{$lang.know_more}</a>
             </div>
             <div>
                 <i class="fas fa-utensils"></i>
                 <p>{$lang.landing_page_index_stl_4_text_2}</p>
+                <a href="/hola/restaurantes">{$lang.know_more}</a>
             </div>
             <div>
                 <i class="fas fa-stethoscope"></i>
                 <p>{$lang.landing_page_index_stl_4_text_3}</p>
+                <a href="/hola/hospitales">{$lang.know_more}</a>
             </div>
         </div>
         <div>

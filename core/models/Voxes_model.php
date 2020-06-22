@@ -2210,7 +2210,7 @@ class Voxes_model extends Model
 	//
 	// 	return $average;
 	// }
-	//
+
 	// public function get_voxes_count($option)
 	// {
 	// 	$where = [
@@ -2220,269 +2220,269 @@ class Voxes_model extends Model
 	// 	];
 	//
 	// 	if ($option == 'today')
-	// 		$where['AND']['started_date'] = Functions::get_current_date(); // - Revisar formatos de fecha
+	// 		$where['AND']['started_date'] = Functions::get_current_date();
 	// 	else if ($option == 'week')
-	// 		$where['AND']['started_date[<>]'] = [Functions::get_current_week()[0],Functions::get_current_week()[1]]; // - Revisar formatos de fecha
+	// 		$where['AND']['started_date[<>]'] = [Functions::get_current_week()[0],Functions::get_current_week()[1]];
 	// 	else if ($option == 'month')
-	// 		$where['AND']['started_date[<>]'] = [Functions::get_current_month()[0],Functions::get_current_month()[1]]; // - Revisar formatos de fecha
+	// 		$where['AND']['started_date[<>]'] = [Functions::get_current_month()[0],Functions::get_current_month()[1]];
 	// 	else if ($option == 'year')
-	// 		$where['AND']['started_date[<>]'] = [Functions::get_current_year()[0],Functions::get_current_year()[1]]; // - Revisar formatos de fecha
+	// 		$where['AND']['started_date[<>]'] = [Functions::get_current_year()[0],Functions::get_current_year()[1]];
 	//
 	// 	$query = $this->database->count('voxes', $where);
 	//
 	// 	return $query;
 	// }
-	//
-	// public function get_chart_data($chart, $params, $edit = false)
-	// {
-	// 	$where = [
-	// 		'AND' => [
-	// 			'account' => Session::get_value('account')['id'],
-	// 			'started_date[<>]' => [$params['started_date'],$params['date_end']] // - Revisar formatos de fecha
-	// 		]
-	// 	];
-	//
-	// 	if ($chart == 'c_oa_chart' OR $chart == 'c_o_chart' OR $chart == 'c_l_chart')
-	// 		$where['AND']['type'] = 'incident';
-	// 	else if ($params['type'] != 'all')
-	// 		$where['AND']['type'] = $params['type'];
-	//
-	// 	$query1 = $this->database->select('voxes', [
-	// 		'owner',
-	// 		'opportunity_area',
-	// 		'location',
-	// 		'cost',
-	// 		'started_date',
-	// 		'started_hour',
-	// 		'completed_date',
-	// 		'completed_hour'
-	// 	], $where);
-	//
-	// 	if ($chart == 'v_oa_chart' OR $chart == 'ar_oa_chart' OR $chart == 'c_oa_chart')
-	// 	{
-	// 		$query2 = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
-	// 			'id',
-	// 			'name'
-	// 		], [
-	// 			'account' => Session::get_value('account')['id']
-	// 		]));
-	// 	}
-	// 	else if ($chart == 'v_o_chart' OR $chart == 'ar_o_chart' OR $chart == 'c_o_chart')
-	// 	{
-	// 		$query2 = Functions::get_json_decoded_query($this->database->select('owners', [
-	// 			'id',
-	// 			'name',
-	// 			'number'
-	// 		], [
-	// 			'account' => Session::get_value('account')['id']
-	// 		]));
-	// 	}
-	// 	else if ($chart == 'v_l_chart' OR $chart == 'ar_l_chart' OR $chart == 'c_l_chart')
-	// 	{
-	// 		$query2 = Functions::get_json_decoded_query($this->database->select('locations', [
-	// 			'id',
-	// 			'name'
-	// 		], [
-	// 			'account' => Session::get_value('account')['id']
-	// 		]));
-	// 	}
-	//
-	// 	if ($edit == true)
-	// 	{
-	// 		$data = [
-	// 			'labels' => [],
-	// 			'datasets' => [
-	// 				'data' => [],
-	// 				'colors' => []
-	// 			]
-	// 		];
-	// 	}
-	// 	else
-	// 	{
-	// 		$data = [
-	// 			'labels' => '',
-	// 			'datasets' => [
-	// 				'data' => '',
-	// 				'colors' => ''
-	// 			]
-	// 		];
-	// 	}
-	//
-	// 	foreach ($query2 as $value)
-	// 	{
-	// 		if ($chart == 'v_oa_chart' OR $chart == 'v_o_chart' OR $chart == 'v_l_chart')
-	// 		{
-	// 			$count = 0;
-	//
-	// 			foreach ($query1 as $subvalue)
-	// 			{
-	// 				if ($chart == 'v_oa_chart')
-	// 				{
-	// 					if ($value['id'] == $subvalue['opportunity_area'])
-	// 						$count = $count + 1;
-	// 				}
-	// 				else if ($chart == 'v_o_chart')
-	// 				{
-	// 					if ($value['id'] == $subvalue['owner'])
-	// 						$count = $count + 1;
-	// 				}
-	// 				else if ($chart == 'v_l_chart')
-	// 				{
-	// 					if ($value['id'] == $subvalue['location'])
-	// 						$count = $count + 1;
-	// 				}
-	// 			}
-	//
-	// 			if ($edit == true)
-	// 			{
-	// 				if ($chart == 'v_oa_chart')
-	// 					array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-	// 				else if ($chart == 'v_o_chart')
-	// 					array_push($data['labels'], $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
-	// 				else if ($chart == 'v_l_chart')
-	// 					array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-	//
-	// 				array_push($data['datasets']['data'], $count);
-	// 				array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
-	// 			}
-	// 			else
-	// 			{
-	// 				if ($chart == 'v_oa_chart')
-	// 					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-	// 				else if ($chart == 'v_o_chart')
-	// 					$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
-	// 				else if ($chart == 'v_l_chart')
-	// 					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-	//
-	// 				$data['datasets']['data'] .= $count . ',';
-	// 				$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
-	// 			}
-	// 		}
-	// 		else if ($chart == 'ar_oa_chart' OR $chart == 'ar_o_chart' OR $chart == 'ar_l_chart')
-	// 		{
-	// 			$average = 0;
-	// 			$hours = 0;
-	// 			$count = 0;
-	//
-	// 			foreach ($query2 as $subvalue)
-	// 			{
-	// 				if ($chart == 'ar_oa_chart')
-	// 				{
-	// 					if ($value['id'] == $subvalue['opportunity_area'])
-	// 					{
-	// 						$date1 = new DateTime($subvalue['started_date'] . ' ' . $subvalue['started_hour']);
-	// 						$date2 = new DateTime($subvalue['completed_date'] . ' ' . $subvalue['completed_hour']);
-	// 						$date3 = $date1->diff($date2);
-	// 						$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
-	// 						$count = $count + 1;
-	// 					}
-	// 				}
-	// 				else if ($chart == 'ar_o_chart')
-	// 				{
-	// 					if ($value['id'] == $subvalue['owner'])
-	// 					{
-	// 						$date1 = new DateTime($subvalue['started_date'] . ' ' . $subvalue['started_hour']);
-	// 						$date2 = new DateTime($subvalue['completed_date'] . ' ' . $subvalue['completed_hour']);
-	// 						$date3 = $date1->diff($date2);
-	// 						$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
-	// 						$count = $count + 1;
-	// 					}
-	// 				}
-	// 				else if ($chart == 'ar_l_chart')
-	// 				{
-	// 					if ($value['id'] == $subvalue['location'])
-	// 					{
-	// 						$date1 = new DateTime($subvalue['started_date'] . ' ' . $subvalue['started_hour']);
-	// 						$date2 = new DateTime($subvalue['completed_date'] . ' ' . $subvalue['completed_hour']);
-	// 						$date3 = $date1->diff($date2);
-	// 						$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
-	// 						$count = $count + 1;
-	// 					}
-	// 				}
-	// 			}
-	//
-	// 			$average = ($count > 0) ? $hours / $count : $average;
-	//
-	// 			if ($average < 1)
-	// 				$average = round(($average * 60), 2);
-	// 			else
-	// 				$average = round($average, 2);
-	//
-	// 			if ($edit == true)
-	// 			{
-	// 				if ($chart == 'ar_oa_chart')
-	// 					array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-	// 				else if ($chart == 'ar_o_chart')
-	// 					array_push($data['labels'], $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
-	// 				else if ($chart == 'ar_l_chart')
-	// 					array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-	//
-	// 				array_push($data['datasets']['data'], $average);
-	// 				array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad( dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
-	// 			}
-	// 			else
-	// 			{
-	// 				if ($chart == 'ar_oa_chart')
-	// 					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-	// 				else if ($chart == 'ar_o_chart')
-	// 					$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
-	// 				else if ($chart == 'ar_l_chart')
-	// 					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-	//
-	// 				$data['datasets']['data'] .= $average . ',';
-	// 				$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
-	// 			}
-	// 		}
-	// 		else if ($chart == 'c_oa_chart' OR $chart == 'c_o_chart' OR $chart == 'c_l_chart')
-	// 		{
-	// 			$cost = 0;
-	//
-	// 			foreach ($query2 as $subvalue)
-	// 			{
-	// 				if ($chart == 'c_oa_chart')
-	// 				{
-	// 					if ($value['id'] == $subvalue['opportunity_area'])
-	// 						$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
-	// 				}
-	// 				else if ($chart == 'c_o_chart')
-	// 				{
-	// 					if ($value['id'] == $subvalue['owner'])
-	// 						$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
-	// 				}
-	// 				else if ($chart == 'c_l_chart')
-	// 				{
-	// 					if ($value['id'] == $subvalue['location'])
-	// 						$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
-	// 				}
-	// 			}
-	//
-	// 			if ($edit == true)
-	// 			{
-	// 				if ($chart == 'c_oa_chart')
-	// 					array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-	// 				else if ($chart == 'c_o_chart')
-	// 					array_push($data['labels'], $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
-	// 				else if ($chart == 'c_l_chart')
-	// 					array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-	//
-	// 				array_push($data['datasets']['data'], $cost);
-	// 				array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
-	// 			}
-	// 			else
-	// 			{
-	// 				if ($chart == 'c_oa_chart')
-	// 					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-	// 				else if ($chart == 'c_o_chart')
-	// 					$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
-	// 				else if ($chart == 'c_l_chart')
-	// 					$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-	//
-	// 				$data['datasets']['data'] .= $cost . ',';
-	// 				$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
-	// 			}
-	// 		}
-	// 	}
-	//
-	// 	return $data;
-	// }
+
+	public function get_chart_data($chart, $params, $edit = false)
+	{
+		$where = [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'started_date[<>]' => [$params['started_date'],$params['date_end']]
+			]
+		];
+
+		if ($chart == 'c_oa_chart' OR $chart == 'c_o_chart' OR $chart == 'c_l_chart')
+			$where['AND']['type'] = 'incident';
+		else if ($params['type'] != 'all')
+			$where['AND']['type'] = $params['type'];
+
+		$query1 = $this->database->select('voxes', [
+			'owner',
+			'opportunity_area',
+			'location',
+			'cost',
+			'started_date',
+			'started_hour',
+			'completed_date',
+			'completed_hour'
+		], $where);
+
+		if ($chart == 'v_oa_chart' OR $chart == 'ar_oa_chart' OR $chart == 'c_oa_chart')
+		{
+			$query2 = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
+				'id',
+				'name'
+			], [
+				'account' => Session::get_value('account')['id']
+			]));
+		}
+		else if ($chart == 'v_o_chart' OR $chart == 'ar_o_chart' OR $chart == 'c_o_chart')
+		{
+			$query2 = Functions::get_json_decoded_query($this->database->select('owners', [
+				'id',
+				'name',
+				'number'
+			], [
+				'account' => Session::get_value('account')['id']
+			]));
+		}
+		else if ($chart == 'v_l_chart' OR $chart == 'ar_l_chart' OR $chart == 'c_l_chart')
+		{
+			$query2 = Functions::get_json_decoded_query($this->database->select('locations', [
+				'id',
+				'name'
+			], [
+				'account' => Session::get_value('account')['id']
+			]));
+		}
+
+		if ($edit == true)
+		{
+			$data = [
+				'labels' => [],
+				'datasets' => [
+					'data' => [],
+					'colors' => []
+				]
+			];
+		}
+		else
+		{
+			$data = [
+				'labels' => '',
+				'datasets' => [
+					'data' => '',
+					'colors' => ''
+				]
+			];
+		}
+
+		foreach ($query2 as $value)
+		{
+			if ($chart == 'v_oa_chart' OR $chart == 'v_o_chart' OR $chart == 'v_l_chart')
+			{
+				$count = 0;
+
+				foreach ($query1 as $subvalue)
+				{
+					if ($chart == 'v_oa_chart')
+					{
+						if ($value['id'] == $subvalue['opportunity_area'])
+							$count = $count + 1;
+					}
+					else if ($chart == 'v_o_chart')
+					{
+						if ($value['id'] == $subvalue['owner'])
+							$count = $count + 1;
+					}
+					else if ($chart == 'v_l_chart')
+					{
+						if ($value['id'] == $subvalue['location'])
+							$count = $count + 1;
+					}
+				}
+
+				if ($edit == true)
+				{
+					if ($chart == 'v_oa_chart')
+						array_push($data['labels'], $value['name'][$this->lang]);
+					else if ($chart == 'v_o_chart')
+						array_push($data['labels'], $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
+					else if ($chart == 'v_l_chart')
+						array_push($data['labels'], $value['name'][$this->lang]);
+
+					array_push($data['datasets']['data'], $count);
+					array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+				}
+				else
+				{
+					if ($chart == 'v_oa_chart')
+						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+					else if ($chart == 'v_o_chart')
+						$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
+					else if ($chart == 'v_l_chart')
+						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+
+					$data['datasets']['data'] .= $count . ',';
+					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+				}
+			}
+			else if ($chart == 'ar_oa_chart' OR $chart == 'ar_o_chart' OR $chart == 'ar_l_chart')
+			{
+				$average = 0;
+				$hours = 0;
+				$count = 0;
+
+				foreach ($query2 as $subvalue)
+				{
+					if ($chart == 'ar_oa_chart')
+					{
+						if ($value['id'] == $subvalue['opportunity_area'])
+						{
+							$date1 = new DateTime($subvalue['started_date'] . ' ' . $subvalue['started_hour']);
+							$date2 = new DateTime($subvalue['completed_date'] . ' ' . $subvalue['completed_hour']);
+							$date3 = $date1->diff($date2);
+							$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
+							$count = $count + 1;
+						}
+					}
+					else if ($chart == 'ar_o_chart')
+					{
+						if ($value['id'] == $subvalue['owner'])
+						{
+							$date1 = new DateTime($subvalue['started_date'] . ' ' . $subvalue['started_hour']);
+							$date2 = new DateTime($subvalue['completed_date'] . ' ' . $subvalue['completed_hour']);
+							$date3 = $date1->diff($date2);
+							$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
+							$count = $count + 1;
+						}
+					}
+					else if ($chart == 'ar_l_chart')
+					{
+						if ($value['id'] == $subvalue['location'])
+						{
+							$date1 = new DateTime($subvalue['started_date'] . ' ' . $subvalue['started_hour']);
+							$date2 = new DateTime($subvalue['completed_date'] . ' ' . $subvalue['completed_hour']);
+							$date3 = $date1->diff($date2);
+							$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
+							$count = $count + 1;
+						}
+					}
+				}
+
+				$average = ($count > 0) ? $hours / $count : $average;
+
+				if ($average < 1)
+					$average = round(($average * 60), 2);
+				else
+					$average = round($average, 2);
+
+				if ($edit == true)
+				{
+					if ($chart == 'ar_oa_chart')
+						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+					else if ($chart == 'ar_o_chart')
+						array_push($data['labels'], $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
+					else if ($chart == 'ar_l_chart')
+						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+
+					array_push($data['datasets']['data'], $average);
+					array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad( dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+				}
+				else
+				{
+					if ($chart == 'ar_oa_chart')
+						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+					else if ($chart == 'ar_o_chart')
+						$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
+					else if ($chart == 'ar_l_chart')
+						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+
+					$data['datasets']['data'] .= $average . ',';
+					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+				}
+			}
+			else if ($chart == 'c_oa_chart' OR $chart == 'c_o_chart' OR $chart == 'c_l_chart')
+			{
+				$cost = 0;
+
+				foreach ($query2 as $subvalue)
+				{
+					if ($chart == 'c_oa_chart')
+					{
+						if ($value['id'] == $subvalue['opportunity_area'])
+							$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
+					}
+					else if ($chart == 'c_o_chart')
+					{
+						if ($value['id'] == $subvalue['owner'])
+							$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
+					}
+					else if ($chart == 'c_l_chart')
+					{
+						if ($value['id'] == $subvalue['location'])
+							$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
+					}
+				}
+
+				if ($edit == true)
+				{
+					if ($chart == 'c_oa_chart')
+						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+					else if ($chart == 'c_o_chart')
+						array_push($data['labels'], $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
+					else if ($chart == 'c_l_chart')
+						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+
+					array_push($data['datasets']['data'], $cost);
+					array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+				}
+				else
+				{
+					if ($chart == 'c_oa_chart')
+						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+					else if ($chart == 'c_o_chart')
+						$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
+					else if ($chart == 'c_l_chart')
+						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+
+					$data['datasets']['data'] .= $cost . ',';
+					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+				}
+			}
+		}
+
+		return $data;
+	}
 }

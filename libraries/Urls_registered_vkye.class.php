@@ -13,17 +13,33 @@ class Urls_registered_vkye
                 'controller' => 'Index',
                 'method' => 'index'
             ],
-            '/operacion' => [
-                'controller' => 'Hi', // - Rediseño - Actualización de información - Mencionar el qr y Myvox.
-                'method' => 'operation'
-            ],
-            '/reputacion' => [
-                'controller' => 'Hi',
-                'method' => 'reputation'
-            ],
-            '/menu' => [
+            '/hola/voxes' => [
                 'controller' => 'Hi', // - Rediseño
+                'method' => 'voxes'
+            ],
+            '/hola/menu' => [
+                'controller' => 'Hi',
                 'method' => 'menu'
+            ],
+            '/hola/encuestas' => [
+                'controller' => 'Hi',
+                'method' => 'surveys'
+            ],
+            '/hola/reseñas' => [
+                'controller' => 'Hi',
+                'method' => 'reviews'
+            ],
+            '/hola/hoteles' => [
+                'controller' => 'Hi',
+                'method' => 'hotels'
+            ],
+            '/hola/restaurantes' => [
+                'controller' => 'Hi',
+                'method' => 'restaurants'
+            ],
+            '/hola/hospitales' => [
+                'controller' => 'Hi',
+                'method' => 'hospitals'
             ],
             '/webinar' => [
                 'controller' => 'Hi',
@@ -61,14 +77,14 @@ class Urls_registered_vkye
                 'controller' => 'Myvox', // - Rediseño
                 'method' => 'incident'
             ],
-            // '/%param%/myvox/menu' => [
-            //     'controller' => 'Myvox',
-            //     'method' => 'menu'
-            // ],
-            // '/%param%/myvox/survey' => [
-            //     'controller' => 'Myvox',
-            //     'method' => 'survey'
-            // ],
+            '/%param%/myvox/menu' => [
+                'controller' => 'Myvox',
+                'method' => 'menu'
+            ],
+            '/%param%/myvox/surveys' => [
+                'controller' => 'Myvox', // - Rediseño
+                'method' => 'surveys'
+            ],
             '/%param%/reviews' => [
                 'controller' => 'Reviews', // - Rediseño
                 'method' => 'index'
@@ -121,34 +137,30 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'charts'
             ],
-            // '/surveys' => [
-            //     'controller' => 'Surveys',
-            //     'method' => 'index'
-            // ],
-            // '/surveys/questions' => [
-            //     'controller' => 'Surveys',
-            //     'method' => 'questions'
-            // ],
-            // '/surveys/answers' => [
-            //     'controller' => 'Surveys',
-            //     'method' => 'answers'
-            // ],
-            // '/surveys/comments' => [
-            //     'controller' => 'Surveys',
-            //     'method' => 'comments'
-            // ],
-            // '/surveys/contacts' => [
-            //     'controller' => 'Surveys',
-            //     'method' => 'contacts'
-            // ],
-            // '/surveys/stats' => [
-            //     'controller' => 'Surveys',
-            //     'method' => 'stats'
-            // ],
-            // '/surveys/charts' => [
-            //     'controller' => 'Surveys',
-            //     'method' => 'charts'
-            // ],
+            '/surveys/questions' => [
+                'controller' => 'Surveys',
+                'method' => 'questions'
+            ],
+            '/surveys/answers' => [
+                'controller' => 'Surveys',
+                'method' => 'answers'
+            ],
+            '/surveys/comments' => [
+                'controller' => 'Surveys',
+                'method' => 'comments'
+            ],
+            '/surveys/contacts' => [
+                'controller' => 'Surveys',
+                'method' => 'contacts'
+            ],
+            '/surveys/stats' => [
+                'controller' => 'Surveys',
+                'method' => 'stats'
+            ],
+            '/surveys/charts' => [
+                'controller' => 'Surveys',
+                'method' => 'charts'
+            ],
             '/menu/products' => [
                 'controller' => 'Menu',
                 'method' => 'products'
