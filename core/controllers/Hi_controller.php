@@ -71,7 +71,7 @@ class Hi_controller extends Controller
 								</tr>
 								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/solucion/operacion">' . Configuration::$domain . '/solucion/operacion</a>
+										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/operacion">' . Configuration::$domain . '/operacion</a>
 									</td>
 								</tr>
 							</table>
@@ -180,7 +180,7 @@ class Hi_controller extends Controller
 								</tr>
 								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/solucion/reputacion">' . Configuration::$domain . '/solucion/reputacion</a>
+										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/reputacion">' . Configuration::$domain . '/reputacion</a>
 									</td>
 								</tr>
 							</table>
@@ -289,7 +289,7 @@ class Hi_controller extends Controller
 								</tr>
 								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/solucion/menu">' . Configuration::$domain . '/solucion/menu</a>
+										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/menu">' . Configuration::$domain . '/menu</a>
 									</td>
 								</tr>
 							</table>

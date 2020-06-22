@@ -12,7 +12,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
     <section class="workspace">
         {$div_options}
         {$tbl_voxes_reports}
-        <!-- {$div_print_vox_report} -->
+        {$div_print_vox_report}
     </section>
     <section class="buttons">
         <div>
@@ -27,7 +27,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <a href="/voxes/reports" class="active"><i class="fas fa-bug"></i></a>
             <?php endif; ?>
             {$btn_new_vox_report}
-            <!-- {$btn_filter_vox_report} -->
+            {$btn_filter_vox_report}
         </div>
     </section>
 </main>
@@ -35,4 +35,4 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 {$mdl_deactivate_vox_report}
 {$mdl_activate_vox_report}
 {$mdl_delete_vox_report}
-<!-- {$mdl_filter_vox_report} -->
+{$mdl_filter_vox_report}

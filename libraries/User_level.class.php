@@ -44,7 +44,7 @@ class User_level
                 case '{voxes_reports_print}' :
                     array_push($paths, '/Voxes/reports');
                 break;
-                
+
                 // case '{voxes_stats_view}' :
                 //     array_push($paths, '/Voxes/stats');
                 //     array_push($paths, '/Voxes/charts');
@@ -82,52 +82,42 @@ class User_level
                 // break;
 
                 case '{menu_products_create}' :
-                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_products_update}' :
-                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_products_deactivate}' :
-                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_products_activate}' :
-                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_products_delete}' :
-                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/products');
                 break;
 
                 case '{menu_restaurants_create}' :
-                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/restaurants');
                 break;
 
                 case '{menu_restaurants_update}' :
-                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/restaurants');
                 break;
 
                 case '{menu_restaurants_deactivate}' :
-                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/restaurants');
                 break;
 
                 case '{menu_restaurants_activate}' :
-                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/restaurants');
                 break;
 
                 case '{menu_restaurants_delete}' :
-                    array_push($paths, '/Menu/index');
                     array_push($paths, '/Menu/restaurants');
                 break;
 
@@ -333,6 +323,13 @@ class User_level
         if (Functions::check_account_access(['operation']) == true)
             return '/voxes';
         else if (Functions::check_account_access(['reputation']) == true)
-            return '/surveys';
+        {
+            if (Functions::check_user_access(['{survey_answers_view}']) == true)
+    			return '/surveys/answers';
+    		else if (Functions::check_user_access(['{survey_stats_view}']) == true)
+    			return '/surveys/stats';
+    		else if (Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}']) == true)
+    			return '/surveys/questions';
+        }
     }
 }

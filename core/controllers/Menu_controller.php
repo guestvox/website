@@ -13,20 +13,6 @@ class Menu_controller extends Controller
 		$this->lang = Session::get_value('account')['language'];
 	}
 
-	public function index()
-	{
-		$template = $this->view->render($this, 'index');
-
-		define('_title', 'Guestvox | {$lang.menu}');
-
-		if (Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}']) == true)
-			header('Location: /menu/products');
-		else if (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true)
-			header('Location: /menu/restaurants');
-
-		echo $template;
-	}
-
 	public function products()
 	{
         if (Format::exist_ajax_request() == true)

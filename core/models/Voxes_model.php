@@ -79,87 +79,86 @@ class Voxes_model extends Model
 				];
 			}
 		}
-		// else if ($option == 'report')
-		// {
-		// 	$fields = [
-		// 		'type',
-		// 		'token',
-		// 		'owner',
-		// 		'opportunity_area',
-		// 		'opportunity_type',
-		// 		'started_date',
-		// 		'started_hour',
-		// 		'location',
-		// 		'cost',
-		// 		'urgency',
-		// 		'confidentiality',
-		// 		'assigned_users',
-		// 		'observations',
-		// 		'subject',
-		// 		'description',
-		// 		'action_taken',
-		// 		'guest_treatment',
-		// 		'firstname',
-		// 		'lastname',
-		// 		'guest_id',
-		// 		'guest_type',
-		// 		'reservation_number',
-		// 		'reservation_status',
-		// 		'check_in',
-		// 		'check_out',
-		// 		'attachments',
-		// 		'viewed_by',
-		// 		'comments',
-		// 		'created_user',
-		// 		'created_date',
-		// 		'created_hour',
-		// 		'edited_user',
-		// 		'edited_date',
-		// 		'edited_hour',
-		// 		'completed_user',
-		// 		'completed_date',
-		// 		'completed_hour',
-		// 		'reopened_user',
-		// 		'reopened_date',
-		// 		'reopened_hour',
-		// 		'status',
-		// 		'origin'
-		// 	];
-		//
-		// 	if ($data['type'] != 'all')
-		// 		$where['AND']['type'] = $data['type'];
-		//
-		// 	if ($data['owner'] != 'all')
-		// 		$where['AND']['owner'] = $data['owner'];
-		//
-		// 	if ($data['opportunity_area'] != 'all')
-		// 		$where['AND']['opportunity_area'] = $data['opportunity_area'];
-		//
-		// 	if ($data['opportunity_type'] != 'all')
-		// 		$where['AND']['opportunity_type'] = $data['opportunity_type'];
-		//
-		// 	if ($data['location'] != 'all')
-		// 		$where['AND']['location'] = $data['location'];
-		//
-		// 	$where['AND']['OR']['started_date[<]'] = $data['started_date']; // - Revisar formatos de fecha
-		// 	$where['AND']['OR']['started_date[>]'] = $data['end_date']; // - Revisar formatos de fecha
-		//
-		// 	if ($data['type'] == 'all' OR $data['type'] == 'workorder')
-		// 	{
-		// 		$where['ORDER']['started_date'] = 'DESC';
-		// 		$where['ORDER']['started_hour'] = 'DESC';
-		// 	}
-		// 	else if ($data['type'] == 'request' OR $data['type'] == 'incident')
-		// 	{
-		// 		if ($data['order'] == 'owner')
-		// 			$where['ORDER']['owner'] = 'ASC';
-		// 		else if ($data['order'] == 'name')
-		// 		{
-		// 			$where['ORDER']['firstname'] = 'ASC';
-		// 			$where['ORDER']['lastname'] = 'ASC';
-		// 		}
-		// 	}
-		// }
+		else if ($option == 'report')
+		{
+			$fields = [
+				'type',
+				'token',
+				'owner',
+				'opportunity_area',
+				'opportunity_type',
+				'started_date',
+				'started_hour',
+				'location',
+				'cost',
+				'urgency',
+				'confidentiality',
+				'assigned_users',
+				'observations',
+				'subject',
+				'description',
+				'action_taken',
+				'guest_treatment',
+				'firstname',
+				'lastname',
+				'guest_id',
+				'guest_type',
+				'reservation_number',
+				'reservation_status',
+				'check_in',
+				'check_out',
+				'attachments',
+				'viewed_by',
+				'comments',
+				'created_user',
+				'created_date',
+				'created_hour',
+				'edited_user',
+				'edited_date',
+				'edited_hour',
+				'completed_user',
+				'completed_date',
+				'completed_hour',
+				'reopened_user',
+				'reopened_date',
+				'reopened_hour',
+				'status',
+				'origin'
+			];
+
+			if ($data['type'] != 'all')
+				$where['AND']['type'] = $data['type'];
+
+			if (!empty($data['owner']))
+				$where['AND']['owner'] = $data['owner'];
+
+			if (!empty($data['opportunity_area']))
+				$where['AND']['opportunity_area'] = $data['opportunity_area'];
+
+			if (!empty($data['opportunity_type']))
+				$where['AND']['opportunity_type'] = $data['opportunity_type'];
+
+			if (!empty($data['location']))
+				$where['AND']['location'] = $data['location'];
+
+			$where['AND']['started_date[<>]'] = [$data['started_date'],$data['end_date']];
+
+			if ($data['type'] == 'all' OR $data['type'] == 'workorder')
+			{
+				$where['ORDER']['started_date'] = 'DESC';
+				$where['ORDER']['started_hour'] = 'DESC';
+			}
+			else if ($data['type'] == 'request' OR $data['type'] == 'incident')
+			{
+				if ($data['order'] == 'owner')
+					$where['ORDER']['owner'] = 'ASC';
+				else if ($data['order'] == 'name')
+				{
+					$where['ORDER']['firstname'] = 'ASC';
+					$where['ORDER']['lastname'] = 'ASC';
+				}
+			}
+		}
 
 		$query = Functions::get_json_decoded_query($this->database->select('voxes', $fields, $where));
 
@@ -174,37 +173,37 @@ class Voxes_model extends Model
 			{
 				$query[$key]['attachments'] = array_merge($value['attachments'], $subvalue['attachments']);
 
-				// if ($option == 'report')
-				// {
-				// 	$query[$key]['cost'] = (!empty($value['cost']) ? $value['cost'] : 0) + (!empty($subvalue['cost']) ? $subvalue['cost'] : 0);
-				// 	$query[$key]['comments'][$subkey]['user'] = $this->get_user($subvalue['user']);
-				// }
+				if ($option == 'report')
+				{
+					$query[$key]['cost'] = (!empty($value['cost']) ? $value['cost'] : 0) + (!empty($subvalue['cost']) ? $subvalue['cost'] : 0);
+					$query[$key]['comments'][$subkey]['user'] = $this->get_user($subvalue['user']);
+				}
 			}
 
-			// if ($option == 'report')
-			// {
-			// 	foreach ($value['assigned_users'] as $subkey => $subvalue)
-			// 		$query[$key]['assigned_users'][$subkey] = $this->get_user($subvalue);
-			//
-			// 	if (Session::get_value('account')['type'] == 'hotel')
-			// 	{
-			// 		if ($value['type'] == 'request' OR $value['type'] == 'incident')
-			// 			$query[$key]['guest_treatment'] = $this->get_guest_treatment($value['guest_treatment']);
-			//
-			// 		if ($value['type'] == 'incident')
-			// 		{
-			// 			$query[$key]['guest_type'] = $this->get_guest_type($value['guest_type']);
-			// 			$query[$key]['reservation_status'] = $this->get_reservation_status($value['reservation_status']);
-			// 		}
-			// 	}
-			//
-			// 	foreach ($value['viewed_by'] as $subkey => $subvalue)
-			// 		$query[$key]['viewed_by'][$subkey] = $this->get_user($subvalue);
-			//
-			// 	$query[$key]['edited_user'] = $this->get_user($value['edited_user']);
-			// 	$query[$key]['completed_user'] = $this->get_user($value['completed_user']);
-			// 	$query[$key]['reopened_user'] = $this->get_user($value['reopened_user']);
-			// }
+			if ($option == 'report')
+			{
+				foreach ($value['assigned_users'] as $subkey => $subvalue)
+					$query[$key]['assigned_users'][$subkey] = $this->get_user($subvalue);
+
+				if (Session::get_value('account')['type'] == 'hotel')
+				{
+					if ($value['type'] == 'request' OR $value['type'] == 'incident')
+						$query[$key]['guest_treatment'] = $this->get_guest_treatment($value['guest_treatment']);
+
+					if ($value['type'] == 'incident')
+					{
+						$query[$key]['guest_type'] = $this->get_guest_type($value['guest_type']);
+						$query[$key]['reservation_status'] = $this->get_reservation_status($value['reservation_status']);
+					}
+				}
+
+				foreach ($value['viewed_by'] as $subkey => $subvalue)
+					$query[$key]['viewed_by'][$subkey] = $this->get_user($subvalue);
+
+				$query[$key]['edited_user'] = $this->get_user($value['edited_user']);
+				$query[$key]['completed_user'] = $this->get_user($value['completed_user']);
+				$query[$key]['reopened_user'] = $this->get_user($value['reopened_user']);
+			}
 
 			$query[$key]['created_user'] = $this->get_user($value['created_user']);
 		}
@@ -343,7 +342,7 @@ class Voxes_model extends Model
 					$query[0]['changes_history'][$key]['user'] = $this->get_user($value['user']);
 
 				$query[0]['changes_history'] = array_reverse($query[0]['changes_history']);
-				$query[0]['created_user'] = $this->get_user($query[0]['created_user']); // - En changes_history (create) y created_user está el problema de que cuando el vox se creó desde myvox, no se guardá ningún id.
+				$query[0]['created_user'] = $this->get_user($query[0]['created_user']);
 				$query[0]['edited_user'] = $this->get_user($query[0]['edited_user']);
 				$query[0]['completed_user'] = $this->get_user($query[0]['completed_user']);
 				$query[0]['reopened_user'] = $this->get_user($query[0]['reopened_user']);

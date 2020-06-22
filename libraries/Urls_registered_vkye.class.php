@@ -13,16 +13,16 @@ class Urls_registered_vkye
                 'controller' => 'Index',
                 'method' => 'index'
             ],
-            '/solucion/operacion' => [
-                'controller' => 'Hi', // Rediseño - Actualización de información - Mencionar el qr y Myvox.
+            '/operacion' => [
+                'controller' => 'Hi', // - Rediseño - Actualización de información - Mencionar el qr y Myvox.
                 'method' => 'operation'
             ],
-            '/solucion/reputacion' => [
+            '/reputacion' => [
                 'controller' => 'Hi',
                 'method' => 'reputation'
             ],
-            '/solucion/menu' => [
-                'controller' => 'Hi', // Rediseño
+            '/menu' => [
+                'controller' => 'Hi', // - Rediseño
                 'method' => 'menu'
             ],
             '/webinar' => [
@@ -46,19 +46,19 @@ class Urls_registered_vkye
                 'method' => 'activate'
             ],
             '/%param%/myvox' => [
-                'controller' => 'Myvox', // Rediseño
+                'controller' => 'Myvox', // - Rediseño
                 'method' => 'index'
             ],
             '/%param%/myvox/%param%/%param%' => [
-                'controller' => 'Myvox', // Rediseño
+                'controller' => 'Myvox', // - Rediseño
                 'method' => 'index'
             ],
             '/%param%/myvox/request' => [
-                'controller' => 'Myvox', // Rediseño
+                'controller' => 'Myvox', // - Rediseño
                 'method' => 'request'
             ],
             '/%param%/myvox/incident' => [
-                'controller' => 'Myvox', // Rediseño
+                'controller' => 'Myvox', // - Rediseño
                 'method' => 'incident'
             ],
             // '/%param%/myvox/menu' => [
@@ -70,7 +70,7 @@ class Urls_registered_vkye
             //     'method' => 'survey'
             // ],
             '/%param%/reviews' => [
-                'controller' => 'Reviews', // Rediseño
+                'controller' => 'Reviews', // - Rediseño
                 'method' => 'index'
             ],
             '/login' => [
@@ -82,7 +82,7 @@ class Urls_registered_vkye
                 'method' => 'logout'
             ],
             '/dashboard' => [
-                'controller' => 'Dashboard', // Rediseño
+                'controller' => 'Dashboard', // - Rediseño
                 'method' => 'index'
             ],
             '/qr' => [
@@ -149,10 +149,6 @@ class Urls_registered_vkye
             //     'controller' => 'Surveys',
             //     'method' => 'charts'
             // ],
-            '/menu' => [
-                'controller' => 'Menu',
-                'method' => 'index'
-            ],
             '/menu/products' => [
                 'controller' => 'Menu',
                 'method' => 'products'

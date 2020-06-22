@@ -10,9 +10,11 @@ a.new, button.new { background-color: #009688 !important; border-color: #009688 
 a.edit, button.edit { background-color: #ffc107 !important; border-color: #ffc107 !important; color: #fff !important; }
 a.delete, button.delete { background-color: #f44336 !important; border-color: #f44336 !important; color: #fff !important; }
 
-select { -moz-appearance: none; -webkit-appearance: none; appearance: none; cursor: pointer; }
+select { appearance: none; -webkit-appearance: none; cursor: pointer; }
 
 form [class*="span"] { margin-bottom: 0px !important; padding: 10px 5px 10px; }
+
+::-webkit-scrollbar { display: none; }
 
 /* Body
 ------------------------------------------------------------------------------ */
@@ -102,6 +104,7 @@ body > header.rightbar {
     padding: 20px;
     box-sizing: border-box;
     background-color: #24383f;
+    overflow-y: scroll;
     transition: 400ms;
     z-index: 99;
 }
@@ -400,6 +403,10 @@ div.tbl_stl_1 > div {
     box-sizing: border-box;
 }
 
+div.tbl_stl_1 > div:last-child {
+    margin-bottom: 0px;
+}
+
 @media (min-width: 768px) {
 
     div.tbl_stl_1 > div {
@@ -682,10 +689,18 @@ div.tbl_stl_3 > div {
     box-sizing: border-box;
 }
 
+div.tbl_stl_2 > div:last-child,
+div.tbl_stl_3 > div:last-child {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    border-bottom: 0px;
+}
+
 @media (min-width: 768px) {
 
     div.tbl_stl_2 > div,
     div.tbl_stl_3 > div {
+        margin-bottom: 40px;
         padding: 0px 40px 40px 40px;
     }
 
@@ -693,11 +708,6 @@ div.tbl_stl_3 > div {
     div.tbl_stl_3 > div:first-child {
         padding-top: 40px;
     }
-}
-
-div.tbl_stl_2 > div:last-child,
-div.tbl_stl_3 > div:last-child {
-    border-bottom: none;
 }
 
 div.tbl_stl_2 > div > div.datas,
@@ -855,6 +865,49 @@ div.tbl_stl_3 > div > div.buttons > a {
     div.tbl_stl_3 > div > div.buttons {
         justify-content: flex-end;
     }
+}
+
+/* Style 4 */
+
+div.tbl_stl_4 {
+    width: 100%;
+    height: calc(100vh - 190px); /* Temp */
+    overflow-y: scroll; /* Temp */
+    padding-bottom: 90px;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_4 > div {
+    width: 100%;
+    margin-bottom: 20px;
+    padding: 0px 20px 20px 20px;
+    border-bottom: 1px solid #eee;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_4 > div:last-child {
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    border-bottom: 0px;
+}
+
+@media (min-width: 768px) {
+
+    div.tbl_stl_4 > div {
+        margin-bottom: 40px;
+        padding: 0px 40px 40px 40px;
+    }
+}
+
+div.tbl_stl_4 > div > span {
+    width: 100%;
+    display: block;
+}
+
+div.tbl_stl_4 > div > span > img {
+    width: auto;
+    height: 20px;
+    margin-right: 5px;
 }
 
 /* Forms
@@ -1035,7 +1088,6 @@ div.checkboxes.stl_2 > div > div > input[type="radio"] {
     padding: 0px;
     border: 0px;
     appearance: none;
-    -moz-appearance: none;
     -webkit-appearance: none;
 }
 
@@ -1050,16 +1102,10 @@ div.checkboxes.stl_2 > div > div > input[type="checkbox"]::before {
     display: block;
     background-color: #e0e0e0;
     cursor: pointer;
+    box-sizing: border-box;
     -webkit-box-sizing: border-box;
-       -moz-box-sizing: border-box;
-        -ms-box-sizing: border-box;
-         -o-box-sizing: border-box;
-            box-sizing: border-box;
+    transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;
-       -moz-transition: 0.2s ease all;
-        -ms-transition: 0.2s ease all;
-         -o-transition: 0.2s ease all;
-            transition: 0.2s ease all;
     z-index: 1;
 }
 
@@ -1072,11 +1118,8 @@ div.checkboxes.stl_2 > div > div > input[type="checkbox"]:checked::before {
     border: 3px solid #fff;
     border-top-style: none;
     border-right-style: none;
+    transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
-       -moz-transform: rotate(-45deg);
-        -ms-transform: rotate(-45deg);
-         -o-transform: rotate(-45deg);
-            transform: rotate(-45deg);
 }
 
 div.checkboxes.stl_1 > div > input[type="checkbox"]::after,
@@ -1104,11 +1147,8 @@ div.checkboxes.stl_2 > div > div > input[type="radio"]::before {
     border-radius: 100%;
     background-color: #e0e0e0;
     cursor: pointer;
+    transition: 0.2s ease all;
     -webkit-transition: 0.2s ease all;
-       -moz-transition: 0.2s ease all;
-        -ms-transition: 0.2s ease all;
-         -o-transition: 0.2s ease all;
-            transition: 0.2s ease all;
     z-index: 1;
 }
 
@@ -1155,9 +1195,8 @@ div.switch > input {
 }
 
 div.switch > input {
-    -moz-appearance: none;
-    -webkit-appearance: none;
     appearance: none;
+    -webkit-appearance: none;
 }
 
 div.switch.checked,
@@ -1210,9 +1249,8 @@ div.tabers > div > input {
     margin: 0px !important;
     background-color: #eee;
     cursor: pointer;
-    -moz-appearance: none;
-    -webkit-appearance: none;
     appearance: none;
+    -webkit-appearance: none;
 }
 
 div.tabers > div:first-child > input {
@@ -1658,8 +1696,8 @@ section.modal.delete footer > a {
     border-top-color: #00a5ab;
     border-radius: 50%;
     color: #757575;
+    animation: 1s loader linear infinite;
     -webkit-animation: 1s loader linear infinite;
-            animation: 1s loader linear infinite;
 }
 
 [data-ajax-loader] > div.loader:before {
@@ -1677,23 +1715,23 @@ section.modal.delete footer > a {
 
 @-webkit-keyframes loader {
     0% {
+        transform: rotate(0deg);
         -webkit-transform: rotate(0deg);
-                transform: rotate(0deg);
     }
     100% {
+        transform: rotate(360deg);
         -webkit-transform: rotate(360deg);
-                transform: rotate(360deg);
     }
 }
 
 @keyframes loader {
     0% {
+        transform: rotate(0deg);
         -webkit-transform: rotate(0deg);
-                transform: rotate(0deg);
     }
     100% {
+        transform: rotate(360deg);
         -webkit-transform: rotate(360deg);
-                transform: rotate(360deg);
     }
 }
 
