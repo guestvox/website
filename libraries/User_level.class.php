@@ -45,11 +45,11 @@ class User_level
                     array_push($paths, '/Voxes/reports');
                 break;
 
-                // case '{voxes_stats_view}' :
-                //     array_push($paths, '/Voxes/stats');
-                //     array_push($paths, '/Voxes/charts');
-                // break;
-                //
+                case '{voxes_stats_view}' :
+                    array_push($paths, '/Voxes/stats');
+                    array_push($paths, '/Voxes/charts');
+                break;
+                
                 // case '{surveys_questions_create}' :
                 //     array_push($paths, '/Surveys/questions');
                 // break;

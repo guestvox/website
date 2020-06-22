@@ -113,14 +113,14 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'reports'
             ],
-            // '/voxes/stats' => [
-            //     'controller' => 'Voxes',
-            //     'method' => 'stats'
-            // ],
-            // '/voxes/charts' => [
-            //     'controller' => 'Voxes',
-            //     'method' => 'charts'
-            // ],
+            '/voxes/stats' => [
+                'controller' => 'Voxes',
+                'method' => 'stats'
+            ],
+            '/voxes/charts' => [
+                'controller' => 'Voxes',
+                'method' => 'charts'
+            ],
             // '/surveys' => [
             //     'controller' => 'Surveys',
             //     'method' => 'index'
