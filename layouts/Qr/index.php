@@ -3,6 +3,7 @@
 defined('_EXEC') or die;
 
 $this->dependencies->add(['js', '{$path.js}Qr/index.js']);
+$this->dependencies->add(['other', '<script>menu_focus("qr");</script>']);
 
 ?>
 

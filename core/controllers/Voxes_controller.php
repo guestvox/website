@@ -100,7 +100,7 @@ class Voxes_controller extends Controller
 				'				</span>
 							</div>
 							<div>
-								<h2><i class="fas fa-fighter-jet"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
+								<h2><i class="fas fa-user-circle"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
 								<span><i class="fas fa-shapes"></i>' . $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') . '</span>
 								<span
 									data-date-1="' . Functions::get_formatted_date_hour($value['started_date'], $value['started_hour']) . '"
@@ -1887,7 +1887,7 @@ class Voxes_controller extends Controller
 						if ($value['type'] == 'incident')
 						{
 							if (in_array('confidentiality', $_POST['fields']))
-								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.confidentiality}:</strong> {$lang.' . (($value['confidentiality'] == true) ? 'yes' : 'not') . '}</p>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.confidentiality}:</strong> ' . (($value['confidentiality'] == true) ? '{$lang.yes_confidentiality}' : '{$lang.not_confidentiality}') . '</p>';
 						}
 
 						if (in_array('assigned_users', $_POST['fields']))
@@ -2087,7 +2087,8 @@ class Voxes_controller extends Controller
 
 					Functions::environment([
 						'status' => 'success',
-						'html' => $html
+						'html' => $html,
+						'print' => !empty($query) ? true : false
 					]);
 				}
 				else
@@ -2477,7 +2478,7 @@ class Voxes_controller extends Controller
 				{
 					$div_print_vox_report .= '<div id="print_vox_report" class="tbl_stl_4"></div>';
 					$btn_filter_vox_report .= '<a class="active" data-button-modal="filter_vox_report"><i class="fas fa-stream"></i></a>';
-					$btn_print_vox_report .= '<a class="active" data-action="print_vox_report"><i class="fas fa-print"></i></a>';
+					$btn_print_vox_report .= '<a class="active hidden" data-action="print_vox_report"><i class="fas fa-print"></i></a>';
 					$mdl_filter_vox_report .=
 					'<section class="modal fullscreen" data-modal="filter_vox_report">
 						<div class="content">

@@ -240,11 +240,11 @@ class Account_controller extends Controller
 				]);
 			}
 
-			if ($_POST['action'] == 'edit_myvox_request_settings' OR $_POST['action'] == 'edit_myvox_incident_settings' OR $_POST['action'] == 'edit_myvox_menu_settings' OR $_POST['action'] == 'edit_myvox_survey_settings' OR $_POST['action'] == 'edit_reviews_settings' OR $_POST['action'] == 'edit_voxes_attention_times_settings')
+			if ($_POST['action'] == 'edit_myvox_requests_settings' OR $_POST['action'] == 'edit_myvox_incidents_settings' OR $_POST['action'] == 'edit_myvox_menu_settings' OR $_POST['action'] == 'edit_myvox_surveys_settings' OR $_POST['action'] == 'edit_reviews_settings' OR $_POST['action'] == 'edit_voxes_attention_times_settings')
 			{
 				$labels = [];
 
-				if ($_POST['action'] == 'edit_myvox_request_settings')
+				if ($_POST['action'] == 'edit_myvox_requests_settings')
 				{
 					if (!empty($_POST['status']))
 					{
@@ -255,7 +255,7 @@ class Account_controller extends Controller
 							array_push($labels, ['title_en','']);
 					}
 				}
-				else if ($_POST['action'] == 'edit_myvox_incident_settings')
+				else if ($_POST['action'] == 'edit_myvox_incidents_settings')
 				{
 					if (!empty($_POST['status']))
 					{
@@ -286,7 +286,7 @@ class Account_controller extends Controller
 							array_push($labels, ['opportunity_type','']);
 					}
 				}
-				else if ($_POST['action'] == 'edit_myvox_survey_settings')
+				else if ($_POST['action'] == 'edit_myvox_surveys_settings')
 				{
 					if (!empty($_POST['status']))
 					{
@@ -367,13 +367,13 @@ class Account_controller extends Controller
 
 				if (empty($labels))
 				{
-					if ($_POST['action'] == 'edit_myvox_request_settings')
-						$query = $this->model->edit_settings('myvox_request', $_POST);
-					else if ($_POST['action'] == 'edit_myvox_incident_settings')
-						$query = $this->model->edit_settings('myvox_incident', $_POST);
+					if ($_POST['action'] == 'edit_myvox_requests_settings')
+						$query = $this->model->edit_settings('myvox_requests', $_POST);
+					else if ($_POST['action'] == 'edit_myvox_incidents_settings')
+						$query = $this->model->edit_settings('myvox_incidents', $_POST);
 					else if ($_POST['action'] == 'edit_myvox_menu_settings')
 						$query = $this->model->edit_settings('myvox_menu', $_POST);
-					else if ($_POST['action'] == 'edit_myvox_survey_settings')
+					else if ($_POST['action'] == 'edit_myvox_surveys_settings')
 					{
 						if (!empty($_POST['status']))
 						{
@@ -381,7 +381,7 @@ class Account_controller extends Controller
 							$_POST['mail_attachment'] = $_FILES['mail_attachment'];
 						}
 
-						$query = $this->model->edit_settings('myvox_survey', $_POST);
+						$query = $this->model->edit_settings('myvox_surveys', $_POST);
 					}
 					else if ($_POST['action'] == 'edit_reviews_settings')
 						$query = $this->model->edit_settings('reviews', $_POST);
@@ -438,9 +438,9 @@ class Account_controller extends Controller
 				'<div class="stl_5">
 	                <i class="fas fa-rocket"></i>
 	                <h2>{$lang.public_requests}</h2>
-	                <span>' . (($account['settings']['myvox']['request']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+	                <span>' . (($account['settings']['myvox']['requests']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
 					<div class="switch">
-					    <input id="rqsw" type="checkbox" ' . (($account['settings']['myvox']['request']['status'] == true) ? 'checked' : '') . ' data-switcher>
+					    <input id="rqsw" type="checkbox" ' . (($account['settings']['myvox']['requests']['status'] == true) ? 'checked' : '') . ' data-switcher>
 						<label for="rqsw"></label>
 					</div>
 	            </div>';
@@ -449,9 +449,9 @@ class Account_controller extends Controller
 				'<div class="stl_5">
 	                <i class="fas fa-meteor"></i>
 	                <h2>{$lang.public_incidents}</h2>
-	                <span>' . (($account['settings']['myvox']['incident']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+	                <span>' . (($account['settings']['myvox']['incidents']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
 					<div class="switch">
-					    <input id="insw" type="checkbox" ' . (($account['settings']['myvox']['incident']['status'] == true) ? 'checked' : '') . ' data-switcher>
+					    <input id="insw" type="checkbox" ' . (($account['settings']['myvox']['incidents']['status'] == true) ? 'checked' : '') . ' data-switcher>
 					    <label for="insw"></label>
 					</div>
 	            </div>';
@@ -471,18 +471,18 @@ class Account_controller extends Controller
 				}
 			}
 
-			$div_answered_survey = '';
+			$div_answered_surveys = '';
 			$div_reviews_page = '';
 
 			if ($account['reputation'] == true)
 			{
-				$div_answered_survey .=
+				$div_answered_surveys .=
 				'<div class="stl_5">
 	                <i class="fas fa-ghost"></i>
-	                <h2>{$lang.answer_survey}</h2>
-	                <span>' . (($account['settings']['myvox']['survey']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+	                <h2>{$lang.answer_surveys}</h2>
+	                <span>' . (($account['settings']['myvox']['surveys']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
 					<div class="switch">
-					    <input id="susw" type="checkbox" ' . (($account['settings']['myvox']['survey']['status'] == true) ? 'checked' : '') . ' data-switcher>
+					    <input id="susw" type="checkbox" ' . (($account['settings']['myvox']['surveys']['status'] == true) ? 'checked' : '') . ' data-switcher>
 					    <label for="susw"></label>
 					</div>
 	            </div>';
@@ -600,17 +600,17 @@ class Account_controller extends Controller
 			foreach ($this->model->get_countries() as $value)
 				$opt_ladas .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
 
-			$mdl_edit_myvox_request_settings = '';
-			$mdl_edit_myvox_incident_settings = '';
+			$mdl_edit_myvox_requests_settings = '';
+			$mdl_edit_myvox_incidents_settings = '';
 			$mdl_edit_myvox_menu_settings = '';
 
 			if ($account['operation'] == true)
 			{
-				$mdl_edit_myvox_request_settings .=
-				'<section class="modal fullscreen" data-modal="edit_myvox_request_settings">
+				$mdl_edit_myvox_requests_settings .=
+				'<section class="modal fullscreen" data-modal="edit_myvox_requests_settings">
 					<div class="content">
 						<main>
-							<form name="edit_myvox_request_settings">
+							<form name="edit_myvox_requests_settings">
 								<div class="row">
 									<div class="span6">
 										<div class="label">
@@ -640,11 +640,11 @@ class Account_controller extends Controller
 					</div>
 				</section>';
 
-				$mdl_edit_myvox_incident_settings .=
-				'<section class="modal fullscreen" data-modal="edit_myvox_incident_settings">
+				$mdl_edit_myvox_incidents_settings .=
+				'<section class="modal fullscreen" data-modal="edit_myvox_incidents_settings">
 					<div class="content">
 						<main>
-							<form name="edit_myvox_incident_settings">
+							<form name="edit_myvox_incidents_settings">
 								<div class="row">
 									<div class="span6">
 										<div class="label">
@@ -763,16 +763,16 @@ class Account_controller extends Controller
 				}
 			}
 
-			$mdl_edit_myvox_survey_settings = '';
+			$mdl_edit_myvox_surveys_settings = '';
 			$mdl_edit_reviews_settings = '';
 
 			if ($account['reputation'] == true)
 			{
-				$mdl_edit_myvox_survey_settings .=
-				'<section class="modal fullscreen" data-modal="edit_myvox_survey_settings">
+				$mdl_edit_myvox_surveys_settings .=
+				'<section class="modal fullscreen" data-modal="edit_myvox_surveys_settings">
 					<div class="content">
 						<main>
-							<form name="edit_myvox_survey_settings">
+							<form name="edit_myvox_surveys_settings">
 								<div class="row">
 									<div class="span6">
 										<div class="label">
@@ -1105,13 +1105,13 @@ class Account_controller extends Controller
 				'{$logotype}' => '{$path.uploads}' . $account['logotype'],
 				'{$qr}' => '{$path.uploads}' . $account['qr'],
 				'{$name}' => $account['name'],
-				'{$token}' => $account['token'],
+				'{$token}' => strtoupper($account['token']),
 				'{$fiscal_name}' => $account['fiscal']['name'],
 				'{$fiscal_id}' => $account['fiscal']['id'],
 				'{$div_public_requests}' => $div_public_requests,
 				'{$div_public_incidents}' => $div_public_incidents,
 				'{$div_menu}' => $div_menu,
-				'{$div_answered_survey}' => $div_answered_survey,
+				'{$div_answered_surveys}' => $div_answered_surveys,
 				'{$div_reviews_page}' => $div_reviews_page,
 				'{$div_attention_times}' => $div_attention_times,
 				'{$operation}' => ($account['operation'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
@@ -1127,10 +1127,10 @@ class Account_controller extends Controller
 				'{$opt_currencies}' => $opt_currencies,
 				'{$opt_languages}' => $opt_languages,
 				'{$opt_ladas}' => $opt_ladas,
-				'{$mdl_edit_myvox_request_settings}' => $mdl_edit_myvox_request_settings,
-				'{$mdl_edit_myvox_incident_settings}' => $mdl_edit_myvox_incident_settings,
+				'{$mdl_edit_myvox_requests_settings}' => $mdl_edit_myvox_requests_settings,
+				'{$mdl_edit_myvox_incidents_settings}' => $mdl_edit_myvox_incidents_settings,
 				'{$mdl_edit_myvox_menu_settings}' => $mdl_edit_myvox_menu_settings,
-				'{$mdl_edit_myvox_survey_settings}' => $mdl_edit_myvox_survey_settings,
+				'{$mdl_edit_myvox_surveys_settings}' => $mdl_edit_myvox_surveys_settings,
 				'{$mdl_edit_reviews_settings}' => $mdl_edit_reviews_settings,
 				'{$mdl_edit_voxes_attention_times_settings}' => $mdl_edit_voxes_attention_times_settings
 			];

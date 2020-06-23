@@ -61,30 +61,30 @@ class Urls_registered_vkye
                 'controller' => 'Signup',
                 'method' => 'activate'
             ],
-            '/%param%/myvox' => [
-                'controller' => 'Myvox', // - Rediseño
-                'method' => 'index'
-            ],
-            '/%param%/myvox/%param%/%param%' => [
-                'controller' => 'Myvox', // - Rediseño
-                'method' => 'index'
-            ],
-            '/%param%/myvox/request' => [
-                'controller' => 'Myvox', // - Rediseño
-                'method' => 'request'
-            ],
-            '/%param%/myvox/incident' => [
-                'controller' => 'Myvox', // - Rediseño
-                'method' => 'incident'
-            ],
-            '/%param%/myvox/menu' => [
-                'controller' => 'Myvox',
-                'method' => 'menu'
-            ],
-            '/%param%/myvox/surveys' => [
-                'controller' => 'Myvox', // - Rediseño
-                'method' => 'surveys'
-            ],
+            // '/%param%/myvox' => [
+            //     'controller' => 'Myvox', // - Rediseño
+            //     'method' => 'index'
+            // ],
+            // '/%param%/myvox/%param%/%param%' => [
+            //     'controller' => 'Myvox', // - Rediseño
+            //     'method' => 'index'
+            // ],
+            // '/%param%/myvox/request' => [
+            //     'controller' => 'Myvox', // - Rediseño
+            //     'method' => 'request'
+            // ],
+            // '/%param%/myvox/incident' => [
+            //     'controller' => 'Myvox', // - Rediseño
+            //     'method' => 'incident'
+            // ],
+            // '/%param%/myvox/menu' => [
+            //     'controller' => 'Myvox',
+            //     'method' => 'menu'
+            // ],
+            // '/%param%/myvox/surveys' => [
+            //     'controller' => 'Myvox', // - Rediseño
+            //     'method' => 'surveys'
+            // ],
             '/%param%/reviews' => [
                 'controller' => 'Reviews', // - Rediseño
                 'method' => 'index'
@@ -137,30 +137,30 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'charts'
             ],
-            '/surveys/questions' => [
-                'controller' => 'Surveys',
-                'method' => 'questions'
-            ],
-            '/surveys/answers' => [
-                'controller' => 'Surveys',
-                'method' => 'answers'
-            ],
-            '/surveys/comments' => [
-                'controller' => 'Surveys',
-                'method' => 'comments'
-            ],
-            '/surveys/contacts' => [
-                'controller' => 'Surveys',
-                'method' => 'contacts'
-            ],
-            '/surveys/stats' => [
-                'controller' => 'Surveys',
-                'method' => 'stats'
-            ],
-            '/surveys/charts' => [
-                'controller' => 'Surveys',
-                'method' => 'charts'
-            ],
+            // '/surveys/questions' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'questions'
+            // ],
+            // '/surveys/answers' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'answers'
+            // ],
+            // '/surveys/comments' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'comments'
+            // ],
+            // '/surveys/contacts' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'contacts'
+            // ],
+            // '/surveys/stats' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'stats'
+            // ],
+            // '/surveys/charts' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'charts'
+            // ],
             '/menu/products' => [
                 'controller' => 'Menu',
                 'method' => 'products'

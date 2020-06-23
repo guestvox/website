@@ -664,6 +664,11 @@ $(document).ready(function()
                     $('#print_vox_report').html(response.html);
 
                     $('[data-modal="filter_vox_report"]').removeClass('view');
+
+                    if (response.print == true)
+                        $('[data-action="print_vox_report"]').removeClass('hidden');
+                    else if (response.print == false)
+                        $('[data-action="print_vox_report"]').addClass('hidden');
                 }
                 else if (response.status == 'error')
                     show_form_errors(form, response);

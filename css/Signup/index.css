@@ -295,10 +295,6 @@ main.signup > form > div.steps > div.step_container > div.row div.package > h4 {
     font-weight: 400;
 }
 
-main.signup > form > div.steps > div.step_container > div.row div.package > h4 > span {
-    display: block;
-}
-
 main.signup > form > div.steps > div.step_container > div.row div.package > p {
     margin-top: 15px;
     font-size: 10px;
@@ -309,8 +305,6 @@ main.signup > form > div.steps > div.step_container > div.row div.package > p {
 main.signup > form > div.steps > div.step_container > div.row div[data-uploader] > figure {
     width: 300px !important;
     height: 300px !important;
-    border: 2px dashed #e0e0e0;
-    box-sizing: border-box;
 }
 
 main.signup > form > div.steps > div.step_container > div.row div.payment {
@@ -368,14 +362,9 @@ main.signup > form > div.steps > div.step_container > div.row div.success {
     flex-direction: column;
 }
 
-main.signup > form > div.steps > div.step_container > div.row div.success > figure {
-    width: 100%;
-    max-width: 300px;
-    margin-bottom: 20px;
-}
-
-main.signup > form > div.steps > div.step_container > div.row div.success > figure > img {
-    width: 100%;
+main.signup > form > div.steps > div.step_container > div.row div.success > i {
+    font-size: 200px;
+    color: #00a5ab;
 }
 
 main.signup > form > div.steps > div.step_container > div.row div.success > p {

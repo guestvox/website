@@ -72,11 +72,11 @@ class Myvox_controller extends Controller
 
 			if (Session::get_value('account')['operation'] == true)
 			{
-				if (Session::get_value('account')['settings']['myvox']['request']['status'] == true)
-					$btn_new_request .= '<a href="/' . $params[0] . '/myvox/request">' . Session::get_value('account')['settings']['myvox']['request']['title'][$this->lang1] . '</a>';
+				if (Session::get_value('account')['settings']['myvox']['requests']['status'] == true)
+					$btn_new_request .= '<a href="/' . $params[0] . '/myvox/request">' . Session::get_value('account')['settings']['myvox']['requests']['title'][$this->lang1] . '</a>';
 
-				if (Session::get_value('account')['settings']['myvox']['incident']['status'] == true)
-					$btn_new_incident .= '<a href="/' . $params[0] . '/myvox/incident">' . Session::get_value('account')['settings']['myvox']['incident']['title'][$this->lang1] . '</a>';
+				if (Session::get_value('account')['settings']['myvox']['incidents']['status'] == true)
+					$btn_new_incident .= '<a href="/' . $params[0] . '/myvox/incident">' . Session::get_value('account')['settings']['myvox']['incidents']['title'][$this->lang1] . '</a>';
 
 				if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
 				{
@@ -89,8 +89,8 @@ class Myvox_controller extends Controller
 
 			if (Session::get_value('account')['reputation'] == true)
 			{
-				if (Session::get_value('account')['settings']['myvox']['survey']['status'] == true)
-					$btn_new_survey_answer .= '<a href="/' . $params[0] . '/myvox/survey">' . Session::get_value('account')['settings']['myvox']['survey']['title'][$this->lang1] . '</a>';
+				if (Session::get_value('account')['settings']['myvox']['surveys']['status'] == true)
+					$btn_new_survey_answer .= '<a href="/' . $params[0] . '/myvox/survey">' . Session::get_value('account')['settings']['myvox']['surveys']['title'][$this->lang1] . '</a>';
 			}
 
 			$replace = [
@@ -115,7 +115,7 @@ class Myvox_controller extends Controller
 
 		if (Session::exists_var('account') == true AND !empty(Session::get_value('account')))
 		{
-			if (Session::get_value('account')['operation'] == true AND Session::get_value('account')['settings']['myvox']['request']['status'] == true)
+			if (Session::get_value('account')['operation'] == true AND Session::get_value('account')['settings']['myvox']['requests']['status'] == true)
 			{
 				if (Session::exists_var('owner') == true)
 				{
@@ -579,7 +579,7 @@ class Myvox_controller extends Controller
 
 		if (Session::exists_var('account') == true AND !empty(Session::get_value('account')))
 		{
-			if (Session::get_value('account')['operation'] == true AND Session::get_value('account')['settings']['myvox']['incident']['status'] == true)
+			if (Session::get_value('account')['operation'] == true AND Session::get_value('account')['settings']['myvox']['incidents']['status'] == true)
 			{
 				if (Session::exists_var('owner') == true)
 				{
@@ -1609,7 +1609,7 @@ class Myvox_controller extends Controller
 	// 				{
 	// 					$mail->setFrom('noreply@guestvox.com', 'Guestvox');
 	// 					$mail->addAddress($_POST['email'], ((!empty($_POST['firstname']) AND !empty($_POST['lastname'])) ? $_POST['firstname'] . ' ' . $_POST['lastname'] : Languages::words('not_name')[$this->lang1]));
-	// 					$mail->Subject = Session::get_value('account')['settings']['myvox']['survey']['mail']['subject'][$this->lang1];
+	// 					$mail->Subject = Session::get_value('account')['settings']['myvox']['surveys']['mail']['subject'][$this->lang1];
 	// 					$mail->Body =
 	// 					'<html>
 	// 						<head>
@@ -1628,18 +1628,18 @@ class Myvox_controller extends Controller
 	// 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 	// 										<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
 	// 										<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;center:#757575;">' . Languages::words('token')[$this->lang1] . ': ' . $_POST['token'] . '</h6>
-	// 										<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;center:#757575;">' . Session::get_value('account')['settings']['myvox']['survey']['mail']['description'][$this->lang1] . '</p>';
+	// 										<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;center:#757575;">' . Session::get_value('account')['settings']['myvox']['surveys']['mail']['description'][$this->lang1] . '</p>';
 	//
-	// 					if (!empty(Session::get_value('account')['settings']['myvox']['survey']['mail']['image']))
+	// 					if (!empty(Session::get_value('account')['settings']['myvox']['surveys']['mail']['image']))
 	// 					{
 	// 						$mail->Body .=
 	// 						'<figure style="width:100%;margin:20px 0px 0px 0px;padding:0px;text-align:center;">
-	// 							<img style="width:100%;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['survey']['mail']['image'] . '">
+	// 							<img style="width:100%;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['surveys']['mail']['image'] . '">
 	// 						</figure>';
 	// 					}
 	//
-	// 					if (!empty(Session::get_value('account')['settings']['myvox']['survey']['mail']['attachment']))
-	// 						$mail->Body .= '<a style="width:100%;display:block;margin:20px 0px 0px 0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['survey']['mail']['attachment'] . '" download="'. Session::get_value('account')['settings']['myvox']['survey']['mail']['attachment'] . '">' . Languages::words('download_file')[$this->lang1] . '</a>';
+	// 					if (!empty(Session::get_value('account')['settings']['myvox']['surveys']['mail']['attachment']))
+	// 						$mail->Body .= '<a style="width:100%;display:block;margin:20px 0px 0px 0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['settings']['myvox']['surveys']['mail']['attachment'] . '" download="'. Session::get_value('account')['settings']['myvox']['surveys']['mail']['attachment'] . '">' . Languages::words('download_file')[$this->lang1] . '</a>';
 	//
 	// 					$mail->Body .=
 	// 					'				</td>
@@ -1664,7 +1664,7 @@ class Myvox_controller extends Controller
 	// 					{
 	// 						$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 	// 						$sms_client = new \Nexmo\Client($sms_basic);
-	// 						$sms_text = Session::get_value('account')['name'] . '. ' . Session::get_value('account')['settings']['myvox']['survey']['mail']['subject'][$this->lang1] . '. ' . Languages::words('token')[$this->lang1] . ': ' . $_POST['token'] . '. Power by Guestvox';
+	// 						$sms_text = Session::get_value('account')['name'] . '. ' . Session::get_value('account')['settings']['myvox']['surveys']['mail']['subject'][$this->lang1] . '. ' . Languages::words('token')[$this->lang1] . ': ' . $_POST['token'] . '. Power by Guestvox';
 	//
 	// 						try
 	// 						{
@@ -1684,7 +1684,7 @@ class Myvox_controller extends Controller
 	//
 	// 				$widget = false;
 	//
-	// 				if (!empty(Session::get_value('account')['settings']['myvox']['survey']['widget']))
+	// 				if (!empty(Session::get_value('account')['settings']['myvox']['surveys']['widget']))
 	// 				{
 	// 					$survey_average = $this->model->get_survey_average($query);
 	//
@@ -1724,9 +1724,9 @@ class Myvox_controller extends Controller
 	//
 	// 	if (Session::get_value('account')['reputation'] == true)
 	// 	{
-	// 		if (Session::get_value('account')['settings']['myvox']['survey']['status'] == true)
+	// 		if (Session::get_value('account')['settings']['myvox']['surveys']['status'] == true)
 	// 		{
-	// 			$btn_new_survey_answer .= '<a data-button-modal="new_survey_answer">' . Session::get_value('account')['settings']['myvox']['survey']['title'][$this->lang1] . '</a>';
+	// 			$btn_new_survey_answer .= '<a data-button-modal="new_survey_answer">' . Session::get_value('account')['settings']['myvox']['surveys']['title'][$this->lang1] . '</a>';
 	//
 	// 			$mdl_new_survey_answer .=
 	// 			'<section class="modal" data-modal="new_survey_answer">
@@ -1976,7 +1976,7 @@ class Myvox_controller extends Controller
 	// 				</div>
 	// 			</section>';
 	//
-	// 			if (!empty(Session::get_value('account')['settings']['myvox']['survey']['widget']))
+	// 			if (!empty(Session::get_value('account')['settings']['myvox']['surveys']['widget']))
 	// 			{
 	// 				$mdl_survey_widget .=
 	// 				'<section class="modal" data-modal="survey_widget">
@@ -1985,7 +1985,7 @@ class Myvox_controller extends Controller
 	// 							<div class="row">
 	// 								<div class="span12">
 	// 									<div class="widget">
-	// 										' . Session::get_value('account')['settings']['myvox']['survey']['widget'] . '
+	// 										' . Session::get_value('account')['settings']['myvox']['surveys']['widget'] . '
 	// 									</div>
 	// 								</div>
 	// 								<div class="span12">

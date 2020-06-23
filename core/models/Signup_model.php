@@ -193,14 +193,14 @@ class Signup_model extends Model
 			'sms' => 0,
 			'settings' => json_encode([
 				'myvox' => [
-					'request' => [
+					'requests' => [
 						'status' => false,
 						'title' => [
 							'es' => '',
 							'en' => ''
 						]
 					],
-					'incident' => [
+					'incidents' => [
 						'status' => false,
 						'title' => [
 							'es' => '',
@@ -218,7 +218,7 @@ class Signup_model extends Model
 						'opportunity_type' => '',
 						'multi' => false
 					],
-					'survey' => [
+					'surveys' => [
 						'status' => false,
 						'title' => [
 							'es' => '',

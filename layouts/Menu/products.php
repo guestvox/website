@@ -24,7 +24,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
             <a class="active" href="/menu/products"><i class="fas fa-cocktail"></i></a>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
-            <a href="/menu/restaurants"><i class="fas fa-shapes"></i></a>
+            <a href="/menu/restaurants"><i class="fas fa-utensils"></i></a>
             <?php endif; ?>
         </div>
     </section>
