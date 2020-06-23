@@ -363,6 +363,7 @@ main.signup > form > div.steps > div.step_container > div.row div.success {
 }
 
 main.signup > form > div.steps > div.step_container > div.row div.success > i {
+    margin-bottom: 50px;
     font-size: 200px;
     color: #00a5ab;
 }
