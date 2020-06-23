@@ -245,4 +245,48 @@ class Languages
 
         return !empty($subkey) ? $langs[$key][$subkey] : $langs[$key];
     }
+
+    static public function charts($key)
+    {
+        $langs = [
+            'v_oa_chart' => [
+                'es' => 'Voxes por áreas de oportunidad',
+                'en' => 'Voxes by opportunity areas'
+            ],
+            'v_o_chart' => [
+                'es' => 'Voxes por propietario',
+                'en' => 'Voxes by owner'
+            ],
+            'v_l_chart' => [
+                'es' => 'Voxes por ubicación',
+                'en' => 'Voxes by location'
+            ],
+            'ar_oa_chart' => [
+                'es' => 'Tiempo de resolución por áreas de oportunidad',
+                'en' => 'Resolution average by opportunity areas'
+            ],
+            'ar_o_chart' => [
+                'es' => 'Tiempo de resolución por propietario',
+                'en' => 'Resolution average by owner'
+            ],
+            'ar_l_chart' => [
+                'es' => 'Tiempo de resolución por ubicación',
+                'en' => 'Resolution average by location'
+            ],
+            'c_oa_chart' => [
+                'es' => 'Costos por áreas de oportunidad',
+                'en' => 'Costs by opportunity areas'
+            ],
+            'c_o_chart' => [
+                'es' => 'Costos por propietario',
+                'en' => 'Costs by owner'
+            ],
+            'c_l_chart' => [
+                'es' => 'Costos por ubicación',
+                'en' => 'Costs by location'
+            ]
+        ];
+
+        return $langs[$key];
+    }
 }

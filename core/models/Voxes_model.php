@@ -2170,68 +2170,79 @@ class Voxes_model extends Model
 		return $query;
 	}
 
-	// public function get_voxes_average_resolution()
-	// {
-	// 	$query = $this->database->select('voxes', [
-	// 		'started_date',
-	// 		'started_hour',
-	// 		'completed_date',
-	// 		'completed_hour'
-	// 	], [
-	// 		'AND' => [
-	// 			'account' => Session::get_value('account')['id'],
-	// 			'started_date[>=]' => Functions::get_current_date(),
-	// 			'started_hour[>=]' => Functions::get_current_hour()
-	// 		]
-	// 	]);
-	//
-	// 	$hours = 0;
-	// 	$count = 0;
-	// 	$average = 0;
-	//
-	// 	foreach ($query as $key => $value)
-	// 	{
-	// 		$date1 = new DateTime($value['started_date'] . ' ' . $value['started_hour']);
-	// 		$date2 = new DateTime($value['completed_date'] . ' ' . $value['completed_hour']);
-	// 		$date3 = $date1->diff($date2);
-	// 		$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
-	// 		$count = $count + 1;
-	// 	}
-	//
-	// 	if ($hours > 0 AND $count > 0)
-	// 	{
-	// 		$average = $hours / $count;
-	//
-	// 		if ($average < 1)
-	// 			$average = round(($average * 60), 2) . ' Min';
-	// 		else
-	// 			$average = round($average, 2) . ' Hrs';
-	// 	}
-	//
-	// 	return $average;
-	// }
+	public function get_voxes_average_resolution()
+	{
+		$query = $this->database->select('voxes', [
+			'started_date',
+			'started_hour',
+			'completed_date',
+			'completed_hour'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'started_date[>=]' => Functions::get_current_date(),
+				'started_hour[>=]' => Functions::get_current_hour()
+			]
+		]);
 
-	// public function get_voxes_count($option)
-	// {
-	// 	$where = [
-	// 		'AND' => [
-	// 			'account' => Session::get_value('account')['id']
-	// 		]
-	// 	];
-	//
-	// 	if ($option == 'today')
-	// 		$where['AND']['started_date'] = Functions::get_current_date();
-	// 	else if ($option == 'week')
-	// 		$where['AND']['started_date[<>]'] = [Functions::get_current_week()[0],Functions::get_current_week()[1]];
-	// 	else if ($option == 'month')
-	// 		$where['AND']['started_date[<>]'] = [Functions::get_current_month()[0],Functions::get_current_month()[1]];
-	// 	else if ($option == 'year')
-	// 		$where['AND']['started_date[<>]'] = [Functions::get_current_year()[0],Functions::get_current_year()[1]];
-	//
-	// 	$query = $this->database->count('voxes', $where);
-	//
-	// 	return $query;
-	// }
+		$hours = 0;
+		$count = 0;
+		$average = 0;
+
+		foreach ($query as $value)
+		{
+			$date1 = new DateTime($value['started_date'] . ' ' . $value['started_hour']);
+			$date2 = new DateTime($value['completed_date'] . ' ' . $value['completed_hour']);
+			$date3 = $date1->diff($date2);
+			$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
+			$count = $count + 1;
+		}
+
+		if ($hours > 0 AND $count > 0)
+		{
+			$average = $hours / $count;
+
+			if ($average < 1)
+				$average = round(($average * 60), 2) . ' {$lang.minutes}';
+			else
+				$average = round($average, 2) . ' {$lang.hours}';
+		}
+
+		return $average;
+	}
+
+	public function get_voxes_count($option)
+	{
+		$where = [];
+
+		if ($option == 'open' OR $option == 'close' OR $option == 'today' OR $option == 'week' OR $option == 'month' OR $option == 'year')
+		{
+			$where = [
+				'AND' => [
+					'account' => Session::get_value('account')['id']
+				]
+			];
+
+			if ($option == 'open')
+				$where['AND']['status'] = true;
+			else if ($option == 'close')
+				$where['AND']['status'] = false;
+			else if ($option == 'today')
+				$where['AND']['started_date'] = Functions::get_current_date();
+			else if ($option == 'week')
+				$where['AND']['started_date[<>]'] = [Functions::get_current_week()[0],Functions::get_current_week()[1]];
+			else if ($option == 'month')
+				$where['AND']['started_date[<>]'] = [Functions::get_current_month()[0],Functions::get_current_month()[1]];
+			else if ($option == 'year')
+				$where['AND']['started_date[<>]'] = [Functions::get_current_year()[0],Functions::get_current_year()[1]];
+		}
+		else if ($option == 'total')
+			$where['account'] = Session::get_value('account')['id'];
+
+		$query = $this->database->count('voxes', $where);
+
+		return $query;
+	}
 
 	public function get_chart_data($chart, $params, $edit = false)
 	{
@@ -2313,49 +2324,62 @@ class Voxes_model extends Model
 			if ($chart == 'v_oa_chart' OR $chart == 'v_o_chart' OR $chart == 'v_l_chart')
 			{
 				$count = 0;
+				$break = true;
 
 				foreach ($query1 as $subvalue)
 				{
 					if ($chart == 'v_oa_chart')
 					{
 						if ($value['id'] == $subvalue['opportunity_area'])
+						{
 							$count = $count + 1;
+							$break = false;
+						}
 					}
 					else if ($chart == 'v_o_chart')
 					{
 						if ($value['id'] == $subvalue['owner'])
+						{
 							$count = $count + 1;
+							$break = false;
+						}
 					}
 					else if ($chart == 'v_l_chart')
 					{
 						if ($value['id'] == $subvalue['location'])
+						{
 							$count = $count + 1;
+							$break = false;
+						}
 					}
 				}
 
-				if ($edit == true)
+				if ($break == false)
 				{
-					if ($chart == 'v_oa_chart')
-						array_push($data['labels'], $value['name'][$this->lang]);
-					else if ($chart == 'v_o_chart')
-						array_push($data['labels'], $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
-					else if ($chart == 'v_l_chart')
-						array_push($data['labels'], $value['name'][$this->lang]);
+					if ($edit == true)
+					{
+						if ($chart == 'v_oa_chart')
+							array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+						else if ($chart == 'v_o_chart')
+							array_push($data['labels'], $value['name'][Session::get_value('account')['language']] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
+						else if ($chart == 'v_l_chart')
+							array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
 
-					array_push($data['datasets']['data'], $count);
-					array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
-				}
-				else
-				{
-					if ($chart == 'v_oa_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-					else if ($chart == 'v_o_chart')
-						$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
-					else if ($chart == 'v_l_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+						array_push($data['datasets']['data'], $count);
+						array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+					}
+					else
+					{
+						if ($chart == 'v_oa_chart')
+							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+						else if ($chart == 'v_o_chart')
+							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
+						else if ($chart == 'v_l_chart')
+							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
 
-					$data['datasets']['data'] .= $count . ',';
-					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+						$data['datasets']['data'] .= $count . ',';
+						$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+					}
 				}
 			}
 			else if ($chart == 'ar_oa_chart' OR $chart == 'ar_o_chart' OR $chart == 'ar_l_chart')
@@ -2363,8 +2387,9 @@ class Voxes_model extends Model
 				$average = 0;
 				$hours = 0;
 				$count = 0;
+				$break = true;
 
-				foreach ($query2 as $subvalue)
+				foreach ($query1 as $subvalue)
 				{
 					if ($chart == 'ar_oa_chart')
 					{
@@ -2375,6 +2400,7 @@ class Voxes_model extends Model
 							$date3 = $date1->diff($date2);
 							$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
 							$count = $count + 1;
+							$break = false;
 						}
 					}
 					else if ($chart == 'ar_o_chart')
@@ -2386,6 +2412,7 @@ class Voxes_model extends Model
 							$date3 = $date1->diff($date2);
 							$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
 							$count = $count + 1;
+							$break = false;
 						}
 					}
 					else if ($chart == 'ar_l_chart')
@@ -2397,6 +2424,7 @@ class Voxes_model extends Model
 							$date3 = $date1->diff($date2);
 							$hours = $hours + ((24 * $date3->d) + (($date3->i / 60) + $date3->h));
 							$count = $count + 1;
+							$break = false;
 						}
 					}
 				}
@@ -2408,77 +2436,93 @@ class Voxes_model extends Model
 				else
 					$average = round($average, 2);
 
-				if ($edit == true)
+				if ($break == false)
 				{
-					if ($chart == 'ar_oa_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-					else if ($chart == 'ar_o_chart')
-						array_push($data['labels'], $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
-					else if ($chart == 'ar_l_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+					if ($edit == true)
+					{
+						if ($chart == 'ar_oa_chart')
+							array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+						else if ($chart == 'ar_o_chart')
+							array_push($data['labels'], $value['name'][Session::get_value('account')['language']] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
+						else if ($chart == 'ar_l_chart')
+							array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
 
-					array_push($data['datasets']['data'], $average);
-					array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad( dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
-				}
-				else
-				{
-					if ($chart == 'ar_oa_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-					else if ($chart == 'ar_o_chart')
-						$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
-					else if ($chart == 'ar_l_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+						array_push($data['datasets']['data'], $average);
+						array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad( dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+					}
+					else
+					{
+						if ($chart == 'ar_oa_chart')
+							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+						else if ($chart == 'ar_o_chart')
+							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
+						else if ($chart == 'ar_l_chart')
+							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
 
-					$data['datasets']['data'] .= $average . ',';
-					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+						$data['datasets']['data'] .= $average . ',';
+						$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+					}
 				}
 			}
 			else if ($chart == 'c_oa_chart' OR $chart == 'c_o_chart' OR $chart == 'c_l_chart')
 			{
 				$cost = 0;
+				$break = true;
 
-				foreach ($query2 as $subvalue)
+				foreach ($query1 as $subvalue)
 				{
 					if ($chart == 'c_oa_chart')
 					{
 						if ($value['id'] == $subvalue['opportunity_area'])
+						{
 							$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
+							$break = false;
+						}
 					}
 					else if ($chart == 'c_o_chart')
 					{
 						if ($value['id'] == $subvalue['owner'])
+						{
 							$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
+							$break = false;
+						}
 					}
 					else if ($chart == 'c_l_chart')
 					{
 						if ($value['id'] == $subvalue['location'])
+						{
 							$cost = !empty($subvalue['cost']) ? $cost + $subvalue['cost'] : $cost;
+							$break = false;
+						}
 					}
 				}
 
-				if ($edit == true)
+				if ($break == false)
 				{
-					if ($chart == 'c_oa_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
-					else if ($chart == 'c_o_chart')
-						array_push($data['labels'], $value['name'] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
-					else if ($chart == 'c_l_chart')
-						array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+					if ($edit == true)
+					{
+						if ($chart == 'c_oa_chart')
+							array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
+						else if ($chart == 'c_o_chart')
+							array_push($data['labels'], $value['name'][Session::get_value('account')['language']] . (!empty($value['number']) ? ' #' . $value['number'] : ''));
+						else if ($chart == 'c_l_chart')
+							array_push($data['labels'], $value['name'][Session::get_value('account')['language']]);
 
-					array_push($data['datasets']['data'], $cost);
-					array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
-				}
-				else
-				{
-					if ($chart == 'c_oa_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
-					else if ($chart == 'c_o_chart')
-						$data['labels'] .= "'" . $value['name'] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
-					else if ($chart == 'c_l_chart')
-						$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+						array_push($data['datasets']['data'], $cost);
+						array_push($data['datasets']['colors'], "#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+					}
+					else
+					{
+						if ($chart == 'c_oa_chart')
+							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+						else if ($chart == 'c_o_chart')
+							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
+						else if ($chart == 'c_l_chart')
+							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
 
-					$data['datasets']['data'] .= $cost . ',';
-					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+						$data['datasets']['data'] .= $cost . ',';
+						$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+					}
 				}
 			}
 		}

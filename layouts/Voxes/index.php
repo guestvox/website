@@ -54,6 +54,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{voxes_reports_print}']) == true) : ?>
             <a href="/voxes/reports/print"><i class="fas fa-bug"></i></a>
+            <?php elseif (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}','{voxes_reports_deactivate}','{voxes_reports_activate}','{voxes_reports_delete}']) == true) : ?>
+            <a href="/voxes/reports"><i class="fas fa-bug"></i></a>
             <?php endif; ?>
         </div>
     </section>

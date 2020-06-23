@@ -520,7 +520,7 @@ class Account_controller extends Controller
 				if ($account['type'] == 'hotel')
 				{
 					$div_siteminder .=
-					'<div class="stl_5">
+					'<div class="stl_5 last">
 						<figure>
 							<img src="{$path.images}siteminder.png">
 						</figure>
@@ -529,7 +529,7 @@ class Account_controller extends Controller
 	                </div>';
 
 					$div_zaviapms .=
-					'<div class="stl_5">
+					'<div class="stl_5 last">
 						<figure>
 							<img src="{$path.images}zaviapms.png">
 						</figure>

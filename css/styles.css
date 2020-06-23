@@ -230,7 +230,7 @@ body > main.dashboard.gry > section.workspace {
 
 @media (min-width: 768px) {
 
-    body > main.dashboard.gry::before {
+    body > main.dashboard.dkp::before {
         background-color: #eee;
     }
 
@@ -527,7 +527,7 @@ div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > span {
 
 div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > h2 {
     font-weight: 600;
-    color: #212121;
+    color: #444;
 }
 
 div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > span {
@@ -760,7 +760,7 @@ div.tbl_stl_3 > div > div.datas > div.itm_1 > span {
 div.tbl_stl_2 > div > div.datas > h2,
 div.tbl_stl_3 > div > div.datas > div.itm_1 > h2 {
     font-weight: 600;
-    color: #212121;
+    color: #444;
 }
 
 div.tbl_stl_2 > div > div.datas > span,
@@ -929,7 +929,7 @@ div.tbl_stl_4 > div:last-child > p {
 }
 
 div.tbl_stl_4 > div > p > strong {
-    color: #212121;
+    color: #444;
 }
 
 div.tbl_stl_4 > div > p > i {
@@ -1500,7 +1500,7 @@ section.modal {
 }
 
 section.modal.fullscreen > .content {
-    max-width: 800px !important;
+    max-width: 600px !important;
     min-height: auto !important;
 }
 
@@ -1865,7 +1865,7 @@ div.vox_details > div.stl_1 > h1 {
     font-size: 24px;
     font-weight: 600;
     text-align: center;
-    color: #212121;
+    color: #444;
 }
 
 div.vox_details > div.stl_1 > h2,
@@ -2152,7 +2152,7 @@ div.vox_details > div.stl_7 > figure > img {
 div.vox_details > div.stl_7 > h4 {
     font-size: 18px;
     font-weight: 600;
-    color: #212121;
+    color: #444;
 }
 
 div.vox_details > div.stl_7 > span {
@@ -2213,7 +2213,7 @@ div.vox_details > div.stl_8 > div > div {
 div.vox_details > div.stl_8 > div > div > h2 {
     font-size: 14px;
     font-weight: 600;
-    color: #212121;
+    color: #444;
 }
 
 div.vox_details > div.stl_8 > div > div > span {
@@ -2326,7 +2326,7 @@ main.vox_details > div.stl_11 > div > div {
 main.vox_details > div.stl_11 > div > div > h2 {
     font-size: 14px;
     font-weight: 600;
-    color: #212121;
+    color: #444;
 }
 
 main.vox_details > div.stl_11 > div > div > span {
@@ -2416,6 +2416,219 @@ main.vox_details > div.stl_12 > div > div > p:last-child {
     font-size: 10px;
 }
 
+/* Voxes charts
+------------------------------------------------------------------------------ */
+div.voxes_charts {
+    width: 100%;
+    background-color: #fff;
+}
+
+@media (min-width: 768px) {
+
+    div.voxes_charts::after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+
+div.voxes_charts > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 40px;
+    border-bottom: 1px solid #eee;
+    box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+
+    div.voxes_charts > div {
+        width: calc(100% / 3);
+        height: 400px;
+        float: left;
+        display: inline-flex;
+    }
+}
+
+div.voxes_charts > div:last-child {
+    border-bottom: 0px;
+}
+
+@media (min-width: 768px) {
+
+    div.voxes_charts > div.last {
+        border-bottom: 0px;
+    }
+}
+
+/* Voxes counters
+------------------------------------------------------------------------------ */
+div.voxes_counters {
+    width: 100%;
+}
+
+@media (min-width: 768px) {
+
+    div.voxes_counters {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/*  */
+
+div.voxes_counters > div:first-child {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0px;
+    border-bottom: 1px dashed #bdbdbd;
+    box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+
+    div.voxes_counters > div:first-child {
+        width: 30%;
+        padding: 40px;
+        border-right: 1px dashed #bdbdbd;
+        border-bottom: 0px;
+    }
+}
+
+div.voxes_counters > div:first-child > div {
+    width: calc(100% / 3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+div.voxes_counters > div:first-child > div > h2 {
+    font-size: 60px;
+    font-weight: 600;
+    color: #444;
+}
+
+div.voxes_counters > div:first-child > div > span {
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    color: #757575;
+}
+
+/*  */
+
+div.voxes_counters > div:last-child {
+    width: 100%;
+    padding: 20px 0px;
+    box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+
+    div.voxes_counters > div:last-child {
+        width: 70%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+    }
+}
+
+div.voxes_counters > div:last-child > div:first-child {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+
+    div.voxes_counters > div:last-child > div:first-child {
+        width: calc(100% / 5);
+    }
+}
+
+div.voxes_counters > div:last-child > div:first-child > h2 {
+    font-size: 100px;
+    font-weight: 600;
+    color: #444;
+}
+
+div.voxes_counters > div:last-child > div:first-child > span {
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    color: #757575;
+}
+
+/*  */
+
+div.voxes_counters > div:last-child > div:last-child {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+div.voxes_counters > div:last-child > div:last-child > div {
+    width: calc(100% / 4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #fff;
+    border-right: 2px solid #eee;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+
+    div.voxes_counters > div:last-child > div:last-child > div {
+        padding: 40px 20px;
+        border-right: 5px solid #eee;
+        box-sizing: border-box;
+    }
+}
+
+div.voxes_counters > div:last-child > div:last-child > div:last-child {
+    border-right: 0px;
+}
+
+div.voxes_counters > div:last-child > div:last-child > div > h3 {
+    font-size: 40px;
+    font-weight: 600;
+    color: #757575;
+}
+
+div.voxes_counters > div:last-child > div:last-child > div > span {
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    color: #757575;
+}
+
+@media (min-width: 768px) {
+
+    div.voxes_counters > div:last-child > div:last-child > div > span {
+        font-size: 14px;
+    }
+}
+
 /* Account
 ------------------------------------------------------------------------------ */
 div.account {
@@ -2453,13 +2666,13 @@ div.account > div {
 }
 
 div.account > div:last-child {
-    border-bottom: none;
+    border-bottom: 0px;
 }
 
 @media (min-width: 768px) {
 
-    div.account > div:last-child {
-        border-bottom: 1px solid #eee;
+    div.account > div.last {
+        border-bottom: 0px;
     }
 }
 
@@ -2477,7 +2690,7 @@ div.account > div.stl_3 > h2,
 div.account > div.stl_5 > h2 {
     font-size: 20px;
     font-weight: 600;
-    color: #212121;
+    color: #444;
 }
 
 div.account > div.stl_3 > h1,
@@ -2598,7 +2811,7 @@ div.profile > h1 {
     margin: 20px 0px 10px 10px;
     font-size: 24px;
     font-weight: 600;
-    color: #212121;
+    color: #444;
 }
 
 div.profile > span {

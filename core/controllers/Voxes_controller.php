@@ -2653,38 +2653,26 @@ class Voxes_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'get_v_chart_data')
+			if ($_POST['action'] == 'filter_voxes_stats')
 			{
 				Functions::environment([
 					'status' => 'success',
 					'data' => [
-						'oa' => $this->model->get_chart_data('v_oa_chart', $_POST, true),
-						'o' => $this->model->get_chart_data('v_o_chart', $_POST, true),
-						'l' => $this->model->get_chart_data('v_l_chart', $_POST, true)
-					]
-				]);
-			}
-
-			if ($_POST['action'] == 'get_ar_chart_data')
-			{
-				Functions::environment([
-					'status' => 'success',
-					'data' => [
-						'oa' => $this->model->get_chart_data('ar_oa_chart', $_POST, true),
-						'o' => $this->model->get_chart_data('ar_o_chart', $_POST, true),
-						'l' => $this->model->get_chart_data('ar_l_chart', $_POST, true)
-					]
-				]);
-			}
-
-			if ($_POST['action'] == 'get_c_chart_data')
-			{
-				Functions::environment([
-					'status' => 'success',
-					'data' => [
-						'oa' => $this->model->get_chart_data('c_oa_chart', $_POST, true),
-						'o' => $this->model->get_chart_data('c_o_chart', $_POST, true),
-						'l' => $this->model->get_chart_data('c_l_chart', $_POST, true)
+						'v' => [
+							'oa' => $this->model->get_chart_data('v_oa_chart', $_POST, true),
+							'o' => $this->model->get_chart_data('v_o_chart', $_POST, true),
+							'l' => $this->model->get_chart_data('v_l_chart', $_POST, true)
+						],
+						'ar' => [
+							'oa' => $this->model->get_chart_data('ar_oa_chart', $_POST, true),
+							'o' => $this->model->get_chart_data('ar_o_chart', $_POST, true),
+							'l' => $this->model->get_chart_data('ar_l_chart', $_POST, true)
+						],
+						'c' => [
+							'oa' => $this->model->get_chart_data('c_oa_chart', $_POST, true),
+							'o' => $this->model->get_chart_data('c_o_chart', $_POST, true),
+							'l' => $this->model->get_chart_data('c_l_chart', $_POST, true)
+						]
 					]
 				]);
 			}
@@ -2696,12 +2684,14 @@ class Voxes_controller extends Controller
 			define('_title', 'Guestvox | {$lang.voxes_stats}');
 
 			$replace = [
-				// '{$voxes_average_resolution}' => $this->model->get_voxes_average_resolution(),
-				// '{$voxes_today}' => $this->model->get_voxes_count('today'),
-				// '{$voxes_week}' => $this->model->get_voxes_count('week'),
-				// '{$voxes_month}' => $this->model->get_voxes_count('month'),
-				// '{$voxes_year}' => $this->model->get_voxes_count('year'),
-				// '{$voxes_total}' => $this->model->get_voxes_count('total')
+				'{$voxes_average_resolution}' => $this->model->get_voxes_average_resolution(),
+				'{$voxes_count_open}' => $this->model->get_voxes_count('open'),
+				'{$voxes_count_close}' => $this->model->get_voxes_count('close'),
+				'{$voxes_count_total}' => $this->model->get_voxes_count('total'),
+				'{$voxes_count_today}' => $this->model->get_voxes_count('today'),
+				'{$voxes_count_week}' => $this->model->get_voxes_count('week'),
+				'{$voxes_count_month}' => $this->model->get_voxes_count('month'),
+				'{$voxes_count_year}' => $this->model->get_voxes_count('year')
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -2713,31 +2703,6 @@ class Voxes_controller extends Controller
 	public function charts()
 	{
 		header('Content-Type: application/javascript');
-
-		if ($this->lang == 'es')
-		{
-			$v_oa_chart_data_title = 'Voxes por áreas de oportunidad';
-			$v_o_chart_data_title = 'Voxes por propietario';
-			$v_l_chart_data_title = 'Voxes por ubicación';
-			$ar_oa_chart_data_title = 'Tiempo de resolución por áreas de oportunidad';
-			$ar_o_chart_data_title = 'Tiempo de resolución por propietario';
-			$ar_l_chart_data_title = 'Tiempo de resolución por ubicación';
-			$c_oa_chart_data_title = 'Costos por áreas de oportunidad';
-			$c_o_chart_data_title = 'Costos por propietario';
-			$c_l_chart_data_title = 'Costos por ubicación';
-		}
-		else if ($this->lang == 'en')
-		{
-			$v_oa_chart_data_title = 'Voxes by opportunity areas';
-			$v_o_chart_data_title = 'Voxes by owner';
-			$v_l_chart_data_title = 'Voxes by location';
-			$ar_oa_chart_data_title = 'Resolution average by opportunity areas';
-			$ar_o_chart_data_title = 'Resolution average by owner';
-			$ar_l_chart_data_title = 'Resolution average by location';
-			$c_oa_chart_data_title = 'Costs by opportunity areas';
-			$c_o_chart_data_title = 'Costs by owner';
-			$c_l_chart_data_title = 'Costs by location';
-		}
 
 		$v_oa_chart_data = $this->model->get_chart_data('v_oa_chart', [
 			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
@@ -2794,7 +2759,7 @@ class Voxes_controller extends Controller
 		"'use strict';
 
 		var v_oa_chart = {
-	        type: 'pie',
+	        type: 'doughnut',
 	        data: {
 				labels: [
 	                " . $v_oa_chart_data['labels'] . "
@@ -2811,17 +2776,18 @@ class Voxes_controller extends Controller
 	        options: {
 				title: {
 					display: true,
-					text: '" . $v_oa_chart_data_title . "'
+					text: '" . Languages::charts('v_oa_chart')[$this->lang] . "'
 				},
 				legend: {
-					display: false
+					display: true,
+					position: 'left'
 				},
 	            responsive: true
             }
         };
 
 		var v_o_chart = {
-	        type: 'pie',
+	        type: 'doughnut',
 	        data: {
 				labels: [
 	                " . $v_o_chart_data['labels'] . "
@@ -2838,17 +2804,18 @@ class Voxes_controller extends Controller
 	        options: {
 				title: {
 					display: true,
-					text: '" . $v_o_chart_data_title . "'
+					text: '" . Languages::charts('v_o_chart')[$this->lang] . "'
 				},
 				legend: {
-					display: false
+					display: true,
+					position: 'left'
 				},
 	            responsive: true
             }
         };
 
 		var v_l_chart = {
-	        type: 'pie',
+	        type: 'doughnut',
 	        data: {
 				labels: [
 	                " . $v_l_chart_data['labels'] . "
@@ -2865,17 +2832,18 @@ class Voxes_controller extends Controller
 	        options: {
 				title: {
 					display: true,
-					text: '" . $v_l_chart_data_title . "'
+					text: '" . Languages::charts('v_l_chart')[$this->lang] . "'
 				},
 				legend: {
-					display: false
+					display: true,
+					position: 'left'
 				},
 	            responsive: true
             }
         };
 
 		var ar_oa_chart = {
-	        type: 'horizontalBar',
+	        type: 'pie',
 	        data: {
 				labels: [
 	                " . $ar_oa_chart_data['labels'] . "
@@ -2892,10 +2860,11 @@ class Voxes_controller extends Controller
 	        options: {
 				title: {
 					display: true,
-					text: '" . $ar_oa_chart_data_title . "'
+					text: '" . Languages::charts('ar_oa_chart')[$this->lang] . "'
 				},
 				legend: {
-					display: false
+					display: true,
+					position: 'left'
 				},
 	            responsive: true
             }
@@ -2919,10 +2888,11 @@ class Voxes_controller extends Controller
 	        options: {
 				title: {
 					display: true,
-					text: '" . $ar_o_chart_data_title . "'
+					text: '" . Languages::charts('ar_o_chart')[$this->lang] . "'
 				},
 				legend: {
-					display: false
+					display: true,
+					position: 'left'
 				},
 	            responsive: true
             }
@@ -2946,10 +2916,11 @@ class Voxes_controller extends Controller
 	        options: {
 				title: {
 					display: true,
-					text: '" . $ar_l_chart_data_title . "'
+					text: '" . Languages::charts('ar_l_chart')[$this->lang] . "'
 				},
 				legend: {
-					display: false
+					display: true,
+					position: 'left'
 				},
 	            responsive: true
             }
@@ -2973,10 +2944,11 @@ class Voxes_controller extends Controller
 	        options: {
 				title: {
 					display: true,
-					text: '" . $c_oa_chart_data_title . "'
+					text: '" . Languages::charts('c_oa_chart')[$this->lang] . "'
 				},
 				legend: {
-					display: false
+					display: true,
+					position: 'left'
 				},
 	            responsive: true
             }
@@ -3000,10 +2972,11 @@ class Voxes_controller extends Controller
 	        options: {
 				title: {
 					display: true,
-					text: '" . $c_o_chart_data_title . "'
+					text: '" . Languages::charts('c_o_chart')[$this->lang] . "'
 				},
 				legend: {
-					display: false
+					display: true,
+					position: 'left'
 				},
 	            responsive: true
             }
@@ -3027,10 +3000,11 @@ class Voxes_controller extends Controller
 	        options: {
 				title: {
 					display: true,
-					text: '" . $c_l_chart_data_title . "'
+					text: '" . Languages::charts('c_l_chart')[$this->lang] . "'
 				},
 				legend: {
-					display: false
+					display: true,
+					position: 'left'
 				},
 	            responsive: true
             }

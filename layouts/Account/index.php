@@ -53,12 +53,12 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                 <h2>{$lang.reputation_package}</h2>
                 <span>{$reputation}</span>
             </div>
-            <div class="stl_5">
+            <div class="stl_5 last">
                 <i class="fas fa-shapes"></i>
                 <h2>{$lang.owners_package}</h2>
                 <span>{$package} {$lang.owners}</span>
             </div>
-            <div class="stl_5">
+            <div class="stl_5 last">
                 <i class="fas fa-comment-alt"></i>
                 <h2>{$lang.sms_credit}</h2>
                 <span>{$sms} {$lang.sms}</span>
