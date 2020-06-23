@@ -2,7 +2,7 @@
 
 header('Content-Type: text/xml');
 
-$https = 'https://guestvox.com';
+$https = 'https://dev.guestvox.com';
 $database = new mysqli('guestvox.com', 'guestvox', 'Jsw90w&6', 'gv_website_dev');
 
 $xml =
