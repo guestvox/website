@@ -56,11 +56,14 @@ class Menu_controller extends Controller
 				if (!isset($_POST['price']) OR empty($_POST['price']))
 					array_push($labels, ['price','']);
 
-				if (!isset($_FILES['avatar']['name']) OR empty($_FILES['avatar']['name']))
-					array_push($labels, ['avatar','']);
+				if ($_POST['action'] == 'new_menu_product')
+				{
+					if (!isset($_FILES['avatar']['name']) OR empty($_FILES['avatar']['name']))
+						array_push($labels, ['avatar','']);
+				}
 
 				if (!isset($_POST['categories']) OR empty($_POST['categories']))
-					array_push($labels, ['categories','']);
+					array_push($labels, ['categories[]','']);
 
 				if (Session::get_value('account')['settings']['menu']['multi'] == true)
 				{
