@@ -4,99 +4,108 @@ defined('_EXEC') or die;
 
 class Reviews_controller extends Controller
 {
+	private $lang;
+
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->lang = Session::get_value('lang');
 	}
 
     public function index($params)
     {
 		$account = $this->model->get_account($params[0]);
 
-		if (!empty($account) AND $account['settings']['review']['online'] == true)
+		if (!empty($account))
 		{
-			if (Format::exist_ajax_request() == true)
+			if ($account['settings']['reviews']['status'] == true)
 			{
-
-			}
-			else
-			{
-				define('_title', 'GuestVox');
-
 				$template = $this->view->render($this, 'index');
 
-                $general_average_rate = $this->model->get_general_average_rate($account['id']);
+				define('_title', $account['name'] . ' | Guestvox');
 
-    			$h4_general_average_rate = '';
+				$surveys_average = $this->model->get_surveys_average($account['id']);
 
-    			if ($general_average_rate >= 0 AND $general_average_rate < 1.8)
-    				$h4_general_average_rate = '<h4 style="color:#f44336;">' . $general_average_rate . '</h4>';
-    			else if ($general_average_rate >= 1.8 AND $general_average_rate < 2.8)
-    				$h4_general_average_rate = '<h4 style="color:#ffc107;">' . $general_average_rate . '</h4>';
-    			else if ($general_average_rate >= 2.8 AND $general_average_rate < 3.8)
-    				$h4_general_average_rate = '<h4 style="color:#ffeb3b;">' . $general_average_rate . '</h4>';
-    			else if ($general_average_rate >= 3.8 AND $general_average_rate < 4.8)
-    				$h4_general_average_rate = '<h4 style="color:#4caf50;">' . $general_average_rate . '</h4>';
-    			else if ($general_average_rate >= 4.8 AND $general_average_rate <= 5)
-    				$h4_general_average_rate = '<h4 style="color:#00a5ab;">' . $general_average_rate . '</h4>';
+				$h2_surveys_average = '';
 
-    			$spn_general_avarage_rate =
-    			'<span>
-    				' . (($general_average_rate >= 0 AND $general_average_rate < 1.8) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
-    				' . (($general_average_rate >= 1.8 AND $general_average_rate < 2.8) ? '<i class="fas fa-frown" style="font-size:50px;color:#ffc107;"></i>' : '<i class="far fa-frown"></i>') . '
-    				' . (($general_average_rate >= 2.8 AND $general_average_rate < 3.8) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ffeb3b;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
-    				' . (($general_average_rate >= 3.8 AND $general_average_rate < 4.8) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
-    				' . (($general_average_rate >= 4.8 AND $general_average_rate <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#00a5ab;"></i>' : '<i class="far fa-grin-stars"></i>') . '
-    			</span>';
+				if ($surveys_average >= 0 AND $surveys_average < 1.8)
+					$h2_surveys_average = '<h2 class="one">' . $surveys_average . '</h2>';
+				else if ($surveys_average >= 1.8 AND $surveys_average < 2.8)
+					$h2_surveys_average = '<h2 class="two">' . $surveys_average . '</h2>';
+				else if ($surveys_average >= 2.8 AND $surveys_average < 3.8)
+					$h2_surveys_average = '<h2 class="three">' . $surveys_average . '</h2>';
+				else if ($surveys_average >= 3.8 AND $surveys_average < 4.8)
+					$h2_surveys_average = '<h2 class="four">' . $surveys_average . '</h2>';
+				else if ($surveys_average >= 4.8 AND $surveys_average <= 5)
+					$h2_surveys_average = '<h2 class="five">' . $surveys_average . '</h2>';
 
-				$tbl_comments = '';
+				$spn_surveys_average =
+				'<span>
+					' . (($surveys_average >= 0 AND $surveys_average < 1.8) ? '<i class="fas fa-sad-cry one"></i>' : '<i class="far fa-sad-cry"></i>') . '
+					' . (($surveys_average >= 1.8 AND $surveys_average < 2.8) ? '<i class="fas fa-frown two"></i>' : '<i class="far fa-frown"></i>') . '
+					' . (($surveys_average >= 2.8 AND $surveys_average < 3.8) ? '<i class="fas fa-meh-rolling-eyes three"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
+					' . (($surveys_average >= 3.8 AND $surveys_average < 4.8) ? '<i class="fas fa-smile four"></i>' : '<i class="far fa-smile"></i>') . '
+					' . (($surveys_average >= 4.8 AND $surveys_average <= 5) ? '<i class="fas fa-grin-stars five"></i>' : '<i class="far fa-grin-stars"></i>') . '
+				</span>';
 
-				foreach ($this->model->get_comments($account['id']) as $value)
+				$surveys_comments = $this->model->get_surveys_comments($account['id']);
+
+				$tbl_surveys_comments = '';
+
+				if (!empty($surveys_comments))
 				{
-					if (!empty($value['comment']))
+					foreach ($surveys_comments as $value)
 					{
-						$substr_firstname = strlen($value['guest']['guestvox']['firstname']);
-						$substr_lastname = strlen($value['guest']['guestvox']['lastname']);
+						if (!empty($value['comment']))
+						{
+							$str_firstname = strlen($value['contact']['firstname']);
+							$str_lastname = strlen($value['contact']['lastname']);
 
-						$tbl_comments .=
-						'<div>
-							<span><i class="fas fa-user-circle"></i>' . ((!empty($value['guest']['guestvox']['firstname']) AND !empty($value['guest']['guestvox']['lastname'])) ? substr($value['guest']['guestvox']['firstname'], -$substr_firstname, 1) . '. ' . substr($value['guest']['guestvox']['lastname'], -$substr_lastname, 1) . '.' : '{$lang.anonimous}')  . '</span>
-							<span><i class="fas fa-quote-left"></i>' . $value['comment'] . '<i class="fas fa-quote-right"></i></span>
-						</div>';
+							$tbl_surveys_comments .=
+							'<div>
+				                <h3><i class="fas fa-user-circle"></i>' . ((!empty($value['contact']['firstname']) AND !empty($value['contact']['lastname'])) ? substr($value['contact']['firstname'], -$str_firstname, 1) . '. ' . substr($value['contact']['lastname'], -$str_lastname, 1) . '.' : '{$lang.anonimous}')  . '</h3>
+				                <p><i class="fas fa-quote-left"></i>' . $value['comment'] . '<i class="fas fa-quote-right"></i></p>
+				            </div>';
+						}
 					}
 				}
+				else
+					$tbl_surveys_comments .= '<p>{$lang.not_comments}</p>';
 
 				$replace = [
-					'{$seo_keywords}' => $account['settings']['review']['seo']['keywords'][Session::get_value('lang')],
-					'{$seo_meta_description}' => $account['settings']['review']['seo']['meta_description'][Session::get_value('lang')],
+					'{$seo_keywords}' => $account['settings']['reviews']['seo']['keywords'][$this->lang],
+					'{$seo_description}' => $account['settings']['reviews']['seo']['description'][$this->lang],
 					'{$logotype}' => '{$path.uploads}' . $account['logotype'],
-                    '{$name}' => $account['name'],
-                    '{$address}' => $account['address'],
-                    '{$email}' => $account['settings']['review']['email'],
-                    '{$phone}' => '+' . $account['settings']['review']['phone']['lada'] . ' ' . $account['settings']['review']['phone']['number'],
-                    '{$website}' => $account['settings']['review']['website'],
-                    '{$h4_general_average_rate}' => $h4_general_average_rate,
-    				'{$spn_general_avarage_rate}' => $spn_general_avarage_rate,
-    				'{$five_percentage_rate}' => $this->model->get_percentage_rate('five', $account['id']),
-    				'{$four_percentage_rate}' => $this->model->get_percentage_rate('four', $account['id']),
-    				'{$tree_percentage_rate}' => $this->model->get_percentage_rate('tree', $account['id']),
-    				'{$two_percentage_rate}' => $this->model->get_percentage_rate('two', $account['id']),
-    				'{$one_percentage_rate}' => $this->model->get_percentage_rate('one', $account['id']),
-					'{$description}' => $account['settings']['review']['description'][Session::get_value('lang')],
-					'{$tbl_comments}' => $tbl_comments,
-					'{$facebook}' => !empty($account['settings']['review']['social_media']['facebook']) ? '<li><a href="' . $account['settings']['review']['social_media']['facebook'] . '" class="btn" target="_blank"><i class="fab fa-facebook-square"></i></a></li>' : '',
-					'{$instagram}' => !empty($account['settings']['review']['social_media']['instagram']) ? '<li><a href="' . $account['settings']['review']['social_media']['instagram'] . '" class="btn" target="_blank"><i class="fab fa-instagram"></i></a></li>' : '',
-					'{$twitter}' => !empty($account['settings']['review']['social_media']['twitter']) ? '<li><a href="' . $account['settings']['review']['social_media']['twitter'] . '" class="btn" target="_blank"><i class="fab fa-twitter"></i></a></li>' : '',
-					'{$linkedin}' => !empty($account['settings']['review']['social_media']['linkedin']) ? '<li><a href="' . $account['settings']['review']['social_media']['linkedin'] . '" class="btn" target="_blank"><i class="fab fa-linkedin"></i></a></li>' : '',
-					'{$youtube}' => !empty($account['settings']['review']['social_media']['youtube']) ? '<li><a href="' . $account['settings']['review']['social_media']['youtube'] . '" class="btn" target="_blank"><i class="fab fa-youtube"></i></a></li>' : '',
-					'{$google}' => !empty($account['settings']['review']['social_media']['google']) ? '<li><a href="' . $account['settings']['review']['social_media']['google'] . '" class="btn" target="_blank"><i class="fab fa-google"></i></a></li>' : '',
-					'{$tripadvisor}' => ($account['type'] == 'hotel' OR $account['type'] == 'restaurant') ? (!empty($account['settings']['review']['social_media']['tripadvisor']) ? '<li><a href="' . $account['settings']['review']['social_media']['tripadvisor'] . '" class="btn" target="_blank"><i class="fab fa-tripadvisor"></i></a></li>' : '') : ''
+					'{$h2_surveys_average}' => $h2_surveys_average,
+					'{$spn_surveys_average}' => $spn_surveys_average,
+					'{$one_surveys_porcentage}' => $this->model->get_surveys_percentage('one', $account['id']),
+					'{$two_surveys_porcentage}' => $this->model->get_surveys_percentage('two', $account['id']),
+					'{$tree_surveys_porcentage}' => $this->model->get_surveys_percentage('tree', $account['id']),
+					'{$four_surveys_porcentage}' => $this->model->get_surveys_percentage('four', $account['id']),
+					'{$five_surveys_porcentage}' => $this->model->get_surveys_percentage('five', $account['id']),
+					'{$name}' => $account['name'],
+					'{$address}' => $account['address'],
+					'{$email}' => $account['settings']['reviews']['email'],
+					'{$phone}' => '+ (' . $account['settings']['reviews']['phone']['lada'] . ') ' . $account['settings']['reviews']['phone']['number'],
+					'{$website}' => $account['settings']['reviews']['website'],
+					'{$description}' => $account['settings']['reviews']['description'][$this->lang],
+					'{$tbl_surveys_comments}' => $tbl_surveys_comments,
+					'{$facebook}' => !empty($account['settings']['reviews']['social_media']['facebook']) ? '<a href="' . $account['settings']['reviews']['social_media']['facebook'] . '" target="_blank"><i class="fab fa-facebook-square"></i></a>' : '',
+					'{$instagram}' => !empty($account['settings']['reviews']['social_media']['instagram']) ? '<a href="' . $account['settings']['reviews']['social_media']['instagram'] . '" target="_blank"><i class="fab fa-instagram"></i></a>' : '',
+					'{$twitter}' => !empty($account['settings']['reviews']['social_media']['twitter']) ? '<a href="' . $account['settings']['reviews']['social_media']['twitter'] . '" target="_blank"><i class="fab fa-twitter"></i></a>' : '',
+					'{$linkedin}' => !empty($account['settings']['reviews']['social_media']['linkedin']) ? '<a href="' . $account['settings']['reviews']['social_media']['linkedin'] . '" target="_blank"><i class="fab fa-linkedin"></i></a>' : '',
+					'{$youtube}' => !empty($account['settings']['reviews']['social_media']['youtube']) ? '<a href="' . $account['settings']['reviews']['social_media']['youtube'] . '" target="_blank"><i class="fab fa-youtube"></i></a>' : '',
+					'{$google}' => !empty($account['settings']['reviews']['social_media']['google']) ? '<a href="' . $account['settings']['reviews']['social_media']['google'] . '" target="_blank"><i class="fab fa-google"></i></a>' : '',
+					'{$tripadvisor}' => !empty($account['settings']['reviews']['social_media']['tripadvisor']) ? '<a href="' . $account['settings']['reviews']['social_media']['tripadvisor'] . '" target="_blank"><i class="fab fa-tripadvisor"></i></a>' : ''
 				];
 
 				$template = $this->format->replace($replace, $template);
 
 				echo $template;
 			}
+			else
+				header('Location: /');
 		}
 		else
 			header('Location: /');

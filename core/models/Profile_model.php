@@ -17,44 +17,12 @@ class Profile_model extends Model
 			'email',
 			'phone',
 			'avatar',
-			'username',
-			'user_permissions'
+			'username'
 		], [
 			'id' => Session::get_value('user')['id']
 		]));
 
-		if (!empty($query))
-		{
-            $a = [
-                'supervision' => false,
-                'operational' => false,
-                'administrative' => false
-            ];
-
-            $query[0]['user_permissions'] = $this->database->select('user_permissions', [
-                'type'
-            ], [
-                'id' => $query[0]['user_permissions']
-            ]);
-
-            foreach ($query[0]['user_permissions'] as $value)
-            {
-                if ($value['type'] == 'supervision')
-                    $a['supervision'] = true;
-
-                if ($value['type'] == 'operational')
-                    $a['operational'] = true;
-
-                if ($value['type'] == 'administrative')
-                    $a['administrative'] = true;
-            }
-
-			$query[0]['user_permissions'] = $a;
-
-			return $query[0];
-		}
-		else
-			return null;
+		return !empty($query) ? $query[0] : null;
 	}
 
 	public function get_countries()
@@ -94,7 +62,7 @@ class Profile_model extends Model
 
 	public function edit_avatar($data)
 	{
-		$data['avatar'] = Functions::uploader($data['avatar']);
+		$data['avatar'] = Functions::uploader($data['avatar'], Session::get_value('account')['path'] . '_user_avatar_');
 
 		$query = $this->database->update('users', [
 			'avatar' => $data['avatar']
@@ -105,6 +73,7 @@ class Profile_model extends Model
 		if (!empty($query))
 		{
 			Functions::undoloader(Session::get_value('user')['avatar']);
+
 			return $data['avatar'];
 		}
 		else

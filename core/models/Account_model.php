@@ -12,59 +12,75 @@ class Account_model extends Model
 	public function get_account()
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('accounts', [
-			'token',
-			'name',
-			'type',
-			'zip_code',
-			'country',
-			'city',
-			'address',
-			'time_zone',
-			'currency',
-			'language',
-			'room_package',
-			'table_package',
-			'client_package',
-			'logotype',
-			'fiscal',
-			'contact',
-			'qr',
-			'operation',
-			'reputation',
-			'zaviapms',
-			'sms',
-			'settings'
+			'[>]packages' => [
+				'package' => 'id'
+			]
 		], [
-			'id' => Session::get_value('account')['id']
+			'accounts.token',
+			'accounts.name',
+			'accounts.path',
+			'accounts.type',
+			'accounts.country',
+			'accounts.city',
+			'accounts.zip_code',
+			'accounts.address',
+			'accounts.time_zone',
+			'accounts.currency',
+			'accounts.language',
+			'accounts.fiscal',
+			'accounts.contact',
+			'accounts.logotype',
+			'accounts.qr',
+			'packages.quantity_end(package)',
+			'accounts.operation',
+			'accounts.reputation',
+			'accounts.siteminder',
+			'accounts.zaviapms',
+			'accounts.sms',
+			'accounts.settings'
+		], [
+			'accounts.id' => Session::get_value('account')['id']
 		]));
 
-		if (!empty($query))
-		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				$query[0]['room_package'] = $this->database->select('room_packages', '*', [
-					'id' => $query[0]['room_package']
-				])[0];
-			}
+		return !empty($query) ? $query[0] : null;
+	}
 
-			if (Session::get_value('account')['type'] == 'restaurant')
-			{
-				$query[0]['table_package'] = $this->database->select('table_packages', '*', [
-					'id' => $query[0]['table_package']
-				])[0];
-			}
+	public function get_opportunity_areas($type)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
+			'id',
+			'name'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				$type => true,
+				'status' => true
+			],
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
 
-			if (Session::get_value('account')['type'] == 'others')
-			{
-				$query[0]['client_package'] = $this->database->select('client_packages', '*', [
-					'id' => $query[0]['client_package']
-				])[0];
-			}
+		return $query;
+	}
 
-			return $query[0];
-		}
-		else
-			return null;
+	public function get_opportunity_types($opportunity_area, $type)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
+			'id',
+			'name'
+		], [
+			'AND' => [
+				'opportunity_area' => $opportunity_area,
+				$type => true,
+				'status' => true
+			],
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		return $query;
 	}
 
 	public function get_countries()
@@ -94,9 +110,9 @@ class Account_model extends Model
 		return array_merge($query1, $query2);
 	}
 
-	public function get_time_zones()
+	public function get_times_zones()
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('time_zones', [
+		$query = Functions::get_json_decoded_query($this->database->select('times_zones', [
 			'code'
 		], [
 			'ORDER' => [
@@ -169,7 +185,7 @@ class Account_model extends Model
 
 	public function edit_logotype($data)
 	{
-		$data['logotype'] = Functions::uploader($data['logotype']);
+		$data['logotype'] = Functions::uploader($data['logotype'], Session::get_value('account')['path'] . '_account_logotype_');
 
 		$query = $this->database->update('accounts', [
 			'logotype' => $data['logotype']
@@ -187,17 +203,17 @@ class Account_model extends Model
 			return null;
 	}
 
-	public function edit_profile($data)
+	public function edit_account($data)
 	{
 		$query = $this->database->update('accounts', [
-			'name' => $data['profile_name'],
-			'zip_code' => $data['profile_zip_code'],
-			'country' => $data['profile_country'],
-			'city' => $data['profile_city'],
-			'address' => $data['profile_address'],
-			'time_zone' => $data['profile_time_zone'],
-			'currency' => $data['profile_currency'],
-			'language' => $data['profile_language']
+			'name' => $data['name'],
+			'country' => $data['country'],
+			'city' => $data['city'],
+			'zip_code' => $data['zip_code'],
+			'address' => $data['address'],
+			'time_zone' => $data['time_zone'],
+			'currency' => $data['currency'],
+			'language' => $data['language']
 		], [
 			'id' => Session::get_value('account')['id']
 		]);
@@ -209,18 +225,18 @@ class Account_model extends Model
 	{
 		$query = $this->database->update('accounts', [
 			'fiscal' => json_encode([
-				'id' => $data['billing_fiscal_id'],
-				'name' => $data['billing_fiscal_name'],
-				'address' => $data['billing_fiscal_address']
+				'id' => $data['fiscal_id'],
+				'name' => $data['fiscal_name'],
+				'address' => $data['fiscal_address']
 			]),
 			'contact' => json_encode([
-				'firstname' => $data['billing_contact_firstname'],
-				'lastname' => $data['billing_contact_lastname'],
-				'department' => $data['billing_contact_department'],
-				'email' => $data['billing_contact_email'],
+				'firstname' => $data['contact_firstname'],
+				'lastname' => $data['contact_lastname'],
+				'department' => $data['contact_department'],
+				'email' => $data['contact_email'],
 				'phone' => [
-					'lada' => $data['billing_contact_phone_lada'],
-					'number' => $data['billing_contact_phone_number']
+					'lada' => $data['contact_phone_lada'],
+					'number' => $data['contact_phone_number']
 				]
 			])
 		], [
@@ -230,139 +246,129 @@ class Account_model extends Model
 		return $query;
 	}
 
-	public function edit_settings($data)
+	public function edit_settings($field, $data)
 	{
-		$edited = Functions::get_json_decoded_query(
-			$this->database->select('accounts', [
-	            'settings'
-	        ], [
-	            'id' => Session::get_value('account')['id']
-	        ])
-		);
+		$edited1 = Functions::get_json_decoded_query($this->database->select('accounts', [
+			'settings'
+		], [
+			'id' => Session::get_value('account')['id']
+		]));
 
-		if ($data['action'] == 'edit_myvox_settings' AND !empty($edited))
+		$edited2 = $edited1[0]['settings'];
+
+		if ($field == 'myvox_requests')
 		{
-			$data['settings']['myvox']['request'] = (Functions::check_account_access(['operation']) == true AND !empty($data['myvox_settings_request'])) ? true : false;
-			$data['settings']['myvox']['incident'] = (Functions::check_account_access(['operation']) == true AND !empty($data['myvox_settings_incident'])) ? true : false;
-			$data['settings']['myvox']['survey'] = (Functions::check_account_access(['reputation']) == true AND !empty($data['myvox_settings_survey'])) ? true : false;
-
-			$data['settings']['myvox']['survey_title'] = (Functions::check_account_access(['reputation']) == true) ? [
-				'es' => $data['myvox_settings_survey_title_es'],
-				'en' => $data['myvox_settings_survey_title_en']
-			] : [
-				'es' => '',
-				'en' => ''
-			];
-
-			$data['settings']['myvox']['survey_widget'] = (Functions::check_account_access(['reputation']) == true) ? $data['myvox_settings_survey_widget'] : '';
-
-			if (!empty($data['myvox_settings_survey_attachments']))
+			if (!empty($data['status']))
 			{
-				$this->component->load_component('uploader');
-
-				$_com_uploader = new Upload;
-
-				if (!empty($data['myvox_settings_survey_attachments']['name']))
-				{
-					$ext = explode('.', $data['myvox_settings_survey_attachments']['name']);
-					$ext = end($ext);
-
-					if ($ext == 'doc' || $ext == 'docx' || $ext == 'xls' || $ext == 'xlsx')
-						$data['myvox_settings_survey_attachments']['type'] = 'application/' . $ext;
-
-					$_com_uploader->SetFileName($data['myvox_settings_survey_attachments']['name']);
-					$_com_uploader->SetTempName($data['myvox_settings_survey_attachments']['tmp_name']);
-					$_com_uploader->SetFileType($data['myvox_settings_survey_attachments']['type']);
-					$_com_uploader->SetFileSize($data['myvox_settings_survey_attachments']['size']);
-					$_com_uploader->SetUploadDirectory(PATH_UPLOADS);
-					$_com_uploader->SetValidExtensions(['jpg','jpeg','png','pdf','doc','docx','xls','xlsx']);
-					$_com_uploader->SetMaximumFileSize('unlimited');
-
-					$data['myvox_settings_survey_attachments'] = $_com_uploader->UploadFile();
-				}
-
-				unset($data['myvox_settings_survey_attachments']['name'], $data['myvox_settings_survey_attachments']['type'], $data['myvox_settings_survey_attachments']['tmp_name'], $data['myvox_settings_survey_attachments']['error'], $data['myvox_settings_survey_attachments']['size']);
+				$edited1[0]['settings']['myvox']['requests']['status'] = true;
+				$edited1[0]['settings']['myvox']['requests']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['requests']['title']['en'] = $data['title_en'];
 			}
-
-			$data['settings']['myvox']['survey_mail'] = (Functions::check_account_access(['reputation']) == true) ? [
-				'title' => [
-					'es' => $data['myvox_settings_survey_title_mail_es'],
-					'en' => $data['myvox_settings_survey_title_mail_en']
-				],
-				'paragraph' => [
-					'es' => $data['myvox_settings_survey_paragraph_mail_es'],
-					'en' => $data['myvox_settings_survey_paragraph_mail_en']
-				],
-				'image' => !empty($data['myvox_settings_survey_image']['name']) ? Functions::uploader($data['myvox_settings_survey_image']) : $edited[0]['settings']['myvox']['survey_mail']['image'],
-				'attachment' => !empty($data['myvox_settings_survey_attachments']) ? $data['myvox_settings_survey_attachments'] : $edited[0]['settings']['myvox']['survey_mail']['attachment']
-			] : [
-				'title' => [
-					'es' => '',
-					'en' => ''
-				],
-				'paragraph' => [
-					'es' => '',
-					'en' => ''
-				],
-				'image' => null,
-				'attachment' => []
-			];
+			else
+				$edited1[0]['settings']['myvox']['requests']['status'] = false;
 		}
-		else if ($data['action'] == 'edit_review_settings')
+		else if ($field == 'myvox_incidents')
 		{
-			$data['settings']['review']['online'] = (Functions::check_account_access(['reputation']) == true AND !empty($data['review_settings_online'])) ? true : false;
-			$data['settings']['review']['email'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_email'] : '';
+			if (!empty($data['status']))
+			{
+				$edited1[0]['settings']['myvox']['incidents']['status'] = true;
+				$edited1[0]['settings']['myvox']['incidents']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['incidents']['title']['en'] = $data['title_en'];
+			}
+			else
+				$edited1[0]['settings']['myvox']['incidents']['status'] = false;
+		}
+		else if ($field == 'myvox_menu')
+		{
+			if (!empty($data['status']))
+			{
+				$edited1[0]['settings']['myvox']['menu']['status'] = true;
+				$edited1[0]['settings']['myvox']['menu']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['menu']['title']['en'] = $data['title_en'];
+				$edited1[0]['settings']['myvox']['menu']['currency'] = $data['currency'];
+				$edited1[0]['settings']['myvox']['menu']['opportunity_area'] = $data['opportunity_area'];
+				$edited1[0]['settings']['myvox']['menu']['opportunity_type'] = $data['opportunity_type'];
+				$edited1[0]['settings']['myvox']['menu']['multi'] = !empty($data['multi']) ? true : false;
+			}
+			else
+				$edited1[0]['settings']['myvox']['menu']['status'] = false;
+		}
+		else if ($field == 'myvox_surveys')
+		{
+			if (!empty($data['status']))
+			{
+				$edited1[0]['settings']['myvox']['surveys']['status'] = true;
+				$edited1[0]['settings']['myvox']['surveys']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['surveys']['title']['en'] = $data['title_en'];
+				$edited1[0]['settings']['myvox']['surveys']['mail']['subject']['es'] = $data['mail_subject_es'];
+				$edited1[0]['settings']['myvox']['surveys']['mail']['subject']['en'] = $data['mail_subject_en'];
+				$edited1[0]['settings']['myvox']['surveys']['mail']['description']['es'] = $data['mail_description_es'];
+				$edited1[0]['settings']['myvox']['surveys']['mail']['description']['en'] = $data['mail_description_en'];
 
-			$data['settings']['review']['phone'] = (Functions::check_account_access(['reputation']) == true) ? [
-				'lada' => $data['review_settings_phone_lada'],
-				'number' => $data['review_settings_phone_number']
-			] : [
-				'lada' => '',
-				'number' => ''
-			];
+				if (!empty($data['mail_image']['name']))
+					$edited1[0]['settings']['myvox']['surveys']['mail']['image'] = Functions::uploader($data['mail_image'], Session::get_value('account')['path'] . '_settings_myvox_survey_mail_image_');
 
-			$data['settings']['review']['description'] = (Functions::check_account_access(['reputation']) == true) ? [
-				'es' => $data['review_settings_description_es'],
-				'en' => $data['review_settings_description_en']
-			] : [
-				'es' => '',
-				'en' => ''
-			];
+				if (!empty($data['mail_attachment']['name']))
+					$edited1[0]['settings']['myvox']['surveys']['mail']['attachment'] = Functions::uploader($data['mail_attachment'], Session::get_value('account')['path'] . '_settings_myvox_survey_mail_attachment_');
 
-			$data['settings']['review']['seo']['keywords'] = (Functions::check_account_access(['reputation']) == true) ? [
-				'es' => $data['review_settings_seo_keywords_es'],
-				'en' => $data['review_settings_seo_keywords_en']
-			] : [
-				'es' => '',
-				'en' => ''
-			];
-
-			$data['settings']['review']['seo']['meta_description'] = (Functions::check_account_access(['reputation']) == true) ? [
-				'es' => $data['review_settings_seo_meta_description_es'],
-				'en' => $data['review_settings_seo_meta_description_en']
-			] : [
-				'es' => '',
-				'en' => ''
-			];
-
-			$data['settings']['review']['website'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_website'] : '';
-			$data['settings']['review']['social_media']['facebook'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_facebook'] : '';
-			$data['settings']['review']['social_media']['instagram'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_instagram'] : '';
-			$data['settings']['review']['social_media']['twitter'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_twitter'] : '';
-			$data['settings']['review']['social_media']['linkedin'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_linkedin'] : '';
-			$data['settings']['review']['social_media']['youtube'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_youtube'] : '';
-			$data['settings']['review']['social_media']['google'] = (Functions::check_account_access(['reputation']) == true) ? $data['review_settings_social_media_google'] : '';
-			$data['settings']['review']['social_media']['tripadvisor'] = (Functions::check_account_access(['reputation']) == true) ? ((Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant') ? $data['review_settings_social_media_tripadvisor'] : '') : '';
+				$edited1[0]['settings']['myvox']['surveys']['widget'] = $data['widget'];
+			}
+			else
+				$edited1[0]['settings']['myvox']['surveys']['status'] = false;
+		}
+		else if ($field == 'reviews')
+		{
+			if (!empty($data['status']))
+			{
+				$edited1[0]['settings']['reviews']['status'] = true;
+				$edited1[0]['settings']['reviews']['email'] = $data['email'];
+				$edited1[0]['settings']['reviews']['phone']['lada'] = $data['phone_lada'];
+				$edited1[0]['settings']['reviews']['phone']['number'] = $data['phone_number'];
+				$edited1[0]['settings']['reviews']['website'] = $data['website'];
+				$edited1[0]['settings']['reviews']['description']['es'] = $data['description_es'];
+				$edited1[0]['settings']['reviews']['description']['en'] = $data['description_en'];
+				$edited1[0]['settings']['reviews']['seo']['keywords']['es'] = $data['seo_keywords_es'];
+				$edited1[0]['settings']['reviews']['seo']['keywords']['en'] = $data['seo_keywords_en'];
+				$edited1[0]['settings']['reviews']['seo']['description']['es'] = $data['seo_description_es'];
+				$edited1[0]['settings']['reviews']['seo']['description']['en'] = $data['seo_description_en'];
+				$edited1[0]['settings']['reviews']['social_media']['facebook'] = $data['social_media_facebook'];
+				$edited1[0]['settings']['reviews']['social_media']['instagram'] = $data['social_media_instagram'];
+				$edited1[0]['settings']['reviews']['social_media']['twitter'] = $data['social_media_twitter'];
+				$edited1[0]['settings']['reviews']['social_media']['linkedin'] = $data['social_media_linkedin'];
+				$edited1[0]['settings']['reviews']['social_media']['youtube'] = $data['social_media_youtube'];
+				$edited1[0]['settings']['reviews']['social_media']['google'] = $data['social_media_google'];
+				$edited1[0]['settings']['reviews']['social_media']['tripadvisor'] = $data['social_media_tripadvisor'];
+			}
+			else
+				$edited1[0]['settings']['reviews']['status'] = false;
+		}
+		else if ($field == 'voxes_attention_times')
+		{
+			$edited1[0]['settings']['voxes']['attention_times']['request']['low'] = $data['request_low'];
+			$edited1[0]['settings']['voxes']['attention_times']['request']['medium'] = $data['request_medium'];
+			$edited1[0]['settings']['voxes']['attention_times']['request']['high'] = $data['request_high'];
+			$edited1[0]['settings']['voxes']['attention_times']['incident']['low'] = $data['incident_low'];
+			$edited1[0]['settings']['voxes']['attention_times']['incident']['medium'] = $data['incident_medium'];
+			$edited1[0]['settings']['voxes']['attention_times']['incident']['high'] = $data['incident_high'];
 		}
 
 		$query = $this->database->update('accounts', [
-			'settings' => json_encode($data['settings'])
+			'settings' => json_encode($edited1[0]['settings'])
 		], [
 			'id' => Session::get_value('account')['id']
 		]);
 
-		if (!empty($query) AND !empty($data['myvox_settings_survey_image']['name']) AND $edited[0]['settings']['myvox']['survey_mail']['image'])
-			Functions::undoloader($edited[0]['settings']['myvox']['survey_mail']['image']);
+		if ($field == 'myvox_surveys')
+		{
+			if (!empty($query))
+			{
+				if (!empty($data['mail_image']['name']) AND !empty($edited2[0]['settings']['myvox']['surveys']['mail']['image']))
+					Functions::undoloader($edited2[0]['settings']['myvox']['surveys']['mail']['image']);
+
+				if (!empty($data['mail_attachment']['name']) AND !empty($edited2[0]['settings']['myvox']['surveys']['mail']['attachment']))
+					Functions::undoloader($edited2[0]['settings']['myvox']['surveys']['mail']['attachment']);
+			}
+		}
 
 		return $query;
 	}

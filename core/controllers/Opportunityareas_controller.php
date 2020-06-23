@@ -4,9 +4,13 @@ defined('_EXEC') or die;
 
 class Opportunityareas_controller extends Controller
 {
+	private $lang;
+
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->lang = Session::get_value('account')['language'];
 	}
 
 	public function index()
@@ -17,20 +21,20 @@ class Opportunityareas_controller extends Controller
 			{
 				$query = $this->model->get_opportunity_area($_POST['id']);
 
-				if (!empty($query))
-				{
-					Functions::environment([
-						'status' => 'success',
-						'data' => $query
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.operation_error}'
-					]);
-				}
+                if (!empty($query))
+                {
+                    Functions::environment([
+    					'status' => 'success',
+    					'data' => $query
+    				]);
+                }
+                else
+                {
+                    Functions::environment([
+    					'status' => 'error',
+    					'message' => '{$lang.operation_error}'
+    				]);
+                }
 			}
 
 			if ($_POST['action'] == 'new_opportunity_area' OR $_POST['action'] == 'edit_opportunity_area')
@@ -38,10 +42,10 @@ class Opportunityareas_controller extends Controller
 				$labels = [];
 
 				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
-					array_push($labels, ['name_es', '']);
+					array_push($labels, ['name_es','']);
 
 				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
-					array_push($labels, ['name_en', '']);
+					array_push($labels, ['name_en','']);
 
 				if (empty($labels))
 				{
@@ -74,9 +78,14 @@ class Opportunityareas_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'delete_opportunity_area')
+			if ($_POST['action'] == 'deactivate_opportunity_area' OR $_POST['action'] == 'activate_opportunity_area' OR $_POST['action'] == 'delete_opportunity_area')
 			{
-				$query = $this->model->delete_opportunity_area($_POST['id']);
+				if ($_POST['action'] == 'deactivate_opportunity_area')
+					$query = $this->model->deactivate_opportunity_area($_POST['id']);
+				else if ($_POST['action'] == 'activate_opportunity_area')
+					$query = $this->model->activate_opportunity_area($_POST['id']);
+				else if ($_POST['action'] == 'delete_opportunity_area')
+					$query = $this->model->delete_opportunity_area($_POST['id']);
 
 				if (!empty($query))
 				{
@@ -96,24 +105,31 @@ class Opportunityareas_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox');
-
 			$template = $this->view->render($this, 'index');
+
+			define('_title', 'Guestvox | {$lang.opportunity_areas}');
 
 			$tbl_opportunity_areas = '';
 
 			foreach ($this->model->get_opportunity_areas() as $value)
 			{
 				$tbl_opportunity_areas .=
-				'<tr>
-					<td align="left">' . $value['name'][Session::get_value('account')['language']] . '</td>
-					<td align="left" class="flag">' . (($value['request'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
-					<td align="left" class="flag">' . (($value['incident'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
-					<td align="left" class="flag">' . (($value['workorder'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
-					<td align="left" class="flag">' . (($value['public'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
-					' . ((Functions::check_user_access(['{opportunity_areas_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_opportunity_area" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
-					' . ((Functions::check_user_access(['{opportunity_areas_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_opportunity_area" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
-				</tr>';
+				'<div>
+					<div class="datas">
+						<h2>' . $value['name'][$this->lang] . '</h2>
+						<div class="checkers">
+							<span><i class="fas fa-check-square ' . (($value['request'] == true) ? 'success' : '') . '"></i>{$lang.request}</span>
+							<span><i class="fas fa-check-square ' . (($value['incident'] == true) ? 'success' : '') . '"></i>{$lang.incident}</span>
+							<span><i class="fas fa-check-square ' . (($value['workorder'] == true) ? 'success' : '') . '"></i>{$lang.workorder}</span>
+							<span><i class="fas fa-check-square ' . (($value['public'] == true) ? 'success' : '') . '"></i>{$lang.public}</span>
+						</div>
+					</div>
+					<div class="buttons flex_right">
+						' . ((Functions::check_user_access(['{opportunity_areas_deactivate}','{opportunity_areas_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_opportunity_area' : 'activate_opportunity_area') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{opportunity_areas_update}']) == true) ? '<a class="edit" data-action="edit_opportunity_area" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{opportunity_areas_delete}']) == true) ? '<a class="delete" data-action="delete_opportunity_area" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+					</div>
+				</div>';
 			}
 
 			$replace = [

@@ -4,30 +4,21 @@ defined('_EXEC') or die;
 
 class Index_controller extends Controller
 {
+	private $lang;
+
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->lang = Session::get_value('lang');
 	}
 
 	public function index()
 	{
-		if (Format::exist_ajax_request() == true)
-		{
+		$template = $this->view->render($this, 'index');
 
-		}
-		else
-		{
-			define('_title', 'GuestVox');
+		define('_title', 'Guestvox | {$lang.we_are_guestvox}');
 
-			$template = $this->view->render($this, 'index');
-
-			$replace = [
-
-			];
-
-			$template = $this->format->replace($replace, $template);
-
-			echo $template;
-		}
+		echo $template;
 	}
 }

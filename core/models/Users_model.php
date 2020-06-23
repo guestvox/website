@@ -9,7 +9,7 @@ class Users_model extends Model
 		parent::__construct();
 	}
 
-	public function get_users()
+    public function get_users()
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('users', [
 			'id',
@@ -18,47 +18,19 @@ class Users_model extends Model
 			'email',
 			'phone',
 			'avatar',
-			'username',
-			'user_permissions',
 			'status'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
-				'firstname' => 'ASC'
+				'firstname' => 'ASC',
+				'lastname' => 'ASC'
 			]
 		]));
-
-        foreach ($query as $key => $value)
-        {
-            $query[$key]['user_permissions'] = [
-                'supervision' => false,
-                'operational' => false,
-                'administrative' => false
-            ];
-
-            $value['user_permissions'] = $this->database->select('user_permissions', [
-                'type'
-            ], [
-                'id' => $value['user_permissions']
-            ]);
-
-            foreach ($value['user_permissions'] as $subvalue)
-            {
-                if ($subvalue['type'] == 'supervision')
-                    $query[$key]['user_permissions']['supervision'] = true;
-
-                if ($subvalue['type'] == 'operational')
-                    $query[$key]['user_permissions']['operational'] = true;
-
-                if ($subvalue['type'] == 'administrative')
-                    $query[$key]['user_permissions']['administrative'] = true;
-            }
-        }
 
 		return $query;
 	}
 
-    public function get_user($id)
+	public function get_user($id)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('users', [
 			'firstname',
@@ -66,14 +38,100 @@ class Users_model extends Model
 			'email',
 			'phone',
 			'username',
-			'user_permissions',
-			'opportunity_areas'
+			'permissions',
+			'opportunity_areas',
+			'status'
 		], [
 			'id' => $id
 		]));
 
 		return !empty($query) ? $query[0] : null;
 	}
+
+	public function get_users_levels()
+	{
+		$query = $this->database->select('users_levels', [
+			'id',
+			'name'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			],
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]);
+
+		return $query;
+	}
+
+	public function get_user_level($id)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('users_levels', [
+			'permissions'
+		], [
+			'id' => $id
+		]));
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_opportunity_areas()
+    {
+        $query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
+			'id',
+			'name'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			],
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+        return $query;
+    }
+
+	public function get_permissions($type)
+    {
+		$permissions = [];
+
+		$and = [
+			'type' => $type,
+			'OR' => [
+				'operation' => Functions::check_account_access(['operation']),
+				'reputation' => Functions::check_account_access(['reputation'])
+			],
+			Session::get_value('account')['type'] => true
+		];
+
+		$query = Functions::get_json_decoded_query($this->database->select('permissions', [
+			'id',
+			'name',
+            'code',
+            'group',
+            'unique'
+		], [
+			'AND' => $and,
+			'ORDER' => [
+				'group' => 'ASC',
+				'priority' => 'ASC'
+			]
+		]));
+
+        foreach ($query as $key => $value)
+        {
+            if (array_key_exists($value['group'], $permissions))
+                array_push($permissions[$value['group']], $value);
+            else
+                $permissions[$value['group']] = [$value];
+        }
+
+        return $permissions;
+    }
 
 	public function get_countries()
 	{
@@ -102,177 +160,44 @@ class Users_model extends Model
 		return $query;
 	}
 
-	public function get_user_levels()
-	{
-		$query = $this->database->select('user_levels', [
-			'id',
-			'name'
-		], [
-			'account' => Session::get_value('account')['id'],
-			'ORDER' => [
-				'name' => 'ASC'
-			]
-		]);
-
-		return $query;
-	}
-
-    public function get_user_level($id)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('user_levels', [
-			'user_permissions'
-		], [
-			'id' => $id
-		]));
-
-		return !empty($query) ? $query[0] : null;
-	}
-
-    public function get_user_permissions($type)
-    {
-		if (Session::get_value('account')['type'] == 'hotel')
-		{
-			$and = [
-				'type' => $type,
-				'OR' => [
-					'operation' => ((Functions::check_account_access(['operation']) == true) ? true : false),
-					'reputation' => ((Functions::check_account_access(['reputation']) == true) ? true : false),
-				],
-				'hotel' => true
-			];
-		}
-
-		if (Session::get_value('account')['type'] == 'restaurant')
-		{
-			$and = [
-				'type' => $type,
-				'OR' => [
-					'operation' => ((Functions::check_account_access(['operation']) == true) ? true : false),
-					'reputation' => ((Functions::check_account_access(['reputation']) == true) ? true : false),
-				],
-				'restaurant' => true
-			];
-		}
-
-		if (Session::get_value('account')['type'] == 'others')
-		{
-			$and = [
-				'type' => $type,
-				'OR' => [
-					'operation' => ((Functions::check_account_access(['operation']) == true) ? true : false),
-					'reputation' => ((Functions::check_account_access(['reputation']) == true) ? true : false),
-				],
-				'others' => true
-			];
-		}
-
-		$query = Functions::get_json_decoded_query($this->database->select('user_permissions', [
-			'id',
-			'name',
-            'code',
-            'group',
-            'unique'
-		], [
-			'AND' => $and,
-			'ORDER' => [
-				'group' => 'ASC',
-				'priority' => 'ASC'
-			]
-		]));
-
-        $user_permissions = [];
-
-        foreach ($query as $key => $value)
-        {
-            if (array_key_exists($value['group'], $user_permissions))
-                array_push($user_permissions[$value['group']], $value);
-            else
-                $user_permissions[$value['group']] = [$value];
-        }
-
-        return $user_permissions;
-    }
-
-	public function get_opportunity_areas()
-    {
-        $query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
-			'id',
-			'name'
-		], [
-			'account' => Session::get_value('account')['id'],
-			'ORDER' => [
-				'name' => 'ASC'
-			]
-		]));
-
-        return $query;
-    }
-
 	public function new_user($data)
 	{
-		$query = null;
-
-		$exist = $this->database->count('users', [
-			'AND' => [
-				'account' => Session::get_value('account')['id'],
-				'email' => $data['email'],
-				'username' => $data['username']
-			]
+		$query = $this->database->insert('users', [
+			'account' => Session::get_value('account')['id'],
+			'firstname' => $data['firstname'],
+			'lastname' => $data['lastname'],
+			'email' => $data['email'],
+			'phone' => json_encode([
+				'lada' => $data['phone_lada'],
+				'number' => $data['phone_number']
+			]),
+			'avatar' => null,
+			'username' => $data['username'],
+			'password' => $this->security->create_password($data['password']),
+			'permissions' => json_encode($data['permissions']),
+			'opportunity_areas' => json_encode((!empty($data['opportunity_areas']) ? $data['opportunity_areas'] : [])),
+			'status' => true
 		]);
-
-		if ($exist <= 0)
-		{
-			$query = $this->database->insert('users', [
-				'account' => Session::get_value('account')['id'],
-				'firstname' => $data['firstname'],
-				'lastname' => $data['lastname'],
-				'email' => $data['email'],
-				'phone' => json_encode([
-					'lada' => $data['phone_lada'],
-					'number' => $data['phone_number'],
-				]),
-				'avatar' => null,
-				'username' => $data['username'],
-				'password' => $this->security->create_password($data['password']),
-				'user_permissions' => !empty($data['user_permissions']) ? json_encode($data['user_permissions']) : json_encode([]),
-				'opportunity_areas' => !empty($data['opportunity_areas']) ? json_encode($data['opportunity_areas']) : json_encode([]),
-				'status' => true
-			]);
-		}
 
 		return $query;
 	}
 
 	public function edit_user($data)
 	{
-		$query = null;
-
-		$exist = $this->database->count('users', [
-			'AND' => [
-				'id[!]' => $data['id'],
-				'account' => Session::get_value('account')['id'],
-				'email' => $data['email'],
-				'username' => $data['username']
-			]
+		$query = $this->database->update('users', [
+			'firstname' => $data['firstname'],
+			'lastname' => $data['lastname'],
+			'email' => $data['email'],
+			'phone' => json_encode([
+				'lada' => $data['phone_lada'],
+				'number' => $data['phone_number']
+			]),
+			'username' => $data['username'],
+			'permissions' => json_encode($data['permissions']),
+			'opportunity_areas' => json_encode((!empty($data['opportunity_areas']) ? $data['opportunity_areas'] : []))
+		], [
+			'id' => $data['id']
 		]);
-
-		if ($exist <= 0)
-		{
-			$query = $this->database->update('users', [
-				'firstname' => $data['firstname'],
-				'lastname' => $data['lastname'],
-				'email' => $data['email'],
-				'phone' => json_encode([
-					'lada' => $data['phone_lada'],
-					'number' => $data['phone_number'],
-				]),
-				'username' => $data['username'],
-				'user_permissions' => !empty($data['user_permissions']) ? json_encode($data['user_permissions']) : json_encode([]),
-				'opportunity_areas' => !empty($data['opportunity_areas']) ? json_encode($data['opportunity_areas']) : json_encode([])
-			], [
-				'id' => $data['id']
-			]);
-		}
 
 		return $query;
 	}

@@ -1,32 +1,53 @@
 
-/* Main
------------------------------------------------------------------------------- */
 main.login {
     width: 100%;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-main.login > form {
-    width: 100%;
-    max-width: 400px;
+    height: 100vh;
+    min-height: 625px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
 
-main.login > form > figure,
-main.login > form > figure > img {
-    width: auto;
-    height: 150px;
-    line-height: 0px;
-    margin: 0px 0px 20px 0px;
-    padding: 0px;
+/*  */
+main.login > figure {
+    width: 100%;
+    height: 60%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #00a5ab;
+}
+
+main.login > figure::after {
+    content: '';
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    bottom: -1px;
+    border-radius: 50% 50% 0px 0px;
+    background-color: #fff;
+}
+
+main.login > figure > img {
+    width: 100%;
+    max-width: 200px;
+}
+
+/*  */
+main.login > form {
+    width: 100%;
+    max-width: 400px;
+    height: 40%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 0px 20px 20px 20px;
+    box-sizing: border-box;
 }
 
 main.login > form > fieldset {
@@ -37,11 +58,10 @@ main.login > form > fieldset {
 
 main.login > form > fieldset > input {
     width: 100%;
-    height: 60px;
-    display: block;
-    border: none;
-    border-radius: 60px;
+    height: 50px;
     padding: 0px 10px 0px 25px;
+    border: none;
+    border-radius: 50px;
     box-sizing: border-box;
     background-color: #eee;
     font-size: 14px;
@@ -53,64 +73,25 @@ main.login > form > fieldset.error > input {
     border: 1px solid #f44336;
 }
 
-main.login > form > a,
-main.login > form > a[data-action="login"] {
-    width: 200px;
-    height: 60px;
+main.login > form > button,
+main.login > form > a {
+    width: auto;
+    margin: 5px;
+    background-color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    color: #24383f;
+}
+
+main.login > form > button,
+main.login > form > button:hover {
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 60px;
-    padding: 0px 0px;
-    box-sizing: border-box;
-    background-color: #eee;
-    cursor: pointer;
-    color: #000;
-}
-
-main.login > form > a {
-    height: auto;
-    background: none;
-}
-
-main.login > form > a[data-action="login"] {
-    margin: 20px 0px;
-    border-radius: 60px;
-}
-    .cierre{
-        display: none;
-    }
-@media (max-width: 768px) {
-    
-    main.login > form > a{
-        display: none;
-    }
-    main.login > form > a[data-action="login"] {
-        width: 200px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 60px;
-        padding: 0px 0px;
-        box-sizing: border-box;
-        background-color: #00A5AB;
-        cursor: pointer;
-        color: #FFF;
-    }
-    .cierre{
-        display: block;
-        width: 30px !important;
-        height: 30px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        border-radius: 50% !important;
-        color: #FFF !important;
-        background-color: #00A5AB !important;
-        position: fixed;
-        top: 40px;
-        right: 60px;
-    }
-
+    padding: 0px 50px;
+    border-radius: 50px;
+    background-color: #24383f;
+    color: #fff;
 }

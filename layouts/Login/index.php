@@ -1,25 +1,24 @@
 <?php
+
 defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.css}Login/index.css']);
 $this->dependencies->add(['js', '{$path.js}Login/index.js']);
-// $this->dependencies->add(['other', '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLCea8Q6BtcTHwY3YFCiB0EoHE5KnsMUE"></script>']);
+
 ?>
 
 <main class="login">
-    <a href="/" class="cierre"><i class="fas fa-times-circle"></i></a>
+    <figure>
+        <img src="{$path.images}logotype_white.png" alt="Guestvox">
+    </figure>
     <form name="login">
-        <figure>
-            <img src="{$path.images}icon-color.svg" alt="GuestVox icontype">
-        </figure>
         <fieldset>
-            <input type="text" name="username" placeholder="{$lang.username_or_email}" />
+            <input type="text" name="username" placeholder="{$lang.username}">
         </fieldset>
         <fieldset>
-            <input type="password" name="password" placeholder="{$lang.password}" />
+            <input type="password" name="password" placeholder="{$lang.password}">
         </fieldset>
-        <a data-action="login">{$lang.login}</a>
+        <button type="submit">{$lang.login}</button>
         <a href="/">{$lang.cancel}</a>
-        <img class="logotype-login" style="display: none;" src="{$path.images}logotype-color.png">
     </form>
 </main>

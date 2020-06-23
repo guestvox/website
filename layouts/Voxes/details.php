@@ -2,10 +2,6 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['css', '{$path.plugins}fancy-box/jquery.fancybox.min.css']);
-$this->dependencies->add(['js', '{$path.plugins}fancy-box/jquery.fancybox.min.js']);
-// $this->dependencies->add(['css', '{$path.plugins}upload-file/input-file.css']);
-// $this->dependencies->add(['js', '{$path.plugins}upload-file/input-file.js']);
 $this->dependencies->add(['js', '{$path.plugins}moment/moment.min.js']);
 $this->dependencies->add(['js', '{$path.plugins}moment/moment-timezone-with-data.min.js']);
 $this->dependencies->add(['js', '{$path.js}Voxes/details.js']);
@@ -14,129 +10,79 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 ?>
 
 %{header}%
-<main>
-    <nav>
-        <h2><i class="fas fa-heart"></i>{$lang.details}</h2>
-        <ul>
-            <li><a href="/voxes/view/details/{$id}" class="view"><i class="fas fa-info-circle"></i></a></li>
-            <li><a href="/voxes/view/history/{$id}"><i class="fas fa-history"></i></a></li>
-        </ul>
-    </nav>
-    <article>
-        <main>
-            <div class="vox-details">
-                <div>
-                    <div class="datas">
-                        <h4>{$lang.type}: {$lang.{$type}}</h4>
-                        {$h4_room}
-                        {$h4_table}
-                        {$h4_client}
-                        <h4>{$lang.opportunity_area}: {$opportunity_area}</h4>
-                        <h4>{$lang.opportunity_type}: {$opportunity_type}</h4>
-                        <h4>{$lang.date_hour}: {$started_date} {$lang.at} {$started_hour}</h4>
-                        <h4>{$lang.location}: {$location}</h4>
-                        {$h4_cost}
-                        {$h4_urgency}
-                        {$h4_confidentiality}
-                        {$h4_observations}
-                        {$h4_subject}
-                        {$h4_description}
-                        {$h4_action_taken}
-                        {$h4_date_hour}
-                    </div>
-                    {$div_attachments}
-                    {$div_comments}
-                </div>
-                <aside>
-                    {$div_assigned_users}
-                    {$div_viewed_by}
-                    <div class="datas">
-                        {$h4_guest}
-                        {$h4_guest_id}
-                        {$h4_guest_type}
-                        {$h4_reservation_number}
-                        {$h4_reservation_status}
-                        {$h4_check_in}
-                        {$h4_check_out}
-                    </div>
-                    <div class="datas">
-                        <h4>Token: {$token}</h4>
-                        {$h4_created_user}
-                        {$h4_edited_user}
-                        {$h4_completed_user}
-                        {$h4_reopened_user}
-                        <h4>{$lang.status}: {$status}</h4>
-                        <h4>{$lang.origin}: {$origin}</h4>
-                    </div>
-                    <div class="actions">
-                        {$btn_reopen}
-                        {$btn_complete}
-                        {$btn_edit}
-                        {$btn_comment}
-                    </div>
-                </aside>
+<main class="dashboard gry dkp">
+    <section class="workspace">
+        <div class="vox_details">
+            <div class="stl_1">
+                {$spn_type}
+                {$h3_elapsed_time}
+                {$h1_name}
+                <h2>{$token}</h2>
             </div>
-        </main>
-    </article>
+            <div class="stl_2">
+                <span><i class="fas fa-shapes"></i>{$owner}</span>
+                <span><i class="fas fa-mask"></i>{$opportunity_area}</span>
+                <span><i class="fas fa-feather-alt"></i>{$opportunity_type}</span>
+                <span><i class="fas fa-map-marker-alt"></i>{$location}</span>
+                <span><i class="fas fa-calendar-alt"></i>{$started_date}</span>
+                {$spn_cost}
+            </div>
+            <div class="stl_3">
+                {$p_observations}
+                {$p_subject}
+                {$p_description}
+                {$p_action_taken}
+            </div>
+            {$div_confidentiality}
+            <div class="stl_5">
+                {$spn_guest}
+            </div>
+            <div class="stl_6">
+                {$btn_get_attachments}
+                {$btn_get_assigned_users}
+                {$btn_get_viewed_by}
+                {$btn_get_comments}
+            </div>
+            <div class="stl_7">
+                <figure>
+                    <img src="{$created_user_avatar}">
+                </figure>
+                <h4>{$created_user_name}</h4>
+                <span>{$created_user_username}</span>
+                <span>{$lang.created_at} {$created_date}</span>
+            </div>
+            {$div_actions}
+            <div class="stl_9">
+                <a data-button-modal="get_changes_history"><i class="fas fa-history"></i></a>
+            </div>
+        </div>
+    </section>
+    <section class="buttons">
+        <div>
+            {$btn_comment_vox}
+            <a href="/voxes" class="delete"><i class="fas fa-times"></i></a>
+            {$btn_edit_vox}
+            {$btn_complete_vox}
+            {$btn_reopen_vox}
+        </div>
+    </section>
 </main>
-<section class="modal" data-modal="complete_vox">
+{$mdl_get_attachments}
+{$mdl_get_assigned_users}
+{$mdl_get_viewed_by}
+{$mdl_get_comments}
+<section class="modal fullscreen" data-modal="get_changes_history">
     <div class="content">
-        <header>
-            <h3>{$lang.complete}</h3>
-        </header>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
+        <main class="vox_details">
+            <div class="stl_11">
+                {$div_changes_history}
             </div>
-        </footer>
-    </div>
-</section>
-<section class="modal" data-modal="reopen_vox">
-    <div class="content">
-        <header>
-            <h3>{$lang.reopen}</h3>
-        </header>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-close>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
+            <div class="buttons">
+                <a button-close><i class="fas fa-check"></i></a>
             </div>
-        </footer>
-    </div>
-</section>
-<section class="modal" data-modal="new_vox_comment" name="{$type}">
-    <div class="content">
-        <header>
-            <h3>{$lang.comment}</h3>
-        </header>
-        <main>
-            <form name="new_vox_comment">
-                <div class="label" id="cost">
-                    <label>
-                        <p>{$lang.cost} (<?php echo Session::get_value('account')['currency']; ?>)</p>
-                        <input type="number" name="cost" />
-                    </label>
-                </div>
-                <div class="label">
-                    <label>
-                        <p>{$lang.message}</p>
-                        <textarea name="message"></textarea>
-                    </label>
-                </div>
-                <div class="label">
-                    <label>
-                        <p>{$lang.attachments}</p>
-                        <input type="file" name="attachments[]" multiple />
-                    </label>
-                </div>
-            </form>
         </main>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn btn-flat" button-cancel>{$lang.cancel}</button>
-                <button class="btn" button-success>{$lang.accept}</button>
-            </div>
-        </footer>
     </div>
 </section>
+{$mdl_comment_vox}
+{$mdl_complete_vox}
+{$mdl_reopen_vox}

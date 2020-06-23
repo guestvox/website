@@ -4,68 +4,64 @@ defined('_EXEC') or die;
 
 class Login_controller extends Controller
 {
+	private $lang;
+
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->lang = Session::get_value('lang');
 	}
 
 	public function index()
 	{
 		if (Format::exist_ajax_request() == true)
 		{
-            if ($_POST['action'] == 'login')
+			$labels = [];
+
+			if (!isset($_POST['username']) OR empty($_POST['username']))
+				array_push($labels, ['username','']);
+
+			if (!isset($_POST['password']) OR empty($_POST['password']))
+				array_push($labels, ['password','']);
+
+			if (empty($labels))
 			{
-				$labels = [];
+				$query = $this->model->get_login($_POST);
 
-				if (!isset($_POST['username']) OR empty($_POST['username']))
-					array_push($labels, ['username','']);
-
-				if (!isset($_POST['password']) OR empty($_POST['password']))
-					array_push($labels, ['password','']);
-
-				if (empty($labels))
+				if (!empty($query))
 				{
-					$query = $this->model->get_login($_POST);
-
-					if (!empty($query))
+					if ($query['account']['status'] == true)
 					{
-						if ($query['account']['status'] == true)
+						if ($query['user']['status'] == true)
 						{
-							if ($query['user']['status'] == true)
+							$query['user']['password'] = explode(':', $query['user']['password']);
+							$query['user']['password'] = ($this->security->create_hash('sha1', $_POST['password'] . $query['user']['password'][1]) === $query['user']['password'][0]) ? true : false;
+
+							if ($query['user']['password'] == true)
 							{
-								$query['user']['password'] = explode(':', $query['user']['password']);
-								$query['user']['password'] = ($this->security->create_hash('sha1', $_POST['password'] . $query['user']['password'][1]) === $query['user']['password'][0]) ? true : false;
+								unset($query['user']['password']);
+								unset($query['user']['status']);
+								unset($query['account']['status']);
 
-								if ($query['user']['password'] == true)
-								{
-									unset($query['user']['password']);
-									unset($query['user']['status']);
-									unset($query['account']['status']);
+								Session::init();
+								Session::set_value('session', true);
+								Session::set_value('user', $query['user']);
+								Session::set_value('account', $query['account']);
+								Session::set_value('settings', $query['settings']);
+								Session::set_value('lang', $query['account']['language']);
+								Session::set_value('_vkye_last_access', Functions::get_current_date_hour());
 
-									Session::init();
-									Session::set_value('session', true);
-									Session::set_value('user', $query['user']);
-									Session::set_value('account', $query['account']);
-									Session::set_value('lang', $query['account']['language']);
-									Session::set_value('_vkye_last_access', Functions::get_current_date_hour());
-
-									Functions::environment([
-										'status' => 'success'
-									]);
-								}
-								else
-								{
-									Functions::environment([
-										'status' => 'error',
-										'labels' => [['password','']]
-									]);
-								}
+								Functions::environment([
+									'status' => 'success',
+									'path' => User_level::redirection()
+								]);
 							}
 							else
 							{
 								Functions::environment([
 									'status' => 'error',
-									'message' => '{$lang.user_not_activate}'
+									'labels' => [['password','']]
 								]);
 							}
 						}
@@ -73,7 +69,7 @@ class Login_controller extends Controller
 						{
 							Functions::environment([
 								'status' => 'error',
-								'message' => '{$lang.account_not_activate}'
+								'message' => '{$lang.user_not_activate}'
 							]);
 						}
 					}
@@ -81,7 +77,7 @@ class Login_controller extends Controller
 					{
 						Functions::environment([
 							'status' => 'error',
-							'labels' => [['username','']]
+							'message' => '{$lang.account_not_activate}'
 						]);
 					}
 				}
@@ -89,24 +85,32 @@ class Login_controller extends Controller
 				{
 					Functions::environment([
 						'status' => 'error',
-						'labels' => $labels
+						'labels' => [['username','']]
 					]);
 				}
+			}
+			else
+			{
+				Functions::environment([
+					'status' => 'error',
+					'labels' => $labels
+				]);
 			}
 		}
 		else
 		{
-			define('_title', 'GuestVox');
-
 			$template = $this->view->render($this, 'index');
 
-			$replace = [
-
-			];
-
-			$template = $this->format->replace($replace, $template);
+			define('_title', 'Guestvox | {$lang.login}');
 
 			echo $template;
 		}
+	}
+
+	public function logout()
+	{
+		Session::destroy();
+
+		header('Location: /login');
 	}
 }

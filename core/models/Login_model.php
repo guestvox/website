@@ -15,26 +15,20 @@ class Login_model extends Model
 			'[>]accounts' => [
 				'account' => 'id'
 			],
-			'[>]room_packages' => [
-				'accounts.room_package' => 'id'
-			],
-			'[>]table_packages' => [
-				'accounts.table_package' => 'id'
-			],
-			'[>]client_packages' => [
-				'accounts.client_package' => 'id'
+			'[>]packages' => [
+				'accounts.package' => 'id'
 			]
 		], [
 			'users.id(user_id)',
 			'users.firstname(user_firstname)',
 			'users.lastname(user_lastname)',
 			'users.avatar(user_avatar)',
-			'users.username(user_username)',
 			'users.password(user_password)',
-			'users.user_permissions(user_user_permissions)',
+			'users.permissions(user_permissions)',
 			'users.opportunity_areas(user_opportunity_areas)',
 			'users.status(user_status)',
 			'accounts.id(account_id)',
+			'accounts.token(account_token)',
 			'accounts.name(account_name)',
 			'accounts.path(account_path)',
 			'accounts.type(account_type)',
@@ -42,40 +36,33 @@ class Login_model extends Model
 			'accounts.currency(account_currency)',
 			'accounts.language(account_language)',
 			'accounts.logotype(account_logotype)',
+			'accounts.qr(account_qr)',
 			'accounts.operation(account_operation)',
 			'accounts.reputation(account_reputation)',
+			'accounts.siteminder(account_siteminder)',
 			'accounts.zaviapms(account_zaviapms)',
-			'accounts.sms(account_sms)',
+			'accounts.settings(account_settings)',
 			'accounts.status(account_status)',
-			'room_packages.id(room_package_id)',
-			'room_packages.quantity_end(room_package_quantity_end)',
-			'table_packages.id(table_package_id)',
-			'table_packages.quantity_end(table_package_quantity_end)',
-			'client_packages.id(client_package_id)',
-			'client_packages.quantity_end(client_package_quantity_end)'
+			'packages.id(package_id)',
+			'packages.quantity_end(package_quantity_end)'
 		], [
-			'AND' => [
-				'OR' => [
-					'users.email' => $data['username'],
-					'users.username' => $data['username']
-				]
-			]
+			'users.username' => $data['username']
 		]));
 
 		if (!empty($query))
 		{
-			foreach ($query[0]['user_user_permissions'] as $key => $value)
+			foreach ($query[0]['user_permissions'] as $key => $value)
 			{
-				$value = $this->database->select('user_permissions', [
+				$value = $this->database->select('permissions', [
 					'code'
 				], [
 					'id' => $value
 				]);
 
 				if (!empty($value))
-					$query[0]['user_user_permissions'][$key] = $value[0]['code'];
+					$query[0]['user_permissions'][$key] = $value[0]['code'];
 				else
-					unset($query[0]['user_user_permissions'][$key]);
+					unset($query[0]['user_permissions'][$key]);
 			}
 
 			$data = [
@@ -84,14 +71,14 @@ class Login_model extends Model
 					'firstname' => $query[0]['user_firstname'],
 					'lastname' => $query[0]['user_lastname'],
 					'avatar' => $query[0]['user_avatar'],
-					'username' => $query[0]['user_username'],
 					'password' => $query[0]['user_password'],
-					'user_permissions' => $query[0]['user_user_permissions'],
+					'permissions' => $query[0]['user_permissions'],
 					'opportunity_areas' => $query[0]['user_opportunity_areas'],
 					'status' => $query[0]['user_status']
 				],
 				'account' => [
 					'id' => $query[0]['account_id'],
+					'token' => $query[0]['account_token'],
 					'name' => $query[0]['account_name'],
 					'path' => $query[0]['account_path'],
 					'type' => $query[0]['account_type'],
@@ -99,35 +86,34 @@ class Login_model extends Model
 					'currency' => $query[0]['account_currency'],
 					'language' => $query[0]['account_language'],
 					'logotype' => $query[0]['account_logotype'],
+					'qr' => $query[0]['account_qr'],
+					'package' => [
+						'id' => $query[0]['package_id'],
+						'quantity_end' => $query[0]['package_quantity_end']
+					],
 					'operation' => $query[0]['account_operation'],
 					'reputation' => $query[0]['account_reputation'],
+					'siteminder' => $query[0]['account_siteminder'],
 					'zaviapms' => $query[0]['account_zaviapms'],
-					'sms' => $query[0]['account_sms'],
+					'settings' => [
+						'menu' => [
+							'currency' => $query[0]['account_settings']['myvox']['menu']['currency'],
+							'multi' => $query[0]['account_settings']['myvox']['menu']['multi']
+						]
+					],
 					'status' => $query[0]['account_status']
+				],
+				'settings' => [
+					'voxes' => [
+						'filter' => [
+							'type' => 'all',
+							'urgency' => 'all',
+							'date' => 'up',
+							'status' => 'open'
+						]
+					]
 				]
 			];
-
-			if ($query[0]['account_type'] == 'hotel')
-			{
-				$data['account']['room_package'] = [
-					'id' => $query[0]['room_package_id'],
-					'quantity_end' => $query[0]['room_package_quantity_end']
-				];
-			}
-			else if ($query[0]['account_type'] == 'restaurant')
-			{
-				$data['account']['table_package'] = [
-					'id' => $query[0]['table_package_id'],
-					'quantity_end' => $query[0]['table_package_quantity_end']
-				];
-			}
-			else if ($query[0]['account_type'] == 'others')
-			{
-				$data['account']['client_package'] = [
-					'id' => $query[0]['client_package_id'],
-					'quantity_end' => $query[0]['client_package_quantity_end']
-				];
-			}
 
 			return $data;
 		}

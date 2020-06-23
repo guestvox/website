@@ -4,9 +4,13 @@ defined('_EXEC') or die;
 
 class Locations_controller extends Controller
 {
+	private $lang;
+
 	public function __construct()
 	{
 		parent::__construct();
+
+		$this->lang = Session::get_value('account')['language'];
 	}
 
 	public function index()
@@ -17,20 +21,20 @@ class Locations_controller extends Controller
 			{
 				$query = $this->model->get_location($_POST['id']);
 
-				if (!empty($query))
-				{
-					Functions::environment([
-						'status' => 'success',
-						'data' => $query
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.operation_error}'
-					]);
-				}
+                if (!empty($query))
+                {
+                    Functions::environment([
+    					'status' => 'success',
+    					'data' => $query
+    				]);
+                }
+                else
+                {
+                    Functions::environment([
+    					'status' => 'error',
+    					'message' => '{$lang.operation_error}'
+    				]);
+                }
 			}
 
 			if ($_POST['action'] == 'new_location' OR $_POST['action'] == 'edit_location')
@@ -38,10 +42,10 @@ class Locations_controller extends Controller
 				$labels = [];
 
 				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
-					array_push($labels, ['name_es', '']);
+					array_push($labels, ['name_es','']);
 
 				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
-					array_push($labels, ['name_en', '']);
+					array_push($labels, ['name_en','']);
 
 				if (empty($labels))
 				{
@@ -74,9 +78,14 @@ class Locations_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'delete_location')
+			if ($_POST['action'] == 'deactivate_location' OR $_POST['action'] == 'activate_location' OR $_POST['action'] == 'delete_location')
 			{
-				$query = $this->model->delete_location($_POST['id']);
+				if ($_POST['action'] == 'deactivate_location')
+					$query = $this->model->deactivate_location($_POST['id']);
+				else if ($_POST['action'] == 'activate_location')
+					$query = $this->model->activate_location($_POST['id']);
+				else if ($_POST['action'] == 'delete_location')
+					$query = $this->model->delete_location($_POST['id']);
 
 				if (!empty($query))
 				{
@@ -96,24 +105,31 @@ class Locations_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'GuestVox');
-
 			$template = $this->view->render($this, 'index');
+
+			define('_title', 'Guestvox | {$lang.locations}');
 
 			$tbl_locations = '';
 
 			foreach ($this->model->get_locations() as $value)
 			{
 				$tbl_locations .=
-				'<tr>
-					<td align="left">' . $value['name'][Session::get_value('account')['language']] . '</td>
-					<td align="left" class="flag">' . (($value['request'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
-					<td align="left" class="flag">' . (($value['incident'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
-					<td align="left" class="flag">' . (($value['workorder'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
-					<td align="left" class="flag">' . (($value['public'] == true) ? '<span><i class="fas fa-check"></i></span>' : '<span><i class="fas fa-times"></i></span>') . '</td>
-					' . ((Functions::check_user_access(['{locations_delete}']) == true) ? '<td align="right" class="icon"><a data-action="delete_location" data-id="' . $value['id'] . '" class="delete"><i class="fas fa-trash"></i></a></td>' : '') . '
-					' . ((Functions::check_user_access(['{locations_update}']) == true) ? '<td align="right" class="icon"><a data-action="edit_location" data-id="' . $value['id'] . '" class="edit"><i class="fas fa-pen"></i></a></td>' : '') . '
-				</tr>';
+				'<div>
+					<div class="datas">
+						<h2>' . $value['name'][$this->lang] . '</h2>
+						<div class="checkers">
+							<span><i class="fas fa-check-square ' . (($value['request'] == true) ? 'success' : '') . '"></i>{$lang.request}</span>
+							<span><i class="fas fa-check-square ' . (($value['incident'] == true) ? 'success' : '') . '"></i>{$lang.incident}</span>
+							<span><i class="fas fa-check-square ' . (($value['workorder'] == true) ? 'success' : '') . '"></i>{$lang.workorder}</span>
+							<span><i class="fas fa-check-square ' . (($value['public'] == true) ? 'success' : '') . '"></i>{$lang.public}</span>
+						</div>
+					</div>
+					<div class="buttons flex_right">
+						' . ((Functions::check_user_access(['{locations_deactivate}','{locations_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_location' : 'activate_location') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{locations_update}']) == true) ? '<a class="edit" data-action="edit_location" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{locations_delete}']) == true) ? '<a class="delete" data-action="delete_location" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+					</div>
+				</div>';
 			}
 
 			$replace = [

@@ -20,19 +20,30 @@ class Route_vkye
 
         $paths = [
             '/Index/index',
-            '/Login/index',
+            '/Hi/voxes',
+            '/Hi/menu',
+            '/Hi/surveys',
+            '/Hi/reviews',
+            '/Hi/hotels',
+            '/Hi/restaurants',
+            '/Hi/hospitals',
+            '/Hi/webinar',
+            '/Policies/terms',
+            '/Policies/privacy',
             '/Signup/index',
-            '/Signup/validate',
-            '/Terms/index',
-            '/Hola/operation',
-            '/Hola/reputation',
+            '/Signup/activate',
             '/Myvox/index',
+            '/Myvox/request',
+            '/Myvox/incident',
+            '/Myvox/menu',
+            '/Myvox/surveys',
             '/Reviews/index',
+            '/Login/index',
             '/Api/execute'
         ];
 
         if (in_array($this->path, $paths))
-            if (Session::exists_var('session')) : header('Location: /dashboard'); endif;
+            if (Session::exists_var('session')) : header('Location: ' . User_level::redirection()); endif;
         else
         {
             $hour_last_activity = (Session::exists_var('_vkye_last_access')) ? Session::get_value('_vkye_last_access') : date('Y-m-d H:i:s', strtotime('-2 hour', strtotime(Functions::get_current_date_hour())));
@@ -43,7 +54,7 @@ class Route_vkye
             {
                 Session::destroy();
 
-                header("Location: /");
+                header('Location: /');
             }
 
             Session::set_value('_vkye_last_access', Functions::get_current_date_hour());

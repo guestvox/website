@@ -2,13 +2,31 @@
 
 defined('_EXEC') or die;
 
-require 'plugins/php-qr-code/qrlib.php';
+require 'plugins/php_qr_code/qrlib.php';
 
 class Signup_model extends Model
 {
 	public function __construct()
 	{
 		parent::__construct();
+	}
+
+	public function get_package($type, $quantity, $id = false)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('packages', [
+			'id',
+			'quantity_end',
+			'price'
+		], [
+			'AND' => [
+				'type' => $type,
+				'quantity_start[<=]' => $quantity,
+				'quantity_end[>=]' => $quantity,
+				'status' => true
+			]
+		]));
+
+		return !empty($query) ? (($id == true) ? $query[0]['id'] : $query[0]) : null;
 	}
 
 	public function get_countries()
@@ -38,9 +56,9 @@ class Signup_model extends Model
 		return array_merge($query1, $query2);
 	}
 
-	public function get_time_zones()
+	public function get_times_zones()
 	{
-		$query = $this->database->select('time_zones', [
+		$query = $this->database->select('times_zones', [
 			'code'
 		], [
 			'ORDER' => [
@@ -101,54 +119,6 @@ class Signup_model extends Model
 		return array_merge($query1, $query2);
 	}
 
-	public function get_room_package($rooms_number)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('room_packages', [
-			'id',
-			'quantity_end',
-			'price'
-		], [
-			'AND' => [
-				'quantity_start[<=]' => $rooms_number,
-				'quantity_end[>=]' => $rooms_number
-			]
-		]));
-
-		return !empty($query) ? $query[0] : null;
-	}
-
-	public function get_table_package($tables_number)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('table_packages', [
-			'id',
-			'quantity_end',
-			'price'
-		], [
-			'AND' => [
-				'quantity_start[<=]' => $tables_number,
-				'quantity_end[>=]' => $tables_number
-			]
-		]));
-
-		return !empty($query) ? $query[0] : null;
-	}
-
-	public function get_client_package($clients_number)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('client_packages', [
-			'id',
-			'quantity_end',
-			'price'
-		], [
-			'AND' => [
-				'quantity_start[<=]' => $clients_number,
-				'quantity_end[>=]' => $clients_number
-			]
-		]));
-
-		return !empty($query) ? $query[0] : null;
-	}
-
 	public function check_exist_account($field, $value)
 	{
 		$count = $this->database->count('accounts', [
@@ -169,9 +139,9 @@ class Signup_model extends Model
 
 	public function new_signup($data)
 	{
+		$data['token'] = strtolower(Functions::get_random(8));
 		$data['path'] = str_replace(' ', '', strtolower($data['path']));
-		$data['token'] = Functions::get_random(8);
-		$data['qr']['filename'] = 'qr_' . $data['path'] . '_' . $data['token'] . '.png';
+		$data['qr']['filename'] = $data['path'] . '_account_qr_' . $data['token'] . '.png';
 		$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . $data['path'] . '/myvox';
 		$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
 		$data['qr']['level'] = 'H';
@@ -179,21 +149,17 @@ class Signup_model extends Model
 		$data['qr']['frame'] = 3;
 
 		$this->database->insert('accounts', [
-			'token' => strtoupper($data['token']),
+			'token' => $data['token'],
 			'name' => $data['name'],
 			'path' => $data['path'],
 			'type' => $data['type'],
-			'zip_code' => $data['zip_code'],
 			'country' => $data['country'],
 			'city' => $data['city'],
+			'zip_code' => $data['zip_code'],
 			'address' => $data['address'],
 			'time_zone' => $data['time_zone'],
 			'currency' => $data['currency'],
 			'language' => $data['language'],
-			'room_package' => ($data['type'] == 'hotel') ? $this->get_room_package($data['rooms_number'])['id'] : null,
-			'table_package' => ($data['type'] == 'restaurant') ? $this->get_table_package($data['tables_number'])['id'] : null,
-			'client_package' => ($data['type'] == 'others') ? $this->get_client_package($data['clients_number'])['id'] : null,
-			'logotype' => Functions::uploader($data['logotype']),
 			'fiscal' => json_encode([
 				'id' => strtoupper($data['fiscal_id']),
 				'name' => $data['fiscal_name'],
@@ -209,36 +175,78 @@ class Signup_model extends Model
 					'number' => $data['contact_phone_number']
 				]
 			]),
-			'payment' => json_encode([
-				'type' => 'demo'
-			]),
+			'logotype' => Functions::uploader($data['logotype'], $data['path'] . '_account_logotype_'),
 			'qr' => $data['qr']['filename'],
+			'package' => $this->get_package($data['type'], $data['quantity'], true),
 			'operation' => !empty($data['operation']) ? true : false,
 			'reputation' => !empty($data['reputation']) ? true : false,
+			'siteminder' => json_encode([
+				'status' => false,
+				'username' => '',
+				'password' => ''
+			]),
 			'zaviapms' => json_encode([
 				'status' => false,
 				'username' => '',
-				'password' => '',
+				'password' => ''
 			]),
 			'sms' => 0,
 			'settings' => json_encode([
 				'myvox' => [
-					'request' => false,
-					'incident' => false,
-					'survey' => false,
-					'survey_title' => [
-						'es' => '',
-						'en' => ''
+					'requests' => [
+						'status' => false,
+						'title' => [
+							'es' => '',
+							'en' => ''
+						]
 					],
-					'survey_widget' => ''
+					'incidents' => [
+						'status' => false,
+						'title' => [
+							'es' => '',
+							'en' => ''
+						]
+					],
+					'menu' => [
+						'status' => false,
+						'title' => [
+							'es' => '',
+							'en' => ''
+						],
+						'currency' => '',
+						'opportunity_area' => '',
+						'opportunity_type' => '',
+						'multi' => false
+					],
+					'surveys' => [
+						'status' => false,
+						'title' => [
+							'es' => '',
+							'en' => ''
+						],
+						'mail' => [
+							'subject' => [
+								'es' => '',
+								'en' => ''
+							],
+							'description' => [
+								'es' => '',
+								'en' => ''
+							],
+							'image' => '',
+							'attachment' => ''
+						],
+						'widget' => ''
+					]
 				],
-				'review' => [
-					'online' => false,
+				'reviews' => [
+					'status' => false,
 					'email' => '',
 					'phone' => [
 						'lada' => '',
 						'number' => ''
 					],
+					'website' => '',
 					'description' => [
 						'es' => '',
 						'en' => ''
@@ -248,7 +256,7 @@ class Signup_model extends Model
 							'es' => '',
 							'en' => ''
 						],
-						'meta_description' => [
+						'description' => [
 							'es' => '',
 							'en' => ''
 						]
@@ -262,7 +270,24 @@ class Signup_model extends Model
 						'google' => '',
 						'tripadvisor' => ''
 					]
+				],
+				'voxes' => [
+					'attention_times' => [
+						'request' => [
+							'low' => '40',
+							'medium' => '20',
+							'high' => '10'
+						],
+						'incident' => [
+							'low' => '40',
+							'medium' => '20',
+							'high' => '10'
+						]
+					]
 				]
+			]),
+			'payment' => json_encode([
+				'type' => ''
 			]),
 			'signup_date' => Functions::get_current_date(),
 			'status' => false
@@ -274,7 +299,7 @@ class Signup_model extends Model
 
 		if ($data['type'] == 'hotel')
 		{
-			$data['guest_treatments'] = [
+			$data['guests_treatments'] = [
 				'es' => [
 					'Sr.',
 					'Sra.',
@@ -287,22 +312,25 @@ class Signup_model extends Model
 				]
 			];
 
-			$this->database->insert('guest_treatments', [
+			$this->database->insert('guests_treatments', [
 				[
 					'account' => $account,
-					'name' => $data['guest_treatments'][$data['language']][0]
+					'name' => $data['guests_treatments'][$data['language']][0],
+					'status' => true
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_treatments'][$data['language']][1]
+					'name' => $data['guests_treatments'][$data['language']][1],
+					'status' => true
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_treatments'][$data['language']][2]
+					'name' => $data['guests_treatments'][$data['language']][2],
+					'status' => true
 				]
 			]);
 
-			$data['guest_types'] = [
+			$data['guests_types'] = [
 				'es' => [
 					'Club vacacional',
 					'Day pass',
@@ -323,38 +351,45 @@ class Signup_model extends Model
 				]
 			];
 
-			$this->database->insert('guest_types', [
+			$this->database->insert('guests_types', [
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][0]
+					'name' => $data['guests_types'][$data['language']][0],
+					'status' => true
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][1]
+					'name' => $data['guests_types'][$data['language']][1],
+					'status' => true
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][2]
+					'name' => $data['guests_types'][$data['language']][2],
+					'status' => true
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][3]
+					'name' => $data['guests_types'][$data['language']][3],
+					'status' => true
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][4]
+					'name' => $data['guests_types'][$data['language']][4],
+					'status' => true
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][5]
+					'name' => $data['guests_types'][$data['language']][5],
+					'status' => true
 				],
 				[
 					'account' => $account,
-					'name' => $data['guest_types'][$data['language']][6]
+					'name' => $data['guests_types'][$data['language']][6],
+					'status' => true
 				]
 			]);
 
-			$data['reservation_statuses'] = [
+			$data['reservations_statuses'] = [
 				'es' => [
 					'En casa',
 					'Fuera de casa',
@@ -373,35 +408,41 @@ class Signup_model extends Model
 				]
 			];
 
-			$this->database->insert('reservation_statuses', [
+			$this->database->insert('reservations_statuses', [
 				[
 					'account' => $account,
-					'name' => $data['reservation_statuses'][$data['language']][0]
+					'name' => $data['reservations_statuses'][$data['language']][0],
+					'status' => true
 				],
 				[
 					'account' => $account,
-					'name' => $data['reservation_statuses'][$data['language']][1]
+					'name' => $data['reservations_statuses'][$data['language']][1],
+					'status' => true
 				],
 				[
 					'account' => $account,
-					'name' => $data['reservation_statuses'][$data['language']][2]
+					'name' => $data['reservations_statuses'][$data['language']][2],
+					'status' => true
 				],
 				[
 					'account' => $account,
-					'name' => $data['reservation_statuses'][$data['language']][3]
+					'name' => $data['reservations_statuses'][$data['language']][3],
+					'status' => true
 				],
 				[
 					'account' => $account,
-					'name' => $data['reservation_statuses'][$data['language']][4]
+					'name' => $data['reservations_statuses'][$data['language']][4],
+					'status' => true
 				],
 				[
 					'account' => $account,
-					'name' => $data['reservation_statuses'][$data['language']][5]
+					'name' => $data['reservations_statuses'][$data['language']][5],
+					'status' => true
 				]
 			]);
 		}
 
-		$data['user_permissions'] = [
+		$data['users_levels'] = [
 			'es' => [
 				'Administrador',
 				'Director',
@@ -416,65 +457,47 @@ class Signup_model extends Model
 				'Supervisor',
 				'Operator'
 			],
-			'ids' => []
+			'permissions' => []
 		];
 
-		if ($data['type'] == 'hotel')
-		{
-			$data['user_permissions']['ids'] = [
-				'["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","13","14","15","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]',
-				'["46","47","25","39","41","38","26","1","2","3"]',
-				'["46","47","25","39","41","38","28","1","2","3"]',
-				'["46","47","39","41","38","28","1","2","3"]',
-				'["27","1","2","3"]'
-			];
-		}
-		else if ($data['type'] == 'restaurant')
-		{
-			$data['user_permissions']['ids'] = [
-				'["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","51","52","53","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]',
-				'["46","47","25","39","41","38","26","1","2","3"]',
-				'["46","47","25","39","41","38","28","1","2","3"]',
-				'["46","47","39","41","38","28","1","2","3"]',
-				'["27","1","2","3"]'
-			];
-		}
-		else if ($data['type'] == 'others')
-		{
-			$data['user_permissions']['ids'] = [
-				'["46","47","25","39","38","40","29","30","31","32","33","34","10","11","12","4","5","6","7","8","9","35","36","37","54","55","56","42","43","44","45","48","16","17","19","20","21","18","22","23","24","41","49","50","26","1","2","3"]',
-				'["46","47","25","39","41","38","26","1","2","3"]',
-				'["46","47","25","39","41","38","28","1","2","3"]',
-				'["46","47","39","41","38","28","1","2","3"]',
-				'["27","1","2","3"]'
-			];
-		}
+		$data['users_levels']['permissions'] = [
+			'["17","18","4","10","11","65","39","40","41","42","43","44","45","46","47","48","34","35","36","37","38","66","67","68","69","70","71","72","73","74","75","24","25","26","27","28","29","30","31","32","33","19","20","21","22","23","49","50","51","52","53","12","13","14","15","16","59","60","61","62","63","64","54","55","56","57","58","5","6","7","8","9","1"]',
+			'["17","18","4","10","11","5","6","7","8","9","1"]',
+			'["17","18","4","10","11","5","6","7","8","9","2"]',
+			'["17","18","10","11","5","6","7","8","9","2"]',
+			'["3"]'
+		];
 
-		$this->database->insert('user_levels', [
+		$this->database->insert('users_levels', [
 			[
 				'account' => $account,
-				'name' => $data['user_permissions'][$data['language']][0],
-				'user_permissions' => $data['user_permissions']['ids'][0]
+				'name' => $data['users_levels'][$data['language']][0],
+				'permissions' => $data['users_levels']['permissions'][0],
+				'status' => true
 			],
 			[
 				'account' => $account,
-				'name' => $data['user_permissions'][$data['language']][1],
-				'user_permissions' => $data['user_permissions']['ids'][1]
+				'name' => $data['users_levels'][$data['language']][1],
+				'permissions' => $data['users_levels']['permissions'][1],
+				'status' => true
 			],
 			[
 				'account' => $account,
-				'name' => $data['user_permissions'][$data['language']][2],
-				'user_permissions' => $data['user_permissions']['ids'][2]
+				'name' => $data['users_levels'][$data['language']][2],
+				'permissions' => $data['users_levels']['permissions'][2],
+				'status' => true
 			],
 			[
 				'account' => $account,
-				'name' => $data['user_permissions'][$data['language']][3],
-				'user_permissions' => $data['user_permissions']['ids'][3]
+				'name' => $data['users_levels'][$data['language']][3],
+				'permissions' => $data['users_levels']['permissions'][3],
+				'status' => true
 			],
 			[
 				'account' => $account,
-				'name' => $data['user_permissions'][$data['language']][4],
-				'user_permissions' => $data['user_permissions']['ids'][4]
+				'name' => $data['users_levels'][$data['language']][4],
+				'permissions' => $data['users_levels']['permissions'][4],
+				'status' => true
 			]
 		]);
 
@@ -490,30 +513,26 @@ class Signup_model extends Model
 			'avatar' => null,
 			'username' => $data['username'],
 			'password' => $this->security->create_password($data['password']),
-			'user_permissions' => $data['user_permissions']['ids'][0],
+			'permissions' => $data['users_levels']['permissions'][0],
 			'opportunity_areas' => json_encode([]),
 			'status' => false
 		]);
 
-		$user = $this->database->id();
-
-		return [
-			'account' => $account,
-			'user' => $user
-		];
+		return true;
 	}
 
-	public function new_validation($data)
+	public function new_activation($data)
 	{
 		if ($data[0] == 'account')
 		{
 			$query = Functions::get_json_decoded_query($this->database->select('accounts', [
-				'name',
+				'id',
+				'token',
 				'language',
 				'contact',
 				'status'
 			], [
-				'id' => $data[1]
+				'path' => $data[1]
 			]));
 
 			if (!empty($query))
@@ -523,7 +542,7 @@ class Signup_model extends Model
 					$this->database->update('accounts', [
 						'status' => true
 					], [
-						'id' => $data[1]
+						'id' => $query[0]['id']
 					]);
 				}
 			}
@@ -535,14 +554,14 @@ class Signup_model extends Model
 					'account' => 'id'
 				]
 			], [
+				'users.id',
 				'users.firstname',
 				'users.lastname',
 				'users.email',
-				'users.username',
 				'users.status',
 				'accounts.language'
 			], [
-				'users.id' => $data[1]
+				'users.email' => $data[1]
 			]);
 
 			if (!empty($query))
@@ -552,7 +571,7 @@ class Signup_model extends Model
 					$this->database->update('users', [
 						'status' => true
 					], [
-						'id' => $data[1]
+						'id' => $query[0]['id']
 					]);
 				}
 			}

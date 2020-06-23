@@ -4,58 +4,48 @@ class Accounts_api extends Model
 {
     public function get($params)
     {
-        if (Api_vkye::access_permission($params[0], $params[1]) == true)
+        if (!empty($params[0]))
         {
-            if (!empty($params[2]))
+            $query = Functions::get_json_decoded_query($this->database->select('accounts', [
+                'id',
+                'name',
+                'zaviapms'
+            ], [
+                'AND' => [
+                    'id' => $params[0],
+                    'status' => true
+                ]
+            ]));
+
+            if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
             {
-                $query = Functions::get_json_decoded_query($this->database->select('accounts', [
-                    'id',
-                    'name',
-                    'zaviapms'
-                ], [
-                    'AND' => [
-                        'id' => $params[2],
-                        'status' => true
-                    ]
-                ]));
+                unset($query[0]['zaviapms']);
 
-                if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
-                {
-                    unset($query[0]['zaviapms']);
-
-                    return $query[0];
-                }
-                else
-                    return 'No se encontraron registros';
+                return $query[0];
             }
             else
-            {
-                $query = Functions::get_json_decoded_query($this->database->select('accounts', [
-                    'id',
-                    'name',
-                    'zaviapms'
-                ], [
-                    'status' => true
-                ]));
-
-                if (!empty($query))
-                {
-                    foreach ($query as $key => $value)
-                    {
-                        if ($value['zaviapms']['status'] == false)
-                            unset($query[$key]);
-                        else
-                            unset($query[$key]['zaviapms']);
-                    }
-
-                    return $query;
-                }
-                else
-                    return 'No se encontraron registros';
-            }
+                return 'No se encontraron registros';
         }
         else
-            return 'Credenciales de acceso no válidas';
+        {
+            $query = Functions::get_json_decoded_query($this->database->select('accounts', [
+                'id',
+                'name',
+                'zaviapms'
+            ], [
+                'status' => true
+            ]));
+
+            foreach ($query as $key => $value)
+            {
+                if ($value['zaviapms']['status'] == false)
+                    unset($query[$key]);
+                else
+                    unset($query[$key]['zaviapms']);
+            }
+
+            return !empty($query) ? $query : 'No se encontraron registros';
+        }
     }
 
     public function post($params)

@@ -28,9 +28,9 @@ class Reviews_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-    public function get_general_average_rate($account)
+    public function get_surveys_average($account)
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 			'answers'
 		], [
 			'account' =>  $account
@@ -76,27 +76,9 @@ class Reviews_model extends Model
 		return $average;
 	}
 
-	public function get_comments($account)
+    public function get_surveys_percentage($option, $account)
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-			'comment',
-			'guest'
-		], [
-			'AND' => [
-				'account' => $account,
-				'status' => true
-			],
-			'ORDER' => [
-				'date' => 'DESC'
-			]
-		]));
-
-		return $query;
-	}
-
-    public function get_percentage_rate($option, $account)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 			'answers'
 		], [
 			'account' => $account
@@ -160,5 +142,23 @@ class Reviews_model extends Model
 			$percentage = round((($option_answers / $total_answers) * 100), 2);
 
 		return $percentage;
+	}
+
+	public function get_surveys_comments($account)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
+			'comment',
+			'contact'
+		], [
+			'AND' => [
+				'account' => $account,
+				'status' => true
+			],
+			'ORDER' => [
+				'date' => 'DESC'
+			]
+		]));
+
+		return $query;
 	}
 }

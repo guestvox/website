@@ -4,79 +4,74 @@ class Users_api extends Model
 {
     public function get($params)
     {
-        if (Api_vkye::access_permission($params[0], $params[1]) == true)
+        if (!empty($params[0]))
         {
-            if (!empty($params[2]))
+            if (!empty($params[1]))
             {
-                if (!empty($params[3]))
+                $query = Functions::get_json_decoded_query($this->database->select('users', [
+                    '[>]accounts' => [
+                        'account' => 'id'
+                    ]
+                ], [
+                    'users.id',
+                    'users.firstname',
+                    'users.lastname',
+                    'users.email',
+                    'users.phone',
+                    'users.avatar',
+                    'users.username',
+                    'accounts.zaviapms'
+                ], [
+                    'AND' => [
+                        'users.id' => $params[1],
+                        'users.status' => true
+                    ]
+                ]));
+
+                if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
                 {
-                    $query = Functions::get_json_decoded_query($this->database->select('users', [
-                        '[>]accounts' => [
-                            'account' => 'id'
-                        ]
-                    ], [
-                        'users.id',
-                        'users.firstname',
-                        'users.lastname',
-                        'users.email',
-                        'users.phone',
-                        'users.avatar',
-                        'users.username',
-                        'accounts.zaviapms'
-                    ], [
-                        'AND' => [
-                            'users.id' => $params[3],
-                            'users.status' => true
-                        ]
-                    ]));
+                    unset($query[0]['zaviapms']);
 
-                    if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
-                    {
-                        unset($query[0]['zaviapms']);
-
-                        return $query[0];
-                    }
-                    else
-                        return 'No se encontraron registros';
+                    return $query[0];
                 }
                 else
-                {
-                    $query = Functions::get_json_decoded_query($this->database->select('users', [
-                        '[>]accounts' => [
-                            'account' => 'id'
-                        ]
-                    ], [
-                        'users.id',
-                        'users.firstname',
-                        'users.lastname',
-                        'users.email',
-                        'users.phone',
-                        'users.avatar',
-                        'users.username',
-                        'accounts.zaviapms'
-                    ], [
-                        'AND' => [
-                            'users.account' => $params[2],
-                            'users.status' => true
-                        ]
-                    ]));
-
-                    if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
-                    {
-                        foreach ($query as $key => $value)
-                            unset($query[$key]['zaviapms']);
-
-                        return $query;
-                    }
-                    else
-                        return 'No se encontraron registros';
-                }
+                    return 'No se encontraron registros';
             }
             else
-                return 'Cuenta de uso no definida';
+            {
+                $query = Functions::get_json_decoded_query($this->database->select('users', [
+                    '[>]accounts' => [
+                        'account' => 'id'
+                    ]
+                ], [
+                    'users.id',
+                    'users.firstname',
+                    'users.lastname',
+                    'users.email',
+                    'users.phone',
+                    'users.avatar',
+                    'users.username',
+                    'accounts.zaviapms'
+                ], [
+                    'AND' => [
+                        'users.account' => $params[0],
+                        'users.status' => true
+                    ]
+                ]));
+
+                if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
+                {
+                    foreach ($query as $key => $value)
+                        unset($query[$key]['zaviapms']);
+
+                    return $query;
+                }
+                else
+                    return 'No se encontraron registros';
+            }
         }
         else
-            return 'Credenciales de acceso no válidas';
+            return 'Cuenta no establecida';
     }
 
     public function post($params)

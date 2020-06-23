@@ -13,57 +13,97 @@ class Urls_registered_vkye
                 'controller' => 'Index',
                 'method' => 'index'
             ],
-            '/login' => [
-                'controller' => 'Login',
-                'method' => 'index'
+            '/hola/voxes' => [
+                'controller' => 'Hi', // - Rediseño
+                'method' => 'voxes'
             ],
-            '/%param%/login' => [
-                'controller' => 'Login',
-                'method' => 'index'
+            '/hola/menu' => [
+                'controller' => 'Hi',
+                'method' => 'menu'
+            ],
+            '/hola/encuestas' => [
+                'controller' => 'Hi',
+                'method' => 'surveys'
+            ],
+            '/hola/reseñas' => [
+                'controller' => 'Hi',
+                'method' => 'reviews'
+            ],
+            '/hola/hoteles' => [
+                'controller' => 'Hi',
+                'method' => 'hotels'
+            ],
+            '/hola/restaurantes' => [
+                'controller' => 'Hi',
+                'method' => 'restaurants'
+            ],
+            '/hola/hospitales' => [
+                'controller' => 'Hi',
+                'method' => 'hospitals'
+            ],
+            '/webinar' => [
+                'controller' => 'Hi',
+                'method' => 'webinar'
+            ],
+            '/terms-and-conditions' => [
+                'controller' => 'Policies',
+                'method' => 'terms'
+            ],
+            '/privacy-policies' => [
+                'controller' => 'Policies',
+                'method' => 'privacy'
             ],
             '/signup' => [
                 'controller' => 'Signup',
                 'method' => 'index'
             ],
-            '/signup/validate/%param%/%param%' => [
+            '/activate/%param%/%param%' => [
                 'controller' => 'Signup',
-                'method' => 'validate'
+                'method' => 'activate'
             ],
-            '/hola' => [
-                'controller' => 'Hola',
-                'method' => 'operation'
-            ],
-            '/hola/operacion' => [
-                'controller' => 'Hola',
-                'method' => 'operation'
-            ],
-            '/hola/reputacion' => [
-                'controller' => 'Hola',
-                'method' => 'reputation'
-            ],
-            '/terms' => [
-                'controller' => 'Terms',
-                'method' => 'index'
-            ],
-            '/%param%/myvox' => [
-                'controller' => 'Myvox',
-                'method' => 'index'
-            ],
-            '/%param%/myvox/%param%/%param%' => [
-                'controller' => 'Myvox',
-                'method' => 'index'
-            ],
+            // '/%param%/myvox' => [
+            //     'controller' => 'Myvox', // - Rediseño
+            //     'method' => 'index'
+            // ],
+            // '/%param%/myvox/%param%/%param%' => [
+            //     'controller' => 'Myvox', // - Rediseño
+            //     'method' => 'index'
+            // ],
+            // '/%param%/myvox/request' => [
+            //     'controller' => 'Myvox', // - Rediseño
+            //     'method' => 'request'
+            // ],
+            // '/%param%/myvox/incident' => [
+            //     'controller' => 'Myvox', // - Rediseño
+            //     'method' => 'incident'
+            // ],
+            // '/%param%/myvox/menu' => [
+            //     'controller' => 'Myvox',
+            //     'method' => 'menu'
+            // ],
+            // '/%param%/myvox/surveys' => [
+            //     'controller' => 'Myvox', // - Rediseño
+            //     'method' => 'surveys'
+            // ],
             '/%param%/reviews' => [
-                'controller' => 'Reviews',
+                'controller' => 'Reviews', // - Rediseño
                 'method' => 'index'
             ],
-            '/dashboard' => [
-                'controller' => 'Dashboard',
+            '/login' => [
+                'controller' => 'Login',
                 'method' => 'index'
             ],
             '/logout' => [
-                'controller' => 'Dashboard',
+                'controller' => 'Login',
                 'method' => 'logout'
+            ],
+            '/dashboard' => [
+                'controller' => 'Dashboard', // - Rediseño
+                'method' => 'index'
+            ],
+            '/qr' => [
+                'controller' => 'Qr',
+                'method' => 'index'
             ],
             '/voxes' => [
                 'controller' => 'Voxes',
@@ -73,13 +113,9 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'create'
             ],
-            '/voxes/view/details/%param%' => [
+            '/voxes/details/%param%' => [
                 'controller' => 'Voxes',
                 'method' => 'details'
-            ],
-            '/voxes/view/history/%param%' => [
-                'controller' => 'Voxes',
-                'method' => 'history'
             ],
             '/voxes/edit/%param%' => [
                 'controller' => 'Voxes',
@@ -89,9 +125,9 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'reports'
             ],
-            '/voxes/reports/generate' => [
+            '/voxes/reports/%param%' => [
                 'controller' => 'Voxes',
-                'method' => 'generate'
+                'method' => 'reports'
             ],
             '/voxes/stats' => [
                 'controller' => 'Voxes',
@@ -101,51 +137,47 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'charts'
             ],
-            '/surveys' => [
-                'controller' => 'Surveys',
+            // '/surveys/questions' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'questions'
+            // ],
+            // '/surveys/answers' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'answers'
+            // ],
+            // '/surveys/comments' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'comments'
+            // ],
+            // '/surveys/contacts' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'contacts'
+            // ],
+            // '/surveys/stats' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'stats'
+            // ],
+            // '/surveys/charts' => [
+            //     'controller' => 'Surveys',
+            //     'method' => 'charts'
+            // ],
+            '/menu/products' => [
+                'controller' => 'Menu',
+                'method' => 'products'
+            ],
+            '/menu/restaurants' => [
+                'controller' => 'Menu',
+                'method' => 'restaurants'
+            ],
+            '/owners' => [
+                'controller' => 'Owners',
                 'method' => 'index'
             ],
-            '/surveys/questions' => [
-                'controller' => 'Surveys',
-                'method' => 'questions'
-            ],
-            '/surveys/answers' => [
-                'controller' => 'Surveys',
-                'method' => 'answers'
-            ],
-            '/surveys/comments' => [
-                'controller' => 'Surveys',
-                'method' => 'comments'
-            ],
-            '/surveys/contacts' => [
-                'controller' => 'Surveys',
-                'method' => 'contacts'
-            ],
-            '/surveys/stats' => [
-                'controller' => 'Surveys',
-                'method' => 'stats'
-            ],
-            '/surveys/charts' => [
-                'controller' => 'Surveys',
-                'method' => 'charts'
-            ],
-            '/rooms' => [
-                'controller' => 'Rooms',
-                'method' => 'index'
-            ],
-            '/tables' => [
-                'controller' => 'Tables',
-                'method' => 'index'
-            ],
-            '/clients' => [
-                'controller' => 'Clients',
-                'method' => 'index'
-            ],
-            '/opportunityareas' => [
+            '/opportunity-areas' => [
                 'controller' => 'Opportunityareas',
                 'method' => 'index'
             ],
-            '/opportunitytypes' => [
+            '/opportunity-types' => [
                 'controller' => 'Opportunitytypes',
                 'method' => 'index'
             ],
@@ -153,39 +185,31 @@ class Urls_registered_vkye
                 'controller' => 'Locations',
                 'method' => 'index'
             ],
-            '/reservationstatuses' => [
-                'controller' => 'Reservationstatuses',
+            '/guests-treatments' => [
+                'controller' => 'Gueststreatments',
                 'method' => 'index'
             ],
-            '/guesttreatments' => [
-                'controller' => 'Guesttreatments',
+            '/guests-types' => [
+                'controller' => 'Gueststypes',
                 'method' => 'index'
             ],
-            '/guesttypes' => [
-                'controller' => 'Guesttypes',
-                'method' => 'index'
-            ],
-            '/menu' => [
-                'controller' => 'Menu',
+            '/reservations-statuses' => [
+                'controller' => 'Reservationsstatuses',
                 'method' => 'index'
             ],
             '/users' => [
                 'controller' => 'Users',
                 'method' => 'index'
             ],
-            '/userlevels' => [
-                'controller' => 'Userlevels',
+            '/users-levels' => [
+                'controller' => 'Userslevels',
                 'method' => 'index'
             ],
             '/account' => [
                 'controller' => 'Account',
                 'method' => 'index'
             ],
-            '/information' => [
-                'controller' => 'Information',
-                'method' => 'index'
-            ],
-            '/profile' => [
+            '/my-profile' => [
                 'controller' => 'Profile',
                 'method' => 'index'
             ]

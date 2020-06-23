@@ -4,63 +4,58 @@ class Reservationstatuses_api extends Model
 {
     public function get($params)
     {
-        if (Api_vkye::access_permission($params[0], $params[1]) == true)
+        if (!empty($params[0]))
         {
-            if (!empty($params[2]))
+            if (!empty($params[1]))
             {
-                if (!empty($params[3]))
+                $query = Functions::get_json_decoded_query($this->database->select('reservation_statuses', [
+                    '[>]accounts' => [
+                        'account' => 'id'
+                    ]
+                ], [
+                    'reservation_statuses.id',
+                    'reservation_statuses.name',
+                    'accounts.zaviapms'
+                ], [
+                    'reservation_statuses.id' => $params[1]
+                ]));
+
+                if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
                 {
-                    $query = Functions::get_json_decoded_query($this->database->select('reservation_statuses', [
-                        '[>]accounts' => [
-                            'account' => 'id'
-                        ]
-                    ], [
-                        'reservation_statuses.id',
-                        'reservation_statuses.name',
-                        'accounts.zaviapms'
-                    ], [
-                        'reservation_statuses.id' => $params[3]
-                    ]));
+                    unset($query[0]['zaviapms']);
 
-                    if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
-                    {
-                        unset($query[0]['zaviapms']);
-
-                        return $query[0];
-                    }
-                    else
-                        return 'No se encontraron registros';
+                    return $query[0];
                 }
                 else
-                {
-                    $query = Functions::get_json_decoded_query($this->database->select('reservation_statuses', [
-                        '[>]accounts' => [
-                            'account' => 'id'
-                        ]
-                    ], [
-                        'reservation_statuses.id',
-                        'reservation_statuses.name',
-                        'accounts.zaviapms'
-                    ], [
-                        'reservation_statuses.account' => $params[2]
-                    ]));
-
-                    if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
-                    {
-                        foreach ($query as $key => $value)
-                            unset($query[$key]['zaviapms']);
-
-                        return $query;
-                    }
-                    else
-                        return 'No se encontraron registros';
-                }
+                    return 'No se encontraron registros';
             }
             else
-                return 'Cuenta de uso no definida';
+            {
+                $query = Functions::get_json_decoded_query($this->database->select('reservation_statuses', [
+                    '[>]accounts' => [
+                        'account' => 'id'
+                    ]
+                ], [
+                    'reservation_statuses.id',
+                    'reservation_statuses.name',
+                    'accounts.zaviapms'
+                ], [
+                    'reservation_statuses.account' => $params[0]
+                ]));
+
+                if (!empty($query) AND $query[0]['zaviapms']['status'] == true)
+                {
+                    foreach ($query as $key => $value)
+                        unset($query[$key]['zaviapms']);
+
+                    return $query;
+                }
+                else
+                    return 'No se encontraron registros';
+            }
         }
         else
-            return 'Credenciales de acceso no válidas';
+            return 'Cuenta no establecida';
     }
 
     public function post($params)

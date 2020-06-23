@@ -72,6 +72,9 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     <progress value="{$one_percentage_rate}" max="100"></progress>
                     <span>{$one_percentage_rate}%</span>
                 </div>
+                <form name="get_view_all" class="charts-filter">
+                    <a data-action="view_all" value="all" class="btn">{$lang.view_general_rate_total}</a>
+                </form>
             </div>
             <div class="chart-answered">
                 <h2>{$lang.surveys_answered}</h2>
@@ -81,10 +84,14 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     <span>{$count_answered_week}<strong>{$lang.this_week}</strong></span>
                     <span>{$count_answered_month}<strong>{$lang.this_month}</strong></span>
                     <span>{$count_answered_year}<strong>{$lang.this_year}</strong></span>
+                    <span>{$general_nps}<strong>{$lang.total} NPS</strong></span>
                 </div>
                 <div class="chart">
                     <canvas id="s1_chart" height="300"></canvas>
                 </div>
+            </div>
+            <div class="charts big">
+                <canvas id="nps_chart" height="300"></canvas>
             </div>
             <div class="charts big">
                 <canvas id="s2_chart" height="300"></canvas>

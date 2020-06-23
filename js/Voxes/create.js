@@ -2,38 +2,13 @@
 
 $(document).ready(function()
 {
-    // $('.datepicker').datepicker({
-    //     closeText: 'Cerrar',
-    //     prevText: 'Anterior',
-    //     nextText: 'Siguiente',
-    //     currentText: 'Hoy',
-    //     monthNames: ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'],
-    //     monthNamesShort: ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'],
-    //     dayNames: ['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],
-    //     dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sa'],
-    //     weekHeader: 'Sm',
-    //     dateFormat: 'yy-mm-dd',
-    // });
-
     $('.chosen-select').chosen();
-
-    $(document).on('change', '[important] [name]', function()
-    {
-        if ($(this).val() != '')
-        {
-            $(this).parents('label').addClass('success');
-            $(this).parents('label.error').removeClass('error');
-            $(this).parents('label').find('p.error').remove();
-        }
-        else
-            $(this).parents('label').removeClass('success');
-    });
 
     $('[name="type"]').on('change', function()
     {
         $.ajax({
             type: 'POST',
-            data: 'option=' + $(this).val() + '&action=get_opt_opportunity_areas',
+            data: 'type=' + $(this).val() + '&action=get_opt_owners',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -41,18 +16,16 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[name="opportunity_area"]').html(response.data);
-                    $('[name="opportunity_area"]').parents('label').removeClass('success');
-                    $('[name="opportunity_type"]').html('<option value="" selected hidden>Elegir...</option>');
-                    $('[name="opportunity_type"]').attr('disabled', true);
-                    $('[name="opportunity_type"]').parents('label').removeClass('success');
+                    $('[name="owner"]').html(response.html);
+
+                    required_focus('input', $('[name="owner"]'), null);
                 }
             }
         });
 
         $.ajax({
             type: 'POST',
-            data: 'option=' + $(this).val() + '&action=get_opt_locations',
+            data: 'type=' + $(this).val() + '&action=get_opt_opportunity_areas',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -60,17 +33,50 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[name="location"]').html(response.data);
-                    $('[name="location"]').parents('label').removeClass('success');
+                    $('[name="opportunity_area"]').html(response.html);
+
+                    required_focus('input', $('[name="opportunity_area"]'), null);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'action=get_opt_opportunity_types',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[name="opportunity_type"]').html(response.html);
+                    $('[name="opportunity_type"]').attr('disabled', true);
+
+                    required_focus('input', $('[name="opportunity_type"]'), null);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + $(this).val() + '&action=get_opt_locations',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[name="location"]').html(response.html);
+
+                    required_focus('input', $('[name="location"]'), null);
                 }
             }
         });
 
         if ($(this).val() == 'request')
         {
-            $('[name="room"]').parents('label').attr('important', true);
-            $('[name="table"]').parents('label').attr('important', true);
-            $('[name="client"]').parents('label').attr('important', true);
             $('[name="cost"]').parent().parent().parent().addClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().addClass('hidden');
             $('[name="observations"]').parent().parent().parent().removeClass('hidden');
@@ -89,9 +95,6 @@ $(document).ready(function()
         }
         else if ($(this).val() == 'incident')
         {
-            $('[name="room"]').parents('label').attr('important', true);
-            $('[name="table"]').parents('label').attr('important', true);
-            $('[name="client"]').parents('label').attr('important', true);
             $('[name="cost"]').parent().parent().parent().removeClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().removeClass('hidden');
             $('[name="observations"]').parent().parent().parent().addClass('hidden');
@@ -110,9 +113,6 @@ $(document).ready(function()
         }
         else if ($(this).val() == 'workorder')
         {
-            $('[name="room"]').parents('label').removeAttr('important');
-            $('[name="table"]').parents('label').removeAttr('important');
-            $('[name="client"]').parents('label').removeAttr('important');
             $('[name="cost"]').parent().parent().parent().removeClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().addClass('hidden');
             $('[name="observations"]').parent().parent().parent().removeClass('hidden');
@@ -129,51 +129,55 @@ $(document).ready(function()
             $('[name="check_in"]').parent().parent().parent().addClass('hidden');
             $('[name="check_out"]').parent().parent().parent().addClass('hidden');
         }
-
-        $('label.error').removeClass('error');
-        $('p.error').remove();
     });
 
-    $('[name="room"]').on('change', function()
+    $('[name="owner"]').on('change', function()
     {
-        $.ajax({
-            type: 'POST',
-            data: 'room=' + $(this).val() + '&action=get_guest',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
+        if ($('[name="type"]').val() == 'request' || $('[name="type"]').val() == 'incident')
+        {
+            $.ajax({
+                type: 'POST',
+                data: 'owner=' + $(this).val() + '&action=get_reservation',
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
                 {
-                    if ($('[name="type"]:checked').val() == 'request')
+                    if (response.status == 'success')
                     {
                         $('[name="firstname"]').val(response.data.firstname);
                         $('[name="lastname"]').val(response.data.lastname);
+
+                        required_focus('names', $('form[name="new_vox"]'), [
+                            'firstname',
+                            'lastname'
+                        ]);
+
+                        if ($('[name="type"]').val() == 'incident')
+                        {
+                            $('[name="reservation_number"]').val(response.data.reservation_number);
+                            $('[name="check_in"]').val(response.data.check_in);
+                            $('[name="check_out"]').val(response.data.check_out);
+
+                            required_focus('names', $('form[name="new_vox"]'), [
+                                'reservation_number',
+                                'check_in',
+                                'check_out'
+                            ]);
+                        }
                     }
-                    else if ($('[name="type"]:checked').val() == 'incident')
-                    {
-                        $('[name="firstname"]').val(response.data.firstname);
-                        $('[name="lastname"]').val(response.data.lastname);
-                        $('[name="reservation_number"]').val(response.data.reservation_number);
-                        $('[name="check_in"]').val(response.data.check_in);
-                        $('[name="check_out"]').val(response.data.check_out);
-                    }
+                    else if (response.status == 'error')
+                        show_modal_error(response.message);
                 }
-                else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                }
-            }
-        });
+            });
+        }
     });
 
     $('[name="opportunity_area"]').on('change', function()
     {
         $.ajax({
             type: 'POST',
-            data: 'opportunity_area=' + $(this).val() + '&option=' + $('[name="type"]:checked').val() + '&action=get_opt_opportunity_types',
+            data: 'opportunity_area=' + $(this).val() + '&type=' + $('[name="type"]').val() + '&action=get_opt_opportunity_types',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -181,8 +185,10 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[name="opportunity_type"]').html(response.data);
+                    $('[name="opportunity_type"]').html(response.html);
                     $('[name="opportunity_type"]').attr('disabled', false);
+
+                    required_focus('input', $('[name="opportunity_type"]'), null);
                 }
             }
         });
@@ -212,34 +218,9 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').addClass('view');
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { window.location.href = '/voxes'; }, 1500);
-                }
+                    show_modal_success(response.message, 1500, response.path);
                 else if (response.status == 'error')
-                {
-                    if (response.labels)
-                    {
-                        form.find('label.error').removeClass('error');
-                        form.find('p.error').remove();
-
-                        $.each(response.labels, function(i, label)
-                        {
-                            if (label[1].length > 0)
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-                            else
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
-                        });
-
-                        form.find('label.error [name]')[0].focus();
-                    }
-                    else if (response.message)
-                    {
-                        $('[data-modal="error"]').addClass('view');
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                    }
-                }
+                    show_form_errors(form, response);
             }
         });
     });

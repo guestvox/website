@@ -1,166 +1,151 @@
 'use strict';
 
-$(document).ready(function ()
+$(document).ready(function()
 {
-    var tbl_vox_reports = $('#tbl_vox_reports').DataTable({
-        ordering: false,
-        pageLength: 25,
-        info: false
-    });
-
-    $('[name="tbl_vox_reports_search"]').on('keyup', function()
+    $(document).on('click', '#sasw, #prsw', function()
     {
-        tbl_vox_reports.search(this.value).draw();
-    });
-
-    $('[name="type"]').on('change', function()
-    {
-        var parent = $(this).parents('form');
-
-        $.ajax({
-            type: 'POST',
-            data: 'option=' + $(this).val() + '&action=get_opt_opportunity_areas',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    parent.find('[name="opportunity_area"]').html(response.data);
-                    parent.find('[name="opportunity_type"]').html('<option value="all">Todo</option>');
-                }
-                else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                }
-            }
-        });
-
-        $.ajax({
-            type: 'POST',
-            data: 'option=' + $(this).val() + '&action=get_opt_locations',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    parent.find('[name="location"]').html(response.data);
-                else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                }
-            }
-        });
-
-        $.ajax({
-            type: 'POST',
-            data: 'option=' + $(this).val() + '&action=get_cbx_addressed_to_opportunity_areas',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    parent.find('[name="addressed_to_opportunity_areas[]"]').parent().parent().html(response.data);
-                else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                }
-            }
-        });
-
-        $.ajax({
-            type: 'POST',
-            data: 'option=' + $(this).val() + '&action=get_cbx_fields',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    parent.find('[name="fields[]"]').parent().parent().html(response.data);
-                else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                }
-            }
-        });
-    });
-
-    $('[name="opportunity_area"]').on('change', function()
-    {
-        var parent = $(this).parents('form');
-
-        $.ajax({
-            type: 'POST',
-            data: 'opportunity_area=' + $(this).val() + '&option=' + parent.find('[name="type"]').val() + '&action=get_opt_opportunity_types',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    parent.find('[name="opportunity_type"]').html(response.data);
-                else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                }
-            }
-        });
-    });
-
-    $('[name="addressed_to"]').on('change', function()
-    {
-        var parent = $(this).parents('form');
-
-        if ($(this).val() == 'opportunity_areas')
-            parent.find('[name="addressed_to_opportunity_areas[]"]').parent().parent().parent().parent().parent().parent().removeClass('hidden');
+        if ($(this).val() == 'print')
+            window.location.href = '/voxes/reports/print';
         else
-            parent.find('[name="addressed_to_opportunity_areas[]"]').parent().parent().parent().parent().parent().parent().addClass('hidden');
+            window.location.href = '/voxes/reports';
     });
 
-    $(document).on('change', '[name="checked_all"]', function()
-    {
-        if ($(this).prop('checked') == true)
-            $(this).parent().parent().find('[type="checkbox"]').prop('checked', true);
-        else if ($(this).prop('checked') == false)
-            $(this).parent().parent().find('[type="checkbox"]').prop('checked', false);
-    });
-
-    $(document).on('change', '[type="checkbox"]', function()
-    {
-        if ($(this).prop('checked') == false)
-            $(this).parent().parent().find('[name="checked_all"]').prop('checked', false);
-    });
-
-    var id;
+    var id = null;
     var edit = false;
+
+    $('[data-modal="new_vox_report"]').find('[name="type"]').on('change', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + $(this).val() + '&action=get_opt_owners',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="new_vox_report"]').find('[name="owner"]').html(response.html);
+
+                    required_focus('input', $('[data-modal="new_vox_report"]').find('[name="owner"]'), null);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + $(this).val() + '&action=get_opt_opportunity_areas',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="new_vox_report"]').find('[name="opportunity_area"]').html(response.html);
+
+                    required_focus('input', $('[data-modal="new_vox_report"]').find('[name="opportunity_area"]'), null);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'action=get_opt_opportunity_types',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="new_vox_report"]').find('[name="opportunity_type"]').html(response.html);
+
+                    required_focus('input', $('[data-modal="new_vox_report"]').find('[name="opportunity_type"]'), null);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + $(this).val() + '&action=get_opt_locations',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="new_vox_report"]').find('[name="location"]').html(response.html);
+
+                    required_focus('input', $('[data-modal="new_vox_report"]').find('[name="location"]'), null);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + $(this).val() + '&action=get_cbx_opportunity_areas',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    $('[data-modal="new_vox_report"]').find('[name="opportunity_areas[]"]').parents('.checkboxes').html(response.html);
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + $(this).val() + '&action=get_cbx_vox_report_fields',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    $('[data-modal="new_vox_report"]').find('[name="fields[]"]').parents('.checkboxes').html(response.html);
+            }
+        });
+    });
+
+    $('[data-modal="new_vox_report"]').find('[name="opportunity_area"]').on('change', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'opportunity_area=' + $(this).val() + '&type=' + $('[data-modal="new_vox_report"]').find('[name="type"]').val() + '&action=get_opt_opportunity_types',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="new_vox_report"]').find('[name="opportunity_type"]').html(response.html);
+
+                    required_focus('input', $('[data-modal="new_vox_report"]').find('[name="opportunity_type"]'), null)
+                }
+            }
+        });
+    });
+
+    $('[data-modal="new_vox_report"]').find('[name="addressed_to"]').on('change', function()
+    {
+        if ($(this).val() == 'opportunity_areas')
+            $('[data-modal="new_vox_report"]').find('[name="opportunity_areas[]"]').parents('.checkboxes').parent().removeClass('hidden');
+        else
+            $('[data-modal="new_vox_report"]').find('[name="opportunity_areas[]"]').parents('.checkboxes').parent().addClass('hidden');
+    });
 
     $('[data-modal="new_vox_report"]').modal().onCancel(function()
     {
         id = null;
         edit = false;
-        $('[data-modal="new_vox_report"]').removeClass('edit');
-        $('[data-modal="new_vox_report"]').addClass('new');
-        $('[data-modal="new_vox_report"]').find('header > h3').html('Nuevo');
-        $('[data-modal="new_vox_report"]').find('form')[0].reset();
-        $('[data-modal="new_vox_report"]').find('[name="addressed_to_opportunity_areas[]"]').prop('checked', false)
-        $('[data-modal="new_vox_report"]').find('[name="addressed_to_opportunity_areas[]"]').parent().parent().parent().parent().parent().parent().addClass('hidden');
-        $('[data-modal="new_vox_report"]').find('[name="fields[]"]').prop('checked', false)
-        $('[data-modal="new_vox_report"]').find('label.error').removeClass('error');
-        $('[data-modal="new_vox_report"]').find('p.error').remove();
-    });
 
-    $('[data-modal="new_vox_report"]').modal().onSuccess(function()
-    {
-        $('[data-modal="new_vox_report"]').find('form').submit();
+        $('[data-modal="new_vox_report"]').find('[name="opportunity_areas[]"]').parents('.checkboxes').parent().addClass('hidden');
+
+        clean_form($('form[name="new_vox_report"]'));
     });
 
     $('form[name="new_vox_report"]').on('submit', function(e)
@@ -183,39 +168,14 @@ $(document).ready(function ()
             success: function(response)
             {
                 if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').addClass('view');
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { location.reload(); }, 1500);
-                }
+                    show_modal_success(response.message, 1500);
                 else if (response.status == 'error')
-                {
-                    if (response.labels)
-                    {
-                        form.find('label.error').removeClass('error');
-                        form.find('p.error').remove();
-
-                        $.each(response.labels, function(i, label)
-                        {
-                            if (label[1].length > 0)
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error').append('<p class="error">' + label[1] + '</p>');
-                            else
-                                form.find('[name="' + label[0] + '"]').parents('label').addClass('error');
-                        });
-
-                        form.find('label.error [name]')[0].focus();
-                    }
-                    else if (response.message)
-                    {
-                        $('[data-modal="error"]').addClass('view');
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                    }
-                }
+                    show_form_errors(form, response);
             }
         });
     });
 
-    $(document).on('click','[data-action="edit_vox_report"]', function()
+    $('[data-action="edit_vox_report"]').on('click', function()
     {
         id = $(this).data('id');
         edit = true;
@@ -226,53 +186,199 @@ $(document).ready(function ()
             processData: false,
             cache: false,
             dataType: 'json',
-            success: function(response)
+            success: function(response1)
             {
-                if (response.status == 'success')
+                if (response1.status == 'success')
                 {
-                    $('[data-modal="new_vox_report"]').removeClass('new');
-                    $('[data-modal="new_vox_report"]').addClass('edit');
-                    $('[data-modal="new_vox_report"]').addClass('view');
-                    $('[data-modal="new_vox_report"]').find('header > h3').html('Editar');
-                    $('[data-modal="new_vox_report"]').find('[name="name"]').val(response.data.name);
-                    $('[data-modal="new_vox_report"]').find('[name="type"]').val(response.data.type);
-                    $('[data-modal="new_vox_report"]').find('[name="opportunity_area"]').val(response.data.opportunity_area);
-                    $('[data-modal="new_vox_report"]').find('[name="opportunity_type"]').val(response.data.opportunity_type);
-                    $('[data-modal="new_vox_report"]').find('[name="room"]').val(response.data.room);
-                    $('[data-modal="new_vox_report"]').find('[name="table"]').val(response.data.table);
-                    $('[data-modal="new_vox_report"]').find('[name="client"]').val(response.data.client);
-                    $('[data-modal="new_vox_report"]').find('[name="location"]').val(response.data.location);
-                    $('[data-modal="new_vox_report"]').find('[name="order"]').val(response.data.order);
-                    $('[data-modal="new_vox_report"]').find('[name="time_period"]').val(response.data.time_period);
-                    $('[data-modal="new_vox_report"]').find('[name="addressed_to"]').val(response.data.addressed_to);
+                    $('[data-modal="new_vox_report"]').find('[name="name"]').val(response1.data.name);
+                    $('[data-modal="new_vox_report"]').find('[name="type"]').val(response1.data.type);
 
-                    if (response.data.addressed_to == 'opportunity_areas')
-                    {
-                        $('[data-modal="new_vox_report"]').find('[name="addressed_to_opportunity_areas[]"]').parent().parent().parent().parent().parent().parent().removeClass('hidden');
-
-                        $.each(response.data.addressed_to_opportunity_areas, function (key, value)
+                    $.ajax({
+                        type: 'POST',
+                        data: 'type=' + response1.data.type + '&action=get_opt_owners',
+                        processData: false,
+                        cache: false,
+                        dataType: 'json',
+                        success: function(response2)
                         {
-                            $('[data-modal="new_vox_report"]').find('[name="addressed_to_opportunity_areas[]"][value="' + value + '"]').prop('checked', true);
-                        });
-                    }
+                            if (response2.status == 'success')
+                            {
+                                $('[data-modal="new_vox_report"]').find('[name="owner"]').html(response2.html);
+                                $('[data-modal="new_vox_report"]').find('[name="owner"]').val(response1.data.owner);
 
-                    $.each(response.data.fields, function (key, value)
-                    {
-                        $('[data-modal="new_vox_report"]').find('[name="fields[]"][value="' + value + '"]').prop('checked', true);
+                                required_focus('input', $('[data-modal="new_vox_report"]').find('[name="owner"]'), null);
+                            }
+                        }
                     });
+
+                    $.ajax({
+                        type: 'POST',
+                        data: 'type=' + response1.data.type + '&action=get_opt_opportunity_areas',
+                        processData: false,
+                        cache: false,
+                        dataType: 'json',
+                        success: function(response2)
+                        {
+                            if (response2.status == 'success')
+                            {
+                                $('[data-modal="new_vox_report"]').find('[name="opportunity_area"]').html(response2.html);
+                                $('[data-modal="new_vox_report"]').find('[name="opportunity_area"]').val(response1.data.opportunity_area);
+
+                                required_focus('input', $('[data-modal="new_vox_report"]').find('[name="opportunity_area"]'), null);
+                            }
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'POST',
+                        data: 'opportunity_area=' + response1.data.opportunity_area + '&type=' + response1.data.type + '&action=get_opt_opportunity_types',
+                        processData: false,
+                        cache: false,
+                        dataType: 'json',
+                        success: function(response2)
+                        {
+                            if (response2.status == 'success')
+                            {
+                                $('[data-modal="new_vox_report"]').find('[name="opportunity_type"]').html(response2.html);
+                                $('[data-modal="new_vox_report"]').find('[name="opportunity_type"]').val(response1.data.opportunity_type);
+
+                                required_focus('input', $('[data-modal="new_vox_report"]').find('[name="opportunity_type"]'), null);
+                            }
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'POST',
+                        data: 'type=' + response1.data.type + '&action=get_opt_locations',
+                        processData: false,
+                        cache: false,
+                        dataType: 'json',
+                        success: function(response2)
+                        {
+                            if (response2.status == 'success')
+                            {
+                                $('[data-modal="new_vox_report"]').find('[name="location"]').html(response2.html);
+                                $('[data-modal="new_vox_report"]').find('[name="location"]').val(response1.data.location);
+
+                                required_focus('input', $('[data-modal="new_vox_report"]').find('[name="location"]'), null);
+                            }
+                        }
+                    });
+
+                    $('[data-modal="new_vox_report"]').find('[name="order"]').val(response1.data.order);
+                    $('[data-modal="new_vox_report"]').find('[name="time_period_type"]').val(response1.data.time_period.type);
+                    $('[data-modal="new_vox_report"]').find('[name="time_period_number"]').val(response1.data.time_period.number);
+                    $('[data-modal="new_vox_report"]').find('[name="addressed_to"]').val(response1.data.addressed_to);
+
+                    $.ajax({
+                        type: 'POST',
+                        data: 'type=' + response1.data.type + '&action=get_cbx_opportunity_areas',
+                        processData: false,
+                        cache: false,
+                        dataType: 'json',
+                        success: function(response2)
+                        {
+                            if (response2.status == 'success')
+                            {
+                                $('[data-modal="new_vox_report"]').find('[name="opportunity_areas[]"]').parents('.checkboxes').html(response2.html);
+
+                                if (response1.data.addressed_to == 'opportunity_areas')
+                                {
+                                    $('[data-modal="new_vox_report"]').find('[name="opportunity_areas[]"]').parents('.checkboxes').parent().removeClass('hidden');
+
+                                    $.each(response1.data.opportunity_areas, function (key, value)
+                                    {
+                                        $('[data-modal="new_vox_report"]').find('[name="opportunity_areas[]"][value="' + value + '"]').prop('checked', true);
+                                    });
+                                }
+                            }
+                        }
+                    });
+
+                    $.ajax({
+                        type: 'POST',
+                        data: 'type=' + response1.data.type + '&action=get_cbx_vox_report_fields',
+                        processData: false,
+                        cache: false,
+                        dataType: 'json',
+                        success: function(response2)
+                        {
+                            if (response2.status == 'success')
+                            {
+                                $('[data-modal="new_vox_report"]').find('[name="fields[]"]').parents('.checkboxes').html(response2.html);
+
+                                $.each(response1.data.fields, function (key, value)
+                                {
+                                    $('[data-modal="new_vox_report"]').find('[name="fields[]"][value="' + value + '"]').prop('checked', true);
+                                });
+                            }
+                        }
+                    });
+
+                    required_focus('form', $('form[name="new_vox_report"]'), null);
+
+                    $('[data-modal="new_vox_report"]').addClass('view');
                 }
-                else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                }
+                else if (response1.status == 'error')
+                    show_modal_error(response1.message);
             }
         });
     });
 
-    $(document).on('click', '[data-action="delete_vox_report"]', function()
+    $('[data-action="deactivate_vox_report"]').on('click', function()
     {
         id = $(this).data('id');
+
+        $('[data-modal="deactivate_vox_report"]').addClass('view');
+    });
+
+    $('[data-modal="deactivate_vox_report"]').modal().onSuccess(function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + id + '&action=deactivate_vox_report',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 1500);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-action="activate_vox_report"]').on('click', function()
+    {
+        id = $(this).data('id');
+
+        $('[data-modal="activate_vox_report"]').addClass('view');
+    });
+
+    $('[data-modal="activate_vox_report"]').modal().onSuccess(function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + id + '&action=activate_vox_report',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 1500);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-action="delete_vox_report"]').on('click', function()
+    {
+        id = $(this).data('id');
+
         $('[data-modal="delete_vox_report"]').addClass('view');
     });
 
@@ -287,17 +393,298 @@ $(document).ready(function ()
             success: function(response)
             {
                 if (response.status == 'success')
-                {
-                    $('[data-modal="success"]').addClass('view');
-                    $('[data-modal="success"]').find('main > p').html(response.message);
-                    setTimeout(function() { location.reload(); }, 1500);
-                }
+                    show_modal_success(response.message, 1500);
                 else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-modal="filter_vox_report"]').find('[name="report"]').on('change', function()
+    {
+        if ($(this).val() != 'free')
+        {
+            $.ajax({
+                type: 'POST',
+                data: 'id=' + $(this).val() + '&action=get_vox_report',
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response1)
                 {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
+                    if (response1.status == 'success')
+                    {
+                        $('[data-modal="filter_vox_report"]').find('[name="type"]').val(response1.data.type);
+
+                        $.ajax({
+                            type: 'POST',
+                            data: 'type=' + response1.data.type + '&action=get_opt_owners',
+                            processData: false,
+                            cache: false,
+                            dataType: 'json',
+                            success: function(response2)
+                            {
+                                if (response2.status == 'success')
+                                {
+                                    $('[data-modal="filter_vox_report"]').find('[name="owner"]').html(response2.html);
+                                    $('[data-modal="filter_vox_report"]').find('[name="owner"]').val(response1.data.owner);
+
+                                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="owner"]'), null);
+                                }
+                            }
+                        });
+
+                        $.ajax({
+                            type: 'POST',
+                            data: 'type=' + response1.data.type + '&action=get_opt_opportunity_areas',
+                            processData: false,
+                            cache: false,
+                            dataType: 'json',
+                            success: function(response2)
+                            {
+                                if (response2.status == 'success')
+                                {
+                                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_area"]').html(response2.html);
+                                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_area"]').val(response1.data.opportunity_area);
+
+                                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="opportunity_area"]'), null);
+                                }
+                            }
+                        });
+
+                        $.ajax({
+                            type: 'POST',
+                            data: 'opportunity_area=' + response1.data.opportunity_area + '&type=' + response1.data.type + '&action=get_opt_opportunity_types',
+                            processData: false,
+                            cache: false,
+                            dataType: 'json',
+                            success: function(response2)
+                            {
+                                if (response2.status == 'success')
+                                {
+                                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]').html(response2.html);
+                                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]').val(response1.data.opportunity_type);
+
+                                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]'), null);
+                                }
+                            }
+                        });
+
+                        $.ajax({
+                            type: 'POST',
+                            data: 'type=' + response1.data.type + '&action=get_opt_locations',
+                            processData: false,
+                            cache: false,
+                            dataType: 'json',
+                            success: function(response2)
+                            {
+                                if (response2.status == 'success')
+                                {
+                                    $('[data-modal="filter_vox_report"]').find('[name="location"]').html(response2.html);
+                                    $('[data-modal="filter_vox_report"]').find('[name="location"]').val(response1.data.location);
+
+                                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="location"]'), null);
+                                }
+                            }
+                        });
+
+                        $('[data-modal="filter_vox_report"]').find('[name="order"]').val(response1.data.order);
+
+                        var started_date = new Date();
+
+                        if (response1.data.time_period.type == 'days')
+                            started_date.setDate(started_date.getDate() - 7);
+                        else if (response1.data.time_period.type == 'months')
+                            started_date.setMonth(started_date.getMonth() - response1.data.time_period.number);
+                        else if (response1.data.time_period.type == 'years')
+                            started_date.setFullYear(started_date.getFullYear() - response1.data.time_period.number);
+
+                        var started_date_day = started_date.getDate();
+                        var started_date_month = started_date.getMonth() + 1;
+                        var started_date_year = started_date.getFullYear();
+
+                        started_date = started_date_year + '-' + ((started_date_month <= 9) ? '0' + started_date_month : started_date_month) + '-' + ((started_date_day <= 9) ? '0' + started_date_day : started_date_day);
+
+                        $('[data-modal="filter_vox_report"]').find('[name="started_date"]').val(started_date);
+
+                        $.ajax({
+                            type: 'POST',
+                            data: 'type=' + response1.data.type + '&action=get_cbx_vox_report_fields',
+                            processData: false,
+                            cache: false,
+                            dataType: 'json',
+                            success: function(response2)
+                            {
+                                if (response2.status == 'success')
+                                {
+                                    $('[data-modal="filter_vox_report"]').find('[name="fields[]"]').parents('.checkboxes').html(response2.html);
+
+                                    $.each(response1.data.fields, function (key, value)
+                                    {
+                                        $('[data-modal="filter_vox_report"]').find('[name="fields[]"][value="' + value + '"]').prop('checked', true);
+                                    });
+                                }
+                            }
+                        });
+
+                        required_focus('form', $('form[name="filter_vox_report"]'), null);
+                    }
+                    else if (response1.status == 'error')
+                        show_modal_error(response1.message);
+                }
+            });
+        }
+    });
+
+    $('[data-modal="filter_vox_report"]').find('[name="type"]').on('change', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + $(this).val() + '&action=get_opt_owners',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="filter_vox_report"]').find('[name="owner"]').html(response.html);
+
+                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="owner"]'), null);
                 }
             }
         });
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + $(this).val() + '&action=get_opt_opportunity_areas',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_area"]').html(response.html);
+
+                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="opportunity_area"]'), null);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'action=get_opt_opportunity_types',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]').html(response.html);
+
+                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]'), null);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + $(this).val() + '&action=get_opt_locations',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="filter_vox_report"]').find('[name="location"]').html(response.html);
+
+                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="location"]'), null);
+                }
+            }
+        });
+
+        $.ajax({
+            type: 'POST',
+            data: 'type=' + $(this).val() + '&action=get_cbx_vox_report_fields',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    $('[data-modal="filter_vox_report"]').find('[name="fields[]"]').parents('.checkboxes').html(response.html);
+            }
+        });
+    });
+
+    $('[data-modal="filter_vox_report"]').find('[name="opportunity_area"]').on('change', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'opportunity_area=' + $(this).val() + '&type=' + $('[data-modal="filter_vox_report"]').find('[name="type"]').val() + '&action=get_opt_opportunity_types',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]').html(response.html);
+
+                    required_focus('input', $('[data-modal="filter_vox_report"]').find('[name="opportunity_type"]'), null)
+                }
+            }
+        });
+    });
+
+    $('[data-modal="filter_vox_report"]').modal().onCancel(function()
+    {
+        clean_form($('form[name="filter_vox_report"]'));
+    });
+
+    $('form[name="filter_vox_report"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&action=filter_vox_report',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('#print_vox_report').html(response.html);
+
+                    $('[data-modal="filter_vox_report"]').removeClass('view');
+
+                    if (response.print == true)
+                        $('[data-action="print_vox_report"]').removeClass('hidden');
+                    else if (response.print == false)
+                        $('[data-action="print_vox_report"]').addClass('hidden');
+                }
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
+            }
+        });
+    });
+
+    $('[data-action="print_vox_report"]').on('click', function()
+    {
+        var html1 = document.body.innerHTML;
+        var html2 = document.getElementById('print_vox_report').innerHTML;
+
+        document.body.innerHTML = html2;
+
+        window.print();
+
+        document.body.innerHTML = html1;
     });
 });

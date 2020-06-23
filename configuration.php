@@ -1,13 +1,14 @@
 <?php
+
 defined('_EXEC') or die;
 
 /**
- *
  * @author David Miguel Gómez Macías < davidgomezmacias@gmail.com >
  * @package Valkyrie.Libraries
  * @since 1.0.0
  * @version 1.0.0
  */
+
 class Configuration
 {
 	/**
@@ -26,7 +27,7 @@ class Configuration
 	 *
      * @var string $web_page
      */
-	public static $web_page = 'GuestVox';
+	public static $web_page = 'Guestvox';
 
 	/**
      * Idioma por default
@@ -103,15 +104,6 @@ class Configuration
 	public static $secret = '=7H(Hfkt)8w,<T~z';
 
 	/**
-     * Clave privada de encriptado
-	 *
-	 * @static
-	 *
-     * @var string $encrypt_private_key
-     */
-	public static $encrypt_private_key = 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7';
-
-	/**
      * Tiempo de vida para una session en bytes.
 	 *
 	 * @static
@@ -155,7 +147,7 @@ class Configuration
 	 *
      * @var string $db_name
      */
-	public static $db_name = 'gv-website';
+	public static $db_name = 'gv_website';
 
 	/**
      * Usuario de la base de datos
@@ -257,7 +249,7 @@ class Configuration
 	 *
      * @var string $smtp_pass
      */
-	public static $smtp_pass = 'P9#se9k4';
+	public static $smtp_pass = '5xb2r1@W';
 
 	/**
      * Seguridad de la encriptacion para el envio de SMTP.

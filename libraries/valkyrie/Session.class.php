@@ -113,7 +113,8 @@ class Session
      */
 	static function exists_var( $str )
 	{
-		return ( isset($_SESSION[$str]) && !empty($_SESSION[$str]) ) ? true : false;
+		return ( array_key_exists($str, $_SESSION) ) ? true : false;
+		// return ( isset($_SESSION[$str]) && !empty($_SESSION[$str]) ) ? true : false;
 	}
 
 	/**

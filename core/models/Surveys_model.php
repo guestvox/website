@@ -33,10 +33,27 @@ class Surveys_model extends Model
 			'subquestions',
 			'type',
 			'values',
-			'status'
+			'status',
+			'system'
+		], [
+			'AND' => [
+				'account' => null,
+			]
+		]));
+
+		$query2 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+			'id',
+			'name',
+			'subquestions',
+			'type',
+			'values',
+			'status',
+			'system'
 		], $where));
 
-		return $query;
+		// $arr_question = array_merge($query, $query2);
+
+		// return $arr_question;
 	}
 
 	public function get_survey_question($id)
@@ -150,122 +167,84 @@ class Surveys_model extends Model
 		return $query;
 	}
 
-	public function get_survey_answers()
+	public function get_survey_nps()
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 			'id',
 			'token',
-			'room',
-			'table',
-			'client',
+			'owner',
 			'answers',
 			'comment',
 			'guest',
 			'date',
 			'status'
 		], [
-			'account' => Session::get_value('account')['id'],
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+			],
 			'ORDER' => [
 				'id' => 'DESC'
 			]
 		]));
 
+		$count_detractors = 0;
+		$count_promoters = 0;
+		$total_nps = 0;
+		$result = 0;
+
 		foreach ($query as $key => $value)
 		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				if (!empty($value['room']))
-					$query[$key]['room'] = $this->get_room($value['room']);
-			}
-
-			if (Session::get_value('account')['type'] == 'restaurant')
-			{
-				if (!empty($value['table']))
-					$query[$key]['table'] = $this->get_table($value['table']);
-			}
-
-			if (Session::get_value('account')['type'] == 'others')
-			{
-				if (!empty($value['client']))
-					$query[$key]['client'] = $this->get_client($value['client']);
-			}
-
-			$query[$key]['rate'] = 0;
-			$count = 0;
-
 			foreach ($value['answers'] as $subvalue)
 			{
-				if ($subvalue['type'] == 'rate')
+				if ($subvalue['type'] == 'nps')
 				{
-					$query[$key]['rate'] = $query[$key]['rate'] + $subvalue['answer'];
-					$count = $count + 1;
-				}
+					if ($subvalue['answer'] >= 0 AND $subvalue['answer'] <= 6)
+						$count_detractors = $count_detractors + 1;
+					else if ($subvalue['answer'] >= 9 AND $subvalue['answer'] <= 10)
+						$count_promoters = $count_promoters + 1;
 
-				foreach ($subvalue['subanswers'] as $parentvalue)
-				{
-					if ($parentvalue['type'] == 'rate')
-					{
-						$query[$key]['rate'] = $query[$key]['rate'] + $parentvalue['answer'];
-						$count = $count + 1;
-					}
-
-					foreach ($parentvalue['subanswers'] as $childvalue)
-					{
-						if ($childvalue['type'] == 'rate')
-						{
-							$query[$key]['rate'] = $query[$key]['rate'] + $childvalue['answer'];
-							$count = $count + 1;
-						}
-					}
+					$total_nps = $total_nps + 1;
 				}
 			}
-
-			if ($query[$key]['rate'] > 0 AND $count > 0)
-				$query[$key]['rate'] = round(($query[$key]['rate'] / $count), 1);
-
-			$query[$key]['count'] = count($query);
 		}
 
-		return $query;
+		if ($total_nps > 0)
+			$result = (($count_promoters - $count_detractors) / $total_nps) * 100;
+
+		return $result;
 	}
 
-	public function get_rooms()
+	public function get_survey_answers($data = null, $params = [])
 	{
-		$query = $this->database->select('rooms', [
-			'id',
-			'number',
-			'name',
-			'status'
-		], [
-			'account' => Session::get_value('account')['id'],
-			'ORDER' => [
-				'number' => 'ASC'
-			]
-		]);
-
-		return $query;
-	}
-
-	public function get_filter_survey_answer($data)
-	{
-		if ($data['room'] == 'all')
+		if ($data != 'all' AND $data != null)
 		{
+			if (!empty($params))
+			{
+				$where = [
+					'account' => Session::get_value('account')['id'],
+					'owner' => $data,
+					'date[<>]' => [$params[0], $params[1]]
+				];
+			}
+			else
+			{
+				$where = [
+					'account' => Session::get_value('account')['id'],
+					'owner' => $data
+				];
+			}
+
 			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 				'id',
 				'token',
-				'room',
-				'table',
-				'client',
+				'owner',
 				'answers',
 				'comment',
 				'guest',
 				'date',
 				'status'
 			], [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$data['started_date'],$data['end_date']]
-				],
+				'AND' => $where,
 				'ORDER' => [
 					'id' => 'DESC'
 				]
@@ -275,20 +254,20 @@ class Surveys_model extends Model
 			{
 				if (Session::get_value('account')['type'] == 'hotel')
 				{
-					if (!empty($value['room']))
-						$query[$key]['room'] = $this->get_room($value['room']);
+					if (!empty($value['owner']))
+						$query[$key]['owner'] = $this->get_owner($value['owners']);
 				}
 
 				if (Session::get_value('account')['type'] == 'restaurant')
 				{
-					if (!empty($value['table']))
-						$query[$key]['table'] = $this->get_table($value['table']);
+					if (!empty($value['owner']))
+						$query[$key]['owner'] = $this->get_owner($value['owner']);
 				}
 
 				if (Session::get_value('account')['type'] == 'others')
 				{
-					if (!empty($value['client']))
-						$query[$key]['client'] = $this->get_client($value['client']);
+					if (!empty($value['owner']))
+						$query[$key]['owner'] = $this->get_owner($value['owner']);
 				}
 
 				$query[$key]['rate'] = 0;
@@ -329,23 +308,31 @@ class Surveys_model extends Model
 		}
 		else
 		{
+			if (!empty($params))
+			{
+				$where = [
+					'account' => Session::get_value('account')['id'],
+					'date[<>]' => [$params[0], $params[1]]
+				];
+			}
+			else
+			{
+				$where = [
+					'account' => Session::get_value('account')['id'],
+				];
+			}
+
 			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 				'id',
 				'token',
-				'room',
-				'table',
-				'client',
+				'owners',
 				'answers',
 				'comment',
 				'guest',
 				'date',
 				'status'
 			], [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					'room' => $data['room'],
-					'date[<>]' => [$data['started_date'],$data['end_date']]
-				],
+				'AND' => $where,
 				'ORDER' => [
 					'id' => 'DESC'
 				]
@@ -355,20 +342,20 @@ class Surveys_model extends Model
 			{
 				if (Session::get_value('account')['type'] == 'hotel')
 				{
-					if (!empty($value['room']))
-						$query[$key]['room'] = $this->get_room($value['room']);
+					if (!empty($value['owner']))
+						$query[$key]['owner'] = $this->get_owner($value['owner']);
 				}
 
 				if (Session::get_value('account')['type'] == 'restaurant')
 				{
-					if (!empty($value['table']))
-						$query[$key]['table'] = $this->get_table($value['table']);
+					if (!empty($value['owner']))
+						$query[$key]['owner'] = $this->get_owner($value['owner']);
 				}
 
 				if (Session::get_value('account')['type'] == 'others')
 				{
-					if (!empty($value['client']))
-						$query[$key]['client'] = $this->get_client($value['client']);
+					if (!empty($value['owner']))
+						$query[$key]['owner'] = $this->get_owner($value['owner']);
 				}
 
 				$query[$key]['rate'] = 0;
@@ -405,8 +392,26 @@ class Surveys_model extends Model
 					$query[$key]['rate'] = round(($query[$key]['rate'] / $count), 1);
 
 				$query[$key]['count'] = count($query);
+
 			}
 		}
+
+		return $query;
+	}
+
+	public function get_owners()
+	{
+		$query = $this->database->select('owners', [
+			'id',
+			'number',
+			'name',
+			'status'
+		], [
+			'account' => Session::get_value('account')['id'],
+			'ORDER' => [
+				'number' => 'ASC'
+			]
+		]);
 
 		return $query;
 	}
@@ -415,9 +420,7 @@ class Surveys_model extends Model
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
 			'token',
-			'room',
-			'table',
-			'client',
+			'owner',
 			'answers',
 			'comment',
 			'guest',
@@ -430,20 +433,20 @@ class Surveys_model extends Model
 		{
 			if (Session::get_value('account')['type'] == 'hotel')
 			{
-				if (!empty($query[0]['room']))
-					$query[0]['room'] = $this->get_room($query[0]['room']);
+				if (!empty($query[0]['owner']))
+					$query[0]['owner'] = $this->get_owner($query[0]['owner']);
 			}
 
 			if (Session::get_value('account')['type'] == 'restaurant')
 			{
-				if (!empty($query[0]['table']))
-					$query[0]['table'] = $this->get_table($query[0]['table']);
+				if (!empty($query[0]['owner']))
+					$query[0]['owner'] = $this->get_owner($query[0]['owner']);
 			}
 
 			if (Session::get_value('account')['type'] == 'others')
 			{
-				if (!empty($query[0]['client']))
-					$query[0]['client'] = $this->get_client($query[0]['client']);
+				if (!empty($query[0]['owner']))
+					$query[0]['owner'] = $this->get_owner($query[0]['owner']);
 			}
 
 			$query[0]['rate'] = 0;
@@ -516,9 +519,9 @@ class Surveys_model extends Model
 			return null;
 	}
 
-	public function get_room($id)
+	public function get_owner($id)
 	{
-		$query = $this->database->select('rooms', [
+		$query = $this->database->select('owners', [
 			'number',
 			'name'
 		], [
@@ -528,36 +531,30 @@ class Surveys_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_table($id)
+	public function get_general_average_rate($data = null, $params = [])
 	{
-		$query = $this->database->select('tables', [
-			'number',
-			'name'
-		], [
-			'id' => $id
-		]);
+		if ($data == 'get_view_all')
+		{
+			$where = [
+				'AND' => [
+					'account' => Session::get_value('account')['id']
+				]
+			];
+		}
+		else if ($data == null)
+		{
+			$where = [
+				'AND' => [
+					'account' => Session::get_value('account')['id'],
+					'date[<>]' => [$params[0],$params[1]]
+				]
+			];
+		}
 
-		return !empty($query) ? $query[0] : null;
-	}
-
-	public function get_client($id)
-	{
-		$query = $this->database->select('clients', [
-			'name'
-		], [
-			'id' => $id
-		]);
-
-		return !empty($query) ? $query[0] : null;
-	}
-
-	public function get_general_average_rate()
-	{
 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-			'answers'
-		], [
-			'account' => Session::get_value('account')['id']
-		]));
+			'answers',
+			'date'
+		], $where));
 
 		$average = 0;
 		$rate = 0;
@@ -599,13 +596,30 @@ class Surveys_model extends Model
 		return $average;
 	}
 
-	public function get_percentage_rate($option)
+	public function get_percentage_rate($data = null, $option, $params = [])
 	{
+		if ($data == 'get_view_all')
+		{
+			$where = [
+				'AND' => [
+					'account' => Session::get_value('account')['id']
+				]
+			];
+		}
+		else if ($data == null)
+		{
+			$where = [
+				'AND' => [
+					'account' => Session::get_value('account')['id'],
+					'date[<>]' => [$params[0],$params[1]]
+				]
+			];
+		}
+
 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-			'answers'
-		], [
-			'account' => Session::get_value('account')['id']
-		]));
+			'answers',
+			'date'
+		], $where));
 
 		$percentage = 0;
 		$option_answers = 0;
@@ -702,129 +716,7 @@ class Surveys_model extends Model
 		return $count;
 	}
 
-	public function get_general_average_rate_by_date_filter($data)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-			'answers',
-			'date'
-		], [
-			'AND' => [
-				'account' => Session::get_value('account')['id'],
-				'date[<>]' => [$data['started_date'],$data['end_date']]
-			]
-		]));
-
-		$average = 0;
-		$rate = 0;
-		$questions = 0;
-
-		foreach ($query as $value)
-		{
-			foreach ($value['answers'] as $subvalue)
-			{
-				if ($subvalue['type'] == 'rate')
-				{
-					$rate = $rate + $subvalue['answer'];
-					$questions = $questions + 1;
-				}
-
-				foreach ($subvalue['subanswers'] as $parentvalue)
-				{
-					if ($parentvalue['type'] == 'rate')
-					{
-						$rate = $rate + $parentvalue['answer'];
-						$questions = $questions + 1;
-					}
-
-					foreach ($parentvalue['subanswers'] as $childvalue)
-					{
-						if ($childvalue['type'] == 'rate')
-						{
-							$rate = $rate + $childvalue['answer'];
-							$questions = $questions + 1;
-						}
-					}
-				}
-			}
-		}
-
-		if ($rate > 0 AND $questions > 0)
-			$average = round(($rate / $questions), 1);
-
-		return $average;
-	}
-
-	public function get_percentage_rate_by_date_filter($option, $parameters = [])
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-			'answers',
-			'date'
-		], [
-			'account' => Session::get_value('account')['id'],
-			'date[<>]' => [$parameters[0],$parameters[1]]
-		]));
-
-		$percentage = 0;
-		$option_answers = 0;
-		$total_answers = 0;
-
-		foreach ($query as $value)
-		{
-			$average = 0;
-			$rate = 0;
-			$answers = 0;
-
-			foreach ($value['answers'] as $subvalue)
-			{
-				if ($subvalue['type'] == 'rate')
-				{
-					$rate = $rate + $subvalue['answer'];
-					$answers = $answers + 1;
-				}
-
-				foreach ($subvalue['subanswers'] as $parentvalue)
-				{
-					if ($parentvalue['type'] == 'rate')
-					{
-						$rate = $rate + $parentvalue['answer'];
-						$answers = $answers + 1;
-					}
-
-					foreach ($parentvalue['subanswers'] as $childvalue)
-					{
-						if ($childvalue['type'] == 'rate')
-						{
-							$rate = $rate + $childvalue['answer'];
-							$answers = $answers + 1;
-						}
-					}
-				}
-			}
-
-			if ($rate > 0 AND $answers > 0)
-				$average = round(($rate / $answers), 2);
-
-			if ($option == 'five' AND $average > 4.8 AND $average <= 5)
-				$option_answers = $option_answers + 1;
-			else if ($option == 'four' AND $average >= 3.8 AND $average < 4.8)
-				$option_answers = $option_answers + 1;
-			else if ($option == 'tree' AND $average >= 2.8 AND $average < 3.8)
-				$option_answers = $option_answers + 1;
-			else if ($option == 'two' AND $average >= 1.8 AND $average < 2.8)
-				$option_answers = $option_answers + 1;
-			else if ($option == 'one' AND $average >= 1 AND $average < 1.8)
-				$option_answers = $option_answers + 1;
-
-			$total_answers = $total_answers + 1;
-		}
-
-		if ($option_answers > 0 AND $total_answers > 0)
-			$percentage = round((($option_answers / $total_answers) * 100), 2);
-
-		return $percentage;
-	}
-
-	public function get_chart_data($option, $parameters = [], $edit = false)
+	public function get_chart_data($option, $params = [], $edit = false)
 	{
 		$data = null;
 
@@ -833,15 +725,15 @@ class Surveys_model extends Model
 			if (Session::get_value('account')['type'] == 'hotel')
 			{
 				$query1 = $this->database->select('survey_answers', [
-					'room'
+					'owner'
 				], [
 					'AND' => [
 						'account' => Session::get_value('account')['id'],
-						'date[<>]' => [$parameters[0],$parameters[1]]
+						'date[<>]' => [$params[0],$params[1]]
 					]
 				]);
 
-				$query2 = $this->database->select('rooms', [
+				$query2 = $this->database->select('owners', [
 					'id',
 					'number',
 					'name'
@@ -853,15 +745,15 @@ class Surveys_model extends Model
 			if (Session::get_value('account')['type'] == 'restaurant')
 			{
 				$query1 = $this->database->select('survey_answers', [
-					'table'
+					'owner'
 				], [
 					'AND' => [
 						'account' => Session::get_value('account')['id'],
-						'date[<>]' => [$parameters[0],$parameters[1]]
+						'date[<>]' => [$params[0],$params[1]]
 					]
 				]);
 
-				$query2 = $this->database->select('table', [
+				$query2 = $this->database->select('owners', [
 					'id',
 					'number',
 					'name'
@@ -873,15 +765,15 @@ class Surveys_model extends Model
 			if (Session::get_value('account')['type'] == 'others')
 			{
 				$query1 = $this->database->select('survey_answers', [
-					'client'
+					'owner'
 				], [
 					'AND' => [
 						'account' => Session::get_value('account')['id'],
-						'date[<>]' => [$parameters[0],$parameters[1]]
+						'date[<>]' => [$params[0],$params[1]]
 					]
 				]);
 
-				$query2 = $this->database->select('clients', [
+				$query2 = $this->database->select('owners', [
 					'id',
 					'name'
 				], [
@@ -918,19 +810,19 @@ class Surveys_model extends Model
 				{
 					if (Session::get_value('account')['type'] == 'hotel')
 					{
-						if ($value['id'] == $subvalue['room'])
+						if ($value['id'] == $subvalue['owner'])
 							$count = $count + 1;
 					}
 
 					if (Session::get_value('account')['type'] == 'restaurant')
 					{
-						if ($value['id'] == $subvalue['table'])
+						if ($value['id'] == $subvalue['owner'])
 							$count = $count + 1;
 					}
 
 					if (Session::get_value('account')['type'] == 'others')
 					{
-						if ($value['id'] == $subvalue['client'])
+						if ($value['id'] == $subvalue['owner'])
 							$count = $count + 1;
 					}
 				}
@@ -944,14 +836,14 @@ class Surveys_model extends Model
 							if (Session::get_value('account')['language'] == 'es')
 								array_push($data['labels'], 'Habitación #' . $value['number'] . ' ' . $value['name']);
 							else if (Session::get_value('account')['language'] == 'en')
-								array_push($data['labels'], 'Room #' . $value['number'] . ' ' . $value['name']);
+								array_push($data['labels'], 'Owner #' . $value['number'] . ' ' . $value['name']);
 						}
 						else
 						{
 							if (Session::get_value('account')['language'] == 'es')
 								$data['labels'] .= "'Habitación #" . $value['number'] . ' ' . $value['name'] . "',";
 							else if (Session::get_value('account')['language'] == 'en')
-								$data['labels'] .= "'Room #" . $value['number'] . ' ' . $value['name'] . "',";
+								$data['labels'] .= "'Owner #" . $value['number'] . ' ' . $value['name'] . "',";
 						}
 					}
 
@@ -962,14 +854,14 @@ class Surveys_model extends Model
 							if (Session::get_value('account')['language'] == 'es')
 								array_push($data['labels'], 'Mesa #' . $value['number'] . ' ' . $value['name']);
 							else if (Session::get_value('account')['language'] == 'en')
-								array_push($data['labels'], 'Table #' . $value['number'] . ' ' . $value['name']);
+								array_push($data['labels'], 'Owner #' . $value['number'] . ' ' . $value['name']);
 						}
 						else
 						{
 							if (Session::get_value('account')['language'] == 'es')
 								$data['labels'] .= "'Mesa #" . $value['number'] . ' ' . $value['name'] . "',";
 							else if (Session::get_value('account')['language'] == 'en')
-								$data['labels'] .= "'Table #" . $value['number'] . ' ' . $value['name'] . "',";
+								$data['labels'] .= "'Owner #" . $value['number'] . ' ' . $value['name'] . "',";
 						}
 					}
 
@@ -1010,19 +902,19 @@ class Surveys_model extends Model
 			{
 				if (Session::get_value('account')['type'] == 'hotel')
 				{
-					if (!isset($value['room']) OR empty($value['room']))
+					if (!isset($value['owner']) OR empty($value['owner']))
 						$empty = $empty + 1;
 				}
 
 				if (Session::get_value('account')['type'] == 'restaurant')
 				{
-					if (!isset($value['table']) OR empty($value['table']))
+					if (!isset($value['owner']) OR empty($value['owner']))
 						$empty = $empty + 1;
 				}
 
 				if (Session::get_value('account')['type'] == 'others')
 				{
-					if (!isset($value['client']) OR empty($value['client']))
+					if (!isset($value['owner']) OR empty($value['owner']))
 						$empty = $empty + 1;
 				}
 			}
@@ -1036,14 +928,14 @@ class Surveys_model extends Model
 						if (Session::get_value('account')['language'] == 'es')
 							array_push($data['labels'], 'Sin habitación');
 						else if (Session::get_value('account')['language'] == 'en')
-							array_push($data['labels'], 'No room');
+							array_push($data['labels'], 'No owner');
 					}
 					else
 					{
 						if (Session::get_value('account')['language'] == 'es')
 							$data['labels'] .= "'Sin habitación'";
 						else if (Session::get_value('account')['language'] == 'en')
-							$data['labels'] .= "'No room'";
+							$data['labels'] .= "'No owner'";
 					}
 				}
 
@@ -1054,14 +946,14 @@ class Surveys_model extends Model
 						if (Session::get_value('account')['language'] == 'es')
 							array_push($data['labels'], 'Sin mesa');
 						else if (Session::get_value('account')['language'] == 'en')
-							array_push($data['labels'], 'No table');
+							array_push($data['labels'], 'No owner');
 					}
 					else
 					{
 						if (Session::get_value('account')['language'] == 'es')
 							$data['labels'] .= "'Sin mesa'";
 						else if (Session::get_value('account')['language'] == 'en')
-							$data['labels'] .= "'No table'";
+							$data['labels'] .= "'No owner'";
 					}
 				}
 
@@ -1072,14 +964,14 @@ class Surveys_model extends Model
 						if (Session::get_value('account')['language'] == 'es')
 							array_push($data['labels'], 'Sin cliente');
 						else if (Session::get_value('account')['language'] == 'en')
-							array_push($data['labels'], 'No client');
+							array_push($data['labels'], 'No owner');
 					}
 					else
 					{
 						if (Session::get_value('account')['language'] == 'es')
 							$data['labels'] .= "'Sin cliente'";
 						else if (Session::get_value('account')['language'] == 'en')
-							$data['labels'] .= "'No client'";
+							$data['labels'] .= "'No owner'";
 					}
 				}
 
@@ -1095,9 +987,123 @@ class Surveys_model extends Model
 				}
 			}
 		}
+		else if ($option == 'nps_chart')
+		{
+			$query1 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+				'id',
+				'name',
+				'subquestions',
+				'type'
+			], [
+				'account' => null
+			]));
+
+			if ($edit == true)
+			{
+				$data = [
+					'labels' => [],
+					'datasets' => []
+				];
+			}
+			else
+			{
+				$data = [
+					'labels' => '',
+					'datasets' => ''
+				];
+			}
+
+			$diff = Functions::get_diff_date($params[0], $params[1], 'days', true);
+
+			for ($i = 0; $i < $diff; $i++)
+			{
+				if ($edit == true)
+					array_push($data['labels'], Functions::get_future_date($params[0], $i, 'days'));
+				else
+					$data['labels'] .= "'" . Functions::get_future_date($params[0], $i, 'days') . "',";
+			}
+
+			if ($params[2] == 'all')
+			{
+				foreach ($query1 as $value)
+				{
+					if ($edit == true)
+						$datas = [];
+					else
+						$datas = '';
+
+					$tmp = 0;
+					$break = 0;
+
+					for ($i = 0; $i < $diff; $i++)
+					{
+						$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+							'answers'
+						], [
+							'AND' => [
+								'account' => Session::get_value('account')['id'],
+								'date' => Functions::get_future_date($params[0], $i, 'days')
+							]
+						]));
+
+						$count_detractors = 0;
+						$count_promoters = 0;
+						$total_nps = 0;
+						$result = 0;
+
+						foreach ($query2 as $subvalue)
+						{
+							foreach ($subvalue['answers'] as $parentvalue)
+							{
+								if ($parentvalue['type'] == 'nps')
+								{
+									if ($parentvalue['answer'] >= 0 AND $parentvalue['answer'] <= 6)
+										$count_detractors = $count_detractors + 1;
+									else if ($parentvalue['answer'] >= 9 AND $parentvalue['answer'] <= 10)
+										$count_promoters = $count_promoters + 1;
+
+									$total_nps = $total_nps + 1;
+								}
+							}
+						}
+
+						if ($total_nps > 0)
+							$result = (($count_promoters - $count_detractors) / $total_nps) * 100;
+
+						if ($edit == true)
+							array_push($datas, $result);
+						else
+							$datas .= $result . ",";
+					}
+
+						$color = str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+
+						if ($edit == true)
+						{
+							array_push($data['datasets'], [
+								'label' => $value['name'][Session::get_value('account')['language']],
+								'data' => $datas,
+								'fill' => false,
+								'backgroundColor' => '#' . $color,
+								'borderColor' => '#' . $color
+							]);
+						}
+						else
+						{
+							$data['datasets'] .= "{
+								label: '" . $value['name'][Session::get_value('account')['language']] . "',
+								data: [" . $datas . "],
+								fill: false,
+								backgroundColor: '#" . $color . "',
+								borderColor: '#" . $color . "',
+							},";
+						}
+				}
+			}
+		}
 		else if ($option == 's2_chart')
 		{
-			if ($parameters[2] == 'all')
+			if ($params[2] == 'all')
 			{
 				$where = [
 					'account' => Session::get_value('account')['id']
@@ -1106,7 +1112,7 @@ class Surveys_model extends Model
 			else
 			{
 				$where = [
-					'id' => $parameters[2]
+					'id' => $params[2]
 				];
 			}
 
@@ -1132,17 +1138,17 @@ class Surveys_model extends Model
 				];
 			}
 
-			$diff = Functions::get_diff_date($parameters[0], $parameters[1], 'days', true);
+			$diff = Functions::get_diff_date($params[0], $params[1], 'days', true);
 
 			for ($i = 0; $i < $diff; $i++)
 			{
 				if ($edit == true)
-					array_push($data['labels'], Functions::get_future_date($parameters[0], $i, 'days'));
+					array_push($data['labels'], Functions::get_future_date($params[0], $i, 'days'));
 				else
-					$data['labels'] .= "'" . Functions::get_future_date($parameters[0], $i, 'days') . "',";
+					$data['labels'] .= "'" . Functions::get_future_date($params[0], $i, 'days') . "',";
 			}
 
-			if ($parameters[2] == 'all')
+			if ($params[2] == 'all')
 			{
 				foreach ($query1 as $value)
 				{
@@ -1161,7 +1167,7 @@ class Surveys_model extends Model
 						], [
 							'AND' => [
 								'account' => Session::get_value('account')['id'],
-								'date' => Functions::get_future_date($parameters[0], $i, 'days')
+								'date' => Functions::get_future_date($params[0], $i, 'days')
 							]
 						]));
 
@@ -1257,7 +1263,7 @@ class Surveys_model extends Model
 					], [
 						'AND' => [
 							'account' => Session::get_value('account')['id'],
-							'date' => Functions::get_future_date($parameters[0], $i, 'days')
+							'date' => Functions::get_future_date($params[0], $i, 'days')
 						]
 					]));
 
@@ -1334,7 +1340,7 @@ class Surveys_model extends Model
 						], [
 							'AND' => [
 								'account' => Session::get_value('account')['id'],
-								'date' => Functions::get_future_date($parameters[0], $i, 'days')
+								'date' => Functions::get_future_date($params[0], $i, 'days')
 							]
 						]));
 
@@ -1408,7 +1414,7 @@ class Surveys_model extends Model
 							], [
 								'AND' => [
 									'account' => Session::get_value('account')['id'],
-									'date' => Functions::get_future_date($parameters[0], $i, 'days')
+									'date' => Functions::get_future_date($params[0], $i, 'days')
 								]
 							]));
 
@@ -1481,7 +1487,7 @@ class Surveys_model extends Model
 			], [
 				'AND' => [
 					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$parameters[0],$parameters[1]]
+					'date[<>]' => [$params[0],$params[1]]
 				]
 			]));
 

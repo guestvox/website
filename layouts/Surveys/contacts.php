@@ -33,6 +33,12 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
     </nav>
     <article>
         <main>
+            <form name="get_filter_survey_contacts" class="charts-filter">
+                <select name="owner">
+                    <option value="all">{$lang.all_owners}</option>
+                    {$opt_owners}
+                </select>
+            </form>
             <div class="table">
                 <aside>
                     <label>
@@ -45,15 +51,15 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                         <tr>
                             <th align="left" width="100px">{$lang.token}</th>
                             <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
-                            <th align="left" width="100px">{$lang.room}</th>
+                            <th align="left" width="100px">{$lang.owner}</th>
                             <th align="left">{$lang.guest}</th>
                             <?php endif; ?>
                             <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
-                            <th align="left" width="100px">{$lang.table}</th>
+                            <th align="left" width="100px">{$lang.owner}</th>
                             <th align="left">{$lang.name}</th>
                             <?php endif; ?>
                             <?php if (Session::get_value('account')['type'] == 'others') : ?>
-                            <th align="left">{$lang.client}</th>
+                            <th align="left">{$lang.owner}</th>
                             <th align="left">{$lang.name}</th>
                             <?php endif; ?>
                             <th align="left">{$lang.email}</th>

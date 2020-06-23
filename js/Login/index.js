@@ -2,11 +2,6 @@
 
 $(document).ready(function()
 {
-    $('[data-action="login"]').on('click', function()
-    {
-        $('form[name="login"]').submit();
-    });
-
     $('form[name="login"]').on('submit', function(e)
     {
         e.preventDefault();
@@ -15,14 +10,14 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=login',
+            data: form.serialize(),
             processData: false,
             cache: false,
             dataType: 'json',
             success: function(response)
             {
                 if (response.status == 'success')
-                    window.location.href = '/dashboard';
+                    window.location.href = response.path;
                 else if (response.status == 'error')
                 {
                     if (response.labels)
@@ -37,10 +32,7 @@ $(document).ready(function()
                         form.find('fieldset.error [name]')[0].focus();
                     }
                     else if (response.message)
-                    {
-                        $('[data-modal="error"]').addClass('view');
-                        $('[data-modal="error"]').find('main > p').html(response.message);
-                    }
+                        show_modal_error(response.message);
                 }
             }
         });

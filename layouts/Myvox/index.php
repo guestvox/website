@@ -7,38 +7,23 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
 
 ?>
 
-<header class="my-vox">
-    <div class="topbar">
-        <figure class="logotype">
-            <img src="{$logotype}" alt="Account logotype">
-        </figure>
-    </div>
-    <div class="bottombar">
-        <div class="multilanguage">
-            <a href="?<?php echo Language::get_lang_url('es'); ?>">
-                <img src="{$path.images}es.png">
-                <span>{$lang.es}</span>
-            </a>
-            <a href="?<?php echo Language::get_lang_url('en'); ?>">
-                <img src="{$path.images}en.png">
-                <span>{$lang.en}</span>
-            </a>
-        </div>
+<header class="myvox">
+    <figure>
+        <img src="{$logotype}" alt="Client">
+    </figure>
+    <div>
+        <a href="?<?php echo Language::get_lang_url('es'); ?>"><img src="{$path.images}es.png"><span>{$lang.es}</span></a>
+        <a href="?<?php echo Language::get_lang_url('en'); ?>"><img src="{$path.images}en.png"><span>{$lang.en}</span></a>
     </div>
 </header>
-<main class="my-vox">
-    <div class="menu">
-        <h2>{$lang.how_may_i_help_you}</h2>
-        {$a_new_request}
-        {$a_new_incident}
-        {$a_new_survey_answer}
-    </div>
+<main class="myvox">
+    <h2>{$lang.how_may_i_help_you}</h2>
+    {$btn_new_request}
+    {$btn_new_incident}
+    {$btn_new_menu_order}
+    {$btn_new_survey_answer}
 </main>
-<footer class="my-vox">
-    <h4>Powered by <img src="{$path.images}logotype-color.png" alt="Guestvox logotype"></h4>
-    <p>{$lang.copyright}</p>
+<footer class="myvox">
+    <h4>Power by <img src="{$path.images}logotype_color.png" alt="Guestvox"></h4>
+    <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved}</p>
 </footer>
-{$mdl_new_request}
-{$mdl_new_incident}
-{$mdl_new_survey_answer}
-{$mdl_survey_widget}

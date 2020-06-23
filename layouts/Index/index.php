@@ -4,146 +4,266 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.css}Index/index.css']);
 $this->dependencies->add(['js', '{$path.js}Index/index.js']);
+$this->dependencies->add(['others',
+'<div id="fb-root"></div>
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            xfbml: true,
+            version: "v6.0"
+        });
+    };
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/es_ES/sdk/xfbml.customerchat.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, "script", "facebook-jssdk"));
+</script>
+<div class="fb-customerchat" attribution=setup_tool page_id="544915395886636" theme_color="#00A5AB" logged_in_greeting="Hola, ¿Cómo puedo ayudarte?" logged_out_greeting="Hola, ¿Cómo puedo ayudarte?"></div>']);
 
 ?>
 
-<header class="landing-page-index">
-    <div class="container">
+<main class="landing_page_index">
+    <header>
         <figure>
-            <img src="{$path.images}logotype-white.png" alt="GuestVox logotype">
+            <img src="{$path.images}imagotype_color.png" alt="Imagotype">
         </figure>
         <nav>
             <ul>
-                <li><a href="/blog" class="btn no-border">{$lang.our_blog}</a></li>
-                <li><a href="/signup" class="btn">{$lang.start_free_demo}</a></li>
-                <li><a href="/login" class="btn">{$lang.login}</a></li>
-                <li><a href="?<?php echo Language::get_lang_url('es'); ?>" class="btn no-border lang"><img src="{$path.images}es.png" alt="ES Lang"></a></li>
-                <li><a href="?<?php echo Language::get_lang_url('en'); ?>" class="btn no-border lang"><img src="{$path.images}en.png" alt="EN Lang"></a></li>
-            </ul>
-            <ul>
-                <li><a class="btn" data-action="open-land-menu"><i class="fas fa-bars"></i></a></li>
+                <li><a href="/blog">{$lang.blog}</a></li>
+                <li><a href="/login">{$lang.login}</a></li>
+                <li><a href="/signup">¡{$lang.signup_now}!</a></li>
             </ul>
         </nav>
-    </div>
-</header>
-<main class="landing-page-index">
-    <section class="home">
-    	<div class="container">
-    		<figure>
-    			<img src="{$path.images}home.png" alt="Home background">
-    		</figure>
-            <div>
-    			<h4>{$lang.im_the_guests_voice}</h4>
-    			<h1>{$lang.manages_correctly_the_incidents}</h1>
-    		</div>
-    	</div>
-    </section>
-    <section class="features-one">
-    	<div class="container">
-    		<h2>{$lang.how_do_we_help_your_hotel}</h2>
-            <div>
-                <img src="/images/feature-1.svg" alt="Feature">
-                <p>{$lang.capture_all_kinds}</p>
-            </div>
-            <div>
-                <img src="/images/feature-2.svg" alt="Feature">
-                <p>{$lang.coordinate_follow_cases}</p>
-            </div>
-            <div>
-                <img src="/images/feature-3.svg" alt="Feature">
-                <p>{$lang.control_performance_your_hotel}</p>
-            </div>
-            <div>
-                <img src="/images/feature-4.svg" alt="Feature">
-                <p>{$lang.check_metrics_best_decisions}</p>
-            </div>
-    	</div>
-    </section>
-    <section class="features-two">
-		<div>
-            <ul class="container">
-                <li><i class="fas fa-check"></i>{$lang.multi_device}</li>
-                <li><i class="fas fa-check"></i>{$lang.on_the_cloud}</li>
-                <li><i class="fas fa-check"></i>{$lang.100_encrypted_safe}</li>
-                <li><i class="fas fa-check"></i>{$lang.simple}</li>
-                <li><a href="/signup" class="btn">{$lang.start_free_demo}</a></li>
-            </ul>
+    </header>
+    <section class="stl_1">
+        <video autoplay loop muted>
+            <source src="{$path.images}index/stl_1_video_1.mp4" type="video/mp4">
+        </video>
+        <div>
+            <figure>
+                <img src="{$path.images}logotype_white.png" alt="Guestvox">
+            </figure>
+            <h1>{$lang.landing_page_index_stl_1_text_1}</h1>
+            <p>{$lang.landing_page_index_stl_1_text_2}</p>
         </div>
     </section>
-    <section class="clients">
-    	<div class="container">
-    		<h2>{$lang.they_already_trust_us}</h2>
+    <section class="stl_2">
+        <figure>
+            <img src="{$path.images}index/stl_2_image_1.png" alt="Background">
+        </figure>
+        <div>
+            <h2>{$lang.landing_page_index_stl_2_text_1}</h2>
             <div>
-                <figure>
-                    <img src="{$path.images}clients-1.jpg" alt="Client logotype">
-                </figure>
-                <figure>
-                    <img src="{$path.images}clients-2.jpg" alt="Client logotype">
-                </figure>
-                <figure>
-                    <img src="{$path.images}clients-3.jpg" alt="Client logotype">
-                </figure>
-                <figure>
-                    <img src="{$path.images}clients-4.jpg" alt="Client logotype">
-                </figure>
-                <figure>
-                    <img src="{$path.images}clients-5.jpg" alt="Client logotype">
-                </figure>
-                <figure>
-                    <img src="{$path.images}clients-6.jpg" alt="Client logotype">
-                </figure>
+                <div>
+                    <i class="fas fa-desktop"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_2}</p>
+                </div>
+                <div>
+                    <i class="fas fa-users"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_3}</p>
+                </div>
+                <div>
+                    <i class="fas fa-chart-pie"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_4}</p>
+                </div>
             </div>
-            <a href="/signup" class="btn">{$lang.start_free_demo}</a>
-    	</div>
+            <a href="/hola/voxes">{$lang.know_more}</a>
+        </div>
     </section>
-    <section class="team">
+    <section class="stl_3">
+        <figure>
+            <img src="{$path.images}index/stl_2_image_2.png" alt="Background">
+        </figure>
+        <div>
+            <h2>{$lang.landing_page_index_stl_2_text_5}</h2>
+            <div>
+                <div>
+                    <i class="fas fa-concierge-bell"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_6}</p>
+                </div>
+                <div>
+                    <i class="fas fa-user-ninja"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_7}</p>
+                </div>
+                <div>
+                    <i class="fas fa-qrcode"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_8}</p>
+                </div>
+            </div>
+            <a href="/hola/menu">{$lang.know_more}</a>
+        </div>
+    </section>
+    <section class="stl_2">
+        <figure>
+            <img src="{$path.images}index/stl_2_image_3.png" alt="Background">
+        </figure>
+        <div>
+            <h2>{$lang.landing_page_index_stl_2_text_9}</h2>
+            <div>
+                <div>
+                    <i class="fas fa-comments"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_10}</p>
+                </div>
+                <div>
+                    <i class="fas fa-clipboard-list"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_11}</p>
+                </div>
+                <div>
+                    <i class="fas fa-chart-area"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_12}</p>
+                </div>
+            </div>
+            <a href="/hola/encuestas">{$lang.know_more}</a>
+        </div>
+    </section>
+    <section class="stl_3">
+        <figure>
+            <img src="{$path.images}index/stl_2_image_4.png" alt="Background">
+        </figure>
+        <div>
+            <h2>{$lang.landing_page_index_stl_2_text_13}</h2>
+            <div>
+                <div>
+                    <i class="fas fa-star"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_14}</p>
+                </div>
+                <div>
+                    <i class="fas fa-comment"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_15}</p>
+                </div>
+                <div>
+                    <i class="fas fa-qrcode"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_16}</p>
+                </div>
+            </div>
+            <a href="/hola/reseñas">{$lang.know_more}</a>
+        </div>
+    </section>
+    <section class="stl_4">
+        <div>
+            <div>
+                <i class="fas fa-bed"></i>
+                <p>{$lang.landing_page_index_stl_4_text_1}</p>
+                <a href="/hola/hoteles">{$lang.know_more}</a>
+            </div>
+            <div>
+                <i class="fas fa-utensils"></i>
+                <p>{$lang.landing_page_index_stl_4_text_2}</p>
+                <a href="/hola/restaurantes">{$lang.know_more}</a>
+            </div>
+            <div>
+                <i class="fas fa-stethoscope"></i>
+                <p>{$lang.landing_page_index_stl_4_text_3}</p>
+                <a href="/hola/hospitales">{$lang.know_more}</a>
+            </div>
+        </div>
+        <div>
+            <div>
+                <i class="fas fa-tablet-alt"></i>
+                <p>{$lang.landing_page_index_stl_4_text_4}</p>
+            </div>
+            <div>
+                <i class="fas fa-cloud"></i>
+                <p>{$lang.landing_page_index_stl_4_text_5}</p>
+            </div>
+            <div>
+                <i class="fas fa-lock"></i>
+                <p>{$lang.landing_page_index_stl_4_text_6}</p>
+            </div>
+        </div>
+        <figure>
+            <img src="{$path.images}index/stl_4_image_1.png" alt="Background">
+        </figure>
+    </section>
+    <section class="stl_5">
+        <h2>{$lang.landing_page_index_stl_5_text_1}</h2>
+        <h3>{$lang.landing_page_index_stl_5_text_2}</h3>
+        <div>
+            <figure>
+                <img src="{$path.images}index/stl_5_image_1.png" alt="Client">
+            </figure>
+            <figure>
+                <img src="{$path.images}index/stl_5_image_2.png" alt="Client">
+            </figure>
+            <figure>
+                <img src="{$path.images}index/stl_5_image_3.png" alt="Client">
+            </figure>
+        </div>
+        <div>
+            <figure>
+                <img src="{$path.images}index/stl_5_image_4.png" alt="Partner">
+            </figure>
+            <figure>
+                <img src="{$path.images}index/stl_5_image_5.png" alt="Partner">
+            </figure>
+            <figure>
+                <img src="{$path.images}index/stl_5_image_6.png" alt="Partner">
+            </figure>
+            <!-- <figure>
+                <img src="https://www.comparasoftware.com/wp-content/uploads/2019/05/comparasoftware_verificado.png" alt="Partner">
+            </figure> -->
+        </div>
+        <a href="/signup">¡{$lang.signup_now}!</a>
+    </section>
+    <section class="stl_6">
+        <h2>{$lang.landing_page_index_stl_6_text_1}<i class="fas fa-heart"></i>{$lang.landing_page_index_stl_6_text_2}</h2>
+        <h3>{$lang.landing_page_index_stl_6_text_3}</h3>
         <div>
             <div>
                 <figure>
-                    <img src="{$path.images}basurto.png" alt="Member team avatar">
+                    <img src="{$path.images}index/stl_6_image_1.png" alt="Work team">
                 </figure>
+                <h3>Daniel Basurto</h3>
+                <h4>{$lang.ceo}</h4>
             </div>
-            <span><strong>Daniel Basurto</strong></span>
-            <span>{$lang.ceo_cofounder}</span>
+            <div>
+                <figure>
+                    <img src="{$path.images}index/stl_6_image_2.png" alt="Work team">
+                </figure>
+                <h3>Alexa Zamora</h3>
+                <h4>{$lang.coo}</h4>
+            </div>
+            <div>
+                <figure>
+                    <img src="{$path.images}index/stl_6_image_3.png" alt="Work team">
+                </figure>
+                <h3>Gersón Gómez</h3>
+                <h4>{$lang.cto}</h4>
+            </div>
         </div>
         <div>
             <div>
                 <figure>
-                    <img src="{$path.images}gerson.png" alt="Member team avatar">
+                    <img src="{$path.images}index/stl_6_image_4.png" alt="Work team">
                 </figure>
+                <h3>Saúl Poot</h3>
+                <h4>{$lang.chief_programmer_web}</h4>
             </div>
-            <span><strong>Gersón Gómez</strong></span>
-            <span>{$lang.cto}</span>
-        </div>
-        <div>
             <div>
                 <figure>
-                    <img src="{$path.images}saul.png" alt="Member team avatar">
+                    <img src="{$path.images}index/stl_6_image_5.png" alt="Work team">
                 </figure>
+                <h3>David Gómez</h3>
+                <h4>{$lang.chief_programmer_mobile}</h4>
             </div>
-            <span><strong>Saúl Poot</strong></span>
-            <span>{$lang.chief_programmer}</span>
         </div>
     </section>
+    <footer>
+        <div>
+            <a href="https://facebook.com/guestvox" target="_blank"><i class="fab fa-facebook-square"></i></a>
+            <a href="https://instagram.com/guestvox" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://linkedin.com/guestvox" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" target="_blank"><i class="fab fa-youtube"></i></a>
+        </div>
+        <div>
+            <a href="/terms-and-conditions" target="_blank">{$lang.terms_and_conditions}</a>
+            <i class="fas fa-circle"></i>
+            <a href="/privacy-policies" target="_blank">{$lang.privacy_policies}</a>
+        </div>
+        <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved} Guestvox S.A.P.I. de C.V.</p>
+    </footer>
 </main>
-<footer class="landing-page-index">
-    <div class="container">
-        <div class="widget_cs">
-            <a href="https://www.comparasoftware.com/guestvox/"><img src="https://www.comparasoftware.com/wp-content/uploads/2019/05/comparasoftware_verificado.png" alt="logo_verificado" /></a>
-            <span><a href="https://www.comparasoftware.com/guestvox/">GuestVox</a> se encuentra verificada como <a href="https://www.comparasoftware.com/hoteleria/">software de Hotelería</a></span>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="https://facebook.com/guestvox" class="btn" target="_blank"><i class="fab fa-facebook-square"></i></a></li>
-                <li><a href="https://instagram.com/guestvox" class="btn" target="_blank"><i class="fab fa-instagram"></i></a></li>
-                <li><a href="https://linkedin.com/guestvox" class="btn" target="_blank"><i class="fab fa-linkedin"></i></a></li>
-                <li><a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" class="btn" target="_blank"><i class="fab fa-youtube" ></i></i></a></li>
-                <li><a href="/copyright" class="btn no-border">{$lang.copyright}</a></li>
-                <li><a href="/terms" class="btn no-border">{$lang.terms_conditions}</a></li>
-            </ul>
-        </nav>
-        <figure>
-            <img src="{$path.images}logotype-color.png" alt="GuestVox logotype">
-        </figure>
-    </div>
-</footer>

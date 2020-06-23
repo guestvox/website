@@ -4,11 +4,6 @@ defined('_EXEC') or die;
 
 class Functions
 {
-    public function __construct()
-    {
-        
-    }
-
     static public function set_default_timezone()
     {
         if (Session::exists_var('session') == true)
@@ -93,7 +88,7 @@ class Functions
             Functions::set_default_timezone();
 
             if ($format == '+ hrs')
-                return $hour . ' Hrs';
+                return $hour . ' {$lang.hours}';
             else
         	    return date($format, strtotime($hour));
         }
@@ -115,7 +110,7 @@ class Functions
             Functions::set_default_timezone();
 
             if ($format == '+ hrs')
-                return $date . ' ' . $hour . ' Hrs';
+                return $date . ' ' . $hour . ' {$lang.hours}';
             else
                 return date($format, strtotime($date . ' ' . $hour));
         }
@@ -141,7 +136,7 @@ class Functions
     {
         Functions::set_default_timezone();
 
-		return explode('-', date('Y-m-d'))[0];
+        return [date('Y-m-d', strtotime('first day of January')), date('Y-m-d', strtotime('last day of December'))];
     }
 
     static public function get_formatted_currency($number = 0, $currency = 'MXN')
@@ -205,13 +200,13 @@ class Functions
         return $decrypt;
     }
 
-    static public function check_account_access($parameters)
+    static public function check_account_access($params)
     {
         $access = false;
 
         if (Session::exists_var('session') == true)
         {
-            foreach ($parameters as $value)
+            foreach ($params as $value)
             {
                 if (Session::get_value('account')[$value] == true)
                     $access = true;
@@ -221,16 +216,32 @@ class Functions
         return $access;
     }
 
-    static public function check_user_access($parameters)
+    static public function check_user_access($params, $all_true = false)
     {
         $access = false;
 
         if (Session::exists_var('session') == true)
         {
-            foreach ($parameters as $value)
+            if ($all_true == true)
             {
-                if (in_array($value, Session::get_value('user')['user_permissions']))
+                $all_true = [];
+
+                foreach ($params as $value)
+                {
+                    if (in_array($value, Session::get_value('user')['permissions']))
+                        array_push($all_true, $value);
+                }
+
+                if (count($all_true) == count($params))
                     $access = true;
+            }
+            else
+            {
+                foreach ($params as $value)
+                {
+                    if (in_array($value, Session::get_value('user')['permissions']))
+                        $access = true;
+                }
             }
         }
 
@@ -263,19 +274,21 @@ class Functions
         return $query;
     }
 
-    public static function uploader($file = null, $upload_directory = PATH_UPLOADS, $valid_extensions = ['png','jpg','jpeg'], $maximum_file_size = 'unlimited', $multiple = false)
+    public static function uploader($file = null, $base_name = '', $multiple = false, $upload_directory = PATH_UPLOADS, $valid_extensions = ['png','jpg','jpeg','pdf','doc','docx','xls','xlsx'], $maximum_file_size = 'unlimited')
 	{
         if (!empty($file))
         {
             $components = new Components;
+
             $components->load_component('uploader');
+
             $upload = new Upload;
 
             if ($multiple == true)
             {
                 foreach ($file as $key => $value)
                 {
-                    $upload->SetFileName($value['name']);
+                    $upload->SetFileName($base_name);
                     $upload->SetTempName($value['tmp_name']);
                     $upload->SetFileType($value['type']);
                     $upload->SetFileSize($value['size']);
@@ -295,7 +308,7 @@ class Functions
             }
             else if ($multiple == false)
             {
-                $upload->SetFileName($file['name']);
+                $upload->SetFileName($base_name);
                 $upload->SetTempName($file['tmp_name']);
                 $upload->SetFileType($file['type']);
                 $upload->SetFileSize($file['size']);
@@ -348,7 +361,7 @@ class Functions
     {
         $security = new Security;
 
-        return !empty($length) ? strtoupper($security->random_string($length)) : null;
+        return !empty($length) ? $security->random_string($length) : null;
     }
 
     static public function environment($return)
@@ -356,7 +369,7 @@ class Functions
         echo json_encode($return, JSON_PRETTY_PRINT);
     }
 
-    static public function api($connection, $access, $method, $option, $parameters = null)
+    static public function api($connection, $access, $method, $option, $params = null)
     {
         if ($connection == 'zaviapms')
         {
@@ -368,7 +381,7 @@ class Functions
                     curl_setopt($api, CURLOPT_URL, 'https://admin.zaviaerp.com/pms/hotels/api/rooms/?UserName=' . $access['username'] . '&UserPassword=' . $access['password']);
 
                 if ($option == 'room')
-                    curl_setopt($api, CURLOPT_URL, 'https://admin.zaviaerp.com/pms/hotels/api/check_room2/?UserName=' . $access['username'] . '&UserPassword=' . $access['username'] . '&RoomNumber=' . $parameters);
+                    curl_setopt($api, CURLOPT_URL, 'https://admin.zaviaerp.com/pms/hotels/api/check_room2/?UserName=' . $access['username'] . '&UserPassword=' . $access['username'] . '&RoomNumber=' . $params);
 
                 curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
 
@@ -379,5 +392,10 @@ class Functions
                 return $data;
             }
         }
+    }
+
+    public static function shorten_string($string, $length = 400)
+	{
+		return (strlen(strip_tags($string)) > $length) ? substr(strip_tags($string), 0, $length) . '...' : substr(strip_tags($string), 0, $length);
     }
 }
