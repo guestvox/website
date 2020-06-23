@@ -25,7 +25,7 @@ class Urls_registered_vkye
                 'controller' => 'Hi',
                 'method' => 'surveys'
             ],
-            '/hola/reseñas' => [
+            '/hola/resenas' => [
                 'controller' => 'Hi',
                 'method' => 'reviews'
             ],
