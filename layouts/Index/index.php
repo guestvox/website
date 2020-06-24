@@ -264,6 +264,6 @@ $this->dependencies->add(['others',
             <i class="fas fa-circle"></i>
             <a href="/privacy-policies" target="_blank">{$lang.privacy_policies}</a>
         </div>
-        <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved} Guestvox S.A.P.I. de C.V.</p>
+        <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved}</p>
     </footer>
 </main>

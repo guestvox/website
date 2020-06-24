@@ -101,7 +101,7 @@ class Voxes_controller extends Controller
 							</div>
 							<div>
 								<h2><i class="fas fa-user-circle"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
-								<span><i class="fas fa-shapes"></i>' . $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') . '</span>
+								<span><i class="fas fa-shapes"></i>' . (!empty($value['owner']) ? $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') : '{$lang.not_owner}') . '</span>
 								<span
 									data-date-1="' . Functions::get_formatted_date_hour($value['started_date'], $value['started_hour']) . '"
 									data-date-2="' . ((!empty($value['completed_date']) AND !empty($value['completed_hour'])) ? Functions::get_formatted_date_hour($value['completed_date'], $value['completed_hour']) : '') . '"
@@ -114,7 +114,7 @@ class Voxes_controller extends Controller
 							<span><i class="fas fa-key"></i><strong>' . strtoupper($value['token']) . '</strong></span>
 							<span><i class="fas fa-mask"></i>' . $value['opportunity_area']['name'][$this->lang] . '</span>
 							<span><i class="fas fa-feather-alt"></i>' . $value['opportunity_type']['name'][$this->lang] . '</span>
-							<span><i class="fas fa-map-marker-alt"></i>' . $value['location']['name'][$this->lang] . '</span>
+							<span><i class="fas fa-map-marker-alt"></i>' . (!empty($value['location']) ? $value['location']['name'][$this->lang] : '{$lang.not_location}') . '</span>
 	                    </div>
 	                    <div class="itm_4">
 							<span class="' . (!empty($value['assigned_users']) ? 'active' : '') . '"><i class="fas fa-users"></i></span>
@@ -1064,10 +1064,10 @@ class Voxes_controller extends Controller
 	                    data-status="' . $vox['status'] . '"
 	                    data-elapsed-time>' . (($vox['status'] == true) ? '{$lang.opened}' : '{$lang.closed}') . '<i class="fas fa-circle"></i><strong></strong></h3>',
 					'{$h1_name}' => ($vox['type'] == 'request' OR $vox['type'] == 'incident') ? '<h1>' . ((!empty($vox['firstname']) AND !empty($vox['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($vox['guest_treatment'])) ? $vox['guest_treatment']['name'] . ' ' : '') . $vox['firstname'] . ' ' . $vox['lastname'] : '{$lang.not_name}') . '</h1>' : '',
-					'{$owner}' => $vox['owner']['name'][$this->lang] . (!empty($vox['owner']['number']) ? ' #' . $vox['owner']['number'] : ''),
+					'{$owner}' => !empty($vox['owner']) ? $vox['owner']['name'][$this->lang] . (!empty($vox['owner']['number']) ? ' #' . $vox['owner']['number'] : '') : '{$lang.not_owner}',
 					'{$opportunity_area}' => $vox['opportunity_area']['name'][$this->lang],
 					'{$opportunity_type}' => $vox['opportunity_type']['name'][$this->lang],
-					'{$location}' => $vox['location']['name'][$this->lang],
+					'{$location}' => !empty($vox['location']) ? $vox['location']['name'][$this->lang] : '{$lang.not_location}',
 					'{$started_date}' => Functions::get_formatted_date($vox['started_date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($vox['started_hour'], '+ hrs'),
 					'{$spn_cost}' => ($vox['type'] == 'incident' OR $vox['type'] == 'workorder') ? '<span><i class="fas fa-dollar-sign"></i>' . Functions::get_formatted_currency((!empty($vox['cost']) ? $vox['cost'] : '0'), Session::get_value('account')['currency']) . '</span>' : '',
 					'{$p_observations}' => $p_observations,
@@ -1691,6 +1691,385 @@ class Voxes_controller extends Controller
 			header('Location: /voxes');
 	}
 
+	public function stats()
+	{
+		if (Format::exist_ajax_request() == true)
+		{
+			if ($_POST['action'] == 'filter_voxes_stats')
+			{
+				Functions::environment([
+					'status' => 'success',
+					'data' => [
+						'v' => [
+							'oa' => $this->model->get_chart_data('v_oa_chart', $_POST, true),
+							'o' => $this->model->get_chart_data('v_o_chart', $_POST, true),
+							'l' => $this->model->get_chart_data('v_l_chart', $_POST, true)
+						],
+						'ar' => [
+							'oa' => $this->model->get_chart_data('ar_oa_chart', $_POST, true),
+							'o' => $this->model->get_chart_data('ar_o_chart', $_POST, true),
+							'l' => $this->model->get_chart_data('ar_l_chart', $_POST, true)
+						],
+						'c' => [
+							'oa' => $this->model->get_chart_data('c_oa_chart', $_POST, true),
+							'o' => $this->model->get_chart_data('c_o_chart', $_POST, true),
+							'l' => $this->model->get_chart_data('c_l_chart', $_POST, true)
+						]
+					]
+				]);
+			}
+		}
+		else
+		{
+			$template = $this->view->render($this, 'stats');
+
+			define('_title', 'Guestvox | {$lang.voxes_stats}');
+
+			$replace = [
+				'{$voxes_average_resolution}' => $this->model->get_voxes_average_resolution(),
+				'{$voxes_count_open}' => $this->model->get_voxes_count('open'),
+				'{$voxes_count_close}' => $this->model->get_voxes_count('close'),
+				'{$voxes_count_total}' => $this->model->get_voxes_count('total'),
+				'{$voxes_count_today}' => $this->model->get_voxes_count('today'),
+				'{$voxes_count_week}' => $this->model->get_voxes_count('week'),
+				'{$voxes_count_month}' => $this->model->get_voxes_count('month'),
+				'{$voxes_count_year}' => $this->model->get_voxes_count('year')
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
+	public function charts()
+	{
+		header('Content-Type: application/javascript');
+
+		$v_oa_chart_data = $this->model->get_chart_data('v_oa_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date(),
+			'type' => 'all'
+		]);
+
+		$v_o_chart_data = $this->model->get_chart_data('v_o_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date(),
+			'type' => 'all'
+		]);
+
+		$v_l_chart_data = $this->model->get_chart_data('v_l_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date(),
+			'type' => 'all'
+		]);
+
+		$ar_oa_chart_data = $this->model->get_chart_data('ar_oa_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date(),
+			'type' => 'all'
+		]);
+
+		$ar_o_chart_data = $this->model->get_chart_data('ar_o_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date(),
+			'type' => 'all'
+		]);
+
+		$ar_l_chart_data = $this->model->get_chart_data('ar_l_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date(),
+			'type' => 'all'
+		]);
+
+		$c_oa_chart_data = $this->model->get_chart_data('c_oa_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date()
+		]);
+
+		$c_o_chart_data = $this->model->get_chart_data('c_o_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date()
+		]);
+
+		$c_l_chart_data = $this->model->get_chart_data('c_l_chart', [
+			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+			'date_end' => Functions::get_current_date()
+		]);
+
+		$js =
+		"'use strict';
+
+		var v_oa_chart = {
+	        type: 'doughnut',
+	        data: {
+				labels: [
+	                " . $v_oa_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $v_oa_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $v_oa_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . Languages::charts('v_oa_chart')[$this->lang] . "'
+				},
+				legend: {
+					display: true,
+					position: 'left'
+				},
+	            responsive: true
+            }
+        };
+
+		var v_o_chart = {
+	        type: 'doughnut',
+	        data: {
+				labels: [
+	                " . $v_o_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $v_o_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $v_o_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . Languages::charts('v_o_chart')[$this->lang] . "'
+				},
+				legend: {
+					display: true,
+					position: 'left'
+				},
+	            responsive: true
+            }
+        };
+
+		var v_l_chart = {
+	        type: 'doughnut',
+	        data: {
+				labels: [
+	                " . $v_l_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $v_l_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $v_l_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . Languages::charts('v_l_chart')[$this->lang] . "'
+				},
+				legend: {
+					display: true,
+					position: 'left'
+				},
+	            responsive: true
+            }
+        };
+
+		var ar_oa_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $ar_oa_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $ar_oa_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $ar_oa_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . Languages::charts('ar_oa_chart')[$this->lang] . "'
+				},
+				legend: {
+					display: true,
+					position: 'left'
+				},
+	            responsive: true
+            }
+        };
+
+		var ar_o_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $ar_o_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $ar_o_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $ar_o_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . Languages::charts('ar_o_chart')[$this->lang] . "'
+				},
+				legend: {
+					display: true,
+					position: 'left'
+				},
+	            responsive: true
+            }
+        };
+
+		var ar_l_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $ar_l_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $ar_l_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $ar_l_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . Languages::charts('ar_l_chart')[$this->lang] . "'
+				},
+				legend: {
+					display: true,
+					position: 'left'
+				},
+	            responsive: true
+            }
+        };
+
+		var c_oa_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $c_oa_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $c_oa_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $c_oa_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . Languages::charts('c_oa_chart')[$this->lang] . "'
+				},
+				legend: {
+					display: true,
+					position: 'left'
+				},
+	            responsive: true
+            }
+        };
+
+		var c_o_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $c_o_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $c_o_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $c_o_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . Languages::charts('c_o_chart')[$this->lang] . "'
+				},
+				legend: {
+					display: true,
+					position: 'left'
+				},
+	            responsive: true
+            }
+        };
+
+		var c_l_chart = {
+	        type: 'pie',
+	        data: {
+				labels: [
+	                " . $c_l_chart_data['labels'] . "
+	            ],
+				datasets: [{
+	                data: [
+	                    " . $c_l_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $c_l_chart_data['datasets']['colors'] . "
+	                ],
+	            }],
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . Languages::charts('c_l_chart')[$this->lang] . "'
+				},
+				legend: {
+					display: true,
+					position: 'left'
+				},
+	            responsive: true
+            }
+        };
+
+		window.onload = function()
+		{
+			v_oa_chart = new Chart(document.getElementById('v_oa_chart').getContext('2d'), v_oa_chart);
+			v_o_chart = new Chart(document.getElementById('v_o_chart').getContext('2d'), v_o_chart);
+			v_l_chart = new Chart(document.getElementById('v_l_chart').getContext('2d'), v_l_chart);
+			ar_oa_chart = new Chart(document.getElementById('ar_oa_chart').getContext('2d'), ar_oa_chart);
+			ar_o_chart = new Chart(document.getElementById('ar_o_chart').getContext('2d'), ar_o_chart);
+			ar_l_chart = new Chart(document.getElementById('ar_l_chart').getContext('2d'), ar_l_chart);
+			c_oa_chart = new Chart(document.getElementById('c_oa_chart').getContext('2d'), c_oa_chart);
+			c_o_chart = new Chart(document.getElementById('c_o_chart').getContext('2d'), c_o_chart);
+			c_l_chart = new Chart(document.getElementById('c_l_chart').getContext('2d'), c_l_chart);
+		};";
+
+		$js = trim(str_replace(array("\t\t\t"), '', $js));
+
+		echo $js;
+	}
+
 	public function reports($params)
 	{
 		if (Format::exist_ajax_request() == true)
@@ -1861,7 +2240,7 @@ class Voxes_controller extends Controller
 						$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.token}:</strong> ' . $value['token'] . '</p>';
 
 						if (in_array('owner', $_POST['fields']))
-							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.owner}:</strong> ' . $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') . '</p>';
+							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.owner}:</strong> ' . (!empty($value['owner']) ? $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') : '{$lang.empty}') . '</p>';
 
 						if (in_array('opportunity_area', $_POST['fields']))
 							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.opportunity_area}:</strong> ' . $value['opportunity_area']['name'][$this->lang] . '</p>';
@@ -1873,7 +2252,7 @@ class Voxes_controller extends Controller
 							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.date}:</strong> ' . Functions::get_formatted_date($value['started_date'], 'd F, Y') . ' ' . Functions::get_formatted_hour($value['started_hour'], '+ hrs') . '</p>';
 
 						if (in_array('location', $_POST['fields']))
-							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.location}:</strong> ' . $value['location']['name'][$this->lang] . '</p>';
+							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.location}:</strong> ' . (!empty($value['location']) ? $value['location']['name'][$this->lang] : '{$lang.empty}') . '</p>';
 
 						if ($value['type'] == 'incident' OR $value['type'] == 'workorder')
 						{
@@ -1910,7 +2289,7 @@ class Voxes_controller extends Controller
 						if ($value['type'] == 'request' OR $value['type'] == 'workorder')
 						{
 							if (in_array('observations', $_POST['fields']))
-								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.observations}:</strong> ' . (!empty($value['observations']) ? $value['observations'] : '{$lang.empty}') . '</p>';
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.observations}:</strong> ' . (!empty($value['menu_order']) ? '{$lang.empty}' : (!empty($value['observations']) ? $value['observations'] : '{$lang.empty}')) . '</p>';
 						}
 
 						if ($value['type'] == 'incident')
@@ -2081,8 +2460,7 @@ class Voxes_controller extends Controller
 					$html .=
 					'<div style="width:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:40px 40px 0px 40px;border-bottom:0px;box-sizing:border-box;">
 						<p style="display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:400;text-align:center;color:#757575;"><strong style="color:#212121;">Power by</strong> <img style="width:auto;height:20px;margin:0px 5px;" src="images/logotype_color.png"></p>
-						<p style="display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:400;text-align:center;color:#757575;">Copyright <i style="margin:0px 5px;" class="far fa-copyright" aria-hidden="true"></i> {$lang.all_right_reserved} Guestvox S.A.P.I. de C.V.</p>
-						<p style="font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Configuration::$domain . '</p>
+						<p style="display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:400;text-align:center;color:#757575;">Copyright <i style="margin:0px 5px;" class="far fa-copyright" aria-hidden="true"></i> {$lang.all_right_reserved}</p>
 					</div>';
 
 					Functions::environment([
@@ -2647,384 +3025,5 @@ class Voxes_controller extends Controller
 
 			echo $template;
 		}
-	}
-
-	public function stats()
-	{
-		if (Format::exist_ajax_request() == true)
-		{
-			if ($_POST['action'] == 'filter_voxes_stats')
-			{
-				Functions::environment([
-					'status' => 'success',
-					'data' => [
-						'v' => [
-							'oa' => $this->model->get_chart_data('v_oa_chart', $_POST, true),
-							'o' => $this->model->get_chart_data('v_o_chart', $_POST, true),
-							'l' => $this->model->get_chart_data('v_l_chart', $_POST, true)
-						],
-						'ar' => [
-							'oa' => $this->model->get_chart_data('ar_oa_chart', $_POST, true),
-							'o' => $this->model->get_chart_data('ar_o_chart', $_POST, true),
-							'l' => $this->model->get_chart_data('ar_l_chart', $_POST, true)
-						],
-						'c' => [
-							'oa' => $this->model->get_chart_data('c_oa_chart', $_POST, true),
-							'o' => $this->model->get_chart_data('c_o_chart', $_POST, true),
-							'l' => $this->model->get_chart_data('c_l_chart', $_POST, true)
-						]
-					]
-				]);
-			}
-		}
-		else
-		{
-			$template = $this->view->render($this, 'stats');
-
-			define('_title', 'Guestvox | {$lang.voxes_stats}');
-
-			$replace = [
-				'{$voxes_average_resolution}' => $this->model->get_voxes_average_resolution(),
-				'{$voxes_count_open}' => $this->model->get_voxes_count('open'),
-				'{$voxes_count_close}' => $this->model->get_voxes_count('close'),
-				'{$voxes_count_total}' => $this->model->get_voxes_count('total'),
-				'{$voxes_count_today}' => $this->model->get_voxes_count('today'),
-				'{$voxes_count_week}' => $this->model->get_voxes_count('week'),
-				'{$voxes_count_month}' => $this->model->get_voxes_count('month'),
-				'{$voxes_count_year}' => $this->model->get_voxes_count('year')
-			];
-
-			$template = $this->format->replace($replace, $template);
-
-			echo $template;
-		}
-	}
-
-	public function charts()
-	{
-		header('Content-Type: application/javascript');
-
-		$v_oa_chart_data = $this->model->get_chart_data('v_oa_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
-		$v_o_chart_data = $this->model->get_chart_data('v_o_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
-		$v_l_chart_data = $this->model->get_chart_data('v_l_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
-		$ar_oa_chart_data = $this->model->get_chart_data('ar_oa_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
-		$ar_o_chart_data = $this->model->get_chart_data('ar_o_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
-		$ar_l_chart_data = $this->model->get_chart_data('ar_l_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
-		$c_oa_chart_data = $this->model->get_chart_data('c_oa_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date()
-		]);
-
-		$c_o_chart_data = $this->model->get_chart_data('c_o_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date()
-		]);
-
-		$c_l_chart_data = $this->model->get_chart_data('c_l_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date()
-		]);
-
-		$js =
-		"'use strict';
-
-		var v_oa_chart = {
-	        type: 'doughnut',
-	        data: {
-				labels: [
-	                " . $v_oa_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $v_oa_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $v_oa_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . Languages::charts('v_oa_chart')[$this->lang] . "'
-				},
-				legend: {
-					display: true,
-					position: 'left'
-				},
-	            responsive: true
-            }
-        };
-
-		var v_o_chart = {
-	        type: 'doughnut',
-	        data: {
-				labels: [
-	                " . $v_o_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $v_o_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $v_o_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . Languages::charts('v_o_chart')[$this->lang] . "'
-				},
-				legend: {
-					display: true,
-					position: 'left'
-				},
-	            responsive: true
-            }
-        };
-
-		var v_l_chart = {
-	        type: 'doughnut',
-	        data: {
-				labels: [
-	                " . $v_l_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $v_l_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $v_l_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . Languages::charts('v_l_chart')[$this->lang] . "'
-				},
-				legend: {
-					display: true,
-					position: 'left'
-				},
-	            responsive: true
-            }
-        };
-
-		var ar_oa_chart = {
-	        type: 'pie',
-	        data: {
-				labels: [
-	                " . $ar_oa_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $ar_oa_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $ar_oa_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . Languages::charts('ar_oa_chart')[$this->lang] . "'
-				},
-				legend: {
-					display: true,
-					position: 'left'
-				},
-	            responsive: true
-            }
-        };
-
-		var ar_o_chart = {
-	        type: 'pie',
-	        data: {
-				labels: [
-	                " . $ar_o_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $ar_o_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $ar_o_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . Languages::charts('ar_o_chart')[$this->lang] . "'
-				},
-				legend: {
-					display: true,
-					position: 'left'
-				},
-	            responsive: true
-            }
-        };
-
-		var ar_l_chart = {
-	        type: 'pie',
-	        data: {
-				labels: [
-	                " . $ar_l_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $ar_l_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $ar_l_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . Languages::charts('ar_l_chart')[$this->lang] . "'
-				},
-				legend: {
-					display: true,
-					position: 'left'
-				},
-	            responsive: true
-            }
-        };
-
-		var c_oa_chart = {
-	        type: 'pie',
-	        data: {
-				labels: [
-	                " . $c_oa_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $c_oa_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $c_oa_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . Languages::charts('c_oa_chart')[$this->lang] . "'
-				},
-				legend: {
-					display: true,
-					position: 'left'
-				},
-	            responsive: true
-            }
-        };
-
-		var c_o_chart = {
-	        type: 'pie',
-	        data: {
-				labels: [
-	                " . $c_o_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $c_o_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $c_o_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . Languages::charts('c_o_chart')[$this->lang] . "'
-				},
-				legend: {
-					display: true,
-					position: 'left'
-				},
-	            responsive: true
-            }
-        };
-
-		var c_l_chart = {
-	        type: 'pie',
-	        data: {
-				labels: [
-	                " . $c_l_chart_data['labels'] . "
-	            ],
-				datasets: [{
-	                data: [
-	                    " . $c_l_chart_data['datasets']['data'] . "
-	                ],
-	                backgroundColor: [
-	                    " . $c_l_chart_data['datasets']['colors'] . "
-	                ],
-	            }],
-	        },
-	        options: {
-				title: {
-					display: true,
-					text: '" . Languages::charts('c_l_chart')[$this->lang] . "'
-				},
-				legend: {
-					display: true,
-					position: 'left'
-				},
-	            responsive: true
-            }
-        };
-
-		window.onload = function()
-		{
-			v_oa_chart = new Chart(document.getElementById('v_oa_chart').getContext('2d'), v_oa_chart);
-			v_o_chart = new Chart(document.getElementById('v_o_chart').getContext('2d'), v_o_chart);
-			v_l_chart = new Chart(document.getElementById('v_l_chart').getContext('2d'), v_l_chart);
-			ar_oa_chart = new Chart(document.getElementById('ar_oa_chart').getContext('2d'), ar_oa_chart);
-			ar_o_chart = new Chart(document.getElementById('ar_o_chart').getContext('2d'), ar_o_chart);
-			ar_l_chart = new Chart(document.getElementById('ar_l_chart').getContext('2d'), ar_l_chart);
-			c_oa_chart = new Chart(document.getElementById('c_oa_chart').getContext('2d'), c_oa_chart);
-			c_o_chart = new Chart(document.getElementById('c_o_chart').getContext('2d'), c_o_chart);
-			c_l_chart = new Chart(document.getElementById('c_l_chart').getContext('2d'), c_l_chart);
-		};";
-
-		$js = trim(str_replace(array("\t\t\t"), '', $js));
-
-		echo $js;
 	}
 }

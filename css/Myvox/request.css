@@ -1,14 +1,95 @@
 
-main.myvox {
+/* Header
+------------------------------------------------------------------------------ */
+header.myvox {
     width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+header.myvox::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+header.myvox > figure {
+    width: auto;
+    height: 80px;
+    float: left;
+}
+
+header.myvox > figure > img {
+    height: 100%;
+}
+
+header.myvox > div {
+    width: auto;
+    height: 80px;
+    float: right;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+header.myvox > div > a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+header.myvox > div > a > img {
+    height: 100%;
+}
+
+/* Main
+------------------------------------------------------------------------------ */
+main.myvox {
+    width: 100%;
     padding: 40px;
     box-sizing: border-box;
 }
 
-main.myvox > form {
+/* Footer
+------------------------------------------------------------------------------ */
+footer.myvox {
     width: 100%;
-    max-width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+footer.myvox > h4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: #757575;
+}
+
+footer.myvox > h4 > img {
+    width: auto;
+    height: 20px;
+    margin-left: 5px;
+}
+
+footer.myvox > p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+footer.myvox > p > i {
+    margin: 0px 5px;
 }

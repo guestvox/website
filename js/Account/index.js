@@ -174,12 +174,12 @@ $(document).ready(function()
                     {
                         status = true;
 
-                        $('[data-modal="edit_myvox_requests_settings"]').find('[name="title_es"]').val(response.data.settings.myvox.requests.title.es);
-                        $('[data-modal="edit_myvox_requests_settings"]').find('[name="title_en"]').val(response.data.settings.myvox.requests.title.en);
+                        $('[data-modal="edit_myvox_request_settings"]').find('[name="title_es"]').val(response.data.settings.myvox.request.title.es);
+                        $('[data-modal="edit_myvox_request_settings"]').find('[name="title_en"]').val(response.data.settings.myvox.request.title.en);
 
-                        required_focus('form', $('form[name="edit_myvox_requests_settings"]'), null);
+                        required_focus('form', $('form[name="edit_myvox_request_settings"]'), null);
 
-                        $('[data-modal="edit_myvox_requests_settings"]').addClass('view');
+                        $('[data-modal="edit_myvox_request_settings"]').addClass('view');
                     }
                     else if (response.status == 'error')
                         show_modal_error(response.message);
@@ -190,7 +190,7 @@ $(document).ready(function()
         {
             $.ajax({
                 type: 'POST',
-                data: 'status=' + status + '&action=edit_myvox_requests_settings',
+                data: 'status=' + status + '&action=edit_myvox_request_settings',
                 processData: false,
                 cache: false,
                 dataType: 'json',
@@ -205,15 +205,15 @@ $(document).ready(function()
         }
     });
 
-    $('[data-modal="edit_myvox_requests_settings"]').modal().onCancel(function()
+    $('[data-modal="edit_myvox_request_settings"]').modal().onCancel(function()
     {
         $('#rqsw').prop('checked', false);
         $('#rqsw').parent().removeClass('checked');
 
-        clean_form($('form[name="edit_myvox_requests_settings"]'));
+        clean_form($('form[name="edit_myvox_request_settings"]'));
     });
 
-    $('form[name="edit_myvox_requests_settings"]').on('submit', function(e)
+    $('form[name="edit_myvox_request_settings"]').on('submit', function(e)
     {
         e.preventDefault();
 
@@ -221,7 +221,7 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&status=' + status + '&action=edit_myvox_requests_settings',
+            data: form.serialize() + '&status=' + status + '&action=edit_myvox_request_settings',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -251,12 +251,12 @@ $(document).ready(function()
                     {
                         status = true;
 
-                        $('[data-modal="edit_myvox_incidents_settings"]').find('[name="title_es"]').val(response.data.settings.myvox.incidents.title.es);
-                        $('[data-modal="edit_myvox_incidents_settings"]').find('[name="title_en"]').val(response.data.settings.myvox.incidents.title.en);
+                        $('[data-modal="edit_myvox_incident_settings"]').find('[name="title_es"]').val(response.data.settings.myvox.incident.title.es);
+                        $('[data-modal="edit_myvox_incident_settings"]').find('[name="title_en"]').val(response.data.settings.myvox.incident.title.en);
 
-                        required_focus('form', $('form[name="edit_myvox_incidents_settings"]'), null);
+                        required_focus('form', $('form[name="edit_myvox_incident_settings"]'), null);
 
-                        $('[data-modal="edit_myvox_incidents_settings"]').addClass('view');
+                        $('[data-modal="edit_myvox_incident_settings"]').addClass('view');
                     }
                     else if (response.status == 'error')
                         show_modal_error(response.message);
@@ -267,7 +267,7 @@ $(document).ready(function()
         {
             $.ajax({
                 type: 'POST',
-                data: 'status=' + status + '&action=edit_myvox_incidents_settings',
+                data: 'status=' + status + '&action=edit_myvox_incident_settings',
                 processData: false,
                 cache: false,
                 dataType: 'json',
@@ -282,15 +282,15 @@ $(document).ready(function()
         }
     });
 
-    $('[data-modal="edit_myvox_incidents_settings"]').modal().onCancel(function()
+    $('[data-modal="edit_myvox_incident_settings"]').modal().onCancel(function()
     {
         $('#insw').prop('checked', false);
         $('#insw').parent().removeClass('checked');
 
-        clean_form($('form[name="edit_myvox_incidents_settings"]'));
+        clean_form($('form[name="edit_myvox_incident_settings"]'));
     });
 
-    $('form[name="edit_myvox_incidents_settings"]').on('submit', function(e)
+    $('form[name="edit_myvox_incident_settings"]').on('submit', function(e)
     {
         e.preventDefault();
 
@@ -298,7 +298,7 @@ $(document).ready(function()
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&status=' + status + '&action=edit_myvox_incidents_settings',
+            data: form.serialize() + '&status=' + status + '&action=edit_myvox_incident_settings',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -451,23 +451,23 @@ $(document).ready(function()
                     {
                         status = true;
 
-                        $('[data-modal="edit_myvox_surveys_settings"]').find('[name="title_es"]').val(response.data.settings.myvox.surveys.title.es);
-                        $('[data-modal="edit_myvox_surveys_settings"]').find('[name="title_en"]').val(response.data.settings.myvox.surveys.title.en);
-                        $('[data-modal="edit_myvox_surveys_settings"]').find('[name="mail_subject_es"]').val(response.data.settings.myvox.surveys.mail.subject.es);
-                        $('[data-modal="edit_myvox_surveys_settings"]').find('[name="mail_subject_en"]').val(response.data.settings.myvox.surveys.mail.subject.en);
-                        $('[data-modal="edit_myvox_surveys_settings"]').find('[name="mail_description_es"]').val(response.data.settings.myvox.surveys.mail.description.es);
-                        $('[data-modal="edit_myvox_surveys_settings"]').find('[name="mail_description_en"]').val(response.data.settings.myvox.surveys.mail.description.en);
-                        $('[data-modal="edit_myvox_surveys_settings"]').find('[name="mail_image"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', ((response.data.settings.myvox.surveys.mail.image) ? '../uploads/' + response.data.settings.myvox.surveys.mail.image : '../images/empty.png'));
+                        $('[data-modal="edit_myvox_survey_settings"]').find('[name="title_es"]').val(response.data.settings.myvox.survey.title.es);
+                        $('[data-modal="edit_myvox_survey_settings"]').find('[name="title_en"]').val(response.data.settings.myvox.survey.title.en);
+                        $('[data-modal="edit_myvox_survey_settings"]').find('[name="mail_subject_es"]').val(response.data.settings.myvox.survey.mail.subject.es);
+                        $('[data-modal="edit_myvox_survey_settings"]').find('[name="mail_subject_en"]').val(response.data.settings.myvox.survey.mail.subject.en);
+                        $('[data-modal="edit_myvox_survey_settings"]').find('[name="mail_description_es"]').val(response.data.settings.myvox.survey.mail.description.es);
+                        $('[data-modal="edit_myvox_survey_settings"]').find('[name="mail_description_en"]').val(response.data.settings.myvox.survey.mail.description.en);
+                        $('[data-modal="edit_myvox_survey_settings"]').find('[name="mail_image"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', ((response.data.settings.myvox.survey.mail.image) ? '../uploads/' + response.data.settings.myvox.survey.mail.image : '../images/empty.png'));
 
                         var att = '../images/empty.png';
 
-                        if (response.data.settings.myvox.surveys.mail.attachment)
+                        if (response.data.settings.myvox.survey.mail.attachment)
                         {
-                            att = response.data.settings.myvox.surveys.mail.attachment.split('.');
+                            att = response.data.settings.myvox.survey.mail.attachment.split('.');
                             att = att[1].toUpperCase();
 
                             if (att == 'PNG' || att == 'JPG' || att == 'JPEG')
-                                att = '../uploads/' + response.data.settings.myvox.surveys.mail.attachment;
+                                att = '../uploads/' + response.data.settings.myvox.survey.mail.attachment;
                             else if (att == 'PDF')
                                 att = '../images/pdf.png';
                             else if (att == 'DOC' || att == 'DOCX')
@@ -476,12 +476,12 @@ $(document).ready(function()
                                 att = '../images/excel.png';
                         }
 
-                        $('[data-modal="edit_myvox_surveys_settings"]').find('[name="mail_attachment"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', att);
-                        $('[data-modal="edit_myvox_surveys_settings"]').find('[name="widget"]').val(response.data.settings.myvox.surveys.widget);
+                        $('[data-modal="edit_myvox_survey_settings"]').find('[name="mail_attachment"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', att);
+                        $('[data-modal="edit_myvox_survey_settings"]').find('[name="widget"]').val(response.data.settings.myvox.survey.widget);
 
-                        required_focus('form', $('form[name="edit_myvox_surveys_settings"]'), null);
+                        required_focus('form', $('form[name="edit_myvox_survey_settings"]'), null);
 
-                        $('[data-modal="edit_myvox_surveys_settings"]').addClass('view');
+                        $('[data-modal="edit_myvox_survey_settings"]').addClass('view');
                     }
                     else if (response.status == 'error')
                         show_modal_error(response.message);
@@ -492,7 +492,7 @@ $(document).ready(function()
         {
             $.ajax({
                 type: 'POST',
-                data: 'status=' + status + '&action=edit_myvox_surveys_settings',
+                data: 'status=' + status + '&action=edit_myvox_survey_settings',
                 processData: false,
                 cache: false,
                 dataType: 'json',
@@ -507,15 +507,15 @@ $(document).ready(function()
         }
     });
 
-    $('[data-modal="edit_myvox_surveys_settings"]').modal().onCancel(function()
+    $('[data-modal="edit_myvox_survey_settings"]').modal().onCancel(function()
     {
         $('#susw').prop('checked', false);
         $('#susw').parent().removeClass('checked');
 
-        clean_form($('form[name="edit_myvox_surveys_settings"]'));
+        clean_form($('form[name="edit_myvox_survey_settings"]'));
     });
 
-    $('form[name="edit_myvox_surveys_settings"]').on('submit', function(e)
+    $('form[name="edit_myvox_survey_settings"]').on('submit', function(e)
     {
         e.preventDefault();
 
@@ -523,7 +523,7 @@ $(document).ready(function()
         var data = new FormData(form[0]);
 
         data.append('status', status);
-        data.append('action', 'edit_myvox_surveys_settings');
+        data.append('action', 'edit_myvox_survey_settings');
 
         $.ajax({
             type: 'POST',

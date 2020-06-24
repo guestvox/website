@@ -40,7 +40,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
             {$div_public_requests}
             {$div_public_incidents}
             {$div_menu}
-            {$div_answered_surveys}
+            {$div_answer_surveys}
             {$div_reviews_page}
             {$div_attention_times}
             <div class="stl_5">
@@ -285,9 +285,9 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
         </main>
     </div>
 </section>
-{$mdl_edit_myvox_requests_settings}
-{$mdl_edit_myvox_incidents_settings}
+{$mdl_edit_myvox_request_settings}
+{$mdl_edit_myvox_incident_settings}
 {$mdl_edit_myvox_menu_settings}
-{$mdl_edit_myvox_surveys_settings}
+{$mdl_edit_myvox_survey_settings}
 {$mdl_edit_reviews_settings}
 {$mdl_edit_voxes_attention_times_settings}

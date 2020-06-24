@@ -21,7 +21,7 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
     {$btn_new_request}
     {$btn_new_incident}
     {$btn_new_menu_order}
-    {$btn_new_survey_answer}
+    <!-- {$btn_new_survey_answer} -->
 </main>
 <footer class="myvox">
     <h4>Power by <img src="{$path.images}logotype_color.png" alt="Guestvox"></h4>

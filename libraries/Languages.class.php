@@ -43,10 +43,6 @@ class Languages
                 'es' => 'Sin nombre',
                 'en' => 'Not name'
             ],
-            'thanks_received_vox' => [
-                'es' => '¡Gracias, hemos recibido tu vox!',
-                'en' => '¡Thanks, we have received your vox!'
-            ],
             'download_file' => [
                 'es' => 'Descargar archivo',
                 'en' => 'Download file'
@@ -103,6 +99,18 @@ class Languages
                 'es' => 'Iniciar sesión',
                 'en' => 'Login'
             ],
+            'thanks_received_request' => [
+                'es' => '¡Gracias, hemos recibido tu petición!',
+                'en' => '¡Thanks, we have received your request!'
+            ],
+            'thanks_received_incident' => [
+                'es' => '¡Gracias, hemos recibido tu incidencia!',
+                'en' => '¡Thanks, we have received your incident!'
+            ],
+            'thanks_received_menu_order' => [
+                'es' => '¡Gracias, hemos recibido tu pedido!',
+                'en' => '¡Thanks, we have received your order!'
+            ],
             'new' => [
                 'request' => [
                     'es' => 'Nueva petición',
@@ -141,6 +149,10 @@ class Languages
                 'es' => 'Propietario',
                 'en' => 'Owner'
             ],
+            'not_owner' => [
+                'es' => 'Sin propietario',
+                'en' => 'Not owner'
+            ],
             'opportunity_area' => [
                 'es' => 'Área de oportunidad',
                 'en' => 'Opportunity area'
@@ -160,6 +172,10 @@ class Languages
             'location' => [
                 'es' => 'Ubicación',
                 'en' => 'Location'
+            ],
+            'not_location' => [
+                'es' => 'Sin ubicación',
+                'en' => 'Not location'
             ],
             'urgency' => [
                 'es' => 'Urgencia',

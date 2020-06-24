@@ -177,7 +177,7 @@ $(document).ready(function()
     {
         $.ajax({
             type: 'POST',
-            data: 'opportunity_area=' + $(this).val() + '&type=' + $('[name="type"]').val() + '&action=get_opt_opportunity_types',
+            data: 'opportunity_area=' + $(this).val() + '&type=' + $('[name="type"]:checked').val() + '&action=get_opt_opportunity_types',
             processData: false,
             cache: false,
             dataType: 'json',
