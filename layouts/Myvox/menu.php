@@ -11,10 +11,13 @@ $this->dependencies->add(['js', '{$path.js}Myvox/menu.js']);
     <figure>
         <img src="{$logotype}" alt="Client">
     </figure>
-    <div>
-        <a href="?<?php echo Language::get_lang_url('es'); ?>"><img src="{$path.images}es.png"></a>
-        <a href="?<?php echo Language::get_lang_url('en'); ?>"><img src="{$path.images}en.png"></a>
-    </div>
+    <nav>
+        <ul>
+            <li>{$btn_home}</li>
+            <li><a href="?<?php echo Language::get_lang_url('es'); ?>"><img src="{$path.images}es.png"></a></li>
+            <li><a href="?<?php echo Language::get_lang_url('en'); ?>"><img src="{$path.images}en.png"></a></li>
+        </ul>
+    </nav>
 </header>
 <main class="menu">
     {$html}

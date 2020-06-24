@@ -41,7 +41,7 @@ body > header.topbar {
     z-index: 97;
 }
 
-body > header.topbar {
+body > header.topbar::after {
     content: '';
     display: block;
     clear: both;
