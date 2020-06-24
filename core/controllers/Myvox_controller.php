@@ -1123,6 +1123,30 @@ class Myvox_controller extends Controller
 					}
 				}
 
+				if ($_POST['action'] == 'preview_menu_product')
+				{
+					$query = $this->model->get_menu_product($_POST['id']);
+
+					if (!empty($query))
+					{
+						$query['name'] = $query['name'][$this->lang1];
+						$query['description'] = $query['description'][$this->lang1];
+						$query['price'] = Functions::get_formatted_currency($query['price'], Session::get_value('account')['settings']['myvox']['menu']['currency']);
+
+						Functions::environment([
+							'status' => 'success',
+							'data' => $query
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+
 				if ($_POST['action'] == 'remove_to_menu_order' OR $_POST['action'] == 'add_to_menu_order' OR $_POST['action'] == 'delete_to_menu_order')
 				{
 					$query = $this->model->get_menu_product($_POST['id']);
@@ -1538,6 +1562,7 @@ class Myvox_controller extends Controller
 								<h2>' . $value['name'][$this->lang1] . '</h2>
 								<span>' . Functions::get_formatted_currency($value['price'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>
 								<div>
+									<a data-action="preview_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-info-circle"></i></a>
 									<a data-action="remove_to_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-minus"></i></a>
 									<span>' . ((array_key_exists($value['id'], Session::get_value('menu_order')['shopping_cart'])) ? Session::get_value('menu_order')['shopping_cart'][$value['id']]['quantity'] : '0') . '</span>
 									<a data-action="add_to_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>
@@ -1546,7 +1571,23 @@ class Myvox_controller extends Controller
 						</div>';
 					}
 
-					$html .= '</section>';
+					$html .=
+					'</section>
+					<section class="modal fullscreen" data-modal="preview_menu_product">
+					    <div class="content">
+					        <main>
+								<figure>
+									<img src="">
+								</figure>
+								<h2></h2>
+								<span></span>
+								<p></p>
+								<div class="buttons">
+									<a button-close><i class="fas fa-check"></i></a>
+								</div>
+					        </main>
+					    </div>
+					</section>';
 				}
 				else if ($params[1] == 'order')
 				{
@@ -1560,10 +1601,8 @@ class Myvox_controller extends Controller
 					{
 						$html .=
 						'<div>
-							<div>
-								<h2>' . $value['name'][$this->lang1] . '</h2>
-								<span>' . Functions::get_formatted_currency($value['price'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>
-							</div>
+							<h2>' . $value['name'][$this->lang1] . '</h2>
+							<span>' . Functions::get_formatted_currency($value['price'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span>
 							<div>
 								<a data-action="remove_to_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-minus"></i></a>
 								<span>' . $value['quantity'] . '</span>
@@ -1692,13 +1731,13 @@ class Myvox_controller extends Controller
 
 				$html .=
 				'<section class="buttons">
-					<a href="/' . $params[0] . '/myvox' . ((Session::get_value('url') == 'owner') ? '/owner/' . Session::get_value('owner')['token'] : '') . '"><i class="fas fa-home"></i><span>{$lang.home}</span></a>
 					<a href="/' . $params[0] . '/menu/products" ' . (($params[1] == 'products') ? 'class="active"' : '') . '><i class="fas fa-th-list"></i><span>{$lang.products}</span></a>
 					<a href="/' . $params[0] . '/menu/order" ' . (($params[1] == 'order') ? 'class="active"' : '') . '  data-total><i class="fas fa-shopping-cart"></i><span>' . Functions::get_formatted_currency(Session::get_value('menu_order')['total'], Session::get_value('account')['settings']['myvox']['menu']['currency']) . '</span></a>
 				</section>';
 
 				$replace = [
 					'{$logotype}' => '{$path.uploads}' . Session::get_value('account')['logotype'],
+					'{$btn_home}' => '<a href="/' . $params[0] . '/myvox' . ((Session::get_value('url') == 'owner') ? '/owner/' . Session::get_value('owner')['token'] : '') . '"><i class="fas fa-home"></i></a>',
 					'{$html}' => $html
 				];
 

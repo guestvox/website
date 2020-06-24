@@ -3,9 +3,20 @@
 ------------------------------------------------------------------------------ */
 header.menu {
     width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
+    height: 100px;
+    position: fixed;
     background-color: #fff;
+    z-index: 99;
+}
+
+header.menu::before {
+    content: '';
+    width: 100%;
+    height: 20px;
+    position: absolute;
+    bottom: 0px;
+    border-radius: 20px 20px 0px 0px;
+    background-color: #eee;
 }
 
 header.menu::after {
@@ -16,36 +27,55 @@ header.menu::after {
 
 header.menu > figure {
     width: auto;
-    height: 80px;
+    height: 100%;
     float: left;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px 0px 0px 20px;
+    box-sizing: border-box;
 }
 
 header.menu > figure > img {
-    height: 100%;
+    width: auto;
+    height: 40px;
 }
 
-header.menu > div {
+header.menu > nav {
     width: auto;
-    height: 80px;
+    height: 100%;
     float: right;
+    padding: 20px 10px 0px 10px;
+    box-sizing: border-box;
+    background-color: #00a5ab;
+}
+
+header.menu > nav > ul {
+    width: 100%;
+    height: 100%;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 }
 
-header.menu > div > a {
+header.menu > nav > ul > li,
+header.menu > nav > ul > li > a {
     width: 40px;
     height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 10px;
-    border-radius: 50%;
-    overflow: hidden;
+    font-size: 16px;
+    font-weight: 400;
+    color: #fff;
 }
 
-header.menu > div > a > img {
-    height: 100%;
+header.menu > nav > ul > li > a > img {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1px solid #fff;
+    box-sizing: border-box;
 }
 
 /* Main
@@ -53,6 +83,7 @@ header.menu > div > a > img {
 main.menu {
     width: 100%;
     position: relative;
+    padding-top: 100px;
     box-sizing: border-box;
     background-color: #eee;
 }
@@ -75,11 +106,12 @@ main.menu > section[data-menu-categories] > div {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin-right: 10px;
+    padding-right: 20px;
 }
 
-main.menu > section[data-menu-categories] > div:last-child {
-    margin-right: 0px;
+main.menu > section[data-menu-categories] > div:first-child {
+    margin-right: 20px;
+    border-right: 1px solid #dbdbdb;
 }
 
 main.menu > section[data-menu-categories] > div > a {
@@ -90,9 +122,9 @@ main.menu > section[data-menu-categories] > div > a {
     justify-content: center;
     margin-bottom: 5px;
     border-radius: 50%;
-    background-color: #fff;
-    font-size: 18px;
-    color: #444;
+    background-color: #24383f;
+    font-size: 22px;
+    color: #fff;
 }
 
 main.menu > section[data-menu-categories] > div > span {
@@ -106,37 +138,49 @@ main.menu > section[data-menu-categories] > div > span {
 
 /*  */
 
-main.menu > section[data-menu-products] {
+main.menu > section[data-menu-products],
+main.menu > section[data-shopping-cart] {
     width: 100%;
-    padding: 0px 10px 20px 10px;
+    padding: 0px 20px;
     box-sizing: border-box;
 }
 
-main.menu > section[data-menu-products] > div {
+main.menu > section[data-menu-products] > div,
+main.menu > section[data-shopping-cart] > div {
     width: 100%;
-    height: 100px;
     display: flex;
-    align-items: center;
     justify-content: center;
-    margin-bottom: 10px;
-    padding: 10px;
-    box-sizing: border-box;
-    border-radius: 100px;
+    margin-bottom: 20px;
+    border-radius: 10px;
     background-color: #fff;
 }
 
-main.menu > section[data-menu-products] > div:last-child {
+main.menu > section[data-menu-products] > div {
+    height: 100px;
+    align-items: center;
+}
+
+main.menu > section[data-shopping-cart] > div {
+    height: auto;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+main.menu > section[data-menu-products] > div:last-child,
+main.menu > section[data-shopping-cart] > div:last-child {
     margin-bottom: 0px;
 }
 
 main.menu > section[data-menu-products] > div > figure {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    border-radius: 50%;
+    border-radius: 10px 0px 0px 10px;
 }
 
 main.menu > section[data-menu-products] > div > figure > img {
@@ -145,61 +189,125 @@ main.menu > section[data-menu-products] > div > figure > img {
 }
 
 main.menu > section[data-menu-products] > div > div {
-    width: calc(100% - 80px);
-    padding-left: 10px;
+    width: calc(100% - 90px);
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px 20px;
     box-sizing: border-box;
 }
 
 main.menu > section[data-menu-products] > div > div > h2,
-main.menu > section[data-shopping-cart] > div > div:first-child > h2 {
+main.menu > section[data-shopping-cart] > div > h2 {
     width: 100%;
     font-size: 16px;
     font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
     color: #444;
 }
 
 main.menu > section[data-menu-products] > div > div > span,
-main.menu > section[data-shopping-cart] > div > div:first-child > span {
+main.menu > section[data-shopping-cart] > div > span {
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     color: #757575;
 }
 
-main.menu > section[data-menu-products] > div > div > div {
+main.menu > section[data-menu-products] > div > div > div,
+main.menu > section[data-shopping-cart] > div > div {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    padding-right: 20px;
-    box-sizing: border-box;
+    margin-top: 10px;
 }
 
 main.menu > section[data-menu-products] > div > div > div > a,
 main.menu > section[data-menu-products] > div > div > div > span,
-main.menu > section[data-shopping-cart] > div > div:last-child > a,
-main.menu > section[data-shopping-cart] > div > div:last-child > span {
+main.menu > section[data-shopping-cart] > div > div > a,
+main.menu > section[data-shopping-cart] > div > div > span {
     width: 25px;
     height: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-left: 5px;
-    border-radius: 5px;
+    border-radius: 50%;
     font-size: 14px;
 }
 
 main.menu > section[data-menu-products] > div > div > div > a,
-main.menu > section[data-shopping-cart] > div > div:last-child > a {
-    background-color: #00A5AB;
+main.menu > section[data-shopping-cart] > div > div > a {
+    background-color: #00a5ab;
     color: #fff;
 }
 
+main.menu > section[data-menu-products] > div > div > div > a:first-child {
+    background-color: #ff5722;
+}
+
+main.menu > section[data-shopping-cart] > div > div > a:last-child {
+    background-color: #f44336;
+}
+
 main.menu > section[data-menu-products] > div > div > div > span,
-main.menu > section[data-shopping-cart] > div > div:last-child > span {
+main.menu > section[data-shopping-cart] > div > div > span {
     background-color: #eee;
     font-weight: 600;
     color: #444;
+}
+
+/*  */
+
+section[data-modal="preview_menu_product"] > div.content > main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+section[data-modal="preview_menu_product"] > div.content > main > figure {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 10px;
+}
+
+section[data-modal="preview_menu_product"] > div.content > main > figure > img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+section[data-modal="preview_menu_product"] > div.content > main > h2 {
+    font-size: 16px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #444;
+}
+
+section[data-modal="preview_menu_product"] > div.content > main > span {
+    margin-bottom: 20px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+section[data-modal="preview_menu_product"] > div.content > main > p {
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 18px;
+    color: #757575;
+}
+
+section[data-modal="preview_menu_product"] > div.content > main > div.buttons > a {
+    background-color: #00a5ab;
 }
 
 /*  */
@@ -211,7 +319,7 @@ main.menu > section[data-total] {
     justify-content: center;
     padding: 50px 0px;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: #eee;
 }
 
 main.menu > section[data-total] > span {
@@ -222,68 +330,25 @@ main.menu > section[data-total] > span {
 
 /*  */
 
-main.menu > section[data-shopping-cart] {
-    width: 100%;
-    background-color: #fff;
-}
-
-main.menu > section[data-shopping-cart] > div {
-    width: 100%;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    margin-bottom: 20px;
-    padding: 0px 20px 20px 20px;
-    border-bottom: 1px solid #eee;
-    box-sizing: border-box;
-}
-
-main.menu > section[data-shopping-cart] > div:last-child {
-    border-bottom: 0px;
-}
-
-main.menu > section[data-shopping-cart] > div > div:first-child {
-    width: calc(100% - 120px);
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    flex-direction: column;
-}
-
-main.menu > section[data-shopping-cart] > div > div:first-child > h2 {
-    font-size: 14px;
-}
-
-main.menu > section[data-shopping-cart] > div > div:first-child > span {
-    font-size: 12px;
-}
-
-main.menu > section[data-shopping-cart] > div > div:last-child {
-    width: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-main.menu > section[data-shopping-cart] > div > div:last-child > a:last-child {
-    background-color: #f44336;
-}
-
-main.menu > section[data-shopping-cart] > form {
-    width: 100%;
-    padding: 40px;
-    box-sizing: border-box;
+main.menu > section[data-shopping-cart] > form div.label > label > p > a {
+    color: #bdbdbd;
 }
 
 main.menu > section[data-shopping-cart] > form div.label > label > input,
 main.menu > section[data-shopping-cart] > form div.label > label > select {
+    height: 60px;
+    border-radius: 10px;
     background-color: #fff;
 }
 
+main.menu > section[data-shopping-cart] > form div.buttons {
+    margin-top: 0px;
+}
+
 main.menu > section[data-shopping-cart] > form div.buttons > button {
-    width: 200px;
+    width: 100%;
     height: 60px;
-    border-radius: 60px;
+    border-radius: 10px;
 }
 
 /*  */
@@ -291,9 +356,9 @@ main.menu > section[data-shopping-cart] > form div.buttons > button {
 main.menu > section.buttons {
     height: 60px;
     position: fixed;
-    right: 10px;
+    right: 20%;
     bottom: 10px;
-    left: 10px;
+    left: 20%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -302,7 +367,7 @@ main.menu > section.buttons {
 }
 
 main.menu > section.buttons > a {
-    width: calc(100% / 3);
+    width: calc(100% / 2);
     height: 100%;
     display: flex;
     align-items: center;
@@ -335,7 +400,7 @@ footer.menu {
     flex-direction: column;
     padding: 20px 20px 90px 20px;
     box-sizing: border-box;
-    background-color: #fff;
+    background-color: #eee;
 }
 
 footer.menu > h4 {

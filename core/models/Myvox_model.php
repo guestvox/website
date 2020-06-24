@@ -257,7 +257,27 @@ class Myvox_model extends Model
 
 	public function get_menu_categories()
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+		$categories = [];
+
+		$query1 = Functions::get_json_decoded_query($this->database->select('menu_products', [
+			'categories'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			]
+		]));
+
+		foreach ($query1 as $value)
+		{
+			foreach ($value['categories'] as $subvalue)
+			{
+				if (!in_array($subvalue, $categories))
+					array_push($categories, $subvalue);
+			}
+		}
+
+		$query2 = Functions::get_json_decoded_query($this->database->select('menu_categories', [
 			'id',
 			'name',
 			'icon',
@@ -270,16 +290,13 @@ class Myvox_model extends Model
 			]
 		]));
 
-		foreach ($query as $key => $value)
+		foreach ($query2 as $key => $value)
 		{
-			if ($value['type'] == 'close')
-			{
-				if (!in_array(Session::get_value('account')['id'], $value['accounts']))
-					unset($query[$key]);
-			}
+			if (!in_array($value['id'], $categories))
+				unset($query2[$key]);
 		}
 
-		return $query;
+		return $query2;
 	}
 
 	public function get_menu_products($filter = '', $id = null)
@@ -332,7 +349,9 @@ class Myvox_model extends Model
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
 			'name',
-			'price'
+			'description',
+			'price',
+			'avatar'
 		], [
 			'id' => $id
 		]));

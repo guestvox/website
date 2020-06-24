@@ -20,6 +20,31 @@ $(document).ready(function()
         });
     });
 
+    $('[data-action="preview_menu_product"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + $(this).data('id') + '&action=preview_menu_product',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="preview_menu_product"]').find('main > figure > img').attr('src', '../uploads/' + response.data.avatar);
+                    $('[data-modal="preview_menu_product"]').find('main > h2').html(response.data.name);
+                    $('[data-modal="preview_menu_product"]').find('main > span').html(response.data.price);
+                    $('[data-modal="preview_menu_product"]').find('main > p').html(response.data.description);
+
+                    $('[data-modal="preview_menu_product"]').addClass('view');
+                }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
     $(document).on('click', '[data-action="remove_to_menu_order"]', function()
     {
         var target = $(this);
