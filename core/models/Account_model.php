@@ -256,27 +256,27 @@ class Account_model extends Model
 
 		$edited2 = $edited1[0]['settings'];
 
-		if ($field == 'myvox_requests')
+		if ($field == 'myvox_request')
 		{
 			if (!empty($data['status']))
 			{
-				$edited1[0]['settings']['myvox']['requests']['status'] = true;
-				$edited1[0]['settings']['myvox']['requests']['title']['es'] = $data['title_es'];
-				$edited1[0]['settings']['myvox']['requests']['title']['en'] = $data['title_en'];
+				$edited1[0]['settings']['myvox']['request']['status'] = true;
+				$edited1[0]['settings']['myvox']['request']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['request']['title']['en'] = $data['title_en'];
 			}
 			else
-				$edited1[0]['settings']['myvox']['requests']['status'] = false;
+				$edited1[0]['settings']['myvox']['request']['status'] = false;
 		}
-		else if ($field == 'myvox_incidents')
+		else if ($field == 'myvox_incident')
 		{
 			if (!empty($data['status']))
 			{
-				$edited1[0]['settings']['myvox']['incidents']['status'] = true;
-				$edited1[0]['settings']['myvox']['incidents']['title']['es'] = $data['title_es'];
-				$edited1[0]['settings']['myvox']['incidents']['title']['en'] = $data['title_en'];
+				$edited1[0]['settings']['myvox']['incident']['status'] = true;
+				$edited1[0]['settings']['myvox']['incident']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['incident']['title']['en'] = $data['title_en'];
 			}
 			else
-				$edited1[0]['settings']['myvox']['incidents']['status'] = false;
+				$edited1[0]['settings']['myvox']['incident']['status'] = false;
 		}
 		else if ($field == 'myvox_menu')
 		{
@@ -293,28 +293,28 @@ class Account_model extends Model
 			else
 				$edited1[0]['settings']['myvox']['menu']['status'] = false;
 		}
-		else if ($field == 'myvox_surveys')
+		else if ($field == 'myvox_survey')
 		{
 			if (!empty($data['status']))
 			{
-				$edited1[0]['settings']['myvox']['surveys']['status'] = true;
-				$edited1[0]['settings']['myvox']['surveys']['title']['es'] = $data['title_es'];
-				$edited1[0]['settings']['myvox']['surveys']['title']['en'] = $data['title_en'];
-				$edited1[0]['settings']['myvox']['surveys']['mail']['subject']['es'] = $data['mail_subject_es'];
-				$edited1[0]['settings']['myvox']['surveys']['mail']['subject']['en'] = $data['mail_subject_en'];
-				$edited1[0]['settings']['myvox']['surveys']['mail']['description']['es'] = $data['mail_description_es'];
-				$edited1[0]['settings']['myvox']['surveys']['mail']['description']['en'] = $data['mail_description_en'];
+				$edited1[0]['settings']['myvox']['survey']['status'] = true;
+				$edited1[0]['settings']['myvox']['survey']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['survey']['title']['en'] = $data['title_en'];
+				$edited1[0]['settings']['myvox']['survey']['mail']['subject']['es'] = $data['mail_subject_es'];
+				$edited1[0]['settings']['myvox']['survey']['mail']['subject']['en'] = $data['mail_subject_en'];
+				$edited1[0]['settings']['myvox']['survey']['mail']['description']['es'] = $data['mail_description_es'];
+				$edited1[0]['settings']['myvox']['survey']['mail']['description']['en'] = $data['mail_description_en'];
 
 				if (!empty($data['mail_image']['name']))
-					$edited1[0]['settings']['myvox']['surveys']['mail']['image'] = Functions::uploader($data['mail_image'], Session::get_value('account')['path'] . '_settings_myvox_survey_mail_image_');
+					$edited1[0]['settings']['myvox']['survey']['mail']['image'] = Functions::uploader($data['mail_image'], Session::get_value('account')['path'] . '_settings_myvox_survey_mail_image_');
 
 				if (!empty($data['mail_attachment']['name']))
-					$edited1[0]['settings']['myvox']['surveys']['mail']['attachment'] = Functions::uploader($data['mail_attachment'], Session::get_value('account')['path'] . '_settings_myvox_survey_mail_attachment_');
+					$edited1[0]['settings']['myvox']['survey']['mail']['attachment'] = Functions::uploader($data['mail_attachment'], Session::get_value('account')['path'] . '_settings_myvox_survey_mail_attachment_');
 
-				$edited1[0]['settings']['myvox']['surveys']['widget'] = $data['widget'];
+				$edited1[0]['settings']['myvox']['survey']['widget'] = $data['widget'];
 			}
 			else
-				$edited1[0]['settings']['myvox']['surveys']['status'] = false;
+				$edited1[0]['settings']['myvox']['survey']['status'] = false;
 		}
 		else if ($field == 'reviews')
 		{
@@ -358,15 +358,15 @@ class Account_model extends Model
 			'id' => Session::get_value('account')['id']
 		]);
 
-		if ($field == 'myvox_surveys')
+		if ($field == 'myvox_survey')
 		{
 			if (!empty($query))
 			{
-				if (!empty($data['mail_image']['name']) AND !empty($edited2[0]['settings']['myvox']['surveys']['mail']['image']))
-					Functions::undoloader($edited2[0]['settings']['myvox']['surveys']['mail']['image']);
+				if (!empty($data['mail_image']['name']) AND !empty($edited2[0]['settings']['myvox']['survey']['mail']['image']))
+					Functions::undoloader($edited2[0]['settings']['myvox']['survey']['mail']['image']);
 
-				if (!empty($data['mail_attachment']['name']) AND !empty($edited2[0]['settings']['myvox']['surveys']['mail']['attachment']))
-					Functions::undoloader($edited2[0]['settings']['myvox']['surveys']['mail']['attachment']);
+				if (!empty($data['mail_attachment']['name']) AND !empty($edited2[0]['settings']['myvox']['survey']['mail']['attachment']))
+					Functions::undoloader($edited2[0]['settings']['myvox']['survey']['mail']['attachment']);
 			}
 		}
 

@@ -34,8 +34,8 @@ $this->dependencies->add(['others',
         <nav>
             <ul>
                 <li><a href="/blog">{$lang.blog}</a></li>
-                <li><a href="/login">{$lang.login}</a></li>
                 <li><a href="/signup">¡{$lang.signup_now}!</a></li>
+                <li><a href="/login">{$lang.login}</a></li>
             </ul>
         </nav>
     </header>
@@ -140,7 +140,7 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_2_text_16}</p>
                 </div>
             </div>
-            <a href="/hola/reseñas">{$lang.know_more}</a>
+            <a href="/hola/resenas">{$lang.know_more}</a>
         </div>
     </section>
     <section class="stl_4">
@@ -264,6 +264,6 @@ $this->dependencies->add(['others',
             <i class="fas fa-circle"></i>
             <a href="/privacy-policies" target="_blank">{$lang.privacy_policies}</a>
         </div>
-        <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved} Guestvox S.A.P.I. de C.V.</p>
+        <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved}</p>
     </footer>
 </main>

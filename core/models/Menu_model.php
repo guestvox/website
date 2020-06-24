@@ -11,6 +11,37 @@ class Menu_model extends Model
 		parent::__construct();
 	}
 
+    public function get_menu_orders()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('menu_orders', [
+			'[>]owners' => [
+				'owner' => 'id'
+			],
+			'[>]locations' => [
+				'location' => 'id'
+			],
+		], [
+			'menu_orders.token',
+			'owners.name(owner_name)',
+			'owners.number(owner_number)',
+			'locations.name(location)',
+			'menu_orders.address',
+			'menu_orders.date',
+			'menu_orders.hour',
+			'menu_orders.total',
+			'menu_orders.currency',
+			'menu_orders.shopping_cart'
+		], [
+			'menu_orders.account' => Session::get_value('account')['id'],
+			'ORDER' => [
+				'menu_orders.date' => 'DESC',
+				'menu_orders.hour' => 'DESC'
+			]
+		]));
+
+		return $query;
+	}
+
     public function get_menu_products()
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [

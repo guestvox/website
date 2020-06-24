@@ -21,6 +21,11 @@ class User_level
         {
             switch ($value)
             {
+                case '{voxes_stats_view}' :
+                    array_push($paths, '/Voxes/stats');
+                    array_push($paths, '/Voxes/charts');
+                break;
+
                 case '{voxes_reports_create}' :
                     array_push($paths, '/Voxes/reports');
                 break;
@@ -43,11 +48,6 @@ class User_level
 
                 case '{voxes_reports_print}' :
                     array_push($paths, '/Voxes/reports');
-                break;
-
-                case '{voxes_stats_view}' :
-                    array_push($paths, '/Voxes/stats');
-                    array_push($paths, '/Voxes/charts');
                 break;
 
                 case '{surveys_questions_create}' :
@@ -79,6 +79,10 @@ class User_level
                 case '{surveys_stats_view}' :
                     array_push($paths, '/Surveys/stats');
                     array_push($paths, '/Surveys/charts');
+                break;
+
+                case '{menu_orders_view}' :
+                    array_push($paths, '/Menu/orders');
                 break;
 
                 case '{menu_products_create}' :

@@ -13,6 +13,44 @@ class Menu_controller extends Controller
 		$this->lang = Session::get_value('account')['language'];
 	}
 
+	public function orders()
+	{
+		$template = $this->view->render($this, 'orders');
+
+		define('_title', 'Guestvox | {$lang.menu_orders}');
+
+		$tbl_menu_orders = '';
+
+		foreach ($this->model->get_menu_orders() as $value)
+		{
+			$tbl_menu_orders .=
+			'<div>
+				<div class="datas">
+					<h2>' . $value['token'] . ' | ' . Functions::get_formatted_date_hour($value['date'], $value['hour'], '+ hrs') . '</h2>
+					<span>' . Functions::get_formatted_currency($value['total'], $value['currency']) . '</span>
+					<span>' . (!empty($value['owner_name']) ? $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') : '') . '</span>
+					<span>' . (!empty($value['location']) ? $value['location'][$this->lang] : '') . '</span>
+					<span>' . (!empty($value['address']) ? $value['address'] : '') . '</span>
+					<ul>';
+
+			foreach ($value['shopping_cart'] as $subvalue)
+				$tbl_menu_orders .= '<li>' . $subvalue['quantity'] . ' ' . $subvalue['name'][$this->lang] . '</li>';
+
+			$tbl_menu_orders .=
+			'		</ul>
+				</div>
+			</div>';
+		}
+
+		$replace = [
+			'{$tbl_menu_orders}' => $tbl_menu_orders
+		];
+
+		$template = $this->format->replace($replace, $template);
+
+		echo $template;
+	}
+
 	public function products()
 	{
         if (Format::exist_ajax_request() == true)
@@ -56,11 +94,14 @@ class Menu_controller extends Controller
 				if (!isset($_POST['price']) OR empty($_POST['price']))
 					array_push($labels, ['price','']);
 
-				if (!isset($_FILES['avatar']['name']) OR empty($_FILES['avatar']['name']))
-					array_push($labels, ['avatar','']);
+				if ($_POST['action'] == 'new_menu_product')
+				{
+					if (!isset($_FILES['avatar']['name']) OR empty($_FILES['avatar']['name']))
+						array_push($labels, ['avatar','']);
+				}
 
 				if (!isset($_POST['categories']) OR empty($_POST['categories']))
-					array_push($labels, ['categories','']);
+					array_push($labels, ['categories[]','']);
 
 				if (Session::get_value('account')['settings']['menu']['multi'] == true)
 				{

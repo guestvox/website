@@ -25,7 +25,7 @@ class Urls_registered_vkye
                 'controller' => 'Hi',
                 'method' => 'surveys'
             ],
-            '/hola/reseñas' => [
+            '/hola/resenas' => [
                 'controller' => 'Hi',
                 'method' => 'reviews'
             ],
@@ -61,26 +61,26 @@ class Urls_registered_vkye
                 'controller' => 'Signup',
                 'method' => 'activate'
             ],
-            // '/%param%/myvox' => [
-            //     'controller' => 'Myvox', // - Rediseño
-            //     'method' => 'index'
-            // ],
-            // '/%param%/myvox/%param%/%param%' => [
-            //     'controller' => 'Myvox', // - Rediseño
-            //     'method' => 'index'
-            // ],
-            // '/%param%/myvox/request' => [
-            //     'controller' => 'Myvox', // - Rediseño
-            //     'method' => 'request'
-            // ],
-            // '/%param%/myvox/incident' => [
-            //     'controller' => 'Myvox', // - Rediseño
-            //     'method' => 'incident'
-            // ],
-            // '/%param%/myvox/menu' => [
-            //     'controller' => 'Myvox',
-            //     'method' => 'menu'
-            // ],
+            '/%param%/myvox' => [
+                'controller' => 'Myvox', // - Rediseño
+                'method' => 'index'
+            ],
+            '/%param%/myvox/%param%/%param%' => [
+                'controller' => 'Myvox', // - Rediseño
+                'method' => 'index'
+            ],
+            '/%param%/request' => [
+                'controller' => 'Myvox', // - Rediseño
+                'method' => 'request'
+            ],
+            '/%param%/incident' => [
+                'controller' => 'Myvox', // - Rediseño
+                'method' => 'incident'
+            ],
+            '/%param%/menu/%param%' => [
+                'controller' => 'Myvox',
+                'method' => 'menu'
+            ],
             // '/%param%/myvox/surveys' => [
             //     'controller' => 'Myvox', // - Rediseño
             //     'method' => 'surveys'
@@ -121,14 +121,6 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'edit'
             ],
-            '/voxes/reports' => [
-                'controller' => 'Voxes',
-                'method' => 'reports'
-            ],
-            '/voxes/reports/%param%' => [
-                'controller' => 'Voxes',
-                'method' => 'reports'
-            ],
             '/voxes/stats' => [
                 'controller' => 'Voxes',
                 'method' => 'stats'
@@ -136,6 +128,14 @@ class Urls_registered_vkye
             '/voxes/charts' => [
                 'controller' => 'Voxes',
                 'method' => 'charts'
+            ],
+            '/voxes/reports' => [
+                'controller' => 'Voxes',
+                'method' => 'reports'
+            ],
+            '/voxes/reports/%param%' => [
+                'controller' => 'Voxes',
+                'method' => 'reports'
             ],
             // '/surveys/questions' => [
             //     'controller' => 'Surveys',
@@ -161,6 +161,10 @@ class Urls_registered_vkye
             //     'controller' => 'Surveys',
             //     'method' => 'charts'
             // ],
+            '/menu/orders' => [
+                'controller' => 'Menu',
+                'method' => 'orders'
+            ],
             '/menu/products' => [
                 'controller' => 'Menu',
                 'method' => 'products'
