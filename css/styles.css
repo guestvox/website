@@ -1975,9 +1975,10 @@ div.vox_details > div.stl_3 > p > i {
 }
 
 div.vox_details > div.stl_3 > span {
+    width: 100%;
     font-size: 14px;
     font-weight: 400;
-    color: #757575;
+    color: #9e9e9e;
 }
 
 /*  */
