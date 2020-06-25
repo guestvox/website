@@ -228,7 +228,7 @@ body > main.dashboard.gry > section.workspace {
     background-color: #eee;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     body > main.dashboard.dkp::before {
         background-color: #eee;
@@ -322,7 +322,7 @@ div.tbl_stl_1 {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.tbl_stl_1 {
         padding: 80px 10px 0px 10px;
@@ -353,7 +353,7 @@ div.tbl_stl_1 > aside {
     z-index: 89;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.tbl_stl_1 > aside {
         justify-content: flex-end;
@@ -407,7 +407,7 @@ div.tbl_stl_1 > div:last-child {
     margin-bottom: 0px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.tbl_stl_1 > div {
         width: calc(100% / 4);
@@ -555,7 +555,7 @@ div.tbl_stl_1 > div > div > div.itm_3 {
     background-color: #e0e0e0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.tbl_stl_1 > div > div > div.itm_3 {
         padding-bottom: 0px;
@@ -586,7 +586,7 @@ div.tbl_stl_1 > div > div > div.itm_3 > span:last-child {
     margin-bottom: 0px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.tbl_stl_1 > div > div > div.itm_3 > span {
         width: 50%;
@@ -612,7 +612,7 @@ div.tbl_stl_1 > div > div > div.itm_3 > span > i {
     color: #9e9e9e;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.tbl_stl_1 > div > div > div.itm_3 > span > i {
         width: auto;
@@ -696,7 +696,7 @@ div.tbl_stl_3 > div:last-child {
     border-bottom: 0px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.tbl_stl_2 > div,
     div.tbl_stl_3 > div {
@@ -737,7 +737,7 @@ div.tbl_stl_3 > div > div.datas > div.itm_1 {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.tbl_stl_3 > div > div.datas > div.itm_1 {
         order: 2;
@@ -818,7 +818,7 @@ div.tbl_stl_3 > div > div.datas > div.itm_2 {
     justify-content: center;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.tbl_stl_3 > div > div.datas > div.itm_2 {
         order: 1;
@@ -873,7 +873,7 @@ div.tbl_stl_3 > div > div.buttons > a {
     color: #757575;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.tbl_stl_2 > div > div.buttons,
     div.tbl_stl_3 > div > div.buttons {
@@ -915,7 +915,7 @@ div.tbl_stl_4 > div:last-child {
     border-bottom: 0px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.tbl_stl_4 > div {
         padding: 40px;
@@ -1791,7 +1791,7 @@ div.vox_details {
     width: 100%;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.vox_details {
         max-width: 1200px;
@@ -1820,7 +1820,7 @@ div.vox_details > div.stl_1 {
     background-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.vox_details > div.stl_1 {
         height: 300px;
@@ -1907,7 +1907,7 @@ div.vox_details > div.stl_2 {
     background-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.vox_details > div.stl_2 {
         width: calc(100% - 300px);
@@ -1947,7 +1947,7 @@ div.vox_details > div.stl_3 {
     background-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.vox_details > div.stl_3 {
         padding-right: 40px;
@@ -2019,7 +2019,7 @@ div.vox_details > div.stl_5 {
     background-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.vox_details > div.stl_5 {
         padding-bottom: 20px;
@@ -2070,7 +2070,7 @@ div.vox_details > div.stl_6 {
     background-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.vox_details > div.stl_6 {
         width: 100px;
@@ -2099,7 +2099,7 @@ div.vox_details > div.stl_6:after {
 	border-top-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.vox_details > div.stl_6::after {
         display: none;
@@ -2119,7 +2119,7 @@ div.vox_details > div.stl_6 > a {
     color: #e0e0e0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.vox_details > div.stl_6 > a {
         margin: 20px 0px 0px 0px;
@@ -2137,7 +2137,7 @@ div.vox_details > div.stl_7 {
     padding-top: 40px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.vox_details > div.stl_7 {
         width: 300px;
@@ -2182,7 +2182,7 @@ div.vox_details > div.stl_8 {
     padding-top: 40px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.vox_details > div.stl_8 {
         width: 300px;
@@ -2244,7 +2244,7 @@ div.vox_details > div.stl_9 {
     padding-top: 40px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.vox_details > div.stl_9 {
         width: 100px;
@@ -2269,7 +2269,7 @@ div.vox_details > div.stl_9 > a {
     color: #bdbdbd;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.vox_details > div.stl_9 > a {
         margin: 20px 0px 0px 0px;
@@ -2438,7 +2438,7 @@ div.voxes_charts {
     background-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.voxes_charts::after {
         content: '';
@@ -2458,7 +2458,7 @@ div.voxes_charts > div {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.voxes_charts > div {
         width: calc(100% / 3);
@@ -2472,7 +2472,7 @@ div.voxes_charts > div:last-child {
     border-bottom: 0px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.voxes_charts > div.last {
         border-bottom: 0px;
@@ -2485,7 +2485,7 @@ div.voxes_counters {
     width: 100%;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.voxes_counters {
         display: flex;
@@ -2506,7 +2506,7 @@ div.voxes_counters > div:first-child {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.voxes_counters > div:first-child {
         width: 30%;
@@ -2547,7 +2547,7 @@ div.voxes_counters > div:last-child {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.voxes_counters > div:last-child {
         width: 70%;
@@ -2568,7 +2568,7 @@ div.voxes_counters > div:last-child > div:first-child {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.voxes_counters > div:last-child > div:first-child {
         width: calc(100% / 5);
@@ -2611,7 +2611,7 @@ div.voxes_counters > div:last-child > div:last-child > div {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.voxes_counters > div:last-child > div:last-child > div {
         padding: 40px 20px;
@@ -2637,7 +2637,7 @@ div.voxes_counters > div:last-child > div:last-child > div > span {
     color: #757575;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.voxes_counters > div:last-child > div:last-child > div > span {
         font-size: 14px;
@@ -2650,7 +2650,7 @@ div.account {
     width: 100%;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.account::after {
         content: '';
@@ -2670,7 +2670,7 @@ div.account > div {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.account > div {
         width: calc(100% / 4);
@@ -2684,7 +2684,7 @@ div.account > div:last-child {
     border-bottom: 0px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 800px) {
 
     div.account > div.last {
         border-bottom: 0px;
