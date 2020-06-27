@@ -76,7 +76,7 @@ body > header.topbar > nav {
     float: right;
     padding: 0px 10px 20px 10px;
     box-sizing: border-box;
-    background-color: #24383f;
+    background-color: red;
 }
 
 body > header.topbar > nav > ul {
