@@ -194,7 +194,7 @@ body > header.rightbar > nav > ul > li > a {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     font-size: 14px;
     font-weight: 400;
     text-overflow: ellipsis;
@@ -208,6 +208,7 @@ body > header.rightbar > nav > ul > li > a {
     body > header.rightbar > nav > ul > li,
     body > header.rightbar > nav > ul > li > a {
         height: 25px;
+        margin-bottom: 5px;
     }
 }
 
@@ -2872,7 +2873,7 @@ div.qr > div > div {
 }
 
 div.qr > div > div {
-    max-width: 400px;
+    max-width: 600px;
 }
 
 main.account > div.stl_6 > div:last-child,
