@@ -74,8 +74,8 @@ header.landing_page_hospitals > figure > img {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url('../../images/hi/hospitals/st_1_img_1.png');
-    background-size: 700px;
+    background-image: url('../../images/hi/hospitals/st_1_img_1.jpg');
+    background-size: 250px;
     background-position: center;
     background-repeat: no-repeat;
     z-index: -1;
@@ -133,7 +133,7 @@ main.landing_page_hospitals > section {
     font-weight: 200;
     padding-left: 150px;
     padding-top: 15vh;
-    line-height: 1.5;
+    line-height: 2;
 }
 
 @media (max-width: 991px) {
@@ -165,6 +165,7 @@ main.landing_page_hospitals > section {
         color: #222;
         font-size: 26px;
         font-weight: 300;
+        margin-right: 5%;
     }
 }
 
@@ -175,7 +176,7 @@ main.landing_page_hospitals > section {
 
     #section_one.hand_background::before {
         background-position: bottom;
-        background-size: 25em;
+        background-size: 15em;
         opacity: 0.2;
     }
 
@@ -185,6 +186,7 @@ main.landing_page_hospitals > section {
 
     #section_one .content > h3 {
         padding: 0;
+        margin-right: 5%;
         font-size: 25px;
         font-weight: bold;
         color: #FFF;
@@ -193,6 +195,7 @@ main.landing_page_hospitals > section {
 
     #section_one .content > p {
         padding: 0;
+        margin-right: 5%;
         text-align: center;
         color: #222;
         font-size: 20px;
@@ -351,11 +354,22 @@ span.st_2_img_3 {
     background-color: #24383f;
 }
 
-#section_four::before,
-#section_six::before {
+#section_four::before{
     content: "";
     position: absolute;
     width: calc(60% - 50px);
+    height: calc(100%);
+    top: 0;
+    left: 0;
+    background-image: url('../../images/hi/hospitals/background_1.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+#section_six::before {
+    content: "";
+    position: absolute;
+    width: calc(100% - 30px);
     height: calc(100%);
     top: 0;
     left: 0;
@@ -365,7 +379,7 @@ span.st_2_img_3 {
 }
 
 #section_six::before {
-    background-image: url('../../images/hi/hospitals/background_2.jpg');
+    background-image: url('../../images/hi/hospitals/background_2.png');
     background-position-x: left;
 }
 
@@ -403,11 +417,12 @@ span.st_2_img_3 {
     position: relative;
     width: 40%;
     margin-left: 60%;
+    padding-bottom: 450px;
     color: #949494;
     font-weight: 200;
-    font-size: 34px;
+    font-size: 20px;
     text-align: center;
-    line-height: 65px;
+    line-height: 45px;
 }
 
 #section_six h3 {
@@ -422,7 +437,7 @@ span.st_2_img_3 {
     background-color: #24383f;
     padding: 50px 50px 200px 50px;
     border-radius: 30px;
-    font-size: 28px;
+    font-size: 22px;
     line-height: 1.2;
     color: #FFF;
     text-align: center;
@@ -466,6 +481,7 @@ span.st_2_img_3 {
         width: 100%;
         margin-left: 0%;
         font-size: 34px;
+        padding-bottom: 0;
     }
 
     #section_four > span {

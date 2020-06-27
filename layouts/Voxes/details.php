@@ -59,8 +59,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
     </section>
     <section class="buttons">
         <div>
+            <a href="/voxes"><i class="fas fa-atom"></i></a>
             {$btn_comment_vox}
-            <a href="/voxes" class="delete"><i class="fas fa-times"></i></a>
             {$btn_edit_vox}
             {$btn_complete_vox}
             {$btn_reopen_vox}

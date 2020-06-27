@@ -553,6 +553,7 @@ class Account_controller extends Controller
 				        	<div class="stl_6">
 								<div>
 									<p>https://' . Configuration::$domain . '/' . $account['path'] . '/myvox</p>
+									<a href="https://' . Configuration::$domain . '/' . $account['path'] . '/myvox" target="_blank"><i class="fas fa-share"></i></a>
 									<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
 								</div>';
 
@@ -561,6 +562,7 @@ class Account_controller extends Controller
 					$mdl_get_urls .=
 					'<div>
 						<p>https://' . Configuration::$domain . '/' . $account['path'] . '/reviews</p>
+						<a href="https://' . Configuration::$domain . '/' . $account['path'] . '/reviews" target="_blank"><i class="fas fa-share"></i></a>
 						<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
 					</div>';
 				}

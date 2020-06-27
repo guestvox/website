@@ -10,17 +10,17 @@ $this->dependencies->add(['other', '<script>menu_focus("owners");</script>']);
 %{header}%
 <main class="dashboard">
     <section class="workspace">
-        <div class="tbl_stl_3">
+        <div class="tbl_stl_3" data-table>
             {$tbl_owners}
         </div>
     </section>
     <section class="buttons">
         <div>
             <a data-button-modal="search"><i class="fas fa-search"></i></a>
+            <a data-action="download_qrs"><i class="fas fa-qrcode"></i></a>
             <?php if (Functions::check_user_access(['{owners_create}']) == true) : ?>
             <a class="active" data-button-modal="new_owner"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
-            <a data-action="download_qrs"><i class="fas fa-qrcode"></i></a>
         </div>
     </section>
 </main>

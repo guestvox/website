@@ -55,7 +55,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/restaurants.js']);
             <div class="space50"></div>
         </div>
     </section>
-    <!-- <section id="section_three">
+    <section id="section_three">
         <div class="container">
             <h3>{$lang.landing_page_hi_restaurants_text_6}</h3>
             <figure>
@@ -63,7 +63,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/restaurants.js']);
             </figure>
         </div>
         <span class="st_2_img_1"></span>
-    </section> -->
+    </section>
     <section id="section_four">
         <div class="container">
             <h3>{$lang.landing_page_hi_restaurants_text_7}</h3>
@@ -74,7 +74,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/restaurants.js']);
         <div class="container">
             <h5>{$lang.landing_page_hi_restaurants_text_9}</h5>
             <div>
-                <img src="{$path.images}hi/restaurants/pantalla_ipad.png" alt="Background">
+                <img src="{$path.images}hi/restaurants/pantalla_movil.png" alt="Background">
                 <div class="content">
                     <h3>{$lang.landing_page_hi_restaurants_text_10}</h3>
                     <a data-button-modal="contact" class="btn">{$lang.request_your_demo}</a>
@@ -87,7 +87,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/restaurants.js']);
             <h3>{$lang.landing_page_hi_restaurants_text_11}</h3>
         </div>
     </section>
-    <!-- <section id="section_seven">
+    <section id="section_seven">
         <div class="container">
             <h3>{$lang.landing_page_hi_restaurants_text_12}</h3>
             <img src="{$path.images}hi/restaurants/graficas.png" alt="Background">
@@ -95,10 +95,10 @@ $this->dependencies->add(['js', '{$path.js}Hi/restaurants.js']);
     </section>
     <section id="section_eight">
         <div class="container">
-            <h3>{$lang.landing_page_hi_restaurants_text_13}</h3>
+            <!-- <h3>{$lang.landing_page_hi_restaurants_text_13}</h3> -->
             <p>{$lang.landing_page_hi_restaurants_text_14}</p>
         </div>
-    </section> -->
+    </section>
     <section id="section_nine" class="gradient_c_r">
         <div class="container">
             <div class="content">

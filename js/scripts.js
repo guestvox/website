@@ -112,6 +112,29 @@ $(document).ready(function ()
         $('[data-modal="get_help"]').find('main > p').html($(this).data('text'));
         $('[data-modal="get_help"]').addClass('view');
     });
+
+    $('[name="search"]').on('keyup', function()
+    {
+        var string_1 = $(this).val();
+        var targets = $(this).parents('body').find('[data-table] > div');
+
+        if (string_1.length > 0)
+        {
+            $.each(targets, function(key, value)
+            {
+                var string_2 = string_1.toLowerCase();
+                var string_3 = value.innerHTML.toLowerCase();
+                var result = string_3.indexOf(string_2);
+
+                if (result > 0)
+                    value.className = '';
+                else if (result <= 0)
+                    value.className = 'hidden';
+            });
+        }
+        else
+            targets.removeClass('hidden');
+    });
 });
 
 function menu_focus(target)
@@ -332,7 +355,15 @@ function show_modal_success(message, timeout, path)
     $('[data-modal="success"]').addClass('view');
 
     if (path)
-        setTimeout(function() { window.location.href = path; }, timeout);
+    {
+        setTimeout(function()
+        {
+            if (path == 'fast')
+                $('[data-modal="success"]').removeClass('view');
+            else
+                window.location.href = path;
+        }, timeout);
+    }
     else
         setTimeout(function() { location.reload(); }, timeout);
 }

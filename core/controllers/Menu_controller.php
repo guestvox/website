@@ -28,9 +28,7 @@ class Menu_controller extends Controller
 				<div class="datas">
 					<h2>' . $value['token'] . ' | ' . Functions::get_formatted_date_hour($value['date'], $value['hour'], '+ hrs') . '</h2>
 					<span>' . Functions::get_formatted_currency($value['total'], $value['currency']) . '</span>
-					<span>' . (!empty($value['owner_name']) ? $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') : '') . '</span>
-					<span>' . (!empty($value['location']) ? $value['location'][$this->lang] : '') . '</span>
-					<span>' . (!empty($value['address']) ? $value['address'] : '') . '</span>
+					' . ((Session::get_value('account')['type'] == 'restaurant' AND $value['type_service'] == 'home') ? '<span>* {$lang.home_service}</span>' : '') . '
 					<ul>';
 
 			foreach ($value['shopping_cart'] as $subvalue)
