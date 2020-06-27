@@ -232,7 +232,7 @@ body > header.rightbar > nav > ul > li > a > i {
     margin-left: 10px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.4);
-    font-size: 14px;
+    font-size: 16px;
     color: #24383f;
 }
 
@@ -241,6 +241,7 @@ body > header.rightbar > nav > ul > li > a > i {
     body > header.rightbar > nav > ul > li > a > i {
         width: 20px;
         height: 20px;
+        font-size: 14px;
     }
 }
 
