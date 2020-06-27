@@ -10,7 +10,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
 %{header}%
 <main class="dashboard">
     <section class="workspace">
-        <div class="tbl_stl_3">
+        <div class="tbl_stl_3" data-table>
             {$tbl_menu_products}
         </div>
     </section>

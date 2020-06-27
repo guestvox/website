@@ -300,6 +300,10 @@ class Languages
             'c_l_chart' => [
                 'es' => 'Costos por ubicación',
                 'en' => 'Costs by location'
+            ],
+            'empty' => [
+                'es' => 'Sin datos',
+                'en' => 'No data'
             ]
         ];
 

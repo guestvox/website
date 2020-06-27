@@ -86,7 +86,7 @@ class Users_controller extends Controller
 							{
 								$mail->setFrom('noreply@guestvox.com', 'Guestvox');
 								$mail->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
-								$mail->Subject = Languages::words('thanks_signup_guestvox')[$this->lang];
+								$mail->Subject = Languages::email('thanks_signup_guestvox')[$this->lang];
 								$mail->Body =
 								'<html>
 									<head>
@@ -104,9 +104,9 @@ class Users_controller extends Controller
 											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
-													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::words('username')[$this->lang] . ': ' . $_POST['username'] . '</h6>
-													<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::words('password')[$this->lang] . ': ' . $_POST['password'] . '</h6>
-													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/login">' . Languages::words('login')[$this->lang] . '</a>
+													<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('username')[$this->lang] . ': ' . $_POST['username'] . '</h6>
+													<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('password')[$this->lang] . ': ' . $_POST['password'] . '</h6>
+													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/login">' . Languages::email('login')[$this->lang] . '</a>
 												</td>
 											</tr>
 											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
@@ -158,7 +158,7 @@ class Users_controller extends Controller
 					{
 						$mail->setFrom('noreply@guestvox.com', 'Guestvox');
 						$mail->addAddress($query['email'], $query['firstname'] . ' ' . $query['lastname']);
-						$mail->Subject = Languages::words('restore_password')[$this->lang];
+						$mail->Subject = Languages::email('restore_password')[$this->lang];
 						$mail->Body =
 						'<html>
 							<head>
@@ -176,7 +176,7 @@ class Users_controller extends Controller
 									<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 										<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 											<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
-											<h6 style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::words('new_password')[$this->lang] . ': ' . $_POST['password'] . '</h6>
+											<h6 style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('new_password')[$this->lang] . ': ' . $_POST['password'] . '</h6>
 										</td>
 									</tr>
 									<tr style="width:100%;margin:0px;padding:0px;border:0px;">
