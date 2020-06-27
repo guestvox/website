@@ -14,28 +14,18 @@ class Menu_model extends Model
     public function get_menu_orders()
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('menu_orders', [
-			'[>]owners' => [
-				'owner' => 'id'
-			],
-			'[>]locations' => [
-				'location' => 'id'
-			],
+			'token',
+			'type_service',
+			'date',
+			'hour',
+			'total',
+			'currency',
+			'shopping_cart'
 		], [
-			'menu_orders.token',
-			'owners.name(owner_name)',
-			'owners.number(owner_number)',
-			'locations.name(location)',
-			'menu_orders.address',
-			'menu_orders.date',
-			'menu_orders.hour',
-			'menu_orders.total',
-			'menu_orders.currency',
-			'menu_orders.shopping_cart'
-		], [
-			'menu_orders.account' => Session::get_value('account')['id'],
+			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
-				'menu_orders.date' => 'DESC',
-				'menu_orders.hour' => 'DESC'
+				'date' => 'DESC',
+				'hour' => 'DESC'
 			]
 		]));
 
