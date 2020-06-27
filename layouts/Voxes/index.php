@@ -47,8 +47,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
     <section class="buttons">
         <div>
             <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <a href="/voxes/create" class="active"><i class="fas fa-plus"></i></a>
             <a href="/voxes" class="active"><i class="fas fa-atom"></i></a>
+            <a href="/voxes/create" class="active"><i class="fas fa-plus"></i></a>
             <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
             <a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a>
             <?php endif; ?>
