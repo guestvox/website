@@ -6,23 +6,26 @@ $this->dependencies->add(['css', '{$path.css}Index/index.css']);
 $this->dependencies->add(['js', '{$path.js}Index/index.js']);
 $this->dependencies->add(['others',
 '<div id="fb-root"></div>
-<script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            xfbml: true,
-            version: "v6.0"
-        });
-    };
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "https://connect.facebook.net/es_ES/sdk/xfbml.customerchat.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, "script", "facebook-jssdk"));
-</script>
-<div class="fb-customerchat" attribution=setup_tool page_id="544915395886636" theme_color="#00A5AB" logged_in_greeting="Hola, ¿Cómo puedo ayudarte?" logged_out_greeting="Hola, ¿Cómo puedo ayudarte?"></div>']);
+     <script>
+       window.fbAsyncInit = function() {
+         FB.init({
+           xfbml            : true,
+           version          : "v7.0"
+         });
+       };
+
+       (function(d, s, id) {
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) return;
+       js = d.createElement(s); js.id = id;
+       js.src = "https://connect.facebook.net/es_ES/sdk/xfbml.customerchat.js";
+       fjs.parentNode.insertBefore(js, fjs);
+   }(document, "script, "facebook-jssdk"));</script>
+
+ <div class="fb-customerchat" attribution=setup_tool page_id="544915395886636" theme_color="#00A5AB"
+    logged_in_greeting="Hola, estoy aquí para resolver tus dudas. ¿Te puedo ayudar en algo?"
+    logged_out_greeting="Hola, estoy aquí para resolver tus dudas. ¿Te puedo ayudar en algo?">
+ </div>']);
 
 ?>
 
@@ -140,7 +143,7 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_2_text_16}</p>
                 </div>
             </div>
-            <a href="/hola/resenas">{$lang.know_more}</a>
+            <!-- <a href="/hola/resenas">{$lang.know_more}</a> -->
         </div>
     </section>
     <section class="stl_4">
@@ -252,6 +255,27 @@ $this->dependencies->add(['others',
             </div>
         </div>
     </section>
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function() {
+         FB.init({
+           xfbml            : true,
+           version          : "v7.0"
+         });
+        };
+
+        (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/es_ES/sdk/xfbml.customerchat.js";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, "script", "facebook-jssdk"));
+    </script>
+    <div class="fb-customerchat" attribution=setup_tool page_id="544915395886636" theme_color="#00A5AB"
+        logged_in_greeting="Hola, estoy aquí para resolver tus dudas. ¿Te puedo ayudar en algo?"
+        logged_out_greeting="Hola, estoy aquí para resolver tus dudas. ¿Te puedo ayudar en algo?">
+    </div>
     <footer>
         <div>
             <a href="https://facebook.com/guestvox" target="_blank"><i class="fab fa-facebook-square"></i></a>

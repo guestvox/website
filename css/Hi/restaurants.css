@@ -67,20 +67,6 @@ header.landing_page_restaurants > figure > img {
     background: linear-gradient(to left,  #FFF 0%,#FFF 50%,#24383f 50%,#24383f 100%);
 }
 
-.hand_background::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('../../images/hi/restaurants/st_1_img_1.png');
-    background-size: 700px;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -1;
-}
-
 figure.logotype {
     position: relative;
     width: 300px;
@@ -127,13 +113,13 @@ main.landing_page_restaurants > section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 26px;
+    font-size: 40px;
     text-align: center;
     color: #FFF;
     font-weight: 200;
-    padding-left: 150px;
+    padding-left: 120px;
     padding-top: 15vh;
-    line-height: 1.5;
+    line-height: 60px;
 }
 
 @media (max-width: 991px) {
@@ -157,6 +143,7 @@ main.landing_page_restaurants > section {
         padding: 0 0 20px;
         font-size: 28px;
         font-weight: bold;
+        margin-right: 5%;
     }
 
     #section_one .content > p {
@@ -165,6 +152,7 @@ main.landing_page_restaurants > section {
         color: #222;
         font-size: 26px;
         font-weight: 300;
+        margin-right: 5%;
     }
 }
 
@@ -185,6 +173,7 @@ main.landing_page_restaurants > section {
 
     #section_one .content > h3 {
         padding: 0;
+        margin-right: 10%;
         font-size: 25px;
         font-weight: bold;
         color: #FFF;
@@ -193,6 +182,7 @@ main.landing_page_restaurants > section {
 
     #section_one .content > p {
         padding: 0;
+        margin-right: 10%;
         text-align: center;
         color: #222;
         font-size: 20px;
@@ -418,7 +408,7 @@ span.st_2_img_3 {
     position: absolute;
     top: 80%;
     left: 51%;
-    width: 270px;
+    width: 350px;
     background-color: #24383f;
     padding: 50px 50px 200px 50px;
     border-radius: 30px;
@@ -460,8 +450,14 @@ span.st_2_img_3 {
         background: #24383f;
     }
 
-    #section_four h3,
-    #section_six h3 {
+    #section_four h3{
+        position: relative;
+        width: 100%;
+        margin-left: 0%;
+        font-size: 34px;
+    }
+
+    #section_six h3{
         position: relative;
         width: 100%;
         margin-left: 0%;
@@ -484,6 +480,7 @@ span.st_2_img_3 {
     font-weight: 300;
     color: #b7b7b7;
     text-transform: uppercase;
+    margin-left: 40%;
 }
 
 #section_five > .container > div {
@@ -508,7 +505,7 @@ span.st_2_img_3 {
 #section_five > .container > div > .content > h3 {
     text-align: center;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 38px;
     padding-top: 50px;
 }
 
@@ -545,6 +542,15 @@ span.st_2_img_3 {
 
     #section_five > .container > div > .content {
         padding-left: 0px;
+    }
+
+    #section_five > .container > h5 {
+        margin: 0;
+    }
+
+    #section_five > .container > div > .content > h3 {
+        text-align: center;
+        margin-right: 5%;
     }
 }
 
@@ -611,12 +617,13 @@ span.st_2_img_3 {
 
 #section_eight p {
     color: #24383f;
-    font-size: 30px;
-    width: 300px;
+    font-size: 45px;
+    width: 450px;
     line-height: 1.1;
     font-weight: 300;
     position: absolute;
     bottom: 100px;
+    text-align: center;
 }
 
 #section_eight p > span {

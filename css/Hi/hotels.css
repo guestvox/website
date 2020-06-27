@@ -67,20 +67,6 @@ header.landing_page_hotels > figure > img {
     background: linear-gradient(to left,  #FFF 0%,#FFF 50%,#24383f 50%,#24383f 100%);
 }
 
-.hand_background::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: url('../../images/hi/hotels/st_1_img_1.png');
-    background-size: 700px;
-    background-position: center;
-    background-repeat: no-repeat;
-    z-index: -1;
-}
-
 figure.logotype {
     position: relative;
     width: 300px;
@@ -131,9 +117,9 @@ main.landing_page_hotels > section {
     text-align: center;
     color: #FFF;
     font-weight: 200;
-    padding-left: 150px;
+    padding-left: 120px;
     padding-top: 15vh;
-    line-height: 1.5;
+    line-height: 60px;
 }
 
 @media (max-width: 991px) {
@@ -149,7 +135,7 @@ main.landing_page_hotels > section {
     }
 
     #section_one .content {
-        grid-template-columns: 99%;
+        grid-template-columns: 85%;
         width: 60%;
     }
 
@@ -165,6 +151,7 @@ main.landing_page_hotels > section {
         color: #222;
         font-size: 26px;
         font-weight: 300;
+        line-height: 45px;
     }
 }
 
@@ -396,7 +383,7 @@ span.st_2_img_3 {
     color: #949494;
     font-weight: 200;
     font-size: 40px; /*Eran 28px*/
-    text-align: left;
+    text-align: center;
 }
 
 #section_six h3 {
@@ -418,7 +405,7 @@ span.st_2_img_3 {
     position: absolute;
     top: 80%;
     left: 51%;
-    width: 270px;
+    width: 350px;
     background-color: #24383f;
     padding: 50px 50px 200px 50px;
     border-radius: 30px;
@@ -460,7 +447,14 @@ span.st_2_img_3 {
         background: #24383f;
     }
 
-    #section_four h3,
+    #section_four h3{
+        position: relative;
+        width: 100%;
+        margin-left: 0%;
+        margin-right: 10%;;
+        font-size: 34px;
+    }
+
     #section_six h3 {
         position: relative;
         width: 100%;
@@ -484,6 +478,7 @@ span.st_2_img_3 {
     font-weight: 300;
     color: #b7b7b7;
     text-transform: uppercase;
+    margin-left: 40%;
 }
 
 #section_five > .container > div {
@@ -508,7 +503,7 @@ span.st_2_img_3 {
 #section_five > .container > div > .content > h3 {
     text-align: center;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 38px;
     padding-top: 50px;
 }
 
@@ -545,6 +540,15 @@ span.st_2_img_3 {
 
     #section_five > .container > div > .content {
         padding-left: 0px;
+    }
+
+    #section_five > .container > h5 {
+        margin: 0;
+    }
+
+    #section_five > .container > div > .content > h3 {
+        text-align: center;
+        margin-right: 5%;
     }
 }
 
@@ -601,7 +605,7 @@ span.st_2_img_3 {
 }
 
 #section_eight h3 {
-    color: #24383f;
+    color: #fff;
     text-align: center;
     max-width: 700px;
     font-weight: 300;
@@ -610,7 +614,7 @@ span.st_2_img_3 {
 }
 
 #section_eight p {
-    color: #24383f;
+    color: #fff;
     font-size: 30px;
     width: 300px;
     line-height: 1.1;
