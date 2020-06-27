@@ -114,6 +114,34 @@ $(document).ready(function()
         });
     });
 
+    $('[name="type_service"]').on('change', function()
+    {
+        $('[name="phone_lada"]').parents('label').removeAttr('required');
+        $('[name="phone_lada"]').parents('label').removeAttr('unrequired');
+        $('[name="phone_number"]').parents('label').removeAttr('required');
+        $('[name="phone_number"]').parents('label').removeAttr('unrequired');
+
+        if ($(this).val() == 'restaurant')
+        {
+            $('[name="owner"]').parent().parent().parent().removeClass('hidden');
+            $('[name="address"]').parent().parent().parent().addClass('hidden');
+
+            $('[name="phone_lada"]').parents('label').attr('unrequired', '');
+            $('[name="phone_number"]').parents('label').attr('unrequired', '');
+        }
+        else if ($(this).val() == 'home')
+        {
+            $('[name="owner"]').parent().parent().parent().addClass('hidden');
+            $('[name="address"]').parent().parent().parent().removeClass('hidden');
+
+            $('[name="phone_lada"]').parents('label').attr('required', '');
+            $('[name="phone_number"]').parents('label').attr('required', '');
+        }
+
+        required_focus('input', $('[name="phone_lada"]'), null);
+        required_focus('input', $('[name="phone_number"]'), null);
+    });
+
     $('[name="owner"]').on('change', function()
     {
         $.ajax({

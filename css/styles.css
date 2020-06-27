@@ -52,9 +52,9 @@ body > header.topbar > figure {
     height: 100%;
     float: left;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    padding: 20px 0px 0px 20px;
+    padding: 0px 0px 20px 20px;
     box-sizing: border-box;
 }
 
@@ -63,11 +63,18 @@ body > header.topbar > figure > img {
     height: 40px;
 }
 
+@media (min-width: 1200px) {
+
+    body > header.topbar > figure > img {
+        height: 50px;
+    }
+}
+
 body > header.topbar > nav {
     width: auto;
     height: 100%;
     float: right;
-    padding: 20px 10px 0px 10px;
+    padding: 0px 10px 20px 10px;
     box-sizing: border-box;
     background-color: #24383f;
 }
@@ -76,20 +83,32 @@ body > header.topbar > nav > ul {
     width: 100%;
     height: 100%;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
 }
 
 body > header.topbar > nav > ul > li,
 body > header.topbar > nav > ul > li > a {
-    width: 40px;
-    height: 40px;
+    width: auto;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 400;
     color: #fff;
+}
+
+body > header.topbar > nav > ul > li > a {
+    padding: 0px 15px;
+    box-sizing: border-box;
+}
+
+@media (min-width: 1200px) {
+
+    body > header.topbar > nav > ul > li > a {
+        padding: 0px 20px;
+    }
 }
 
 /* Rightbar */
@@ -228,7 +247,7 @@ body > main.dashboard.gry > section.workspace {
     background-color: #eee;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     body > main.dashboard.dkp::before {
         background-color: #eee;
@@ -322,7 +341,7 @@ div.tbl_stl_1 {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.tbl_stl_1 {
         padding: 80px 10px 0px 10px;
@@ -353,7 +372,7 @@ div.tbl_stl_1 > aside {
     z-index: 89;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.tbl_stl_1 > aside {
         justify-content: flex-end;
@@ -407,7 +426,7 @@ div.tbl_stl_1 > div:last-child {
     margin-bottom: 0px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.tbl_stl_1 > div {
         width: calc(100% / 4);
@@ -555,7 +574,7 @@ div.tbl_stl_1 > div > div > div.itm_3 {
     background-color: #e0e0e0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.tbl_stl_1 > div > div > div.itm_3 {
         padding-bottom: 0px;
@@ -568,27 +587,21 @@ div.tbl_stl_1 > div > div > div.itm_3 {
     }
 }
 
-div.tbl_stl_1 > div > div > div.itm_3 > span {
+div.tbl_stl_1 > div > div > div.itm_3 > div {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     margin-bottom: 5px;
-    font-size: 14px;
-    font-weight: 400;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    color: #757575;
 }
 
-div.tbl_stl_1 > div > div > div.itm_3 > span:last-child {
+div.tbl_stl_1 > div > div > div.itm_3 > div:last-child {
     margin-bottom: 0px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
-    div.tbl_stl_1 > div > div > div.itm_3 > span {
+    div.tbl_stl_1 > div > div > div.itm_3 > div {
         width: 50%;
         float: left;
         justify-content: center;
@@ -596,11 +609,10 @@ div.tbl_stl_1 > div > div > div.itm_3 > span:last-child {
         margin: 0px;
         padding: 0px 20px 20px 20px;
         box-sizing: border-box;
-        font-size: 12px;
     }
 }
 
-div.tbl_stl_1 > div > div > div.itm_3 > span > i {
+div.tbl_stl_1 > div > div > div.itm_3 > div > i {
     width: 20px;
     height: 20px;
     display: flex;
@@ -612,9 +624,9 @@ div.tbl_stl_1 > div > div > div.itm_3 > span > i {
     color: #9e9e9e;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
-    div.tbl_stl_1 > div > div > div.itm_3 > span > i {
+    div.tbl_stl_1 > div > div > div.itm_3 > div > i {
         width: auto;
         height: auto;
         display: block;
@@ -624,6 +636,23 @@ div.tbl_stl_1 > div > div > div.itm_3 > span > i {
         background-color: #e0e0e0;
         font-size: 40px;
         color: #bdbdbd;
+    }
+}
+
+div.tbl_stl_1 > div > div > div.itm_3 > div > p {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #757575;
+}
+
+@media (min-width: 1200px) {
+
+    div.tbl_stl_1 > div > div > div.itm_3 > div > p {
+        text-align: center;
     }
 }
 
@@ -696,7 +725,7 @@ div.tbl_stl_3 > div:last-child {
     border-bottom: 0px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.tbl_stl_2 > div,
     div.tbl_stl_3 > div {
@@ -737,7 +766,7 @@ div.tbl_stl_3 > div > div.datas > div.itm_1 {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.tbl_stl_3 > div > div.datas > div.itm_1 {
         order: 2;
@@ -818,7 +847,7 @@ div.tbl_stl_3 > div > div.datas > div.itm_2 {
     justify-content: center;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.tbl_stl_3 > div > div.datas > div.itm_2 {
         order: 1;
@@ -873,7 +902,7 @@ div.tbl_stl_3 > div > div.buttons > a {
     color: #757575;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.tbl_stl_2 > div > div.buttons,
     div.tbl_stl_3 > div > div.buttons {
@@ -915,7 +944,7 @@ div.tbl_stl_4 > div:last-child {
     border-bottom: 0px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.tbl_stl_4 > div {
         padding: 40px;
@@ -1081,6 +1110,14 @@ div.checkboxes > p {
 
 div.checkboxes > p:first-child {
     margin-top: 0px;
+}
+
+/*  */
+
+div.checkboxes::after {
+    content: '';
+    display: block;
+    clear: both;
 }
 
 /*  */
@@ -1785,13 +1822,34 @@ section.modal.delete footer > a {
     }
 }
 
+/* Qr
+------------------------------------------------------------------------------ */
+div.qr {
+    width: 100%;
+    padding: 0px 20px;
+    box-sizing: border-box;
+}
+
+div.qr > figure {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+div.qr > figure > img {
+    width: 100%;
+    max-width: 400px;
+}
+
 /* Vox details
 ------------------------------------------------------------------------------ */
 div.vox_details {
     width: 100%;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.vox_details {
         max-width: 1200px;
@@ -1820,7 +1878,7 @@ div.vox_details > div.stl_1 {
     background-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.vox_details > div.stl_1 {
         height: 300px;
@@ -1907,7 +1965,7 @@ div.vox_details > div.stl_2 {
     background-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.vox_details > div.stl_2 {
         width: calc(100% - 300px);
@@ -1947,7 +2005,7 @@ div.vox_details > div.stl_3 {
     background-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.vox_details > div.stl_3 {
         padding-right: 40px;
@@ -2019,7 +2077,7 @@ div.vox_details > div.stl_5 {
     background-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.vox_details > div.stl_5 {
         padding-bottom: 20px;
@@ -2070,7 +2128,7 @@ div.vox_details > div.stl_6 {
     background-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.vox_details > div.stl_6 {
         width: 100px;
@@ -2099,7 +2157,7 @@ div.vox_details > div.stl_6:after {
 	border-top-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.vox_details > div.stl_6::after {
         display: none;
@@ -2119,7 +2177,7 @@ div.vox_details > div.stl_6 > a {
     color: #e0e0e0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.vox_details > div.stl_6 > a {
         margin: 20px 0px 0px 0px;
@@ -2137,7 +2195,7 @@ div.vox_details > div.stl_7 {
     padding-top: 40px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.vox_details > div.stl_7 {
         width: 300px;
@@ -2182,7 +2240,7 @@ div.vox_details > div.stl_8 {
     padding-top: 40px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.vox_details > div.stl_8 {
         width: 300px;
@@ -2244,7 +2302,7 @@ div.vox_details > div.stl_9 {
     padding-top: 40px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.vox_details > div.stl_9 {
         width: 100px;
@@ -2269,7 +2327,7 @@ div.vox_details > div.stl_9 > a {
     color: #bdbdbd;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.vox_details > div.stl_9 > a {
         margin: 20px 0px 0px 0px;
@@ -2438,7 +2496,7 @@ div.voxes_charts {
     background-color: #fff;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.voxes_charts::after {
         content: '';
@@ -2458,7 +2516,7 @@ div.voxes_charts > div {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.voxes_charts > div {
         width: calc(100% / 3);
@@ -2472,7 +2530,7 @@ div.voxes_charts > div:last-child {
     border-bottom: 0px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.voxes_charts > div.last {
         border-bottom: 0px;
@@ -2485,7 +2543,7 @@ div.voxes_counters {
     width: 100%;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.voxes_counters {
         display: flex;
@@ -2506,7 +2564,7 @@ div.voxes_counters > div:first-child {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.voxes_counters > div:first-child {
         width: 30%;
@@ -2547,7 +2605,7 @@ div.voxes_counters > div:last-child {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.voxes_counters > div:last-child {
         width: 70%;
@@ -2568,7 +2626,7 @@ div.voxes_counters > div:last-child > div:first-child {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.voxes_counters > div:last-child > div:first-child {
         width: calc(100% / 5);
@@ -2611,7 +2669,7 @@ div.voxes_counters > div:last-child > div:last-child > div {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.voxes_counters > div:last-child > div:last-child > div {
         padding: 40px 20px;
@@ -2637,7 +2695,7 @@ div.voxes_counters > div:last-child > div:last-child > div > span {
     color: #757575;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.voxes_counters > div:last-child > div:last-child > div > span {
         font-size: 14px;
@@ -2650,7 +2708,7 @@ div.account {
     width: 100%;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.account::after {
         content: '';
@@ -2670,7 +2728,7 @@ div.account > div {
     box-sizing: border-box;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.account > div {
         width: calc(100% / 4);
@@ -2684,7 +2742,7 @@ div.account > div:last-child {
     border-bottom: 0px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1200px) {
 
     div.account > div.last {
         border-bottom: 0px;
@@ -2768,11 +2826,20 @@ div.account > div.stl_5 > div.switch > label {
 
 /*  */
 
-main.account > div.stl_6 {
+main.account > div.stl_6,
+div.qr > div {
     width: 100%;
 }
 
-main.account > div.stl_6 > div {
+div.qr > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+main.account > div.stl_6 > div,
+div.qr > div > div {
     width: 100%;
     display: flex;
     align-items: center;
@@ -2780,12 +2847,18 @@ main.account > div.stl_6 > div {
     margin-bottom: 20px;
 }
 
-main.account > div.stl_6 > div:last-child {
+div.qr > div > div {
+    max-width: 400px;
+}
+
+main.account > div.stl_6 > div:last-child,
+div.qr > div > div:last-child {
     margin-bottom: 0px;
 }
 
-main.account > div.stl_6 > div > p {
-    width: calc(100% - 45px);
+main.account > div.stl_6 > div > p,
+div.qr > div > div > p {
+    width: calc(100% - 90px);
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -2794,11 +2867,13 @@ main.account > div.stl_6 > div > p {
     border: none;
     border-radius: 40px;
     box-sizing: border-box;
+    overflow-y: scroll;
     background-color: #eee;
     color: #757575;
 }
 
-main.account > div.stl_6 > div > a {
+main.account > div.stl_6 > div > a,
+div.qr > div > div > a {
     width: 40px;
     height: 40px;
     display: flex;
@@ -2837,20 +2912,6 @@ div.profile > span {
 
 /* General styles
 ------------------------------------------------------------------------------ */
-
-figure.qr {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-figure.qr > img {
-    width: 100%;
-    max-width: 200px;
-}
 
 /*  */
 

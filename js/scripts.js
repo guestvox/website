@@ -332,7 +332,15 @@ function show_modal_success(message, timeout, path)
     $('[data-modal="success"]').addClass('view');
 
     if (path)
-        setTimeout(function() { window.location.href = path; }, timeout);
+    {
+        setTimeout(function()
+        {
+            if (path == 'fast')
+                $('[data-modal="success"]').removeClass('view');
+            else
+                window.location.href = path;
+        }, timeout);
+    }
     else
         setTimeout(function() { location.reload(); }, timeout);
 }

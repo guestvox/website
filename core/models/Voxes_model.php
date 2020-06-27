@@ -39,6 +39,7 @@ class Voxes_model extends Model
 				'started_date',
 				'started_hour',
 				'location',
+				'address',
 				'urgency',
 				'confidentiality',
 				'assigned_users',
@@ -90,6 +91,7 @@ class Voxes_model extends Model
 				'started_date',
 				'started_hour',
 				'location',
+				'address',
 				'cost',
 				'urgency',
 				'confidentiality',
@@ -204,6 +206,9 @@ class Voxes_model extends Model
 				$query[$key]['edited_user'] = $this->get_user($value['edited_user']);
 				$query[$key]['completed_user'] = $this->get_user($value['completed_user']);
 				$query[$key]['reopened_user'] = $this->get_user($value['reopened_user']);
+
+				if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
+					$query[$key]['menu_order'] = $this->get_menu_order($query[$key]['menu_order']);
 			}
 
 			$query[$key]['created_user'] = $this->get_user($value['created_user']);
@@ -224,6 +229,7 @@ class Voxes_model extends Model
 			'started_date',
 			'started_hour',
 			'location',
+			'address',
 			'cost',
 			'urgency',
 			'confidentiality',
@@ -235,6 +241,8 @@ class Voxes_model extends Model
 			'guest_treatment',
 			'firstname',
 			'lastname',
+			'email',
+			'phone',
 			'guest_id',
 			'guest_type',
 			'reservation_number',
@@ -298,7 +306,7 @@ class Voxes_model extends Model
 					'viewed_by' => json_encode($query[0]['viewed_by']),
 					'changes_history' => json_encode($query[0]['changes_history'])
 				], [
-					'id' => $id
+					'token' => $id
 				]);
 			}
 
@@ -689,6 +697,7 @@ class Voxes_model extends Model
 	public function get_menu_order($id)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('menu_orders', [
+			'type_service',
 			'total',
 			'currency',
 			'shopping_cart'
@@ -746,6 +755,7 @@ class Voxes_model extends Model
 			'started_date' => Functions::get_formatted_date($data['started_date']),
 			'started_hour' => Functions::get_formatted_hour($data['started_hour']),
 			'location' => $data['location'],
+			'address' => null,
 			'cost' => (($data['type'] == 'incident' OR $data['type'] == 'workorder') AND !empty($data['cost'])) ? $data['cost'] : null,
 			'urgency' => $data['urgency'],
 			'confidentiality' => ($data['type'] == 'incident' AND !empty($data['confidentiality'])) ? true : false,
@@ -757,6 +767,11 @@ class Voxes_model extends Model
 			'guest_treatment' => (Session::get_value('account')['type'] == 'hotel' AND ($data['type'] == 'request' OR $data['type'] == 'incident') AND !empty($data['guest_treatment'])) ? $data['guest_treatment'] : null,
 			'firstname' => (($data['type'] == 'request' OR $data['type'] == 'incident') AND !empty($data['firstname'])) ? $data['firstname'] : null,
 			'lastname' => (($data['type'] == 'request' OR $data['type'] == 'incident') AND !empty($data['lastname'])) ? $data['lastname'] : null,
+			'email' => null,
+			'phone' => json_encode([
+				'lada' => '',
+				'number' => ''
+			]),
 			'guest_id' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['guest_id'])) ? $data['guest_id'] : null,
 			'guest_type' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['guest_type'])) ? $data['guest_type'] : null,
 			'reservation_number' => (Session::get_value('account')['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty($data['reservation_number'])) ? $data['reservation_number'] : null,

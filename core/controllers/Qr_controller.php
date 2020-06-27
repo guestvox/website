@@ -19,6 +19,24 @@ class Qr_controller extends Controller
 
 		define('_title', 'Guestvox | {$lang.qr}');
 
+		$div_url_reviews = '';
+
+		if (Session::get_value('account')['reputation'] == true)
+		{
+			$div_url_reviews .=
+			'<div>
+				<p>https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/reviews</p>
+				<a href="https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/reviews" target="_blank"><i class="fas fa-share"></i></a>
+				<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
+			</div>';
+		}
+
+		$replace = [
+			'{$div_url_reviews}' => $div_url_reviews
+		];
+
+		$template = $this->format->replace($replace, $template);
+
 		echo $template;
 	}
 }

@@ -10,6 +10,8 @@ $(document).ready(function()
         document.execCommand('copy');
 
         input.remove();
+
+        show_modal_success('Copiado', 600, 'fast');
     });
 
     $('[data-modal="get_support"]').modal().onCancel(function()

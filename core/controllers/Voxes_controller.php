@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-require_once 'plugins/nexmo/vendor/autoload.php';
+// require_once 'plugins/nexmo/vendor/autoload.php';
 
 class Voxes_controller extends Controller
 {
@@ -111,10 +111,22 @@ class Voxes_controller extends Controller
 							</div>
 	                    </div>
 	                    <div class="itm_3">
-							<span><i class="fas fa-key"></i><strong>' . strtoupper($value['token']) . '</strong></span>
-							<span><i class="fas fa-mask"></i>' . $value['opportunity_area']['name'][$this->lang] . '</span>
-							<span><i class="fas fa-feather-alt"></i>' . $value['opportunity_type']['name'][$this->lang] . '</span>
-							<span><i class="fas fa-map-marker-alt"></i>' . (!empty($value['location']) ? $value['location']['name'][$this->lang] : '{$lang.not_location}') . '</span>
+							<div>
+								<i class="fas fa-key"></i>
+								<p><strong>' . strtoupper($value['token']) . '</strong></p>
+							</div>
+							<div>
+								<i class="fas fa-mask"></i>
+								<p>' . $value['opportunity_area']['name'][$this->lang] . '</p>
+							</div>
+							<div>
+								<i class="fas fa-feather-alt"></i>
+								<p>' . $value['opportunity_type']['name'][$this->lang] . '</p>
+							</div>
+							<div>
+								<i class="fas fa-map-marker-alt"></i>
+								<p>' . (!empty($value['location']) ? $value['location']['name'][$this->lang] : (!empty($value['address']) ? $value['address'] : '{$lang.not_location}')) . '</p>
+							</div>
 	                    </div>
 	                    <div class="itm_4">
 							<span class="' . (!empty($value['assigned_users']) ? 'active' : '') . '"><i class="fas fa-users"></i></span>
@@ -703,21 +715,31 @@ class Voxes_controller extends Controller
 
 				if ($vox['type'] == 'request' OR $vox['type'] == 'workorder')
 				{
-					$p_observations .= '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['observations']) ? $vox['observations'] : '{$lang.not_observations}') . '</p>';
-
 					if ($vox['type'] == 'request')
 					{
 						if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
 						{
 							if (!empty($vox['menu_order']))
 							{
-								foreach ($vox['menu_order']['shopping_cart'] as $value)
-									$p_observations .= '<span>x' . $value['quantity'] . ' - ' . $value['name'][$this->lang] . ' - ' . Functions::get_formatted_currency($value['total'], $vox['menu_order']['currency']) . '</span>';
+								if (Session::get_value('account')['type'] == 'restaurant' AND $vox['menu_order']['type_service'] == 'home')
+									$p_observations .= '<p><strong>{$lang.home_service}</strong></p>';
 
-								$p_observations .= '<span>{$lang.total}: ' . Functions::get_formatted_currency($vox['menu_order']['total'], $vox['menu_order']['currency']) . '</span>';
+								foreach ($vox['menu_order']['shopping_cart'] as $value)
+									$p_observations .= '<p>(' . $value['quantity'] . ') ' . $value['name'][$this->lang] . ' (' . Functions::get_formatted_currency($value['total'], $vox['menu_order']['currency']) . ')</p>';
+
+								$p_observations .= '<p>{$lang.total}: ' . Functions::get_formatted_currency($vox['menu_order']['total'], $vox['menu_order']['currency']) . '</p>';
+
+								if (Session::get_value('account')['type'] == 'restaurant' AND $vox['menu_order']['type_service'] == 'home')
+								{
+									$p_observations .=
+									'<p>{$lang.email}: ' . $vox['email'] . '</p>
+									<p>{$lang.phone}: + (' . $vox['phone']['lada'] . ') ' . $vox['phone']['number'] . '</p>';
+								}
 							}
 						}
 					}
+
+					$p_observations .= '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['observations']) ? $vox['observations'] : '{$lang.not_observations}') . '</p>';
 				}
 
 				$spn_guest = '';
@@ -948,8 +970,8 @@ class Voxes_controller extends Controller
 							<img src="' . (($value['type'] == 'created' AND $vox['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($value['user']['avatar']) ? '{$path.uploads}' . $value['user']['avatar'] : '{$path.images}avatar.png')) . '">
 						</figure>
 						<div>
-							<h2>' . (($value['type'] == 'created' AND $vox['origin'] == 'myvox') ? 'Myvox' : $value['user']['firstname'] . ' ' . $value['user']['lastname']) . '</h2>
-							<span>@' . (($value['type'] == 'created' AND $vox['origin'] == 'myvox') ? 'myvox' : $value['user']['username']) . '</span>
+							<h2>' . (($value['type'] == 'created' AND $vox['origin'] == 'myvox') ? '{$lang.myvox}' : $value['user']['firstname'] . ' ' . $value['user']['lastname']) . '</h2>
+							<span>@' . (($value['type'] == 'created' AND $vox['origin'] == 'myvox') ? '{$lang.myvox}' : $value['user']['username']) . '</span>
 							<span>{$lang.' . $value['type'] . '_at} ' . Functions::get_formatted_date($value['date'], 'd F Y') . ' {$lang.at} ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>';
 
 					if ($value['type'] == 'edited')
@@ -1056,7 +1078,6 @@ class Voxes_controller extends Controller
 
 				$replace = [
 					'{$spn_type}' => $spn_type,
-					'{$token}' => $vox['token'],
 					'{$h3_elapsed_time}' => '<h3
 	                    data-date-1="' . Functions::get_formatted_date_hour($vox['started_date'], $vox['started_hour']) . '"
 	                    data-date-2="' . ((!empty($vox['completed_date']) AND !empty($vox['completed_hour'])) ? Functions::get_formatted_date_hour($vox['completed_date'], $vox['completed_hour']) : '') . '"
@@ -1064,10 +1085,11 @@ class Voxes_controller extends Controller
 	                    data-status="' . $vox['status'] . '"
 	                    data-elapsed-time>' . (($vox['status'] == true) ? '{$lang.opened}' : '{$lang.closed}') . '<i class="fas fa-circle"></i><strong></strong></h3>',
 					'{$h1_name}' => ($vox['type'] == 'request' OR $vox['type'] == 'incident') ? '<h1>' . ((!empty($vox['firstname']) AND !empty($vox['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($vox['guest_treatment'])) ? $vox['guest_treatment']['name'] . ' ' : '') . $vox['firstname'] . ' ' . $vox['lastname'] : '{$lang.not_name}') . '</h1>' : '',
+					'{$token}' => $vox['token'],
 					'{$owner}' => !empty($vox['owner']) ? $vox['owner']['name'][$this->lang] . (!empty($vox['owner']['number']) ? ' #' . $vox['owner']['number'] : '') : '{$lang.not_owner}',
 					'{$opportunity_area}' => $vox['opportunity_area']['name'][$this->lang],
 					'{$opportunity_type}' => $vox['opportunity_type']['name'][$this->lang],
-					'{$location}' => !empty($vox['location']) ? $vox['location']['name'][$this->lang] : '{$lang.not_location}',
+					'{$location}' => !empty($vox['location']) ? $vox['location']['name'][$this->lang] : (!empty($vox['address']) ? $vox['address'] : '{$lang.not_location}'),
 					'{$started_date}' => Functions::get_formatted_date($vox['started_date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($vox['started_hour'], '+ hrs'),
 					'{$spn_cost}' => ($vox['type'] == 'incident' OR $vox['type'] == 'workorder') ? '<span><i class="fas fa-dollar-sign"></i>' . Functions::get_formatted_currency((!empty($vox['cost']) ? $vox['cost'] : '0'), Session::get_value('account')['currency']) . '</span>' : '',
 					'{$p_observations}' => $p_observations,
@@ -1081,8 +1103,8 @@ class Voxes_controller extends Controller
 					'{$btn_get_viewed_by}' => '<a ' . (!empty($vox['viewed_by']) ? 'class="active" data-button-modal="get_viewed_by"' : '') . '><i class="far fa-eye"></i></a>',
 					'{$btn_get_comments}' => '<a ' . (!empty($vox['comments']) ? 'class="active" data-button-modal="get_comments"' : '') . '><i class="fas fa-comments"></i></a>',
 					'{$created_user_avatar}' => ($vox['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($vox['created_user']['avatar']) ? '{$path.uploads}' . $vox['created_user']['avatar'] : '{$path.images}avatar.png'),
-					'{$created_user_name}' => ($vox['origin'] == 'myvox') ? 'Myvox' : $vox['created_user']['firstname'] . ' ' . $vox['created_user']['lastname'],
-					'{$created_user_username}' => '@' . (($vox['origin'] == 'myvox') ? 'myvox' : $vox['created_user']['username']),
+					'{$created_user_name}' => ($vox['origin'] == 'myvox') ? '{$lang.myvox}' : $vox['created_user']['firstname'] . ' ' . $vox['created_user']['lastname'],
+					'{$created_user_username}' => '@' . (($vox['origin'] == 'myvox') ? '{$lang.myvox}' : $vox['created_user']['username']),
 					'{$created_date}' => Functions::get_formatted_date($vox['created_date'], 'd.m.Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['created_hour'], '+ hrs'),
 					'{$div_actions}' => $div_actions,
 					'{$btn_comment_vox}' => ($vox['status'] == true) ? '<a data-button-modal="comment_vox"><i class="fas fa-comment"></i></a>' : '',
@@ -2252,7 +2274,7 @@ class Voxes_controller extends Controller
 							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.date}:</strong> ' . Functions::get_formatted_date($value['started_date'], 'd F, Y') . ' ' . Functions::get_formatted_hour($value['started_hour'], '+ hrs') . '</p>';
 
 						if (in_array('location', $_POST['fields']))
-							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.location}:</strong> ' . (!empty($value['location']) ? $value['location']['name'][$this->lang] : '{$lang.empty}') . '</p>';
+							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.location}:</strong> ' . (!empty($value['location']) ? $value['location']['name'][$this->lang] : (!empty($value['address']) ? $value['address'] : '{$lang.empty}')) . '</p>';
 
 						if ($value['type'] == 'incident' OR $value['type'] == 'workorder')
 						{
@@ -2286,10 +2308,66 @@ class Voxes_controller extends Controller
 							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.assigned_users}:</strong> ' . $str . '</p>';
 						}
 
+
+
+
+
+						if ($vox['type'] == 'request' OR $vox['type'] == 'workorder')
+						{
+							if ($vox['type'] == 'request')
+							{
+								if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
+								{
+									if (!empty($vox['menu_order']))
+									{
+										if (Session::get_value('account')['type'] == 'restaurant' AND $vox['menu_order']['type_service'] == 'home')
+											$p_observations .= '<p><strong>{$lang.home_service}</strong></p>';
+
+										foreach ($vox['menu_order']['shopping_cart'] as $value)
+											$p_observations .= '<p>(' . $value['quantity'] . ') ' . $value['name'][$this->lang] . ' (' . Functions::get_formatted_currency($value['total'], $vox['menu_order']['currency']) . ')</p>';
+
+										$p_observations .= '<p>{$lang.total}: ' . Functions::get_formatted_currency($vox['menu_order']['total'], $vox['menu_order']['currency']) . '</p>';
+
+										if (Session::get_value('account')['type'] == 'restaurant' AND $vox['menu_order']['type_service'] == 'home')
+										{
+											$p_observations .=
+											'<p>{$lang.email}: ' . $vox['email'] . '</p>
+											<p>{$lang.phone}: + (' . $vox['phone']['lada'] . ') ' . $vox['phone']['number'] . '</p>';
+										}
+									}
+								}
+							}
+
+							$p_observations .= '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['observations']) ? $vox['observations'] : '{$lang.not_observations}') . '</p>';
+						}
+
 						if ($value['type'] == 'request' OR $value['type'] == 'workorder')
 						{
 							if (in_array('observations', $_POST['fields']))
-								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.observations}:</strong> ' . (!empty($value['menu_order']) ? '{$lang.empty}' : (!empty($value['observations']) ? $value['observations'] : '{$lang.empty}')) . '</p>';
+							{
+								$str = '';
+
+								if ($value['type'] == 'request')
+								{
+									if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
+									{
+										if (!empty($value['menu_order']))
+										{
+											if (Session::get_value('account')['type'] == 'restaurant' AND $value['menu_order']['type_service'] == 'home')
+												$str .= '{$lang.home_service}, ';
+
+											foreach ($value['menu_order']['shopping_cart'] as $subvalue)
+												$str .= '(' . $subvalue['quantity'] . ') ' . $subvalue['name'][$this->lang] . ', ';
+
+											$str .= Functions::get_formatted_currency($value['menu_order']['total'], $value['menu_order']['currency']) . '.';
+										}
+									}
+								}
+
+								$str .= (!empty($value['observations']) ? $value['observations'] : '{$lang.not_observations}');
+
+								$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.observations}:</strong> ' . $str . '</p>';
+							}
 						}
 
 						if ($value['type'] == 'incident')
@@ -2397,7 +2475,7 @@ class Voxes_controller extends Controller
 						}
 
 						if (in_array('created', $_POST['fields']))
-							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.created}:</strong> ' . (($value['origin'] == 'myvox') ? 'Myvox' : $value['created_user']['firstname'] . ' ' . $value['created_user']['lastname']) . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['created_date'], $value['created_hour']) . '</p>';
+							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.created}:</strong> ' . (($value['origin'] == 'myvox') ? '{$lang.myvox}' : $value['created_user']['firstname'] . ' ' . $value['created_user']['lastname']) . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['created_date'], $value['created_hour']) . '</p>';
 
 						if (in_array('edited', $_POST['fields']))
 							$html .= '<p style="font-size:14px;font-weight:400;color:#757575;"><strong style="color:#212121;">{$lang.edited}:</strong> ' . (!empty($value['edited_user']) ? $value['edited_user']['firstname'] . ' ' . $value['edited_user']['lastname'] . ' {$lang.at} ' . Functions::get_formatted_date_hour($value['edited_date'], $value['edited_hour']) : '{$lang.empty}') . '</p>';

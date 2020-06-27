@@ -16,7 +16,7 @@ header.menu::before {
     position: absolute;
     bottom: 0px;
     border-radius: 20px 20px 0px 0px;
-    background-color: #eee;
+    background-color: #f5f5f5;
 }
 
 header.menu::after {
@@ -32,20 +32,20 @@ header.menu > figure {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding: 20px 0px 0px 20px;
+    padding: 10px 10px 25px 10px;
     box-sizing: border-box;
 }
 
 header.menu > figure > img {
     width: auto;
-    height: 40px;
+    height: 100%;
 }
 
 header.menu > nav {
     width: auto;
     height: 100%;
     float: right;
-    padding: 20px 10px 0px 10px;
+    padding: 10px 10px 25px 10px;
     box-sizing: border-box;
     background-color: #00a5ab;
 }
@@ -60,19 +60,19 @@ header.menu > nav > ul {
 
 header.menu > nav > ul > li,
 header.menu > nav > ul > li > a {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 400;
     color: #fff;
 }
 
 header.menu > nav > ul > li > a > img {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     border: 1px solid #fff;
     box-sizing: border-box;
@@ -85,7 +85,7 @@ main.menu {
     position: relative;
     padding-top: 100px;
     box-sizing: border-box;
-    background-color: #eee;
+    background-color: #f5f5f5;
 }
 
 /*  */
@@ -101,7 +101,7 @@ main.menu > section[data-menu-categories] {
 }
 
 main.menu > section[data-menu-categories] > div {
-    width: auto;
+    width: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -128,9 +128,11 @@ main.menu > section[data-menu-categories] > div > a {
 }
 
 main.menu > section[data-menu-categories] > div > span {
+    width: 70px;
     font-size: 12px;
     font-weight: 400;
     white-space: nowrap;
+    text-align: center;
     text-overflow: ellipsis;
     overflow: hidden;
     color: #757575;
@@ -156,7 +158,7 @@ main.menu > section[data-shopping-cart] > div {
 }
 
 main.menu > section[data-menu-products] > div {
-    height: 100px;
+    height: 120px;
     align-items: center;
 }
 
@@ -175,7 +177,7 @@ main.menu > section[data-shopping-cart] > div:last-child {
 
 main.menu > section[data-menu-products] > div > figure {
     width: 100px;
-    height: 100px;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -195,7 +197,7 @@ main.menu > section[data-menu-products] > div > div {
     align-items: flex-start;
     justify-content: center;
     flex-direction: column;
-    padding: 10px 20px;
+    padding: 0px 20px;
     box-sizing: border-box;
 }
 
@@ -224,19 +226,19 @@ main.menu > section[data-shopping-cart] > div > div {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-top: 10px;
+    margin-top: 20px;
 }
 
 main.menu > section[data-menu-products] > div > div > div > a,
 main.menu > section[data-menu-products] > div > div > div > span,
 main.menu > section[data-shopping-cart] > div > div > a,
 main.menu > section[data-shopping-cart] > div > div > span {
-    width: 25px;
-    height: 25px;
+    width: 30px;
+    height: 30px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 5px;
+    margin-left: 10px;
     border-radius: 50%;
     font-size: 14px;
 }
@@ -248,7 +250,7 @@ main.menu > section[data-shopping-cart] > div > div > a {
 }
 
 main.menu > section[data-menu-products] > div > div > div > a:first-child {
-    background-color: #ff5722;
+    background-color: #f44336;
 }
 
 main.menu > section[data-shopping-cart] > div > div > a:last-child {
@@ -269,20 +271,21 @@ section[data-modal="preview_menu_product"] > div.content > main {
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    padding: 0px 0px 20px 0px;
 }
 
 section[data-modal="preview_menu_product"] > div.content > main > figure {
     width: 100%;
     margin-bottom: 20px;
-    border-radius: 10px;
 }
 
 section[data-modal="preview_menu_product"] > div.content > main > figure > img {
     width: 100%;
-    border-radius: 10px;
 }
 
 section[data-modal="preview_menu_product"] > div.content > main > h2 {
+    padding: 0px 20px;
+    box-sizing: border-box;
     font-size: 16px;
     font-weight: 600;
     text-overflow: ellipsis;
@@ -293,12 +296,16 @@ section[data-modal="preview_menu_product"] > div.content > main > h2 {
 
 section[data-modal="preview_menu_product"] > div.content > main > span {
     margin-bottom: 20px;
+    padding: 0px 20px;
+    box-sizing: border-box;
     font-size: 12px;
     font-weight: 400;
     color: #757575;
 }
 
 section[data-modal="preview_menu_product"] > div.content > main > p {
+    padding: 0px 20px;
+    box-sizing: border-box;
     font-size: 14px;
     font-weight: 400;
     text-align: center;
@@ -319,7 +326,7 @@ main.menu > section[data-total] {
     justify-content: center;
     padding: 50px 0px;
     box-sizing: border-box;
-    background-color: #eee;
+    background-color: #f5f5f5;
 }
 
 main.menu > section[data-total] > span {
@@ -337,18 +344,15 @@ main.menu > section[data-shopping-cart] > form div.label > label > p > a {
 main.menu > section[data-shopping-cart] > form div.label > label > input,
 main.menu > section[data-shopping-cart] > form div.label > label > select {
     height: 60px;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: #fff;
-}
-
-main.menu > section[data-shopping-cart] > form div.buttons {
-    margin-top: 0px;
 }
 
 main.menu > section[data-shopping-cart] > form div.buttons > button {
     width: 100%;
     height: 60px;
-    border-radius: 10px;
+    border-radius: 5px;
+    margin: 0px;
 }
 
 /*  */
@@ -400,7 +404,7 @@ footer.menu {
     flex-direction: column;
     padding: 20px 20px 90px 20px;
     box-sizing: border-box;
-    background-color: #eee;
+    background-color: #f5f5f5;
 }
 
 footer.menu > h4 {

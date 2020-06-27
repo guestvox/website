@@ -18,7 +18,7 @@ class Route_vkye
         global $vkye_path;
         $vkye_path = $this->path;
 
-        $paths = [
+        $redirection_paths = [
             '/Index/index',
             '/Hi/voxes',
             '/Hi/menu',
@@ -32,18 +32,27 @@ class Route_vkye
             '/Policies/privacy',
             '/Signup/index',
             '/Signup/activate',
+            '/Login/index',
+            '/Api/execute'
+        ];
+
+        $not_redirection_paths = [
             '/Myvox/index',
             '/Myvox/request',
             '/Myvox/incident',
             '/Myvox/menu',
             '/Myvox/surveys',
-            '/Reviews/index',
-            '/Login/index',
-            '/Api/execute'
+            '/Reviews/index'
         ];
 
-        if (in_array($this->path, $paths))
-            if (Session::exists_var('session')) : header('Location: ' . User_level::redirection()); endif;
+        if (in_array($this->path, $redirection_paths) OR in_array($this->path, $not_redirection_paths))
+        {
+            if (in_array($this->path, $redirection_paths))
+            {
+                if (Session::exists_var('session'))
+                    header('Location: ' . User_level::redirection());
+            }
+        }
         else
         {
             $hour_last_activity = (Session::exists_var('_vkye_last_access')) ? Session::get_value('_vkye_last_access') : date('Y-m-d H:i:s', strtotime('-2 hour', strtotime(Functions::get_current_date_hour())));

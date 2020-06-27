@@ -297,6 +297,36 @@ class Signup_model extends Model
 
 		$account = $this->database->id();
 
+		if (!empty($data['operation']))
+		{
+			$this->database->insert('opportunity_areas', [
+				'account' => $account,
+				'name' => json_encode([
+					'es' => 'Menú digital',
+					'en' => 'Digital menu'
+				]),
+				'request' => true,
+				'incident' => false,
+				'workorder' => false,
+				'public' => false,
+				'status' => true
+			]);
+
+			$this->database->insert('opportunity_areas', [
+				'account' => $account,
+				'opportunity_area' => $this->database->id(),
+				'name' => json_encode([
+					'es' => 'Menú digital',
+					'en' => 'Digital menu'
+				]),
+				'request' => true,
+				'incident' => false,
+				'workorder' => false,
+				'public' => false,
+				'status' => true
+			]);
+		}
+
 		if ($data['type'] == 'hotel')
 		{
 			$data['guests_treatments'] = [
