@@ -76,7 +76,7 @@ body > header.topbar > nav {
     float: right;
     padding: 0px 10px 20px 10px;
     box-sizing: border-box;
-    background-color: red;
+    background-color: green;
 }
 
 body > header.topbar > nav > ul {
@@ -100,7 +100,7 @@ body > header.topbar > nav > ul > li > a {
 }
 
 body > header.topbar > nav > ul > li > a {
-    padding: 0px 10px;
+    padding: 0px 15px;
     box-sizing: border-box;
 }
 
