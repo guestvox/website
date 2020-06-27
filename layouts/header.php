@@ -34,7 +34,6 @@
             <?php if (Functions::check_account_access(['operation','reputation']) == true) : ?>
             <li target="qr"><a href="/qr">{$lang.qr}<i class="fas fa-qrcode"></i></a></li>
             <?php endif; ?>
-            <li target="my_profile"><a href="/my-profile">{$lang.my_profile}<i class="fas fa-user-astronaut"></i></a></li>
         </ul>
     </nav>
     <nav>
@@ -100,6 +99,7 @@
             <?php if (Functions::check_user_access(['{account_update}']) == true) : ?>
             <li target="account"><a href="/account">{$lang.account}<i class="fas fa-igloo"></i></a></li>
             <?php endif; ?>
+            <li target="my_profile"><a href="/my-profile">{$lang.my_profile}<i class="fas fa-user-astronaut"></i></a></li>
         </ul>
     </nav>
     <nav>
