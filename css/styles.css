@@ -100,7 +100,7 @@ body > header.topbar > nav > ul > li > a {
 }
 
 body > header.topbar > nav > ul > li > a {
-    padding: 0px 15px;
+    padding: 0px 10px;
     box-sizing: border-box;
 }
 
@@ -386,7 +386,7 @@ div.tbl_stl_1 > aside > a {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 5px;
+    margin: 0px 5px;
     border-radius: 50%;
     background-color: #e0e0e0;
     font-size: 16px;
