@@ -194,7 +194,7 @@ body > header.rightbar > nav > ul > li > a {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-size: 14px;
     font-weight: 400;
     text-overflow: ellipsis;
@@ -207,8 +207,7 @@ body > header.rightbar > nav > ul > li > a {
 
     body > header.rightbar > nav > ul > li,
     body > header.rightbar > nav > ul > li > a {
-        height: 20px;
-        margin-bottom: 5px;
+        height: 25px;
     }
 }
 
@@ -239,9 +238,8 @@ body > header.rightbar > nav > ul > li > a > i {
 @media (min-width: 1200px) {
 
     body > header.rightbar > nav > ul > li > a > i {
-        width: 20px;
-        height: 20px;
-        font-size: 14px;
+        width: 25px;
+        height: 25px;
     }
 }
 
