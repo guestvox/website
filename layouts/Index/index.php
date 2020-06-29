@@ -187,24 +187,24 @@ $this->dependencies->add(['others',
         <h3>{$lang.landing_page_index_stl_5_text_2}</h3>
         <div>
             <figure>
-                <img src="{$path.images}index/stl_5_image_1.png" alt="Client">
+                <a href="https://magicbluespahotel.com/es/"><img src="{$path.images}index/stl_5_image_1.png" alt="Client"></a>
             </figure>
             <figure>
-                <img src="{$path.images}index/stl_5_image_2.png" alt="Client">
+                <a href="https://www.facebook.com/CoConAmorr/"><img src="{$path.images}index/stl_5_image_2.png" alt="Client"></a>
             </figure>
             <figure>
-                <img src="{$path.images}index/stl_5_image_3.png" alt="Client">
+                <a href="https://www.facebook.com/lacoyotacancun/"><img src="{$path.images}index/stl_5_image_3.png" alt="Client"></a>
             </figure>
         </div>
         <div>
             <figure>
-                <img src="{$path.images}index/stl_5_image_4.png" alt="Partner">
+                <a href="https://aws.amazon.com/es/"><img src="{$path.images}index/stl_5_image_4.png" alt="Partner"></a>
             </figure>
             <figure>
-                <img src="{$path.images}index/stl_5_image_5.png" alt="Partner">
+                <a href="https://www.siteminder.com/es/"><img src="{$path.images}index/stl_5_image_5.png" alt="Partner"></a>
             </figure>
             <figure>
-                <img src="{$path.images}index/stl_5_image_6.png" alt="Partner">
+                <a href="https://zaviaerp.com/"><img src="{$path.images}index/stl_5_image_6.png" alt="Partner"></a>
             </figure>
             <!-- <figure>
                 <img src="https://www.comparasoftware.com/wp-content/uploads/2019/05/comparasoftware_verificado.png" alt="Partner">
