@@ -2,9 +2,9 @@
 
 defined('_EXEC') or die;
 
-require_once 'plugins/nexmo/vendor/autoload.php';
+// require_once 'plugins/nexmo/vendor/autoload.php';
 // require 'plugins/aws/vendor/autoload.php';
-//
+
 // use PHPMailer\PHPMailer\PHPMailer;
 // use PHPMailer\PHPMailer\Exception;
 // use Aws\Ses\SesClient;
@@ -1360,6 +1360,7 @@ class Myvox_controller extends Controller
 
 								if (!empty($query))
 								{
+
 								// 	$sender = 'saulantonio219@gmail.com';
 								// 	$senderName = 'Saul Poot';
 								//
@@ -1407,6 +1408,7 @@ class Myvox_controller extends Controller
 								// } catch (Exception $e) {
 								//     echo "Email not sent. {$mail->ErrorInfo}", PHP_EOL; //Catch errors from Amazon SES.
 								// }
+
 									$mail1 = new Mailer(true);
 
 									try
@@ -1610,7 +1612,8 @@ class Myvox_controller extends Controller
 							}
 							else
 							{
-								print_r('Entro aqui');
+								// print_r('Entro aqui');
+
 								Functions::environment([
 									'status' => 'error',
 									'message' => '{$lang.operation_error}'

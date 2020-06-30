@@ -312,7 +312,7 @@ class Signup_model extends Model
 				'status' => true
 			]);
 
-			$this->database->insert('opportunity_areas', [
+			$this->database->insert('opportunity_types', [
 				'account' => $account,
 				'opportunity_area' => $this->database->id(),
 				'name' => json_encode([

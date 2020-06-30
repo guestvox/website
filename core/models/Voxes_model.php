@@ -43,6 +43,8 @@ class Voxes_model extends Model
 				'urgency',
 				'confidentiality',
 				'assigned_users',
+				'observations',
+				'subject',
 				'firstname',
 				'lastname',
 				'attachments',

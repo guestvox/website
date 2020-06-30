@@ -563,6 +563,7 @@ div.tbl_stl_1 > div > div > div.itm_2 > div:last-child {
 div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > h2,
 div.tbl_stl_1 > div > div > div.itm_2 > div:last-child > span {
     width: 100%;
+    margin-bottom: 5px;
     font-size: 14px;
     text-overflow: ellipsis;
     white-space: nowrap;
