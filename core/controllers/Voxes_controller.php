@@ -482,7 +482,7 @@ class Voxes_controller extends Controller
 
 	public function details($params)
 	{
-		$vox = $this->model->get_vox($params[0], true);
+		$vox = $this->model->get_vox($params[0]);
 
 		if (!empty($vox))
 		{
@@ -1139,7 +1139,7 @@ class Voxes_controller extends Controller
 
 	public function edit($params)
 	{
-		$vox = $this->model->get_vox($params[0]);
+		$vox = $this->model->get_vox($params[0], true);
 
 		if (!empty($vox))
 		{
