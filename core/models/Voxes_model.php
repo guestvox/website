@@ -219,7 +219,7 @@ class Voxes_model extends Model
 		return $query;
 	}
 
-	public function get_vox($id, $fks = false)
+	public function get_vox($id, $edit = false)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('voxes', [
 			'id',
@@ -279,21 +279,28 @@ class Voxes_model extends Model
 
 		if (!empty($query))
 		{
-			if ($query[0]['status'] == true)
+			if ($edit == false)
 			{
-				if (in_array(Session::get_value('user')['id'], $query[0]['viewed_by']))
+				if ($query[0]['status'] == true)
 				{
-					foreach ($query[0]['changes_history'] as $key => $value)
+					if (in_array(Session::get_value('user')['id'], $query[0]['viewed_by']))
 					{
-						if ($value['type'] == 'viewed' AND $value['user'] == Session::get_value('user')['id'])
+						foreach ($query[0]['viewed_by'] as $key => $value)
 						{
-							$query[0]['changes_history'][$key]['date'] = Functions::get_current_date();
-							$query[0]['changes_history'][$key]['hour'] = Functions::get_current_hour();
+							if ($value == Session::get_value('user')['id'])
+								unset($query[0]['viewed_by'][$key]);
 						}
+
+						foreach ($query[0]['changes_history'] as $key => $value)
+						{
+							if ($value['type'] == 'viewed' AND $value['user'] == Session::get_value('user')['id'])
+								unset($query[0]['changes_history'][$key]);
+						}
+
+						$query[0]['viewed_by'] = array_values($query[0]['viewed_by']);
+						$query[0]['changes_history'] = array_values($query[0]['changes_history']);
 					}
-				}
-				else
-				{
+
 					array_push($query[0]['viewed_by'], Session::get_value('user')['id']);
 
 					array_push($query[0]['changes_history'], [
@@ -302,18 +309,18 @@ class Voxes_model extends Model
 						'date' => Functions::get_current_date(),
 						'hour' => Functions::get_current_hour()
 					]);
+
+					$this->database->update('voxes', [
+						'viewed_by' => json_encode($query[0]['viewed_by']),
+						'changes_history' => json_encode($query[0]['changes_history'])
+					], [
+						'OR' => [
+							'id' => $id,
+							'token' => $id
+						]
+					]);
 				}
 
-				$this->database->update('voxes', [
-					'viewed_by' => json_encode($query[0]['viewed_by']),
-					'changes_history' => json_encode($query[0]['changes_history'])
-				], [
-					'token' => $id
-				]);
-			}
-
-			if ($fks == true)
-			{
 				$query[0]['owner'] = $this->get_owner($query[0]['owner']);
 				$query[0]['opportunity_area'] = $this->get_opportunity_area($query[0]['opportunity_area']);
 				$query[0]['opportunity_type'] = $this->get_opportunity_type($query[0]['opportunity_type']);
@@ -814,7 +821,7 @@ class Voxes_model extends Model
 	public function edit_vox($data)
 	{
 		$query = null;
-		$editer = $this->get_vox($data['id']);
+		$editer = $this->get_vox($data['id'], true);
 
 		if (!empty($editer))
 		{
