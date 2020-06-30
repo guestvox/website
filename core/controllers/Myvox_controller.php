@@ -3,6 +3,12 @@
 defined('_EXEC') or die;
 
 require_once 'plugins/nexmo/vendor/autoload.php';
+// require 'plugins/aws/vendor/autoload.php';
+
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\Exception;
+// use Aws\Ses\SesClient;
+// use Aws\Exception\AwsException;
 
 class Myvox_controller extends Controller
 {
@@ -1354,6 +1360,55 @@ class Myvox_controller extends Controller
 
 								if (!empty($query))
 								{
+
+								// 	$sender = 'saulantonio219@gmail.com';
+								// 	$senderName = 'Saul Poot';
+								//
+								// 	$recipient = 'abrahamaldair16@gmail.com';
+								// 	$usernameSmtp = 'AKIAVAEOB4AEJOVGS2CZ';
+								// 	$passwordSmtp = 'BCvzm+cs2jbnrMGmPZYRyrtXZHcOUVGsFrYb4NBO4FQR';
+								// 	$configurationSet = 'demo-gv';
+								// 	$host = 'email-smtp.us-east-1.amazonaws.com';
+								// 	$port = 587;
+								//
+								// 	$subject = 'Amazon SES test (SMTP interface accessed using PHP)';
+								//
+								// 	$bodyText =  "Email Test\r\nThis email was sent through the
+								// 	    Amazon SES SMTP interface using the PHPMailer class.";
+								//
+								// 	$bodyHtml = '<h1>Email Test</h1>
+								// 	    <p>This email was sent through the
+								// 	    <a href="https://aws.amazon.com/ses">Amazon SES</a> SMTP
+								// 	    interface using the <a href="https://github.com/PHPMailer/PHPMailer">
+								// 	    PHPMailer</a> class.</p>';
+								//
+								// 	$mail = new Mailer(true);
+								//
+								// 	try {
+								//     $mail->isSMTP();
+								//     $mail->setFrom($sender, $senderName);
+								//     $mail->Username   = $usernameSmtp;
+								//     $mail->Password   = $passwordSmtp;
+								//     $mail->Host       = $host;
+								//     $mail->Port       = $port;
+								//     $mail->SMTPAuth   = true;
+								//     $mail->SMTPSecure = 'tls';
+								//     $mail->addCustomHeader('X-SES-CONFIGURATION-SET', $configurationSet);
+								//
+								//     $mail->addAddress($recipient);
+								//
+								//     $mail->isHTML(true);
+								//     $mail->Subject    = $subject;
+								//     $mail->Body       = $bodyHtml;
+								//     $mail->AltBody    = $bodyText;
+								//     $mail->Send();
+								//     echo "Email sent!" , PHP_EOL;
+								// } catch (phpmailerException $e) {
+								//     echo "An error occurred. {$e->errorMessage()}", PHP_EOL; //Catch errors from PHPMailer.
+								// } catch (Exception $e) {
+								//     echo "Email not sent. {$mail->ErrorInfo}", PHP_EOL; //Catch errors from Amazon SES.
+								// }
+
 									$mail1 = new Mailer(true);
 
 									try
@@ -1557,6 +1612,8 @@ class Myvox_controller extends Controller
 							}
 							else
 							{
+								// print_r('Entro aqui');
+
 								Functions::environment([
 									'status' => 'error',
 									'message' => '{$lang.operation_error}'

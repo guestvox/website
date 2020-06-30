@@ -97,12 +97,19 @@ class Voxes_controller extends Controller
 					$tbl_voxes .= '<i class="fas fa-bomb"></i>';
 
 				$tbl_voxes .=
-				'				</span>
-							</div>
-							<div>
-								<h2><i class="fas fa-user-circle"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
-								<span><i class="fas fa-shapes"></i>' . (!empty($value['owner']) ? $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') : '{$lang.not_owner}') . '</span>
-								<span
+				'	</span>
+				</div>
+				<div>
+					<h2><i class="fas fa-user-circle"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
+					<span><i class="fas fa-shapes"></i>' . (!empty($value['owner']) ? $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') : '{$lang.not_owner}') . '</span>';
+
+				if ($value['type'] == 'request' OR $value['type'] == 'workorder')
+					$tbl_voxes .= '<span><i class="fas fa-quote-right"></i>' . (!empty($value['observations']) ? $value['observations'] : '{$lang.not_observations}') . '</span>';
+				else if ($value['type'] == 'incident')
+					$tbl_voxes .= '<span><i class="fas fa-quote-right"></i>' . (!empty($value['subject']) ? $value['subject'] : '{$lang.not_subject}') . '</span>';
+
+				$tbl_voxes .=
+					'			<span
 									data-date-1="' . Functions::get_formatted_date_hour($value['started_date'], $value['started_hour']) . '"
 									data-date-2="' . ((!empty($value['completed_date']) AND !empty($value['completed_hour'])) ? Functions::get_formatted_date_hour($value['completed_date'], $value['completed_hour']) : '') . '"
 									data-time-zone="' . Session::get_value('account')['time_zone'] . '"
@@ -304,7 +311,7 @@ class Voxes_controller extends Controller
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 												<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-													<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/logotype_color.png">
+													<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
 												</figure>
 											</td>
 										</tr>

@@ -4,7 +4,7 @@ defined('_EXEC') or die;
 
 class Languages
 {
-    static public function words($key, $subkey = null)
+    static public function email($key, $subkey = null)
     {
         $langs = [
             'thanks_request_demo' => [

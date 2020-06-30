@@ -468,13 +468,13 @@ main.landing_page_index > section.stl_5 > div > figure {
     }
 }
 
-main.landing_page_index > section.stl_5 > div > figure > img {
+main.landing_page_index > section.stl_5 > div > figure > a > img {
     width: 60%;
 }
 
 @media (max-width: 768px) {
 
-    main.landing_page_index > section.stl_5 > div > figure > img {
+    main.landing_page_index > section.stl_5 > div > figure > a > img {
         width: 50%;
     }
 }

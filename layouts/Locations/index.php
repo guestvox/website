@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['js', '{$path.js}locations/index.js']);
+$this->dependencies->add(['js', '{$path.js}Locations/index.js']);
 $this->dependencies->add(['other', '<script>menu_focus("locations");</script>']);
 
 ?>
