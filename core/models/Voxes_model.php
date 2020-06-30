@@ -310,6 +310,24 @@ class Voxes_model extends Model
 						'hour' => Functions::get_current_hour()
 					]);
 
+					foreach ($query[0]['viewed_by'] as $key => $value)
+					{
+						if (!isset($value) OR empty($value))
+							unset($query[0]['viewed_by'][$key]);
+					}
+
+					foreach ($query[0]['changes_history'] as $key => $value)
+					{
+						if ($value['type'] == 'viewed')
+						{
+							if (!isset($value['user']) OR empty($value['user']))
+								unset($query[0]['changes_history'][$key]);
+						}
+					}
+
+					$query[0]['viewed_by'] = array_values($query[0]['viewed_by']);
+					$query[0]['changes_history'] = array_values($query[0]['changes_history']);
+
 					$this->database->update('voxes', [
 						'viewed_by' => json_encode($query[0]['viewed_by']),
 						'changes_history' => json_encode($query[0]['changes_history'])
