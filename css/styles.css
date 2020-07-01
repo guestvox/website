@@ -254,8 +254,9 @@ body > header.rightbar > nav > ul > li.active > a > i {
 ------------------------------------------------------------------------------ */
 body > main.dashboard {
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     position: relative;
+    overflow-y: scroll;
     background-color: #fff;
 }
 
@@ -270,20 +271,10 @@ body > main.dashboard::before {
     z-index: 98;
 }
 
-body > main.dashboard.gry > section.workspace {
-    background-color: #eee;
-}
-
 @media (min-width: 1200px) {
 
     body > main.dashboard.dkp::before {
         background-color: #eee;
-    }
-
-    body > main.dashboard.dkp > section.workspace {
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
     }
 }
 
@@ -298,6 +289,19 @@ body > main.dashboard > section.workspace {
     box-sizing: border-box;
     background-color: #fff;
     z-index: 96;
+}
+
+body > main.dashboard.gry > section.workspace {
+    background-color: #eee;
+}
+
+@media (min-width: 1200px) {
+
+    body > main.dashboard.dkp > section.workspace {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+    }
 }
 
 /* Buttons */
@@ -452,13 +456,33 @@ div.tbl_stl_1 > div:last-child {
     margin-bottom: 0px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 768px) {
 
     div.tbl_stl_1 > div {
-        width: calc(100% / 4);
         float: left;
         padding-right: 20px;
         padding-left: 20px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    div.tbl_stl_1 > div {
+        width: calc(100% / 2);
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1440px) {
+
+    div.tbl_stl_1 > div {
+        width: calc(100% / 3);
+    }
+}
+
+@media (min-width: 1441px) {
+
+    div.tbl_stl_1 > div {
+        width: calc(100% / 4);
     }
 }
 
@@ -941,10 +965,6 @@ div.tbl_stl_3 > div > div.buttons > a {
 
 div.tbl_stl_4 {
     width: 100%;
-    height: calc(100vh - 190px); /* Temp */
-    overflow-y: scroll; /* Temp */
-    padding-bottom: 90px; /* Temp */
-    box-sizing: border-box; /* Temp */
 }
 
 div.tbl_stl_4 > div {

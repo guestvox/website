@@ -221,7 +221,7 @@ class Voxes_model extends Model
 		return $query;
 	}
 
-	public function get_vox($id, $edit = false)
+	public function get_vox($token, $edit = false)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('voxes', [
 			'id',
@@ -273,10 +273,7 @@ class Voxes_model extends Model
 			'status',
 			'origin'
 		], [
-			'OR' => [
-				'id' => $id,
-				'token' => $id
-			]
+			'token' => $token
 		]));
 
 		if (!empty($query))
@@ -334,10 +331,7 @@ class Voxes_model extends Model
 						'viewed_by' => json_encode($query[0]['viewed_by']),
 						'changes_history' => json_encode($query[0]['changes_history'])
 					], [
-						'OR' => [
-							'id' => $id,
-							'token' => $id
-						]
+						'token' => $token
 					]);
 				}
 
@@ -841,7 +835,7 @@ class Voxes_model extends Model
 	public function edit_vox($data)
 	{
 		$query = null;
-		$editer = $this->get_vox($data['id'], true);
+		$editer = $this->get_vox($data['token'], true);
 
 		if (!empty($editer))
 		{
