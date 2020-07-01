@@ -25,8 +25,6 @@ class Voxes_model extends Model
 		if (Functions::check_user_access(['{view_confidentiality}']) == false)
 			$where['AND']['confidentiality'] = false;
 
-		// - Condición para cargar un vox si el usuario está asignado a el.
-
 		if ($option == 'all')
 		{
 			$fields = [

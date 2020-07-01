@@ -153,7 +153,7 @@ class Functions
         $action = trim($action);
         $encrypt_method = 'AES-256-CBC';
         $secret_key = hash('sha256', Configuration::$secret);
-        $encrypt_private_key = substr(hash('sha256', Configuration::$encrypt_private_key), 0, 16);
+        $encrypt_private_key = substr(hash('sha256', 'OvX7WsT*^Ji35si,rEnFi8jrn(x9tHN3?.e3}]q0u)!D<GG9d~B(@7N5LE<psQgs:Mz-WJbRgm4!)pYiHPBGjZ#tnEFiZ0Cd)rc:uJNj(]_rZtHY0<:XkacT/!p|oV[7'), 0, 16);
 
         if ($action && ($action == 'encrypt' || $action == 'decrypt') && $string)
         {

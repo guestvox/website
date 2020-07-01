@@ -2,6 +2,320 @@
 
 public function sql()
 {
+    set_time_limit(1000);
+
+    $db = new Medoo([
+        'database_type' => 'mysql',
+        'database_name' => 'gv_website_old',
+        'server' => 'localhost',
+        'username' => 'root',
+        'password' => ''
+    ]);
+
+    // 3126
+    // 3477
+
+    $q = $db->select('voxes', '*', [
+        'account' => 18
+    ]);
+
+    foreach ($q as $v)
+    {
+        if ($v['id'] >= 3400 AND $v['id'] < 3477)
+        {
+            $v['data'] = json_decode(Functions::get_openssl('decrypt', $v['data']), true);
+
+            $x['created_user'] = $this->database->select('users', ['id'], [
+                'tmp' => $v['data']['created_user'][1]
+            ]);
+
+            if (!empty($x['created_user']))
+            {
+                if (!empty($v['data']['room']))
+                {
+                    $x['owner'] = $this->database->select('owners', ['id'], [
+                        'tmp' => $v['data']['room']
+                    ]);
+                }
+
+                $x['opportunity_area'] = $this->database->select('opportunity_areas', ['id'], [
+                    'tmp' => $v['data']['opportunity_area']
+                ]);
+
+                $x['opportunity_type'] = $this->database->select('opportunity_types', ['id'], [
+                    'tmp' => $v['data']['opportunity_type']
+                ]);
+
+                $x['location'] = $this->database->select('locations', ['id'], [
+                    'tmp' => $v['data']['location']
+                ]);
+
+                if (!empty($v['data']['assigned_users']))
+                {
+                    foreach ($v['data']['assigned_users'] as $k => $s)
+                    {
+                        if (!empty($s))
+                        {
+                            $s = $this->database->select('users', ['id'], [
+                                'tmp' => $s
+                            ]);
+
+                            if (!empty($s))
+                                $v['data']['assigned_users'][$k] = $s[0]['id'];
+                            else
+                                unset($v['data']['assigned_users'][$k]);
+                        }
+                    }
+
+                    $v['data']['assigned_users'] = array_unique($v['data']['assigned_users']);
+                    $v['data']['assigned_users'] = array_values($v['data']['assigned_users']);
+                }
+
+                if (!empty($v['data']['guest_type']))
+                {
+                    $x['guest_type'] = $this->database->select('guests_types', ['id'], [
+                        'tmp' => $v['data']['guest_type']
+                    ]);
+                }
+
+                if (!empty($v['data']['reservation_status']))
+                {
+                    $x['reservation_status'] = $this->database->select('reservations_statuses', ['id'], [
+                        'tmp' => $v['data']['reservation_status']
+                    ]);
+                }
+
+                if (!empty($v['data']['comments']))
+                {
+                    foreach ($v['data']['comments'] as $k => $s)
+                    {
+                        $s['user'] = $this->database->select('users', ['id'], [
+                            'tmp' => $s['user']
+                        ]);
+
+                        if (!empty($s['user']))
+                        {
+                            $v['data']['comments'][$k] = [
+                                'user' => $s['user'][0]['id'],
+                                'date' => $s['date'],
+                                'hour' => $s['hour'],
+                                'cost' => 0,
+                                'comment' => $s['message'],
+                                'attachments' => !empty($s['attachments']) ? $s['attachments'] : []
+                            ];
+                        }
+                        else
+                            unset($v['data']['comments'][$k]);
+                    }
+
+                    $v['data']['comments'] = array_values($v['data']['comments']);
+                }
+
+                $x['viewed_by'] = [
+                    $x['created_user'][0]['id']
+                ];
+
+                if (!empty($v['data']['viewed_by']))
+                {
+                    foreach ($v['data']['viewed_by'] as $k => $s)
+                    {
+                        if (!empty($s))
+                        {
+                            $s = $this->database->select('users', ['id'], [
+                                'tmp' => $s
+                            ]);
+
+                            if (!empty($s))
+                            {
+                                if (!in_array($s[0]['id'], $x['viewed_by']))
+                                    array_push($x['viewed_by'], $s[0]['id']);
+                            }
+                        }
+                    }
+                }
+
+                $x['changes_history'] = [
+                    [
+                        'type' => 'created',
+                        'user' => $x['created_user'][0]['id'],
+                        'date' => $v['data']['created_date'],
+                        'hour' => $v['data']['created_hour']
+                    ],
+                    [
+                        'type' => 'viewed',
+                        'user' => $x['created_user'][0]['id'],
+                        'date' => $v['data']['created_date'],
+                        'hour' => $v['data']['created_hour']
+                    ]
+                ];
+
+                if (!empty($v['data']['changes_history']))
+                {
+                    $v['data']['changes_history'] = array_reverse($v['data']['changes_history']);
+
+                    $x['tmp'] = [
+                        $x['created_user'][0]['id']
+                    ];
+
+                    foreach ($v['data']['changes_history'] as $k => $s)
+                    {
+                        if ($s['type'] == 'viewed')
+                        {
+                            $s['user'] = $this->database->select('users', ['id'], [
+                                'tmp' => $s['user']
+                            ]);
+
+                            if (!empty($s['user']))
+                            {
+                                if (!in_array($s['user'][0]['id'], $x['tmp']))
+                                {
+                                    array_push($x['tmp'], $s['user'][0]['id']);
+
+                                    array_push($x['changes_history'], [
+                                        'type' => 'viewed',
+                                        'user' => $s['user'][0]['id'],
+                                        'date' => $s['date'],
+                                        'hour' => $s['hour']
+                                    ]);
+                                }
+                            }
+                        }
+                        else if ($s['type'] == 'new_comment')
+                        {
+                            $s['user'] = $this->database->select('users', ['id'], [
+                                'tmp' => $s['user']
+                            ]);
+
+                            if (!empty($s['user']))
+                            {
+                                array_push($x['changes_history'], [
+                                    'type' => 'commented',
+                                    'user' => $s['user'][0]['id'],
+                                    'date' => $s['date'],
+                                    'hour' => $s['hour']
+                                ]);
+                            }
+                        }
+                        else if ($s['type'] == 'complete')
+                        {
+                            $s['user'] = $this->database->select('users', ['id'], [
+                                'tmp' => $s['user'][1]
+                            ]);
+
+                            if (!empty($s['user']))
+                            {
+                                array_push($x['changes_history'], [
+                                    'type' => 'completed',
+                                    'user' => $s['user'][0]['id'],
+                                    'date' => $s['date'],
+                                    'hour' => $s['hour']
+                                ]);
+                            }
+                        }
+                        else if ($s['type'] == 'reopen')
+                        {
+                            $s['user'] = $this->database->select('users', ['id'], [
+                                'tmp' => $s['user'][1]
+                            ]);
+
+                            if (!empty($s['user']))
+                            {
+                                array_push($x['changes_history'], [
+                                    'type' => 'reopened',
+                                    'user' => $s['user'][0]['id'],
+                                    'date' => $s['date'],
+                                    'hour' => $s['hour']
+                                ]);
+                            }
+                        }
+                    }
+                }
+
+                $a = [];
+
+                foreach ($x['changes_history'] as $k => $s)
+                    $a[$k] = Functions::get_formatted_date_hour($s['date'], $s['hour']);
+
+                array_multisort($a, SORT_ASC, $x['changes_history']);
+
+                if (!empty($v['data']['completed_user']))
+                {
+                    $x['completed_user'] = $this->database->select('users', ['id'], [
+                        'tmp' => $v['data']['completed_user'][1]
+                    ]);
+                }
+
+                if (!empty($v['data']['reopened_user']))
+                {
+                    $x['reopened_user'] = $this->database->select('users', ['id'], [
+                        'tmp' => $v['data']['reopened_user'][1]
+                    ]);
+                }
+
+                $z = [
+                    'account' => 9,
+                    'type' => $v['type'],
+                    'token' => strtolower($v['data']['token']),
+                    'owner' => !empty($v['data']['room']) ? $x['owner'][0]['id'] : null,
+                    'opportunity_area' => $x['opportunity_area'][0]['id'],
+                    'opportunity_type' => $x['opportunity_type'][0]['id'],
+                    'started_date' => $v['data']['started_date'],
+                    'started_hour' => $v['data']['started_hour'],
+                    'location' => $x['location'][0]['id'],
+                    'address' => null,
+                    'cost' => !empty($v['data']['cost']) ? $v['data']['cost'] : null,
+                    'urgency' => $v['data']['urgency'],
+                    'confidentiality' => !empty($v['data']['confidentiality']) ? true : false,
+                    'assigned_users' => json_encode((!empty($v['data']['assigned_users']) ? $v['data']['assigned_users'] : [])),
+                    'observations' => !empty($v['data']['observations']) ? $v['data']['observations'] : null,
+                    'subject' => !empty($v['data']['subject']) ? $v['data']['subject'] : null,
+                    'description' => !empty($v['data']['description']) ? $v['data']['description'] : null,
+                    'action_taken' => !empty($v['data']['action_taken']) ? $v['data']['action_taken'] : null,
+                    'guest_treatment' => null,
+                    'firstname' => !empty($v['data']['firstname']) ? $v['data']['firstname'] : null,
+                    'lastname' => !empty($v['data']['lastname']) ? $v['data']['lastname'] : null,
+                    'email' => null,
+                    'phone' => json_encode([
+                        'lada' => '',
+                        'number' => ''
+                    ]),
+                    'guest_id' => !empty($v['data']['guest_id']) ? $v['data']['guest_id'] : null,
+                    'guest_type' => !empty($v['data']['guest_type']) ? $x['guest_type'][0]['id'] :  null,
+                    'reservation_number' => !empty($v['data']['reservation_number']) ? $v['data']['reservation_number'] : null,
+                    'reservation_status' => !empty($v['data']['reservation_status']) ? $x['reservation_status'][0]['id'] : null,
+                    'check_in' => !empty($v['data']['check_in']) ? $v['data']['check_in'] : null,
+                    'check_out' => !empty($v['data']['check_out']) ? $v['data']['check_out'] : null,
+                    'attachments' => json_encode((!empty($v['data']['attachments']) ? $v['data']['attachments'] : [])),
+                    'viewed_by' => json_encode($x['viewed_by']),
+                    'comments' => json_encode((!empty($v['data']['comments']) ? $v['data']['comments'] : [])),
+                    'changes_history' => json_encode($x['changes_history']),
+                    'created_user' => $x['created_user'][0]['id'],
+                    'created_date' => $v['data']['created_date'],
+                    'created_hour' => $v['data']['created_hour'],
+                    'edited_user' => null,
+                    'edited_date' => null,
+                    'edited_hour' => null,
+                    'completed_user' => !empty($v['data']['completed_user']) ? (!empty($x['completed_user']) ? $x['completed_user'][0]['id'] : null) : null,
+                    'completed_date' => !empty($v['data']['completed_date']) ? (!empty($x['completed_user']) ? $v['data']['completed_date'] : null) : null,
+                    'completed_hour' => !empty($v['data']['completed_hour']) ? (!empty($x['completed_user']) ? $v['data']['completed_hour'] : null) : null,
+                    'reopened_user' => !empty($v['data']['reopened_user']) ? (!empty($x['reopened_user']) ? $x['reopened_user'][0]['id'] : null) : null,
+                    'reopened_date' => !empty($v['data']['reopened_date']) ? (!empty($x['reopened_user']) ? $v['data']['reopened_date'] : null) : null,
+                    'reopened_hour' => !empty($v['data']['reopened_hour']) ? (!empty($x['reopened_user']) ? $v['data']['reopened_hour'] : null) : null,
+                    'menu_order' => null,
+                    'status' => (!empty($x['completed_user']) AND $v['data']['status'] == 'close') ? false : true,
+                    'origin' => 'internal'
+                ];
+
+                print_r($z);
+
+                // $this->database->insert('voxes', $z);
+            }
+        }
+    }
+}
+
+public function sql()
+{
     // set_time_limit(300);
     //
     // $query = $this->database->select('voxes', [
