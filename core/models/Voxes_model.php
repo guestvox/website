@@ -43,6 +43,7 @@ class Voxes_model extends Model
 				'assigned_users',
 				'observations',
 				'subject',
+				'guest_treatment',
 				'firstname',
 				'lastname',
 				'attachments',
@@ -172,6 +173,12 @@ class Voxes_model extends Model
 			$query[$key]['opportunity_type'] = $this->get_opportunity_type($value['opportunity_type']);
 			$query[$key]['location'] = $this->get_location($value['location']);
 
+			if (Session::get_value('account')['type'] == 'hotel')
+			{
+				if ($value['type'] == 'request' OR $value['type'] == 'incident')
+					$query[$key]['guest_treatment'] = $this->get_guest_treatment($value['guest_treatment']);
+			}
+
 			foreach ($value['comments'] as $subkey => $subvalue)
 			{
 				$query[$key]['attachments'] = array_merge($value['attachments'], $subvalue['attachments']);
@@ -183,6 +190,8 @@ class Voxes_model extends Model
 				}
 			}
 
+			$query[$key]['created_user'] = $this->get_user($value['created_user']);
+
 			if ($option == 'report')
 			{
 				foreach ($value['assigned_users'] as $subkey => $subvalue)
@@ -190,9 +199,6 @@ class Voxes_model extends Model
 
 				if (Session::get_value('account')['type'] == 'hotel')
 				{
-					if ($value['type'] == 'request' OR $value['type'] == 'incident')
-						$query[$key]['guest_treatment'] = $this->get_guest_treatment($value['guest_treatment']);
-
 					if ($value['type'] == 'incident')
 					{
 						$query[$key]['guest_type'] = $this->get_guest_type($value['guest_type']);
@@ -210,8 +216,6 @@ class Voxes_model extends Model
 				if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
 					$query[$key]['menu_order'] = $this->get_menu_order($query[$key]['menu_order']);
 			}
-
-			$query[$key]['created_user'] = $this->get_user($value['created_user']);
 		}
 
 		return $query;

@@ -100,7 +100,7 @@ class Voxes_controller extends Controller
 				'	</span>
 				</div>
 				<div>
-					<h2><i class="fas fa-user-circle"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
+					<h2><i class="fas fa-user-circle"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? (!empty($value['guest_treatment']) ? $value['guest_treatment']['name'] . ' ' : '') . $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
 					<span><i class="fas fa-shapes"></i>' . (!empty($value['owner']) ? $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') : '{$lang.not_owner}') . '</span>';
 
 				if ($value['type'] == 'request' OR $value['type'] == 'workorder')
@@ -139,7 +139,7 @@ class Voxes_controller extends Controller
 							<span class="' . (!empty($value['assigned_users']) ? 'active' : '') . '"><i class="fas fa-users"></i></span>
 							<span class="' . (!empty($value['comments']) ? 'active' : '') . '"><i class="fas fa-comment"></i></span>
 							<span class="' . (!empty($value['attachments']) ? 'active' : '') . '"><i class="fas fa-paperclip"></i></span>
-							<span class="' . (($value['type'] == 'incident' AND $value['confidentiality'] == true) ? 'active' : '') . '"><i class="fas fa-lock"></i></span>
+							<span class="' . (($value['confidentiality'] == true) ? 'active' : '') . '"><i class="fas fa-lock"></i></span>
 						</div>
 						<a href="/voxes/details/' . $value['token'] . '"></a>
 	                </div>

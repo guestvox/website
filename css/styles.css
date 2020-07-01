@@ -58,14 +58,16 @@ body > header.topbar > figure {
     box-sizing: border-box;
 }
 
-body > header.topbar > figure > img {
+body > header.topbar > figure > a,
+body > header.topbar > figure > a > img {
     width: auto;
     height: 40px;
 }
 
 @media (min-width: 1200px) {
 
-    body > header.topbar > figure > img {
+    body > header.topbar > figure > a,
+    body > header.topbar > figure > a > img {
         height: 50px;
     }
 }
@@ -400,7 +402,6 @@ div.tbl_stl_1 > aside {
 @media (min-width: 1200px) {
 
     div.tbl_stl_1 > aside {
-        justify-content: flex-end;
         padding: 0px 40px;
     }
 }
@@ -2896,6 +2897,11 @@ div.qr > div > div > p {
     overflow-y: scroll;
     background-color: #eee;
     color: #757575;
+}
+
+main.account > div.stl_6 > div > p > strong,
+div.qr > div > div > p > strong {
+    margin-right: 5px;
 }
 
 main.account > div.stl_6 > div > a,
