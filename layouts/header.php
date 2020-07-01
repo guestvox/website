@@ -2,7 +2,21 @@
 
 <header class="topbar">
     <figure>
-        <img src="{$path.images}logotype_white.png">
+        <?php if (Functions::check_account_access(['operation']) == true) : ?>
+        <a href="/voxes">
+        <?php elseif (Functions::check_account_access(['reputation']) == true) : ?>
+            <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
+            <a href="/surveys/answers"></a>
+            <?php elseif (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
+            <a href="/surveys/stats"></a>
+            <?php elseif (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
+            <a href="/surveys/questions"></a>
+            <?php endif; ?>
+        <?php else : ?>
+        <a href="/dashboard">
+        <?php endif; ?>
+            <img src="{$path.images}logotype_white.png">
+        </a>
     </figure>
     <nav>
         <ul>
@@ -30,11 +44,11 @@
     </div>
     <nav>
         <ul>
-            <li target="dashboard"><a href="/dashboard">{$lang.dashboard}<i class="fas fa-tachometer-alt"></i></a></li>
+            <!-- <li target="dashboard"><a href="/dashboard">{$lang.dashboard}<i class="fas fa-tachometer-alt"></i></a></li> -->
+            <li target="my_profile"><a href="/my-profile">{$lang.my_profile}<i class="fas fa-user-astronaut"></i></a></li>
             <?php if (Functions::check_account_access(['operation','reputation']) == true) : ?>
             <li target="qr"><a href="/qr">{$lang.qr}<i class="fas fa-qrcode"></i></a></li>
             <?php endif; ?>
-            <li target="my_profile"><a href="/my-profile">{$lang.my_profile}<i class="fas fa-user-astronaut"></i></a></li>
         </ul>
     </nav>
     <nav>

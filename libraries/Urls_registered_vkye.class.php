@@ -97,10 +97,10 @@ class Urls_registered_vkye
                 'controller' => 'Login',
                 'method' => 'logout'
             ],
-            '/dashboard' => [
-                'controller' => 'Dashboard', // - Rediseño
-                'method' => 'index'
-            ],
+            // '/dashboard' => [
+            //     'controller' => 'Dashboard', // - Rediseño
+            //     'method' => 'index'
+            // ],
             '/qr' => [
                 'controller' => 'Qr',
                 'method' => 'index'
@@ -169,10 +169,10 @@ class Urls_registered_vkye
                 'controller' => 'Menu',
                 'method' => 'products'
             ],
-            '/menu/restaurants' => [
-                'controller' => 'Menu',
-                'method' => 'restaurants'
-            ],
+            // '/menu/restaurants' => [
+            //     'controller' => 'Menu',
+            //     'method' => 'restaurants'
+            // ],
             '/owners' => [
                 'controller' => 'Owners',
                 'method' => 'index'

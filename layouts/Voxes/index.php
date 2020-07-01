@@ -13,7 +13,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 <main class="dashboard">
     <section class="workspace">
         <div class="tbl_stl_1" data-table>
-            <aside class="filter">
+            <aside>
                 <a data-action="get_filter" data-filter="type">
                     <?php if (Session::get_value('settings')['voxes']['filter']['type'] == 'all') : ?>
                     <i class="fas fa-ellipsis-h"></i>

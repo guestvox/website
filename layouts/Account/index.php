@@ -42,7 +42,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
             {$div_menu}
             {$div_answer_surveys}
             {$div_reviews_page}
-            {$div_attention_times}
+            <!-- {$div_attention_times} -->
             <div class="stl_5">
                 <i class="fas fa-space-shuttle"></i>
                 <h2>{$lang.operation_package}</h2>
@@ -53,7 +53,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                 <h2>{$lang.reputation_package}</h2>
                 <span>{$reputation}</span>
             </div>
-            <div class="stl_5 last">
+            <div class="stl_5">
                 <i class="fas fa-shapes"></i>
                 <h2>{$lang.owners_package}</h2>
                 <span>{$package} {$lang.owners}</span>
@@ -290,4 +290,4 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
 {$mdl_edit_myvox_menu_settings}
 {$mdl_edit_myvox_survey_settings}
 {$mdl_edit_reviews_settings}
-{$mdl_edit_voxes_attention_times_settings}
+<!-- {$mdl_edit_voxes_attention_times_settings} -->

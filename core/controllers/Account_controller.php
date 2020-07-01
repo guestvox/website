@@ -552,7 +552,7 @@ class Account_controller extends Controller
 				        <main class="account">
 				        	<div class="stl_6">
 								<div>
-									<p>https://' . Configuration::$domain . '/' . $account['path'] . '/myvox</p>
+									<p><strong>{$lang.myvox}:</strong><span>https://' . Configuration::$domain . '/' . $account['path'] . '/myvox</span></p>
 									<a href="https://' . Configuration::$domain . '/' . $account['path'] . '/myvox" target="_blank"><i class="fas fa-share"></i></a>
 									<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
 								</div>';
@@ -561,7 +561,7 @@ class Account_controller extends Controller
 				{
 					$mdl_get_urls .=
 					'<div>
-						<p>https://' . Configuration::$domain . '/' . $account['path'] . '/reviews</p>
+						<p><strong>{$lang.reviews_page}:</strong><span>https://' . Configuration::$domain . '/' . $account['path'] . '/reviews</span></p>
 						<a href="https://' . Configuration::$domain . '/' . $account['path'] . '/reviews" target="_blank"><i class="fas fa-share"></i></a>
 						<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
 					</div>';
@@ -740,7 +740,7 @@ class Account_controller extends Controller
 												</label>
 											</div>
 										</div>
-										<div class="span4">
+										<!-- <div class="span4">
 											<div class="label">
 												<label unrequired>
 													<p>{$lang.multi} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
@@ -750,7 +750,7 @@ class Account_controller extends Controller
 													</div>
 												</label>
 											</div>
-										</div>
+										</div> -->
 										<div class="span12">
 											<div class="buttons">
 												<a button-cancel><i class="fas fa-times"></i></a>
