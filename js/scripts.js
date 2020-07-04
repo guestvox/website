@@ -135,6 +135,12 @@ $(document).ready(function ()
         else
             targets.removeClass('hidden');
     });
+
+    $('.tbl_stl_5').find('input[type="radio"]').on('change', function()
+    {
+        $(this).parent().parent().find('label').removeClass('focus');
+        $(this).parent().addClass('focus');
+    });
 });
 
 function menu_focus(target)

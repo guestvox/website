@@ -1036,6 +1036,231 @@ div.tbl_stl_4 > div:last-child > p > img {
     margin-right: 0px 5px;
 }
 
+/* Style 5 */
+div.tbl_stl_5 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+div.tbl_stl_5 > div {
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+/*  */
+
+div.tbl_stl_5 > div > div {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+div.tbl_stl_5 > div > div:last-child {
+    margin-bottom: 0px;
+}
+
+div.tbl_stl_5 > div > div.level_2 {
+    padding-left: 40px;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_5 > div > div.level_3 {
+    padding-left: 80px;
+    box-sizing: border-box;
+}
+
+/*  */
+
+div.tbl_stl_5 > div > div.level_1 > h2,
+div.tbl_stl_5 > div > div.level_2 > h2,
+div.tbl_stl_5 > div > div.level_3 > h2 {
+    margin-bottom: 5px;
+}
+
+div.tbl_stl_5 > div > div.level_1 > h2 {
+    width: 100%;
+    font-size: 16px;
+    font-weight: 600;
+    color: #212121;
+}
+
+div.tbl_stl_5 > div > div.level_2 > h2,
+div.tbl_stl_5 > div > div.level_3 > h2 {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+/*  */
+
+div.tbl_stl_5 > div > div > div {
+    width: 100%;
+}
+
+div.tbl_stl_5 > div > div > div.open > input {
+    width: 100%;
+    height: 40px;
+    padding: 0px 20px;
+    border: 0px;
+    box-sizing: border-box;
+    background-color: #e0e0e0;
+}
+
+div.tbl_stl_5 > div > div > div.nps > label,
+div.tbl_stl_5 > div > div > div.rate > label,
+div.tbl_stl_5 > div > div > div.twin > label {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+div.tbl_stl_5 > div > div > div.nps > label > input,
+div.tbl_stl_5 > div > div > div.rate > label > input,
+div.tbl_stl_5 > div > div > div.twin > label > input {
+    width: 30px;
+    height: 30px;
+    margin: 0px;
+    padding: 0px;
+    border-radius: 50%;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+div.tbl_stl_5 > div > div > div.nps > label.focus > input,
+div.tbl_stl_5 > div > div > div.rate > label.focus > input,
+div.tbl_stl_5 > div > div > div.twin > label.focus > input {
+    background-color: #00a5ab;
+}
+
+div.tbl_stl_5 > div > div > div.nps > label > i,
+div.tbl_stl_5 > div > div > div.rate > label > i,
+div.tbl_stl_5 > div > div > div.twin > label > i {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-style: normal;
+    color: #9e9e9e;
+}
+
+div.tbl_stl_5 > div > div > div.nps > label.focus > i,
+div.tbl_stl_5 > div > div > div.rate > label.focus > i,
+div.tbl_stl_5 > div > div > div.twin > label.focus > i {
+    color: #fff;
+}
+
+div.tbl_stl_5 > div > div > div.buttons {
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+div.tbl_stl_5 > div > div > div.buttons > a {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    font-size: 10px;
+    color: #757575;
+}
+
+/* Style 6 */
+div.tbl_stl_6 {
+    width: 100%;
+    padding: 0px 20px;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_6 > div:first-child {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+div.tbl_stl_6 > div:first-child > input {
+    width: calc(50% - 20px);
+    height: 30px;
+    margin-right: 5px;
+    padding: 0px 15px;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 25px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+div.tbl_stl_6 > div:first-child > a {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #00a5ab;
+    font-size: 14px;
+    color: #fff;
+}
+
+div.tbl_stl_6 > div:last-child,
+div.tbl_stl_6 > div:last-child > div {
+    width: 100%;
+}
+
+div.tbl_stl_6 > div:last-child > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+div.tbl_stl_6 > div:last-child > div > span {
+    width: calc(100% - 120px);
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 5px;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_6 > div:last-child > div > a {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: #eee;
+    font-size: 12px;
+    color: #757575;
+}
+
 /* Forms
 ------------------------------------------------------------------------------ */
 body > main.dashboard > section.workspace > form {
@@ -2550,6 +2775,26 @@ div.voxes_charts {
         display: block;
         clear: both;
     }
+}
+
+div.voxes_charts > h2 {
+    width: 100%;
+    padding: 20px 40px 0px 40px;
+    box-sizing: border-box;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    color: #212121;
+}
+
+div.voxes_charts > h3 {
+    width: 100%;
+    padding: 5px 40px 0px 40px;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    color: #212121;
 }
 
 div.voxes_charts > div {

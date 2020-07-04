@@ -391,19 +391,19 @@ class Voxes_model extends Model
 
 	public function get_owners($type = 'all')
 	{
-		$where['account'] = Session::get_value('account')['id'];
+		$and['account'] = Session::get_value('account')['id'];
 
 		if ($type != 'all')
-			$where[$type] = true;
+			$and[$type] = true;
 
-		$where['status'] = true;
+		$and['status'] = true;
 
 		$query = Functions::get_json_decoded_query($this->database->select('owners', [
 			'id',
 			'name',
 			'number'
 		], [
-			'AND' => $where,
+			'AND' => $and,
 			'ORDER' => [
 				'number' => 'ASC',
 				'name' => 'ASC'
@@ -466,18 +466,18 @@ class Voxes_model extends Model
 
 	public function get_opportunity_areas($type = 'all')
 	{
-		$where['account'] = Session::get_value('account')['id'];
+		$and['account'] = Session::get_value('account')['id'];
 
 		if ($type != 'all')
-			$where[$type] = true;
+			$and[$type] = true;
 
-		$where['status'] = true;
+		$and['status'] = true;
 
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
 			'id',
 			'name'
 		], [
-			'AND' => $where,
+			'AND' => $and,
 			'ORDER' => [
 				'name' => 'ASC'
 			]
@@ -500,18 +500,18 @@ class Voxes_model extends Model
 
 	public function get_opportunity_types($opportunity_area, $type)
 	{
-		$where['opportunity_area'] = $opportunity_area;
+		$and['opportunity_area'] = $opportunity_area;
 
 		if ($type != 'all')
-			$where[$type] = true;
+			$and[$type] = true;
 
-		$where['status'] = true;
+		$and['status'] = true;
 
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
 			'id',
 			'name'
 		], [
-			'AND' => $where,
+			'AND' => $and,
 			'ORDER' => [
 				'name' => 'ASC'
 			]
@@ -534,18 +534,18 @@ class Voxes_model extends Model
 
 	public function get_locations($type = 'all')
 	{
-		$where['account'] = Session::get_value('account')['id'];
+		$and['account'] = Session::get_value('account')['id'];
 
 		if ($type != 'all')
-			$where[$type] = true;
+			$and[$type] = true;
 
-		$where['status'] = true;
+		$and['status'] = true;
 
 		$query = Functions::get_json_decoded_query($this->database->select('locations', [
 			'id',
 			'name'
 		], [
-			'AND' => $where,
+			'AND' => $and,
 			'ORDER' => [
 				'name' => 'ASC'
 			]

@@ -11,17 +11,11 @@ class Owners_model extends Model
 		parent::__construct();
 	}
 
-    public function get_owners($count = false)
+    public function get_owners($option = 'all')
 	{
 		$query = null;
 
-		if ($count == true)
-		{
-			$query = $this->database->count('owners', [
-				'account' => Session::get_value('account')['id']
-			]);
-		}
-		else
+		if ($option == 'all')
 		{
 			$query = Functions::get_json_decoded_query($this->database->select('owners', [
 				'id',
@@ -42,6 +36,12 @@ class Owners_model extends Model
 					'name' => 'ASC'
 				]
 			]));
+		}
+		else if ($option == 'count')
+		{
+			$query = $this->database->count('owners', [
+				'account' => Session::get_value('account')['id']
+			]);
 		}
 
 		return $query;

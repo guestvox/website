@@ -9,60 +9,66 @@ class Surveys_model extends Model
 		parent::__construct();
 	}
 
-	public function get_survey_questions($status = 'all')
+	public function get_surveys_questions($option = 'all', $parent = false)
 	{
-		if ($status == 'all')
+		$query1 = [];
+
+		if ($option == 'all' AND $parent == false)
 		{
-			$where = [
-				'account' => Session::get_value('account')['id']
-			];
-		}
-		else if ($status == true OR $status == false)
-		{
-			$where = [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					'status' => $status
-				]
-			];
+			$query1 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+				'id',
+				'name',
+				'type',
+				'values',
+				'parent',
+				'system',
+				'status'
+			], [
+				'system' => true
+			]));
 		}
 
-		$query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+		$and = [
+			'account' => Session::get_value('account')['id']
+		];
+
+		if ($option == 'actives')
+		{
+			$and['type'] = ['rate','twin'];
+			$and['status'] = true;
+		}
+
+		if ($parent == false)
+			$and['parent[=]'] = null;
+		else
+			$and['parent'] = $parent;
+
+		$query2 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
 			'id',
 			'name',
-			'subquestions',
 			'type',
 			'values',
-			'status',
-			'system'
+			'parent',
+			'system',
+			'status'
 		], [
-			'AND' => [
-				'account' => null,
+			'AND' => $and,
+			'ORDER' => [
+				'id' => 'ASC'
 			]
 		]));
 
-		$query2 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-			'id',
-			'name',
-			'subquestions',
-			'type',
-			'values',
-			'status',
-			'system'
-		], $where));
-
-		// $arr_question = array_merge($query, $query2);
-
-		// return $arr_question;
+		return array_merge($query1, $query2);
 	}
 
 	public function get_survey_question($id)
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('survey_questions', [
+		$query = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+			'id',
 			'name',
-			'subquestions',
 			'type',
-			'values'
+			'values',
+			'parent'
 		], [
 			'id' => $id
 		]));
@@ -70,44 +76,35 @@ class Surveys_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-    public function new_survey_question($data)
+	public function new_survey_question($data)
 	{
-		$query = $this->database->insert('survey_questions', [
+		$query = $this->database->insert('surveys_questions', [
 			'account' => Session::get_value('account')['id'],
 			'name' => json_encode([
 				'es' => $data['name_es'],
 				'en' => $data['name_en']
 			]),
-			'subquestions' => json_encode([]),
 			'type' => $data['type'],
-			'values' => ($data['type'] == 'check') ? json_encode($data['values']) : json_encode([]),
+			'values' => ($data['type'] == 'check') ? json_encode($data['values']) : null,
+			'parent' => !empty($data['parent']) ? $data['parent'] : null,
+			'system' => false,
 			'status' => true
 		]);
 
 		return $query;
 	}
 
-    public function edit_survey_question($data)
+	public function edit_survey_question($data)
 	{
-		if ($data['action'] == 'edit_survey_question')
-		{
-			$fields = [
-				'name' => json_encode([
-					'es' => $data['name_es'],
-					'en' => $data['name_en']
-				]),
-				'type' => $data['type'],
-				'values' => ($data['type'] == 'check') ? json_encode($data['values']) : json_encode([])
-			];
-		}
-		else if ($data['action'] == 'new_survey_subquestion' OR $data['action'] == 'edit_survey_subquestion' OR $data['action'] == 'deactivate_survey_subquestion' OR $data['action'] == 'activate_survey_subquestion' OR $data['action'] == 'delete_survey_subquestion')
-		{
-			$fields = [
-				'subquestions' => json_encode($data['question']['subquestions'])
-			];
-		}
-
-		$query = $this->database->update('survey_questions', $fields, [
+		$query = $this->database->update('surveys_questions', [
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'type' => $data['type'],
+			'values' => ($data['type'] == 'check') ? json_encode($data['values']) : null,
+			'parent' => !empty($data['parent']) ? $data['parent'] : null
+		], [
 			'id' => $data['id']
 		]);
 
@@ -116,10 +113,34 @@ class Surveys_model extends Model
 
 	public function deactivate_survey_question($id)
 	{
-		$query = $this->database->update('survey_questions', [
+		$ids = [];
+
+		array_push($ids, $id);
+
+		$childs1 = $this->database->select('surveys_questions', [
+			'id'
+		], [
+			'parent' => $id
+		]);
+
+		foreach ($childs1 as $value)
+		{
+			array_push($ids, $value['id']);
+
+			$childs2 = $this->database->select('surveys_questions', [
+				'id'
+			], [
+				'parent' => $value['id']
+			]);
+
+			foreach ($childs2 as $subvalue)
+				array_push($ids, $subvalue['id']);
+		}
+
+		$query = $this->database->update('surveys_questions', [
 			'status' => false
 		], [
-			'id' => $id,
+			'id' => $ids
 		]);
 
 		return $query;
@@ -127,10 +148,34 @@ class Surveys_model extends Model
 
 	public function activate_survey_question($id)
 	{
-		$query = $this->database->update('survey_questions', [
+		$ids = [];
+
+		array_push($ids, $id);
+
+		$childs1 = $this->database->select('surveys_questions', [
+			'id'
+		], [
+			'parent' => $id
+		]);
+
+		foreach ($childs1 as $value)
+		{
+			array_push($ids, $value['id']);
+
+			$childs2 = $this->database->select('surveys_questions', [
+				'id'
+			], [
+				'parent' => $value['id']
+			]);
+
+			foreach ($childs2 as $subvalue)
+				array_push($ids, $subvalue['id']);
+		}
+
+		$query = $this->database->update('surveys_questions', [
 			'status' => true
 		], [
-			'id' => $id,
+			'id' => $ids
 		]);
 
 		return $query;
@@ -138,1443 +183,1467 @@ class Surveys_model extends Model
 
 	public function delete_survey_question($id)
 	{
-		$query = $this->database->delete('survey_questions', [
-			'id' => $id
+		$ids = [];
+
+		array_push($ids, $id);
+
+		$childs1 = $this->database->select('surveys_questions', [
+			'id'
+		], [
+			'parent' => $id
 		]);
 
-		return $query;
-	}
-
-	public function deactivate_comment($id)
-	{
-		$query = $this->database->update('survey_answers', [
-			'status' => false
-		], [
-			'id' => $id,
-		]);
-
-		return $query;
-	}
-
-	public function activate_comment($id)
-	{
-		$query = $this->database->update('survey_answers', [
-			'status' => true
-		], [
-			'id' => $id,
-		]);
-
-		return $query;
-	}
-
-	public function get_survey_nps()
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-			'id',
-			'token',
-			'owner',
-			'answers',
-			'comment',
-			'guest',
-			'date',
-			'status'
-		], [
-			'AND' => [
-				'account' => Session::get_value('account')['id'],
-			],
-			'ORDER' => [
-				'id' => 'DESC'
-			]
-		]));
-
-		$count_detractors = 0;
-		$count_promoters = 0;
-		$total_nps = 0;
-		$result = 0;
-
-		foreach ($query as $key => $value)
+		foreach ($childs1 as $value)
 		{
-			foreach ($value['answers'] as $subvalue)
-			{
-				if ($subvalue['type'] == 'nps')
-				{
-					if ($subvalue['answer'] >= 0 AND $subvalue['answer'] <= 6)
-						$count_detractors = $count_detractors + 1;
-					else if ($subvalue['answer'] >= 9 AND $subvalue['answer'] <= 10)
-						$count_promoters = $count_promoters + 1;
+			array_push($ids, $value['id']);
 
-					$total_nps = $total_nps + 1;
-				}
-			}
-		}
-
-		if ($total_nps > 0)
-			$result = (($count_promoters - $count_detractors) / $total_nps) * 100;
-
-		return $result;
-	}
-
-	public function get_survey_answers($data = null, $params = [])
-	{
-		if ($data != 'all' AND $data != null)
-		{
-			if (!empty($params))
-			{
-				$where = [
-					'account' => Session::get_value('account')['id'],
-					'owner' => $data,
-					'date[<>]' => [$params[0], $params[1]]
-				];
-			}
-			else
-			{
-				$where = [
-					'account' => Session::get_value('account')['id'],
-					'owner' => $data
-				];
-			}
-
-			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-				'id',
-				'token',
-				'owner',
-				'answers',
-				'comment',
-				'guest',
-				'date',
-				'status'
+			$childs2 = $this->database->select('surveys_questions', [
+				'id'
 			], [
-				'AND' => $where,
-				'ORDER' => [
-					'id' => 'DESC'
-				]
-			]));
+				'parent' => $value['id']
+			]);
 
-			foreach ($query as $key => $value)
-			{
-				if (Session::get_value('account')['type'] == 'hotel')
-				{
-					if (!empty($value['owner']))
-						$query[$key]['owner'] = $this->get_owner($value['owners']);
-				}
-
-				if (Session::get_value('account')['type'] == 'restaurant')
-				{
-					if (!empty($value['owner']))
-						$query[$key]['owner'] = $this->get_owner($value['owner']);
-				}
-
-				if (Session::get_value('account')['type'] == 'others')
-				{
-					if (!empty($value['owner']))
-						$query[$key]['owner'] = $this->get_owner($value['owner']);
-				}
-
-				$query[$key]['rate'] = 0;
-				$count = 0;
-
-				foreach ($value['answers'] as $subvalue)
-				{
-					if ($subvalue['type'] == 'rate')
-					{
-						$query[$key]['rate'] = $query[$key]['rate'] + $subvalue['answer'];
-						$count = $count + 1;
-					}
-
-					foreach ($subvalue['subanswers'] as $parentvalue)
-					{
-						if ($parentvalue['type'] == 'rate')
-						{
-							$query[$key]['rate'] = $query[$key]['rate'] + $parentvalue['answer'];
-							$count = $count + 1;
-						}
-
-						foreach ($parentvalue['subanswers'] as $childvalue)
-						{
-							if ($childvalue['type'] == 'rate')
-							{
-								$query[$key]['rate'] = $query[$key]['rate'] + $childvalue['answer'];
-								$count = $count + 1;
-							}
-						}
-					}
-				}
-
-				if ($query[$key]['rate'] > 0 AND $count > 0)
-					$query[$key]['rate'] = round(($query[$key]['rate'] / $count), 1);
-
-				$query[$key]['count'] = count($query);
-			}
-		}
-		else
-		{
-			if (!empty($params))
-			{
-				$where = [
-					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$params[0], $params[1]]
-				];
-			}
-			else
-			{
-				$where = [
-					'account' => Session::get_value('account')['id'],
-				];
-			}
-
-			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-				'id',
-				'token',
-				'owners',
-				'answers',
-				'comment',
-				'guest',
-				'date',
-				'status'
-			], [
-				'AND' => $where,
-				'ORDER' => [
-					'id' => 'DESC'
-				]
-			]));
-
-			foreach ($query as $key => $value)
-			{
-				if (Session::get_value('account')['type'] == 'hotel')
-				{
-					if (!empty($value['owner']))
-						$query[$key]['owner'] = $this->get_owner($value['owner']);
-				}
-
-				if (Session::get_value('account')['type'] == 'restaurant')
-				{
-					if (!empty($value['owner']))
-						$query[$key]['owner'] = $this->get_owner($value['owner']);
-				}
-
-				if (Session::get_value('account')['type'] == 'others')
-				{
-					if (!empty($value['owner']))
-						$query[$key]['owner'] = $this->get_owner($value['owner']);
-				}
-
-				$query[$key]['rate'] = 0;
-				$count = 0;
-
-				foreach ($value['answers'] as $subvalue)
-				{
-					if ($subvalue['type'] == 'rate')
-					{
-						$query[$key]['rate'] = $query[$key]['rate'] + $subvalue['answer'];
-						$count = $count + 1;
-					}
-
-					foreach ($subvalue['subanswers'] as $parentvalue)
-					{
-						if ($parentvalue['type'] == 'rate')
-						{
-							$query[$key]['rate'] = $query[$key]['rate'] + $parentvalue['answer'];
-							$count = $count + 1;
-						}
-
-						foreach ($parentvalue['subanswers'] as $childvalue)
-						{
-							if ($childvalue['type'] == 'rate')
-							{
-								$query[$key]['rate'] = $query[$key]['rate'] + $childvalue['answer'];
-								$count = $count + 1;
-							}
-						}
-					}
-				}
-
-				if ($query[$key]['rate'] > 0 AND $count > 0)
-					$query[$key]['rate'] = round(($query[$key]['rate'] / $count), 1);
-
-				$query[$key]['count'] = count($query);
-
-			}
+			foreach ($childs2 as $subvalue)
+				array_push($ids, $subvalue['id']);
 		}
 
-		return $query;
-	}
-
-	public function get_owners()
-	{
-		$query = $this->database->select('owners', [
-			'id',
-			'number',
-			'name',
-			'status'
-		], [
-			'account' => Session::get_value('account')['id'],
-			'ORDER' => [
-				'number' => 'ASC'
-			]
+		$query = $this->database->delete('surveys_questions', [
+			'id' => $ids
 		]);
 
 		return $query;
 	}
 
-	public function get_survey_answer($id)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-			'token',
-			'owner',
-			'answers',
-			'comment',
-			'guest',
-			'date'
-		], [
-			'id' => $id
-		]));
-
-		if (!empty($query))
-		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				if (!empty($query[0]['owner']))
-					$query[0]['owner'] = $this->get_owner($query[0]['owner']);
-			}
-
-			if (Session::get_value('account')['type'] == 'restaurant')
-			{
-				if (!empty($query[0]['owner']))
-					$query[0]['owner'] = $this->get_owner($query[0]['owner']);
-			}
-
-			if (Session::get_value('account')['type'] == 'others')
-			{
-				if (!empty($query[0]['owner']))
-					$query[0]['owner'] = $this->get_owner($query[0]['owner']);
-			}
-
-			$query[0]['rate'] = 0;
-			$count = 0;
-
-			foreach ($query[0]['answers'] as $key => $value)
-			{
-				$value['question'] = $this->get_survey_question($query[0]['answers'][$key]['id']);
-
-				if ($value['question']['type'] == 'check')
-				{
-					$query[0]['answers'][$key]['answer'] = Functions::get_json_decoded_query($value['answer']);
-					$query[0]['answers'][$key]['values'] = $value['question']['values'];
-				}
-
-				$query[0]['answers'][$key]['question'] = $value['question']['name'];
-
-				foreach ($value['subanswers'] as $subkey => $subvalue)
-				{
-					foreach ($value['question']['subquestions'] as $parentkey => $parentvalue)
-					{
-						if ($subvalue['id'] == $parentvalue['id'])
-							$query[0]['answers'][$key]['subanswers'][$subkey]['question'] = $parentvalue['name'];
-					}
-
-					foreach ($subvalue['subanswers'] as $parentkey => $parentvalue)
-					{
-						foreach ($value['question']['subquestions'] as $childkey => $childvalue)
-						{
-							foreach ($childvalue['subquestions'] as $slavekey => $slavevalue)
-							{
-								if ($parentvalue['id'] == $slavevalue['id'])
-									$query[0]['answers'][$key]['subanswers'][$subkey]['subanswers'][$parentkey]['question'] = $slavevalue['name'];
-							}
-						}
-					}
-				}
-
-				if ($value['type'] == 'rate')
-				{
-					$query[0]['rate'] = $query[0]['rate'] + $value['answer'];
-					$count = $count + 1;
-				}
-
-				foreach ($value['subanswers'] as $subvalue)
-				{
-					if ($subvalue['type'] == 'rate')
-					{
-						$query[0]['rate'] = $query[0]['rate'] + $subvalue['answer'];
-						$count = $count + 1;
-					}
-
-					foreach ($subvalue['subanswers'] as $childvalue)
-					{
-						if ($childvalue['type'] == 'rate')
-						{
-							$query[0]['rate'] = $query[0]['rate'] + $childvalue['answer'];
-							$count = $count + 1;
-						}
-					}
-				}
-			}
-
-			if ($query[0]['rate'] > 0 AND $count > 0)
-				$query[0]['rate'] = round(($query[0]['rate'] / $count), 1);
-
-			return $query[0];
-		}
-		else
-			return null;
-	}
-
-	public function get_owner($id)
-	{
-		$query = $this->database->select('owners', [
-			'number',
-			'name'
-		], [
-			'id' => $id
-		]);
-
-		return !empty($query) ? $query[0] : null;
-	}
-
-	public function get_general_average_rate($data = null, $params = [])
-	{
-		if ($data == 'get_view_all')
-		{
-			$where = [
-				'AND' => [
-					'account' => Session::get_value('account')['id']
-				]
-			];
-		}
-		else if ($data == null)
-		{
-			$where = [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$params[0],$params[1]]
-				]
-			];
-		}
-
-		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-			'answers',
-			'date'
-		], $where));
-
-		$average = 0;
-		$rate = 0;
-		$questions = 0;
-
-		foreach ($query as $value)
-		{
-			foreach ($value['answers'] as $subvalue)
-			{
-				if ($subvalue['type'] == 'rate')
-				{
-					$rate = $rate + $subvalue['answer'];
-					$questions = $questions + 1;
-				}
-
-				foreach ($subvalue['subanswers'] as $parentvalue)
-				{
-					if ($parentvalue['type'] == 'rate')
-					{
-						$rate = $rate + $parentvalue['answer'];
-						$questions = $questions + 1;
-					}
-
-					foreach ($parentvalue['subanswers'] as $childvalue)
-					{
-						if ($childvalue['type'] == 'rate')
-						{
-							$rate = $rate + $childvalue['answer'];
-							$questions = $questions + 1;
-						}
-					}
-				}
-			}
-		}
-
-		if ($rate > 0 AND $questions > 0)
-			$average = round(($rate / $questions), 1);
-
-		return $average;
-	}
-
-	public function get_percentage_rate($data = null, $option, $params = [])
-	{
-		if ($data == 'get_view_all')
-		{
-			$where = [
-				'AND' => [
-					'account' => Session::get_value('account')['id']
-				]
-			];
-		}
-		else if ($data == null)
-		{
-			$where = [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$params[0],$params[1]]
-				]
-			];
-		}
-
-		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-			'answers',
-			'date'
-		], $where));
-
-		$percentage = 0;
-		$option_answers = 0;
-		$total_answers = 0;
-
-		foreach ($query as $value)
-		{
-			$average = 0;
-			$rate = 0;
-			$answers = 0;
-
-			foreach ($value['answers'] as $subvalue)
-			{
-				if ($subvalue['type'] == 'rate')
-				{
-					$rate = $rate + $subvalue['answer'];
-					$answers = $answers + 1;
-				}
-
-				foreach ($subvalue['subanswers'] as $parentvalue)
-				{
-					if ($parentvalue['type'] == 'rate')
-					{
-						$rate = $rate + $parentvalue['answer'];
-						$answers = $answers + 1;
-					}
-
-					foreach ($parentvalue['subanswers'] as $childvalue)
-					{
-						if ($childvalue['type'] == 'rate')
-						{
-							$rate = $rate + $childvalue['answer'];
-							$answers = $answers + 1;
-						}
-					}
-				}
-			}
-
-			if ($rate > 0 AND $answers > 0)
-				$average = round(($rate / $answers), 2);
-
-			if ($option == 'five' AND $average > 4.8 AND $average <= 5)
-				$option_answers = $option_answers + 1;
-			else if ($option == 'four' AND $average >= 3.8 AND $average < 4.8)
-				$option_answers = $option_answers + 1;
-			else if ($option == 'tree' AND $average >= 2.8 AND $average < 3.8)
-				$option_answers = $option_answers + 1;
-			else if ($option == 'two' AND $average >= 1.8 AND $average < 2.8)
-				$option_answers = $option_answers + 1;
-			else if ($option == 'one' AND $average >= 1 AND $average < 1.8)
-				$option_answers = $option_answers + 1;
-
-			$total_answers = $total_answers + 1;
-		}
-
-		if ($option_answers > 0 AND $total_answers > 0)
-			$percentage = round((($option_answers / $total_answers) * 100), 2);
-
-		return $percentage;
-	}
-
-	public function get_count($option)
-	{
-		$query = $this->database->select('survey_answers', [
-			'id',
-			'account',
-			'date'
-		], [
-			'account' => Session::get_value('account')['id']
-		]);
-
-		$count = 0;
-
-		foreach ($query as $value)
-		{
-			$break = false;
-
-			if ($option == 'answered_today' AND Functions::get_formatted_date($value['date']) != Functions::get_current_date())
-				$break = true;
-
-			if ($option == 'answered_week' AND Functions::get_formatted_date($value['date']) < Functions::get_current_week()[0] OR Functions::get_formatted_date($value['date']) > Functions::get_current_week()[1])
-				$break = true;
-
-			if ($option == 'answered_month' AND Functions::get_formatted_date($value['date']) < Functions::get_current_month()[0] OR Functions::get_formatted_date($value['date']) > Functions::get_current_month()[1])
-				$break = true;
-
-			if ($option == 'answered_year' AND explode('-', Functions::get_formatted_date($value['date']))[0] != Functions::get_current_year())
-				$break = true;
-
-			if ($break == false)
-				$count = $count + 1;
-		}
-
-		return $count;
-	}
-
-	public function get_chart_data($option, $params = [], $edit = false)
-	{
-		$data = null;
-
-		if ($option == 's1_chart')
-		{
-			if (Session::get_value('account')['type'] == 'hotel')
-			{
-				$query1 = $this->database->select('survey_answers', [
-					'owner'
-				], [
-					'AND' => [
-						'account' => Session::get_value('account')['id'],
-						'date[<>]' => [$params[0],$params[1]]
-					]
-				]);
-
-				$query2 = $this->database->select('owners', [
-					'id',
-					'number',
-					'name'
-				], [
-					'account' => Session::get_value('account')['id']
-				]);
-			}
-
-			if (Session::get_value('account')['type'] == 'restaurant')
-			{
-				$query1 = $this->database->select('survey_answers', [
-					'owner'
-				], [
-					'AND' => [
-						'account' => Session::get_value('account')['id'],
-						'date[<>]' => [$params[0],$params[1]]
-					]
-				]);
-
-				$query2 = $this->database->select('owners', [
-					'id',
-					'number',
-					'name'
-				], [
-					'account' => Session::get_value('account')['id']
-				]);
-			}
-
-			if (Session::get_value('account')['type'] == 'others')
-			{
-				$query1 = $this->database->select('survey_answers', [
-					'owner'
-				], [
-					'AND' => [
-						'account' => Session::get_value('account')['id'],
-						'date[<>]' => [$params[0],$params[1]]
-					]
-				]);
-
-				$query2 = $this->database->select('owners', [
-					'id',
-					'name'
-				], [
-					'account' => Session::get_value('account')['id']
-				]);
-			}
-
-			if ($edit == true)
-			{
-				$data = [
-					'labels' => [],
-					'datasets' => [
-						'data' => [],
-						'colors' => []
-					]
-				];
-			}
-			else
-			{
-				$data = [
-					'labels' => '',
-					'datasets' => [
-						'data' => '',
-						'colors' => ''
-					]
-				];
-			}
-
-			foreach ($query2 as $value)
-			{
-				$count = 0;
-
-				foreach ($query1 as $subvalue)
-				{
-					if (Session::get_value('account')['type'] == 'hotel')
-					{
-						if ($value['id'] == $subvalue['owner'])
-							$count = $count + 1;
-					}
-
-					if (Session::get_value('account')['type'] == 'restaurant')
-					{
-						if ($value['id'] == $subvalue['owner'])
-							$count = $count + 1;
-					}
-
-					if (Session::get_value('account')['type'] == 'others')
-					{
-						if ($value['id'] == $subvalue['owner'])
-							$count = $count + 1;
-					}
-				}
-
-				if ($count > 0)
-				{
-					if (Session::get_value('account')['type'] == 'hotel')
-					{
-						if ($edit == true)
-						{
-							if (Session::get_value('account')['language'] == 'es')
-								array_push($data['labels'], 'Habitación #' . $value['number'] . ' ' . $value['name']);
-							else if (Session::get_value('account')['language'] == 'en')
-								array_push($data['labels'], 'Owner #' . $value['number'] . ' ' . $value['name']);
-						}
-						else
-						{
-							if (Session::get_value('account')['language'] == 'es')
-								$data['labels'] .= "'Habitación #" . $value['number'] . ' ' . $value['name'] . "',";
-							else if (Session::get_value('account')['language'] == 'en')
-								$data['labels'] .= "'Owner #" . $value['number'] . ' ' . $value['name'] . "',";
-						}
-					}
-
-					if (Session::get_value('account')['type'] == 'restaurant')
-					{
-						if ($edit == true)
-						{
-							if (Session::get_value('account')['language'] == 'es')
-								array_push($data['labels'], 'Mesa #' . $value['number'] . ' ' . $value['name']);
-							else if (Session::get_value('account')['language'] == 'en')
-								array_push($data['labels'], 'Owner #' . $value['number'] . ' ' . $value['name']);
-						}
-						else
-						{
-							if (Session::get_value('account')['language'] == 'es')
-								$data['labels'] .= "'Mesa #" . $value['number'] . ' ' . $value['name'] . "',";
-							else if (Session::get_value('account')['language'] == 'en')
-								$data['labels'] .= "'Owner #" . $value['number'] . ' ' . $value['name'] . "',";
-						}
-					}
-
-					if (Session::get_value('account')['type'] == 'others')
-					{
-						if ($edit == true)
-						{
-							if (Session::get_value('account')['language'] == 'es')
-								array_push($data['labels'], 'Cliente: ' . $value['name']);
-							else if (Session::get_value('account')['language'] == 'en')
-								array_push($data['labels'], 'Client: ' . $value['name']);
-						}
-						else
-						{
-							if (Session::get_value('account')['language'] == 'es')
-								$data['labels'] .= "'Cliente: " . $value['name'] . "',";
-							else if (Session::get_value('account')['language'] == 'en')
-								$data['labels'] .= "'Client: " . $value['name'] . "',";
-						}
-					}
-
-					if ($edit == true)
-					{
-						array_push($data['datasets']['data'], $count);
-						array_push($data['datasets']['colors'], '#' . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
-					}
-					else
-					{
-						$data['datasets']['data'] .= $count . ',';
-						$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
-					}
-				}
-			}
-
-			$empty = 0;
-
-			foreach ($query1 as $value)
-			{
-				if (Session::get_value('account')['type'] == 'hotel')
-				{
-					if (!isset($value['owner']) OR empty($value['owner']))
-						$empty = $empty + 1;
-				}
-
-				if (Session::get_value('account')['type'] == 'restaurant')
-				{
-					if (!isset($value['owner']) OR empty($value['owner']))
-						$empty = $empty + 1;
-				}
-
-				if (Session::get_value('account')['type'] == 'others')
-				{
-					if (!isset($value['owner']) OR empty($value['owner']))
-						$empty = $empty + 1;
-				}
-			}
-
-			if ($empty > 0)
-			{
-				if (Session::get_value('account')['type'] == 'hotel')
-				{
-					if ($edit == true)
-					{
-						if (Session::get_value('account')['language'] == 'es')
-							array_push($data['labels'], 'Sin habitación');
-						else if (Session::get_value('account')['language'] == 'en')
-							array_push($data['labels'], 'No owner');
-					}
-					else
-					{
-						if (Session::get_value('account')['language'] == 'es')
-							$data['labels'] .= "'Sin habitación'";
-						else if (Session::get_value('account')['language'] == 'en')
-							$data['labels'] .= "'No owner'";
-					}
-				}
-
-				if (Session::get_value('account')['type'] == 'restaurant')
-				{
-					if ($edit == true)
-					{
-						if (Session::get_value('account')['language'] == 'es')
-							array_push($data['labels'], 'Sin mesa');
-						else if (Session::get_value('account')['language'] == 'en')
-							array_push($data['labels'], 'No owner');
-					}
-					else
-					{
-						if (Session::get_value('account')['language'] == 'es')
-							$data['labels'] .= "'Sin mesa'";
-						else if (Session::get_value('account')['language'] == 'en')
-							$data['labels'] .= "'No owner'";
-					}
-				}
-
-				if (Session::get_value('account')['type'] == 'others')
-				{
-					if ($edit == true)
-					{
-						if (Session::get_value('account')['language'] == 'es')
-							array_push($data['labels'], 'Sin cliente');
-						else if (Session::get_value('account')['language'] == 'en')
-							array_push($data['labels'], 'No owner');
-					}
-					else
-					{
-						if (Session::get_value('account')['language'] == 'es')
-							$data['labels'] .= "'Sin cliente'";
-						else if (Session::get_value('account')['language'] == 'en')
-							$data['labels'] .= "'No owner'";
-					}
-				}
-
-				if ($edit == true)
-				{
-					array_push($data['datasets']['data'], $empty);
-					array_push($data['datasets']['colors'], '#' . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
-				}
-				else
-				{
-					$data['datasets']['data'] .= $empty;
-					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
-				}
-			}
-		}
-		else if ($option == 'nps_chart')
-		{
-			$query1 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-				'id',
-				'name',
-				'subquestions',
-				'type'
-			], [
-				'account' => null
-			]));
-
-			if ($edit == true)
-			{
-				$data = [
-					'labels' => [],
-					'datasets' => []
-				];
-			}
-			else
-			{
-				$data = [
-					'labels' => '',
-					'datasets' => ''
-				];
-			}
-
-			$diff = Functions::get_diff_date($params[0], $params[1], 'days', true);
-
-			for ($i = 0; $i < $diff; $i++)
-			{
-				if ($edit == true)
-					array_push($data['labels'], Functions::get_future_date($params[0], $i, 'days'));
-				else
-					$data['labels'] .= "'" . Functions::get_future_date($params[0], $i, 'days') . "',";
-			}
-
-			if ($params[2] == 'all')
-			{
-				foreach ($query1 as $value)
-				{
-					if ($edit == true)
-						$datas = [];
-					else
-						$datas = '';
-
-					$tmp = 0;
-					$break = 0;
-
-					for ($i = 0; $i < $diff; $i++)
-					{
-						$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-							'answers'
-						], [
-							'AND' => [
-								'account' => Session::get_value('account')['id'],
-								'date' => Functions::get_future_date($params[0], $i, 'days')
-							]
-						]));
-
-						$count_detractors = 0;
-						$count_promoters = 0;
-						$total_nps = 0;
-						$result = 0;
-
-						foreach ($query2 as $subvalue)
-						{
-							foreach ($subvalue['answers'] as $parentvalue)
-							{
-								if ($parentvalue['type'] == 'nps')
-								{
-									if ($parentvalue['answer'] >= 0 AND $parentvalue['answer'] <= 6)
-										$count_detractors = $count_detractors + 1;
-									else if ($parentvalue['answer'] >= 9 AND $parentvalue['answer'] <= 10)
-										$count_promoters = $count_promoters + 1;
-
-									$total_nps = $total_nps + 1;
-								}
-							}
-						}
-
-						if ($total_nps > 0)
-							$result = (($count_promoters - $count_detractors) / $total_nps) * 100;
-
-						if ($edit == true)
-							array_push($datas, $result);
-						else
-							$datas .= $result . ",";
-					}
-
-						$color = str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
-
-						if ($edit == true)
-						{
-							array_push($data['datasets'], [
-								'label' => $value['name'][Session::get_value('account')['language']],
-								'data' => $datas,
-								'fill' => false,
-								'backgroundColor' => '#' . $color,
-								'borderColor' => '#' . $color
-							]);
-						}
-						else
-						{
-							$data['datasets'] .= "{
-								label: '" . $value['name'][Session::get_value('account')['language']] . "',
-								data: [" . $datas . "],
-								fill: false,
-								backgroundColor: '#" . $color . "',
-								borderColor: '#" . $color . "',
-							},";
-						}
-				}
-			}
-		}
-		else if ($option == 's2_chart')
-		{
-			if ($params[2] == 'all')
-			{
-				$where = [
-					'account' => Session::get_value('account')['id']
-				];
-			}
-			else
-			{
-				$where = [
-					'id' => $params[2]
-				];
-			}
-
-			$query1 = Functions::get_json_decoded_query($this->database->select('survey_questions', [
-				'id',
-				'name',
-				'subquestions',
-				'type'
-			], $where));
-
-			if ($edit == true)
-			{
-				$data = [
-					'labels' => [],
-					'datasets' => []
-				];
-			}
-			else
-			{
-				$data = [
-					'labels' => '',
-					'datasets' => ''
-				];
-			}
-
-			$diff = Functions::get_diff_date($params[0], $params[1], 'days', true);
-
-			for ($i = 0; $i < $diff; $i++)
-			{
-				if ($edit == true)
-					array_push($data['labels'], Functions::get_future_date($params[0], $i, 'days'));
-				else
-					$data['labels'] .= "'" . Functions::get_future_date($params[0], $i, 'days') . "',";
-			}
-
-			if ($params[2] == 'all')
-			{
-				foreach ($query1 as $value)
-				{
-					if ($edit == true)
-						$datas = [];
-					else
-						$datas = '';
-
-					$tmp = 0;
-					$break = 0;
-
-					for ($i = 0; $i < $diff; $i++)
-					{
-						$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-							'answers'
-						], [
-							'AND' => [
-								'account' => Session::get_value('account')['id'],
-								'date' => Functions::get_future_date($params[0], $i, 'days')
-							]
-						]));
-
-						$average = 0;
-						$rate = 0;
-						$count = 0;
-
-						foreach ($query2 as $subvalue)
-						{
-							foreach ($subvalue['answers'] as $parentvalue)
-							{
-								if ($value['id'] == $parentvalue['id'])
-								{
-									if ($parentvalue['type'] == 'rate')
-									{
-										$rate = $rate + $parentvalue['answer'];
-										$count = $count + 1;
-									}
-
-									foreach ($parentvalue['subanswers'] as $childvalue)
-									{
-										if ($childvalue['type'] == 'rate')
-										{
-											$rate = $rate + $childvalue['answer'];
-											$count = $count + 1;
-										}
-
-										foreach ($childvalue['subanswers'] as $slavevalue)
-										{
-											if ($slavevalue['type'] == 'rate')
-											{
-												$rate = $rate + $slavevalue['answer'];
-												$count = $count + 1;
-											}
-										}
-									}
-								}
-							}
-						}
-
-						if ($rate > 0 AND $count > 0)
-							$average = round(($rate / $count), 2);
-
-						if ($average <= 0 AND $tmp > 0)
-							$average = $tmp;
-
-						$tmp = $average;
-						$break = $break + $average;
-
-						if ($edit == true)
-							array_push($datas, $average);
-						else
-							$datas .= $average . ",";
-					}
-
-					if ($break > 0)
-					{
-						$color = str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
-
-						if ($edit == true)
-						{
-							array_push($data['datasets'], [
-								'label' => $value['name'][Session::get_value('account')['language']],
-								'data' => $datas,
-								'fill' => false,
-								'backgroundColor' => '#' . $color,
-								'borderColor' => '#' . $color
-							]);
-						}
-						else
-						{
-							$data['datasets'] .= "{
-								label: '" . $value['name'][Session::get_value('account')['language']] . "',
-								data: [" . $datas . "],
-								fill: false,
-								backgroundColor: '#" . $color . "',
-								borderColor: '#" . $color . "',
-							},";
-						}
-					}
-				}
-			}
-			else
-			{
-				$datas_level_1 = [];
-				$tmp_level_1 = 0;
-				$break_level_1 = 0;
-
-				for ($i = 0; $i < $diff; $i++)
-				{
-					$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-						'answers'
-					], [
-						'AND' => [
-							'account' => Session::get_value('account')['id'],
-							'date' => Functions::get_future_date($params[0], $i, 'days')
-						]
-					]));
-
-					$average_level_1 = 0;
-					$rate_level_1 = 0;
-					$count_level_1 = 0;
-
-					foreach ($query2 as $subvalue)
-					{
-						foreach ($subvalue['answers'] as $parentvalue)
-						{
-							if ($query1[0]['id'] == $parentvalue['id'])
-							{
-								if ($parentvalue['type'] == 'rate')
-								{
-									$rate_level_1 = $rate_level_1 + $parentvalue['answer'];
-									$count_level_1 = $count_level_1 + 1;
-								}
-
-								foreach ($parentvalue['subanswers'] as $childvalue)
-								{
-									if ($childvalue['type'] == 'rate')
-									{
-										$rate_level_1 = $rate_level_1 + $childvalue['answer'];
-										$count_level_1 = $count_level_1 + 1;
-									}
-
-									foreach ($childvalue['subanswers'] as $slavevalue)
-									{
-										if ($slavevalue['type'] == 'rate')
-										{
-											$rate_level_1 = $rate_level_1 + $slavevalue['answer'];
-											$count_level_1 = $count_level_1 + 1;
-										}
-									}
-								}
-							}
-						}
-					}
-
-					if ($rate_level_1 > 0 AND $count_level_1 > 0)
-						$average_level_1 = round(($rate_level_1 / $count_level_1), 2);
-
-					if ($average_level_1 <= 0 AND $tmp_level_1 > 0)
-						$average_level_1 = $tmp_level_1;
-
-					$tmp_level_1 = $average_level_1;
-					$break_level_1 = $break_level_1 + $average_level_1;
-
-					array_push($datas_level_1, $average_level_1);
-				}
-
-				if ($break_level_1 > 0)
-				{
-					array_push($data['datasets'], [
-						'label' => 'A1. ' . $query1[0]['name'][Session::get_value('account')['language']],
-						'data' => $datas_level_1,
-						'fill' => false,
-						'backgroundColor' => '#00a5ab',
-						'borderColor' => '#00a5ab'
-					]);
-				}
-
-				foreach ($query1[0]['subquestions'] as $value)
-				{
-					$datas_level_2 = [];
-					$tmp_level_2 = 0;
-					$break_level_2 = 0;
-
-					for ($i = 0; $i < $diff; $i++)
-					{
-						$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-							'answers'
-						], [
-							'AND' => [
-								'account' => Session::get_value('account')['id'],
-								'date' => Functions::get_future_date($params[0], $i, 'days')
-							]
-						]));
-
-						$average_level_2 = 0;
-						$rate_level_2 = 0;
-						$count_level_2 = 0;
-
-						foreach ($query2 as $subvalue)
-						{
-							foreach ($subvalue['answers'] as $parentvalue)
-							{
-								if ($query1[0]['id'] == $parentvalue['id'])
-								{
-									foreach ($parentvalue['subanswers'] as $childvalue)
-									{
-										if ($value['id'] == $childvalue['id'])
-										{
-											if ($childvalue['type'] == 'rate')
-											{
-												$rate_level_2 = $rate_level_2 + $childvalue['answer'];
-												$count_level_2 = $count_level_2 + 1;
-											}
-
-											foreach ($childvalue['subanswers'] as $slavevalue)
-											{
-												if ($slavevalue['type'] == 'rate')
-												{
-													$rate_level_2 = $rate_level_2 + $slavevalue['answer'];
-													$count_level_2 = $count_level_2 + 1;
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-
-						if ($rate_level_2 > 0 AND $count_level_2 > 0)
-							$average_level_2 = round(($rate_level_2 / $count_level_2), 2);
-
-						if ($average_level_2 <= 0 AND $tmp_level_2 > 0)
-							$average_level_2 = $tmp_level_2;
-
-						$tmp_level_2 = $average_level_2;
-						$break_level_2 = $break_level_2 + $average_level_2;
-
-						array_push($datas_level_2, $average_level_2);
-					}
-
-					if ($break_level_2 > 0)
-					{
-						array_push($data['datasets'], [
-							'label' => 'B2. ' . $value['name'][Session::get_value('account')['language']],
-							'data' => $datas_level_2,
-							'fill' => false,
-							'backgroundColor' => '#3f51b5',
-							'borderColor' => '#3f51b5'
-						]);
-					}
-
-					foreach ($value['subquestions'] as $subvalue)
-					{
-						$datas_level_3 = [];
-						$tmp_level_3 = 0;
-						$break_level_3 = 0;
-
-						for ($i = 0; $i < $diff; $i++)
-						{
-							$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-								'answers'
-							], [
-								'AND' => [
-									'account' => Session::get_value('account')['id'],
-									'date' => Functions::get_future_date($params[0], $i, 'days')
-								]
-							]));
-
-							$average_level_3 = 0;
-							$rate_level_3 = 0;
-							$count_level_3 = 0;
-
-							foreach ($query2 as $parentvalue)
-							{
-								foreach ($parentvalue['answers'] as $childvalue)
-								{
-									if ($query1[0]['id'] == $childvalue['id'])
-									{
-										foreach ($childvalue['subanswers'] as $slavevalue)
-										{
-											foreach ($slavevalue['subanswers'] as $intvalue)
-											{
-												if ($subvalue['id'] == $intvalue['id'])
-												{
-													if ($intvalue['type'] == 'rate')
-													{
-														$rate_level_3 = $rate_level_3 + $intvalue['answer'];
-														$count_level_3 = $count_level_3 + 1;
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-
-							if ($rate_level_3 > 0 AND $count_level_3 > 0)
-								$average_level_3 = round(($rate_level_3 / $count_level_3), 2);
-
-							if ($average_level_3 <= 0 AND $tmp_level_3 > 0)
-								$average_level_3 = $tmp_level_3;
-
-							$tmp_level_3 = $average_level_3;
-							$break_level_3 = $break_level_3 + $average_level_3;
-
-							array_push($datas_level_3, $average_level_3);
-						}
-
-						if ($break_level_3 > 0)
-						{
-							array_push($data['datasets'], [
-								'label' => 'C3. ' . $subvalue['name'][Session::get_value('account')['language']],
-								'data' => $datas_level_3,
-								'fill' => false,
-								'backgroundColor' => '#E91E63',
-								'borderColor' => '#E91E63'
-							]);
-						}
-					}
-				}
-			}
-		}
-		else if ($option == 's3_chart')
-		{
-
-		}
-		else if ($option == 's4_chart')
-		{
-
-		}
-		else if ($option == 's5_chart' OR $option == 's6_chart' OR $option == 's7_chart' OR $option == 's8_chart')
-		{
-			$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
-				'guest'
-			], [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [$params[0],$params[1]]
-				]
-			]));
-
-			if ($edit == true)
-			{
-				$data = [
-					'labels' => [],
-					'datasets' => [
-						'data' => [],
-						'colors' => []
-					]
-				];
-			}
-			else
-			{
-				$data = [
-					'labels' => '',
-					'datasets' => [
-						'data' => '',
-						'colors' => ''
-					]
-				];
-			}
-
-			$tmp = [];
-
-			foreach ($query as $value)
-			{
-				if ($option == 's5_chart')
-				{
-					if (!empty($value['guest']['zaviapms']['nationality']))
-					{
-						if (array_key_exists($value['guest']['zaviapms']['nationality'], $tmp))
-							$tmp[$value['guest']['zaviapms']['nationality']] += 1;
-						else
-							$tmp[$value['guest']['zaviapms']['nationality']] = 1;
-					}
-				}
-				else if ($option == 's6_chart')
-				{
-					if (!empty($value['guest']['zaviapms']['input_channel']))
-					{
-						if (array_key_exists($value['guest']['zaviapms']['input_channel'], $tmp))
-							$tmp[$value['guest']['zaviapms']['input_channel']] += 1;
-						else
-							$tmp[$value['guest']['zaviapms']['input_channel']] = 1;
-					}
-				}
-				else if ($option == 's7_chart')
-				{
-					if (!empty($value['guest']['zaviapms']['traveler_type']))
-					{
-						if (array_key_exists($value['guest']['zaviapms']['traveler_type'], $tmp))
-							$tmp[$value['guest']['zaviapms']['traveler_type']] += 1;
-						else
-							$tmp[$value['guest']['zaviapms']['traveler_type']] = 1;
-					}
-				}
-				else if ($option == 's8_chart')
-				{
-					if (!empty($value['guest']['zaviapms']['age_group']))
-					{
-						if (array_key_exists($value['guest']['zaviapms']['age_group'], $tmp))
-							$tmp[$value['guest']['zaviapms']['age_group']] += 1;
-						else
-							$tmp[$value['guest']['zaviapms']['age_group']] = 1;
-					}
-				}
-			}
-
-			foreach ($tmp as $key => $value)
-			{
-				if ($edit == true)
-				{
-					array_push($data['labels'], $key);
-					array_push($data['datasets']['data'], $value);
-					array_push($data['datasets']['colors'], '#' . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
-				}
-				else
-				{
-					$data['labels'] .= "'" . $key . "',";
-					$data['datasets']['data'] .= $value . ",";
-					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
-				}
-			}
-		}
-
-		return $data;
-	}
+	// public function deactivate_comment($id)
+	// {
+	// 	$query = $this->database->update('survey_answers', [
+	// 		'status' => false
+	// 	], [
+	// 		'id' => $id,
+	// 	]);
+	//
+	// 	return $query;
+	// }
+	//
+	// public function activate_comment($id)
+	// {
+	// 	$query = $this->database->update('survey_answers', [
+	// 		'status' => true
+	// 	], [
+	// 		'id' => $id,
+	// 	]);
+	//
+	// 	return $query;
+	// }
+	//
+	// public function get_survey_nps()
+	// {
+	// 	$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+	// 		'id',
+	// 		'token',
+	// 		'owner',
+	// 		'answers',
+	// 		'comment',
+	// 		'guest',
+	// 		'date',
+	// 		'status'
+	// 	], [
+	// 		'AND' => [
+	// 			'account' => Session::get_value('account')['id'],
+	// 		],
+	// 		'ORDER' => [
+	// 			'id' => 'DESC'
+	// 		]
+	// 	]));
+	//
+	// 	$count_detractors = 0;
+	// 	$count_promoters = 0;
+	// 	$total_nps = 0;
+	// 	$result = 0;
+	//
+	// 	foreach ($query as $key => $value)
+	// 	{
+	// 		foreach ($value['answers'] as $subvalue)
+	// 		{
+	// 			if ($subvalue['type'] == 'nps')
+	// 			{
+	// 				if ($subvalue['answer'] >= 0 AND $subvalue['answer'] <= 6)
+	// 					$count_detractors = $count_detractors + 1;
+	// 				else if ($subvalue['answer'] >= 9 AND $subvalue['answer'] <= 10)
+	// 					$count_promoters = $count_promoters + 1;
+	//
+	// 				$total_nps = $total_nps + 1;
+	// 			}
+	// 		}
+	// 	}
+	//
+	// 	if ($total_nps > 0)
+	// 		$result = (($count_promoters - $count_detractors) / $total_nps) * 100;
+	//
+	// 	return $result;
+	// }
+	//
+	// public function get_survey_answers($data = null, $params = [])
+	// {
+	// 	if ($data != 'all' AND $data != null)
+	// 	{
+	// 		if (!empty($params))
+	// 		{
+	// 			$where = [
+	// 				'account' => Session::get_value('account')['id'],
+	// 				'owner' => $data,
+	// 				'date[<>]' => [$params[0], $params[1]]
+	// 			];
+	// 		}
+	// 		else
+	// 		{
+	// 			$where = [
+	// 				'account' => Session::get_value('account')['id'],
+	// 				'owner' => $data
+	// 			];
+	// 		}
+	//
+	// 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+	// 			'id',
+	// 			'token',
+	// 			'owner',
+	// 			'answers',
+	// 			'comment',
+	// 			'guest',
+	// 			'date',
+	// 			'status'
+	// 		], [
+	// 			'AND' => $where,
+	// 			'ORDER' => [
+	// 				'id' => 'DESC'
+	// 			]
+	// 		]));
+	//
+	// 		foreach ($query as $key => $value)
+	// 		{
+	// 			if (Session::get_value('account')['type'] == 'hotel')
+	// 			{
+	// 				if (!empty($value['owner']))
+	// 					$query[$key]['owner'] = $this->get_owner($value['owners']);
+	// 			}
+	//
+	// 			if (Session::get_value('account')['type'] == 'restaurant')
+	// 			{
+	// 				if (!empty($value['owner']))
+	// 					$query[$key]['owner'] = $this->get_owner($value['owner']);
+	// 			}
+	//
+	// 			if (Session::get_value('account')['type'] == 'others')
+	// 			{
+	// 				if (!empty($value['owner']))
+	// 					$query[$key]['owner'] = $this->get_owner($value['owner']);
+	// 			}
+	//
+	// 			$query[$key]['rate'] = 0;
+	// 			$count = 0;
+	//
+	// 			foreach ($value['answers'] as $subvalue)
+	// 			{
+	// 				if ($subvalue['type'] == 'rate')
+	// 				{
+	// 					$query[$key]['rate'] = $query[$key]['rate'] + $subvalue['answer'];
+	// 					$count = $count + 1;
+	// 				}
+	//
+	// 				foreach ($subvalue['subanswers'] as $parentvalue)
+	// 				{
+	// 					if ($parentvalue['type'] == 'rate')
+	// 					{
+	// 						$query[$key]['rate'] = $query[$key]['rate'] + $parentvalue['answer'];
+	// 						$count = $count + 1;
+	// 					}
+	//
+	// 					foreach ($parentvalue['subanswers'] as $childvalue)
+	// 					{
+	// 						if ($childvalue['type'] == 'rate')
+	// 						{
+	// 							$query[$key]['rate'] = $query[$key]['rate'] + $childvalue['answer'];
+	// 							$count = $count + 1;
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	//
+	// 			if ($query[$key]['rate'] > 0 AND $count > 0)
+	// 				$query[$key]['rate'] = round(($query[$key]['rate'] / $count), 1);
+	//
+	// 			$query[$key]['count'] = count($query);
+	// 		}
+	// 	}
+	// 	else
+	// 	{
+	// 		if (!empty($params))
+	// 		{
+	// 			$where = [
+	// 				'account' => Session::get_value('account')['id'],
+	// 				'date[<>]' => [$params[0], $params[1]]
+	// 			];
+	// 		}
+	// 		else
+	// 		{
+	// 			$where = [
+	// 				'account' => Session::get_value('account')['id'],
+	// 			];
+	// 		}
+	//
+	// 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+	// 			'id',
+	// 			'token',
+	// 			'owners',
+	// 			'answers',
+	// 			'comment',
+	// 			'guest',
+	// 			'date',
+	// 			'status'
+	// 		], [
+	// 			'AND' => $where,
+	// 			'ORDER' => [
+	// 				'id' => 'DESC'
+	// 			]
+	// 		]));
+	//
+	// 		foreach ($query as $key => $value)
+	// 		{
+	// 			if (Session::get_value('account')['type'] == 'hotel')
+	// 			{
+	// 				if (!empty($value['owner']))
+	// 					$query[$key]['owner'] = $this->get_owner($value['owner']);
+	// 			}
+	//
+	// 			if (Session::get_value('account')['type'] == 'restaurant')
+	// 			{
+	// 				if (!empty($value['owner']))
+	// 					$query[$key]['owner'] = $this->get_owner($value['owner']);
+	// 			}
+	//
+	// 			if (Session::get_value('account')['type'] == 'others')
+	// 			{
+	// 				if (!empty($value['owner']))
+	// 					$query[$key]['owner'] = $this->get_owner($value['owner']);
+	// 			}
+	//
+	// 			$query[$key]['rate'] = 0;
+	// 			$count = 0;
+	//
+	// 			foreach ($value['answers'] as $subvalue)
+	// 			{
+	// 				if ($subvalue['type'] == 'rate')
+	// 				{
+	// 					$query[$key]['rate'] = $query[$key]['rate'] + $subvalue['answer'];
+	// 					$count = $count + 1;
+	// 				}
+	//
+	// 				foreach ($subvalue['subanswers'] as $parentvalue)
+	// 				{
+	// 					if ($parentvalue['type'] == 'rate')
+	// 					{
+	// 						$query[$key]['rate'] = $query[$key]['rate'] + $parentvalue['answer'];
+	// 						$count = $count + 1;
+	// 					}
+	//
+	// 					foreach ($parentvalue['subanswers'] as $childvalue)
+	// 					{
+	// 						if ($childvalue['type'] == 'rate')
+	// 						{
+	// 							$query[$key]['rate'] = $query[$key]['rate'] + $childvalue['answer'];
+	// 							$count = $count + 1;
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	//
+	// 			if ($query[$key]['rate'] > 0 AND $count > 0)
+	// 				$query[$key]['rate'] = round(($query[$key]['rate'] / $count), 1);
+	//
+	// 			$query[$key]['count'] = count($query);
+	//
+	// 		}
+	// 	}
+	//
+	// 	return $query;
+	// }
+	//
+	// public function get_owners()
+	// {
+	// 	$query = $this->database->select('owners', [
+	// 		'id',
+	// 		'number',
+	// 		'name',
+	// 		'status'
+	// 	], [
+	// 		'account' => Session::get_value('account')['id'],
+	// 		'ORDER' => [
+	// 			'number' => 'ASC'
+	// 		]
+	// 	]);
+	//
+	// 	return $query;
+	// }
+	//
+	// public function get_survey_answer($id)
+	// {
+	// 	$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+	// 		'token',
+	// 		'owner',
+	// 		'answers',
+	// 		'comment',
+	// 		'guest',
+	// 		'date'
+	// 	], [
+	// 		'id' => $id
+	// 	]));
+	//
+	// 	if (!empty($query))
+	// 	{
+	// 		if (Session::get_value('account')['type'] == 'hotel')
+	// 		{
+	// 			if (!empty($query[0]['owner']))
+	// 				$query[0]['owner'] = $this->get_owner($query[0]['owner']);
+	// 		}
+	//
+	// 		if (Session::get_value('account')['type'] == 'restaurant')
+	// 		{
+	// 			if (!empty($query[0]['owner']))
+	// 				$query[0]['owner'] = $this->get_owner($query[0]['owner']);
+	// 		}
+	//
+	// 		if (Session::get_value('account')['type'] == 'others')
+	// 		{
+	// 			if (!empty($query[0]['owner']))
+	// 				$query[0]['owner'] = $this->get_owner($query[0]['owner']);
+	// 		}
+	//
+	// 		$query[0]['rate'] = 0;
+	// 		$count = 0;
+	//
+	// 		foreach ($query[0]['answers'] as $key => $value)
+	// 		{
+	// 			$value['question'] = $this->get_survey_question($query[0]['answers'][$key]['id']);
+	//
+	// 			if ($value['question']['type'] == 'check')
+	// 			{
+	// 				$query[0]['answers'][$key]['answer'] = Functions::get_json_decoded_query($value['answer']);
+	// 				$query[0]['answers'][$key]['values'] = $value['question']['values'];
+	// 			}
+	//
+	// 			$query[0]['answers'][$key]['question'] = $value['question']['name'];
+	//
+	// 			foreach ($value['subanswers'] as $subkey => $subvalue)
+	// 			{
+	// 				foreach ($value['question']['subquestions'] as $parentkey => $parentvalue)
+	// 				{
+	// 					if ($subvalue['id'] == $parentvalue['id'])
+	// 						$query[0]['answers'][$key]['subanswers'][$subkey]['question'] = $parentvalue['name'];
+	// 				}
+	//
+	// 				foreach ($subvalue['subanswers'] as $parentkey => $parentvalue)
+	// 				{
+	// 					foreach ($value['question']['subquestions'] as $childkey => $childvalue)
+	// 					{
+	// 						foreach ($childvalue['subquestions'] as $slavekey => $slavevalue)
+	// 						{
+	// 							if ($parentvalue['id'] == $slavevalue['id'])
+	// 								$query[0]['answers'][$key]['subanswers'][$subkey]['subanswers'][$parentkey]['question'] = $slavevalue['name'];
+	// 						}
+	// 					}
+	// 				}
+	// 			}
+	//
+	// 			if ($value['type'] == 'rate')
+	// 			{
+	// 				$query[0]['rate'] = $query[0]['rate'] + $value['answer'];
+	// 				$count = $count + 1;
+	// 			}
+	//
+	// 			foreach ($value['subanswers'] as $subvalue)
+	// 			{
+	// 				if ($subvalue['type'] == 'rate')
+	// 				{
+	// 					$query[0]['rate'] = $query[0]['rate'] + $subvalue['answer'];
+	// 					$count = $count + 1;
+	// 				}
+	//
+	// 				foreach ($subvalue['subanswers'] as $childvalue)
+	// 				{
+	// 					if ($childvalue['type'] == 'rate')
+	// 					{
+	// 						$query[0]['rate'] = $query[0]['rate'] + $childvalue['answer'];
+	// 						$count = $count + 1;
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	//
+	// 		if ($query[0]['rate'] > 0 AND $count > 0)
+	// 			$query[0]['rate'] = round(($query[0]['rate'] / $count), 1);
+	//
+	// 		return $query[0];
+	// 	}
+	// 	else
+	// 		return null;
+	// }
+	//
+	// public function get_owner($id)
+	// {
+	// 	$query = $this->database->select('owners', [
+	// 		'number',
+	// 		'name'
+	// 	], [
+	// 		'id' => $id
+	// 	]);
+	//
+	// 	return !empty($query) ? $query[0] : null;
+	// }
+	//
+	// public function get_general_average_rate($data = null, $params = [])
+	// {
+	// 	if ($data == 'get_view_all')
+	// 	{
+	// 		$where = [
+	// 			'AND' => [
+	// 				'account' => Session::get_value('account')['id']
+	// 			]
+	// 		];
+	// 	}
+	// 	else if ($data == null)
+	// 	{
+	// 		$where = [
+	// 			'AND' => [
+	// 				'account' => Session::get_value('account')['id'],
+	// 				'date[<>]' => [$params[0],$params[1]]
+	// 			]
+	// 		];
+	// 	}
+	//
+	// 	$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+	// 		'answers',
+	// 		'date'
+	// 	], $where));
+	//
+	// 	$average = 0;
+	// 	$rate = 0;
+	// 	$questions = 0;
+	//
+	// 	foreach ($query as $value)
+	// 	{
+	// 		foreach ($value['answers'] as $subvalue)
+	// 		{
+	// 			if ($subvalue['type'] == 'rate')
+	// 			{
+	// 				$rate = $rate + $subvalue['answer'];
+	// 				$questions = $questions + 1;
+	// 			}
+	//
+	// 			foreach ($subvalue['subanswers'] as $parentvalue)
+	// 			{
+	// 				if ($parentvalue['type'] == 'rate')
+	// 				{
+	// 					$rate = $rate + $parentvalue['answer'];
+	// 					$questions = $questions + 1;
+	// 				}
+	//
+	// 				foreach ($parentvalue['subanswers'] as $childvalue)
+	// 				{
+	// 					if ($childvalue['type'] == 'rate')
+	// 					{
+	// 						$rate = $rate + $childvalue['answer'];
+	// 						$questions = $questions + 1;
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	//
+	// 	if ($rate > 0 AND $questions > 0)
+	// 		$average = round(($rate / $questions), 1);
+	//
+	// 	return $average;
+	// }
+	//
+	// public function get_percentage_rate($data = null, $option, $params = [])
+	// {
+	// 	if ($data == 'get_view_all')
+	// 	{
+	// 		$where = [
+	// 			'AND' => [
+	// 				'account' => Session::get_value('account')['id']
+	// 			]
+	// 		];
+	// 	}
+	// 	else if ($data == null)
+	// 	{
+	// 		$where = [
+	// 			'AND' => [
+	// 				'account' => Session::get_value('account')['id'],
+	// 				'date[<>]' => [$params[0],$params[1]]
+	// 			]
+	// 		];
+	// 	}
+	//
+	// 	$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+	// 		'answers',
+	// 		'date'
+	// 	], $where));
+	//
+	// 	$percentage = 0;
+	// 	$option_answers = 0;
+	// 	$total_answers = 0;
+	//
+	// 	foreach ($query as $value)
+	// 	{
+	// 		$average = 0;
+	// 		$rate = 0;
+	// 		$answers = 0;
+	//
+	// 		foreach ($value['answers'] as $subvalue)
+	// 		{
+	// 			if ($subvalue['type'] == 'rate')
+	// 			{
+	// 				$rate = $rate + $subvalue['answer'];
+	// 				$answers = $answers + 1;
+	// 			}
+	//
+	// 			foreach ($subvalue['subanswers'] as $parentvalue)
+	// 			{
+	// 				if ($parentvalue['type'] == 'rate')
+	// 				{
+	// 					$rate = $rate + $parentvalue['answer'];
+	// 					$answers = $answers + 1;
+	// 				}
+	//
+	// 				foreach ($parentvalue['subanswers'] as $childvalue)
+	// 				{
+	// 					if ($childvalue['type'] == 'rate')
+	// 					{
+	// 						$rate = $rate + $childvalue['answer'];
+	// 						$answers = $answers + 1;
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	//
+	// 		if ($rate > 0 AND $answers > 0)
+	// 			$average = round(($rate / $answers), 2);
+	//
+	// 		if ($option == 'five' AND $average > 4.8 AND $average <= 5)
+	// 			$option_answers = $option_answers + 1;
+	// 		else if ($option == 'four' AND $average >= 3.8 AND $average < 4.8)
+	// 			$option_answers = $option_answers + 1;
+	// 		else if ($option == 'tree' AND $average >= 2.8 AND $average < 3.8)
+	// 			$option_answers = $option_answers + 1;
+	// 		else if ($option == 'two' AND $average >= 1.8 AND $average < 2.8)
+	// 			$option_answers = $option_answers + 1;
+	// 		else if ($option == 'one' AND $average >= 1 AND $average < 1.8)
+	// 			$option_answers = $option_answers + 1;
+	//
+	// 		$total_answers = $total_answers + 1;
+	// 	}
+	//
+	// 	if ($option_answers > 0 AND $total_answers > 0)
+	// 		$percentage = round((($option_answers / $total_answers) * 100), 2);
+	//
+	// 	return $percentage;
+	// }
+	//
+	// public function get_count($option)
+	// {
+	// 	$query = $this->database->select('survey_answers', [
+	// 		'id',
+	// 		'account',
+	// 		'date'
+	// 	], [
+	// 		'account' => Session::get_value('account')['id']
+	// 	]);
+	//
+	// 	$count = 0;
+	//
+	// 	foreach ($query as $value)
+	// 	{
+	// 		$break = false;
+	//
+	// 		if ($option == 'answered_today' AND Functions::get_formatted_date($value['date']) != Functions::get_current_date())
+	// 			$break = true;
+	//
+	// 		if ($option == 'answered_week' AND Functions::get_formatted_date($value['date']) < Functions::get_current_week()[0] OR Functions::get_formatted_date($value['date']) > Functions::get_current_week()[1])
+	// 			$break = true;
+	//
+	// 		if ($option == 'answered_month' AND Functions::get_formatted_date($value['date']) < Functions::get_current_month()[0] OR Functions::get_formatted_date($value['date']) > Functions::get_current_month()[1])
+	// 			$break = true;
+	//
+	// 		if ($option == 'answered_year' AND explode('-', Functions::get_formatted_date($value['date']))[0] != Functions::get_current_year())
+	// 			$break = true;
+	//
+	// 		if ($break == false)
+	// 			$count = $count + 1;
+	// 	}
+	//
+	// 	return $count;
+	// }
+	//
+	// public function get_chart_data($option, $params = [], $edit = false)
+	// {
+	// 	$data = null;
+	//
+	// 	if ($option == 's1_chart')
+	// 	{
+	// 		if (Session::get_value('account')['type'] == 'hotel')
+	// 		{
+	// 			$query1 = $this->database->select('survey_answers', [
+	// 				'owner'
+	// 			], [
+	// 				'AND' => [
+	// 					'account' => Session::get_value('account')['id'],
+	// 					'date[<>]' => [$params[0],$params[1]]
+	// 				]
+	// 			]);
+	//
+	// 			$query2 = $this->database->select('owners', [
+	// 				'id',
+	// 				'number',
+	// 				'name'
+	// 			], [
+	// 				'account' => Session::get_value('account')['id']
+	// 			]);
+	// 		}
+	//
+	// 		if (Session::get_value('account')['type'] == 'restaurant')
+	// 		{
+	// 			$query1 = $this->database->select('survey_answers', [
+	// 				'owner'
+	// 			], [
+	// 				'AND' => [
+	// 					'account' => Session::get_value('account')['id'],
+	// 					'date[<>]' => [$params[0],$params[1]]
+	// 				]
+	// 			]);
+	//
+	// 			$query2 = $this->database->select('owners', [
+	// 				'id',
+	// 				'number',
+	// 				'name'
+	// 			], [
+	// 				'account' => Session::get_value('account')['id']
+	// 			]);
+	// 		}
+	//
+	// 		if (Session::get_value('account')['type'] == 'others')
+	// 		{
+	// 			$query1 = $this->database->select('survey_answers', [
+	// 				'owner'
+	// 			], [
+	// 				'AND' => [
+	// 					'account' => Session::get_value('account')['id'],
+	// 					'date[<>]' => [$params[0],$params[1]]
+	// 				]
+	// 			]);
+	//
+	// 			$query2 = $this->database->select('owners', [
+	// 				'id',
+	// 				'name'
+	// 			], [
+	// 				'account' => Session::get_value('account')['id']
+	// 			]);
+	// 		}
+	//
+	// 		if ($edit == true)
+	// 		{
+	// 			$data = [
+	// 				'labels' => [],
+	// 				'datasets' => [
+	// 					'data' => [],
+	// 					'colors' => []
+	// 				]
+	// 			];
+	// 		}
+	// 		else
+	// 		{
+	// 			$data = [
+	// 				'labels' => '',
+	// 				'datasets' => [
+	// 					'data' => '',
+	// 					'colors' => ''
+	// 				]
+	// 			];
+	// 		}
+	//
+	// 		foreach ($query2 as $value)
+	// 		{
+	// 			$count = 0;
+	//
+	// 			foreach ($query1 as $subvalue)
+	// 			{
+	// 				if (Session::get_value('account')['type'] == 'hotel')
+	// 				{
+	// 					if ($value['id'] == $subvalue['owner'])
+	// 						$count = $count + 1;
+	// 				}
+	//
+	// 				if (Session::get_value('account')['type'] == 'restaurant')
+	// 				{
+	// 					if ($value['id'] == $subvalue['owner'])
+	// 						$count = $count + 1;
+	// 				}
+	//
+	// 				if (Session::get_value('account')['type'] == 'others')
+	// 				{
+	// 					if ($value['id'] == $subvalue['owner'])
+	// 						$count = $count + 1;
+	// 				}
+	// 			}
+	//
+	// 			if ($count > 0)
+	// 			{
+	// 				if (Session::get_value('account')['type'] == 'hotel')
+	// 				{
+	// 					if ($edit == true)
+	// 					{
+	// 						if (Session::get_value('account')['language'] == 'es')
+	// 							array_push($data['labels'], 'Habitación #' . $value['number'] . ' ' . $value['name']);
+	// 						else if (Session::get_value('account')['language'] == 'en')
+	// 							array_push($data['labels'], 'Owner #' . $value['number'] . ' ' . $value['name']);
+	// 					}
+	// 					else
+	// 					{
+	// 						if (Session::get_value('account')['language'] == 'es')
+	// 							$data['labels'] .= "'Habitación #" . $value['number'] . ' ' . $value['name'] . "',";
+	// 						else if (Session::get_value('account')['language'] == 'en')
+	// 							$data['labels'] .= "'Owner #" . $value['number'] . ' ' . $value['name'] . "',";
+	// 					}
+	// 				}
+	//
+	// 				if (Session::get_value('account')['type'] == 'restaurant')
+	// 				{
+	// 					if ($edit == true)
+	// 					{
+	// 						if (Session::get_value('account')['language'] == 'es')
+	// 							array_push($data['labels'], 'Mesa #' . $value['number'] . ' ' . $value['name']);
+	// 						else if (Session::get_value('account')['language'] == 'en')
+	// 							array_push($data['labels'], 'Owner #' . $value['number'] . ' ' . $value['name']);
+	// 					}
+	// 					else
+	// 					{
+	// 						if (Session::get_value('account')['language'] == 'es')
+	// 							$data['labels'] .= "'Mesa #" . $value['number'] . ' ' . $value['name'] . "',";
+	// 						else if (Session::get_value('account')['language'] == 'en')
+	// 							$data['labels'] .= "'Owner #" . $value['number'] . ' ' . $value['name'] . "',";
+	// 					}
+	// 				}
+	//
+	// 				if (Session::get_value('account')['type'] == 'others')
+	// 				{
+	// 					if ($edit == true)
+	// 					{
+	// 						if (Session::get_value('account')['language'] == 'es')
+	// 							array_push($data['labels'], 'Cliente: ' . $value['name']);
+	// 						else if (Session::get_value('account')['language'] == 'en')
+	// 							array_push($data['labels'], 'Client: ' . $value['name']);
+	// 					}
+	// 					else
+	// 					{
+	// 						if (Session::get_value('account')['language'] == 'es')
+	// 							$data['labels'] .= "'Cliente: " . $value['name'] . "',";
+	// 						else if (Session::get_value('account')['language'] == 'en')
+	// 							$data['labels'] .= "'Client: " . $value['name'] . "',";
+	// 					}
+	// 				}
+	//
+	// 				if ($edit == true)
+	// 				{
+	// 					array_push($data['datasets']['data'], $count);
+	// 					array_push($data['datasets']['colors'], '#' . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+	// 				}
+	// 				else
+	// 				{
+	// 					$data['datasets']['data'] .= $count . ',';
+	// 					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+	// 				}
+	// 			}
+	// 		}
+	//
+	// 		$empty = 0;
+	//
+	// 		foreach ($query1 as $value)
+	// 		{
+	// 			if (Session::get_value('account')['type'] == 'hotel')
+	// 			{
+	// 				if (!isset($value['owner']) OR empty($value['owner']))
+	// 					$empty = $empty + 1;
+	// 			}
+	//
+	// 			if (Session::get_value('account')['type'] == 'restaurant')
+	// 			{
+	// 				if (!isset($value['owner']) OR empty($value['owner']))
+	// 					$empty = $empty + 1;
+	// 			}
+	//
+	// 			if (Session::get_value('account')['type'] == 'others')
+	// 			{
+	// 				if (!isset($value['owner']) OR empty($value['owner']))
+	// 					$empty = $empty + 1;
+	// 			}
+	// 		}
+	//
+	// 		if ($empty > 0)
+	// 		{
+	// 			if (Session::get_value('account')['type'] == 'hotel')
+	// 			{
+	// 				if ($edit == true)
+	// 				{
+	// 					if (Session::get_value('account')['language'] == 'es')
+	// 						array_push($data['labels'], 'Sin habitación');
+	// 					else if (Session::get_value('account')['language'] == 'en')
+	// 						array_push($data['labels'], 'No owner');
+	// 				}
+	// 				else
+	// 				{
+	// 					if (Session::get_value('account')['language'] == 'es')
+	// 						$data['labels'] .= "'Sin habitación'";
+	// 					else if (Session::get_value('account')['language'] == 'en')
+	// 						$data['labels'] .= "'No owner'";
+	// 				}
+	// 			}
+	//
+	// 			if (Session::get_value('account')['type'] == 'restaurant')
+	// 			{
+	// 				if ($edit == true)
+	// 				{
+	// 					if (Session::get_value('account')['language'] == 'es')
+	// 						array_push($data['labels'], 'Sin mesa');
+	// 					else if (Session::get_value('account')['language'] == 'en')
+	// 						array_push($data['labels'], 'No owner');
+	// 				}
+	// 				else
+	// 				{
+	// 					if (Session::get_value('account')['language'] == 'es')
+	// 						$data['labels'] .= "'Sin mesa'";
+	// 					else if (Session::get_value('account')['language'] == 'en')
+	// 						$data['labels'] .= "'No owner'";
+	// 				}
+	// 			}
+	//
+	// 			if (Session::get_value('account')['type'] == 'others')
+	// 			{
+	// 				if ($edit == true)
+	// 				{
+	// 					if (Session::get_value('account')['language'] == 'es')
+	// 						array_push($data['labels'], 'Sin cliente');
+	// 					else if (Session::get_value('account')['language'] == 'en')
+	// 						array_push($data['labels'], 'No owner');
+	// 				}
+	// 				else
+	// 				{
+	// 					if (Session::get_value('account')['language'] == 'es')
+	// 						$data['labels'] .= "'Sin cliente'";
+	// 					else if (Session::get_value('account')['language'] == 'en')
+	// 						$data['labels'] .= "'No owner'";
+	// 				}
+	// 			}
+	//
+	// 			if ($edit == true)
+	// 			{
+	// 				array_push($data['datasets']['data'], $empty);
+	// 				array_push($data['datasets']['colors'], '#' . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+	// 			}
+	// 			else
+	// 			{
+	// 				$data['datasets']['data'] .= $empty;
+	// 				$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+	// 			}
+	// 		}
+	// 	}
+	// 	else if ($option == 'nps_chart')
+	// 	{
+	// 		$query1 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+	// 			'id',
+	// 			'name',
+	// 			'subquestions',
+	// 			'type'
+	// 		], [
+	// 			'account' => null
+	// 		]));
+	//
+	// 		if ($edit == true)
+	// 		{
+	// 			$data = [
+	// 				'labels' => [],
+	// 				'datasets' => []
+	// 			];
+	// 		}
+	// 		else
+	// 		{
+	// 			$data = [
+	// 				'labels' => '',
+	// 				'datasets' => ''
+	// 			];
+	// 		}
+	//
+	// 		$diff = Functions::get_diff_date($params[0], $params[1], 'days', true);
+	//
+	// 		for ($i = 0; $i < $diff; $i++)
+	// 		{
+	// 			if ($edit == true)
+	// 				array_push($data['labels'], Functions::get_future_date($params[0], $i, 'days'));
+	// 			else
+	// 				$data['labels'] .= "'" . Functions::get_future_date($params[0], $i, 'days') . "',";
+	// 		}
+	//
+	// 		if ($params[2] == 'all')
+	// 		{
+	// 			foreach ($query1 as $value)
+	// 			{
+	// 				if ($edit == true)
+	// 					$datas = [];
+	// 				else
+	// 					$datas = '';
+	//
+	// 				$tmp = 0;
+	// 				$break = 0;
+	//
+	// 				for ($i = 0; $i < $diff; $i++)
+	// 				{
+	// 					$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+	// 						'answers'
+	// 					], [
+	// 						'AND' => [
+	// 							'account' => Session::get_value('account')['id'],
+	// 							'date' => Functions::get_future_date($params[0], $i, 'days')
+	// 						]
+	// 					]));
+	//
+	// 					$count_detractors = 0;
+	// 					$count_promoters = 0;
+	// 					$total_nps = 0;
+	// 					$result = 0;
+	//
+	// 					foreach ($query2 as $subvalue)
+	// 					{
+	// 						foreach ($subvalue['answers'] as $parentvalue)
+	// 						{
+	// 							if ($parentvalue['type'] == 'nps')
+	// 							{
+	// 								if ($parentvalue['answer'] >= 0 AND $parentvalue['answer'] <= 6)
+	// 									$count_detractors = $count_detractors + 1;
+	// 								else if ($parentvalue['answer'] >= 9 AND $parentvalue['answer'] <= 10)
+	// 									$count_promoters = $count_promoters + 1;
+	//
+	// 								$total_nps = $total_nps + 1;
+	// 							}
+	// 						}
+	// 					}
+	//
+	// 					if ($total_nps > 0)
+	// 						$result = (($count_promoters - $count_detractors) / $total_nps) * 100;
+	//
+	// 					if ($edit == true)
+	// 						array_push($datas, $result);
+	// 					else
+	// 						$datas .= $result . ",";
+	// 				}
+	//
+	// 					$color = str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+	//
+	// 					if ($edit == true)
+	// 					{
+	// 						array_push($data['datasets'], [
+	// 							'label' => $value['name'][Session::get_value('account')['language']],
+	// 							'data' => $datas,
+	// 							'fill' => false,
+	// 							'backgroundColor' => '#' . $color,
+	// 							'borderColor' => '#' . $color
+	// 						]);
+	// 					}
+	// 					else
+	// 					{
+	// 						$data['datasets'] .= "{
+	// 							label: '" . $value['name'][Session::get_value('account')['language']] . "',
+	// 							data: [" . $datas . "],
+	// 							fill: false,
+	// 							backgroundColor: '#" . $color . "',
+	// 							borderColor: '#" . $color . "',
+	// 						},";
+	// 					}
+	// 			}
+	// 		}
+	// 	}
+	// 	else if ($option == 's2_chart')
+	// 	{
+	// 		if ($params[2] == 'all')
+	// 		{
+	// 			$where = [
+	// 				'account' => Session::get_value('account')['id']
+	// 			];
+	// 		}
+	// 		else
+	// 		{
+	// 			$where = [
+	// 				'id' => $params[2]
+	// 			];
+	// 		}
+	//
+	// 		$query1 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+	// 			'id',
+	// 			'name',
+	// 			'subquestions',
+	// 			'type'
+	// 		], $where));
+	//
+	// 		if ($edit == true)
+	// 		{
+	// 			$data = [
+	// 				'labels' => [],
+	// 				'datasets' => []
+	// 			];
+	// 		}
+	// 		else
+	// 		{
+	// 			$data = [
+	// 				'labels' => '',
+	// 				'datasets' => ''
+	// 			];
+	// 		}
+	//
+	// 		$diff = Functions::get_diff_date($params[0], $params[1], 'days', true);
+	//
+	// 		for ($i = 0; $i < $diff; $i++)
+	// 		{
+	// 			if ($edit == true)
+	// 				array_push($data['labels'], Functions::get_future_date($params[0], $i, 'days'));
+	// 			else
+	// 				$data['labels'] .= "'" . Functions::get_future_date($params[0], $i, 'days') . "',";
+	// 		}
+	//
+	// 		if ($params[2] == 'all')
+	// 		{
+	// 			foreach ($query1 as $value)
+	// 			{
+	// 				if ($edit == true)
+	// 					$datas = [];
+	// 				else
+	// 					$datas = '';
+	//
+	// 				$tmp = 0;
+	// 				$break = 0;
+	//
+	// 				for ($i = 0; $i < $diff; $i++)
+	// 				{
+	// 					$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+	// 						'answers'
+	// 					], [
+	// 						'AND' => [
+	// 							'account' => Session::get_value('account')['id'],
+	// 							'date' => Functions::get_future_date($params[0], $i, 'days')
+	// 						]
+	// 					]));
+	//
+	// 					$average = 0;
+	// 					$rate = 0;
+	// 					$count = 0;
+	//
+	// 					foreach ($query2 as $subvalue)
+	// 					{
+	// 						foreach ($subvalue['answers'] as $parentvalue)
+	// 						{
+	// 							if ($value['id'] == $parentvalue['id'])
+	// 							{
+	// 								if ($parentvalue['type'] == 'rate')
+	// 								{
+	// 									$rate = $rate + $parentvalue['answer'];
+	// 									$count = $count + 1;
+	// 								}
+	//
+	// 								foreach ($parentvalue['subanswers'] as $childvalue)
+	// 								{
+	// 									if ($childvalue['type'] == 'rate')
+	// 									{
+	// 										$rate = $rate + $childvalue['answer'];
+	// 										$count = $count + 1;
+	// 									}
+	//
+	// 									foreach ($childvalue['subanswers'] as $slavevalue)
+	// 									{
+	// 										if ($slavevalue['type'] == 'rate')
+	// 										{
+	// 											$rate = $rate + $slavevalue['answer'];
+	// 											$count = $count + 1;
+	// 										}
+	// 									}
+	// 								}
+	// 							}
+	// 						}
+	// 					}
+	//
+	// 					if ($rate > 0 AND $count > 0)
+	// 						$average = round(($rate / $count), 2);
+	//
+	// 					if ($average <= 0 AND $tmp > 0)
+	// 						$average = $tmp;
+	//
+	// 					$tmp = $average;
+	// 					$break = $break + $average;
+	//
+	// 					if ($edit == true)
+	// 						array_push($datas, $average);
+	// 					else
+	// 						$datas .= $average . ",";
+	// 				}
+	//
+	// 				if ($break > 0)
+	// 				{
+	// 					$color = str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT);
+	//
+	// 					if ($edit == true)
+	// 					{
+	// 						array_push($data['datasets'], [
+	// 							'label' => $value['name'][Session::get_value('account')['language']],
+	// 							'data' => $datas,
+	// 							'fill' => false,
+	// 							'backgroundColor' => '#' . $color,
+	// 							'borderColor' => '#' . $color
+	// 						]);
+	// 					}
+	// 					else
+	// 					{
+	// 						$data['datasets'] .= "{
+	// 							label: '" . $value['name'][Session::get_value('account')['language']] . "',
+	// 							data: [" . $datas . "],
+	// 							fill: false,
+	// 							backgroundColor: '#" . $color . "',
+	// 							borderColor: '#" . $color . "',
+	// 						},";
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 		else
+	// 		{
+	// 			$datas_level_1 = [];
+	// 			$tmp_level_1 = 0;
+	// 			$break_level_1 = 0;
+	//
+	// 			for ($i = 0; $i < $diff; $i++)
+	// 			{
+	// 				$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+	// 					'answers'
+	// 				], [
+	// 					'AND' => [
+	// 						'account' => Session::get_value('account')['id'],
+	// 						'date' => Functions::get_future_date($params[0], $i, 'days')
+	// 					]
+	// 				]));
+	//
+	// 				$average_level_1 = 0;
+	// 				$rate_level_1 = 0;
+	// 				$count_level_1 = 0;
+	//
+	// 				foreach ($query2 as $subvalue)
+	// 				{
+	// 					foreach ($subvalue['answers'] as $parentvalue)
+	// 					{
+	// 						if ($query1[0]['id'] == $parentvalue['id'])
+	// 						{
+	// 							if ($parentvalue['type'] == 'rate')
+	// 							{
+	// 								$rate_level_1 = $rate_level_1 + $parentvalue['answer'];
+	// 								$count_level_1 = $count_level_1 + 1;
+	// 							}
+	//
+	// 							foreach ($parentvalue['subanswers'] as $childvalue)
+	// 							{
+	// 								if ($childvalue['type'] == 'rate')
+	// 								{
+	// 									$rate_level_1 = $rate_level_1 + $childvalue['answer'];
+	// 									$count_level_1 = $count_level_1 + 1;
+	// 								}
+	//
+	// 								foreach ($childvalue['subanswers'] as $slavevalue)
+	// 								{
+	// 									if ($slavevalue['type'] == 'rate')
+	// 									{
+	// 										$rate_level_1 = $rate_level_1 + $slavevalue['answer'];
+	// 										$count_level_1 = $count_level_1 + 1;
+	// 									}
+	// 								}
+	// 							}
+	// 						}
+	// 					}
+	// 				}
+	//
+	// 				if ($rate_level_1 > 0 AND $count_level_1 > 0)
+	// 					$average_level_1 = round(($rate_level_1 / $count_level_1), 2);
+	//
+	// 				if ($average_level_1 <= 0 AND $tmp_level_1 > 0)
+	// 					$average_level_1 = $tmp_level_1;
+	//
+	// 				$tmp_level_1 = $average_level_1;
+	// 				$break_level_1 = $break_level_1 + $average_level_1;
+	//
+	// 				array_push($datas_level_1, $average_level_1);
+	// 			}
+	//
+	// 			if ($break_level_1 > 0)
+	// 			{
+	// 				array_push($data['datasets'], [
+	// 					'label' => 'A1. ' . $query1[0]['name'][Session::get_value('account')['language']],
+	// 					'data' => $datas_level_1,
+	// 					'fill' => false,
+	// 					'backgroundColor' => '#00a5ab',
+	// 					'borderColor' => '#00a5ab'
+	// 				]);
+	// 			}
+	//
+	// 			foreach ($query1[0]['subquestions'] as $value)
+	// 			{
+	// 				$datas_level_2 = [];
+	// 				$tmp_level_2 = 0;
+	// 				$break_level_2 = 0;
+	//
+	// 				for ($i = 0; $i < $diff; $i++)
+	// 				{
+	// 					$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+	// 						'answers'
+	// 					], [
+	// 						'AND' => [
+	// 							'account' => Session::get_value('account')['id'],
+	// 							'date' => Functions::get_future_date($params[0], $i, 'days')
+	// 						]
+	// 					]));
+	//
+	// 					$average_level_2 = 0;
+	// 					$rate_level_2 = 0;
+	// 					$count_level_2 = 0;
+	//
+	// 					foreach ($query2 as $subvalue)
+	// 					{
+	// 						foreach ($subvalue['answers'] as $parentvalue)
+	// 						{
+	// 							if ($query1[0]['id'] == $parentvalue['id'])
+	// 							{
+	// 								foreach ($parentvalue['subanswers'] as $childvalue)
+	// 								{
+	// 									if ($value['id'] == $childvalue['id'])
+	// 									{
+	// 										if ($childvalue['type'] == 'rate')
+	// 										{
+	// 											$rate_level_2 = $rate_level_2 + $childvalue['answer'];
+	// 											$count_level_2 = $count_level_2 + 1;
+	// 										}
+	//
+	// 										foreach ($childvalue['subanswers'] as $slavevalue)
+	// 										{
+	// 											if ($slavevalue['type'] == 'rate')
+	// 											{
+	// 												$rate_level_2 = $rate_level_2 + $slavevalue['answer'];
+	// 												$count_level_2 = $count_level_2 + 1;
+	// 											}
+	// 										}
+	// 									}
+	// 								}
+	// 							}
+	// 						}
+	// 					}
+	//
+	// 					if ($rate_level_2 > 0 AND $count_level_2 > 0)
+	// 						$average_level_2 = round(($rate_level_2 / $count_level_2), 2);
+	//
+	// 					if ($average_level_2 <= 0 AND $tmp_level_2 > 0)
+	// 						$average_level_2 = $tmp_level_2;
+	//
+	// 					$tmp_level_2 = $average_level_2;
+	// 					$break_level_2 = $break_level_2 + $average_level_2;
+	//
+	// 					array_push($datas_level_2, $average_level_2);
+	// 				}
+	//
+	// 				if ($break_level_2 > 0)
+	// 				{
+	// 					array_push($data['datasets'], [
+	// 						'label' => 'B2. ' . $value['name'][Session::get_value('account')['language']],
+	// 						'data' => $datas_level_2,
+	// 						'fill' => false,
+	// 						'backgroundColor' => '#3f51b5',
+	// 						'borderColor' => '#3f51b5'
+	// 					]);
+	// 				}
+	//
+	// 				foreach ($value['subquestions'] as $subvalue)
+	// 				{
+	// 					$datas_level_3 = [];
+	// 					$tmp_level_3 = 0;
+	// 					$break_level_3 = 0;
+	//
+	// 					for ($i = 0; $i < $diff; $i++)
+	// 					{
+	// 						$query2 = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+	// 							'answers'
+	// 						], [
+	// 							'AND' => [
+	// 								'account' => Session::get_value('account')['id'],
+	// 								'date' => Functions::get_future_date($params[0], $i, 'days')
+	// 							]
+	// 						]));
+	//
+	// 						$average_level_3 = 0;
+	// 						$rate_level_3 = 0;
+	// 						$count_level_3 = 0;
+	//
+	// 						foreach ($query2 as $parentvalue)
+	// 						{
+	// 							foreach ($parentvalue['answers'] as $childvalue)
+	// 							{
+	// 								if ($query1[0]['id'] == $childvalue['id'])
+	// 								{
+	// 									foreach ($childvalue['subanswers'] as $slavevalue)
+	// 									{
+	// 										foreach ($slavevalue['subanswers'] as $intvalue)
+	// 										{
+	// 											if ($subvalue['id'] == $intvalue['id'])
+	// 											{
+	// 												if ($intvalue['type'] == 'rate')
+	// 												{
+	// 													$rate_level_3 = $rate_level_3 + $intvalue['answer'];
+	// 													$count_level_3 = $count_level_3 + 1;
+	// 												}
+	// 											}
+	// 										}
+	// 									}
+	// 								}
+	// 							}
+	// 						}
+	//
+	// 						if ($rate_level_3 > 0 AND $count_level_3 > 0)
+	// 							$average_level_3 = round(($rate_level_3 / $count_level_3), 2);
+	//
+	// 						if ($average_level_3 <= 0 AND $tmp_level_3 > 0)
+	// 							$average_level_3 = $tmp_level_3;
+	//
+	// 						$tmp_level_3 = $average_level_3;
+	// 						$break_level_3 = $break_level_3 + $average_level_3;
+	//
+	// 						array_push($datas_level_3, $average_level_3);
+	// 					}
+	//
+	// 					if ($break_level_3 > 0)
+	// 					{
+	// 						array_push($data['datasets'], [
+	// 							'label' => 'C3. ' . $subvalue['name'][Session::get_value('account')['language']],
+	// 							'data' => $datas_level_3,
+	// 							'fill' => false,
+	// 							'backgroundColor' => '#E91E63',
+	// 							'borderColor' => '#E91E63'
+	// 						]);
+	// 					}
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// 	else if ($option == 's3_chart')
+	// 	{
+	//
+	// 	}
+	// 	else if ($option == 's4_chart')
+	// 	{
+	//
+	// 	}
+	// 	else if ($option == 's5_chart' OR $option == 's6_chart' OR $option == 's7_chart' OR $option == 's8_chart')
+	// 	{
+	// 		$query = Functions::get_json_decoded_query($this->database->select('survey_answers', [
+	// 			'guest'
+	// 		], [
+	// 			'AND' => [
+	// 				'account' => Session::get_value('account')['id'],
+	// 				'date[<>]' => [$params[0],$params[1]]
+	// 			]
+	// 		]));
+	//
+	// 		if ($edit == true)
+	// 		{
+	// 			$data = [
+	// 				'labels' => [],
+	// 				'datasets' => [
+	// 					'data' => [],
+	// 					'colors' => []
+	// 				]
+	// 			];
+	// 		}
+	// 		else
+	// 		{
+	// 			$data = [
+	// 				'labels' => '',
+	// 				'datasets' => [
+	// 					'data' => '',
+	// 					'colors' => ''
+	// 				]
+	// 			];
+	// 		}
+	//
+	// 		$tmp = [];
+	//
+	// 		foreach ($query as $value)
+	// 		{
+	// 			if ($option == 's5_chart')
+	// 			{
+	// 				if (!empty($value['guest']['zaviapms']['nationality']))
+	// 				{
+	// 					if (array_key_exists($value['guest']['zaviapms']['nationality'], $tmp))
+	// 						$tmp[$value['guest']['zaviapms']['nationality']] += 1;
+	// 					else
+	// 						$tmp[$value['guest']['zaviapms']['nationality']] = 1;
+	// 				}
+	// 			}
+	// 			else if ($option == 's6_chart')
+	// 			{
+	// 				if (!empty($value['guest']['zaviapms']['input_channel']))
+	// 				{
+	// 					if (array_key_exists($value['guest']['zaviapms']['input_channel'], $tmp))
+	// 						$tmp[$value['guest']['zaviapms']['input_channel']] += 1;
+	// 					else
+	// 						$tmp[$value['guest']['zaviapms']['input_channel']] = 1;
+	// 				}
+	// 			}
+	// 			else if ($option == 's7_chart')
+	// 			{
+	// 				if (!empty($value['guest']['zaviapms']['traveler_type']))
+	// 				{
+	// 					if (array_key_exists($value['guest']['zaviapms']['traveler_type'], $tmp))
+	// 						$tmp[$value['guest']['zaviapms']['traveler_type']] += 1;
+	// 					else
+	// 						$tmp[$value['guest']['zaviapms']['traveler_type']] = 1;
+	// 				}
+	// 			}
+	// 			else if ($option == 's8_chart')
+	// 			{
+	// 				if (!empty($value['guest']['zaviapms']['age_group']))
+	// 				{
+	// 					if (array_key_exists($value['guest']['zaviapms']['age_group'], $tmp))
+	// 						$tmp[$value['guest']['zaviapms']['age_group']] += 1;
+	// 					else
+	// 						$tmp[$value['guest']['zaviapms']['age_group']] = 1;
+	// 				}
+	// 			}
+	// 		}
+	//
+	// 		foreach ($tmp as $key => $value)
+	// 		{
+	// 			if ($edit == true)
+	// 			{
+	// 				array_push($data['labels'], $key);
+	// 				array_push($data['datasets']['data'], $value);
+	// 				array_push($data['datasets']['colors'], '#' . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT));
+	// 			}
+	// 			else
+	// 			{
+	// 				$data['labels'] .= "'" . $key . "',";
+	// 				$data['datasets']['data'] .= $value . ",";
+	// 				$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+	// 			}
+	// 		}
+	// 	}
+	//
+	// 	return $data;
+	// }
 }

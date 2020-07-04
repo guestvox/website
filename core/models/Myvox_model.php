@@ -299,31 +299,17 @@ class Myvox_model extends Model
 		return $query2;
 	}
 
-	public function get_menu_products($filter = '', $id = null)
+	public function get_menu_products($option = 'all', $id = null)
 	{
 		$fields = [];
 
-		if ($filter == 'categories')
-		{
-			$fields = [
-				'id',
-				'name',
-				'price',
-				'avatar',
-				'categories'
-			];
-		}
-		else
-		{
-			$fields = [
-				'id',
-				'name',
-				'price',
-				'avatar'
-			];
-		}
-
-		$query = Functions::get_json_decoded_query($this->database->select('menu_products', $fields, [
+		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
+			'id',
+			'name',
+			'price',
+			'avatar',
+			'categories'
+		], [
 			'AND' => [
 				'account' => Session::get_value('myvox')['account']['id'],
 				'status' => true
@@ -333,7 +319,7 @@ class Myvox_model extends Model
 			]
 		]));
 
-		if ($filter == 'categories')
+		if ($option == 'categories')
 		{
 			foreach ($query as $key => $value)
 			{
