@@ -28,7 +28,7 @@ $(document).ready(function()
 
         if (type.attr('class') == 'rate' || type.attr('class') == 'twin')
         {
-            if ($(this).val() <= 3 || $(this).val() == 'not')
+            if ($(this).val() <= 3 || $(this).val() == 'yes')
                 content.find('[data-parent="' + $(this).attr('name') + '"]').parents('[data-level]').addClass('open');
             else
             {
