@@ -1262,7 +1262,7 @@ class Voxes_controller extends Controller
 
 					if (empty($labels))
 					{
-						$_POST['id'] = $vox['id'];
+						$_POST['token'] = $vox['token'];
 						$_POST['assigned_users'] = !empty($_POST['assigned_users']) ? $_POST['assigned_users'] : [];
 						$_POST['attachments'] = $_FILES['attachments'];
 

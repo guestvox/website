@@ -1,7 +1,7 @@
 
 /* Header
 ------------------------------------------------------------------------------ */
-header.request {
+header.survey {
     width: 100%;
     height: 100px;
     position: fixed;
@@ -9,7 +9,7 @@ header.request {
     z-index: 99;
 }
 
-header.request::before {
+header.survey::before {
     content: '';
     width: 100%;
     height: 20px;
@@ -19,13 +19,13 @@ header.request::before {
     background-color: #f5f5f5;
 }
 
-header.request::after {
+header.survey::after {
     content: '';
     display: block;
     clear: both;
 }
 
-header.request > figure {
+header.survey > figure {
     width: auto;
     height: 100%;
     float: left;
@@ -36,12 +36,12 @@ header.request > figure {
     box-sizing: border-box;
 }
 
-header.request > figure > img {
+header.survey > figure > img {
     width: auto;
     height: 100%;
 }
 
-header.request > nav {
+header.survey > nav {
     width: auto;
     height: 100%;
     float: right;
@@ -50,7 +50,7 @@ header.request > nav {
     background-color: #00a5ab;
 }
 
-header.request > nav > ul {
+header.survey > nav > ul {
     width: 100%;
     height: 100%;
     display: flex;
@@ -58,8 +58,8 @@ header.request > nav > ul {
     justify-content: center;
 }
 
-header.request > nav > ul > li,
-header.request > nav > ul > li > a {
+header.survey > nav > ul > li,
+header.survey > nav > ul > li > a {
     width: 50px;
     height: 100%;
     display: flex;
@@ -70,7 +70,7 @@ header.request > nav > ul > li > a {
     color: #fff;
 }
 
-header.request > nav > ul > li > a > img {
+header.survey > nav > ul > li > a > img {
     width: 20px;
     height: 20px;
     border-radius: 50%;
@@ -80,46 +80,60 @@ header.request > nav > ul > li > a > img {
 
 /* Main
 ------------------------------------------------------------------------------ */
-main.request {
+main.survey {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 120px 40px 20px 40px;
+    padding: 120px 20px 20px 20px;
     box-sizing: border-box;
     background-color: #f5f5f5;
 }
 
-main.request > form {
+main.survey > form {
     width: 100%;
     max-width: 800px;
 }
 
-main.request > form div.label > label > p > a {
+main.survey > form div.tbl_stl_5 {
+    padding: 0px;
+}
+
+main.survey > form div.tbl_stl_5 > div > div[data-level="2"],
+main.survey > form div.tbl_stl_5 > div > div[data-level="3"] {
+    display: none;
+}
+
+main.survey > form div.tbl_stl_5 > div > div[data-level="2"].open,
+main.survey > form div.tbl_stl_5 > div > div[data-level="3"].open {
+    display: block;
+}
+
+main.survey > form div.label > label > p > a {
     color: #bdbdbd;
 }
 
-main.request > form div.label > label > input,
-main.request > form div.label > label > textarea,
-main.request > form div.label > label > select {
+main.survey > form div.label > label > input,
+main.survey > form div.label > label > textarea,
+main.survey > form div.label > label > select {
     border-radius: 5px;
     background-color: #fff;
 }
 
-main.request > form div.label > label > input,
-main.request > form div.label > label > select {
+main.survey > form div.label > label > input,
+main.survey > form div.label > label > select {
     height: 60px;
 }
 
-main.request > form div.buttons > a {
+main.survey > form div.buttons > a {
     background-color: #f44336;
     color: #fff;
 }
 
 /* Footer
 ------------------------------------------------------------------------------ */
-footer.request {
+footer.survey {
     width: 100%;
     display: flex;
     align-items: center;
@@ -130,7 +144,7 @@ footer.request {
     background-color: #f5f5f5;
 }
 
-footer.request > h4 {
+footer.survey > h4 {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -139,18 +153,18 @@ footer.request > h4 {
     color: #757575;
 }
 
-footer.request > h4 > img {
+footer.survey > h4 > img {
     width: auto;
     height: 20px;
     margin-left: 5px;
 }
 
-footer.request > p {
+footer.survey > p {
     font-size: 12px;
     font-weight: 400;
     color: #757575;
 }
 
-footer.request > p > i {
+footer.survey > p > i {
     margin: 0px 5px;
 }

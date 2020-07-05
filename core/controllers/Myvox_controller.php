@@ -3,8 +3,8 @@
 defined('_EXEC') or die;
 
 require_once 'plugins/nexmo/vendor/autoload.php';
-// require 'plugins/aws/vendor/autoload.php';
 
+// require 'plugins/aws/vendor/autoload.php';
 // use PHPMailer\PHPMailer\PHPMailer;
 // use PHPMailer\PHPMailer\Exception;
 // use Aws\Ses\SesClient;
@@ -91,20 +91,20 @@ class Myvox_controller extends Controller
 				}
 			}
 
-			// $btn_new_survey_answer = '';
-			//
-			// if (Session::get_value('myvox')['account']['reputation'] == true)
-			// {
-			// 	if (Session::get_value('myvox')['account']['settings']['myvox']['survey']['status'] == true)
-			// 		$btn_new_survey_answer .= '<a href="/' . $params[0] . '/myvox/survey">' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['title'][$this->lang1] . '</a>';
-			// }
+			$btn_new_survey_answer = '';
+
+			if (Session::get_value('myvox')['account']['reputation'] == true)
+			{
+				if (Session::get_value('myvox')['account']['settings']['myvox']['survey']['status'] == true)
+					$btn_new_survey_answer .= '<a href="/' . $params[0] . '/survey">' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['title'][$this->lang1] . '</a>';
+			}
 
 			$replace = [
 				'{$logotype}' => '{$path.uploads}' . Session::get_value('myvox')['account']['logotype'],
 				'{$btn_new_request}' => $btn_new_request,
 				'{$btn_new_incident}' => $btn_new_incident,
 				'{$btn_new_menu_order}' => $btn_new_menu_order,
-				// '{$btn_new_survey_answer}' => $btn_new_survey_answer
+				'{$btn_new_survey_answer}' => $btn_new_survey_answer
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -1360,55 +1360,6 @@ class Myvox_controller extends Controller
 
 								if (!empty($query))
 								{
-
-								// 	$sender = 'saulantonio219@gmail.com';
-								// 	$senderName = 'Saul Poot';
-								//
-								// 	$recipient = 'abrahamaldair16@gmail.com';
-								// 	$usernameSmtp = 'AKIAVAEOB4AEJOVGS2CZ';
-								// 	$passwordSmtp = 'BCvzm+cs2jbnrMGmPZYRyrtXZHcOUVGsFrYb4NBO4FQR';
-								// 	$configurationSet = 'demo-gv';
-								// 	$host = 'email-smtp.us-east-1.amazonaws.com';
-								// 	$port = 587;
-								//
-								// 	$subject = 'Amazon SES test (SMTP interface accessed using PHP)';
-								//
-								// 	$bodyText =  "Email Test\r\nThis email was sent through the
-								// 	    Amazon SES SMTP interface using the PHPMailer class.";
-								//
-								// 	$bodyHtml = '<h1>Email Test</h1>
-								// 	    <p>This email was sent through the
-								// 	    <a href="https://aws.amazon.com/ses">Amazon SES</a> SMTP
-								// 	    interface using the <a href="https://github.com/PHPMailer/PHPMailer">
-								// 	    PHPMailer</a> class.</p>';
-								//
-								// 	$mail = new Mailer(true);
-								//
-								// 	try {
-								//     $mail->isSMTP();
-								//     $mail->setFrom($sender, $senderName);
-								//     $mail->Username   = $usernameSmtp;
-								//     $mail->Password   = $passwordSmtp;
-								//     $mail->Host       = $host;
-								//     $mail->Port       = $port;
-								//     $mail->SMTPAuth   = true;
-								//     $mail->SMTPSecure = 'tls';
-								//     $mail->addCustomHeader('X-SES-CONFIGURATION-SET', $configurationSet);
-								//
-								//     $mail->addAddress($recipient);
-								//
-								//     $mail->isHTML(true);
-								//     $mail->Subject    = $subject;
-								//     $mail->Body       = $bodyHtml;
-								//     $mail->AltBody    = $bodyText;
-								//     $mail->Send();
-								//     echo "Email sent!" , PHP_EOL;
-								// } catch (phpmailerException $e) {
-								//     echo "An error occurred. {$e->errorMessage()}", PHP_EOL; //Catch errors from PHPMailer.
-								// } catch (Exception $e) {
-								//     echo "Email not sent. {$mail->ErrorInfo}", PHP_EOL; //Catch errors from Amazon SES.
-								// }
-
 									$mail1 = new Mailer(true);
 
 									try
@@ -1596,6 +1547,54 @@ class Myvox_controller extends Controller
 										Session::set_value('myvox', $myvox);
 									}
 
+									// 	$sender = 'saulantonio219@gmail.com';
+									// 	$senderName = 'Saul Poot';
+									//
+									// 	$recipient = 'abrahamaldair16@gmail.com';
+									// 	$usernameSmtp = 'AKIAVAEOB4AEJOVGS2CZ';
+									// 	$passwordSmtp = 'BCvzm+cs2jbnrMGmPZYRyrtXZHcOUVGsFrYb4NBO4FQR';
+									// 	$configurationSet = 'demo-gv';
+									// 	$host = 'email-smtp.us-east-1.amazonaws.com';
+									// 	$port = 587;
+									//
+									// 	$subject = 'Amazon SES test (SMTP interface accessed using PHP)';
+									//
+									// 	$bodyText =  "Email Test\r\nThis email was sent through the
+									// 	    Amazon SES SMTP interface using the PHPMailer class.";
+									//
+									// 	$bodyHtml = '<h1>Email Test</h1>
+									// 	    <p>This email was sent through the
+									// 	    <a href="https://aws.amazon.com/ses">Amazon SES</a> SMTP
+									// 	    interface using the <a href="https://github.com/PHPMailer/PHPMailer">
+									// 	    PHPMailer</a> class.</p>';
+									//
+									// 	$mail = new Mailer(true);
+									//
+									// 	try {
+									//     $mail->isSMTP();
+									//     $mail->setFrom($sender, $senderName);
+									//     $mail->Username   = $usernameSmtp;
+									//     $mail->Password   = $passwordSmtp;
+									//     $mail->Host       = $host;
+									//     $mail->Port       = $port;
+									//     $mail->SMTPAuth   = true;
+									//     $mail->SMTPSecure = 'tls';
+									//     $mail->addCustomHeader('X-SES-CONFIGURATION-SET', $configurationSet);
+									//
+									//     $mail->addAddress($recipient);
+									//
+									//     $mail->isHTML(true);
+									//     $mail->Subject    = $subject;
+									//     $mail->Body       = $bodyHtml;
+									//     $mail->AltBody    = $bodyText;
+									//     $mail->Send();
+									//     echo "Email sent!" , PHP_EOL;
+									// } catch (phpmailerException $e) {
+									//     echo "An error occurred. {$e->errorMessage()}", PHP_EOL; //Catch errors from PHPMailer.
+									// } catch (Exception $e) {
+									//     echo "Email not sent. {$mail->ErrorInfo}", PHP_EOL; //Catch errors from Amazon SES.
+									// }
+
 									Functions::environment([
 										'status' => 'success',
 										'message' => '{$lang.thanks_received_menu_order} <strong>' . $_POST['email'] . '</strong> {$lang.thanks_received_vox}',
@@ -1612,8 +1611,6 @@ class Myvox_controller extends Controller
 							}
 							else
 							{
-								// print_r('Entro aqui');
-
 								Functions::environment([
 									'status' => 'error',
 									'message' => '{$lang.operation_error}'
@@ -1893,528 +1890,496 @@ class Myvox_controller extends Controller
 			header('Location: /');
     }
 
-    // public function survey($params)
-    // {
-	// 	if ($_POST['action'] == 'new_survey_answer')
-	// 	{
-	// 		$labels = [];
-	//
-	// 		if (Session::get_value('myvox')['url'] == 'account')
-	// 		{
-	// 			if (!isset($_POST['owner']) OR empty($_POST['owner']))
-	// 				array_push($labels, ['owner','']);
-	// 		}
-	//
-	// 		if (!empty($_POST['firstname']) OR !empty($_POST['lastname']))
-	// 		{
-	// 			if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-	// 				array_push($labels, ['firstname','']);
-	//
-	// 			if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-	// 				array_push($labels, ['lastname','']);
-	// 		}
-	//
-	// 		if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
-	// 			array_push($labels, ['email','']);
-	//
-	// 		if (!empty($_POST['phone_lada']) OR !empty($_POST['phone_number']))
-	// 		{
-	// 			if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
-	// 				array_push($labels, ['phone_lada','']);
-	//
-	// 			if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
-	// 				array_push($labels, ['phone_number','']);
-	// 		}
-	//
-	// 		if (empty($labels))
-	// 		{
-	// 			$_POST['token'] = strtolower(Functions::get_random(8));
-	// 			$_POST['answers'] = $_POST;
-	//
-	// 			unset($_POST['answers']['owner']);
-	// 			unset($_POST['answers']['comment']);
-	// 			unset($_POST['answers']['firstname']);
-	// 			unset($_POST['answers']['lastname']);
-	// 			unset($_POST['answers']['email']);
-	// 			unset($_POST['answers']['phone_lada']);
-	// 			unset($_POST['answers']['phone_number']);
-	// 			unset($_POST['answers']['action']);
-	// 			unset($_POST['answers']['token']);
-	//
-	// 			foreach ($_POST['answers'] as $key => $value)
-	// 			{
-	// 				$explode = explode('-', $key);
-	//
-	// 				if ($explode[0] == 'pn' OR $explode[0] == 'pr' OR $explode[0] == 'pt' OR $explode[0] == 'po' OR $explode[0] == 'pc')
-	// 				{
-	// 					if ($explode[0] == 'pn')
-	// 						$explode[0] = 'nps';
-	// 					else if ($explode[0] == 'pr')
-	// 						$explode[0] = 'rate';
-	// 					else if ($explode[0] == 'pt')
-	// 						$explode[0] = 'twin';
-	// 					else if ($explode[0] == 'po')
-	// 						$explode[0] = 'open';
-	// 					else if ($explode[0] == 'pc')
-	// 					{
-	// 						$explode[0] = 'check';
-	// 						$value = json_encode($value);
-	// 					}
-	//
-	// 					$_POST['answers'][$explode[1]] = [
-	// 						'id' => $explode[1],
-	// 						'answer' => $value,
-	// 						'type' => $explode[0],
-	// 						'subanswers' => []
-	// 					];
-	//
-	// 					unset($_POST['answers'][$key]);
-	// 				}
-	// 				else if ($explode[0] == 'sr' OR $explode[0] == 'st' OR $explode[0] == 'so')
-	// 				{
-	// 					if (!empty($value))
-	// 					{
-	// 						if ($explode[0] == 'sr')
-	// 							$explode[0] = 'rate';
-	// 						else if ($explode[0] == 'st')
-	// 							$explode[0] = 'twin';
-	// 						else if ($explode[0] == 'so')
-	// 							$explode[0] = 'open';
-	//
-	// 						array_push($_POST['answers'][$explode[1]]['subanswers'], [
-	// 							'id' => $explode[2],
-	// 							'type' => $explode[0],
-	// 							'answer' => $value,
-	// 							'subanswers' => []
-	// 						]);
-	// 					}
-	//
-	// 					unset($_POST['answers'][$key]);
-	// 				}
-	// 				else if ($explode[0] == 'ssr' OR $explode[0] == 'sst' OR $explode[0] == 'sso')
-	// 				{
-	// 					if (!empty($value))
-	// 					{
-	// 						if ($explode[0] == 'ssr')
-	// 							$explode[0] = 'rate';
-	// 						else if ($explode[0] == 'sst')
-	// 							$explode[0] = 'twin';
-	// 						else if ($explode[0] == 'sso')
-	// 							$explode[0] = 'open';
-	//
-	// 						array_push($_POST['answers'][$explode[1]]['subanswers'][$explode[2]]['subanswers'], [
-	// 							'id' => $explode[4],
-	// 							'type' => $explode[0],
-	// 							'answer' => $value
-	// 						]);
-	// 					}
-	//
-	// 					unset($_POST['answers'][$key]);
-	// 				}
-	// 			}
-	//
-	// 			sort($_POST['answers']);
-	//
-	// 			$query = $this->model->new_survey_answer($_POST);
-	//
-	// 			if (!empty($query))
-	// 			{
-	// 				$mail = new Mailer(true);
-	//
-	// 				try
-	// 				{
-	// 					$mail->setFrom('noreply@guestvox.com', 'Guestvox');
-	// 					$mail->addAddress($_POST['email'], ((!empty($_POST['firstname']) AND !empty($_POST['lastname'])) ? $_POST['firstname'] . ' ' . $_POST['lastname'] : Languages::email('not_name')[$this->lang1]));
-	// 					$mail->Subject = Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['subject'][$this->lang1];
-	// 					$mail->Body =
-	// 					'<html>
-	// 						<head>
-	// 							<title>' . $mail->Subject . '</title>
-	// 						</head>
-	// 						<body>
-	// 							<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
-	// 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-	// 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-	// 										<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-	// 											<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('myvox')['account']['logotype'] . '">
-	// 										</figure>
-	// 									</td>
-	// 								</tr>
-	// 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-	// 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-	// 										<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
-	// 										<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;center:#757575;">' . Languages::email('token')[$this->lang1] . ': ' . $_POST['token'] . '</h6>
-	// 										<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;center:#757575;">' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['description'][$this->lang1] . '</p>';
-	//
-	// 					if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['image']))
-	// 					{
-	// 						$mail->Body .=
-	// 						'<figure style="width:100%;margin:20px 0px 0px 0px;padding:0px;text-align:center;">
-	// 							<img style="width:100%;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['image'] . '">
-	// 						</figure>';
-	// 					}
-	//
-	// 					if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['attachment']))
-	// 						$mail->Body .= '<a style="width:100%;display:block;margin:20px 0px 0px 0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/uploads/' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['attachment'] . '" download="'. Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['attachment'] . '">' . Languages::email('download_file')[$this->lang1] . '</a>';
-	//
-	// 					$mail->Body .=
-	// 					'				</td>
-	// 								</tr>
-	// 								<tr style="width:100%;margin:0px;padding:0px;border:0px;">
-	// 									<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-	// 										<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">Power by Guestvox</a>
-	// 									</td>
-	// 								</tr>
-	// 							</table>
-	// 						</body>
-	// 					</html>';
-	// 					$mail->send();
-	// 				}
-	// 				catch (Exception $e) { }
-	//
-	// 				if (!empty($_POST['phone_lada']) AND !empty($_POST['phone_number']))
-	// 				{
-	// 					$sms = $this->model->get_sms();
-	//
-	// 					if ($sms > 0)
-	// 					{
-	// 						$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
-	// 						$sms_client = new \Nexmo\Client($sms_basic);
-	// 						$sms_text = Session::get_value('myvox')['account']['name'] . '. ' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['subject'][$this->lang1] . '. ' . Languages::email('token')[$this->lang1] . ': ' . $_POST['token'] . '. Power by Guestvox';
-	//
-	// 						try
-	// 						{
-	// 							$sms_client->message()->send([
-	// 								'to' => $_POST['phone_lada'] . $_POST['phone_number'],
-	// 								'from' => 'Guestvox',
-	// 								'text' => $sms_text
-	// 							]);
-	//
-	// 							$sms = $sms - 1;
-	// 						}
-	// 						catch (Exception $e) { }
-	//
-	// 						$this->model->edit_sms($sms);
-	// 					}
-	// 				}
-	//
-	// 				$widget = false;
-	//
-	// 				if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget']))
-	// 				{
-	// 					$survey_average = $this->model->get_survey_average($query);
-	//
-	// 					if ($survey_average >= 4)
-	// 						$widget = true;
-	// 				}
-	//
-	// 				if (Session::get_value('myvox')['url'] == 'account')
-	// 					Session::set_value('owner', $this->model->get_owner());
-	//
-	// 				Functions::environment([
-	// 					'status' => 'success',
-	// 					'widget' => $widget,
-	// 					'message' => '{$lang.thanks_answering_survey_1}' . $_POST['email'] . '{$lang.thanks_answering_survey_2}'
-	// 				]);
-	// 			}
-	// 			else
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'error',
-	// 					'message' => '{$lang.operation_error}'
-	// 				]);
-	// 			}
-	// 		}
-	// 		else
-	// 		{
-	// 			Functions::environment([
-	// 				'status' => 'error',
-	// 				'labels' => $labels
-	// 			]);
-	// 		}
-	// 	}
-	//
-	// 	$btn_new_survey_answer = '';
-	// 	$mdl_new_survey_answer = '';
-	// 	$mdl_survey_widget = '';
-	//
-	// 	if (Session::get_value('myvox')['account']['reputation'] == true)
-	// 	{
-	// 		if (Session::get_value('myvox')['account']['settings']['myvox']['survey']['status'] == true)
-	// 		{
-	// 			$btn_new_survey_answer .= '<a data-button-modal="new_survey_answer">' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['title'][$this->lang1] . '</a>';
-	//
-	// 			$mdl_new_survey_answer .=
-	// 			'<section class="modal" data-modal="new_survey_answer">
-	// 				<div class="content">
-	// 					<main>
-	// 						<form name="new_survey_answer">';
-	//
-	// 			foreach ($this->model->get_surveys_questions() as $value)
-	// 			{
-	// 				$mdl_new_survey_answer .=
-	// 				'<article>
-	// 			   		<h6>' . $value['name'][$this->lang1] . '</h6>';
-	//
-	// 				if ($value['type'] == 'nps')
-	// 				{
-	// 					$mdl_new_survey_answer .=
-	// 					'<div class="rate">
-	// 					   <label><i>1</i><input type="radio" name="pn-' . $value['id'] . '" value="1"></label>
-	// 					   <label><i>2</i><input type="radio" name="pn-' . $value['id'] . '" value="2"></label>
-	// 					   <label><i>3</i><input type="radio" name="pn-' . $value['id'] . '" value="3"></label>
-	// 					   <label><i>4</i><input type="radio" name="pn-' . $value['id'] . '" value="4"></label>
-	// 					   <label><i>5</i><input type="radio" name="pn-' . $value['id'] . '" value="5"></label>
-	// 					   <label><i>6</i><input type="radio" name="pn-' . $value['id'] . '" value="6"></label>
-	// 					   <label><i>7</i><input type="radio" name="pn-' . $value['id'] . '" value="7"></label>
-	// 					   <label><i>8</i><input type="radio" name="pn-' . $value['id'] . '" value="8"></label>
-	// 					   <label><i>9</i><input type="radio" name="pn-' . $value['id'] . '" value="9"></label>
-	// 					   <label><i>10</i><input type="radio" name="pn-' . $value['id'] . '" value="10"></label>
-	// 					</div>';
-	// 				}
-	// 				else if ($value['type'] == 'rate')
-	// 				{
-	// 					$mdl_new_survey_answer .=
-	// 					'<div class="rate">
-	// 					   <label><i class="far fa-sad-cry"></i><input type="radio" name="pr-' . $value['id'] . '" value="1" data-action="open_subquestion"></label>
-	// 					   <label><i class="far fa-frown"></i><input type="radio" name="pr-' . $value['id'] . '" value="2" data-action="open_subquestion"></label>
-	// 					   <label><i class="far fa-meh-rolling-eyes"></i><input type="radio" name="pr-' . $value['id'] . '" value="3" data-action="open_subquestion"></label>
-	// 					   <label><i class="far fa-smile"></i><input type="radio" name="pr-' . $value['id'] . '" value="4" data-action="open_subquestion"></label>
-	// 					   <label><i class="far fa-grin-stars"></i><input type="radio" name="pr-' . $value['id'] . '" value="5" data-action="open_subquestion"></label>
-	// 					</div>';
-	// 				}
-	// 				else if ($value['type'] == 'twin')
-	// 				{
-	// 					$mdl_new_survey_answer .=
-	// 					'<div>
-	// 					   <label>{$lang.to_yes}</label>
-	// 					   <label><input type="radio" name="pt-' . $value['id'] . '" value="yes" data-action="open_subquestion"></label>
-	// 					   <label><input type="radio" name="pt-' . $value['id'] . '" value="no" data-action="open_subquestion"></label>
-	// 					   <label>{$lang.to_not}</label>
-	// 					</div>';
-	// 				}
-	// 				else if ($value['type'] == 'open')
-	// 				{
-	// 					$mdl_new_survey_answer .=
-	// 					'<div>
-	// 					   <input type="text" name="po-' . $value['id'] . '">
-	// 					</div>';
-	// 				}
-	// 				else if ($value['type'] == 'check')
-	// 				{
-	// 					foreach ($value['values'] as $subkey => $subvalue)
-	// 					{
-	// 						$mdl_new_survey_answer .=
-	// 						'<div class="checkboxes">
-	// 							<input type="checkbox" name="pc-' . $value['id'] . '-values[]" value="' . $subkey . '">
-	// 							<span>' . $subvalue[$this->lang1] . '</span>
-	// 						</div>';
-	// 					}
-	// 				}
-	//
-	// 				$mdl_new_survey_answer .= '</article>';
-	//
-	// 				if (!empty($value['subquestions']))
-	// 				{
-	// 					if ($value['type'] == 'rate')
-	// 					   $mdl_new_survey_answer .= '<article id="pr-' . $value['id'] . '" class="subquestions hidden">';
-	// 					else if ($value['type'] == 'twin')
-	// 					   $mdl_new_survey_answer .= '<article id="pt-' . $value['id'] . '" class="subquestions hidden">';
-	//
-	// 					foreach ($value['subquestions'] as $subkey => $subvalue)
-	// 					{
-	// 					   	if ($subvalue['status'] == true)
-	// 					   	{
-	// 						   	$mdl_new_survey_answer .= '<h6>' . $subvalue['name'][$this->lang1] . '</h6>';
-	//
-	// 						   	if ($subvalue['type'] == 'rate')
-	// 						   	{
-	// 							   	$mdl_new_survey_answer .=
-	// 							   	'<div class="rate">
-	// 								   	<label><i class="far fa-sad-cry"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="1" data-action="open_subquestion_sub"></label>
-	// 								   	<label><i class="far fa-frown"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="2" data-action="open_subquestion_sub"></label>
-	// 								   	<label><i class="far fa-meh-rolling-eyes"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="3" data-action="open_subquestion_sub"></label>
-	// 								   	<label><i class="far fa-smile"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="4" data-action="open_subquestion_sub"></label>
-	// 								   	<label><i class="far fa-grin-stars"></i><input type="radio" name="sr-' . $value['id'] . '-' . $subvalue['id'] . '" value="5" data-action="open_subquestion_sub"></label>
-	// 							   	</div>';
-	// 						   	}
-	// 						   	else if ($subvalue['type'] == 'twin')
-	// 						   	{
-	// 							   	$mdl_new_survey_answer .=
-	// 							   	'<div>
-	// 								   	<label>{$lang.to_yes}</label>
-	// 								   	<label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="yes" data-action="open_subquestion_sub"></label>
-	// 								   	<label><input type="radio" name="st-' . $value['id'] . '-' . $subvalue['id'] . '" value="no" data-action="open_subquestion_sub"></label>
-	// 								   	<label>{$lang.to_not}</label>
-	// 							  	</div>';
-	// 						   	}
-	// 						   	else if ($subvalue['type'] == 'open')
-	// 						   	{
-	// 							   	$mdl_new_survey_answer .=
-	// 							   	'<div>
-	// 								   	<input type="text" name="so-' . $value['id'] . '-' . $subvalue['id'] . '">
-	// 							   	</div>';
-	// 						   	}
-	//
-	// 						   	if (!empty($subvalue['subquestions']))
-	// 						   	{
-	// 							   	if ($subvalue['type'] == 'rate')
-	// 							   		$mdl_new_survey_answer .= '<article id="sr-' . $value['id'] . '-' . $subvalue['id'] . '" class="subquestions-sub hidden">';
-	// 								else if ($subvalue['type'] == 'twin')
-	// 								   	$mdl_new_survey_answer .= '<article id="st-' . $value['id'] . '-' . $subvalue['id'] . '" class="subquestions-sub hidden">';
-	//
-	// 							   	foreach ($subvalue['subquestions'] as $parentkey => $parentvalue)
-	// 							   	{
-	// 									if ($parentvalue['status'] == true)
-	// 									{
-	// 										$mdl_new_survey_answer .= '<h6>' . $parentvalue['name'][$this->lang1] . '</h6>';
-	//
-	// 									  	if ($parentvalue['type'] == 'rate')
-	// 										{
-	// 											$mdl_new_survey_answer .=
-	// 											'<div class="rate">
-	// 											   <label><i class="far fa-sad-cry"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="1"></label>
-	// 											   <label><i class="far fa-frown"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="2"></label>
-	// 											   <label><i class="far fa-meh-rolling-eyes"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="3"></label>
-	// 											   <label><i class="far fa-smile"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="4"></label>
-	// 											   <label><i class="far fa-grin-stars"></i><input type="radio" name="ssr-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="5"></label>
-	// 											</div>';
-	// 										}
-	// 										else if ($parentvalue['type'] == 'twin')
-	// 										{
-	// 											$mdl_new_survey_answer .=
-	// 											'<div>
-	// 											   <label>{$lang.to_yes}</label>
-	// 											   <label><input type="radio" name="sst-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="yes"></label>
-	// 											   <label><input type="radio" name="sst-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '" value="no"></label>
-	// 											   <label>{$lang.to_not}</label>
-	// 											</div>';
-	// 										}
-	// 										else if ($parentvalue['type'] == 'open')
-	// 										{
-	// 											$mdl_new_survey_answer .=
-	// 											'<div>
-	// 											   <input type="text" name="sso-' . $value['id'] . '-' . $subkey . '-' . $subvalue['id'] . '-' . $parentvalue['id'] . '">
-	// 											</div>';
-	// 										}
-	// 									}
-	// 							   	}
-	//
-	// 								$mdl_new_survey_answer .= '</article>';
-	// 					   		}
-	// 					   	}
-	// 					}
-	//
-	// 					$mdl_new_survey_answer .= '</article>';
-	// 				}
-	// 		   	}
-	//
-	// 			$mdl_new_survey_answer .= '<div class="row">';
-	//
-	// 			if (Session::get_value('myvox')['url'] == 'account')
-	// 			{
-	// 				$mdl_new_survey_answer .=
-	// 				'<div class="span12">
-	// 					<div class="label">
-	// 						<label required>
-	// 							<p>{$lang.owner}</p>
-	// 							<select name="owner"></select>
-	// 						</label>
-	// 					</div>
-	// 				</div>';
-	// 			}
-	//
-	// 			$mdl_new_survey_answer .=
-	// 			'<div class="span12">
-	// 				<div class="label">
-	// 					<label unrequired>
-	// 						<p>{$lang.comments}</p>
-	// 						<textarea name="comment"></textarea>
-	// 					</label>
-	// 				</div>
-	// 			</div>
-	// 			<div class="span12">
-	// 				<div class="label">
-	// 					<label unrequired>
-	// 						<p>{$lang.firstname}</p>
-	// 						<input type="text" name="firstname">
-	// 					</label>
-	// 				</div>
-	// 			</div>
-	// 			<div class="span12">
-	// 				<div class="label">
-	// 					<label unrequired>
-	// 						<p>{$lang.lastname}</p>
-	// 						<input type="text" name="lastname">
-	// 					</label>
-	// 				</div>
-	// 			</div>
-	// 			<div class="span12">
-	// 				<div class="label">
-	// 					<label required>
-	// 						<p>{$lang.email}</p>
-	// 						<input type="email" name="email">
-	// 					</label>
-	// 				</div>
-	// 			</div>
-	// 			<div class="span4">
-	// 				<div class="label">
-	// 					<label unrequired>
-	// 						<p>{$lang.lada}</p>
-	// 						<select name="phone_lada">
-	// 							<option value="">{$lang.empty} ({$lang.choose})</option>';
-	//
-	// 			foreach ($this->model->get_countries() as $value)
-	// 				$mdl_new_survey_answer .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang1] . ' (+' . $value['lada'] . ')</option>';
-	//
-	// 			$mdl_new_survey_answer .=
-	// 			'								</select>
-	// 										</label>
-	// 									</div>
-	// 								</div>
-	// 								<div class="span8">
-	// 									<div class="label">
-	// 										<label unrequired>
-	// 											<p>{$lang.phone}</p>
-	// 											<input type="number" name="phone_number">
-	// 										</label>
-	// 									</div>
-	// 								</div>
-	// 								<div class="span12">
-	// 									<div class="buttons">
-	// 										<button type="submit">{$lang.accept}</button>
-	// 										<button button-cancel>{$lang.cancel}</button>
-	// 									</div>
-	// 								</div>
-	// 							</div>
-	// 						</form>
-	// 					</main>
-	// 				</div>
-	// 			</section>';
-	//
-	// 			if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget']))
-	// 			{
-	// 				$mdl_survey_widget .=
-	// 				'<section class="modal" data-modal="survey_widget">
-	// 				    <div class="content">
-	// 				        <main>
-	// 							<div class="row">
-	// 								<div class="span12">
-	// 									<div class="widget">
-	// 										' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget'] . '
-	// 									</div>
-	// 								</div>
-	// 								<div class="span12">
-	// 									<div class="buttons">
-	// 										<button button-close>{$lang.accept}</button>
-	// 									</div>
-	// 								</div>
-	// 							</div>
-	// 						</main>
-	// 				    </div>
-	// 				</section>';
-	// 			}
-	// 		}
-	// 	}
-    // }
+    public function survey($params)
+    {
+		$break = true;
+
+		if (Session::exists_var('myvox') == true AND !empty(Session::get_value('myvox')['account']))
+		{
+			if (Session::get_value('myvox')['account']['reputation'] == true AND Session::get_value('myvox')['account']['settings']['myvox']['survey']['status'] == true)
+			{
+				if (!empty(Session::get_value('myvox')['url']))
+				{
+					if (Session::get_value('myvox')['url'] == 'account')
+						$break = false;
+					else if (Session::get_value('myvox')['url'] == 'owner' AND !empty(Session::get_value('myvox')['owner']))
+						$break = false;
+				}
+			}
+		}
+
+		if ($break == false)
+		{
+			if (Format::exist_ajax_request() == true)
+			{
+				if ($_POST['action'] == 'get_owner')
+				{
+					$owner = $this->model->get_owner($_POST['owner']);
+
+					if (!empty($owner))
+					{
+						if (Session::get_value('myvox')['account']['type'] == 'hotel')
+							$owner['reservation'] = $this->model->get_reservation($owner['number']);
+
+						$myvox = Session::get_value('myvox');
+
+						$myvox['owner'] = $owner;
+
+						Session::set_value('myvox', $myvox);
+
+						Functions::environment([
+							'status' => 'success'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+
+				if ($_POST['action'] == 'new_survey_answer')
+				{
+					$labels = [];
+
+					if (Session::get_value('myvox')['url'] == 'account')
+					{
+						if (!isset($_POST['owner']) OR empty($_POST['owner']))
+							array_push($labels, ['owner','']);
+					}
+
+					if (!empty($_POST['firstname']) OR !empty($_POST['lastname']))
+					{
+						if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+							array_push($labels, ['firstname','']);
+
+						if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+							array_push($labels, ['lastname','']);
+					}
+
+					if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
+						array_push($labels, ['email','']);
+
+					if (!empty($_POST['phone_lada']) OR !empty($_POST['phone_number']))
+					{
+						if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
+							array_push($labels, ['phone_lada','']);
+
+						if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
+							array_push($labels, ['phone_number','']);
+					}
+
+					if (empty($labels))
+					{
+						$_POST['token'] = strtolower(Functions::get_random(8));
+
+						$query = $this->model->new_survey_answer($_POST);
+
+						if (!empty($query))
+						{
+							$mail = new Mailer(true);
+
+							try
+							{
+								$mail->setFrom('noreply@guestvox.com', 'Guestvox');
+								$mail->addAddress($_POST['email'], ((!empty($_POST['firstname']) AND !empty($_POST['lastname'])) ? $_POST['firstname'] . ' ' . $_POST['lastname'] : Languages::email('not_name')[$this->lang1]));
+								$mail->Subject = Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['subject'][$this->lang1];
+								$mail->Body =
+								'<html>
+									<head>
+										<title>' . $mail->Subject . '</title>
+									</head>
+									<body>
+										<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+														<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('myvox')['account']['logotype'] . '">
+													</figure>
+												</td>
+											</tr>
+											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
+													<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('token')[$this->lang1] . ': ' . $_POST['token'] . '</h6>
+													<p style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['description'][$this->lang1] . '</p>';
+
+								if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['image']))
+								{
+									$mail->Body .=
+									'<figure style="width:100%;margin:20px 0px 0px 0px;padding:0px;">
+										<img style="width:100%;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['image'] . '">
+									</figure>';
+								}
+
+								if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['attachment']))
+									$mail->Body .= '<a style="width:100%;display:block;margin:20px 0px 0px 0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/uploads/' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['attachment'] . '" download="https://' . Configuration::$domain . '/uploads/' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['attachment'] . '">' . Languages::email('download_file')[$this->lang1] . '</a>';
+
+								$mail->Body .=
+								'				</td>
+											</tr>
+											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">Power by Guestvox</a>
+												</td>
+											</tr>
+										</table>
+									</body>
+								</html>';
+								$mail->send();
+							}
+							catch (Exception $e) { }
+
+							if (!empty($_POST['phone_lada']) AND !empty($_POST['phone_number']))
+							{
+								$sms = $this->model->get_sms();
+
+								if ($sms > 0)
+								{
+									$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
+									$sms_client = new \Nexmo\Client($sms_basic);
+									$sms_text = Session::get_value('myvox')['account']['name'] . '. ' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['subject'][$this->lang1] . '. ' . Languages::email('token')[$this->lang1] . ': ' . $_POST['token'] . '. ' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['mail']['description'][$this->lang1] . '. Power by Guestvox.';
+
+									try
+									{
+										$sms_client->message()->send([
+											'to' => $_POST['phone_lada'] . $_POST['phone_number'],
+											'from' => 'Guestvox',
+											'text' => $sms_text
+										]);
+
+										$sms = $sms - 1;
+									}
+									catch (Exception $e) { }
+
+									$this->model->edit_sms($sms);
+								}
+							}
+
+							$widget = false;
+
+							if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget']))
+							{
+								$average = $this->model->get_survey_average($query);
+
+								if ($average >= 4)
+									$widget = true;
+							}
+
+							Functions::environment([
+								'status' => 'success',
+								'message' => '{$lang.thanks_answering_survey_1} <strong>' . $_POST['email'] . ' </strong> {$lang.thanks_answering_survey_2}',
+								'widget' => $widget
+							]);
+						}
+						else
+						{
+							Functions::environment([
+								'status' => 'error',
+								'message' => '{$lang.operation_error}'
+							]);
+						}
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'labels' => $labels
+						]);
+					}
+				}
+			}
+			else
+			{
+				$template = $this->view->render($this, 'survey');
+
+				define('_title', 'Guestvox | {$lang.myvox} | {$lang.survey}');
+
+				$this->model->get_survey_average(1);
+
+				$html =
+				'<form name="new_survey_answer">
+					<div class="row">';
+
+				if (Session::get_value('myvox')['url'] == 'account')
+				{
+					$html .=
+					'<div class="span12">
+						<div class="label">
+							<label required>
+								<p>{$lang.owner} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+								<select name="owner">
+									<option value="" hidden>{$lang.choose}</option>';
+
+					foreach ($this->model->get_owners('survey') as $value)
+						$html .= '<option value="' . $value['id'] . '" ' . ((!empty(Session::get_value('myvox')['owner']) AND Session::get_value('myvox')['owner']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang1] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+
+					$html .=
+					'			</select>
+							</label>
+						</div>
+					</div>';
+				}
+
+				$html .=
+				'<div class="span12">
+					<div class="tbl_stl_5" data-table>';
+
+				foreach ($this->model->get_surveys_questions() as $value)
+				{
+					$html .=
+					'<div>
+						<div data-level="1">
+							<h2>' . $value['name'][$this->lang1] . '</h2>
+							<div class="' . $value['type'] . '">';
+
+					if ($value['type'] == 'nps')
+					{
+						$html .=
+						'<div>
+							<label><i>1</i><input type="radio" name="' . $value['id'] . '" value="1"></label>
+							<label><i>2</i><input type="radio" name="' . $value['id'] . '" value="2"></label>
+							<label><i>3</i><input type="radio" name="' . $value['id'] . '" value="3"></label>
+							<label><i>4</i><input type="radio" name="' . $value['id'] . '" value="4"></label>
+							<label><i>5</i><input type="radio" name="' . $value['id'] . '" value="5"></label>
+						</div>
+					   	<div>
+							<label><i>6</i><input type="radio" name="' . $value['id'] . '" value="6"></label>
+							<label><i>7</i><input type="radio" name="' . $value['id'] . '" value="7"></label>
+							<label><i>8</i><input type="radio" name="' . $value['id'] . '" value="8"></label>
+							<label><i>9</i><input type="radio" name="' . $value['id'] . '" value="9"></label>
+							<label><i>10</i><input type="radio" name="' . $value['id'] . '" value="10"></label>
+						</div>';
+					}
+					else if ($value['type'] == 'open')
+						$html .= '<input type="text" name="' . $value['id'] . '">';
+					else if ($value['type'] == 'rate')
+					{
+						$html .=
+						'<label><i class="fas fa-sad-cry"></i><input type="radio" name="' . $value['id'] . '" value="1"></label>
+						<label><i class="fas fa-frown"></i><input type="radio" name="' . $value['id'] . '" value="2"></label>
+						<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" name="' . $value['id'] . '" value="3"></label>
+						<label><i class="fas fa-smile"></i><input type="radio" name="' . $value['id'] . '" value="4"></label>
+						<label><i class="fas fa-grin-stars"></i><input type="radio" name="' . $value['id'] . '" value="5"></label>';
+					}
+					else if ($value['type'] == 'twin')
+					{
+						$html .=
+						'<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $value['id'] . '" value="not"></label>
+						<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $value['id'] . '" value="yes"></label>';
+					}
+					else if ($value['type'] == 'check')
+					{
+						$html .= '<div class="checkboxes stl_3">';
+
+						foreach ($value['values'] as $subvalue)
+						{
+							$html .=
+							'<div>
+								<input type="checkbox" name="' . $value['id'] . '[]" value="' . $subvalue['token'] . '">
+								<span>' . $subvalue[$this->lang1] . '</span>
+							</div>';
+						}
+
+						$html .= '</div>';
+					}
+
+					$html .=
+					'	</div>
+					</div>';
+
+					foreach ($this->model->get_surveys_questions($value['id']) as $subvalue)
+					{
+						$html .=
+						'<div data-level="2">
+							<h2>' . $subvalue['name'][$this->lang1] . '</h2>
+							<div class="' . $subvalue['type'] . '">';
+
+						if ($subvalue['type'] == 'open')
+							$html .= '<input type="text" name="' . $subvalue['id'] . '" data-parent="' . $value['id'] . '">';
+						else if ($subvalue['type'] == 'rate')
+						{
+							$html .=
+							'<label><i class="fas fa-sad-cry"></i><input type="radio" name="' . $subvalue['id'] . '" value="1" data-parent="' . $value['id'] . '"></label>
+							<label><i class="fas fa-frown"></i><input type="radio" name="' . $subvalue['id'] . '" value="2" data-parent="' . $value['id'] . '"></label>
+							<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" name="' . $subvalue['id'] . '" value="3" data-parent="' . $value['id'] . '"></label>
+							<label><i class="fas fa-smile"></i><input type="radio" name="' . $subvalue['id'] . '" value="4" data-parent="' . $value['id'] . '"></label>
+							<label><i class="fas fa-grin-stars"></i><input type="radio" name="' . $subvalue['id'] . '" value="5" data-parent="' . $value['id'] . '"></label>';
+						}
+						else if ($subvalue['type'] == 'twin')
+						{
+							$html .=
+							'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $subvalue['id'] . '" value="yes" data-parent="' . $value['id'] . '"></label>
+							<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $subvalue['id'] . '" value="not" data-parent="' . $value['id'] . '"></label>';
+						}
+						else if ($subvalue['type'] == 'check')
+						{
+							$html .= '<div class="checkboxes stl_3">';
+
+							foreach ($subvalue['values'] as $parentvalue)
+							{
+								$html .=
+								'<div>
+									<input type="checkbox" name="' . $subvalue['id'] . '[]" value="' . $parentvalue['token'] . '" data-parent="' . $value['id'] . '">
+									<span>' . $parentvalue[$this->lang1] . '</span>
+								</div>';
+							}
+
+							$html .= '</div>';
+						}
+
+						$html .=
+						'	</div>
+						</div>';
+
+						foreach ($this->model->get_surveys_questions($subvalue['id']) as $parentvalue)
+						{
+							$html .=
+							'<div data-level="3">
+								<h2>' . $parentvalue['name'][$this->lang1] . '</h2>
+								<div class="' . $parentvalue['type'] . '">';
+
+							if ($parentvalue['type'] == 'open')
+								$html .= '<input type="text" name="' . $parentvalue['id'] . '" data-parent="' . $subvalue['id'] . '">';
+							else if ($parentvalue['type'] == 'rate')
+							{
+								$html .=
+								'<label><i class="fas fa-sad-cry"></i><input type="radio" name="' . $parentvalue['id'] . '" value="1" data-parent="' . $subvalue['id'] . '"></label>
+								<label><i class="fas fa-frown"></i><input type="radio" name="' . $parentvalue['id'] . '" value="2" data-parent="' . $subvalue['id'] . '"></label>
+								<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" name="' . $parentvalue['id'] . '" value="3" data-parent="' . $subvalue['id'] . '"></label>
+								<label><i class="fas fa-smile"></i><input type="radio" name="' . $parentvalue['id'] . '" value="4" data-parent="' . $subvalue['id'] . '"></label>
+								<label><i class="fas fa-grin-stars"></i><input type="radio" name="' . $parentvalue['id'] . '" value="5" data-parent="' . $subvalue['id'] . '"></label>';
+							}
+							else if ($parentvalue['type'] == 'twin')
+							{
+								$html .=
+								'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $parentvalue['id'] . '" value="yes" data-parent="' . $subvalue['id'] . '"></label>
+								<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $parentvalue['id'] . '" value="not" data-parent="' . $subvalue['id'] . '"></label>';
+							}
+							else if ($parentvalue['type'] == 'check')
+							{
+								$html .= '<div class="checkboxes stl_3">';
+
+								foreach ($parentvalue['values'] as $childvalue)
+								{
+									$html .=
+									'<div>
+										<input type="checkbox" name="' . $parentvalue['id'] . '[]" value="' . $childvalue['token'] . '" data-parent="' . $subvalue['id'] . '">
+										<span>' . $childvalue[$this->lang1] . '</span>
+									</div>';
+								}
+
+								$html .= '</div>';
+							}
+
+							$html .=
+							'	</div>
+							</div>';
+						}
+					}
+
+					$html .= '</div>';
+				}
+
+				$html .=
+				'	</div>
+				</div>
+				<div class="span12">
+					<div class="label">
+						<label unrequired>
+							<p>{$lang.comment}</p>
+							<textarea name="comment"></textarea>
+						</label>
+					</div>
+				</div>
+				<div class="span6">
+					<div class="label">
+						<label unrequired>
+							<p>{$lang.firstname}</p>
+							<input type="text" name="firstname">
+						</label>
+					</div>
+				</div>
+				<div class="span6">
+					<div class="label">
+						<label unrequired>
+							<p>{$lang.lastname}</p>
+							<input type="text" name="lastname">
+						</label>
+					</div>
+				</div>
+				<div class="span6">
+					<div class="label">
+						<label required>
+							<p>{$lang.email}</p>
+							<input type="email" name="email">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label unrequired>
+							<p>{$lang.lada}</p>
+							<select name="phone_lada">
+								<option value="">{$lang.empty} ({$lang.choose})</option>';
+
+				foreach ($this->model->get_countries() as $value)
+					$html .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang1] . ' (+' . $value['lada'] . ')</option>';
+
+				$html .=
+				'					</select>
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label unrequired>
+									<p>{$lang.phone}</p>
+									<input type="number" name="phone_number">
+								</label>
+							</div>
+						</div>
+						<div class="span12">
+							<div class="buttons">
+								<a href="/' . $params[0] . '/myvox' . ((Session::get_value('myvox')['url'] == 'owner') ? '/owner/' . Session::get_value('myvox')['owner']['token'] : '') . '"><i class="fas fa-times"></i></a>
+								<button type="submit"><i class="fas fa-check"></i></button>
+							</div>
+						</div>
+					</div>
+				</form>';
+
+				$mdl_widget = '';
+
+				if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget']))
+				{
+					$mdl_widget .=
+					'<section class="modal" data-modal="widget">
+						<div class="content">
+							<main>
+								<div>' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget'] . '</div>
+								<div class="buttons">
+									<a button-close><i class="fas fa-times"></i></a>
+								</div>
+							</main>
+						</div>
+					</section>';
+				}
+
+				$replace = [
+					'{$logotype}' => '{$path.uploads}' . Session::get_value('myvox')['account']['logotype'],
+					'{$btn_home}' => '<a href="/' . $params[0] . '/myvox' . ((Session::get_value('myvox')['url'] == 'owner') ? '/owner/' . Session::get_value('myvox')['owner']['token'] : '') . '"><i class="fas fa-home"></i></a>',
+					'{$html}' => $html,
+					'{$mdl_widget}' => $mdl_widget
+				];
+
+				$template = $this->format->replace($replace, $template);
+
+				echo $template;
+			}
+		}
+		else
+			header('Location: /');
+    }
 }

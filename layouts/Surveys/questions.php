@@ -10,34 +10,18 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 %{header}%
 <main class="dashboard">
     <section class="workspace">
-        <div class="tbl_stl_1">
-            <aside class="filter">
-              <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
-              <a href="/surveys/questions" class="view"><i class="fas fa-question-circle"></i></a>
-              <?php endif; ?>
-              <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
-              <a href="/surveys/answers"><i class="fas fa-comment-alt"></i></a>
-              <?php endif; ?>
-              <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
-              <a href="/surveys/comments"><i class="far fa-comment-dots"></i></a>
-              <?php endif; ?>
-              <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
-              <a href="/surveys/contacts"><i class="far fa-address-book"></i></a>
-              <?php endif; ?>
-              <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
-              <a href="/surveys/stats"><i class="fas fa-chart-pie"></i></a>
-              <?php endif; ?>
-            </aside>
-            {$tbl_survey_questions}
+        <div class="tbl_stl_5">
+            {$tbl_surveys_questions}
         </div>
     </section>
     <section class="buttons">
         <div>
-            <a data-button-modal="search"><i class="fas fa-search"></i></a>
+            <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
+            <a href="/surveys/questions" class="active"><i class="fas fa-ghost"></i></a>
+            <?php endif; ?>
             <?php if (Functions::check_user_access(['{surveys_questions_create}']) == true) : ?>
             <a class="active" data-button-modal="new_survey_question"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
-            <a data-action="get_preview_survey"><i class="fas fa-eye"></i></a>
         </div>
     </section>
 </main>
@@ -47,9 +31,20 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
         <main>
             <form name="new_survey_question">
                 <div class="row">
+                    <div class="span12">
+                        <div class="label">
+                            <label unrequired>
+                                <p>{$lang.type}</p>
+                                <select name="parent">
+                                    <option value="">{$lang.general_question}</option>
+                                    {$opt_surveys_questions}
+                                </select>
+                            </label>
+                        </div>
+                    </div>
                     <div class="span6">
                         <div class="label">
-                            <label>
+                            <label required>
                                 <p>(ES) {$lang.name}</p>
                                 <input type="text" name="name_es">
                             </label>
@@ -57,59 +52,34 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label>
+                            <label required>
                                 <p>(EN) {$lang.name}</p>
                                 <input type="text" name="name_en">
                             </label>
                         </div>
                     </div>
-                    <div id="check" class="checkers hidden">
-                        <div class="span6">
-                            <div class="label">
-                                <label>
-                                    <p>(ES) {$lang.check_value}</p>
-                                    <input type="text" name="check_name_es">
-                                </label>
-                            </div>
-                        </div>
-                        <div class="span6">
-                            <div class="label">
-                                <label>
-                                    <p>(EN) {$lang.check_value}</p>
-                                    <input type="text" name="check_name_en">
-                                </label>
-                                <a data-action="new_check_value" class="new"><i class="fas fa-check"></i></a>
-                            </div>
-                        </div>
-                        <div class="list"></div>
-                    </div>
                     <div class="span12">
                         <div class="label">
-                            <label>
+                            <label required>
                                 <p>{$lang.type}</p>
+                                <select name="type">
+                                    <option value="" hidden>{$lang.choose}</option>
+                                    <option value="open">{$lang.open}</option>
+                                    <option value="rate">{$lang.rate} ({$lang.1_5_stars})</option>
+                                    <option value="twin">{$lang.twin}</option>
+                                    <option value="check">{$lang.check}</option>
+                                </select>
                             </label>
-                            <div class="checkboxes">
-                                <div>
-                    				<div>
-                                        <div>
-                        					<input type="radio" name="type" value="rate">
-                        					<span>{$lang.rate}</span>
-                        				</div>
-                                        <div>
-                        					<input type="radio" name="type" value="twin">
-                        					<span>{$lang.twin}</span>
-                        				</div>
-                                        <div>
-                        					<input type="radio" name="type" value="open">
-                        					<span>{$lang.open}</span>
-                        				</div>
-                                        <div>
-                        					<input type="radio" name="type" value="check">
-                        					<span>{$lang.check}</span>
-                        				</div>
-                                    </div>
-                    			</div>
+                        </div>
+                    </div>
+                    <div class="span12 hidden">
+                        <div class="tbl_stl_6">
+                            <div>
+                                <input type="text" name="value_es" placeholder="(ES) {$lang.value}">
+                                <input type="text" name="value_en" placeholder="(EN) {$lang.value}">
+                                <a data-action="add_to_values_table"><i class="fas fa-check"></i></a>
                             </div>
+                            <div data-list></div>
                         </div>
                     </div>
                     <div class="span12">

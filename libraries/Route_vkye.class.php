@@ -41,7 +41,7 @@ class Route_vkye
             '/Myvox/request',
             '/Myvox/incident',
             '/Myvox/menu',
-            '/Myvox/surveys',
+            '/Myvox/survey',
             '/Reviews/index'
         ];
 

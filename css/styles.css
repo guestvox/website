@@ -254,8 +254,9 @@ body > header.rightbar > nav > ul > li.active > a > i {
 ------------------------------------------------------------------------------ */
 body > main.dashboard {
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     position: relative;
+    overflow-y: scroll;
     background-color: #fff;
 }
 
@@ -270,20 +271,10 @@ body > main.dashboard::before {
     z-index: 98;
 }
 
-body > main.dashboard.gry > section.workspace {
-    background-color: #eee;
-}
-
 @media (min-width: 1200px) {
 
     body > main.dashboard.dkp::before {
         background-color: #eee;
-    }
-
-    body > main.dashboard.dkp > section.workspace {
-        display: flex;
-        align-items: flex-start;
-        justify-content: center;
     }
 }
 
@@ -298,6 +289,19 @@ body > main.dashboard > section.workspace {
     box-sizing: border-box;
     background-color: #fff;
     z-index: 96;
+}
+
+body > main.dashboard.gry > section.workspace {
+    background-color: #eee;
+}
+
+@media (min-width: 1200px) {
+
+    body > main.dashboard.dkp > section.workspace {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+    }
 }
 
 /* Buttons */
@@ -452,13 +456,33 @@ div.tbl_stl_1 > div:last-child {
     margin-bottom: 0px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 768px) {
 
     div.tbl_stl_1 > div {
-        width: calc(100% / 4);
         float: left;
         padding-right: 20px;
         padding-left: 20px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    div.tbl_stl_1 > div {
+        width: calc(100% / 2);
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1440px) {
+
+    div.tbl_stl_1 > div {
+        width: calc(100% / 3);
+    }
+}
+
+@media (min-width: 1441px) {
+
+    div.tbl_stl_1 > div {
+        width: calc(100% / 4);
     }
 }
 
@@ -941,10 +965,6 @@ div.tbl_stl_3 > div > div.buttons > a {
 
 div.tbl_stl_4 {
     width: 100%;
-    height: calc(100vh - 190px); /* Temp */
-    overflow-y: scroll; /* Temp */
-    padding-bottom: 90px; /* Temp */
-    box-sizing: border-box; /* Temp */
 }
 
 div.tbl_stl_4 > div {
@@ -1014,6 +1034,300 @@ div.tbl_stl_4 > div > p > img {
 
 div.tbl_stl_4 > div:last-child > p > img {
     margin-right: 0px 5px;
+}
+
+/* Style 5 */
+div.tbl_stl_5 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_5 > div {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+/*  */
+
+div.tbl_stl_5 > div > div[data-level] {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+div.tbl_stl_5 > div > div[data-level]:last-child {
+    margin-bottom: 0px;
+}
+
+@media (min-width: 1200px) {
+
+    div.tbl_stl_5 > div > div[data-level="2"] {
+        padding-left: 40px;
+        box-sizing: border-box;
+    }
+
+    div.tbl_stl_5 > div > div[data-level="3"] {
+        padding-left: 80px;
+        box-sizing: border-box;
+    }
+}
+
+/*  */
+
+div.tbl_stl_5 > div > div[data-level] > h2 {
+    width: 100%;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+@media (min-width: 1200px) {
+
+    div.tbl_stl_5 > div > div[data-level] > h2 {
+        text-align: left;
+    }
+}
+
+div.tbl_stl_5 > div > div[data-level="1"] > h2 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #212121;
+}
+
+div.tbl_stl_5 > div > div[data-level="2"] > h2,
+div.tbl_stl_5 > div > div[data-level="3"] > h2 {
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+/*  */
+
+div.tbl_stl_5 > div > div[data-level] > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 1200px) {
+
+    div.tbl_stl_5 > div > div[data-level] > div {
+        justify-content: flex-start;
+    }
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.open > input {
+    width: 100%;
+    height: 50px;
+    padding: 0px 15px;
+    border: 0px;
+    box-sizing: border-box;
+    background-color: #e0e0e0;
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.nps {
+    flex-direction: column;
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.nps > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.nps > div:last-child {
+    margin-bottom: 0px;
+}
+
+@media (min-width: 1200px) {
+
+    div.tbl_stl_5 > div > div[data-level] > div.nps > div {
+        justify-content: flex-start;
+    }
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.nps > div > label,
+div.tbl_stl_5 > div > div[data-level] > div.rate > label,
+div.tbl_stl_5 > div > div[data-level] > div.twin > label {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 5px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+@media (min-width: 1200px) {
+
+    div.tbl_stl_5 > div > div[data-level] > div.nps > div > label,
+    div.tbl_stl_5 > div > div[data-level] > div.rate > label,
+    div.tbl_stl_5 > div > div[data-level] > div.twin > label {
+        margin-right: 10px;
+        margin-left: 0px;
+    }
+
+    div.tbl_stl_5 > div > div[data-level] > div.nps > div > label:last-child,
+    div.tbl_stl_5 > div > div[data-level] > div.rate > label:last-child,
+    div.tbl_stl_5 > div > div[data-level] > div.twin > label:last-child {
+        margin-right: 0px;
+    }
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.nps > div > label > input,
+div.tbl_stl_5 > div > div[data-level] > div.rate > label > input,
+div.tbl_stl_5 > div > div[data-level] > div.twin > label > input {
+    width: 30px;
+    height: 30px;
+    margin: 0px;
+    padding: 0px;
+    border-radius: 50%;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.nps > div > label.focus > input,
+div.tbl_stl_5 > div > div[data-level] > div.rate > label.focus > input,
+div.tbl_stl_5 > div > div[data-level] > div.twin > label.focus > input {
+    background-color: #00a5ab;
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.nps > div > label > i,
+div.tbl_stl_5 > div > div[data-level] > div.rate > label > i,
+div.tbl_stl_5 > div > div[data-level] > div.twin > label > i {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-style: normal;
+    color: #9e9e9e;
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.nps > div > label.focus > i,
+div.tbl_stl_5 > div > div[data-level] > div.rate > label.focus > i,
+div.tbl_stl_5 > div > div[data-level] > div.twin > label.focus > i {
+    color: #fff;
+}
+
+/*  */
+
+div.tbl_stl_5 > div > div > div.buttons {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 1200px) {
+
+    div.tbl_stl_5 > div > div > div.buttons {
+        justify-content: flex-start;
+    }
+}
+
+div.tbl_stl_5 > div > div > div.buttons > a {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    font-size: 10px;
+    color: #757575;
+}
+
+/* Style 6 */
+div.tbl_stl_6 {
+    width: 100%;
+    padding: 0px 20px;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_6 > div:first-child {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+div.tbl_stl_6 > div:first-child > input {
+    width: calc(50% - 20px);
+    height: 30px;
+    margin-right: 5px;
+    padding: 0px 15px;
+    box-sizing: border-box;
+    border: 0px;
+    border-radius: 25px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+div.tbl_stl_6 > div:first-child > a {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: #00a5ab;
+    font-size: 14px;
+    color: #fff;
+}
+
+div.tbl_stl_6 > div:last-child,
+div.tbl_stl_6 > div:last-child > div {
+    width: 100%;
+}
+
+div.tbl_stl_6 > div:last-child > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+div.tbl_stl_6 > div:last-child > div > span {
+    width: calc(100% - 120px);
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 5px;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_6 > div:last-child > div > a {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: #eee;
+    font-size: 12px;
+    color: #757575;
 }
 
 /* Forms
@@ -1174,17 +1488,28 @@ div.checkboxes.stl_2 > div > p {
 /*  */
 
 div.checkboxes.stl_1 > div,
-div.checkboxes.stl_2 > div > div {
-    width: auto !important;
-    float: left;
+div.checkboxes.stl_2 > div > div,
+div.checkboxes.stl_3 > div {
     display: flex;
     align-items: center;
-    justify-content: center;
     padding: 5px 0px;
 }
 
+div.checkboxes.stl_1 > div,
+div.checkboxes.stl_2 > div > div {
+    width: auto !important;
+    float: left;
+    justify-content: center;
+}
+
+div.checkboxes.stl_3 > div {
+    width: 100% !important;
+    justify-content: flex-start;
+}
+
 div.checkboxes.stl_1 > div > span,
-div.checkboxes.stl_2 > div > div > span {
+div.checkboxes.stl_2 > div > div > span,
+div.checkboxes.stl_3 > div > span {
     padding: 0px 10px 0px 5px;
     font-size: 12px;
     font-weight: 400;
@@ -1193,8 +1518,10 @@ div.checkboxes.stl_2 > div > div > span {
 
 div.checkboxes.stl_1 > div > input[type="checkbox"],
 div.checkboxes.stl_2 > div > div > input[type="checkbox"],
+div.checkboxes.stl_3 > div > input[type="checkbox"],
 div.checkboxes.stl_1 > div > input[type="radio"],
-div.checkboxes.stl_2 > div > div > input[type="radio"] {
+div.checkboxes.stl_2 > div > div > input[type="radio"],
+div.checkboxes.stl_3 > div > input[type="radio"] {
     width: 20px;
     height: 20px;
     position: relative;
@@ -1206,7 +1533,8 @@ div.checkboxes.stl_2 > div > div > input[type="radio"] {
 }
 
 div.checkboxes.stl_1 > div > input[type="checkbox"]::before,
-div.checkboxes.stl_2 > div > div > input[type="checkbox"]::before {
+div.checkboxes.stl_2 > div > div > input[type="checkbox"]::before,
+div.checkboxes.stl_3 > div > input[type="checkbox"]::before {
     content: '';
     width: 20px;
     height: 20px;
@@ -1224,7 +1552,8 @@ div.checkboxes.stl_2 > div > div > input[type="checkbox"]::before {
 }
 
 div.checkboxes.stl_1 > div > input[type="checkbox"]:checked::before,
-div.checkboxes.stl_2 > div > div > input[type="checkbox"]:checked::before {
+div.checkboxes.stl_2 > div > div > input[type="checkbox"]:checked::before,
+div.checkboxes.stl_3 > div > input[type="checkbox"]:checked::before {
     height: 10px;
     top: 0px;
     left: 2px;
@@ -1237,7 +1566,8 @@ div.checkboxes.stl_2 > div > div > input[type="checkbox"]:checked::before {
 }
 
 div.checkboxes.stl_1 > div > input[type="checkbox"]::after,
-div.checkboxes.stl_2 > div > div > input[type="checkbox"]::after {
+div.checkboxes.stl_2 > div > div > input[type="checkbox"]::after,
+div.checkboxes.stl_3 > div > input[type="checkbox"]::after {
     content: '';
     width: 20px;
     height: 20px;
@@ -1250,7 +1580,8 @@ div.checkboxes.stl_2 > div > div > input[type="checkbox"]::after {
 }
 
 div.checkboxes.stl_1 > div > input[type="radio"]::before,
-div.checkboxes.stl_2 > div > div > input[type="radio"]::before {
+div.checkboxes.stl_2 > div > div > input[type="radio"]::before,
+div.checkboxes.stl_3 > div > input[type="radio"]::before {
     content: '';
     width: 20px;
     height: 20px;
@@ -1267,12 +1598,14 @@ div.checkboxes.stl_2 > div > div > input[type="radio"]::before {
 }
 
 div.checkboxes.stl_1 > div > input[type="radio"]:checked::before,
-div.checkboxes.stl_2 > div > div > input[type="radio"]:checked::before {
+div.checkboxes.stl_2 > div > div > input[type="radio"]:checked::before,
+div.checkboxes.stl_3 > div > input[type="radio"]:checked::before {
     background-color: #00a5ab;
 }
 
 div.checkboxes.stl_1 > div > input[type="radio"]::after,
-div.checkboxes.stl_2 > div > div > input[type="radio"]::after {
+div.checkboxes.stl_2 > div > div > input[type="radio"]::after,
+div.checkboxes.stl_3 > div > input[type="radio"]::after {
     content: '';
     width: 20px;
     height: 20px;
@@ -1287,8 +1620,10 @@ div.checkboxes.stl_2 > div > div > input[type="radio"]::after {
 
 div.checkboxes.stl_1 > div > input[type="checkbox"]:focus,
 div.checkboxes.stl_2 > div > div > input[type="checkbox"]:focus,
+div.checkboxes.stl_3 > div > input[type="checkbox"]:focus,
 div.checkboxes.stl_1 > div > input[type="radio"]:focus,
-div.checkboxes.stl_2 > div > div > input[type="radio"]:focus {
+div.checkboxes.stl_2 > div > div > input[type="radio"]:focus,
+div.checkboxes.stl_3 > div > input[type="radio"]:focus {
     border: none;
     box-shadow: none;
 }
@@ -2530,6 +2865,26 @@ div.voxes_charts {
         display: block;
         clear: both;
     }
+}
+
+div.voxes_charts > h2 {
+    width: 100%;
+    padding: 20px 40px 0px 40px;
+    box-sizing: border-box;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: center;
+    color: #212121;
+}
+
+div.voxes_charts > h3 {
+    width: 100%;
+    padding: 5px 40px 0px 40px;
+    box-sizing: border-box;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: center;
+    color: #212121;
 }
 
 div.voxes_charts > div {

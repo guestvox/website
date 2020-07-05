@@ -221,7 +221,7 @@ class Voxes_model extends Model
 		return $query;
 	}
 
-	public function get_vox($id, $edit = false)
+	public function get_vox($token, $edit = false)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('voxes', [
 			'id',
@@ -273,10 +273,7 @@ class Voxes_model extends Model
 			'status',
 			'origin'
 		], [
-			'OR' => [
-				'id' => $id,
-				'token' => $id
-			]
+			'token' => $token
 		]));
 
 		if (!empty($query))
@@ -334,10 +331,7 @@ class Voxes_model extends Model
 						'viewed_by' => json_encode($query[0]['viewed_by']),
 						'changes_history' => json_encode($query[0]['changes_history'])
 					], [
-						'OR' => [
-							'id' => $id,
-							'token' => $id
-						]
+						'token' => $token
 					]);
 				}
 
@@ -397,19 +391,19 @@ class Voxes_model extends Model
 
 	public function get_owners($type = 'all')
 	{
-		$where['account'] = Session::get_value('account')['id'];
+		$and['account'] = Session::get_value('account')['id'];
 
 		if ($type != 'all')
-			$where[$type] = true;
+			$and[$type] = true;
 
-		$where['status'] = true;
+		$and['status'] = true;
 
 		$query = Functions::get_json_decoded_query($this->database->select('owners', [
 			'id',
 			'name',
 			'number'
 		], [
-			'AND' => $where,
+			'AND' => $and,
 			'ORDER' => [
 				'number' => 'ASC',
 				'name' => 'ASC'
@@ -472,18 +466,18 @@ class Voxes_model extends Model
 
 	public function get_opportunity_areas($type = 'all')
 	{
-		$where['account'] = Session::get_value('account')['id'];
+		$and['account'] = Session::get_value('account')['id'];
 
 		if ($type != 'all')
-			$where[$type] = true;
+			$and[$type] = true;
 
-		$where['status'] = true;
+		$and['status'] = true;
 
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_areas', [
 			'id',
 			'name'
 		], [
-			'AND' => $where,
+			'AND' => $and,
 			'ORDER' => [
 				'name' => 'ASC'
 			]
@@ -506,18 +500,18 @@ class Voxes_model extends Model
 
 	public function get_opportunity_types($opportunity_area, $type)
 	{
-		$where['opportunity_area'] = $opportunity_area;
+		$and['opportunity_area'] = $opportunity_area;
 
 		if ($type != 'all')
-			$where[$type] = true;
+			$and[$type] = true;
 
-		$where['status'] = true;
+		$and['status'] = true;
 
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
 			'id',
 			'name'
 		], [
-			'AND' => $where,
+			'AND' => $and,
 			'ORDER' => [
 				'name' => 'ASC'
 			]
@@ -540,18 +534,18 @@ class Voxes_model extends Model
 
 	public function get_locations($type = 'all')
 	{
-		$where['account'] = Session::get_value('account')['id'];
+		$and['account'] = Session::get_value('account')['id'];
 
 		if ($type != 'all')
-			$where[$type] = true;
+			$and[$type] = true;
 
-		$where['status'] = true;
+		$and['status'] = true;
 
 		$query = Functions::get_json_decoded_query($this->database->select('locations', [
 			'id',
 			'name'
 		], [
-			'AND' => $where,
+			'AND' => $and,
 			'ORDER' => [
 				'name' => 'ASC'
 			]
@@ -841,7 +835,7 @@ class Voxes_model extends Model
 	public function edit_vox($data)
 	{
 		$query = null;
-		$editer = $this->get_vox($data['id'], true);
+		$editer = $this->get_vox($data['token'], true);
 
 		if (!empty($editer))
 		{

@@ -19,30 +19,48 @@ $(document).ready(function()
                 if (response.status == 'success')
                 {
                     v_oa_chart.data.datasets[0].data = response.data.v.oa.datasets.data;
+                    v_oa_chart.data.datasets[0].backgroundColor = response.data.v.oa.datasets.colors;
+                    v_oa_chart.data.labels = response.data.v.oa.labels;
                     v_oa_chart.update();
 
-                    v_o_chart.data.datasets[0].data = response.data.v.o.datasets.data;
+                    v_o_chart.data.datasets[0].data = response.data.v.oa.datasets.data;
+                    v_o_chart.data.datasets[0].backgroundColor = response.data.v.oa.datasets.colors;
+                    v_o_chart.data.labels = response.data.v.oa.labels;
                     v_o_chart.update();
 
-                    v_l_chart.data.datasets[0].data = response.data.v.l.datasets.data;
+                    v_l_chart.data.datasets[0].data = response.data.v.oa.datasets.data;
+                    v_l_chart.data.datasets[0].backgroundColor = response.data.v.oa.datasets.colors;
+                    v_l_chart.data.labels = response.data.v.oa.labels;
                     v_l_chart.update();
 
-                    ar_oa_chart.data.datasets[0].data = response.data.ar.oa.datasets.data;
+                    ar_oa_chart.data.datasets[0].data = response.data.v.oa.datasets.data;
+                    ar_oa_chart.data.datasets[0].backgroundColor = response.data.v.oa.datasets.colors;
+                    ar_oa_chart.data.labels = response.data.v.oa.labels;
                     ar_oa_chart.update();
 
-                    ar_o_chart.data.datasets[0].data = response.data.ar.o.datasets.data;
+                    ar_o_chart.data.datasets[0].data = response.data.v.oa.datasets.data;
+                    ar_o_chart.data.datasets[0].backgroundColor = response.data.v.oa.datasets.colors;
+                    ar_o_chart.data.labels = response.data.v.oa.labels;
                     ar_o_chart.update();
 
-                    ar_l_chart.data.datasets[0].data = response.data.ar.l.datasets.data;
+                    ar_l_chart.data.datasets[0].data = response.data.v.oa.datasets.data;
+                    ar_l_chart.data.datasets[0].backgroundColor = response.data.v.oa.datasets.colors;
+                    ar_l_chart.data.labels = response.data.v.oa.labels;
                     ar_l_chart.update();
 
-                    c_oa_chart.data.datasets[0].data = response.data.c.oa.datasets.data;
+                    c_oa_chart.data.datasets[0].data = response.data.v.oa.datasets.data;
+                    c_oa_chart.data.datasets[0].backgroundColor = response.data.v.oa.datasets.colors;
+                    c_oa_chart.data.labels = response.data.v.oa.labels;
                     c_oa_chart.update();
 
-                    c_o_chart.data.datasets[0].data = response.data.c.o.datasets.data;
+                    c_o_chart.data.datasets[0].data = response.data.v.oa.datasets.data;
+                    c_o_chart.data.datasets[0].backgroundColor = response.data.v.oa.datasets.colors;
+                    c_o_chart.data.labels = response.data.v.oa.labels;
                     c_o_chart.update();
 
-                    c_l_chart.data.datasets[0].data = response.data.c.l.datasets.data;
+                    c_l_chart.data.datasets[0].data = response.data.v.oa.datasets.data;
+                    c_l_chart.data.datasets[0].backgroundColor = response.data.v.oa.datasets.colors;
+                    c_l_chart.data.labels = response.data.v.oa.labels;
                     c_l_chart.update();
 
                     $('[data-modal="filter_voxes_stats"]').removeClass('view');
