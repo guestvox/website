@@ -125,27 +125,31 @@ class Surveys_controller extends Controller
 
 			$tbl_surveys_questions = '';
 
-			foreach ($this->model->get_surveys_questions('all') as $value)
+			foreach ($this->model->get_surveys_questions() as $value)
 			{
 				$tbl_surveys_questions .=
 				'<div>
-					<div class="level_1">
+					<div data-level="1">
 						<h2>' . $value['name'][$this->lang] . '</h2>
 						<div class="' . $value['type'] . '">';
 
 				if ($value['type'] == 'nps')
 				{
 					$tbl_surveys_questions .=
-					'<label><i>1</i><input type="radio" disabled></label>
-				   <label><i>2</i><input type="radio" disabled></label>
-				   <label><i>3</i><input type="radio" disabled></label>
-				   <label><i>4</i><input type="radio" disabled></label>
-				   <label><i>5</i><input type="radio" disabled></label>
-				   <label><i>6</i><input type="radio" disabled></label>
-				   <label><i>7</i><input type="radio" disabled></label>
-				   <label><i>8</i><input type="radio" disabled></label>
-				   <label><i>9</i><input type="radio" disabled></label>
-				   <label><i>10</i><input type="radio" disabled></label>';
+					'<div>
+						<label><i>1</i><input type="radio" disabled></label>
+					   	<label><i>2</i><input type="radio" disabled></label>
+					   	<label><i>3</i><input type="radio" disabled></label>
+					   	<label><i>4</i><input type="radio" disabled></label>
+					   	<label><i>5</i><input type="radio" disabled></label>
+					</div>
+				   	<div>
+						<label><i>6</i><input type="radio" disabled></label>
+						<label><i>7</i><input type="radio" disabled></label>
+						<label><i>8</i><input type="radio" disabled></label>
+						<label><i>9</i><input type="radio" disabled></label>
+						<label><i>10</i><input type="radio" disabled></label>
+					</div>';
 				}
 				else if ($value['type'] == 'open')
 					$tbl_surveys_questions .= '<input type="text" disabled>';
@@ -161,12 +165,12 @@ class Surveys_controller extends Controller
 				else if ($value['type'] == 'twin')
 				{
 					$tbl_surveys_questions .=
-					'<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
-					<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
+					'<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
+					<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
 				}
 				else if ($value['type'] == 'check')
 				{
-					$tbl_surveys_questions .= '<div class="checkboxes stl_1">';
+					$tbl_surveys_questions .= '<div class="checkboxes stl_3">';
 
 					foreach ($value['values'] as $subvalue)
 					{
@@ -186,9 +190,9 @@ class Surveys_controller extends Controller
 				{
 					$tbl_surveys_questions .=
 					'<div class="buttons">
-						' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
-						' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_questions_deactivate}','{surveys_questions_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_survey_question' : 'activate_survey_question') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 					</div>';
 				}
 
@@ -197,7 +201,7 @@ class Surveys_controller extends Controller
 				foreach ($this->model->get_surveys_questions('all', $value['id']) as $subvalue)
 				{
 					$tbl_surveys_questions .=
-					'<div class="level_2">
+					'<div data-level="2">
 						<h2>' . $subvalue['name'][$this->lang] . '</h2>
 						<div class="' . $subvalue['type'] . '">';
 
@@ -215,12 +219,12 @@ class Surveys_controller extends Controller
 					else if ($subvalue['type'] == 'twin')
 					{
 						$tbl_surveys_questions .=
-						'<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
-						<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
+						'<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
+						<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
 					}
 					else if ($subvalue['type'] == 'check')
 					{
-						$tbl_surveys_questions .= '<div class="checkboxes stl_1">';
+						$tbl_surveys_questions .= '<div class="checkboxes stl_3">';
 
 						foreach ($subvalue['values'] as $parentvalue)
 						{
@@ -240,9 +244,9 @@ class Surveys_controller extends Controller
 					{
 						$tbl_surveys_questions .=
 						'<div class="buttons">
-							' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey_question" data-id="' . $subvalue['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
-							' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey_question" data-id="' . $subvalue['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 							' . ((Functions::check_user_access(['{surveys_questions_deactivate}','{surveys_questions_activate}']) == true) ? '<a data-action="' . (($subvalue['status'] == true) ? 'deactivate_survey_question' : 'activate_survey_question') . '" data-id="' . $subvalue['id'] . '">' . (($subvalue['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+							' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey_question" data-id="' . $subvalue['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+							' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey_question" data-id="' . $subvalue['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 						</div>';
 					}
 
@@ -251,7 +255,7 @@ class Surveys_controller extends Controller
 					foreach ($this->model->get_surveys_questions('all', $subvalue['id']) as $parentvalue)
 					{
 						$tbl_surveys_questions .=
-						'<div class="level_3">
+						'<div data-level="3">
 							<h2>' . $parentvalue['name'][$this->lang] . '</h2>
 							<div class="' . $parentvalue['type'] . '">';
 
@@ -269,12 +273,12 @@ class Surveys_controller extends Controller
 						else if ($parentvalue['type'] == 'twin')
 						{
 							$tbl_surveys_questions .=
-							'<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
-							<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
+							'<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
+							<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
 						}
 						else if ($parentvalue['type'] == 'check')
 						{
-							$tbl_surveys_questions .= '<div class="checkboxes stle_1">';
+							$tbl_surveys_questions .= '<div class="checkboxes stl_3">';
 
 							foreach ($parentvalue['values'] as $childvalue)
 							{
@@ -294,9 +298,9 @@ class Surveys_controller extends Controller
 						{
 							$tbl_surveys_questions .=
 							'<div class="buttons">
-								' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey_question" data-id="' . $parentvalue['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
-								' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey_question" data-id="' . $parentvalue['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 								' . ((Functions::check_user_access(['{surveys_questions_deactivate}','{surveys_questions_activate}']) == true) ? '<a data-action="' . (($parentvalue['status'] == true) ? 'deactivate_survey_question' : 'activate_survey_question') . '" data-id="' . $parentvalue['id'] . '">' . (($parentvalue['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+								' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey_question" data-id="' . $parentvalue['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+								' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey_question" data-id="' . $parentvalue['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 							</div>';
 						}
 

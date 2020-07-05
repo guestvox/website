@@ -82,35 +82,32 @@ header.survey > nav > ul > li > a > img {
 ------------------------------------------------------------------------------ */
 main.survey {
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     padding: 120px 20px 20px 20px;
     box-sizing: border-box;
     background-color: #f5f5f5;
 }
 
+main.survey > form {
+    width: 100%;
+    max-width: 800px;
+}
+
+main.survey > form div.tbl_stl_5 {
+    padding: 0px;
+}
+
 main.survey > form div.tbl_stl_5 > div > div[data-level="2"],
 main.survey > form div.tbl_stl_5 > div > div[data-level="3"] {
     display: none;
-    padding-left: 0px;
 }
 
 main.survey > form div.tbl_stl_5 > div > div[data-level="2"].open,
 main.survey > form div.tbl_stl_5 > div > div[data-level="3"].open {
     display: block;
-}
-
-main.survey > form div.tbl_stl_5 > div > div[data-level] > h2 {
-    text-align: center;
-}
-
-main.survey > form div.tbl_stl_5 > div > div[data-level] > div,
-main.survey > form div.tbl_stl_5 > div > div[data-level] > div.nps > div {
-    justify-content: center;
-}
-
-main.survey > form div.tbl_stl_5 > div > div[data-level] > div.nps > div > label,
-main.survey > form div.tbl_stl_5 > div > div[data-level] > div.rate > label,
-main.survey > form div.tbl_stl_5 > div > div[data-level] > div.twin > label {
-    margin: 0px 5px;
 }
 
 main.survey > form div.label > label > p > a {

@@ -83,6 +83,10 @@ header.menu > nav > ul > li > a > img {
 main.menu {
     width: 100%;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     padding-top: 100px;
     box-sizing: border-box;
     background-color: #f5f5f5;
@@ -92,6 +96,7 @@ main.menu {
 
 main.menu > section[data-menu-categories] {
     width: 100%;
+    max-width: 800px;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -143,6 +148,7 @@ main.menu > section[data-menu-categories] > div > span {
 main.menu > section[data-menu-products],
 main.menu > section[data-shopping-cart] {
     width: 100%;
+    max-width: 800px;
     padding: 0px 20px;
     box-sizing: border-box;
 }
@@ -368,6 +374,14 @@ main.menu > section.buttons {
     justify-content: center;
     border-radius: 60px;
     background-color: #24383f;
+}
+
+@media (min-width: 1200px) {
+
+    main.menu > section.buttons {
+        right: 40%;
+        left: 40%;
+    }
 }
 
 main.menu > section.buttons > a {

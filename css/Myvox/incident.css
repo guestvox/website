@@ -82,9 +82,18 @@ header.incident > nav > ul > li > a > img {
 ------------------------------------------------------------------------------ */
 main.incident {
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     padding: 120px 40px 20px 40px;
     box-sizing: border-box;
     background-color: #f5f5f5;
+}
+
+main.incident > form {
+    width: 100%;
+    max-width: 800px;
 }
 
 main.incident > form div.label > label > p > a {
@@ -94,9 +103,13 @@ main.incident > form div.label > label > p > a {
 main.incident > form div.label > label > input,
 main.incident > form div.label > label > textarea,
 main.incident > form div.label > label > select {
-    height: 60px;
     border-radius: 5px;
     background-color: #fff;
+}
+
+main.incident > form div.label > label > input,
+main.incident > form div.label > label > select {
+    height: 60px;
 }
 
 main.incident > form div.buttons > a {
