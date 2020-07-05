@@ -1047,7 +1047,7 @@ div.tbl_stl_5 {
 
 div.tbl_stl_5 > div {
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     margin-bottom: 20px;
     padding: 20px;
     box-sizing: border-box;
@@ -1056,42 +1056,39 @@ div.tbl_stl_5 > div {
 
 /*  */
 
-div.tbl_stl_5 > div > div {
+div.tbl_stl_5 > div > div[data-level] {
     width: 100%;
     margin-bottom: 20px;
+    box-sizing: border-box;
 }
 
-div.tbl_stl_5 > div > div:last-child {
+div.tbl_stl_5 > div > div[data-level]:last-child {
     margin-bottom: 0px;
 }
 
-div.tbl_stl_5 > div > div.level_2 {
-    padding-left: 40px;
-    box-sizing: border-box;
+div.tbl_stl_5 > div > div[data-level="2"] {
+    padding-left: 20px;
 }
 
-div.tbl_stl_5 > div > div.level_3 {
-    padding-left: 80px;
-    box-sizing: border-box;
+div.tbl_stl_5 > div > div[data-level="3"] {
+    padding-left: 60px;
 }
 
 /*  */
 
-div.tbl_stl_5 > div > div.level_1 > h2,
-div.tbl_stl_5 > div > div.level_2 > h2,
-div.tbl_stl_5 > div > div.level_3 > h2 {
-    margin-bottom: 5px;
+div.tbl_stl_5 > div > div[data-level] > h2 {
+    margin-bottom: 10px;
 }
 
-div.tbl_stl_5 > div > div.level_1 > h2 {
+div.tbl_stl_5 > div > div[data-level="1"] > h2 {
     width: 100%;
     font-size: 16px;
     font-weight: 600;
     color: #212121;
 }
 
-div.tbl_stl_5 > div > div.level_2 > h2,
-div.tbl_stl_5 > div > div.level_3 > h2 {
+div.tbl_stl_5 > div > div[data-level="2"] > h2,
+div.tbl_stl_5 > div > div[data-level="3"] > h2 {
     width: 100%;
     font-size: 14px;
     font-weight: 400;
@@ -1100,22 +1097,41 @@ div.tbl_stl_5 > div > div.level_3 > h2 {
 
 /*  */
 
-div.tbl_stl_5 > div > div > div {
+div.tbl_stl_5 > div > div[data-level] > div {
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }
 
-div.tbl_stl_5 > div > div > div.open > input {
+div.tbl_stl_5 > div > div[data-level] > div.open > input {
     width: 100%;
-    height: 40px;
-    padding: 0px 20px;
+    height: 50px;
+    padding: 0px 15px;
     border: 0px;
     box-sizing: border-box;
     background-color: #e0e0e0;
 }
 
-div.tbl_stl_5 > div > div > div.nps > label,
-div.tbl_stl_5 > div > div > div.rate > label,
-div.tbl_stl_5 > div > div > div.twin > label {
+div.tbl_stl_5 > div > div[data-level] > div.nps {
+    flex-direction: column;
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.nps > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.nps > div:last-child {
+    margin-bottom: 0px;
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.nps > div > label,
+div.tbl_stl_5 > div > div[data-level] > div.rate > label,
+div.tbl_stl_5 > div > div[data-level] > div.twin > label {
     width: 30px;
     height: 30px;
     position: relative;
@@ -1127,9 +1143,21 @@ div.tbl_stl_5 > div > div > div.twin > label {
     cursor: pointer;
 }
 
-div.tbl_stl_5 > div > div > div.nps > label > input,
-div.tbl_stl_5 > div > div > div.rate > label > input,
-div.tbl_stl_5 > div > div > div.twin > label > input {
+div.tbl_stl_5 > div > div[data-level] > div.nps > div > label,
+div.tbl_stl_5 > div > div[data-level] > div.rate > label,
+div.tbl_stl_5 > div > div[data-level] > div.twin > label {
+    margin-right: 5px;
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.nps > div > label:last-child,
+div.tbl_stl_5 > div > div[data-level] > div.rate > label:last-child,
+div.tbl_stl_5 > div > div[data-level] > div.twin > label:last-child {
+    margin-right: 0px;
+}
+
+div.tbl_stl_5 > div > div[data-level] > div.nps > div > label > input,
+div.tbl_stl_5 > div > div[data-level] > div.rate > label > input,
+div.tbl_stl_5 > div > div[data-level] > div.twin > label > input {
     width: 30px;
     height: 30px;
     margin: 0px;
@@ -1139,15 +1167,15 @@ div.tbl_stl_5 > div > div > div.twin > label > input {
     -webkit-appearance: none;
 }
 
-div.tbl_stl_5 > div > div > div.nps > label.focus > input,
-div.tbl_stl_5 > div > div > div.rate > label.focus > input,
-div.tbl_stl_5 > div > div > div.twin > label.focus > input {
+div.tbl_stl_5 > div > div[data-level] > div.nps > div > label.focus > input,
+div.tbl_stl_5 > div > div[data-level] > div.rate > label.focus > input,
+div.tbl_stl_5 > div > div[data-level] > div.twin > label.focus > input {
     background-color: #00a5ab;
 }
 
-div.tbl_stl_5 > div > div > div.nps > label > i,
-div.tbl_stl_5 > div > div > div.rate > label > i,
-div.tbl_stl_5 > div > div > div.twin > label > i {
+div.tbl_stl_5 > div > div[data-level] > div.nps > div > label > i,
+div.tbl_stl_5 > div > div[data-level] > div.rate > label > i,
+div.tbl_stl_5 > div > div[data-level] > div.twin > label > i {
     position: absolute;
     top: 0px;
     right: 0px;
@@ -1161,11 +1189,13 @@ div.tbl_stl_5 > div > div > div.twin > label > i {
     color: #9e9e9e;
 }
 
-div.tbl_stl_5 > div > div > div.nps > label.focus > i,
-div.tbl_stl_5 > div > div > div.rate > label.focus > i,
-div.tbl_stl_5 > div > div > div.twin > label.focus > i {
+div.tbl_stl_5 > div > div[data-level] > div.nps > div > label.focus > i,
+div.tbl_stl_5 > div > div[data-level] > div.rate > label.focus > i,
+div.tbl_stl_5 > div > div[data-level] > div.twin > label.focus > i {
     color: #fff;
 }
+
+/*  */
 
 div.tbl_stl_5 > div > div > div.buttons {
     margin-top: 5px;
@@ -1419,17 +1449,28 @@ div.checkboxes.stl_2 > div > p {
 /*  */
 
 div.checkboxes.stl_1 > div,
-div.checkboxes.stl_2 > div > div {
-    width: auto !important;
-    float: left;
+div.checkboxes.stl_2 > div > div,
+div.checkboxes.stl_3 > div {
     display: flex;
     align-items: center;
-    justify-content: center;
     padding: 5px 0px;
 }
 
+div.checkboxes.stl_1 > div,
+div.checkboxes.stl_2 > div > div {
+    width: auto !important;
+    float: left;
+    justify-content: center;
+}
+
+div.checkboxes.stl_3 > div {
+    width: 100% !important;
+    justify-content: flex-start;
+}
+
 div.checkboxes.stl_1 > div > span,
-div.checkboxes.stl_2 > div > div > span {
+div.checkboxes.stl_2 > div > div > span,
+div.checkboxes.stl_3 > div > span {
     padding: 0px 10px 0px 5px;
     font-size: 12px;
     font-weight: 400;
@@ -1438,8 +1479,10 @@ div.checkboxes.stl_2 > div > div > span {
 
 div.checkboxes.stl_1 > div > input[type="checkbox"],
 div.checkboxes.stl_2 > div > div > input[type="checkbox"],
+div.checkboxes.stl_3 > div > input[type="checkbox"],
 div.checkboxes.stl_1 > div > input[type="radio"],
-div.checkboxes.stl_2 > div > div > input[type="radio"] {
+div.checkboxes.stl_2 > div > div > input[type="radio"],
+div.checkboxes.stl_3 > div > input[type="radio"] {
     width: 20px;
     height: 20px;
     position: relative;
@@ -1451,7 +1494,8 @@ div.checkboxes.stl_2 > div > div > input[type="radio"] {
 }
 
 div.checkboxes.stl_1 > div > input[type="checkbox"]::before,
-div.checkboxes.stl_2 > div > div > input[type="checkbox"]::before {
+div.checkboxes.stl_2 > div > div > input[type="checkbox"]::before,
+div.checkboxes.stl_3 > div > input[type="checkbox"]::before {
     content: '';
     width: 20px;
     height: 20px;
@@ -1469,7 +1513,8 @@ div.checkboxes.stl_2 > div > div > input[type="checkbox"]::before {
 }
 
 div.checkboxes.stl_1 > div > input[type="checkbox"]:checked::before,
-div.checkboxes.stl_2 > div > div > input[type="checkbox"]:checked::before {
+div.checkboxes.stl_2 > div > div > input[type="checkbox"]:checked::before,
+div.checkboxes.stl_3 > div > input[type="checkbox"]:checked::before {
     height: 10px;
     top: 0px;
     left: 2px;
@@ -1482,7 +1527,8 @@ div.checkboxes.stl_2 > div > div > input[type="checkbox"]:checked::before {
 }
 
 div.checkboxes.stl_1 > div > input[type="checkbox"]::after,
-div.checkboxes.stl_2 > div > div > input[type="checkbox"]::after {
+div.checkboxes.stl_2 > div > div > input[type="checkbox"]::after,
+div.checkboxes.stl_3 > div > input[type="checkbox"]::after {
     content: '';
     width: 20px;
     height: 20px;
@@ -1495,7 +1541,8 @@ div.checkboxes.stl_2 > div > div > input[type="checkbox"]::after {
 }
 
 div.checkboxes.stl_1 > div > input[type="radio"]::before,
-div.checkboxes.stl_2 > div > div > input[type="radio"]::before {
+div.checkboxes.stl_2 > div > div > input[type="radio"]::before,
+div.checkboxes.stl_3 > div > input[type="radio"]::before {
     content: '';
     width: 20px;
     height: 20px;
@@ -1512,12 +1559,14 @@ div.checkboxes.stl_2 > div > div > input[type="radio"]::before {
 }
 
 div.checkboxes.stl_1 > div > input[type="radio"]:checked::before,
-div.checkboxes.stl_2 > div > div > input[type="radio"]:checked::before {
+div.checkboxes.stl_2 > div > div > input[type="radio"]:checked::before,
+div.checkboxes.stl_3 > div > input[type="radio"]:checked::before {
     background-color: #00a5ab;
 }
 
 div.checkboxes.stl_1 > div > input[type="radio"]::after,
-div.checkboxes.stl_2 > div > div > input[type="radio"]::after {
+div.checkboxes.stl_2 > div > div > input[type="radio"]::after,
+div.checkboxes.stl_3 > div > input[type="radio"]::after {
     content: '';
     width: 20px;
     height: 20px;
@@ -1532,8 +1581,10 @@ div.checkboxes.stl_2 > div > div > input[type="radio"]::after {
 
 div.checkboxes.stl_1 > div > input[type="checkbox"]:focus,
 div.checkboxes.stl_2 > div > div > input[type="checkbox"]:focus,
+div.checkboxes.stl_3 > div > input[type="checkbox"]:focus,
 div.checkboxes.stl_1 > div > input[type="radio"]:focus,
-div.checkboxes.stl_2 > div > div > input[type="radio"]:focus {
+div.checkboxes.stl_2 > div > div > input[type="radio"]:focus,
+div.checkboxes.stl_3 > div > input[type="radio"]:focus {
     border: none;
     box-shadow: none;
 }

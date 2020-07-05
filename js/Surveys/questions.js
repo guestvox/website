@@ -34,7 +34,17 @@ $(document).ready(function()
         {
             if (values_action == 'new')
             {
+                var string = 'abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ0123456789';
+                var token  = '';
+
+                for (var x = 0; x < 8; x++)
+                {
+                    var math = Math.floor(Math.random() * string.length);
+                    token += string.substr(math, 1);
+                }
+
                 values.push({
+                    'token': token,
                     'es': $('[name="value_es"]').val(),
                     'en': $('[name="value_en"]').val()
                 });
