@@ -60,7 +60,7 @@ header.incident > nav > ul {
 
 header.incident > nav > ul > li,
 header.incident > nav > ul > li > a {
-    width: 50px;
+    width: 40px;
     height: 100%;
     display: flex;
     align-items: center;
