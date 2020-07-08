@@ -587,11 +587,11 @@ class Surveys_controller extends Controller
 					<div class="rating">';
 
 				if ($value['average'] < 2)
-					$html .= '<span class="bad"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+					$tbl_surveys_answers .= '<span class="bad"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
 				else if ($value['average'] >= 2 AND $value['average'] < 4)
-					$html .= '<span class="medium"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+					$tbl_surveys_answers .= '<span class="medium"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
 				else if ($value['average'] >= 4)
-					$html .= '<span class="good"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+					$tbl_surveys_answers .= '<span class="good"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
 
 				$tbl_surveys_answers.=
 				'	</div>
