@@ -277,15 +277,15 @@ class Surveys_model extends Model
 
 			$query[$key]['average'] = $average;
 
-			if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '1' AND $average >= 1 AND $average < 2)
+			if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '1' AND $average >= 2)
 				unset($query[$key]);
-			else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '2' AND $average >= 2 AND $average < 3)
+			else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '2' AND ($average < 2 OR $average >= 3))
 				unset($query[$key]);
-			else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '3' AND $average >= 3 AND $average < 4)
+			else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '3' AND ($average < 3 OR $average >= 4))
 				unset($query[$key]);
-			else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '4' AND $average >= 4 AND $average < 5)
+			else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '4' AND ($average < 4 OR $average >= 5))
 				unset($query[$key]);
-			else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '5' AND $average >= 5)
+			else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '5' AND $average < 5)
 				unset($query[$key]);
 		}
 
