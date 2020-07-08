@@ -342,10 +342,17 @@ class Surveys_controller extends Controller
 
 				if (!empty($query))
 				{
-					$html =
-					'<div class="rating">
-						<span class="stl_' . $query['average'] . '"><i class="fas fa-star"></i>' . $query['average'] . '</span>
-					</div>
+					$html = '<div class="rating">';
+
+					if ($query['average'] < 2)
+						$html .= '<span class="bad"><i class="fas fa-star"></i>' . $query['average'] . '</span>';
+					else if ($query['average'] >= 2 AND $query['average'] < 4)
+						$html .= '<span class="medium"><i class="fas fa-star"></i>' . $query['average'] . '</span>';
+					else if ($query['average'] >= 4)
+						$html .= '<span class="good"><i class="fas fa-star"></i>' . $query['average'] . '</span>';
+
+					$html .=
+					'</div>
 					<div class="datas">
 						<span>' . $query['token'] . '</span>
 						<h2>' . ((!empty($query['firstname']) AND !empty($query['lastname'])) ? $query['firstname'] . ' ' . $query['lastname'] : '{$lang.not_name}') . '</h2>
@@ -577,9 +584,17 @@ class Surveys_controller extends Controller
 			{
 				$tbl_surveys_answers .=
 				'<div>
-					<div class="rating">
-						<span class="stl_' . $value['average'] . '"><i class="fas fa-star"></i>' . $value['average'] . '</span>
-					</div>
+					<div class="rating">'
+
+				if ($value['average'] < 2)
+					$html .= '<span class="bad"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+				else if ($value['average'] >= 2 AND $value['average'] < 4)
+					$html .= '<span class="medium"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+				else if ($value['average'] >= 4)
+					$html .= '<span class="good"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+
+				$tbl_surveys_answers.=
+				'	</div>
 					<div class="datas">
 						<span>' . $value['token'] . '</span>
 						<h2>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] : ((Session::get_value('account')['type'] == 'hotel') ? ((!empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') : '{$lang.not_name}')) . '</h2>
