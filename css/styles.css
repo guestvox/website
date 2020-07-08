@@ -1416,17 +1416,15 @@ div.tbl_stl_7 > div > div.rating > span > i {
     margin-right: 10px;
 }
 
-div.tbl_stl_7 > div > div.rating > span.stl_1 > i,
-div.tbl_stl_7 > div > div.rating > span.stl_2 > i {
+div.tbl_stl_7 > div > div.rating > span.bad > i {
     color: #f44336;
 }
 
-div.tbl_stl_7 > div > div.rating > span.stl_3 > i {
+div.tbl_stl_7 > div > div.rating > span.medium > i {
     color: #ff9800;
 }
 
-div.tbl_stl_7 > div > div.rating > span.stl_4 > i,
-div.tbl_stl_7 > div > div.rating > span.stl_5 > i {
+div.tbl_stl_7 > div > div.rating > span.good > i {
     color: #ffeb3b;
 }
 
@@ -3274,17 +3272,15 @@ div.survey_answer_preview > div.rating > span > i {
     margin-right: 10px;
 }
 
-div.survey_answer_preview > div.rating > span.stl_1 > i,
-div.survey_answer_preview > div.rating > span.stl_2 > i {
+div.survey_answer_preview > div.rating > span.bad > i {
     color: #f44336;
 }
 
-div.survey_answer_preview > div.rating > span.stl_3 > i {
+div.survey_answer_preview > div.rating > span.medium > i {
     color: #ff9800;
 }
 
-div.survey_answer_preview > div.rating > span.stl_4 > i,
-div.survey_answer_preview > div.rating > span.stl_5 > i {
+div.survey_answer_preview > div.rating > span.good > i {
     color: #ffeb3b;
 }
 
