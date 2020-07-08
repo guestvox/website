@@ -584,7 +584,7 @@ class Surveys_controller extends Controller
 			{
 				$tbl_surveys_answers .=
 				'<div>
-					<div class="rating">'
+					<div class="rating">';
 
 				if ($value['average'] < 2)
 					$html .= '<span class="bad"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
