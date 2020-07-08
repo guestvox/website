@@ -79,10 +79,6 @@ class User_level
                     array_push($paths, '/Surveys/charts');
                 break;
 
-                case '{menu_orders_view}' :
-                    array_push($paths, '/Menu/orders');
-                break;
-
                 case '{menu_products_create}' :
                     array_push($paths, '/Menu/products');
                 break;

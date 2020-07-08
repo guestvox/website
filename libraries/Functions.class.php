@@ -43,15 +43,15 @@ class Functions
             return null;
     }
 
-    static public function get_diff_date($start_date, $end_date, $lapse, $big_lapse = false)
+    static public function get_diff_date($started_date, $end_date, $lapse, $big_lapse = false)
     {
         if ($lapse == 'days')
         {
             Functions::set_default_timezone();
 
-            $start_date = new DateTime($start_date);
+            $started_date = new DateTime($started_date);
             $end_date = new DateTime($end_date);
-            $diff = $start_date->diff($end_date);
+            $diff = $started_date->diff($end_date);
 
             if ($big_lapse == true)
                 return ($diff->days) + 1;

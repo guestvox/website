@@ -115,7 +115,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.end_date}</p>
-                                <input type="date" name="date_end" value="<?php echo Functions::get_current_date(); ?>">
+                                <input type="date" name="end_date" value="<?php echo Functions::get_current_date(); ?>">
                             </label>
                         </div>
                     </div>

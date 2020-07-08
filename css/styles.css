@@ -1330,6 +1330,168 @@ div.tbl_stl_6 > div:last-child > div > a {
     color: #757575;
 }
 
+/* Style 7 */
+div.tbl_stl_7 {
+    width: 100%;
+}
+
+@media (min-width: 1200px) {
+
+    div.tbl_stl_7 {
+        padding: 0px 20px;
+        box-sizing: border-box;
+    }
+
+    div.tbl_stl_7::after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+}
+
+div.tbl_stl_7 > div {
+    width: 100%;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    box-sizing: border-box;
+}
+
+div.tbl_stl_7 > div:last-child {
+    border-bottom: 0px;
+}
+
+@media (min-width: 768px) {
+
+    div.tbl_stl_7 > div {
+        height: 280px;
+        float: left;
+        margin: 20px;
+        border:  1px solid #eee;
+    }
+
+    div.tbl_stl_7 > div:last-child {
+        border-bottom: 1px solid #eee;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+    div.tbl_stl_7 > div {
+        width: calc((100% / 2) - 40px);
+    }
+}
+
+@media (min-width: 1025px) and (max-width: 1440px) {
+
+    div.tbl_stl_7 > div {
+        width: calc((100% / 4) - 40px);
+    }
+}
+
+@media (min-width: 1441px) {
+
+    div.tbl_stl_7 > div {
+        width: calc((100% / 5) - 40px);
+    }
+}
+
+/*  */
+
+div.tbl_stl_7 > div > div.rating {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+div.tbl_stl_7 > div > div.rating > span {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    font-weight: 600;
+    color: #212121;
+}
+
+div.tbl_stl_7 > div > div.rating > span > i {
+    margin-right: 10px;
+}
+
+div.tbl_stl_7 > div > div.rating > span.stl_1 > i,
+div.tbl_stl_7 > div > div.rating > span.stl_2 > i {
+    color: #f44336;
+}
+
+div.tbl_stl_7 > div > div.rating > span.stl_3 > i {
+    color: #ff9800;
+}
+
+div.tbl_stl_7 > div > div.rating > span.stl_4 > i,
+div.tbl_stl_7 > div > div.rating > span.stl_5 > i {
+    color: #ffeb3b;
+}
+
+/*  */
+
+div.tbl_stl_7 > div > div.datas {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+div.tbl_stl_7 > div > div.datas > h2 {
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #212121;
+}
+
+div.tbl_stl_7 > div > div.datas > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #757575;
+}
+
+div.tbl_stl_7 > div > div.datas > span > i {
+    margin-right: 5px;
+    font-size: 12px;
+    color: #bdbdbd;
+}
+
+/*  */
+
+div.tbl_stl_7 > div > div.buttons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.tbl_stl_7 > div > div.buttons > a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 2.5px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    font-size: 14px;
+    color: #757575;
+}
+
 /* Forms
 ------------------------------------------------------------------------------ */
 body > main.dashboard > section.workspace > form {
@@ -3084,6 +3246,144 @@ div.voxes_counters > div:last-child > div:last-child > div > span {
     }
 }
 
+/* Survey answer preview
+------------------------------------------------------------------------------ */
+div.survey_answer_preview {
+    width: 100%;
+}
+
+/*  */
+
+div.survey_answer_preview > div.rating {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+div.survey_answer_preview > div.rating > span {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    font-weight: 600;
+    color: #212121;
+}
+
+div.survey_answer_preview > div.rating > span > i {
+    margin-right: 10px;
+}
+
+div.survey_answer_preview > div.rating > span.stl_1 > i,
+div.survey_answer_preview > div.rating > span.stl_2 > i {
+    color: #f44336;
+}
+
+div.survey_answer_preview > div.rating > span.stl_3 > i {
+    color: #ff9800;
+}
+
+div.survey_answer_preview > div.rating > span.stl_4 > i,
+div.survey_answer_preview > div.rating > span.stl_5 > i {
+    color: #ffeb3b;
+}
+
+/*  */
+
+div.survey_answer_preview > div.datas {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+div.survey_answer_preview > div.datas > h2 {
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #212121;
+}
+
+div.survey_answer_preview > div.datas > span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #757575;
+}
+
+div.survey_answer_preview > div.datas > span > i {
+    margin-right: 5px;
+    font-size: 12px;
+    color: #bdbdbd;
+}
+
+/*  */
+
+div.survey_answer_preview > div.reservation {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+div.survey_answer_preview > div.reservation > span {
+    width: 100%;
+    display: block;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.survey_answer_preview > div.reservation > span > strong {
+    color: #616161;
+}
+
+/*  */
+
+div.survey_answer_preview > div.comment {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+div.survey_answer_preview > div.comment > p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    color: #757575;
+}
+
+div.survey_answer_preview > div.comment > p > i {
+    font-size: 12px;
+}
+
+div.survey_answer_preview > div.comment > p > i:first-child {
+    margin-right: 5px;
+}
+
+div.survey_answer_preview > div.comment > p > i:last-child {
+    margin-left: 5px;
+}
+
 /* Account
 ------------------------------------------------------------------------------ */
 div.account {
@@ -3299,8 +3599,6 @@ div.profile > span {
 
 /* General styles
 ------------------------------------------------------------------------------ */
-
-/*  */
 
 div.maximum_exceeded {
     width: 100%;

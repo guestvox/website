@@ -111,6 +111,16 @@ class Login_model extends Model
 							'date' => 'up',
 							'status' => 'open'
 						]
+					],
+					'surveys' => [
+						'answers' => [
+							'filter' => [
+								'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+								'end_date' => Functions::get_current_date(),
+								'owner' => 'all',
+								'rating' => 'all'
+							]
+						]
 					]
 				]
 			];
