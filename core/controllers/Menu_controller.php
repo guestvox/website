@@ -13,42 +13,6 @@ class Menu_controller extends Controller
 		$this->lang = Session::get_value('account')['language'];
 	}
 
-	public function orders()
-	{
-		$template = $this->view->render($this, 'orders');
-
-		define('_title', 'Guestvox | {$lang.menu_orders}');
-
-		$tbl_menu_orders = '';
-
-		foreach ($this->model->get_menu_orders() as $value)
-		{
-			$tbl_menu_orders .=
-			'<div>
-				<div class="datas">
-					<h2>' . $value['token'] . ' | ' . Functions::get_formatted_date_hour($value['date'], $value['hour'], '+ hrs') . '</h2>
-					<span>' . Functions::get_formatted_currency($value['total'], $value['currency']) . '</span>
-					' . ((Session::get_value('account')['type'] == 'restaurant' AND $value['type_service'] == 'home') ? '<span>* {$lang.home_service}</span>' : '') . '
-					<ul>';
-
-			foreach ($value['shopping_cart'] as $subvalue)
-				$tbl_menu_orders .= '<li>' . $subvalue['quantity'] . ' ' . $subvalue['name'][$this->lang] . '</li>';
-
-			$tbl_menu_orders .=
-			'		</ul>
-				</div>
-			</div>';
-		}
-
-		$replace = [
-			'{$tbl_menu_orders}' => $tbl_menu_orders
-		];
-
-		$template = $this->format->replace($replace, $template);
-
-		echo $template;
-	}
-
 	public function products()
 	{
         if (Format::exist_ajax_request() == true)

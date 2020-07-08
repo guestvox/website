@@ -79,10 +79,6 @@ class User_level
                     array_push($paths, '/Surveys/charts');
                 break;
 
-                case '{menu_orders_view}' :
-                    array_push($paths, '/Menu/orders');
-                break;
-
                 case '{menu_products_create}' :
                     array_push($paths, '/Menu/products');
                 break;
@@ -326,7 +322,11 @@ class User_level
             return '/voxes';
         else if (Functions::check_account_access(['reputation']) == true)
         {
-            if (Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}']) == true)
+            if (Functions::check_user_access(['{survey_answers_view}']) == true)
+    			return '/surveys/answers';
+    		else if (Functions::check_user_access(['{survey_stats_view}']) == true)
+    			return '/surveys/stats';
+    		else if (Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}']) == true)
     			return '/surveys/questions';
         }
         else

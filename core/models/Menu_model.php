@@ -11,27 +11,6 @@ class Menu_model extends Model
 		parent::__construct();
 	}
 
-    public function get_menu_orders()
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('menu_orders', [
-			'token',
-			'type_service',
-			'date',
-			'hour',
-			'total',
-			'currency',
-			'shopping_cart'
-		], [
-			'account' => Session::get_value('account')['id'],
-			'ORDER' => [
-				'date' => 'DESC',
-				'hour' => 'DESC'
-			]
-		]));
-
-		return $query;
-	}
-
     public function get_menu_products()
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [

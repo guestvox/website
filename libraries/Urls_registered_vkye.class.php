@@ -157,10 +157,6 @@ class Urls_registered_vkye
                 'controller' => 'Surveys',
                 'method' => 'charts'
             ],
-            '/menu/orders' => [
-                'controller' => 'Menu',
-                'method' => 'orders'
-            ],
             '/menu/products' => [
                 'controller' => 'Menu',
                 'method' => 'products'

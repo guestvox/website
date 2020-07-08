@@ -1434,7 +1434,7 @@ class Voxes_model extends Model
 		$where = [
 			'AND' => [
 				'account' => Session::get_value('account')['id'],
-				'started_date[<>]' => [$params['started_date'],$params['date_end']]
+				'started_date[<>]' => [$params['started_date'],$params['end_date']]
 			]
 		];
 

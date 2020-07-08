@@ -16,11 +16,15 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
     </section>
     <section class="buttons">
         <div>
+            <a data-button-modal="search"><i class="fas fa-search"></i></a>
             <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
             <a href="/surveys/questions" class="active"><i class="fas fa-ghost"></i></a>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{surveys_questions_create}']) == true) : ?>
             <a class="active" data-button-modal="new_survey_question"><i class="fas fa-plus"></i></a>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
+            <a href="/surveys/answers"><i class="fas fa-comment-alt"></i></a>
             <?php endif; ?>
         </div>
     </section>

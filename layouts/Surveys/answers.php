@@ -2,8 +2,6 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['css', '{$path.plugins}data-tables/jquery.dataTables.min.css']);
-$this->dependencies->add(['js', '{$path.plugins}data-tables/jquery.dataTables.min.js']);
 $this->dependencies->add(['js', '{$path.js}Surveys/answers.js']);
 $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 
@@ -12,114 +10,88 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 %{header}%
 <main class="dashboard">
     <section class="workspace">
-        <div class="tbl_stl_1">
-            <aside class="filter">
-              <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
-              <a href="/surveys/questions"><i class="fas fa-question-circle"></i></a>
-              <?php endif; ?>
-              <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
-              <a href="/surveys/answers" class="view"><i class="fas fa-comment-alt"></i></a>
-              <?php endif; ?>
-              <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
-              <a href="/surveys/comments"><i class="far fa-comment-dots"></i></a>
-              <?php endif; ?>
-              <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
-              <a href="/surveys/contacts"><i class="far fa-address-book"></i></a>
-              <?php endif; ?>
-              <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
-              <a href="/surveys/stats"><i class="fas fa-chart-pie"></i></a>
-              <?php endif; ?>
-            </aside>
-            {$tbl_survey_answers}
+        <div class="tbl_stl_7">
+            {$tbl_surveys_answers}
         </div>
     </section>
     <section class="buttons">
         <div>
             <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <?php if (Functions::check_user_access(['{surveys_questions_create}']) == true) : ?>
-            <a class="active" data-button-modal="new_survey_question"><i class="fas fa-plus"></i></a>
+            <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
+            <a href="/surveys/questions"><i class="fas fa-ghost"></i></a>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
+            <a href="/surveys/answers" class="active"><i class="fas fa-comment-alt"></i></a>
+            <a class="active" data-button-modal="filter_surveys_answers"><i class="fas fa-stream"></i></a>
             <?php endif; ?>
         </div>
     </section>
 </main>
-<!-- <main class="answers">
-    <nav>
-        <h2><i class="fas fa-comment-alt"></i>{$lang.answers}</h2>
-        <ul>
-            <?php if (Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}']) == true) : ?>
-            <li><a href="/surveys/questions"><i class="fas fa-question-circle"></i></a></li>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{survey_answers_view}']) == true) : ?>
-            <li><a href="/surveys/answers" class="view"><i class="fas fa-comment-alt"></i></a></li>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{survey_answers_view}']) == true) : ?>
-            <li><a href="/surveys/comments"><i class="far fa-comment-dots"></i></a></li>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{survey_answers_view}']) == true) : ?>
-            <li><a href="/surveys/contacts"><i class="far fa-address-book"></i></a></li>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{survey_stats_view}']) == true) : ?>
-            <li><a href="/surveys/stats"><i class="fas fa-chart-pie"></i></a></li>
-            <?php endif; ?>
-        </ul>
-    </nav>
-    <article>
+<section class="modal fullscreen" data-modal="preview_survey_answer">
+    <div class="content">
         <main>
-            <form name="get_filter_survey_answer" class="charts-filter">
-                <select name="owner">
-                    <option value="all">{$lang.all_owners}</option>
-                    {$opt_owners}
-                </select>
-                <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>">
-                <input type="date" name="end_date" value="<?php echo Functions::get_current_date(); ?>" max="<?php echo Functions::get_current_date(); ?>">
-            </form>
-            <div class="table">
-                <aside>
-                    <label>
-                        <span><i class="fas fa-search"></i></span>
-                        <input type="text" name="tbl_survey_answers_search">
-                    </label>
-                </aside>
-                <table id="tbl_survey_answers">
-                    <thead>
-                        <tr>
-                            <th align="left" class="icon"></th>
-                            <th align="left" width="100px">{$lang.token}</th>
-                            <?php if (Session::get_value('account')['type'] == 'hotel') : ?>
-                            <th align="left" width="100px">{$lang.owner}</th>
-                            <th align="left">{$lang.guest}</th>
-                            <?php endif; ?>
-                            <?php if (Session::get_value('account')['type'] == 'restaurant') : ?>
-                            <th align="left" width="100px">{$lang.owner}</th>
-                            <th align="left">{$lang.name}</th>
-                            <?php endif; ?>
-                            <?php if (Session::get_value('account')['type'] == 'others') : ?>
-                            <th align="left">{$lang.owner}</th>
-                            <th align="left">{$lang.name}</th>
-                            <?php endif; ?>
-                            <th align="left" width="100px">{$lang.date}</th>
-                            <th align="left" width="100px">{$lang.points}</th>
-                            <th align="right" class="icon"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {$tbl_survey_answers}
-                    </tbody>
-                </table>
+            <div class="survey_answer_preview"></div>
+            <div class="buttons">
+                <a button-close><i class="fas fa-check"></i></a>
             </div>
         </main>
-    </article>
-</main>
-<section class="modal" data-modal="view_survey_answer">
-    <div class="content">
-        <header>
-            <h3>{$lang.details}</h3>
-        </header>
-        <main></main>
-        <footer>
-            <div class="action-buttons">
-                <button class="btn" button-close>{$lang.accept}</button>
-            </div>
-        </footer>
     </div>
-</section> -->
+</section>
+<section class="modal fullscreen" data-modal="filter_surveys_answers">
+    <div class="content">
+        <main>
+            <form name="filter_surveys_answers">
+                <div class="row">
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.started_date}</p>
+                                <input type="date" name="started_date" value="<?php echo Session::get_value('settings')['surveys']['answers']['filter']['started_date']; ?>">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.end_date}</p>
+                                <input type="date" name="end_date" value="<?php echo Session::get_value('settings')['surveys']['answers']['filter']['end_date']; ?>">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.owner}</p>
+                                <select name="owner">
+                                    <option value="all" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
+                                    {$opt_owners}
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.rating}</p>
+                                <select name="rating">
+                                    <option value="all" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['rating'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
+                                    <option value="1" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '1') ? 'selected' : ''); ?>>1</option>
+                                    <option value="2" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '2') ? 'selected' : ''); ?>>2</option>
+                                    <option value="3" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '3') ? 'selected' : ''); ?>>3</option>
+                                    <option value="4" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '4') ? 'selected' : ''); ?>>4</option>
+                                    <option value="5" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '5') ? 'selected' : ''); ?>>5</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="buttons">
+                            <a button-close><i class="fas fa-times"></i></a>
+                            <button type="submit"><i class="fas fa-check"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+</section>

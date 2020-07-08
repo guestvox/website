@@ -444,7 +444,8 @@ class Myvox_model extends Model
 		}
 
 		$and = [
-			'account' => Session::get_value('myvox')['account']['id']
+			'account' => Session::get_value('myvox')['account']['id'],
+			'status' => true
 		];
 
 		if (!isset($parent) OR empty($parent))

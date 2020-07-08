@@ -2,46 +2,15 @@
 
 $(document).ready(function()
 {
-    $('[name="started_date"], [name="end_date"], [name="owner"]').on('change', function()
-    {
-        $(this).parents('form').submit();
-    });
+    var id = null;
 
-    // $('form[name="get_filter_survey_answer"]').on('submit', function(e)
-    // {
-    //     e.preventDefault();
-    //
-    //     $.ajax({
-    //         type: 'POST',
-    //         data: $(this).serialize() + '&action=get_filter_survey_answer',
-    //         processData: false,
-    //         cache: false,
-    //         dataType: 'json',
-    //         success: function(response)
-    //         {
-    //             if (response.status == 'success')
-    //             {
-    //                 tbl_survey_answers.clear();
-    //                 $('#tbl_survey_answers').find('tbody').html(response.data);
-    //             }
-    //             else if (response.status == 'error')
-    //             {
-    //                 tbl_survey_answers.clear();
-    //                 $('#tbl_survey_answers').find('tbody').html(response.data);
-    //             }
-    //         }
-    //     });
-    // });
-
-    var id;
-
-    $(document).on('click', '[data-action="view_survey_answer"]', function()
+    $('[data-action="preview_survey_answer"]').on('click', function()
     {
         id = $(this).data('id');
 
         $.ajax({
             type: 'POST',
-            data: 'id=' + id + '&action=get_survey_answer',
+            data: 'id=' + id + '&action=preview_survey_answer',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -49,14 +18,33 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="view_survey_answer"]').addClass('view');
-                    $('[data-modal="view_survey_answer"]').find('main').html(response.data);
+                    $('[data-modal="preview_survey_answer"]').find('main').find('.survey_answer_preview').html(response.html);
+                    $('[data-modal="preview_survey_answer"]').addClass('view');
                 }
                 else if (response.status == 'error')
-                {
-                    $('[data-modal="error"]').addClass('view');
-                    $('[data-modal="error"]').find('main > p').html(response.message);
-                }
+                    show_form_errors(form, response);
+            }
+        });
+    });
+
+    $('form[name="filter_surveys_answers"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&action=filter_surveys_answers',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    location.reload();
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
             }
         });
     });

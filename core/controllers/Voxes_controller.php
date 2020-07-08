@@ -1777,53 +1777,53 @@ class Voxes_controller extends Controller
 
 		$v_oa_chart_data = $this->model->get_chart_data('v_oa_chart', [
 			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'end_date' => Functions::get_current_date(),
 			'type' => 'all'
 		]);
 
 		$v_o_chart_data = $this->model->get_chart_data('v_o_chart', [
 			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'end_date' => Functions::get_current_date(),
 			'type' => 'all'
 		]);
 
 		$v_l_chart_data = $this->model->get_chart_data('v_l_chart', [
 			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'end_date' => Functions::get_current_date(),
 			'type' => 'all'
 		]);
 
 		$ar_oa_chart_data = $this->model->get_chart_data('ar_oa_chart', [
 			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'end_date' => Functions::get_current_date(),
 			'type' => 'all'
 		]);
 
 		$ar_o_chart_data = $this->model->get_chart_data('ar_o_chart', [
 			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'end_date' => Functions::get_current_date(),
 			'type' => 'all'
 		]);
 
 		$ar_l_chart_data = $this->model->get_chart_data('ar_l_chart', [
 			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date(),
+			'end_date' => Functions::get_current_date(),
 			'type' => 'all'
 		]);
 
 		$c_oa_chart_data = $this->model->get_chart_data('c_oa_chart', [
 			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date()
+			'end_date' => Functions::get_current_date()
 		]);
 
 		$c_o_chart_data = $this->model->get_chart_data('c_o_chart', [
 			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date()
+			'end_date' => Functions::get_current_date()
 		]);
 
 		$c_l_chart_data = $this->model->get_chart_data('c_l_chart', [
 			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'date_end' => Functions::get_current_date()
+			'end_date' => Functions::get_current_date()
 		]);
 
 		$js =

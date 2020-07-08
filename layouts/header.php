@@ -60,15 +60,17 @@
                 <?php if (Functions::check_account_access(['operation']) == true) : ?>
                     <?php if (Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}']) == true) : ?>
                     <li target="menu"><a href="/menu/products">{$lang.menu}<i class="fas fa-cocktail"></i></a></li>
-                    <?php elseif (Functions::check_user_access(['{menu_orders_view}']) == true) : ?>
-                    <li target="menu"><a href="/menu/orders">{$lang.menu}<i class="fas fa-cocktail"></i></a></li>
                     <?php elseif (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
                     <li target="menu"><a href="/menu/restaurants">{$lang.menu}<i class="fas fa-cocktail"></i></a></li>
                     <?php endif; ?>
                 <?php endif; ?>
             <?php endif; ?>
             <?php if (Functions::check_account_access(['reputation']) == true) : ?>
-                <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
+                <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
+                <li target="surveys"><a href="/surveys/answers">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
+                <?php elseif (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
+                <li target="surveys"><a href="/surveys/stats">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
+                <?php elseif (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
                 <li target="surveys"><a href="/surveys/questions">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
                 <?php endif; ?>
             <?php endif; ?>

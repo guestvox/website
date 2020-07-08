@@ -332,583 +332,282 @@ class Surveys_controller extends Controller
 		}
 	}
 
-	// public function answers()
-	// {
-	// 	if (Format::exist_ajax_request() == true)
-	// 	{
-	// 		if ($_POST['action'] == 'get_filter_survey_answer')
-	// 		{
-	// 			$query = $this->model->get_survey_answers($_POST['owner'], [$_POST['started_date'], $_POST['end_date']]);
-	//
-	// 			$data = '';
-	//
-	// 			if (!empty($query))
-	// 			{
-	// 				$data = '';
-	// 				$data_count = 0;
-	//
-	// 				foreach ($query as $value)
-	// 				{
-	// 					$value['count'] = $value['count'] - $data_count;
-	//
-	// 					$data .=
-	// 					'<tr>
-	// 						<td align="left">' . $value['count'] . '</td>
-	// 						<td align="left">' . $value['token'] . '</td>';
-	//
-	// 					if (Session::get_value('account')['type'] == 'hotel')
-	// 						$data .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
-	//
-	// 					if (Session::get_value('account')['type'] == 'restaurant')
-	// 						$data .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
-	//
-	// 					if (Session::get_value('account')['type'] == 'others')
-	// 						$data .= '<td align="left">' . (!empty($value['owner']) ? $value['owner']['name'] : '') . '</td>';
-	//
-	// 					$data .=
-	// 					'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
-	// 						<td align="left">' . Functions::get_formatted_date($value['date'], 'd.m.Y') . '</td>
-	// 						<td align="left"><i class="fas fa-star" style="margin-right:5px;color:#ffeb3b;"></i>' . $value['rate'] . '</td>
-	// 						<td align="right" class="icon"><a data-action="view_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-bars"></i></a></td>
-	// 					</tr>';
-	//
-	// 					$data_count = $data_count + 1;
-	// 				}
-	//
-	// 				Functions::environment([
-	// 					'status' => 'success',
-	// 					'data' => $data
-	// 				]);
-	// 			}
-	// 			else
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'error',
-	// 					'data' => $data
-	// 				]);
-	// 			}
-	// 		}
-	//
-	// 		if ($_POST['action'] == 'get_survey_answer')
-	// 		{
-	// 			$query = $this->model->get_survey_answer($_POST['id']);
-	//
-	// 			if (!empty($query))
-	// 			{
-	// 				$data = '<span><strong>{$lang.token}:</strong> ' . $query['token']  . '</span>';
-	//
-	// 				if (Session::get_value('account')['type'] == 'hotel')
-	// 					$data .= '<span><strong>{$lang.owner}:</strong> ' . (!empty($query['owner']) ? '#' . $query['owner']['number'] . ' ' . $query['owner']['name'] : '') . '</span>';
-	//
-	// 				if (Session::get_value('account')['type'] == 'restaurant')
-	// 					$data .= '<span><strong>{$lang.owner}:</strong> ' . (!empty($query['owner']) ? '#' . $query['owner']['number'] . ' ' . $query['owner']['name'] : '') . '</span>';
-	//
-	// 				if (Session::get_value('account')['type'] == 'others')
-	// 					$data .= '<span><strong>{$lang.owner}:</strong> ' . (!empty($query['owner']) ? $query['owner']['name'] : '') . '</span>';
-	//
-	// 				$data .=
-	// 				'<div>
-	// 					<h2>{$lang.survey_datas}</h2>
-	// 					<span><strong>{$lang.guest}:</strong> ' . $query['guest']['guestvox']['firstname'] . ' ' . $query['guest']['guestvox']['lastname'] . '</span>
-	// 					<span><strong>{$lang.email}:</strong> ' . $query['guest']['guestvox']['email'] . '</span>
-	// 					<span><strong>{$lang.phone}:</strong> ' . $query['guest']['guestvox']['phone']['lada'] . ' ' . $query['guest']['guestvox']['phone']['number'] . '</span>
-	// 					<span><strong>{$lang.date}:</strong> ' . Functions::get_formatted_date($query['date'], 'd.m.Y')  . '</span>
-	// 					<span><strong>{$lang.rate}:</strong> <i class="fas fa-star" style="margin-right:5px;color:#ffeb3b;"></i>' . $query['rate']  . '</span>
-	// 				</div>';
-	//
-	// 				if (Session::get_value('account')['zaviapms']['status'] == true)
-	// 				{
-	// 					$data .=
-	// 					'<div>
-	// 						<h2>{$lang.zaviapms_datas}</h2>
-	// 						<span><strong>{$lang.guest}:</strong> ' . $query['guest']['zaviapms']['firstname'] . ' ' . $query['guest']['zaviapms']['lastname'] . '</span>
-	// 						<span><strong>{$lang.reservation_number}:</strong> ' . $query['guest']['zaviapms']['reservation_number'] . '</span>
-	// 						<span><strong>{$lang.check_in}:</strong> ' . Functions::get_formatted_date($query['guest']['zaviapms']['check_in'], 'd.m.Y') . '</span>
-	// 						<span><strong>{$lang.check_out}:</strong> ' . Functions::get_formatted_date($query['guest']['zaviapms']['check_out'], 'd.m.Y') . '</span>
-	// 						<span><strong>{$lang.nationality}:</strong> ' . $query['guest']['zaviapms']['nationality'] . '</span>
-	// 						<span><strong>{$lang.input_channel}:</strong> ' . $query['guest']['zaviapms']['input_channel'] . '</span>
-	// 						<span><strong>{$lang.traveler_type}:</strong> ' . $query['guest']['zaviapms']['traveler_type'] . '</span>
-	// 						<span><strong>{$lang.age_group}:</strong> ' . $query['guest']['zaviapms']['age_group'] . '</span>
-	// 					</div>';
-	// 				}
-	//
-	// 				foreach ($query['answers'] as $value)
-	//                 {
-	// 					$data .=
-	// 					'<article>
-	// 						<h6>' . $value['question'][Session::get_value('account')['language']] . '</h6>
-	// 						<div>';
-	//
-	// 					if ($value['type'] == 'nps')
-	// 					{
-	// 						$data .=
-	// 						'<label><span>1</i><input type="radio" ' . (($value['answer'] == 1) ? 'checked' : '') . ' disabled></label>
-	// 					   <label><span>2</i><input type="radio" ' . (($value['answer'] == 2) ? 'checked' : '') . ' disabled></label>
-	// 					   <label><span>3</i><input type="radio" ' . (($value['answer'] == 3) ? 'checked' : '') . ' disabled></label>
-	// 					   <label><span>4</i><input type="radio" ' . (($value['answer'] == 4) ? 'checked' : '') . ' disabled></label>
-	// 					   <label><span>5</i><input type="radio" ' . (($value['answer'] == 5) ? 'checked' : '') . ' disabled></label>
-	// 					   <label><span>6</i><input type="radio" ' . (($value['answer'] == 6) ? 'checked' : '') . ' disabled></label>
-	// 					   <label><span>7</i><input type="radio" ' . (($value['answer'] == 7) ? 'checked' : '') . ' disabled></label>
-	// 					   <label><span>8</i><input type="radio" ' . (($value['answer'] == 8) ? 'checked' : '') . ' disabled></label>
-	// 					   <label><span>9</i><input type="radio" ' . (($value['answer'] == 9) ? 'checked' : '') . ' disabled></label>
-	// 					   <label><span>10</i><input type="radio" ' . (($value['answer'] == 10) ? 'checked' : '') . ' disabled></label>';
-	// 					}
-	//
-	//                     if ($value['type'] == 'rate')
-	// 					{
-	// 						$data .=
-	// 	                    '<label><i class="far fa-thumbs-down"></i></label>
-    //                         <label><input type="radio" ' . (($value['answer'] == 1) ? 'checked' : '') . ' disabled></label>
-    //                         <label><input type="radio" ' . (($value['answer'] == 2) ? 'checked' : '') . ' disabled></label>
-    //                         <label><input type="radio" ' . (($value['answer'] == 3) ? 'checked' : '') . ' disabled></label>
-    //                         <label><input type="radio" ' . (($value['answer'] == 4) ? 'checked' : '') . ' disabled></label>
-    //                         <label><input type="radio" ' . (($value['answer'] == 5) ? 'checked' : '') . ' disabled></label>
-    //                         <label><i class="far fa-thumbs-up"></i></label>';
-	// 					}
-	// 					else if ($value['type'] == 'twin')
-	// 					{
-	// 						$data .=
-	// 						'<label>{$lang.to_yes}</label>
-	// 						<label><input type="radio" ' . (($value['answer'] == 'yes') ? 'checked' : '') . ' disabled></label>
-	// 						<label><input type="radio" ' . (($value['answer'] == 'no') ? 'checked' : '') . ' disabled></label>
-	// 						<label>{$lang.to_not}</label>';
-	// 					}
-	// 					else if ($value['type'] == 'open')
-	// 						$data .= '<p>' . $value['answer'] . '</p>';
-	// 					else if ($value['type'] == 'check')
-	// 					{
-	// 						foreach ($value['values'] as $subkey => $subvalue)
-	// 						{
-	// 							$data .=
-	// 							'<div class="checkboxes">
-	// 								<input type="checkbox" ' . (in_array($subkey, $value['answer']) ? 'checked' : '') . ' disabled>
-	// 								<span>' . $subvalue[Session::get_value('account')['language']] . '</span>
-	// 							</div>';
-	// 						}
-	// 					}
-	//
-	// 					$data .= '</div>';
-	//
-	// 					if (!empty($value['subanswers']))
-	// 					{
-	// 						$data .= '<article>';
-	//
-	// 						foreach ($value['subanswers'] as $subkey => $subvalue)
-	// 						{
-	// 							$data .=
-	// 							'<h6>' . $subvalue['question'][Session::get_value('account')['language']] . '</h6>
-	// 							<div>';
-	//
-	// 							if ($subvalue['type'] == 'rate')
-	// 							{
-	// 								$data .=
-	// 								'<label><i class="far fa-thumbs-down"></i></label>
-	// 								<label><input type="radio" ' . (($subvalue['answer'] == 1) ? 'checked' : '') . ' disabled></label>
-	// 								<label><input type="radio" ' . (($subvalue['answer'] == 2) ? 'checked' : '') . ' disabled></label>
-	// 								<label><input type="radio" ' . (($subvalue['answer'] == 3) ? 'checked' : '') . ' disabled></label>
-	// 								<label><input type="radio" ' . (($subvalue['answer'] == 4) ? 'checked' : '') . ' disabled></label>
-	// 								<label><input type="radio" ' . (($subvalue['answer'] == 5) ? 'checked' : '') . ' disabled></label>
-	// 								<label><i class="far fa-thumbs-up"></i></label>';
-	// 							}
-	// 							else if ($subvalue['type'] == 'twin')
-	// 							{
-	// 								$data .=
-	// 								'<label>{$lang.to_yes}</label>
-	// 								<label><input type="radio" ' . (($subvalue['answer'] == 'yes') ? 'checked' : '') . ' disabled></label>
-	// 								<label><input type="radio" ' . (($subvalue['answer'] == 'no') ? 'checked' : '') . ' disabled></label>
-	// 								<label>{$lang.to_not}</label>';
-	// 							}
-	// 							else if ($subvalue['type'] == 'open')
-	// 								$data .= '<p>' . $subvalue['answer'] . '</p>';
-	//
-	// 							$data .= '</div>';
-	//
-	// 							if (!empty($subvalue['subanswers']))
-	// 							{
-	// 								$data .= '<article class="sub">';
-	//
-	// 								foreach ($subvalue['subanswers'] as $parentkey => $parentvalue)
-	// 								{
-	// 									$data .=
-	// 									'<h6>' . $parentvalue['question'][Session::get_value('account')['language']] . '</h6>
-	// 									<div>';
-	//
-	// 									if ($parentvalue['type'] == 'rate')
-	// 									{
-	// 										$data .=
-	// 										'<label><i class="far fa-thumbs-down"></i></label>
-	// 										<label><input type="radio" ' . (($parentvalue['answer'] == 1) ? 'checked' : '') . ' disabled></label>
-	// 										<label><input type="radio" ' . (($parentvalue['answer'] == 2) ? 'checked' : '') . ' disabled></label>
-	// 										<label><input type="radio" ' . (($parentvalue['answer'] == 3) ? 'checked' : '') . ' disabled></label>
-	// 										<label><input type="radio" ' . (($parentvalue['answer'] == 4) ? 'checked' : '') . ' disabled></label>
-	// 										<label><input type="radio" ' . (($parentvalue['answer'] == 5) ? 'checked' : '') . ' disabled></label>
-	// 										<label><i class="far fa-thumbs-up"></i></label>';
-	// 									}
-	// 									else if ($parentvalue['type'] == 'twin')
-	// 									{
-	// 										$data .=
-	// 										'<label>{$lang.to_yes}</label>
-	// 										<label><input type="radio" ' . (($parentvalue['answer'] == 'yes') ? 'checked' : '') . ' disabled></label>
-	// 										<label><input type="radio" ' . (($parentvalue['answer'] == 'no') ? 'checked' : '') . ' disabled></label>
-	// 										<label>{$lang.to_not}</label>';
-	// 									}
-	// 									else if ($parentvalue['type'] == 'open')
-	// 										$data .= '<p>' . $parentvalue['answer'] . '</p>';
-	//
-	// 									$data .= '</div>';
-	// 								}
-	//
-	// 								$data .= '</article>';
-	// 							}
-	// 						}
-	//
-	// 						$data .= '</article>';
-	// 					}
-	//
-	// 					$data .= '</article>';
-	//                 }
-	//
-	// 				$data .=
-	// 				'<div class="label">
-	// 					<label>
-	// 						<p>{$lang.comments}</p>
-	// 						<textarea disabled>' . $query['comment'] . '</textarea>
-	// 					</label>
-	// 				</div>';
-	//
-	// 				Functions::environment([
-	// 					'status' => 'success',
-	// 					'data' => $data
-	// 				]);
-	// 			}
-	// 			else
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'error',
-	// 					'message' => '{$lang.operation_error}'
-	// 				]);
-	// 			}
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		define('_title', 'GuestVox');
-	//
-	// 		$template = $this->view->render($this, 'answers');
-	//
-	// 		$opt_owners = '';
-	//
-	// 		if (Session::get_value('account')['type'] == 'hotel')
-	// 		{
-	// 			foreach ($this->model->get_owners() as $value)
-	// 			{
-	// 				if ($value['status'] == true)
-	// 					$opt_owners .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
-	// 				else
-	// 					$opt_owners .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
-	// 			}
-	// 		}
-	//
-	// 		$tbl_survey_answers = '';
-	// 		$tbl_survey_answers_count = 0;
-	//
-	// 		foreach ($this->model->get_survey_answers('', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]) as $value)
-	// 		{
-	// 			$value['count'] = $value['count'] - $tbl_survey_answers_count;
-	//
-	// 			$tbl_survey_answers .=
-	// 			'<tr>
-	// 				<td align="left">' . $value['count'] . '</td>
-	// 				<td align="left">' . $value['token'] . '</td>';
-	//
-	// 			if (Session::get_value('account')['type'] == 'hotel')
-	// 				$tbl_survey_answers .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
-	//
-	// 			if (Session::get_value('account')['type'] == 'restaurant')
-	// 				$tbl_survey_answers .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
-	//
-	// 			if (Session::get_value('account')['type'] == 'others')
-	// 				$tbl_survey_answers .= '<td align="left">' . (!empty($value['owner']) ? $value['owner']['name'] : '') . '</td>';
-	//
-	// 			$tbl_survey_answers .=
-	// 			'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
-	// 				<td align="left">' . Functions::get_formatted_date($value['date'], 'd.m.Y') . '</td>
-	// 				<td align="left"><i class="fas fa-star" style="margin-right:5px;color:#ffeb3b;"></i>' . $value['rate'] . '</td>
-	// 				<td align="right" class="icon"><a data-action="view_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-bars"></i></a></td>
-	// 			</tr>';
-	//
-	// 			$tbl_survey_answers_count = $tbl_survey_answers_count + 1;
-	// 		}
-	//
-	// 		$replace = [
-	// 			'{$opt_owners}' => $opt_owners,
-	// 			'{$tbl_survey_answers}' => $tbl_survey_answers
-	// 		];
-	//
-	// 		$template = $this->format->replace($replace, $template);
-	//
-	// 		echo $template;
-	// 	}
-	// }
-	//
-	// public function comments()
-	// {
-	// 	if (Format::exist_ajax_request() == true)
-	// 	{
-    //         if ($_POST['action'] == 'get_filter_survey_comments')
-	// 		{
-	// 			$query = $this->model->get_survey_answers($_POST['owner'], [$_POST['started_date'], $_POST['end_date']]);
-	//
-	// 			$data = '';
-	//
-	// 			if (!empty($query))
-	// 			{
-	// 				foreach ($query as $value)
-	// 				{
-	// 					if (!empty($value['comment']))
-    //                     {
-    //                             $data .=
-    //                             '<tr>
-    //                                     <td align="left">' . $value['token'] . '</td>';
-	//
-    //                             if (Session::get_value('account')['type'] == 'hotel')
-    //                                     $data .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
-	//
-    //                             if (Session::get_value('account')['type'] == 'restaurant')
-    //                                     $data .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
-	//
-    //                             if (Session::get_value('account')['type'] == 'others')
-    //                                     $data .= '<td align="left">' . (!empty($value['owner']) ? $value['owner']['name'] : '') . '</td>';
-	//
-    //                             $data .=
-    //                             '	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
-    //                                     <td align="left" class="comment"> ' . $value['comment'] . '</td>
-    //                                     <td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_comment" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_comment" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>
-    //                             </tr>';
-	//
-    //                     }
-	// 				}
-	//
-	// 				Functions::environment([
-	// 					'status' => 'success',
-	// 					'data' => $data
-	// 				]);
-	// 			}
-	// 			else
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'error',
-	// 					'data' => $data
-	// 				]);
-	// 			}
-	// 		}
-	//
-	// 		if ($_POST['action'] == 'deactivate_comment')
-	// 		{
-	// 			$query = $this->model->deactivate_comment($_POST['id']);
-	//
-	// 			if (!empty($query))
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'success',
-	// 					'message' => '{$lang.operation_success}'
-	// 				]);
-	// 			}
-	// 			else
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'error',
-	// 					'message' => '{$lang.operation_error}'
-	// 				]);
-	// 			}
-	// 		}
-	//
-	// 		if ($_POST['action'] == 'activate_comment')
-	// 		{
-	// 			$query = $this->model->activate_comment($_POST['id']);
-	//
-	// 			if (!empty($query))
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'success',
-	// 					'message' => '{$lang.operation_success}'
-	// 				]);
-	// 			}
-	// 			else
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'error',
-	// 					'message' => '{$lang.operation_error}'
-	// 				]);
-	// 			}
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		define('_title', 'GuestVox');
-	//
-	// 		$template = $this->view->render($this, 'comments');
-	//
-	// 		$opt_owners="";
-	//
-    //     	if (Session::get_value('account')['type'] == 'hotel')
-	// 		{
-	// 			foreach ($this->model->get_owners() as $value)
-	// 			{
-	// 				if ($value['status'] == true)
-	// 					$opt_owners .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
-	// 				else
-	// 					$opt_owners .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
-	// 			}
-	// 		}
-	//
-	// 		$tbl_survey_comments = '';
-	//
-	// 		foreach ($this->model->get_survey_answers('', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]) as $value)
-	// 		{
-	// 			if (!empty($value['comment']))
-	// 			{
-	// 				$tbl_survey_comments .=
-	// 				'<tr>
-	// 					<td align="left">' . $value['token'] . '</td>';
-	//
-	// 				if (Session::get_value('account')['type'] == 'hotel')
-	// 					$tbl_survey_comments .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
-	//
-	// 				if (Session::get_value('account')['type'] == 'restaurant')
-	// 					$tbl_survey_comments .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
-	//
-	// 				if (Session::get_value('account')['type'] == 'others')
-	// 					$tbl_survey_comments .= '<td align="left">' . (!empty($value['owner']) ? $value['owner']['name'] : '') . '</td>';
-	//
-	// 				$tbl_survey_comments .=
-	// 				'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
-	// 					<td align="left" class="comment"> ' . $value['comment'] . '</td>
-	// 					<td align="right" class="icon">' . (($value['status'] == true) ? '<a data-action="deactivate_comment" data-id="' . $value['id'] . '"><i class="fas fa-ban"></i></a>' : '<a data-action="activate_comment" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>') . '</td>
-	// 				</tr>';
-	//
-	// 			}
-	// 		}
-	//
-	// 		$replace = [
-	// 			'{$opt_owners}' => $opt_owners,
-	// 			'{$tbl_survey_comments}' => $tbl_survey_comments
-	// 		];
-	//
-	// 		$template = $this->format->replace($replace, $template);
-	//
-	// 		echo $template;
-	// 	}
-	// }
-	//
-	// public function contacts()
-	// {
-	// 	if (Format::exist_ajax_request() == true)
-	// 	{
-	// 		if ($_POST['action'] == 'get_filter_survey_contacts')
-	// 		{
-	// 			$query = $this->model->get_survey_answers($_POST['owner'], []);
-	//
-	// 			if (!empty($query))
-	// 			{
-	// 				$data = '';
-	//
-	// 				foreach ($query as $value)
-	// 				{
-	// 					if (!empty($value['guest']['guestvox']['email']) AND !empty($value['guest']['guestvox']['phone']['number']))
-	// 					{
-	// 						$data .=
-	// 						'<tr>
-	// 							<td align="left">' . $value['token'] . '</td>';
-	//
-	// 						if (Session::get_value('account')['type'] == 'hotel')
-	// 							$data .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
-	//
-	// 						if (Session::get_value('account')['type'] == 'restaurant')
-	// 							$data .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
-	//
-	// 						if (Session::get_value('account')['type'] == 'others')
-	// 							$data .= '<td align="left">' . (!empty($value['owner']) ? $value['owner']['name'] : '') . '</td>';
-	//
-	// 						$data .=
-	// 						'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
-	// 							<td align="left"> ' . $value['guest']['guestvox']['email'] .  '</td>
-	// 							<td align="left"> ' . $value['guest']['guestvox']['phone']['lada'] . $value['guest']['guestvox']['phone']['number'] .  '</td>
-	// 						</tr>';
-	// 					}
-	// 				}
-	//
-	// 				Functions::environment([
-	// 					'status' => 'success',
-	// 					'data' => $data
-	// 				]);
-	// 			}
-	// 			else
-	// 			{
-	// 				Functions::environment([
-	// 					'status' => 'error',
-	// 					'message' => '{$lang.operation_error}'
-	// 				]);
-	// 			}
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		define('_title', 'GuestVox');
-	//
-	// 		$template = $this->view->render($this, 'contacts');
-	//
-	// 		$opt_owners="";
-	//
-    //     	if (Session::get_value('account')['type'] == 'hotel')
-	// 		{
-	// 			foreach ($this->model->get_owners() as $value)
-	// 			{
-	// 				if ($value['status'] == true)
-	// 					$opt_owners .= '<option value="' . $value['id'] . '">' . $value['name'] . '</option>';
-	// 				else
-	// 					$opt_owners .= '<option value="' . $value['id'] . '">#' . $value['number'] . ' ' . $value['name'] . '</option>';
-	// 			}
-	// 		}
-	//
-	// 		$tbl_survey_contacts = '';
-	//
-	// 		foreach ($this->model->get_survey_answers('', []) as $value)
-	// 		{
-	// 			if (!empty($value['guest']['guestvox']['email']) AND !empty($value['guest']['guestvox']['phone']['number']))
-	// 			{
-	// 				$tbl_survey_contacts .=
-	// 				'<tr>
-	// 					<td align="left">' . $value['token'] . '</td>';
-	//
-	// 				if (Session::get_value('account')['type'] == 'hotel')
-	// 					$tbl_survey_contacts .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
-	//
-	// 				if (Session::get_value('account')['type'] == 'restaurant')
-	// 					$tbl_survey_contacts .= '<td align="left">' . (!empty($value['owner']) ? '#' . $value['owner']['number'] . ' ' . $value['owner']['name'] : '') . '</td>';
-	//
-	// 				if (Session::get_value('account')['type'] == 'others')
-	// 					$tbl_survey_contacts .= '<td align="left">' . (!empty($value['owner']) ? $value['owner']['name'] : '') . '</td>';
-	//
-	// 				$tbl_survey_contacts .=
-	// 				'	<td align="left">' . ((Session::get_value('account')['zaviapms']['status'] == true AND !empty($value['guest']['zaviapms']['firstname']) AND !empty($value['guest']['zaviapms']['lastname'])) ? $value['guest']['zaviapms']['firstname'] . ' ' . $value['guest']['zaviapms']['lastname'] : $value['guest']['guestvox']['firstname'] . ' ' . $value['guest']['guestvox']['lastname']) . '</td>
-	// 					<td align="left"> ' . $value['guest']['guestvox']['email'] .  '</td>
-	// 					<td align="left"> ' . $value['guest']['guestvox']['phone']['lada'] . $value['guest']['guestvox']['phone']['number'] .  '</td>
-	// 				</tr>';
-	// 			}
-	// 		}
-	//
-	// 		$replace = [
-	// 			'{$opt_owners}' => $opt_owners,
-	// 			'{$tbl_survey_contacts}' => $tbl_survey_contacts
-	// 		];
-	//
-	// 		$template = $this->format->replace($replace, $template);
-	//
-	// 		echo $template;
-	// 	}
-	// }
-	//
+	public function answers()
+	{
+		if (Format::exist_ajax_request() == true)
+		{
+			if ($_POST['action'] == 'preview_survey_answer')
+			{
+				$query = $this->model->get_survey_answer($_POST['id']);
+
+				if (!empty($query))
+				{
+					$html =
+					'<div class="rating">
+						<span class="stl_' . $query['average'] . '"><i class="fas fa-star"></i>' . $query['average'] . '</span>
+					</div>
+					<div class="datas">
+						<span>' . $query['token'] . '</span>
+						<h2>' . ((!empty($query['firstname']) AND !empty($query['lastname'])) ? $query['firstname'] . ' ' . $query['lastname'] : '{$lang.not_name}') . '</h2>
+						<span><i class="fas fa-envelope"></i>' . $query['email'] . '</span>
+						<span><i class="fas fa-phone-alt"></i>' . ((!empty($query['phone']['lada']) AND !empty($query['phone']['number'])) ? '+ (' . $query['phone']['lada'] . ') ' . $query['phone']['number'] : '{$lang.not_phone}') . '</span>
+						<span><i class="fas fa-shapes"></i>' . $query['owner_name'][$this->lang] . (!empty($query['owner_number']) ? ' #' . $query['owner_number'] : '') . '</span>
+						<span><i class="fas fa-calendar-alt"></i>' . Functions::get_formatted_date($query['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($query['hour'], '+ hrs') . '</span>
+					</div>';
+
+					if (Session::get_value('account')['type'] == 'hotel')
+					{
+						$html .=
+						'<div class="reservation">
+							<span><strong>{$lang.room}:</strong> ' . $query['owner_name'][$this->lang] . (!empty($query['owner_number']) ? ' #' . $query['owner_number'] : '') . '</span>
+							<span><strong>{$lang.guest}:</strong> ' . ((!empty($query['reservation']['firstname']) AND !empty($query['reservation']['lastname'])) ? $query['reservation']['firstname'] . ' ' . $query['reservation']['lastname'] : '{$lang.not_name}') . '</span>
+							<span><strong>{$lang.reservation_number}:</strong> ' . (!empty($query['reservation']['reservation_number']) ? $query['reservation']['reservation_number'] : '{$lang.not_reservation_number}') . '</span>
+							<span><strong>{$lang.check_in}:</strong> ' . (!empty($query['reservation']['check_in']) ? $query['reservation']['check_in'] : '{$lang.not_check_in}') . '</span>
+							<span><strong>{$lang.check_out}:</strong> ' . (!empty($query['reservation']['check_out']) ? $query['reservation']['check_out'] : '{$lang.not_check_out}') . '</span>
+							<span><strong>{$lang.nationality}:</strong> ' . (!empty($query['reservation']['nationality']) ? $query['reservation']['nationality'] : '{$lang.not_nationality}') . '</span>
+							<span><strong>{$lang.input_channel}:</strong> ' . (!empty($query['reservation']['input_channel']) ? $query['reservation']['input_channel'] : '{$lang.not_input_channel}') . '</span>
+							<span><strong>{$lang.traveler_type}:</strong> ' . (!empty($query['reservation']['traveler_type']) ? $query['reservation']['traveler_type'] : '{$lang.not_traveler_type}') . '</span>
+							<span><strong>{$lang.age_group}:</strong> ' . (!empty($query['reservation']['age_group']) ? $query['reservation']['age_group'] : '{$lang.not_age_group}') . '</span>
+						</div>';
+					}
+
+					$html .=
+					'<div class="comment">
+						<p>' . (!empty($query['comment']) ? '<i class="fas fa-quote-left"></i>' . $query['comment'] . '<i class="fas fa-quote-right"></i>' : '{$lang.not_comment}') . '</p>
+					</div>
+					<div class="tbl_stl_5">';
+
+					foreach ($this->model->get_surveys_questions() as $value)
+					{
+						$html .=
+						'<div>
+							<div data-level="1">
+								<h2>' . $value['name'][$this->lang] . '</h2>
+								<div class="' . $value['type'] . '">';
+
+						if ($value['type'] == 'nps')
+						{
+							$html .=
+							'<div>
+								<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '1') ? 'focus' : '') . '"><i>1</i><input type="radio" disabled></label>
+							   	<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '2') ? 'focus' : '') . '"><i>2</i><input type="radio" disabled></label>
+							   	<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '3') ? 'focus' : '') . '"><i>3</i><input type="radio" disabled></label>
+							   	<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '4') ? 'focus' : '') . '"><i>4</i><input type="radio" disabled></label>
+							   	<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '5') ? 'focus' : '') . '"><i>5</i><input type="radio" disabled></label>
+							</div>
+						   	<div>
+								<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '6') ? 'focus' : '') . '"><i>6</i><input type="radio" disabled></label>
+								<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '7') ? 'focus' : '') . '"><i>7</i><input type="radio" disabled></label>
+								<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '8') ? 'focus' : '') . '"><i>8</i><input type="radio" disabled></label>
+								<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '9') ? 'focus' : '') . '"><i>9</i><input type="radio" disabled></label>
+								<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '10') ? 'focus' : '') . '"><i>10</i><input type="radio" disabled></label>
+							</div>';
+						}
+						else if ($value['type'] == 'open')
+							$html .= '<input type="text" value="' . (array_key_exists($value['id'], $query['values']) ? $query['values'][$value['id']] : '') . '" disabled>';
+						else if ($value['type'] == 'rate')
+						{
+							$html .=
+							'<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '1') ? 'focus' : '') . '"><i class="fas fa-sad-cry"></i><input type="radio" disabled></label>
+							<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '2') ? 'focus' : '') . '"><i class="fas fa-frown"></i><input type="radio" disabled></label>
+							<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '3') ? 'focus' : '') . '"><i class="fas fa-meh-rolling-eyes"></i><input type="radio" disabled></label>
+							<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '4') ? 'focus' : '') . '"><i class="fas fa-smile"></i><input type="radio" disabled></label>
+							<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '5') ? 'focus' : '') . '"><i class="fas fa-grin-stars"></i><input type="radio" disabled></label>';
+						}
+						else if ($value['type'] == 'twin')
+						{
+							$html .=
+							'<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
+							<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+						}
+						else if ($value['type'] == 'check')
+						{
+							$html .= '<div class="checkboxes stl_3">';
+
+							foreach ($value['values'] as $subvalue)
+							{
+								$html .=
+								'<div>
+									<input type="checkbox" ' . ((array_key_exists($value['id'], $query['values']) AND in_array($subvalue['token'], $query['values'][$value['id']])) ? 'checked' : '') . ' disabled>
+									<span>' . $subvalue[$this->lang] . '</span>
+								</div>';
+							}
+
+							$html .= '</div>';
+						}
+
+						$html .=
+						'	</div>
+						</div>';
+
+						foreach ($this->model->get_surveys_questions('all', $value['id']) as $subvalue)
+						{
+							$html .=
+							'<div data-level="2">
+								<h2>' . $subvalue['name'][$this->lang] . '</h2>
+								<div class="' . $subvalue['type'] . '">';
+
+							if ($subvalue['type'] == 'open')
+								$html .= '<input type="text" value="' . (array_key_exists($subvalue['id'], $query['values']) ? $query['values'][$subvalue['id']] : '') . '" disabled>';
+							else if ($subvalue['type'] == 'rate')
+							{
+								$html .=
+								'<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '1') ? 'focus' : '') . '"><i class="fas fa-sad-cry"></i><input type="radio" disabled></label>
+								<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '2') ? 'focus' : '') . '"><i class="fas fa-frown"></i><input type="radio" disabled></label>
+								<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '3') ? 'focus' : '') . '"><i class="fas fa-meh-rolling-eyes"></i><input type="radio" disabled></label>
+								<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '4') ? 'focus' : '') . '"><i class="fas fa-smile"></i><input type="radio" disabled></label>
+								<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '5') ? 'focus' : '') . '"><i class="fas fa-grin-stars"></i><input type="radio" disabled></label>';
+							}
+							else if ($subvalue['type'] == 'twin')
+							{
+								$html .=
+								'<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
+								<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+							}
+							else if ($subvalue['type'] == 'check')
+							{
+								$html .= '<div class="checkboxes stl_3">';
+
+								foreach ($subvalue['values'] as $subvalue)
+								{
+									$html .=
+									'<div>
+										<input type="checkbox" ' . ((array_key_exists($subvalue['id'], $query['values']) AND in_array($subvalue['token'], $query['values'][$subvalue['id']])) ? 'checked' : '') . ' disabled>
+										<span>' . $subvalue[$this->lang] . '</span>
+									</div>';
+								}
+
+								$html .= '</div>';
+							}
+
+							$html .=
+							'	</div>
+							</div>';
+
+							foreach ($this->model->get_surveys_questions('all', $subvalue['id']) as $parentvalue)
+							{
+								$html .=
+								'<div data-level="3">
+									<h2>' . $parentvalue['name'][$this->lang] . '</h2>
+									<div class="' . $parentvalue['type'] . '">';
+
+								if ($parentvalue['type'] == 'open')
+									$html .= '<input type="text" value="' . (array_key_exists($parentvalue['id'], $query['values']) ? $query['values'][$parentvalue['id']] : '') . '" disabled>';
+								else if ($parentvalue['type'] == 'rate')
+								{
+									$html .=
+									'<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '1') ? 'focus' : '') . '"><i class="fas fa-sad-cry"></i><input type="radio" disabled></label>
+									<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '2') ? 'focus' : '') . '"><i class="fas fa-frown"></i><input type="radio" disabled></label>
+									<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '3') ? 'focus' : '') . '"><i class="fas fa-meh-rolling-eyes"></i><input type="radio" disabled></label>
+									<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '4') ? 'focus' : '') . '"><i class="fas fa-smile"></i><input type="radio" disabled></label>
+									<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '5') ? 'focus' : '') . '"><i class="fas fa-grin-stars"></i><input type="radio" disabled></label>';
+								}
+								else if ($parentvalue['type'] == 'twin')
+								{
+									$html .=
+									'<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
+									<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+								}
+								else if ($parentvalue['type'] == 'check')
+								{
+									$html .= '<div class="checkboxes stl_3">';
+
+									foreach ($parentvalue['values'] as $parentvalue)
+									{
+										$html .=
+										'<div>
+											<input type="checkbox" ' . ((array_key_exists($parentvalue['id'], $query['values']) AND in_array($parentvalue['token'], $query['values'][$parentvalue['id']])) ? 'checked' : '') . ' disabled>
+											<span>' . $parentvalue[$this->lang] . '</span>
+										</div>';
+									}
+
+									$html .= '</div>';
+								}
+
+								$html .=
+								'	</div>
+								</div>';
+							}
+						}
+
+						$html .= '</div>';
+					}
+
+					$html .= '</div>';
+
+					Functions::environment([
+						'status' => 'success',
+						'html' => $html
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'filter_surveys_answers')
+			{
+				$settings = Session::get_value('settings');
+
+				$settings['surveys']['answers']['filter']['started_date'] = $_POST['started_date'];
+				$settings['surveys']['answers']['filter']['end_date'] = $_POST['end_date'];
+				$settings['surveys']['answers']['filter']['owner'] = $_POST['owner'];
+				$settings['surveys']['answers']['filter']['rating'] = $_POST['rating'];
+
+				Session::set_value('settings', $settings);
+
+				Functions::environment([
+					'status' => 'success'
+				]);
+			}
+		}
+		else
+		{
+			define('_title', 'Guestvox | {$lang.surveys_answers}');
+
+			$template = $this->view->render($this, 'answers');
+
+			$tbl_surveys_answers = '';
+
+			foreach ($this->model->get_surveys_answers() as $value)
+			{
+				$tbl_surveys_answers .=
+				'<div>
+					<div class="rating">
+						<span class="stl_' . $value['average'] . '"><i class="fas fa-star"></i>' . $value['average'] . '</span>
+					</div>
+					<div class="datas">
+						<span>' . $value['token'] . '</span>
+						<h2>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] : ((Session::get_value('account')['type'] == 'hotel') ? ((!empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') : '{$lang.not_name}')) . '</h2>
+						<span><i class="fas fa-calendar-alt"></i>' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>
+						<span><i class="fas fa-shapes"></i>' . $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') . '</span>
+					</div>
+					<div class="buttons">
+						<a data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-eye"></i></a>
+					</div>
+				</div>';
+			}
+
+			$opt_owners = '';
+
+			foreach ($this->model->get_owners('survey') as $value)
+				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+
+			$replace = [
+				'{$tbl_surveys_answers}' => $tbl_surveys_answers,
+				'{$opt_owners}' => $opt_owners
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
 	// public function stats()
 	// {
 	// 	if (Format::exist_ajax_request() == true)
