@@ -770,6 +770,11 @@ class Surveys_controller extends Controller
 				' . (($surveys_average >= 4.8 AND $surveys_average <= 5) ? '<i class="fas fa-grin-stars five"></i>' : '<i class="far fa-grin-stars"></i>') . '
 			</span>';
 
+			$opt_owners = '';
+
+			foreach ($this->model->get_owners('survey') as $value)
+				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+
 			$replace = [
 				'{$h2_surveys_average}' => $h2_surveys_average,
 				'{$spn_surveys_average}' => $spn_surveys_average,
@@ -782,7 +787,8 @@ class Surveys_controller extends Controller
 				'{$surveys_count_today}' => $this->model->get_surveys_count('today'),
 				'{$surveys_count_week}' => $this->model->get_surveys_count('week'),
 				'{$surveys_count_month}' => $this->model->get_surveys_count('month'),
-				'{$surveys_count_year}' => $this->model->get_surveys_count('year')
+				'{$surveys_count_year}' => $this->model->get_surveys_count('year'),
+				'{$opt_owners}' => $opt_owners
 			];
 
 			$template = $this->format->replace($replace, $template);
