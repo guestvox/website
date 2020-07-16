@@ -138,6 +138,7 @@ class Configuration
 	 *
      * @var string $db_host
      */
+	// public static $db_host = 'guestvox.com';
 	public static $db_host = 'localhost';
 
 	/**
@@ -156,6 +157,7 @@ class Configuration
 	 *
      * @var string $db_user
      */
+	// public static $db_user = 'guestvox';
 	public static $db_user = 'root';
 
 	/**
@@ -165,6 +167,7 @@ class Configuration
 	 *
      * @var string $db_pass
      */
+	// public static $db_pass = 'Jsw90w&6';
 	public static $db_pass = '';
 
 	/**
