@@ -59,12 +59,9 @@ class Reviews_controller extends Controller
 					{
 						if (!empty($value['comment']))
 						{
-							$str_firstname = strlen($value['contact']['firstname']);
-							$str_lastname = strlen($value['contact']['lastname']);
-
 							$tbl_surveys_comments .=
 							'<div>
-				                <h3><i class="fas fa-user-circle"></i>' . ((!empty($value['contact']['firstname']) AND !empty($value['contact']['lastname'])) ? substr($value['contact']['firstname'], -$str_firstname, 1) . '. ' . substr($value['contact']['lastname'], -$str_lastname, 1) . '.' : '{$lang.anonimous}')  . '</h3>
+				                <h3><i class="fas fa-user-circle"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? substr($value['firstname'], -(strlen($value['firstname'])), 1) . '. ' . substr($value['lastname'], -(strlen($value['lastname'])), 1) . '.' : '{$lang.anonimous}')  . '</h3>
 				                <p><i class="fas fa-quote-left"></i>' . $value['comment'] . '<i class="fas fa-quote-right"></i></p>
 				            </div>';
 						}
