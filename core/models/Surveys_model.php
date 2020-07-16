@@ -1040,11 +1040,20 @@ class Surveys_model extends Model
 				}
 			}
 
-			foreach ($tmp as $key => $value)
+			if (!empty($tmp))
 			{
-				$data['labels'] .= "'" . $key . "',";
-				$data['datasets']['data'] .= $value . ",";
-				$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+				foreach ($tmp as $key => $value)
+				{
+					$data['labels'] .= "'" . $key . "',";
+					$data['datasets']['data'] .= $value . ",";
+					$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
+				}
+			}
+			else
+			{
+				$data['labels'] .= "'" . Languages::charts('empty')[Session::get_value('account')['language']] . "'";
+				$data['datasets']['data'] .= '1';
+				$data['datasets']['colors'] .= "'#eee'";
 			}
 		}
 

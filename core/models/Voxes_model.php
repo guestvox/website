@@ -447,7 +447,7 @@ class Voxes_model extends Model
 
 			$reservation['status'] = $query['Status'];
 
-			if ($guest['status'] == 'success')
+			if ($reservation['status'] == 'success')
 			{
 				$reservation['firstname'] = $query['Name'];
 				$reservation['lastname'] = $query['LastName'];
