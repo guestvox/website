@@ -1755,7 +1755,7 @@ class Voxes_controller extends Controller
 			define('_title', 'Guestvox | {$lang.voxes} | {$lang.stats}');
 
 			$replace = [
-				'{$voxes_average_resolution}' => $this->model->get_voxes_average_resolution(),
+				'{$voxes_average_resolution}' => $this->model->get_voxes_average(),
 				'{$voxes_count_open}' => $this->model->get_voxes_count('open'),
 				'{$voxes_count_close}' => $this->model->get_voxes_count('close'),
 				'{$voxes_count_total}' => $this->model->get_voxes_count('total'),

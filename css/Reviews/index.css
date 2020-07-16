@@ -52,20 +52,20 @@ main.reviews > .container {
 }
 
 /*  */
-main.reviews > .container > div.chart-rate {
+main.reviews > .container > div.chart_rate {
     width: 100%;
     margin-bottom: 40px;
 }
 
 @media (min-width: 768px) {
 
-    main.reviews > .container > div.chart-rate {
+    main.reviews > .container > div.chart_rate {
         width: 400px;
         float: left;
     }
 }
 
-main.reviews > .container > div.chart-rate > div.average {
+main.reviews > .container > div.chart_rate > div.average {
     width: 100%;
     display: flex;
     align-items: center;
@@ -74,7 +74,7 @@ main.reviews > .container > div.chart-rate > div.average {
     margin-bottom: 20px;
 }
 
-main.reviews > .container > div.chart-rate > div.average > h2 {
+main.reviews > .container > div.chart_rate > div.average > h2 {
     margin-bottom: 10px;
     font-size: 100px;
     font-weight: 600;
@@ -82,52 +82,52 @@ main.reviews > .container > div.chart-rate > div.average > h2 {
     color: #757575;
 }
 
-main.reviews > .container > div.chart-rate > div.average > h2.one,
-main.reviews > .container > div.chart-rate > div.average > span > i.one {
+main.reviews > .container > div.chart_rate > div.average > h2.one,
+main.reviews > .container > div.chart_rate > div.average > span > i.one {
     color: #f44336;
 }
 
-main.reviews > .container > div.chart-rate > div.average > h2.two,
-main.reviews > .container > div.chart-rate > div.average > span > i.two {
+main.reviews > .container > div.chart_rate > div.average > h2.two,
+main.reviews > .container > div.chart_rate > div.average > span > i.two {
     color: #ffc107;
 }
 
-main.reviews > .container > div.chart-rate > div.average > h2.three,
-main.reviews > .container > div.chart-rate > div.average > span > i.three {
+main.reviews > .container > div.chart_rate > div.average > h2.three,
+main.reviews > .container > div.chart_rate > div.average > span > i.three {
     color: #ffeb3b;
 }
 
-main.reviews > .container > div.chart-rate > div.average > h2.four,
-main.reviews > .container > div.chart-rate > div.average > span > i.four {
+main.reviews > .container > div.chart_rate > div.average > h2.four,
+main.reviews > .container > div.chart_rate > div.average > span > i.four {
     color: #4caf50;
 }
 
-main.reviews > .container > div.chart-rate > div.average > h2.five,
-main.reviews > .container > div.chart-rate > div.average > span > i.five {
+main.reviews > .container > div.chart_rate > div.average > h2.five,
+main.reviews > .container > div.chart_rate > div.average > span > i.five {
     color: #00a5ab;
 }
 
-main.reviews > .container > div.chart-rate > div.average > span {
+main.reviews > .container > div.chart_rate > div.average > span {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-main.reviews > .container > div.chart-rate > div.average > span > i {
+main.reviews > .container > div.chart_rate > div.average > span > i {
     margin: 0px 5px;
     font-size: 24px;
     color: #757575;
 }
 
-main.reviews > .container > div.chart-rate > div.average > span > i.one,
-main.reviews > .container > div.chart-rate > div.average > span > i.two,
-main.reviews > .container > div.chart-rate > div.average > span > i.three,
-main.reviews > .container > div.chart-rate > div.average > span > i.four,
-main.reviews > .container > div.chart-rate > div.average > span > i.five {
+main.reviews > .container > div.chart_rate > div.average > span > i.one,
+main.reviews > .container > div.chart_rate > div.average > span > i.two,
+main.reviews > .container > div.chart_rate > div.average > span > i.three,
+main.reviews > .container > div.chart_rate > div.average > span > i.four,
+main.reviews > .container > div.chart_rate > div.average > span > i.five {
     font-size: 40px;
 }
 
-main.reviews > .container > div.chart-rate > div.progress {
+main.reviews > .container > div.chart_rate > div.progress {
     width: 100%;
     display: flex;
     align-items: center;
@@ -135,11 +135,11 @@ main.reviews > .container > div.chart-rate > div.progress {
     margin-bottom: 10px;
 }
 
-main.reviews > .container > div.chart-rate > div.progress:last-child {
+main.reviews > .container > div.chart_rate > div.progress:last-child {
     margin-bottom: 0px;
 }
 
-main.reviews > .container > div.chart-rate > div.progress > span {
+main.reviews > .container > div.chart_rate > div.progress > span {
     display: flex;
     align-items: center;
     font-size: 14px;
@@ -147,50 +147,50 @@ main.reviews > .container > div.chart-rate > div.progress > span {
     color: #212121;
 }
 
-main.reviews > .container > div.chart-rate > div.progress > span:first-child {
+main.reviews > .container > div.chart_rate > div.progress > span:first-child {
     width: 40px;
     justify-content: flex-start;
 }
 
-main.reviews > .container > div.chart-rate > div.progress > span:first-child > i {
+main.reviews > .container > div.chart_rate > div.progress > span:first-child > i {
     margin-left: 5px;
     font-size: 14px;
     color: #ffeb3b;
 }
 
-main.reviews > .container > div.chart-rate > div.progress > span:last-child {
+main.reviews > .container > div.chart_rate > div.progress > span:last-child {
     width: 80px;
     justify-content: flex-end;
 }
 
-main.reviews > .container > div.chart-rate > div.progress > span > i {
+main.reviews > .container > div.chart_rate > div.progress > span > i {
     margin-right: 5px;
     font-size: 14px;
     color: #ffeb3b;
 }
 
-main.reviews > .container > div.chart-rate > div.progress > progress {
+main.reviews > .container > div.chart_rate > div.progress > progress {
     -webkit-appearance: none;
     -moz-appearance: none;
     width: 100%;
     height: 20px;
 }
 
-main.reviews > .container > div.chart-rate > div.progress > progress::-webkit-progress-bar {
+main.reviews > .container > div.chart_rate > div.progress > progress::-webkit-progress-bar {
     border-radius: 20px;
     background-color: #eee;
 }
 
-main.reviews > .container > div.chart-rate > div.progress > progress::-webkit-progress-value {
+main.reviews > .container > div.chart_rate > div.progress > progress::-webkit-progress-value {
     border-radius: 20px;
     background-color: #00a5ab;
 }
 
-main.reviews > .container > div.chart-rate > div.progress > progress::-moz-progress-bar {
+main.reviews > .container > div.chart_rate > div.progress > progress::-moz-progress-bar {
     background-color: #eee;
 }
 
-main.reviews > .container > div.chart-rate > div.progress > progress::-moz-progress-value {
+main.reviews > .container > div.chart_rate > div.progress > progress::-moz-progress-value {
     background-color: #00a5ab;
 }
 

@@ -31,13 +31,13 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             <div>
                 <canvas id="ar_l_chart"></canvas>
             </div>
-            <div class="last">
+            <div>
                 <canvas id="c_oa_chart"></canvas>
             </div>
-            <div class="last">
+            <div>
                 <canvas id="c_o_chart"></canvas>
             </div>
-            <div class="last">
+            <div>
                 <canvas id="c_l_chart"></canvas>
             </div>
         </div>
