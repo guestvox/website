@@ -3,114 +3,149 @@
 defined('_EXEC') or die;
 
 $this->dependencies->add(['js', '{$path.plugins}charts/Chart.js']);
-$this->dependencies->add(['js', '{$vkye_base}surveys/charts']);
+$this->dependencies->add(['js', '{$vkye_base}Surveys/charts']);
 $this->dependencies->add(['js', '{$path.js}Surveys/stats.js']);
 $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 
 ?>
 
 %{header}%
-<main class="surveys-stats">
-    <nav>
-        <h2><i class="fas fa-chart-pie"></i>{$lang.stats}</h2>
-        <ul>
-            <?php if (Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}']) == true) : ?>
-            <li><a href="/surveys/questions"><i class="fas fa-question-circle"></i></a></li>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{survey_answers_view}']) == true) : ?>
-            <li><a href="/surveys/answers"><i class="fas fa-comment-alt"></i></a></li>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{survey_answers_view}']) == true) : ?>
-            <li><a href="/surveys/comments"><i class="far fa-comment-dots"></i></a></li>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{survey_answers_view}']) == true) : ?>
-            <li><a href="/surveys/contacts"><i class="far fa-address-book"></i></a></li>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{survey_stats_view}']) == true) : ?>
-            <li><a href="/surveys/stats" class="view"><i class="fas fa-chart-pie"></i></a></li>
-            <?php endif; ?>
-        </ul>
-    </nav>
-    <article>
-        <main>
-            <form name="get_charts_by_date_filter" class="charts-filter">
-                <select name="question">
-                    <option value="all">{$lang.all_questions}</option>
-                    {$opt_survey_questions}
-                </select>
-                <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>">
-                <input type="date" name="end_date" value="<?php echo Functions::get_current_date(); ?>" max="<?php echo Functions::get_current_date(); ?>">
-            </form>
-            <div class="chart-rate">
-                <h2>{$lang.general_rate}</h2>
-                <div class="average">
-                    {$h4_general_average_rate}
-                    {$spn_general_avarage_rate}
-                </div>
-                <div class="progress" id="progress_five">
-                    <span>5<i class="fas fa-star"></i></span>
-                    <progress value="{$five_percentage_rate}" max="100"></progress>
-                    <span>{$five_percentage_rate}%</span>
-                </div>
-                <div class="progress" id="progress_four">
-                    <span>4<i class="fas fa-star"></i></span>
-                    <progress value="{$four_percentage_rate}" max="100"></progress>
-                    <span>{$four_percentage_rate}%</span>
-                </div>
-                <div class="progress" id="progress_tree">
-                    <span>3<i class="fas fa-star"></i></span>
-                    <progress value="{$tree_percentage_rate}" max="100"></progress>
-                    <span>{$tree_percentage_rate}%</span>
-                </div>
-                <div class="progress" id="progress_two">
-                    <span>2<i class="fas fa-star"></i></span>
-                    <progress value="{$two_percentage_rate}" max="100"></progress>
-                    <span>{$two_percentage_rate}%</span>
-                </div>
-                <div class="progress" id="progress_one">
-                    <span>1<i class="fas fa-star"></i></span>
-                    <progress value="{$one_percentage_rate}" max="100"></progress>
-                    <span>{$one_percentage_rate}%</span>
-                </div>
-                <form name="get_view_all" class="charts-filter">
-                    <a data-action="view_all" value="all" class="btn">{$lang.view_general_rate_total}</a>
-                </form>
+<main class="dashboard gry">
+    <section class="workspace">
+        <div class="surveys_chart_rate">
+            <div class="average">
+                {$h2_surveys_average}
+                {$spn_surveys_average}
             </div>
-            <div class="chart-answered">
-                <h2>{$lang.surveys_answered}</h2>
-                <div class="counters">
-                    <span>{$count_answered_total}<strong>{$lang.total}</strong></span>
-                    <span>{$count_answered_today}<strong>{$lang.today}</strong></span>
-                    <span>{$count_answered_week}<strong>{$lang.this_week}</strong></span>
-                    <span>{$count_answered_month}<strong>{$lang.this_month}</strong></span>
-                    <span>{$count_answered_year}<strong>{$lang.this_year}</strong></span>
-                    <span>{$general_nps}<strong>{$lang.total} NPS</strong></span>
-                </div>
-                <div class="chart">
-                    <canvas id="s1_chart" height="300"></canvas>
-                </div>
+            <div class="progress">
+                <span>1<i class="fas fa-star"></i></span>
+                <progress value="{$surveys_porcentage_one}" max="100"></progress>
+                <span>{$surveys_porcentage_one}%</span>
             </div>
-            <div class="charts big">
-                <canvas id="nps_chart" height="300"></canvas>
+            <div class="progress">
+                <span>2<i class="fas fa-star"></i></span>
+                <progress value="{$surveys_porcentage_two}" max="100"></progress>
+                <span>{$surveys_porcentage_two}%</span>
             </div>
-            <div class="charts big">
-                <canvas id="s2_chart" height="300"></canvas>
+            <div class="progress">
+                <span>3<i class="fas fa-star"></i></span>
+                <progress value="{$surveys_porcentage_tree}" max="100"></progress>
+                <span>{$surveys_porcentage_tree}%</span>
             </div>
-            <?php if (Session::get_value('account')['zaviapms']['status'] == true) : ?>
-            <div class="charts little">
-                <canvas id="s5_chart" height="300"></canvas>
+            <div class="progress">
+                <span>4<i class="fas fa-star"></i></span>
+                <progress value="{$surveys_porcentage_four}" max="100"></progress>
+                <span>{$surveys_porcentage_four}%</span>
             </div>
-            <div class="charts little">
-                <canvas id="s6_chart" height="300"></canvas>
+            <div class="progress">
+                <span>5<i class="fas fa-star"></i></span>
+                <progress value="{$surveys_porcentage_five}" max="100"></progress>
+                <span>{$surveys_porcentage_five}%</span>
             </div>
-            <div class="charts little">
-                <canvas id="s7_chart" height="300"></canvas>
+        </div>
+        <div class="surveys_charts">
+            <div>
+                <canvas id="s1_chart"></canvas>
             </div>
-            <div class="charts little">
-                <canvas id="s8_chart" height="300"></canvas>
+            <div>
+                <canvas id="s2_chart"></canvas>
+            </div>
+            <?php if (Session::get_value('account')['type'] == 'hotel' AND Session::get_value('account')['zaviapms']['status'] == true) : ?>
+            <div class="small">
+                <canvas id="s4_chart"></canvas>
+            </div>
+            <div class="small">
+                <canvas id="s5_chart"></canvas>
+            </div>
+            <div class="small">
+                <canvas id="s6_chart"></canvas>
+            </div>
+            <div class="small">
+                <canvas id="s7_chart"></canvas>
             </div>
             <?php endif; ?>
-            <div class="clear"></div>
-        </main>
-    </article>
+        </div>
+        <div class="surveys_counters">
+            <div>
+                <h2>{$surveys_count_total}</h2>
+                <span>{$lang.answered_total}</span>
+            </div>
+            <div>
+                <div>
+                    <h3>{$surveys_count_today}</h3>
+                    <span>{$lang.today}</span>
+                </div>
+                <div>
+                    <h3>{$surveys_count_week}</h3>
+                    <span>{$lang.this_week}</span>
+                </div>
+                <div>
+                    <h3>{$surveys_count_month}</h3>
+                    <span>{$lang.this_month}</span>
+                </div>
+                <div>
+                    <h3>{$surveys_count_year}</h3>
+                    <span>{$lang.this_year}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="buttons">
+        <div>
+            <a data-button-modal="search"><i class="fas fa-search"></i></a>
+            <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
+            <a href="/surveys/questions"><i class="fas fa-ghost"></i></a>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
+            <a href="/surveys/answers/raters"><i class="fas fa-star"></i></a>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
+            <a href="/surveys/stats" class="active"><i class="fas fa-chart-pie"></i></a>
+            <a class="active" data-button-modal="filter_surveys_stats"><i class="fas fa-stream"></i></a>
+            <?php endif; ?>
+        </div>
+    </section>
 </main>
+<section class="modal fullscreen" data-modal="filter_surveys_stats">
+    <div class="content">
+        <main>
+            <form name="filter_surveys_stats">
+                <div class="row">
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.started_date}</p>
+                                <input type="date" name="started_date" value="<?php echo Session::get_value('settings')['surveys']['stats']['filter']['started_date']; ?>">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.end_date}</p>
+                                <input type="date" name="end_date" value="<?php echo Session::get_value('settings')['surveys']['stats']['filter']['end_date']; ?>">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.owner}</p>
+                                <select name="owner">
+                                    <option value="all" <?php echo ((Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
+                                    {$opt_owners}
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="buttons">
+                            <a button-close><i class="fas fa-times"></i></a>
+                            <button type="submit"><i class="fas fa-check"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+</section>

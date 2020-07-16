@@ -121,7 +121,7 @@ class Surveys_controller extends Controller
 		{
 			$template = $this->view->render($this, 'questions');
 
-			define('_title', 'Guestvox | {$lang.surveys_questions}');
+			define('_title', 'Guestvox | {$lang.survey} | {$lang.questions}');
 
 			$tbl_surveys_questions = '';
 
@@ -165,8 +165,8 @@ class Surveys_controller extends Controller
 				else if ($value['type'] == 'twin')
 				{
 					$tbl_surveys_questions .=
-					'<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
-					<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+					'<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+					<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
 				}
 				else if ($value['type'] == 'check')
 				{
@@ -219,8 +219,8 @@ class Surveys_controller extends Controller
 					else if ($subvalue['type'] == 'twin')
 					{
 						$tbl_surveys_questions .=
-						'<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
-						<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+						'<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+						<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
 					}
 					else if ($subvalue['type'] == 'check')
 					{
@@ -273,8 +273,8 @@ class Surveys_controller extends Controller
 						else if ($parentvalue['type'] == 'twin')
 						{
 							$tbl_surveys_questions .=
-							'<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
-							<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+							'<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+							<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
 						}
 						else if ($parentvalue['type'] == 'check')
 						{
@@ -332,10 +332,26 @@ class Surveys_controller extends Controller
 		}
 	}
 
-	public function answers()
+	public function answers($params)
 	{
 		if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'filter_surveys_answers')
+			{
+				$settings = Session::get_value('settings');
+
+				$settings['surveys']['answers']['filter']['started_date'] = $_POST['started_date'];
+				$settings['surveys']['answers']['filter']['end_date'] = $_POST['end_date'];
+				$settings['surveys']['answers']['filter']['owner'] = $_POST['owner'];
+				$settings['surveys']['answers']['filter']['rating'] = $_POST['rating'];
+
+				Session::set_value('settings', $settings);
+
+				Functions::environment([
+					'status' => 'success'
+				]);
+			}
+
 			if ($_POST['action'] == 'preview_survey_answer')
 			{
 				$query = $this->model->get_survey_answer($_POST['id']);
@@ -424,8 +440,8 @@ class Surveys_controller extends Controller
 						else if ($value['type'] == 'twin')
 						{
 							$html .=
-							'<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
-							<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+							'<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+							<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
 						}
 						else if ($value['type'] == 'check')
 						{
@@ -468,8 +484,8 @@ class Surveys_controller extends Controller
 							else if ($subvalue['type'] == 'twin')
 							{
 								$html .=
-								'<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
-								<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+								'<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+								<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
 							}
 							else if ($subvalue['type'] == 'check')
 							{
@@ -512,8 +528,8 @@ class Surveys_controller extends Controller
 								else if ($parentvalue['type'] == 'twin')
 								{
 									$html .=
-									'<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
-									<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+									'<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+									<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
 								}
 								else if ($parentvalue['type'] == 'check')
 								{
@@ -556,14 +572,166 @@ class Surveys_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'filter_surveys_answers')
+			if ($_POST['action'] == 'public_survey_answer' OR $_POST['action'] == 'unpublic_survey_answer')
+			{
+				if ($_POST['action'] == 'public_survey_answer')
+					$query = $this->model->public_survey_answer($_POST['id']);
+				else if ($_POST['action'] == 'unpublic_survey_answer')
+					$query = $this->model->unpublic_survey_answer($_POST['id']);
+
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+		}
+		else
+		{
+			define('_title', 'Guestvox | {$lang.survey} | {$lang.answers}');
+
+			$template = $this->view->render($this, 'answers');
+
+			$html =
+			'<div class="tabers">
+				<div>
+					<input id="rtsw" type="radio" value="raters" ' . (($params[0] == 'raters') ? 'checked' : '') . '>
+					<label for="rtsw"><i class="fas fa-star"></i></label>
+				</div>
+				<div>
+	                <input id="cmsw" type="radio" value="comments" ' . (($params[0] == 'comments') ? 'checked' : '') . '>
+	                <label for="cmsw"><i class="fas fa-comment-alt"></i></label>
+	            </div>
+				<div>
+	                <input id="ctsw" type="radio" value="contacts" ' . (($params[0] == 'contacts') ? 'checked' : '') . '>
+	                <label for="ctsw"><i class="fas fa-address-book"></i></label>
+	            </div>
+			</div>';
+
+			if ($params[0] == 'raters')
+			{
+				$html .= '<div class="tbl_stl_7">';
+
+				foreach ($this->model->get_surveys_answers('raters') as $value)
+				{
+					$html .=
+					'<div>
+						<div class="rating">';
+
+					if ($value['average'] < 2)
+						$html .= '<span class="bad"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+					else if ($value['average'] >= 2 AND $value['average'] < 4)
+						$html .= '<span class="medium"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+					else if ($value['average'] >= 4)
+						$html .= '<span class="good"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+
+					$html.=
+					'	</div>
+						<div class="datas">
+							<span>' . $value['token'] . '</span>
+							<h2>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] : ((Session::get_value('account')['type'] == 'hotel') ? ((!empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') : '{$lang.not_name}')) . '</h2>
+							<span><i class="fas fa-calendar-alt"></i>' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>
+							<span><i class="fas fa-shapes"></i>' . $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') . '</span>
+						</div>
+						<div class="buttons">
+							<a data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-eye"></i></a>
+						</div>
+					</div>';
+				}
+
+				$html .= '</div>';
+			}
+			else if ($params[0] == 'comments')
+			{
+				$html .= '<div class="tbl_stl_2">';
+
+				foreach ($this->model->get_surveys_answers('comments') as $value)
+				{
+					if (!empty($value['comment']))
+					{
+						$html .=
+						'<div>
+							<div class="datas">
+								<h2>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] : ((Session::get_value('account')['type'] == 'hotel') ? ((!empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') : '{$lang.not_name}')) . '</h2>
+								<span><i class="fas fa-star"></i>' . $value['token'] . '</span>
+								<span><i class="fas fa-calendar-alt"></i>' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>
+								<span><i class="fas fa-shapes"></i>' . $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') . '</span>
+								<p><i class="fas fa-comment-alt"></i>' . $value['comment'] . '</p>
+							</div>
+							<div class="buttons flex_right">
+								<a class="' . (($value['public'] == true) ? 'delete' : 'new') . ' big" data-action="' . (($value['public'] == true) ? 'unpublic_survey_answer' : 'public_survey_answer') . '" data-id="' . $value['id'] . '">' . (($value['public'] == true) ? '{$lang.unpublic_survey_answer}' : '{$lang.public_survey_answer}') . '</a>
+								<a data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-star"></i></a>
+							</div>
+						</div>';
+					}
+				}
+
+				$html .= '</div>';
+			}
+			else if ($params[0] == 'contacts')
+			{
+				$html .= '<div class="tbl_stl_2">';
+
+				foreach ($this->model->get_surveys_answers('contacts') as $value)
+				{
+					if (!empty($value['email']) OR (!empty($value['phone']['lada']) AND !empty($value['phone']['number'])))
+					{
+						$html .=
+						'<div>
+							<div class="datas">
+								<h2>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] : ((Session::get_value('account')['type'] == 'hotel') ? ((!empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') : '{$lang.not_name}')) . '</h2>
+								<span><i class="fas fa-star"></i>' . $value['token'] . '</span>
+								<span><i class="fas fa-calendar-alt"></i>' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>
+								<span><i class="fas fa-shapes"></i>' . $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') . '</span>
+								<span><i class="fas fa-envelope"></i>' . (!empty($value['email']) ? $value['email'] : '{$lang.not_email}') . '</span>
+								<span><i class="fas fa-phone"></i>' . ((!empty($value['phone']['lada']) AND !empty($value['phone']['number'])) ? '+ (' . $value['phone']['lada'] . ') ' . $value['phone']['number'] : '{$lang.not_phone}') . '</span>
+							</div>
+							<div class="buttons flex_right">
+								<a data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-star"></i></a>
+							</div>
+						</div>';
+					}
+				}
+
+				$html .= '</div>';
+			}
+
+			$opt_owners = '';
+
+			foreach ($this->model->get_owners('survey') as $value)
+				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+
+			$replace = [
+				'{$html}' => $html,
+				'{$opt_owners}' => $opt_owners
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
+	public function stats()
+	{
+		if (Format::exist_ajax_request() == true)
+		{
+			if ($_POST['action'] == 'filter_surveys_stats')
 			{
 				$settings = Session::get_value('settings');
 
-				$settings['surveys']['answers']['filter']['started_date'] = $_POST['started_date'];
-				$settings['surveys']['answers']['filter']['end_date'] = $_POST['end_date'];
-				$settings['surveys']['answers']['filter']['owner'] = $_POST['owner'];
-				$settings['surveys']['answers']['filter']['rating'] = $_POST['rating'];
+				$settings['surveys']['stats']['filter']['started_date'] = $_POST['started_date'];
+				$settings['surveys']['stats']['filter']['end_date'] = $_POST['end_date'];
+				$settings['surveys']['stats']['filter']['owner'] = $_POST['owner'];
 
 				Session::set_value('settings', $settings);
 
@@ -574,38 +742,33 @@ class Surveys_controller extends Controller
 		}
 		else
 		{
-			define('_title', 'Guestvox | {$lang.surveys_answers}');
+			define('_title', 'Guestvox | {$lang.survey} | {$lang.stats}');
 
-			$template = $this->view->render($this, 'answers');
+			$template = $this->view->render($this, 'stats');
 
-			$tbl_surveys_answers = '';
+			$surveys_average = $this->model->get_surveys_average();
 
-			foreach ($this->model->get_surveys_answers() as $value)
-			{
-				$tbl_surveys_answers .=
-				'<div>
-					<div class="rating">';
+			$h2_surveys_average = '';
 
-				if ($value['average'] < 2)
-					$tbl_surveys_answers .= '<span class="bad"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
-				else if ($value['average'] >= 2 AND $value['average'] < 4)
-					$tbl_surveys_answers .= '<span class="medium"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
-				else if ($value['average'] >= 4)
-					$tbl_surveys_answers .= '<span class="good"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+			if ($surveys_average >= 0 AND $surveys_average < 1.8)
+				$h2_surveys_average = '<h2 class="one">' . $surveys_average . '</h2>';
+			else if ($surveys_average >= 1.8 AND $surveys_average < 2.8)
+				$h2_surveys_average = '<h2 class="two">' . $surveys_average . '</h2>';
+			else if ($surveys_average >= 2.8 AND $surveys_average < 3.8)
+				$h2_surveys_average = '<h2 class="three">' . $surveys_average . '</h2>';
+			else if ($surveys_average >= 3.8 AND $surveys_average < 4.8)
+				$h2_surveys_average = '<h2 class="four">' . $surveys_average . '</h2>';
+			else if ($surveys_average >= 4.8 AND $surveys_average <= 5)
+				$h2_surveys_average = '<h2 class="five">' . $surveys_average . '</h2>';
 
-				$tbl_surveys_answers.=
-				'	</div>
-					<div class="datas">
-						<span>' . $value['token'] . '</span>
-						<h2>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] : ((Session::get_value('account')['type'] == 'hotel') ? ((!empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') : '{$lang.not_name}')) . '</h2>
-						<span><i class="fas fa-calendar-alt"></i>' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>
-						<span><i class="fas fa-shapes"></i>' . $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') . '</span>
-					</div>
-					<div class="buttons">
-						<a data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-eye"></i></a>
-					</div>
-				</div>';
-			}
+			$spn_surveys_average =
+			'<span>
+				' . (($surveys_average >= 0 AND $surveys_average < 1.8) ? '<i class="fas fa-sad-cry one"></i>' : '<i class="far fa-sad-cry"></i>') . '
+				' . (($surveys_average >= 1.8 AND $surveys_average < 2.8) ? '<i class="fas fa-frown two"></i>' : '<i class="far fa-frown"></i>') . '
+				' . (($surveys_average >= 2.8 AND $surveys_average < 3.8) ? '<i class="fas fa-meh-rolling-eyes three"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
+				' . (($surveys_average >= 3.8 AND $surveys_average < 4.8) ? '<i class="fas fa-smile four"></i>' : '<i class="far fa-smile"></i>') . '
+				' . (($surveys_average >= 4.8 AND $surveys_average <= 5) ? '<i class="fas fa-grin-stars five"></i>' : '<i class="far fa-grin-stars"></i>') . '
+			</span>';
 
 			$opt_owners = '';
 
@@ -613,7 +776,18 @@ class Surveys_controller extends Controller
 				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 
 			$replace = [
-				'{$tbl_surveys_answers}' => $tbl_surveys_answers,
+				'{$h2_surveys_average}' => $h2_surveys_average,
+				'{$spn_surveys_average}' => $spn_surveys_average,
+				'{$surveys_porcentage_one}' => $this->model->get_surveys_percentage('one'),
+				'{$surveys_porcentage_two}' => $this->model->get_surveys_percentage('two'),
+				'{$surveys_porcentage_tree}' => $this->model->get_surveys_percentage('tree'),
+				'{$surveys_porcentage_four}' => $this->model->get_surveys_percentage('four'),
+				'{$surveys_porcentage_five}' => $this->model->get_surveys_percentage('five'),
+				'{$surveys_count_total}' => $this->model->get_surveys_count('total'),
+				'{$surveys_count_today}' => $this->model->get_surveys_count('today'),
+				'{$surveys_count_week}' => $this->model->get_surveys_count('week'),
+				'{$surveys_count_month}' => $this->model->get_surveys_count('month'),
+				'{$surveys_count_year}' => $this->model->get_surveys_count('year'),
 				'{$opt_owners}' => $opt_owners
 			];
 
@@ -623,450 +797,215 @@ class Surveys_controller extends Controller
 		}
 	}
 
-	// public function stats()
-	// {
-	// 	if (Format::exist_ajax_request() == true)
-	// 	{
-	// 		if ($_POST['action'] == 'get_view_all')
-	// 		{
-	// 			$general_average_rate = $this->model->get_general_average_rate($_POST['action'], []);
-	//
-	// 			$h4_general_average_rate = '';
-	//
-	// 			if ($general_average_rate >= 0 AND $general_average_rate < 1.8)
-	// 				$h4_general_average_rate = '<h4 style="color:#f44336;">' . $general_average_rate . '</h4>';
-	// 			else if ($general_average_rate >= 1.8 AND $general_average_rate < 2.8)
-	// 				$h4_general_average_rate = '<h4 style="color:#ffc107;">' . $general_average_rate . '</h4>';
-	// 			else if ($general_average_rate >= 2.8 AND $general_average_rate < 3.8)
-	// 				$h4_general_average_rate = '<h4 style="color:#ffeb3b;">' . $general_average_rate . '</h4>';
-	// 			else if ($general_average_rate >= 3.8 AND $general_average_rate < 4.8)
-	// 				$h4_general_average_rate = '<h4 style="color:#4caf50;">' . $general_average_rate . '</h4>';
-	// 			else if ($general_average_rate >= 4.8 AND $general_average_rate <= 5)
-	// 				$h4_general_average_rate = '<h4 style="color:#00a5ab;">' . $general_average_rate . '</h4>';
-	//
-	// 			$spn_general_avarage_rate =
-	// 			'<span>
-	// 				' . (($general_average_rate >= 0 AND $general_average_rate < 1.8) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
-	// 				' . (($general_average_rate >= 1.8 AND $general_average_rate < 2.8) ? '<i class="fas fa-frown" style="font-size:50px;color:#ffc107;"></i>' : '<i class="far fa-frown"></i>') . '
-	// 				' . (($general_average_rate >= 2.8 AND $general_average_rate < 3.8) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ffeb3b;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
-	// 				' . (($general_average_rate >= 3.8 AND $general_average_rate < 4.8) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
-	// 				' . (($general_average_rate >= 4.8 AND $general_average_rate <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#00a5ab;"></i>' : '<i class="far fa-grin-stars"></i>') . '
-	// 			</span>';
-	//
-	// 			$rate_general = '';
-	// 			$rate_general = $h4_general_average_rate . $spn_general_avarage_rate;
-	//
-	// 			Functions::environment([
-	// 				'status' => 'success',
-	// 				'data' => [
-	// 					'rate_general' => $rate_general,
-	// 					'five_percentage_rate' => $this->model->get_percentage_rate($_POST['action'], 'five', []),
-	// 					'four_percentage_rate' => $this->model->get_percentage_rate($_POST['action'], 'four', []),
-	// 					'tree_percentage_rate' => $this->model->get_percentage_rate($_POST['action'], 'tree', []),
-	// 					'two_percentage_rate' => $this->model->get_percentage_rate($_POST['action'], 'two', []),
-	// 					'one_percentage_rate' => $this->model->get_percentage_rate($_POST['action'], 'one', []),
-	// 					]
-	// 			]);
-	// 		}
-	//
-	// 		if ($_POST['action'] == 'get_charts_by_date_filter')
-	// 		{
-	// 			$general_average_rate = $this->model->get_general_average_rate('', [$_POST['started_date'], $_POST['end_date']]);
-	//
-	// 			$h4_general_average_rate = '';
-	//
-	// 			if ($general_average_rate >= 0 AND $general_average_rate < 1.8)
-	// 				$h4_general_average_rate = '<h4 style="color:#f44336;">' . $general_average_rate . '</h4>';
-	// 			else if ($general_average_rate >= 1.8 AND $general_average_rate < 2.8)
-	// 				$h4_general_average_rate = '<h4 style="color:#ffc107;">' . $general_average_rate . '</h4>';
-	// 			else if ($general_average_rate >= 2.8 AND $general_average_rate < 3.8)
-	// 				$h4_general_average_rate = '<h4 style="color:#ffeb3b;">' . $general_average_rate . '</h4>';
-	// 			else if ($general_average_rate >= 3.8 AND $general_average_rate < 4.8)
-	// 				$h4_general_average_rate = '<h4 style="color:#4caf50;">' . $general_average_rate . '</h4>';
-	// 			else if ($general_average_rate >= 4.8 AND $general_average_rate <= 5)
-	// 				$h4_general_average_rate = '<h4 style="color:#00a5ab;">' . $general_average_rate . '</h4>';
-	//
-	// 			$spn_general_avarage_rate =
-	// 			'<span>
-	// 				' . (($general_average_rate >= 0 AND $general_average_rate < 1.8) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
-	// 				' . (($general_average_rate >= 1.8 AND $general_average_rate < 2.8) ? '<i class="fas fa-frown" style="font-size:50px;color:#ffc107;"></i>' : '<i class="far fa-frown"></i>') . '
-	// 				' . (($general_average_rate >= 2.8 AND $general_average_rate < 3.8) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ffeb3b;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
-	// 				' . (($general_average_rate >= 3.8 AND $general_average_rate < 4.8) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
-	// 				' . (($general_average_rate >= 4.8 AND $general_average_rate <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#00a5ab;"></i>' : '<i class="far fa-grin-stars"></i>') . '
-	// 			</span>';
-	//
-	// 			$rate_general = '';
-	// 			$rate_general = $h4_general_average_rate . $spn_general_avarage_rate;
-	//
-	// 			Functions::environment([
-	// 				'status' => 'success',
-	// 				'data' => [
-	// 					'rate_general' => $rate_general,
-	// 					'five_percentage_rate' => $this->model->get_percentage_rate('', 'five', [$_POST['started_date'], $_POST['end_date']]),
-	// 					'four_percentage_rate' => $this->model->get_percentage_rate('', 'four', [$_POST['started_date'], $_POST['end_date']]),
-	// 					'tree_percentage_rate' => $this->model->get_percentage_rate('', 'tree', [$_POST['started_date'], $_POST['end_date']]),
-	// 					'two_percentage_rate' => $this->model->get_percentage_rate('', 'two', [$_POST['started_date'], $_POST['end_date']]),
-	// 					'one_percentage_rate' => $this->model->get_percentage_rate('', 'one', [$_POST['started_date'], $_POST['end_date']]),
-	// 					's1_chart_data' => $this->model->get_chart_data('s1_chart', [$_POST['started_date'], $_POST['end_date']], true),
-	// 					's2_chart_data' => $this->model->get_chart_data('s2_chart', [$_POST['started_date'], $_POST['end_date'], $_POST['question']], true),
-	// 					's5_chart_data' => $this->model->get_chart_data('s5_chart', [$_POST['started_date'], $_POST['end_date']], true),
-	// 					's6_chart_data' => $this->model->get_chart_data('s6_chart', [$_POST['started_date'], $_POST['end_date']], true),
-	// 					's7_chart_data' => $this->model->get_chart_data('s7_chart', [$_POST['started_date'], $_POST['end_date']], true),
-	// 					's8_chart_data' => $this->model->get_chart_data('s8_chart', [$_POST['started_date'], $_POST['end_date']], true)
-	// 				]
-	// 			]);
-	// 		}
-	// 	}
-	// 	else
-	// 	{
-	// 		define('_title', 'GuestVox');
-	//
-	// 		$template = $this->view->render($this, 'stats');
-	//
-	// 		$general_average_rate = $this->model->get_general_average_rate('', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]);
-	//
-	// 		$h4_general_average_rate = '';
-	//
-	// 		if ($general_average_rate >= 0 AND $general_average_rate < 1.8)
-	// 			$h4_general_average_rate = '<h4 style="color:#f44336;">' . $general_average_rate . '</h4>';
-	// 		else if ($general_average_rate >= 1.8 AND $general_average_rate < 2.8)
-	// 			$h4_general_average_rate = '<h4 style="color:#ffc107;">' . $general_average_rate . '</h4>';
-	// 		else if ($general_average_rate >= 2.8 AND $general_average_rate < 3.8)
-	// 			$h4_general_average_rate = '<h4 style="color:#ffeb3b;">' . $general_average_rate . '</h4>';
-	// 		else if ($general_average_rate >= 3.8 AND $general_average_rate < 4.8)
-	// 			$h4_general_average_rate = '<h4 style="color:#4caf50;">' . $general_average_rate . '</h4>';
-	// 		else if ($general_average_rate >= 4.8 AND $general_average_rate <= 5)
-	// 			$h4_general_average_rate = '<h4 style="color:#00a5ab;">' . $general_average_rate . '</h4>';
-	//
-	// 		$spn_general_avarage_rate =
-	// 		'<span>
-	// 			' . (($general_average_rate >= 0 AND $general_average_rate < 1.8) ? '<i class="fas fa-sad-cry" style="font-size:50px;color:#f44336;"></i>' : '<i class="far fa-sad-cry"></i>') . '
-	// 			' . (($general_average_rate >= 1.8 AND $general_average_rate < 2.8) ? '<i class="fas fa-frown" style="font-size:50px;color:#ffc107;"></i>' : '<i class="far fa-frown"></i>') . '
-	// 			' . (($general_average_rate >= 2.8 AND $general_average_rate < 3.8) ? '<i class="fas fa-meh-rolling-eyes" style="font-size:50px;color:#ffeb3b;"></i>' : '<i class="far fa-meh-rolling-eyes"></i>') . '
-	// 			' . (($general_average_rate >= 3.8 AND $general_average_rate < 4.8) ? '<i class="fas fa-smile" style="font-size:50px;color:#4caf50;"></i>' : '<i class="far fa-smile"></i>') . '
-	// 			' . (($general_average_rate >= 4.8 AND $general_average_rate <= 5) ? '<i class="fas fa-grin-stars" style="font-size:50px;color:#00a5ab;"></i>' : '<i class="far fa-grin-stars"></i>') . '
-	// 		</span>';
-	//
-	// 		$opt_surveys_questions = '';
-	//
-	// 		foreach ($this->model->get_surveys_questions(true) as $value)
-	// 			$opt_surveys_questions .= '<option value="' . $value['id'] . '">' . $value['name'][Session::get_value('account')['language']] . '</option>';
-	//
-	// 		$replace = [
-	// 			'{$general_nps}' => $this->model->get_survey_nps(),
-	// 			'{$h4_general_average_rate}' => $h4_general_average_rate,
-	// 			'{$spn_general_avarage_rate}' => $spn_general_avarage_rate,
-	// 			'{$five_percentage_rate}' => $this->model->get_percentage_rate('', 'five', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]),
-	// 			'{$four_percentage_rate}' => $this->model->get_percentage_rate('', 'four', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]),
-	// 			'{$tree_percentage_rate}' => $this->model->get_percentage_rate('', 'tree', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]),
-	// 			'{$two_percentage_rate}' => $this->model->get_percentage_rate('', 'two', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]),
-	// 			'{$one_percentage_rate}' => $this->model->get_percentage_rate('', 'one', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]),
-	// 			'{$count_answered_total}' => $this->model->get_count('answered_total'),
-	// 			'{$count_answered_today}' => $this->model->get_count('answered_today'),
-	// 			'{$count_answered_week}' => $this->model->get_count('answered_week'),
-	// 			'{$count_answered_month}' => $this->model->get_count('answered_month'),
-	// 			'{$count_answered_year}' => $this->model->get_count('answered_year'),
-	// 			'{$opt_surveys_questions}' => $opt_surveys_questions
-	// 		];
-	//
-	// 		$template = $this->format->replace($replace, $template);
-	//
-	// 		echo $template;
-	// 	}
-	// }
-	//
-	// public function charts()
-	// {
-	// 	header('Content-Type: application/javascript');
-	//
-	// 	$s1_chart_data = $this->model->get_chart_data('s1_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]);
-	// 	$nps_chart_data = $this->model->get_chart_data('nps_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date(), 'all']);
-	// 	$s2_chart_data = $this->model->get_chart_data('s2_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date(), 'all']);
-	//
-	// 	if (Session::get_value('account')['zaviapms']['status'] == true)
-	// 	{
-	// 		$s5_chart_data = $this->model->get_chart_data('s5_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]);
-	// 		$s6_chart_data = $this->model->get_chart_data('s6_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]);
-	// 		$s7_chart_data = $this->model->get_chart_data('s7_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]);
-	// 		$s8_chart_data = $this->model->get_chart_data('s8_chart', [Functions::get_past_date(Functions::get_current_date(), '7', 'days'), Functions::get_current_date()]);
-	// 	}
-	//
-	// 	if (Session::get_value('account')['language'] == 'es')
-	// 	{
-	// 		if (Session::get_value('account')['type'] == 'hotel')
-	// 			$s1_chart_title = 'Por habitación';
-	// 		else if (Session::get_value('account')['type'] == 'restaurant')
-	// 			$s1_chart_title = 'Por mesa';
-	// 		else if (Session::get_value('account')['type'] == 'others')
-	// 			$s1_chart_title = 'Por cliente';
-	//
-	// 		$nps_chart_title = 'NPS';
-	// 		$s2_chart_title = 'Valoración';
-	//
-	// 		if (Session::get_value('account')['zaviapms']['status'] == true)
-	// 		{
-	// 			$s5_chart_title = 'Nacionalidad';
-	// 			$s6_chart_title = 'Canal de entrada';
-	// 			$s7_chart_title = 'Tipo de viajero';
-	// 			$s8_chart_title = 'Grupo de edad';
-	// 		}
-	// 	}
-	// 	else if (Session::get_value('account')['language'] == 'en')
-	// 	{
-	// 		if (Session::get_value('account')['type'] == 'hotel')
-	// 			$s1_chart_title = 'Per owner';
-	// 		else if (Session::get_value('account')['type'] == 'restaurant')
-	// 			$s1_chart_title = 'Per owner';
-	// 		else if (Session::get_value('account')['type'] == 'others')
-	// 			$s1_chart_title = 'Per owner';
-	//
-	// 		$nps_chart_title = 'Rating';
-	// 		$s2_chart_title = 'Rating';
-	//
-	// 		if (Session::get_value('account')['zaviapms']['status'] == true)
-	// 		{
-	// 			$s5_chart_title = 'Nationality';
-	// 			$s6_chart_title = 'Input channel';
-	// 			$s7_chart_title = 'Traveler';
-	// 			$s8_chart_title = 'Age group';
-	// 		}
-	// 	}
-	//
-	// 	$js =
-	// 	"'use strict';
-	//
-	// 	var s1_chart = {
-	//         type: 'doughnut',
-	//         data: {
-	// 			labels: [
-	//                 " . $s1_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [{
-	// 				data: [
-	//                     " . $s1_chart_data['datasets']['data'] . "
-	//                 ],
-	//                 backgroundColor: [
-	//                     " . $s1_chart_data['datasets']['colors'] . "
-	//                 ]
-	//             }]
-	//         },
-	//         options: {
-	// 			title: {
-	// 				display: true,
-	// 				position: 'bottom',
-	// 				text: '" . $s1_chart_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: false
-	// 			},
-	//             responsive: true
-    //         }
-    //     };
-	//
-	// 	var nps_chart = {
-	// 	    type: 'bar',
-	// 		data: {
-	// 			labels: [
-	//                 " . $nps_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [
-	// 				" . $nps_chart_data['datasets'] . "
-	// 			]
-	//         },
-	// 		options: {
-	// 			title: {
-	// 				display: true,
-	// 				position: 'top',
-	// 				text: '" . $nps_chart_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: true
-	// 			},
-	// 			tooltips: {
-	// 				mode: 'index',
-	// 				intersect: false,
-	// 			},
-	// 			hover: {
-	// 				mode: 'nearest',
-	// 				intersect: true
-	// 			},
-	//             responsive: true
-    //         }
-	// 	};
-	//
-	// 	var s2_chart = {
-	// 	    type: 'line',
-	// 		data: {
-	// 			labels: [
-	//                 " . $s2_chart_data['labels'] . "
-	//             ],
-	// 			datasets: [
-	// 				" . $s2_chart_data['datasets'] . "
-	// 			]
-	//         },
-	// 		options: {
-	// 			title: {
-	// 				display: true,
-	// 				position: 'top',
-	// 				text: '" . $s2_chart_title . "'
-	// 			},
-	// 			legend: {
-	// 				display: true
-	// 			},
-	// 			tooltips: {
-	// 				mode: 'index',
-	// 				intersect: false,
-	// 			},
-	// 			hover: {
-	// 				mode: 'nearest',
-	// 				intersect: true
-	// 			},
-	// 			elements: {
-	// 				line: {
-	// 					tension: 0
-	// 				}
-	// 			},
-	//             responsive: true
-    //         }
-	// 	};";
-	//
-	// 	if (Session::get_value('account')['zaviapms']['status'] == true)
-	// 	{
-	// 		$js .=
-	// 		"var s5_chart = {
-	// 	        type: 'pie',
-	// 	        data: {
-	// 				labels: [
-	// 	                " . $s5_chart_data['labels'] . "
-	// 	            ],
-	// 				datasets: [{
-	// 					data: [
-	// 	                    " . $s5_chart_data['datasets']['data'] . "
-	// 	                ],
-	// 	                backgroundColor: [
-	// 	                    " . $s5_chart_data['datasets']['colors'] . "
-	// 	                ]
-	// 	            }]
-	// 	        },
-	// 	        options: {
-	// 				title: {
-	// 					display: true,
-	// 					position: 'top',
-	// 					text: '" . $s5_chart_title . "'
-	// 				},
-	// 				legend: {
-	// 					display: false
-	// 				},
-	// 	            responsive: true
-	//             }
-	//         };
-	//
-	// 		var s6_chart = {
-	// 	        type: 'pie',
-	// 	        data: {
-	// 				labels: [
-	// 	                " . $s6_chart_data['labels'] . "
-	// 	            ],
-	// 				datasets: [{
-	// 					data: [
-	// 	                    " . $s6_chart_data['datasets']['data'] . "
-	// 	                ],
-	// 	                backgroundColor: [
-	// 	                    " . $s6_chart_data['datasets']['colors'] . "
-	// 	                ]
-	// 	            }]
-	// 	        },
-	// 	        options: {
-	// 				title: {
-	// 					display: true,
-	// 					position: 'top',
-	// 					text: '" . $s6_chart_title . "'
-	// 				},
-	// 				legend: {
-	// 					display: false
-	// 				},
-	// 	            responsive: true
-	//             }
-	//         };
-	//
-	// 		var s7_chart = {
-	// 	        type: 'pie',
-	// 	        data: {
-	// 				labels: [
-	// 	                " . $s7_chart_data['labels'] . "
-	// 	            ],
-	// 				datasets: [{
-	// 					data: [
-	// 	                    " . $s7_chart_data['datasets']['data'] . "
-	// 	                ],
-	// 	                backgroundColor: [
-	// 	                    " . $s7_chart_data['datasets']['colors'] . "
-	// 	                ]
-	// 	            }]
-	// 	        },
-	// 	        options: {
-	// 				title: {
-	// 					display: true,
-	// 					position: 'top',
-	// 					text: '" . $s7_chart_title . "'
-	// 				},
-	// 				legend: {
-	// 					display: false
-	// 				},
-	// 	            responsive: true
-	//             }
-	//         };
-	//
-	// 		var s8_chart = {
-	// 	        type: 'pie',
-	// 	        data: {
-	// 				labels: [
-	// 	                " . $s8_chart_data['labels'] . "
-	// 	            ],
-	// 				datasets: [{
-	// 					data: [
-	// 	                    " . $s8_chart_data['datasets']['data'] . "
-	// 	                ],
-	// 	                backgroundColor: [
-	// 	                    " . $s8_chart_data['datasets']['colors'] . "
-	// 	                ]
-	// 	            }]
-	// 	        },
-	// 	        options: {
-	// 				title: {
-	// 					display: true,
-	// 					position: 'top',
-	// 					text: '" . $s8_chart_title . "'
-	// 				},
-	// 				legend: {
-	// 					display: false
-	// 				},
-	// 	            responsive: true
-	//             }
-	//         };";
-	// 	}
-	//
-	// 	$js .=
-	// 	"window.onload = function()
-	// 	{
-	// 		s1_chart = new Chart(document.getElementById('s1_chart').getContext('2d'), s1_chart);
-	// 		nps_chart = new Chart(document.getElementById('nps_chart').getContext('2d'), nps_chart);
-	// 		s2_chart = new Chart(document.getElementById('s2_chart').getContext('2d'), s2_chart);";
-	//
-	// 		if (Session::get_value('account')['zaviapms']['status'] == true)
-	// 		{
-	// 			$js .=
-	// 			"s5_chart = new Chart(document.getElementById('s5_chart').getContext('2d'), s5_chart);
-	// 			s6_chart = new Chart(document.getElementById('s6_chart').getContext('2d'), s6_chart);
-	// 			s7_chart = new Chart(document.getElementById('s7_chart').getContext('2d'), s7_chart);
-	// 			s8_chart = new Chart(document.getElementById('s8_chart').getContext('2d'), s8_chart);";
-	// 		}
-	//
-	// 	$js .=
-	// 	"};";
-	//
-	// 	$js = trim(str_replace(array("\t\t\t"), '', $js));
-	//
-	// 	echo $js;
-	// }
+	public function charts()
+	{
+		header('Content-Type: application/javascript');
+
+		$s1_chart_data = $this->model->get_chart_data('s1_chart');
+		$s2_chart_data = $this->model->get_chart_data('s2_chart');
+
+		if (Session::get_value('account')['type'] == 'hotel' AND Session::get_value('account')['zaviapms']['status'] == true)
+		{
+			$s4_chart_data = $this->model->get_chart_data('s4_chart');
+			$s5_chart_data = $this->model->get_chart_data('s5_chart');
+			$s6_chart_data = $this->model->get_chart_data('s6_chart');
+			$s7_chart_data = $this->model->get_chart_data('s7_chart');
+		}
+
+		$js =
+		"'use strict';
+
+		var s1_chart = {
+	        type: 'doughnut',
+	        data: {
+				labels: [
+	                " . $s1_chart_data['labels'] . "
+	            ],
+				datasets: [{
+					data: [
+	                    " . $s1_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $s1_chart_data['datasets']['colors'] . "
+	                ]
+	            }]
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . Languages::charts('s1_chart')[$this->lang] . "'
+				},
+				legend: {
+					display: true,
+					position: 'left'
+				},
+	            responsive: true
+            }
+        };
+
+		var s2_chart = {
+	        type: 'doughnut',
+	        data: {
+				labels: [
+	                " . $s2_chart_data['labels'] . "
+	            ],
+				datasets: [{
+					data: [
+	                    " . $s2_chart_data['datasets']['data'] . "
+	                ],
+	                backgroundColor: [
+	                    " . $s2_chart_data['datasets']['colors'] . "
+	                ]
+	            }]
+	        },
+	        options: {
+				title: {
+					display: true,
+					text: '" . Languages::charts('s2_chart')[$this->lang] . "'
+				},
+				legend: {
+					display: true,
+					position: 'left'
+				},
+	            responsive: true
+            }
+        };";
+
+		if (Session::get_value('account')['type'] == 'hotel' AND Session::get_value('account')['zaviapms']['status'] == true)
+		{
+			$js .=
+			"var s4_chart = {
+		        type: 'pie',
+		        data: {
+					labels: [
+		                " . $s4_chart_data['labels'] . "
+		            ],
+					datasets: [{
+						data: [
+		                    " . $s4_chart_data['datasets']['data'] . "
+		                ],
+		                backgroundColor: [
+		                    " . $s4_chart_data['datasets']['colors'] . "
+		                ]
+		            }]
+		        },
+		        options: {
+					title: {
+						display: true,
+						text: '" . Languages::charts('s4_chart')[$this->lang] . "'
+					},
+					legend: {
+						display: true,
+						position: 'left'
+					},
+		            responsive: true
+	            }
+	        };
+
+			var s5_chart = {
+		        type: 'pie',
+		        data: {
+					labels: [
+		                " . $s5_chart_data['labels'] . "
+		            ],
+					datasets: [{
+						data: [
+		                    " . $s5_chart_data['datasets']['data'] . "
+		                ],
+		                backgroundColor: [
+		                    " . $s5_chart_data['datasets']['colors'] . "
+		                ]
+		            }]
+		        },
+		        options: {
+					title: {
+						display: true,
+						text: '" . Languages::charts('s5_chart')[$this->lang] . "'
+					},
+					legend: {
+						display: true,
+						position: 'left'
+					},
+		            responsive: true
+	            }
+	        };
+
+			var s6_chart = {
+		        type: 'pie',
+		        data: {
+					labels: [
+		                " . $s6_chart_data['labels'] . "
+		            ],
+					datasets: [{
+						data: [
+		                    " . $s6_chart_data['datasets']['data'] . "
+		                ],
+		                backgroundColor: [
+		                    " . $s6_chart_data['datasets']['colors'] . "
+		                ]
+		            }]
+		        },
+		        options: {
+					title: {
+						display: true,
+						text: '" . Languages::charts('s6_chart')[$this->lang] . "'
+					},
+					legend: {
+						display: true,
+						position: 'left'
+					},
+		            responsive: true
+	            }
+	        };
+
+			var s7_chart = {
+		        type: 'pie',
+		        data: {
+					labels: [
+		                " . $s7_chart_data['labels'] . "
+		            ],
+					datasets: [{
+						data: [
+		                    " . $s7_chart_data['datasets']['data'] . "
+		                ],
+		                backgroundColor: [
+		                    " . $s7_chart_data['datasets']['colors'] . "
+		                ]
+		            }]
+		        },
+		        options: {
+					title: {
+						display: true,
+						text: '" . Languages::charts('s7_chart')[$this->lang] . "'
+					},
+					legend: {
+						display: true,
+						position: 'left'
+					},
+		            responsive: true
+	            }
+	        };";
+		}
+
+		$js .=
+		"window.onload = function()
+		{
+			s1_chart = new Chart(document.getElementById('s1_chart').getContext('2d'), s1_chart);
+			s2_chart = new Chart(document.getElementById('s2_chart').getContext('2d'), s2_chart);";
+
+		if (Session::get_value('account')['type'] == 'hotel' AND Session::get_value('account')['zaviapms']['status'] == true)
+		{
+			$js .=
+			"s4_chart = new Chart(document.getElementById('s4_chart').getContext('2d'), s4_chart);
+			s5_chart = new Chart(document.getElementById('s5_chart').getContext('2d'), s5_chart);
+			s6_chart = new Chart(document.getElementById('s6_chart').getContext('2d'), s6_chart);
+			s7_chart = new Chart(document.getElementById('s7_chart').getContext('2d'), s7_chart);";
+		}
+
+		$js .= "};";
+
+		$js = trim(str_replace(array("\t\t\t"), '', $js));
+
+		echo $js;
+	}
 }

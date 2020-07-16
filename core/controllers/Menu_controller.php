@@ -133,7 +133,7 @@ class Menu_controller extends Controller
 		{
 			$template = $this->view->render($this, 'products');
 
-			define('_title', 'Guestvox | {$lang.menu_products}');
+			define('_title', 'Guestvox | {$lang.menu} | {$lang.products}');
 
 			$tbl_menu_products = '';
 
@@ -284,7 +284,7 @@ class Menu_controller extends Controller
 		{
 			$template = $this->view->render($this, 'restaurants');
 
-			define('_title', 'Guestvox | {$lang.menu_restaurants}');
+			define('_title', 'Guestvox | {$lang.menu} | {$lang.restaurants}');
 
 			$tbl_menu_restaurants = '';
 

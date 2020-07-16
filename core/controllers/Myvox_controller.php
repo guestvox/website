@@ -429,7 +429,7 @@ class Myvox_controller extends Controller
 			{
 				$template = $this->view->render($this, 'request');
 
-				define('_title', 'Guestvox | {$lang.myvox} | {$lang.request}');
+				define('_title', Session::get_value('myvox')['account']['name'] . ' | {$lang.request}');
 
 				$html =
 				'<form name="new_request">
@@ -907,7 +907,7 @@ class Myvox_controller extends Controller
 			{
 				$template = $this->view->render($this, 'incident');
 
-				define('_title', 'Guestvox | {$lang.myvox} | {$lang.incident}');
+				define('_title', Session::get_value('myvox')['account']['name'] . ' | {$lang.incident}');
 
 				$html =
 				'<form name="new_incident">
@@ -2095,7 +2095,7 @@ class Myvox_controller extends Controller
 			{
 				$template = $this->view->render($this, 'survey');
 
-				define('_title', 'Guestvox | {$lang.myvox} | {$lang.survey}');
+				define('_title', Session::get_value('myvox')['account']['name'] . ' | {$lang.survey}');
 
 				$this->model->get_survey_average(1);
 
@@ -2167,8 +2167,8 @@ class Myvox_controller extends Controller
 					else if ($value['type'] == 'twin')
 					{
 						$html .=
-						'<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $value['id'] . '" value="not"></label>
-						<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $value['id'] . '" value="yes"></label>';
+						'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $value['id'] . '" value="yes"></label>
+						<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $value['id'] . '" value="not"></label>';
 					}
 					else if ($value['type'] == 'check')
 					{

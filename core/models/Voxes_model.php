@@ -447,7 +447,7 @@ class Voxes_model extends Model
 
 			$reservation['status'] = $query['Status'];
 
-			if ($guest['status'] == 'success')
+			if ($reservation['status'] == 'success')
 			{
 				$reservation['firstname'] = $query['Name'];
 				$reservation['lastname'] = $query['LastName'];
@@ -1355,7 +1355,7 @@ class Voxes_model extends Model
 		return $query;
 	}
 
-	public function get_voxes_average_resolution()
+	public function get_voxes_average()
 	{
 		$query = $this->database->select('voxes', [
 			'started_date',
@@ -1394,39 +1394,6 @@ class Voxes_model extends Model
 		}
 
 		return $average;
-	}
-
-	public function get_voxes_count($option)
-	{
-		$where = [];
-
-		if ($option == 'open' OR $option == 'close' OR $option == 'today' OR $option == 'week' OR $option == 'month' OR $option == 'year')
-		{
-			$where = [
-				'AND' => [
-					'account' => Session::get_value('account')['id']
-				]
-			];
-
-			if ($option == 'open')
-				$where['AND']['status'] = true;
-			else if ($option == 'close')
-				$where['AND']['status'] = false;
-			else if ($option == 'today')
-				$where['AND']['started_date'] = Functions::get_current_date();
-			else if ($option == 'week')
-				$where['AND']['started_date[<>]'] = [Functions::get_current_week()[0],Functions::get_current_week()[1]];
-			else if ($option == 'month')
-				$where['AND']['started_date[<>]'] = [Functions::get_current_month()[0],Functions::get_current_month()[1]];
-			else if ($option == 'year')
-				$where['AND']['started_date[<>]'] = [Functions::get_current_year()[0],Functions::get_current_year()[1]];
-		}
-		else if ($option == 'total')
-			$where['account'] = Session::get_value('account')['id'];
-
-		$query = $this->database->count('voxes', $where);
-
-		return $query;
 	}
 
 	public function get_chart_data($chart, $params, $edit = false)
@@ -1775,6 +1742,39 @@ class Voxes_model extends Model
 		}
 
 		return $data;
+	}
+
+	public function get_voxes_count($option)
+	{
+		$where = [];
+
+		if ($option == 'open' OR $option == 'close' OR $option == 'today' OR $option == 'week' OR $option == 'month' OR $option == 'year')
+		{
+			$where = [
+				'AND' => [
+					'account' => Session::get_value('account')['id']
+				]
+			];
+
+			if ($option == 'open')
+				$where['AND']['status'] = true;
+			else if ($option == 'close')
+				$where['AND']['status'] = false;
+			else if ($option == 'today')
+				$where['AND']['started_date'] = Functions::get_current_date();
+			else if ($option == 'week')
+				$where['AND']['started_date[<>]'] = [Functions::get_current_week()[0],Functions::get_current_week()[1]];
+			else if ($option == 'month')
+				$where['AND']['started_date[<>]'] = [Functions::get_current_month()[0],Functions::get_current_month()[1]];
+			else if ($option == 'year')
+				$where['AND']['started_date[<>]'] = [Functions::get_current_year()[0],Functions::get_current_year()[1]];
+		}
+		else if ($option == 'total')
+			$where['account'] = Session::get_value('account')['id'];
+
+		$query = $this->database->count('voxes', $where);
+
+		return $query;
 	}
 
 	public function get_voxes_reports($option = 'all')

@@ -10,9 +10,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 %{header}%
 <main class="dashboard">
     <section class="workspace">
-        <div class="tbl_stl_7">
-            {$tbl_surveys_answers}
-        </div>
+        {$html}
     </section>
     <section class="buttons">
         <div>
@@ -21,8 +19,11 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
             <a href="/surveys/questions"><i class="fas fa-ghost"></i></a>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
-            <a href="/surveys/answers" class="active"><i class="fas fa-comment-alt"></i></a>
+            <a href="/surveys/answers/raters" class="active"><i class="fas fa-star"></i></a>
             <a class="active" data-button-modal="filter_surveys_answers"><i class="fas fa-stream"></i></a>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
+            <a href="/surveys/stats"><i class="fas fa-chart-pie"></i></a>
             <?php endif; ?>
         </div>
     </section>
@@ -93,5 +94,21 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                 </div>
             </form>
         </main>
+    </div>
+</section>
+<section class="modal edit" data-modal="public_survey_answer">
+    <div class="content">
+        <footer>
+            <a button-close><i class="fas fa-times"></i></a>
+            <a button-success><i class="fas fa-check"></i></a>
+        </footer>
+    </div>
+</section>
+<section class="modal edit" data-modal="unpublic_survey_answer">
+    <div class="content">
+        <footer>
+            <a button-close><i class="fas fa-times"></i></a>
+            <a button-success><i class="fas fa-check"></i></a>
+        </footer>
     </div>
 </section>

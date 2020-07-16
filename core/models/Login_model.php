@@ -120,6 +120,13 @@ class Login_model extends Model
 								'owner' => 'all',
 								'rating' => 'all'
 							]
+						],
+						'stats' => [
+							'filter' => [
+								'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+								'end_date' => Functions::get_current_date(),
+								'owner' => 'all'
+							]
 						]
 					]
 				]

@@ -67,7 +67,7 @@
             <?php endif; ?>
             <?php if (Functions::check_account_access(['reputation']) == true) : ?>
                 <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
-                <li target="surveys"><a href="/surveys/answers">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
+                <li target="surveys"><a href="/surveys/answers/raters">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
                 <?php elseif (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
                 <li target="surveys"><a href="/surveys/stats">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
                 <?php elseif (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>

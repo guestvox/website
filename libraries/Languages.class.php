@@ -301,6 +301,38 @@ class Languages
                 'es' => 'Costos por ubicación',
                 'en' => 'Costs by location'
             ],
+            's1_chart' => [
+                'es' => 'Encuestas respondidas por propietario',
+                'en' => 'Answered surveys by owner'
+            ],
+            's2_chart' => [
+                'es' => '¿Qué tan probable es que nos recomiende a un amigo?',
+                'en' => 'How likely are you to refer us to a friend?'
+            ],
+            's3_chart' => [
+                'es' => '',
+                'en' => ''
+            ],
+            's4_chart' => [
+                'es' => 'Nacionalidad',
+                'en' => 'Nationality'
+            ],
+            's5_chart' => [
+                'es' => 'Canal de entrada',
+                'en' => 'Input channel'
+            ],
+            's6_chart' => [
+                'es' => 'Tipo de viajero',
+                'en' => 'Traveler type'
+            ],
+            's7_chart' => [
+                'es' => 'Grupo de edad',
+                'en' => 'Age group'
+            ],
+            'not_owner' => [
+                'es' => 'Sin propietario',
+                'en' => 'Not owner'
+            ],
             'empty' => [
                 'es' => 'Sin datos',
                 'en' => 'No data'

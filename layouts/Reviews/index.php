@@ -14,7 +14,7 @@ $this->dependencies->add(['js', '{$path.js}Reviews/index.js']);
 </header>
 <main class="reviews">
     <div class="container">
-        <div class="chart-rate">
+        <div class="chart_rate">
             <div class="average">
                 {$h2_surveys_average}
                 {$spn_surveys_average}
