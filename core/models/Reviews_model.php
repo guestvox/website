@@ -31,47 +31,39 @@ class Reviews_model extends Model
     public function get_surveys_average($account)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
-			'answers'
+			'values'
 		], [
 			'account' =>  $account
 		]));
 
 		$average = 0;
-		$rate = 0;
-		$questions = 0;
+		$count = 0;
 
 		foreach ($query as $value)
 		{
-			foreach ($value['answers'] as $subvalue)
+			foreach ($value['values'] as $subkey => $subvalue)
 			{
-				if ($subvalue['type'] == 'rate')
-				{
-					$rate = $rate + $subvalue['answer'];
-					$questions = $questions + 1;
-				}
+				$subvalue = $this->database->select('surveys_questions', [
+					'type'
+				], [
+					'id' => $subkey
+				]);
 
-				foreach ($subvalue['subanswers'] as $parentvalue)
-				{
-					if ($parentvalue['type'] == 'rate')
-					{
-						$rate = $rate + $parentvalue['answer'];
-						$questions = $questions + 1;
-					}
+				$subvalue = [
+					'question' => $subvalue[0]['type'],
+					'answer' => $value['values'][$subkey]
+				];
 
-					foreach ($parentvalue['subanswers'] as $childvalue)
-					{
-						if ($childvalue['type'] == 'rate')
-						{
-							$rate = $rate + $childvalue['answer'];
-							$questions = $questions + 1;
-						}
-					}
+				if ($subvalue['question'] == 'rate')
+				{
+					$average = $average + $subvalue['answer'];
+					$count = $count + 1;
 				}
 			}
 		}
 
-		if ($rate > 0 AND $questions > 0)
-			$average = round(($rate / $questions), 1);
+		if ($average > 0 AND $count > 0)
+			$average = round(($average / $count), 1);
 
 		return $average;
 	}
@@ -79,67 +71,58 @@ class Reviews_model extends Model
     public function get_surveys_percentage($option, $account)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
-			'answers'
+			'values'
 		], [
 			'account' => $account
 		]));
 
 		$percentage = 0;
-		$option_answers = 0;
-		$total_answers = 0;
+		$total = 0;
 
 		foreach ($query as $value)
 		{
 			$average = 0;
-			$rate = 0;
-			$answers = 0;
+			$count = 0;
 
-			foreach ($value['answers'] as $subvalue)
+			foreach ($value['values'] as $subkey => $subvalue)
 			{
-				if ($subvalue['type'] == 'rate')
-				{
-					$rate = $rate + $subvalue['answer'];
-					$answers = $answers + 1;
-				}
+				$subvalue = $this->database->select('surveys_questions', [
+					'type'
+				], [
+					'id' => $subkey
+				]);
 
-				foreach ($subvalue['subanswers'] as $parentvalue)
-				{
-					if ($parentvalue['type'] == 'rate')
-					{
-						$rate = $rate + $parentvalue['answer'];
-						$answers = $answers + 1;
-					}
+				$subvalue = [
+					'question' => $subvalue[0]['type'],
+					'answer' => $value['values'][$subkey]
+				];
 
-					foreach ($parentvalue['subanswers'] as $childvalue)
-					{
-						if ($childvalue['type'] == 'rate')
-						{
-							$rate = $rate + $childvalue['answer'];
-							$answers = $answers + 1;
-						}
-					}
+				if ($subvalue['question'] == 'rate')
+				{
+					$average = $average + $subvalue['answer'];
+					$count = $count + 1;
 				}
 			}
 
-			if ($rate > 0 AND $answers > 0)
-				$average = round(($rate / $answers), 2);
+			if ($average > 0 AND $count > 0)
+				$average = round(($average / $count), 1);
 
-			if ($option == 'five' AND $average > 4.8 AND $average <= 5)
-				$option_answers = $option_answers + 1;
-			else if ($option == 'four' AND $average >= 3.8 AND $average < 4.8)
-				$option_answers = $option_answers + 1;
-			else if ($option == 'tree' AND $average >= 2.8 AND $average < 3.8)
-				$option_answers = $option_answers + 1;
+			if ($option == 'one' AND $average >= 1 AND $average < 1.8)
+				$percentage = $percentage + 1;
 			else if ($option == 'two' AND $average >= 1.8 AND $average < 2.8)
-				$option_answers = $option_answers + 1;
-			else if ($option == 'one' AND $average >= 1 AND $average < 1.8)
-				$option_answers = $option_answers + 1;
+				$percentage = $percentage + 1;
+			else if ($option == 'tree' AND $average >= 2.8 AND $average < 3.8)
+				$percentage = $percentage + 1;
+			else if ($option == 'four' AND $average >= 3.8 AND $average < 4.8)
+				$percentage = $percentage + 1;
+			else if ($option == 'five' AND $average > 4.8 AND $average <= 5)
+				$percentage = $percentage + 1;
 
-			$total_answers = $total_answers + 1;
+			$total = $total + 1;
 		}
 
-		if ($option_answers > 0 AND $total_answers > 0)
-			$percentage = round((($option_answers / $total_answers) * 100), 2);
+		if ($percentage > 0 AND $total > 0)
+			$percentage = round((($percentage / $total) * 100), 2);
 
 		return $percentage;
 	}
@@ -148,14 +131,16 @@ class Reviews_model extends Model
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 			'comment',
-			'contact'
+			'firstname',
+			'lastname'
 		], [
 			'AND' => [
 				'account' => $account,
-				'status' => true
+				'public' => true
 			],
 			'ORDER' => [
-				'date' => 'DESC'
+				'date' => 'DESC',
+				'hour' => 'DESC'
 			]
 		]));
 
