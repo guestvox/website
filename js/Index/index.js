@@ -3,6 +3,13 @@
 $(document).ready(function()
 {
     nav_scroll_down('main.landing_page_index > header', 'down', 0);
+
+    $('[data-action="open_index_menu"]').on('click', function(e)
+    {
+        e.stopPropagation();
+
+        $('main.landing_page_index > header > nav.desktop').toggleClass('open');
+    });
 });
 
 function nav_scroll_down(target, css, height)
