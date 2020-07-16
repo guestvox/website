@@ -165,8 +165,8 @@ class Surveys_controller extends Controller
 				else if ($value['type'] == 'twin')
 				{
 					$tbl_surveys_questions .=
-					'<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
-					<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+					'<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+					<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
 				}
 				else if ($value['type'] == 'check')
 				{
@@ -219,8 +219,8 @@ class Surveys_controller extends Controller
 					else if ($subvalue['type'] == 'twin')
 					{
 						$tbl_surveys_questions .=
-						'<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
-						<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+						'<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+						<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
 					}
 					else if ($subvalue['type'] == 'check')
 					{
@@ -273,8 +273,8 @@ class Surveys_controller extends Controller
 						else if ($parentvalue['type'] == 'twin')
 						{
 							$tbl_surveys_questions .=
-							'<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
-							<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+							'<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+							<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
 						}
 						else if ($parentvalue['type'] == 'check')
 						{
@@ -440,8 +440,8 @@ class Surveys_controller extends Controller
 						else if ($value['type'] == 'twin')
 						{
 							$html .=
-							'<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
-							<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+							'<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+							<label class="' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
 						}
 						else if ($value['type'] == 'check')
 						{
@@ -484,8 +484,8 @@ class Surveys_controller extends Controller
 							else if ($subvalue['type'] == 'twin')
 							{
 								$html .=
-								'<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
-								<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+								'<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+								<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
 							}
 							else if ($subvalue['type'] == 'check')
 							{
@@ -528,8 +528,8 @@ class Surveys_controller extends Controller
 								else if ($parentvalue['type'] == 'twin')
 								{
 									$html .=
-									'<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>
-									<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>';
+									'<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+									<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
 								}
 								else if ($parentvalue['type'] == 'check')
 								{

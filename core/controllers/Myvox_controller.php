@@ -2167,8 +2167,8 @@ class Myvox_controller extends Controller
 					else if ($value['type'] == 'twin')
 					{
 						$html .=
-						'<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $value['id'] . '" value="not"></label>
-						<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $value['id'] . '" value="yes"></label>';
+						'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $value['id'] . '" value="yes"></label>
+						<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $value['id'] . '" value="not"></label>';
 					}
 					else if ($value['type'] == 'check')
 					{
