@@ -24,7 +24,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
             <a class="active" data-button-modal="new_survey_question"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
-            <a href="/surveys/answers"><i class="fas fa-comment-alt"></i></a>
+            <a href="/surveys/answers/raters"><i class="fas fa-star"></i></a>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
             <a href="/surveys/stats"><i class="fas fa-chart-pie"></i></a>

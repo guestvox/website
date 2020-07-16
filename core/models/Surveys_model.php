@@ -214,7 +214,7 @@ class Surveys_model extends Model
 		return $query;
 	}
 
-	public function get_surveys_answers()
+	public function get_surveys_answers($option)
 	{
 		$and = [
 			'surveys_answers.account' => Session::get_value('account')['id'],
@@ -234,11 +234,15 @@ class Surveys_model extends Model
 			'owners.name(owner_name)',
 			'owners.number(owner_number)',
 			'surveys_answers.values',
+			'surveys_answers.comment',
 			'surveys_answers.firstname',
 			'surveys_answers.lastname',
+			'surveys_answers.email',
+			'surveys_answers.phone',
 			'surveys_answers.reservation',
 			'surveys_answers.date',
-			'surveys_answers.hour'
+			'surveys_answers.hour',
+			'surveys_answers.public'
 		], [
 			'AND' => $and,
 			'ORDER' => [
@@ -249,44 +253,47 @@ class Surveys_model extends Model
 
 		foreach ($query as $key => $value)
 		{
-			$average = 0;
-			$count = 0;
-
-			foreach ($value['values'] as $subkey => $subvalue)
+			if ($option == 'raters')
 			{
-				$subvalue = $this->database->select('surveys_questions', [
-					'type'
-				], [
-					'id' => $subkey
-				]);
+				$average = 0;
+				$count = 0;
 
-				$subvalue = [
-					'question' => $subvalue[0]['type'],
-					'answer' => $value['values'][$subkey]
-				];
-
-				if ($subvalue['question'] == 'rate')
+				foreach ($value['values'] as $subkey => $subvalue)
 				{
-					$average = $average + $subvalue['answer'];
-					$count = $count + 1;
+					$subvalue = $this->database->select('surveys_questions', [
+						'type'
+					], [
+						'id' => $subkey
+					]);
+
+					$subvalue = [
+						'question' => $subvalue[0]['type'],
+						'answer' => $value['values'][$subkey]
+					];
+
+					if ($subvalue['question'] == 'rate')
+					{
+						$average = $average + $subvalue['answer'];
+						$count = $count + 1;
+					}
 				}
+
+				if ($average > 0 AND $count > 0)
+					$average = round(($average / $count), 1);
+
+				$query[$key]['average'] = $average;
+
+				if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '1' AND $average >= 2)
+					unset($query[$key]);
+				else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '2' AND ($average < 2 OR $average >= 3))
+					unset($query[$key]);
+				else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '3' AND ($average < 3 OR $average >= 4))
+					unset($query[$key]);
+				else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '4' AND ($average < 4 OR $average >= 5))
+					unset($query[$key]);
+				else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '5' AND $average < 5)
+					unset($query[$key]);
 			}
-
-			if ($average > 0 AND $count > 0)
-				$average = round(($average / $count), 1);
-
-			$query[$key]['average'] = $average;
-
-			if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '1' AND $average >= 2)
-				unset($query[$key]);
-			else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '2' AND ($average < 2 OR $average >= 3))
-				unset($query[$key]);
-			else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '3' AND ($average < 3 OR $average >= 4))
-				unset($query[$key]);
-			else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '4' AND ($average < 4 OR $average >= 5))
-				unset($query[$key]);
-			else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '5' AND $average < 5)
-				unset($query[$key]);
 		}
 
 		return $query;
@@ -371,6 +378,28 @@ class Surveys_model extends Model
 				'name' => 'ASC'
 			]
 		]));
+
+		return $query;
+	}
+
+	public function public_survey_answer($id)
+	{
+		$query = $this->database->update('surveys_answers', [
+			'public' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function unpublic_survey_answer($id)
+	{
+		$query = $this->database->update('surveys_answers', [
+			'public' => false
+		], [
+			'id' => $id
+		]);
 
 		return $query;
 	}

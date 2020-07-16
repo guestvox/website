@@ -121,7 +121,7 @@ class Surveys_controller extends Controller
 		{
 			$template = $this->view->render($this, 'questions');
 
-			define('_title', 'Guestvox | {$lang.surveys_questions}');
+			define('_title', 'Guestvox | {$lang.survey} | {$lang.questions}');
 
 			$tbl_surveys_questions = '';
 
@@ -332,10 +332,26 @@ class Surveys_controller extends Controller
 		}
 	}
 
-	public function answers()
+	public function answers($params)
 	{
 		if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'filter_surveys_answers')
+			{
+				$settings = Session::get_value('settings');
+
+				$settings['surveys']['answers']['filter']['started_date'] = $_POST['started_date'];
+				$settings['surveys']['answers']['filter']['end_date'] = $_POST['end_date'];
+				$settings['surveys']['answers']['filter']['owner'] = $_POST['owner'];
+				$settings['surveys']['answers']['filter']['rating'] = $_POST['rating'];
+
+				Session::set_value('settings', $settings);
+
+				Functions::environment([
+					'status' => 'success'
+				]);
+			}
+
 			if ($_POST['action'] == 'preview_survey_answer')
 			{
 				$query = $this->model->get_survey_answer($_POST['id']);
@@ -556,55 +572,137 @@ class Surveys_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'filter_surveys_answers')
+			if ($_POST['action'] == 'public_survey_answer' OR $_POST['action'] == 'unpublic_survey_answer')
 			{
-				$settings = Session::get_value('settings');
+				if ($_POST['action'] == 'public_survey_answer')
+					$query = $this->model->public_survey_answer($_POST['id']);
+				else if ($_POST['action'] == 'unpublic_survey_answer')
+					$query = $this->model->unpublic_survey_answer($_POST['id']);
 
-				$settings['surveys']['answers']['filter']['started_date'] = $_POST['started_date'];
-				$settings['surveys']['answers']['filter']['end_date'] = $_POST['end_date'];
-				$settings['surveys']['answers']['filter']['owner'] = $_POST['owner'];
-				$settings['surveys']['answers']['filter']['rating'] = $_POST['rating'];
-
-				Session::set_value('settings', $settings);
-
-				Functions::environment([
-					'status' => 'success'
-				]);
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
 			}
 		}
 		else
 		{
-			define('_title', 'Guestvox | {$lang.surveys_answers}');
+			define('_title', 'Guestvox | {$lang.survey} | {$lang.answers}');
 
 			$template = $this->view->render($this, 'answers');
 
-			$tbl_surveys_answers = '';
+			$html =
+			'<div class="tabers">
+				<div>
+					<input id="rtsw" type="radio" value="raters" ' . (($params[0] == 'raters') ? 'checked' : '') . '>
+					<label for="rtsw"><i class="fas fa-star"></i></label>
+				</div>
+				<div>
+	                <input id="cmsw" type="radio" value="comments" ' . (($params[0] == 'comments') ? 'checked' : '') . '>
+	                <label for="cmsw"><i class="fas fa-comment-alt"></i></label>
+	            </div>
+				<div>
+	                <input id="ctsw" type="radio" value="contacts" ' . (($params[0] == 'contacts') ? 'checked' : '') . '>
+	                <label for="ctsw"><i class="fas fa-address-book"></i></label>
+	            </div>
+			</div>';
 
-			foreach ($this->model->get_surveys_answers() as $value)
+			if ($params[0] == 'raters')
 			{
-				$tbl_surveys_answers .=
-				'<div>
-					<div class="rating">';
+				$html .= '<div class="tbl_stl_7">';
 
-				if ($value['average'] < 2)
-					$tbl_surveys_answers .= '<span class="bad"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
-				else if ($value['average'] >= 2 AND $value['average'] < 4)
-					$tbl_surveys_answers .= '<span class="medium"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
-				else if ($value['average'] >= 4)
-					$tbl_surveys_answers .= '<span class="good"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+				foreach ($this->model->get_surveys_answers('raters') as $value)
+				{
+					$html .=
+					'<div>
+						<div class="rating">';
 
-				$tbl_surveys_answers.=
-				'	</div>
-					<div class="datas">
-						<span>' . $value['token'] . '</span>
-						<h2>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] : ((Session::get_value('account')['type'] == 'hotel') ? ((!empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') : '{$lang.not_name}')) . '</h2>
-						<span><i class="fas fa-calendar-alt"></i>' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>
-						<span><i class="fas fa-shapes"></i>' . $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') . '</span>
-					</div>
-					<div class="buttons">
-						<a data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-eye"></i></a>
-					</div>
-				</div>';
+					if ($value['average'] < 2)
+						$html .= '<span class="bad"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+					else if ($value['average'] >= 2 AND $value['average'] < 4)
+						$html .= '<span class="medium"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+					else if ($value['average'] >= 4)
+						$html .= '<span class="good"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+
+					$html.=
+					'	</div>
+						<div class="datas">
+							<span>' . $value['token'] . '</span>
+							<h2>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] : ((Session::get_value('account')['type'] == 'hotel') ? ((!empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') : '{$lang.not_name}')) . '</h2>
+							<span><i class="fas fa-calendar-alt"></i>' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>
+							<span><i class="fas fa-shapes"></i>' . $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') . '</span>
+						</div>
+						<div class="buttons">
+							<a data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-eye"></i></a>
+						</div>
+					</div>';
+				}
+
+				$html .= '</div>';
+			}
+			else if ($params[0] == 'comments')
+			{
+				$html .= '<div class="tbl_stl_2">';
+
+				foreach ($this->model->get_surveys_answers('comments') as $value)
+				{
+					if (!empty($value['comment']))
+					{
+						$html .=
+						'<div>
+							<div class="datas">
+								<h2>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] : ((Session::get_value('account')['type'] == 'hotel') ? ((!empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') : '{$lang.not_name}')) . '</h2>
+								<span><i class="fas fa-star"></i>' . $value['token'] . '</span>
+								<span><i class="fas fa-calendar-alt"></i>' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>
+								<span><i class="fas fa-shapes"></i>' . $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') . '</span>
+								<p><i class="fas fa-comment-alt"></i>' . $value['comment'] . '</p>
+							</div>
+							<div class="buttons flex_right">
+								<a class="' . (($value['public'] == true) ? 'delete' : 'new') . ' big" data-action="' . (($value['public'] == true) ? 'unpublic_survey_answer' : 'public_survey_answer') . '" data-id="' . $value['id'] . '">' . (($value['public'] == true) ? '{$lang.unpublic_survey_answer}' : '{$lang.public_survey_answer}') . '</a>
+								<a data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-star"></i></a>
+							</div>
+						</div>';
+					}
+				}
+
+				$html .= '</div>';
+			}
+			else if ($params[0] == 'contacts')
+			{
+				$html .= '<div class="tbl_stl_2">';
+
+				foreach ($this->model->get_surveys_answers('contacts') as $value)
+				{
+					if (!empty($value['email']) OR (!empty($value['phone']['lada']) AND !empty($value['phone']['number'])))
+					{
+						$html .=
+						'<div>
+							<div class="datas">
+								<h2>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] : ((Session::get_value('account')['type'] == 'hotel') ? ((!empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') : '{$lang.not_name}')) . '</h2>
+								<span><i class="fas fa-star"></i>' . $value['token'] . '</span>
+								<span><i class="fas fa-calendar-alt"></i>' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>
+								<span><i class="fas fa-shapes"></i>' . $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') . '</span>
+								<span><i class="fas fa-envelope"></i>' . (!empty($value['email']) ? $value['email'] : '{$lang.not_email}') . '</span>
+								<span><i class="fas fa-phone"></i>' . ((!empty($value['phone']['lada']) AND !empty($value['phone']['number'])) ? '+ (' . $value['phone']['lada'] . ') ' . $value['phone']['number'] : '{$lang.not_phone}') . '</span>
+							</div>
+							<div class="buttons flex_right">
+								<a data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-star"></i></a>
+							</div>
+						</div>';
+					}
+				}
+
+				$html .= '</div>';
 			}
 
 			$opt_owners = '';
@@ -613,7 +711,7 @@ class Surveys_controller extends Controller
 				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 
 			$replace = [
-				'{$tbl_surveys_answers}' => $tbl_surveys_answers,
+				'{$html}' => $html,
 				'{$opt_owners}' => $opt_owners
 			];
 

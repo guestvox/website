@@ -23,7 +23,7 @@ class Reviews_controller extends Controller
 			{
 				$template = $this->view->render($this, 'index');
 
-				define('_title', $account['name'] . ' | Guestvox');
+				define('_title', $account['name'] . ' | {$lang.reviews}');
 
 				$surveys_average = $this->model->get_surveys_average($account['id']);
 

@@ -429,7 +429,7 @@ class Myvox_controller extends Controller
 			{
 				$template = $this->view->render($this, 'request');
 
-				define('_title', 'Guestvox | {$lang.myvox} | {$lang.request}');
+				define('_title', Session::get_value('myvox')['account']['name'] . ' | {$lang.request}');
 
 				$html =
 				'<form name="new_request">
@@ -907,7 +907,7 @@ class Myvox_controller extends Controller
 			{
 				$template = $this->view->render($this, 'incident');
 
-				define('_title', 'Guestvox | {$lang.myvox} | {$lang.incident}');
+				define('_title', Session::get_value('myvox')['account']['name'] . ' | {$lang.incident}');
 
 				$html =
 				'<form name="new_incident">
@@ -2095,7 +2095,7 @@ class Myvox_controller extends Controller
 			{
 				$template = $this->view->render($this, 'survey');
 
-				define('_title', 'Guestvox | {$lang.myvox} | {$lang.survey}');
+				define('_title', Session::get_value('myvox')['account']['name'] . ' | {$lang.survey}');
 
 				$this->model->get_survey_average(1);
 

@@ -426,7 +426,7 @@ class Voxes_controller extends Controller
 		{
 			$template = $this->view->render($this, 'create');
 
-			define('_title', 'Guestvox | {$lang.create_vox}');
+			define('_title', 'Guestvox | {$lang.voxes} | {$lang.create}');
 
 			$opt_owners = '';
 
@@ -705,7 +705,7 @@ class Voxes_controller extends Controller
 			{
 				$template = $this->view->render($this, 'details');
 
-				define('_title', 'Guestvox | {$lang.vox_details}');
+				define('_title', 'Guestvox | {$lang.voxes} | {$lang.details}');
 
 				$spn_type = '<span class="' . $vox['urgency'] . '">';
 
@@ -1371,7 +1371,7 @@ class Voxes_controller extends Controller
 			{
 				$template = $this->view->render($this, 'edit');
 
-				define('_title', 'Guestvox | {$lang.edit_vox}');
+				define('_title', 'Guestvox | {$lang.voxes} | {$lang.edit}');
 
 				$frm_edit_vox =
 				'<div class="span12">
@@ -1752,7 +1752,7 @@ class Voxes_controller extends Controller
 		{
 			$template = $this->view->render($this, 'stats');
 
-			define('_title', 'Guestvox | {$lang.voxes_stats}');
+			define('_title', 'Guestvox | {$lang.voxes} | {$lang.stats}');
 
 			$replace = [
 				'{$voxes_average_resolution}' => $this->model->get_voxes_average_resolution(),
@@ -2621,7 +2621,7 @@ class Voxes_controller extends Controller
 		{
 			$template = $this->view->render($this, 'reports');
 
-			define('_title', 'Guestvox | {$lang.voxes_reports}');
+			define('_title', 'Guestvox | {$lang.voxes} | {$lang.reports}');
 
 			$div_options = '';
 
