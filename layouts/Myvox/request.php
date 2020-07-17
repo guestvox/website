@@ -23,6 +23,6 @@ $this->dependencies->add(['js', '{$path.js}Myvox/request.js']);
     {$html}
 </main>
 <footer class="request">
-    <h4>Power by <img src="{$path.images}logotype_color.png" alt="Guestvox"></h4>
+    <h4>Powered by <img src="{$path.images}logotype_color.png" alt="Guestvox"></h4>
     <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved}</p>
 </footer>
