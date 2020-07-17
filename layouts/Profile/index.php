@@ -26,7 +26,7 @@ $this->dependencies->add(['other', '<script>menu_focus("my_profile");</script>']
     </section>
     <section class="buttons">
         <div>
-            <a data-button-modal="restore_password"><i class="fas fa-key"></i></a>
+            <a class="big new" data-button-modal="restore_password"><i class="fas fa-key"></i><span>{$lang.restore_password}</span></a>
             <a class="edit" data-action="edit_profile"><i class="fas fa-pen"></i></a>
         </div>
     </section>

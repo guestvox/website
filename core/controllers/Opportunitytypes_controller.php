@@ -129,7 +129,7 @@ class Opportunitytypes_controller extends Controller
 						</div>
 					</div>
 					<div class="buttons flex_right">
-						' . ((Functions::check_user_access(['{opportunity_types_deactivate}','{opportunity_types_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_opportunity_type' : 'activate_opportunity_type') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{opportunity_types_deactivate}','{opportunity_types_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_opportunity_type' : 'activate_opportunity_type') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
 						' . ((Functions::check_user_access(['{opportunity_types_update}']) == true) ? '<a class="edit" data-action="edit_opportunity_type" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{opportunity_types_delete}']) == true) ? '<a class="delete" data-action="delete_opportunity_type" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 					</div>

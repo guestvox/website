@@ -255,8 +255,8 @@ class Users_controller extends Controller
 						</div>
 					</div>
 					<div class="buttons">
-						' . ((Functions::check_user_access(['{users_deactivate}','{users_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_user' : 'activate_user') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
-						' . ((Functions::check_user_access(['{users_restore_password}']) == true) ? '<a data-action="restore_password_user" data-id="' . $value['id'] . '"><i class="fas fa-key"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{users_deactivate}','{users_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_user' : 'activate_user') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{users_restore_password}']) == true) ? '<a class="big" data-action="restore_password_user" data-id="' . $value['id'] . '"><i class="fas fa-key"></i><span>{$lang.restore_password}</span></a>' : '') . '
 						' . ((Functions::check_user_access(['{users_update}']) == true) ? '<a class="edit" data-action="edit_user" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{users_delete}']) == true) ? '<a class="delete" data-action="delete_user" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 					</div>

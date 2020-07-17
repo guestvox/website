@@ -19,38 +19,6 @@ class Account_controller extends Controller
 
 		if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'get_support')
-			{
-				$labels = [];
-
-				if (!isset($_POST['message']) OR empty($_POST['message']))
-					array_push($labels, ['message','']);
-
-				if (empty($labels))
-				{
-					$mail2->setFrom('noreply@guestvox.com', 'Guestvox');
-					$mail2->addAddress('contacto@guestvox.com', 'Guestvox');
-					$mail2->Subject = 'Soporte técnico | Nueva reporte';
-					$mail2->Body =
-					'Cuenta: ' . Session::get_value('account')['name'] . ' (#' . Session::get_value('account')['token'] . ')<br>
-					Usuario: ' . Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname'] . ' (@' . Session::get_value('user')['username'] . ')<br>
-					Mensaje: ' . $_POST['message'];
-					$mail2->send();
-
-					Functions::environment([
-						'status' => 'success',
-						'message' => '{$lang.thanks_support}'
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'labels' => $labels
-					]);
-				}
-			}
-
 			if ($_POST['action'] == 'edit_logotype')
 			{
 				$labels = [];
@@ -537,44 +505,6 @@ class Account_controller extends Controller
 						<span>' . (($account['zaviapms']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
 	                </div>';
 				}
-			}
-
-			$btn_get_urls = '';
-			$mdl_get_urls = '';
-
-			if ($account['operation'] == true OR $account['reputation'] == true)
-			{
-				$btn_get_urls .= '<a data-button-modal="get_urls"><i class="fas fa-link"></i></a>';
-
-				$mdl_get_urls .=
-				'<section class="modal fullscreen" data-modal="get_urls">
-				    <div class="content">
-				        <main class="account">
-				        	<div class="stl_6">
-								<div>
-									<p><strong>{$lang.myvox}:</strong><span>https://' . Configuration::$domain . '/' . $account['path'] . '/myvox</span></p>
-									<a href="https://' . Configuration::$domain . '/' . $account['path'] . '/myvox" target="_blank"><i class="fas fa-share"></i></a>
-									<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
-								</div>';
-
-				if ($account['reputation'] == true)
-				{
-					$mdl_get_urls .=
-					'<div>
-						<p><strong>{$lang.reviews_page}:</strong><span>https://' . Configuration::$domain . '/' . $account['path'] . '/reviews</span></p>
-						<a href="https://' . Configuration::$domain . '/' . $account['path'] . '/reviews" target="_blank"><i class="fas fa-share"></i></a>
-						<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
-					</div>';
-				}
-
-				$mdl_get_urls .=
-				'           </div>
-				            <div class="buttons">
-				                <a button-close><i class="fas fa-times"></i></a>
-				            </div>
-				        </main>
-				    </div>
-				</section>';
 			}
 
 			$opt_countries = '';
@@ -1108,8 +1038,8 @@ class Account_controller extends Controller
 				'{$qr}' => '{$path.uploads}' . $account['qr'],
 				'{$name}' => $account['name'],
 				'{$token}' => strtoupper($account['token']),
-				'{$fiscal_name}' => $account['fiscal']['name'],
-				'{$fiscal_id}' => $account['fiscal']['id'],
+				'{$fiscal_name}' => !empty($account['fiscal']['name']) ? $account['fiscal']['name'] : '{$lang.not_fiscal_name}',
+				'{$fiscal_id}' => !empty($account['fiscal']['id']) ? $account['fiscal']['id'] : '{$lang.not_fiscal_id}',
 				'{$div_public_requests}' => $div_public_requests,
 				'{$div_public_incidents}' => $div_public_incidents,
 				'{$div_menu}' => $div_menu,
@@ -1122,8 +1052,6 @@ class Account_controller extends Controller
 				'{$sms}' => $account['sms'],
 				'{$div_siteminder}' => $div_siteminder,
 				'{$div_zaviapms}' => $div_zaviapms,
-				'{$btn_get_urls}' => $btn_get_urls,
-				'{$mdl_get_urls}' => $mdl_get_urls,
 				'{$opt_countries}' => $opt_countries,
 				'{$opt_times_zones}' => $opt_times_zones,
 				'{$opt_currencies}' => $opt_currencies,

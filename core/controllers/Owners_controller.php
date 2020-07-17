@@ -189,7 +189,7 @@ class Owners_controller extends Controller
 						</div>
 					</div>
 					<div class="buttons">
-						' . ((Functions::check_user_access(['{owners_deactivate}','{owners_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_owner' : 'activate_owner') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{owners_deactivate}','{owners_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_owner' : 'activate_owner') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
 						' . ((Functions::check_user_access(['{owners_update}']) == true) ? '<a class="edit" data-action="edit_owner" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{owners_delete}']) == true) ? '<a class="delete" data-action="delete_owner" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 					</div>

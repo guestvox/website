@@ -109,6 +109,7 @@
     </nav>
     <nav>
         <ul>
+            <li target="support"><a href="/technical-support">{$lang.technical_support}<i class="fas fa-envelope"></i></a></li>
             <?php if (Functions::check_user_access(['{account_update}']) == true) : ?>
             <li target="account"><a href="/account">{$lang.account}<i class="fas fa-igloo"></i></a></li>
             <?php endif; ?>

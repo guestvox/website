@@ -2,45 +2,6 @@
 
 $(document).ready(function()
 {
-    $('[data-action="copy_to_clipboard"]').on('click', function()
-    {
-        var string = $(this).parent().find('p > span').html();
-        var input = $('<input>').val(string).appendTo('body').select();
-
-        document.execCommand('copy');
-
-        input.remove();
-
-        show_modal_success('Copiado', 600, 'fast');
-    });
-
-    $('[data-modal="get_support"]').modal().onCancel(function()
-    {
-        clean_form($('form[name="get_support"]'));
-    });
-
-    $('form[name="get_support"]').on('submit', function(e)
-    {
-        e.preventDefault();
-
-        var form = $(this);
-
-        $.ajax({
-            type: 'POST',
-            data: form.serialize() + '&action=get_support',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    show_modal_success(response.message, 1500);
-                else if (response.status == 'error')
-                    show_form_errors(form, response);
-            }
-        });
-    });
-
     $('[data-action="edit_account"]').on('click', function()
     {
         $.ajax({

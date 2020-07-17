@@ -15,7 +15,7 @@
                             </div>
                             <div class="span12">
                                 <div class="buttons">
-                                    <a button-close><i class="fas fa-check"></i></a>
+                                    <a button-close><i class="fas fa-times"></i></a>
                                 </div>
                             </div>
                         </div>

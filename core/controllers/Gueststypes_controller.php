@@ -116,7 +116,7 @@ class Gueststypes_controller extends Controller
 						<h2>' . $value['name'] . '</h2>
 					</div>
 					<div class="buttons flex_right">
-						' . ((Functions::check_user_access(['{guests_types_deactivate}','{guests_types_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_guest_type' : 'activate_guest_type') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{guests_types_deactivate}','{guests_types_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_guest_type' : 'activate_guest_type') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
 						' . ((Functions::check_user_access(['{guests_types_update}']) == true) ? '<a class="edit" data-action="edit_guest_type" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{guests_types_delete}']) == true) ? '<a class="delete" data-action="delete_guest_type" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 					</div>

@@ -101,6 +101,10 @@ class Urls_registered_vkye
             //     'controller' => 'Dashboard', // - Rediseño
             //     'method' => 'index'
             // ],
+            '/my-profile' => [
+                'controller' => 'Profile',
+                'method' => 'index'
+            ],
             '/qr' => [
                 'controller' => 'Qr',
                 'method' => 'index'
@@ -197,12 +201,12 @@ class Urls_registered_vkye
                 'controller' => 'Userslevels',
                 'method' => 'index'
             ],
-            '/account' => [
-                'controller' => 'Account',
+            '/technical-support' => [
+                'controller' => 'Support',
                 'method' => 'index'
             ],
-            '/my-profile' => [
-                'controller' => 'Profile',
+            '/account' => [
+                'controller' => 'Account',
                 'method' => 'index'
             ]
         ];

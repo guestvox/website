@@ -6,7 +6,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0px; padding: 0px; }
 figure { line-height: 0px; }
 
 a, button { margin: 0px; text-align: center !important; text-decoration: none !important; cursor: pointer !important; }
-a.new, button.new { background-color: #009688 !important; border-color: #009688 !important; color: #fff !important; }
+a.new, button.new { background-color: #00a5ab !important; border-color: #00a5ab !important; color: #fff !important; }
 a.edit, button.edit { background-color: #ffc107 !important; border-color: #ffc107 !important; color: #fff !important; }
 a.delete, button.delete { background-color: #f44336 !important; border-color: #f44336 !important; color: #fff !important; }
 
@@ -319,20 +319,6 @@ body > main.dashboard > section.buttons {
     z-index: 98;
 }
 
-body > main.dashboard > section.buttons > a {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0px 5px;
-    border-radius: 50%;
-    background-color: #00a5ab;
-    font-size: 18px;
-    font-weight: 400;
-    color: #fff;
-}
-
 body > main.dashboard > section.buttons > div {
     width: auto;
     height: 50px;
@@ -357,8 +343,17 @@ body > main.dashboard > section.buttons > div > a {
     color: #fff;
 }
 
-body > main.dashboard > section.buttons > div > a.active {
-    background-color: #00a5ab;
+body > main.dashboard > section.buttons > div > a.big {
+    width: auto;
+    border-radius: 40px;
+    padding: 0px 15px;
+    box-sizing: border-box;
+}
+
+body > main.dashboard > section.buttons > div > a.big > span {
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: 400;
 }
 
 /* Tables
@@ -969,11 +964,19 @@ div.tbl_stl_3 > div > div.buttons > a {
     color: #757575;
 }
 
-div.tbl_stl_2 > div > div.buttons > a.big {
+div.tbl_stl_2 > div > div.buttons > a.big,
+div.tbl_stl_3 > div > div.buttons > a.big {
     width: auto;
     padding: 0px 20px;
     box-sizing: border-box;
     border-radius: 40px;
+}
+
+div.tbl_stl_2 > div > div.buttons > a.big > span,
+div.tbl_stl_3 > div > div.buttons > a.big > span {
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: 400;
 }
 
 @media (min-width: 1200px) {
@@ -2146,6 +2149,25 @@ section.modal div.buttons > a {
     color: #757575;
 }
 
+form div.buttons > button.big,
+form div.buttons > a.big,
+section.modal div.buttons > button.big,
+section.modal div.buttons > a.big {
+    width: auto;
+    padding: 0px 15px;
+    box-sizing: border-box;
+    border-radius: 40px;
+}
+
+form div.buttons > button.big > span,
+form div.buttons > a.big > span,
+section.modal div.buttons > button.big > span,
+section.modal div.buttons > a.big > span {
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
 form div.buttons > button[type="submit"],
 form div.buttons > a[button-cancel],
 form div.buttons > a[button-close],
@@ -2387,6 +2409,30 @@ section.modal.delete footer > a {
     }
 }
 
+/* Profile
+------------------------------------------------------------------------------ */
+div.profile {
+    width: 100%;
+    height: calc(100vh - 190px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+div.profile > h1 {
+    margin: 20px 0px 10px 10px;
+    font-size: 24px;
+    font-weight: 600;
+    color: #444;
+}
+
+div.profile > span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
 /* Qr
 ------------------------------------------------------------------------------ */
 div.qr {
@@ -2394,6 +2440,8 @@ div.qr {
     padding: 0px 20px;
     box-sizing: border-box;
 }
+
+/*  */
 
 div.qr > figure {
     width: 100%;
@@ -2406,6 +2454,69 @@ div.qr > figure {
 div.qr > figure > img {
     width: 100%;
     max-width: 400px;
+}
+
+/*  */
+
+div.qr > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+div.qr > div > div {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+div.qr > div > div:last-child {
+    margin-bottom: 0px;
+}
+
+div.qr > div > div > p {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 40px;
+    padding: 0px 20px;
+    border: none;
+    border-radius: 40px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    background-color: #eee;
+    color: #757575;
+}
+
+div.qr > div > div > p > strong {
+    margin-right: 5px;
+}
+
+div.qr > div > div > a {
+    width: auto;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 40px;
+    background-color: #e0e0e0;
+    margin-left: 5px;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    font-size: 14px;
+    color: #757575;
+}
+
+div.qr > div > div > a > span {
+    margin-left: 5px;
+    font-size: 12px;
+    font-weight: 400;
 }
 
 /* Vox details
@@ -3603,6 +3714,22 @@ div.surveys_chart_rate > div.progress > progress::-moz-progress-value {
     background-color: #00a5ab;
 }
 
+/* Support
+------------------------------------------------------------------------------ */
+div.support {
+    width: 100%;
+    height: calc(100vh - 190px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+div.support > form {
+    width: 100%;
+    max-width: 800px;
+}
+
 /* Account
 ------------------------------------------------------------------------------ */
 div.account {
@@ -3723,97 +3850,6 @@ div.account > div.stl_5 > div.switch {
 div.account > div.stl_5 > div.switch > label {
     width: 30px;
     height: 30px;
-}
-
-/*  */
-
-main.account > div.stl_6,
-div.qr > div {
-    width: 100%;
-}
-
-div.qr > div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-main.account > div.stl_6 > div,
-div.qr > div > div {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-div.qr > div > div {
-    max-width: 600px;
-}
-
-main.account > div.stl_6 > div:last-child,
-div.qr > div > div:last-child {
-    margin-bottom: 0px;
-}
-
-main.account > div.stl_6 > div > p,
-div.qr > div > div > p {
-    width: calc(100% - 90px);
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    height: 40px;
-    padding: 0px 20px;
-    border: none;
-    border-radius: 40px;
-    box-sizing: border-box;
-    overflow-y: scroll;
-    background-color: #eee;
-    color: #757575;
-}
-
-main.account > div.stl_6 > div > p > strong,
-div.qr > div > div > p > strong {
-    margin-right: 5px;
-}
-
-main.account > div.stl_6 > div > a,
-div.qr > div > div > a {
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background-color: #e0e0e0;
-    margin-left: 5px;
-    font-size: 14px;
-    color: #757575;
-}
-
-/* Profile
------------------------------------------------------------------------------- */
-div.profile {
-    width: 100%;
-    height: calc(100vh - 190px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-div.profile > h1 {
-    margin: 20px 0px 10px 10px;
-    font-size: 24px;
-    font-weight: 600;
-    color: #444;
-}
-
-div.profile > span {
-    font-size: 14px;
-    font-weight: 400;
-    color: #757575;
 }
 
 /* General styles
