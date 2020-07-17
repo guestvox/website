@@ -19,27 +19,26 @@ $(document).ready(function()
         if (out.length > 0)
             $(this).parent().find('span').find('strong').html(out);
         else
-            $(this).parent().find('span').find('strong').html('mi-cuenta');
+            $(this).parent().find('span').find('strong').html('micuenta');
     });
 
     $('[name="type"]').on('change', function()
     {
-        $('[name="quantity"]').val('');
-
-        $(this).parent().parent().removeClass('span6').addClass('span3');
-        $('[name="quantity"]').parent().parent().removeClass('hidden');
+        $('[name="rooms_number"]').val('');
 
         if ($(this).val() == 'hotel')
-            $('[name="quantity"]').attr('placeholder', 'N. de habitaciones');
-        else if ($(this).val() == 'restaurant')
-            $('[name="quantity"]').attr('placeholder', 'N. de mesas');
-        else if ($(this).val() == 'hospital')
-            $('[name="quantity"]').attr('placeholder', 'N. de camas');
-        else if ($(this).val() == 'others')
-            $('[name="quantity"]').attr('placeholder', 'N. de clientes');
+        {
+            $(this).parent().parent().removeClass('span6').addClass('span3');
+            $('[name="rooms_number"]').parent().parent().removeClass('hidden');
+        }
+        else
+        {
+            $(this).parent().parent().removeClass('span3').addClass('span6');
+            $('[name="rooms_number"]').parent().parent().addClass('hidden');
+        }
     });
 
-    $(document).on('change', '[name="type"], [name="quantity"], [name="operation"], [name="reputation"]', function()
+    $(document).on('change', '[name="type"], [name="rooms_number"], [name="operation"], [name="reputation"]', function()
     {
         get_total();
     });
@@ -79,7 +78,7 @@ $(document).ready(function()
                     $('[data-step]').removeClass('view');
                     $('[data-step="' + step + '"]').addClass('view');
 
-                    if (step == 6)
+                    if (step == 5)
                     {
                         $('#success').html(response.message);
 
@@ -90,14 +89,16 @@ $(document).ready(function()
                 {
                     if (response.labels)
                     {
-                        form.find('fieldset.error').removeClass('error');
+                        console.log(response.labels);
+
+                        form.find('.error').removeClass('error');
 
                         $.each(response.labels, function(i, label)
                         {
-                            form.find('[name="' + label[0] + '"]').parents('fieldset').addClass('error');
+                            form.find('[name="' + label[0] + '"]').parent().addClass('error');
                         });
 
-                        form.find('fieldset.error [name]')[0].focus();
+                        form.find('.error [name]')[0].focus();
                     }
                     else if (response.message)
                         show_modal_error(response.message);

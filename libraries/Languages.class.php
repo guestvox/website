@@ -51,17 +51,9 @@ class Languages
                 'es' => '¡Gracias por registrarte en Guestvox!',
                 'en' => '¡Thanks for sign up in Guestvox!'
             ],
-            'validate_signup_account' => [
-                'es' => 'Soy <strong>Daniel Basurto</strong>, CEO de Guestvox y espero te encuentres de lo mejor. Hémos validado tu correo electrónico. Para terminar, por favor activa tu cuenta.',
-                'en' => 'I am <strong>Daniel Basurto</strong>, CEO for Guestvox and I hope you find the best. We have validated your email. To finish, please activate your account.'
-            ],
             'validate_signup_user' => [
                 'es' => 'Soy <strong>Daniel Basurto</strong>, CEO de Guestvox y espero te encuentres de lo mejor. Hémos validado tu correo electrónico. Para terminar, por favor activa tu usuario.',
                 'en' => 'I am <strong>Daniel Basurto</strong>, CEO for Guestvox and I hope you find the best. We have validated your email. To finish, please activate your user.'
-            ],
-            'active_account' => [
-                'es' => 'Activar mi cuenta',
-                'en' => 'Active my account'
             ],
             'active_user' => [
                 'es' => 'Activar mi usuario',
@@ -75,25 +67,13 @@ class Languages
                 'es' => 'Políticas de privacidad',
                 'en' => 'Privacy policies'
             ],
-            'activated_subject' => [
-                'account' => [
-                    'es' => 'Tu cuenta ha sido activada',
-                    'en' => 'Your account has been activated'
-                ],
-                'user' => [
-                    'es' => 'Tu usuario ha sido activado',
-                    'en' => 'Your user has been activated'
-                ]
+            'activated_user_subject' => [
+                'es' => 'Tu usuario ha sido activado',
+                'en' => 'Your user has been activated'
             ],
-            'activated_text' => [
-                'account' => [
-                    'es' => 'Hemos activado tu cuenta correctamente. Ahora ya puedes iniciar sesión y empezar a configurar tu cuenta ¡Bienvenido a Guestvox!',
-                    'en' => 'We have activated your account correctly. Now you can log in and start configuring your account ¡Welcome to Guestvox!'
-                ],
-                'user' => [
-                    'es' => 'Hemos activado tu usuario correctamente. Ahora ya puedes iniciar sesión y empezar a trabajar con tu equipo ¡Bienvenido a Guestvox!',
-                    'en' => 'We have activated your user correctly. Now you can log in and start working with your team ¡Welcome to Guestvox!'
-                ]
+            'activated_user_text' => [
+                'es' => 'Hemos activado tu usuario correctamente. Ahora ya puedes iniciar sesión y empezar a trabajar con tu equipo ¡Bienvenido a Guestvox!',
+                'en' => 'We have activated your user correctly. Now you can log in and start working with your team ¡Welcome to Guestvox!'
             ],
             'login' => [
                 'es' => 'Iniciar sesión',

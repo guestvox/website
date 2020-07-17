@@ -12,4 +12,5 @@ $this->dependencies->add(['js', '{$path.js}Signup/activate.js']);
         <img src="{$path.images}logotype_color.png" alt="Guestvox">
     </figure>
     <p>{$html}</p>
+    <a href="/login">{$lang.login}</a>
 </main>
