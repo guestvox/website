@@ -14,7 +14,7 @@ class Urls_registered_vkye
                 'method' => 'index'
             ],
             '/hola/voxes' => [
-                'controller' => 'Hi', // - Rediseño
+                'controller' => 'Hi',
                 'method' => 'voxes'
             ],
             '/hola/menu' => [
@@ -70,11 +70,11 @@ class Urls_registered_vkye
                 'method' => 'index'
             ],
             '/%param%/request' => [
-                'controller' => 'Myvox', // - Rediseño
+                'controller' => 'Myvox',
                 'method' => 'request'
             ],
             '/%param%/incident' => [
-                'controller' => 'Myvox', // - Rediseño
+                'controller' => 'Myvox',
                 'method' => 'incident'
             ],
             '/%param%/menu/%param%' => [
@@ -82,7 +82,7 @@ class Urls_registered_vkye
                 'method' => 'menu'
             ],
             '/%param%/survey' => [
-                'controller' => 'Myvox', // - Rediseño
+                'controller' => 'Myvox',
                 'method' => 'survey'
             ],
             '/%param%/reviews' => [
