@@ -105,11 +105,25 @@ class Login_model extends Model
 				],
 				'settings' => [
 					'voxes' => [
-						'filter' => [
-							'type' => 'all',
-							'urgency' => 'all',
-							'date' => 'up',
-							'status' => 'open'
+						'voxes' => [
+							'filter' => [
+								'type' => 'all',
+								'owner' => 'all',
+								'opportunity_area' => 'all',
+								'opportunity_type' => 'all',
+								'location' => 'all',
+								'urgency' => 'all',
+								'assigned' => 'all',
+								'order' => 'date_down',
+								'status' => 'open'
+							]
+						],
+						'stats' => [
+							'filter' => [
+								'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+								'end_date' => Functions::get_current_date(),
+								'type' => 'all'
+							]
 						]
 					],
 					'surveys' => [

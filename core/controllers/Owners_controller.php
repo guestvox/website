@@ -189,7 +189,7 @@ class Owners_controller extends Controller
 						</div>
 					</div>
 					<div class="buttons">
-						' . ((Functions::check_user_access(['{owners_deactivate}','{owners_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_owner' : 'activate_owner') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{owners_deactivate}','{owners_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_owner' : 'activate_owner') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
 						' . ((Functions::check_user_access(['{owners_update}']) == true) ? '<a class="edit" data-action="edit_owner" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{owners_delete}']) == true) ? '<a class="delete" data-action="delete_owner" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 					</div>
@@ -339,8 +339,8 @@ class Owners_controller extends Controller
 				$mdl_new_owner .=
 				'					<div class="span12">
 										<div class="buttons">
-											<a ' . (($this->model->get_owners('count') < Session::get_value('account')['package']['quantity_end']) ? 'button-cancel' : 'button-close') . '><i class="fas fa-times"></i></a>
-											' . (($this->model->get_owners('count') < Session::get_value('account')['package']['quantity_end']) ? '<button type="submit"><i class="fas fa-check"></i></button>' : '') . '
+											<a ' . (($this->model->get_owners('count') < Session::get_value('account')['package']['quantity_end']) ? 'class="delete" button-cancel' : 'class="new" button-close') . '>' . (($this->model->get_owners('count') < Session::get_value('account')['package']['quantity_end']) ? '<i class="fas fa-times"></i>' : '<i class="fas fa-check"></i>') . '</a>
+											' . (($this->model->get_owners('count') < Session::get_value('account')['package']['quantity_end']) ? '<button type="submit" class="new"><i class="fas fa-check"></i></button>' : '') . '
 										</div>
 									</div>
 								</div>

@@ -18,7 +18,7 @@ $this->dependencies->add(['other', '<script>menu_focus("guests_treatments");</sc
         <div>
             <a data-button-modal="search"><i class="fas fa-search"></i></a>
             <?php if (Functions::check_user_access(['{guests_treatments_create}']) == true) : ?>
-            <a class="active" data-button-modal="new_guest_treatment"><i class="fas fa-plus"></i></a>
+            <a class="new" data-button-modal="new_guest_treatment"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
         </div>
     </section>
@@ -39,8 +39,8 @@ $this->dependencies->add(['other', '<script>menu_focus("guests_treatments");</sc
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <a button-cancel><i class="fas fa-times"></i></a>
-                            <button type="submit"><i class="fas fa-check"></i></button>
+                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
                         </div>
                     </div>
                 </div>

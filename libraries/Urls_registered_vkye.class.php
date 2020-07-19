@@ -14,7 +14,7 @@ class Urls_registered_vkye
                 'method' => 'index'
             ],
             '/hola/voxes' => [
-                'controller' => 'Hi', // - Rediseño
+                'controller' => 'Hi',
                 'method' => 'voxes'
             ],
             '/hola/menu' => [
@@ -57,7 +57,7 @@ class Urls_registered_vkye
                 'controller' => 'Signup',
                 'method' => 'index'
             ],
-            '/activate/%param%/%param%' => [
+            '/activate/%param%' => [
                 'controller' => 'Signup',
                 'method' => 'activate'
             ],
@@ -70,11 +70,11 @@ class Urls_registered_vkye
                 'method' => 'index'
             ],
             '/%param%/request' => [
-                'controller' => 'Myvox', // - Rediseño
+                'controller' => 'Myvox',
                 'method' => 'request'
             ],
             '/%param%/incident' => [
-                'controller' => 'Myvox', // - Rediseño
+                'controller' => 'Myvox',
                 'method' => 'incident'
             ],
             '/%param%/menu/%param%' => [
@@ -82,7 +82,7 @@ class Urls_registered_vkye
                 'method' => 'menu'
             ],
             '/%param%/survey' => [
-                'controller' => 'Myvox', // - Rediseño
+                'controller' => 'Myvox',
                 'method' => 'survey'
             ],
             '/%param%/reviews' => [
@@ -101,6 +101,10 @@ class Urls_registered_vkye
             //     'controller' => 'Dashboard', // - Rediseño
             //     'method' => 'index'
             // ],
+            '/my-profile' => [
+                'controller' => 'Profile',
+                'method' => 'index'
+            ],
             '/qr' => [
                 'controller' => 'Qr',
                 'method' => 'index'
@@ -128,10 +132,6 @@ class Urls_registered_vkye
             '/voxes/charts' => [
                 'controller' => 'Voxes',
                 'method' => 'charts'
-            ],
-            '/voxes/reports' => [
-                'controller' => 'Voxes',
-                'method' => 'reports'
             ],
             '/voxes/reports/%param%' => [
                 'controller' => 'Voxes',
@@ -197,12 +197,12 @@ class Urls_registered_vkye
                 'controller' => 'Userslevels',
                 'method' => 'index'
             ],
-            '/account' => [
-                'controller' => 'Account',
+            '/technical-support' => [
+                'controller' => 'Support',
                 'method' => 'index'
             ],
-            '/my-profile' => [
-                'controller' => 'Profile',
+            '/account' => [
+                'controller' => 'Account',
                 'method' => 'index'
             ]
         ];

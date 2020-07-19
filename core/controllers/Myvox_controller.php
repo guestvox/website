@@ -569,8 +569,8 @@ class Myvox_controller extends Controller
 						</div>
 						<div class="span12">
 							<div class="buttons">
-								<a href="/' . $params[0] . '/myvox' . ((Session::get_value('myvox')['url'] == 'owner') ? '/owner/' . Session::get_value('myvox')['owner']['token'] : '') . '"><i class="fas fa-times"></i></a>
-								<button type="submit"><i class="fas fa-check"></i></button>
+								<a href="/' . $params[0] . '/myvox' . ((Session::get_value('myvox')['url'] == 'owner') ? '/owner/' . Session::get_value('myvox')['owner']['token'] : '') . '" class="delete"><i class="fas fa-times"></i></a>
+								<button type="submit" class="new"><i class="fas fa-check"></i></button>
 							</div>
 						</div>
 					</div>
@@ -1047,8 +1047,8 @@ class Myvox_controller extends Controller
 						</div>
 						<div class="span12">
 							<div class="buttons">
-								<a href="/' . $params[0] . '/myvox' . ((Session::get_value('myvox')['url'] == 'owner') ? '/owner/' . Session::get_value('myvox')['owner']['token'] : '') . '"><i class="fas fa-times"></i></a>
-								<button type="submit"><i class="fas fa-check"></i></button>
+								<a href="/' . $params[0] . '/myvox' . ((Session::get_value('myvox')['url'] == 'owner') ? '/owner/' . Session::get_value('myvox')['owner']['token'] : '') . '" class="delete"><i class="fas fa-times"></i></a>
+								<button type="submit" class="new"><i class="fas fa-check"></i></button>
 							</div>
 						</div>
 					</div>
@@ -1696,7 +1696,7 @@ class Myvox_controller extends Controller
 								<span></span>
 								<p></p>
 								<div class="buttons">
-									<a button-close><i class="fas fa-check"></i></a>
+									<a class="new" button-close><i class="fas fa-check"></i></a>
 								</div>
 					        </main>
 					    </div>
@@ -1861,7 +1861,7 @@ class Myvox_controller extends Controller
 								</div>
 								<div class="span12">
 			                        <div class="buttons">
-										<button type="submit">{$lang.generate_order}</button>
+										<button class="new" type="submit">{$lang.generate_order}</button>
 			                        </div>
 			                    </div>
 							</div>
@@ -2289,7 +2289,7 @@ class Myvox_controller extends Controller
 				<div class="span12">
 					<div class="label">
 						<label unrequired>
-							<p>{$lang.comment}</p>
+							<p>{$lang.commentary}</p>
 							<textarea name="comment"></textarea>
 						</label>
 					</div>
@@ -2343,8 +2343,8 @@ class Myvox_controller extends Controller
 						</div>
 						<div class="span12">
 							<div class="buttons">
-								<a href="/' . $params[0] . '/myvox' . ((Session::get_value('myvox')['url'] == 'owner') ? '/owner/' . Session::get_value('myvox')['owner']['token'] : '') . '"><i class="fas fa-times"></i></a>
-								<button type="submit"><i class="fas fa-check"></i></button>
+								<a href="/' . $params[0] . '/myvox' . ((Session::get_value('myvox')['url'] == 'owner') ? '/owner/' . Session::get_value('myvox')['owner']['token'] : '') . '" class="delete"><i class="fas fa-times"></i></a>
+								<button type="submit" class="new"><i class="fas fa-check"></i></button>
 							</div>
 						</div>
 					</div>
@@ -2360,7 +2360,7 @@ class Myvox_controller extends Controller
 							<main>
 								<div>' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget'] . '</div>
 								<div class="buttons">
-									<a button-close><i class="fas fa-times"></i></a>
+									<a class="new" button-close><i class="fas fa-check"></i></a>
 								</div>
 							</main>
 						</div>

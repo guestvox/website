@@ -190,7 +190,7 @@ class Surveys_controller extends Controller
 				{
 					$tbl_surveys_questions .=
 					'<div class="buttons">
-						' . ((Functions::check_user_access(['{surveys_questions_deactivate}','{surveys_questions_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_survey_question' : 'activate_survey_question') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{surveys_questions_deactivate}','{surveys_questions_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_survey_question' : 'activate_survey_question') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 					</div>';
@@ -396,7 +396,7 @@ class Surveys_controller extends Controller
 
 					$html .=
 					'<div class="comment">
-						<p>' . (!empty($query['comment']) ? '<i class="fas fa-quote-left"></i>' . $query['comment'] . '<i class="fas fa-quote-right"></i>' : '{$lang.not_comment}') . '</p>
+						<p>' . (!empty($query['comment']) ? '<i class="fas fa-quote-left"></i>' . $query['comment'] . '<i class="fas fa-quote-right"></i>' : '{$lang.not_commentary}') . '</p>
 					</div>
 					<div class="tbl_stl_5">';
 
@@ -572,12 +572,12 @@ class Surveys_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'public_survey_answer' OR $_POST['action'] == 'unpublic_survey_answer')
+			if ($_POST['action'] == 'public_survey_comment' OR $_POST['action'] == 'unpublic_survey_comment')
 			{
-				if ($_POST['action'] == 'public_survey_answer')
-					$query = $this->model->public_survey_answer($_POST['id']);
-				else if ($_POST['action'] == 'unpublic_survey_answer')
-					$query = $this->model->unpublic_survey_answer($_POST['id']);
+				if ($_POST['action'] == 'public_survey_comment')
+					$query = $this->model->public_survey_comment($_POST['id']);
+				else if ($_POST['action'] == 'unpublic_survey_comment')
+					$query = $this->model->unpublic_survey_comment($_POST['id']);
 
 				if (!empty($query))
 				{
@@ -601,40 +601,55 @@ class Surveys_controller extends Controller
 
 			$template = $this->view->render($this, 'answers');
 
-			$html =
+			$div_options =
 			'<div class="tabers">
 				<div>
 					<input id="rtsw" type="radio" value="raters" ' . (($params[0] == 'raters') ? 'checked' : '') . '>
-					<label for="rtsw"><i class="fas fa-star"></i></label>
+					<label for="rtsw">
+						<i class="fas fa-star"></i>
+						<span>{$lang.raters}</span>
+					</label>
 				</div>
 				<div>
 	                <input id="cmsw" type="radio" value="comments" ' . (($params[0] == 'comments') ? 'checked' : '') . '>
-	                <label for="cmsw"><i class="fas fa-comment-alt"></i></label>
+	                <label for="cmsw">
+						<i class="fas fa-comment-alt"></i>
+						<span>{$lang.comments}</span>
+					</label>
 	            </div>
 				<div>
 	                <input id="ctsw" type="radio" value="contacts" ' . (($params[0] == 'contacts') ? 'checked' : '') . '>
-	                <label for="ctsw"><i class="fas fa-address-book"></i></label>
+	                <label for="ctsw">
+						<i class="fas fa-address-book"></i>
+						<span>{$lang.contacts}</span>
+					</label>
 	            </div>
 			</div>';
 
+			$tbl_surveys_raters = '';
+			$tbl_surveys_comments = '';
+			$mdl_public_survey_comment = '';
+			$mdl_unpublic_survey_comment = '';
+			$tbl_surveys_contacts = '';
+
 			if ($params[0] == 'raters')
 			{
-				$html .= '<div class="tbl_stl_7">';
+				$tbl_surveys_raters .= '<div class="tbl_stl_7" data-table>';
 
 				foreach ($this->model->get_surveys_answers('raters') as $value)
 				{
-					$html .=
+					$tbl_surveys_raters .=
 					'<div>
 						<div class="rating">';
 
 					if ($value['average'] < 2)
-						$html .= '<span class="bad"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+						$tbl_surveys_raters .= '<span class="bad"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
 					else if ($value['average'] >= 2 AND $value['average'] < 4)
-						$html .= '<span class="medium"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+						$tbl_surveys_raters .= '<span class="medium"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
 					else if ($value['average'] >= 4)
-						$html .= '<span class="good"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
+						$tbl_surveys_raters .= '<span class="good"><i class="fas fa-star"></i>' . $value['average'] . '</span>';
 
-					$html.=
+					$tbl_surveys_raters .=
 					'	</div>
 						<div class="datas">
 							<span>' . $value['token'] . '</span>
@@ -643,22 +658,22 @@ class Surveys_controller extends Controller
 							<span><i class="fas fa-shapes"></i>' . $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') . '</span>
 						</div>
 						<div class="buttons">
-							<a data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-eye"></i></a>
+							<a class="big" data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-ghost"></i><span>{$lang.survey}</span></a>
 						</div>
 					</div>';
 				}
 
-				$html .= '</div>';
+				$tbl_surveys_raters .= '</div>';
 			}
 			else if ($params[0] == 'comments')
 			{
-				$html .= '<div class="tbl_stl_2">';
+				$tbl_surveys_comments .= '<div class="tbl_stl_2" data-table>';
 
 				foreach ($this->model->get_surveys_answers('comments') as $value)
 				{
 					if (!empty($value['comment']))
 					{
-						$html .=
+						$tbl_surveys_comments .=
 						'<div>
 							<div class="datas">
 								<h2>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] : ((Session::get_value('account')['type'] == 'hotel') ? ((!empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') : '{$lang.not_name}')) . '</h2>
@@ -668,24 +683,44 @@ class Surveys_controller extends Controller
 								<p><i class="fas fa-comment-alt"></i>' . $value['comment'] . '</p>
 							</div>
 							<div class="buttons flex_right">
-								<a class="' . (($value['public'] == true) ? 'delete' : 'new') . ' big" data-action="' . (($value['public'] == true) ? 'unpublic_survey_answer' : 'public_survey_answer') . '" data-id="' . $value['id'] . '">' . (($value['public'] == true) ? '{$lang.unpublic_survey_answer}' : '{$lang.public_survey_answer}') . '</a>
-								<a data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-star"></i></a>
+								<a class="' . (($value['public'] == true) ? 'delete' : 'new') . ' big" data-action="' . (($value['public'] == true) ? 'unpublic_survey_comment' : 'public_survey_comment') . '" data-id="' . $value['id'] . '">' . (($value['public'] == true) ? '{$lang.unpublic_survey_comment}' : '{$lang.public_survey_comment}') . '</a>
+								<a class="big" data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-ghost"></i><span>{$lang.survey}</span></a>
 							</div>
 						</div>';
 					}
 				}
 
-				$html .= '</div>';
+				$tbl_surveys_comments .= '</div>';
+
+				$mdl_public_survey_comment .=
+				'<section class="modal edit" data-modal="public_survey_comment">
+				    <div class="content">
+				        <footer>
+				            <a button-close><i class="fas fa-times"></i></a>
+				            <a button-success><i class="fas fa-check"></i></a>
+				        </footer>
+				    </div>
+				</section>';
+
+				$mdl_unpublic_survey_comment .=
+				'<section class="modal edit" data-modal="unpublic_survey_comment">
+				    <div class="content">
+				        <footer>
+				            <a button-close><i class="fas fa-times"></i></a>
+				            <a button-success><i class="fas fa-check"></i></a>
+				        </footer>
+				    </div>
+				</section>';
 			}
 			else if ($params[0] == 'contacts')
 			{
-				$html .= '<div class="tbl_stl_2">';
+				$tbl_surveys_contacts .= '<div class="tbl_stl_2" data-table>';
 
 				foreach ($this->model->get_surveys_answers('contacts') as $value)
 				{
 					if (!empty($value['email']) OR (!empty($value['phone']['lada']) AND !empty($value['phone']['number'])))
 					{
-						$html .=
+						$tbl_surveys_contacts .=
 						'<div>
 							<div class="datas">
 								<h2>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? $value['firstname'] . ' ' . $value['lastname'] : ((Session::get_value('account')['type'] == 'hotel') ? ((!empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') : '{$lang.not_name}')) . '</h2>
@@ -696,13 +731,13 @@ class Surveys_controller extends Controller
 								<span><i class="fas fa-phone"></i>' . ((!empty($value['phone']['lada']) AND !empty($value['phone']['number'])) ? '+ (' . $value['phone']['lada'] . ') ' . $value['phone']['number'] : '{$lang.not_phone}') . '</span>
 							</div>
 							<div class="buttons flex_right">
-								<a data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-star"></i></a>
+								<a class="big" data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-ghost"></i><span>{$lang.survey}</span></a>
 							</div>
 						</div>';
 					}
 				}
 
-				$html .= '</div>';
+				$tbl_surveys_contacts .= '</div>';
 			}
 
 			$opt_owners = '';
@@ -711,7 +746,12 @@ class Surveys_controller extends Controller
 				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 
 			$replace = [
-				'{$html}' => $html,
+				'{$div_options}' => $div_options,
+				'{$tbl_surveys_raters}' => $tbl_surveys_raters,
+				'{$tbl_surveys_comments}' => $tbl_surveys_comments,
+				'{$mdl_public_survey_comment}' => $mdl_public_survey_comment,
+				'{$mdl_unpublic_survey_comment}' => $mdl_unpublic_survey_comment,
+				'{$tbl_surveys_contacts}' => $tbl_surveys_contacts,
 				'{$opt_owners}' => $opt_owners
 			];
 
@@ -773,7 +813,7 @@ class Surveys_controller extends Controller
 			$opt_owners = '';
 
 			foreach ($this->model->get_owners('survey') as $value)
-				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['stats']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 
 			$replace = [
 				'{$h2_surveys_average}' => $h2_surveys_average,

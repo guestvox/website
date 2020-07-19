@@ -17,28 +17,37 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                 <a data-step="2">2</a>
                 <a data-step="3">3</a>
                 <a data-step="4">4</a>
-                <a data-step="5">5</a>
-                <a data-step="6"><i class="fas fa-check"></i></a>
+                <a data-step="5"><i class="fas fa-check"></i></a>
             </div>
             <div class="step_container view" data-step="1">
                 <h2>{$lang.step_1}: {$lang.account_information}</h2>
                 <div class="row">
-                    <div class="span6">
+                    <div class="span4">
+                        <div class="stl_1" data-uploader="low">
+                            <figure data-preview>
+                                <img src="{$path.images}account.png" alt="Account">
+                                <a data-select><i class="fas fa-upload"></i></a>
+                                <input type="file" name="logotype" accept="image/*" data-upload>
+                            </figure>
+                            <span>200 x 200 Pixeles</span>
+                        </div>
+                    </div>
+                    <div class="span8">
                         <div class="span6">
                             <fieldset>
-                                <input type="text" name="name" placeholder="{$lang.name}">
+                                <input type="text" name="name" placeholder="{$lang.business_name}">
                             </fieldset>
                         </div>
                         <div class="span6">
                             <fieldset class="path">
-                                <input type="text" name="path" placeholder="{$lang.path}">
+                                <input type="text" name="path" placeholder="{$lang.business_path}">
                                 <span><?php echo Configuration::$domain; ?>/<strong>{$lang.path_my_account}</strong></span>
                             </fieldset>
                         </div>
                         <div class="span6">
                             <fieldset>
                                 <select name="type">
-                                    <option value="" hidden>{$lang.type}</option>
+                                    <option value="" hidden>{$lang.business_type}</option>
                                     <option value="hotel">{$lang.hotel}</option>
                                     <option value="restaurant">{$lang.restaurant}</option>
                                     <option value="hospital">{$lang.hospital}</option>
@@ -48,7 +57,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         </div>
                         <div class="span3 hidden">
                             <fieldset>
-                                <input type="number" name="quantity" min="1">
+                                <input type="number" name="rooms_number" min="1" placeholder="{$lang.rooms_number}">
                             </fieldset>
                         </div>
                         <div class="span3">
@@ -99,109 +108,42 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                             </fieldset>
                         </div>
                     </div>
-                    <div class="span3">
-                        <label>
-                            <div class="package" id="operation">
-                                <span><i class="fas fa-fighter-jet"></i></span>
-                                <h3>{$lang.package_of} <span>{$lang.operation}</span></h3>
-                                <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> / {$lang.per_month}</h4>
-                                <input type="checkbox" name="operation">
-                                <p>* {$lang.no_charge_generated_demo}</p>
-                            </div>
-                        </label>
-                    </div>
-                    <div class="span3">
-                        <label>
-                            <div class="package" id="reputation">
-                                <span><i class="fas fa-smile"></i></span>
-                                <h3>{$lang.package_of} <span>{$lang.reputation}</span></h3>
-                                <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> / {$lang.per_month}</h4>
-                                <input type="checkbox" name="reputation">
-                                <p>* {$lang.no_charge_generated_demo}</p>
-                            </div>
-                        </label>
-                    </div>
                 </div>
                 <a data-action="next">{$lang.next}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
             <div class="step_container" data-step="2">
-                <h2>{$lang.step_2}: {$lang.logotype}</h2>
+                <h2>{$lang.step_2}: {$lang.select_your_package}</h2>
                 <div class="row">
-                    <div class="span6">
-                        <div class="stl_1" data-uploader="low">
-                            <figure data-preview>
-                                <img src="{$path.images}account.png" alt="Account">
-                                <a data-select><i class="fas fa-upload"></i></a>
-                                <input type="file" name="logotype" accept="image/*" data-upload>
-                            </figure>
-                        </div>
+                    <div class="span4">
+                        <label>
+                            <div class="package" id="operation">
+                                <span><i class="fas fa-fighter-jet"></i></span>
+                                <h3>{$lang.package_of} <span>{$lang.operation}</span></h3>
+                                <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> {$lang.per_month}</h4>
+                                <input type="checkbox" name="operation">
+                            </div>
+                        </label>
+                    </div>
+                    <div class="span4">
+                        <label>
+                            <div class="package" id="reputation">
+                                <span><i class="fas fa-smile"></i></span>
+                                <h3>{$lang.package_of} <span>{$lang.reputation}</span></h3>
+                                <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> {$lang.per_month}</h4>
+                                <input type="checkbox" name="reputation">
+                            </div>
+                        </label>
                     </div>
                 </div>
+                <p>* {$lang.no_charge_generated_demo}</p>
                 <a data-action="next">{$lang.next}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
             <div class="step_container" data-step="3">
-                <h2>{$lang.step_3}: {$lang.billing_information}</h2>
+                <h2>{$lang.step_3}: {$lang.admin_information}</h2>
                 <div class="row">
-                    <div class="span6">
-                        <div class="span6">
-                            <fieldset>
-                                <input type="text" name="fiscal_id" placeholder="{$lang.fiscal_id}">
-                            </fieldset>
-                        </div>
-                        <div class="span6">
-                            <fieldset>
-                                <input type="text" name="fiscal_name" placeholder="{$lang.fiscal_name}">
-                            </fieldset>
-                        </div>
-                        <div class="span12">
-                            <fieldset>
-                                <input type="text" name="fiscal_address" placeholder="{$lang.fiscal_address}">
-                            </fieldset>
-                        </div>
-                        <div class="span6">
-                            <fieldset>
-                                <input type="text" name="contact_firstname" placeholder="{$lang.firstname}">
-                            </fieldset>
-                        </div>
-                        <div class="span6">
-                            <fieldset>
-                                <input type="text" name="contact_lastname" placeholder="{$lang.lastname}">
-                            </fieldset>
-                        </div>
-                        <div class="span12">
-                            <fieldset>
-                                <input type="text" name="contact_department" placeholder="{$lang.department}">
-                            </fieldset>
-                        </div>
-                        <div class="span6">
-                            <fieldset>
-                                <input type="email" name="contact_email" placeholder="{$lang.email}">
-                            </fieldset>
-                        </div>
-                        <div class="span3">
-                            <fieldset>
-                                <select name="contact_phone_lada">
-                                    <option value="" hidden>{$lang.lada}</option>
-                                    {$opt_ladas}
-                                </select>
-                            </fieldset>
-                        </div>
-                        <div class="span3">
-                            <fieldset>
-                                <input type="text" name="contact_phone_number" placeholder="{$lang.phone}">
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-                <a data-action="next">{$lang.next}</a>
-                <a href="/">{$lang.cancel}</a>
-            </div>
-            <div class="step_container" data-step="4">
-                <h2>{$lang.step_4}: {$lang.admin_information}</h2>
-                <div class="row">
-                    <div class="span6">
+                    <div class="span8">
                         <div class="span6">
                             <fieldset>
                                 <input type="text" name="firstname" placeholder="{$lang.firstname}">
@@ -245,25 +187,25 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                 <a data-action="next">{$lang.next}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
-            <div class="step_container" data-step="5">
-                <h2>{$lang.step_5}: {$lang.payment_information}</h2>
+            <div class="step_container" data-step="4">
+                <h2>{$lang.step_4}: {$lang.payment_information}</h2>
                 <div class="row">
-                    <div class="span6">
+                    <div class="span8">
                         <div class="package" id="total">
                             <span><i class="fas fa-credit-card"></i></span>
                             <h3>{$lang.total}</h3>
-                            <h4><span></span> {$lang.per_month}</h4>
-                            <p>* {$lang.no_charge_generated_demo}</p>
+                            <h4><span></span>{$lang.per_month}</h4>
                         </div>
                     </div>
                 </div>
+                <p>* {$lang.no_charge_generated_demo}</p>
                 <p>* {$lang.signup_accept_1} <a href="/terms-and-conditions" target="_blank">{$lang.terms_and_conditions}</a> {$lang.signup_accept_2} <a href="/privacy-policies" target="_blank">{$lang.privacy_policies}</a></p>
                 <a data-action="next">{$lang.start_demo}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
-            <div class="step_container" data-step="6">
+            <div class="step_container" data-step="5">
                 <div class="row">
-                    <div class="span6">
+                    <div class="span8">
                         <div class="success">
                             <i class="fas fa-check-circle"></i>
                             <p id="success"></p>

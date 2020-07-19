@@ -16,18 +16,17 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
     </section>
     <section class="buttons">
         <div>
-            <a data-button-modal="search"><i class="fas fa-search"></i></a>
             <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
-            <a href="/surveys/questions" class="active"><i class="fas fa-ghost"></i></a>
+            <a href="/surveys/questions" class="big new"><i class="fas fa-ghost"></i><span>{$lang.questions}</span></a>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{surveys_questions_create}']) == true) : ?>
-            <a class="active" data-button-modal="new_survey_question"><i class="fas fa-plus"></i></a>
+            <a class="new" data-button-modal="new_survey_question"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
-            <a href="/surveys/answers/raters"><i class="fas fa-star"></i></a>
+            <a href="/surveys/answers/raters" class="big"><i class="fas fa-star"></i><span>{$lang.answers}</span></a>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
-            <a href="/surveys/stats"><i class="fas fa-chart-pie"></i></a>
+            <a href="/surveys/stats" class="big"><i class="fas fa-chart-pie"></i><span>{$lang.stats}</span></a>
             <?php endif; ?>
         </div>
     </section>
@@ -91,8 +90,8 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <a button-cancel><i class="fas fa-times"></i></a>
-                            <button type="submit"><i class="fas fa-check"></i></button>
+                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
                         </div>
                     </div>
                 </div>

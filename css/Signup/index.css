@@ -234,7 +234,7 @@ main.signup > form > div.steps > div.step_container > div.row fieldset.path {
 main.signup > form > div.steps > div.step_container > div.row fieldset.path > span {
     position: absolute;
     top: 40px;
-    left: 5px;
+    right: 30px;
     padding-left: 20px;
     box-sizing: border-box;
     font-size: 10px;
@@ -246,7 +246,7 @@ main.signup > form > div.steps > div.step_container > div.row fieldset.path > sp
 
     main.signup > form > div.steps > div.step_container > div.row fieldset.path > span {
         top: 35px;
-        left: 0px;
+        right: 20px;
     }
 }
 
@@ -262,6 +262,11 @@ main.signup > form > div.steps > div.step_container > div.row div.package {
     box-sizing: border-box;
     background-color: #00a5ab;
     cursor: pointer;
+}
+
+main.signup > form > div.steps > div.step_container > div.row div.package.error {
+    border: 1px solid #f44336;
+    box-sizing: border-box;
 }
 
 main.signup > form > div.steps > div.step_container > div.row div.package > span {
@@ -293,6 +298,14 @@ main.signup > form > div.steps > div.step_container > div.row div.package > h3 >
 main.signup > form > div.steps > div.step_container > div.row div.package > h4 {
     font-size: 14px;
     font-weight: 400;
+}
+
+main.signup > form > div.steps > div.step_container > div.row div.package > h4 > span {
+    display: block;
+}
+
+main.signup > form > div.steps > div.step_container > div.row div.package > input {
+    margin-top: 20px;
 }
 
 main.signup > form > div.steps > div.step_container > div.row div.package > p {

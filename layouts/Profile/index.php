@@ -26,7 +26,7 @@ $this->dependencies->add(['other', '<script>menu_focus("my_profile");</script>']
     </section>
     <section class="buttons">
         <div>
-            <a data-button-modal="restore_password"><i class="fas fa-key"></i></a>
+            <a class="big new" data-button-modal="restore_password"><i class="fas fa-key"></i><span>{$lang.restore_password}</span></a>
             <a class="edit" data-action="edit_profile"><i class="fas fa-pen"></i></a>
         </div>
     </section>
@@ -88,8 +88,8 @@ $this->dependencies->add(['other', '<script>menu_focus("my_profile");</script>']
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <a button-cancel><i class="fas fa-times"></i></a>
-                            <button type="submit"><i class="fas fa-check"></i></button>
+                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
                         </div>
                     </div>
                 </div>
@@ -112,8 +112,8 @@ $this->dependencies->add(['other', '<script>menu_focus("my_profile");</script>']
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <a button-cancel><i class="fas fa-times"></i></a>
-                            <button type="submit"><i class="fas fa-check"></i></button>
+                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
                         </div>
                     </div>
                 </div>

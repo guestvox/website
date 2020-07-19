@@ -4,12 +4,7 @@ $(document).ready(function()
 {
     $(document).on('click', '#rtsw, #cmsw, #ctsw', function()
     {
-        if ($(this).val() == 'raters')
-            window.location.href = '/surveys/answers/raters';
-        else if ($(this).val() == 'comments')
-            window.location.href = '/surveys/answers/comments';
-        else if ($(this).val() == 'contacts')
-            window.location.href = '/surveys/answers/contacts';
+        window.location.href = '/surveys/answers/' + $(this).val();
     });
 
     $('form[name="filter_surveys_answers"]').on('submit', function(e)
@@ -59,18 +54,18 @@ $(document).ready(function()
         });
     });
 
-    $('[data-action="public_survey_answer"]').on('click', function()
+    $('[data-action="public_survey_comment"]').on('click', function()
     {
         id = $(this).data('id');
 
-        $('[data-modal="public_survey_answer"]').addClass('view');
+        $('[data-modal="public_survey_comment"]').addClass('view');
     });
 
-    $('[data-modal="public_survey_answer"]').modal().onSuccess(function()
+    $('[data-modal="public_survey_comment"]').modal().onSuccess(function()
     {
         $.ajax({
             type: 'POST',
-            data: 'id=' + id + '&action=public_survey_answer',
+            data: 'id=' + id + '&action=public_survey_comment',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -84,18 +79,18 @@ $(document).ready(function()
         });
     });
 
-    $('[data-action="unpublic_survey_answer"]').on('click', function()
+    $('[data-action="unpublic_survey_comment"]').on('click', function()
     {
         id = $(this).data('id');
 
-        $('[data-modal="unpublic_survey_answer"]').addClass('view');
+        $('[data-modal="unpublic_survey_comment"]').addClass('view');
     });
 
-    $('[data-modal="unpublic_survey_answer"]').modal().onSuccess(function()
+    $('[data-modal="unpublic_survey_comment"]').modal().onSuccess(function()
     {
         $.ajax({
             type: 'POST',
-            data: 'id=' + id + '&action=unpublic_survey_answer',
+            data: 'id=' + id + '&action=unpublic_survey_comment',
             processData: false,
             cache: false,
             dataType: 'json',

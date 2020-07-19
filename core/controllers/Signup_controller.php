@@ -27,7 +27,7 @@ class Signup_controller extends Controller
 					'total' => 0
 				];
 
-				$query = $this->model->get_package($_POST['type'], $_POST['quantity']);
+				$query = $this->model->get_package($_POST['type'], $_POST['rooms_number']);
 
 				if (!empty($query))
 				{
@@ -57,6 +57,9 @@ class Signup_controller extends Controller
 				{
 					$labels = [];
 
+					if (!isset($_FILES['logotype']['name']) OR empty($_FILES['logotype']['name']))
+				        array_push($labels, ['logotype','']);
+
 					if (!isset($_POST['name']) OR empty($_POST['name']) OR $this->model->check_exist_account('name', $_POST['name']) == true)
 				        array_push($labels, ['name','']);
 
@@ -66,8 +69,11 @@ class Signup_controller extends Controller
 					if (!isset($_POST['type']) OR empty($_POST['type']))
 				        array_push($labels, ['type','']);
 
-					if (!isset($_POST['quantity']) OR empty($_POST['quantity']) OR !is_numeric($_POST['quantity']) OR $_POST['quantity'] < 1)
-				        array_push($labels, ['quantity','']);
+					if ($_POST['type'] == 'hotel')
+					{
+						if (!isset($_POST['rooms_number']) OR empty($_POST['rooms_number']) OR !is_numeric($_POST['rooms_number']) OR $_POST['rooms_number'] < 1)
+					        array_push($labels, ['rooms_number','']);
+					}
 
 					if (!isset($_POST['country']) OR empty($_POST['country']))
 				        array_push($labels, ['country','']);
@@ -109,8 +115,11 @@ class Signup_controller extends Controller
 				{
 					$labels = [];
 
-					if (!isset($_FILES['logotype']['name']) OR empty($_FILES['logotype']['name']))
-				        array_push($labels, ['logotype','']);
+					if ((!isset($_POST['operation']) OR empty($_POST['operation'])) AND (!isset($_POST['reputation']) OR empty($_POST['reputation'])))
+				    {
+						array_push($labels, ['operation','']);
+						array_push($labels, ['reputation','']);
+					}
 
 					if (empty($labels))
 					{
@@ -128,52 +137,6 @@ class Signup_controller extends Controller
 				}
 
 				if ($_POST['step'] == '3')
-				{
-					$labels = [];
-
-					if (!isset($_POST['fiscal_id']) OR empty($_POST['fiscal_id']))
-				        array_push($labels, ['fiscal_id','']);
-
-					if (!isset($_POST['fiscal_name']) OR empty($_POST['fiscal_name']))
-				        array_push($labels, ['fiscal_name','']);
-
-					if (!isset($_POST['fiscal_address']) OR empty($_POST['fiscal_address']))
-				        array_push($labels, ['fiscal_address','']);
-
-					if (!isset($_POST['contact_firstname']) OR empty($_POST['contact_firstname']))
-				        array_push($labels, ['contact_firstname','']);
-
-					if (!isset($_POST['contact_lastname']) OR empty($_POST['contact_lastname']))
-				        array_push($labels, ['contact_lastname','']);
-
-					if (!isset($_POST['contact_department']) OR empty($_POST['contact_department']))
-				        array_push($labels, ['contact_department','']);
-
-					if (!isset($_POST['contact_email']) OR empty($_POST['contact_email']) OR Functions::check_email($_POST['contact_email']) == false)
-				        array_push($labels, ['contact_email','']);
-
-					if (!isset($_POST['contact_phone_lada']) OR empty($_POST['contact_phone_lada']))
-				        array_push($labels, ['contact_phone_lada','']);
-
-					if (!isset($_POST['contact_phone_number']) OR empty($_POST['contact_phone_number']))
-				        array_push($labels, ['contact_phone_number','']);
-
-					if (empty($labels))
-					{
-						Functions::environment([
-							'status' => 'success'
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'labels' => $labels
-						]);
-					}
-				}
-
-				if ($_POST['step'] == '4')
 				{
 					$labels = [];
 
@@ -213,7 +176,7 @@ class Signup_controller extends Controller
 					}
 				}
 
-				if ($_POST['step'] == '5')
+				if ($_POST['step'] == '4')
 				{
 					$_POST['logotype'] = $_FILES['logotype'];
 
@@ -226,7 +189,7 @@ class Signup_controller extends Controller
 						try
 						{
 							$mail1->setFrom('daniel@guestvox.com', 'Daniel Basurto');
-							$mail1->addAddress($_POST['contact_email'], $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname']);
+							$mail1->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
 							$mail1->Subject = Languages::email('thanks_signup_guestvox')[$_POST['language']];
 							$mail1->Body =
 							'<html>
@@ -245,8 +208,8 @@ class Signup_controller extends Controller
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
-												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('validate_signup_account')[$_POST['language']] . '</p>
-												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/account/' . $_POST['path'] . '">' . Languages::email('active_account')[$_POST['language']] . '</a>
+												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('validate_signup_user')[$_POST['language']] . '</p>
+												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/' . $_POST['username'] . '">' . Languages::email('active_user')[$_POST['language']] . '</a>
 												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Languages::email('terms_and_conditions')[$_POST['language']] . '</a>
 												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/privacy-policies">' . Languages::email('privacy_policies')[$_POST['language']] . '</a>
 											</td>
@@ -278,79 +241,23 @@ class Signup_controller extends Controller
 
 						try
 						{
-							$mail2->setFrom('daniel@guestvox.com', 'Daniel Basurto');
-							$mail2->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
-							$mail2->Subject = Languages::email('thanks_signup_guestvox')[$_POST['language']];
+							$mail2->setFrom('noreply@guestvox.com', 'Guestvox');
+							$mail2->addAddress('contacto@guestvox.com', 'Guestvox');
+							$mail2->Subject = 'Guestvox | Nuevo registro';
 							$mail2->Body =
-							'<html>
-								<head>
-									<title>' . $mail2->Subject . '</title>
-								</head>
-								<body>
-									<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
-										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-													<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
-												</figure>
-											</td>
-										</tr>
-										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail2->Subject . '</h4>
-												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('validate_signup_user')[$_POST['language']] . '</p>
-												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/user/' . $_POST['email'] . '">' . Languages::email('active_user')[$_POST['language']] . '</a>
-												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Languages::email('terms_and_conditions')[$_POST['language']] . '</a>
-												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/privacy-policies">' . Languages::email('privacy_policies')[$_POST['language']] . '</a>
-											</td>
-										</tr>
-										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-							                <td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<figure style="width:100%;margin:0px;padding:40px 0px;border:0px;box-sizing:border-box;text-align:center;">
-													<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/index/stl_6_image_1.png">
-													<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
-													<span style="display:block;color:#757575;font-size:18px;">CEO</span>
-													<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
-													<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
-												</figure>
-							                </td>
-							            </tr>
-										<tr style="width:100%;margin:0px;padding:0px;border:0px;">
-											<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
-											</td>
-										</tr>
-									</table>
-								</body>
-							</html>';
-							$mail2->send();
-						}
-						catch (Exception $e) { }
-
-						$mail3 = new Mailer(true);
-
-						try
-						{
-							$mail3->setFrom('noreply@guestvox.com', 'Guestvox');
-							$mail3->addAddress('contacto@guestvox.com', 'Guestvox');
-							$mail3->Subject = 'Guestvox | Nuevo registro';
-							$mail3->Body =
 							'Nombre: ' . $_POST['name'] . '<br>
 							Tipo: ' . Languages::email($_POST['type'])['es'] . '<br>
-							Cantidad: ' . $_POST['quantity'] . '<br>
+							' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms_number'] . '<br>' : '') . '
 							Páis: ' . $_POST['country'] . ' - ' . $_POST['city'] . ' - ' . $_POST['zip_code'] . '<br>
-							ID Fiscal: ' . $_POST['fiscal_id'] . '<br>
-							Nombre fiscal: ' . $_POST['fiscal_name'] . '<br>
-							Contácto: ' . $_POST['contact_firstname'] . ' ' . $_POST['contact_lastname'] . ' - ' . $_POST['contact_department'] . ' - ' .  $_POST['contact_email'] . ' + (' . $_POST['contact_phone_lada'] . ') ' . $_POST['contact_phone_number'] . '<br>
 							Administrador: ' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' - ' . $_POST['email'] . ' + (' . $_POST['phone_lada'] . ') ' . $_POST['phone_number'];
-							$mail3->send();
+							$mail2->send();
 						}
 						catch (Exception $e) { }
 
 						Functions::environment([
                             'status' => 'success',
 							'path' => '/',
-                            'message' => '{$lang.thanks_signup_guestvox_1} <strong>' . $_POST['contact_email'] . '</strong> {$lang.thanks_signup_guestvox_2} <strong>' . $_POST['email'] . '</strong> {$lang.thanks_signup_guestvox_3}'
+                            'message' => '{$lang.thanks_signup_guestvox_1} <strong>' . $_POST['email'] . '</strong> {$lang.thanks_signup_guestvox_2}'
                         ]);
 			        }
 			        else
@@ -412,12 +319,9 @@ class Signup_controller extends Controller
 	{
 		$template = $this->view->render($this, 'activate');
 
-		if ($params[0] == 'account')
-			define('_title', 'Guestvox | {$lang.activate_account}');
-		else if ($params[0] == 'user')
-			define('_title', 'Guestvox | {$lang.activate_user}');
+		define('_title', 'Guestvox | {$lang.activate_user}');
 
-		$query = $this->model->new_activation($params);
+		$query = $this->model->activate_user($params[0]);
 
 		$html = '';
 
@@ -425,23 +329,15 @@ class Signup_controller extends Controller
 		{
 			if ($query['status'] == false)
 			{
-				if ($params[0] == 'account')
-					$html = '{$lang.your_account_has_been_activated}';
-				else if ($params[0] == 'user')
-					$html = '{$lang.your_user_has_been_activated}';
+				$html = '{$lang.your_user_has_been_activated}';
 
 				$mail = new Mailer(true);
 
 				try
 				{
 					$mail->setFrom('daniel@guestvox.com', 'Daniel Basurto');
-
-					if ($params[0] == 'account')
-						$mail->addAddress($query['contact']['email'], $query['contact']['firstname'] . ' ' . $query['contact']['lastname']);
-					else if ($params[0] == 'user')
-						$mail->addAddress($query['email'], $query['firstname'] . ' ' . $query['lastname']);
-
-					$mail->Subject = Languages::email('activated_subject', $params[0])[$query['language']];
+					$mail->addAddress($query['email'], $query['firstname'] . ' ' . $query['lastname']);
+					$mail->Subject = Languages::email('activated_user_subject')[$query['language']];
 					$mail->Body =
 					'<html>
 						<head>
@@ -459,8 +355,7 @@ class Signup_controller extends Controller
 								<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 									<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 										<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
-										' . (($params[0] == 'account') ? '<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('token')[$query['language']] . ': ' . $query['token'] . '</h4>' : '') . '
-										<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('activated_text', $params[0])[$query['language']] . '</p>
+										<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('activated_user_text')[$query['language']] . '</p>
 										<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/login">' . Languages::email('login')[$query['language']] . '</a>
 									</td>
 								</tr>
@@ -488,12 +383,7 @@ class Signup_controller extends Controller
 				catch (Exception $e) { }
 			}
 			else
-			{
-				if ($params[0] == 'account')
-					$html = '{$lang.account_already_activated}';
-				else if ($params[0] == 'user')
-					$html = '{$lang.user_already_activated}';
-			}
+				$html = '{$lang.user_already_activated}';
 		}
 		else
 			$html = '{$lang.error_to_activate}';

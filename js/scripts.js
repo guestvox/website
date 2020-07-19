@@ -12,26 +12,11 @@ $(window).on('ajaxStop', function()
 
 $(document).ready(function ()
 {
-    var open_rightbar = false;
-
     $('[data-action="open_rightbar"]').on('click', function(e)
     {
         e.stopPropagation();
 
-        $('body').toggleClass('open_rightbar');
-
-        if (open_rightbar == false)
-        {
-            open_rightbar = true;
-
-            $(this).html('<i class="fas fa-times-circle"></i>');
-        }
-        else if (open_rightbar == true)
-        {
-            open_rightbar = false;
-
-            $(this).html('<i class="fas fa-bars"></i>');
-        }
+        $('body').toggleClass('open');
     });
 
     $('[required]').each(function()

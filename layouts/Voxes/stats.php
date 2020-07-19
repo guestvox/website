@@ -44,8 +44,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
         <div class="voxes_counters">
             <div>
                 <div>
-                    <h2>{$voxes_average_resolution}</h2>
-                    <span>{$lang.resolution}</span>
+                    <h2>{$voxes_average}</h2>
+                    <span>{$lang.average}</span>
                 </div>
                 <div>
                     <h2>{$voxes_count_open}</h2>
@@ -84,16 +84,15 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
     </section>
     <section class="buttons">
         <div>
-            <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <a href="/voxes"><i class="fas fa-atom"></i></a>
+            <a href="/voxes" class="big"><i class="fas fa-atom"></i><span>{$lang.voxes}</span></a>
             <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
-            <a href="/voxes/stats" class="active"><i class="fas fa-chart-pie"></i></a>
-            <a class="active" data-button-modal="filter_voxes_stats"><i class="fas fa-stream"></i></a>
+            <a href="/voxes/stats" class="big new"><i class="fas fa-chart-pie"></i><span>{$lang.stats}</span></a>
+            <a class="big new" data-button-modal="filter_voxes_stats"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{voxes_reports_print}']) == true) : ?>
-            <a href="/voxes/reports/print"><i class="fas fa-bug"></i></a>
+            <a href="/voxes/reports/generate" class="big"><i class="fas fa-bug"></i><span>{$lang.reports}</span></a>
             <?php elseif (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}','{voxes_reports_deactivate}','{voxes_reports_activate}','{voxes_reports_delete}']) == true) : ?>
-            <a href="/voxes/reports"><i class="fas fa-bug"></i></a>
+            <a href="/voxes/reports/saved" class="big"><i class="fas fa-bug"></i><span>{$lang.reports}</span></a>
             <?php endif; ?>
         </div>
     </section>
@@ -107,7 +106,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.started_date}</p>
-                                <input type="date" name="started_date" value="<?php echo Functions::get_past_date(Functions::get_current_date(), '7', 'days'); ?>">
+                                <input type="date" name="started_date" value="<?php echo Session::get_value('settings')['voxes']['stats']['filter']['started_date']; ?>">
                             </label>
                         </div>
                     </div>
@@ -115,7 +114,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <div class="label">
                             <label required>
                                 <p>{$lang.end_date}</p>
-                                <input type="date" name="end_date" value="<?php echo Functions::get_current_date(); ?>">
+                                <input type="date" name="end_date" value="<?php echo Session::get_value('settings')['voxes']['stats']['filter']['end_date']; ?>">
                             </label>
                         </div>
                     </div>
@@ -124,18 +123,18 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             <label required>
                                 <p>{$lang.type}</p>
                                 <select name="type">
-                                    <option value="all">{$lang.all_voxes}</option>
-                                    <option value="request">{$lang.requests}</option>
-                                    <option value="incident">{$lang.incidents}</option>
-                                    <option value="workorder">{$lang.workorders}</option>
+                                    <option value="all" <?php echo ((Session::get_value('settings')['voxes']['stats']['filter']['type'] == 'all') ? 'selected' : ''); ?>>{$lang.all_voxes}</option>
+                                    <option value="request" <?php echo ((Session::get_value('settings')['voxes']['stats']['filter']['type'] == 'request') ? 'selected' : ''); ?>>{$lang.requests}</option>
+                                    <option value="incident" <?php echo ((Session::get_value('settings')['voxes']['stats']['filter']['type'] == 'incident') ? 'selected' : ''); ?>>{$lang.incidents}</option>
+                                    <option value="workorder" <?php echo ((Session::get_value('settings')['voxes']['stats']['filter']['type'] == 'workorder') ? 'selected' : ''); ?>>{$lang.workorders}</option>
                                 </select>
                             </label>
                         </div>
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <a button-close><i class="fas fa-times"></i></a>
-                            <button type="submit"><i class="fas fa-check"></i></button>
+                            <a class="delete" button-close><i class="fas fa-times"></i></a>
+                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
                         </div>
                     </div>
                 </div>

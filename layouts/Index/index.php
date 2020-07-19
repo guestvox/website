@@ -6,26 +6,21 @@ $this->dependencies->add(['css', '{$path.css}Index/index.css']);
 $this->dependencies->add(['js', '{$path.js}Index/index.js']);
 $this->dependencies->add(['others',
 '<div id="fb-root"></div>
-     <script>
-       window.fbAsyncInit = function() {
-         FB.init({
-           xfbml            : true,
-           version          : "v7.0"
-         });
-       };
-
-       (function(d, s, id) {
-       var js, fjs = d.getElementsByTagName(s)[0];
-       if (d.getElementById(id)) return;
-       js = d.createElement(s); js.id = id;
-       js.src = "https://connect.facebook.net/es_ES/sdk/xfbml.customerchat.js";
-       fjs.parentNode.insertBefore(js, fjs);
-   }(document, "script, "facebook-jssdk"));</script>
-
- <div class="fb-customerchat" attribution=setup_tool page_id="544915395886636" theme_color="#00A5AB"
-    logged_in_greeting="Hola, estoy aquí para resolver tus dudas. ¿Te puedo ayudar en algo?"
-    logged_out_greeting="Hola, estoy aquí para resolver tus dudas. ¿Te puedo ayudar en algo?">
- </div>']);
+<script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            xfbml: true,
+            version: "v7.0"
+        });
+    }; (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/es_ES/sdk/xfbml.customerchat.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    } (document, "script, "facebook-jssdk"));
+</script>
+<div class="fb-customerchat" attribution=setup_tool page_id="544915395886636" theme_color="#00A5AB" logged_in_greeting="Hola, estoy aquí para resolver tus dudas. ¿Te puedo ayudar en algo?" logged_out_greeting="Hola, estoy aquí para resolver tus dudas. ¿Te puedo ayudar en algo?"></div>']);
 
 ?>
 
@@ -34,11 +29,16 @@ $this->dependencies->add(['others',
         <figure>
             <img src="{$path.images}imagotype_color.png" alt="Imagotype">
         </figure>
-        <nav>
+        <nav class="desktop">
             <ul>
                 <li><a href="/blog">{$lang.blog}</a></li>
-                <li><a href="/signup">¡{$lang.signup_now}!</a></li>
+                <li class="focus"><a href="/signup">¡{$lang.signup_now}!</a></li>
                 <li><a href="/login">{$lang.login}</a></li>
+            </ul>
+        </nav>
+        <nav class="mobile">
+            <ul>
+                <li><a data-action="open_index_menu"><i class="fas fa-bars"></i></a></li>
             </ul>
         </nav>
     </header>

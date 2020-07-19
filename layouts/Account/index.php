@@ -67,46 +67,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
             {$div_zaviapms}
         </div>
     </section>
-    <section class="buttons">
-        <div>
-            {$btn_get_urls}
-            <a class="active" data-button-modal="get_support"><i class="fas fa-headset"></i></a>
-        </div>
-    </section>
 </main>
-{$mdl_get_urls}
-<section class="modal fullscreen" data-modal="get_support">
-    <div class="content">
-        <main>
-            <form name="get_support">
-                <div class="row">
-                    <div class="span12">
-                        <div class="label">
-                            <label unrequired>
-                                <p>{$lang.for}</p>
-                                <input type="text" value="contacto@guestvox.com" disabled>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span12">
-                        <div class="label">
-                            <label required>
-                                <p>{$lang.message}</p>
-                                <textarea name="message"></textarea>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span12">
-                        <div class="buttons">
-                            <a button-cancel><i class="fas fa-times"></i></a>
-                            <button type="submit"><i class="fas fa-check"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </main>
-    </div>
-</section>
 <section class="modal fullscreen" data-modal="edit_account">
     <div class="content">
         <main>
@@ -186,8 +147,8 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <a button-cancel><i class="fas fa-times"></i></a>
-                            <button type="submit"><i class="fas fa-check"></i></button>
+                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
                         </div>
                     </div>
                 </div>
@@ -276,8 +237,8 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <a button-cancel><i class="fas fa-times"></i></a>
-                            <button type="submit"><i class="fas fa-check"></i></button>
+                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
                         </div>
                     </div>
                 </div>

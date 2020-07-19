@@ -112,15 +112,25 @@ class Account_model extends Model
 
 	public function get_times_zones()
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('times_zones', [
+		$query1 = $this->database->select('times_zones', [
 			'code'
 		], [
+			'priority[>=]' => 1,
+			'ORDER' => [
+				'priority' => 'ASC'
+			]
+		]);
+
+		$query2 = $this->database->select('times_zones', [
+			'code'
+		], [
+			'priority[=]' => null,
 			'ORDER' => [
 				'zone' => 'ASC'
 			]
-		]));
+		]);
 
-		return $query;
+		return array_merge($query1, $query2);
 	}
 
 	public function get_currencies()

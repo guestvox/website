@@ -11,22 +11,33 @@ class Signup_model extends Model
 		parent::__construct();
 	}
 
-	public function get_package($type, $quantity, $id = false)
+	public function get_package($type, $rooms_number)
 	{
+		$AND = [
+			'type' => $type,
+			'status' => true
+		];
+
+		if ($type == 'hotel')
+		{
+			$AND['quantity_start[<=]'] = $rooms_number;
+			$AND['quantity_end[>=]'] = $rooms_number;
+		}
+		else
+		{
+			$AND['quantity_start[<=]'] = 40;
+			$AND['quantity_end[>=]'] = 40;
+		}
+
 		$query = Functions::get_json_decoded_query($this->database->select('packages', [
 			'id',
 			'quantity_end',
 			'price'
 		], [
-			'AND' => [
-				'type' => $type,
-				'quantity_start[<=]' => $quantity,
-				'quantity_end[>=]' => $quantity,
-				'status' => true
-			]
+			'AND' => $AND
 		]));
 
-		return !empty($query) ? (($id == true) ? $query[0]['id'] : $query[0]) : null;
+		return !empty($query) ? $query[0] : null;
 	}
 
 	public function get_countries()
@@ -58,15 +69,25 @@ class Signup_model extends Model
 
 	public function get_times_zones()
 	{
-		$query = $this->database->select('times_zones', [
+		$query1 = $this->database->select('times_zones', [
 			'code'
 		], [
+			'priority[>=]' => 1,
+			'ORDER' => [
+				'priority' => 'ASC'
+			]
+		]);
+
+		$query2 = $this->database->select('times_zones', [
+			'code'
+		], [
+			'priority[=]' => null,
 			'ORDER' => [
 				'zone' => 'ASC'
 			]
 		]);
 
-		return $query;
+		return array_merge($query1, $query2);
 	}
 
 	public function get_currencies()
@@ -161,23 +182,23 @@ class Signup_model extends Model
 			'currency' => $data['currency'],
 			'language' => $data['language'],
 			'fiscal' => json_encode([
-				'id' => strtoupper($data['fiscal_id']),
-				'name' => $data['fiscal_name'],
-				'address' => $data['fiscal_address']
+				'id' => '',
+				'name' => '',
+				'address' => ''
 			]),
 			'contact' => json_encode([
-				'firstname' => $data['contact_firstname'],
-				'lastname' => $data['contact_lastname'],
-				'department' => $data['contact_department'],
-				'email' => $data['contact_email'],
+				'firstname' => '',
+				'lastname' => '',
+				'department' => '',
+				'email' => '',
 				'phone' => [
-					'lada' => $data['contact_phone_lada'],
-					'number' => $data['contact_phone_number']
+					'lada' => '',
+					'number' => ''
 				]
 			]),
 			'logotype' => Functions::uploader($data['logotype'], $data['path'] . '_account_logotype_'),
 			'qr' => $data['qr']['filename'],
-			'package' => $this->get_package($data['type'], $data['quantity'], true),
+			'package' => $this->get_package($data['type'], $data['rooms_number'])['id'],
 			'operation' => !empty($data['operation']) ? true : false,
 			'reputation' => !empty($data['reputation']) ? true : false,
 			'siteminder' => json_encode([
@@ -290,7 +311,7 @@ class Signup_model extends Model
 				'type' => ''
 			]),
 			'signup_date' => Functions::get_current_date(),
-			'status' => false
+			'status' => true
 		]);
 
 		QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
@@ -491,10 +512,10 @@ class Signup_model extends Model
 		];
 
 		$data['users_levels']['permissions'] = [
-			'["76","17","18","4","10","11","65","39","40","41","42","43","44","45","46","47","48","34","35","36","37","38","66","67","68","69","70","71","72","73","74","75","24","25","26","27","28","29","30","31","32","33","19","20","21","22","23","49","50","51","52","53","12","13","14","15","16","59","60","61","62","63","64","54","55","56","57","58","5","6","7","8","9","1"]',
-			'["76","17","18","4","10","11","5","6","7","8","9","1"]',
-			'["76","17","18","4","10","11","5","6","7","8","9","2"]',
-			'["76","17","18","10","11","5","6","7","8","9","2"]',
+			'["17","18","4","10","11","65","39","40","41","42","43","44","45","46","47","48","34","35","36","37","38","66","67","68","69","70","71","72","73","74","75","24","25","26","27","28","29","30","31","32","33","19","20","21","22","23","49","50","51","52","53","12","13","14","15","16","59","60","61","62","63","64","54","55","56","57","58","5","6","7","8","9","1"]',
+			'["17","18","4","10","11","5","6","7","8","9","1"]',
+			'["17","18","4","10","11","5","6","7","8","9","2"]',
+			'["17","18","10","11","5","6","7","8","9","2"]',
 			'["3"]'
 		];
 
@@ -551,59 +572,32 @@ class Signup_model extends Model
 		return true;
 	}
 
-	public function new_activation($data)
+	public function activate_user($username)
 	{
-		if ($data[0] == 'account')
-		{
-			$query = Functions::get_json_decoded_query($this->database->select('accounts', [
-				'id',
-				'token',
-				'language',
-				'contact',
-				'status'
-			], [
-				'path' => $data[1]
-			]));
+		$query = $this->database->select('users', [
+			'[>]accounts' => [
+				'account' => 'id'
+			]
+		], [
+			'users.id',
+			'users.firstname',
+			'users.lastname',
+			'users.email',
+			'users.status',
+			'accounts.language'
+		], [
+			'users.username' => $username
+		]);
 
-			if (!empty($query))
-			{
-				if ($query[0]['status'] == false)
-				{
-					$this->database->update('accounts', [
-						'status' => true
-					], [
-						'id' => $query[0]['id']
-					]);
-				}
-			}
-		}
-		else if ($data[0] == 'user')
+		if (!empty($query))
 		{
-			$query = $this->database->select('users', [
-				'[>]accounts' => [
-					'account' => 'id'
-				]
-			], [
-				'users.id',
-				'users.firstname',
-				'users.lastname',
-				'users.email',
-				'users.status',
-				'accounts.language'
-			], [
-				'users.email' => $data[1]
-			]);
-
-			if (!empty($query))
+			if ($query[0]['status'] == false)
 			{
-				if ($query[0]['status'] == false)
-				{
-					$this->database->update('users', [
-						'status' => true
-					], [
-						'id' => $query[0]['id']
-					]);
-				}
+				$this->database->update('users', [
+					'status' => true
+				], [
+					'id' => $query[0]['id']
+				]);
 			}
 		}
 
