@@ -24,7 +24,7 @@ body {
     transition: 400ms;
 }
 
-body.open_rightbar {
+body.open {
     left: -240px;
 }
 
@@ -130,7 +130,7 @@ body > header.rightbar {
     z-index: 99;
 }
 
-body.open_rightbar > header.rightbar {
+body.open > header.rightbar {
     right: 0px;
 }
 
@@ -779,9 +779,16 @@ div.tbl_stl_2 > div > div.datas > h2,
 div.tbl_stl_2 > div > div.datas > span,
 div.tbl_stl_2 > div > div.datas > p,
 div.tbl_stl_3 > div > div.datas > div.itm_1 > h2,
-div.tbl_stl_3 > div > div.datas > div.itm_1 > span {
+div.tbl_stl_3 > div > div.datas > div.itm_1 > span,
+div.tbl_stl_3 > div > div.datas > div.itm_1 > p {
     width: 100%;
     font-size: 14px;
+}
+
+div.tbl_stl_2 > div > div.datas > h2,
+div.tbl_stl_2 > div > div.datas > span,
+div.tbl_stl_3 > div > div.datas > div.itm_1 > h2,
+div.tbl_stl_3 > div > div.datas > div.itm_1 > span {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -795,7 +802,8 @@ div.tbl_stl_3 > div > div.datas > div.itm_1 > h2 {
 
 div.tbl_stl_2 > div > div.datas > span,
 div.tbl_stl_2 > div > div.datas > p,
-div.tbl_stl_3 > div > div.datas > div.itm_1 > span {
+div.tbl_stl_3 > div > div.datas > div.itm_1 > span,
+div.tbl_stl_3 > div > div.datas > div.itm_1 > p {
     font-weight: 400;
     color: #9e9e9e;
 }
@@ -803,8 +811,15 @@ div.tbl_stl_3 > div > div.datas > div.itm_1 > span {
 div.tbl_stl_2 > div > div.datas > span,
 div.tbl_stl_2 > div > div.datas > p {
     display: flex;
-    align-items: center;
     justify-content: flex-start;
+}
+
+div.tbl_stl_2 > div > div.datas > span {
+    align-items: center;
+}
+
+div.tbl_stl_2 > div > div.datas > p {
+    align-items: flex-start;
 }
 
 div.tbl_stl_2 > div > div.datas > span > i,
@@ -812,6 +827,10 @@ div.tbl_stl_2 > div > div.datas > p > i {
     margin-right: 10px;
     font-size: 12px;
     color: #bdbdbd;
+}
+
+div.tbl_stl_2 > div > div.datas > p > i {
+    margin-top: 8px;
 }
 
 div.tbl_stl_2 > div > div.datas > ul {
@@ -1056,7 +1075,7 @@ div.tbl_stl_5 > div > div[data-level]:last-child {
     margin-bottom: 0px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     div.tbl_stl_5 > div > div[data-level="2"] {
         padding-left: 40px;
@@ -1077,7 +1096,7 @@ div.tbl_stl_5 > div > div[data-level] > h2 {
     text-align: center;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     div.tbl_stl_5 > div > div[data-level] > h2 {
         text-align: left;
@@ -1106,7 +1125,7 @@ div.tbl_stl_5 > div > div[data-level] > div {
     justify-content: center;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     div.tbl_stl_5 > div > div[data-level] > div {
         justify-content: flex-start;
@@ -1138,7 +1157,7 @@ div.tbl_stl_5 > div > div[data-level] > div.nps > div:last-child {
     margin-bottom: 0px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     div.tbl_stl_5 > div > div[data-level] > div.nps > div {
         justify-content: flex-start;
@@ -1160,7 +1179,7 @@ div.tbl_stl_5 > div > div[data-level] > div.twin > label {
     cursor: pointer;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     div.tbl_stl_5 > div > div[data-level] > div.nps > div > label,
     div.tbl_stl_5 > div > div[data-level] > div.rate > label,
@@ -1225,7 +1244,7 @@ div.tbl_stl_5 > div > div > div.buttons {
     justify-content: center;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     div.tbl_stl_5 > div > div > div.buttons {
         justify-content: flex-start;
@@ -1243,6 +1262,27 @@ div.tbl_stl_5 > div > div > div.buttons > a {
     background-color: #e0e0e0;
     font-size: 10px;
     color: #757575;
+}
+
+div.tbl_stl_5 > div > div > div.buttons > a.big > span {
+    display: none;
+}
+
+@media (min-width: 1024px) {
+
+    div.tbl_stl_5 > div > div > div.buttons > a.big {
+        width: auto;
+        padding: 0px 10px;
+        box-sizing: border-box;
+        border-radius: 20px;
+    }
+
+    div.tbl_stl_5 > div > div > div.buttons > a.big > span {
+        display: block;
+        margin-left: 3px;
+        font-size: 12px;
+        font-weight: 400;
+    }
 }
 
 /* Style 6 */
@@ -1477,6 +1517,27 @@ div.tbl_stl_7 > div > div.buttons > a {
     background-color: #e0e0e0;
     font-size: 14px;
     color: #757575;
+}
+
+div.tbl_stl_7 > div > div.buttons > a.big > span {
+    display: none;
+}
+
+@media (min-width: 1024px) {
+
+    div.tbl_stl_7 > div > div.buttons > a.big {
+        width: auto;
+        padding: 0px 20px;
+        box-sizing: border-box;
+        border-radius: 40px;
+    }
+
+    div.tbl_stl_7 > div > div.buttons > a.big > span {
+        display: block;
+        margin-left: 5px;
+        font-size: 12px;
+        font-weight: 400;
+    }
 }
 
 /* Forms
@@ -2929,7 +2990,7 @@ div.vox_details > div.stl_7 > span {
 /*  */
 
 div.vox_details > div.stl_8 {
-    padding-top: 40px;
+    padding-top: 20px;
 }
 
 @media (min-width: 1200px) {
@@ -2989,6 +3050,10 @@ div.vox_details > div.stl_8 > div > div > span {
 }
 
 /*  */
+
+div.vox_details > div.stl_9 {
+    padding-top: 20px;
+}
 
 @media (min-width: 1200px) {
 

@@ -6,7 +6,7 @@ var values_key = '';
 
 $(document).ready(function()
 {
-    $(document).on('click', '.tbl_stl_5, [data-button-modal="new_survey_question"]', function(e)
+    $(document).on('click', 'main.dashboard', function(e)
     {
         e.stopPropagation();
     });

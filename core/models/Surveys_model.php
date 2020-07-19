@@ -358,7 +358,7 @@ class Surveys_model extends Model
 			return null;
 	}
 
-	public function public_survey_answer($id)
+	public function public_survey_comment($id)
 	{
 		$query = $this->database->update('surveys_answers', [
 			'public' => true
@@ -369,7 +369,7 @@ class Surveys_model extends Model
 		return $query;
 	}
 
-	public function unpublic_survey_answer($id)
+	public function unpublic_survey_comment($id)
 	{
 		$query = $this->database->update('surveys_answers', [
 			'public' => false

@@ -2,7 +2,7 @@
 
 $(document).ready(function()
 {
-    $('body').on('click', function(e)
+    $(document).on('click', 'body', function(e)
     {
         e.stopPropagation();
     });
