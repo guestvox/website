@@ -396,7 +396,7 @@ class Surveys_controller extends Controller
 
 					$html .=
 					'<div class="comment">
-						<p>' . (!empty($query['comment']) ? '<i class="fas fa-quote-left"></i>' . $query['comment'] . '<i class="fas fa-quote-right"></i>' : '{$lang.not_comment}') . '</p>
+						<p>' . (!empty($query['comment']) ? '<i class="fas fa-quote-left"></i>' . $query['comment'] . '<i class="fas fa-quote-right"></i>' : '{$lang.not_commentary}') . '</p>
 					</div>
 					<div class="tbl_stl_5">';
 

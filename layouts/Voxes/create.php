@@ -18,15 +18,24 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                     <div class="tabers">
                         <div>
                             <input id="rqrd" type="radio" name="type" value="request" checked>
-                            <label for="rqrd"><i class="fas fa-rocket"></i></label>
+                            <label for="rqrd">
+                                <i class="fas fa-rocket"></i>
+                                <span>{$lang.request}</span>
+                            </label>
                         </div>
                         <div>
                             <input id="inrd" type="radio" name="type" value="incident">
-                            <label for="inrd"><i class="fas fa-meteor"></i></label>
+                            <label for="inrd">
+                                <i class="fas fa-meteor"></i>
+                                <span>{$lang.incident}</span>
+                            </label>
                         </div>
                         <div>
                             <input id="wkrd" type="radio" name="type" value="workorder">
-                            <label for="wkrd"><i class="fas fa-bomb"></i></label>
+                            <label for="wkrd">
+                                <i class="fas fa-bomb"></i>
+                                <span>{$lang.work_o}</span>
+                            </label>
                         </div>
                     </div>
                 </div>
@@ -276,8 +285,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
     </section>
     <section class="buttons">
         <div>
-            <a href="/voxes" class="active delete"><i class="fas fa-times"></i></a>
-            <a class="active" data-action="new_vox"><i class="fas fa-check"></i></a>
+            <a href="/voxes" class="delete"><i class="fas fa-times"></i></a>
+            <a class="new" data-action="new_vox"><i class="fas fa-check"></i></a>
         </div>
     </section>
 </main>

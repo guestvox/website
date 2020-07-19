@@ -2,12 +2,9 @@
 
 $(document).ready(function()
 {
-    $(document).on('click', '#sasw, #prsw', function()
+    $(document).on('click', '#sasw, #gesw', function()
     {
-        if ($(this).val() == 'print')
-            window.location.href = '/voxes/reports/print';
-        else
-            window.location.href = '/voxes/reports';
+        window.location.href = '/voxes/reports/' + $(this).val();
     });
 
     var id = null;

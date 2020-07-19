@@ -19,46 +19,74 @@ class Voxes_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'get_filter')
+			if ($_POST['action'] == 'get_opt_owners')
+			{
+				$html = '<option value="all" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['owner'] == 'all') ? 'selected' : '') . '>{$lang.all}</option>';
+
+				foreach ($this->model->get_owners($_POST['type']) as $value)
+					$html .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+
+				Functions::environment([
+					'status' => 'success',
+					'html' => $html
+				]);
+			}
+
+			if ($_POST['action'] == 'get_opt_opportunity_areas')
+			{
+				$html = '<option value="all" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_area'] == 'all') ? 'selected' : '') . '>{$lang.all}</option>';
+
+				foreach ($this->model->get_opportunity_areas($_POST['type']) as $value)
+					$html .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_area'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
+
+				Functions::environment([
+					'status' => 'success',
+					'html' => $html
+				]);
+			}
+
+			if ($_POST['action'] == 'get_opt_opportunity_types')
+			{
+				$html = '<option value="all" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_type'] == 'all') ? 'selected' : '') . '>{$lang.all}</option>';
+
+				if (!empty($_POST['opportunity_area']) AND $_POST['opportunity_area'] != 'all')
+				{
+					foreach ($this->model->get_opportunity_types($_POST['opportunity_area'], $_POST['type']) as $value)
+						$html .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_type'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
+				}
+
+				Functions::environment([
+					'status' => 'success',
+					'html' => $html
+				]);
+			}
+
+			if ($_POST['action'] == 'get_opt_locations')
+			{
+				$html = '<option value="all" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['location'] == 'all') ? 'selected' : '') . '>{$lang.all}</option>';
+
+				foreach ($this->model->get_locations($_POST['type']) as $value)
+					$html .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['location'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
+
+				Functions::environment([
+					'status' => 'success',
+					'html' => $html
+				]);
+			}
+
+			if ($_POST['action'] == 'filter_voxes')
 			{
 				$settings = Session::get_value('settings');
 
-				if ($_POST['filter'] == 'type')
-				{
-					if ($settings['voxes']['filter']['type'] == 'all')
-						$settings['voxes']['filter']['type'] = 'request';
-					else if ($settings['voxes']['filter']['type'] == 'request')
-						$settings['voxes']['filter']['type'] = 'incident';
-					else if ($settings['voxes']['filter']['type'] == 'incident')
-						$settings['voxes']['filter']['type'] = 'workorder';
-					else if ($settings['voxes']['filter']['type'] == 'workorder')
-						$settings['voxes']['filter']['type'] = 'all';
-				}
-				else if ($_POST['filter'] == 'urgency')
-				{
-					if ($settings['voxes']['filter']['urgency'] == 'all')
-						$settings['voxes']['filter']['urgency'] = 'low';
-					else if ($settings['voxes']['filter']['urgency'] == 'low')
-						$settings['voxes']['filter']['urgency'] = 'medium';
-					else if ($settings['voxes']['filter']['urgency'] == 'medium')
-						$settings['voxes']['filter']['urgency'] = 'high';
-					else if ($settings['voxes']['filter']['urgency'] == 'high')
-						$settings['voxes']['filter']['urgency'] = 'all';
-				}
-				else if ($_POST['filter'] == 'date')
-				{
-					if ($settings['voxes']['filter']['date'] == 'up')
-						$settings['voxes']['filter']['date'] = 'down';
-					else if ($settings['voxes']['filter']['date'] == 'down')
-						$settings['voxes']['filter']['date'] = 'up';
-				}
-				else if ($_POST['filter'] == 'status')
-				{
-					if ($settings['voxes']['filter']['status'] == 'open')
-						$settings['voxes']['filter']['status'] = 'close';
-					else if ($settings['voxes']['filter']['status'] == 'close')
-						$settings['voxes']['filter']['status'] = 'open';
-				}
+				$settings['voxes']['voxes']['filter']['type'] = $_POST['type'];
+				$settings['voxes']['voxes']['filter']['owner'] = $_POST['owner'];
+				$settings['voxes']['voxes']['filter']['opportunity_area'] = $_POST['opportunity_area'];
+				$settings['voxes']['voxes']['filter']['opportunity_type'] = $_POST['opportunity_type'];
+				$settings['voxes']['voxes']['filter']['location'] = $_POST['location'];
+				$settings['voxes']['voxes']['filter']['urgency'] = $_POST['urgency'];
+				$settings['voxes']['voxes']['filter']['assigned'] = $_POST['assigned'];
+				$settings['voxes']['voxes']['filter']['order'] = $_POST['order'];
+				$settings['voxes']['voxes']['filter']['status'] = $_POST['status'];
 
 				Session::set_value('settings', $settings);
 
@@ -100,7 +128,7 @@ class Voxes_controller extends Controller
 				'	</span>
 				</div>
 				<div>
-					<h2><i class="fas fa-user-circle"></i>' . ((!empty($value['firstname']) AND !empty($value['lastname'])) ? (!empty($value['guest_treatment']) ? $value['guest_treatment']['name'] . ' ' : '') . $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') . '</h2>
+					<h2><i class="fas fa-user-circle"></i>' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? ((!empty($value['firstname']) AND !empty($value['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($value['guest_treatment'])) ? $value['guest_treatment']['name'] . ' ' : '') . $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}') : '{$lang.not_apply}') . '</h2>
 					<span><i class="fas fa-shapes"></i>' . (!empty($value['owner']) ? $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') : '{$lang.not_owner}') . '</span>';
 
 				if ($value['type'] == 'request' OR $value['type'] == 'workorder')
@@ -109,7 +137,7 @@ class Voxes_controller extends Controller
 					$tbl_voxes .= '<span><i class="fas fa-quote-right"></i>' . (!empty($value['subject']) ? $value['subject'] : '{$lang.not_subject}') . '</span>';
 
 				$tbl_voxes .=
-					'			<span
+				'				<span
 									data-date-1="' . Functions::get_formatted_date_hour($value['started_date'], $value['started_hour']) . '"
 									data-date-2="' . ((!empty($value['completed_date']) AND !empty($value['completed_hour'])) ? Functions::get_formatted_date_hour($value['completed_date'], $value['completed_hour']) : '') . '"
 									data-time-zone="' . Session::get_value('account')['time_zone'] . '"
@@ -136,18 +164,45 @@ class Voxes_controller extends Controller
 							</div>
 	                    </div>
 	                    <div class="itm_4">
-							<span class="' . (!empty($value['assigned_users']) ? 'active' : '') . '"><i class="fas fa-users"></i></span>
-							<span class="' . (!empty($value['comments']) ? 'active' : '') . '"><i class="fas fa-comment"></i></span>
-							<span class="' . (!empty($value['attachments']) ? 'active' : '') . '"><i class="fas fa-paperclip"></i></span>
-							<span class="' . (($value['confidentiality'] == true) ? 'active' : '') . '"><i class="fas fa-lock"></i></span>
+							' . (!empty($value['assigned_users']) ? '<span><i class="fas fa-users"></i></span>' : '') . '
+							' . (!empty($value['comments']) ? '<span><i class="fas fa-comment"></i></span>' : '') . '
+							' . (!empty($value['attachments']) ? '<span><i class="fas fa-paperclip"></i></span>' : '') . '
+							' . (($value['confidentiality'] == true) ? '<span><i class="fas fa-lock"></i></span>' : '') . '
 						</div>
 						<a href="/voxes/details/' . $value['token'] . '"></a>
 	                </div>
 	            </div>';
 			}
 
+			$opt_owners = '';
+
+			foreach ($this->model->get_owners(Session::get_value('settings')['voxes']['voxes']['filter']['type']) as $value)
+				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+
+			$opt_opportunity_areas = '';
+
+			foreach ($this->model->get_opportunity_areas(Session::get_value('settings')['voxes']['voxes']['filter']['type']) as $value)
+				$opt_opportunity_areas .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_area'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
+
+			$opt_opportunity_types = '';
+
+			if (Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_area'] != 'all')
+			{
+				foreach ($this->model->get_opportunity_types(Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_area'], Session::get_value('settings')['voxes']['voxes']['filter']['type']) as $value)
+					$opt_opportunity_types .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_type'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
+			}
+
+			$opt_locations = '';
+
+			foreach ($this->model->get_locations(Session::get_value('settings')['voxes']['voxes']['filter']['type']) as $value)
+				$opt_locations .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['location'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
+
 			$replace = [
-				'{$tbl_voxes}' => $tbl_voxes
+				'{$tbl_voxes}' => $tbl_voxes,
+				'{$opt_owners}' => $opt_owners,
+				'{$opt_opportunity_areas}' => $opt_opportunity_areas,
+				'{$opt_opportunity_types}' => $opt_opportunity_types,
+				'{$opt_locations}' => $opt_locations
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -532,7 +587,6 @@ class Voxes_controller extends Controller
 											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
-													<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('token')[$this->lang] . ': ' . $vox['token'] . '</h6>
 													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['token'] . '">' . Languages::email('view_details')[$this->lang] . '</a>
 												</td>
 											</tr>
@@ -554,7 +608,7 @@ class Voxes_controller extends Controller
 							{
 								$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 								$sms_client = new \Nexmo\Client($sms_basic);
-								$sms_text = Languages::email('commented_vox')[$this->lang] . ' . ' . Languages::email('token')[$this->lang] . ': ' . $vox['token'] . ' . ' . 'https://' . Configuration::$domain . '/voxes/details/' . $vox['token'];
+								$sms_text = Languages::email('commented_vox')[$this->lang] . '. https://' . Configuration::$domain . '/voxes/details/' . $vox['token'];
 
 								foreach ($vox['assigned_users'] as $value)
 								{
@@ -642,7 +696,6 @@ class Voxes_controller extends Controller
 										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail_subject . '</h4>
-												<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('token')[$this->lang] . ': ' . $vox['token'] . '</h6>
 												<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['token'] . '">' . Languages::email('view_details')[$this->lang] . '</a>
 											</td>
 										</tr>
@@ -664,7 +717,7 @@ class Voxes_controller extends Controller
 						{
 							$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 							$sms_client = new \Nexmo\Client($sms_basic);
-							$sms_text = $mail_subject . ' . ' . Languages::email('token')[$this->lang] . ': ' . $vox['token'] . ' . ' . 'https://' . Configuration::$domain . '/voxes/details/' . $vox['token'];
+							$sms_text = $mail_subject . '. https://' . Configuration::$domain . '/voxes/details/' . $vox['token'];
 
 							foreach ($vox['assigned_users'] as $value)
 							{
@@ -749,19 +802,19 @@ class Voxes_controller extends Controller
 					$p_observations .= '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['observations']) ? $vox['observations'] : '{$lang.not_observations}') . '</p>';
 				}
 
-				$spn_guest = '';
+				$spn_reservation = '';
 
 				if (Session::get_value('account')['type'] == 'hotel')
 				{
 					if ($vox['type'] == 'incident')
 					{
-						$spn_guest .=
-						'<span class="' . (!empty($vox['guest_id']) ? 'active' : '') . '"><i class="fas fa-key"></i>' . (!empty($vox['guest_id']) ? $vox['guest_id'] : '{$lang.not_guest_id}') . '</span>
-						<span class="' . (!empty($vox['guest_type']) ? 'active' : '') . '"><i class="fas fa-tag"></i>' . (!empty($vox['guest_type']) ? $vox['guest_type']['name'] : '{$lang.not_guest_type}') . '</span>
-						<span class="' . (!empty($vox['reservation_number']) ? 'active' : '') . '"><i class="fas fa-suitcase-rolling"></i>' . (!empty($vox['reservation_number']) ? $vox['reservation_number'] : '{$lang.not_reservation_number}') . '</span>
-						<span class="' . (!empty($vox['reservation_status']) ? 'active' : '') . '"><i class="fas fa-hotel"></i>' . (!empty($vox['reservation_status']) ? $vox['reservation_status']['name'] : '{$lang.not_reservation_status}') . '</span>
-						<span class="' . (!empty($vox['check_in']) ? 'active' : '') . '"><i class="fas fa-calendar-check"></i>' . (!empty($vox['check_in']) ? Functions::get_formatted_date($vox['check_in'], 'd.m.Y') : '{$lang.not_check_in}') . '</span>
-						<span class="' . (!empty($vox['check_out']) ? 'active' : '') . '"><i class="fas fa-calendar-times"></i>' . (!empty($vox['check_out']) ? Functions::get_formatted_date($vox['check_out'], 'd.m.Y') : '{$lang.not_check_out}') . '</span>';
+						$spn_reservation .=
+						'<span class="' . (!empty($vox['guest_id']) ? 'active' : '') . '"><i class="fas fa-key"></i><span>{$lang.guest_id}</span>' . (!empty($vox['guest_id']) ? $vox['guest_id'] : '{$lang.not_guest_id}') . '</span>
+						<span class="' . (!empty($vox['guest_type']) ? 'active' : '') . '"><i class="fas fa-tag"></i><span>{$lang.guest_type}</span>' . (!empty($vox['guest_type']) ? $vox['guest_type']['name'] : '{$lang.not_guest_type}') . '</span>
+						<span class="' . (!empty($vox['reservation_number']) ? 'active' : '') . '"><i class="fas fa-suitcase-rolling"></i><span>{$lang.reservation_number}</span>' . (!empty($vox['reservation_number']) ? $vox['reservation_number'] : '{$lang.not_reservation_number}') . '</span>
+						<span class="' . (!empty($vox['reservation_status']) ? 'active' : '') . '"><i class="fas fa-hotel"></i><span>{$lang.reservation_status}</span>' . (!empty($vox['reservation_status']) ? $vox['reservation_status']['name'] : '{$lang.not_reservation_status}') . '</span>
+						<span class="' . (!empty($vox['check_in']) ? 'active' : '') . '"><i class="fas fa-calendar-check"></i><span>{$lang.check_in}</span>' . (!empty($vox['check_in']) ? Functions::get_formatted_date($vox['check_in'], 'd.m.Y') : '{$lang.not_check_in}') . '</span>
+						<span class="' . (!empty($vox['check_out']) ? 'active' : '') . '"><i class="fas fa-calendar-times"></i><span>{$lang.check_out}</span>' . (!empty($vox['check_out']) ? Functions::get_formatted_date($vox['check_out'], 'd.m.Y') : '{$lang.not_check_out}') . '</span>';
 					}
 				}
 
@@ -850,86 +903,43 @@ class Voxes_controller extends Controller
 					$mdl_get_attachments .=
 					'			</div>
 								<div class="buttons">
-									<a button-close><i class="fas fa-check"></i></a>
+									<a class="new" button-close><i class="fas fa-check"></i></a>
 								</div>
 							</main>
 						</div>
 					</section>';
 				}
 
-				$mdl_get_assigned_users = '';
+				$div_assigned_users = '';
 
-				if (!empty($vox['assigned_users']))
+				foreach ($vox['assigned_users'] as $value)
 				{
-					$mdl_get_assigned_users .=
-					'<section class="modal fullscreen" data-modal="get_assigned_users">
-						<div class="content">
-							<main class="vox_details">
-								<div class="stl_11">
-									<div>
-										<span><i class="fas fa-mask"></i></span>
-										<div>
-											<h2>{$lang.opportunity_area}</h2>
-											<span>' . $vox['opportunity_area']['name'][$this->lang] . '</span>
-										</div>
-									</div>';
-
-					foreach ($vox['assigned_users'] as $value)
-					{
-						$mdl_get_assigned_users .=
-						'<div>
-							<figure>
-								<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}avatar.png') . '">
-							</figure>
-							<div>
-								<h2>' . $value['firstname'] . ' ' . $value['lastname'] . '</h2>
-								<span>@' . $value['username'] . '</span>
-							</div>
-						</div>';
-					}
-
-					$mdl_get_assigned_users .=
-					'			</div>
-								<div class="buttons">
-									<a button-close><i class="fas fa-check"></i></a>
-								</div>
-							</main>
+					$div_assigned_users .=
+					'<div>
+						<figure>
+							<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}avatar.png') . '">
+						</figure>
+						<div>
+							<h2>' . $value['firstname'] . ' ' . $value['lastname'] . '</h2>
+							<span>@' . $value['username'] . '</span>
 						</div>
-					</section>';
+					</div>';
 				}
 
-				$mdl_get_viewed_by = '';
+				$div_viewed_by = '';
 
-				if (!empty($vox['viewed_by']))
+				foreach ($vox['viewed_by'] as $value)
 				{
-					$mdl_get_viewed_by .=
-					'<section class="modal fullscreen" data-modal="get_viewed_by">
-						<div class="content">
-							<main class="vox_details">
-								<div class="stl_11">';
-
-					foreach ($vox['viewed_by'] as $value)
-					{
-						$mdl_get_viewed_by .=
-						'<div>
-							<figure>
-								<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}avatar.png') . '">
-							</figure>
-							<div>
-								<h2>' . $value['firstname'] . ' ' . $value['lastname'] . '</h2>
-								<span>@' . $value['username'] . '</span>
-							</div>
-						</div>';
-					}
-
-					$mdl_get_viewed_by .=
-					'			</div>
-								<div class="buttons">
-									<a button-close><i class="fas fa-check"></i></a>
-								</div>
-							</main>
+					$div_viewed_by .=
+					'<div>
+						<figure>
+							<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}avatar.png') . '">
+						</figure>
+						<div>
+							<h2>' . $value['firstname'] . ' ' . $value['lastname'] . '</h2>
+							<span>@' . $value['username'] . '</span>
 						</div>
-					</section>';
+					</div>';
 				}
 
 				$mdl_get_comments = '';
@@ -960,7 +970,7 @@ class Voxes_controller extends Controller
 					$mdl_get_comments .=
 					'			</div>
 								<div class="buttons">
-									<a button-close><i class="fas fa-check"></i></a>
+									<a class="new" button-close><i class="fas fa-check"></i></a>
 								</div>
 							</main>
 						</div>
@@ -1011,7 +1021,7 @@ class Voxes_controller extends Controller
 					                    <div class="span12">
 					                        <div class="label">
 					                            <label required>
-					                                <p>{$lang.comment}</p>
+					                                <p>{$lang.commentary}</p>
 					                                <textarea name="comment"></textarea>
 					                            </label>
 					                        </div>
@@ -1050,8 +1060,8 @@ class Voxes_controller extends Controller
 					                    </div>
 					                    <div class="span12">
 					                        <div class="buttons">
-					                            <a button-cancel><i class="fas fa-times"></i></a>
-					                            <button type="submit"><i class="fas fa-check"></i></button>
+					                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+					                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
 					                        </div>
 					                    </div>
 					                </div>
@@ -1091,7 +1101,7 @@ class Voxes_controller extends Controller
 	                    data-time-zone="' . Session::get_value('account')['time_zone'] . '"
 	                    data-status="' . $vox['status'] . '"
 	                    data-elapsed-time>' . (($vox['status'] == true) ? '{$lang.opened}' : '{$lang.closed}') . '<i class="fas fa-circle"></i><strong></strong></h3>',
-					'{$h1_name}' => ($vox['type'] == 'request' OR $vox['type'] == 'incident') ? '<h1>' . ((!empty($vox['firstname']) AND !empty($vox['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($vox['guest_treatment'])) ? $vox['guest_treatment']['name'] . ' ' : '') . $vox['firstname'] . ' ' . $vox['lastname'] : '{$lang.not_name}') . '</h1>' : '',
+					'{$h1_name}' => '<h1>' . (($vox['type'] == 'request' OR $vox['type'] == 'incident') ? ((!empty($vox['firstname']) AND !empty($vox['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($vox['guest_treatment'])) ? $vox['guest_treatment']['name'] . ' ' : '') . $vox['firstname'] . ' ' . $vox['lastname'] : '{$lang.not_name}') : '{$lang.not_apply}') . '</h1>',
 					'{$token}' => $vox['token'],
 					'{$owner}' => !empty($vox['owner']) ? $vox['owner']['name'][$this->lang] . (!empty($vox['owner']['number']) ? ' #' . $vox['owner']['number'] : '') : '{$lang.not_owner}',
 					'{$opportunity_area}' => $vox['opportunity_area']['name'][$this->lang],
@@ -1104,23 +1114,21 @@ class Voxes_controller extends Controller
 					'{$p_description}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['description']) ? $vox['description'] : '{$lang.not_description}') . '</p>' : '',
 					'{$p_action_taken}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['action_taken']) ? $vox['action_taken'] : '{$lang.not_action_taken}') . '</p>' : '',
 					'{$div_confidentiality}' => ($vox['type'] == 'incident') ? '<div class="stl_4"><span class="' . (($vox['confidentiality'] == true) ? 'confidentiality' : '') . '">' . (($vox['confidentiality'] == true) ? '<i class="fas fa-lock"></i>{$lang.yes_confidentiality}' : '<i class="fas fa-lock-open"></i>{$lang.not_confidentiality}') . '</span></div>' : '',
-					'{$spn_guest}' => $spn_guest,
-					'{$btn_get_attachments}' => '<a ' . (!empty($vox['attachments']) ? 'class="active" data-button-modal="get_attachments"' : '') . '><i class="fas fa-paperclip"></i></a>',
-					'{$btn_get_assigned_users}' => '<a ' . (!empty($vox['assigned_users']) ? 'class="active" data-button-modal="get_assigned_users"' : '') . '><i class="fas fa-users"></i></a>',
-					'{$btn_get_viewed_by}' => '<a ' . (!empty($vox['viewed_by']) ? 'class="active" data-button-modal="get_viewed_by"' : '') . '><i class="far fa-eye"></i></a>',
-					'{$btn_get_comments}' => '<a ' . (!empty($vox['comments']) ? 'class="active" data-button-modal="get_comments"' : '') . '><i class="fas fa-comments"></i></a>',
+					'{$spn_reservation}' => $spn_reservation,
+					'{$btn_get_attachments}' => !empty($vox['attachments']) ? '<a data-button-modal="get_attachments"><i class="fas fa-paperclip"></i><span>{$lang.attachments}</span></a>' : '',
+					'{$btn_get_comments}' => !empty($vox['comments']) ? '<a data-button-modal="get_comments"><i class="fas fa-comments"></i><span>{$lang.comments}</span></a>' : '',
 					'{$created_user_avatar}' => ($vox['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($vox['created_user']['avatar']) ? '{$path.uploads}' . $vox['created_user']['avatar'] : '{$path.images}avatar.png'),
 					'{$created_user_name}' => ($vox['origin'] == 'myvox') ? '{$lang.myvox}' : $vox['created_user']['firstname'] . ' ' . $vox['created_user']['lastname'],
 					'{$created_user_username}' => '@' . (($vox['origin'] == 'myvox') ? '{$lang.myvox}' : $vox['created_user']['username']),
 					'{$created_date}' => Functions::get_formatted_date($vox['created_date'], 'd.m.Y') . ' {$lang.at} ' . Functions::get_formatted_hour($vox['created_hour'], '+ hrs'),
 					'{$div_actions}' => $div_actions,
-					'{$btn_comment_vox}' => ($vox['status'] == true) ? '<a data-button-modal="comment_vox"><i class="fas fa-comment"></i></a>' : '',
+					'{$btn_comment_vox}' => ($vox['status'] == true) ? '<a class="big new" data-button-modal="comment_vox"><i class="fas fa-comment"></i><span>{$lang.comment}</span></a>' : '',
 					'{$btn_edit_vox}' => ($vox['status'] == true AND $vox['origin'] != 'myvox') ? '<a href="/voxes/edit/' . $vox['token'] . '" class="edit"><i class="fas fa-pen"></i></a>' : '',
-					'{$btn_complete_vox}' => ($vox['status'] == true) ? '<a class="active" data-button-modal="complete_vox"><i class="fas fa-check"></i></a>' : '',
-					'{$btn_reopen_vox}' => ($vox['status'] == false) ? '<a class="active" data-button-modal="reopen_vox"><i class="fas fa-reply"></i></a>' : '',
+					'{$btn_complete_vox}' => ($vox['status'] == true) ? '<a class="new" data-button-modal="complete_vox"><i class="fas fa-check"></i></a>' : '',
+					'{$btn_reopen_vox}' => ($vox['status'] == false) ? '<a class="new" data-button-modal="reopen_vox"><i class="fas fa-reply"></i></a>' : '',
 					'{$mdl_get_attachments}' => $mdl_get_attachments,
-					'{$mdl_get_assigned_users}' => $mdl_get_assigned_users,
-					'{$mdl_get_viewed_by}' => $mdl_get_viewed_by,
+					'{$div_assigned_users}' => $div_assigned_users,
+					'{$div_viewed_by}' => $div_viewed_by,
 					'{$mdl_get_comments}' => $mdl_get_comments,
 					'{$div_changes_history}' => $div_changes_history,
 					'{$mdl_comment_vox}' => $mdl_comment_vox,
@@ -1262,6 +1270,7 @@ class Voxes_controller extends Controller
 
 					if (empty($labels))
 					{
+						$_POST['id'] = $vox['id'];
 						$_POST['token'] = $vox['token'];
 						$_POST['assigned_users'] = !empty($_POST['assigned_users']) ? $_POST['assigned_users'] : [];
 						$_POST['attachments'] = $_FILES['attachments'];
@@ -1299,7 +1308,6 @@ class Voxes_controller extends Controller
 											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
-													<h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('token')[$this->lang] . ': ' . $vox['token'] . '</h6>
 													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['token'] . '">' . Languages::email('view_details')[$this->lang] . '</a>
 								                </td>
 								            </tr>
@@ -1321,7 +1329,7 @@ class Voxes_controller extends Controller
 							{
 								$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 								$sms_client = new \Nexmo\Client($sms_basic);
-								$sms_text = Languages::email('edited_vox')[$this->lang] . ' . ' . Languages::email('token')[$this->lang] . ': ' . $vox['token'] . ' . ' . 'https://' . Configuration::$domain . '/voxes/details/' . $vox['token'];
+								$sms_text = Languages::email('edited_vox')[$this->lang] . '. https://' . Configuration::$domain . '/voxes/details/' . $vox['token'];
 
 								foreach ($_POST['assigned_users'] as $value)
 								{
@@ -1378,15 +1386,24 @@ class Voxes_controller extends Controller
                     <div class="tabers">
                         <div>
                             <input id="rqrd" type="radio" name="type" value="request" ' . (($vox['type'] == 'request') ? 'checked' : '') . '>
-                            <label for="rqrd"><i class="fas fa-rocket"></i></label>
+                            <label for="rqrd">
+								<i class="fas fa-rocket"></i>
+								<span>{$lang.request}</span>
+							</label>
                         </div>
                         <div>
                             <input id="inrd" type="radio" name="type" value="incident" ' . (($vox['type'] == 'incident') ? 'checked' : '') . '>
-                            <label for="inrd"><i class="fas fa-meteor"></i></label>
+                            <label for="inrd">
+								<i class="fas fa-meteor"></i>
+								<span>{$lang.incident}</span>
+							</label>
                         </div>
                         <div>
                             <input id="wkrd" type="radio" name="type" value="workorder" ' . (($vox['type'] == 'workorder') ? 'checked' : '') . '>
-                            <label for="wkrd"><i class="fas fa-bomb"></i></label>
+                            <label for="wkrd">
+								<i class="fas fa-bomb"></i>
+								<span>{$lang.work_o}</span>
+							</label>
                         </div>
                     </div>
                 </div>
@@ -1726,25 +1743,16 @@ class Voxes_controller extends Controller
 		{
 			if ($_POST['action'] == 'filter_voxes_stats')
 			{
+				$settings = Session::get_value('settings');
+
+				$settings['voxes']['stats']['filter']['started_date'] = $_POST['started_date'];
+				$settings['voxes']['stats']['filter']['end_date'] = $_POST['end_date'];
+				$settings['voxes']['stats']['filter']['type'] = $_POST['type'];
+
+				Session::set_value('settings', $settings);
+
 				Functions::environment([
-					'status' => 'success',
-					'data' => [
-						'v' => [
-							'oa' => $this->model->get_chart_data('v_oa_chart', $_POST, true),
-							'o' => $this->model->get_chart_data('v_o_chart', $_POST, true),
-							'l' => $this->model->get_chart_data('v_l_chart', $_POST, true)
-						],
-						'ar' => [
-							'oa' => $this->model->get_chart_data('ar_oa_chart', $_POST, true),
-							'o' => $this->model->get_chart_data('ar_o_chart', $_POST, true),
-							'l' => $this->model->get_chart_data('ar_l_chart', $_POST, true)
-						],
-						'c' => [
-							'oa' => $this->model->get_chart_data('c_oa_chart', $_POST, true),
-							'o' => $this->model->get_chart_data('c_o_chart', $_POST, true),
-							'l' => $this->model->get_chart_data('c_l_chart', $_POST, true)
-						]
-					]
+					'status' => 'success'
 				]);
 			}
 		}
@@ -1755,7 +1763,7 @@ class Voxes_controller extends Controller
 			define('_title', 'Guestvox | {$lang.voxes} | {$lang.stats}');
 
 			$replace = [
-				'{$voxes_average_resolution}' => $this->model->get_voxes_average(),
+				'{$voxes_average}' => $this->model->get_voxes_average(),
 				'{$voxes_count_open}' => $this->model->get_voxes_count('open'),
 				'{$voxes_count_close}' => $this->model->get_voxes_count('close'),
 				'{$voxes_count_total}' => $this->model->get_voxes_count('total'),
@@ -1775,56 +1783,15 @@ class Voxes_controller extends Controller
 	{
 		header('Content-Type: application/javascript');
 
-		$v_oa_chart_data = $this->model->get_chart_data('v_oa_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'end_date' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
-		$v_o_chart_data = $this->model->get_chart_data('v_o_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'end_date' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
-		$v_l_chart_data = $this->model->get_chart_data('v_l_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'end_date' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
-		$ar_oa_chart_data = $this->model->get_chart_data('ar_oa_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'end_date' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
-		$ar_o_chart_data = $this->model->get_chart_data('ar_o_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'end_date' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
-		$ar_l_chart_data = $this->model->get_chart_data('ar_l_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'end_date' => Functions::get_current_date(),
-			'type' => 'all'
-		]);
-
-		$c_oa_chart_data = $this->model->get_chart_data('c_oa_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'end_date' => Functions::get_current_date()
-		]);
-
-		$c_o_chart_data = $this->model->get_chart_data('c_o_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'end_date' => Functions::get_current_date()
-		]);
-
-		$c_l_chart_data = $this->model->get_chart_data('c_l_chart', [
-			'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
-			'end_date' => Functions::get_current_date()
-		]);
+		$v_oa_chart_data = $this->model->get_chart_data('v_oa_chart');
+		$v_o_chart_data = $this->model->get_chart_data('v_o_chart');
+		$v_l_chart_data = $this->model->get_chart_data('v_l_chart');
+		$ar_oa_chart_data = $this->model->get_chart_data('ar_oa_chart');
+		$ar_o_chart_data = $this->model->get_chart_data('ar_o_chart');
+		$ar_l_chart_data = $this->model->get_chart_data('ar_l_chart');
+		$c_oa_chart_data = $this->model->get_chart_data('c_oa_chart');
+		$c_o_chart_data = $this->model->get_chart_data('c_o_chart');
+		$c_l_chart_data = $this->model->get_chart_data('c_l_chart');
 
 		$js =
 		"'use strict';
@@ -2630,12 +2597,18 @@ class Voxes_controller extends Controller
 				$div_options .=
 				'<div class="tabers">
 					<div>
-						<input id="sasw" type="radio" ' . (empty($params[0]) ? 'checked' : '') . '>
-						<label for="sasw"><i class="fas fa-th-list"></i></label>
+						<input id="sasw" type="radio" value="saved" ' . (($params[0] == 'saved') ? 'checked' : '') . '>
+						<label for="sasw">
+							<i class="fas fa-save"></i>
+							<span>{$lang.saved}</span>
+						</label>
 					</div>
 					<div>
-		                <input id="prsw" type="radio" value="print" ' . ((!empty($params[0]) AND $params[0] == 'print') ? 'checked' : '') . '>
-		                <label for="prsw"><i class="fas fa-print"></i></label>
+		                <input id="gesw" type="radio" value="generate" ' . (($params[0] == 'generate') ? 'checked' : '') . '>
+		                <label for="gesw">
+							<i class="fas fa-file-pdf"></i>
+							<span>{$lang.generate}</span>
+						</label>
 		            </div>
 				</div>';
 			}
@@ -2649,7 +2622,7 @@ class Voxes_controller extends Controller
 
 			if (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}','{voxes_reports_deactivate}','{voxes_reports_activate}','{voxes_reports_delete}']) == true)
 			{
-				if (empty($params[0]))
+				if ($params[0] == 'saved')
 				{
 					$tbl_voxes_reports .= '<div class="tbl_stl_2" data-table>';
 
@@ -2664,7 +2637,7 @@ class Voxes_controller extends Controller
 								<span>{$lang.addressed_to}: {$lang.' . $value['addressed_to'] . '}</span>
 							</div>
 							<div class="buttons flex_right">
-								' . ((Functions::check_user_access(['{voxes_reports_deactivate}','{voxes_reports_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_vox_report' : 'activate_vox_report') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+								' . ((Functions::check_user_access(['{voxes_reports_deactivate}','{voxes_reports_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_vox_report' : 'activate_vox_report') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
 								' . ((Functions::check_user_access(['{voxes_reports_update}']) == true) ? '<a class="edit" data-action="edit_vox_report" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 								' . ((Functions::check_user_access(['{voxes_reports_delete}']) == true) ? '<a class="delete" data-action="delete_vox_report" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 							</div>
@@ -2674,7 +2647,7 @@ class Voxes_controller extends Controller
 					$tbl_voxes_reports .= '</div>';
 
 					if (Functions::check_user_access(['{voxes_reports_create}']) == true)
-						$btn_new_vox_report .= '<a class="active" data-button-modal="new_vox_report"><i class="fas fa-plus"></i></a>';
+						$btn_new_vox_report .= '<a class="new" data-button-modal="new_vox_report"><i class="fas fa-plus"></i></a>';
 
 					if (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}']) == true)
 					{
@@ -2845,8 +2818,8 @@ class Voxes_controller extends Controller
 												</div>
 							                    <div class="span12">
 							                        <div class="buttons">
-							                            <a button-cancel><i class="fas fa-times"></i></a>
-							                            <button type="submit"><i class="fas fa-check"></i></button>
+							                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+							                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
 							                        </div>
 							                    </div>
 							                </div>
@@ -2904,11 +2877,11 @@ class Voxes_controller extends Controller
 
 			if (Functions::check_user_access(['{voxes_reports_print}']) == true)
 			{
-				if (!empty($params[0]) AND $params[0] == 'print')
+				if ($params[0] == 'generate')
 				{
 					$div_print_vox_report .= '<div id="print_vox_report" class="tbl_stl_4" data-table></div>';
-					$btn_filter_vox_report .= '<a class="active" data-button-modal="filter_vox_report"><i class="fas fa-stream"></i></a>';
-					$btn_print_vox_report .= '<a class="active hidden" data-action="print_vox_report"><i class="fas fa-print"></i></a>';
+					$btn_filter_vox_report .= '<a class="big new" data-button-modal="filter_vox_report"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>';
+					$btn_print_vox_report .= '<a class="big new hidden" data-action="print_vox_report"><i class="fas fa-print"></i><span>{$lang.print}</span></a>';
 					$mdl_filter_vox_report .=
 					'<section class="modal fullscreen" data-modal="filter_vox_report">
 						<div class="content">
@@ -3047,8 +3020,8 @@ class Voxes_controller extends Controller
 										</div>
 										<div class="span12">
 											<div class="buttons">
-												<a button-cancel><i class="fas fa-times"></i></a>
-												<button type="submit"><i class="fas fa-check"></i></button>
+												<a class="delete" button-cancel><i class="fas fa-times"></i></a>
+												<button type="submit" class="new"><i class="fas fa-check"></i></button>
 											</div>
 										</div>
 									</div>

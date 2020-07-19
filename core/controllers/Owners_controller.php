@@ -339,8 +339,8 @@ class Owners_controller extends Controller
 				$mdl_new_owner .=
 				'					<div class="span12">
 										<div class="buttons">
-											<a ' . (($this->model->get_owners('count') < Session::get_value('account')['package']['quantity_end']) ? 'button-cancel' : 'button-close') . '><i class="fas fa-times"></i></a>
-											' . (($this->model->get_owners('count') < Session::get_value('account')['package']['quantity_end']) ? '<button type="submit"><i class="fas fa-check"></i></button>' : '') . '
+											<a ' . (($this->model->get_owners('count') < Session::get_value('account')['package']['quantity_end']) ? 'class="delete" button-cancel' : 'class="new" button-close') . '>' . (($this->model->get_owners('count') < Session::get_value('account')['package']['quantity_end']) ? '<i class="fas fa-times"></i>' : '<i class="fas fa-check"></i>') . '</a>
+											' . (($this->model->get_owners('count') < Session::get_value('account')['package']['quantity_end']) ? '<button type="submit" class="new"><i class="fas fa-check"></i></button>' : '') . '
 										</div>
 									</div>
 								</div>

@@ -35,12 +35,12 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             </div>
             {$div_confidentiality}
             <div class="stl_5">
-                {$spn_guest}
+                {$spn_reservation}
             </div>
             <div class="stl_6">
                 {$btn_get_attachments}
-                {$btn_get_assigned_users}
-                {$btn_get_viewed_by}
+                <a data-button-modal="get_assigned_users"><i class="fas fa-users"></i><span>{$lang.assigned_users}</span></a>
+                <a data-button-modal="get_viewed_by"><i class="far fa-eye"></i><span>{$lang.viewed_by}</span></a>
                 {$btn_get_comments}
             </div>
             <div class="stl_7">
@@ -53,13 +53,13 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             </div>
             {$div_actions}
             <div class="stl_9">
-                <a data-button-modal="get_changes_history"><i class="fas fa-history"></i></a>
+                <a data-button-modal="get_changes_history"><i class="fas fa-history"></i><span>{$lang.changes_history}</span></a>
             </div>
         </div>
     </section>
     <section class="buttons">
         <div>
-            <a href="/voxes" class="delete"><i class="fas fa-atom"></i></a>
+            <a href="/voxes" class="big delete"><i class="fas fa-reply"></i><span>{$lang.return}</span></a>
             {$btn_comment_vox}
             {$btn_edit_vox}
             {$btn_complete_vox}
@@ -68,8 +68,37 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
     </section>
 </main>
 {$mdl_get_attachments}
-{$mdl_get_assigned_users}
-{$mdl_get_viewed_by}
+<section class="modal fullscreen" data-modal="get_assigned_users">
+    <div class="content">
+        <main class="vox_details">
+            <div class="stl_11">
+                <div>
+                    <span><i class="fas fa-mask"></i></span>
+                    <div>
+                        <h2>{$lang.opportunity_area}</h2>
+                        <span>{$opportunity_area}</span>
+                    </div>
+                </div>
+                {$div_assigned_users}
+            </div>
+            <div class="buttons">
+                <a class="new" button-close><i class="fas fa-check"></i></a>
+            </div>
+        </main>
+    </div>
+</section>
+<section class="modal fullscreen" data-modal="get_viewed_by">
+    <div class="content">
+        <main class="vox_details">
+            <div class="stl_11">
+                {$div_viewed_by}
+            </div>
+            <div class="buttons">
+                <a class="new" button-close><i class="fas fa-check"></i></a>
+            </div>
+        </main>
+    </div>
+</section>
 {$mdl_get_comments}
 <section class="modal fullscreen" data-modal="get_changes_history">
     <div class="content">
@@ -78,7 +107,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 {$div_changes_history}
             </div>
             <div class="buttons">
-                <a button-close><i class="fas fa-check"></i></a>
+                <a class="new" button-close><i class="fas fa-check"></i></a>
             </div>
         </main>
     </div>

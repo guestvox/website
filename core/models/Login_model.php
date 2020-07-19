@@ -108,8 +108,13 @@ class Login_model extends Model
 						'voxes' => [
 							'filter' => [
 								'type' => 'all',
+								'owner' => 'all',
+								'opportunity_area' => 'all',
+								'opportunity_type' => 'all',
+								'location' => 'all',
 								'urgency' => 'all',
-								'date' => 'up',
+								'assigned' => 'all',
+								'order' => 'date_down',
 								'status' => 'open'
 							]
 						],
@@ -117,7 +122,7 @@ class Login_model extends Model
 							'filter' => [
 								'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
 								'end_date' => Functions::get_current_date(),
-								'owner' => 'all'
+								'type' => 'all'
 							]
 						]
 					],

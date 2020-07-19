@@ -20,8 +20,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
     </section>
     <section class="buttons">
         <div>
-            <a href="/voxes/details/{$token}" class="active delete"><i class="fas fa-times"></i></a>
-            <a class="active" data-action="edit_vox"><i class="fas fa-check"></i></a>
+            <a href="/voxes/details/{$token}" class="delete"><i class="fas fa-times"></i></a>
+            <a class="new" data-action="edit_vox"><i class="fas fa-check"></i></a>
         </div>
     </section>
 </main>

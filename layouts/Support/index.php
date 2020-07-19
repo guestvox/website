@@ -31,7 +31,7 @@ $this->dependencies->add(['other', '<script>menu_focus("support");</script>']);
                     </div>
                     <div class="span12">
                         <div class="buttons">
-                            <button type="submit" class="big"><i class="fas fa-envelope"></i><span>{$lang.send_email}</span></button>
+                            <button type="submit" class="big new"><i class="fas fa-envelope"></i><span>{$lang.send_email}</span></button>
                         </div>
                     </div>
                 </div>

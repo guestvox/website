@@ -17,14 +17,14 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
     <section class="buttons">
         <div>
             <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <a href="/voxes"><i class="fas fa-atom"></i></a>
+            <a href="/voxes" class="big"><i class="fas fa-atom"></i><span>{$lang.voxes}</span></a>
             <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
-            <a href="/voxes/stats"><i class="fas fa-chart-pie"></i></a>
+            <a href="/voxes/stats" class="big"><i class="fas fa-chart-pie"></i><span>{$lang.stats}</span></a>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{voxes_reports_print}']) == true) : ?>
-            <a href="/voxes/reports/print" class="active"><i class="fas fa-bug"></i></a>
+            <a href="/voxes/reports/generate" class="big new"><i class="fas fa-bug"></i><span>{$lang.reports}</span></a>
             <?php elseif (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}','{voxes_reports_deactivate}','{voxes_reports_activate}','{voxes_reports_delete}']) == true) : ?>
-            <a href="/voxes/reports" class="active"><i class="fas fa-bug"></i></a>
+            <a href="/voxes/reports/saved" class="big new"><i class="fas fa-bug"></i><span>{$lang.reports}</span></a>
             <?php endif; ?>
             {$btn_new_vox_report}
             {$btn_filter_vox_report}
