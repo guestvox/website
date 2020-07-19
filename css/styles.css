@@ -64,7 +64,7 @@ body > header.topbar > figure > a > img {
     height: 40px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     body > header.topbar > figure > a,
     body > header.topbar > figure > a > img {
@@ -106,7 +106,7 @@ body > header.topbar > nav > ul > li > a {
     box-sizing: border-box;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     body > header.topbar > nav > ul > li > a {
         padding: 0px 20px;
@@ -176,7 +176,7 @@ body > header.rightbar > nav > ul {
     margin-bottom: 40px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     body > header.rightbar > nav,
     body > header.rightbar > nav > ul {
@@ -205,7 +205,7 @@ body > header.rightbar > nav > ul > li > a {
     color: rgba(255, 255, 255, 0.4);
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     body > header.rightbar > nav > ul > li,
     body > header.rightbar > nav > ul > li > a {
@@ -238,7 +238,7 @@ body > header.rightbar > nav > ul > li > a > i {
     color: #24383f;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     body > header.rightbar > nav > ul > li > a > i {
         width: 25px;
@@ -347,7 +347,7 @@ body > main.dashboard > section.buttons > div > a.big > span {
     display: none;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     body > main.dashboard > section.buttons > div > a.big {
         width: auto;
@@ -371,7 +371,7 @@ body > main.dashboard > section.buttons > div > a.big > span {
 
 div.tbl_stl_1 {
     width: 100%;
-    padding: 80px 20px 0px 20px;
+    padding: 20px 20px 0px 20px;
     box-sizing: border-box;
 }
 
@@ -664,7 +664,7 @@ div.tbl_stl_1 > div > div > div.itm_4 {
     background-color: #fff;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 768px) {
 
     div.tbl_stl_1 > div > div > div.itm_4 {
         min-height: 60px;
@@ -725,7 +725,7 @@ div.tbl_stl_3 > div:last-child {
     border-bottom: 0px;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     div.tbl_stl_2 > div,
     div.tbl_stl_3 > div {
@@ -766,7 +766,7 @@ div.tbl_stl_3 > div > div.datas > div.itm_1 {
     box-sizing: border-box;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     div.tbl_stl_3 > div > div.datas > div.itm_1 {
         order: 2;
@@ -863,7 +863,7 @@ div.tbl_stl_3 > div > div.datas > div.itm_2 {
     justify-content: center;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     div.tbl_stl_3 > div > div.datas > div.itm_2 {
         order: 1;
@@ -894,7 +894,7 @@ div.tbl_stl_3 > div > div.buttons {
     justify-content: center;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     div.tbl_stl_2 > div > div.buttons,
     div.tbl_stl_3 > div > div.buttons {
@@ -931,7 +931,7 @@ div.tbl_stl_3 > div > div.buttons > a.big > span {
     display: none;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     div.tbl_stl_2 > div > div.buttons > a.big,
     div.tbl_stl_3 > div > div.buttons > a.big {
@@ -2131,7 +2131,7 @@ section.modal div.buttons > a.big > span {
     display: none;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     form div.buttons > button.big,
     form div.buttons > a.big,
@@ -2404,6 +2404,7 @@ div.profile > span {
 ------------------------------------------------------------------------------ */
 div.qr {
     width: 100%;
+    height: calc(100vh - 100px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2412,25 +2413,12 @@ div.qr {
     box-sizing: border-box;
 }
 
-@media (min-width: 1200px) {
-
-    div.qr {
-        height: calc(100vh - 100px);
-    }
-}
-
 /*  */
 
 div.qr > figure {
     width: 100%;
+    max-width: 300px;
     margin-bottom: 20px;
-}
-
-@media (min-width: 1200px) {
-
-    div.qr > figure {
-        max-width: 300px;
-    }
 }
 
 div.qr > figure > img {
@@ -2442,21 +2430,14 @@ div.qr > figure > img {
 div.qr > div,
 div.qr > div > div {
     width: 100%;
+    max-width: 600px;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
 }
 
-@media (min-width: 1200px) {
-
-    div.qr > div {
-        max-width: 600px;
-    }
-
-    div.qr > div > div {
-        flex-direction: row;
-    }
+div.qr > div {
+    flex-direction: column;
 }
 
 div.qr > div > div {
@@ -2468,12 +2449,11 @@ div.qr > div > div:last-child {
 }
 
 div.qr > div > div > p {
-    width: 100%;
+    width: calc(100% - 90px);
     display: flex;
     align-items: center;
     justify-content: flex-start;
     height: 40px;
-    margin-bottom: 10px;
     padding: 0px 20px;
     border: none;
     border-radius: 40px;
@@ -2483,10 +2463,10 @@ div.qr > div > div > p {
     color: #757575;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
     div.qr > div > div > p {
-        margin-bottom: 0px;
+        width: 100%;
     }
 }
 
@@ -2494,13 +2474,7 @@ div.qr > div > div > p > strong {
     margin-right: 5px;
 }
 
-div.qr > div > div > div {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-div.qr > div > div > div > a {
+div.qr > div > div > a {
     width: 40px;
     height: 40px;
     display: flex;
@@ -2508,26 +2482,25 @@ div.qr > div > div > div > a {
     justify-content: center;
     border-radius: 50%;
     background-color: #eee;
-    margin: 0px 2.5px;
+    margin-left: 5px;
     font-size: 14px;
     color: #757575;
 }
 
-div.qr > div > div > div > a > span {
+div.qr > div > div > a > span {
     display: none;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
 
-    div.qr > div > div > div > a {
+    div.qr > div > div > a {
         width: auto;
         border-radius: 40px;
-        margin: 0px 0px 0px 5px;
         padding: 0px 20px;
         box-sizing: border-box;
     }
 
-    div.qr > div > div > div > a > span {
+    div.qr > div > div > a > span {
         display: block;
         margin-left: 5px;
         font-size: 12px;
@@ -2800,7 +2773,7 @@ div.vox_details > div.stl_5 > span {
     color: #bdbdbd;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 768px) {
 
     div.vox_details > div.stl_5 > span {
         width: calc(100% / 3);
@@ -3790,7 +3763,7 @@ div.support {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    padding: 20px;
+    padding: 40px;
     box-sizing: border-box;
 }
 

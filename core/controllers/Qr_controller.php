@@ -26,10 +26,8 @@ class Qr_controller extends Controller
 			$div_url_reviews .=
 			'<div>
 				<p><strong>{$lang.reviews}:</strong><span>https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/reviews</span></p>
-				<div>
-					<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i><span>{$lang.copy}</span></a>
-					<a href="https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/reviews" target="_blank"><i class="fas fa-share"></i><span>{$lang.go}</span></a>
-				</div>
+				<a data-action="copy_to_clipboard"><i class="fas fa-copy"></i><span>{$lang.copy}</span></a>
+				<a href="https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/reviews" target="_blank"><i class="fas fa-share"></i><span>{$lang.go}</span></a>
 			</div>';
 		}
 
