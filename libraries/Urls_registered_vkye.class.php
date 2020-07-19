@@ -133,10 +133,6 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'charts'
             ],
-            '/voxes/reports' => [
-                'controller' => 'Voxes',
-                'method' => 'reports'
-            ],
             '/voxes/reports/%param%' => [
                 'controller' => 'Voxes',
                 'method' => 'reports'
