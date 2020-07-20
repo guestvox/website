@@ -195,12 +195,12 @@ class Voxes_model extends Model
 				$query[$key]['edited_user'] = $this->get_user($value['edited_user']);
 				$query[$key]['completed_user'] = $this->get_user($value['completed_user']);
 				$query[$key]['reopened_user'] = $this->get_user($value['reopened_user']);
-
-				if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
-					$query[$key]['menu_order'] = $this->get_menu_order($query[$key]['menu_order']);
 			}
 
 			$query[$key]['created_user'] = $this->get_user($value['created_user']);
+
+			if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
+				$query[$key]['menu_order'] = $this->get_menu_order($query[$key]['menu_order']);
 		}
 
 		return $query;

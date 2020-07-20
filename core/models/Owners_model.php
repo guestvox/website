@@ -98,11 +98,11 @@ class Owners_model extends Model
 
 			QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
 		}
-		if ($data['type'] == 'many')
+		else if ($data['type'] == 'many')
 		{
 			for ($i = $data['since']; $i <= $data['to']; $i++)
 			{
-				if ($this->get_owners(true) < Session::get_value('account')['package']['quantity_end'])
+				if ($this->get_owners('count') < Session::get_value('account')['package']['quantity_end'])
 				{
 					$data['token'] = strtolower(Functions::get_random(8));
 					$data['qr']['filename'] = Session::get_value('account')['path'] . '_owner_qr_' . $data['token'] . '.png';

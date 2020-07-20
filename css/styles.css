@@ -443,7 +443,7 @@ div.tbl_stl_1 > div > div::after {
     height: 0px;
     position: absolute;
     bottom: 100%;
-	left: calc(50% - 5px);
+	left: calc(50% - 7.5px);
     pointer-events: none;
     margin-left: -15px;
     border: solid transparent;
@@ -459,7 +459,7 @@ div.tbl_stl_1 > div > div > div.itm_1 {
     height: 60px;
     position: absolute;
     top: -80px;
-    left: calc(50% - 35px);
+    left: calc(50% - 37.5px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -667,13 +667,16 @@ div.tbl_stl_1 > div > div > div.itm_4 {
 @media (min-width: 768px) {
 
     div.tbl_stl_1 > div > div > div.itm_4 {
-        min-height: 60px;
+        min-height: 50px;
+        padding-right: 15px;
+        box-sizing: border-box;
     }
 }
 
-div.tbl_stl_1 > div > div > div.itm_4 > span {
-    width: 50px;
-    height: 50px;
+div.tbl_stl_1 > div > div > div.itm_4 > span,
+div.tbl_stl_1 > div > div > div.itm_4 > a {
+    width: 40px;
+    height: 40px;
     margin: 10px 0px 0px 5px;
     display: flex;
     align-items: center;
