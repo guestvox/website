@@ -1122,7 +1122,7 @@ class Myvox_controller extends Controller
 							$html .=
 							'<div>
 								<figure>
-									<img src="{$path.uploads}' . $value['avatar'] . '">
+									<img src="' . (!empty( $value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}food.png') . '">
 								</figure>
 								<div>
 									<h2>' . $value['name'][$this->lang1] . '</h2>
@@ -1158,7 +1158,7 @@ class Myvox_controller extends Controller
 					if (!empty($query))
 					{
 						$query['name'] = $query['name'][$this->lang1];
-						$query['description'] = $query['description'][$this->lang1];
+						$query['description'] = !empty($query['description'][$this->lang1]) ? $query['description'][$this->lang1] : '{$lang.not_description}';
 						$query['price'] = Functions::get_formatted_currency($query['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']);
 
 						Functions::environment([
@@ -1663,7 +1663,7 @@ class Myvox_controller extends Controller
 						$html .=
 						'<div>
 							<figure>
-								<img src="{$path.uploads}' . $value['avatar'] . '">
+								<img src="' . (!empty( $value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}food.png') . '">
 							</figure>
 							<div>
 								<h2>' . $value['name'][$this->lang1] . '</h2>
@@ -1746,7 +1746,7 @@ class Myvox_controller extends Controller
 					if (Session::get_value('myvox')['url'] == 'account')
 					{
 						$html .=
-						'<div class="span12 ' . ((Session::get_value('myvox')['account']['type'] == 'restaurant') ? 'hidden' : '') . '">
+						'<div class="span12">
 							<div class="label">
 								<label required>
 									<p>{$lang.owner} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
@@ -1847,7 +1847,7 @@ class Myvox_controller extends Controller
 					}
 
 					$html .=
-					'			<div class="span12 ' . ((Session::get_value('myvox')['account']['type'] == 'restaurant') ? 'hidden' : '') . '">
+					'			<div class="span12">
 			                        <div class="buttons">
 										<button class="new" type="submit">{$lang.generate_order}</button>
 			                        </div>

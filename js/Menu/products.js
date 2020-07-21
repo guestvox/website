@@ -65,13 +65,14 @@ $(document).ready(function()
                     $('[name="description_es"]').val(response.data.description.es);
                     $('[name="description_en"]').val(response.data.description.en);
                     $('[name="price"]').val(response.data.price);
-                    $('[name="avatar"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', '../uploads/' + response.data.avatar);
+                    $('[name="avatar"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', ((response.data.avatar) ? '../uploads/' + response.data.avatar : '../images/empty.png'));
 
                     $.each(response.data.categories, function (key, value)
                     {
                         $('[name="categories[]"][value="' + value + '"]').prop('checked', true);
                     });
 
+                    $('[name="outstanding"]').val(response.data.outstanding);
                     $('[name="restaurant"]').val(response.data.restaurant);
 
                     required_focus('form', $('form[name="new_menu_product"]'), null);

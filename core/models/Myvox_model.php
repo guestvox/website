@@ -301,23 +301,37 @@ class Myvox_model extends Model
 
 	public function get_menu_products($option = 'all', $id = null)
 	{
-		$fields = [];
-
-		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
+		$fields = [
 			'id',
 			'name',
 			'price',
 			'avatar',
 			'categories'
-		], [
+		];
+
+		$query1 = Functions::get_json_decoded_query($this->database->select('menu_products', $fields, [
 			'AND' => [
 				'account' => Session::get_value('myvox')['account']['id'],
+				'outstanding[>=]' => 1,
+				'status' => true
+			],
+			'ORDER' => [
+				'outstanding' => 'ASC'
+			]
+		]));
+
+		$query2 = Functions::get_json_decoded_query($this->database->select('menu_products', $fields, [
+			'AND' => [
+				'account' => Session::get_value('myvox')['account']['id'],
+				'outstanding[=]' => null,
 				'status' => true
 			],
 			'ORDER' => [
 				'name' => 'ASC'
 			]
 		]));
+
+		$query = array_merge($query1, $query2);
 
 		if ($option == 'categories')
 		{
