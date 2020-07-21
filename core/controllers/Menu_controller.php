@@ -47,29 +47,17 @@ class Menu_controller extends Controller
 				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
 					array_push($labels, ['name_en','']);
 
-				if (!isset($_POST['description_es']) OR empty($_POST['description_es']))
-					array_push($labels, ['description_es','']);
+				if (!empty($_POST['description_es']) OR !empty($_POST['description_en']))
+				{
+					if (!isset($_POST['description_es']) OR empty($_POST['description_es']))
+						array_push($labels, ['description_es','']);
 
-				if (!isset($_POST['description_en']) OR empty($_POST['description_en']))
-					array_push($labels, ['description_en','']);
+					if (!isset($_POST['description_en']) OR empty($_POST['description_en']))
+						array_push($labels, ['description_en','']);
+				}
 
 				if (!isset($_POST['price']) OR empty($_POST['price']))
 					array_push($labels, ['price','']);
-
-				if ($_POST['action'] == 'new_menu_product')
-				{
-					if (!isset($_FILES['avatar']['name']) OR empty($_FILES['avatar']['name']))
-						array_push($labels, ['avatar','']);
-				}
-
-				if (!isset($_POST['categories']) OR empty($_POST['categories']))
-					array_push($labels, ['categories[]','']);
-
-				if (Session::get_value('account')['settings']['menu']['multi'] == true)
-				{
-					if (!isset($_POST['restaurant']) OR empty($_POST['restaurant']))
-						array_push($labels, ['restaurant','']);
-				}
 
 				if (empty($labels))
 				{
@@ -144,13 +132,14 @@ class Menu_controller extends Controller
 					<div class="datas">
 						<div class="itm_1">
 							<h2>' . $value['name'][$this->lang] .'</h2>
-							<span>' . $value['description'][$this->lang] . '</span>
+							<span>' . (!empty($value['description'][$this->lang]) ? $value['description'][$this->lang] : '{$lang.not_description}') . '</span>
 							' . ((Session::get_value('account')['settings']['menu']['multi'] == true) ? '<span>' . (!empty($value['restaurant']) ? $value['restaurant'][$this->lang] : '{$lang.not_restaurant}') . '</span>' : '') . '
+							<span>' . (!empty($value['outstanding']) ? '{$lang.outstanding}: ' . $value['outstanding'] : '{$lang.not_outstanding}') . '</span>
 							<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . '</span>
 						</div>
 						<div class="itm_2">
 							<figure>
-								<img src="{$path.uploads}' . $value['avatar'] . '">
+								<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}food.png') . '">
 							</figure>
 						</div>
 					</div>

@@ -53,7 +53,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label required>
+                            <label unrequired>
                                 <p>(ES) {$lang.description}</p>
                                 <textarea name="description_es"></textarea>
                             </label>
@@ -61,17 +61,25 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label required>
+                            <label unrequired>
                                 <p>(EN) {$lang.description}</p>
                                 <textarea name="description_en"></textarea>
                             </label>
                         </div>
                     </div>
-                    <div class="span12">
+                    <div class="span6">
                         <div class="label">
                             <label required>
                                 <p>(<?php echo !empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'] ?>) {$lang.price}</p>
                                 <input type="number" name="price">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label unrequired>
+                                <p>{$lang.outstanding}</p>
+                                <input type="number" name="outstanding">
                             </label>
                         </div>
                     </div>
@@ -94,7 +102,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                     <?php if (Session::get_value('account')['settings']['menu']['multi'] == true) : ?>
                     <div class="span12">
                         <div class="label">
-                            <label required>
+                            <label unrequired>
                                 <p>{$lang.restaurant}</p>
                                 <select name="restaurant">
                                     <option value="" hidden>{$lang.choose}</option>

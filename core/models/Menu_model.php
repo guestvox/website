@@ -13,26 +13,44 @@ class Menu_model extends Model
 
     public function get_menu_products()
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
+		$join = [
 			'[>]menu_restaurants' => [
 				'restaurant' => 'id'
 			]
-		], [
+		];
+
+		$fields = [
 			'menu_products.id',
 			'menu_products.name',
 			'menu_products.description',
 			'menu_products.price',
 			'menu_products.avatar',
+			'menu_products.outstanding',
 			'menu_restaurants.name(restaurant)',
 			'menu_products.status'
-		], [
-			'menu_products.account' => Session::get_value('account')['id'],
+		];
+
+		$query1 = Functions::get_json_decoded_query($this->database->select('menu_products', $join, $fields, [
+			'AND' => [
+				'menu_products.account' => Session::get_value('account')['id'],
+				'menu_products.outstanding[>=]' => 1
+			],
+			'ORDER' => [
+				'menu_products.outstanding' => 'ASC'
+			]
+		]));
+
+		$query2 = Functions::get_json_decoded_query($this->database->select('menu_products', $join, $fields, [
+			'AND' => [
+				'menu_products.account' => Session::get_value('account')['id'],
+				'menu_products.outstanding[=]' => null
+			],
 			'ORDER' => [
 				'menu_products.name' => 'ASC'
 			]
 		]));
 
-		return $query;
+		return array_merge($query1, $query2);
 	}
 
     public function get_menu_product($id)
@@ -43,6 +61,7 @@ class Menu_model extends Model
 			'price',
 			'avatar',
 			'categories',
+			'outstanding',
 			'restaurant'
 		], [
 			'id' => $id
@@ -86,15 +105,39 @@ class Menu_model extends Model
 				'en' => $data['name_en']
 			]),
 			'description' => json_encode([
-				'es' => $data['description_es'],
-				'en' => $data['description_en']
+				'es' => !empty($data['description_es']) ? $data['description_es'] : '',
+				'en' => !empty($data['description_en']) ? $data['description_en'] : ''
 			]),
 			'price' => $data['price'],
-			'avatar' => Functions::uploader($data['avatar'], Session::get_value('account')['path'] . '_menu_product_avatar_'),
-			'categories' => json_encode($data['categories']),
-			'restaurant' => (Session::get_value('account')['settings']['menu']['multi'] == true) ? $data['restaurant'] : null,
+			'avatar' => !empty($data['avatar']['name']) ? Functions::uploader($data['avatar'], Session::get_value('account')['path'] . '_menu_product_avatar_') : null,
+			'categories' => json_encode((!empty($data['categories']) ? $data['categories'] : [])),
+			'outstanding' => !empty($data['outstanding']) ? $data['outstanding'] : null,
+			'restaurant' => (Session::get_value('account')['settings']['menu']['multi'] == true) ? (!empty($data['restaurant']) ? $data['restaurant'] : null) : null,
 			'status' => true
 		]);
+
+		if (!empty($query) AND !empty($data['outstanding']))
+		{
+			$outstandings = $this->database->select('menu_products', [
+				'id',
+				'outstanding'
+			], [
+				'AND' => [
+					'id[!]' => $this->database->id(),
+					'account' => Session::get_value('account')['id'],
+					'outstanding[>=]' => $data['outstanding']
+				]
+			]);
+
+			foreach ($outstandings as $value)
+			{
+				$this->database->update('menu_products', [
+					'outstanding' => ($value['outstanding'] + 1)
+				], [
+					'id' => $value['id']
+				]);
+			}
+		}
 
 		return $query;
 	}
@@ -117,19 +160,43 @@ class Menu_model extends Model
 					'en' => $data['name_en']
 				]),
 				'description' => json_encode([
-					'es' => $data['description_es'],
-					'en' => $data['description_en']
+					'es' => !empty($data['description_es']) ? $data['description_es'] : '',
+					'en' => !empty($data['description_en']) ? $data['description_en'] : ''
 				]),
 				'price' => $data['price'],
-				'avatar' => !empty($data['avatar']['name']) ? Functions::uploader($data['avatar']) : $edited[0]['avatar'],
-				'categories' => json_encode($data['categories']),
-				'restaurant' => (Session::get_value('account')['settings']['menu']['multi'] == true) ? $data['restaurant'] : null
+				'avatar' => !empty($data['avatar']['name']) ? Functions::uploader($data['avatar'], Session::get_value('account')['path'] . '_menu_product_avatar_') : $edited[0]['avatar'],
+				'categories' => json_encode((!empty($data['categories']) ? $data['categories'] : [])),
+				'outstanding' => !empty($data['outstanding']) ? $data['outstanding'] : null,
+				'restaurant' => (Session::get_value('account')['settings']['menu']['multi'] == true) ? (!empty($data['restaurant']) ? $data['restaurant'] : null) : null
 			], [
 				'id' => $data['id']
 			]);
 
 			if (!empty($query))
 			{
+				if (!empty($data['outstanding']))
+				{
+					$outstandings = $this->database->select('menu_products', [
+						'id',
+						'outstanding'
+					], [
+						'AND' => [
+							'id[!]' => $data['id'],
+							'account' => Session::get_value('account')['id'],
+							'outstanding[>=]' => $data['outstanding']
+						]
+					]);
+
+					foreach ($outstandings as $value)
+					{
+						$this->database->update('menu_products', [
+							'outstanding' => ($value['outstanding'] + 1)
+						], [
+							'id' => $value['id']
+						]);
+					}
+				}
+
 				if (!empty($data['avatar']['name']) AND !empty($edited[0]['avatar']))
 					Functions::undoloader($edited[0]['avatar']);
 			}

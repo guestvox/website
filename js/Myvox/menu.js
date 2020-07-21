@@ -32,7 +32,7 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="preview_menu_product"]').find('main > figure > img').attr('src', '../uploads/' + response.data.avatar);
+                    $('[data-modal="preview_menu_product"]').find('main > figure > img').attr('src', ((response.data.avatar) ? '../uploads/' + response.data.avatar : '../images/food.png'));
                     $('[data-modal="preview_menu_product"]').find('main > h2').html(response.data.name);
                     $('[data-modal="preview_menu_product"]').find('main > span').html(response.data.price);
                     $('[data-modal="preview_menu_product"]').find('main > p').html(response.data.description);
@@ -118,14 +118,13 @@ $(document).ready(function()
     {
         if ($(this).val() == 'restaurant')
         {
-            $('[name="owner"]').parent().parent().parent().addClass('hidden');
+            $('[name="owner"]').parent().parent().parent().removeClass('hidden');
             $('[name="address"]').parent().parent().parent().addClass('hidden');
             $('[name="firstname"]').parent().parent().parent().addClass('hidden');
             $('[name="lastname"]').parent().parent().parent().addClass('hidden');
             $('[name="email"]').parent().parent().parent().addClass('hidden');
             $('[name="phone_lada"]').parent().parent().parent().addClass('hidden');
             $('[name="phone_number"]').parent().parent().parent().addClass('hidden');
-            $('button[type="submit"]').parent().parent().addClass('hidden');
         }
         else if ($(this).val() == 'home')
         {
@@ -136,7 +135,6 @@ $(document).ready(function()
             $('[name="email"]').parent().parent().parent().removeClass('hidden');
             $('[name="phone_lada"]').parent().parent().parent().removeClass('hidden');
             $('[name="phone_number"]').parent().parent().parent().removeClass('hidden');
-            $('button[type="submit"]').parent().parent().removeClass('hidden');
         }
 
         required_focus('form', $('form[name="new_menu_order"]'), null);
