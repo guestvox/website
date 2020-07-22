@@ -139,7 +139,7 @@ class Configuration
      * @var string $db_host
      */
 	// public static $db_host = 'guestvox.com';
-	public static $db_host = 'dev.guestvox.com';
+	public static $db_host = 'guestvox.com';
 
 	/**
      * Nombre de la base de datos
