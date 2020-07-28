@@ -1122,17 +1122,17 @@ class Myvox_controller extends Controller
 							$html .=
 							'<div>
 								<figure>
-									<img src="' . (!empty( $value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}food.png') . '">
+									<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}food.png') . '">
 								</figure>
 								<div>
 									<h2>' . $value['name'][$this->lang1] . '</h2>
 									<span>' . Functions::get_formatted_currency($value['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . '</span>
 									<div>
-										<a data-action="preview_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-info"></i></a>
-										<a data-action="remove_to_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-minus"></i></a>
+										<a class="new" data-action="remove_to_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-minus"></i></a>
 										<span>' . ((array_key_exists($value['id'], Session::get_value('myvox')['menu_order']['shopping_cart'])) ? Session::get_value('myvox')['menu_order']['shopping_cart'][$value['id']]['quantity'] : '0') . '</span>
-										<a data-action="add_to_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>
+										<a class="new" data-action="add_to_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-plus"></i></a>
 									</div>
+									<a data-action="preview_menu_product" data-id="' . $value['id'] . '"></a>
 								</div>
 							</div>';
 						}
@@ -1663,7 +1663,7 @@ class Myvox_controller extends Controller
 						$html .=
 						'<div>
 							<figure>
-								<img src="' . (!empty( $value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}food.png') . '">
+								<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}food.png') . '">
 							</figure>
 							<div>
 								<h2>' . $value['name'][$this->lang1] . '</h2>
