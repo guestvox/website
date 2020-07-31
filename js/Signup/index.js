@@ -2,10 +2,10 @@
 
 $(document).ready(function()
 {
-    $('[name="path"]').on('keyup', function()
+    $(document).on('keyup', '[name="name"], [name="path"]', function()
     {
-        var string = $(this).val();
-        var filter = 'abcdefghijklmnñopqrstuvwxyz';
+        var string = $(this).val().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        var filter = 'abcdefghijklmnñopqrstuvwxyz0123456789';
         var out = '';
 
         for (var i = 0; i < string.length; i++)
@@ -14,12 +14,12 @@ $(document).ready(function()
                 out += string.charAt(i);
         }
 
-        $(this).val(out);
+        $('[name="path"]').val(out);
 
         if (out.length > 0)
-            $(this).parent().find('span').find('strong').html(out);
+            $('[name="path"]').parent().find('span').find('strong').html(out);
         else
-            $(this).parent().find('span').find('strong').html('micuenta');
+            $('[name="path"]').parent().find('span').find('strong').html('micuenta');
     });
 
     $('[name="type"]').on('change', function()
@@ -78,7 +78,7 @@ $(document).ready(function()
                     $('[data-step]').removeClass('view');
                     $('[data-step="' + step + '"]').addClass('view');
 
-                    if (step == 5)
+                    if (step == 4)
                     {
                         $('#success').html(response.message);
 

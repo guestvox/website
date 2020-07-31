@@ -32,7 +32,7 @@ $this->dependencies->add(['others',
         <nav class="desktop">
             <ul>
                 <li><a href="/blog">{$lang.blog}</a></li>
-                <li class="focus"><a href="/signup">¡{$lang.signup_now}!</a></li>
+                <li class="focus"><a href="/signup">¡{$lang.signup_free}!</a></li>
                 <li><a href="/login">{$lang.login}</a></li>
             </ul>
         </nav>
@@ -210,7 +210,7 @@ $this->dependencies->add(['others',
                 <img src="https://www.comparasoftware.com/wp-content/uploads/2019/05/comparasoftware_verificado.png" alt="Partner">
             </figure> -->
         </div>
-        <a href="/signup">¡{$lang.signup_now}!</a>
+        <a href="/signup">¡{$lang.signup_free}!</a>
     </section>
     <section class="stl_6">
         <h2>{$lang.landing_page_index_stl_6_text_1}<i class="fas fa-heart"></i>{$lang.landing_page_index_stl_6_text_2}</h2>

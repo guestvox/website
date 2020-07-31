@@ -163,9 +163,95 @@ class Signup_controller extends Controller
 
 					if (empty($labels))
 					{
-						Functions::environment([
-							'status' => 'success'
-						]);
+						$_POST['logotype'] = $_FILES['logotype'];
+
+						$query = $this->model->new_signup($_POST);
+
+						if (!empty($query))
+				        {
+							$mail1 = new Mailer(true);
+
+							try
+							{
+								$mail1->setFrom('daniel@guestvox.com', 'Daniel Basurto');
+								$mail1->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
+								$mail1->Subject = Languages::email('thanks_signup_guestvox')[$_POST['language']];
+								$mail1->Body =
+								'<html>
+									<head>
+										<title>' . $mail1->Subject . '</title>
+									</head>
+									<body>
+										<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+														<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
+													</figure>
+												</td>
+											</tr>
+											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
+													<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('validate_signup_user')[$_POST['language']] . '</p>
+													<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/' . $_POST['username'] . '">' . Languages::email('active_user')[$_POST['language']] . '</a>
+													<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Languages::email('terms_and_conditions')[$_POST['language']] . '</a>
+													<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/privacy-policies">' . Languages::email('privacy_policies')[$_POST['language']] . '</a>
+												</td>
+											</tr>
+											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+								                <td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<figure style="width:100%;margin:0px;padding:40px 0px;border:0px;box-sizing:border-box;text-align:center;">
+														<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/index/stl_6_image_1.png">
+														<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
+														<span style="display:block;color:#757575;font-size:18px;">CEO</span>
+														<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
+														<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
+													</figure>
+								                </td>
+								            </tr>
+											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
+												</td>
+											</tr>
+										</table>
+									</body>
+								</html>';
+								$mail1->send();
+							}
+							catch (Exception $e) { }
+
+							$mail2 = new Mailer(true);
+
+							try
+							{
+								$mail2->setFrom('noreply@guestvox.com', 'Guestvox');
+								$mail2->addAddress('contacto@guestvox.com', 'Guestvox');
+								$mail2->Subject = 'Guestvox | Nuevo registro';
+								$mail2->Body =
+								'Nombre: ' . $_POST['name'] . '<br>
+								Tipo: ' . Languages::email($_POST['type'])['es'] . '<br>
+								' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms_number'] . '<br>' : '') . '
+								Páis: ' . $_POST['country'] . ' - ' . $_POST['city'] . ' - ' . $_POST['zip_code'] . '<br>
+								Administrador: ' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' - ' . $_POST['email'] . ' + (' . $_POST['phone_lada'] . ') ' . $_POST['phone_number'];
+								$mail2->send();
+							}
+							catch (Exception $e) { }
+
+							Functions::environment([
+	                            'status' => 'success',
+								'path' => '/',
+	                            'message' => '{$lang.thanks_signup_guestvox_1} <strong>' . $_POST['email'] . '</strong> {$lang.thanks_signup_guestvox_2}'
+	                        ]);
+				        }
+				        else
+				        {
+	                        Functions::environment([
+	                            'status' => 'error',
+	                            'message' => '{$lang.operation_error}'
+	                        ]);
+				        }
 					}
 					else
 					{
@@ -174,99 +260,6 @@ class Signup_controller extends Controller
 							'labels' => $labels
 						]);
 					}
-				}
-
-				if ($_POST['step'] == '4')
-				{
-					$_POST['logotype'] = $_FILES['logotype'];
-
-					$query = $this->model->new_signup($_POST);
-
-					if (!empty($query))
-			        {
-						$mail1 = new Mailer(true);
-
-						try
-						{
-							$mail1->setFrom('daniel@guestvox.com', 'Daniel Basurto');
-							$mail1->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
-							$mail1->Subject = Languages::email('thanks_signup_guestvox')[$_POST['language']];
-							$mail1->Body =
-							'<html>
-								<head>
-									<title>' . $mail1->Subject . '</title>
-								</head>
-								<body>
-									<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
-										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-													<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
-												</figure>
-											</td>
-										</tr>
-										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
-												<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('validate_signup_user')[$_POST['language']] . '</p>
-												<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/' . $_POST['username'] . '">' . Languages::email('active_user')[$_POST['language']] . '</a>
-												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terms-and-conditions">' . Languages::email('terms_and_conditions')[$_POST['language']] . '</a>
-												<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/privacy-policies">' . Languages::email('privacy_policies')[$_POST['language']] . '</a>
-											</td>
-										</tr>
-										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-							                <td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<figure style="width:100%;margin:0px;padding:40px 0px;border:0px;box-sizing:border-box;text-align:center;">
-													<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/index/stl_6_image_1.png">
-													<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
-													<span style="display:block;color:#757575;font-size:18px;">CEO</span>
-													<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
-													<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
-												</figure>
-							                </td>
-							            </tr>
-										<tr style="width:100%;margin:0px;padding:0px;border:0px;">
-											<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
-											</td>
-										</tr>
-									</table>
-								</body>
-							</html>';
-							$mail1->send();
-						}
-						catch (Exception $e) { }
-
-						$mail2 = new Mailer(true);
-
-						try
-						{
-							$mail2->setFrom('noreply@guestvox.com', 'Guestvox');
-							$mail2->addAddress('contacto@guestvox.com', 'Guestvox');
-							$mail2->Subject = 'Guestvox | Nuevo registro';
-							$mail2->Body =
-							'Nombre: ' . $_POST['name'] . '<br>
-							Tipo: ' . Languages::email($_POST['type'])['es'] . '<br>
-							' . (($_POST['type'] == 'hotel') ? 'Número de habitaciones: ' . $_POST['rooms_number'] . '<br>' : '') . '
-							Páis: ' . $_POST['country'] . ' - ' . $_POST['city'] . ' - ' . $_POST['zip_code'] . '<br>
-							Administrador: ' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' - ' . $_POST['email'] . ' + (' . $_POST['phone_lada'] . ') ' . $_POST['phone_number'];
-							$mail2->send();
-						}
-						catch (Exception $e) { }
-
-						Functions::environment([
-                            'status' => 'success',
-							'path' => '/',
-                            'message' => '{$lang.thanks_signup_guestvox_1} <strong>' . $_POST['email'] . '</strong> {$lang.thanks_signup_guestvox_2}'
-                        ]);
-			        }
-			        else
-			        {
-                        Functions::environment([
-                            'status' => 'error',
-                            'message' => '{$lang.operation_error}'
-                        ]);
-			        }
 				}
 			}
 		}
