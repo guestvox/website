@@ -16,8 +16,7 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                 <a class="view" data-step="1">1</a>
                 <a data-step="2">2</a>
                 <a data-step="3">3</a>
-                <a data-step="4">4</a>
-                <a data-step="5"><i class="fas fa-check"></i></a>
+                <a data-step="4"><i class="fas fa-check"></i></a>
             </div>
             <div class="step_container view" data-step="1">
                 <h2>{$lang.step_1}: {$lang.account_information}</h2>
@@ -119,8 +118,9 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         <label>
                             <div class="package" id="operation">
                                 <span><i class="fas fa-fighter-jet"></i></span>
-                                <h3>{$lang.package_of} <span>{$lang.operation}</span></h3>
-                                <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> {$lang.per_month}</h4>
+                                <h3>{$lang.package_of} <span>{$lang.voxes_menu}</span></h3>
+                                <h4>{$lang.operation}</h4>
+                                <!-- <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> {$lang.per_month}</h4> -->
                                 <input type="checkbox" name="operation">
                             </div>
                         </label>
@@ -129,14 +129,15 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         <label>
                             <div class="package" id="reputation">
                                 <span><i class="fas fa-smile"></i></span>
-                                <h3>{$lang.package_of} <span>{$lang.reputation}</span></h3>
-                                <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> {$lang.per_month}</h4>
+                                <h3>{$lang.package_of} <span>{$lang.survey_reviews}</span></h3>
+                                <h4>{$lang.reputation}</h4>
+                                <!-- <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> {$lang.per_month}</h4> -->
                                 <input type="checkbox" name="reputation">
                             </div>
                         </label>
                     </div>
                 </div>
-                <p>* {$lang.no_charge_generated_demo}</p>
+                <!-- <p>{$lang.no_charge_generated_demo}</p> -->
                 <a data-action="next">{$lang.next}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
@@ -184,26 +185,11 @@ $this->dependencies->add(['js', '{$path.js}Signup/index.js']);
                         </div>
                     </div>
                 </div>
-                <a data-action="next">{$lang.next}</a>
-                <a href="/">{$lang.cancel}</a>
-            </div>
-            <div class="step_container" data-step="4">
-                <h2>{$lang.step_4}: {$lang.payment_information}</h2>
-                <div class="row">
-                    <div class="span8">
-                        <div class="package" id="total">
-                            <span><i class="fas fa-credit-card"></i></span>
-                            <h3>{$lang.total}</h3>
-                            <h4><span></span>{$lang.per_month}</h4>
-                        </div>
-                    </div>
-                </div>
-                <p>* {$lang.no_charge_generated_demo}</p>
-                <p>* {$lang.signup_accept_1} <a href="/terms-and-conditions" target="_blank">{$lang.terms_and_conditions}</a> {$lang.signup_accept_2} <a href="/privacy-policies" target="_blank">{$lang.privacy_policies}</a></p>
+                <p>{$lang.signup_accept_1} <a href="/terms-and-conditions" target="_blank">{$lang.terms_and_conditions}</a> {$lang.signup_accept_2} <a href="/privacy-policies" target="_blank">{$lang.privacy_policies}</a></p>
                 <a data-action="next">{$lang.start_demo}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>
-            <div class="step_container" data-step="5">
+            <div class="step_container" data-step="4">
                 <div class="row">
                     <div class="span8">
                         <div class="success">

@@ -133,7 +133,7 @@ $(document).ready(function()
 
     $('[name="owner"]').on('change', function()
     {
-        if ($('[name="type"]').val() == 'request' || $('[name="type"]').val() == 'incident')
+        if ($('[name="type"]:checked').val() == 'request' || $('[name="type"]:checked').val() == 'incident')
         {
             $.ajax({
                 type: 'POST',
@@ -153,13 +153,15 @@ $(document).ready(function()
                             'lastname'
                         ]);
 
-                        if ($('[name="type"]').val() == 'incident')
+                        if ($('[name="type"]:checked').val() == 'incident')
                         {
+                            $('[name="guest_id"]').val(response.data.guest_id);
                             $('[name="reservation_number"]').val(response.data.reservation_number);
                             $('[name="check_in"]').val(response.data.check_in);
                             $('[name="check_out"]').val(response.data.check_out);
 
                             required_focus('names', $('form[name="new_vox"]'), [
+                                'guest_id',
                                 'reservation_number',
                                 'check_in',
                                 'check_out'

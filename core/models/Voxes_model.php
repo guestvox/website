@@ -417,6 +417,7 @@ class Voxes_model extends Model
 			'status' => 'success',
 			'firstname' => '',
 			'lastname' => '',
+			'guest_id' => '',
 			'reservation_number' => '',
 			'check_in' => '',
 			'check_out' => '',
@@ -436,6 +437,7 @@ class Voxes_model extends Model
 			{
 				$reservation['firstname'] = $query['Name'];
 				$reservation['lastname'] = $query['LastName'];
+				$reservation['guest_id'] = $query['FolioID'];
 				$reservation['reservation_number'] = $query['FolioRefID'];
 				$reservation['check_in'] = $query['StartDate'];
 				$reservation['check_out'] = $query['EndDate'];

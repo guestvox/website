@@ -20,7 +20,7 @@ $(document).ready(function()
         });
     });
 
-    $('[data-action="preview_menu_product"]').on('click', function()
+    $(document).on('click', '[data-action="preview_menu_product"]', function()
     {
         $.ajax({
             type: 'POST',
