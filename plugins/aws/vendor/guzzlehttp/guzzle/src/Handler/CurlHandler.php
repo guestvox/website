@@ -35,7 +35,7 @@ class CurlHandler
     public function __invoke(RequestInterface $request, array $options): PromiseInterface
     {
         if (isset($options['delay'])) {
-            \usleep($options['delay'] * 1000);
+            \usleep($options['delay'] * 600);
         }
 
         $easy = $this->factory->create($request, $options);

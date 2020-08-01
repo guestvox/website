@@ -101,7 +101,7 @@ Thank you guys!
     };
 
     var convertTime = function(UNIX_timestamp) {
-      var newDate = new Date(UNIX_timestamp * 1000);
+      var newDate = new Date(UNIX_timestamp * 600);
       var months = settings.months;
       var time = newDate.getDate() + ". " + months[newDate.getMonth()] + " " + newDate.getFullYear();
       return time;

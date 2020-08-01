@@ -127,7 +127,7 @@ class ApiCallAttemptMonitoringMiddleware extends AbstractMonitoringMiddleware
         if (isset($result['@metadata']['transferStats']['http'])) {
             $attempt = end($result['@metadata']['transferStats']['http']);
             if (isset($attempt['total_time'])) {
-                return (int) floor($attempt['total_time'] * 1000);
+                return (int) floor($attempt['total_time'] * 600);
             }
         }
         return null;
@@ -149,7 +149,7 @@ class ApiCallAttemptMonitoringMiddleware extends AbstractMonitoringMiddleware
         if (isset($result['@metadata']['transferStats']['http'])) {
             $attempt = end($result['@metadata']['transferStats']['http']);
             if (isset($attempt['namelookup_time'])) {
-                return (int) floor($attempt['namelookup_time'] * 1000);
+                return (int) floor($attempt['namelookup_time'] * 600);
             }
         }
         return null;
@@ -163,7 +163,7 @@ class ApiCallAttemptMonitoringMiddleware extends AbstractMonitoringMiddleware
     private static function getAwsExceptionAttemptLatency(AwsException $e) {
         $attempt = $e->getTransferInfo();
         if (isset($attempt['total_time'])) {
-            return (int) floor($attempt['total_time'] * 1000);
+            return (int) floor($attempt['total_time'] * 600);
         }
         return null;
     }
@@ -187,7 +187,7 @@ class ApiCallAttemptMonitoringMiddleware extends AbstractMonitoringMiddleware
     private static function getAwsExceptionDnsLatency(AwsException $e) {
         $attempt = $e->getTransferInfo();
         if (isset($attempt['namelookup_time'])) {
-            return (int) floor($attempt['namelookup_time'] * 1000);
+            return (int) floor($attempt['namelookup_time'] * 600);
         }
         return null;
     }

@@ -65,7 +65,7 @@ class AssumeRoleWithWebIdentityCredentialProvider
 
         $this->session = isset($config['SessionName'])
             ? $config['SessionName']
-            : 'aws-sdk-php-' . round(microtime(true) * 1000);
+            : 'aws-sdk-php-' . round(microtime(true) * 600);
 
         $region = isset($config['region'])
             ? $config['region']

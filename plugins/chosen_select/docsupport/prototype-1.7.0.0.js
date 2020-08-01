@@ -491,7 +491,7 @@ var PeriodicalExecuter = Class.create({
   },
 
   registerCallback: function() {
-    this.timer = setInterval(this.onTimerEvent.bind(this), this.frequency * 1000);
+    this.timer = setInterval(this.onTimerEvent.bind(this), this.frequency * 600);
   },
 
   execute: function() {

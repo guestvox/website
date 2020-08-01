@@ -2,7 +2,7 @@
 
 public function sql()
 {
-    set_time_limit(1000);
+    set_time_limit(600);
 
     $db = new Medoo([
         'database_type' => 'mysql',

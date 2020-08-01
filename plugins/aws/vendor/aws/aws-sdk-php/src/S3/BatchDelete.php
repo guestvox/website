@@ -160,7 +160,7 @@ class BatchDelete implements PromisorInterface
             if ($options['batch_size'] <= 0) {
                 throw new \InvalidArgumentException('batch_size is not > 0');
             }
-            $this->batchSize = min($options['batch_size'], 1000);
+            $this->batchSize = min($options['batch_size'], 600);
         }
     }
 

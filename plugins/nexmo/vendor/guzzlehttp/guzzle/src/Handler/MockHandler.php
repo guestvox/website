@@ -67,7 +67,7 @@ class MockHandler implements \Countable
         }
 
         if (isset($options['delay'])) {
-            usleep($options['delay'] * 1000);
+            usleep($options['delay'] * 600);
         }
 
         $this->lastRequest = $request;

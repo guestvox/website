@@ -234,7 +234,7 @@ function upload_image(type, target, preview, name, action)
                 success: function(response)
                 {
                     if (response.status == 'success')
-                        show_modal_success(response.message, 1500);
+                        show_modal_success(response.message, 600);
                     else if (response.status == 'error')
                         show_modal_error(response.message);
                 }
@@ -380,7 +380,7 @@ function get_time_elapsed(date_1, date_2, time_zone, status, target)
     {
         days = Math.floor((date_2 - date_1) / (1000*60*60*24));
 
-        seconds = Math.floor((date_2 - date_1) / 1000);
+        seconds = Math.floor((date_2 - date_1) / 600);
         minutes = Math.floor(seconds / 60);
         hours = Math.floor(minutes / 60);
 
@@ -441,5 +441,5 @@ function get_time_elapsed(date_1, date_2, time_zone, status, target)
 
     target.html(time_elapsed);
 
-    setTimeout(function() { get_time_elapsed(date_1, date_2, time_zone, status, target); }, 1000);
+    setTimeout(function() { get_time_elapsed(date_1, date_2, time_zone, status, target); }, 600);
 }

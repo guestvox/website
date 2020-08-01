@@ -574,7 +574,7 @@ class CredentialProvider
         $roleArn = isset($roleProfile['role_arn']) ? $roleProfile['role_arn'] : '';
         $roleSessionName = isset($roleProfile['role_session_name'])
             ? $roleProfile['role_session_name']
-            : 'aws-sdk-php-' . round(microtime(true) * 1000);
+            : 'aws-sdk-php-' . round(microtime(true) * 600);
 
         if (empty($profiles[$profileName]['source_profile'])) {
             return self::reject("source_profile is not set using profile " .
