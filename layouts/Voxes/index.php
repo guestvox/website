@@ -140,7 +140,6 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                             <label required>
                                 <p>{$lang.status}</p>
                                 <select name="status">
-                                    <option value="all" <?php echo ((Session::get_value('settings')['voxes']['voxes']['filter']['status'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
                                     <option value="open" <?php echo ((Session::get_value('settings')['voxes']['voxes']['filter']['status'] == 'open') ? 'selected' : ''); ?>>{$lang.open}</option>
                                     <option value="close" <?php echo ((Session::get_value('settings')['voxes']['voxes']['filter']['status'] == 'close') ? 'selected' : ''); ?>>{$lang.close}</option>
                                 </select>

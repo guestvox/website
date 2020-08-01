@@ -17,11 +17,6 @@ class Voxes_model extends Model
 			]
 		];
 
-		if (Functions::check_user_access(['{view_opportunity_areas}']) == true)
-			$where['AND']['opportunity_area'] = Session::get_value('user')['opportunity_areas'];
-		else if (Functions::check_user_access(['{view_own}']) == true)
-			$where['AND']['created_user'] = Session::get_value('user')['id'];
-
 		if (Functions::check_user_access(['{view_confidentiality}']) == false)
 			$where['AND']['confidentiality'] = false;
 
@@ -34,19 +29,16 @@ class Voxes_model extends Model
 				$where['AND']['owner'] = Session::get_value('settings')['voxes']['voxes']['filter']['owner'];
 
 			if (Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_area'] != 'all')
-				$where['AND']['urgency'] = Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_area'];
+				$where['AND']['opportunity_area'] = Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_area'];
 
 			if (Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_type'] != 'all')
-				$where['AND']['urgency'] = Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_type'];
+				$where['AND']['opportunity_type'] = Session::get_value('settings')['voxes']['voxes']['filter']['opportunity_type'];
 
 			if (Session::get_value('settings')['voxes']['voxes']['filter']['location'] != 'all')
-				$where['AND']['urgency'] = Session::get_value('settings')['voxes']['voxes']['filter']['location'];
+				$where['AND']['location'] = Session::get_value('settings')['voxes']['voxes']['filter']['location'];
 
 			if (Session::get_value('settings')['voxes']['voxes']['filter']['urgency'] != 'all')
 				$where['AND']['urgency'] = Session::get_value('settings')['voxes']['voxes']['filter']['urgency'];
-
-			if (Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] != 'all')
-				$where['AND']['created_user'] = Session::get_value('user')['id'];
 
 			if (Session::get_value('settings')['voxes']['voxes']['filter']['order'] == 'date_old')
 			{
@@ -153,54 +145,68 @@ class Voxes_model extends Model
 
 		foreach ($query as $key => $value)
 		{
-			$query[$key]['owner'] = $this->get_owner($value['owner']);
-			$query[$key]['opportunity_area'] = $this->get_opportunity_area($value['opportunity_area']);
-			$query[$key]['opportunity_type'] = $this->get_opportunity_type($value['opportunity_type']);
-			$query[$key]['location'] = $this->get_location($value['location']);
+			$break = true;
 
-			if (Session::get_value('account')['type'] == 'hotel')
+			if (Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'all')
+				$break = false;
+			else if (Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'opportunity_areas' AND in_array($value['opportunity_area'], Session::get_value('user')['opportunity_areas']))
+				$break = false;
+			else if (Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'me' AND ($value['created_user'] == Session::get_value('user')['id'] OR in_array(Session::get_value('user')['id'], $value['assigned_users'])))
+				$break = false;
+
+			if ($break == false)
 			{
-				if ($value['type'] == 'request' OR $value['type'] == 'incident')
-					$query[$key]['guest_treatment'] = $this->get_guest_treatment($value['guest_treatment']);
-			}
-
-			foreach ($value['comments'] as $subkey => $subvalue)
-			{
-				$query[$key]['attachments'] = array_merge($value['attachments'], $subvalue['attachments']);
-
-				if ($option == 'report')
-				{
-					$query[$key]['cost'] = (!empty($value['cost']) ? $value['cost'] : 0) + (!empty($subvalue['cost']) ? $subvalue['cost'] : 0);
-					$query[$key]['comments'][$subkey]['user'] = $this->get_user($subvalue['user']);
-				}
-			}
-
-			if ($option == 'report')
-			{
-				foreach ($value['assigned_users'] as $subkey => $subvalue)
-					$query[$key]['assigned_users'][$subkey] = $this->get_user($subvalue);
+				$query[$key]['owner'] = $this->get_owner($value['owner']);
+				$query[$key]['opportunity_area'] = $this->get_opportunity_area($value['opportunity_area']);
+				$query[$key]['opportunity_type'] = $this->get_opportunity_type($value['opportunity_type']);
+				$query[$key]['location'] = $this->get_location($value['location']);
 
 				if (Session::get_value('account')['type'] == 'hotel')
 				{
-					if ($value['type'] == 'incident')
+					if ($value['type'] == 'request' OR $value['type'] == 'incident')
+						$query[$key]['guest_treatment'] = $this->get_guest_treatment($value['guest_treatment']);
+				}
+
+				foreach ($value['comments'] as $subkey => $subvalue)
+				{
+					$query[$key]['attachments'] = array_merge($value['attachments'], $subvalue['attachments']);
+
+					if ($option == 'report')
 					{
-						$query[$key]['guest_type'] = $this->get_guest_type($value['guest_type']);
-						$query[$key]['reservation_status'] = $this->get_reservation_status($value['reservation_status']);
+						$query[$key]['cost'] = (!empty($value['cost']) ? $value['cost'] : 0) + (!empty($subvalue['cost']) ? $subvalue['cost'] : 0);
+						$query[$key]['comments'][$subkey]['user'] = $this->get_user($subvalue['user']);
 					}
 				}
 
-				foreach ($value['viewed_by'] as $subkey => $subvalue)
-					$query[$key]['viewed_by'][$subkey] = $this->get_user($subvalue);
+				if ($option == 'report')
+				{
+					foreach ($value['assigned_users'] as $subkey => $subvalue)
+						$query[$key]['assigned_users'][$subkey] = $this->get_user($subvalue);
 
-				$query[$key]['edited_user'] = $this->get_user($value['edited_user']);
-				$query[$key]['completed_user'] = $this->get_user($value['completed_user']);
-				$query[$key]['reopened_user'] = $this->get_user($value['reopened_user']);
+					if (Session::get_value('account')['type'] == 'hotel')
+					{
+						if ($value['type'] == 'incident')
+						{
+							$query[$key]['guest_type'] = $this->get_guest_type($value['guest_type']);
+							$query[$key]['reservation_status'] = $this->get_reservation_status($value['reservation_status']);
+						}
+					}
+
+					foreach ($value['viewed_by'] as $subkey => $subvalue)
+						$query[$key]['viewed_by'][$subkey] = $this->get_user($subvalue);
+
+					$query[$key]['edited_user'] = $this->get_user($value['edited_user']);
+					$query[$key]['completed_user'] = $this->get_user($value['completed_user']);
+					$query[$key]['reopened_user'] = $this->get_user($value['reopened_user']);
+				}
+
+				$query[$key]['created_user'] = $this->get_user($value['created_user']);
+
+				if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
+					$query[$key]['menu_order'] = $this->get_menu_order($query[$key]['menu_order']);
 			}
-
-			$query[$key]['created_user'] = $this->get_user($value['created_user']);
-
-			if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
-				$query[$key]['menu_order'] = $this->get_menu_order($query[$key]['menu_order']);
+			else
+				unset($query[$key]);
 		}
 
 		return $query;
