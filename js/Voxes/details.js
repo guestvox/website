@@ -12,10 +12,14 @@ $(document).ready(function()
         e.preventDefault();
 
         var form = $(this);
+        var data = new FormData(form[0]);
+
+        data.append('action', 'comment_vox');
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=comment_vox',
+            data: data,
+            contentType: false,
             processData: false,
             cache: false,
             dataType: 'json',
