@@ -53,19 +53,21 @@ class Myvox_model extends Model
 		return $query;
 	}
 
-    public function get_owner($token)
+    public function get_owner($id, $token = false)
 	{
+		$where = [];
+
+		if ($token == true)
+			$where['token'] = $id;
+		else if ($token == false)
+			$where['id'] = $id;
+
 		$query = Functions::get_json_decoded_query($this->database->select('owners', [
 			'id',
 			'token',
 			'name',
 			'number'
-		], [
-			'OR' => [
-				'id' => $token,
-				'token' => $token
-			]
-		]));
+		], $where));
 
 		return !empty($query) ? $query[0] : null;
 	}
@@ -76,6 +78,7 @@ class Myvox_model extends Model
 			'status' => 'success',
 			'firstname' => '',
 			'lastname' => '',
+			'guest_id' => '',
 			'reservation_number' => '',
 			'check_in' => '',
 			'check_out' => '',
@@ -95,6 +98,7 @@ class Myvox_model extends Model
 			{
 				$reservation['firstname'] = $query['Name'];
 				$reservation['lastname'] = $query['LastName'];
+				$reservation['guest_id'] = $query['FolioID'];
 				$reservation['reservation_number'] = $query['FolioRefID'];
 				$reservation['check_in'] = $query['StartDate'];
 				$reservation['check_out'] = $query['EndDate'];

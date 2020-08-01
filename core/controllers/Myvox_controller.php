@@ -47,7 +47,7 @@ class Myvox_controller extends Controller
 				$url = 'account';
 			}
 
-			$owner = $this->model->get_owner($owner);
+			$owner = $this->model->get_owner($owner, true);
 
 			if (!empty($owner) OR $url == 'account')
 			{
