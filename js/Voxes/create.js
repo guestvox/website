@@ -220,7 +220,7 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                    show_modal_success(response.message, 1500, response.path);
+                    show_modal_success(response.message, 600, response.path);
                 else if (response.status == 'error')
                     show_form_errors(form, response);
             }

@@ -553,6 +553,7 @@ class Voxes_controller extends Controller
 					if (empty($labels))
 					{
 						$_POST['id'] = $vox['id'];
+						$_POST['attachments'] = $_FILES['attachments'];
 
 						$query = $this->model->comment_vox($_POST);
 
@@ -993,7 +994,7 @@ class Voxes_controller extends Controller
 						$div_changes_history .= '<ul>';
 
 						foreach ($value['fields'] as $subvalue)
-							$div_changes_history .= '<li>{$lang.' . $subvalue['field'] . '}: ' . (($subvalue['field'] != 'attachments') ? $subvalue['before'] . '<i class="fas fa-chevron-right"></i>' . $subvalue['after'] : '') . '</li>';
+							$div_changes_history .= '<li>{$lang.' . $subvalue['field'] . '}</li>';
 
 						$div_changes_history .= '</ul>';
 					}
@@ -1032,28 +1033,28 @@ class Voxes_controller extends Controller
 					                        </div>
 					                    </div>
 					                    <div class="span12">
-					                        <div class="stl_3" data-uploader="multiple">
-					                            <div data-preview>
-					                                <div data-image>
-					                                    <i class="fas fa-file-image"></i>
-					                                    <span><strong>0</strong>{$lang.images}</span>
-					                                </div>
-					                                <div data-pdf>
-					                                    <i class="fas fa-file-pdf"></i>
-					                                    <span><strong>0</strong>{$lang.pdf}</span>
-					                                </div>
-					                                <div data-word>
-					                                    <i class="fas fa-file-word"></i>
-					                                    <span><strong>0</strong>{$lang.word}</span>
-					                                </div>
-					                                <div data-excel>
-					                                    <i class="fas fa-file-excel"></i>
-					                                    <span><strong>0</strong>{$lang.excel}</span>
-					                                </div>
-					                            </div>
-					                            <a data-select><i class="fas fa-cloud-upload-alt"></i></a>
-					                            <input type="file" name="attachments[]" accept="image/*, application/pdf, application/vnd.ms-word, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple data-upload>
-					                        </div>
+											<div class="stl_3" data-uploader="multiple">
+												<div data-preview>
+													<div data-image>
+														<i class="fas fa-file-image"></i>
+														<span><strong>0</strong>{$lang.images}</span>
+													</div>
+													<div data-pdf>
+														<i class="fas fa-file-pdf"></i>
+														<span><strong>0</strong>{$lang.pdf}</span>
+													</div>
+													<div data-word>
+														<i class="fas fa-file-word"></i>
+														<span><strong>0</strong>{$lang.word}</span>
+													</div>
+													<div data-excel>
+														<i class="fas fa-file-excel"></i>
+														<span><strong>0</strong>{$lang.excel}</span>
+													</div>
+												</div>
+												<a data-select><i class="fas fa-cloud-upload-alt"></i></a>
+												<input type="file" name="attachments[]" accept="image/*, application/pdf, application/vnd.ms-word, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" multiple data-upload>
+											</div>
 					                    </div>
 					                    <div class="span12">
 					                        <div class="buttons">
@@ -1522,10 +1523,7 @@ class Voxes_controller extends Controller
 							<select name="assigned_users[]" class="chosen-select" multiple>';
 
 				foreach ($this->model->get_users() as $value)
-				{
-					foreach ($vox['assigned_users'] as $subvalue)
-						$frm_edit_vox .= '<option value="' . $value['id'] . '" ' . (($subvalue == $value['id']) ? 'selected' : '') . '>' . $value['firstname'] . ' ' . $value['lastname'] . '</option>';
-				}
+					$frm_edit_vox .= '<option value="' . $value['id'] . '" ' . (in_array($value['id'], $vox['assigned_users']) ? 'selected' : '') . '>' . $value['firstname'] . ' ' . $value['lastname'] . '</option>';
 
 				$frm_edit_vox .=
 				'			</select>
@@ -1673,46 +1671,22 @@ class Voxes_controller extends Controller
 				$frm_edit_vox .=
 				'<div class="span12">
                     <div class="stl_3" data-uploader="multiple">
-                        <div data-preview>';
-
-				$img = 0;
-				$pdf = 0;
-				$wrd = 0;
-				$exl = 0;
-
-				foreach ($vox['attachments'] as $value)
-				{
-					if ($value['status'] == 'success')
-					{
-						$ext = strtoupper(explode('.', $value['file'])[1]);
-
-						if ($ext == 'JPG' OR $ext == 'JPEG' OR $ext == 'PNG')
-							$img = $img + 1;
-						else if ($ext == 'PDF')
-							$pdf = $pdf + 1;
-						else if ($ext == 'DOC' OR $ext == 'DOCX')
-							$wrd = $wrd + 1;
-						else if ($ext == 'XLS' OR $ext == 'XLSX')
-							$exl = $exl + 1;
-					}
-				}
-
-				$frm_edit_vox .=
-                '       	<div data-image>
+                        <div data-preview>
+						<div data-image>
 								<i class="fas fa-file-image"></i>
-								<span><strong>' . $img . '</strong>{$lang.images}</span>
+								<span><strong>0</strong>{$lang.images}</span>
 							</div>
 							<div data-pdf>
 								<i class="fas fa-file-pdf"></i>
-								<span><strong>' . $pdf . '</strong>{$lang.pdf}</span>
+								<span><strong>0</strong>{$lang.pdf}</span>
 							</div>
 							<div data-word>
 								<i class="fas fa-file-word"></i>
-								<span><strong>' . $wrd . '</strong>{$lang.word}</span>
+								<span><strong>0</strong>{$lang.word}</span>
 							</div>
 							<div data-excel>
 								<i class="fas fa-file-excel"></i>
-								<span><strong>' . $exl . '</strong>{$lang.excel}</span>
+								<span><strong>0</strong>{$lang.excel}</span>
 							</div>
 						</div>
                         <a data-select><i class="fas fa-cloud-upload-alt"></i></a>
@@ -1723,7 +1697,7 @@ class Voxes_controller extends Controller
 				$replace = [
 					'{$frm_edit_vox}' => $frm_edit_vox,
 					'{$token}' => $vox['token']
-				];
+			];
 
 				$template = $this->format->replace($replace, $template);
 

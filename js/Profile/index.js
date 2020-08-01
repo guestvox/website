@@ -51,7 +51,7 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                    show_modal_success(response.message, 1500);
+                    show_modal_success(response.message, 600);
                 else if (response.status == 'error')
                     show_form_errors(form, response);
             }
@@ -78,7 +78,7 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                    show_modal_success(response.message, 1500);
+                    show_modal_success(response.message, 600);
                 else if (response.status == 'error')
                     show_form_errors(form, response);
             }
