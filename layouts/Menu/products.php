@@ -71,7 +71,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                         <div class="label">
                             <label required>
                                 <p>(<?php echo !empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'] ?>) {$lang.price}</p>
-                                <input type="number" name="price">
+                                <input type="text" name="price">
                             </label>
                         </div>
                     </div>
