@@ -165,6 +165,10 @@ class Urls_registered_vkye
                 'controller' => 'Menu',
                 'method' => 'categories'
             ],
+            '/menu/topics' => [
+                'controller' => 'Menu',
+                'method' => 'topics'
+            ],
             '/owners' => [
                 'controller' => 'Owners',
                 'method' => 'index'

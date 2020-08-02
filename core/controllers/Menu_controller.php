@@ -466,4 +466,127 @@ class Menu_controller extends Controller
 			echo $template;
 		}
 	}
+
+	public function topics()
+	{
+        if (Format::exist_ajax_request() == true)
+		{
+			if ($_POST['action'] == 'get_menu_topic')
+			{
+				$query = $this->model->get_menu_topic($_POST['id']);
+
+                if (!empty($query))
+                {
+                    Functions::environment([
+    					'status' => 'success',
+    					'data' => $query
+    				]);
+                }
+                else
+                {
+                    Functions::environment([
+    					'status' => 'error',
+    					'message' => '{$lang.operation_error}'
+    				]);
+                }
+			}
+
+			if ($_POST['action'] == 'new_menu_topic' OR $_POST['action'] == 'edit_menu_topic')
+			{
+				$labels = [];
+
+				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
+					array_push($labels, ['name_es','']);
+
+				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
+					array_push($labels, ['name_en','']);
+
+				if (empty($labels))
+				{
+					if ($_POST['action'] == 'new_menu_topic')
+						$query = $this->model->new_menu_topic($_POST);
+					else if ($_POST['action'] == 'edit_menu_topic')
+						$query = $this->model->edit_menu_topic($_POST);
+
+					if (!empty($query))
+					{
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'deactivate_menu_topic' OR $_POST['action'] == 'activate_menu_topic' OR $_POST['action'] == 'delete_menu_topic')
+			{
+				if ($_POST['action'] == 'deactivate_menu_topic')
+					$query = $this->model->deactivate_menu_topic($_POST['id']);
+				else if ($_POST['action'] == 'activate_menu_topic')
+					$query = $this->model->activate_menu_topic($_POST['id']);
+				else if ($_POST['action'] == 'delete_menu_topic')
+					$query = $this->model->delete_menu_topic($_POST['id']);
+
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+		}
+		else
+		{
+			$template = $this->view->render($this, 'topics');
+
+			define('_title', 'Guestvox | {$lang.menu} | {$lang.topics}');
+
+			$tbl_menu_topics = '';
+
+			foreach ($this->model->get_menu_topics() as $value)
+			{
+				$tbl_menu_topics .=
+				'<div>
+					<div class="datas">
+						<h2>' . $value['name'][$this->lang] . '</h2>
+					</div>
+					<div class="buttons flex_right">
+						' . ((Functions::check_user_access(['{menu_topics_deactivate}','{menu_topics_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_menu_topic' : 'activate_menu_topic') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{menu_topics_update}']) == true) ? '<a class="edit" data-action="edit_menu_topic" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{menu_topics_delete}']) == true) ? '<a class="delete" data-action="delete_menu_topic" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+					</div>
+				</div>';
+			}
+
+			$replace = [
+				'{$tbl_menu_topics}' => $tbl_menu_topics
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
 }

@@ -482,4 +482,101 @@ class Menu_model extends Model
 
 		return $query;
 	}
+
+	public function get_menu_topics($option = 'all')
+	{
+		$where = [];
+
+		if ($option == 'all')
+			$where['account'] = Session::get_value('account')['id'];
+		else if ($option == 'actives')
+		{
+			$where['AND'] = [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			];
+		}
+
+		$where['ORDER'] = [
+			'name' => 'ASC'
+		];
+
+		$query = Functions::get_json_decoded_query($this->database->select('menu_topics', [
+			'id',
+			'name',
+			'status'
+		], $where));
+
+		return $query;
+	}
+
+	public function get_menu_topic($id)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('menu_topics', [
+			'name'
+		], [
+			'id' => $id
+		]));
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function new_menu_topic($data)
+	{
+		$query = $this->database->insert('menu_topics', [
+			'account' => Session::get_value('account')['id'],
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'status' => true
+		]);
+
+		return $query;
+	}
+
+	public function edit_menu_topic($data)
+	{
+		$query = $this->database->update('menu_topics', [
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			])
+		], [
+			'id' => $data['id']
+		]);
+
+		return $query;
+	}
+
+	public function deactivate_menu_topic($id)
+	{
+		$query = $this->database->update('menu_topics', [
+			'status' => false
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function activate_menu_topic($id)
+	{
+		$query = $this->database->update('menu_topics', [
+			'status' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function delete_menu_topic($id)
+	{
+		$query = $this->database->delete('menu_topics', [
+			'id' => $id
+		]);
+
+		return $query;
+	}
 }

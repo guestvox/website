@@ -29,6 +29,9 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
             <?php if (Functions::check_user_access(['{menu_categories_create}']) == true) : ?>
             <a class="new" data-button-modal="new_menu_category"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
+            <?php if (Functions::check_user_access(['{menu_topics_create}','{menu_topics_update}','{menu_topics_deactivate}','{menu_topics_activate}','{menu_topics_delete}']) == true) : ?>
+            <a href="/menu/topics" class="big"><i class="fas fa-bookmark"></i><span>{$lang.topics}</span></a>
+            <?php endif; ?>
         </div>
     </section>
 </main>

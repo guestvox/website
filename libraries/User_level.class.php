@@ -140,6 +140,26 @@ class User_level
                     array_push($paths, '/Menu/categories');
                 break;
 
+                case '{menu_topics_create}' :
+                    array_push($paths, '/Menu/topics');
+                break;
+
+                case '{menu_topics_update}' :
+                    array_push($paths, '/Menu/topics');
+                break;
+
+                case '{menu_topics_deactivate}' :
+                    array_push($paths, '/Menu/topics');
+                break;
+
+                case '{menu_topics_activate}' :
+                    array_push($paths, '/Menu/topics');
+                break;
+
+                case '{menu_topics_delete}' :
+                    array_push($paths, '/Menu/topics');
+                break;
+
                 case '{owners_create}' :
                     array_push($paths, '/Owners/index');
                 break;
