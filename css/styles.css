@@ -1658,8 +1658,8 @@ div.checkboxes > p {
     padding-left: 10px;
     box-sizing: border-box;
     font-size: 14px;
-    font-weight: 400;
-    color: #757575;
+    font-weight: 600;
+    color: #212121;
 }
 
 div.checkboxes > p:first-child {
@@ -1839,6 +1839,60 @@ div.checkboxes.stl_2 > div > div > input[type="radio"]:focus,
 div.checkboxes.stl_3 > div > input[type="radio"]:focus {
     border: none;
     box-shadow: none;
+}
+
+/*  */
+
+div.checkboxes.stl_4 > div {
+    width: 100%;
+    border-top: 1px solid #e0e0e0;
+    border-left: 1px solid #e0e0e0;
+    box-sizing: border-box;
+}
+
+div.checkboxes.stl_4 > div::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+div.checkboxes.stl_4 > div > label {
+    width: calc(100% / 5);
+    float: left;
+    position: relative;
+    padding: 10px;
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+div.checkboxes.stl_4 > div > label > figure {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+div.checkboxes.stl_4 > div > label > figure > img {
+    width: 100%;
+}
+
+div.checkboxes.stl_4 > div > label > input[type="radio"] {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    margin: 0px;
+}
+
+div.checkboxes.stl_4 > div > label > p {
+    width: 100%;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: #757575;
 }
 
 /* Switch

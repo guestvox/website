@@ -120,6 +120,26 @@ class User_level
                     array_push($paths, '/Menu/restaurants');
                 break;
 
+                case '{menu_categories_create}' :
+                    array_push($paths, '/Menu/categories');
+                break;
+
+                case '{menu_categories_update}' :
+                    array_push($paths, '/Menu/categories');
+                break;
+
+                case '{menu_categories_deactivate}' :
+                    array_push($paths, '/Menu/categories');
+                break;
+
+                case '{menu_categories_activate}' :
+                    array_push($paths, '/Menu/categories');
+                break;
+
+                case '{menu_categories_delete}' :
+                    array_push($paths, '/Menu/categories');
+                break;
+
                 case '{owners_create}' :
                     array_push($paths, '/Owners/index');
                 break;

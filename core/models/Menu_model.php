@@ -70,32 +70,6 @@ class Menu_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_menu_categories()
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
-			'id',
-			'name',
-			'type',
-			'accounts'
-		], [
-			'status' => true,
-			'ORDER' => [
-				'name' => 'ASC'
-			]
-		]));
-
-		foreach ($query as $key => $value)
-		{
-			if ($value['type'] == 'close')
-			{
-				if (!in_array(Session::get_value('account')['id'], $value['accounts']))
-					unset($query[$key]);
-			}
-		}
-
-		return $query;
-	}
-
 	public function new_menu_product($data)
 	{
 		$query = $this->database->insert('menu_products', [
@@ -371,6 +345,140 @@ class Menu_model extends Model
 			if (!empty($query))
 				Functions::undoloader($deleted[0]['qr']);
 		}
+
+		return $query;
+	}
+
+	public function get_menu_categories($option = 'all')
+	{
+		$where = [];
+
+		if ($option == 'all')
+			$where['menu_categories.account'] = Session::get_value('account')['id'];
+		else if ($option == 'actives')
+		{
+			$where['AND'] = [
+				'menu_categories.account' => Session::get_value('account')['id'],
+				'menu_categories.status' => true
+			];
+		}
+
+		$where['ORDER'] = [
+			'menu_categories.name' => 'ASC'
+		];
+
+		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+			'[>]icons' => [
+				'icon' => 'id'
+			]
+		], [
+			'menu_categories.id',
+			'menu_categories.name',
+			'icons.name(icon_name)',
+			'icons.url(icon_url)',
+			'icons.type(icon_type)',
+			'menu_categories.status'
+		], $where));
+
+		return $query;
+	}
+
+	public function get_menu_category($id)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+			'name',
+			'icon'
+		], [
+			'id' => $id
+		]));
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+    public function get_icons($type)
+	{
+		$icons = [];
+
+		$query = Functions::get_json_decoded_query($this->database->select('icons', [
+			'id',
+			'name',
+			'url',
+			'type'
+		], [
+			$type => true,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		foreach ($query as $value)
+		{
+			if (array_key_exists($value['type'], $icons))
+				array_push($icons[$value['type']], $value);
+			else
+				$icons[$value['type']] = [$value];
+		}
+
+		return $icons;
+	}
+
+	public function new_menu_category($data)
+	{
+		$query = $this->database->insert('menu_categories', [
+			'account' => Session::get_value('account')['id'],
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'icon' => $data['icon'],
+			'status' => true
+		]);
+
+		return $query;
+	}
+
+	public function edit_menu_category($data)
+	{
+		$query = $this->database->update('menu_categories', [
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'icon' => $data['icon']
+		], [
+			'id' => $data['id']
+		]);
+
+		return $query;
+	}
+
+	public function deactivate_menu_category($id)
+	{
+		$query = $this->database->update('menu_categories', [
+			'status' => false
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function activate_menu_category($id)
+	{
+		$query = $this->database->update('menu_categories', [
+			'status' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function delete_menu_category($id)
+	{
+		$query = $this->database->delete('menu_categories', [
+			'id' => $id
+		]);
 
 		return $query;
 	}

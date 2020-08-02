@@ -309,4 +309,161 @@ class Menu_controller extends Controller
 			echo $template;
 		}
 	}
+
+	public function categories()
+	{
+        if (Format::exist_ajax_request() == true)
+		{
+			if ($_POST['action'] == 'get_menu_category')
+			{
+				$query = $this->model->get_menu_category($_POST['id']);
+
+                if (!empty($query))
+                {
+                    Functions::environment([
+    					'status' => 'success',
+    					'data' => $query
+    				]);
+                }
+                else
+                {
+                    Functions::environment([
+    					'status' => 'error',
+    					'message' => '{$lang.operation_error}'
+    				]);
+                }
+			}
+
+			if ($_POST['action'] == 'new_menu_category' OR $_POST['action'] == 'edit_menu_category')
+			{
+				$labels = [];
+
+				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
+					array_push($labels, ['name_es','']);
+
+				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
+					array_push($labels, ['name_en','']);
+
+				if (!isset($_POST['icon']) OR empty($_POST['icon']))
+					array_push($labels, ['icon','']);
+
+				if (empty($labels))
+				{
+					if ($_POST['action'] == 'new_menu_category')
+						$query = $this->model->new_menu_category($_POST);
+					else if ($_POST['action'] == 'edit_menu_category')
+						$query = $this->model->edit_menu_category($_POST);
+
+					if (!empty($query))
+					{
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'deactivate_menu_category' OR $_POST['action'] == 'activate_menu_category' OR $_POST['action'] == 'delete_menu_category')
+			{
+				if ($_POST['action'] == 'deactivate_menu_category')
+					$query = $this->model->deactivate_menu_category($_POST['id']);
+				else if ($_POST['action'] == 'activate_menu_category')
+					$query = $this->model->activate_menu_category($_POST['id']);
+				else if ($_POST['action'] == 'delete_menu_category')
+					$query = $this->model->delete_menu_category($_POST['id']);
+
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+		}
+		else
+		{
+			$template = $this->view->render($this, 'categories');
+
+			define('_title', 'Guestvox | {$lang.menu} | {$lang.categories}');
+
+			$tbl_menu_categories = '';
+
+			foreach ($this->model->get_menu_categories() as $value)
+			{
+				$tbl_menu_categories .=
+				'<div>
+					<div class="datas">
+						<div class="itm_1">
+							<h2>' . $value['name'][$this->lang] .'</h2>
+						</div>
+						<div class="itm_2">
+							<figure>
+								<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '">
+							</figure>
+						</div>
+					</div>
+					<div class="buttons">
+						' . ((Functions::check_user_access(['{menu_categories_deactivate}','{menu_categories_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_menu_category' : 'activate_menu_category') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{menu_categories_update}']) == true) ? '<a class="edit" data-action="edit_menu_category" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{menu_categories_delete}']) == true) ? '<a class="delete" data-action="delete_menu_category" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+					</div>
+				</div>';
+			}
+
+			$cbx_icons = '';
+
+            foreach ($this->model->get_icons('menu') as $key => $value)
+            {
+				$cbx_icons .=
+				'<p>{$lang.' . $key . '}</p>
+				<div>';
+
+				foreach ($value as $subvalue)
+				{
+					$cbx_icons .=
+					'<label>
+						<input type="radio" name="icon" value="' . $subvalue['id'] . '">
+						<figure>
+							<img src="{$path.images}icons/' . $subvalue['type'] . '/' . $subvalue['url'] . '">
+						</figure>
+						<p>' . $subvalue['name'][$this->lang] . '</p>
+					</label>';
+				}
+
+				$cbx_icons .= '</div>';
+            }
+
+			$replace = [
+				'{$tbl_menu_categories}' => $tbl_menu_categories,
+				'{$cbx_icons}' => $cbx_icons
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
 }

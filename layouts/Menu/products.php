@@ -26,6 +26,9 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
             <!-- <?php if (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
             <a href="/menu/restaurants" class="big"><i class="fas fa-utensils"></i><span>{$lang.restaurants}</span></a>
             <?php endif; ?> -->
+            <?php if (Functions::check_user_access(['{menu_categories_create}','{menu_categories_update}','{menu_categories_deactivate}','{menu_categories_activate}','{menu_categories_delete}']) == true) : ?>
+            <a href="/menu/categories" class="big"><i class="fas fa-tag"></i><span>{$lang.categories}</span></a>
+            <?php endif; ?>
         </div>
     </section>
 </main>
