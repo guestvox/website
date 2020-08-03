@@ -73,6 +73,12 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                             </label>
                         </div>
                     </div>
+                    <div class="span12">
+                        <div class="checkboxes stl_1">
+                            <p>{$lang.topics}</p>
+                            {$cbx_menu_topics}
+                        </div>
+                    </div>
                     <div class="span6">
                         <div class="label">
                             <label required>
@@ -90,13 +96,29 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                         </div>
                     </div>
                     <div class="span12">
+                        <div class="label">
+                            <label unrequired>
+                                <p>{$lang.avatar}</p>
+                                <select name="avatar">
+                                    <option value="image">{$lang.image}</option>
+                                    <option value="icon">{$lang.icon}</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
                         <div class="stl_2" data-uploader="low">
-                            <p>{$lang.avatar}</p>
+                            <p>{$lang.image}</p>
                             <figure data-preview>
                                 <img src="{$path.images}empty.png">
                                 <a data-select><i class="fas fa-upload"></i></a>
-                                <input type="file" name="avatar" accept="image/*" data-upload>
+                                <input type="file" name="image" accept="image/*" data-upload>
                             </figure>
+                        </div>
+                    </div>
+                    <div class="span12 hidden">
+                        <div class="checkboxes stl_4">
+                            {$cbx_icons}
                         </div>
                     </div>
                     <div class="span12">

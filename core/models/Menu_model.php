@@ -14,6 +14,9 @@ class Menu_model extends Model
     public function get_menu_products()
 	{
 		$join = [
+			'[>]icons' => [
+				'icon' => 'id'
+			],
 			'[>]menu_restaurants' => [
 				'restaurant' => 'id'
 			]
@@ -24,8 +27,11 @@ class Menu_model extends Model
 			'menu_products.name',
 			'menu_products.description',
 			'menu_products.price',
-			'menu_products.avatar',
 			'menu_products.outstanding',
+			'menu_products.avatar',
+			'menu_products.image',
+			'icons.type(icon_type)',
+			'icons.url(icon_url)',
 			'menu_restaurants.name(restaurant)',
 			'menu_products.status'
 		];
@@ -58,16 +64,63 @@ class Menu_model extends Model
 		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
 			'name',
 			'description',
+			'topics',
 			'price',
-			'avatar',
-			'categories',
 			'outstanding',
+			'avatar',
+			'image',
+			'icon',
+			'categories',
 			'restaurant'
 		], [
 			'id' => $id
 		]));
 
 		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_menu_products_outstandings()
+	{
+		$query = $this->database->select('menu_products', [
+			'outstanding'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'outstanding[>=]' => 1
+			],
+			'ORDER' => [
+				'outstanding' => 'DESC'
+			]
+		]);
+
+		return !empty($query) ? ($query[0]['outstanding'] + 1) : '1';
+	}
+
+	public function get_icons($type)
+	{
+		$icons = [];
+
+		$query = Functions::get_json_decoded_query($this->database->select('icons', [
+			'id',
+			'name',
+			'url',
+			'type'
+		], [
+			$type => true,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		foreach ($query as $value)
+		{
+			if (array_key_exists($value['type'], $icons))
+				array_push($icons[$value['type']], $value);
+			else
+				$icons[$value['type']] = [$value];
+		}
+
+		return $icons;
 	}
 
 	public function new_menu_product($data)
@@ -82,10 +135,13 @@ class Menu_model extends Model
 				'es' => !empty($data['description_es']) ? $data['description_es'] : '',
 				'en' => !empty($data['description_en']) ? $data['description_en'] : ''
 			]),
+			'topics' => json_encode((!empty($data['topics']) ? $data['topics'] : [])),
 			'price' => $data['price'],
-			'avatar' => !empty($data['avatar']['name']) ? Functions::uploader($data['avatar'], Session::get_value('account')['path'] . '_menu_product_avatar_') : null,
-			'categories' => json_encode((!empty($data['categories']) ? $data['categories'] : [])),
 			'outstanding' => !empty($data['outstanding']) ? $data['outstanding'] : null,
+			'avatar' => $data['avatar'],
+			'image' => ($data['avatar'] == 'image') ? Functions::uploader($data['image'], Session::get_value('account')['path'] . '_menu_product_avatar_') : null,
+			'icon' => ($data['avatar'] == 'icon') ? $data['icon'] : null,
+			'categories' => json_encode((!empty($data['categories']) ? $data['categories'] : [])),
 			'restaurant' => (Session::get_value('account')['settings']['menu']['multi'] == true) ? (!empty($data['restaurant']) ? $data['restaurant'] : null) : null,
 			'status' => true
 		]);
@@ -121,7 +177,7 @@ class Menu_model extends Model
 		$query = null;
 
 		$edited = $this->database->select('menu_products', [
-			'avatar'
+			'image'
 		], [
 			'id' => $data['id']
 		]);
@@ -137,10 +193,13 @@ class Menu_model extends Model
 					'es' => !empty($data['description_es']) ? $data['description_es'] : '',
 					'en' => !empty($data['description_en']) ? $data['description_en'] : ''
 				]),
+				'topics' => json_encode((!empty($data['topics']) ? $data['topics'] : [])),
 				'price' => $data['price'],
-				'avatar' => !empty($data['avatar']['name']) ? Functions::uploader($data['avatar'], Session::get_value('account')['path'] . '_menu_product_avatar_') : $edited[0]['avatar'],
-				'categories' => json_encode((!empty($data['categories']) ? $data['categories'] : [])),
 				'outstanding' => !empty($data['outstanding']) ? $data['outstanding'] : null,
+				'avatar' => $data['avatar'],
+				'image' => ($data['avatar'] == 'image' AND !empty($data['image']['name'])) ? Functions::uploader($data['image'], Session::get_value('account')['path'] . '_menu_product_avatar_') : $edited[0]['image'],
+				'icon' => ($data['avatar'] == 'icon') ? $data['icon'] : null,
+				'categories' => json_encode((!empty($data['categories']) ? $data['categories'] : [])),
 				'restaurant' => (Session::get_value('account')['settings']['menu']['multi'] == true) ? (!empty($data['restaurant']) ? $data['restaurant'] : null) : null
 			], [
 				'id' => $data['id']
@@ -171,8 +230,8 @@ class Menu_model extends Model
 					}
 				}
 
-				if (!empty($data['avatar']['name']) AND !empty($edited[0]['avatar']))
-					Functions::undoloader($edited[0]['avatar']);
+				if (!empty($data['image']['name']) AND !empty($edited[0]['image']))
+					Functions::undoloader($edited[0]['image']);
 			}
 		}
 
@@ -206,7 +265,7 @@ class Menu_model extends Model
 		$query = null;
 
 		$deleted = $this->database->select('menu_products', [
-			'avatar'
+			'image'
 		], [
 			'id' => $id
 		]);
@@ -217,8 +276,8 @@ class Menu_model extends Model
 				'id' => $id
 			]);
 
-			if (!empty($query))
-				Functions::undoloader($deleted[0]['avatar']);
+			if (!empty($query) AND !empty($deleted[0]['image']))
+				Functions::undoloader($deleted[0]['image']);
 		}
 
 		return $query;
@@ -374,7 +433,6 @@ class Menu_model extends Model
 		], [
 			'menu_categories.id',
 			'menu_categories.name',
-			'icons.name(icon_name)',
 			'icons.url(icon_url)',
 			'icons.type(icon_type)',
 			'menu_categories.status'
@@ -393,33 +451,6 @@ class Menu_model extends Model
 		]));
 
 		return !empty($query) ? $query[0] : null;
-	}
-
-    public function get_icons($type)
-	{
-		$icons = [];
-
-		$query = Functions::get_json_decoded_query($this->database->select('icons', [
-			'id',
-			'name',
-			'url',
-			'type'
-		], [
-			$type => true,
-			'ORDER' => [
-				'name' => 'ASC'
-			]
-		]));
-
-		foreach ($query as $value)
-		{
-			if (array_key_exists($value['type'], $icons))
-				array_push($icons[$value['type']], $value);
-			else
-				$icons[$value['type']] = [$value];
-		}
-
-		return $icons;
 	}
 
 	public function new_menu_category($data)

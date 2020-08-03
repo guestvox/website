@@ -17,6 +17,14 @@ class Menu_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'get_menu_products_outstandings')
+			{
+				Functions::environment([
+					'status' => 'success',
+					'data' => $this->model->get_menu_products_outstandings()
+				]);
+			}
+
 			if ($_POST['action'] == 'get_menu_product')
 			{
 				$query = $this->model->get_menu_product($_POST['id']);
@@ -59,9 +67,24 @@ class Menu_controller extends Controller
 				if (!isset($_POST['price']) OR empty($_POST['price']))
 					array_push($labels, ['price','']);
 
+				if (!isset($_POST['avatar']) OR empty($_POST['avatar']))
+					array_push($labels, ['avatar','']);
+
+				if ($_POST['avatar'] == 'image' AND $_POST['action'] == 'new_menu_product')
+				{
+					if (!isset($_FILES['image']['name']) OR empty($_FILES['image']['name']))
+						array_push($labels, ['image','']);
+				}
+				else if ($_POST['avatar'] == 'icon')
+				{
+					if (!isset($_POST['icon']) OR empty($_POST['icon']))
+						array_push($labels, ['icon','']);
+				}
+
 				if (empty($labels))
 				{
-					$_POST['avatar'] = $_FILES['avatar'];
+					if ($_POST['avatar'] == 'image')
+						$_POST['image'] = $_FILES['image'];
 
 					if ($_POST['action'] == 'new_menu_product')
 						$query = $this->model->new_menu_product($_POST);
@@ -138,9 +161,15 @@ class Menu_controller extends Controller
 							<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . '</span>
 						</div>
 						<div class="itm_2">
-							<figure>
-								<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}food.png') . '">
-							</figure>
+							<figure>';
+
+				if ($value['avatar'] == 'image')
+					$tbl_menu_products .= '<img src="{$path.uploads}' . $value['image'] . '">';
+				else if ($value['avatar'] == 'icon')
+					$tbl_menu_products .= '<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '">';
+
+				$tbl_menu_products .=
+				'			</figure>
 						</div>
 					</div>
 					<div class="buttons">
@@ -151,9 +180,43 @@ class Menu_controller extends Controller
 				</div>';
 			}
 
+			$cbx_menu_topics = '';
+
+            foreach ($this->model->get_menu_topics('actives') as $value)
+            {
+				$cbx_menu_topics .=
+				'<div>
+					<input type="checkbox" name="topics[]" value="' . $value['id'] . '">
+					<span>' . $value['name'][$this->lang] . '</span>
+				</div>';
+            }
+
+			$cbx_icons = '';
+
+            foreach ($this->model->get_icons('menu') as $key => $value)
+            {
+				$cbx_icons .=
+				'<p>{$lang.' . $key . '}</p>
+				<div>';
+
+				foreach ($value as $subvalue)
+				{
+					$cbx_icons .=
+					'<label>
+						<input type="radio" name="icon" value="' . $subvalue['id'] . '">
+						<figure>
+							<img src="{$path.images}icons/' . $subvalue['type'] . '/' . $subvalue['url'] . '">
+						</figure>
+						<p>' . $subvalue['name'][$this->lang] . '</p>
+					</label>';
+				}
+
+				$cbx_icons .= '</div>';
+            }
+
 			$cbx_menu_categories = '';
 
-            foreach ($this->model->get_menu_categories() as $value)
+            foreach ($this->model->get_menu_categories('actives') as $value)
             {
 				$cbx_menu_categories .=
 				'<div>
@@ -169,6 +232,8 @@ class Menu_controller extends Controller
 
 			$replace = [
 				'{$tbl_menu_products}' => $tbl_menu_products,
+				'{$cbx_menu_topics}' => $cbx_menu_topics,
+				'{$cbx_icons}' => $cbx_icons,
 				'{$cbx_menu_categories}' => $cbx_menu_categories,
 				'{$opt_menu_restaurants}' => $opt_menu_restaurants
 			];

@@ -2,6 +2,38 @@
 
 $(document).ready(function()
 {
+    $('[data-button-modal="new_menu_product"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=get_menu_products_outstandings',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    $('[name="outstanding"]').val(response.data);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[name="avatar"]').on('change', function()
+    {
+        if ($(this).val() == 'image')
+        {
+            $('[name="image"]').parents('.span12').removeClass('hidden');
+            $('[name="icon"]').parents('.span12').addClass('hidden');
+        }
+        else if ($(this).val() == 'icon')
+        {
+            $('[name="image"]').parents('.span12').addClass('hidden');
+            $('[name="icon"]').parents('.span12').removeClass('hidden');
+        }
+    });
+
     var id = null;
     var edit = false;
 
@@ -9,6 +41,9 @@ $(document).ready(function()
     {
         id = null;
         edit = false;
+
+        $('[name="image"]').parents('.span12').removeClass('hidden');
+        $('[name="icon"]').parents('.span12').addClass('hidden');
 
         clean_form($('form[name="new_menu_product"]'));
     });
@@ -64,15 +99,23 @@ $(document).ready(function()
                     $('[name="name_en"]').val(response.data.name.en);
                     $('[name="description_es"]').val(response.data.description.es);
                     $('[name="description_en"]').val(response.data.description.en);
+
+                    $.each(response.data.topics, function (key, value)
+                    {
+                        $('[name="topics[]"][value="' + value + '"]').prop('checked', true);
+                    });
+
                     $('[name="price"]').val(response.data.price);
-                    $('[name="avatar"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', ((response.data.avatar) ? '../uploads/' + response.data.avatar : '../images/empty.png'));
+                    $('[name="outstanding"]').val(response.data.outstanding);
+                    $('[name="avatar"]').val(response.data.avatar);
+                    $('[name="image"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', ((response.data.image) ? '../uploads/' + response.data.image : '../images/empty.png'));
+                    $('[name="icon"][value="' + response.data.icon + '"]').prop('checked', true);
 
                     $.each(response.data.categories, function (key, value)
                     {
                         $('[name="categories[]"][value="' + value + '"]').prop('checked', true);
                     });
 
-                    $('[name="outstanding"]').val(response.data.outstanding);
                     $('[name="restaurant"]').val(response.data.restaurant);
 
                     required_focus('form', $('form[name="new_menu_product"]'), null);
