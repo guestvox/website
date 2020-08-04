@@ -32,7 +32,11 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('[data-modal="preview_menu_product"]').find('main > figure > img').attr('src', ((response.data.avatar) ? '../uploads/' + response.data.avatar : '../images/food.png'));
+                    if (response.data.avatar == 'image')
+                        $('[data-modal="preview_menu_product"]').find('main > figure > img').attr('src', '../uploads/' + response.data.image);
+                    else if (response.data.avatar == 'icon')
+                        $('[data-modal="preview_menu_product"]').find('main > figure > img').attr('src', '../images/icons/' + response.data.icon_type + '/' + response.data.icon_url);
+
                     $('[data-modal="preview_menu_product"]').find('main > h2').html(response.data.name);
                     $('[data-modal="preview_menu_product"]').find('main > span').html(response.data.price);
                     $('[data-modal="preview_menu_product"]').find('main > p').html(response.data.description);

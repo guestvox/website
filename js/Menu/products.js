@@ -108,8 +108,21 @@ $(document).ready(function()
                     $('[name="price"]').val(response.data.price);
                     $('[name="outstanding"]').val(response.data.outstanding);
                     $('[name="avatar"]').val(response.data.avatar);
-                    $('[name="image"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', ((response.data.image) ? '../uploads/' + response.data.image : '../images/empty.png'));
-                    $('[name="icon"][value="' + response.data.icon + '"]').prop('checked', true);
+
+                    if (response.data.avatar == 'image')
+                    {
+                        $('[name="image"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', '../uploads/' + response.data.image);
+
+                        $('[name="image"]').parents('.span12').removeClass('hidden');
+                        $('[name="icon"]').parents('.span12').addClass('hidden');
+                    }
+                    else if (response.data.avatar == 'icon')
+                    {
+                        $('[name="icon"][value="' + response.data.icon + '"]').prop('checked', true);
+
+                        $('[name="image"]').parents('.span12').addClass('hidden');
+                        $('[name="icon"]').parents('.span12').removeClass('hidden');
+                    }
 
                     $.each(response.data.categories, function (key, value)
                     {
