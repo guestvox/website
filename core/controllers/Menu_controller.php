@@ -83,6 +83,21 @@ class Menu_controller extends Controller
 
 				if (empty($labels))
 				{
+					if (!empty($_POST['topics']))
+					{
+						$topics = [];
+
+						foreach ($_POST['topics'] as $value)
+						{
+							array_push($topics, [
+								'id' => $value,
+								'price' => $_POST[$value]
+							]);
+						}
+
+						$_POST['topics'] = $topics;
+					}
+
 					if ($_POST['avatar'] == 'image')
 						$_POST['image'] = $_FILES['image'];
 
@@ -158,10 +173,15 @@ class Menu_controller extends Controller
 							<span>' . (!empty($value['description'][$this->lang]) ? $value['description'][$this->lang] : '{$lang.not_description}') . '</span>
 							' . ((Session::get_value('account')['settings']['menu']['multi'] == true) ? '<span>' . (!empty($value['restaurant']) ? $value['restaurant'][$this->lang] : '{$lang.not_restaurant}') . '</span>' : '') . '
 							<span>' . (!empty($value['outstanding']) ? '{$lang.outstanding}: ' . $value['outstanding'] : '{$lang.not_outstanding}') . '</span>
-							<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . '</span>
-						</div>
-						<div class="itm_2">
-							<figure>';
+							<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . '</span>';
+
+				foreach ($value['topics'] as $subvalue)
+					$tbl_menu_products .= '<span>+ ' . Functions::get_formatted_currency($subvalue['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . ' (' . $subvalue['name'][$this->lang] . ')</span>';
+
+				$tbl_menu_products .=
+				'</div>
+				<div class="itm_2">
+					<figure>';
 
 				if ($value['avatar'] == 'image')
 					$tbl_menu_products .= '<img src="{$path.uploads}' . $value['image'] . '">';
@@ -185,10 +205,12 @@ class Menu_controller extends Controller
             foreach ($this->model->get_menu_topics('actives') as $value)
             {
 				$cbx_menu_topics .=
-				'<div>
+				'<label>
 					<input type="checkbox" name="topics[]" value="' . $value['id'] . '">
-					<span>' . $value['name'][$this->lang] . '</span>
-				</div>';
+					<p>' . $value['name'][$this->lang] . '</p>
+					<input type="text" name="' . $value['id'] . '" value="0">
+					<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
+				</label>';
             }
 
 			$cbx_icons = '';

@@ -73,10 +73,12 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span12">
-                        <div class="checkboxes stl_1">
-                            <p>{$lang.topics}</p>
-                            {$cbx_menu_topics}
+                    <div class="span6">
+                        <div class="label">
+                            <label unrequired>
+                                <p>{$lang.outstanding}</p>
+                                <input type="number" name="outstanding">
+                            </label>
                         </div>
                     </div>
                     <div class="span6">
@@ -87,12 +89,10 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span6">
-                        <div class="label">
-                            <label unrequired>
-                                <p>{$lang.outstanding}</p>
-                                <input type="number" name="outstanding">
-                            </label>
+                    <div class="span12">
+                        <div class="checkboxes stl_5">
+                            <p>{$lang.topics}</p>
+                            {$cbx_menu_topics}
                         </div>
                     </div>
                     <div class="span12">

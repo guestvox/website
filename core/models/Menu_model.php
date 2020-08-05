@@ -26,6 +26,7 @@ class Menu_model extends Model
 			'menu_products.id',
 			'menu_products.name',
 			'menu_products.description',
+			'menu_products.topics',
 			'menu_products.price',
 			'menu_products.outstanding',
 			'menu_products.avatar',
@@ -56,7 +57,26 @@ class Menu_model extends Model
 			]
 		]));
 
-		return array_merge($query1, $query2);
+		$query = array_merge($query1, $query2);
+
+		foreach ($query as $key => $value)
+		{
+			foreach ($value['topics'] as $subkey => $subvalue)
+			{
+				$topic = Functions::get_json_decoded_query($this->database->select('menu_topics', [
+					'name'
+				], [
+					'id' => $subvalue['id']
+				]));
+
+				if (!empty($topic))
+					$query[$key]['topics'][$subkey]['name'] = $topic[0]['name'];
+				else
+					unset($query[$key]['topics'][$subkey]);
+			}
+		}
+
+		return $query;
 	}
 
     public function get_menu_product($id)
@@ -177,6 +197,7 @@ class Menu_model extends Model
 		$query = null;
 
 		$edited = $this->database->select('menu_products', [
+			'outstanding',
 			'image'
 		], [
 			'id' => $data['id']
@@ -207,7 +228,7 @@ class Menu_model extends Model
 
 			if (!empty($query))
 			{
-				if (!empty($data['outstanding']))
+				if (!empty($data['outstanding']) AND $data['outstanding'] != $edited[0]['outstanding'])
 				{
 					$outstandings = $this->database->select('menu_products', [
 						'id',
@@ -529,7 +550,7 @@ class Menu_model extends Model
 		}
 
 		$where['ORDER'] = [
-			'name' => 'ASC'
+			'id' => 'ASC'
 		];
 
 		$query = Functions::get_json_decoded_query($this->database->select('menu_topics', [

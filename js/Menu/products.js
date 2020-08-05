@@ -102,7 +102,8 @@ $(document).ready(function()
 
                     $.each(response.data.topics, function (key, value)
                     {
-                        $('[name="topics[]"][value="' + value + '"]').prop('checked', true);
+                        $('[name="topics[]"][value="' + value.id + '"]').prop('checked', true);
+                        $('[name="' + value.id + '"]').val(value.price);
                     });
 
                     $('[name="price"]').val(response.data.price);

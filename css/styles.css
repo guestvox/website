@@ -1895,6 +1895,58 @@ div.checkboxes.stl_4 > div > label > p {
     color: #757575;
 }
 
+/*  */
+
+div.checkboxes.stl_5 > label {
+    width: 100%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    padding: 0px 5px;
+    box-sizing: border-box;
+    background-color: #eee;
+    cursor: pointer;
+}
+
+div.checkboxes.stl_5 > label:last-child {
+    margin-bottom: 0px;
+}
+
+div.checkboxes.stl_5 > label > input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    margin: 0px;
+}
+
+div.checkboxes.stl_5 > label > p {
+    width: calc(100% - 115px);
+    padding: 0px 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.checkboxes.stl_5 > label > input[type="text"] {
+    width: 50px;
+    height: 100%;
+    padding: 0px 5px;
+    box-sizing: border-box;
+    border: none;
+    background-color: #e0e0e0;
+}
+
+div.checkboxes.stl_5 > label > span {
+    width: 50px;
+    padding: 0px 5px;
+    box-sizing: border-box;
+    font-size: 12px;
+    font-weight: 600;
+    color: #212121;
+}
+
 /* Switch
 ------------------------------------------------------------------------------ */
 div.switch,

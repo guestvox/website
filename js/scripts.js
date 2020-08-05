@@ -87,6 +87,34 @@ $(document).ready(function ()
             $(this).parents('.checkboxes').find('[name="checked_all"]').prop('checked', false);
     });
 
+    $('div.checkboxes.stl_5 > label > input[type="checkbox"]').on('change', function()
+    {
+        var self_cbx = $(this);
+        var self_txt = $(this).parent().find('input[type="text"]');
+
+        $.each($('div.checkboxes.stl_5 > label > input[type="text"]'), function(key, value)
+        {
+            if (value.getAttribute('name') == self_cbx.val())
+            {
+                if (self_cbx.prop('checked') == true)
+                {
+                    self_txt.val('');
+                    self_txt.focus();
+                }
+                else if (self_cbx.prop('checked') == false)
+                    self_txt.val('0');
+            }
+            else
+            {
+                if (value.value == '' || value.value == '0')
+                {
+                    value.value = '0';
+                    // value.parentElement.getElementsByTagName('input')[0].checked = false;
+                }
+            }
+        });
+    });
+
     $('[data-elapsed-time]').each(function()
     {
         get_time_elapsed($(this).data('date-1').replace(/-/g, '/'), $(this).data('date-2').replace(/-/g, '/'), $(this).data('time-zone'), $(this).data('status'), $(this).find('strong'));
