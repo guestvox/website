@@ -901,6 +901,7 @@ div.tbl_stl_3 > div > div.datas > div.itm_2 > figure > a {
     justify-content: center;
     border-radius: 50%;
     overflow: hidden;
+    background-color: #eee;
 }
 
 div.tbl_stl_3 > div > div.datas > div.itm_2 > figure > img,
