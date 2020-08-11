@@ -90,9 +90,23 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                         </div>
                     </div>
                     <div class="span12">
-                        <div class="checkboxes stl_5">
-                            <p>{$lang.topics}</p>
-                            {$cbx_menu_topics}
+                        <div class="menu_topics_groups">
+                            <aside>
+                                {$cbx_menu_topics_groups}
+                            </aside>
+                            <div class="checkboxes stl_1">
+                                {$cbx_menu_topics}
+                            </div>
+                            <div class="label">
+                                <label required>
+                                    <select name="selection">
+                                        <option value="" hidden>{$lang.selection_type}</option>
+                                        <option value="checkbox">{$lang.multi_selection}</option>
+                                        <option value="radio">{$lang.one_selection}</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <a data-action="add_menu_topics_group">{$lang.add_menu_topics_group}</a>
                         </div>
                     </div>
                     <div class="span12">

@@ -143,6 +143,9 @@ class Login_model extends Model
 							]
 						]
 					]
+				],
+				'temporal' => [
+					'menu_topics_groups' => []
 				]
 			];
 

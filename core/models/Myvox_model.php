@@ -282,15 +282,21 @@ class Myvox_model extends Model
 		}
 
 		$query2 = Functions::get_json_decoded_query($this->database->select('menu_categories', [
-			'id',
-			'name',
-			'icon',
-			'type',
-			'accounts'
+			'[>]icons' => [
+				'icon' => 'id'
+			]
 		], [
-			'status' => true,
+			'menu_categories.id',
+			'menu_categories.name',
+			'icons.url(icon_url)',
+			'icons.type(icon_type)'
+		], [
+			'AND' => [
+				'menu_categories.account' => Session::get_value('myvox')['account']['id'],
+				'menu_categories.status' => true
+			],
 			'ORDER' => [
-				'name' => 'ASC'
+				'menu_categories.name' => 'ASC'
 			]
 		]));
 
@@ -303,45 +309,64 @@ class Myvox_model extends Model
 		return $query2;
 	}
 
-	public function get_menu_products($option = 'all', $id = null)
+	public function get_menu_products()
 	{
-		$fields = [
-			'id',
-			'name',
-			'price',
-			'avatar',
-			'categories'
+		$join = [
+			'[>]icons' => [
+				'icon' => 'id'
+			]
 		];
 
-		$query1 = Functions::get_json_decoded_query($this->database->select('menu_products', $fields, [
+		$fields = [
+			'menu_products.id',
+			'menu_products.name',
+			'menu_products.topics',
+			'menu_products.price',
+			'menu_products.avatar',
+			'menu_products.image',
+			'icons.url(icon_url)',
+			'icons.type(icon_type)',
+			'icons.color(icon_color)',
+			'menu_products.categories'
+		];
+
+		$query1 = Functions::get_json_decoded_query($this->database->select('menu_products', $join, $fields, [
 			'AND' => [
-				'account' => Session::get_value('myvox')['account']['id'],
-				'outstanding[>=]' => 1,
-				'status' => true
+				'menu_products.account' => Session::get_value('myvox')['account']['id'],
+				'menu_products.outstanding[>=]' => 1,
+				'menu_products.status' => true
 			],
 			'ORDER' => [
-				'outstanding' => 'ASC'
+				'menu_products.outstanding' => 'ASC'
 			]
 		]));
 
-		$query2 = Functions::get_json_decoded_query($this->database->select('menu_products', $fields, [
+		$query2 = Functions::get_json_decoded_query($this->database->select('menu_products', $join, $fields, [
 			'AND' => [
-				'account' => Session::get_value('myvox')['account']['id'],
-				'outstanding[=]' => null,
-				'status' => true
+				'menu_products.account' => Session::get_value('myvox')['account']['id'],
+				'menu_products.outstanding[=]' => null,
+				'menu_products.status' => true
 			],
 			'ORDER' => [
-				'name' => 'ASC'
+				'menu_products.name' => 'ASC'
 			]
 		]));
 
 		$query = array_merge($query1, $query2);
 
-		if ($option == 'categories')
+		if (!empty(Session::get_value('myvox')['menu_categories']))
 		{
 			foreach ($query as $key => $value)
 			{
-				if (!in_array($id, $value['categories']))
+				$go = false;
+
+				foreach ($value['categories'] as $subkey => $subvalue)
+				{
+					if (in_array($subvalue, Session::get_value('myvox')['menu_categories']))
+						$go = true;
+				}
+
+				if ($go == false)
 					unset($query[$key]);
 			}
 		}
@@ -352,15 +377,72 @@ class Myvox_model extends Model
 	public function get_menu_product($id)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
-			'name',
-			'description',
-			'price',
-			'avatar'
+			'[>]icons' => [
+				'icon' => 'id'
+			]
 		], [
-			'id' => $id
+			'menu_products.name',
+			'menu_products.description',
+			'menu_products.topics',
+			'menu_products.price',
+			'menu_products.avatar',
+			'menu_products.image',
+			'icons.type(icon_type)',
+			'icons.url(icon_url)',
+			'icons.color(icon_color)'
+		], [
+			'menu_products.id' => $id
 		]));
 
-		return !empty($query) ? $query[0] : null;
+		if (!empty($query))
+		{
+			foreach ($query[0]['topics'] as $key => $value)
+			{
+				foreach ($value as $subkey => $subvalue)
+				{
+					$subvalue['topic'] = Functions::get_json_decoded_query($this->database->select('menu_topics', [
+						'name'
+					], [
+						'id' => $subvalue['id']
+					]));
+
+					if (!empty($subvalue['topic']))
+						$query[0]['topics'][$key][$subkey]['name'] = $subvalue['topic'][0]['name'];
+					else
+						unset($query[0]['topics'][$key][$subkey]);
+				}
+
+				if (empty($query[0]['topics'][$key]))
+					unset($query[0]['topics'][$key]);
+			}
+
+			return $query[0];
+		}
+		else
+			return null;
+	}
+
+	public function get_menu_order_total($data1 = null, $data2 = null)
+	{
+		$total = 0;
+
+		if (!empty($data2))
+		{
+			foreach ($data2 as $value)
+				$total = $total + $value['price'];
+
+			$total = $total + $data1;
+		}
+		else
+		{
+			foreach ($data1 as $value)
+			{
+				foreach ($value as $subvalue)
+					$total = $total + $subvalue['total'];
+			}
+		}
+
+		return $total;
 	}
 
 	public function new_menu_order($data)

@@ -57,26 +57,7 @@ class Menu_model extends Model
 			]
 		]));
 
-		$query = array_merge($query1, $query2);
-
-		foreach ($query as $key => $value)
-		{
-			foreach ($value['topics'] as $subkey => $subvalue)
-			{
-				$topic = Functions::get_json_decoded_query($this->database->select('menu_topics', [
-					'name'
-				], [
-					'id' => $subvalue['id']
-				]));
-
-				if (!empty($topic))
-					$query[$key]['topics'][$subkey]['name'] = $topic[0]['name'];
-				else
-					unset($query[$key]['topics'][$subkey]);
-			}
-		}
-
-		return $query;
+		return array_merge($query1, $query2);
 	}
 
     public function get_menu_product($id)
@@ -155,7 +136,7 @@ class Menu_model extends Model
 				'es' => !empty($data['description_es']) ? $data['description_es'] : '',
 				'en' => !empty($data['description_en']) ? $data['description_en'] : ''
 			]),
-			'topics' => json_encode((!empty($data['topics']) ? $data['topics'] : [])),
+			'topics' => json_encode(Session::get_value('temporal')['menu_topics_groups']),
 			'price' => $data['price'],
 			'outstanding' => !empty($data['outstanding']) ? $data['outstanding'] : null,
 			'avatar' => $data['avatar'],
@@ -214,7 +195,7 @@ class Menu_model extends Model
 					'es' => !empty($data['description_es']) ? $data['description_es'] : '',
 					'en' => !empty($data['description_en']) ? $data['description_en'] : ''
 				]),
-				'topics' => json_encode((!empty($data['topics']) ? $data['topics'] : [])),
+				'topics' => json_encode(Session::get_value('temporal')['menu_topics_groups']),
 				'price' => $data['price'],
 				'outstanding' => !empty($data['outstanding']) ? $data['outstanding'] : null,
 				'avatar' => $data['avatar'],

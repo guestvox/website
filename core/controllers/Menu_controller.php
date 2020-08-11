@@ -25,12 +25,181 @@ class Menu_controller extends Controller
 				]);
 			}
 
+			if ($_POST['action'] == 'add_menu_topics_group')
+			{
+				$labels = [];
+
+				if (!isset($_POST['topics']) OR empty($_POST['topics']))
+					array_push($labels, ['topics','']);
+
+				if (!isset($_POST['selection']) OR empty($_POST['selection']))
+					array_push($labels, ['selection','']);
+
+				if (empty($labels))
+				{
+					$temporal = Session::get_value('temporal');
+
+					foreach ($_POST['topics'] as $key => $value)
+					{
+						$_POST['topics'][$key] = [
+							'id' => $value,
+							'price' => '0',
+							'selection' => $_POST['selection']
+						];
+					}
+
+					array_push($temporal['menu_topics_groups'], $_POST['topics']);
+
+					$html = '';
+
+					foreach ($temporal['menu_topics_groups'] as $key => $value)
+					{
+						$html .= '<div>';
+
+						foreach ($value as $subkey => $subvalue)
+						{
+							$subvalue['topic'] = $this->model->get_menu_topic($subvalue['id']);
+
+							if (!empty($subvalue['topic']))
+							{
+								$html .=
+								'<div>
+									<p>' . $subvalue['topic']['name'][$this->lang] . '</p>
+									<span>{$lang.' . $subvalue['selection'] . '}</span>
+									<input type="text" name="update_menu_topic_price" value="' . $subvalue['price'] . '" data-key="' . $key . '" data-subkey="' . $subkey . '">
+									<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
+									<a data-action="remove_menu_topics_group" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-times"></i></a>
+								</div>';
+							}
+						}
+
+						$html .= '</div>';
+					}
+
+					Session::set_value('temporal', $temporal);
+
+					Functions::environment([
+						'status' => 'success',
+						'html' => $html
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'remove_menu_topics_group')
+			{
+				$temporal = Session::get_value('temporal');
+
+				unset($temporal['menu_topics_groups'][$_POST['key']][$_POST['subkey']]);
+
+				if (empty($temporal['menu_topics_groups'][$_POST['key']]))
+					unset($temporal['menu_topics_groups'][$_POST['key']]);
+
+				$html = '';
+
+				foreach ($temporal['menu_topics_groups'] as $key => $value)
+				{
+					$html .= '<div>';
+
+					foreach ($value as $subkey => $subvalue)
+					{
+						$subvalue['topic'] = $this->model->get_menu_topic($subvalue['id']);
+
+						if (!empty($subvalue['topic']))
+						{
+							$html .=
+							'<div>
+								<p>' . $subvalue['topic']['name'][$this->lang] . '</p>
+								<span>{$lang.' . $subvalue['selection'] . '}</span>
+								<input type="text" name="update_menu_topic_price" value="' . $subvalue['price'] . '" data-key="' . $key . '" data-subkey="' . $subkey . '">
+								<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
+								<a data-action="remove_menu_topics_group" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-times"></i></a>
+							</div>';
+						}
+					}
+
+					$html .= '</div>';
+				}
+
+				Session::set_value('temporal', $temporal);
+
+				Functions::environment([
+					'status' => 'success',
+					'html' => $html
+				]);
+			}
+
+			if ($_POST['action'] == 'update_menu_topic_price')
+			{
+				$temporal = Session::get_value('temporal');
+
+				$temporal['menu_topics_groups'][$_POST['key']][$_POST['subkey']]['price'] = !empty($_POST['price']) ? $_POST['price'] : 0;
+
+				Session::set_value('temporal', $temporal);
+
+				Functions::environment([
+					'status' => 'success',
+					'price' => !empty($_POST['price']) ? $_POST['price'] : 0
+				]);
+			}
+
+			if ($_POST['action'] == 'clear_menu_topics_groups')
+			{
+				$temporal = Session::get_value('temporal');
+
+				$temporal['menu_topics_groups'] = [];
+
+				Session::set_value('temporal', $temporal);
+
+				Functions::environment([
+					'status' => 'success'
+				]);
+			}
+
 			if ($_POST['action'] == 'get_menu_product')
 			{
 				$query = $this->model->get_menu_product($_POST['id']);
 
                 if (!empty($query))
                 {
+					$temporal = Session::get_value('temporal');
+
+					$temporal['menu_topics_groups'] = $query['topics'];
+
+					$query['topics'] = '';
+
+					foreach ($temporal['menu_topics_groups'] as $key => $value)
+					{
+						$query['topics'] .= '<div>';
+
+						foreach ($value as $subkey => $subvalue)
+						{
+							$subvalue['topic'] = $this->model->get_menu_topic($subvalue['id']);
+
+							if (!empty($subvalue['topic']))
+							{
+								$query['topics'] .=
+								'<div>
+									<p>' . $subvalue['topic']['name'][$this->lang] . '</p>
+									<span>{$lang.' . $subvalue['selection'] . '}</span>
+									<input type="text" name="update_menu_topic_price" value="' . $subvalue['price'] . '" data-key="' . $key . '" data-subkey="' . $subkey . '">
+									<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
+									<a data-action="remove_menu_topics_group" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-times"></i></a>
+								</div>';
+							}
+						}
+
+						$query['topics'] .= '</div>';
+					}
+
+					Session::set_value('temporal', $temporal);
+
                     Functions::environment([
     					'status' => 'success',
     					'data' => $query
@@ -83,21 +252,6 @@ class Menu_controller extends Controller
 
 				if (empty($labels))
 				{
-					if (!empty($_POST['topics']))
-					{
-						$topics = [];
-
-						foreach ($_POST['topics'] as $value)
-						{
-							array_push($topics, [
-								'id' => $value,
-								'price' => $_POST[$value]
-							]);
-						}
-
-						$_POST['topics'] = $topics;
-					}
-
 					if ($_POST['avatar'] == 'image')
 						$_POST['image'] = $_FILES['image'];
 
@@ -173,15 +327,10 @@ class Menu_controller extends Controller
 							<span>' . (!empty($value['description'][$this->lang]) ? $value['description'][$this->lang] : '{$lang.not_description}') . '</span>
 							' . ((Session::get_value('account')['settings']['menu']['multi'] == true) ? '<span>' . (!empty($value['restaurant']) ? $value['restaurant'][$this->lang] : '{$lang.not_restaurant}') . '</span>' : '') . '
 							<span>' . (!empty($value['outstanding']) ? '{$lang.outstanding}: ' . $value['outstanding'] : '{$lang.not_outstanding}') . '</span>
-							<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . '</span>';
-
-				foreach ($value['topics'] as $subvalue)
-					$tbl_menu_products .= '<span>+ ' . Functions::get_formatted_currency($subvalue['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . ' (' . $subvalue['name'][$this->lang] . ')</span>';
-
-				$tbl_menu_products .=
-				'</div>
-				<div class="itm_2">
-					<figure>';
+							<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>
+						</div>
+						<div class="itm_2">
+							<figure>';
 
 				if ($value['avatar'] == 'image')
 					$tbl_menu_products .= '<img src="{$path.uploads}' . $value['image'] . '">';
@@ -200,17 +349,41 @@ class Menu_controller extends Controller
 				</div>';
 			}
 
+			$cbx_menu_topics_groups = '';
+
+			foreach (Session::get_value('temporal')['menu_topics_groups'] as $key => $value)
+			{
+				$cbx_menu_topics_groups .= '<div>';
+
+				foreach ($value as $subkey => $subvalue)
+				{
+					$subvalue['topic'] = $this->model->get_menu_topic($subvalue['id']);
+
+					if (!empty($subvalue['topic']))
+					{
+						$cbx_menu_topics_groups .=
+						'<div>
+							<p>' . $subvalue['topic']['name'][$this->lang] . '</p>
+							<span>{$lang.' . $subvalue['selection'] . '}</span>
+							<input type="text" name="update_menu_topic_price" value="' . $subvalue['price'] . '" data-key="' . $key . '" data-subkey="' . $subkey . '">
+							<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
+							<a data-action="remove_menu_topics_group" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-times"></i></a>
+						</div>';
+					}
+				}
+
+				$cbx_menu_topics_groups .= '</div>';
+			}
+
 			$cbx_menu_topics = '';
 
             foreach ($this->model->get_menu_topics('actives') as $value)
             {
 				$cbx_menu_topics .=
-				'<label>
+				'<div>
 					<input type="checkbox" name="topics[]" value="' . $value['id'] . '">
-					<p>' . $value['name'][$this->lang] . '</p>
-					<input type="text" name="' . $value['id'] . '" value="0">
-					<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
-				</label>';
+					<span>' . $value['name'][$this->lang] . '</span>
+				</div>';
             }
 
 			$cbx_icons = '';
@@ -254,6 +427,7 @@ class Menu_controller extends Controller
 
 			$replace = [
 				'{$tbl_menu_products}' => $tbl_menu_products,
+				'{$cbx_menu_topics_groups}' => $cbx_menu_topics_groups,
 				'{$cbx_menu_topics}' => $cbx_menu_topics,
 				'{$cbx_icons}' => $cbx_icons,
 				'{$cbx_menu_categories}' => $cbx_menu_categories,

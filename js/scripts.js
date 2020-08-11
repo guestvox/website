@@ -89,20 +89,21 @@ $(document).ready(function ()
 
     $('div.checkboxes.stl_5 > label > input[type="checkbox"]').on('change', function()
     {
-        var self_cbx = $(this);
-        var self_txt = $(this).parent().find('input[type="text"]');
+        var this_cbx = $(this);
+        var this_txt = $(this).parent().find('input[type="text"]');
+        var targets = $('div.checkboxes.stl_5 > label > input[type="text"]');
 
-        $.each($('div.checkboxes.stl_5 > label > input[type="text"]'), function(key, value)
+        $.each(targets, function(key, value)
         {
-            if (value.getAttribute('name') == self_cbx.val())
+            if (value.getAttribute('name') == this_cbx.val())
             {
-                if (self_cbx.prop('checked') == true)
+                if (this_cbx.prop('checked') == true)
                 {
-                    self_txt.val('');
-                    self_txt.focus();
+                    this_txt.val('');
+                    this_txt.focus();
                 }
-                else if (self_cbx.prop('checked') == false)
-                    self_txt.val('0');
+                else if (this_cbx.prop('checked') == false)
+                    this_txt.val('0');
             }
             else
             {
