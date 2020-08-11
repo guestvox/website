@@ -783,9 +783,17 @@ class Voxes_controller extends Controller
 							if (!empty($vox['menu_order']))
 							{
 								foreach ($vox['menu_order']['shopping_cart'] as $value)
-									$p_observations .= '<p>(' . $value['quantity'] . ') ' . $value['name'][$this->lang] . ' (' . Functions::get_formatted_currency($value['total'], $vox['menu_order']['currency']) . ')</p>';
+								{
+									foreach ($value as $subvalue)
+									{
+										$p_observations .= '<p><strong>(' . $subvalue['quantity'] . ') ' . $subvalue['name'][$this->lang] . ' (' . Functions::get_formatted_currency($subvalue['total'], $vox['menu_order']['currency']) . ')</strong></p>';
 
-								$p_observations .= '<p>{$lang.total}: ' . Functions::get_formatted_currency($vox['menu_order']['total'], $vox['menu_order']['currency']) . '</p>';
+										foreach ($subvalue['topics'] as $parentvalue)
+											$p_observations .= '<p>- ' . $parentvalue['name'][$this->lang] . '</p>';
+									}
+								}
+
+								$p_observations .= '<p><strong>{$lang.total}: ' . Functions::get_formatted_currency($vox['menu_order']['total'], $vox['menu_order']['currency']) . '</strong></p>';
 
 								if (Session::get_value('account')['type'] == 'restaurant' AND $vox['menu_order']['type_service'] == 'home')
 								{
