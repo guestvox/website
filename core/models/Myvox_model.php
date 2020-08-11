@@ -422,20 +422,20 @@ class Myvox_model extends Model
 			return null;
 	}
 
-	public function get_menu_order_total($data1 = null, $data2 = null)
+	public function get_menu_order_total($data = null, $topics = null, $quantity = null)
 	{
 		$total = 0;
 
-		if (!empty($data2))
+		if (isset($topics))
 		{
-			foreach ($data2 as $value)
+			foreach ($topics as $value)
 				$total = $total + $value['price'];
 
-			$total = $total + $data1;
+			$total = ($total + $data) * $quantity;
 		}
 		else
 		{
-			foreach ($data1 as $value)
+			foreach ($data as $value)
 			{
 				foreach ($value as $subvalue)
 					$total = $total + $subvalue['total'];

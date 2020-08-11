@@ -163,8 +163,15 @@ main.menu > section[data-menu-products],
 main.menu > section[data-shopping-cart] {
     width: 100%;
     max-width: 800px;
-    padding: 0px 10px;
     box-sizing: border-box;
+}
+
+main.menu > section[data-menu-products] {
+    padding: 0px 10px;
+}
+
+main.menu > section[data-shopping-cart] {
+    padding: 0px 20px;
 }
 
 main.menu > section[data-menu-products] > div,
@@ -184,6 +191,7 @@ main.menu > section[data-menu-products] > div {
 
 main.menu > section[data-shopping-cart] > div {
     height: auto;
+    position: relative;
     align-items: flex-start;
     flex-direction: column;
     padding: 20px;
@@ -240,6 +248,10 @@ main.menu > section[data-shopping-cart] > div > h2 {
     color: #212121;
 }
 
+main.menu > section[data-shopping-cart] > div > h2 {
+    margin-bottom: 10px;
+}
+
 main.menu > section[data-menu-products] > div > div > span {
     width: auto;
     height: 30px;
@@ -266,6 +278,68 @@ main.menu > section[data-menu-products] > div > div > a {
     left: -100px;
     border-radius: 10px;
     z-index: 5;
+}
+
+main.menu > section[data-shopping-cart] > div > h3 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+main.menu > section[data-shopping-cart] > div > h3 > i {
+    width: 15px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5px;
+    border-radius: 50%;
+    background-color: #00a5ab;
+    font-size: 12px;
+    color: #fff;
+}
+
+main.menu > section[data-shopping-cart] > div > span {
+    width: auto;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 0px 15px;
+    border-radius: 30px;
+    box-sizing: border-box;
+    background-color: #eee;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+main.menu > section[data-shopping-cart] > div > a {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 12px;
+    color: #fff;
+}
+
+main.menu > section[data-shopping-cart] > form {
+    padding-top: 10px;
+    box-sizing: border-box;
+}
+
+main.menu > section[data-shopping-cart] > form div.buttons {
+    margin: 0px;
 }
 
 /*  */

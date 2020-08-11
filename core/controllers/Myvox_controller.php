@@ -1159,7 +1159,7 @@ class Myvox_controller extends Controller
 							{
 								$html .=
 								'<label>
-									<input type="' . $subvalue['selection'] . '" name="topics[]" value="' . $key . '_' . $subkey . '" />
+									<input type="' . $subvalue['selection'] . '" name="topics_' . $key . '[]" value="' . $key . '_' . $subkey . '" data-action="update_menu_product_price" data-id="' . $_POST['id'] . '" />
 									<p>' . $subvalue['name'][$this->lang1] . '</p>
 									<span>' . Functions::get_formatted_currency($subvalue['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . ' +</span>
 								</label>';
@@ -1171,10 +1171,10 @@ class Myvox_controller extends Controller
 						$html .=
 						'	<div class="buttons">
 								<a class="delete" button-cancel><i class="fas fa-times"></i></a>
-								<a data-action="minus_to_menu_order"><i class="fas fa-minus"></i></a>
+								<a data-action="minus_to_menu_order" data-id="' . $_POST['id'] . '"><i class="fas fa-minus"></i></a>
 								<input type="text" name="quantity" value="1" min="1">
-								<a data-action="plus_to_menu_order"><i class="fas fa-plus"></i></a>
-								<button type="submit" class="new"><i class="fas fa-check"></i></button>
+								<a data-action="plus_to_menu_order" data-id="' . $_POST['id'] . '"><i class="fas fa-plus"></i></a>
+								<a class="new" data-action="add_to_menu_order" data-id="' . $_POST['id'] . '"><i class="fas fa-check"></i></a>
 							</div>
 						</form>';
 
@@ -1192,69 +1192,35 @@ class Myvox_controller extends Controller
 					}
 				}
 
-				if ($_POST['action'] == 'add_to_menu_order' OR $_POST['action'] == 'remove_to_menu_order')
+				if ($_POST['action'] == 'update_menu_product_price')
 				{
 					$query = $this->model->get_menu_product($_POST['id']);
 
 					if (!empty($query))
 					{
-						$myvox = Session::get_value('myvox');
+						$total = 0;
 
-						if ($_POST['action'] == 'add_to_menu_order')
+						foreach ($_POST as $key => $value)
 						{
-							$_POST['topics'] = !empty($_POST['topics']) ? $_POST['topics'] : [];
+							$key = explode('_', $key);
 
-							foreach ($_POST['topics'] as $key => $value)
+							if ($key[0] == 'topics')
 							{
-								$value = explode('_', $value);
-								$value = $query['topics'][$value[0]][$value[1]];
-
-								$_POST['topics'][$key] = [
-									'id' => $value['id'],
-									'name' => $value['name'],
-									'price' => $value['price']
-								];
-							}
-
-							if (array_key_exists($_POST['id'], $myvox['menu_order']['shopping_cart']))
-							{
-								array_push($myvox['menu_order']['shopping_cart'][$_POST['id']], [
-									'quantity' => $_POST['quantity'],
-									'id' => $_POST['id'],
-									'name' => $query['name'],
-									'topics' => $_POST['topics'],
-									'price' => $query['price'],
-									'total' => $this->model->get_menu_order_total($query['price'], $_POST['topics'])
-								]);
-							}
-							else
-							{
-								$myvox['menu_order']['shopping_cart'][$_POST['id']] = [
-									[
-										'quantity' => $_POST['quantity'],
-										'id' => $_POST['id'],
-										'name' => $query['name'],
-										'topics' => $_POST['topics'],
-										'price' => $query['price'],
-										'total' => $this->model->get_menu_order_total($query['price'], $_POST['topics'])
-									]
-								];
+								foreach ($value as $subkey => $subvalue)
+								{
+									$subvalue = explode('_', $subvalue);
+									$subvalue = $query['topics'][$subvalue[0]][$subvalue[1]];
+									$total = ($total + $subvalue['price']);
+								}
 							}
 						}
-						else if ($_POST['action'] == 'remove_to_menu_order')
-						{
-							unset($myvox['menu_order']['shopping_cart'][$_POST['key']][$_POST['subkey']]);
 
-							if (empty($myvox['menu_order']['shopping_cart'][$_POST['key']]))
-								unset($myvox['menu_order']['shopping_cart'][$_POST['key']]);
-						}
-
-						$myvox['menu_order']['total'] = $this->model->get_menu_order_total($myvox['menu_order']['shopping_cart']);
-
-						Session::set_value('myvox', $myvox);
+						$total = (($total + $query['price']) * $_POST['quantity']);
+						$total = Functions::get_formatted_currency($total, Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . (($total == $query['price'] AND !empty($query['topics'])) ? ' (+ {$lang.topics})' : '');
 
 						Functions::environment([
-							'status' => 'success'
+							'status' => 'success',
+							'total' => $total
 						]);
 					}
 					else
@@ -1264,6 +1230,93 @@ class Myvox_controller extends Controller
 							'message' => '{$lang.operation_error}'
 						]);
 					}
+				}
+
+				if ($_POST['action'] == 'add_to_menu_order')
+				{
+					$query = $this->model->get_menu_product($_POST['id']);
+
+					if (!empty($query))
+					{
+						$myvox = Session::get_value('myvox');
+
+						$_POST['topics'] = [];
+
+						foreach ($_POST as $key => $value)
+						{
+							$key = explode('_', $key);
+
+							if ($key[0] == 'topics')
+							{
+								foreach ($value as $subkey => $subvalue)
+								{
+									$subvalue = explode('_', $subvalue);
+
+									array_push($_POST['topics'], $query['topics'][$subvalue[0]][$subvalue[1]]);
+								}
+							}
+						}
+
+						if (array_key_exists($_POST['id'], $myvox['menu_order']['shopping_cart']))
+						{
+							array_push($myvox['menu_order']['shopping_cart'][$_POST['id']], [
+								'quantity' => $_POST['quantity'],
+								'id' => $_POST['id'],
+								'name' => $query['name'],
+								'topics' => $_POST['topics'],
+								'price' => $query['price'],
+								'total' => $this->model->get_menu_order_total($query['price'], $_POST['topics'], $_POST['quantity'])
+							]);
+						}
+						else
+						{
+							$myvox['menu_order']['shopping_cart'][$_POST['id']] = [
+								[
+									'quantity' => $_POST['quantity'],
+									'id' => $_POST['id'],
+									'name' => $query['name'],
+									'topics' => $_POST['topics'],
+									'price' => $query['price'],
+									'total' => $this->model->get_menu_order_total($query['price'], $_POST['topics'], $_POST['quantity'])
+								]
+							];
+						}
+
+						$myvox['menu_order']['total'] = $this->model->get_menu_order_total($myvox['menu_order']['shopping_cart']);
+
+						Session::set_value('myvox', $myvox);
+
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+
+				if ($_POST['action'] == 'remove_to_menu_order')
+				{
+					$myvox = Session::get_value('myvox');
+
+					unset($myvox['menu_order']['shopping_cart'][$_POST['key']][$_POST['subkey']]);
+
+					if (empty($myvox['menu_order']['shopping_cart'][$_POST['key']]))
+						unset($myvox['menu_order']['shopping_cart'][$_POST['key']]);
+
+					$myvox['menu_order']['total'] = $this->model->get_menu_order_total($myvox['menu_order']['shopping_cart']);
+
+					Session::set_value('myvox', $myvox);
+
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
 				}
 
 				if ($_POST['action'] == 'get_owner')
@@ -1483,17 +1536,24 @@ class Myvox_controller extends Controller
 									{
 										foreach ($value as $subvalue)
 										{
-											$mail2->Body .= '<p style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">x' . $subvalue['quantity'] . ' ' . $subvalue['name'][$this->lang2] . ' (';
+											$mail2->Body .= '<p style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">x' . $subvalue['quantity'] . ' ' . $subvalue['name'][$this->lang2];
 
-											foreach ($subvalue['topics'] as $parentvalue)
-												$mail2->Body .= $parentvalue['name'][$this->lang2] . ', ';
+											if (!empty($subvalue['topics']))
+											{
+												$mail2->Body .= ' (';
 
-											$mail2->Body .= ')</p>';
+												foreach ($subvalue['topics'] as $parentvalue)
+													$mail2->Body .= $parentvalue['name'][$this->lang2] . ', ';
+
+												$mail2->Body .= ')';
+											}
+
+											$mail2->Body .= '</p>';
 										}
 									}
 
 									$mail2->Body .=
-									'					<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $_POST['token'] . '">' . Languages::email('give_follow_up')[$this->lang2] . '</a>
+									'					<a style="width:100%;display:block;margin:20px 0px 0px 0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $_POST['token'] . '">' . Languages::email('give_follow_up')[$this->lang2] . '</a>
 													</td>
 												</tr>
 												<tr style="width:100%;margin:0px;padding:0px;border:0px;">
@@ -1529,12 +1589,17 @@ class Myvox_controller extends Controller
 									{
 										foreach ($value as $subvalue)
 										{
-											$sms2_text .= 'x' . $subvalue['quantity'] . ' ' . $subvalue['name'][$this->lang2] . ' (';
+											$sms2_text .= 'x' . $subvalue['quantity'] . ' ' . $subvalue['name'][$this->lang2] . '. ';
 
-											foreach ($subvalue['topics'] as $parentvalue)
-												$sms2_text .= $parentvalue['name'][$this->lang2] . ', ';
+											if (!empty($subvalue['topics']))
+											{
+												$sms2_text .= '(';
 
-											$sms2_text .= '). ';
+												foreach ($subvalue['topics'] as $parentvalue)
+													$sms2_text .= $parentvalue['name'][$this->lang2] . ', ';
+
+												$sms2_text .= '). ';
+											}
 										}
 									}
 
@@ -1681,137 +1746,11 @@ class Myvox_controller extends Controller
 								<h2>x' . $subvalue['quantity'] . ' ' . $subvalue['name'][$this->lang1] . '</h2>';
 
 							foreach ($subvalue['topics'] as $parentvalue)
-								$html .= '<h3><i class="fas fa-circle-notch"></i>' . $parentvalue['name'][$this->lang1] . '</h3>';
+								$html .= '<h3><i class="fas fa-check"></i>' . $parentvalue['name'][$this->lang1] . '</h3>';
 
+							$html .=
 							'	<span>' . Functions::get_formatted_currency($subvalue['total'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . '</span>
-								<a class="delete" data-action="remove_to_menu_order" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-times"></i></a>
-							</div>';
-						}
-					}
-
-					$html .=
-					'<form name="new_menu_order">
-						<div class="row">';
-
-					if (Session::get_value('myvox')['account']['type'] == 'restaurant')
-					{
-						if (Session::get_value('myvox')['url'] == 'account')
-						{
-							$html .=
-							'<div class="span12">
-								<div class="checkboxes stl_1">
-									<div>
-										<input type="radio" name="type_service" value="restaurant" checked>
-										<span><strong>{$lang.restaurant_service}</strong></span>
-									</div>
-									<div>
-										<input type="radio" name="type_service" value="home">
-										<span><strong>{$lang.home_service}</strong></span>
-									</div>
-								</div>
-							</div>';
-						}
-					}
-
-					if (Session::get_value('myvox')['url'] == 'account')
-					{
-						$html .=
-						'<div class="span12">
-							<div class="label">
-								<label required>
-									<p>{$lang.owner} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-									<select name="owner">
-										<option value="" hidden>{$lang.choose}</option>';
-
-						foreach ($this->model->get_owners('request') as $value)
-							$html .= '<option value="' . $value['id'] . '" ' . ((!empty(Session::get_value('myvox')['owner']) AND Session::get_value('myvox')['owner']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang1] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
-
-						$html .=
-						'			</select>
-								</label>
-							</div>
-						</div>';
-					}
-
-					if (Session::get_value('myvox')['account']['type'] == 'hotel')
-					{
-						$html .=
-						'<div class="span12">
-							<div class="label">
-								<label required>
-									<p>{$lang.location} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-									<select name="location">
-										<option value="" hidden>{$lang.choose}</option>';
-
-						foreach ($this->model->get_locations('request') as $value)
-							$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
-
-						$html .=
-						'			</select>
-								</label>
-							</div>
-						</div>';
-					}
-
-					if (Session::get_value('myvox')['account']['type'] == 'restaurant')
-					{
-						if (Session::get_value('myvox')['url'] == 'account')
-						{
-							$html .=
-							'<div class="span12 hidden">
-								<div class="label">
-									<label required>
-										<p>{$lang.address} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-										<input type="text" name="address">
-									</label>
-								</div>
-							</div>
-							<div class="span6 hidden">
-								<div class="label">
-									<label required>
-										<p>{$lang.firstname}</p>
-										<input type="text" name="firstname">
-									</label>
-								</div>
-							</div>
-							<div class="span6 hidden">
-								<div class="label">
-									<label required>
-										<p>{$lang.lastname}</p>
-										<input type="text" name="lastname">
-									</label>
-								</div>
-							</div>
-							<div class="span6 hidden">
-								<div class="label">
-									<label unrequired>
-										<p>{$lang.email}</p>
-										<input type="email" name="email">
-									</label>
-								</div>
-							</div>
-							<div class="span3 hidden">
-								<div class="label">
-									<label required>
-										<p>{$lang.lada}</p>
-										<select name="phone_lada">
-											<option value="">{$lang.empty} ({$lang.choose})</option>';
-
-							foreach ($this->model->get_countries() as $value)
-								$html .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang1] . ' (+' . $value['lada'] . ')</option>';
-
-							$html .=
-							'			</select>
-									</label>
-								</div>
-							</div>
-							<div class="span3 hidden">
-								<div class="label">
-									<label required>
-										<p>{$lang.phone}</p>
-										<input type="number" name="phone_number">
-									</label>
-								</div>
+								<a class="delete" data-action="remove_to_menu_order" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-trash"></i></a>
 							</div>';
 						}
 					}
@@ -1819,17 +1758,143 @@ class Myvox_controller extends Controller
 					if (!empty(Session::get_value('myvox')['menu_order']['shopping_cart']))
 					{
 						$html .=
-						'<div class="span12">
-	                        <div class="buttons">
-								<button class="new" type="submit">{$lang.generate_order}</button>
-	                        </div>
-	                    </div>';
+						'<form name="new_menu_order">
+							<div class="row">';
+
+						if (Session::get_value('myvox')['account']['type'] == 'restaurant')
+						{
+							if (Session::get_value('myvox')['url'] == 'account')
+							{
+								$html .=
+								'<div class="span12">
+									<div class="checkboxes stl_1">
+										<div>
+											<input type="radio" name="type_service" value="restaurant" checked>
+											<span><strong>{$lang.restaurant_service}</strong></span>
+										</div>
+										<div>
+											<input type="radio" name="type_service" value="home">
+											<span><strong>{$lang.home_service}</strong></span>
+										</div>
+									</div>
+								</div>';
+							}
+						}
+
+						if (Session::get_value('myvox')['url'] == 'account')
+						{
+							$html .=
+							'<div class="span12">
+								<div class="label">
+									<label required>
+										<p>{$lang.owner} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+										<select name="owner">
+											<option value="" hidden>{$lang.choose}</option>';
+
+							foreach ($this->model->get_owners('request') as $value)
+								$html .= '<option value="' . $value['id'] . '" ' . ((!empty(Session::get_value('myvox')['owner']) AND Session::get_value('myvox')['owner']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang1] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+
+							$html .=
+							'			</select>
+									</label>
+								</div>
+							</div>';
+						}
+
+						if (Session::get_value('myvox')['account']['type'] == 'hotel')
+						{
+							$html .=
+							'<div class="span12">
+								<div class="label">
+									<label required>
+										<p>{$lang.location} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+										<select name="location">
+											<option value="" hidden>{$lang.choose}</option>';
+
+							foreach ($this->model->get_locations('request') as $value)
+								$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
+
+							$html .=
+							'			</select>
+									</label>
+								</div>
+							</div>';
+						}
+
+						if (Session::get_value('myvox')['account']['type'] == 'restaurant')
+						{
+							if (Session::get_value('myvox')['url'] == 'account')
+							{
+								$html .=
+								'<div class="span12 hidden">
+									<div class="label">
+										<label required>
+											<p>{$lang.address} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+											<input type="text" name="address">
+										</label>
+									</div>
+								</div>
+								<div class="span6 hidden">
+									<div class="label">
+										<label required>
+											<p>{$lang.firstname}</p>
+											<input type="text" name="firstname">
+										</label>
+									</div>
+								</div>
+								<div class="span6 hidden">
+									<div class="label">
+										<label required>
+											<p>{$lang.lastname}</p>
+											<input type="text" name="lastname">
+										</label>
+									</div>
+								</div>
+								<div class="span6 hidden">
+									<div class="label">
+										<label unrequired>
+											<p>{$lang.email}</p>
+											<input type="email" name="email">
+										</label>
+									</div>
+								</div>
+								<div class="span3 hidden">
+									<div class="label">
+										<label required>
+											<p>{$lang.lada}</p>
+											<select name="phone_lada">
+												<option value="">{$lang.empty} ({$lang.choose})</option>';
+
+								foreach ($this->model->get_countries() as $value)
+									$html .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang1] . ' (+' . $value['lada'] . ')</option>';
+
+								$html .=
+								'			</select>
+										</label>
+									</div>
+								</div>
+								<div class="span3 hidden">
+									<div class="label">
+										<label required>
+											<p>{$lang.phone}</p>
+											<input type="number" name="phone_number">
+										</label>
+									</div>
+								</div>';
+							}
+						}
+
+						$html .=
+						'		<div class="span12">
+									<div class="buttons">
+										<button class="new" type="submit">{$lang.generate_order}</button>
+									</div>
+								</div>
+							</div>
+						</form>';
 					}
 
-					$html .=
-					'		</div>
-						</form>
-					</section>';
+					$html .= '</section>';
 				}
 
 				$html .=
