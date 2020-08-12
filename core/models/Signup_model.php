@@ -162,12 +162,27 @@ class Signup_model extends Model
 	{
 		$data['token'] = strtolower(Functions::get_random(8));
 		$data['path'] = str_replace(' ', '', strtolower($data['path']));
-		$data['qr']['filename'] = $data['path'] . '_account_qr_' . $data['token'] . '.png';
-		$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . $data['path'] . '/myvox';
-		$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
-		$data['qr']['level'] = 'H';
-		$data['qr']['size'] = 5;
-		$data['qr']['frame'] = 3;
+
+		$data['account_qr']['filename'] = $data['path'] . '_account_qr_' . $data['token'] . '.png';
+		$data['account_qr']['content'] = 'https://' . Configuration::$domain . '/' . $data['path'] . '/myvox';
+		$data['account_qr']['dir'] = PATH_UPLOADS . $data['account_qr']['filename'];
+		$data['account_qr']['level'] = 'H';
+		$data['account_qr']['size'] = 5;
+		$data['account_qr']['frame'] = 3;
+
+		$data['menu_delivery_qr']['filename'] = $data['path'] . '_menu_delivery_qr_' . $data['token'] . '.png';
+		$data['menu_delivery_qr']['content'] = 'https://' . Configuration::$domain . '/' . $data['path'] . '/myvox/delivery';
+		$data['menu_delivery_qr']['dir'] = PATH_UPLOADS . $data['menu_delivery_qr']['filename'];
+		$data['menu_delivery_qr']['level'] = 'H';
+		$data['menu_delivery_qr']['size'] = 5;
+		$data['menu_delivery_qr']['frame'] = 3;
+
+		$data['reviews_qr']['filename'] = $data['path'] . '_reviews_qr_' . $data['token'] . '.png';
+		$data['reviews_qr']['content'] = 'https://' . Configuration::$domain . '/' . $data['path'] . '/reviews';
+		$data['reviews_qr']['dir'] = PATH_UPLOADS . $data['reviews_qr']['filename'];
+		$data['reviews_qr']['level'] = 'H';
+		$data['reviews_qr']['size'] = 5;
+		$data['reviews_qr']['frame'] = 3;
 
 		$this->database->insert('accounts', [
 			'token' => $data['token'],
@@ -197,7 +212,11 @@ class Signup_model extends Model
 				]
 			]),
 			'logotype' => Functions::uploader($data['logotype'], $data['path'] . '_account_logotype_'),
-			'qr' => $data['qr']['filename'],
+			'qrs' => json_encode([
+				'account' => $data['account_qr']['filename'],
+				'menu_delivery' => $data['menu_delivery_qr']['filename'],
+				'reviews' => $data['reviews_qr']['filename']
+			]),
 			'package' => $this->get_package($data['type'], $data['rooms_number'])['id'],
 			'operation' => !empty($data['operation']) ? true : false,
 			'reputation' => !empty($data['reputation']) ? true : false,
@@ -314,7 +333,9 @@ class Signup_model extends Model
 			'status' => true
 		]);
 
-		QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
+		QRcode::png($data['account_qr']['content'], $data['account_qr']['dir'], $data['account_qr']['level'], $data['account_qr']['size'], $data['account_qr']['frame']);
+		QRcode::png($data['menu_delivery_qr']['content'], $data['menu_delivery_qr']['dir'], $data['menu_delivery_qr']['level'], $data['menu_delivery_qr']['size'], $data['menu_delivery_qr']['frame']);
+		QRcode::png($data['reviews_qr']['content'], $data['reviews_qr']['dir'], $data['reviews_qr']['level'], $data['reviews_qr']['size'], $data['reviews_qr']['frame']);
 
 		$account = $this->database->id();
 

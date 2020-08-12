@@ -134,7 +134,7 @@ class CurlMultiHandler
         if (empty($easy->options['delay'])) {
             curl_multi_add_handle($this->_mh, $easy->handle);
         } else {
-            $this->delays[$id] = microtime(true) + ($easy->options['delay'] / 1000);
+            $this->delays[$id] = microtime(true) + ($easy->options['delay'] / 600);
         }
     }
 

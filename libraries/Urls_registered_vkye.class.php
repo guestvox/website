@@ -65,6 +65,10 @@ class Urls_registered_vkye
                 'controller' => 'Myvox', // - Rediseño
                 'method' => 'index'
             ],
+            '/%param%/myvox/%param%' => [
+                'controller' => 'Myvox', // - Rediseño
+                'method' => 'index'
+            ],
             '/%param%/myvox/%param%/%param%' => [
                 'controller' => 'Myvox', // - Rediseño
                 'method' => 'index'
@@ -105,8 +109,8 @@ class Urls_registered_vkye
                 'controller' => 'Profile',
                 'method' => 'index'
             ],
-            '/qr' => [
-                'controller' => 'Qr',
+            '/qrs' => [
+                'controller' => 'Qrs',
                 'method' => 'index'
             ],
             '/voxes' => [
@@ -161,6 +165,14 @@ class Urls_registered_vkye
             //     'controller' => 'Menu',
             //     'method' => 'restaurants'
             // ],
+            '/menu/categories' => [
+                'controller' => 'Menu',
+                'method' => 'categories'
+            ],
+            '/menu/topics' => [
+                'controller' => 'Menu',
+                'method' => 'topics'
+            ],
             '/owners' => [
                 'controller' => 'Owners',
                 'method' => 'index'

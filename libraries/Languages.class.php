@@ -236,6 +236,10 @@ class Languages
             'password' => [
                 'es' => 'Contraseña',
                 'en' => 'Password'
+            ],
+            'view_my_order' => [
+                'es' => 'Ver mi pedido',
+                'en' => 'View my order'
             ]
         ];
 

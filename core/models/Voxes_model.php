@@ -714,6 +714,7 @@ class Voxes_model extends Model
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('menu_orders', [
 			'type_service',
+			'delivery',
 			'total',
 			'currency',
 			'shopping_cart'

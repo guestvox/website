@@ -10,7 +10,7 @@ class User_level
 
         array_push($paths, '/Dashboard/index');
         array_push($paths, '/Profile/index');
-        array_push($paths, '/Qr/index');
+        array_push($paths, '/Qrs/index');
         array_push($paths, '/Voxes/index');
         array_push($paths, '/Voxes/create');
         array_push($paths, '/Voxes/details');
@@ -118,6 +118,46 @@ class User_level
 
                 case '{menu_restaurants_delete}' :
                     array_push($paths, '/Menu/restaurants');
+                break;
+
+                case '{menu_categories_create}' :
+                    array_push($paths, '/Menu/categories');
+                break;
+
+                case '{menu_categories_update}' :
+                    array_push($paths, '/Menu/categories');
+                break;
+
+                case '{menu_categories_deactivate}' :
+                    array_push($paths, '/Menu/categories');
+                break;
+
+                case '{menu_categories_activate}' :
+                    array_push($paths, '/Menu/categories');
+                break;
+
+                case '{menu_categories_delete}' :
+                    array_push($paths, '/Menu/categories');
+                break;
+
+                case '{menu_topics_create}' :
+                    array_push($paths, '/Menu/topics');
+                break;
+
+                case '{menu_topics_update}' :
+                    array_push($paths, '/Menu/topics');
+                break;
+
+                case '{menu_topics_deactivate}' :
+                    array_push($paths, '/Menu/topics');
+                break;
+
+                case '{menu_topics_activate}' :
+                    array_push($paths, '/Menu/topics');
+                break;
+
+                case '{menu_topics_delete}' :
+                    array_push($paths, '/Menu/topics');
                 break;
 
                 case '{owners_create}' :

@@ -20,11 +20,6 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                     </figure>
                 </div>
             </div>
-            <div class="stl_2">
-                <figure>
-                    <img src="{$qr}">
-                </figure>
-            </div>
             <div class="stl_5">
                 <i class="fas fa-bowling-ball"></i>
                 <h2>{$name}</h2>
@@ -43,17 +38,17 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
             {$div_answer_surveys}
             {$div_reviews_page}
             <!-- {$div_attention_times} -->
-            <div class="stl_5">
+            <div class="stl_5 last">
                 <i class="fas fa-space-shuttle"></i>
                 <h2>{$lang.operation_package}</h2>
                 <span>{$operation}</span>
             </div>
-            <div class="stl_5">
+            <div class="stl_5 last">
                 <i class="fas fa-robot"></i>
                 <h2>{$lang.reputation_package}</h2>
                 <span>{$reputation}</span>
             </div>
-            <div class="stl_5">
+            <div class="stl_5 last">
                 <i class="fas fa-shapes"></i>
                 <h2>{$lang.owners_package}</h2>
                 <span>{$package} {$lang.owners}</span>

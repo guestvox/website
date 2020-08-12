@@ -30,7 +30,7 @@ class StreamHandler
     {
         // Sleep if there is a delay specified.
         if (isset($options['delay'])) {
-            usleep($options['delay'] * 1000);
+            usleep($options['delay'] * 600);
         }
 
         $startTime = isset($options['on_stats']) ? microtime(true) : null;

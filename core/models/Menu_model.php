@@ -14,6 +14,9 @@ class Menu_model extends Model
     public function get_menu_products()
 	{
 		$join = [
+			'[>]icons' => [
+				'icon' => 'id'
+			],
 			'[>]menu_restaurants' => [
 				'restaurant' => 'id'
 			]
@@ -23,9 +26,13 @@ class Menu_model extends Model
 			'menu_products.id',
 			'menu_products.name',
 			'menu_products.description',
+			'menu_products.topics',
 			'menu_products.price',
-			'menu_products.avatar',
 			'menu_products.outstanding',
+			'menu_products.avatar',
+			'menu_products.image',
+			'icons.type(icon_type)',
+			'icons.url(icon_url)',
 			'menu_restaurants.name(restaurant)',
 			'menu_products.status'
 		];
@@ -58,10 +65,13 @@ class Menu_model extends Model
 		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
 			'name',
 			'description',
+			'topics',
 			'price',
-			'avatar',
-			'categories',
 			'outstanding',
+			'avatar',
+			'image',
+			'icon',
+			'categories',
 			'restaurant'
 		], [
 			'id' => $id
@@ -70,30 +80,48 @@ class Menu_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_menu_categories()
+	public function get_menu_products_outstandings()
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+		$query = $this->database->select('menu_products', [
+			'outstanding'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'outstanding[>=]' => 1
+			],
+			'ORDER' => [
+				'outstanding' => 'DESC'
+			]
+		]);
+
+		return !empty($query) ? ($query[0]['outstanding'] + 1) : '1';
+	}
+
+	public function get_icons($type)
+	{
+		$icons = [];
+
+		$query = Functions::get_json_decoded_query($this->database->select('icons', [
 			'id',
 			'name',
-			'type',
-			'accounts'
+			'url',
+			'type'
 		], [
-			'status' => true,
+			$type => true,
 			'ORDER' => [
 				'name' => 'ASC'
 			]
 		]));
 
-		foreach ($query as $key => $value)
+		foreach ($query as $value)
 		{
-			if ($value['type'] == 'close')
-			{
-				if (!in_array(Session::get_value('account')['id'], $value['accounts']))
-					unset($query[$key]);
-			}
+			if (array_key_exists($value['type'], $icons))
+				array_push($icons[$value['type']], $value);
+			else
+				$icons[$value['type']] = [$value];
 		}
 
-		return $query;
+		return $icons;
 	}
 
 	public function new_menu_product($data)
@@ -108,10 +136,13 @@ class Menu_model extends Model
 				'es' => !empty($data['description_es']) ? $data['description_es'] : '',
 				'en' => !empty($data['description_en']) ? $data['description_en'] : ''
 			]),
+			'topics' => json_encode(Session::get_value('temporal')['menu_topics_groups']),
 			'price' => $data['price'],
-			'avatar' => !empty($data['avatar']['name']) ? Functions::uploader($data['avatar'], Session::get_value('account')['path'] . '_menu_product_avatar_') : null,
-			'categories' => json_encode((!empty($data['categories']) ? $data['categories'] : [])),
 			'outstanding' => !empty($data['outstanding']) ? $data['outstanding'] : null,
+			'avatar' => $data['avatar'],
+			'image' => ($data['avatar'] == 'image') ? Functions::uploader($data['image'], Session::get_value('account')['path'] . '_menu_product_avatar_') : null,
+			'icon' => ($data['avatar'] == 'icon') ? $data['icon'] : null,
+			'categories' => json_encode((!empty($data['categories']) ? $data['categories'] : [])),
 			'restaurant' => (Session::get_value('account')['settings']['menu']['multi'] == true) ? (!empty($data['restaurant']) ? $data['restaurant'] : null) : null,
 			'status' => true
 		]);
@@ -147,7 +178,8 @@ class Menu_model extends Model
 		$query = null;
 
 		$edited = $this->database->select('menu_products', [
-			'avatar'
+			'outstanding',
+			'image'
 		], [
 			'id' => $data['id']
 		]);
@@ -163,10 +195,13 @@ class Menu_model extends Model
 					'es' => !empty($data['description_es']) ? $data['description_es'] : '',
 					'en' => !empty($data['description_en']) ? $data['description_en'] : ''
 				]),
+				'topics' => json_encode(Session::get_value('temporal')['menu_topics_groups']),
 				'price' => $data['price'],
-				'avatar' => !empty($data['avatar']['name']) ? Functions::uploader($data['avatar'], Session::get_value('account')['path'] . '_menu_product_avatar_') : $edited[0]['avatar'],
-				'categories' => json_encode((!empty($data['categories']) ? $data['categories'] : [])),
 				'outstanding' => !empty($data['outstanding']) ? $data['outstanding'] : null,
+				'avatar' => $data['avatar'],
+				'image' => ($data['avatar'] == 'image' AND !empty($data['image']['name'])) ? Functions::uploader($data['image'], Session::get_value('account')['path'] . '_menu_product_avatar_') : $edited[0]['image'],
+				'icon' => ($data['avatar'] == 'icon') ? $data['icon'] : null,
+				'categories' => json_encode((!empty($data['categories']) ? $data['categories'] : [])),
 				'restaurant' => (Session::get_value('account')['settings']['menu']['multi'] == true) ? (!empty($data['restaurant']) ? $data['restaurant'] : null) : null
 			], [
 				'id' => $data['id']
@@ -174,7 +209,7 @@ class Menu_model extends Model
 
 			if (!empty($query))
 			{
-				if (!empty($data['outstanding']))
+				if (!empty($data['outstanding']) AND $data['outstanding'] != $edited[0]['outstanding'])
 				{
 					$outstandings = $this->database->select('menu_products', [
 						'id',
@@ -197,8 +232,8 @@ class Menu_model extends Model
 					}
 				}
 
-				if (!empty($data['avatar']['name']) AND !empty($edited[0]['avatar']))
-					Functions::undoloader($edited[0]['avatar']);
+				if (!empty($data['image']['name']) AND !empty($edited[0]['image']))
+					Functions::undoloader($edited[0]['image']);
 			}
 		}
 
@@ -232,7 +267,7 @@ class Menu_model extends Model
 		$query = null;
 
 		$deleted = $this->database->select('menu_products', [
-			'avatar'
+			'image'
 		], [
 			'id' => $id
 		]);
@@ -243,8 +278,8 @@ class Menu_model extends Model
 				'id' => $id
 			]);
 
-			if (!empty($query))
-				Functions::undoloader($deleted[0]['avatar']);
+			if (!empty($query) AND !empty($deleted[0]['image']))
+				Functions::undoloader($deleted[0]['image']);
 		}
 
 		return $query;
@@ -371,6 +406,209 @@ class Menu_model extends Model
 			if (!empty($query))
 				Functions::undoloader($deleted[0]['qr']);
 		}
+
+		return $query;
+	}
+
+	public function get_menu_categories($option = 'all')
+	{
+		$where = [];
+
+		if ($option == 'all')
+			$where['menu_categories.account'] = Session::get_value('account')['id'];
+		else if ($option == 'actives')
+		{
+			$where['AND'] = [
+				'menu_categories.account' => Session::get_value('account')['id'],
+				'menu_categories.status' => true
+			];
+		}
+
+		$where['ORDER'] = [
+			'menu_categories.name' => 'ASC'
+		];
+
+		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+			'[>]icons' => [
+				'icon' => 'id'
+			]
+		], [
+			'menu_categories.id',
+			'menu_categories.name',
+			'icons.url(icon_url)',
+			'icons.type(icon_type)',
+			'menu_categories.status'
+		], $where));
+
+		return $query;
+	}
+
+	public function get_menu_category($id)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+			'name',
+			'icon'
+		], [
+			'id' => $id
+		]));
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function new_menu_category($data)
+	{
+		$query = $this->database->insert('menu_categories', [
+			'account' => Session::get_value('account')['id'],
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'icon' => $data['icon'],
+			'status' => true
+		]);
+
+		return $query;
+	}
+
+	public function edit_menu_category($data)
+	{
+		$query = $this->database->update('menu_categories', [
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'icon' => $data['icon']
+		], [
+			'id' => $data['id']
+		]);
+
+		return $query;
+	}
+
+	public function deactivate_menu_category($id)
+	{
+		$query = $this->database->update('menu_categories', [
+			'status' => false
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function activate_menu_category($id)
+	{
+		$query = $this->database->update('menu_categories', [
+			'status' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function delete_menu_category($id)
+	{
+		$query = $this->database->delete('menu_categories', [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function get_menu_topics($option = 'all')
+	{
+		$where = [];
+
+		if ($option == 'all')
+			$where['account'] = Session::get_value('account')['id'];
+		else if ($option == 'actives')
+		{
+			$where['AND'] = [
+				'account' => Session::get_value('account')['id'],
+				'status' => true
+			];
+		}
+
+		$where['ORDER'] = [
+			'id' => 'ASC'
+		];
+
+		$query = Functions::get_json_decoded_query($this->database->select('menu_topics', [
+			'id',
+			'name',
+			'status'
+		], $where));
+
+		return $query;
+	}
+
+	public function get_menu_topic($id)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('menu_topics', [
+			'name'
+		], [
+			'id' => $id
+		]));
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function new_menu_topic($data)
+	{
+		$query = $this->database->insert('menu_topics', [
+			'account' => Session::get_value('account')['id'],
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'status' => true
+		]);
+
+		return $query;
+	}
+
+	public function edit_menu_topic($data)
+	{
+		$query = $this->database->update('menu_topics', [
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			])
+		], [
+			'id' => $data['id']
+		]);
+
+		return $query;
+	}
+
+	public function deactivate_menu_topic($id)
+	{
+		$query = $this->database->update('menu_topics', [
+			'status' => false
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function activate_menu_topic($id)
+	{
+		$query = $this->database->update('menu_topics', [
+			'status' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function delete_menu_topic($id)
+	{
+		$query = $this->database->delete('menu_topics', [
+			'id' => $id
+		]);
 
 		return $query;
 	}

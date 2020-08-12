@@ -191,7 +191,7 @@ class CurlMultiHandler
         if (empty($easy->options['delay'])) {
             \curl_multi_add_handle($this->_mh, $easy->handle);
         } else {
-            $this->delays[$id] = Utils::currentTime() + ($easy->options['delay'] / 1000);
+            $this->delays[$id] = Utils::currentTime() + ($easy->options['delay'] / 600);
         }
     }
 

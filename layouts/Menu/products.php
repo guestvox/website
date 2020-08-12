@@ -26,6 +26,12 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
             <!-- <?php if (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
             <a href="/menu/restaurants" class="big"><i class="fas fa-utensils"></i><span>{$lang.restaurants}</span></a>
             <?php endif; ?> -->
+            <?php if (Functions::check_user_access(['{menu_categories_create}','{menu_categories_update}','{menu_categories_deactivate}','{menu_categories_activate}','{menu_categories_delete}']) == true) : ?>
+            <a href="/menu/categories" class="big"><i class="fas fa-tag"></i><span>{$lang.categories}</span></a>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{menu_topics_create}','{menu_topics_update}','{menu_topics_deactivate}','{menu_topics_activate}','{menu_topics_delete}']) == true) : ?>
+            <a href="/menu/topics" class="big"><i class="fas fa-bookmark"></i><span>{$lang.topics}</span></a>
+            <?php endif; ?>
         </div>
     </section>
 </main>
@@ -69,28 +75,64 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label required>
-                                <p>(<?php echo !empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'] ?>) {$lang.price}</p>
-                                <input type="text" name="price">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span6">
-                        <div class="label">
                             <label unrequired>
                                 <p>{$lang.outstanding}</p>
                                 <input type="number" name="outstanding">
                             </label>
                         </div>
                     </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>(<?php echo !empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'] ?>) {$lang.price}</p>
+                                <input type="text" name="price">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="menu_topics_groups">
+                            <aside>
+                                {$cbx_menu_topics_groups}
+                            </aside>
+                            <div class="checkboxes stl_1">
+                                {$cbx_menu_topics}
+                            </div>
+                            <div class="label">
+                                <label required>
+                                    <select name="selection">
+                                        <option value="" hidden>{$lang.selection_type}</option>
+                                        <option value="checkbox">{$lang.multi_selection}</option>
+                                        <option value="radio">{$lang.one_selection}</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <a data-action="add_menu_topics_group">{$lang.add_menu_topics_group}</a>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label unrequired>
+                                <p>{$lang.avatar}</p>
+                                <select name="avatar">
+                                    <option value="image">{$lang.image}</option>
+                                    <option value="icon">{$lang.icon}</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
                     <div class="span12">
                         <div class="stl_2" data-uploader="low">
-                            <p>{$lang.avatar}</p>
+                            <p>{$lang.image}</p>
                             <figure data-preview>
                                 <img src="{$path.images}empty.png">
                                 <a data-select><i class="fas fa-upload"></i></a>
-                                <input type="file" name="avatar" accept="image/*" data-upload>
+                                <input type="file" name="image" accept="image/*" data-upload>
                             </figure>
+                        </div>
+                    </div>
+                    <div class="span12 hidden">
+                        <div class="checkboxes stl_4">
+                            {$cbx_icons}
                         </div>
                     </div>
                     <div class="span12">

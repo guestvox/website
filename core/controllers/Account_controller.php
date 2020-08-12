@@ -1035,7 +1035,6 @@ class Account_controller extends Controller
 
 			$replace = [
 				'{$logotype}' => '{$path.uploads}' . $account['logotype'],
-				'{$qr}' => '{$path.uploads}' . $account['qr'],
 				'{$name}' => $account['name'],
 				'{$token}' => strtoupper($account['token']),
 				'{$fiscal_name}' => !empty($account['fiscal']['name']) ? $account['fiscal']['name'] : '{$lang.not_fiscal_name}',
