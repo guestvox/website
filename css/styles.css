@@ -2571,11 +2571,11 @@ div.profile > span {
     color: #757575;
 }
 
-/* Qr
+/* Qrs
 ------------------------------------------------------------------------------ */
-div.qr {
+div.qrs {
     width: 100%;
-    height: calc(100vh - 100px);
+    height: calc(100vh - 190px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2586,20 +2586,38 @@ div.qr {
 
 /*  */
 
-div.qr > figure {
+div.qrs > div:first-child {
     width: 100%;
-    max-width: 300px;
-    margin-bottom: 20px;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
+    box-sizing: border-box;
 }
 
-div.qr > figure > img {
+div.qrs > div:first-child > figure {
+    width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+div.qrs > div:first-child > figure > h2 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #212121;
+}
+
+div.qrs > div:first-child > figure > img {
     width: 100%;
 }
 
 /*  */
 
-div.qr > div,
-div.qr > div > div {
+div.qrs > div:last-child,
+div.qrs > div:last-child > div {
     width: 100%;
     max-width: 600px;
     display: flex;
@@ -2607,19 +2625,19 @@ div.qr > div > div {
     justify-content: center;
 }
 
-div.qr > div {
+div.qrs > div:last-child {
     flex-direction: column;
 }
 
-div.qr > div > div {
+div.qrs > div:last-child > div {
     margin-bottom: 20px;
 }
 
-div.qr > div > div:last-child {
+div.qrs > div:last-child > div:last-child {
     margin-bottom: 0px;
 }
 
-div.qr > div > div > p {
+div.qrs > div:last-child > div > p {
     width: calc(100% - 90px);
     display: flex;
     align-items: center;
@@ -2636,16 +2654,16 @@ div.qr > div > div > p {
 
 @media (min-width: 1024px) {
 
-    div.qr > div > div > p {
+    div.qrs > div:last-child > div > p {
         width: 100%;
     }
 }
 
-div.qr > div > div > p > strong {
+div.qrs > div:last-child > div > p > strong {
     margin-right: 5px;
 }
 
-div.qr > div > div > a {
+div.qrs > div:last-child > div > a {
     width: 40px;
     height: 40px;
     display: flex;
@@ -2658,24 +2676,12 @@ div.qr > div > div > a {
     color: #757575;
 }
 
-div.qr > div > div > a > span {
-    display: none;
-}
-
 @media (min-width: 1024px) {
 
-    div.qr > div > div > a {
-        width: auto;
+    div.qrs > div:last-child > div > a {
         border-radius: 40px;
         padding: 0px 20px;
         box-sizing: border-box;
-    }
-
-    div.qr > div > div > a > span {
-        display: block;
-        margin-left: 5px;
-        font-size: 12px;
-        font-weight: 400;
     }
 }
 
@@ -3981,10 +3987,6 @@ div.account > div {
         float: left;
         display: inline-flex;
     }
-}
-
-div.account > div:last-child {
-    border-bottom: 0px;
 }
 
 @media (min-width: 1200px) {

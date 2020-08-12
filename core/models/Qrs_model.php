@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-class Qr_model extends Model
+class Qrs_model extends Model
 {
 	public function __construct()
 	{

@@ -10,7 +10,7 @@ class User_level
 
         array_push($paths, '/Dashboard/index');
         array_push($paths, '/Profile/index');
-        array_push($paths, '/Qr/index');
+        array_push($paths, '/Qrs/index');
         array_push($paths, '/Voxes/index');
         array_push($paths, '/Voxes/create');
         array_push($paths, '/Voxes/details');

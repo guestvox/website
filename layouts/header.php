@@ -24,7 +24,7 @@
             <li><a href="/voxes/create"><i class="fas fa-plus"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_account_access(['operation','reputation']) == true) : ?>
-            <li><a href="/qr"><i class="fas fa-qrcode"></i></a></li>
+            <li><a href="/qrs"><i class="fas fa-qrcode"></i></a></li>
             <?php endif; ?>
             <li><a data-action="open_rightbar"><i class="fas fa-bars"></i></a></li>
         </ul>
@@ -47,7 +47,7 @@
             <!-- <li target="dashboard"><a href="/dashboard">{$lang.dashboard}<i class="fas fa-tachometer-alt"></i></a></li> -->
             <li target="my_profile"><a href="/my-profile">{$lang.my_profile}<i class="fas fa-user-astronaut"></i></a></li>
             <?php if (Functions::check_account_access(['operation','reputation']) == true) : ?>
-            <li target="qr"><a href="/qr">{$lang.qr}<i class="fas fa-qrcode"></i></a></li>
+            <li target="qrs"><a href="/qrs">{$lang.qrs}<i class="fas fa-qrcode"></i></a></li>
             <?php endif; ?>
         </ul>
     </nav>

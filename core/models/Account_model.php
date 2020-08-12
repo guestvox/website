@@ -30,7 +30,6 @@ class Account_model extends Model
 			'accounts.fiscal',
 			'accounts.contact',
 			'accounts.logotype',
-			'accounts.qr',
 			'packages.quantity_end(package)',
 			'accounts.operation',
 			'accounts.reputation',

@@ -109,8 +109,8 @@ class Urls_registered_vkye
                 'controller' => 'Profile',
                 'method' => 'index'
             ],
-            '/qr' => [
-                'controller' => 'Qr',
+            '/qrs' => [
+                'controller' => 'Qrs',
                 'method' => 'index'
             ],
             '/voxes' => [

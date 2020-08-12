@@ -36,7 +36,7 @@ class Login_model extends Model
 			'accounts.currency(account_currency)',
 			'accounts.language(account_language)',
 			'accounts.logotype(account_logotype)',
-			'accounts.qr(account_qr)',
+			'accounts.qrs(account_qrs)',
 			'accounts.operation(account_operation)',
 			'accounts.reputation(account_reputation)',
 			'accounts.siteminder(account_siteminder)',
@@ -86,7 +86,7 @@ class Login_model extends Model
 					'currency' => $query[0]['account_currency'],
 					'language' => $query[0]['account_language'],
 					'logotype' => $query[0]['account_logotype'],
-					'qr' => $query[0]['account_qr'],
+					'qrs' => $query[0]['account_qrs'],
 					'package' => [
 						'id' => $query[0]['package_id'],
 						'quantity_end' => $query[0]['package_quantity_end']

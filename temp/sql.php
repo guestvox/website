@@ -1,5 +1,47 @@
 <?php
 
+require 'plugins/php_qr_code/qrlib.php';
+
+public function sql()
+{
+    $query = $this->database->select('accounts', [
+        'id',
+        'token',
+        'path',
+        'qrs'
+    ]);
+
+    foreach ($query as $value)
+    {
+        $value['menu_delivery_qr']['filename'] = $value['path'] . '_menu_delivery_qr_' . $value['token'] . '.png';
+        $value['menu_delivery_qr']['content'] = 'https://' . Configuration::$domain . '/' . $value['path'] . '/myvox/delivery';
+        $value['menu_delivery_qr']['dir'] = PATH_UPLOADS . $value['menu_delivery_qr']['filename'];
+        $value['menu_delivery_qr']['level'] = 'H';
+        $value['menu_delivery_qr']['size'] = 5;
+        $value['menu_delivery_qr']['frame'] = 3;
+
+        $value['reviews_qr']['filename'] = $value['path'] . '_reviews_qr_' . $value['token'] . '.png';
+        $value['reviews_qr']['content'] = 'https://' . Configuration::$domain . '/' . $value['path'] . '/reviews';
+        $value['reviews_qr']['dir'] = PATH_UPLOADS . $value['reviews_qr']['filename'];
+        $value['reviews_qr']['level'] = 'H';
+        $value['reviews_qr']['size'] = 5;
+        $value['reviews_qr']['frame'] = 3;
+
+        $this->database->update('accounts', [
+            'qrs' => json_encode([
+                'account' => $value['qrs'],
+                'menu_delivery' => $value['menu_delivery_qr']['filename'],
+                'reviews' => $value['reviews_qr']['filename']
+            ])
+        ], [
+            'id' => $value['id']
+        ]);
+
+        QRcode::png($value['menu_delivery_qr']['content'], $value['menu_delivery_qr']['dir'], $value['menu_delivery_qr']['level'], $value['menu_delivery_qr']['size'], $value['menu_delivery_qr']['frame']);
+        QRcode::png($value['reviews_qr']['content'], $value['reviews_qr']['dir'], $value['reviews_qr']['level'], $value['reviews_qr']['size'], $value['reviews_qr']['frame']);
+    }
+}
+
 public function sql()
 {
     set_time_limit(600);
