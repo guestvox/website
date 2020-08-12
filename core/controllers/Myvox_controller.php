@@ -1442,8 +1442,30 @@ class Myvox_controller extends Controller
 															<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 																<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 																	<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
-																	<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/' . $params[0] . '/menu/' . $_POST['token'] . '">' . Languages::email('view_my_order')[$this->lang1] . '</a>
-																</td>
+																	<h6 style="width:100%;margin:0px 0px 10px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('token')[$this->lang1] . ': ' . $_POST['token'] . '</h6>';
+
+												foreach (Session::get_value('myvox')['menu_order']['shopping_cart'] as $value)
+												{
+													foreach ($value as $subvalue)
+													{
+														$mail1->Body .= '<p style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">x' . $subvalue['quantity'] . ' ' . $subvalue['name'][$this->lang2];
+
+														if (!empty($subvalue['topics']))
+														{
+															$mail1->Body .= ' (';
+
+															foreach ($subvalue['topics'] as $parentvalue)
+																$mail1->Body .= $parentvalue['name'][$this->lang2] . ', ';
+
+															$mail1->Body .= ')';
+														}
+
+														$mail1->Body .= '</p>';
+													}
+												}
+
+												$mail1->Body .=
+												'				</td>
 															</tr>
 															<tr style="width:100%;margin:0px;padding:0px;border:0px;">
 																<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
