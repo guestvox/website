@@ -4,12 +4,6 @@ defined('_EXEC') or die;
 
 // require_once 'plugins/nexmo/vendor/autoload.php';
 
-// require 'plugins/aws/vendor/autoload.php';
-// use PHPMailer\PHPMailer\PHPMailer;
-// use PHPMailer\PHPMailer\Exception;
-// use Aws\Ses\SesClient;
-// use Aws\Exception\AwsException;
-
 class Myvox_controller extends Controller
 {
 	private $lang1;
