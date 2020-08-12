@@ -66,32 +66,6 @@ $(document).ready(function()
         });
     });
 
-    $('[name="type_service"]').on('change', function()
-    {
-        if ($(this).val() == 'restaurant')
-        {
-            $('[name="owner"]').parent().parent().parent().removeClass('hidden');
-            $('[name="address"]').parent().parent().parent().addClass('hidden');
-            $('[name="firstname"]').parent().parent().parent().addClass('hidden');
-            $('[name="lastname"]').parent().parent().parent().addClass('hidden');
-            $('[name="email"]').parent().parent().parent().addClass('hidden');
-            $('[name="phone_lada"]').parent().parent().parent().addClass('hidden');
-            $('[name="phone_number"]').parent().parent().parent().addClass('hidden');
-        }
-        else if ($(this).val() == 'home')
-        {
-            $('[name="owner"]').parent().parent().parent().addClass('hidden');
-            $('[name="address"]').parent().parent().parent().removeClass('hidden');
-            $('[name="firstname"]').parent().parent().parent().removeClass('hidden');
-            $('[name="lastname"]').parent().parent().parent().removeClass('hidden');
-            $('[name="email"]').parent().parent().parent().removeClass('hidden');
-            $('[name="phone_lada"]').parent().parent().parent().removeClass('hidden');
-            $('[name="phone_number"]').parent().parent().parent().removeClass('hidden');
-        }
-
-        required_focus('form', $('form[name="new_menu_order"]'), null);
-    });
-
     $('[name="owner"]').on('change', function()
     {
         $.ajax({
@@ -119,7 +93,7 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                    show_modal_success(response.message, 8000, response.path);
+                    show_modal_success(response.message, 2000, response.path);
                 else if (response.status == 'error')
                     show_form_errors(form, response);
             }

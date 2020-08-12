@@ -262,6 +262,12 @@ class Menu_controller extends Controller
 
 					if (!empty($query))
 					{
+						$temporal = Session::get_value('temporal');
+
+						$temporal['menu_topics_groups'] = [];
+
+						Session::set_value('temporal', $temporal);
+						
 						Functions::environment([
 							'status' => 'success',
 							'message' => '{$lang.operation_success}'

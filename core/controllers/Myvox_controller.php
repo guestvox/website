@@ -34,10 +34,12 @@ class Myvox_controller extends Controller
 			$owner = null;
 			$url = '';
 
-			if (!empty($params[1]) AND !empty($params[2]))
+			if (!empty($params[1]))
 			{
-				$owner = $params[2];
-				$url = 'owner';
+				if ($params[1] == 'owner' AND !empty($params[2]))
+					$owner = $params[2];
+
+				$url = $params[1];
 			}
 			else
 			{
@@ -49,7 +51,7 @@ class Myvox_controller extends Controller
 
 			$owner = $this->model->get_owner($owner, true);
 
-			if (!empty($owner) OR $url == 'account')
+			if (($url == 'owner' AND !empty($owner)) OR ($url == 'delivery' AND $account['type'] == 'restaurant') OR $url == 'account')
 			{
 				if (!empty($owner) AND $account['type'] == 'hotel')
 					$owner['reservation'] = $this->model->get_reservation($owner['number']);
@@ -68,48 +70,53 @@ class Myvox_controller extends Controller
 
 		if ($break == false)
 		{
-			$template = $this->view->render($this, 'index');
-
-			define('_title', Session::get_value('myvox')['account']['name'] . ' | {$lang.myvox}');
-
-			$btn_new_request = '';
-			$btn_new_incident = '';
-			$btn_new_menu_order = '';
-
-			if (Session::get_value('myvox')['account']['operation'] == true)
+			if ($url == 'delivery')
+				header('Location: /' . $params[0] . '/menu/products');
+			else if ($url == 'owner' OR $url == 'account')
 			{
-				if (Session::get_value('myvox')['account']['settings']['myvox']['request']['status'] == true)
-					$btn_new_request .= '<a href="/' . $params[0] . '/request">' . Session::get_value('myvox')['account']['settings']['myvox']['request']['title'][$this->lang1] . '</a>';
+				$template = $this->view->render($this, 'index');
 
-				if (Session::get_value('myvox')['account']['settings']['myvox']['incident']['status'] == true)
-					$btn_new_incident .= '<a href="/' . $params[0] . '/incident">' . Session::get_value('myvox')['account']['settings']['myvox']['incident']['title'][$this->lang1] . '</a>';
+				define('_title', Session::get_value('myvox')['account']['name'] . ' | {$lang.myvox}');
 
-				if (Session::get_value('myvox')['account']['type'] == 'hotel' OR Session::get_value('myvox')['account']['type'] == 'restaurant')
+				$btn_new_request = '';
+				$btn_new_incident = '';
+				$btn_new_menu_order = '';
+
+				if (Session::get_value('myvox')['account']['operation'] == true)
 				{
-					if (Session::get_value('myvox')['account']['settings']['myvox']['menu']['status'] == true)
-						$btn_new_menu_order .= '<a href="/' . $params[0] . '/menu/products">' . Session::get_value('myvox')['account']['settings']['myvox']['menu']['title'][$this->lang1] . '</a>';
+					if (Session::get_value('myvox')['account']['settings']['myvox']['request']['status'] == true)
+						$btn_new_request .= '<a href="/' . $params[0] . '/request">' . Session::get_value('myvox')['account']['settings']['myvox']['request']['title'][$this->lang1] . '</a>';
+
+					if (Session::get_value('myvox')['account']['settings']['myvox']['incident']['status'] == true)
+						$btn_new_incident .= '<a href="/' . $params[0] . '/incident">' . Session::get_value('myvox')['account']['settings']['myvox']['incident']['title'][$this->lang1] . '</a>';
+
+					if (Session::get_value('myvox')['account']['type'] == 'hotel' OR Session::get_value('myvox')['account']['type'] == 'restaurant')
+					{
+						if (Session::get_value('myvox')['account']['settings']['myvox']['menu']['status'] == true)
+							$btn_new_menu_order .= '<a href="/' . $params[0] . '/menu/products">' . Session::get_value('myvox')['account']['settings']['myvox']['menu']['title'][$this->lang1] . '</a>';
+					}
 				}
+
+				$btn_new_survey_answer = '';
+
+				if (Session::get_value('myvox')['account']['reputation'] == true)
+				{
+					if (Session::get_value('myvox')['account']['settings']['myvox']['survey']['status'] == true)
+						$btn_new_survey_answer .= '<a href="/' . $params[0] . '/survey">' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['title'][$this->lang1] . '</a>';
+				}
+
+				$replace = [
+					'{$logotype}' => '{$path.uploads}' . Session::get_value('myvox')['account']['logotype'],
+					'{$btn_new_request}' => $btn_new_request,
+					'{$btn_new_incident}' => $btn_new_incident,
+					'{$btn_new_menu_order}' => $btn_new_menu_order,
+					'{$btn_new_survey_answer}' => $btn_new_survey_answer
+				];
+
+				$template = $this->format->replace($replace, $template);
+
+				echo $template;
 			}
-
-			$btn_new_survey_answer = '';
-
-			if (Session::get_value('myvox')['account']['reputation'] == true)
-			{
-				if (Session::get_value('myvox')['account']['settings']['myvox']['survey']['status'] == true)
-					$btn_new_survey_answer .= '<a href="/' . $params[0] . '/survey">' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['title'][$this->lang1] . '</a>';
-			}
-
-			$replace = [
-				'{$logotype}' => '{$path.uploads}' . Session::get_value('myvox')['account']['logotype'],
-				'{$btn_new_request}' => $btn_new_request,
-				'{$btn_new_incident}' => $btn_new_incident,
-				'{$btn_new_menu_order}' => $btn_new_menu_order,
-				'{$btn_new_survey_answer}' => $btn_new_survey_answer
-			];
-
-			$template = $this->format->replace($replace, $template);
-
-			echo $template;
 		}
 		else
 			header('Location: /');
@@ -1075,17 +1082,16 @@ class Myvox_controller extends Controller
 
 		if (Session::exists_var('myvox') == true AND !empty(Session::get_value('myvox')['account']))
 		{
-			if (Session::get_value('myvox')['account']['type'] == 'hotel' OR Session::get_value('myvox')['account']['type'] == 'restaurant')
+			if (Session::get_value('myvox')['account']['operation'] == true AND Session::get_value('myvox')['account']['settings']['myvox']['menu']['status'] == true)
 			{
-				if (Session::get_value('myvox')['account']['operation'] == true AND Session::get_value('myvox')['account']['settings']['myvox']['menu']['status'] == true)
+				if (!empty(Session::get_value('myvox')['url']))
 				{
-					if (!empty(Session::get_value('myvox')['url']))
-					{
-						if (Session::get_value('myvox')['url'] == 'account')
-							$break = false;
-						else if (Session::get_value('myvox')['url'] == 'owner' AND !empty(Session::get_value('myvox')['owner']))
-							$break = false;
-					}
+					if (Session::get_value('myvox')['url'] == 'account' AND (Session::get_value('myvox')['account']['type'] == 'hotel' OR Session::get_value('myvox')['account']['type'] == 'restaurant'))
+						$break = false;
+					else if (Session::get_value('myvox')['url'] == 'owner' AND (Session::get_value('myvox')['account']['type'] == 'hotel' OR Session::get_value('myvox')['account']['type'] == 'restaurant') AND !empty(Session::get_value('myvox')['owner']))
+						$break = false;
+					else if (Session::get_value('myvox')['url'] == 'delivery' AND Session::get_value('myvox')['account']['type'] == 'restaurant')
+						$break = false;
 				}
 			}
 		}
@@ -1147,7 +1153,7 @@ class Myvox_controller extends Controller
 						$html .=
 						'</figure>
 						<h2>' . $query['name'][$this->lang1] . '</h2>
-						<p>' . (!empty($query['description'][$this->lang1]) ? $query['description'][$this->lang1] : '{$lang.not_description}') . '</p>
+						<p>' . (!empty($query['description'][$this->lang1]) ? $query['description'][$this->lang1] : '') . '</p>
 						<span>' . Functions::get_formatted_currency($query['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . (!empty($query['topics']) ? ' (+ {$lang.topics})' : '') . '</span>
 						<form name="add_to_menu_order">';
 
@@ -1351,48 +1357,35 @@ class Myvox_controller extends Controller
 				{
 					$labels = [];
 
+					if (Session::get_value('myvox')['url'] == 'account')
+					{
+						if (!isset($_POST['owner']) OR empty($_POST['owner']))
+							array_push($labels, ['owner','']);
+					}
+
 					if (Session::get_value('myvox')['account']['type'] == 'hotel')
 					{
-						if (Session::get_value('myvox')['url'] == 'account')
-						{
-							if (!isset($_POST['owner']) OR empty($_POST['owner']))
-								array_push($labels, ['owner','']);
-						}
-
 						if (!isset($_POST['location']) OR empty($_POST['location']))
 							array_push($labels, ['location','']);
 					}
 					else if (Session::get_value('myvox')['account']['type'] == 'restaurant')
 					{
-						if (Session::get_value('myvox')['url'] == 'account')
+						if (Session::get_value('myvox')['url'] == 'delivery')
 						{
-							if (!isset($_POST['type_service']) OR empty($_POST['type_service']))
-								array_push($labels, ['type_service','']);
-							else
-							{
-								if ($_POST['type_service'] == 'restaurant')
-								{
-									if (!isset($_POST['owner']) OR empty($_POST['owner']))
-										array_push($labels, ['owner','']);
-								}
-								else if ($_POST['type_service'] == 'home')
-								{
-									if (!isset($_POST['address']) OR empty($_POST['address']))
-										array_push($labels, ['address','']);
+							if (!isset($_POST['address']) OR empty($_POST['address']))
+								array_push($labels, ['address','']);
 
-									if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-										array_push($labels, ['firstname','']);
+							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+								array_push($labels, ['firstname','']);
 
-									if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-										array_push($labels, ['lastname','']);
+							if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+								array_push($labels, ['lastname','']);
 
-									if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
-										array_push($labels, ['phone_lada','']);
+							if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
+								array_push($labels, ['phone_lada','']);
 
-									if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
-										array_push($labels, ['phone_number','']);
-								}
-							}
+							if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
+								array_push($labels, ['phone_number','']);
 						}
 					}
 
@@ -1415,74 +1408,71 @@ class Myvox_controller extends Controller
 							{
 								if (Session::get_value('myvox')['account']['type'] == 'restaurant')
 								{
-									if (Session::get_value('myvox')['url'] == 'account')
+									if (Session::get_value('myvox')['url'] == 'delivery')
 									{
-										if ($_POST['type_service'] == 'home')
+										if (!empty($_POST['email']))
 										{
-											if (!empty($_POST['email']))
+											$mail1 = new Mailer(true);
+
+											try
 											{
-												$mail1 = new Mailer(true);
-
-												try
-												{
-													$mail1->setFrom('noreply@guestvox.com', 'Guestvox');
-													$mail1->addAddress($_POST['email'], ((!empty($_POST['firstname']) AND !empty($_POST['lastname'])) ? $_POST['firstname'] . ' ' . $_POST['lastname'] : Languages::email('not_name')[$this->lang1]));
-													$mail1->Subject = Languages::email('thanks_received_menu_order')[$this->lang1];
-													$mail1->Body =
-													'<html>
-														<head>
-															<title>' . $mail1->Subject . '</title>
-														</head>
-														<body>
-															<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
-																<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-																	<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-																		<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-																			<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('myvox')['account']['logotype'] . '">
-																		</figure>
-																	</td>
-																</tr>
-																<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-																	<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-																		<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
-																		<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/' . $params[0] . '/menu/' . $_POST['token'] . '">' . Languages::email('view_my_order')[$this->lang1] . '</a>
-																	</td>
-																</tr>
-																<tr style="width:100%;margin:0px;padding:0px;border:0px;">
-																	<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-																		<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">Power by Guestvox</a>
-																	</td>
-																</tr>
-															</table>
-														</body>
-													</html>';
-													$mail1->send();
-												}
-												catch (Exception $e) { }
+												$mail1->setFrom('noreply@guestvox.com', 'Guestvox');
+												$mail1->addAddress($_POST['email'], ((!empty($_POST['firstname']) AND !empty($_POST['lastname'])) ? $_POST['firstname'] . ' ' . $_POST['lastname'] : Languages::email('not_name')[$this->lang1]));
+												$mail1->Subject = Languages::email('thanks_received_menu_order')[$this->lang1];
+												$mail1->Body =
+												'<html>
+													<head>
+														<title>' . $mail1->Subject . '</title>
+													</head>
+													<body>
+														<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+															<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+																<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+																	<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+																		<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('myvox')['account']['logotype'] . '">
+																	</figure>
+																</td>
+															</tr>
+															<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+																<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+																	<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
+																	<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/' . $params[0] . '/menu/' . $_POST['token'] . '">' . Languages::email('view_my_order')[$this->lang1] . '</a>
+																</td>
+															</tr>
+															<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+																<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+																	<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">Power by Guestvox</a>
+																</td>
+															</tr>
+														</table>
+													</body>
+												</html>';
+												$mail1->send();
 											}
+											catch (Exception $e) { }
+										}
 
-											$sms1 = $this->model->get_sms();
+										$sms1 = $this->model->get_sms();
 
-											if ($sms1 > 0)
+										if ($sms1 > 0)
+										{
+											$sms1_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
+											$sms1_client = new \Nexmo\Client($sms1_basic);
+											$sms1_text = Session::get_value('myvox')['account']['name'] . '. ' . Languages::email('thanks_received_menu_order')[$this->lang1] . '. https://' . Configuration::$domain . '/' . $params[0] . '/menu/' . $_POST['token'] . '. Power by Guestvox.';
+
+											try
 											{
-												$sms1_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
-												$sms1_client = new \Nexmo\Client($sms1_basic);
-												$sms1_text = Session::get_value('myvox')['account']['name'] . '. ' . Languages::email('thanks_received_menu_order')[$this->lang1] . '. https://' . Configuration::$domain . '/' . $params[0] . '/menu/' . $_POST['token'] . '. Power by Guestvox.';
+												$sms1_client->message()->send([
+													'to' => $_POST['phone_lada'] . $_POST['phone_number'],
+													'from' => 'Guestvox',
+													'text' => $sms1_text
+												]);
 
-												try
-												{
-													$sms1_client->message()->send([
-														'to' => $_POST['phone_lada'] . $_POST['phone_number'],
-														'from' => 'Guestvox',
-														'text' => $sms1_text
-													]);
-
-													$sms1 = $sms1 - 1;
-												}
-												catch (Exception $e) { }
-
-												$this->model->edit_sms($sms1);
+												$sms1 = $sms1 - 1;
 											}
+											catch (Exception $e) { }
+
+											$this->model->edit_sms($sms1);
 										}
 									}
 								}
@@ -1523,12 +1513,12 @@ class Myvox_controller extends Controller
 													<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 														<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail2->Subject . '</h4>
 														<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('token')[$this->lang2] . ': ' . $_POST['token'] . '</h6>
-														<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('owner')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel' OR (Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'account' AND $_POST['type_service'] == 'restaurant') OR (Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'owner')) ? Session::get_value('myvox')['owner']['name'][$this->lang2] . (!empty(Session::get_value('myvox')['owner']['number']) ? ' #' . Session::get_value('myvox')['owner']['number'] : '') : Languages::email('not_owner')[$this->lang2]) . '</h6>
+														<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('owner')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel' OR (Session::get_value('myvox')['account']['type'] == 'restaurant' AND (Session::get_value('myvox')['url'] == 'account' OR Session::get_value('myvox')['url'] == 'owner'))) ? Session::get_value('myvox')['owner']['name'][$this->lang2] . (!empty(Session::get_value('myvox')['owner']['number']) ? ' #' . Session::get_value('myvox')['owner']['number'] : '') : Languages::email('not_owner')[$this->lang2]) . '</h6>
 														<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('opportunity_area')[$this->lang2] . ': ' . $_POST['opportunity_area']['name'][$this->lang2] . '</h6>
 														<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('opportunity_type')[$this->lang2] . ': ' . $_POST['opportunity_type']['name'][$this->lang2] . '</h6>
 														<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('started_date')[$this->lang2] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd.m.Y') . '</h6>
 														<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('started_hour')[$this->lang2] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '</h6>
-														<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('location')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel') ? $_POST['location']['name'][$this->lang2] : ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'account' AND $_POST['type_service'] == 'home') ? $_POST['address'] : Languages::email('not_location')[$this->lang2])) . '</h6>
+														<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('location')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel') ? $_POST['location']['name'][$this->lang2] : ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? $_POST['address'] : Languages::email('not_location')[$this->lang2])) . '</h6>
 														<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('urgency')[$this->lang2] . ': ' . Languages::email('medium')[$this->lang2] . '</h6>
 														<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('observations')[$this->lang2] . ': ' . Languages::email('not_observations')[$this->lang2] . '</p>';
 
@@ -1576,12 +1566,12 @@ class Myvox_controller extends Controller
 									$sms2_client = new \Nexmo\Client($sms2_basic);
 									$sms2_text = 'Guestvox. ' . Languages::email('new', 'request')[$this->lang2] . '. ';
 									$sms2_text .= Languages::email('token')[$this->lang2] . ': ' . $_POST['token'] . '. ';
-									$sms2_text .= Languages::email('owner')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel' OR (Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'account' AND $_POST['type_service'] == 'restaurant') OR (Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'owner')) ? Session::get_value('myvox')['owner']['name'][$this->lang2] . (!empty(Session::get_value('myvox')['owner']['number']) ? ' #' . Session::get_value('myvox')['owner']['number'] : '') : Languages::email('not_owner')[$this->lang2]) . '. ';
+									$sms2_text .= Languages::email('owner')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel' OR (Session::get_value('myvox')['account']['type'] == 'restaurant' AND (Session::get_value('myvox')['url'] == 'account' OR Session::get_value('myvox')['url'] == 'owner'))) ? Session::get_value('myvox')['owner']['name'][$this->lang2] . (!empty(Session::get_value('myvox')['owner']['number']) ? ' #' . Session::get_value('myvox')['owner']['number'] : '') : Languages::email('not_owner')[$this->lang2]) . '. ';
 									$sms2_text .= Languages::email('opportunity_area')[$this->lang2] . ': ' . $_POST['opportunity_area']['name'][$this->lang2] . '. ';
 									$sms2_text .= Languages::email('opportunity_type')[$this->lang2] . ': ' . $_POST['opportunity_type']['name'][$this->lang2] . '. ';
 									$sms2_text .= Languages::email('started_date')[$this->lang2] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
 									$sms2_text .= Languages::email('started_hour')[$this->lang2] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
-									$sms2_text .= Languages::email('location')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel') ? $_POST['location']['name'][$this->lang2] : ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'account' AND $_POST['type_service'] == 'home') ? $_POST['address'] : Languages::email('not_location')[$this->lang2])) . '. ';
+									$sms2_text .= Languages::email('location')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel') ? $_POST['location']['name'][$this->lang2] : ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? $_POST['address'] : Languages::email('not_location')[$this->lang2])) . '. ';
 									$sms2_text .= Languages::email('urgency')[$this->lang2] . ': ' . Languages::email('medium')[$this->lang2] . '. ';
 									$sms2_text .= Languages::email('observations')[$this->lang2] . ': ' . Languages::email('not_observations')[$this->lang2] . '. ';
 
@@ -1643,7 +1633,7 @@ class Myvox_controller extends Controller
 
 								Functions::environment([
 									'status' => 'success',
-									'message' => '{$lang.thanks_received_menu_order}' . ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'account' AND $_POST['type_service'] == 'home' AND !empty($_POST['email'])) ? ' {$lang.thanks_received_myvox_1} <strong>' . $_POST['email'] . '</strong> {$lang.thanks_received_myvox_2}' : ''),
+									'message' => '{$lang.thanks_received_menu_order}' . ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery' AND !empty($_POST['email'])) ? ' {$lang.thanks_received_myvox_1} <strong>' . $_POST['email'] . '</strong> {$lang.thanks_received_myvox_2}' : ''),
 									'path' => '/' . $params[0] . '/menu/products'
 								]);
 							}
@@ -1761,26 +1751,6 @@ class Myvox_controller extends Controller
 						'<form name="new_menu_order">
 							<div class="row">';
 
-						if (Session::get_value('myvox')['account']['type'] == 'restaurant')
-						{
-							if (Session::get_value('myvox')['url'] == 'account')
-							{
-								$html .=
-								'<div class="span12">
-									<div class="checkboxes stl_1">
-										<div>
-											<input type="radio" name="type_service" value="restaurant" checked>
-											<span><strong>{$lang.restaurant_service}</strong></span>
-										</div>
-										<div>
-											<input type="radio" name="type_service" value="home">
-											<span><strong>{$lang.home_service}</strong></span>
-										</div>
-									</div>
-								</div>';
-							}
-						}
-
 						if (Session::get_value('myvox')['url'] == 'account')
 						{
 							$html .=
@@ -1823,10 +1793,10 @@ class Myvox_controller extends Controller
 
 						if (Session::get_value('myvox')['account']['type'] == 'restaurant')
 						{
-							if (Session::get_value('myvox')['url'] == 'account')
+							if (Session::get_value('myvox')['url'] == 'delivery')
 							{
 								$html .=
-								'<div class="span12 hidden">
+								'<div class="span12">
 									<div class="label">
 										<label required>
 											<p>{$lang.address} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
@@ -1834,7 +1804,7 @@ class Myvox_controller extends Controller
 										</label>
 									</div>
 								</div>
-								<div class="span6 hidden">
+								<div class="span6">
 									<div class="label">
 										<label required>
 											<p>{$lang.firstname}</p>
@@ -1842,7 +1812,7 @@ class Myvox_controller extends Controller
 										</label>
 									</div>
 								</div>
-								<div class="span6 hidden">
+								<div class="span6">
 									<div class="label">
 										<label required>
 											<p>{$lang.lastname}</p>
@@ -1850,7 +1820,7 @@ class Myvox_controller extends Controller
 										</label>
 									</div>
 								</div>
-								<div class="span6 hidden">
+								<div class="span6">
 									<div class="label">
 										<label unrequired>
 											<p>{$lang.email}</p>
@@ -1858,7 +1828,7 @@ class Myvox_controller extends Controller
 										</label>
 									</div>
 								</div>
-								<div class="span3 hidden">
+								<div class="span3">
 									<div class="label">
 										<label required>
 											<p>{$lang.lada}</p>
@@ -1873,7 +1843,7 @@ class Myvox_controller extends Controller
 										</label>
 									</div>
 								</div>
-								<div class="span3 hidden">
+								<div class="span3">
 									<div class="label">
 										<label required>
 											<p>{$lang.phone}</p>
@@ -1905,7 +1875,7 @@ class Myvox_controller extends Controller
 
 				$replace = [
 					'{$logotype}' => '{$path.uploads}' . Session::get_value('myvox')['account']['logotype'],
-					'{$btn_home}' => '<a href="/' . $params[0] . '/myvox' . ((Session::get_value('myvox')['url'] == 'owner') ? '/owner/' . Session::get_value('myvox')['owner']['token'] : '') . '"><i class="fas fa-house-user"></i></a>',
+					'{$btn_home}' => (Session::get_value('myvox')['url'] == 'account' OR Session::get_value('myvox')['url'] == 'owner') ? '<a href="/' . $params[0] . '/myvox' . ((Session::get_value('myvox')['url'] == 'owner') ? '/owner/' . Session::get_value('myvox')['owner']['token'] : '') . '"><i class="fas fa-house-user"></i></a>' : '',
 					'{$html}' => $html
 				];
 
