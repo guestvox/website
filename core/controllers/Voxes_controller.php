@@ -129,7 +129,7 @@ class Voxes_controller extends Controller
 				</div>
 				<div>
 					<h2><i class="fas fa-user-circle"></i>' . (($value['type'] == 'request' OR $value['type'] == 'incident') ? (((Session::get_value('account')['type'] == 'hotel' AND !empty($value['menu_order'])) OR (Session::get_value('account')['type'] == 'restaurant' AND !empty($value['menu_order']) AND $value['menu_order']['type_service'] == 'restaurant')) ? '{$lang.not_apply}' : ((!empty($value['firstname']) AND !empty($value['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($value['guest_treatment'])) ? $value['guest_treatment']['name'] . ' ' : '') . $value['firstname'] . ' ' . $value['lastname'] :  '{$lang.not_name}')) : '{$lang.not_apply}') . '</h2>
-					<span><i class="fas fa-shapes"></i>' . ((Session::get_value('account')['type'] == 'restaurant' AND !empty($value['menu_order']) AND $value['menu_order']['type_service'] == 'delivery') ? '{$lang.home_service}' : $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '')) . '</span>';
+					<span><i class="fas fa-shapes"></i>' . ((Session::get_value('account')['type'] == 'restaurant' AND !empty($value['menu_order']) AND $value['menu_order']['type_service'] == 'delivery') ? (($value['menu_order']['delivery'] == 'home') ? '{$lang.home_service}' : '{$lang.pick_up_restaurant}') : $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '')) . '</span>';
 
 				if ($value['type'] == 'request' OR $value['type'] == 'workorder')
 					$tbl_voxes .= '<span><i class="fas fa-quote-right"></i>' . (!empty($value['observations']) ? $value['observations'] : '{$lang.not_observations}') . '</span>';
@@ -160,7 +160,7 @@ class Voxes_controller extends Controller
 							</div>
 							<div>
 								<i class="fas fa-map-marker-alt"></i>
-								<p>' . ((Session::get_value('account')['type'] == 'restaurant' AND !empty($value['menu_order'])) ? (($value['menu_order']['type_service'] == 'delivery') ? $value['address'] : '{$lang.not_apply}') : $value['location']['name'][$this->lang]) . '</p>
+								<p>' . ((Session::get_value('account')['type'] == 'restaurant' AND !empty($value['menu_order'])) ? (($value['menu_order']['type_service'] == 'delivery' AND $value['menu_order']['delivery'] == 'home') ? $value['address'] : '{$lang.not_apply}') : $value['location']['name'][$this->lang]) . '</p>
 							</div>
 	                    </div>
 	                    <div class="itm_4">
@@ -1109,10 +1109,10 @@ class Voxes_controller extends Controller
 	                    data-elapsed-time>' . (($vox['status'] == true) ? '{$lang.opened}' : '{$lang.closed}') . '<i class="fas fa-circle"></i><strong></strong></h3>',
 					'{$h1_name}' => '<h1>' . (($vox['type'] == 'request' OR $vox['type'] == 'incident') ? (((Session::get_value('account')['type'] == 'hotel' AND !empty($vox['menu_order'])) OR (Session::get_value('account')['type'] == 'restaurant' AND !empty($vox['menu_order']) AND $vox['menu_order']['type_service'] == 'restaurant')) ? '{$lang.not_apply}' : ((!empty($vox['firstname']) AND !empty($vox['lastname'])) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($vox['guest_treatment'])) ? $vox['guest_treatment']['name'] . ' ' : '') . $vox['firstname'] . ' ' . $vox['lastname'] :  '{$lang.not_name}')) : '{$lang.not_apply}') . '</h1>',
 					'{$token}' => $vox['token'],
-					'{$owner}' => (Session::get_value('account')['type'] == 'restaurant' AND !empty($vox['menu_order']) AND $vox['menu_order']['type_service'] == 'delivery') ? '{$lang.home_service}' : $vox['owner']['name'][$this->lang] . (!empty($vox['owner']['number']) ? ' #' . $vox['owner']['number'] : ''),
+					'{$owner}' => (Session::get_value('account')['type'] == 'restaurant' AND !empty($vox['menu_order']) AND $vox['menu_order']['type_service'] == 'delivery') ? (($vox['menu_order']['delivery'] == 'home') ? '{$lang.home_service}' : '{$lang.pick_up_restaurant}') : $vox['owner']['name'][$this->lang] . (!empty($vox['owner']['number']) ? ' #' . $vox['owner']['number'] : ''),
 					'{$opportunity_area}' => $vox['opportunity_area']['name'][$this->lang],
 					'{$opportunity_type}' => $vox['opportunity_type']['name'][$this->lang],
-					'{$location}' => (Session::get_value('account')['type'] == 'restaurant' AND !empty($vox['menu_order'])) ? (($vox['menu_order']['type_service'] == 'delivery') ? $vox['address'] : '{$lang.not_apply}') : $vox['location']['name'][$this->lang],
+					'{$location}' => (Session::get_value('account')['type'] == 'restaurant' AND !empty($vox['menu_order'])) ? (($vox['menu_order']['type_service'] == 'delivery' AND $vox['menu_order']['delivery'] == 'home') ? $vox['address'] : '{$lang.not_apply}') : $vox['location']['name'][$this->lang],
 					'{$started_date}' => Functions::get_formatted_date($vox['started_date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($vox['started_hour'], '+ hrs'),
 					'{$spn_cost}' => ($vox['type'] == 'incident' OR $vox['type'] == 'workorder') ? '<span><i class="fas fa-dollar-sign"></i>' . Functions::get_formatted_currency((!empty($vox['cost']) ? $vox['cost'] : '0'), Session::get_value('account')['currency']) . '</span>' : '',
 					'{$p_observations}' => $p_observations,

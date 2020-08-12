@@ -1372,8 +1372,14 @@ class Myvox_controller extends Controller
 					{
 						if (Session::get_value('myvox')['url'] == 'delivery')
 						{
-							if (!isset($_POST['address']) OR empty($_POST['address']))
-								array_push($labels, ['address','']);
+							if (!isset($_POST['delivery']) OR empty($_POST['delivery']))
+								array_push($labels, ['delivery','']);
+
+							if ($_POST['delivery'] == 'home')
+							{
+								if (!isset($_POST['address']) OR empty($_POST['address']))
+									array_push($labels, ['address','']);
+							}
 
 							if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
 								array_push($labels, ['firstname','']);
@@ -1797,6 +1803,17 @@ class Myvox_controller extends Controller
 							{
 								$html .=
 								'<div class="span12">
+									<div class="label">
+										<label required>
+											<p>{$lang.where_do_we_deliver_you}</p>
+											<select name="delivery">
+												<option value="home">{$lang.my_home}</option>
+												<option value="restaurant">{$lang.i_want_pick_up_restaurant}</option>
+											</select>
+										</label>
+									</div>
+								</div>
+								<div class="span12">
 									<div class="label">
 										<label required>
 											<p>{$lang.address} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>

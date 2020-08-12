@@ -78,6 +78,14 @@ $(document).ready(function()
         });
     });
 
+    $('[name="delivery"]').on('change', function()
+    {
+        if ($(this).val() == 'home')
+            $('[name="address"]').parent().parent().parent().removeClass('hidden');
+        else if ($(this).val() == 'restaurant')
+            $('[name="address"]').parent().parent().parent().addClass('hidden');
+    });
+
     $('form[name="new_menu_order"]').on('submit', function(e)
     {
         e.preventDefault();
