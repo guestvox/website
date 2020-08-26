@@ -1538,14 +1538,6 @@ class Voxes_controller extends Controller
 						</label>
 					</div>
 				</div>
-				<div class="span3 ' . (($vox['type'] == 'request' OR $vox['type'] == 'workorder') ? '' : 'hidden') . '">
-                    <div class="label">
-                        <label unrequired>
-                            <p>{$lang.observations}</p>
-                            <input type="text" name="observations" value="' . $vox['observations'] . '">
-                        </label>
-                    </div>
-                </div>
 				<div class="span6 ' . (($vox['type'] == 'incident') ? '' : 'hidden') . '">
 					<div class="label">
 						<label unrequired>

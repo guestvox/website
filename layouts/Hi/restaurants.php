@@ -8,9 +8,9 @@ $this->dependencies->add(['js', '{$path.js}Hi/restaurants.js']);
 ?>
 
 <header class="landing_page_restaurants">
-    <a data-button-modal="contact"><i class="fas fa-qrcode"></i></a>
+    <a href="https://guestvox.com/hotrestaurant/myvox"><i class="fas fa-qrcode"></i></a>
     <a data-button-modal="contact"><i class="fas fa-paper-plane"></i></a>
-    <a data-button-modal="contact"><i class="fas fa-gift"></i></a>
+    <a href="/signup"><i class="fas fa-gift"></i></a>
     <figure>
         <img src="{$path.images}imagotype_white.png" alt="Guestvox">
     </figure>
@@ -102,7 +102,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/restaurants.js']);
     <section id="section_nine" class="gradient_c_r">
         <div class="container">
             <div class="content">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://guestvox.com/demorestaurante/myvox" alt="QR">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://guestvox.com/hotrestaurant/survey" alt="QR">
                 <h4>{$lang.landing_page_hi_restaurants_text_15}</h4>
                 <p>{$lang.landing_page_hi_restaurants_text_16}</p>
             </div>

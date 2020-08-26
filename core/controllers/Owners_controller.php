@@ -145,9 +145,11 @@ class Owners_controller extends Controller
 					$zip_archive->close();
 
 					header('Content-type: application/zip');
+					header('Content-Transfer-Encoding: Binary');
 					header('Content-Disposition: attachment; filename="' . $zip_name . '"');
+					@set_time_limit(0);
 					readfile($zip_name);
-					unlink($zip_name);
+					// unlink($zip_name);
                 }
                 else
                 {

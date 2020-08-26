@@ -8,9 +8,9 @@ $this->dependencies->add(['js', '{$path.js}Hi/menu.js']);
 ?>
 
 <header class="landing_page_menu">
-    <a data-button-modal="contact"><i class="fas fa-qrcode"></i></a>
+    <a href="https://guestvox.com/hotrestaurant/myvox"><i class="fas fa-qrcode"></i></a>
     <a data-button-modal="contact"><i class="fas fa-paper-plane"></i></a>
-    <a data-button-modal="contact"><i class="fas fa-gift"></i></a>
+    <a href="/signup"><i class="fas fa-gift"></i></a>
     <figure>
         <img src="{$path.images}imagotype_white.png" alt="Guestvox">
     </figure>
@@ -74,7 +74,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/menu.js']);
         <div class="container">
             <h5>{$lang.landing_page_hi_menu_text_9}</h5>
             <div>
-                <img src="{$path.images}hi/menu/pantalla_ipad.png" alt="Background">
+                <img src="{$path.images}hi/menu/pantalla_ipad.jpg" alt="Background">
                 <div class="content">
                     <h3>{$lang.landing_page_hi_menu_text_10}</h3>
                     <a data-button-modal="contact" class="btn">{$lang.request_your_demo}</a>
@@ -82,18 +82,19 @@ $this->dependencies->add(['js', '{$path.js}Hi/menu.js']);
             </div>
         </div>
     </section>
-    <section id="section_six">
+    <section id="section_six"  onclick="location.href='https://guestvox.com/hotrestaurant/myvox'">
         <div class="container">
             <h3>{$lang.landing_page_hi_menu_text_11}</h3>
+            <p>{$lang.landing_page_hi_menu_text_11_2}</p>
         </div>
     </section>
-    <!-- <section id="section_seven">
+    <section id="section_seven">
         <div class="container">
             <h3>{$lang.landing_page_hi_menu_text_12}</h3>
             <img src="{$path.images}hi/menu/graficas.png" alt="Background">
         </div>
     </section>
-    <section id="section_eight">
+    <!-- <section id="section_eight">
         <div class="container">
             <h3>{$lang.landing_page_hi_menu_text_13}</h3>
             <p>{$lang.landing_page_hi_menu_text_14}</p>
@@ -102,9 +103,9 @@ $this->dependencies->add(['js', '{$path.js}Hi/menu.js']);
     <section id="section_nine" class="gradient_c_r">
         <div class="container">
             <div class="content">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://guestvox.com/demorestaurante/myvox" alt="QR">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://guestvox.com/hotrestaurant/myvox" alt="QR">
                 <h4>{$lang.landing_page_hi_menu_text_15}</h4>
-                <p>{$lang.landing_page_hi_menu_text_16}</p>
+                <!-- <p>{$lang.landing_page_hi_menu_text_16}</p> -->
             </div>
             <h3>{$lang.landing_page_hi_menu_text_17}</h3>
         </div>

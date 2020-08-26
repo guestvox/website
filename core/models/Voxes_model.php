@@ -835,12 +835,11 @@ class Voxes_model extends Model
 		{
 			if (!empty($data['assigned_users']))
 			{
-				$data['assigned_users'] = array_merge($editer['assigned_users'], $data['assigned_users']);
 				$data['assigned_users'] = array_unique($data['assigned_users']);
 				$data['assigned_users'] = array_values($data['assigned_users']);
 			}
 			else
-				$data['assigned_users'] = $editer['assigned_users'];
+				$data['assigned_users'] = $data['assigned_users'];
 
 			if (!empty($data['attachments']))
 			{

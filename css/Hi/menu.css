@@ -115,7 +115,7 @@ main.landing_page_menu > section {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    padding-right: 150px;
+    padding-right: 180px;
     text-align: center;
     font-weight: 300;
     font-size: 28px;
@@ -348,7 +348,7 @@ span.st_2_img_3 {
 }
 
 #section_six {
-    background-color: #24383f;
+    background-color: #eceff1;
 }
 
 #section_four::before,
@@ -365,8 +365,9 @@ span.st_2_img_3 {
 }
 
 #section_six::before {
-    background-image: url('../../images/hi/menu/background_2.jpg');
+    background-image: url('../../images/hi/menu/background_2.png');
     background-position-x: left;
+    cursor: pointer;
 }
 
 #section_four > .container,
@@ -383,20 +384,18 @@ span.st_2_img_3 {
 }
 
 #section_six > .container {
-    background: #FFF;
-    background: -moz-linear-gradient(left,  rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 60%, #24383f 60%, #24383f 100%);
-    background: -webkit-linear-gradient(left,  rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 60%, #24383f 60%, #24383f 100%);
-    background: linear-gradient(to right,  rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 60%, #24383f 60%, #24383f 100%);
+    background: #eceff1;
 }
 
 #section_four h3{
     position: relative;
     width: 40%;
     margin-left: 60%;
+    padding-bottom: 180px;
     color: #949494;
     font-weight: 200;
     font-size: 40px; /*Eran 28px*/
-    text-align: left;
+    text-align: center;
 }
 
 #section_six h3 {
@@ -405,13 +404,29 @@ span.st_2_img_3 {
     margin-left: 60%;
     color: #949494;
     font-weight: 200;
-    font-size: 34px;
+    font-size: 48px;
     text-align: center;
     line-height: 65px;
+    margin-bottom: 25px;
 }
 
-#section_six h3 {
-    color: #FFF;
+#section_six p {
+    position: relative;
+    width: 40%;
+    margin-left: 60%;
+    color: #949494;
+    font-weight: 200;
+    font-size: 20px;
+    text-align: center;
+    line-height: 45px;
+}
+
+#section_six h3 strong {
+    color: #00a5ab;
+}
+
+#section_six p {
+    color: #949494;
 }
 
 #section_four > span {
@@ -457,15 +472,34 @@ span.st_2_img_3 {
     }
 
     #section_six > .container {
-        background: #24383f;
+        background: #eceff1;
     }
 
-    #section_four h3,
+    #section_four h3{
+        position: relative;
+        width: 100%;
+        margin-left: 0%;
+        font-size: 34px;
+        padding: 0px 20px 0px 0px;
+    }
+    
     #section_six h3 {
         position: relative;
         width: 100%;
         margin-left: 0%;
         font-size: 34px;
+        padding: 0px 20px 0px 0px;
+        color: #00a5ab;
+    }
+
+    #section_six p {
+        position: relative;
+        width: 100%;
+        margin-left: 0%;
+        color: #949494;
+        font-size: 20px;
+        text-align: center;
+        line-height: 35px;
     }
 
     #section_four > span {
@@ -494,6 +528,7 @@ span.st_2_img_3 {
 
 #section_five > .container > div > img {
     width: 100%;
+    border-radius: 8px;
 }
 
 #section_five > .container > div > .content {
