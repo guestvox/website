@@ -12,13 +12,13 @@ $this->dependencies->add(['js', '{$path.js}Hi/enlace.js']);
         <img src="{$image}" alt="Background">
     </figure>
     <a data-button-modal="signup">{$lang.signup}</a>
-    <h1>{$lang.missing}</h1>
+    <!-- <h1>{$lang.missing}</h1>
     <ul id="countdown" data-date="{$date}">
         <li><strong id="days"></strong>{$lang.days}</li>
         <li><strong id="hours"></strong>{$lang.hours}</li>
         <li><strong id="minutes"></strong>{$lang.minutes}</li>
         <li><strong id="seconds"></strong>{$lang.seconds}</li>
-    </ul>
+    </ul> -->
     <figure>
         <img src="{$path.images}hi/webinar/background.png" alt="Background">
     </figure>
