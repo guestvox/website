@@ -41,9 +41,9 @@ class Urls_registered_vkye
                 'controller' => 'Hi',
                 'method' => 'hospitals'
             ],
-            '/webinar' => [
+            '/enlace' => [
                 'controller' => 'Hi',
-                'method' => 'webinar'
+                'method' => 'enlace'
             ],
             '/terms-and-conditions' => [
                 'controller' => 'Policies',

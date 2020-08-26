@@ -776,7 +776,7 @@ class Hi_controller extends Controller
 		}
 	}
 
-	public function webinar()
+	public function enlace()
 	{
 		$webinar = $this->model->get_webinar();
 
@@ -836,7 +836,7 @@ class Hi_controller extends Controller
 									</tr>
 									<tr style="width:100%;margin:0px;padding:0px;border:0px;">
 										<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-											<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/webinar">' . Configuration::$domain . '/webinar</a>
+											<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/enlace">' . Configuration::$domain . '/enlace</a>
 										</td>
 									</tr>
 								</table>
@@ -885,9 +885,9 @@ class Hi_controller extends Controller
 		}
 		else
 		{
-			$template = $this->view->render($this, 'webinar');
+			$template = $this->view->render($this, 'enlace');
 
-			define('_title', 'Guestvox | {$lang.webinar} | {$lang.we_are_guestvox}');
+			define('_title', 'Guestvox | {$lang.link} | {$lang.we_are_guestvox}');
 
 			$replace = [
 				'{$image}' => '{$path.uploads}' . $webinar['image'],
