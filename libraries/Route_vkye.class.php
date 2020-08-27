@@ -28,6 +28,7 @@ class Route_vkye
             '/Hi/restaurants',
             '/Hi/hospitals',
             '/Hi/enlace',
+            '/Hi/webinar',
             '/Policies/terms',
             '/Policies/privacy',
             '/Signup/index',

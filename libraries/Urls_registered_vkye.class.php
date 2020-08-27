@@ -44,6 +44,10 @@ class Urls_registered_vkye
             '/enlace' => [
                 'controller' => 'Hi',
                 'method' => 'enlace'
+            ], 
+            '/webinar' => [
+                'controller' => 'Hi',
+                'method' => 'webinar'
             ],
             '/terms-and-conditions' => [
                 'controller' => 'Policies',
