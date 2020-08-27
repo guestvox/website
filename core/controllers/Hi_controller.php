@@ -899,4 +899,9 @@ class Hi_controller extends Controller
 			echo $template;
 		}
 	}
+
+	public function webinar()
+	{
+		header('Location: /enlace');
+	}
 }
