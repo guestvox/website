@@ -12,17 +12,16 @@ $(document).ready(function()
       var channel = pusher.subscribe('menu-orders');
       channel.bind('new-order', function(data) {
         show_modal_success(JSON.stringify(data), 3500);
+        Push.create("Nuevo pedido", {
+            body: "Pedido desde el menu",
+            timeout: 4000,
+            onClick: function () {
+                window.focus();
+                this.close();
+            }
+        });
         // alert(JSON.stringify(data));
       });
-
-      Push.create("Nuevo pedido", {
-        body: "Pedido desde el menu",
-        timeout: 4000,
-        onClick: function () {
-            window.focus();
-            this.close();
-        }
-    });
 
     $('[data-button-modal="new_menu_product"]').on('click', function()
     {
