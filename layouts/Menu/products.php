@@ -3,7 +3,9 @@
 defined('_EXEC') or die;
 
 $this->dependencies->add(['js', '{$path.js}Menu/products.js']);
+$this->dependencies->add(['js', '{$path.plugins}push/push.min.js']);
 $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
+$this->dependencies->add(['other', '<script src="https://js.pusher.com/7.0/pusher.min.js"></script>']);
 
 ?>
 
