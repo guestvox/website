@@ -2,6 +2,9 @@
 
 $(document).ready(function()
 {   
+    Push.Permission.DEFAULT; // 'default'
+    Push.Permission.GRANTED; // 'granted'
+    Push.Permission.DENIED; // 'denied'
     var pusher = new Pusher('1907b80d942422da0b8e', {
         cluster: 'us2'
       });
