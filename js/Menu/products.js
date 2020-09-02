@@ -2,12 +2,17 @@
 
 $(document).ready(function()
 {
+    Push.Permission.DEFAULT; // 'default'
+    Push.Permission.GRANTED; // 'granted'
+    Push.Permission.DENIED; // 'denied'
+    
     var pusher = new Pusher('1907b80d942422da0b8e', {
         cluster: 'us2'
       });
   
       var channel = pusher.subscribe('menu-orders');
       channel.bind('new-order', function(data) {
+       
         Push.create("Nuevo pedido", {
             body: "Pedido desde el menu",
             timeout: 4000,
