@@ -38,9 +38,9 @@ initMap = function ()
               lat: position.coords.latitude
             };
             setMapa(coords);  //pasamos las coordenadas al metodo para crear el mapa
+            document.getElementById("coords").value = coords['lat'] + "," + coords['lng'];
 
-
-          },function(error){console.log(error);});
+          },function(error){alert('Activa el GPS de tu teléfono.');});
 
 }
 
