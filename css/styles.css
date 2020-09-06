@@ -190,6 +190,7 @@ body > header.rightbar > nav > ul:last-child {
 }
 
 body > header.rightbar > nav > ul > li,
+body > header.rightbar > nav > ul > li > h4,
 body > header.rightbar > nav > ul > li > a {
     width: 100%;
     height: 30px;
@@ -203,6 +204,11 @@ body > header.rightbar > nav > ul > li > a {
     white-space: nowrap;
     overflow: hidden;
     color: rgba(255, 255, 255, 0.4);
+}
+
+body > header.rightbar > nav > ul > li > h4 {
+    font-weight: 600;
+    color: #fff;
 }
 
 @media (min-width: 1024px) {

@@ -56,15 +56,6 @@
             <?php if (Functions::check_account_access(['operation']) == true) : ?>
             <li target="voxes"><a href="/voxes">{$lang.voxes}<i class="fas fa-atom"></i></a></li>
             <?php endif; ?>
-            <?php if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant') : ?>
-                <?php if (Functions::check_account_access(['operation']) == true) : ?>
-                    <?php if (Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}']) == true) : ?>
-                    <li target="menu"><a href="/menu/products">{$lang.menu}<i class="fas fa-cocktail"></i></a></li>
-                    <?php elseif (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
-                    <li target="menu"><a href="/menu/restaurants">{$lang.menu}<i class="fas fa-cocktail"></i></a></li>
-                    <?php endif; ?>
-                <?php endif; ?>
-            <?php endif; ?>
             <?php if (Functions::check_account_access(['reputation']) == true) : ?>
                 <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
                 <li target="surveys"><a href="/surveys/answers/raters">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
@@ -76,6 +67,27 @@
             <?php endif; ?>
         </ul>
     </nav>
+    <?php if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant') : ?>
+        <?php if (Functions::check_account_access(['operation']) == true AND Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}','{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
+            <nav>
+                <ul>
+                    <li><h4>{$lang.menu}</h4></li>
+                    <?php if (Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}']) == true) : ?>
+                    <li target="menu_products"><a href="/menu/products">{$lang.products}<i class="fas fa-cocktail"></i></a></li>
+                    <?php endif; ?>
+                    <?php if (Functions::check_user_access(['{menu_categories_create}','{menu_categories_update}','{menu_categories_deactivate}','{menu_categories_activate}','{menu_categories_delete}']) == true) : ?>
+                    <li target="menu_categories"><a href="/menu/categories">{$lang.categories}<i class="fas fa-tag"></i></a></li>
+                    <?php endif; ?>
+                    <?php if (Functions::check_user_access(['{menu_topics_create}','{menu_topics_update}','{menu_topics_deactivate}','{menu_topics_activate}','{menu_topics_delete}']) == true) : ?>
+                    <li target="menu_topics"><a href="/menu/topics">{$lang.topics}<i class="fas fa-bookmark"></i></a></li>
+                    <?php endif; ?>
+                    <!-- <?php if (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
+                    <li target="menu_restaurants"><a href="/menu/restaurants">{$lang.restaurants}<i class="fas fa-utensils"></i></a></li>
+                    <?php endif; ?> -->
+                </ul>
+            </nav>
+        <?php endif; ?>
+    <?php endif; ?>
     <nav>
         <ul>
             <?php if (Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{owners_create}','{owners_update}','{owners_deactivate}','{owners_activate}','{owners_delete}']) == true) : ?>
