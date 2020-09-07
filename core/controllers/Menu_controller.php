@@ -333,10 +333,6 @@ class Menu_controller extends Controller
 			$menu_topics = $this->model->get_menu_topics('actives');
 
 			$tbl_menu_products = '';
-			$cbx_menu_topics = '';
-			$cbx_icons = '';
-			$cbx_menu_categories = '';
-			$opt_menu_restaurants = '';
 
 			if (!empty($menu_products) AND !empty($menu_categories))
 			{
@@ -499,6 +495,40 @@ class Menu_controller extends Controller
 				$tbl_menu_products .=
 		        '    </div>
 		        </div>';
+			}
+			else
+			{
+				$tbl_menu_products .=
+				'<div class="more_info_steps">
+					<div>
+						<i class="fas fa-tag"></i>
+						<h4>{$lang.step_1}</h4>
+						<p>' . (!empty($menu_categories) ? '{$lang.menu_products_description_step_1_1}' : '{$lang.menu_products_description_step_1_2}') . '</p>
+						<a href="/menu/categories">' . (!empty($menu_categories) ? '{$lang.create_more_categories}' : '{$lang.create_categories}') . '</a>
+					</div>
+					<div>
+						<i class="fas fa-cocktail"></i>
+						<h4>{$lang.step_2}</h4>
+						<p>{$lang.menu_products_description_step_2}</p>
+					</div>
+				</div>';
+			}
+
+			$sct_buttons = '';
+			$cbx_menu_topics = '';
+			$cbx_icons = '';
+			$cbx_menu_categories = '';
+			$opt_menu_restaurants = '';
+
+			if (!empty($menu_categories))
+			{
+				$sct_buttons .=
+				'<section class="buttons">
+			        <div>
+			            <a data-button-modal="search"><i class="fas fa-search"></i></a>
+						' . ((Functions::check_user_access(['{menu_products_create}']) == true) ? '<a class="new" data-button-modal="new_menu_product"><i class="fas fa-plus"></i></a>' : '') . '
+			        </div>
+			    </section>';
 
 				if (!empty($menu_topics))
 				{
@@ -533,16 +563,19 @@ class Menu_controller extends Controller
 					<div class="checkboxes stl_1">';
 
 					foreach ($menu_topics as $value)
-		            {
+					{
 						$cbx_menu_topics .=
 						'<div>
 							<input type="checkbox" name="topics[]" value="' . $value['id'] . '">
 							<span>' . $value['name'][$this->lang] . '</span>
 						</div>';
-		            }
+					}
 
 					$cbx_menu_topics .=
-					'</div>
+					'	<div class="button">
+							<a href="/menu/categories">{$lang.create_more_topics}</a>
+						</div>
+					</div>
 					<div class="label">
 						<label required>
 							<select name="selection">
@@ -565,7 +598,7 @@ class Menu_controller extends Controller
 				}
 
 				foreach ($this->model->get_icons('menu') as $key => $value)
-	            {
+				{
 					$cbx_icons .=
 					'<p>{$lang.' . $key . '}</p>
 					<div>';
@@ -583,40 +616,24 @@ class Menu_controller extends Controller
 					}
 
 					$cbx_icons .= '</div>';
-	            }
+				}
 
 				foreach ($menu_categories as $value)
-	            {
+				{
 					$cbx_menu_categories .=
 					'<div>
 						<input type="checkbox" name="categories[]" value="' . $value['id'] . '">
 						<span>' . $value['name'][$this->lang] . '</span>
 					</div>';
-	            }
+				}
 
 				foreach ($this->model->get_menu_restaurants('actives') as $value)
 					$opt_menu_restaurants .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
 			}
-			else
-			{
-				$tbl_menu_products .=
-				'<div class="more_info_steps">
-					<div class="' . (!empty($menu_categories) ? 'ok' : '') . '">
-						<i class="fas fa-tag"></i>
-						<h4>{$lang.step_1}</h4>
-						<p>{$lang.menu_products_description_step_1}</p>
-						<a href="/menu/categories">{$lang.create_categories}</a>
-					</div>
-					<div>
-						<i class="fas fa-cocktail"></i>
-						<h4>{$lang.step_2}</h4>
-						<p>{$lang.menu_products_description_step_2}</p>
-					</div>
-				</div>';
-			}
 
 			$replace = [
 				'{$tbl_menu_products}' => $tbl_menu_products,
+				'{$sct_buttons}' => $sct_buttons,
 				'{$cbx_menu_topics}' => $cbx_menu_topics,
 				'{$cbx_icons}' => $cbx_icons,
 				'{$cbx_menu_categories}' => $cbx_menu_categories,
@@ -746,7 +763,6 @@ class Menu_controller extends Controller
 			$menu_categories = $this->model->get_menu_categories();
 
 			$tbl_menu_categories = '';
-			$cbx_icons = '';
 
 			if (!empty($menu_categories))
 			{
@@ -777,35 +793,37 @@ class Menu_controller extends Controller
 				}
 
 		        $tbl_menu_categories .= '</div>';
-
-				foreach ($this->model->get_icons('menu') as $key => $value)
-	            {
-					$cbx_icons .=
-					'<p>{$lang.' . $key . '}</p>
-					<div>';
-
-					foreach ($value as $subvalue)
-					{
-						$cbx_icons .=
-						'<label>
-							<input type="radio" name="icon" value="' . $subvalue['id'] . '">
-							<figure>
-								<img src="{$path.images}icons/' . $subvalue['type'] . '/' . $subvalue['url'] . '">
-							</figure>
-							<p>' . $subvalue['name'][$this->lang] . '</p>
-						</label>';
-					}
-
-					$cbx_icons .= '</div>';
-	            }
 			}
 			else
 			{
 				$tbl_menu_categories .=
 				'<div class="more_info">
 					<i class="fas fa-tag"></i>
-					<p>{$lang.menu_categories_description_1} {$lang.menu_categories_description_2}</p>
+					<p>{$lang.menu_categories_description}</p>
 				</div>';
+			}
+
+			$cbx_icons = '';
+
+			foreach ($this->model->get_icons('menu') as $key => $value)
+			{
+				$cbx_icons .=
+				'<p>{$lang.' . $key . '}</p>
+				<div>';
+
+				foreach ($value as $subvalue)
+				{
+					$cbx_icons .=
+					'<label>
+						<input type="radio" name="icon" value="' . $subvalue['id'] . '">
+						<figure>
+							<img src="{$path.images}icons/' . $subvalue['type'] . '/' . $subvalue['url'] . '">
+						</figure>
+						<p>' . $subvalue['name'][$this->lang] . '</p>
+					</label>';
+				}
+
+				$cbx_icons .= '</div>';
 			}
 
 			$replace = [
@@ -962,7 +980,7 @@ class Menu_controller extends Controller
 				$tbl_menu_topics .=
 				'<div class="more_info">
 					<i class="fas fa-bookmark"></i>
-					<p>{$lang.menu_topics_description_1} {$lang.menu_topics_description_2}</p>
+					<p>{$lang.menu_topics_description}</p>
 				</div>';
 			}
 

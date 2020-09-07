@@ -14,15 +14,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
     <section class="workspace">
         {$tbl_menu_products}
     </section>
-    <section class="buttons">
-        <div>
-            <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <?php if (Functions::check_user_access(['{menu_products_create}']) == true) : ?>
-            <a class="new" data-button-modal="new_menu_product"><i class="fas fa-plus"></i></a>
-            <?php endif; ?>
-            <a data-button-modal="more_info"><i class="fas fa-info-circle"></i></a>
-        </div>
-    </section>
+    {$sct_buttons}
 </main>
 <?php if (Functions::check_user_access(['{menu_products_create}','{menu_products_update}']) == true) : ?>
 <section class="modal fullscreen" data-modal="new_menu_product">
@@ -113,6 +105,9 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                         <div class="checkboxes stl_1">
                             <p>{$lang.categories}</p>
                             {$cbx_menu_categories}
+                            <div class="button">
+                                <a href="/menu/categories">{$lang.create_more_categories}</a>
+                            </div>
                         </div>
                     </div>
                     <?php if (Session::get_value('account')['settings']['menu']['multi'] == true) : ?>
@@ -170,13 +165,3 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
     </div>
 </section>
 <?php endif; ?>
-<section class="modal fullscreen" data-modal="more_info">
-    <div class="content">
-        <main>
-            <p>{$lang.menu_products_description}</p>
-            <div class="buttons">
-                <a class="new" button-close><i class="fas fa-check"></i></a>
-            </div>
-        </main>
-    </div>
-</section>

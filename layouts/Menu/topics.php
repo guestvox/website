@@ -18,7 +18,6 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_topics");</script>'
             <?php if (Functions::check_user_access(['{menu_topics_create}']) == true) : ?>
             <a class="new" data-button-modal="new_menu_topic"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
-            <a data-button-modal="more_info"><i class="fas fa-info-circle"></i></a>
         </div>
     </section>
 </main>
@@ -94,13 +93,3 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_topics");</script>'
     </div>
 </section>
 <?php endif; ?>
-<section class="modal fullscreen" data-modal="more_info">
-    <div class="content">
-        <main>
-            <p>{$lang.menu_topics_description_1}</p>
-            <div class="buttons">
-                <a class="new" button-close><i class="fas fa-check"></i></a>
-            </div>
-        </main>
-    </div>
-</section>
