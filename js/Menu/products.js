@@ -24,6 +24,16 @@ $(document).ready(function()
     //     alert(JSON.stringify(data));
     //   });
 
+    $('[data-action="open_preview_menu_product"]').on('click', function()
+    {
+        $(this).parents('article').find('div[data-id="' + $(this).data('id') + '"]').addClass('view');
+    });
+
+    $('[data-action="close_preview_menu_product"]').on('click', function()
+    {
+        $(this).parent().parent().parent().removeClass('view');
+    });
+
     $('[data-button-modal="new_menu_product"]').on('click', function()
     {
         $.ajax({

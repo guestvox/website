@@ -11,8 +11,16 @@ class Menu_model extends Model
 		parent::__construct();
 	}
 
-    public function get_menu_products()
+    public function get_menu_products($option = 'all')
 	{
+		$where = [
+			'menu_products.account' => Session::get_value('account')['id'],
+			'menu_products.position[>=]' => 1
+		];
+
+		if ($option == 'actives')
+			$where['menu_products.status'] = true;
+
 		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
 			'[>]icons' => [
 				'icon' => 'id'
@@ -23,20 +31,19 @@ class Menu_model extends Model
 		], [
 			'menu_products.id',
 			'menu_products.name',
+			'menu_products.description',
 			'menu_products.topics',
 			'menu_products.price',
 			'menu_products.avatar',
 			'menu_products.image',
-			'icons.type(icon_type)',
 			'icons.url(icon_url)',
+			'icons.type(icon_type)',
+			'icons.color(icon_color)',
 			'menu_products.categories',
 			'menu_restaurants.name(restaurant)',
 			'menu_products.status'
 		], [
-			'AND' => [
-				'menu_products.account' => Session::get_value('account')['id'],
-				'menu_products.position[>=]' => 1
-			],
+			'AND' => $where,
 			'ORDER' => [
 				'menu_products.position' => 'ASC'
 			]
@@ -44,21 +51,47 @@ class Menu_model extends Model
 
 		foreach ($query as $key => $value)
 		{
-			foreach ($value['categories'] as $subkey => $subvalue)
+			if ($option == 'actives')
 			{
-				$subvalue = Functions::get_json_decoded_query($this->database->select('menu_categories', [
-					'name'
-				], [
-					'id' => $subvalue,
-					'ORDER' => [
-						'position' => 'ASC'
-					]
-				]));
+				foreach ($value['topics'] as $subkey => $subvalue)
+				{
+					foreach ($subvalue as $parentkey => $parentvalue)
+					{
+						$parentvalue['topic'] = Functions::get_json_decoded_query($this->database->select('menu_topics', [
+							'name'
+						], [
+							'id' => $parentvalue['id']
+						]));
 
-				if (!empty($subvalue))
-					$query[$key]['categories'][$subkey] = $subvalue[0];
-				else
-					unset($query[$key]['categories'][$subkey]);
+						if (!empty($parentvalue['topic']))
+							$query[$key]['topics'][$subkey][$parentkey]['name'] = $parentvalue['topic'][0]['name'];
+						else
+							unset($query[$key]['topics'][$subkey][$parentkey]);
+					}
+
+					if (empty($query[$key]['topics'][$subkey]))
+						unset($query[$key]['topics'][$subkey]);
+				}
+			}
+
+			if ($option == 'all')
+			{
+				foreach ($value['categories'] as $subkey => $subvalue)
+				{
+					$subvalue = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+						'name'
+					], [
+						'id' => $subvalue,
+						'ORDER' => [
+							'position' => 'ASC'
+						]
+					]));
+
+					if (!empty($subvalue))
+						$query[$key]['categories'][$subkey] = $subvalue[0];
+					else
+						unset($query[$key]['categories'][$subkey]);
+				}
 			}
 		}
 

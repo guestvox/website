@@ -344,12 +344,113 @@ class Menu_controller extends Controller
 				'<div class="menu_preview">
 		            <div class="phone">
 		                <article>
-		                    <header></header>
-		                    <main></main>
-		                    <footer></footer>
-		                </article>
-		            </div>
-		            <div class="tbl_stl_3" data-table>';
+		                    <header>
+								<figure>
+									<img src="{$path.uploads}' . Session::get_value('account')['logotype'] . '">
+								</figure>
+							</header>
+		                    <main>
+								<div class="categories">';
+
+				foreach ($menu_categories as $value)
+				{
+					$tbl_menu_products .=
+					'<div>
+						<figure>
+							<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '">
+							<a data-action="filter_menu_products_by_categories" data-id="' . $value['id'] . '"></a>
+						</figure>
+						<span>' . $value['name'][$this->lang] . '</span>
+					</div>';
+				}
+
+				$tbl_menu_products .=
+				'</div>
+				<div class="products">';
+
+				foreach ($this->model->get_menu_products('actives') as $value)
+				{
+					$tbl_menu_products .=
+					'<div>
+						<figure class="' . $value['avatar'] . '" ' . (($value['avatar'] == 'icon') ? 'style="background-color:' . $value['icon_color'] . ';"' : '') . '>';
+
+					if ($value['avatar'] == 'image')
+						$tbl_menu_products .= '<img src="{$path.uploads}' . $value['image'] . '">';
+					else if ($value['avatar'] == 'icon')
+						$tbl_menu_products .= '<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '"></figure>';
+
+					$tbl_menu_products .=
+					'	</figure>
+						<div>
+							<h2>' . $value['name'][$this->lang] . '</h2>
+							<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>
+							<a data-action="open_preview_menu_product" data-id="' . $value['id'] . '"></a>
+						</div>
+					</div>';
+				}
+
+				$tbl_menu_products .=
+				'	</div>
+				</main>
+                <footer>
+					<div>
+						<a href="" class="active"><i class="fas fa-igloo"></i><span>{$lang.home}</span></a>
+						<a href=""><i class="fas fa-search"></i><span>{$lang.search}</span></a>
+						<a href=""><i class="fas fa-shopping-cart"></i><span>$ 0.00 ' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span></a>
+					</div>
+				</footer>';
+
+				foreach ($this->model->get_menu_products('actives') as $value)
+				{
+					$tbl_menu_products .=
+					'<div class="modal" data-id="' . $value['id'] . '">
+						<figure class="' . $value['avatar'] . '" ' . (($value['avatar'] == 'icon') ? 'style="background-color:' . $value['icon_color'] . ';"' : '') . '>';
+
+						if ($value['avatar'] == 'image')
+							$tbl_menu_products .= '<img src="{$path.uploads}' . $value['image'] . '">';
+						else if ($value['avatar'] == 'icon')
+							$tbl_menu_products .= '<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '">';
+
+						$tbl_menu_products .=
+						'</figure>
+						<h2>' . $value['name'][$this->lang] . '</h2>
+						<p>' . (!empty($value['description'][$this->lang]) ? $value['description'][$this->lang] : '') . '</p>
+						<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>
+						<form>';
+
+						foreach ($value['topics'] as $subvalue)
+						{
+							$tbl_menu_products .= '<div>';
+
+							foreach ($subvalue as $parentvalue)
+							{
+								$tbl_menu_products .=
+								'<label>
+									<input type="' . $parentvalue['selection'] . '" />
+									<p>' . $parentvalue['name'][$this->lang] . '</p>
+									<span>' . Functions::get_formatted_currency($parentvalue['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . ' +</span>
+								</label>';
+							}
+
+							$tbl_menu_products .= '</div>';
+						}
+
+						$tbl_menu_products .=
+						'	<div class="buttons">
+								<a class="delete" data-action="close_preview_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-times"></i></a>
+								<a><i class="fas fa-minus"></i></a>
+								<input type="text" value="1">
+								<a><i class="fas fa-plus"></i></a>
+								<a class="new" data-action="close_preview_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-check"></i></a>
+							</div>
+						</form>
+					</div>';
+				}
+
+				$tbl_menu_products .=
+	            '    </article>
+	            </div>
+	            <div class="tbl_stl_3" data-table>';
 
 				foreach ($menu_products as $value)
 				{

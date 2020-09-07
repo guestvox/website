@@ -3681,6 +3681,7 @@ div.surveys_counters > div:last-child > div > span {
 ------------------------------------------------------------------------------ */
 div.menu_preview {
     width: 100%;
+    position: relative;
 }
 
 div.menu_preview::after {
@@ -3692,8 +3693,7 @@ div.menu_preview::after {
 div.menu_preview > div.phone {
     width: 40%;
     height: calc(100vh - 100px);
-    min-height: 700px;
-    float: left;
+    min-height: 600px;
     position: fixed;
     display: flex;
     align-items: center;
@@ -3705,6 +3705,7 @@ div.menu_preview > div.phone {
 div.menu_preview > div.phone > article {
     width: 300px;
     height: 600px;
+    position: relative;
     border-top: 20px solid #e0e0e0;
     border-right: 5px solid #e0e0e0;
     border-bottom: 20px solid #e0e0e0;
@@ -3721,6 +3722,15 @@ div.menu_preview > div.phone > article > header {
     background-color: #fff;
 }
 
+div.menu_preview > div.phone > article > header::before {
+    content: '';
+    width: 50px;
+    height: 100%;
+    position: absolute;
+    right: 0px;
+    background-color: #24383f;
+}
+
 div.menu_preview > div.phone > article > header::after {
     content: '';
     width: 100%;
@@ -3731,10 +3741,372 @@ div.menu_preview > div.phone > article > header::after {
     background-color: #eee;
 }
 
+div.menu_preview > div.phone > article > header > figure {
+    width: calc(100% - 50px);
+    height: calc(100% - 20px);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+div.menu_preview > div.phone > article > header > figure > img {
+    width: auto;
+    height: 100%;
+}
+
+div.menu_preview > div.phone > article > main {
+    width: 100%;
+    height: 460px;
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+div.menu_preview > div.phone > article > main > div.categories {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 10px;
+    box-sizing: border-box;
+    overflow-x: scroll;
+}
+
+div.menu_preview > div.phone > article > main > div.categories > div {
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-right: 20px;
+}
+
+div.menu_preview > div.phone > article > main > div.categories > div > figure {
+    width: 50px;
+    height: 50px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+div.menu_preview > div.phone > article > main > div.categories > div > figure.selected {
+    padding: 2px;
+    border: 2px solid #00a5ab;
+    box-sizing: border-box;
+}
+
+div.menu_preview > div.phone > article > main > div.categories > div > figure > img {
+    width: 100%;
+}
+
+div.menu_preview > div.phone > article > main > div.categories > div > figure > a {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+div.menu_preview > div.phone > article > main > div.categories > div > span {
+    width: 70px;
+    font-size: 12px;
+    font-weight: 400;
+    white-space: nowrap;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #757575;
+}
+
+div.menu_preview > div.phone > article > main > div.products {
+    width: 100%;
+    padding: 10px 10px 70px 10px;
+    box-sizing: border-box;
+}
+
+div.menu_preview > div.phone > article > main > div.products > div {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+div.menu_preview > div.phone > article > main > div.products > div:last-child {
+    margin-bottom: 0px;
+}
+
+div.menu_preview > div.phone > article > main > div.products > div > figure {
+    width: 80px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px 0px 0px 5px;
+    overflow: hidden;
+}
+
+div.menu_preview > div.phone > article > main > div.products > div > figure.icon {
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+div.menu_preview > div.phone > article > main > div.products > div > figure.image > img {
+    width: auto;
+    height: 100%;
+}
+
+div.menu_preview > div.phone > article > main > div.products > div > figure.icon > img {
+    width: 100%;
+}
+
+div.menu_preview > div.phone > article > main > div.products > div > div {
+    width: calc(100% - 80px);
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+div.menu_preview > div.phone > article > main > div.products > div > div > h2 {
+    width: 100%;
+    font-size: 14px;
+    font-weight: 600;
+    color: #212121;
+}
+
+div.menu_preview > div.phone > article > main > div.products > div > div > span {
+    width: auto;
+    height: 30px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 10px;
+    border-radius: 30px;
+    box-sizing: border-box;
+    background-color: #eee;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.menu_preview > div.phone > article > main > div.products > div > div > a {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: -100px;
+    border-radius: 10px;
+    z-index: 5;
+}
+
+div.menu_preview > div.phone > article > footer {
+    width: 100%;
+    height: 60px;
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+div.menu_preview > div.phone > article > footer > div {
+    width: auto;
+    min-width: 80%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 20px;
+    border-radius: 50px;
+    box-sizing: border-box;
+    background-color: #24383f;
+}
+
+div.menu_preview > div.phone > article > footer > div > a {
+    width: calc(100% / 3);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+div.menu_preview > div.phone > article > footer > div > a.active {
+    color: #fff;
+}
+
+div.menu_preview > div.phone > article > footer > div > a > i {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+div.menu_preview > div.phone > article > footer > div > a > span {
+    font-size: 10px;
+    line-height: 10px;
+    white-space: nowrap;
+}
+
+div.menu_preview > div.phone > article > div.modal {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    display: none;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    overflow-y: scroll;
+    background-color: #eee;
+    z-index: 99;
+}
+
+div.menu_preview > div.phone > article > div.modal.view {
+    display: flex;
+}
+
+div.menu_preview > div.phone > article > div.modal > figure {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+div.menu_preview > div.phone > article > div.modal > figure.icon {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+div.menu_preview > div.phone > article > div.modal > figure.image > img {
+    width: 100%;
+}
+
+div.menu_preview > div.phone > article > div.modal > figure.icon > img {
+    width: auto;
+    height: 100%;
+}
+
+div.menu_preview > div.phone > article > div.modal > h2 {
+    margin-bottom: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #212121;
+}
+
+div.menu_preview > div.phone > article > div.modal > p {
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 18px;
+    color: #757575;
+}
+
+div.menu_preview > div.phone > article > div.modal > span {
+    width: auto;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30px;
+    background-color: #eee;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.menu_preview > div.phone > article > div.modal > form {
+    width: 100%;
+}
+
+div.menu_preview > div.phone > article > div.modal > form > div {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px dashed #e0e0e0;
+    box-sizing: border-box;
+}
+
+div.menu_preview > div.phone > article > div.modal > form > div > label {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+div.menu_preview > div.phone > article > div.modal > form > div > label:last-child {
+    margin-bottom: 0px;
+}
+
+div.menu_preview > div.phone > article > div.modal > form > div > label > input {
+    width: 15px;
+    height: 15px;
+    margin: 0px;
+}
+
+div.menu_preview > div.phone > article > div.modal > form > div > label > p {
+    width: calc(100% - 115px);
+    padding: 0px 5px;
+    box-sizing: border-box;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+div.menu_preview > div.phone > article > div.modal > form > div > label > span {
+    width: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: right;
+    color: #212121;
+}
+
+div.menu_preview > div.phone > article > div.modal > form > div.buttons > input {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 5px;
+    padding: 0px 14px;
+    border: 1px dashed #e0e0e0;
+    border-radius: 50%;
+    box-sizing: border-box;
+    color: #212121;
+}
+
 div.menu_preview > div[data-table] {
     width: 60%;
     float: right;
-    padding: 0px 50px;
+    padding-right: 50px;
     box-sizing: border-box;
 }
 
