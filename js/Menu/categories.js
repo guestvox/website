@@ -2,9 +2,6 @@
 
 $(document).ready(function()
 {
-    var id = null;
-    var edit = false;
-
     $('[data-button-modal="new_menu_category"]').on('click', function()
     {
         $.ajax({
@@ -16,12 +13,15 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                    $('[name="position"]').val(response.position);
+                    $('[name="position"]').val(response.data);
                 else if (response.status == 'error')
                     show_modal_error(response.message);
             }
         });
     });
+
+    var id = null;
+    var edit = false;
 
     $('[data-modal="new_menu_category"]').modal().onCancel(function()
     {

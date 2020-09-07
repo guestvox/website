@@ -333,18 +333,18 @@ class Myvox_model extends Model
 		$query1 = Functions::get_json_decoded_query($this->database->select('menu_products', $join, $fields, [
 			'AND' => [
 				'menu_products.account' => Session::get_value('myvox')['account']['id'],
-				'menu_products.outstanding[>=]' => 1,
+				'menu_products.position[>=]' => 1,
 				'menu_products.status' => true
 			],
 			'ORDER' => [
-				'menu_products.outstanding' => 'ASC'
+				'menu_products.position' => 'ASC'
 			]
 		]));
 
 		$query2 = Functions::get_json_decoded_query($this->database->select('menu_products', $join, $fields, [
 			'AND' => [
 				'menu_products.account' => Session::get_value('myvox')['account']['id'],
-				'menu_products.outstanding[=]' => null,
+				'menu_products.position[=]' => null,
 				'menu_products.status' => true
 			],
 			'ORDER' => [

@@ -17,11 +17,11 @@ class Menu_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'get_menu_products_outstandings')
+			if ($_POST['action'] == 'get_menu_product_position')
 			{
 				Functions::environment([
 					'status' => 'success',
-					'data' => $this->model->get_menu_products_outstandings()
+					'data' => $this->model->get_menu_product_position()
 				]);
 			}
 
@@ -236,6 +236,9 @@ class Menu_controller extends Controller
 				if (!isset($_POST['price']) OR empty($_POST['price']))
 					array_push($labels, ['price','']);
 
+				if (!isset($_POST['position']) OR empty($_POST['position']) OR $_POST['position'] < 1)
+					array_push($labels, ['position','']);
+
 				if (!isset($_POST['avatar']) OR empty($_POST['avatar']))
 					array_push($labels, ['avatar','']);
 
@@ -290,9 +293,13 @@ class Menu_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'deactivate_menu_product' OR $_POST['action'] == 'activate_menu_product' OR $_POST['action'] == 'delete_menu_product')
+			if ($_POST['action'] == 'up_menu_product' OR $_POST['action'] == 'down_menu_product' OR $_POST['action'] == 'deactivate_menu_product' OR $_POST['action'] == 'activate_menu_product' OR $_POST['action'] == 'delete_menu_product')
 			{
-				if ($_POST['action'] == 'deactivate_menu_product')
+				if ($_POST['action'] == 'up_menu_product')
+					$query = $this->model->up_menu_product($_POST['id']);
+				else if ($_POST['action'] == 'down_menu_product')
+					$query = $this->model->down_menu_product($_POST['id']);
+				else if ($_POST['action'] == 'deactivate_menu_product')
 					$query = $this->model->deactivate_menu_product($_POST['id']);
 				else if ($_POST['action'] == 'activate_menu_product')
 					$query = $this->model->activate_menu_product($_POST['id']);
@@ -321,119 +328,194 @@ class Menu_controller extends Controller
 
 			define('_title', 'Guestvox | {$lang.menu} | {$lang.products}');
 
+			$menu_products = $this->model->get_menu_products();
+			$menu_categories = $this->model->get_menu_categories('actives');
+			$menu_topics = $this->model->get_menu_topics('actives');
+
 			$tbl_menu_products = '';
-
-			foreach ($this->model->get_menu_products() as $value)
-			{
-				$tbl_menu_products .=
-				'<div>
-					<div class="datas">
-						<div class="itm_1">
-							<h2>' . $value['name'][$this->lang] .'</h2>
-							<span>' . (!empty($value['description'][$this->lang]) ? $value['description'][$this->lang] : '{$lang.not_description}') . '</span>
-							' . ((Session::get_value('account')['settings']['menu']['multi'] == true) ? '<span>' . (!empty($value['restaurant']) ? $value['restaurant'][$this->lang] : '{$lang.not_restaurant}') . '</span>' : '') . '
-							<span>' . (!empty($value['outstanding']) ? '{$lang.outstanding}: ' . $value['outstanding'] : '{$lang.not_outstanding}') . '</span>
-							<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>
-						</div>
-						<div class="itm_2">
-							<figure>';
-
-				if ($value['avatar'] == 'image')
-					$tbl_menu_products .= '<img src="{$path.uploads}' . $value['image'] . '">';
-				else if ($value['avatar'] == 'icon')
-					$tbl_menu_products .= '<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '">';
-
-				$tbl_menu_products .=
-				'			</figure>
-						</div>
-					</div>
-					<div class="buttons">
-						' . ((Functions::check_user_access(['{menu_products_deactivate}','{menu_products_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_menu_product' : 'activate_menu_product') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
-						' . ((Functions::check_user_access(['{menu_products_update}']) == true) ? '<a class="edit" data-action="edit_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
-						' . ((Functions::check_user_access(['{menu_products_delete}']) == true) ? '<a class="delete" data-action="delete_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
-					</div>
-				</div>';
-			}
-
-			$cbx_menu_topics_groups = '';
-
-			foreach (Session::get_value('temporal')['menu_topics_groups'] as $key => $value)
-			{
-				$cbx_menu_topics_groups .= '<div>';
-
-				foreach ($value as $subkey => $subvalue)
-				{
-					$subvalue['topic'] = $this->model->get_menu_topic($subvalue['id']);
-
-					if (!empty($subvalue['topic']))
-					{
-						$cbx_menu_topics_groups .=
-						'<div>
-							<p>' . $subvalue['topic']['name'][$this->lang] . '</p>
-							<span>{$lang.' . $subvalue['selection'] . '}</span>
-							<input type="text" name="update_menu_topic_price" value="' . $subvalue['price'] . '" data-key="' . $key . '" data-subkey="' . $subkey . '">
-							<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
-							<a data-action="remove_menu_topics_group" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-times"></i></a>
-						</div>';
-					}
-				}
-
-				$cbx_menu_topics_groups .= '</div>';
-			}
-
 			$cbx_menu_topics = '';
-
-            foreach ($this->model->get_menu_topics('actives') as $value)
-            {
-				$cbx_menu_topics .=
-				'<div>
-					<input type="checkbox" name="topics[]" value="' . $value['id'] . '">
-					<span>' . $value['name'][$this->lang] . '</span>
-				</div>';
-            }
-
 			$cbx_icons = '';
-
-            foreach ($this->model->get_icons('menu') as $key => $value)
-            {
-				$cbx_icons .=
-				'<p>{$lang.' . $key . '}</p>
-				<div>';
-
-				foreach ($value as $subvalue)
-				{
-					$cbx_icons .=
-					'<label>
-						<input type="radio" name="icon" value="' . $subvalue['id'] . '">
-						<figure>
-							<img src="{$path.images}icons/' . $subvalue['type'] . '/' . $subvalue['url'] . '">
-						</figure>
-						<p>' . $subvalue['name'][$this->lang] . '</p>
-					</label>';
-				}
-
-				$cbx_icons .= '</div>';
-            }
-
 			$cbx_menu_categories = '';
-
-            foreach ($this->model->get_menu_categories('actives') as $value)
-            {
-				$cbx_menu_categories .=
-				'<div>
-					<input type="checkbox" name="categories[]" value="' . $value['id'] . '">
-					<span>' . $value['name'][$this->lang] . '</span>
-				</div>';
-            }
-
 			$opt_menu_restaurants = '';
 
-            foreach ($this->model->get_menu_restaurants('actives') as $value)
-				$opt_menu_restaurants .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+			if (!empty($menu_products) AND !empty($menu_categories))
+			{
+				$tbl_menu_products .=
+				'<div class="menu_preview">
+		            <div class="phone">
+		                <article>
+		                    <header></header>
+		                    <main></main>
+		                    <footer></footer>
+		                </article>
+		            </div>
+		            <div class="tbl_stl_3" data-table>';
+
+				foreach ($menu_products as $value)
+				{
+					$tbl_menu_products .=
+					'<div>
+						<div class="datas">
+							<div class="itm_1">
+								<h2>' . $value['name'][$this->lang] .'</h2>
+								<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>';
+
+					if (!empty($value['categories']))
+					{
+						$tbl_menu_products .= '<span>';
+
+						foreach ($value['categories'] as $subkey => $subvalue)
+							$tbl_menu_products .= $subvalue['name'][$this->lang] . ' ';
+
+						$tbl_menu_products .= '</span>';
+					}
+
+					$tbl_menu_products .=
+					'' . ((Session::get_value('account')['settings']['menu']['multi'] == true) ? '<span>' . (!empty($value['restaurant']) ? $value['restaurant'][$this->lang] : '{$lang.not_restaurant}') . '</span>' : '') . '
+					</div>
+					<div class="itm_2">
+						<figure>';
+
+					if ($value['avatar'] == 'image')
+						$tbl_menu_products .= '<img src="{$path.uploads}' . $value['image'] . '">';
+					else if ($value['avatar'] == 'icon')
+						$tbl_menu_products .= '<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '">';
+
+					$tbl_menu_products .=
+					'			</figure>
+							</div>
+						</div>
+						<div class="buttons">
+							' . ((Functions::check_user_access(['{menu_products_update}']) == true) ? '<a data-action="up_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-arrow-circle-up"></i></a>' : '') . '
+							' . ((Functions::check_user_access(['{menu_products_update}']) == true) ? '<a data-action="down_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-arrow-circle-down"></i></a>' : '') . '
+							' . ((Functions::check_user_access(['{menu_products_deactivate}','{menu_products_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_menu_product' : 'activate_menu_product') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
+							' . ((Functions::check_user_access(['{menu_products_update}']) == true) ? '<a class="edit" data-action="edit_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+							' . ((Functions::check_user_access(['{menu_products_delete}']) == true) ? '<a class="delete" data-action="delete_menu_product" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+						</div>
+					</div>';
+				}
+
+				$tbl_menu_products .=
+		        '    </div>
+		        </div>';
+
+				if (!empty($menu_topics))
+				{
+					$cbx_menu_topics .= '<aside>';
+
+					foreach (Session::get_value('temporal')['menu_topics_groups'] as $key => $value)
+					{
+						$cbx_menu_topics .= '<div>';
+
+						foreach ($value as $subkey => $subvalue)
+						{
+							$subvalue['topic'] = $this->model->get_menu_topic($subvalue['id']);
+
+							if (!empty($subvalue['topic']))
+							{
+								$cbx_menu_topics .=
+								'<div>
+									<p>' . $subvalue['topic']['name'][$this->lang] . '</p>
+									<span>{$lang.' . $subvalue['selection'] . '}</span>
+									<input type="text" name="update_menu_topic_price" value="' . $subvalue['price'] . '" data-key="' . $key . '" data-subkey="' . $subkey . '">
+									<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
+									<a data-action="remove_menu_topics_group" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-times"></i></a>
+								</div>';
+							}
+						}
+
+						$cbx_menu_topics .= '</div>';
+					}
+
+					$cbx_menu_topics .=
+					'</aside>
+					<div class="checkboxes stl_1">';
+
+					foreach ($menu_topics as $value)
+		            {
+						$cbx_menu_topics .=
+						'<div>
+							<input type="checkbox" name="topics[]" value="' . $value['id'] . '">
+							<span>' . $value['name'][$this->lang] . '</span>
+						</div>';
+		            }
+
+					$cbx_menu_topics .=
+					'</div>
+					<div class="label">
+						<label required>
+							<select name="selection">
+								<option value="" hidden>{$lang.selection_type}</option>
+								<option value="checkbox">{$lang.multi_selection}</option>
+								<option value="radio">{$lang.one_selection}</option>
+							</select>
+						</label>
+					</div>
+					<a data-action="add_menu_topics_group">{$lang.add_menu_topics_group}</a>';
+				}
+				else
+				{
+					$cbx_menu_topics .=
+					'<div class="empty">
+						<i class="fas fa-bookmark"></i>
+						<p>{$lang.menu_products_description_step_3}</p>
+						<a href="/menu/topics">{$lang.create_topics}</a>
+					</div>';
+				}
+
+				foreach ($this->model->get_icons('menu') as $key => $value)
+	            {
+					$cbx_icons .=
+					'<p>{$lang.' . $key . '}</p>
+					<div>';
+
+					foreach ($value as $subvalue)
+					{
+						$cbx_icons .=
+						'<label>
+							<input type="radio" name="icon" value="' . $subvalue['id'] . '">
+							<figure>
+								<img src="{$path.images}icons/' . $subvalue['type'] . '/' . $subvalue['url'] . '">
+							</figure>
+							<p>' . $subvalue['name'][$this->lang] . '</p>
+						</label>';
+					}
+
+					$cbx_icons .= '</div>';
+	            }
+
+				foreach ($menu_categories as $value)
+	            {
+					$cbx_menu_categories .=
+					'<div>
+						<input type="checkbox" name="categories[]" value="' . $value['id'] . '">
+						<span>' . $value['name'][$this->lang] . '</span>
+					</div>';
+	            }
+
+				foreach ($this->model->get_menu_restaurants('actives') as $value)
+					$opt_menu_restaurants .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+			}
+			else
+			{
+				$tbl_menu_products .=
+				'<div class="more_info_steps">
+					<div class="' . (!empty($menu_categories) ? 'ok' : '') . '">
+						<i class="fas fa-tag"></i>
+						<h4>{$lang.step_1}</h4>
+						<p>{$lang.menu_products_description_step_1}</p>
+						<a href="/menu/categories">{$lang.create_categories}</a>
+					</div>
+					<div>
+						<i class="fas fa-cocktail"></i>
+						<h4>{$lang.step_2}</h4>
+						<p>{$lang.menu_products_description_step_2}</p>
+					</div>
+				</div>';
+			}
 
 			$replace = [
 				'{$tbl_menu_products}' => $tbl_menu_products,
-				'{$cbx_menu_topics_groups}' => $cbx_menu_topics_groups,
 				'{$cbx_menu_topics}' => $cbx_menu_topics,
 				'{$cbx_icons}' => $cbx_icons,
 				'{$cbx_menu_categories}' => $cbx_menu_categories,
@@ -454,7 +536,7 @@ class Menu_controller extends Controller
 			{
 				Functions::environment([
 					'status' => 'success',
-					'position' => $this->model->get_menu_category_position()
+					'data' => $this->model->get_menu_category_position()
 				]);
 			}
 
@@ -563,6 +645,7 @@ class Menu_controller extends Controller
 			$menu_categories = $this->model->get_menu_categories();
 
 			$tbl_menu_categories = '';
+			$cbx_icons = '';
 
 			if (!empty($menu_categories))
 			{
@@ -593,6 +676,27 @@ class Menu_controller extends Controller
 				}
 
 		        $tbl_menu_categories .= '</div>';
+
+				foreach ($this->model->get_icons('menu') as $key => $value)
+	            {
+					$cbx_icons .=
+					'<p>{$lang.' . $key . '}</p>
+					<div>';
+
+					foreach ($value as $subvalue)
+					{
+						$cbx_icons .=
+						'<label>
+							<input type="radio" name="icon" value="' . $subvalue['id'] . '">
+							<figure>
+								<img src="{$path.images}icons/' . $subvalue['type'] . '/' . $subvalue['url'] . '">
+							</figure>
+							<p>' . $subvalue['name'][$this->lang] . '</p>
+						</label>';
+					}
+
+					$cbx_icons .= '</div>';
+	            }
 			}
 			else
 			{
@@ -602,29 +706,6 @@ class Menu_controller extends Controller
 					<p>{$lang.menu_categories_description_1} {$lang.menu_categories_description_2}</p>
 				</div>';
 			}
-
-			$cbx_icons = '';
-
-            foreach ($this->model->get_icons('menu') as $key => $value)
-            {
-				$cbx_icons .=
-				'<p>{$lang.' . $key . '}</p>
-				<div>';
-
-				foreach ($value as $subvalue)
-				{
-					$cbx_icons .=
-					'<label>
-						<input type="radio" name="icon" value="' . $subvalue['id'] . '">
-						<figure>
-							<img src="{$path.images}icons/' . $subvalue['type'] . '/' . $subvalue['url'] . '">
-						</figure>
-						<p>' . $subvalue['name'][$this->lang] . '</p>
-					</label>';
-				}
-
-				$cbx_icons .= '</div>';
-            }
 
 			$replace = [
 				'{$tbl_menu_categories}' => $tbl_menu_categories,
@@ -645,7 +726,7 @@ class Menu_controller extends Controller
 			{
 				Functions::environment([
 					'status' => 'success',
-					'position' => $this->model->get_menu_topic_position()
+					'data' => $this->model->get_menu_topic_position()
 				]);
 			}
 

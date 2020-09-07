@@ -12,18 +12,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
 %{header}%
 <main class="dashboard">
     <section class="workspace">
-        <div class="menu_preview">
-            <div class="phone">
-                <article>
-                    <header></header>
-                    <main></main>
-                    <footer></footer>
-                </article>
-            </div>
-            <div class="tbl_stl_3" data-table>
-                {$tbl_menu_products}
-            </div>
-        </div>
+        {$tbl_menu_products}
     </section>
     <section class="buttons">
         <div>
@@ -31,6 +20,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
             <?php if (Functions::check_user_access(['{menu_products_create}']) == true) : ?>
             <a class="new" data-button-modal="new_menu_product"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
+            <a data-button-modal="more_info"><i class="fas fa-info-circle"></i></a>
         </div>
     </section>
 </main>
@@ -74,9 +64,9 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label unrequired>
-                                <p>{$lang.outstanding}</p>
-                                <input type="number" name="outstanding">
+                            <label required>
+                                <p>{$lang.position}</p>
+                                <input type="number" name="position">
                             </label>
                         </div>
                     </div>
@@ -90,22 +80,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                     </div>
                     <div class="span12">
                         <div class="menu_topics_groups">
-                            <aside>
-                                {$cbx_menu_topics_groups}
-                            </aside>
-                            <div class="checkboxes stl_1">
-                                {$cbx_menu_topics}
-                            </div>
-                            <div class="label">
-                                <label required>
-                                    <select name="selection">
-                                        <option value="" hidden>{$lang.selection_type}</option>
-                                        <option value="checkbox">{$lang.multi_selection}</option>
-                                        <option value="radio">{$lang.one_selection}</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <a data-action="add_menu_topics_group">{$lang.add_menu_topics_group}</a>
+                            {$cbx_menu_topics}
                         </div>
                     </div>
                     <div class="span12">
@@ -195,3 +170,13 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
     </div>
 </section>
 <?php endif; ?>
+<section class="modal fullscreen" data-modal="more_info">
+    <div class="content">
+        <main>
+            <p>{$lang.menu_products_description}</p>
+            <div class="buttons">
+                <a class="new" button-close><i class="fas fa-check"></i></a>
+            </div>
+        </main>
+    </div>
+</section>

@@ -1,7 +1,7 @@
 'use strict';
 
 $(document).ready(function()
-{   
+{
     // Push.Permission.DEFAULT; // 'default'
     // Push.Permission.GRANTED; // 'granted'
     // Push.Permission.DENIED; // 'denied'
@@ -9,7 +9,7 @@ $(document).ready(function()
     // var pusher = new Pusher('1907b80d942422da0b8e', {
     //     cluster: 'us2'
     //   });
-  
+
     //   var channel = pusher.subscribe('menu-orders');
     //   channel.bind('new-order', function(data) {
     //     show_modal_success(JSON.stringify(data), 3500);
@@ -28,14 +28,14 @@ $(document).ready(function()
     {
         $.ajax({
             type: 'POST',
-            data: 'action=get_menu_products_outstandings',
+            data: 'action=get_menu_product_position',
             processData: false,
             cache: false,
             dataType: 'json',
             success: function(response)
             {
                 if (response.status == 'success')
-                    $('[name="outstanding"]').val(response.data);
+                    $('[name="position"]').val(response.data);
                 else if (response.status == 'error')
                     show_modal_error(response.message);
             }
@@ -162,7 +162,7 @@ $(document).ready(function()
                     $('[name="description_es"]').val(response.data.description.es);
                     $('[name="description_en"]').val(response.data.description.en);
                     $('[name="price"]').val(response.data.price);
-                    $('[name="outstanding"]').val(response.data.outstanding);
+                    $('[name="position"]').val(response.data.position);
                     $('div.menu_topics_groups > aside').html(response.data.topics);
                     $('[name="avatar"]').val(response.data.avatar);
 
@@ -194,6 +194,42 @@ $(document).ready(function()
 
                     $('[data-modal="new_menu_product"]').addClass('view');
                 }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-action="up_menu_product"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + $(this).data('id') + '&action=up_menu_product',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-action="down_menu_product"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + $(this).data('id') + '&action=down_menu_product',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
                 else if (response.status == 'error')
                     show_modal_error(response.message);
             }
