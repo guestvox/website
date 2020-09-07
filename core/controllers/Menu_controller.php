@@ -267,7 +267,7 @@ class Menu_controller extends Controller
 						$temporal['menu_topics_groups'] = [];
 
 						Session::set_value('temporal', $temporal);
-						
+
 						Functions::environment([
 							'status' => 'success',
 							'message' => '{$lang.operation_success}'
@@ -446,6 +446,354 @@ class Menu_controller extends Controller
 		}
 	}
 
+	public function categories()
+	{
+        if (Format::exist_ajax_request() == true)
+		{
+			if ($_POST['action'] == 'get_menu_category_position')
+			{
+				Functions::environment([
+					'status' => 'success',
+					'position' => $this->model->get_menu_category_position()
+				]);
+			}
+
+			if ($_POST['action'] == 'get_menu_category')
+			{
+				$query = $this->model->get_menu_category($_POST['id']);
+
+                if (!empty($query))
+                {
+                    Functions::environment([
+    					'status' => 'success',
+    					'data' => $query
+    				]);
+                }
+                else
+                {
+                    Functions::environment([
+    					'status' => 'error',
+    					'message' => '{$lang.operation_error}'
+    				]);
+                }
+			}
+
+			if ($_POST['action'] == 'new_menu_category' OR $_POST['action'] == 'edit_menu_category')
+			{
+				$labels = [];
+
+				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
+					array_push($labels, ['name_es','']);
+
+				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
+					array_push($labels, ['name_en','']);
+
+				if (!isset($_POST['position']) OR empty($_POST['position']) OR $_POST['position'] < 1)
+					array_push($labels, ['position','']);
+
+				if (!isset($_POST['icon']) OR empty($_POST['icon']))
+					array_push($labels, ['icon','']);
+
+				if (empty($labels))
+				{
+					if ($_POST['action'] == 'new_menu_category')
+						$query = $this->model->new_menu_category($_POST);
+					else if ($_POST['action'] == 'edit_menu_category')
+						$query = $this->model->edit_menu_category($_POST);
+
+					if (!empty($query))
+					{
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'up_menu_category' OR $_POST['action'] == 'down_menu_category' OR $_POST['action'] == 'deactivate_menu_category' OR $_POST['action'] == 'activate_menu_category' OR $_POST['action'] == 'delete_menu_category')
+			{
+				if ($_POST['action'] == 'up_menu_category')
+					$query = $this->model->up_menu_category($_POST['id']);
+				else if ($_POST['action'] == 'down_menu_category')
+					$query = $this->model->down_menu_category($_POST['id']);
+				else if ($_POST['action'] == 'deactivate_menu_category')
+					$query = $this->model->deactivate_menu_category($_POST['id']);
+				else if ($_POST['action'] == 'activate_menu_category')
+					$query = $this->model->activate_menu_category($_POST['id']);
+				else if ($_POST['action'] == 'delete_menu_category')
+					$query = $this->model->delete_menu_category($_POST['id']);
+
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+		}
+		else
+		{
+			$template = $this->view->render($this, 'categories');
+
+			define('_title', 'Guestvox | {$lang.menu} | {$lang.categories}');
+
+			$menu_categories = $this->model->get_menu_categories();
+
+			$tbl_menu_categories = '';
+
+			if (!empty($menu_categories))
+			{
+				$tbl_menu_categories .= '<div class="tbl_stl_3" data-table>';
+
+				foreach ($menu_categories as $value)
+				{
+					$tbl_menu_categories .=
+					'<div>
+						<div class="datas">
+							<div class="itm_1">
+								<h2>' . $value['name'][$this->lang] .'</h2>
+							</div>
+							<div class="itm_2">
+								<figure>
+									<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '">
+								</figure>
+							</div>
+						</div>
+						<div class="buttons">
+							' . ((Functions::check_user_access(['{menu_categories_update}']) == true) ? '<a data-action="up_menu_category" data-id="' . $value['id'] . '"><i class="fas fa-arrow-circle-up"></i></a>' : '') . '
+							' . ((Functions::check_user_access(['{menu_categories_update}']) == true) ? '<a data-action="down_menu_category" data-id="' . $value['id'] . '"><i class="fas fa-arrow-circle-down"></i></a>' : '') . '
+							' . ((Functions::check_user_access(['{menu_categories_deactivate}','{menu_categories_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_menu_category' : 'activate_menu_category') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
+							' . ((Functions::check_user_access(['{menu_categories_update}']) == true) ? '<a class="edit" data-action="edit_menu_category" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+							' . ((Functions::check_user_access(['{menu_categories_delete}']) == true) ? '<a class="delete" data-action="delete_menu_category" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+						</div>
+					</div>';
+				}
+
+		        $tbl_menu_categories .= '</div>';
+			}
+			else
+			{
+				$tbl_menu_categories .=
+				'<div class="more_info">
+					<i class="fas fa-tag"></i>
+					<p>{$lang.menu_categories_description_1} {$lang.menu_categories_description_2}</p>
+				</div>';
+			}
+
+			$cbx_icons = '';
+
+            foreach ($this->model->get_icons('menu') as $key => $value)
+            {
+				$cbx_icons .=
+				'<p>{$lang.' . $key . '}</p>
+				<div>';
+
+				foreach ($value as $subvalue)
+				{
+					$cbx_icons .=
+					'<label>
+						<input type="radio" name="icon" value="' . $subvalue['id'] . '">
+						<figure>
+							<img src="{$path.images}icons/' . $subvalue['type'] . '/' . $subvalue['url'] . '">
+						</figure>
+						<p>' . $subvalue['name'][$this->lang] . '</p>
+					</label>';
+				}
+
+				$cbx_icons .= '</div>';
+            }
+
+			$replace = [
+				'{$tbl_menu_categories}' => $tbl_menu_categories,
+				'{$cbx_icons}' => $cbx_icons
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
+	public function topics()
+	{
+        if (Format::exist_ajax_request() == true)
+		{
+			if ($_POST['action'] == 'get_menu_topic_position')
+			{
+				Functions::environment([
+					'status' => 'success',
+					'position' => $this->model->get_menu_topic_position()
+				]);
+			}
+
+			if ($_POST['action'] == 'get_menu_topic')
+			{
+				$query = $this->model->get_menu_topic($_POST['id']);
+
+                if (!empty($query))
+                {
+                    Functions::environment([
+    					'status' => 'success',
+    					'data' => $query
+    				]);
+                }
+                else
+                {
+                    Functions::environment([
+    					'status' => 'error',
+    					'message' => '{$lang.operation_error}'
+    				]);
+                }
+			}
+
+			if ($_POST['action'] == 'new_menu_topic' OR $_POST['action'] == 'edit_menu_topic')
+			{
+				$labels = [];
+
+				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
+					array_push($labels, ['name_es','']);
+
+				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
+					array_push($labels, ['name_en','']);
+
+				if (!isset($_POST['position']) OR empty($_POST['position']) OR $_POST['position'] < 1)
+					array_push($labels, ['position','']);
+
+				if (empty($labels))
+				{
+					if ($_POST['action'] == 'new_menu_topic')
+						$query = $this->model->new_menu_topic($_POST);
+					else if ($_POST['action'] == 'edit_menu_topic')
+						$query = $this->model->edit_menu_topic($_POST);
+
+					if (!empty($query))
+					{
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'up_menu_topic' OR $_POST['action'] == 'down_menu_topic' OR $_POST['action'] == 'deactivate_menu_topic' OR $_POST['action'] == 'activate_menu_topic' OR $_POST['action'] == 'delete_menu_topic')
+			{
+				if ($_POST['action'] == 'up_menu_topic')
+					$query = $this->model->up_menu_topic($_POST['id']);
+				else if ($_POST['action'] == 'down_menu_topic')
+					$query = $this->model->down_menu_topic($_POST['id']);
+				else if ($_POST['action'] == 'deactivate_menu_topic')
+					$query = $this->model->deactivate_menu_topic($_POST['id']);
+				else if ($_POST['action'] == 'activate_menu_topic')
+					$query = $this->model->activate_menu_topic($_POST['id']);
+				else if ($_POST['action'] == 'delete_menu_topic')
+					$query = $this->model->delete_menu_topic($_POST['id']);
+
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+		}
+		else
+		{
+			$template = $this->view->render($this, 'topics');
+
+			define('_title', 'Guestvox | {$lang.menu} | {$lang.topics}');
+
+			$menu_topics = $this->model->get_menu_topics();
+
+			$tbl_menu_topics = '';
+
+			if (!empty($menu_topics))
+			{
+				$tbl_menu_topics .= '<div class="tbl_stl_2" data-table>';
+
+				foreach ($menu_topics as $value)
+				{
+					$tbl_menu_topics .=
+					'<div>
+						<div class="datas">
+							<h2>' . $value['name'][$this->lang] . '</h2>
+						</div>
+						<div class="buttons flex_right">
+							' . ((Functions::check_user_access(['{menu_topics_update}']) == true) ? '<a data-action="up_menu_topic" data-id="' . $value['id'] . '"><i class="fas fa-arrow-circle-up"></i></a>' : '') . '
+							' . ((Functions::check_user_access(['{menu_topics_update}']) == true) ? '<a data-action="down_menu_topic" data-id="' . $value['id'] . '"><i class="fas fa-arrow-circle-down"></i></a>' : '') . '
+							' . ((Functions::check_user_access(['{menu_topics_deactivate}','{menu_topics_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_menu_topic' : 'activate_menu_topic') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
+							' . ((Functions::check_user_access(['{menu_topics_update}']) == true) ? '<a class="edit" data-action="edit_menu_topic" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+							' . ((Functions::check_user_access(['{menu_topics_delete}']) == true) ? '<a class="delete" data-action="delete_menu_topic" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+						</div>
+					</div>';
+				}
+
+				$tbl_menu_topics .= '</div>';
+			}
+			else
+			{
+				$tbl_menu_topics .=
+				'<div class="more_info">
+					<i class="fas fa-bookmark"></i>
+					<p>{$lang.menu_topics_description_1} {$lang.menu_topics_description_2}</p>
+				</div>';
+			}
+
+			$replace = [
+				'{$tbl_menu_topics}' => $tbl_menu_topics
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
 	public function restaurants()
 	{
         if (Format::exist_ajax_request() == true)
@@ -569,286 +917,6 @@ class Menu_controller extends Controller
 
 			$replace = [
 				'{$tbl_menu_restaurants}' => $tbl_menu_restaurants
-			];
-
-			$template = $this->format->replace($replace, $template);
-
-			echo $template;
-		}
-	}
-
-	public function categories()
-	{
-        if (Format::exist_ajax_request() == true)
-		{
-			if ($_POST['action'] == 'get_menu_category')
-			{
-				$query = $this->model->get_menu_category($_POST['id']);
-
-                if (!empty($query))
-                {
-                    Functions::environment([
-    					'status' => 'success',
-    					'data' => $query
-    				]);
-                }
-                else
-                {
-                    Functions::environment([
-    					'status' => 'error',
-    					'message' => '{$lang.operation_error}'
-    				]);
-                }
-			}
-
-			if ($_POST['action'] == 'new_menu_category' OR $_POST['action'] == 'edit_menu_category')
-			{
-				$labels = [];
-
-				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
-					array_push($labels, ['name_es','']);
-
-				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
-					array_push($labels, ['name_en','']);
-
-				if (!isset($_POST['icon']) OR empty($_POST['icon']))
-					array_push($labels, ['icon','']);
-
-				if (empty($labels))
-				{
-					if ($_POST['action'] == 'new_menu_category')
-						$query = $this->model->new_menu_category($_POST);
-					else if ($_POST['action'] == 'edit_menu_category')
-						$query = $this->model->edit_menu_category($_POST);
-
-					if (!empty($query))
-					{
-						Functions::environment([
-							'status' => 'success',
-							'message' => '{$lang.operation_success}'
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.operation_error}'
-						]);
-					}
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'labels' => $labels
-					]);
-				}
-			}
-
-			if ($_POST['action'] == 'deactivate_menu_category' OR $_POST['action'] == 'activate_menu_category' OR $_POST['action'] == 'delete_menu_category')
-			{
-				if ($_POST['action'] == 'deactivate_menu_category')
-					$query = $this->model->deactivate_menu_category($_POST['id']);
-				else if ($_POST['action'] == 'activate_menu_category')
-					$query = $this->model->activate_menu_category($_POST['id']);
-				else if ($_POST['action'] == 'delete_menu_category')
-					$query = $this->model->delete_menu_category($_POST['id']);
-
-				if (!empty($query))
-				{
-					Functions::environment([
-						'status' => 'success',
-						'message' => '{$lang.operation_success}'
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.operation_error}'
-					]);
-				}
-			}
-		}
-		else
-		{
-			$template = $this->view->render($this, 'categories');
-
-			define('_title', 'Guestvox | {$lang.menu} | {$lang.categories}');
-
-			$tbl_menu_categories = '';
-
-			foreach ($this->model->get_menu_categories() as $value)
-			{
-				$tbl_menu_categories .=
-				'<div>
-					<div class="datas">
-						<div class="itm_1">
-							<h2>' . $value['name'][$this->lang] .'</h2>
-						</div>
-						<div class="itm_2">
-							<figure>
-								<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '">
-							</figure>
-						</div>
-					</div>
-					<div class="buttons">
-						' . ((Functions::check_user_access(['{menu_categories_deactivate}','{menu_categories_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_menu_category' : 'activate_menu_category') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
-						' . ((Functions::check_user_access(['{menu_categories_update}']) == true) ? '<a class="edit" data-action="edit_menu_category" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
-						' . ((Functions::check_user_access(['{menu_categories_delete}']) == true) ? '<a class="delete" data-action="delete_menu_category" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
-					</div>
-				</div>';
-			}
-
-			$cbx_icons = '';
-
-            foreach ($this->model->get_icons('menu') as $key => $value)
-            {
-				$cbx_icons .=
-				'<p>{$lang.' . $key . '}</p>
-				<div>';
-
-				foreach ($value as $subvalue)
-				{
-					$cbx_icons .=
-					'<label>
-						<input type="radio" name="icon" value="' . $subvalue['id'] . '">
-						<figure>
-							<img src="{$path.images}icons/' . $subvalue['type'] . '/' . $subvalue['url'] . '">
-						</figure>
-						<p>' . $subvalue['name'][$this->lang] . '</p>
-					</label>';
-				}
-
-				$cbx_icons .= '</div>';
-            }
-
-			$replace = [
-				'{$tbl_menu_categories}' => $tbl_menu_categories,
-				'{$cbx_icons}' => $cbx_icons
-			];
-
-			$template = $this->format->replace($replace, $template);
-
-			echo $template;
-		}
-	}
-
-	public function topics()
-	{
-        if (Format::exist_ajax_request() == true)
-		{
-			if ($_POST['action'] == 'get_menu_topic')
-			{
-				$query = $this->model->get_menu_topic($_POST['id']);
-
-                if (!empty($query))
-                {
-                    Functions::environment([
-    					'status' => 'success',
-    					'data' => $query
-    				]);
-                }
-                else
-                {
-                    Functions::environment([
-    					'status' => 'error',
-    					'message' => '{$lang.operation_error}'
-    				]);
-                }
-			}
-
-			if ($_POST['action'] == 'new_menu_topic' OR $_POST['action'] == 'edit_menu_topic')
-			{
-				$labels = [];
-
-				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
-					array_push($labels, ['name_es','']);
-
-				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
-					array_push($labels, ['name_en','']);
-
-				if (empty($labels))
-				{
-					if ($_POST['action'] == 'new_menu_topic')
-						$query = $this->model->new_menu_topic($_POST);
-					else if ($_POST['action'] == 'edit_menu_topic')
-						$query = $this->model->edit_menu_topic($_POST);
-
-					if (!empty($query))
-					{
-						Functions::environment([
-							'status' => 'success',
-							'message' => '{$lang.operation_success}'
-						]);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.operation_error}'
-						]);
-					}
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'labels' => $labels
-					]);
-				}
-			}
-
-			if ($_POST['action'] == 'deactivate_menu_topic' OR $_POST['action'] == 'activate_menu_topic' OR $_POST['action'] == 'delete_menu_topic')
-			{
-				if ($_POST['action'] == 'deactivate_menu_topic')
-					$query = $this->model->deactivate_menu_topic($_POST['id']);
-				else if ($_POST['action'] == 'activate_menu_topic')
-					$query = $this->model->activate_menu_topic($_POST['id']);
-				else if ($_POST['action'] == 'delete_menu_topic')
-					$query = $this->model->delete_menu_topic($_POST['id']);
-
-				if (!empty($query))
-				{
-					Functions::environment([
-						'status' => 'success',
-						'message' => '{$lang.operation_success}'
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.operation_error}'
-					]);
-				}
-			}
-		}
-		else
-		{
-			$template = $this->view->render($this, 'topics');
-
-			define('_title', 'Guestvox | {$lang.menu} | {$lang.topics}');
-
-			$tbl_menu_topics = '';
-
-			foreach ($this->model->get_menu_topics() as $value)
-			{
-				$tbl_menu_topics .=
-				'<div>
-					<div class="datas">
-						<h2>' . $value['name'][$this->lang] . '</h2>
-					</div>
-					<div class="buttons flex_right">
-						' . ((Functions::check_user_access(['{menu_topics_deactivate}','{menu_topics_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_menu_topic' : 'activate_menu_topic') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
-						' . ((Functions::check_user_access(['{menu_topics_update}']) == true) ? '<a class="edit" data-action="edit_menu_topic" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
-						' . ((Functions::check_user_access(['{menu_topics_delete}']) == true) ? '<a class="delete" data-action="delete_menu_topic" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
-					</div>
-				</div>';
-			}
-
-			$replace = [
-				'{$tbl_menu_topics}' => $tbl_menu_topics
 			];
 
 			$template = $this->format->replace($replace, $template);

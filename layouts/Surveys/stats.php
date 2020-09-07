@@ -5,7 +5,7 @@ defined('_EXEC') or die;
 $this->dependencies->add(['js', '{$path.plugins}charts/Chart.js']);
 $this->dependencies->add(['js', '{$vkye_base}Surveys/charts']);
 $this->dependencies->add(['js', '{$path.js}Surveys/stats.js']);
-$this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
+$this->dependencies->add(['other', '<script>menu_focus("surveys_stats");</script>']);
 
 ?>
 
@@ -91,18 +91,9 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
         </div>
     </section>
     <section class="buttons">
-        <div>
-            <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
-            <a href="/surveys/questions" class="big"><i class="fas fa-ghost"></i><span>{$lang.questions}</span></a>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
-            <a href="/surveys/answers/raters" class="big"><i class="fas fa-star"></i><span>{$lang.answers}</span></a>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
-            <a href="/surveys/stats" class="big new"><i class="fas fa-chart-pie"></i><span>{$lang.stats}</span></a>
-            <a class="big new" data-button-modal="filter_surveys_stats"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
-            <?php endif; ?>
-        </div>
+        <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
+        <a class="big new" data-button-modal="filter_surveys_stats"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
+        <?php endif; ?>
     </section>
 </main>
 <section class="modal fullscreen" data-modal="filter_surveys_stats">

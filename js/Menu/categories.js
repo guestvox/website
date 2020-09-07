@@ -5,6 +5,24 @@ $(document).ready(function()
     var id = null;
     var edit = false;
 
+    $('[data-button-modal="new_menu_category"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=get_menu_category_position',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    $('[name="position"]').val(response.position);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
     $('[data-modal="new_menu_category"]').modal().onCancel(function()
     {
         id = null;
@@ -62,12 +80,49 @@ $(document).ready(function()
                 {
                     $('[name="name_es"]').val(response.data.name.es);
                     $('[name="name_en"]').val(response.data.name.en);
+                    $('[name="position"]').val(response.data.position);
                     $('[name="icon"][value="' + response.data.icon + '"]').prop('checked', true);
 
                     required_focus('form', $('form[name="new_menu_category"]'), null);
 
                     $('[data-modal="new_menu_category"]').addClass('view');
                 }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-action="up_menu_category"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + $(this).data('id') + '&action=up_menu_category',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-action="down_menu_category"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + $(this).data('id') + '&action=down_menu_category',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
                 else if (response.status == 'error')
                     show_modal_error(response.message);
             }

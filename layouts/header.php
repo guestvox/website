@@ -42,54 +42,70 @@
         <h2><?php echo Session::get_value('user')['firstname'] . ' ' . Session::get_value('user')['lastname']; ?></h2>
         <h3><?php echo Session::get_value('account')['name']; ?></h3>
     </div>
-    <nav>
+    <!-- <nav>
         <ul>
-            <!-- <li target="dashboard"><a href="/dashboard">{$lang.dashboard}<i class="fas fa-tachometer-alt"></i></a></li> -->
-            <li target="my_profile"><a href="/my-profile">{$lang.my_profile}<i class="fas fa-user-astronaut"></i></a></li>
-            <?php if (Functions::check_account_access(['operation','reputation']) == true) : ?>
-            <li target="qrs"><a href="/qrs">{$lang.qrs}<i class="fas fa-qrcode"></i></a></li>
-            <?php endif; ?>
+            <li target="dashboard"><a href="/dashboard">{$lang.dashboard}<i class="fas fa-tachometer-alt"></i></a></li>
         </ul>
-    </nav>
+    </nav> -->
+    <?php if (Functions::check_account_access(['operation']) == true) : ?>
     <nav>
         <ul>
-            <?php if (Functions::check_account_access(['operation']) == true) : ?>
+            <li><h4>{$lang.operation}</h4></li>
             <li target="voxes"><a href="/voxes">{$lang.voxes}<i class="fas fa-atom"></i></a></li>
+            <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
+            <li target="voxes_stats"><a href="/voxes/stats">{$lang.stats}<i class="fas fa-chart-pie"></i></a></li>
             <?php endif; ?>
-            <?php if (Functions::check_account_access(['reputation']) == true) : ?>
-                <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
-                <li target="surveys"><a href="/surveys/answers/raters">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
-                <?php elseif (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
-                <li target="surveys"><a href="/surveys/stats">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
-                <?php elseif (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
-                <li target="surveys"><a href="/surveys/questions">{$lang.surveys}<i class="fas fa-ghost"></i></a></li>
-                <?php endif; ?>
+            <?php if (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}','{voxes_reports_deactivate}','{voxes_reports_activate}','{voxes_reports_delete}']) == true) : ?>
+            <li target="voxes_reports_saved"><a href="/voxes/reports/saved">{$lang.reports_saved}<i class="fas fa-save"></i></a></li>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{voxes_reports_print}']) == true) : ?>
+            <li target="voxes_reports_generate"><a href="/voxes/reports/generate">{$lang.generate_reports}<i class="fas fa-bug"></i></a></li>
             <?php endif; ?>
         </ul>
     </nav>
+    <?php endif; ?>
     <?php if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant') : ?>
-        <?php if (Functions::check_account_access(['operation']) == true AND Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}','{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
-            <nav>
-                <ul>
-                    <li><h4>{$lang.menu}</h4></li>
-                    <?php if (Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}']) == true) : ?>
-                    <li target="menu_products"><a href="/menu/products">{$lang.products}<i class="fas fa-cocktail"></i></a></li>
-                    <?php endif; ?>
-                    <?php if (Functions::check_user_access(['{menu_categories_create}','{menu_categories_update}','{menu_categories_deactivate}','{menu_categories_activate}','{menu_categories_delete}']) == true) : ?>
-                    <li target="menu_categories"><a href="/menu/categories">{$lang.categories}<i class="fas fa-tag"></i></a></li>
-                    <?php endif; ?>
-                    <?php if (Functions::check_user_access(['{menu_topics_create}','{menu_topics_update}','{menu_topics_deactivate}','{menu_topics_activate}','{menu_topics_delete}']) == true) : ?>
-                    <li target="menu_topics"><a href="/menu/topics">{$lang.topics}<i class="fas fa-bookmark"></i></a></li>
-                    <?php endif; ?>
-                    <!-- <?php if (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
-                    <li target="menu_restaurants"><a href="/menu/restaurants">{$lang.restaurants}<i class="fas fa-utensils"></i></a></li>
-                    <?php endif; ?> -->
-                </ul>
-            </nav>
+        <?php if (Functions::check_account_access(['operation']) == true AND Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}','{menu_categories_create}','{menu_categories_update}','{menu_categories_deactivate}','{menu_categories_activate}','{menu_categories_delete}','{menu_topics_create}','{menu_topics_update}','{menu_topics_deactivate}','{menu_topics_activate}','{menu_topics_delete}','{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
+        <nav>
+            <ul>
+                <li><h4>{$lang.menu}</h4></li>
+                <?php if (Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}']) == true) : ?>
+                <li target="menu_products"><a href="/menu/products">{$lang.products}<i class="fas fa-cocktail"></i></a></li>
+                <?php endif; ?>
+                <?php if (Functions::check_user_access(['{menu_categories_create}','{menu_categories_update}','{menu_categories_deactivate}','{menu_categories_activate}','{menu_categories_delete}']) == true) : ?>
+                <li target="menu_categories"><a href="/menu/categories">{$lang.categories}<i class="fas fa-tag"></i></a></li>
+                <?php endif; ?>
+                <?php if (Functions::check_user_access(['{menu_topics_create}','{menu_topics_update}','{menu_topics_deactivate}','{menu_topics_activate}','{menu_topics_delete}']) == true) : ?>
+                <li target="menu_topics"><a href="/menu/topics">{$lang.topics}<i class="fas fa-bookmark"></i></a></li>
+                <?php endif; ?>
+                <!-- <?php if (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
+                <li target="menu_restaurants"><a href="/menu/restaurants">{$lang.restaurants}<i class="fas fa-utensils"></i></a></li>
+                <?php endif; ?> -->
+            </ul>
+        </nav>
         <?php endif; ?>
+    <?php endif; ?>
+    <?php if (Functions::check_account_access(['reputation']) == true AND Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}','{surveys_answers_view}','{surveys_stats_view}']) == true) : ?>
+    <nav>
+        <ul>
+            <li><h4>{$lang.surveys}</h4></li>
+            <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
+            <li target="surveys_questions"><a href="/surveys/questions">{$lang.questions}<i class="fas fa-ghost"></i></a></li>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
+            <li target="surveys_raters"><a href="/surveys/answers/raters">{$lang.answers}<i class="fas fa-star"></i></a></li>
+            <li target="surveys_comments"><a href="/surveys/answers/comments">{$lang.comments}<i class="fas fa-comment-alt"></i></a></li>
+            <li target="surveys_contacts"><a href="/surveys/answers/contacts">{$lang.contacts}<i class="fas fa-address-book"></i></a></li>
+            <?php endif; ?>
+            <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
+            <li target="surveys_stats"><a href="/surveys/stats">{$lang.stats}<i class="fas fa-chart-pie"></i></a></li>
+            <?php endif; ?>
+        </ul>
+    </nav>
     <?php endif; ?>
     <nav>
         <ul>
+            <li><h4>{$lang.administration}</h4></li>
             <?php if (Functions::check_account_access(['operation','reputation']) == true AND Functions::check_user_access(['{owners_create}','{owners_update}','{owners_deactivate}','{owners_activate}','{owners_delete}']) == true) : ?>
             <li target="owners"><a href="/owners">{$lang.owners}<i class="fas fa-shapes"></i></a></li>
             <?php endif; ?>
@@ -121,6 +137,10 @@
     </nav>
     <nav>
         <ul>
+            <li target="my_profile"><a href="/my-profile">{$lang.my_profile}<i class="fas fa-user-astronaut"></i></a></li>
+            <?php if (Functions::check_account_access(['operation','reputation']) == true) : ?>
+            <li target="qrs"><a href="/qrs">{$lang.qrs}<i class="fas fa-qrcode"></i></a></li>
+            <?php endif; ?>
             <li target="support"><a href="/technical-support">{$lang.technical_support}<i class="fas fa-envelope"></i></a></li>
             <?php if (Functions::check_user_access(['{account_update}']) == true) : ?>
             <li target="account"><a href="/account">{$lang.account}<i class="fas fa-igloo"></i></a></li>

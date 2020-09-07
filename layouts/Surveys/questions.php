@@ -3,7 +3,7 @@
 defined('_EXEC') or die;
 
 $this->dependencies->add(['js', '{$path.js}Surveys/questions.js']);
-$this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
+$this->dependencies->add(['other', '<script>menu_focus("surveys_questions");</script>']);
 
 ?>
 
@@ -15,20 +15,9 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
         </div>
     </section>
     <section class="buttons">
-        <div>
-            <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
-            <a href="/surveys/questions" class="big new"><i class="fas fa-ghost"></i><span>{$lang.questions}</span></a>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{surveys_questions_create}']) == true) : ?>
-            <a class="new" data-button-modal="new_survey_question"><i class="fas fa-plus"></i></a>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
-            <a href="/surveys/answers/raters" class="big"><i class="fas fa-star"></i><span>{$lang.answers}</span></a>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
-            <a href="/surveys/stats" class="big"><i class="fas fa-chart-pie"></i><span>{$lang.stats}</span></a>
-            <?php endif; ?>
-        </div>
+        <?php if (Functions::check_user_access(['{surveys_questions_create}']) == true) : ?>
+        <a class="new" data-button-modal="new_survey_question"><i class="fas fa-plus"></i></a>
+        <?php endif; ?>
     </section>
 </main>
 <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}']) == true) : ?>

@@ -2574,7 +2574,7 @@ class Voxes_controller extends Controller
 					<div>
 		                <input id="gesw" type="radio" value="generate" ' . (($params[0] == 'generate') ? 'checked' : '') . '>
 		                <label for="gesw">
-							<i class="fas fa-file-pdf"></i>
+							<i class="fas fa-bug"></i>
 							<span>{$lang.generate}</span>
 						</label>
 		            </div>
@@ -3001,6 +3001,7 @@ class Voxes_controller extends Controller
 			}
 
 			$replace = [
+				'{$menu_focus}' => $params[0],
 				'{$div_options}' => $div_options,
 				'{$tbl_voxes_reports}' => $tbl_voxes_reports,
 				'{$div_print_vox_report}' => $div_print_vox_report,

@@ -746,6 +746,7 @@ class Surveys_controller extends Controller
 				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 
 			$replace = [
+				'{$menu_focus}' => $params[0],
 				'{$div_options}' => $div_options,
 				'{$tbl_surveys_raters}' => $tbl_surveys_raters,
 				'{$tbl_surveys_comments}' => $tbl_surveys_comments,
