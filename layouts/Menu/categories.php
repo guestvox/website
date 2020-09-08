@@ -98,3 +98,15 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_categories");</scri
     </div>
 </section>
 <?php endif; ?>
+<section class="modal fullscreen" data-modal="actions">
+    <div class="content">
+        <main>
+            <i class="fas fa-check-circle"></i>
+            <!-- <p></p> -->
+            <div>
+                <a button-reload>{$lang.create_other_category}</a>
+                <a href="/menu/products">{$lang.create_product}</a>
+            </div>
+        </main>
+    </div>
+</section>

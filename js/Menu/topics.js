@@ -56,7 +56,12 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                    show_modal_success(response.message, 600);
+                {
+                    if (edit == false)
+                        show_modal_success(response.message, null, 'actions');
+                    else if (edit == true)
+                        show_modal_success(response.message, 600);
+                }
                 else if (response.status == 'error')
                     show_form_errors(form, response);
             }

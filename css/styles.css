@@ -2422,12 +2422,14 @@ section.modal[data-modal="get_help"] main > a {
 /* Success & error */
 
 section.modal[data-modal="success"] > .content,
+section.modal[data-modal="actions"] > .content,
 section.modal[data-modal="error"] > .content {
     max-width: 100% !important;
     min-height: 100vh !important;
 }
 
 section.modal[data-modal="success"] main,
+section.modal[data-modal="actions"] main,
 section.modal[data-modal="error"] main {
     width: 100%;
     min-height: 100vh;
@@ -2437,7 +2439,8 @@ section.modal[data-modal="error"] main {
     flex-direction: column;
 }
 
-section.modal[data-modal="success"] main {
+section.modal[data-modal="success"] main,
+section.modal[data-modal="actions"] main {
     background-color: #00a5ab;
 }
 
@@ -2446,6 +2449,7 @@ section.modal[data-modal="error"] main {
 }
 
 section.modal[data-modal="success"] main > i,
+section.modal[data-modal="actions"] main > i,
 section.modal[data-modal="error"] main > i {
     margin-bottom: 20px;
     font-size: 140px;
@@ -2453,11 +2457,36 @@ section.modal[data-modal="error"] main > i {
 }
 
 section.modal[data-modal="success"] main > p,
+section.modal[data-modal="actions"] main > p,
 section.modal[data-modal="error"] main > p {
     font-size: 16px;
     font-weight: 400;
     text-align: center;
     color: #fff;
+}
+
+section.modal[data-modal="actions"] main > div {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+section.modal[data-modal="actions"] main > div > a {
+    width: auto;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 10px;
+    padding: 0px 20px;
+    box-sizing: border-box;
+    border-radius: 40px;
+    background-color: #fff;
+    font-size: 14px;
+    font-weight: 400;
+    color: #212121;
 }
 
 section.modal[data-modal="error"] main > p {
