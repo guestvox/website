@@ -507,9 +507,15 @@ class Menu_controller extends Controller
 						<a href="/menu/categories">' . (!empty($menu_categories) ? '{$lang.create_more_categories}' : '{$lang.create_categories}') . '</a>
 					</div>
 					<div>
+						<i class="fas fa-bookmark"></i>
+						<h4>{$lang.step_2} ({$lang.optional})</h4>
+						<p>' . (!empty($menu_topics) ? '{$lang.menu_products_description_step_2_1}' : '{$lang.menu_products_description_step_2_2}') . '</p>
+						<a href="/menu/topics">' . (!empty($menu_topics) ? '{$lang.create_more_topics}' : '{$lang.create_topics}') . '</a>
+					</div>
+					<div>
 						<i class="fas fa-cocktail"></i>
-						<h4>{$lang.step_2}</h4>
-						<p>{$lang.menu_products_description_step_2}</p>
+						<h4>{$lang.step_3}</h4>
+						<p>{$lang.menu_products_description_step_3}</p>
 					</div>
 				</div>';
 			}
@@ -592,7 +598,7 @@ class Menu_controller extends Controller
 					$cbx_menu_topics .=
 					'<div class="empty">
 						<i class="fas fa-bookmark"></i>
-						<p>{$lang.menu_products_description_step_3}</p>
+						<p>{$lang.menu_products_description_step_4}</p>
 						<a href="/menu/topics">{$lang.create_topics}</a>
 					</div>';
 				}

@@ -4774,11 +4774,12 @@ div.more_info_steps > div {
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
+    padding-right: 100px;
+    box-sizing: border-box;
 }
 
-div.more_info_steps > div:first-child {
-    padding-right: 200px;
-    box-sizing: border-box;
+div.more_info_steps > div:last-child {
+    padding-right: 0px;
 }
 
 div.more_info_steps > div > h4 {
