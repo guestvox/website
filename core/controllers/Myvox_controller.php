@@ -2,8 +2,8 @@
 
 defined('_EXEC') or die;
 
-// require_once 'plugins/nexmo/vendor/autoload.php';
-// require_once 'plugins/pusher/vendor/autoload.php';
+require_once 'plugins/nexmo/vendor/autoload.php';
+require_once 'plugins/pusher/vendor/autoload.php';
 
 class Myvox_controller extends Controller
 {
@@ -1400,18 +1400,18 @@ class Myvox_controller extends Controller
 
 						if (!empty($query))
 						{
-							// $options = array(
-							// 	'cluster' => 'us2',
-							// 	'useTLS' => true
-							//   );
-							//   $pusher = new Pusher\Pusher(
-							// 	'1907b80d942422da0b8e',
-							// 	'e565c25c10f7f68fc3fc',
-							// 	'1065298',
-							// 	$options
-							//   );
+							$options = array(
+								'cluster' => 'us2',
+								'useTLS' => true
+							  );
+							  $pusher = new Pusher\Pusher(
+								'1907b80d942422da0b8e',
+								'e565c25c10f7f68fc3fc',
+								'1065298',
+								$options
+							  );
 
-							// $pusher->trigger('menu-orders', 'new-order', 'Pedido enviado');
+							$pusher->trigger('menu-orders', 'new-order', 'Pedido enviado');
 
 							$_POST['type'] = 'request';
 							$_POST['menu_order'] = $query;
