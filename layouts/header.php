@@ -21,7 +21,7 @@
     <nav>
         <ul>
             <?php if (Functions::check_account_access(['operation']) == true) : ?>
-            <li><a href="/voxes/create"><i class="fas fa-plus"></i></a></li>
+            <li><a href="/voxes/create"><i class="fas fa-atom"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_account_access(['operation','reputation']) == true) : ?>
             <li><a href="/qrs"><i class="fas fa-qrcode"></i></a></li>
