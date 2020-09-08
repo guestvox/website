@@ -4769,7 +4769,8 @@ div.more_info {
 
 div.more_info_steps > div {
     width: auto;
-    height: 400px;
+    height: 350px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -4819,6 +4820,8 @@ div.more_info_steps > div > p > span {
 div.more_info_steps > div > a {
     width: auto;
     height: 50px;
+    position: absolute;
+    bottom: 0px;
     display: flex;
     align-items: center;
     justify-content: center;

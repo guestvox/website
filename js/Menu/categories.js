@@ -20,6 +20,33 @@ $(document).ready(function()
         });
     });
 
+    $('[data-action="create_other_category"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=get_menu_category_position',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    clean_form($('form[name="new_menu_category"]'));
+
+                    $('[name="position"]').val(response.data);
+
+                    $('[data-modal="new_menu_category"]').addClass('view');
+                    $('[data-modal="actions"]').removeClass('view');
+
+                    $('[name="name_es"]').focus();
+                }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
     var id = null;
     var edit = false;
 

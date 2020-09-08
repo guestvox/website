@@ -99,8 +99,9 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_topics");</script>'
             <i class="fas fa-check-circle"></i>
             <!-- <p></p> -->
             <div>
-                <a button-reload>{$lang.create_other_topic}</a>
                 <a href="/menu/products">{$lang.create_product}</a>
+                <a data-action="create_other_topic">{$lang.create_other_topic}</a>
+                <a button-reload>{$lang.only_save}</a>
             </div>
         </main>
     </div>
