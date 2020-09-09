@@ -14,8 +14,6 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                     $('[name="name_en"]').val(response.data);
-                else if (response.status == 'error')
-                    show_modal_error(response.message);
             }
         });
 

@@ -28,13 +28,6 @@ class Menu_controller extends Controller
 						'data' => $data
 					]);
 				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.operation_error}'
-					]);
-				}
 			}
 
 			if ($_POST['action'] == 'get_menu_product_position')
@@ -687,13 +680,6 @@ class Menu_controller extends Controller
 						'data' => $data
 					]);
 				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.operation_error}'
-					]);
-				}
 			}
 
 			if ($_POST['action'] == 'get_menu_category_position')
@@ -898,13 +884,6 @@ class Menu_controller extends Controller
 						'data' => $data
 					]);
 				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.operation_error}'
-					]);
-				}
 			}
 
 			if ($_POST['action'] == 'get_menu_topic_position')
@@ -1073,13 +1052,6 @@ class Menu_controller extends Controller
 					Functions::environment([
 						'status' => 'success',
 						'data' => $data
-					]);
-				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.operation_error}'
 					]);
 				}
 			}

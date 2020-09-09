@@ -28,13 +28,6 @@ class Opportunitytypes_controller extends Controller
 						'data' => $data
 					]);
 				}
-				else
-				{
-					Functions::environment([
-						'status' => 'error',
-						'message' => '{$lang.operation_error}'
-					]);
-				}
 			}
 			
 			if ($_POST['action'] == 'get_opportunity_type')
