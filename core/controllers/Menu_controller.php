@@ -21,13 +21,10 @@ class Menu_controller extends Controller
 			{
 				$data = Functions::translate($_POST['name_es']);
 
-				if (!empty($data))
-				{
-					Functions::environment([
-						'status' => 'success',
-						'data' => $data
-					]);
-				}
+				Functions::environment([
+					'status' => 'success',
+					'data' => $data
+				]);
 			}
 
 			if ($_POST['action'] == 'get_menu_product_position')
@@ -673,13 +670,10 @@ class Menu_controller extends Controller
 			{
 				$data = Functions::translate($_POST['name_es']);
 
-				if (!empty($data))
-				{
-					Functions::environment([
-						'status' => 'success',
-						'data' => $data
-					]);
-				}
+				Functions::environment([
+					'status' => 'success',
+					'data' => $data
+				]);
 			}
 
 			if ($_POST['action'] == 'get_menu_category_position')
@@ -877,13 +871,10 @@ class Menu_controller extends Controller
 			{
 				$data = Functions::translate($_POST['name_es']);
 
-				if (!empty($data))
-				{
-					Functions::environment([
-						'status' => 'success',
-						'data' => $data
-					]);
-				}
+				Functions::environment([
+					'status' => 'success',
+					'data' => $data
+				]);
 			}
 
 			if ($_POST['action'] == 'get_menu_topic_position')
@@ -1047,13 +1038,10 @@ class Menu_controller extends Controller
 			{
 				$data = Functions::translate($_POST['name_es']);
 
-				if (!empty($data))
-				{
-					Functions::environment([
-						'status' => 'success',
-						'data' => $data
-					]);
-				}
+				Functions::environment([
+					'status' => 'success',
+					'data' => $data
+				]);
 			}
 			
 			if ($_POST['action'] == 'get_menu_restaurant')
