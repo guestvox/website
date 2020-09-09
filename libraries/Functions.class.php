@@ -2,8 +2,25 @@
 
 defined('_EXEC') or die;
 
+require 'plugins/translate/vendor/autoload.php';
+use \Statickidz\GoogleTranslate;
+
 class Functions
 {
+    static public function translate($word)
+    {
+        if (!empty($word))
+        {
+            $trans = new GoogleTranslate();
+
+            $result =  $trans->translate('es', 'en', $word);
+
+            return ucfirst($result);
+        }
+        else
+            return null;
+    }
+
     static public function set_default_timezone()
     {
         if (Session::exists_var('session') == true)
