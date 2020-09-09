@@ -13,7 +13,8 @@ $(document).ready(function()
         Push.create("Nuevo pedido", {
             body: JSON.stringify(data),
             icon: "images/imagotype_color.png",
-            timeout: 4000,
+            timeout: 8000,
+            vibrate: 4000,
             onClick: function () {
                 window.focus();
                 this.close();
