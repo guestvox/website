@@ -4,7 +4,6 @@ $(document).ready(function()
 {
     var id = null;
     var edit = false;
-    var name_en = null;
 
     $(document).on('keyup', '[name="name_es"], [name="name_en"]', function()
     {
@@ -17,12 +16,9 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                {
                     $('[name="name_en"]').val(response.data);
-                    name_en = response.data;
-                }
                 else if (response.status == 'error')
-                    show_form_errors(form, response);
+                    show_modal_error(response.message);
             }
         });
 

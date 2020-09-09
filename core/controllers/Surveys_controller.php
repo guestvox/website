@@ -17,6 +17,26 @@ class Surveys_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'translate')
+			{
+				$data = Functions::translate($_POST['name_es']);
+
+				if (!empty($data))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'data' => $data
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+
 			if ($_POST['action'] == 'get_survey_question')
 			{
 				$query = $this->model->get_survey_question($_POST['id']);

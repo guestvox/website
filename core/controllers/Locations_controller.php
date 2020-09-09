@@ -21,10 +21,20 @@ class Locations_controller extends Controller
 			{
 				$data = Functions::translate($_POST['name_es']);
 
-				Functions::environment([
-					'status' => 'success',
-					'data' => $data
-				]);
+				if (!empty($data))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'data' => $data
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
 			}
 
 			if ($_POST['action'] == 'get_location')
