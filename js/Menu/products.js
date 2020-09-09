@@ -2,60 +2,36 @@
 
 $(document).ready(function()
 {
-    Push.Permission.DEFAULT; // 'default'
-    Push.Permission.GRANTED; // 'granted'
-    Push.Permission.DENIED; // 'denied'
+    // Push.Permission.DEFAULT; // 'default'
+    // Push.Permission.GRANTED; // 'granted'
+    // Push.Permission.DENIED; // 'denied'
+    //
+    // var pusher = new Pusher('1907b80d942422da0b8e', {
+    //     cluster: 'us2'
+    //   });
+    //
+    //   var channel = pusher.subscribe('menu-orders');
+    //   channel.bind('new-order', function(data) {
+    //     show_modal_success(JSON.stringify(data), 3500);
+    //     Push.create("Nuevo pedido", {
+    //         body: "Pedido desde el menu",
+    //         timeout: 4000,
+    //         onClick: function () {
+    //             window.focus();
+    //             this.close();
+    //         }
+    //     });
+    //     alert(JSON.stringify(data));
+    //   });
 
-    var pusher = new Pusher('1907b80d942422da0b8e', {
-        cluster: 'us2'
-      });
+    change_height_menu_preview();
 
-      var channel = pusher.subscribe('menu-orders');
-      channel.bind('new-order', function(data) {
-        show_modal_success(JSON.stringify(data), 3500);
-        Push.create("Nuevo pedido", {
-            body: "Pedido desde el menu",
-            timeout: 4000,
-            onClick: function () {
-                window.focus();
-                this.close();
-            }
-        });
-        alert(JSON.stringify(data));
-      });
-
-    $(document).on('keyup', '[name="name_es"], [name="name_en"]', function()
+    window.addEventListener('resize', function(e)
     {
-        $.ajax({
-            type: 'POST',
-            data: 'name_es=' + $('[name="name_es"]').val() + '&action=translate',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    $('[name="name_en"]').val(response.data);
-            }
+        window.requestAnimationFrame(function()
+        {
+            change_height_menu_preview();
         });
-
-    });
-    
-    $(document).on('keyup', '[name="description_es"], [name="description_en"]', function()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'name_es=' + $('[name="description_es"]').val() + '&action=translate',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    $('[name="description_en"]').val(response.data);
-            }
-        });
-
     });
 
     $('[data-action="open_preview_menu_product"]').on('click', function()
@@ -84,6 +60,40 @@ $(document).ready(function()
                     show_modal_error(response.message);
             }
         });
+    });
+
+    $(document).on('keyup', '[name="name_es"], [name="name_en"]', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'name_es=' + $('[name="name_es"]').val() + '&action=translate',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    $('[name="name_en"]').val(response.data);
+            }
+        });
+
+    });
+
+    $(document).on('keyup', '[name="description_es"], [name="description_en"]', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'name_es=' + $('[name="description_es"]').val() + '&action=translate',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    $('[name="description_en"]').val(response.data);
+            }
+        });
+
     });
 
     var add_menu_topics_group = false;
@@ -398,5 +408,12 @@ function load_menu_topics_groups_actions()
                     input.val('0');
             }
         });
+    });
+}
+
+function change_height_menu_preview()
+{
+    $('div.phone').css({
+        'height': ($('html').height() - parseInt(100))
     });
 }

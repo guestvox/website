@@ -1043,7 +1043,7 @@ class Menu_controller extends Controller
 					'data' => $data
 				]);
 			}
-			
+
 			if ($_POST['action'] == 'get_menu_restaurant')
 			{
 				$query = $this->model->get_menu_restaurant($_POST['id']);
