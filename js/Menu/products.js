@@ -40,6 +40,23 @@ $(document).ready(function()
         });
 
     });
+    
+    $(document).on('keyup', '[name="description_es"], [name="description_en"]', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'name_es=' + $('[name="description_es"]').val() + '&action=translate',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    $('[name="description_en"]').val(response.data);
+            }
+        });
+
+    });
 
     $('[data-action="open_preview_menu_product"]').on('click', function()
     {
