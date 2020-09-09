@@ -3780,10 +3780,10 @@ div.menu_preview > div.phone > article {
     height: 100%;
     max-height: 600px;
     position: relative;
-    border-top: 20px solid #757575;
-    border-right: 5px solid #757575;
-    border-bottom: 20px solid #757575;
-    border-left: 5px solid #757575;
+    border-top: 20px solid #bdbdbd;
+    border-right: 5px solid #bdbdbd;
+    border-bottom: 20px solid #bdbdbd;
+    border-left: 5px solid #bdbdbd;
     border-radius: 5px;
     box-sizing: border-box;
     background-color: #eee;
