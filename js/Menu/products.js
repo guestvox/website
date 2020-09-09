@@ -10,15 +10,16 @@ $(document).ready(function()
     
       var channel = pusher.subscribe('menu-orders');
       channel.bind('new-order', function(data) {
+          
         Push.create("Nuevo pedido", {
             body: JSON.stringify(data),
             icon: "images/imagotype_color.png",
             timeout: 8000,
-            vibrate: 4000,
             onClick: function () {
                 window.focus();
                 this.close();
-            }
+            },
+            vibrate: [200, 100, 200, 100, 200, 100, 200]
         });
         // alert(JSON.stringify(data));
       });
