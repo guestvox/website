@@ -2,16 +2,10 @@
 
 $(document).ready(function()
 {
-    window.OneSignal = window.OneSignal || [];
-    OneSignal.push(function() {
-        OneSignal.init({
-        appId: "18163b04-4518-46e9-a0e1-c83b9a1f4244",
-        notifyButton: {
-            enable: true,
-        },
-        });
-    });
-    
+    Push.Permission.DEFAULT; // 'default'
+    Push.Permission.GRANTED; // 'granted'
+    Push.Permission.DENIED; // 'denied'
+
     var pusher = new Pusher('1907b80d942422da0b8e', {
         cluster: 'us2'
       });
