@@ -2,10 +2,32 @@
 
 $(document).ready(function()
 {
-    Push.Permission.DEFAULT; // 'default'
-    Push.Permission.GRANTED; // 'granted'
-    Push.Permission.DENIED; // 'denied'
-
+    // window.OneSignal = window.OneSignal || [];
+    // OneSignal.push(function() {
+    //     OneSignal.init({
+    //     appId: "18163b04-4518-46e9-a0e1-c83b9a1f4244",
+    //     notifyButton: {
+    //         enable: true,
+    //     },
+    //     });
+    // });
+    
+    var OneSignal = window.OneSignal || [];
+    OneSignal.push(function() {
+      OneSignal.init({
+        appId: "18163b04-4518-46e9-a0e1-c83b9a1f4244",
+        autoResubscribe: true,
+        notifyButton: {
+          enable: true,
+        },
+        welcomeNotification: {
+          "title": "Suscrito!!!",
+          "message": "Hola, desde este momento recibirá notificaciones de sus comensales.",
+          // "url": "" /* Leave commented for the notification to not open a window on Chrome and Firefox (on Safari, it opens to your webpage) */
+        }
+      });
+      OneSignal.showNativePrompt();
+    });
     var pusher = new Pusher('1907b80d942422da0b8e', {
         cluster: 'us2'
       });
