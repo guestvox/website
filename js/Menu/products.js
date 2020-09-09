@@ -10,9 +10,8 @@ $(document).ready(function()
     
       var channel = pusher.subscribe('menu-orders');
       channel.bind('new-order', function(data) {
-        show_modal_success(JSON.stringify(data), 3500);
         Push.create("Nuevo pedido", {
-            body: "Pedido desde el menu",
+            body: JSON.stringify(data),
             icon: "images/imagotype_color.png",
             timeout: 4000,
             onClick: function () {
@@ -20,7 +19,7 @@ $(document).ready(function()
                 this.close();
             }
         });
-        alert(JSON.stringify(data));
+        // alert(JSON.stringify(data));
       });
 
     change_height_menu_preview();
