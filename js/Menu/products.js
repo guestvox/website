@@ -11,9 +11,7 @@ $(document).ready(function()
         },
         });
     });
-      OneSignal.showNativePrompt();
-    });
-
+    
     var pusher = new Pusher('1907b80d942422da0b8e', {
         cluster: 'us2'
       });
