@@ -98,7 +98,7 @@ footer.myvox {
     background-color: #fff;
 }
 
-footer.myvox > h4 {
+footer.myvox > a {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -107,7 +107,7 @@ footer.myvox > h4 {
     color: #757575;
 }
 
-footer.myvox > h4 > img {
+footer.myvox > a > img {
     width: auto;
     height: 20px;
     margin-left: 5px;
