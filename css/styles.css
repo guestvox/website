@@ -470,7 +470,7 @@ div.tbl_stl_1 > div > div::after {
     height: 0px;
     position: absolute;
     bottom: 100%;
-	left: calc(50% - 7.5px);
+	left: 50%;
     pointer-events: none;
     margin-left: -15px;
     border: solid transparent;
@@ -482,11 +482,11 @@ div.tbl_stl_1 > div > div::after {
 /*  */
 
 div.tbl_stl_1 > div > div > div.itm_1 {
-    width: 60px;
+    width: 100%;
     height: 60px;
     position: absolute;
     top: -80px;
-    left: calc(50% - 37.5px);
+    left: 0px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -495,11 +495,12 @@ div.tbl_stl_1 > div > div > div.itm_1 {
 }
 
 div.tbl_stl_1 > div > div > div.itm_1 > figure {
-    width: 100%;
-    height: 100%;
+    width: 60px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0px -50px;
     border-radius: 50%;
     overflow: hidden;
 }

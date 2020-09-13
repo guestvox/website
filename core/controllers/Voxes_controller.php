@@ -108,11 +108,28 @@ class Voxes_controller extends Controller
 				$tbl_voxes .=
 				'<div>
 	                <div>
-						<div class="itm_1">
-	                        <figure>
-	                            <img src="' . (($value['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($value['created_user']['avatar']) ? '{$path.uploads}' . $value['created_user']['avatar'] : '{$path.images}avatar.png')) . '">
-	                        </figure>
-	                    </div>
+						<div class="itm_1">';
+
+				if (!empty($value['assigned_users']))
+				{
+					foreach ($value['assigned_users'] as $subvalue)
+					{
+						$tbl_voxes .=
+						'<figure>
+							<img src="' . (!empty($subvalue['avatar']) ? '{$path.uploads}' . $subvalue['avatar'] : '{$path.images}avatar.png') . '">
+						</figure>';
+					}
+				}
+				else
+				{
+					$tbl_voxes .=
+					'<figure>
+						<img src="' . (($value['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($value['created_user']['avatar']) ? '{$path.uploads}' . $value['created_user']['avatar'] : '{$path.images}avatar.png')) . '">
+					</figure>';
+				}
+
+				$tbl_voxes .=
+				'       </div>
 	                    <div class="itm_2">
 							<div>
 								<span class="' . $value['urgency'] . '">';

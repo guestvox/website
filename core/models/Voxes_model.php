@@ -167,6 +167,9 @@ class Voxes_model extends Model
 						$query[$key]['guest_treatment'] = $this->get_guest_treatment($value['guest_treatment']);
 				}
 
+				foreach ($value['assigned_users'] as $subkey => $subvalue)
+					$query[$key]['assigned_users'][$subkey] = $this->get_user($subvalue);
+
 				foreach ($value['comments'] as $subkey => $subvalue)
 				{
 					$query[$key]['attachments'] = array_merge($value['attachments'], $subvalue['attachments']);
@@ -180,9 +183,6 @@ class Voxes_model extends Model
 
 				if ($option == 'report')
 				{
-					foreach ($value['assigned_users'] as $subkey => $subvalue)
-						$query[$key]['assigned_users'][$subkey] = $this->get_user($subvalue);
-
 					if (Session::get_value('account')['type'] == 'hotel')
 					{
 						if ($value['type'] == 'incident')
