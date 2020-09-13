@@ -155,14 +155,14 @@ class Voxes_model extends Model
 			{
 				if (!empty($value['assigned_users']) AND in_array(Session::get_value('user')['id'], $value['assigned_users']))
 					$break = false;
-				else if ($value['created_user'] == Session::get_value('user')['id'])
+				else if (empty($value['assigned_users']) AND $value['created_user'] == Session::get_value('user')['id'])
 					$break = false;
 			}
 			else
 			{
 				if (!empty($value['assigned_users']) AND in_array(Session::get_value('settings')['voxes']['voxes']['filter']['assigned'], $value['assigned_users']))
 					$break = false;
-				else if ($value['created_user'] == Session::get_value('settings')['voxes']['voxes']['filter']['assigned'])
+				else if (empty($value['assigned_users']) AND $value['created_user'] == Session::get_value('settings')['voxes']['voxes']['filter']['assigned'])
 					$break = false;
 			}
 
