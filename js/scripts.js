@@ -154,6 +154,25 @@ $(document).ready(function ()
     {
         location.reload();
     });
+
+    $('[data-translates]').on('keyup', function()
+    {
+        var en = $(this).parents('form').find('[data-translaten="' + $(this).data('translates') + '"]');
+
+        $.ajax({
+            url: '/translate',
+            type: 'POST',
+            data: 'string=' + $(this).val(),
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    en.val(response.data.en);
+            }
+        });
+    });
 });
 
 function menu_focus(target)

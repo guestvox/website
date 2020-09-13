@@ -7,18 +7,18 @@ use \Statickidz\GoogleTranslate;
 
 class Functions
 {
-    static public function translate($word)
+    static public function translate($string, $language)
     {
-        if (!empty($word))
+        if (!empty($string))
         {
-            $trans = new GoogleTranslate();
+            $translate = new GoogleTranslate();
+            $translate =  $translate->translate('es', $language, $string);
+            $translate = ucfirst($translate);
 
-            $result =  $trans->translate('es', 'en', $word);
-
-            return ucfirst($result);
+            return $translate;
         }
         else
-            return null;
+            return '';
     }
 
     static public function set_default_timezone()

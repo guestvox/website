@@ -107,11 +107,4 @@ class Login_controller extends Controller
 			echo $template;
 		}
 	}
-
-	public function logout()
-	{
-		Session::destroy();
-
-		header('Location: /login');
-	}
 }

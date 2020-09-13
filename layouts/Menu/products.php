@@ -5,7 +5,7 @@ defined('_EXEC') or die;
 $this->dependencies->add(['js', '{$path.js}Menu/products.js']);
 $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script>']);
 $this->dependencies->add(['js', '{$path.plugins}push/push.js']);
-$this->dependencies->add(['other', '<script src="https://js.pusher.com/7.0/pusher.min.js"></script>']);
+// $this->dependencies->add(['other', '<script src="https://js.pusher.com/7.0/pusher.min.js"></script>']);
 
 ?>
 
@@ -26,7 +26,7 @@ $this->dependencies->add(['other', '<script src="https://js.pusher.com/7.0/pushe
                         <div class="label">
                             <label required>
                                 <p>(ES) {$lang.name}</p>
-                                <input type="text" name="name_es">
+                                <input type="text" name="name_es" data-translates="name">
                             </label>
                         </div>
                     </div>
@@ -34,7 +34,7 @@ $this->dependencies->add(['other', '<script src="https://js.pusher.com/7.0/pushe
                         <div class="label">
                             <label required>
                                 <p>(EN) {$lang.name}</p>
-                                <input type="text" name="name_en">
+                                <input type="text" name="name_en" data-translaten="name">
                             </label>
                         </div>
                     </div>
@@ -42,7 +42,7 @@ $this->dependencies->add(['other', '<script src="https://js.pusher.com/7.0/pushe
                         <div class="label">
                             <label unrequired>
                                 <p>(ES) {$lang.description}</p>
-                                <textarea name="description_es"></textarea>
+                                <textarea name="description_es" data-translates="description"></textarea>
                             </label>
                         </div>
                     </div>
@@ -50,7 +50,7 @@ $this->dependencies->add(['other', '<script src="https://js.pusher.com/7.0/pushe
                         <div class="label">
                             <label unrequired>
                                 <p>(EN) {$lang.description}</p>
-                                <textarea name="description_en"></textarea>
+                                <textarea name="description_en" data-translaten="description"></textarea>
                             </label>
                         </div>
                     </div>

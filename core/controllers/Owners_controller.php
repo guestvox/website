@@ -17,16 +17,6 @@ class Owners_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'translate')
-			{
-				$data = Functions::translate($_POST['name_es']);
-
-				Functions::environment([
-					'status' => 'success',
-					'data' => $data
-				]);
-			}
-			
 			if ($_POST['action'] == 'get_owner')
 			{
 				$query = $this->model->get_owner($_POST['id']);
@@ -238,7 +228,7 @@ class Owners_controller extends Controller
                         <div class="label">
                             <label required>
                                 <p>(ES) {$lang.name}</p>
-                                <input type="text" name="name_es">
+                                <input type="text" name="name_es" data-translates="name">
                             </label>
                         </div>
                     </div>
@@ -246,7 +236,7 @@ class Owners_controller extends Controller
                         <div class="label">
                             <label required>
                                 <p>(EN) {$lang.name}</p>
-                                <input type="text" name="name_en">
+                                <input type="text" name="name_en" data-translaten="name">
                             </label>
                         </div>
                     </div>

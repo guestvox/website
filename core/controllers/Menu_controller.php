@@ -17,16 +17,6 @@ class Menu_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'translate')
-			{
-				$data = Functions::translate($_POST['name_es']);
-
-				Functions::environment([
-					'status' => 'success',
-					'data' => $data
-				]);
-			}
-
 			if ($_POST['action'] == 'get_menu_product_position')
 			{
 				Functions::environment([
@@ -666,16 +656,6 @@ class Menu_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'translate')
-			{
-				$data = Functions::translate($_POST['name_es']);
-
-				Functions::environment([
-					'status' => 'success',
-					'data' => $data
-				]);
-			}
-
 			if ($_POST['action'] == 'get_menu_category_position')
 			{
 				Functions::environment([
@@ -867,16 +847,6 @@ class Menu_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'translate')
-			{
-				$data = Functions::translate($_POST['name_es']);
-
-				Functions::environment([
-					'status' => 'success',
-					'data' => $data
-				]);
-			}
-
 			if ($_POST['action'] == 'get_menu_topic_position')
 			{
 				Functions::environment([
@@ -1034,16 +1004,6 @@ class Menu_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'translate')
-			{
-				$data = Functions::translate($_POST['name_es']);
-
-				Functions::environment([
-					'status' => 'success',
-					'data' => $data
-				]);
-			}
-
 			if ($_POST['action'] == 'get_menu_restaurant')
 			{
 				$query = $this->model->get_menu_restaurant($_POST['id']);

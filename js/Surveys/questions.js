@@ -6,23 +6,6 @@ var values_key = '';
 
 $(document).ready(function()
 {
-    $(document).on('keyup', '[name="name_es"], [name="name_en"]', function()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'name_es=' + $('[name="name_es"]').val() + '&action=translate',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    $('[name="name_en"]').val(response.data);
-            }
-        });
-
-    });
-
     $(document).on('click', 'main.dashboard', function(e)
     {
         e.stopPropagation();

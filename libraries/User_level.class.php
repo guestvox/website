@@ -16,7 +16,8 @@ class User_level
         array_push($paths, '/Voxes/details');
         array_push($paths, '/Voxes/edit');
         array_push($paths, '/Support/index');
-        array_push($paths, '/Login/logout');
+        array_push($paths, '/System/translate');
+        array_push($paths, '/System/logout');
 
         foreach (Session::get_value('user')['permissions'] as $key => $value)
         {

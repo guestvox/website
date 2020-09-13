@@ -548,7 +548,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(ES) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input type="text" name="title_es">
+												<input type="text" name="title_es" data-translates="request_title">
 											</label>
 										</div>
 									</div>
@@ -556,7 +556,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(EN) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input type="text" name="title_en">
+												<input type="text" name="title_en" data-translaten="request_title">
 											</label>
 										</div>
 									</div>
@@ -582,7 +582,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(ES) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input type="text" name="title_es">
+												<input type="text" name="title_es" data-translates="incident_title">
 											</label>
 										</div>
 									</div>
@@ -590,7 +590,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(EN) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input type="text" name="title_en">
+												<input type="text" name="title_en" data-translaten="incident_title">
 											</label>
 										</div>
 									</div>
@@ -618,7 +618,7 @@ class Account_controller extends Controller
 											<div class="label">
 												<label required>
 													<p>(ES) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<input type="text" name="title_es">
+													<input type="text" name="title_es" data-translates="menu_title">
 												</label>
 											</div>
 										</div>
@@ -626,7 +626,7 @@ class Account_controller extends Controller
 											<div class="label">
 												<label required>
 													<p>(EN) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<input type="text" name="title_en">
+													<input type="text" name="title_en" data-translaten="menu_title">
 												</label>
 											</div>
 										</div>
@@ -710,7 +710,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(ES) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input type="text" name="title_es">
+												<input type="text" name="title_es" data-translates="survey_title">
 											</label>
 										</div>
 									</div>
@@ -718,7 +718,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(EN) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input type="text" name="title_en">
+												<input type="text" name="title_en" data-translaten="survey_title">
 											</label>
 										</div>
 									</div>
@@ -726,7 +726,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(ES) {$lang.subject} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input type="text" name="mail_subject_es">
+												<input type="text" name="mail_subject_es" data-translates="survey_subject">
 											</label>
 										</div>
 									</div>
@@ -734,7 +734,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(EN) {$lang.subject} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input type="text" name="mail_subject_en">
+												<input type="text" name="mail_subject_en" data-translaten="survey_subject">
 											</label>
 										</div>
 									</div>
@@ -742,7 +742,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(ES) {$lang.description} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<textarea name="mail_description_es"></textarea>
+												<textarea name="mail_description_es" data-translates="survey_description"></textarea>
 											</label>
 										</div>
 									</div>
@@ -750,7 +750,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(EN) {$lang.description} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<textarea name="mail_description_en"></textarea>
+												<textarea name="mail_description_en" data-translaten="survey_description"></textarea>
 											</label>
 										</div>
 									</div>
@@ -843,7 +843,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(ES) {$lang.description} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<textarea name="description_es"></textarea>
+												<textarea name="description_es" data-translates="reviews_description"></textarea>
 											</label>
 										</div>
 									</div>
@@ -851,7 +851,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(EN) {$lang.description} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<textarea name="description_en"></textarea>
+												<textarea name="description_en" data-translaten="reviews_description"></textarea>
 											</label>
 										</div>
 									</div>
@@ -859,7 +859,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(ES) {$lang.seo_keywords} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input type="text" name="seo_keywords_es">
+												<input type="text" name="seo_keywords_es" data-translates="reviews_seo_keywords">
 											</label>
 										</div>
 									</div>
@@ -867,7 +867,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(EN) {$lang.seo_keywords} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input type="text" name="seo_keywords_en">
+												<input type="text" name="seo_keywords_en" data-translaten="reviews_seo_keywords">
 											</label>
 										</div>
 									</div>
@@ -875,7 +875,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(ES) {$lang.seo_description} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<textarea name="seo_description_es"></textarea>
+												<textarea name="seo_description_es" data-translates="reviews_seo_description"></textarea>
 											</label>
 										</div>
 									</div>
@@ -883,7 +883,7 @@ class Account_controller extends Controller
 										<div class="label">
 											<label required>
 												<p>(EN) {$lang.seo_description} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<textarea name="seo_description_en"></textarea>
+												<textarea name="seo_description_en" data-translaten="reviews_seo_description"></textarea>
 											</label>
 										</div>
 									</div>

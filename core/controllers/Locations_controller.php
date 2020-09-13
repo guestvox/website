@@ -17,16 +17,6 @@ class Locations_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'translate')
-			{
-				$data = Functions::translate($_POST['name_es']);
-
-				Functions::environment([
-					'status' => 'success',
-					'data' => $data
-				]);
-			}
-
 			if ($_POST['action'] == 'get_location')
 			{
 				$query = $this->model->get_location($_POST['id']);

@@ -2,27 +2,27 @@
 
 $(document).ready(function()
 {
-    Push.Permission.request();
-
-    var pusher = new Pusher('1907b80d942422da0b8e', {
-        cluster: 'us2'
-      });
-    
-      var channel = pusher.subscribe('menu-orders');
-      channel.bind('new-order', function(data) {
-          
-        Push.create("Nuevo pedido", {
-            body: JSON.stringify(data),
-            icon: "images/imagotype_color.png",
-            timeout: 8000,
-            onClick: function () {
-                window.focus();
-                this.close();
-            },
-            vibrate: [200, 100, 200, 100, 200, 100, 200]
-        });
-        // alert(JSON.stringify(data));
-      });
+    // Push.Permission.request();
+    //
+    // var pusher = new Pusher('1907b80d942422da0b8e', {
+    //     cluster: 'us2'
+    //   });
+    //
+    //   var channel = pusher.subscribe('menu-orders');
+    //   channel.bind('new-order', function(data) {
+    //
+    //     Push.create("Nuevo pedido", {
+    //         body: JSON.stringify(data),
+    //         icon: "images/imagotype_color.png",
+    //         timeout: 8000,
+    //         onClick: function () {
+    //             window.focus();
+    //             this.close();
+    //         },
+    //         vibrate: [200, 100, 200, 100, 200, 100, 200]
+    //     });
+    //     // alert(JSON.stringify(data));
+    //   });
 
     change_height_menu_preview();
 
@@ -60,40 +60,6 @@ $(document).ready(function()
                     show_modal_error(response.message);
             }
         });
-    });
-
-    $(document).on('keyup', '[name="name_es"], [name="name_en"]', function()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'name_es=' + $('[name="name_es"]').val() + '&action=translate',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    $('[name="name_en"]').val(response.data);
-            }
-        });
-
-    });
-
-    $(document).on('keyup', '[name="description_es"], [name="description_en"]', function()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'name_es=' + $('[name="description_es"]').val() + '&action=translate',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    $('[name="description_en"]').val(response.data);
-            }
-        });
-
     });
 
     var add_menu_topics_group = false;

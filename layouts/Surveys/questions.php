@@ -41,7 +41,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_questions");</sc
                         <div class="label">
                             <label required>
                                 <p>(ES) {$lang.name}</p>
-                                <input type="text" name="name_es">
+                                <input type="text" name="name_es" data-translates="name">
                             </label>
                         </div>
                     </div>
@@ -49,7 +49,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_questions");</sc
                         <div class="label">
                             <label required>
                                 <p>(EN) {$lang.name}</p>
-                                <input type="text" name="name_en">
+                                <input type="text" name="name_en" data-translaten="name">
                             </label>
                         </div>
                     </div>
