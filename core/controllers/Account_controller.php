@@ -630,7 +630,7 @@ class Account_controller extends Controller
 												</label>
 											</div>
 										</div>
-										<div class="span4">
+										<div class="span3">
 											<div class="label">
 												<label required>
 													<p>{$lang.currency} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
@@ -645,7 +645,7 @@ class Account_controller extends Controller
 												</label>
 											</div>
 										</div>
-										<div class="span4">
+										<div class="span3">
 											<div class="label">
 												<label required>
 													<p>{$lang.opportunity_area} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
@@ -660,13 +660,24 @@ class Account_controller extends Controller
 												</label>
 											</div>
 										</div>
-										<div class="span4">
+										<div class="span3">
 											<div class="label">
 												<label required>
 													<p>{$lang.opportunity_type} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 													<select name="opportunity_type" disabled>
 														<option value="" hidden>{$lang.choose}</option>
 													</select>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label unrequired>
+													<p>{$lang.receive_requests}</p>
+													<div class="switch">
+														<input id="rrsw" type="checkbox" name="requests" data-switcher>
+														<label for="rrsw"></label>
+													</div>
 												</label>
 											</div>
 										</div>

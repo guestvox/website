@@ -317,6 +317,7 @@ $(document).ready(function()
                             }
                         });
 
+                        $('[data-modal="edit_myvox_menu_settings"]').find('[name="requests"]').prop('checked', ((response1.data.settings.myvox.menu.requests == true) ? true : false));
                         $('[data-modal="edit_myvox_menu_settings"]').find('[name="multi"]').prop('checked', ((response1.data.settings.myvox.menu.multi == true) ? true : false));
 
                         required_focus('form', $('form[name="edit_myvox_menu_settings"]'), null);

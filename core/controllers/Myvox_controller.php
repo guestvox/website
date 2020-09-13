@@ -1781,7 +1781,7 @@ class Myvox_controller extends Controller
 						}
 					}
 
-					if (!empty(Session::get_value('myvox')['menu_order']['shopping_cart']))
+					if (Session::get_value('myvox')['account']['settings']['myvox']['menu']['requests'] == true AND !empty(Session::get_value('myvox')['menu_order']['shopping_cart']))
 					{
 						$html .=
 						'<form name="new_menu_order">
@@ -1917,7 +1917,7 @@ class Myvox_controller extends Controller
 				$html .=
 				'<section class="buttons">
 					<a href="/' . $params[0] . '/menu/products" ' . (($params[1] == 'products') ? 'class="active"' : '') . '><i class="fas fa-igloo"></i><span>{$lang.home}</span></a>
-					<a href="/' . $params[0] . '/menu/order" ' . (($params[1] == 'order') ? 'class="active"' : '') . '  data-total><i class="fas fa-shopping-cart"></i><span>' . Functions::get_formatted_currency(Session::get_value('myvox')['menu_order']['total'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . '</span></a>
+					<a href="/' . $params[0] . '/menu/order" ' . (($params[1] == 'order') ? 'class="active"' : '') . ' data-total><i class="fas fa-shopping-cart"></i><span>' . Functions::get_formatted_currency(Session::get_value('myvox')['menu_order']['total'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . '</span></a>
 				</section>';
 
 				$replace = [

@@ -461,6 +461,14 @@ section[data-modal="preview_menu_product"] > div.content > main > form > div.ite
     color: #212121;
 }
 
+section[data-modal="preview_menu_product"] > div.content > main > form > div.buttons.flex {
+    flex-direction: column;
+}
+
+section[data-modal="preview_menu_product"] > div.content > main > form > div.buttons.flex > p {
+    margin-bottom: 10px;
+}
+
 section[data-modal="preview_menu_product"] > div.content > main > form > div.buttons > input {
     width: 40px;
     height: 40px;
