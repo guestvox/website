@@ -112,7 +112,7 @@ class Voxes_controller extends Controller
 
 				if (!empty($value['assigned_users']))
 				{
-					foreach ($value['assigned_users'] as $subvalue)
+					foreach (array_reverse($value['assigned_users']) as $subvalue)
 					{
 						$tbl_voxes .=
 						'<figure>

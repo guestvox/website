@@ -500,7 +500,7 @@ div.tbl_stl_1 > div > div > div.itm_1 > figure {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0px -50px;
+    margin: 0px -16px;
     border-radius: 50%;
     overflow: hidden;
 }
