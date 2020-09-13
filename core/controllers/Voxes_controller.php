@@ -214,12 +214,24 @@ class Voxes_controller extends Controller
 			foreach ($this->model->get_locations(Session::get_value('settings')['voxes']['voxes']['filter']['type']) as $value)
 				$opt_locations .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['location'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
 
+			$opt_assigned = '';
+
+			if (Functions::check_user_access(['{view_all}']) == true)
+			{
+				foreach ($this->model->get_users() as $value)
+				{
+					if (Session::get_value('user')['id'] != $value['id'])
+						$opt_assigned .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == $value['id']) ? 'selected' : '') . '>{$lang.assigned_to} ' . $value['firstname'] . ' ' . $value['lastname'] . '</option>';
+				}
+			}
+
 			$replace = [
 				'{$tbl_voxes}' => $tbl_voxes,
 				'{$opt_owners}' => $opt_owners,
 				'{$opt_opportunity_areas}' => $opt_opportunity_areas,
 				'{$opt_opportunity_types}' => $opt_opportunity_types,
-				'{$opt_locations}' => $opt_locations
+				'{$opt_locations}' => $opt_locations,
+				'{$opt_assigned}' => $opt_assigned
 			];
 
 			$template = $this->format->replace($replace, $template);

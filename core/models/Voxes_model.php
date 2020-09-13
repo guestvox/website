@@ -151,8 +151,20 @@ class Voxes_model extends Model
 				$break = false;
 			else if (Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'opportunity_areas' AND in_array($value['opportunity_area'], Session::get_value('user')['opportunity_areas']))
 				$break = false;
-			else if (Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'me' AND ($value['created_user'] == Session::get_value('user')['id'] OR in_array(Session::get_value('user')['id'], $value['assigned_users'])))
-				$break = false;
+			else if (Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'me')
+			{
+				if (!empty($value['assigned_users']) AND in_array(Session::get_value('user')['id'], $value['assigned_users']))
+					$break = false;
+				else if ($value['created_user'] == Session::get_value('user')['id'])
+					$break = false;
+			}
+			else
+			{
+				if (!empty($value['assigned_users']) AND in_array(Session::get_value('settings')['voxes']['voxes']['filter']['assigned'], $value['assigned_users']))
+					$break = false;
+				else if ($value['created_user'] == Session::get_value('settings')['voxes']['voxes']['filter']['assigned'])
+					$break = false;
+			}
 
 			if ($break == false)
 			{

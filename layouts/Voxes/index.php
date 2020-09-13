@@ -105,12 +105,13 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                                 <p>{$lang.assigned_to}</p>
                                 <select name="assigned">
                                     <?php if (Functions::check_user_access(['{view_all}']) == true) : ?>
-                                    <option value="all" <?php echo ((Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
+                                    <option value="all" <?php echo ((Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'all') ? 'selected' : ''); ?>>{$lang.alls}</option>
                                     <?php endif; ?>
                                     <?php if (Functions::check_user_access(['{view_all}','{view_opportunity_areas}']) == true) : ?>
                                     <option value="opportunity_areas" <?php echo ((Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'opportunity_areas') ? 'selected' : ''); ?>>{$lang.my_opportunity_areas}</option>
                                     <?php endif; ?>
-                                    <option value="me" <?php echo ((Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'me') ? 'selected' : ''); ?>>{$lang.me}</option>
+                                    <option value="me" <?php echo ((Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'me') ? 'selected' : ''); ?>>{$lang.assigned_to_me}</option>
+                                    {$opt_assigned}
                                 </select>
                             </label>
                         </div>
