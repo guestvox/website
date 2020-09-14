@@ -157,6 +157,11 @@ $(document).ready(function ()
 
     $('[data-translates]').on('keyup', function()
     {
+        $(window).on('beforeunload ajaxStart', function()
+        {
+            $('[data-ajax-loader]').removeClass('view');
+        });
+
         var en = $(this).parents('form').find('[data-translaten="' + $(this).data('translates') + '"]');
 
         $.ajax({
@@ -169,7 +174,14 @@ $(document).ready(function ()
             success: function(response)
             {
                 if (response.status == 'success')
+                {
                     en.val(response.data.en);
+
+                    $(window).on('beforeunload ajaxStart', function()
+                    {
+                        $('[data-ajax-loader]').addClass('view');
+                    });
+                }
             }
         });
     });
