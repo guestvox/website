@@ -23,7 +23,7 @@ $(document).ready(function()
             },
             vibrate: [200, 100, 200, 100, 200, 100, 200]
         });
-        alert(JSON.stringify(data));
+        // alert(JSON.stringify(data));
       });
 
     change_height_menu_preview();
