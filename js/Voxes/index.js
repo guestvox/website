@@ -10,7 +10,7 @@ $(document).ready(function()
       channel.bind('new-order', function(data) {
         $.ajax({
             type: 'POST',
-            data: 'data=' + data + '&action=get_opt_owners',
+            data: 'data=' + data + '&action=notification',
             processData: false,
             cache: false,
             dataType: 'json',
