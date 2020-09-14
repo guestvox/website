@@ -2,6 +2,16 @@
 
 $(document).ready(function()
 {
+    var pusher = new Pusher('1907b80d942422da0b8e', {
+        cluster: 'us2'
+      });
+    
+      var channel = pusher.subscribe('menu-orders');
+      channel.bind('new-order', function(data) {
+    
+        alert(JSON.stringify(data));
+      });
+      
     $('[name="type"]').on('change', function()
     {
         $.ajax({
