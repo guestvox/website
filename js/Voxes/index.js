@@ -8,8 +8,21 @@ $(document).ready(function()
     
       var channel = pusher.subscribe('menu-orders');
       channel.bind('new-order', function(data) {
-    
-        alert(JSON.stringify(data));
+        $.ajax({
+            type: 'POST',
+            data: 'data=' + data + '&action=get_opt_owners',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    console.log('Correcto'); i
+                elses (response.status == 'error')
+                    console.log('Error');
+            }
+        });
+        // alert(JSON.stringify(data));
       });
       
     $('[name="type"]').on('change', function()

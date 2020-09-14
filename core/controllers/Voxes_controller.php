@@ -19,6 +19,35 @@ class Voxes_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'notification')
+			{
+				$end_point = 'https://api.webpushr.com/v1/notification/send/sid';
+				$http_header = array( 
+					"Content-Type: Application/Json", 
+					"webpushrKey: T6GsOhzKszICnxJI1D6pbazDxNrq-k9hKBWiuHxdme8", 
+					"webpushrAuthToken: 13576"
+				);
+				$req_data = array(
+					'title' 			=> "Notifiacion de pedido", //required
+					'message' 		=> "Hay un pedido", //required
+					'target_url'	=> 'https://www.webpushr.com', //required
+					'sid'		=> '36252' //required
+				);
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_HTTPHEADER, $http_header);
+				curl_setopt($ch, CURLOPT_URL, $end_point );
+				curl_setopt($ch, CURLOPT_POST, 1);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($req_data) );
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				$response = curl_exec($ch);
+				echo $response;
+
+				Functions::environment([
+					'status' => 'success'
+				]);
+			
+			}
+
 			if ($_POST['action'] == 'get_opt_owners')
 			{
 				$html = '<option value="all" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['owner'] == 'all') ? 'selected' : '') . '>{$lang.all}</option>';
