@@ -4,27 +4,27 @@ $(document).ready(function()
 {
     $('.chosen-select').chosen();
 
-    // Push.Permission.request();
-    //
-    // var pusher = new Pusher('1907b80d942422da0b8e', {
-    //     cluster: 'us2'
-    //   });
-    //
-    //   var channel = pusher.subscribe('menu-orders');
-    //   channel.bind('new-order', function(data) {
-    //
-    //     Push.create("Nuevo pedido", {
-    //         body: JSON.stringify(data),
-    //         icon: "images/imagotype_color.png",
-    //         timeout: 8000,
-    //         onClick: function () {
-    //             window.focus();
-    //             this.close();
-    //         },
-    //         vibrate: [200, 100, 200, 100, 200, 100, 200]
-    //     });
-    //     // alert(JSON.stringify(data));
-    //   });
+    Push.Permission.request();
+    
+    var pusher = new Pusher('1907b80d942422da0b8e', {
+        cluster: 'us2'
+      });
+    
+      var channel = pusher.subscribe('menu-orders');
+      channel.bind('new-order', function(data) {
+    
+        Push.create("Nuevo pedido", {
+            body: JSON.stringify(data),
+            icon: "images/imagotype_color.png",
+            timeout: 8000,
+            onClick: function () {
+                window.focus();
+                this.close();
+            },
+            vibrate: [200, 100, 200, 100, 200, 100, 200]
+        });
+        // alert(JSON.stringify(data));
+      });
 
     change_height_menu_preview();
 
