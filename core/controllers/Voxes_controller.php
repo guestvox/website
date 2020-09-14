@@ -21,17 +21,25 @@ class Voxes_controller extends Controller
 		{
 			if ($_POST['action'] == 'notification')
 			{
-				$end_point = 'https://api.webpushr.com/v1/notification/send/sid';
+				$end_point = 'https://api.webpushr.com/v1/notification/send/all';
 				$http_header = array( 
 					"Content-Type: Application/Json", 
 					"webpushrKey: T6GsOhzKszICnxJI1D6pbazDxNrq-k9hKBWiuHxdme8", 
 					"webpushrAuthToken: 13576"
 				);
 				$req_data = array(
-					'title' 			=> "Notifiacion de pedido", //required
-					'message' 		=> "Hay un pedido", //required
+					'title' 			=> "Pedido desde Menú digital", //required
+					'message' 		=> "Hay un nuevo pedido", //required
 					'target_url'	=> 'https://www.webpushr.com', //required
-					'sid'		=> '36252' //required
+					'name'			=> 'Ceviche',
+					'icon'			=> 'https://www.webpushr.com/logo.png',
+					'auto_hide'		=> 1,
+					'expire_push'	=> '5m',
+					'send_at'		=> '2019-10-10 19:31 +5:30',
+					'action_buttons'=> array(	
+						array('title'=> 'Demo', 'url' => 'https://www.webpushr.com/demo'),
+						array('title'=> 'Rates', 'url' => 'https://www.webpushr.com/pricing')
+					)
 				);
 				$ch = curl_init();
 				curl_setopt($ch, CURLOPT_HTTPHEADER, $http_header);
