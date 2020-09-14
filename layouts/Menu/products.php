@@ -7,7 +7,7 @@ $this->dependencies->add(['js', '{$path.plugins}chosen_select/chosen.jquery.js']
 $this->dependencies->add(['js', '{$path.js}Menu/products.js']);
 $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script>']);
 $this->dependencies->add(['js', '{$path.plugins}push/push.js']);
-// $this->dependencies->add(['other', '<script src="https://js.pusher.com/7.0/pusher.min.js"></script>']);
+$this->dependencies->add(['other', '<script src="https://js.pusher.com/7.0/pusher.min.js"></script>']);
 
 ?>
 
