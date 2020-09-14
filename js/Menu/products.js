@@ -4,7 +4,7 @@ $(document).ready(function()
 {
     $('.chosen-select').chosen();
 
-    Push.Permission.request();
+    // Push.Permission.request();
     
     var pusher = new Pusher('1907b80d942422da0b8e', {
         cluster: 'us2'
