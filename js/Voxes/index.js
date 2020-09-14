@@ -17,7 +17,7 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                    console.log('Correcto'); i
+                    console.log('Correcto'); 
                 elses (response.status == 'error')
                     console.log('Error');
             }
