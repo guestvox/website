@@ -157,6 +157,14 @@ class Languages
                 'es' => 'Sin ubicación',
                 'en' => 'Not location'
             ],
+            'references' => [
+                'es' => 'Referencias',
+                'en' => 'References'
+            ],
+            'not_references' => [
+                'es' => 'Sin referencias',
+                'en' => 'Not references'
+            ],
             'urgency' => [
                 'es' => 'Urgencia',
                 'en' => 'Urgency'

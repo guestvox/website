@@ -276,7 +276,7 @@ class Myvox_model extends Model
 		{
 			foreach ($value['categories'] as $subvalue)
 			{
-				if (!in_array($subvalue, $categories))
+				if (!in_array($subvalue, $categories) AND !in_array($subvalue, Session::get_value('myvox')['menu_categories']))
 					array_push($categories, $subvalue);
 			}
 		}
@@ -292,21 +292,41 @@ class Myvox_model extends Model
 			'icons.type(icon_type)'
 		], [
 			'AND' => [
+				'menu_categories.id' => Session::get_value('myvox')['menu_categories'],
 				'menu_categories.account' => Session::get_value('myvox')['account']['id'],
 				'menu_categories.status' => true
 			],
 			'ORDER' => [
-				'menu_categories.name' => 'ASC'
+				'menu_categories.position' => 'ASC'
 			]
 		]));
 
-		foreach ($query2 as $key => $value)
-		{
-			if (!in_array($value['id'], $categories))
-				unset($query2[$key]);
-		}
+		$query3 = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+			'[>]icons' => [
+				'icon' => 'id'
+			]
+		], [
+			'menu_categories.id',
+			'menu_categories.name',
+			'icons.url(icon_url)',
+			'icons.type(icon_type)'
+		], [
+			'AND' => [
+				'menu_categories.id' => $categories,
+				'menu_categories.account' => Session::get_value('myvox')['account']['id'],
+				'menu_categories.status' => true
+			],
+			'ORDER' => [
+				'menu_categories.position' => 'ASC'
+			]
+		]));
 
-		return $query2;
+		if (!empty($query2))
+			$categories = array_merge($query2, $query3);
+		else
+			$categories = $query3;
+
+		return $categories;
 	}
 
 	public function get_menu_products()

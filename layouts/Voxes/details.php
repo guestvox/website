@@ -24,6 +24,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 <span><i class="fas fa-mask"></i>{$opportunity_area}</span>
                 <span><i class="fas fa-feather-alt"></i>{$opportunity_type}</span>
                 <span><i class="fas fa-map-marker-alt"></i>{$location}</span>
+                {$references}
                 <span><i class="fas fa-calendar-alt"></i>{$started_date}</span>
                 {$spn_cost}
             </div>
