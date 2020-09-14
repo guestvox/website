@@ -476,6 +476,7 @@ class Myvox_model extends Model
 			'started_hour' => Functions::get_formatted_hour($data['started_hour']),
 			'location' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'hotel') ? $data['location'] : null) : $data['location'],
 			'address' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery' AND $data['delivery'] == 'home') ? $data['address'] : null) : null,
+			'references' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery' AND $data['delivery'] == 'home') ? $data['references'] : null) : null,
 			'cost' => null,
 			'urgency' => 'medium',
 			'confidentiality' => false,

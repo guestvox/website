@@ -237,6 +237,7 @@ class Voxes_model extends Model
 			'started_hour',
 			'location',
 			'address',
+			'references',
 			'cost',
 			'urgency',
 			'confidentiality',
