@@ -35,7 +35,6 @@ class Voxes_controller extends Controller
 					'icon'			=> 'https://www.webpushr.com/logo.png',
 					'auto_hide'		=> 1,
 					'expire_push'	=> '5m',
-					'send_at'		=> '2019-10-10 19:31 +5:30',
 					'action_buttons'=> array(	
 						array('title'=> 'Demo', 'url' => 'https://www.webpushr.com/demo'),
 						array('title'=> 'Rates', 'url' => 'https://www.webpushr.com/pricing')
