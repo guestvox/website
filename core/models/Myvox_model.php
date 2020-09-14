@@ -331,13 +331,11 @@ class Myvox_model extends Model
 
 	public function get_menu_products()
 	{
-		$join = [
+		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
 			'[>]icons' => [
 				'icon' => 'id'
 			]
-		];
-
-		$fields = [
+		], [
 			'menu_products.id',
 			'menu_products.name',
 			'menu_products.topics',
@@ -349,9 +347,7 @@ class Myvox_model extends Model
 			'icons.type(icon_type)',
 			'icons.color(icon_color)',
 			'menu_products.categories'
-		];
-
-		$query1 = Functions::get_json_decoded_query($this->database->select('menu_products', $join, $fields, [
+		], [
 			'AND' => [
 				'menu_products.account' => Session::get_value('myvox')['account']['id'],
 				'menu_products.position[>=]' => 1,
@@ -361,19 +357,6 @@ class Myvox_model extends Model
 				'menu_products.position' => 'ASC'
 			]
 		]));
-
-		$query2 = Functions::get_json_decoded_query($this->database->select('menu_products', $join, $fields, [
-			'AND' => [
-				'menu_products.account' => Session::get_value('myvox')['account']['id'],
-				'menu_products.position[=]' => null,
-				'menu_products.status' => true
-			],
-			'ORDER' => [
-				'menu_products.name' => 'ASC'
-			]
-		]));
-
-		$query = array_merge($query1, $query2);
 
 		if (!empty(Session::get_value('myvox')['menu_categories']))
 		{
