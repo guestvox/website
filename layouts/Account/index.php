@@ -2,6 +2,8 @@
 
 defined('_EXEC') or die;
 
+$this->dependencies->add(['css', '{$path.plugins}chosen_select/chosen.css']);
+$this->dependencies->add(['js', '{$path.plugins}chosen_select/chosen.jquery.js']);
 $this->dependencies->add(['js', '{$path.js}Account/index.js']);
 $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
 

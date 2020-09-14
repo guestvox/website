@@ -252,6 +252,15 @@ class Account_controller extends Controller
 
 						if (!isset($_POST['opportunity_type']) OR empty($_POST['opportunity_type']))
 							array_push($labels, ['opportunity_type','']);
+
+						if (!isset($_POST['schedule_days']) OR empty($_POST['schedule_days']))
+							array_push($labels, ['schedule_days','']);
+
+						if (!isset($_POST['schedule_opening']) OR empty($_POST['schedule_opening']) OR $_POST['schedule_opening'] >= $_POST['schedule_closing'])
+							array_push($labels, ['schedule_opening','']);
+
+						if (!isset($_POST['schedule_closing']) OR empty($_POST['schedule_closing']) OR $_POST['schedule_closing'] <= $_POST['schedule_opening'])
+							array_push($labels, ['schedule_closing','']);
 					}
 				}
 				else if ($_POST['action'] == 'edit_myvox_survey_settings')
@@ -673,11 +682,43 @@ class Account_controller extends Controller
 										<div class="span3">
 											<div class="label">
 												<label unrequired>
-													<p>{$lang.receive_requests}</p>
+													<p>{$lang.receive_requests} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 													<div class="switch">
 														<input id="rrsw" type="checkbox" name="requests" data-switcher>
 														<label for="rrsw"></label>
 													</div>
+												</label>
+											</div>
+										</div>
+										<div class="span6">
+											<div class="label">
+												<label required>
+													<p>{$lang.schedule} ({$lang.days}) <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+													<select name="schedule_days[]" class="chosen-select" multiple>
+														<option value="sunday">{$lang.sunday}</option>
+														<option value="monday">{$lang.monday}</option>
+														<option value="tuesday">{$lang.tuesday}</option>
+														<option value="wednesday">{$lang.wednesday}</option>
+														<option value="thursday">{$lang.thursday}</option>
+														<option value="friday">{$lang.friday}</option>
+														<option value="saturday">{$lang.saturday}</option>
+													</select>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<p>{$lang.schedule} ({$lang.opening}) <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+													<input type="time" name="schedule_opening">
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<p>{$lang.schedule} ({$lang.closing}) <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+													<input type="time" name="schedule_closing">
 												</label>
 											</div>
 										</div>

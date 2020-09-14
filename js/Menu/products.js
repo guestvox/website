@@ -2,6 +2,8 @@
 
 $(document).ready(function()
 {
+    $('.chosen-select').chosen();
+
     // Push.Permission.request();
     //
     // var pusher = new Pusher('1907b80d942422da0b8e', {
@@ -183,6 +185,7 @@ $(document).ready(function()
                     $('[name="description_en"]').val(response.data.description.en);
                     $('[name="price"]').val(response.data.price);
                     $('[name="position"]').val(response.data.position);
+                    $('[name="available[]"]').val(response.data.available).trigger("chosen:updated");
                     $('div.menu_topics_groups > aside').html(response.data.topics);
                     $('[name="avatar"]').val(response.data.avatar);
 

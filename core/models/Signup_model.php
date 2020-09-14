@@ -257,6 +257,11 @@ class Signup_model extends Model
 						'opportunity_area' => '',
 						'opportunity_type' => '',
 						'requests' => false,
+						'schedule' => [
+							'days' => [],
+							'opening' => '',
+							'closing' => ''
+						],
 						'multi' => false
 					],
 					'survey' => [

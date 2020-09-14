@@ -135,6 +135,13 @@ class Functions
             return null;
     }
 
+    static public function get_current_day()
+    {
+        Functions::set_default_timezone();
+
+		return strtolower(date('l'));
+    }
+
     static public function get_current_week()
     {
         Functions::set_default_timezone();

@@ -2,6 +2,8 @@
 
 defined('_EXEC') or die;
 
+$this->dependencies->add(['css', '{$path.plugins}chosen_select/chosen.css']);
+$this->dependencies->add(['js', '{$path.plugins}chosen_select/chosen.jquery.js']);
 $this->dependencies->add(['js', '{$path.js}Menu/products.js']);
 $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script>']);
 $this->dependencies->add(['js', '{$path.plugins}push/push.js']);
@@ -54,19 +56,35 @@ $this->dependencies->add(['js', '{$path.plugins}push/push.js']);
                             </label>
                         </div>
                     </div>
-                    <div class="span6">
+                    <div class="span3">
                         <div class="label">
                             <label required>
-                                <p>{$lang.position}</p>
+                                <p>{$lang.position} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
                                 <input type="number" name="position">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="label">
+                            <label required>
+                                <p>(<?php echo !empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'] ?>) {$lang.price}</p>
+                                <input type="text" name="price">
                             </label>
                         </div>
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label required>
-                                <p>(<?php echo !empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'] ?>) {$lang.price}</p>
-                                <input type="text" name="price">
+                            <label unrequired>
+                                <p>{$lang.available_only_days} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                                <select name="available[]" class="chosen-select" multiple>
+                                    <option value="sunday">{$lang.sunday}</option>
+                                    <option value="monday">{$lang.monday}</option>
+                                    <option value="tuesday">{$lang.tuesday}</option>
+                                    <option value="wednesday">{$lang.wednesday}</option>
+                                    <option value="thursday">{$lang.thursday}</option>
+                                    <option value="friday">{$lang.friday}</option>
+                                    <option value="saturday">{$lang.saturday}</option>
+                                </select>
                             </label>
                         </div>
                     </div>

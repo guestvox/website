@@ -322,6 +322,7 @@ class Myvox_model extends Model
 			'menu_products.name',
 			'menu_products.topics',
 			'menu_products.price',
+			'menu_products.available',
 			'menu_products.avatar',
 			'menu_products.image',
 			'icons.url(icon_url)',

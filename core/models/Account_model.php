@@ -298,6 +298,9 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['menu']['opportunity_area'] = $data['opportunity_area'];
 				$edited1[0]['settings']['myvox']['menu']['opportunity_type'] = $data['opportunity_type'];
 				$edited1[0]['settings']['myvox']['menu']['requests'] = !empty($data['requests']) ? true : false;
+				$edited1[0]['settings']['myvox']['menu']['schedule']['days'] = $data['schedule_days'];
+				$edited1[0]['settings']['myvox']['menu']['schedule']['opening'] = $data['schedule_opening'];
+				$edited1[0]['settings']['myvox']['menu']['schedule']['closing'] = $data['schedule_closing'];
 				$edited1[0]['settings']['myvox']['menu']['multi'] = !empty($data['multi']) ? true : false;
 			}
 			else
