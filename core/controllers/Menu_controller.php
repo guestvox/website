@@ -579,7 +579,7 @@ class Menu_controller extends Controller
 
 					$cbx_menu_topics .=
 					'	<div class="button">
-							<a href="/menu/categories">{$lang.create_more_topics}</a>
+							<a href="/menu/topics">{$lang.create_more_topics}</a>
 						</div>
 					</div>
 					<div class="label">
