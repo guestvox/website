@@ -682,7 +682,7 @@ class Account_controller extends Controller
 										<div class="span3">
 											<div class="label">
 												<label unrequired>
-													<p>{$lang.receive_requests} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+													<p>{$lang.receive_orders} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 													<div class="switch">
 														<input id="rrsw" type="checkbox" name="requests" data-switcher>
 														<label for="rrsw"></label>
