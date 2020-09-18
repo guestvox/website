@@ -4737,20 +4737,37 @@ div.account > div.stl_5 > figure > img {
     width: 100px;
 }
 
-div.account > div.stl_5 > div.switch,
-div.account > div.stl_5 > div.switch > input {
+div.account > div.stl_5 > div.switch_group {
+    width: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+div.account > div.stl_5 > div.switch_group > div.switch,
+div.account > div.stl_5 > div.switch_group > div.switch > input {
     width: 100px;
     height: 40px;
     border-radius: 40px;
 }
 
-div.account > div.stl_5 > div.switch {
-    margin-top: 20px !important;
-}
-
-div.account > div.stl_5 > div.switch > label {
+div.account > div.stl_5 > div.switch_group > div.switch > label {
     width: 30px;
     height: 30px;
+}
+
+div.account > div.stl_5 > div.switch_group > a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    font-size: 18px;
+    color: #757575;
 }
 
 /* General styles

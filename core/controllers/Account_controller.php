@@ -371,8 +371,11 @@ class Account_controller extends Controller
 						{
 							$account = Session::get_value('account');
 
-							$account['settings']['menu']['currency'] = $_POST['currency'];
-							$account['settings']['menu']['multi'] = !empty($_POST['multi']) ? true : false;
+							if (isset($_POST['currency']))
+								$account['settings']['menu']['currency'] = $_POST['currency'];
+
+							if (isset($_POST['multi']))
+								$account['settings']['menu']['multi'] = !empty($_POST['multi']) ? true : false;
 
 							Session::set_value('account', $account);
 						}
@@ -416,9 +419,12 @@ class Account_controller extends Controller
 	                <i class="fas fa-rocket"></i>
 	                <h2>{$lang.public_requests}</h2>
 	                <span>' . (($account['settings']['myvox']['request']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-					<div class="switch">
-					    <input id="rqsw" type="checkbox" ' . (($account['settings']['myvox']['request']['status'] == true) ? 'checked' : '') . ' data-switcher>
-						<label for="rqsw"></label>
+					<div class="switch_group">
+						<div class="switch">
+							<input id="rqsw" type="checkbox" ' . (($account['settings']['myvox']['request']['status'] == true) ? 'checked' : '') . ' data-switcher>
+							<label for="rqsw"></label>
+						</div>
+						' . (($account['settings']['myvox']['request']['status'] == true) ? '<a class="edit" data-action="edit_myvox_request_settings"><i class="fas fa-pen" aria-hidden="true"></i></a>' : '') . '
 					</div>
 	            </div>';
 
@@ -427,9 +433,12 @@ class Account_controller extends Controller
 	                <i class="fas fa-meteor"></i>
 	                <h2>{$lang.public_incidents}</h2>
 	                <span>' . (($account['settings']['myvox']['incident']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-					<div class="switch">
-					    <input id="insw" type="checkbox" ' . (($account['settings']['myvox']['incident']['status'] == true) ? 'checked' : '') . ' data-switcher>
-					    <label for="insw"></label>
+					<div class="switch_group">
+						<div class="switch">
+						    <input id="insw" type="checkbox" ' . (($account['settings']['myvox']['incident']['status'] == true) ? 'checked' : '') . ' data-switcher>
+						    <label for="insw"></label>
+						</div>
+						' . (($account['settings']['myvox']['incident']['status'] == true) ? '<a class="edit" data-action="edit_myvox_incident_settings"><i class="fas fa-pen" aria-hidden="true"></i></a>' : '') . '
 					</div>
 	            </div>';
 
@@ -440,9 +449,12 @@ class Account_controller extends Controller
 		                <i class="fas fa-fire-alt"></i>
 		                <h2>{$lang.menu}</h2>
 		                <span>' . (($account['settings']['myvox']['menu']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-						<div class="switch">
-						    <input id="mnsw" type="checkbox" ' . (($account['settings']['myvox']['menu']['status'] == true) ? 'checked' : '') . ' data-switcher>
-						    <label for="mnsw"></label>
+						<div class="switch_group">
+							<div class="switch">
+							    <input id="mnsw" type="checkbox" ' . (($account['settings']['myvox']['menu']['status'] == true) ? 'checked' : '') . ' data-switcher>
+							    <label for="mnsw"></label>
+							</div>
+							' . (($account['settings']['myvox']['menu']['status'] == true) ? '<a class="edit" data-action="edit_myvox_menu_settings"><i class="fas fa-pen" aria-hidden="true"></i></a>' : '') . '
 						</div>
 		            </div>';
 				}
@@ -458,9 +470,12 @@ class Account_controller extends Controller
 	                <i class="fas fa-ghost"></i>
 	                <h2>{$lang.answer_surveys}</h2>
 	                <span>' . (($account['settings']['myvox']['survey']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-					<div class="switch">
-					    <input id="susw" type="checkbox" ' . (($account['settings']['myvox']['survey']['status'] == true) ? 'checked' : '') . ' data-switcher>
-					    <label for="susw"></label>
+					<div class="switch_group">
+						<div class="switch">
+							<input id="susw" type="checkbox" ' . (($account['settings']['myvox']['survey']['status'] == true) ? 'checked' : '') . ' data-switcher>
+							<label for="susw"></label>
+						</div>
+						' . (($account['settings']['myvox']['survey']['status'] == true) ? '<a class="edit" data-action="edit_myvox_survey_settings"><i class="fas fa-pen" aria-hidden="true"></i></a>' : '') . '
 					</div>
 	            </div>';
 
@@ -469,9 +484,12 @@ class Account_controller extends Controller
 	                <i class="fas fa-star"></i>
 	                <h2>{$lang.reviews_page}</h2>
 	                <span>' . (($account['settings']['reviews']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-					<div class="switch">
-					    <input id="rvsw" type="checkbox" ' . (($account['settings']['reviews']['status'] == true) ? 'checked' : '') . ' data-switcher>
-					    <label for="rvsw"></label>
+					<div class="switch_group">
+						<div class="switch">
+						    <input id="rvsw" type="checkbox" ' . (($account['settings']['reviews']['status'] == true) ? 'checked' : '') . ' data-switcher>
+						    <label for="rvsw"></label>
+						</div>
+						' . (($account['settings']['reviews']['status'] == true) ? '<a class="edit" data-action="edit_reviews_settings"><i class="fas fa-pen" aria-hidden="true"></i></a>' : '') . '
 					</div>
 	            </div>';
 			}

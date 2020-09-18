@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-require_once 'plugins/nexmo/vendor/autoload.php';
+// require_once 'plugins/nexmo/vendor/autoload.php';
 require_once 'plugins/pusher/vendor/autoload.php';
 
 class Myvox_controller extends Controller
@@ -1431,7 +1431,7 @@ class Myvox_controller extends Controller
 								'1065298',
 								$options
 							  );
-							
+
 							$pusher->trigger('menu-orders', 'new-order', 'Pedido enviado');
 
 							$_POST['type'] = 'request';
