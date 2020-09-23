@@ -467,13 +467,14 @@ section[data-modal="preview_menu_product"] > div.content > main > div.buttons.cl
 }
 
 section[data-modal="preview_menu_product"] > div.content > main > div.buttons.closed > h6 {
+    margin-bottom: 20px;
     font-size: 14px;
     font-weight: 600;
     color: #757575;
 }
 
 section[data-modal="preview_menu_product"] > div.content > main > div.buttons.closed > p {
-    margin-bottom: 10px;
+    width: 350px;
     padding: 0px 20px;
     box-sizing: border-box;
     font-size: 14px;
@@ -494,6 +495,11 @@ section[data-modal="preview_menu_product"] > div.content > main > div.buttons.cl
     border-radius: 50%;
     box-sizing: border-box;
     color: #212121;
+}
+
+
+section[data-modal="preview_menu_product"] > div.content > main > div.buttons.closed > a {
+    margin-top: 20px;
 }
 
 /*  */

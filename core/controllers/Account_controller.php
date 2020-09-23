@@ -253,14 +253,82 @@ class Account_controller extends Controller
 						if (!isset($_POST['opportunity_type']) OR empty($_POST['opportunity_type']))
 							array_push($labels, ['opportunity_type','']);
 
-						if (!isset($_POST['schedule_days']) OR empty($_POST['schedule_days']))
-							array_push($labels, ['schedule_days','']);
+						if (!isset($_POST['schedule_monday_status']) OR empty($_POST['schedule_monday_status']))
+							array_push($labels, ['schedule_monday_status','']);
+						else if ($_POST['schedule_monday_status'] == 'open')
+						{
+							if (!isset($_POST['schedule_monday_opening']) OR empty($_POST['schedule_monday_opening']) OR $_POST['schedule_monday_opening'] >= $_POST['schedule_monday_closing'])
+								array_push($labels, ['schedule_monday_opening','']);
 
-						if (!isset($_POST['schedule_opening']) OR empty($_POST['schedule_opening']) OR $_POST['schedule_opening'] >= $_POST['schedule_closing'])
-							array_push($labels, ['schedule_opening','']);
+							if (!isset($_POST['schedule_monday_closing']) OR empty($_POST['schedule_monday_closing']) OR $_POST['schedule_monday_closing'] <= $_POST['schedule_monday_opening'])
+								array_push($labels, ['schedule_monday_closing','']);
+						}
 
-						if (!isset($_POST['schedule_closing']) OR empty($_POST['schedule_closing']) OR $_POST['schedule_closing'] <= $_POST['schedule_opening'])
-							array_push($labels, ['schedule_closing','']);
+						if (!isset($_POST['schedule_tuesday_status']) OR empty($_POST['schedule_tuesday_status']))
+							array_push($labels, ['schedule_tuesday_status','']);
+						else if ($_POST['schedule_tuesday_status'] == 'open')
+						{
+							if (!isset($_POST['schedule_tuesday_opening']) OR empty($_POST['schedule_tuesday_opening']) OR $_POST['schedule_tuesday_opening'] >= $_POST['schedule_tuesday_closing'])
+								array_push($labels, ['schedule_tuesday_opening','']);
+
+							if (!isset($_POST['schedule_tuesday_closing']) OR empty($_POST['schedule_tuesday_closing']) OR $_POST['schedule_tuesday_closing'] <= $_POST['schedule_tuesday_opening'])
+								array_push($labels, ['schedule_tuesday_closing','']);
+						}
+
+						if (!isset($_POST['schedule_wednesday_status']) OR empty($_POST['schedule_wednesday_status']))
+							array_push($labels, ['schedule_wednesday_status','']);
+						else if ($_POST['schedule_wednesday_status'] == 'open')
+						{
+							if (!isset($_POST['schedule_wednesday_opening']) OR empty($_POST['schedule_wednesday_opening']) OR $_POST['schedule_wednesday_opening'] >= $_POST['schedule_wednesday_closing'])
+								array_push($labels, ['schedule_wednesday_opening','']);
+
+							if (!isset($_POST['schedule_wednesday_closing']) OR empty($_POST['schedule_wednesday_closing']) OR $_POST['schedule_wednesday_closing'] <= $_POST['schedule_wednesday_opening'])
+								array_push($labels, ['schedule_wednesday_closing','']);
+						}
+
+						if (!isset($_POST['schedule_thursday_status']) OR empty($_POST['schedule_thursday_status']))
+							array_push($labels, ['schedule_thursday_status','']);
+						else if ($_POST['schedule_thursday_status'] == 'open')
+						{
+							if (!isset($_POST['schedule_thursday_opening']) OR empty($_POST['schedule_thursday_opening']) OR $_POST['schedule_thursday_opening'] >= $_POST['schedule_thursday_closing'])
+								array_push($labels, ['schedule_thursday_opening','']);
+
+							if (!isset($_POST['schedule_thursday_closing']) OR empty($_POST['schedule_thursday_closing']) OR $_POST['schedule_thursday_closing'] <= $_POST['schedule_thursday_opening'])
+								array_push($labels, ['schedule_thursday_closing','']);
+						}
+
+						if (!isset($_POST['schedule_friday_status']) OR empty($_POST['schedule_friday_status']))
+							array_push($labels, ['schedule_friday_status','']);
+						else if ($_POST['schedule_friday_status'] == 'open')
+						{
+							if (!isset($_POST['schedule_friday_opening']) OR empty($_POST['schedule_friday_opening']) OR $_POST['schedule_friday_opening'] >= $_POST['schedule_friday_closing'])
+								array_push($labels, ['schedule_friday_opening','']);
+
+							if (!isset($_POST['schedule_friday_closing']) OR empty($_POST['schedule_friday_closing']) OR $_POST['schedule_friday_closing'] <= $_POST['schedule_friday_opening'])
+								array_push($labels, ['schedule_friday_closing','']);
+						}
+
+						if (!isset($_POST['schedule_saturday_status']) OR empty($_POST['schedule_saturday_status']))
+							array_push($labels, ['schedule_saturday_status','']);
+						else if ($_POST['schedule_saturday_status'] == 'open')
+						{
+							if (!isset($_POST['schedule_saturday_opening']) OR empty($_POST['schedule_saturday_opening']) OR $_POST['schedule_saturday_opening'] >= $_POST['schedule_saturday_closing'])
+								array_push($labels, ['schedule_saturday_opening','']);
+
+							if (!isset($_POST['schedule_saturday_closing']) OR empty($_POST['schedule_saturday_closing']) OR $_POST['schedule_saturday_closing'] <= $_POST['schedule_saturday_opening'])
+								array_push($labels, ['schedule_saturday_closing','']);
+						}
+
+						if (!isset($_POST['schedule_sunday_status']) OR empty($_POST['schedule_sunday_status']))
+							array_push($labels, ['schedule_sunday_status','']);
+						else if ($_POST['schedule_sunday_status'] == 'open')
+						{
+							if (!isset($_POST['schedule_sunday_opening']) OR empty($_POST['schedule_sunday_opening']) OR $_POST['schedule_sunday_opening'] >= $_POST['schedule_sunday_closing'])
+								array_push($labels, ['schedule_sunday_opening','']);
+
+							if (!isset($_POST['schedule_sunday_closing']) OR empty($_POST['schedule_sunday_closing']) OR $_POST['schedule_sunday_closing'] <= $_POST['schedule_sunday_opening'])
+								array_push($labels, ['schedule_sunday_closing','']);
+						}
 					}
 				}
 				else if ($_POST['action'] == 'edit_myvox_survey_settings')
@@ -708,18 +776,21 @@ class Account_controller extends Controller
 												</label>
 											</div>
 										</div>
-										<div class="span6">
+										<div class="span3">
+											<div class="label">
+												<label class="success">
+													<p>{$lang.schedule} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+													<input type="text" value="{$lang.monday}" disabled>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
 											<div class="label">
 												<label required>
-													<p>{$lang.schedule} ({$lang.days}) <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<select name="schedule_days[]" class="chosen-select" multiple>
-														<option value="sunday">{$lang.sunday}</option>
-														<option value="monday">{$lang.monday}</option>
-														<option value="tuesday">{$lang.tuesday}</option>
-														<option value="wednesday">{$lang.wednesday}</option>
-														<option value="thursday">{$lang.thursday}</option>
-														<option value="friday">{$lang.friday}</option>
-														<option value="saturday">{$lang.saturday}</option>
+													<p></p>
+													<select name="schedule_monday_status">
+														<option value="open">{$lang.open}</option>
+														<option value="close">{$lang.close}</option>
 													</select>
 												</label>
 											</div>
@@ -727,16 +798,202 @@ class Account_controller extends Controller
 										<div class="span3">
 											<div class="label">
 												<label required>
-													<p>{$lang.schedule} ({$lang.opening}) <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<input type="time" name="schedule_opening">
+													<p>{$lang.opening} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+													<input type="time" name="schedule_monday_opening">
 												</label>
 											</div>
 										</div>
 										<div class="span3">
 											<div class="label">
 												<label required>
-													<p>{$lang.schedule} ({$lang.closing}) <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<input type="time" name="schedule_closing">
+													<p>{$lang.closing} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+													<input type="time" name="schedule_monday_closing">
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label class="success">
+													<input type="text" value="{$lang.tuesday}" disabled>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<select name="schedule_tuesday_status">
+														<option value="open">{$lang.open}</option>
+														<option value="close">{$lang.close}</option>
+													</select>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<input type="time" name="schedule_tuesday_opening">
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<input type="time" name="schedule_tuesday_closing">
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label class="success">
+													<input type="text" value="{$lang.wednesday}" disabled>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<select name="schedule_wednesday_status">
+														<option value="open">{$lang.open}</option>
+														<option value="close">{$lang.close}</option>
+													</select>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<input type="time" name="schedule_wednesday_opening">
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<input type="time" name="schedule_wednesday_closing">
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label class="success">
+													<input type="text" value="{$lang.thursday}" disabled>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<select name="schedule_thursday_status">
+														<option value="open">{$lang.open}</option>
+														<option value="close">{$lang.close}</option>
+													</select>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<input type="time" name="schedule_thursday_opening">
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<input type="time" name="schedule_thursday_closing">
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label class="success">
+													<input type="text" value="{$lang.friday}" disabled>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<select name="schedule_friday_status">
+														<option value="open">{$lang.open}</option>
+														<option value="close">{$lang.close}</option>
+													</select>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<input type="time" name="schedule_friday_opening">
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<input type="time" name="schedule_friday_closing">
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label class="success">
+													<input type="text" value="{$lang.saturday}" disabled>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<select name="schedule_saturday_status">
+														<option value="open">{$lang.open}</option>
+														<option value="close">{$lang.close}</option>
+													</select>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<input type="time" name="schedule_saturday_opening">
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<input type="time" name="schedule_saturday_closing">
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label class="success">
+													<input type="text" value="{$lang.sunday}" disabled>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<select name="schedule_sunday_status">
+														<option value="open">{$lang.open}</option>
+														<option value="close">{$lang.close}</option>
+													</select>
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<input type="time" name="schedule_sunday_opening">
+												</label>
+											</div>
+										</div>
+										<div class="span3">
+											<div class="label">
+												<label required>
+													<input type="time" name="schedule_sunday_closing">
 												</label>
 											</div>
 										</div>

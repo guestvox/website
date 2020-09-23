@@ -258,9 +258,41 @@ class Signup_model extends Model
 						'opportunity_type' => '',
 						'requests' => false,
 						'schedule' => [
-							'days' => [],
-							'opening' => '',
-							'closing' => ''
+							'monday' => [
+								'status' => 'open',
+								'opening' => '',
+								'closing' => ''
+							],
+							'tuesday' => [
+								'status' => 'open',
+								'opening' => '',
+								'closing' => ''
+							],
+							'wednesday' => [
+								'status' => 'open',
+								'opening' => '',
+								'closing' => ''
+							],
+							'thursday' => [
+								'status' => 'open',
+								'opening' => '',
+								'closing' => ''
+							],
+							'friday' => [
+								'status' => 'open',
+								'opening' => '',
+								'closing' => ''
+							],
+							'saturday' => [
+								'status' => 'open',
+								'opening' => '',
+								'closing' => ''
+							],
+							'sunday' => [
+								'status' => 'open',
+								'opening' => '',
+								'closing' => ''
+							]
 						],
 						'multi' => false
 					],
