@@ -50,7 +50,7 @@ class Menu_controller extends Controller
 
 					array_push($temporal['menu_topics_groups'], $_POST['topics']);
 
-					$html = '';
+					$html .= '<div class="full_topics_groups">';
 
 					foreach ($temporal['menu_topics_groups'] as $key => $value)
 					{
@@ -75,6 +75,8 @@ class Menu_controller extends Controller
 
 						$html .= '</div>';
 					}
+
+					$html .= '</div>';
 
 					Session::set_value('temporal', $temporal);
 
@@ -103,28 +105,56 @@ class Menu_controller extends Controller
 
 				$html = '';
 
-				foreach ($temporal['menu_topics_groups'] as $key => $value)
+				if (!empty($temporal['menu_topics_groups']))
 				{
-					$html .= '<div>';
+					$html .= '<div class="full_topics_groups">';
 
-					foreach ($value as $subkey => $subvalue)
+					foreach ($temporal['menu_topics_groups'] as $key => $value)
 					{
-						$subvalue['topic'] = $this->model->get_menu_topic($subvalue['id']);
+						$html .= '<div>';
 
-						if (!empty($subvalue['topic']))
+						foreach ($value as $subkey => $subvalue)
 						{
-							$html .=
-							'<div>
-								<p>' . $subvalue['topic']['name'][$this->lang] . '</p>
-								<span>{$lang.' . $subvalue['selection'] . '}</span>
-								<input type="text" name="update_menu_topic_price" value="' . $subvalue['price'] . '" data-key="' . $key . '" data-subkey="' . $subkey . '">
-								<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
-								<a data-action="remove_menu_topics_group" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-times"></i></a>
-							</div>';
+							$subvalue['topic'] = $this->model->get_menu_topic($subvalue['id']);
+
+							if (!empty($subvalue['topic']))
+							{
+								$html .=
+								'<div>
+									<p>' . $subvalue['topic']['name'][$this->lang] . '</p>
+									<span>{$lang.' . $subvalue['selection'] . '}</span>
+									<input type="text" name="update_menu_topic_price" value="' . $subvalue['price'] . '" data-key="' . $key . '" data-subkey="' . $subkey . '">
+									<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
+									<a data-action="remove_menu_topics_group" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-times"></i></a>
+								</div>';
+							}
 						}
+
+						$html .= '</div>';
 					}
 
 					$html .= '</div>';
+				}
+				else
+				{
+					$html .=
+					'<div class="empty_topics_groups">
+						<p>{$lang.empty_topics_groups_1}</p>
+						<div>
+							<div>
+								<i class="fas fa-hand-pointer"></i>
+								<p>{$lang.empty_topics_groups_2}</p>
+							</div>
+							<div>
+								<i class="far fa-check-square"></i>
+								<p>{$lang.empty_topics_groups_3}</p>
+							</div>
+							<div>
+								<i class="fas fa-plus"></i>
+								<p>{$lang.empty_topics_groups_4}</p>
+							</div>
+						</div>
+					</div>';
 				}
 
 				Session::set_value('temporal', $temporal);
@@ -174,28 +204,56 @@ class Menu_controller extends Controller
 
 					$query['topics'] = '';
 
-					foreach ($temporal['menu_topics_groups'] as $key => $value)
+					if (!empty($temporal['menu_topics_groups']))
 					{
-						$query['topics'] .= '<div>';
+						$query['topics'] .= '<div class="full_topics_groups">';
 
-						foreach ($value as $subkey => $subvalue)
+						foreach ($temporal['menu_topics_groups'] as $key => $value)
 						{
-							$subvalue['topic'] = $this->model->get_menu_topic($subvalue['id']);
+							$query['topics'] .= '<div>';
 
-							if (!empty($subvalue['topic']))
+							foreach ($value as $subkey => $subvalue)
 							{
-								$query['topics'] .=
-								'<div>
-									<p>' . $subvalue['topic']['name'][$this->lang] . '</p>
-									<span>{$lang.' . $subvalue['selection'] . '}</span>
-									<input type="text" name="update_menu_topic_price" value="' . $subvalue['price'] . '" data-key="' . $key . '" data-subkey="' . $subkey . '">
-									<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
-									<a data-action="remove_menu_topics_group" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-times"></i></a>
-								</div>';
+								$subvalue['topic'] = $this->model->get_menu_topic($subvalue['id']);
+
+								if (!empty($subvalue['topic']))
+								{
+									$query['topics'] .=
+									'<div>
+										<p>' . $subvalue['topic']['name'][$this->lang] . '</p>
+										<span>{$lang.' . $subvalue['selection'] . '}</span>
+										<input type="text" name="update_menu_topic_price" value="' . $subvalue['price'] . '" data-key="' . $key . '" data-subkey="' . $subkey . '">
+										<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
+										<a data-action="remove_menu_topics_group" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-times"></i></a>
+									</div>';
+								}
 							}
+
+							$query['topics'] .= '</div>';
 						}
 
 						$query['topics'] .= '</div>';
+					}
+					else
+					{
+						$query['topics'] .=
+						'<div class="empty_topics_groups">
+							<p>{$lang.empty_topics_groups_1}</p>
+							<div>
+								<div>
+									<i class="fas fa-hand-pointer"></i>
+									<p>{$lang.empty_topics_groups_2}</p>
+								</div>
+								<div>
+									<i class="far fa-check-square"></i>
+									<p>{$lang.empty_topics_groups_3}</p>
+								</div>
+								<div>
+									<i class="fas fa-plus"></i>
+									<p>{$lang.empty_topics_groups_4}</p>
+								</div>
+							</div>
+						</div>';
 					}
 
 					Session::set_value('temporal', $temporal);
@@ -238,6 +296,21 @@ class Menu_controller extends Controller
 
 				if (!isset($_POST['position']) OR empty($_POST['position']) OR $_POST['position'] < 1)
 					array_push($labels, ['position','']);
+
+				if (!isset($_POST['available_days']) OR empty($_POST['available_days']))
+					array_push($labels, ['available_days','']);
+
+				if (!empty($_POST['available_end_date']) AND (!isset($_POST['available_start_date']) OR empty($_POST['available_start_date'])))
+					array_push($labels, ['available_start_date','']);
+
+				if (!empty($_POST['available_start_date']) AND (!isset($_POST['available_end_date']) OR empty($_POST['available_end_date'])))
+					array_push($labels, ['available_end_date','']);
+
+				if (!empty($_POST['available_start_date']) AND !empty($_POST['available_end_date']) AND $_POST['available_start_date'] >= $_POST['available_end_date'])
+				{
+					array_push($labels, ['available_start_date','']);
+					array_push($labels, ['available_end_date','']);
+				}
 
 				if (!isset($_POST['avatar']) OR empty($_POST['avatar']))
 					array_push($labels, ['avatar','']);
@@ -540,28 +613,56 @@ class Menu_controller extends Controller
 				{
 					$cbx_menu_topics .= '<aside>';
 
-					foreach (Session::get_value('temporal')['menu_topics_groups'] as $key => $value)
+					if (!empty(Session::get_value('temporal')['menu_topics_groups']))
 					{
-						$cbx_menu_topics .= '<div>';
+						$cbx_menu_topics .= '<div class="full_topics_groups">';
 
-						foreach ($value as $subkey => $subvalue)
+						foreach (Session::get_value('temporal')['menu_topics_groups'] as $key => $value)
 						{
-							$subvalue['topic'] = $this->model->get_menu_topic($subvalue['id']);
+							$cbx_menu_topics .= '<div>';
 
-							if (!empty($subvalue['topic']))
+							foreach ($value as $subkey => $subvalue)
 							{
-								$cbx_menu_topics .=
-								'<div>
-									<p>' . $subvalue['topic']['name'][$this->lang] . '</p>
-									<span>{$lang.' . $subvalue['selection'] . '}</span>
-									<input type="text" name="update_menu_topic_price" value="' . $subvalue['price'] . '" data-key="' . $key . '" data-subkey="' . $subkey . '">
-									<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
-									<a data-action="remove_menu_topics_group" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-times"></i></a>
-								</div>';
+								$subvalue['topic'] = $this->model->get_menu_topic($subvalue['id']);
+
+								if (!empty($subvalue['topic']))
+								{
+									$cbx_menu_topics .=
+									'<div>
+										<p>' . $subvalue['topic']['name'][$this->lang] . '</p>
+										<span>{$lang.' . $subvalue['selection'] . '}</span>
+										<input type="text" name="update_menu_topic_price" value="' . $subvalue['price'] . '" data-key="' . $key . '" data-subkey="' . $subkey . '">
+										<span>' . (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency']) . '</span>
+										<a data-action="remove_menu_topics_group" data-key="' . $key . '" data-subkey="' . $subkey . '"><i class="fas fa-times"></i></a>
+									</div>';
+								}
 							}
+
+							$cbx_menu_topics .= '</div>';
 						}
 
 						$cbx_menu_topics .= '</div>';
+					}
+					else
+					{
+						$cbx_menu_topics .=
+						'<div class="empty_topics_groups">
+							<p>{$lang.empty_topics_groups_1}</p>
+							<div>
+								<div>
+									<i class="fas fa-hand-pointer"></i>
+									<p>{$lang.empty_topics_groups_2}</p>
+								</div>
+								<div>
+									<i class="far fa-check-square"></i>
+									<p>{$lang.empty_topics_groups_3}</p>
+								</div>
+								<div>
+									<i class="fas fa-plus"></i>
+									<p>{$lang.empty_topics_groups_4}</p>
+								</div>
+							</div>
+						</div>';
 					}
 
 					$cbx_menu_topics .=
@@ -569,13 +670,13 @@ class Menu_controller extends Controller
 					<div class="label">
 						<label required>
 							<select name="selection">
-								<option value="" hidden>{$lang.selection_type}</option>
 								<option value="checkbox">{$lang.multi_selection}</option>
 								<option value="radio">{$lang.one_selection}</option>
 							</select>
 						</label>
 					</div>
-					<div class="checkboxes stl_1">';
+					<div class="checkboxes stl_1">
+						<div>';
 
 					foreach ($menu_topics as $value)
 					{
@@ -587,11 +688,12 @@ class Menu_controller extends Controller
 					}
 
 					$cbx_menu_topics .=
-					'	<div class="button">
-							<a href="/menu/topics">{$lang.create_more_topics}</a>
+					'		<div class="button">
+								<a href="/menu/topics">{$lang.create_more_topics}</a>
+							</div>
 						</div>
 					</div>
-					<a data-action="add_menu_topics_group">{$lang.add_menu_topics_group}</a>';
+					<a data-action="add_menu_topics_group">{$lang.add}</a>';
 				}
 				else
 				{
@@ -605,9 +707,7 @@ class Menu_controller extends Controller
 
 				foreach ($this->model->get_icons('menu') as $key => $value)
 				{
-					$cbx_icons .=
-					'<p>{$lang.' . $key . '}</p>
-					<div>';
+					$cbx_icons .= '<div>';
 
 					foreach ($value as $subvalue)
 					{
@@ -813,9 +913,7 @@ class Menu_controller extends Controller
 
 			foreach ($this->model->get_icons('menu') as $key => $value)
 			{
-				$cbx_icons .=
-				'<p>{$lang.' . $key . '}</p>
-				<div>';
+				$cbx_icons .= '<div>';
 
 				foreach ($value as $subvalue)
 				{

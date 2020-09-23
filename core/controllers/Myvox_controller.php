@@ -1749,25 +1749,28 @@ class Myvox_controller extends Controller
 
 					foreach ($this->model->get_menu_products() as $value)
 					{
-						if (empty($value['available']) OR (!empty($value['available']) AND in_array(Functions::get_current_day(), $value['available'])))
+						if (in_array(Functions::get_current_day(), $value['available']['days']))
 						{
-							$html .=
-							'<div>
-								<figure class="' . $value['avatar'] . '" ' . (($value['avatar'] == 'icon') ? 'style="background-color:' . $value['icon_color'] . ';"' : '') . '>';
+							if ((empty($value['available']['start_date']) AND empty($value['available']['end_date'])) OR (!empty($value['available']['start_date']) AND !empty($value['available']['end_date']) AND Functions::get_current_date() >= $value['available']['start_date'] AND Functions::get_current_date() <= $value['available']['end_date']))
+							{
+								$html .=
+								'<div>
+									<figure class="' . $value['avatar'] . '" ' . (($value['avatar'] == 'icon') ? 'style="background-color:' . $value['icon_color'] . ';"' : '') . '>';
 
-							if ($value['avatar'] == 'image')
-								$html .= '<img src="{$path.uploads}' . $value['image'] . '">';
-							else if ($value['avatar'] == 'icon')
-								$html .= '<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '"></figure>';
+								if ($value['avatar'] == 'image')
+									$html .= '<img src="{$path.uploads}' . $value['image'] . '">';
+								else if ($value['avatar'] == 'icon')
+									$html .= '<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '"></figure>';
 
-							$html .=
-							'	</figure>
-								<div>
-									<h2>' . $value['name'][$this->lang1] . '</h2>
-									<span>' . Functions::get_formatted_currency($value['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>
-									<a data-action="preview_menu_product" data-id="' . $value['id'] . '"></a>
-								</div>
-							</div>';
+								$html .=
+								'	</figure>
+									<div>
+										<h2>' . $value['name'][$this->lang1] . '</h2>
+										<span>' . Functions::get_formatted_currency($value['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>
+										<a data-action="preview_menu_product" data-id="' . $value['id'] . '"></a>
+									</div>
+								</div>';
+							}
 						}
 					}
 

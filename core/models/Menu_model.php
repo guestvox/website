@@ -178,7 +178,11 @@ class Menu_model extends Model
 			'topics' => json_encode(Session::get_value('temporal')['menu_topics_groups']),
 			'price' => $data['price'],
 			'position' => $data['position'],
-			'available' => json_encode((!empty($data['available']) ? $data['available'] : [])),
+			'available' => json_encode([
+				'days' => $data['available_days'],
+				'start_date' => !empty($data['available_start_date']) ? $data['available_start_date'] : '',
+				'end_date' => !empty($data['available_end_date']) ? $data['available_end_date'] : ''
+			]),
 			'avatar' => $data['avatar'],
 			'image' => ($data['avatar'] == 'image') ? Functions::uploader($data['image'], Session::get_value('account')['path'] . '_menu_product_avatar_') : null,
 			'icon' => ($data['avatar'] == 'icon') ? $data['icon'] : null,
@@ -240,7 +244,11 @@ class Menu_model extends Model
 				'topics' => json_encode(Session::get_value('temporal')['menu_topics_groups']),
 				'price' => $data['price'],
 				'position' => $data['position'],
-				'available' => json_encode((!empty($data['available']) ? $data['available'] : [])),
+				'available' => json_encode([
+					'days' => $data['available_days'],
+					'start_date' => !empty($data['available_start_date']) ? $data['available_start_date'] : '',
+					'end_date' => !empty($data['available_end_date']) ? $data['available_end_date'] : ''
+				]),
 				'avatar' => $data['avatar'],
 				'image' => ($data['avatar'] == 'image' AND !empty($data['image']['name'])) ? Functions::uploader($data['image'], Session::get_value('account')['path'] . '_menu_product_avatar_') : $edited[0]['image'],
 				'icon' => ($data['avatar'] == 'icon') ? $data['icon'] : null,

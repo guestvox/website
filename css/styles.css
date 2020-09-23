@@ -1617,11 +1617,12 @@ div.label > label > p {
     padding: 0px 10px;
     box-sizing: border-box;
     font-size: 14px;
+    font-weight: 400;
     line-height: 1;
     white-space: nowrap;
     text-overflow: ellipsis;
-    color: #757575;
     overflow: hidden;
+    color: #757575;
 }
 
 div.label > label > p.center {
@@ -1684,16 +1685,26 @@ div.checkboxes {
 
 div.checkboxes > p {
     width: 100%;
+    height: 15px;
     margin-top: 20px;
-    padding-left: 10px;
+    margin-bottom: 10px;
+    padding: 0px 10px;
     box-sizing: border-box;
     font-size: 14px;
-    font-weight: 600;
-    color: #212121;
+    font-weight: 400;
+    line-height: 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #757575;
 }
 
 div.checkboxes > p:first-child {
     margin-top: 0px;
+}
+
+div.checkboxes > p > a {
+    color: #e0e0e0;
 }
 
 /*  */
@@ -1734,46 +1745,61 @@ div.checkboxes.stl_1,
 div.checkboxes.stl_2,
 div.checkboxes.stl_3 {
     width: 100%;
-    padding: 10px;
-    border: 1px dashed #e0e0e0;
-    box-sizing: border-box;
 }
 
 div.checkboxes.stl_1 > div,
-div.checkboxes.stl_2 > div > div,
+div.checkboxes.stl_2 > div,
 div.checkboxes.stl_3 > div {
+    width: 100%;
+    padding: 10px;
+    border-radius: 2px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+div.checkboxes.stl_1 > div::after,
+div.checkboxes.stl_2 > div::after,
+div.checkboxes.stl_3 > div::after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+div.checkboxes.stl_1 > div > div,
+div.checkboxes.stl_2 > div > div > div,
+div.checkboxes.stl_3 > div > div {
     display: flex;
     align-items: center;
-    padding: 5px 0px;
+    padding-bottom: 5px;
 }
 
-div.checkboxes.stl_1 > div,
-div.checkboxes.stl_2 > div > div {
+div.checkboxes.stl_1 > div > div,
+div.checkboxes.stl_2 > div > div > div {
     width: auto !important;
     float: left;
     justify-content: center;
 }
 
-div.checkboxes.stl_3 > div {
+div.checkboxes.stl_3 > div > div {
     width: 100% !important;
     justify-content: flex-start;
 }
 
-div.checkboxes.stl_1 > div > span,
-div.checkboxes.stl_2 > div > div > span,
-div.checkboxes.stl_3 > div > span {
+div.checkboxes.stl_1 > div > div > span,
+div.checkboxes.stl_2 > div > div > div > span,
+div.checkboxes.stl_3 > div > div > span {
     padding: 0px 10px 0px 5px;
     font-size: 12px;
     font-weight: 400;
     color: #757575;
 }
 
-div.checkboxes.stl_1 > div > input[type="checkbox"],
-div.checkboxes.stl_2 > div > div > input[type="checkbox"],
-div.checkboxes.stl_3 > div > input[type="checkbox"],
-div.checkboxes.stl_1 > div > input[type="radio"],
-div.checkboxes.stl_2 > div > div > input[type="radio"],
-div.checkboxes.stl_3 > div > input[type="radio"] {
+div.checkboxes.stl_1 > div > div > input[type="checkbox"],
+div.checkboxes.stl_2 > div > div > div > input[type="checkbox"],
+div.checkboxes.stl_3 > div > div > input[type="checkbox"],
+div.checkboxes.stl_1 > div > div > input[type="radio"],
+div.checkboxes.stl_2 > div > div > div > input[type="radio"],
+div.checkboxes.stl_3 > div > div > input[type="radio"] {
     width: 20px;
     height: 20px;
     position: relative;
@@ -1784,9 +1810,9 @@ div.checkboxes.stl_3 > div > input[type="radio"] {
     -webkit-appearance: none;
 }
 
-div.checkboxes.stl_1 > div > input[type="checkbox"]::before,
-div.checkboxes.stl_2 > div > div > input[type="checkbox"]::before,
-div.checkboxes.stl_3 > div > input[type="checkbox"]::before {
+div.checkboxes.stl_1 > div > div > input[type="checkbox"]::before,
+div.checkboxes.stl_2 > div > div > div > input[type="checkbox"]::before,
+div.checkboxes.stl_3 > div > div > input[type="checkbox"]::before {
     content: '';
     width: 20px;
     height: 20px;
@@ -1803,9 +1829,9 @@ div.checkboxes.stl_3 > div > input[type="checkbox"]::before {
     z-index: 1;
 }
 
-div.checkboxes.stl_1 > div > input[type="checkbox"]:checked::before,
-div.checkboxes.stl_2 > div > div > input[type="checkbox"]:checked::before,
-div.checkboxes.stl_3 > div > input[type="checkbox"]:checked::before {
+div.checkboxes.stl_1 > div > div > input[type="checkbox"]:checked::before,
+div.checkboxes.stl_2 > div > div > div > input[type="checkbox"]:checked::before,
+div.checkboxes.stl_3 > div > div > input[type="checkbox"]:checked::before {
     height: 10px;
     top: 0px;
     left: 2px;
@@ -1817,9 +1843,9 @@ div.checkboxes.stl_3 > div > input[type="checkbox"]:checked::before {
     -webkit-transform: rotate(-45deg);
 }
 
-div.checkboxes.stl_1 > div > input[type="checkbox"]::after,
-div.checkboxes.stl_2 > div > div > input[type="checkbox"]::after,
-div.checkboxes.stl_3 > div > input[type="checkbox"]::after {
+div.checkboxes.stl_1 > div > div > input[type="checkbox"]::after,
+div.checkboxes.stl_2 > div > div > div > input[type="checkbox"]::after,
+div.checkboxes.stl_3 > div > div > input[type="checkbox"]::after {
     content: '';
     width: 20px;
     height: 20px;
@@ -1831,9 +1857,9 @@ div.checkboxes.stl_3 > div > input[type="checkbox"]::after {
     z-index: 0;
 }
 
-div.checkboxes.stl_1 > div > input[type="radio"]::before,
-div.checkboxes.stl_2 > div > div > input[type="radio"]::before,
-div.checkboxes.stl_3 > div > input[type="radio"]::before {
+div.checkboxes.stl_1 > div > div > input[type="radio"]::before,
+div.checkboxes.stl_2 > div > div > div > input[type="radio"]::before,
+div.checkboxes.stl_3 > div > div > input[type="radio"]::before {
     content: '';
     width: 20px;
     height: 20px;
@@ -1849,15 +1875,15 @@ div.checkboxes.stl_3 > div > input[type="radio"]::before {
     z-index: 1;
 }
 
-div.checkboxes.stl_1 > div > input[type="radio"]:checked::before,
-div.checkboxes.stl_2 > div > div > input[type="radio"]:checked::before,
-div.checkboxes.stl_3 > div > input[type="radio"]:checked::before {
+div.checkboxes.stl_1 > div > div > input[type="radio"]:checked::before,
+div.checkboxes.stl_2 > div > div > div > input[type="radio"]:checked::before,
+div.checkboxes.stl_3 > div > div > input[type="radio"]:checked::before {
     background-color: #00a5ab;
 }
 
-div.checkboxes.stl_1 > div > input[type="radio"]::after,
-div.checkboxes.stl_2 > div > div > input[type="radio"]::after,
-div.checkboxes.stl_3 > div > input[type="radio"]::after {
+div.checkboxes.stl_1 > div > div > input[type="radio"]::after,
+div.checkboxes.stl_2 > div > div > div > input[type="radio"]::after,
+div.checkboxes.stl_3 > div > div > input[type="radio"]::after {
     content: '';
     width: 20px;
     height: 20px;
@@ -1870,26 +1896,27 @@ div.checkboxes.stl_3 > div > input[type="radio"]::after {
     z-index: 0;
 }
 
-div.checkboxes.stl_1 > div > input[type="checkbox"]:focus,
-div.checkboxes.stl_2 > div > div > input[type="checkbox"]:focus,
-div.checkboxes.stl_3 > div > input[type="checkbox"]:focus,
-div.checkboxes.stl_1 > div > input[type="radio"]:focus,
-div.checkboxes.stl_2 > div > div > input[type="radio"]:focus,
-div.checkboxes.stl_3 > div > input[type="radio"]:focus {
+div.checkboxes.stl_1 > div > div > input[type="checkbox"]:focus,
+div.checkboxes.stl_2 > div > div > div > input[type="checkbox"]:focus,
+div.checkboxes.stl_3 > div > div > input[type="checkbox"]:focus,
+div.checkboxes.stl_1 > div > div > input[type="radio"]:focus,
+div.checkboxes.stl_2 > div > div > div > input[type="radio"]:focus,
+div.checkboxes.stl_3 > div > div > input[type="radio"]:focus {
     border: none;
     box-shadow: none;
 }
 
-div.checkboxes.stl_1 > div.button {
+div.checkboxes.stl_1 > div > div.button {
     width: 100% !important;
     display: flex !important;
     align-items: center !important;
-    justify-content: center !important;
+    justify-content: flex-end !important;
+    padding: 10px 0px 0px 0px !important;
 }
 
-div.checkboxes.stl_1 > div.button > a {
+div.checkboxes.stl_1 > div > div.button > a {
     width: auto;
-    height: 50px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -4205,6 +4232,29 @@ div.menu_preview > div[data-table] {
 ------------------------------------------------------------------------------ */
 div.menu_topics_groups {
     width: 100%;
+}
+
+div.menu_topics_groups > p {
+    width: 100%;
+    height: 15px;
+    margin-bottom: 10px;
+    padding: 0px 10px;
+    box-sizing: border-box;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #757575;
+}
+
+div.menu_topics_groups > p > a {
+    color: #e0e0e0;
+}
+
+div.menu_topics_groups > div {
+    width: 100%;
     padding: 10px;
     border: 1px dashed #e0e0e0;
     box-sizing: border-box;
@@ -4212,7 +4262,7 @@ div.menu_topics_groups {
 
 /*  */
 
-div.menu_topics_groups > div.empty {
+div.menu_topics_groups > div > div.empty {
     width: 100%;
     display: flex;
     align-items: center;
@@ -4222,24 +4272,24 @@ div.menu_topics_groups > div.empty {
     box-sizing: border-box;
 }
 
-div.menu_topics_groups > div.empty > i {
+div.menu_topics_groups > div > div.empty > i {
     margin-bottom: 50px;
     font-size: 100px;
     color: #e0e0e0;
 }
 
-div.menu_topics_groups > div.empty > p {
+div.menu_topics_groups > div > div.empty > p {
     font-size: 16px;
     font-weight: 400;
     text-align: center;
     color: #757575;
 }
 
-div.menu_topics_groups > div.empty > p > span {
+div.menu_topics_groups > div > div.empty > p > span {
     font-size: 24px;
 }
 
-div.menu_topics_groups > div.empty > a {
+div.menu_topics_groups > div > div.empty > a {
     width: auto;
     height: 50px;
     display: flex;
@@ -4257,7 +4307,7 @@ div.menu_topics_groups > div.empty > a {
 
 /*  */
 
-div.menu_topics_groups > aside > div {
+div.menu_topics_groups > div > aside > div.full_topics_groups > div {
     width: 100%;
     margin-bottom: 10px;
     padding: 10px;
@@ -4265,11 +4315,11 @@ div.menu_topics_groups > aside > div {
     box-sizing: border-box;
 }
 
-div.menu_topics_groups > aside > div:last-child {
+div.menu_topics_groups > div > aside > div.full_topics_groups > div:last-child {
     margin-bottom: 20px;
 }
 
-div.menu_topics_groups > aside > div > div {
+div.menu_topics_groups > div > aside > div.full_topics_groups > div > div {
     width: 100%;
     height: 25px;
     display: flex;
@@ -4278,18 +4328,18 @@ div.menu_topics_groups > aside > div > div {
     margin-bottom: 2px;
 }
 
-div.menu_topics_groups > aside > div > div:last-child {
+div.menu_topics_groups > div > aside > div.full_topics_groups > div > div:last-child {
     margin-bottom: 0px;
 }
 
-div.menu_topics_groups > aside > div > div > p {
+div.menu_topics_groups > div > aside > div.full_topics_groups > div > div > p {
     width: calc(100% - 175px);
     font-size: 12px;
     font-weight: 400;
     color: #757575;
 }
 
-div.menu_topics_groups > aside > div > div > input {
+div.menu_topics_groups > div > aside > div.full_topics_groups > div > div > input {
     width: 50px;
     height: 100%;
     border: none;
@@ -4297,7 +4347,7 @@ div.menu_topics_groups > aside > div > div > input {
     padding: 0px 5px;
 }
 
-div.menu_topics_groups > aside > div > div > span {
+div.menu_topics_groups > div > aside > div.full_topics_groups > div > div > span {
     width: 50px;
     font-size: 12px;
     font-weight: 600;
@@ -4305,7 +4355,7 @@ div.menu_topics_groups > aside > div > div > span {
     color: #212121;
 }
 
-div.menu_topics_groups > aside > div > div > a {
+div.menu_topics_groups > div > aside > div.full_topics_groups > div > div > a {
     width: 25px;
     height: 25px;
     display: flex;
@@ -4316,18 +4366,70 @@ div.menu_topics_groups > aside > div > div > a {
     background-color: red;
 }
 
-div.menu_topics_groups > div.checkboxes {
+/*  */
+
+div.menu_topics_groups > div > aside > div.empty_topics_groups {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px 0px 40px 0px;
+    box-sizing: border-box;
+}
+
+div.menu_topics_groups > div > aside > div.empty_topics_groups > p {
+    max-width: 70%;
+    margin-bottom: 40px;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    color: #757575;
+}
+
+div.menu_topics_groups > div > aside > div.empty_topics_groups > div {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+div.menu_topics_groups > div > aside > div.empty_topics_groups > div > div {
+    width: calc(100% / 3);
+    height: 110px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+div.menu_topics_groups > div > aside > div.empty_topics_groups > div > div > i {
+    margin-bottom: 10px;
+    font-size: 60px;
+    color: #e0e0e0;
+}
+
+div.menu_topics_groups > div > aside > div.empty_topics_groups > div > div > p {
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 18px;
+    color: #757575;
+}
+
+/*  */
+
+div.menu_topics_groups > div > div.checkboxes {
     margin-bottom: 20px;
 }
 
-div.menu_topics_groups > a[data-action="add_menu_topics_group"] {
+div.menu_topics_groups > div > a[data-action="add_menu_topics_group"] {
     width: 100%;
     height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px dashed #e0e0e0;
-    box-sizing: border-box;
+    background-color: #eee;
     font-size: 14px;
     font-weight: 400;
     color: #757575;

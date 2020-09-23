@@ -35,7 +35,11 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
+                {
                     $('[name="position"]').val(response.data);
+
+                    required_focus('input', $('[name="position"]'), null);
+                }
                 else if (response.status == 'error')
                     show_modal_error(response.message);
             }
@@ -85,7 +89,7 @@ $(document).ready(function()
             success: function(response) {}
         });
 
-        $('div.menu_topics_groups > aside').html('');
+        $('div.menu_topics_groups > div > aside').html('');
         $('[name="image"]').parents('.span12').removeClass('hidden');
         $('[name="icon"]').parents('.span12').addClass('hidden');
 
@@ -125,9 +129,9 @@ $(document).ready(function()
                 {
                     if (add_menu_topics_group == true)
                     {
-                        $('div.menu_topics_groups > aside').html(response.html);
+                        $('div.menu_topics_groups > div > aside').html(response.html);
                         $('[name="topics[]"]').prop('checked', false);
-                        $('[name="selection"]').val('');
+                        $('[name="selection"]').val('checkbox');
 
                         load_menu_topics_groups_actions();
 
@@ -163,8 +167,10 @@ $(document).ready(function()
                     $('[name="description_en"]').val(response.data.description.en);
                     $('[name="price"]').val(response.data.price);
                     $('[name="position"]').val(response.data.position);
-                    $('[name="available[]"]').val(response.data.available).trigger("chosen:updated");
-                    $('div.menu_topics_groups > aside').html(response.data.topics);
+                    $('[name="available_days[]"]').val(response.data.available.days).trigger("chosen:updated");
+                    $('[name="available_start_date"]').val(response.data.available.start_date);
+                    $('[name="available_end_date"]').val(response.data.available.end_date);
+                    $('div.menu_topics_groups > div > aside').html(response.data.topics);
                     $('[name="avatar"]').val(response.data.avatar);
 
                     if (response.data.avatar == 'image')
@@ -327,7 +333,7 @@ function load_menu_topics_groups_actions()
             {
                 if (response.status == 'success')
                 {
-                    $('div.menu_topics_groups > aside').html(response.html);
+                    $('div.menu_topics_groups > div > aside').html(response.html);
 
                     load_menu_topics_groups_actions();
                 }

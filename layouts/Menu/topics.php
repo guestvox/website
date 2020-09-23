@@ -43,10 +43,10 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_topics");</script>'
                             </label>
                         </div>
                     </div>
-                    <div class="span6">
+                    <div class="span3">
                         <div class="label">
                             <label required>
-                                <p>{$lang.position}</p>
+                                <p>{$lang.position} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
                                 <input type="number" name="position" min="1">
                             </label>
                         </div>

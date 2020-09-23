@@ -70,31 +70,50 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                             </label>
                         </div>
                     </div>
-                    <div class="span6">
+                    <div class="span3">
                         <div class="label">
                             <label unrequired>
-                                <p>{$lang.available_only_days} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-                                <select name="available[]" class="chosen-select" multiple>
-                                    <option value="sunday">{$lang.sunday}</option>
-                                    <option value="monday">{$lang.monday}</option>
-                                    <option value="tuesday">{$lang.tuesday}</option>
-                                    <option value="wednesday">{$lang.wednesday}</option>
-                                    <option value="thursday">{$lang.thursday}</option>
-                                    <option value="friday">{$lang.friday}</option>
-                                    <option value="saturday">{$lang.saturday}</option>
+                                <p>{$lang.available_start_date} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                                <input type="date" name="available_start_date">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="label">
+                            <label unrequired>
+                                <p>{$lang.available_end_date} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                                <input type="date" name="available_end_date">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.available_days} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                                <select name="available_days[]" class="chosen-select" multiple>
+                                    <option value="monday" selected>{$lang.monday}</option>
+                                    <option value="tuesday" selected>{$lang.tuesday}</option>
+                                    <option value="wednesday" selected>{$lang.wednesday}</option>
+                                    <option value="thursday" selected>{$lang.thursday}</option>
+                                    <option value="friday" selected>{$lang.friday}</option>
+                                    <option value="saturday" selected>{$lang.saturday}</option>
+                                    <option value="sunday" selected>{$lang.sunday}</option>
                                 </select>
                             </label>
                         </div>
                     </div>
                     <div class="span12">
                         <div class="menu_topics_groups">
-                            {$cbx_menu_topics}
+                            <p>{$lang.topics_groups} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                            <div>
+                                {$cbx_menu_topics}
+                            </div>
                         </div>
                     </div>
                     <div class="span12">
                         <div class="label">
                             <label unrequired>
-                                <p>{$lang.avatar}</p>
+                                <p>{$lang.avatar_type} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
                                 <select name="avatar">
                                     <option value="image">{$lang.image}</option>
                                     <option value="icon">{$lang.icon}</option>
@@ -104,7 +123,6 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                     </div>
                     <div class="span12">
                         <div class="stl_2" data-uploader="low">
-                            <p>{$lang.image}</p>
                             <figure data-preview>
                                 <img src="{$path.images}empty.png">
                                 <a data-select><i class="fas fa-upload"></i></a>
@@ -119,10 +137,12 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                     </div>
                     <div class="span12">
                         <div class="checkboxes stl_1">
-                            <p>{$lang.categories}</p>
-                            {$cbx_menu_categories}
-                            <div class="button">
-                                <a href="/menu/categories">{$lang.create_more_categories}</a>
+                            <p>{$lang.categories} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                            <div>
+                                {$cbx_menu_categories}
+                                <div class="button">
+                                    <a href="/menu/categories">{$lang.create_more_categories}</a>
+                                </div>
                             </div>
                         </div>
                     </div>

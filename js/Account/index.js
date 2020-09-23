@@ -572,7 +572,7 @@ $(document).ready(function()
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').html(response.html);
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').attr('disabled', false);
 
-                    required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]'), null)
+                    required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]'), null);
                 }
             }
         });
