@@ -1163,7 +1163,7 @@ class Myvox_controller extends Controller
 								{
 									$html .=
 									'<label>
-										<input type="' . $subvalue['selection'] . '" name="topics_' . $key . '[]" value="' . $key . '_' . $subkey . '" data-action="update_menu_product_price" data-id="' . $_POST['id'] . '" />
+										<input type="' . $subvalue['selection'] . '" name="topics_' . $key . '[]" value="' . $key . '_' . $subkey . '" data-action="update_menu_product_price" data-id="' . $_POST['id'] . '" ' . (($subvalue['selection'] == 'radio' AND $subkey == 0) ? 'checked' : '') . ' />
 										<p>' . $subvalue['name'][$this->lang1] . '</p>
 										<span>' . Functions::get_formatted_currency($subvalue['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . ' +</span>
 									</label>';
@@ -1805,142 +1805,145 @@ class Myvox_controller extends Controller
 						}
 					}
 
-					if (Session::get_value('myvox')['account']['settings']['myvox']['menu']['requests'] == true AND !empty(Session::get_value('myvox')['menu_order']['shopping_cart']))
+					if (((Session::get_value('myvox')['url'] == 'account' OR Session::get_value('myvox')['url'] == 'owner') AND Session::get_value('myvox')['account']['settings']['myvox']['menu']['requests'] == true) OR (Session::get_value('myvox')['url'] == 'delivery' AND Session::get_value('myvox')['account']['settings']['myvox']['menu']['delivery'] == true))
 					{
-						$html .=
-						'<form name="new_menu_order">
-							<div class="row">';
-
-						if (Session::get_value('myvox')['url'] == 'account')
+						if (!empty(Session::get_value('myvox')['menu_order']['shopping_cart']))
 						{
 							$html .=
-							'<div class="span12">
-								<div class="label">
-									<label required>
-										<p>{$lang.owner} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-										<select name="owner">
-											<option value="" hidden>{$lang.choose}</option>';
+							'<form name="new_menu_order">
+								<div class="row">';
 
-							foreach ($this->model->get_owners('request') as $value)
-								$html .= '<option value="' . $value['id'] . '" ' . ((!empty(Session::get_value('myvox')['owner']) AND Session::get_value('myvox')['owner']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang1] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
-
-							$html .=
-							'			</select>
-									</label>
-								</div>
-							</div>';
-						}
-
-						if (Session::get_value('myvox')['account']['type'] == 'hotel')
-						{
-							$html .=
-							'<div class="span12">
-								<div class="label">
-									<label required>
-										<p>{$lang.location} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-										<select name="location">
-											<option value="" hidden>{$lang.choose}</option>';
-
-							foreach ($this->model->get_locations('request') as $value)
-								$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
-
-							$html .=
-							'			</select>
-									</label>
-								</div>
-							</div>';
-						}
-
-						if (Session::get_value('myvox')['account']['type'] == 'restaurant')
-						{
-							if (Session::get_value('myvox')['url'] == 'delivery')
+							if (Session::get_value('myvox')['url'] == 'account')
 							{
 								$html .=
 								'<div class="span12">
 									<div class="label">
 										<label required>
-											<p>{$lang.where_do_we_deliver_you}</p>
-											<select name="delivery">
-												<option value="home">{$lang.my_home}</option>
-												<option value="restaurant">{$lang.i_want_pick_up_restaurant}</option>
-											</select>
-										</label>
-									</div>
-								</div>
-								<div class="span12">
-									<div class="label">
-										<label required>
-											<p>{$lang.address} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-											<input type="text" name="address">
-										</label>
-									</div>
-								</div>
-								<div class="span12">
-									<div class="label">
-										<label unrequired>
-											<p>{$lang.references} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-											<input type="text" name="references">
-										</label>
-									</div>
-								</div>
-								<div class="span6">
-									<div class="label">
-										<label required>
-											<p>{$lang.firstname}</p>
-											<input type="text" name="firstname">
-										</label>
-									</div>
-								</div>
-								<div class="span6">
-									<div class="label">
-										<label required>
-											<p>{$lang.lastname}</p>
-											<input type="text" name="lastname">
-										</label>
-									</div>
-								</div>
-								<div class="span6">
-									<div class="label">
-										<label unrequired>
-											<p>{$lang.email}</p>
-											<input type="email" name="email">
-										</label>
-									</div>
-								</div>
-								<div class="span3">
-									<div class="label">
-										<label required>
-											<p>{$lang.lada}</p>
-											<select name="phone_lada">
-												<option value="">{$lang.empty} ({$lang.choose})</option>';
+											<p>{$lang.owner} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+											<select name="owner">
+												<option value="" hidden>{$lang.choose}</option>';
 
-								foreach ($this->model->get_countries() as $value)
-									$html .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang1] . ' (+' . $value['lada'] . ')</option>';
+								foreach ($this->model->get_owners('request') as $value)
+									$html .= '<option value="' . $value['id'] . '" ' . ((!empty(Session::get_value('myvox')['owner']) AND Session::get_value('myvox')['owner']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang1] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 
 								$html .=
 								'			</select>
 										</label>
 									</div>
-								</div>
-								<div class="span3">
+								</div>';
+							}
+
+							if (Session::get_value('myvox')['account']['type'] == 'hotel')
+							{
+								$html .=
+								'<div class="span12">
 									<div class="label">
 										<label required>
-											<p>{$lang.phone}</p>
-											<input type="number" name="phone_number">
+											<p>{$lang.location} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+											<select name="location">
+												<option value="" hidden>{$lang.choose}</option>';
+
+								foreach ($this->model->get_locations('request') as $value)
+									$html .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang1] . '</option>';
+
+								$html .=
+								'			</select>
 										</label>
 									</div>
 								</div>';
 							}
-						}
 
-						$html .=
-						'		<div class="span12">
-									<div class="buttons">
-										<button class="new" type="submit">{$lang.generate_order}</button>
+							if (Session::get_value('myvox')['account']['type'] == 'restaurant')
+							{
+								if (Session::get_value('myvox')['url'] == 'delivery')
+								{
+									$html .=
+									'<div class="span12">
+										<div class="label">
+											<label required>
+												<p>{$lang.where_do_we_deliver_you}</p>
+												<select name="delivery">
+													<option value="home">{$lang.my_home}</option>
+													<option value="restaurant">{$lang.i_want_pick_up_restaurant}</option>
+												</select>
+											</label>
+										</div>
+									</div>
+									<div class="span12">
+										<div class="label">
+											<label required>
+												<p>{$lang.address} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="address">
+											</label>
+										</div>
+									</div>
+									<div class="span12">
+										<div class="label">
+											<label unrequired>
+												<p>{$lang.references} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="references">
+											</label>
+										</div>
+									</div>
+									<div class="span6">
+										<div class="label">
+											<label required>
+												<p>{$lang.firstname}</p>
+												<input type="text" name="firstname">
+											</label>
+										</div>
+									</div>
+									<div class="span6">
+										<div class="label">
+											<label required>
+												<p>{$lang.lastname}</p>
+												<input type="text" name="lastname">
+											</label>
+										</div>
+									</div>
+									<div class="span6">
+										<div class="label">
+											<label unrequired>
+												<p>{$lang.email}</p>
+												<input type="email" name="email">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<p>{$lang.lada}</p>
+												<select name="phone_lada">
+													<option value="">{$lang.empty} ({$lang.choose})</option>';
+
+									foreach ($this->model->get_countries() as $value)
+										$html .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang1] . ' (+' . $value['lada'] . ')</option>';
+
+									$html .=
+									'			</select>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<p>{$lang.phone}</p>
+												<input type="number" name="phone_number">
+											</label>
+										</div>
+									</div>';
+								}
+							}
+
+							$html .=
+							'		<div class="span12">
+										<div class="buttons">
+											<button class="new" type="submit">{$lang.generate_order}</button>
+										</div>
 									</div>
 								</div>
-							</div>
-						</form>';
+							</form>';
+						}
 					}
 
 					$html .= '</section>';

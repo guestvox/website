@@ -380,6 +380,9 @@ $(document).ready(function()
                         }
                     });
 
+                    if (response1.data.type == 'restaurant')
+                        $('[data-modal="edit_myvox_menu_settings"]').find('[name="delivery"]').prop('checked', ((response1.data.settings.myvox.menu.delivery == true) ? true : false));
+
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="requests"]').prop('checked', ((response1.data.settings.myvox.menu.requests == true) ? true : false));
 
                     if (response1.data.settings.myvox.menu.schedule.monday.status == 'open')
@@ -577,6 +580,13 @@ $(document).ready(function()
 
     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_status"]').on('change', function()
     {
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_status"]').val($(this).val());
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_status"]').val($(this).val());
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_status"]').val($(this).val());
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_status"]').val($(this).val());
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_status"]').val($(this).val());
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_status"]').val($(this).val());
+
         if ($(this).val() == 'open')
         {
             $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_opening"]').parent().attr('required', true);
@@ -585,6 +595,42 @@ $(document).ready(function()
             $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_closing"]').parent().removeAttr('unrequired');
             $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_opening"]').attr('disabled', false);
             $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_closing"]').attr('disabled', false);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_opening"]').parent().attr('required', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_closing"]').parent().attr('required', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_opening"]').parent().removeAttr('unrequired');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_closing"]').parent().removeAttr('unrequired');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_opening"]').attr('disabled', false);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_closing"]').attr('disabled', false);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_opening"]').parent().attr('required', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_closing"]').parent().attr('required', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_opening"]').parent().removeAttr('unrequired');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_closing"]').parent().removeAttr('unrequired');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_opening"]').attr('disabled', false);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_closing"]').attr('disabled', false);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_opening"]').parent().attr('required', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_closing"]').parent().attr('required', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_opening"]').parent().removeAttr('unrequired');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_closing"]').parent().removeAttr('unrequired');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_opening"]').attr('disabled', false);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_closing"]').attr('disabled', false);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_opening"]').parent().attr('required', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_closing"]').parent().attr('required', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_opening"]').parent().removeAttr('unrequired');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_closing"]').parent().removeAttr('unrequired');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_opening"]').attr('disabled', false);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_closing"]').attr('disabled', false);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_opening"]').parent().attr('required', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_closing"]').parent().attr('required', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_opening"]').parent().removeAttr('unrequired');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_closing"]').parent().removeAttr('unrequired');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_opening"]').attr('disabled', false);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_closing"]').attr('disabled', false);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]').parent().attr('required', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]').parent().attr('required', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]').parent().removeAttr('unrequired');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]').parent().removeAttr('unrequired');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]').attr('disabled', false);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]').attr('disabled', false);
         }
         else
         {
@@ -594,10 +640,73 @@ $(document).ready(function()
             $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_closing"]').parent().removeAttr('required');
             $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_opening"]').attr('disabled', true);
             $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_closing"]').attr('disabled', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_opening"]').parent().attr('unrequired', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_closing"]').parent().attr('unrequired', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_opening"]').parent().removeAttr('required');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_closing"]').parent().removeAttr('required');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_opening"]').attr('disabled', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_closing"]').attr('disabled', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_opening"]').parent().attr('unrequired', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_closing"]').parent().attr('unrequired', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_opening"]').parent().removeAttr('required');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_closing"]').parent().removeAttr('required');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_opening"]').attr('disabled', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_closing"]').attr('disabled', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_opening"]').parent().attr('unrequired', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_closing"]').parent().attr('unrequired', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_opening"]').parent().removeAttr('required');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_closing"]').parent().removeAttr('required');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_opening"]').attr('disabled', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_closing"]').attr('disabled', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_opening"]').parent().attr('unrequired', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_closing"]').parent().attr('unrequired', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_opening"]').parent().removeAttr('required');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_closing"]').parent().removeAttr('required');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_opening"]').attr('disabled', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_closing"]').attr('disabled', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_opening"]').parent().attr('unrequired', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_closing"]').parent().attr('unrequired', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_opening"]').parent().removeAttr('required');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_closing"]').parent().removeAttr('required');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_opening"]').attr('disabled', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_closing"]').attr('disabled', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]').parent().attr('unrequired', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]').parent().attr('unrequired', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]').parent().removeAttr('required');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]').parent().removeAttr('required');
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]').attr('disabled', true);
+            $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]').attr('disabled', true);
         }
 
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_opening"]').val('');
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_closing"]').val('');
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_opening"]').val('');
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_closing"]').val('');
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_opening"]').val('');
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_closing"]').val('');
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_opening"]').val('');
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_closing"]').val('');
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_opening"]').val('');
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_closing"]').val('');
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_opening"]').val('');
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_closing"]').val('');
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]').val('');
+        $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]').val('');
+
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_opening"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_closing"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_opening"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_closing"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_opening"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_closing"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_opening"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_closing"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_opening"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_closing"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_opening"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_closing"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]'), null);
     });
 
     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_opening"]').on('change', function()
@@ -679,6 +788,9 @@ $(document).ready(function()
 
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_opening"]').val('');
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_closing"]').val('');
+
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_opening"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_tuesday_closing"]'), null);
     });
 
     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_status"]').on('change', function()
@@ -704,6 +816,9 @@ $(document).ready(function()
 
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_opening"]').val('');
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_closing"]').val('');
+
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_opening"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_wednesday_closing"]'), null);
     });
 
     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_status"]').on('change', function()
@@ -729,6 +844,9 @@ $(document).ready(function()
 
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_opening"]').val('');
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_closing"]').val('');
+
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_opening"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_thursday_closing"]'), null);
     });
 
     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_status"]').on('change', function()
@@ -754,6 +872,9 @@ $(document).ready(function()
 
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_opening"]').val('');
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_closing"]').val('');
+
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_opening"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_friday_closing"]'), null);
     });
 
     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_status"]').on('change', function()
@@ -779,6 +900,9 @@ $(document).ready(function()
 
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_opening"]').val('');
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_closing"]').val('');
+
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_opening"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_saturday_closing"]'), null);
     });
 
     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_status"]').on('change', function()
@@ -804,6 +928,9 @@ $(document).ready(function()
 
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]').val('');
         $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]').val('');
+
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]'), null);
+        required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]'), null);
     });
 
     $('[data-modal="edit_myvox_menu_settings"]').modal().onCancel(function()

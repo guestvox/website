@@ -4,6 +4,26 @@ defined('_EXEC') or die;
 
 class Languages
 {
+    static public function account($key)
+    {
+        $langs = [
+            'hotel' => [
+                'receive_requests' => [
+                    'es' => 'Pedidos desde habitación',
+                    'en' => 'Room orders'
+                ]
+            ],
+            'restaurant' => [
+                'receive_requests' => [
+                    'es' => 'Pedidos desde mesa',
+                    'en' => 'Table orders'
+                ]
+            ]
+        ];
+
+        return $langs[Session::get_value('account')['type']][$key];
+    }
+
     static public function email($key, $subkey = null)
     {
         $langs = [

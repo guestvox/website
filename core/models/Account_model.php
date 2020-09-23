@@ -297,6 +297,7 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['menu']['currency'] = $data['currency'];
 				$edited1[0]['settings']['myvox']['menu']['opportunity_area'] = $data['opportunity_area'];
 				$edited1[0]['settings']['myvox']['menu']['opportunity_type'] = $data['opportunity_type'];
+				$edited1[0]['settings']['myvox']['menu']['delivery'] = (Session::get_value('account')['type'] == 'restaurant' AND !empty($data['delivery'])) ? true : false;
 				$edited1[0]['settings']['myvox']['menu']['requests'] = !empty($data['requests']) ? true : false;
 				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['status'] = $data['schedule_monday_status'];
 				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['opening'] = ($data['schedule_monday_status'] == 'open') ? $data['schedule_monday_opening'] : '';

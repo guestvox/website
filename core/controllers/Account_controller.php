@@ -725,7 +725,7 @@ class Account_controller extends Controller
 												</label>
 											</div>
 										</div>
-										<div class="span3">
+										<div class="span4">
 											<div class="label">
 												<label required>
 													<p>{$lang.currency} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
@@ -740,7 +740,7 @@ class Account_controller extends Controller
 												</label>
 											</div>
 										</div>
-										<div class="span3">
+										<div class="span4">
 											<div class="label">
 												<label required>
 													<p>{$lang.opportunity_area} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
@@ -751,24 +751,42 @@ class Account_controller extends Controller
 						$mdl_edit_myvox_menu_settings .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
 
 					$mdl_edit_myvox_menu_settings .=
-					'								</select>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<p>{$lang.opportunity_type} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<select name="opportunity_type" disabled>
-														<option value="" hidden>{$lang.choose}</option>
-													</select>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
+					'			</select>
+							</label>
+						</div>
+					</div>
+					<div class="span4">
+						<div class="label">
+							<label required>
+								<p>{$lang.opportunity_type} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+								<select name="opportunity_type" disabled>
+									<option value="" hidden>{$lang.choose}</option>
+								</select>
+							</label>
+						</div>
+					</div>';
+
+					if ($account['type'] == 'restaurant')
+					{
+						$mdl_edit_myvox_menu_settings .=
+						'<div class="span3">
+							<div class="label">
+								<label unrequired>
+									<p>{$lang.receive_delivery} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<div class="switch">
+										<input id="rdsw" type="checkbox" name="delivery" data-switcher>
+										<label for="rdsw"></label>
+									</div>
+								</label>
+							</div>
+						</div>';
+					}
+
+					$mdl_edit_myvox_menu_settings .=
+					'					<div class="span3">
 											<div class="label">
 												<label unrequired>
-													<p>{$lang.receive_orders} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+													<p>' . Languages::account('receive_requests')[$this->lang] . ' <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 													<div class="switch">
 														<input id="rrsw" type="checkbox" name="requests" data-switcher>
 														<label for="rrsw"></label>
@@ -776,6 +794,7 @@ class Account_controller extends Controller
 												</label>
 											</div>
 										</div>
+										<div class="clear"></div>
 										<div class="span3">
 											<div class="label">
 												<label class="success">
