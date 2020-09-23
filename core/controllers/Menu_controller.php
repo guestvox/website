@@ -566,6 +566,15 @@ class Menu_controller extends Controller
 
 					$cbx_menu_topics .=
 					'</aside>
+					<div class="label">
+						<label required>
+							<select name="selection">
+								<option value="" hidden>{$lang.selection_type}</option>
+								<option value="checkbox">{$lang.multi_selection}</option>
+								<option value="radio">{$lang.one_selection}</option>
+							</select>
+						</label>
+					</div>
 					<div class="checkboxes stl_1">';
 
 					foreach ($menu_topics as $value)
@@ -581,15 +590,6 @@ class Menu_controller extends Controller
 					'	<div class="button">
 							<a href="/menu/topics">{$lang.create_more_topics}</a>
 						</div>
-					</div>
-					<div class="label">
-						<label required>
-							<select name="selection">
-								<option value="" hidden>{$lang.selection_type}</option>
-								<option value="checkbox">{$lang.multi_selection}</option>
-								<option value="radio">{$lang.one_selection}</option>
-							</select>
-						</label>
 					</div>
 					<a data-action="add_menu_topics_group">{$lang.add_menu_topics_group}</a>';
 				}
