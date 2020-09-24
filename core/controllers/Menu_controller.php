@@ -50,7 +50,7 @@ class Menu_controller extends Controller
 
 					array_push($temporal['menu_topics_groups'], $_POST['topics']);
 
-					$html .= '<div class="full_topics_groups">';
+					$html = '<div class="full_topics_groups">';
 
 					foreach ($temporal['menu_topics_groups'] as $key => $value)
 					{
@@ -187,8 +187,28 @@ class Menu_controller extends Controller
 
 				Session::set_value('temporal', $temporal);
 
+				$html =
+				'<div class="empty_topics_groups">
+					<p>{$lang.empty_topics_groups_1}</p>
+					<div>
+						<div>
+							<i class="fas fa-hand-pointer"></i>
+							<p>{$lang.empty_topics_groups_2}</p>
+						</div>
+						<div>
+							<i class="far fa-check-square"></i>
+							<p>{$lang.empty_topics_groups_3}</p>
+						</div>
+						<div>
+							<i class="fas fa-plus"></i>
+							<p>{$lang.empty_topics_groups_4}</p>
+						</div>
+					</div>
+				</div>';
+
 				Functions::environment([
-					'status' => 'success'
+					'status' => 'success',
+					'html' => $html
 				]);
 			}
 

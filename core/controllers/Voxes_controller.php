@@ -22,9 +22,9 @@ class Voxes_controller extends Controller
 			if ($_POST['action'] == 'notification')
 			{
 				$end_point = 'https://api.webpushr.com/v1/notification/send/all';
-				$http_header = array( 
-					"Content-Type: Application/Json", 
-					"webpushrKey: T6GsOhzKszICnxJI1D6pbazDxNrq-k9hKBWiuHxdme8", 
+				$http_header = array(
+					"Content-Type: Application/Json",
+					"webpushrKey: T6GsOhzKszICnxJI1D6pbazDxNrq-k9hKBWiuHxdme8",
 					"webpushrAuthToken: 13576"
 				);
 				$req_data = array(
@@ -35,7 +35,7 @@ class Voxes_controller extends Controller
 					'icon'			=> 'https://www.webpushr.com/logo.png',
 					'auto_hide'		=> 1,
 					'expire_push'	=> '5m',
-					'action_buttons'=> array(	
+					'action_buttons'=> array(
 						array('title'=> 'Demo', 'url' => 'https://www.webpushr.com/demo'),
 						array('title'=> 'Rates', 'url' => 'https://www.webpushr.com/pricing')
 					)
@@ -52,7 +52,7 @@ class Voxes_controller extends Controller
 				Functions::environment([
 					'status' => 'success'
 				]);
-			
+
 			}
 
 			if ($_POST['action'] == 'get_opt_owners')
@@ -2814,53 +2814,57 @@ class Voxes_controller extends Controller
 							<div class="checkboxes stl_1">
 								<p>{$lang.opportunity_areas}</p>
 								<div>
-									<input type="checkbox" name="checked_all">
-									<span><strong>{$lang.all}</strong></span>
-								</div>';
-
-							foreach ($this->model->get_opportunity_areas() as $value)
-							{
-								$mdl_new_vox_report .=
-								'<div>
-									<input type="checkbox" name="opportunity_areas[]" value="' . $value['id'] . '">
-									<span>' . $value['name'][$this->lang] . '</span>
-								</div>';
-							}
-
-							$mdl_new_vox_report .=
-							'	</div>
-							</div>
-							<div class="span12">
-								<div class="checkboxes stl_1">
-									<p>{$lang.fields}</p>
 									<div>
 										<input type="checkbox" name="checked_all">
 										<span><strong>{$lang.all}</strong></span>
 									</div>';
 
-							foreach ($this->model->get_vox_report_fields() as $value)
-							{
-								$mdl_new_vox_report .=
-								'<div>
-									<input type="checkbox" name="fields[]" value="' . $value['id'] . '">
-									<span>{$lang.' . $value['name'] . '}</span>
-								</div>';
-							}
-
+						foreach ($this->model->get_opportunity_areas() as $value)
+						{
 							$mdl_new_vox_report .=
-							'						</div>
+							'<div>
+								<input type="checkbox" name="opportunity_areas[]" value="' . $value['id'] . '">
+								<span>' . $value['name'][$this->lang] . '</span>
+							</div>';
+						}
+
+						$mdl_new_vox_report .=
+						'		</div>
+							</div>
+						</div>
+						<div class="span12">
+							<div class="checkboxes stl_1">
+								<p>{$lang.fields}</p>
+								<div>
+									<div>
+										<input type="checkbox" name="checked_all">
+										<span><strong>{$lang.all}</strong></span>
+									</div>';
+
+						foreach ($this->model->get_vox_report_fields() as $value)
+						{
+							$mdl_new_vox_report .=
+							'<div>
+								<input type="checkbox" name="fields[]" value="' . $value['id'] . '">
+								<span>{$lang.' . $value['name'] . '}</span>
+							</div>';
+						}
+
+						$mdl_new_vox_report .=
+						'							</div>
 												</div>
-							                    <div class="span12">
-							                        <div class="buttons">
-							                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
-							                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
-							                        </div>
-							                    </div>
-							                </div>
-							            </form>
-							        </main>
-							    </div>
-							</section>';
+											</div>
+						                    <div class="span12">
+						                        <div class="buttons">
+						                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+						                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
+						                        </div>
+						                    </div>
+						                </div>
+						            </form>
+						        </main>
+						    </div>
+						</section>';
 					}
 
 					if (Functions::check_user_access(['{voxes_reports_deactivate}']) == true)
@@ -3036,9 +3040,10 @@ class Voxes_controller extends Controller
 						<div class="checkboxes stl_1">
 							<p>{$lang.fields}</p>
 							<div>
-								<input type="checkbox" name="checked_all">
-								<span><strong>{$lang.all}</strong></span>
-							</div>';
+								<div>
+									<input type="checkbox" name="checked_all">
+									<span><strong>{$lang.all}</strong></span>
+								</div>';
 
 					foreach ($this->model->get_vox_report_fields() as $value)
 					{
@@ -3050,7 +3055,8 @@ class Voxes_controller extends Controller
 					}
 
 					$mdl_filter_vox_report .=
-					'						</div>
+					'							</div>
+											</div>
 										</div>
 										<div class="span12">
 											<div class="buttons">

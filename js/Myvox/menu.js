@@ -66,6 +66,46 @@ $(document).ready(function()
         });
     });
 
+    $('form[name="search"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&action=search',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    window.location.href = response.path;
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
+            }
+        });
+    });
+
+    $('[data-action="clear_search"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=clear_search',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    location.reload();
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
     $('[name="owner"]').on('change', function()
     {
         $.ajax({

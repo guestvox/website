@@ -331,6 +331,23 @@ class Myvox_model extends Model
 
 	public function get_menu_products()
 	{
+		$AND = [
+			'menu_products.account' => Session::get_value('myvox')['account']['id'],
+			'menu_products.position[>=]' => 1,
+			'menu_products.status' => true
+		];
+
+		if (!empty(Session::get_value('myvox')['menu_name']))
+		{
+			$AND['OR'] = [
+				'menu_products.name[~]' => Session::get_value('myvox')['menu_name'],
+				'menu_products.description[~]' => Session::get_value('myvox')['menu_name']
+			];
+		}
+
+		if (!empty(Session::get_value('myvox')['menu_price']))
+			$AND['menu_products.price[<=]'] = Session::get_value('myvox')['menu_price'];
+
 		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
 			'[>]icons' => [
 				'icon' => 'id'
@@ -348,11 +365,7 @@ class Myvox_model extends Model
 			'icons.color(icon_color)',
 			'menu_products.categories'
 		], [
-			'AND' => [
-				'menu_products.account' => Session::get_value('myvox')['account']['id'],
-				'menu_products.position[>=]' => 1,
-				'menu_products.status' => true
-			],
+			'AND' => $AND,
 			'ORDER' => [
 				'menu_products.position' => 'ASC'
 			]

@@ -86,10 +86,16 @@ $(document).ready(function()
             processData: false,
             cache: false,
             dataType: 'json',
-            success: function(response) {}
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    $('div.menu_topics_groups > div > aside').html(response.html);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
         });
 
-        $('div.menu_topics_groups > div > aside').html('');
+        $('[name="available_days[]"]').val(['monday','tuesday','wednesday','thursday','friday','saturday','sunday']).trigger("chosen:updated");
         $('[name="image"]').parents('.span12').removeClass('hidden');
         $('[name="icon"]').parents('.span12').addClass('hidden');
 

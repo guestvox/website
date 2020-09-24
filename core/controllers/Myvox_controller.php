@@ -1114,6 +1114,24 @@ class Myvox_controller extends Controller
 				Session::set_value('myvox', $myvox);
 			}
 
+			if (!isset(Session::get_value('myvox')['menu_name']) OR empty(Session::get_value('myvox')['menu_name']))
+			{
+				$myvox = Session::get_value('myvox');
+
+				$myvox['menu_name'] = '';
+
+				Session::set_value('myvox', $myvox);
+			}
+
+			if (!isset(Session::get_value('myvox')['menu_price']) OR empty(Session::get_value('myvox')['menu_price']))
+			{
+				$myvox = Session::get_value('myvox');
+
+				$myvox['menu_price'] = '';
+
+				Session::set_value('myvox', $myvox);
+			}
+
 			if (Format::exist_ajax_request() == true)
 			{
 				if ($_POST['action'] == 'filter_menu_products_by_categories')
@@ -1336,6 +1354,54 @@ class Myvox_controller extends Controller
 					Functions::environment([
 						'status' => 'success',
 						'message' => '{$lang.operation_success}'
+					]);
+				}
+
+				if ($_POST['action'] == 'search')
+				{
+					$labels = [];
+
+					if (!empty($_POST['price']) AND $_POST['price'] < 0)
+						array_push($labels, ['price','']);
+
+					if (empty($labels))
+					{
+						$myvox = Session::get_value('myvox');
+
+						if (isset($_POST['name']) AND !empty($_POST['name']))
+							$myvox['menu_name'] = $_POST['name'];
+
+						if (isset($_POST['price']) AND !empty($_POST['price']))
+							$myvox['menu_price'] = $_POST['price'];
+
+						Session::set_value('myvox', $myvox);
+
+						Functions::environment([
+							'status' => 'success',
+							'path' =>  '/' . $params[0] . '/menu/products'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'labels' => $labels
+						]);
+					}
+				}
+
+				if ($_POST['action'] == 'clear_search')
+				{
+					$myvox = Session::get_value('myvox');
+
+					$myvox['menu_categories'] = [];
+					$myvox['menu_name'] = '';
+					$myvox['menu_price'] = '';
+
+					Session::set_value('myvox', $myvox);
+
+					Functions::environment([
+						'status' => 'success'
 					]);
 				}
 
@@ -1780,6 +1846,57 @@ class Myvox_controller extends Controller
 					    <div class="content">
 					        <main></main>
 					    </div>
+					</section>';
+				}
+				else if ($params[1] == 'search')
+				{
+					$html .=
+					'<section data-search>
+						<form name="search">
+							<div class="row">
+								<div class="span12">
+									<div class="label">
+										<label unrequired>
+											<p>{$lang.what_do_you_want_to_eat}</p>
+											<input type="text" name="name" value="' . Session::get_value('myvox')['menu_name'] . '">
+										</label>
+									</div>
+								</div>
+								<div class="span12">
+									<div class="label">
+										<label unrequired>
+											<p>{$lang.how_much_is_your_budget}</p>
+											<input type="number" name="price" value="' . Session::get_value('myvox')['menu_price'] . '">
+										</label>
+									</div>
+								</div>
+								<div class="span12">
+									<div data-menu-categories>
+										<p>{$lang.choose_your_categories}</p>';
+
+					foreach ($this->model->get_menu_categories() as $value)
+					{
+						$html .=
+						'<div>
+							<figure class="' . (in_array($value['id'], Session::get_value('myvox')['menu_categories']) ? 'selected' : '') . '">
+								<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '">
+								<a data-action="filter_menu_products_by_categories" data-id="' . $value['id'] . '"></a>
+							</figure>
+							<span>' . $value['name'][$this->lang1] . '</span>
+						</div>';
+					}
+
+					$html .=
+					'				</div>
+								</div>
+								<div class="span12">
+									<div class="buttons">
+										<a data-action="clear_search"><i class="fas fa-sync-alt"></i></a>
+										<button class="new" type="submit"><i class="fas fa-search"></i></button>
+									</div>
+								</div>
+							</div>
+						</form>
 					</section>';
 				}
 				else if ($params[1] == 'order')
