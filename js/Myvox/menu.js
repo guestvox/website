@@ -66,6 +66,46 @@ $(document).ready(function()
         });
     });
 
+    $('form[name="search"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&action=search',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    window.location.href = response.path;
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
+            }
+        });
+    });
+
+    $('[data-action="clear_search"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=clear_search',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    location.reload();
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
     $('[name="owner"]').on('change', function()
     {
         $.ajax({
@@ -81,9 +121,15 @@ $(document).ready(function()
     $('[name="delivery"]').on('change', function()
     {
         if ($(this).val() == 'home')
+        {
             $('[name="address"]').parent().parent().parent().removeClass('hidden');
+            $('[name="references"]').parent().parent().parent().removeClass('hidden');
+        }
         else if ($(this).val() == 'restaurant')
+        {
             $('[name="address"]').parent().parent().parent().addClass('hidden');
+            $('[name="references"]').parent().parent().parent().addClass('hidden');
+        }
     });
 
     $('form[name="new_menu_order"]').on('submit', function(e)

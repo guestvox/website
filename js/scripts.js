@@ -149,6 +149,42 @@ $(document).ready(function ()
         else
             targets.removeClass('hidden');
     });
+
+    $('[button-reload]').on('click', function()
+    {
+        location.reload();
+    });
+
+    $('[data-translates]').on('keyup', function()
+    {
+        $(window).on('beforeunload ajaxStart', function()
+        {
+            $('[data-ajax-loader]').removeClass('view');
+        });
+
+        var en = $(this).parents('form').find('[data-translaten="' + $(this).data('translates') + '"]');
+
+        $.ajax({
+            url: '/translate',
+            type: 'POST',
+            data: 'string=' + $(this).val(),
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    en.val(response.data.en);
+
+                    $(window).on('beforeunload ajaxStart', function()
+                    {
+                        $('[data-ajax-loader]').addClass('view');
+                    });
+                }
+            }
+        });
+    });
 });
 
 function menu_focus(target)
@@ -365,21 +401,29 @@ function show_form_errors(form, response)
 
 function show_modal_success(message, timeout, path)
 {
-    $('[data-modal="success"]').find('main > p').html(message);
-    $('[data-modal="success"]').addClass('view');
-
-    if (path)
+    if (path == 'actions')
     {
-        setTimeout(function()
-        {
-            if (path == 'fast')
-                $('[data-modal="success"]').removeClass('view');
-            else
-                window.location.href = path;
-        }, timeout);
+        $('[data-modal="actions"]').find('main > p').html(message);
+        $('[data-modal="actions"]').addClass('view');
     }
     else
-        setTimeout(function() { location.reload(); }, timeout);
+    {
+        $('[data-modal="success"]').find('main > p').html(message);
+        $('[data-modal="success"]').addClass('view');
+
+        if (path)
+        {
+            setTimeout(function()
+            {
+                if (path == 'fast')
+                    $('[data-modal="success"]').removeClass('view');
+                else
+                    window.location.href = path;
+            }, timeout);
+        }
+        else
+            setTimeout(function() { location.reload(); }, timeout);
+    }
 }
 
 function show_modal_error(message)

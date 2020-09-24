@@ -256,6 +256,45 @@ class Signup_model extends Model
 						'currency' => '',
 						'opportunity_area' => '',
 						'opportunity_type' => '',
+						'delivery' => false,
+						'requests' => false,
+						'schedule' => [
+							'monday' => [
+								'status' => 'close',
+								'opening' => '',
+								'closing' => ''
+							],
+							'tuesday' => [
+								'status' => 'close',
+								'opening' => '',
+								'closing' => ''
+							],
+							'wednesday' => [
+								'status' => 'close',
+								'opening' => '',
+								'closing' => ''
+							],
+							'thursday' => [
+								'status' => 'close',
+								'opening' => '',
+								'closing' => ''
+							],
+							'friday' => [
+								'status' => 'close',
+								'opening' => '',
+								'closing' => ''
+							],
+							'saturday' => [
+								'status' => 'close',
+								'opening' => '',
+								'closing' => ''
+							],
+							'sunday' => [
+								'status' => 'close',
+								'opening' => '',
+								'closing' => ''
+							]
+						],
 						'multi' => false
 					],
 					'survey' => [

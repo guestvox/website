@@ -11,53 +11,91 @@ class Menu_model extends Model
 		parent::__construct();
 	}
 
-    public function get_menu_products()
+    public function get_menu_products($option = 'all')
 	{
-		$join = [
+		$where = [
+			'menu_products.account' => Session::get_value('account')['id'],
+			'menu_products.position[>=]' => 1
+		];
+
+		if ($option == 'actives')
+			$where['menu_products.status'] = true;
+
+		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
 			'[>]icons' => [
 				'icon' => 'id'
 			],
 			'[>]menu_restaurants' => [
 				'restaurant' => 'id'
 			]
-		];
-
-		$fields = [
+		], [
 			'menu_products.id',
 			'menu_products.name',
 			'menu_products.description',
 			'menu_products.topics',
 			'menu_products.price',
-			'menu_products.outstanding',
 			'menu_products.avatar',
 			'menu_products.image',
-			'icons.type(icon_type)',
 			'icons.url(icon_url)',
+			'icons.type(icon_type)',
+			'icons.color(icon_color)',
+			'menu_products.categories',
 			'menu_restaurants.name(restaurant)',
 			'menu_products.status'
-		];
-
-		$query1 = Functions::get_json_decoded_query($this->database->select('menu_products', $join, $fields, [
-			'AND' => [
-				'menu_products.account' => Session::get_value('account')['id'],
-				'menu_products.outstanding[>=]' => 1
-			],
+		], [
+			'AND' => $where,
 			'ORDER' => [
-				'menu_products.outstanding' => 'ASC'
+				'menu_products.position' => 'ASC'
 			]
 		]));
 
-		$query2 = Functions::get_json_decoded_query($this->database->select('menu_products', $join, $fields, [
-			'AND' => [
-				'menu_products.account' => Session::get_value('account')['id'],
-				'menu_products.outstanding[=]' => null
-			],
-			'ORDER' => [
-				'menu_products.name' => 'ASC'
-			]
-		]));
+		foreach ($query as $key => $value)
+		{
+			if ($option == 'actives')
+			{
+				foreach ($value['topics'] as $subkey => $subvalue)
+				{
+					foreach ($subvalue as $parentkey => $parentvalue)
+					{
+						$parentvalue['topic'] = Functions::get_json_decoded_query($this->database->select('menu_topics', [
+							'name'
+						], [
+							'id' => $parentvalue['id']
+						]));
 
-		return array_merge($query1, $query2);
+						if (!empty($parentvalue['topic']))
+							$query[$key]['topics'][$subkey][$parentkey]['name'] = $parentvalue['topic'][0]['name'];
+						else
+							unset($query[$key]['topics'][$subkey][$parentkey]);
+					}
+
+					if (empty($query[$key]['topics'][$subkey]))
+						unset($query[$key]['topics'][$subkey]);
+				}
+			}
+
+			if ($option == 'all')
+			{
+				foreach ($value['categories'] as $subkey => $subvalue)
+				{
+					$subvalue = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+						'name'
+					], [
+						'id' => $subvalue,
+						'ORDER' => [
+							'position' => 'ASC'
+						]
+					]));
+
+					if (!empty($subvalue))
+						$query[$key]['categories'][$subkey] = $subvalue[0];
+					else
+						unset($query[$key]['categories'][$subkey]);
+				}
+			}
+		}
+
+		return $query;
 	}
 
     public function get_menu_product($id)
@@ -67,7 +105,8 @@ class Menu_model extends Model
 			'description',
 			'topics',
 			'price',
-			'outstanding',
+			'position',
+			'available',
 			'avatar',
 			'image',
 			'icon',
@@ -80,21 +119,21 @@ class Menu_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_menu_products_outstandings()
+	public function get_menu_product_position()
 	{
 		$query = $this->database->select('menu_products', [
-			'outstanding'
+			'position'
 		], [
 			'AND' => [
 				'account' => Session::get_value('account')['id'],
-				'outstanding[>=]' => 1
+				'position[>=]' => 1
 			],
 			'ORDER' => [
-				'outstanding' => 'DESC'
+				'position' => 'DESC'
 			]
 		]);
 
-		return !empty($query) ? ($query[0]['outstanding'] + 1) : '1';
+		return !empty($query) ? ($query[0]['position'] + 1) : '1';
 	}
 
 	public function get_icons($type)
@@ -138,7 +177,12 @@ class Menu_model extends Model
 			]),
 			'topics' => json_encode(Session::get_value('temporal')['menu_topics_groups']),
 			'price' => $data['price'],
-			'outstanding' => !empty($data['outstanding']) ? $data['outstanding'] : null,
+			'position' => $data['position'],
+			'available' => json_encode([
+				'days' => $data['available_days'],
+				'start_date' => !empty($data['available_start_date']) ? $data['available_start_date'] : '',
+				'end_date' => !empty($data['available_end_date']) ? $data['available_end_date'] : ''
+			]),
 			'avatar' => $data['avatar'],
 			'image' => ($data['avatar'] == 'image') ? Functions::uploader($data['image'], Session::get_value('account')['path'] . '_menu_product_avatar_') : null,
 			'icon' => ($data['avatar'] == 'icon') ? $data['icon'] : null,
@@ -147,23 +191,25 @@ class Menu_model extends Model
 			'status' => true
 		]);
 
-		if (!empty($query) AND !empty($data['outstanding']))
+		if (!empty($query))
 		{
-			$outstandings = $this->database->select('menu_products', [
+			$positions = $this->database->select('menu_products', [
 				'id',
-				'outstanding'
+				'position'
 			], [
 				'AND' => [
 					'id[!]' => $this->database->id(),
 					'account' => Session::get_value('account')['id'],
-					'outstanding[>=]' => $data['outstanding']
+					'position[>=]' => $data['position']
 				]
 			]);
 
-			foreach ($outstandings as $value)
+			foreach ($positions as $value)
 			{
+				$data['position'] = $data['position'] + 1;
+
 				$this->database->update('menu_products', [
-					'outstanding' => ($value['outstanding'] + 1)
+					'position' => $data['position']
 				], [
 					'id' => $value['id']
 				]);
@@ -178,7 +224,7 @@ class Menu_model extends Model
 		$query = null;
 
 		$edited = $this->database->select('menu_products', [
-			'outstanding',
+			'position',
 			'image'
 		], [
 			'id' => $data['id']
@@ -197,7 +243,12 @@ class Menu_model extends Model
 				]),
 				'topics' => json_encode(Session::get_value('temporal')['menu_topics_groups']),
 				'price' => $data['price'],
-				'outstanding' => !empty($data['outstanding']) ? $data['outstanding'] : null,
+				'position' => $data['position'],
+				'available' => json_encode([
+					'days' => $data['available_days'],
+					'start_date' => !empty($data['available_start_date']) ? $data['available_start_date'] : '',
+					'end_date' => !empty($data['available_end_date']) ? $data['available_end_date'] : ''
+				]),
 				'avatar' => $data['avatar'],
 				'image' => ($data['avatar'] == 'image' AND !empty($data['image']['name'])) ? Functions::uploader($data['image'], Session::get_value('account')['path'] . '_menu_product_avatar_') : $edited[0]['image'],
 				'icon' => ($data['avatar'] == 'icon') ? $data['icon'] : null,
@@ -209,23 +260,25 @@ class Menu_model extends Model
 
 			if (!empty($query))
 			{
-				if (!empty($data['outstanding']) AND $data['outstanding'] != $edited[0]['outstanding'])
+				if ($data['position'] != $edited[0]['position'])
 				{
-					$outstandings = $this->database->select('menu_products', [
+					$positions = $this->database->select('menu_products', [
 						'id',
-						'outstanding'
+						'position'
 					], [
 						'AND' => [
 							'id[!]' => $data['id'],
 							'account' => Session::get_value('account')['id'],
-							'outstanding[>=]' => $data['outstanding']
+							'position[>=]' => $data['position']
 						]
 					]);
 
-					foreach ($outstandings as $value)
+					foreach ($positions as $value)
 					{
+						$data['position'] = $data['position'] + 1;
+
 						$this->database->update('menu_products', [
-							'outstanding' => ($value['outstanding'] + 1)
+							'position' => $data['position']
 						], [
 							'id' => $value['id']
 						]);
@@ -238,6 +291,130 @@ class Menu_model extends Model
 		}
 
 		return $query;
+	}
+
+	public function up_menu_product($id)
+	{
+		$positions = $this->database->select('menu_products', [
+			'id',
+			'position'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'position[>=]' => 1
+			],
+			'ORDER' => [
+				'position' => 'ASC'
+			]
+		]);
+
+		$current = null;
+		$previous = null;
+
+		foreach ($positions as $key => $value)
+		{
+			if ($id == $value['id'])
+			{
+				$current = $key;
+				$previous = ($key - 1);
+			}
+		}
+
+		if (isset($current) AND isset($previous) AND array_key_exists($previous, $positions))
+		{
+			$current_position = $positions[$current]['position'];
+			$previous_position = $positions[$previous]['position'];
+
+			$this->database->update('menu_products', [
+				'position' => $previous_position
+			], [
+				'id' => $positions[$current]['id']
+			]);
+
+			$this->database->update('menu_products', [
+				'position' => $current_position
+			], [
+				'id' => $positions[$previous]['id']
+			]);
+
+			foreach ($positions as $key => $value)
+			{
+				if ($key > $current)
+				{
+					$current_position = $current_position + 1;
+
+					$this->database->update('menu_products', [
+						'position' => $current_position
+					], [
+						'id' => $value['id']
+					]);
+				}
+			}
+		}
+
+		return true;
+	}
+
+	public function down_menu_product($id)
+	{
+		$positions = $this->database->select('menu_products', [
+			'id',
+			'position'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'position[>=]' => 1
+			],
+			'ORDER' => [
+				'position' => 'ASC'
+			]
+		]);
+
+		$current = null;
+		$next = null;
+
+		foreach ($positions as $key => $value)
+		{
+			if ($id == $value['id'])
+			{
+				$current = $key;
+				$next = ($key + 1);
+			}
+		}
+
+		if (isset($current) AND isset($next) AND array_key_exists($next, $positions))
+		{
+			$current_position = $positions[$current]['position'];
+			$next_position = $positions[$next]['position'];
+
+			$this->database->update('menu_products', [
+				'position' => $next_position
+			], [
+				'id' => $positions[$current]['id']
+			]);
+
+			$this->database->update('menu_products', [
+				'position' => $current_position
+			], [
+				'id' => $positions[$next]['id']
+			]);
+
+			foreach ($positions as $key => $value)
+			{
+				if ($key > $next)
+				{
+					$next_position = $next_position + 1;
+
+					$this->database->update('menu_products', [
+						'position' => $next_position
+					], [
+						'id' => $value['id']
+					]);
+				}
+			}
+		}
+
+		return true;
 	}
 
 	public function deactivate_menu_product($id)
@@ -281,6 +458,619 @@ class Menu_model extends Model
 			if (!empty($query) AND !empty($deleted[0]['image']))
 				Functions::undoloader($deleted[0]['image']);
 		}
+
+		return $query;
+	}
+
+	public function get_menu_categories($option = 'all')
+	{
+		$where = [
+			'menu_categories.account' => Session::get_value('account')['id'],
+			'menu_categories.position[>=]' => 1
+		];
+
+		if ($option == 'actives')
+			$where['menu_categories.status'] = true;
+
+		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+			'[>]icons' => [
+				'icon' => 'id'
+			]
+		], [
+			'menu_categories.id',
+			'menu_categories.name',
+			'icons.url(icon_url)',
+			'icons.type(icon_type)',
+			'menu_categories.status'
+		], [
+			'AND' => $where,
+			'ORDER' => [
+				'menu_categories.position' => 'ASC'
+			]
+		]));
+
+		return $query;
+	}
+
+	public function get_menu_category($id)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+			'name',
+			'position',
+			'icon'
+		], [
+			'id' => $id
+		]));
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_menu_category_position()
+	{
+		$query = $this->database->select('menu_categories', [
+			'position'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'position[>=]' => 1
+			],
+			'ORDER' => [
+				'position' => 'DESC'
+			]
+		]);
+
+		return !empty($query) ? ($query[0]['position'] + 1) : '1';
+	}
+
+	public function new_menu_category($data)
+	{
+		$query = $this->database->insert('menu_categories', [
+			'account' => Session::get_value('account')['id'],
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'position' => $data['position'],
+			'icon' => $data['icon'],
+			'status' => true
+		]);
+
+		if (!empty($query))
+		{
+			$positions = $this->database->select('menu_categories', [
+				'id',
+				'position'
+			], [
+				'AND' => [
+					'id[!]' => $this->database->id(),
+					'account' => Session::get_value('account')['id'],
+					'position[>=]' => $data['position']
+				]
+			]);
+
+			foreach ($positions as $value)
+			{
+				$data['position'] = $data['position'] + 1;
+
+				$this->database->update('menu_categories', [
+					'position' => $data['position']
+				], [
+					'id' => $value['id']
+				]);
+			}
+		}
+
+		return $query;
+	}
+
+	public function edit_menu_category($data)
+	{
+		$query = null;
+
+		$edited = $this->database->select('menu_categories', [
+			'position'
+		], [
+			'id' => $data['id']
+		]);
+
+		if (!empty($edited))
+		{
+			$query = $this->database->update('menu_categories', [
+				'name' => json_encode([
+					'es' => $data['name_es'],
+					'en' => $data['name_en']
+				]),
+				'position' => $data['position'],
+				'icon' => $data['icon']
+			], [
+				'id' => $data['id']
+			]);
+
+			if (!empty($query))
+			{
+				if ($data['position'] != $edited[0]['position'])
+				{
+					$positions = $this->database->select('menu_categories', [
+						'id',
+						'position'
+					], [
+						'AND' => [
+							'id[!]' => $data['id'],
+							'account' => Session::get_value('account')['id'],
+							'position[>=]' => $data['position']
+						]
+					]);
+
+					foreach ($positions as $value)
+					{
+						$data['position'] = $data['position'] + 1;
+
+						$this->database->update('menu_categories', [
+							'position' => $data['position']
+						], [
+							'id' => $value['id']
+						]);
+					}
+				}
+			}
+		}
+
+		return $query;
+	}
+
+	public function up_menu_category($id)
+	{
+		$positions = $this->database->select('menu_categories', [
+			'id',
+			'position'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'position[>=]' => 1
+			],
+			'ORDER' => [
+				'position' => 'ASC'
+			]
+		]);
+
+		$current = null;
+		$previous = null;
+
+		foreach ($positions as $key => $value)
+		{
+			if ($id == $value['id'])
+			{
+				$current = $key;
+				$previous = ($key - 1);
+			}
+		}
+
+		if (isset($current) AND isset($previous) AND array_key_exists($previous, $positions))
+		{
+			$current_position = $positions[$current]['position'];
+			$previous_position = $positions[$previous]['position'];
+
+			$this->database->update('menu_categories', [
+				'position' => $previous_position
+			], [
+				'id' => $positions[$current]['id']
+			]);
+
+			$this->database->update('menu_categories', [
+				'position' => $current_position
+			], [
+				'id' => $positions[$previous]['id']
+			]);
+
+			foreach ($positions as $key => $value)
+			{
+				if ($key > $current)
+				{
+					$current_position = $current_position + 1;
+
+					$this->database->update('menu_categories', [
+						'position' => $current_position
+					], [
+						'id' => $value['id']
+					]);
+				}
+			}
+		}
+
+		return true;
+	}
+
+	public function down_menu_category($id)
+	{
+		$positions = $this->database->select('menu_categories', [
+			'id',
+			'position'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'position[>=]' => 1
+			],
+			'ORDER' => [
+				'position' => 'ASC'
+			]
+		]);
+
+		$current = null;
+		$next = null;
+
+		foreach ($positions as $key => $value)
+		{
+			if ($id == $value['id'])
+			{
+				$current = $key;
+				$next = ($key + 1);
+			}
+		}
+
+		if (isset($current) AND isset($next) AND array_key_exists($next, $positions))
+		{
+			$current_position = $positions[$current]['position'];
+			$next_position = $positions[$next]['position'];
+
+			$this->database->update('menu_categories', [
+				'position' => $next_position
+			], [
+				'id' => $positions[$current]['id']
+			]);
+
+			$this->database->update('menu_categories', [
+				'position' => $current_position
+			], [
+				'id' => $positions[$next]['id']
+			]);
+
+			foreach ($positions as $key => $value)
+			{
+				if ($key > $next)
+				{
+					$next_position = $next_position + 1;
+
+					$this->database->update('menu_categories', [
+						'position' => $next_position
+					], [
+						'id' => $value['id']
+					]);
+				}
+			}
+		}
+
+		return true;
+	}
+
+	public function deactivate_menu_category($id)
+	{
+		$query = $this->database->update('menu_categories', [
+			'status' => false
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function activate_menu_category($id)
+	{
+		$query = $this->database->update('menu_categories', [
+			'status' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function delete_menu_category($id)
+	{
+		$query = $this->database->delete('menu_categories', [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function get_menu_topics($option = 'all')
+	{
+		$where = [
+			'account' => Session::get_value('account')['id'],
+			'position[>=]' => 1
+		];
+
+		if ($option == 'actives')
+			$where['status'] = true;
+
+		$query = Functions::get_json_decoded_query($this->database->select('menu_topics', [
+			'id',
+			'name',
+			'status'
+		], [
+			'AND' => $where,
+			'ORDER' => [
+				'position' => 'ASC'
+			]
+		]));
+
+		return $query;
+	}
+
+	public function get_menu_topic($id)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('menu_topics', [
+			'name',
+			'position'
+		], [
+			'id' => $id
+		]));
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_menu_topic_position()
+	{
+		$query = $this->database->select('menu_topics', [
+			'position'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'position[>=]' => 1
+			],
+			'ORDER' => [
+				'position' => 'DESC'
+			]
+		]);
+
+		return !empty($query) ? ($query[0]['position'] + 1) : '1';
+	}
+
+	public function new_menu_topic($data)
+	{
+		$query = $this->database->insert('menu_topics', [
+			'account' => Session::get_value('account')['id'],
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'position' => $data['position'],
+			'status' => true
+		]);
+
+		if (!empty($query))
+		{
+			$positions = $this->database->select('menu_topics', [
+				'id',
+				'position'
+			], [
+				'AND' => [
+					'id[!]' => $this->database->id(),
+					'account' => Session::get_value('account')['id'],
+					'position[>=]' => $data['position']
+				]
+			]);
+
+			foreach ($positions as $value)
+			{
+				$data['position'] = $data['position'] + 1;
+
+				$this->database->update('menu_topics', [
+					'position' => $data['position']
+				], [
+					'id' => $value['id']
+				]);
+			}
+		}
+
+		return $query;
+	}
+
+	public function edit_menu_topic($data)
+	{
+		$query = null;
+
+		$edited = $this->database->select('menu_topics', [
+			'position'
+		], [
+			'id' => $data['id']
+		]);
+
+		if (!empty($edited))
+		{
+			$query = $this->database->update('menu_topics', [
+				'name' => json_encode([
+					'es' => $data['name_es'],
+					'en' => $data['name_en']
+				]),
+				'position' => $data['position']
+			], [
+				'id' => $data['id']
+			]);
+
+			if (!empty($query))
+			{
+				if ($data['position'] != $edited[0]['position'])
+				{
+					$positions = $this->database->select('menu_topics', [
+						'id',
+						'position'
+					], [
+						'AND' => [
+							'id[!]' => $data['id'],
+							'account' => Session::get_value('account')['id'],
+							'position[>=]' => $data['position']
+						]
+					]);
+
+					foreach ($positions as $value)
+					{
+						$data['position'] = $data['position'] + 1;
+
+						$this->database->update('menu_topics', [
+							'position' => $data['position']
+						], [
+							'id' => $value['id']
+						]);
+					}
+				}
+			}
+		}
+
+		return $query;
+	}
+
+	public function up_menu_topic($id)
+	{
+		$positions = $this->database->select('menu_topics', [
+			'id',
+			'position'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'position[>=]' => 1
+			],
+			'ORDER' => [
+				'position' => 'ASC'
+			]
+		]);
+
+		$current = null;
+		$previous = null;
+
+		foreach ($positions as $key => $value)
+		{
+			if ($id == $value['id'])
+			{
+				$current = $key;
+				$previous = ($key - 1);
+			}
+		}
+
+		if (isset($current) AND isset($previous) AND array_key_exists($previous, $positions))
+		{
+			$current_position = $positions[$current]['position'];
+			$previous_position = $positions[$previous]['position'];
+
+			$this->database->update('menu_topics', [
+				'position' => $previous_position
+			], [
+				'id' => $positions[$current]['id']
+			]);
+
+			$this->database->update('menu_topics', [
+				'position' => $current_position
+			], [
+				'id' => $positions[$previous]['id']
+			]);
+
+			foreach ($positions as $key => $value)
+			{
+				if ($key > $current)
+				{
+					$current_position = $current_position + 1;
+
+					$this->database->update('menu_topics', [
+						'position' => $current_position
+					], [
+						'id' => $value['id']
+					]);
+				}
+			}
+		}
+
+		return true;
+	}
+
+	public function down_menu_topic($id)
+	{
+		$positions = $this->database->select('menu_topics', [
+			'id',
+			'position'
+		], [
+			'AND' => [
+				'account' => Session::get_value('account')['id'],
+				'position[>=]' => 1
+			],
+			'ORDER' => [
+				'position' => 'ASC'
+			]
+		]);
+
+		$current = null;
+		$next = null;
+
+		foreach ($positions as $key => $value)
+		{
+			if ($id == $value['id'])
+			{
+				$current = $key;
+				$next = ($key + 1);
+			}
+		}
+
+		if (isset($current) AND isset($next) AND array_key_exists($next, $positions))
+		{
+			$current_position = $positions[$current]['position'];
+			$next_position = $positions[$next]['position'];
+
+			$this->database->update('menu_topics', [
+				'position' => $next_position
+			], [
+				'id' => $positions[$current]['id']
+			]);
+
+			$this->database->update('menu_topics', [
+				'position' => $current_position
+			], [
+				'id' => $positions[$next]['id']
+			]);
+
+			foreach ($positions as $key => $value)
+			{
+				if ($key > $next)
+				{
+					$next_position = $next_position + 1;
+
+					$this->database->update('menu_topics', [
+						'position' => $next_position
+					], [
+						'id' => $value['id']
+					]);
+				}
+			}
+		}
+
+		return true;
+	}
+
+	public function deactivate_menu_topic($id)
+	{
+		$query = $this->database->update('menu_topics', [
+			'status' => false
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function activate_menu_topic($id)
+	{
+		$query = $this->database->update('menu_topics', [
+			'status' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function delete_menu_topic($id)
+	{
+		$query = $this->database->delete('menu_topics', [
+			'id' => $id
+		]);
 
 		return $query;
 	}
@@ -406,209 +1196,6 @@ class Menu_model extends Model
 			if (!empty($query))
 				Functions::undoloader($deleted[0]['qr']);
 		}
-
-		return $query;
-	}
-
-	public function get_menu_categories($option = 'all')
-	{
-		$where = [];
-
-		if ($option == 'all')
-			$where['menu_categories.account'] = Session::get_value('account')['id'];
-		else if ($option == 'actives')
-		{
-			$where['AND'] = [
-				'menu_categories.account' => Session::get_value('account')['id'],
-				'menu_categories.status' => true
-			];
-		}
-
-		$where['ORDER'] = [
-			'menu_categories.name' => 'ASC'
-		];
-
-		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
-			'[>]icons' => [
-				'icon' => 'id'
-			]
-		], [
-			'menu_categories.id',
-			'menu_categories.name',
-			'icons.url(icon_url)',
-			'icons.type(icon_type)',
-			'menu_categories.status'
-		], $where));
-
-		return $query;
-	}
-
-	public function get_menu_category($id)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
-			'name',
-			'icon'
-		], [
-			'id' => $id
-		]));
-
-		return !empty($query) ? $query[0] : null;
-	}
-
-	public function new_menu_category($data)
-	{
-		$query = $this->database->insert('menu_categories', [
-			'account' => Session::get_value('account')['id'],
-			'name' => json_encode([
-				'es' => $data['name_es'],
-				'en' => $data['name_en']
-			]),
-			'icon' => $data['icon'],
-			'status' => true
-		]);
-
-		return $query;
-	}
-
-	public function edit_menu_category($data)
-	{
-		$query = $this->database->update('menu_categories', [
-			'name' => json_encode([
-				'es' => $data['name_es'],
-				'en' => $data['name_en']
-			]),
-			'icon' => $data['icon']
-		], [
-			'id' => $data['id']
-		]);
-
-		return $query;
-	}
-
-	public function deactivate_menu_category($id)
-	{
-		$query = $this->database->update('menu_categories', [
-			'status' => false
-		], [
-			'id' => $id
-		]);
-
-		return $query;
-	}
-
-	public function activate_menu_category($id)
-	{
-		$query = $this->database->update('menu_categories', [
-			'status' => true
-		], [
-			'id' => $id
-		]);
-
-		return $query;
-	}
-
-	public function delete_menu_category($id)
-	{
-		$query = $this->database->delete('menu_categories', [
-			'id' => $id
-		]);
-
-		return $query;
-	}
-
-	public function get_menu_topics($option = 'all')
-	{
-		$where = [];
-
-		if ($option == 'all')
-			$where['account'] = Session::get_value('account')['id'];
-		else if ($option == 'actives')
-		{
-			$where['AND'] = [
-				'account' => Session::get_value('account')['id'],
-				'status' => true
-			];
-		}
-
-		$where['ORDER'] = [
-			'id' => 'ASC'
-		];
-
-		$query = Functions::get_json_decoded_query($this->database->select('menu_topics', [
-			'id',
-			'name',
-			'status'
-		], $where));
-
-		return $query;
-	}
-
-	public function get_menu_topic($id)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('menu_topics', [
-			'name'
-		], [
-			'id' => $id
-		]));
-
-		return !empty($query) ? $query[0] : null;
-	}
-
-	public function new_menu_topic($data)
-	{
-		$query = $this->database->insert('menu_topics', [
-			'account' => Session::get_value('account')['id'],
-			'name' => json_encode([
-				'es' => $data['name_es'],
-				'en' => $data['name_en']
-			]),
-			'status' => true
-		]);
-
-		return $query;
-	}
-
-	public function edit_menu_topic($data)
-	{
-		$query = $this->database->update('menu_topics', [
-			'name' => json_encode([
-				'es' => $data['name_es'],
-				'en' => $data['name_en']
-			])
-		], [
-			'id' => $data['id']
-		]);
-
-		return $query;
-	}
-
-	public function deactivate_menu_topic($id)
-	{
-		$query = $this->database->update('menu_topics', [
-			'status' => false
-		], [
-			'id' => $id
-		]);
-
-		return $query;
-	}
-
-	public function activate_menu_topic($id)
-	{
-		$query = $this->database->update('menu_topics', [
-			'status' => true
-		], [
-			'id' => $id
-		]);
-
-		return $query;
-	}
-
-	public function delete_menu_topic($id)
-	{
-		$query = $this->database->delete('menu_topics', [
-			'id' => $id
-		]);
 
 		return $query;
 	}

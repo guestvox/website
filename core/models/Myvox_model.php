@@ -276,7 +276,7 @@ class Myvox_model extends Model
 		{
 			foreach ($value['categories'] as $subvalue)
 			{
-				if (!in_array($subvalue, $categories))
+				if (!in_array($subvalue, $categories) AND !in_array($subvalue, Session::get_value('myvox')['menu_categories']))
 					array_push($categories, $subvalue);
 			}
 		}
@@ -292,67 +292,84 @@ class Myvox_model extends Model
 			'icons.type(icon_type)'
 		], [
 			'AND' => [
+				'menu_categories.id' => Session::get_value('myvox')['menu_categories'],
 				'menu_categories.account' => Session::get_value('myvox')['account']['id'],
 				'menu_categories.status' => true
 			],
 			'ORDER' => [
-				'menu_categories.name' => 'ASC'
+				'menu_categories.position' => 'ASC'
 			]
 		]));
 
-		foreach ($query2 as $key => $value)
-		{
-			if (!in_array($value['id'], $categories))
-				unset($query2[$key]);
-		}
+		$query3 = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+			'[>]icons' => [
+				'icon' => 'id'
+			]
+		], [
+			'menu_categories.id',
+			'menu_categories.name',
+			'icons.url(icon_url)',
+			'icons.type(icon_type)'
+		], [
+			'AND' => [
+				'menu_categories.id' => $categories,
+				'menu_categories.account' => Session::get_value('myvox')['account']['id'],
+				'menu_categories.status' => true
+			],
+			'ORDER' => [
+				'menu_categories.position' => 'ASC'
+			]
+		]));
 
-		return $query2;
+		if (!empty($query2))
+			$categories = array_merge($query2, $query3);
+		else
+			$categories = $query3;
+
+		return $categories;
 	}
 
 	public function get_menu_products()
 	{
-		$join = [
+		$AND = [
+			'menu_products.account' => Session::get_value('myvox')['account']['id'],
+			'menu_products.position[>=]' => 1,
+			'menu_products.status' => true
+		];
+
+		if (!empty(Session::get_value('myvox')['menu_name']))
+		{
+			$AND['OR'] = [
+				'menu_products.name[~]' => Session::get_value('myvox')['menu_name'],
+				'menu_products.description[~]' => Session::get_value('myvox')['menu_name']
+			];
+		}
+
+		if (!empty(Session::get_value('myvox')['menu_price']))
+			$AND['menu_products.price[<=]'] = Session::get_value('myvox')['menu_price'];
+
+		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
 			'[>]icons' => [
 				'icon' => 'id'
 			]
-		];
-
-		$fields = [
+		], [
 			'menu_products.id',
 			'menu_products.name',
 			'menu_products.topics',
 			'menu_products.price',
+			'menu_products.available',
 			'menu_products.avatar',
 			'menu_products.image',
 			'icons.url(icon_url)',
 			'icons.type(icon_type)',
 			'icons.color(icon_color)',
 			'menu_products.categories'
-		];
-
-		$query1 = Functions::get_json_decoded_query($this->database->select('menu_products', $join, $fields, [
-			'AND' => [
-				'menu_products.account' => Session::get_value('myvox')['account']['id'],
-				'menu_products.outstanding[>=]' => 1,
-				'menu_products.status' => true
-			],
+		], [
+			'AND' => $AND,
 			'ORDER' => [
-				'menu_products.outstanding' => 'ASC'
+				'menu_products.position' => 'ASC'
 			]
 		]));
-
-		$query2 = Functions::get_json_decoded_query($this->database->select('menu_products', $join, $fields, [
-			'AND' => [
-				'menu_products.account' => Session::get_value('myvox')['account']['id'],
-				'menu_products.outstanding[=]' => null,
-				'menu_products.status' => true
-			],
-			'ORDER' => [
-				'menu_products.name' => 'ASC'
-			]
-		]));
-
-		$query = array_merge($query1, $query2);
 
 		if (!empty(Session::get_value('myvox')['menu_categories']))
 		{
@@ -475,6 +492,7 @@ class Myvox_model extends Model
 			'started_hour' => Functions::get_formatted_hour($data['started_hour']),
 			'location' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'hotel') ? $data['location'] : null) : $data['location'],
 			'address' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery' AND $data['delivery'] == 'home') ? $data['address'] : null) : null,
+			'references' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery' AND $data['delivery'] == 'home') ? $data['references'] : null) : null,
 			'cost' => null,
 			'urgency' => 'medium',
 			'confidentiality' => false,

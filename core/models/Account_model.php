@@ -297,6 +297,29 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['menu']['currency'] = $data['currency'];
 				$edited1[0]['settings']['myvox']['menu']['opportunity_area'] = $data['opportunity_area'];
 				$edited1[0]['settings']['myvox']['menu']['opportunity_type'] = $data['opportunity_type'];
+				$edited1[0]['settings']['myvox']['menu']['delivery'] = (Session::get_value('account')['type'] == 'restaurant' AND !empty($data['delivery'])) ? true : false;
+				$edited1[0]['settings']['myvox']['menu']['requests'] = !empty($data['requests']) ? true : false;
+				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['status'] = $data['schedule_monday_status'];
+				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['opening'] = ($data['schedule_monday_status'] == 'open') ? $data['schedule_monday_opening'] : '';
+				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['closing'] = ($data['schedule_monday_status'] == 'open') ? $data['schedule_monday_closing'] : '';
+				$edited1[0]['settings']['myvox']['menu']['schedule']['tuesday']['status'] = $data['schedule_tuesday_status'];
+				$edited1[0]['settings']['myvox']['menu']['schedule']['tuesday']['opening'] = ($data['schedule_tuesday_status'] == 'open') ? $data['schedule_tuesday_opening'] : '';
+				$edited1[0]['settings']['myvox']['menu']['schedule']['tuesday']['closing'] = ($data['schedule_tuesday_status'] == 'open') ? $data['schedule_tuesday_closing'] : '';
+				$edited1[0]['settings']['myvox']['menu']['schedule']['wednesday']['status'] = $data['schedule_wednesday_status'];
+				$edited1[0]['settings']['myvox']['menu']['schedule']['wednesday']['opening'] = ($data['schedule_wednesday_status'] == 'open') ? $data['schedule_wednesday_opening'] : '';
+				$edited1[0]['settings']['myvox']['menu']['schedule']['wednesday']['closing'] = ($data['schedule_wednesday_status'] == 'open') ? $data['schedule_wednesday_closing'] : '';
+				$edited1[0]['settings']['myvox']['menu']['schedule']['thursday']['status'] = $data['schedule_thursday_status'];
+				$edited1[0]['settings']['myvox']['menu']['schedule']['thursday']['opening'] = ($data['schedule_thursday_status'] == 'open') ? $data['schedule_thursday_opening'] : '';
+				$edited1[0]['settings']['myvox']['menu']['schedule']['thursday']['closing'] = ($data['schedule_thursday_status'] == 'open') ? $data['schedule_thursday_closing'] : '';
+				$edited1[0]['settings']['myvox']['menu']['schedule']['friday']['status'] = $data['schedule_friday_status'];
+				$edited1[0]['settings']['myvox']['menu']['schedule']['friday']['opening'] = ($data['schedule_friday_status'] == 'open') ? $data['schedule_friday_opening'] : '';
+				$edited1[0]['settings']['myvox']['menu']['schedule']['friday']['closing'] = ($data['schedule_friday_status'] == 'open') ? $data['schedule_friday_closing'] : '';
+				$edited1[0]['settings']['myvox']['menu']['schedule']['saturday']['status'] = $data['schedule_saturday_status'];
+				$edited1[0]['settings']['myvox']['menu']['schedule']['saturday']['opening'] = ($data['schedule_saturday_status'] == 'open') ? $data['schedule_saturday_opening'] : '';
+				$edited1[0]['settings']['myvox']['menu']['schedule']['saturday']['closing'] = ($data['schedule_saturday_status'] == 'open') ? $data['schedule_saturday_closing'] : '';
+				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['status'] = $data['schedule_sunday_status'];
+				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['opening'] = ($data['schedule_sunday_status'] == 'open') ? $data['schedule_sunday_opening'] : '';
+				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['closing'] = ($data['schedule_sunday_status'] == 'open') ? $data['schedule_sunday_closing'] : '';
 				$edited1[0]['settings']['myvox']['menu']['multi'] = !empty($data['multi']) ? true : false;
 			}
 			else

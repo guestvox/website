@@ -6,6 +6,11 @@ $this->dependencies->add(['js', '{$path.plugins}moment/moment.min.js']);
 $this->dependencies->add(['js', '{$path.plugins}moment/moment-timezone-with-data.min.js']);
 $this->dependencies->add(['js', '{$path.js}Voxes/index.js']);
 $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
+// $this->dependencies->add(['other', '<script src="https://js.pusher.com/7.0/pusher.min.js"></script>']);
+// $this->dependencies->add(['other', '/webpushr-sw.js']);
+// $this->dependencies->add(['other', '<!-- start webpushr code -->
+// <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=="undefined") return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window,document, "script", "webpushr-jssdk"));webpushr("setup",{"key":"BIcwQVszHXtzTGChI3oIkDIsXB8BwIG9jjPr4EVUhXGYPCKMS-ISacL3T79P9o-1l920bOVzyyiF5KWrwCc1KCM" });
+// </script><!-- end webpushr code -->']);
 
 ?>
 
@@ -19,17 +24,8 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
     <section class="buttons">
         <div>
             <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <a href="/voxes" class="big new"><i class="fas fa-atom"></i><span>{$lang.voxes}</span></a>
             <a href="/voxes/create" class="new"><i class="fas fa-plus"></i></a>
             <a class="big new" data-button-modal="filter_voxes"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
-            <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
-            <a href="/voxes/stats" class="big"><i class="fas fa-chart-pie"></i><span>{$lang.stats}</span></a>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{voxes_reports_print}']) == true) : ?>
-            <a href="/voxes/reports/generate" class="big"><i class="fas fa-bug"></i><span>{$lang.reports}</span></a>
-            <?php elseif (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}','{voxes_reports_deactivate}','{voxes_reports_activate}','{voxes_reports_delete}']) == true) : ?>
-            <a href="/voxes/reports/saved" class="big"><i class="fas fa-bug"></i><span>{$lang.reports}</span></a>
-            <?php endif; ?>
         </div>
     </section>
 </main>
@@ -114,12 +110,13 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                                 <p>{$lang.assigned_to}</p>
                                 <select name="assigned">
                                     <?php if (Functions::check_user_access(['{view_all}']) == true) : ?>
-                                    <option value="all" <?php echo ((Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
+                                    <option value="all" <?php echo ((Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'all') ? 'selected' : ''); ?>>{$lang.alls}</option>
                                     <?php endif; ?>
                                     <?php if (Functions::check_user_access(['{view_all}','{view_opportunity_areas}']) == true) : ?>
                                     <option value="opportunity_areas" <?php echo ((Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'opportunity_areas') ? 'selected' : ''); ?>>{$lang.my_opportunity_areas}</option>
                                     <?php endif; ?>
-                                    <option value="me" <?php echo ((Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'me') ? 'selected' : ''); ?>>{$lang.me}</option>
+                                    <option value="me" <?php echo ((Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'me') ? 'selected' : ''); ?>>{$lang.assigned_to_me}</option>
+                                    {$opt_assigned}
                                 </select>
                             </label>
                         </div>

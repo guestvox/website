@@ -44,7 +44,7 @@ class Urls_registered_vkye
             '/enlace' => [
                 'controller' => 'Hi',
                 'method' => 'enlace'
-            ], 
+            ],
             '/webinar' => [
                 'controller' => 'Hi',
                 'method' => 'webinar'
@@ -100,10 +100,6 @@ class Urls_registered_vkye
             '/login' => [
                 'controller' => 'Login',
                 'method' => 'index'
-            ],
-            '/logout' => [
-                'controller' => 'Login',
-                'method' => 'logout'
             ],
             // '/dashboard' => [
             //     'controller' => 'Dashboard', // - Rediseño
@@ -220,6 +216,14 @@ class Urls_registered_vkye
             '/account' => [
                 'controller' => 'Account',
                 'method' => 'index'
+            ],
+            '/translate' => [
+                'controller' => 'System',
+                'method' => 'translate'
+            ],
+            '/logout' => [
+                'controller' => 'System',
+                'method' => 'logout'
             ]
         ];
     }

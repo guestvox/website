@@ -19,6 +19,41 @@ class Voxes_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'notification')
+			{
+				// $end_point = 'https://api.webpushr.com/v1/notification/send/all';
+				// $http_header = array(
+				// 	"Content-Type: Application/Json",
+				// 	"webpushrKey: T6GsOhzKszICnxJI1D6pbazDxNrq-k9hKBWiuHxdme8",
+				// 	"webpushrAuthToken: 13576"
+				// );
+				// $req_data = array(
+				// 	'title' 			=> "Pedido desde Menú digital", //required
+				// 	'message' 		=> "Hay un nuevo pedido", //required
+				// 	'target_url'	=> 'https://www.webpushr.com', //required
+				// 	'name'			=> 'Ceviche',
+				// 	'icon'			=> 'https://www.webpushr.com/logo.png',
+				// 	'auto_hide'		=> 1,
+				// 	'expire_push'	=> '5m',
+				// 	'action_buttons'=> array(
+				// 		array('title'=> 'Demo', 'url' => 'https://www.webpushr.com/demo'),
+				// 		array('title'=> 'Rates', 'url' => 'https://www.webpushr.com/pricing')
+				// 	)
+				// );
+				// $ch = curl_init();
+				// curl_setopt($ch, CURLOPT_HTTPHEADER, $http_header);
+				// curl_setopt($ch, CURLOPT_URL, $end_point );
+				// curl_setopt($ch, CURLOPT_POST, 1);
+				// curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($req_data) );
+				// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				// $response = curl_exec($ch);
+				// echo $response;
+				//
+				// Functions::environment([
+				// 	'status' => 'success'
+				// ]);
+			}
+
 			if ($_POST['action'] == 'get_opt_owners')
 			{
 				$html = '<option value="all" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['owner'] == 'all') ? 'selected' : '') . '>{$lang.all}</option>';
@@ -108,11 +143,28 @@ class Voxes_controller extends Controller
 				$tbl_voxes .=
 				'<div>
 	                <div>
-						<div class="itm_1">
-	                        <figure>
-	                            <img src="' . (($value['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($value['created_user']['avatar']) ? '{$path.uploads}' . $value['created_user']['avatar'] : '{$path.images}avatar.png')) . '">
-	                        </figure>
-	                    </div>
+						<div class="itm_1">';
+
+				if (!empty($value['assigned_users']))
+				{
+					foreach (array_reverse($value['assigned_users']) as $subvalue)
+					{
+						$tbl_voxes .=
+						'<figure>
+							<img src="' . (!empty($subvalue['avatar']) ? '{$path.uploads}' . $subvalue['avatar'] : '{$path.images}avatar.png') . '">
+						</figure>';
+					}
+				}
+				else
+				{
+					$tbl_voxes .=
+					'<figure>
+						<img src="' . (($value['origin'] == 'myvox') ? '{$path.images}myvox.png' : (!empty($value['created_user']['avatar']) ? '{$path.uploads}' . $value['created_user']['avatar'] : '{$path.images}avatar.png')) . '">
+					</figure>';
+				}
+
+				$tbl_voxes .=
+				'       </div>
 	                    <div class="itm_2">
 							<div>
 								<span class="' . $value['urgency'] . '">';
@@ -197,12 +249,24 @@ class Voxes_controller extends Controller
 			foreach ($this->model->get_locations(Session::get_value('settings')['voxes']['voxes']['filter']['type']) as $value)
 				$opt_locations .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['location'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
 
+			$opt_assigned = '';
+
+			if (Functions::check_user_access(['{view_all}']) == true)
+			{
+				foreach ($this->model->get_users() as $value)
+				{
+					if (Session::get_value('user')['id'] != $value['id'])
+						$opt_assigned .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == $value['id']) ? 'selected' : '') . '>{$lang.assigned_to} ' . $value['firstname'] . ' ' . $value['lastname'] . '</option>';
+				}
+			}
+
 			$replace = [
 				'{$tbl_voxes}' => $tbl_voxes,
 				'{$opt_owners}' => $opt_owners,
 				'{$opt_opportunity_areas}' => $opt_opportunity_areas,
 				'{$opt_opportunity_types}' => $opt_opportunity_types,
-				'{$opt_locations}' => $opt_locations
+				'{$opt_locations}' => $opt_locations,
+				'{$opt_assigned}' => $opt_assigned
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -1113,6 +1177,7 @@ class Voxes_controller extends Controller
 					'{$opportunity_area}' => $vox['opportunity_area']['name'][$this->lang],
 					'{$opportunity_type}' => $vox['opportunity_type']['name'][$this->lang],
 					'{$location}' => (Session::get_value('account')['type'] == 'restaurant' AND !empty($vox['menu_order'])) ? (($vox['menu_order']['type_service'] == 'delivery' AND $vox['menu_order']['delivery'] == 'home') ? $vox['address'] : '{$lang.not_apply}') : $vox['location']['name'][$this->lang],
+					'{$references}' => (Session::get_value('account')['type'] == 'restaurant' AND !empty($vox['menu_order'])) ? (($vox['menu_order']['type_service'] == 'delivery' AND $vox['menu_order']['delivery'] == 'home') ? '<span><i class="fas fa-map-marker-alt"></i>' . (!empty($vox['references']) ? $vox['references'] : '{$lang.not_references}') . '</span>' : '') : '',
 					'{$started_date}' => Functions::get_formatted_date($vox['started_date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($vox['started_hour'], '+ hrs'),
 					'{$spn_cost}' => ($vox['type'] == 'incident' OR $vox['type'] == 'workorder') ? '<span><i class="fas fa-dollar-sign"></i>' . Functions::get_formatted_currency((!empty($vox['cost']) ? $vox['cost'] : '0'), Session::get_value('account')['currency']) . '</span>' : '',
 					'{$p_observations}' => $p_observations,
@@ -2574,7 +2639,7 @@ class Voxes_controller extends Controller
 					<div>
 		                <input id="gesw" type="radio" value="generate" ' . (($params[0] == 'generate') ? 'checked' : '') . '>
 		                <label for="gesw">
-							<i class="fas fa-file-pdf"></i>
+							<i class="fas fa-bug"></i>
 							<span>{$lang.generate}</span>
 						</label>
 		            </div>
@@ -2748,53 +2813,57 @@ class Voxes_controller extends Controller
 							<div class="checkboxes stl_1">
 								<p>{$lang.opportunity_areas}</p>
 								<div>
-									<input type="checkbox" name="checked_all">
-									<span><strong>{$lang.all}</strong></span>
-								</div>';
-
-							foreach ($this->model->get_opportunity_areas() as $value)
-							{
-								$mdl_new_vox_report .=
-								'<div>
-									<input type="checkbox" name="opportunity_areas[]" value="' . $value['id'] . '">
-									<span>' . $value['name'][$this->lang] . '</span>
-								</div>';
-							}
-
-							$mdl_new_vox_report .=
-							'	</div>
-							</div>
-							<div class="span12">
-								<div class="checkboxes stl_1">
-									<p>{$lang.fields}</p>
 									<div>
 										<input type="checkbox" name="checked_all">
 										<span><strong>{$lang.all}</strong></span>
 									</div>';
 
-							foreach ($this->model->get_vox_report_fields() as $value)
-							{
-								$mdl_new_vox_report .=
-								'<div>
-									<input type="checkbox" name="fields[]" value="' . $value['id'] . '">
-									<span>{$lang.' . $value['name'] . '}</span>
-								</div>';
-							}
-
+						foreach ($this->model->get_opportunity_areas() as $value)
+						{
 							$mdl_new_vox_report .=
-							'						</div>
+							'<div>
+								<input type="checkbox" name="opportunity_areas[]" value="' . $value['id'] . '">
+								<span>' . $value['name'][$this->lang] . '</span>
+							</div>';
+						}
+
+						$mdl_new_vox_report .=
+						'		</div>
+							</div>
+						</div>
+						<div class="span12">
+							<div class="checkboxes stl_1">
+								<p>{$lang.fields}</p>
+								<div>
+									<div>
+										<input type="checkbox" name="checked_all">
+										<span><strong>{$lang.all}</strong></span>
+									</div>';
+
+						foreach ($this->model->get_vox_report_fields() as $value)
+						{
+							$mdl_new_vox_report .=
+							'<div>
+								<input type="checkbox" name="fields[]" value="' . $value['id'] . '">
+								<span>{$lang.' . $value['name'] . '}</span>
+							</div>';
+						}
+
+						$mdl_new_vox_report .=
+						'							</div>
 												</div>
-							                    <div class="span12">
-							                        <div class="buttons">
-							                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
-							                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
-							                        </div>
-							                    </div>
-							                </div>
-							            </form>
-							        </main>
-							    </div>
-							</section>';
+											</div>
+						                    <div class="span12">
+						                        <div class="buttons">
+						                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+						                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
+						                        </div>
+						                    </div>
+						                </div>
+						            </form>
+						        </main>
+						    </div>
+						</section>';
 					}
 
 					if (Functions::check_user_access(['{voxes_reports_deactivate}']) == true)
@@ -2970,9 +3039,10 @@ class Voxes_controller extends Controller
 						<div class="checkboxes stl_1">
 							<p>{$lang.fields}</p>
 							<div>
-								<input type="checkbox" name="checked_all">
-								<span><strong>{$lang.all}</strong></span>
-							</div>';
+								<div>
+									<input type="checkbox" name="checked_all">
+									<span><strong>{$lang.all}</strong></span>
+								</div>';
 
 					foreach ($this->model->get_vox_report_fields() as $value)
 					{
@@ -2984,7 +3054,8 @@ class Voxes_controller extends Controller
 					}
 
 					$mdl_filter_vox_report .=
-					'						</div>
+					'							</div>
+											</div>
 										</div>
 										<div class="span12">
 											<div class="buttons">
@@ -3001,6 +3072,7 @@ class Voxes_controller extends Controller
 			}
 
 			$replace = [
+				'{$menu_focus}' => $params[0],
 				'{$div_options}' => $div_options,
 				'{$tbl_voxes_reports}' => $tbl_voxes_reports,
 				'{$div_print_vox_report}' => $div_print_vox_report,

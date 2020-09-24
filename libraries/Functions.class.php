@@ -2,8 +2,25 @@
 
 defined('_EXEC') or die;
 
+require 'plugins/translate/vendor/autoload.php';
+use \Statickidz\GoogleTranslate;
+
 class Functions
 {
+    static public function translate($string, $language)
+    {
+        if (!empty($string))
+        {
+            $translate = new GoogleTranslate();
+            $translate =  $translate->translate('es', $language, $string);
+            $translate = ucfirst($translate);
+
+            return $translate;
+        }
+        else
+            return '';
+    }
+
     static public function set_default_timezone()
     {
         if (Session::exists_var('session') == true)
@@ -116,6 +133,13 @@ class Functions
         }
         else
             return null;
+    }
+
+    static public function get_current_day()
+    {
+        Functions::set_default_timezone();
+
+		return strtolower(date('l'));
     }
 
     static public function get_current_week()

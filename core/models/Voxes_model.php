@@ -151,8 +151,20 @@ class Voxes_model extends Model
 				$break = false;
 			else if (Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'opportunity_areas' AND in_array($value['opportunity_area'], Session::get_value('user')['opportunity_areas']))
 				$break = false;
-			else if (Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'me' AND ($value['created_user'] == Session::get_value('user')['id'] OR in_array(Session::get_value('user')['id'], $value['assigned_users'])))
-				$break = false;
+			else if (Session::get_value('settings')['voxes']['voxes']['filter']['assigned'] == 'me')
+			{
+				if (!empty($value['assigned_users']) AND in_array(Session::get_value('user')['id'], $value['assigned_users']))
+					$break = false;
+				else if (empty($value['assigned_users']) AND $value['created_user'] == Session::get_value('user')['id'])
+					$break = false;
+			}
+			else
+			{
+				if (!empty($value['assigned_users']) AND in_array(Session::get_value('settings')['voxes']['voxes']['filter']['assigned'], $value['assigned_users']))
+					$break = false;
+				else if (empty($value['assigned_users']) AND $value['created_user'] == Session::get_value('settings')['voxes']['voxes']['filter']['assigned'])
+					$break = false;
+			}
 
 			if ($break == false)
 			{
@@ -167,6 +179,9 @@ class Voxes_model extends Model
 						$query[$key]['guest_treatment'] = $this->get_guest_treatment($value['guest_treatment']);
 				}
 
+				foreach ($value['assigned_users'] as $subkey => $subvalue)
+					$query[$key]['assigned_users'][$subkey] = $this->get_user($subvalue);
+
 				foreach ($value['comments'] as $subkey => $subvalue)
 				{
 					$query[$key]['attachments'] = array_merge($value['attachments'], $subvalue['attachments']);
@@ -180,9 +195,6 @@ class Voxes_model extends Model
 
 				if ($option == 'report')
 				{
-					foreach ($value['assigned_users'] as $subkey => $subvalue)
-						$query[$key]['assigned_users'][$subkey] = $this->get_user($subvalue);
-
 					if (Session::get_value('account')['type'] == 'hotel')
 					{
 						if ($value['type'] == 'incident')
@@ -225,6 +237,7 @@ class Voxes_model extends Model
 			'started_hour',
 			'location',
 			'address',
+			'references',
 			'cost',
 			'urgency',
 			'confidentiality',

@@ -2,6 +2,29 @@
 
 $(document).ready(function()
 {
+    // var pusher = new Pusher('1907b80d942422da0b8e', {
+    //     cluster: 'us2'
+    //   });
+    //
+    //   var channel = pusher.subscribe('menu-orders');
+    //   channel.bind('new-order', function(data) {
+    //     $.ajax({
+    //         type: 'POST',
+    //         data: 'data=' + data + '&action=notification',
+    //         processData: false,
+    //         cache: false,
+    //         dataType: 'json',
+    //         success: function(response)
+    //         {
+    //             if (response.status == 'success')
+    //                 console.log('Correcto');
+    //             elses (response.status == 'error')
+    //                 console.log('Error');
+    //         }
+    //     });
+    //     // alert(JSON.stringify(data));
+    //   });
+
     $('[name="type"]').on('change', function()
     {
         $.ajax({

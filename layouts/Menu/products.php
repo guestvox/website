@@ -2,38 +2,19 @@
 
 defined('_EXEC') or die;
 
+$this->dependencies->add(['css', '{$path.plugins}chosen_select/chosen.css']);
+$this->dependencies->add(['js', '{$path.plugins}chosen_select/chosen.jquery.js']);
 $this->dependencies->add(['js', '{$path.js}Menu/products.js']);
-$this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
+$this->dependencies->add(['other', '<script>menu_focus("menu_products");</script>']);
 
 ?>
 
 %{header}%
 <main class="dashboard">
     <section class="workspace">
-        <div class="tbl_stl_3" data-table>
-            {$tbl_menu_products}
-        </div>
+        {$tbl_menu_products}
     </section>
-    <section class="buttons">
-        <div>
-            <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <?php if (Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}']) == true) : ?>
-            <a href="/menu/products" class="big new"><i class="fas fa-cocktail"></i><span>{$lang.products}</span></a>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{menu_products_create}']) == true) : ?>
-            <a class="new" data-button-modal="new_menu_product"><i class="fas fa-plus"></i></a>
-            <?php endif; ?>
-            <!-- <?php if (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true) : ?>
-            <a href="/menu/restaurants" class="big"><i class="fas fa-utensils"></i><span>{$lang.restaurants}</span></a>
-            <?php endif; ?> -->
-            <?php if (Functions::check_user_access(['{menu_categories_create}','{menu_categories_update}','{menu_categories_deactivate}','{menu_categories_activate}','{menu_categories_delete}']) == true) : ?>
-            <a href="/menu/categories" class="big"><i class="fas fa-tag"></i><span>{$lang.categories}</span></a>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{menu_topics_create}','{menu_topics_update}','{menu_topics_deactivate}','{menu_topics_activate}','{menu_topics_delete}']) == true) : ?>
-            <a href="/menu/topics" class="big"><i class="fas fa-bookmark"></i><span>{$lang.topics}</span></a>
-            <?php endif; ?>
-        </div>
-    </section>
+    {$sct_buttons}
 </main>
 <?php if (Functions::check_user_access(['{menu_products_create}','{menu_products_update}']) == true) : ?>
 <section class="modal fullscreen" data-modal="new_menu_product">
@@ -45,7 +26,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                         <div class="label">
                             <label required>
                                 <p>(ES) {$lang.name}</p>
-                                <input type="text" name="name_es">
+                                <input type="text" name="name_es" data-translates="name">
                             </label>
                         </div>
                     </div>
@@ -53,7 +34,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                         <div class="label">
                             <label required>
                                 <p>(EN) {$lang.name}</p>
-                                <input type="text" name="name_en">
+                                <input type="text" name="name_en" data-translaten="name">
                             </label>
                         </div>
                     </div>
@@ -61,7 +42,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                         <div class="label">
                             <label unrequired>
                                 <p>(ES) {$lang.description}</p>
-                                <textarea name="description_es"></textarea>
+                                <textarea name="description_es" data-translates="description"></textarea>
                             </label>
                         </div>
                     </div>
@@ -69,19 +50,19 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                         <div class="label">
                             <label unrequired>
                                 <p>(EN) {$lang.description}</p>
-                                <textarea name="description_en"></textarea>
+                                <textarea name="description_en" data-translaten="description"></textarea>
                             </label>
                         </div>
                     </div>
-                    <div class="span6">
+                    <div class="span3">
                         <div class="label">
-                            <label unrequired>
-                                <p>{$lang.outstanding}</p>
-                                <input type="number" name="outstanding">
+                            <label required>
+                                <p>{$lang.position} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                                <input type="number" name="position">
                             </label>
                         </div>
                     </div>
-                    <div class="span6">
+                    <div class="span3">
                         <div class="label">
                             <label required>
                                 <p>(<?php echo !empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'] ?>) {$lang.price}</p>
@@ -89,30 +70,50 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                             </label>
                         </div>
                     </div>
+                    <div class="span3">
+                        <div class="label">
+                            <label unrequired>
+                                <p>{$lang.available_start_date} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                                <input type="date" name="available_start_date">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="label">
+                            <label unrequired>
+                                <p>{$lang.available_end_date} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                                <input type="date" name="available_end_date">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.available_days} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                                <select name="available_days[]" class="chosen-select" multiple>
+                                    <option value="monday" selected>{$lang.monday}</option>
+                                    <option value="tuesday" selected>{$lang.tuesday}</option>
+                                    <option value="wednesday" selected>{$lang.wednesday}</option>
+                                    <option value="thursday" selected>{$lang.thursday}</option>
+                                    <option value="friday" selected>{$lang.friday}</option>
+                                    <option value="saturday" selected>{$lang.saturday}</option>
+                                    <option value="sunday" selected>{$lang.sunday}</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
                     <div class="span12">
                         <div class="menu_topics_groups">
-                            <aside>
-                                {$cbx_menu_topics_groups}
-                            </aside>
-                            <div class="checkboxes stl_1">
+                            <p>{$lang.topics_groups} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                            <div>
                                 {$cbx_menu_topics}
                             </div>
-                            <div class="label">
-                                <label required>
-                                    <select name="selection">
-                                        <option value="" hidden>{$lang.selection_type}</option>
-                                        <option value="checkbox">{$lang.multi_selection}</option>
-                                        <option value="radio">{$lang.one_selection}</option>
-                                    </select>
-                                </label>
-                            </div>
-                            <a data-action="add_menu_topics_group">{$lang.add_menu_topics_group}</a>
                         </div>
                     </div>
                     <div class="span12">
                         <div class="label">
                             <label unrequired>
-                                <p>{$lang.avatar}</p>
+                                <p>{$lang.avatar_type} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
                                 <select name="avatar">
                                     <option value="image">{$lang.image}</option>
                                     <option value="icon">{$lang.icon}</option>
@@ -122,7 +123,6 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                     </div>
                     <div class="span12">
                         <div class="stl_2" data-uploader="low">
-                            <p>{$lang.image}</p>
                             <figure data-preview>
                                 <img src="{$path.images}empty.png">
                                 <a data-select><i class="fas fa-upload"></i></a>
@@ -137,8 +137,13 @@ $this->dependencies->add(['other', '<script>menu_focus("menu");</script>']);
                     </div>
                     <div class="span12">
                         <div class="checkboxes stl_1">
-                            <p>{$lang.categories}</p>
-                            {$cbx_menu_categories}
+                            <p>{$lang.categories} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                            <div>
+                                {$cbx_menu_categories}
+                                <div class="button">
+                                    <a href="/menu/categories">{$lang.create_more_categories}</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <?php if (Session::get_value('account')['settings']['menu']['multi'] == true) : ?>

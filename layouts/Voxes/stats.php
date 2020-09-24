@@ -5,7 +5,7 @@ defined('_EXEC') or die;
 $this->dependencies->add(['js', '{$path.plugins}charts/Chart.js']);
 $this->dependencies->add(['js', '{$vkye_base}Voxes/charts']);
 $this->dependencies->add(['js', '{$path.js}Voxes/stats.js']);
-$this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
+$this->dependencies->add(['other', '<script>menu_focus("voxes_stats");</script>']);
 
 ?>
 
@@ -83,18 +83,9 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
         </div>
     </section>
     <section class="buttons">
-        <div>
-            <a href="/voxes" class="big"><i class="fas fa-atom"></i><span>{$lang.voxes}</span></a>
-            <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
-            <a href="/voxes/stats" class="big new"><i class="fas fa-chart-pie"></i><span>{$lang.stats}</span></a>
-            <a class="big new" data-button-modal="filter_voxes_stats"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{voxes_reports_print}']) == true) : ?>
-            <a href="/voxes/reports/generate" class="big"><i class="fas fa-bug"></i><span>{$lang.reports}</span></a>
-            <?php elseif (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}','{voxes_reports_deactivate}','{voxes_reports_activate}','{voxes_reports_delete}']) == true) : ?>
-            <a href="/voxes/reports/saved" class="big"><i class="fas fa-bug"></i><span>{$lang.reports}</span></a>
-            <?php endif; ?>
-        </div>
+        <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
+        <a class="big new" data-button-modal="filter_voxes_stats"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
+        <?php endif; ?>
     </section>
 </main>
 <section class="modal fullscreen" data-modal="filter_voxes_stats">

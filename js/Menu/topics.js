@@ -2,6 +2,51 @@
 
 $(document).ready(function()
 {
+    $('[data-button-modal="new_menu_topic"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=get_menu_topic_position',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    $('[name="position"]').val(response.data);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-action="create_other_topic"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=get_menu_topic_position',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    clean_form($('form[name="new_menu_topic"]'));
+
+                    $('[name="position"]').val(response.data);
+
+                    $('[data-modal="new_menu_topic"]').addClass('view');
+                    $('[data-modal="actions"]').removeClass('view');
+
+                    $('[name="name_es"]').focus();
+                }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
     var id = null;
     var edit = false;
 
@@ -38,7 +83,12 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                    show_modal_success(response.message, 600);
+                {
+                    if (edit == false)
+                        show_modal_success(response.message, null, 'actions');
+                    else if (edit == true)
+                        show_modal_success(response.message, 600);
+                }
                 else if (response.status == 'error')
                     show_form_errors(form, response);
             }
@@ -62,11 +112,48 @@ $(document).ready(function()
                 {
                     $('[name="name_es"]').val(response.data.name.es);
                     $('[name="name_en"]').val(response.data.name.en);
+                    $('[name="position"]').val(response.data.position);
 
                     required_focus('form', $('form[name="new_menu_topic"]'), null);
 
                     $('[data-modal="new_menu_topic"]').addClass('view');
                 }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-action="up_menu_topic"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + $(this).data('id') + '&action=up_menu_topic',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-action="down_menu_topic"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + $(this).data('id') + '&action=down_menu_topic',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
                 else if (response.status == 'error')
                     show_modal_error(response.message);
             }
