@@ -133,12 +133,13 @@ main.menu > section[data-search] div[data-menu-categories] > div {
 
 main.menu > section[data-menu-categories] > div {
     width: 50px;
-    padding-right: 10px;
+    padding-right: 15px;
 }
 
 main.menu > section[data-search] div[data-menu-categories] > div {
     width: calc(100% / 4);
     float: left;
+    margin-bottom: 15px;
 }
 
 main.menu > section[data-search] div[data-menu-categories] > p {
