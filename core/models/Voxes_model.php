@@ -139,6 +139,7 @@ class Voxes_model extends Model
 			'reopened_date',
 			'reopened_hour',
 			'menu_order',
+			'automatic_start',
 			'status',
 			'origin'
 		], $where));
@@ -274,6 +275,7 @@ class Voxes_model extends Model
 			'reopened_date',
 			'reopened_hour',
 			'menu_order',
+			'automatic_start',
 			'status',
 			'origin'
 		], [
@@ -782,8 +784,8 @@ class Voxes_model extends Model
 			'owner' => $data['owner'],
 			'opportunity_area' => $data['opportunity_area'],
 			'opportunity_type' => $data['opportunity_type'],
-			'started_date' => Functions::get_formatted_date($data['started_date']),
-			'started_hour' => Functions::get_formatted_hour($data['started_hour']),
+			'started_date' => ((isset($data['automatic_start']) ? null : Functions::get_formatted_date($data['started_date']))),
+			'started_hour' => ((isset($data['automatic_start']) ? null : Functions::get_formatted_hour($data['started_hour']))),
 			'location' => $data['location'],
 			'address' => null,
 			'cost' => (($data['type'] == 'incident' OR $data['type'] == 'workorder') AND !empty($data['cost'])) ? $data['cost'] : null,
@@ -832,6 +834,7 @@ class Voxes_model extends Model
 			'reopened_date' => null,
 			'reopened_hour' => null,
 			'menu_order' => null,
+			'automatic_start' => (isset($data['automatic_start']) ? true : false),
 			'status' => true,
 			'origin' => 'internal'
 		]);
@@ -1268,6 +1271,37 @@ class Voxes_model extends Model
 			], [
 				'id' => $data['id']
 			]);
+		}
+
+		return $query;
+	}
+
+	public function start_vox($data)
+	{
+		$query = null; 
+
+		$editer = Functions::get_json_decoded_query($this->database->select('voxes', [
+			'changes_history'
+		], [
+			'id' => $data['id']
+		]));
+
+		if (!empty($editer))
+		{
+			array_push($editer[0]['changes_history'], [
+				'type' => 'commented',
+				'user' => Session::get_value('user')['id'],
+				'date' => Functions::get_current_date(),
+				'hour' => Functions::get_current_hour()
+			]);
+
+			$query = $this->database->update('voxes', [
+				'started_date' => Functions::get_formatted_date($data['started_date']),
+				'started_hour' => Functions::get_formatted_hour($data['started_hour']),
+				'changes_history' => json_encode($editer[0]['changes_history'])
+			], [
+				'id' => $data['id']
+			]);	
 		}
 
 		return $query;

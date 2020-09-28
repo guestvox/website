@@ -71,6 +71,17 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         </label>
                     </div>
                 </div>
+                <div class="span3 hidden">
+                    <div class="label">
+                        <label unrequired>
+                            <p>Iniciar de manera manual</p>
+                            <div class="switch">
+                                <input id="cfsw" type="checkbox" name="automatic_start" data-switcher>
+                                <label for="cfsw"></label>
+                            </div>
+                        </label>
+                    </div>
+                </div>
                 <div class="span3">
                     <div class="label">
                         <label required>
