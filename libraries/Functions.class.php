@@ -416,6 +416,28 @@ class Functions
                 return $data;
             }
         }
+        else if ($connection == 'ambit')
+        {
+            if ($method == 'get')
+            {
+                $credentials = [
+                    'email' => $access['username'],
+                    'password' => $access['password']
+                ];
+
+                $api = curl_init();
+
+                curl_setopt($ch, CURLOPT_URL, 'https://deliveryapp.ambit.com.mx/api/login');
+                curl_setopt($ch, CURLOPT_POST, true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $credentials);
+                
+                $data = Functions::get_json_decoded_query(curl_exec($api));
+
+                curl_close($api);
+
+                return $data;
+            }
+        }
     }
 
     public static function shorten_string($string, $length = 400)
