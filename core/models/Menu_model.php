@@ -176,7 +176,7 @@ class Menu_model extends Model
 				'en' => !empty($data['description_en']) ? $data['description_en'] : ''
 			]),
 			'topics' => json_encode(Session::get_value('temporal')['menu_topics_groups']),
-			'price' => $data['price'],
+			'price' => !empty($data['price']) ? $data['price'] : 0,
 			'position' => $data['position'],
 			'available' => json_encode([
 				'days' => $data['available_days'],
@@ -242,7 +242,7 @@ class Menu_model extends Model
 					'en' => !empty($data['description_en']) ? $data['description_en'] : ''
 				]),
 				'topics' => json_encode(Session::get_value('temporal')['menu_topics_groups']),
-				'price' => $data['price'],
+				'price' => !empty($data['price']) ? $data['price'] : 0,
 				'position' => $data['position'],
 				'available' => json_encode([
 					'days' => $data['available_days'],

@@ -169,13 +169,13 @@ class Menu_controller extends Controller
 			{
 				$temporal = Session::get_value('temporal');
 
-				$temporal['menu_topics_groups'][$_POST['key']][$_POST['subkey']]['price'] = !empty($_POST['price']) ? $_POST['price'] : 0;
+				$temporal['menu_topics_groups'][$_POST['key']][$_POST['subkey']]['price'] = (!empty($_POST['price']) AND $_POST['price'] > 0) ? $_POST['price'] : 0;
 
 				Session::set_value('temporal', $temporal);
 
 				Functions::environment([
 					'status' => 'success',
-					'price' => !empty($_POST['price']) ? $_POST['price'] : 0
+					'price' => (!empty($_POST['price']) AND $_POST['price'] > 0) ? $_POST['price'] : 0
 				]);
 			}
 
@@ -311,7 +311,7 @@ class Menu_controller extends Controller
 						array_push($labels, ['description_en','']);
 				}
 
-				if (!isset($_POST['price']) OR empty($_POST['price']))
+				if (!empty($_POST['price']) AND $_POST['price'] < 0)
 					array_push($labels, ['price','']);
 
 				if (!isset($_POST['position']) OR empty($_POST['position']) OR $_POST['position'] < 1)
@@ -472,7 +472,7 @@ class Menu_controller extends Controller
 					'	</figure>
 						<div>
 							<h2>' . $value['name'][$this->lang] . '</h2>
-							<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>
+							' . (!empty($value['price']) ? '<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>' : '') . '
 							<a data-action="open_preview_menu_product" data-id="' . $value['id'] . '"></a>
 						</div>
 					</div>';
@@ -504,7 +504,7 @@ class Menu_controller extends Controller
 						'</figure>
 						<h2>' . $value['name'][$this->lang] . '</h2>
 						<p>' . (!empty($value['description'][$this->lang]) ? $value['description'][$this->lang] : '') . '</p>
-						<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>
+						' . (!empty($value['price']) ? '<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>' : '') . '
 						<form>';
 
 						foreach ($value['topics'] as $subvalue)
@@ -515,9 +515,9 @@ class Menu_controller extends Controller
 							{
 								$tbl_menu_products .=
 								'<label>
-									<input type="' . $parentvalue['selection'] . '" />
+									<input type="' . $parentvalue['selection'] . '" disabled>
 									<p>' . $parentvalue['name'][$this->lang] . '</p>
-									<span>' . Functions::get_formatted_currency($parentvalue['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . ' +</span>
+									<span>' . (!empty($parentvalue['price']) ? Functions::get_formatted_currency($parentvalue['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . ' +' : '') . '</span>
 								</label>';
 							}
 
@@ -548,7 +548,7 @@ class Menu_controller extends Controller
 						<div class="datas">
 							<div class="itm_1">
 								<h2>' . $value['name'][$this->lang] .'</h2>
-								<span>' . Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>';
+								<span>' . (!empty($value['price']) ? Functions::get_formatted_currency($value['price'], (!empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'])) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') : '{$lang.not_price}') . '</span>';
 
 					if (!empty($value['categories']))
 					{
@@ -561,7 +561,7 @@ class Menu_controller extends Controller
 					}
 
 					$tbl_menu_products .=
-					'' . ((Session::get_value('account')['settings']['menu']['multi'] == true) ? '<span>' . (!empty($value['restaurant']) ? $value['restaurant'][$this->lang] : '{$lang.not_restaurant}') . '</span>' : '') . '
+					((Session::get_value('account')['settings']['menu']['multi'] == true) ? '<span>' . (!empty($value['restaurant']) ? $value['restaurant'][$this->lang] : '{$lang.not_restaurant}') . '</span>' : '') . '
 					</div>
 					<div class="itm_2">
 						<figure>';
