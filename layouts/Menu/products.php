@@ -57,7 +57,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                     <div class="span3">
                         <div class="label">
                             <label required>
-                                <p>{$lang.position} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                                <p>{$lang.position} <a data-action="get_help" data-text="{$lang.menu_products_position}"><i class="fas fa-question-circle"></i></a></p>
                                 <input type="number" name="position">
                             </label>
                         </div>
@@ -66,14 +66,14 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                         <div class="label">
                             <label required>
                                 <p>(<?php echo !empty(Session::get_value('account')['settings']['menu']['currency']) ? Session::get_value('account')['settings']['menu']['currency'] : Session::get_value('account')['currency'] ?>) {$lang.price}</p>
-                                <input type="text" name="price">
+                                <input type="text" name="price" value="0">
                             </label>
                         </div>
                     </div>
                     <div class="span3">
                         <div class="label">
                             <label unrequired>
-                                <p>{$lang.available_start_date} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                                <p>{$lang.available_start_date} <a data-action="get_help" data-text="{$lang.menu_products_available_start_date}"><i class="fas fa-question-circle"></i></a></p>
                                 <input type="date" name="available_start_date">
                             </label>
                         </div>
@@ -81,7 +81,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                     <div class="span3">
                         <div class="label">
                             <label unrequired>
-                                <p>{$lang.available_end_date} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                                <p>{$lang.available_end_date} <a data-action="get_help" data-text="{$lang.menu_products_available_end_date}"><i class="fas fa-question-circle"></i></a></p>
                                 <input type="date" name="available_end_date">
                             </label>
                         </div>
@@ -89,7 +89,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                     <div class="span12">
                         <div class="label">
                             <label required>
-                                <p>{$lang.available_days} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                                <p>{$lang.available_days} <a data-action="get_help" data-text="{$lang.menu_products_available_days}"><i class="fas fa-question-circle"></i></a></p>
                                 <select name="available_days[]" class="chosen-select" multiple>
                                     <option value="monday" selected>{$lang.monday}</option>
                                     <option value="tuesday" selected>{$lang.tuesday}</option>
@@ -104,7 +104,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                     </div>
                     <div class="span12">
                         <div class="menu_topics_groups">
-                            <p>{$lang.topics_groups} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                            <p>{$lang.topics_groups} <a data-action="get_help" data-text="{$lang.menu_products_topics_groups}"><i class="fas fa-question-circle"></i></a></p>
                             <div>
                                 {$cbx_menu_topics}
                             </div>
@@ -113,7 +113,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                     <div class="span12">
                         <div class="label">
                             <label unrequired>
-                                <p>{$lang.avatar_type} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                                <p>{$lang.avatar_type} <a data-action="get_help" data-text="{$lang.menu_products_avatar_type}"><i class="fas fa-question-circle"></i></a></p>
                                 <select name="avatar">
                                     <option value="image">{$lang.image}</option>
                                     <option value="icon">{$lang.icon}</option>
@@ -137,7 +137,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                     </div>
                     <div class="span12">
                         <div class="checkboxes stl_1">
-                            <p>{$lang.categories} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+                            <p>{$lang.categories} <a data-action="get_help" data-text="{$lang.menu_products_categories}"><i class="fas fa-question-circle"></i></a></p>
                             <div>
                                 {$cbx_menu_categories}
                                 <div class="button">
