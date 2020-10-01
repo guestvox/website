@@ -1167,7 +1167,7 @@ class Myvox_controller extends Controller
 						'</figure>
 						<h2>' . $query['name'][$this->lang1] . '</h2>
 						<p>' . (!empty($query['description'][$this->lang1]) ? $query['description'][$this->lang1] : '') . '</p>
-						<span>' . Functions::get_formatted_currency($query['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . (!empty($query['topics']) ? ' (+ {$lang.topics})' : '') . '</span>';
+						' . (!empty($query['price']) ? '<span>' . Functions::get_formatted_currency($query['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . (!empty($query['topics']) ? ' (+ {$lang.topics})</span>' : '') : '');
 
 						if (Session::get_value('myvox')['account']['settings']['myvox']['menu']['schedule'][Functions::get_current_day()]['status'] == 'open' AND Functions::get_current_hour() >= Session::get_value('myvox')['account']['settings']['myvox']['menu']['schedule'][Functions::get_current_day()]['opening'] AND Functions::get_current_hour() <= Session::get_value('myvox')['account']['settings']['myvox']['menu']['schedule'][Functions::get_current_day()]['closing'])
 						{
@@ -1183,7 +1183,7 @@ class Myvox_controller extends Controller
 									'<label>
 										<input type="' . $subvalue['selection'] . '" name="topics_' . $key . '[]" value="' . $key . '_' . $subkey . '" data-action="update_menu_product_price" data-id="' . $_POST['id'] . '" ' . (($subvalue['selection'] == 'radio' AND $subkey == 0) ? 'checked' : '') . ' />
 										<p>' . $subvalue['name'][$this->lang1] . '</p>
-										<span>' . Functions::get_formatted_currency($subvalue['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . ' +</span>
+										<span>' . (!empty($subvalue['price']) ? Functions::get_formatted_currency($subvalue['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . ' +' : '') . '</span>
 									</label>';
 								}
 
@@ -1248,13 +1248,13 @@ class Myvox_controller extends Controller
 								{
 									$subvalue = explode('_', $subvalue);
 									$subvalue = $query['topics'][$subvalue[0]][$subvalue[1]];
-									$total = ($total + $subvalue['price']);
+									$total = ($total + (!empty($subvalue['price']) ? $subvalue['price'] : 0));
 								}
 							}
 						}
 
-						$total = (($total + $query['price']) * $_POST['quantity']);
-						$total = Functions::get_formatted_currency($total, Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . (($total == $query['price'] AND !empty($query['topics'])) ? ' (+ {$lang.topics})' : '');
+						$total = (($total + (!empty($query['price']) ? $query['price'] : 0)) * $_POST['quantity']);
+						$total = !empty($query['price']) ? Functions::get_formatted_currency($total, Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . (($total == $query['price'] AND !empty($query['topics'])) ? ' (+ {$lang.topics})' : '') : '';
 
 						Functions::environment([
 							'status' => 'success',
@@ -1302,8 +1302,8 @@ class Myvox_controller extends Controller
 								'id' => $_POST['id'],
 								'name' => $query['name'],
 								'topics' => $_POST['topics'],
-								'price' => $query['price'],
-								'total' => $this->model->get_menu_order_total($query['price'], $_POST['topics'], $_POST['quantity'])
+								'price' => !empty($query['price']) ? $query['price'] : 0,
+								'total' => $this->model->get_menu_order_total((!empty($query['price']) ? $query['price'] : 0), $_POST['topics'], $_POST['quantity'])
 							]);
 						}
 						else
@@ -1314,8 +1314,8 @@ class Myvox_controller extends Controller
 									'id' => $_POST['id'],
 									'name' => $query['name'],
 									'topics' => $_POST['topics'],
-									'price' => $query['price'],
-									'total' => $this->model->get_menu_order_total($query['price'], $_POST['topics'], $_POST['quantity'])
+									'price' => !empty($query['price']) ? $query['price'] : 0,
+									'total' => $this->model->get_menu_order_total((!empty($query['price']) ? $query['price'] : 0), $_POST['topics'], $_POST['quantity'])
 								]
 							];
 						}
@@ -1488,13 +1488,14 @@ class Myvox_controller extends Controller
 							$options = array(
 								'cluster' => 'us2',
 								'useTLS' => true
-							  );
-							  $pusher = new Pusher\Pusher(
+							);
+
+							$pusher = new Pusher\Pusher(
 								'1907b80d942422da0b8e',
 								'e565c25c10f7f68fc3fc',
 								'1065298',
 								$options
-							  );
+							);
 
 							$pusher->trigger('menu-orders', 'new-order', 'Pedido enviado');
 
@@ -1832,7 +1833,7 @@ class Myvox_controller extends Controller
 								'	</figure>
 									<div>
 										<h2>' . $value['name'][$this->lang1] . '</h2>
-										<span>' . Functions::get_formatted_currency($value['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>
+										' . (!empty($value['price']) ? '<span>' . Functions::get_formatted_currency($value['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>' : '') . '
 										<a data-action="preview_menu_product" data-id="' . $value['id'] . '"></a>
 									</div>
 								</div>';
