@@ -430,7 +430,39 @@ class Functions
                 curl_setopt($ch, CURLOPT_URL, 'https://deliveryapp.ambit.com.mx/api/login');
                 curl_setopt($ch, CURLOPT_POST, true);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $credentials);
-                
+
+                $data = Functions::get_json_decoded_query(curl_exec($api));
+
+                curl_close($api);
+
+                return $data;
+            }
+        }
+        else if ($connection == 'mit')
+        {
+            if ($method == 'get')
+            {
+                // {
+                //   "ammount": 1900,
+                //   "businessId": 1,
+                //   "currency": "MXN",
+                //   "id": "0123456789",
+                //   "reference": "Pago de servicios",
+                //   "station": "CAJA 1",
+                //   "userCode": "1",
+                //   "valuePairs": [
+                //     {
+                //       "label": "string",
+                //       "value": "string"
+                //     }
+                //   ]
+                // }
+
+                $api = curl_init();
+
+                curl_setopt($api, CURLOPT_URL, '');
+                curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
+
                 $data = Functions::get_json_decoded_query(curl_exec($api));
 
                 curl_close($api);
