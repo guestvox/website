@@ -1167,8 +1167,8 @@ class Myvox_controller extends Controller
 						'</figure>
 						<h2>' . $query['name'][$this->lang1] . '</h2>
 						<p>' . (!empty($query['description'][$this->lang1]) ? $query['description'][$this->lang1] : '') . '</p>
-						' . (!empty($query['price']) ? '<span>' . Functions::get_formatted_currency($query['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . (!empty($query['topics']) ? ' (+ {$lang.topics})</span>' : '') : '');
-
+						' . (!empty($query['price']) ? '<span>' . Functions::get_formatted_currency($query['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . (!empty($query['topics']) ? ' (+ {$lang.topics})' : '') . '</span>' : '');
+						
 						if (Session::get_value('myvox')['account']['settings']['myvox']['menu']['schedule'][Functions::get_current_day()]['status'] == 'open' AND Functions::get_current_hour() >= Session::get_value('myvox')['account']['settings']['myvox']['menu']['schedule'][Functions::get_current_day()]['opening'] AND Functions::get_current_hour() <= Session::get_value('myvox')['account']['settings']['myvox']['menu']['schedule'][Functions::get_current_day()]['closing'])
 						{
 							$html .= '<form name="add_to_menu_order">';
