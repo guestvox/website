@@ -65,6 +65,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
             {$btn_edit_vox}
             {$btn_complete_vox}
             {$btn_start_vox}
+            {$btn_start_vox_now}
             {$btn_finish_vox}
             {$btn_reopen_vox}
         </div>

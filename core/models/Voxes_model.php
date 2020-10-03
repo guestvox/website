@@ -1286,22 +1286,45 @@ class Voxes_model extends Model
 			'id' => $data['id']
 		]));
 
-		if (!empty($editer))
+		if (isset($data['started_date']) ANd isset($data['started_hour']))
 		{
-			array_push($editer[0]['changes_history'], [
-				'type' => 'commented',
-				'user' => Session::get_value('user')['id'],
-				'date' => Functions::get_current_date(),
-				'hour' => Functions::get_current_hour()
-			]);
+			if (!empty($editer))
+			{
+				array_push($editer[0]['changes_history'], [
+					'type' => 'commented',
+					'user' => Session::get_value('user')['id'],
+					'date' => Functions::get_current_date(),
+					'hour' => Functions::get_current_hour()
+				]);
 
-			$query = $this->database->update('voxes', [
-				'started_date' => Functions::get_formatted_date($data['started_date']),
-				'started_hour' => Functions::get_formatted_hour($data['started_hour']),
-				'changes_history' => json_encode($editer[0]['changes_history'])
-			], [
-				'id' => $data['id']
-			]);	
+				$query = $this->database->update('voxes', [
+					'started_date' => Functions::get_formatted_date($data['started_date']),
+					'started_hour' => Functions::get_formatted_hour($data['started_hour']),
+					'changes_history' => json_encode($editer[0]['changes_history'])
+				], [
+					'id' => $data['id']
+				]);	
+			}
+		}
+		else
+		{
+			if (!empty($editer))
+			{
+				array_push($editer[0]['changes_history'], [
+					'type' => 'commented',
+					'user' => Session::get_value('user')['id'],
+					'date' => Functions::get_current_date(),
+					'hour' => Functions::get_current_hour()
+				]);
+
+				$query = $this->database->update('voxes', [
+					'started_date' => Functions::get_formatted_date(Functions::get_current_date('Y-m-d')),
+					'started_hour' => Functions::get_formatted_hour(Functions::get_current_hour()),
+					'changes_history' => json_encode($editer[0]['changes_history'])
+				], [
+					'id' => $data['id']
+				]);	
+			}
 		}
 
 		return $query;

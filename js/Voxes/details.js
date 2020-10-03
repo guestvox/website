@@ -82,6 +82,24 @@ $(document).ready(function()
         });
     });
 
+      $('[data-button-modal="start_vox_now"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=start_vox',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
     $('[data-modal="reopen_vox"]').modal().onSuccess(function()
     {
         $.ajax({
