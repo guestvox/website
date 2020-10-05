@@ -126,6 +126,11 @@ class Login_model extends Model
 								'end_date' => Functions::get_current_date(),
 								'type' => 'all'
 							]
+						],
+						'opportunity_areas' => [
+							'filter' => [
+								'id' => 'all',
+							]
 						]
 					],
 					'surveys' => [

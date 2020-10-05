@@ -17,6 +17,19 @@ class Opportunitytypes_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'get_opt_opportunity_areas')
+			{
+				$settings = Session::get_value('settings');
+
+				$settings['voxes']['opportunity_areas']['filter']['id'] = $_POST['id'];
+
+				Session::set_value('settings', $settings);
+
+				Functions::environment([
+					'status' => 'success',
+				]);
+			}
+
 			if ($_POST['action'] == 'get_opportunity_type')
 			{
 				$query = $this->model->get_opportunity_type($_POST['id']);
@@ -139,7 +152,7 @@ class Opportunitytypes_controller extends Controller
 			$opt_opportunity_areas = '';
 
 			foreach ($this->model->get_opportunity_areas() as $value)
-				$opt_opportunity_areas .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+				$opt_opportunity_areas .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['opportunity_areas']['filter']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
 
 			$replace = [
 				'{$tbl_opportunity_types}' => $tbl_opportunity_types,

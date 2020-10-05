@@ -22,6 +22,21 @@ $(document).ready(function()
             $('[name="path"]').parent().find('span').find('strong').html('micuenta');
     });
 
+    $(document).on('keyup', '[name="username"], [name="username"]', function()
+    {
+        var string = $(this).val().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        var filter = 'abcdefghijklmnñopqrstuvwxyz0123456789';
+        var out = '';
+
+        for (var i = 0; i < string.length; i++)
+        {
+            if (filter.indexOf(string.charAt(i)) != -1)
+                out += string.charAt(i);
+        }
+
+        $('[name="username"]').val(out);
+    });
+
     $('[name="type"]').on('change', function()
     {
         $('[name="rooms_number"]').val('');
