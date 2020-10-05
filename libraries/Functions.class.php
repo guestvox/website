@@ -427,9 +427,52 @@ class Functions
 
                 $api = curl_init();
 
-                curl_setopt($ch, CURLOPT_URL, 'https://deliveryapp.ambit.com.mx/api/login');
-                curl_setopt($ch, CURLOPT_POST, true);
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $credentials);
+                curl_setopt($api, CURLOPT_URL, 'https://deliveryapp.ambit.com.mx/api/login');
+                curl_setopt($api, CURLOPT_POST, true);
+                curl_setopt($api, CURLOPT_POSTFIELDS, $credentials);
+                curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
+
+                $data = Functions::get_json_decoded_query(curl_exec($api));
+
+                curl_close($api);
+
+                return $data;
+            }
+            else if ($method == 'get_orders')
+            {
+                $api = curl_init();
+
+                curl_setopt($api, CURLOPT_URL, 'https://deliveryapp.ambit.com.mx/api/orders/101');
+                curl_setopt($api, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' . $access['token_ambit']));
+                curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
+
+                $data = Functions::get_json_decoded_query(curl_exec($api));
+
+                curl_close($api);
+
+                return $data;
+            }
+            else if ($method == 'post')
+            {
+                $payload = json_encode($access);
+
+                $key_secret = '083917f2d27dd39e0671d014f011531a831d223a';
+                
+                $secret  = hash_hmac('sha256', $payload, $key_secret); // e47531f0235f1df15ad8c70eaa3fa8443a565019dcef65dde8e4753d94517da2
+
+                $api = curl_init();
+
+                curl_setopt($api, CURLOPT_URL, 'https://deliveryapp.ambit.com.mx/notification');
+                curl_setopt($api, CURLOPT_POST, true);
+                curl_setopt($api, CURLOPT_POSTFIELDS, $payload);
+                curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($api, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/json',
+                    'Signature-Webhook: 241ba5ad558d2b4e4e6e7df7b754159fca5d8710a8bca5b72996601e2001d087',
+                    'SECRET: ' . $secret)
+                );
 
                 $data = Functions::get_json_decoded_query(curl_exec($api));
 

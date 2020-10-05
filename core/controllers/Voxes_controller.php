@@ -137,6 +137,86 @@ class Voxes_controller extends Controller
 
 			define('_title', 'Guestvox | {$lang.voxes}');
 
+			if (Session::get_value('account')['ambit']['status'] == true AND empty(Session::get_value('temporal')['token_ambit']))
+			{
+				$temporal = Session::get_value('temporal');
+
+				$ambit = Functions::api('ambit', Session::get_value('account')['ambit'], 'get', '');
+				$temporal['token_ambit'] = $ambit['token'];
+
+				Session::set_value('temporal', $temporal);
+			}
+
+			// $array_payload = array (
+			// 	'store_id' => 101,
+			// 	'client' => 
+			// 	array (
+			// 	  'name' => 'Jorge',
+			// 	  'phone' => '+525581053825',
+			// 	  'email' => 'jxochihua@hotmail.com',
+			// 	  'address' => 
+			// 	  array (
+			// 		'client_address' => 'Ayuntamiento 153, 14250, Depto B204, Col. Miguel Hidalgo , Cdmx ',
+			// 		'client_address_parts' => 
+			// 		array (
+			// 		  'city' => 'Cdmx ',
+			// 		  'street' => 'Ayuntamiento 153',
+			// 		  'more_address' => '14250, Depto B204, Col. Miguel Hidalgo ',
+			// 		),
+			// 	  ),
+			// 	),
+			// 	'order' => 
+			// 	array (
+			// 	  'id' => 158350180,
+			// 	  'type' => 'delivery',
+			// 	  'date' => '2020-09-13T19:56:12.000Z',
+			// 	  'note' => '',
+			// 	  'total' => 413,
+			// 	  'store' => '0',
+			// 	  'origen' => 'eRest',
+			// 	  'formaPago' => '04',
+			// 	  'idFormaPago' => 'CARD',
+			// 	),
+			// 	'Items' => 
+			// 	array (
+			// 	  0 => 
+			// 	  array (
+			// 		'price' => 297,
+			// 		'type' => '2',
+			// 		'note' => '',
+			// 		'code' => 'GRI-004',
+			// 		'descrip' => 'Bife de lomo',
+			// 		'cant' => 1,
+			// 		'modifiers' => 
+			// 		array (
+			// 		  0 => 
+			// 		  array (
+			// 			'price' => 0,
+			// 			'type' => '2',
+			// 			'code' => 'MDPLA-056',
+			// 			'descrip' => 'Termino 3/4',
+			// 			'cant' => 1,
+			// 		  ),
+			// 		),
+			// 	  ),
+			// 	  1 => 
+			// 	  array (
+			// 		'price' => 81,
+			// 		'type' => '2',
+			// 		'note' => '',
+			// 		'code' => 'ENS-005',
+			// 		'descrip' => 'Ensalada Mixta',
+			// 		'cant' => 1,
+			// 		'modifiers' => 
+			// 		array (
+			// 		),
+			// 	  ),
+			// 	),
+			//   );
+
+			// $post_order = Functions::api('ambit', $array_payload, 'post', '');
+			// $post_order = Functions::api('ambit', Session::get_value('temporal'), 'get_orders', '');
+
 			$tbl_voxes = '';
 
 			foreach ($this->model->get_voxes() as $value)

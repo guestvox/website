@@ -35,6 +35,7 @@ class Account_model extends Model
 			'accounts.reputation',
 			'accounts.siteminder',
 			'accounts.zaviapms',
+			'accounts.ambit',
 			'accounts.sms',
 			'accounts.settings'
 		], [

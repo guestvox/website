@@ -580,6 +580,15 @@ class Account_controller extends Controller
 
 			if ($account['operation'] == true)
 			{
+				$div_siteminder .=
+				'<div class="stl_5 last">
+					<figure>
+						<img src="{$path.images}ambit.png">
+					</figure>
+					<h2>Ambit</h2>
+					<span>' . (($account['ambit']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+				</div>';
+					
 				if ($account['type'] == 'hotel')
 				{
 					$div_siteminder .=
