@@ -625,47 +625,47 @@ class Voxes_controller extends Controller
 						{
 							$vox['assigned_users'] = $this->model->get_assigned_users($vox['assigned_users'], $vox['opportunity_area']['id']);
 
-							$mail = new Mailer(true);
+							// $mail = new Mailer(true);
 
-							try
-							{
-								$mail->setFrom('noreply@guestvox.com', 'Guestvox');
+							// try
+							// {
+							// 	$mail->setFrom('noreply@guestvox.com', 'Guestvox');
 
-								foreach ($vox['assigned_users'] as $value)
-									$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
+							// 	foreach ($vox['assigned_users'] as $value)
+							// 		$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
 
-								$mail->Subject = Languages::email('commented_vox')[$this->lang];
-								$mail->Body =
-								'<html>
-									<head>
-										<title>' . $mail->Subject . '</title>
-									</head>
-									<body>
-										<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
-											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-													<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-														<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
-													</figure>
-												</td>
-											</tr>
-											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
-													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['token'] . '">' . Languages::email('view_details')[$this->lang] . '</a>
-												</td>
-											</tr>
-											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
-												<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-													<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
-												</td>
-											</tr>
-										</table>
-									</body>
-								</html>';
-								$mail->send();
-							}
-							catch (Exception $e) { }
+							// 	$mail->Subject = Languages::email('commented_vox')[$this->lang];
+							// 	$mail->Body =
+							// 	'<html>
+							// 		<head>
+							// 			<title>' . $mail->Subject . '</title>
+							// 		</head>
+							// 		<body>
+							// 			<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+							// 				<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+							// 					<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+							// 						<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+							// 							<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
+							// 						</figure>
+							// 					</td>
+							// 				</tr>
+							// 				<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+							// 					<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+							// 						<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
+							// 						<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['token'] . '">' . Languages::email('view_details')[$this->lang] . '</a>
+							// 					</td>
+							// 				</tr>
+							// 				<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+							// 					<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+							// 						<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
+							// 					</td>
+							// 				</tr>
+							// 			</table>
+							// 		</body>
+							// 	</html>';
+							// 	$mail->send();
+							// }
+							// catch (Exception $e) { }
 
 							$sms = $this->model->get_sms();
 
@@ -729,52 +729,52 @@ class Voxes_controller extends Controller
 					{
 						$vox['assigned_users'] = $this->model->get_assigned_users($vox['assigned_users'], $vox['opportunity_area']['id']);
 
-						$mail = new Mailer(true);
+						// $mail = new Mailer(true);
 
-						if ($_POST['action'] == 'complete_vox')
-							$mail_subject = Languages::email('completed_vox')[$this->lang];
-						else if ($_POST['action'] == 'reopen_vox')
-							$mail_subject = Languages::email('reopened_vox')[$this->lang];
+						// if ($_POST['action'] == 'complete_vox')
+						// 	$mail_subject = Languages::email('completed_vox')[$this->lang];
+						// else if ($_POST['action'] == 'reopen_vox')
+						// 	$mail_subject = Languages::email('reopened_vox')[$this->lang];
 
-						try
-						{
-							$mail->setFrom('noreply@guestvox.com', 'Guestvox');
+						// try
+						// {
+						// 	$mail->setFrom('noreply@guestvox.com', 'Guestvox');
 
-							foreach ($vox['assigned_users'] as $value)
-								$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
+						// 	foreach ($vox['assigned_users'] as $value)
+						// 		$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
 
-							$mail->Subject = $mail_subject;
-							$mail->Body =
-							'<html>
-								<head>
-									<title>' . $mail_subject . '</title>
-								</head>
-								<body>
-									<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
-										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-													<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
-												</figure>
-											</td>
-										</tr>
-										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail_subject . '</h4>
-												<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['token'] . '">' . Languages::email('view_details')[$this->lang] . '</a>
-											</td>
-										</tr>
-										<tr style="width:100%;margin:0px;padding:0px;border:0px;">
-											<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-												<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
-											</td>
-										</tr>
-									</table>
-								</body>
-							</html>';
-							$mail->send();
-						}
-						catch (Exception $e) { }
+						// 	$mail->Subject = $mail_subject;
+						// 	$mail->Body =
+						// 	'<html>
+						// 		<head>
+						// 			<title>' . $mail_subject . '</title>
+						// 		</head>
+						// 		<body>
+						// 			<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+						// 				<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+						// 					<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+						// 						<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+						// 							<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
+						// 						</figure>
+						// 					</td>
+						// 				</tr>
+						// 				<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+						// 					<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+						// 						<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail_subject . '</h4>
+						// 						<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['token'] . '">' . Languages::email('view_details')[$this->lang] . '</a>
+						// 					</td>
+						// 				</tr>
+						// 				<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+						// 					<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+						// 						<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
+						// 					</td>
+						// 				</tr>
+						// 			</table>
+						// 		</body>
+						// 	</html>';
+						// 	$mail->send();
+						// }
+						// catch (Exception $e) { }
 
 						$sms = $this->model->get_sms();
 
@@ -1352,47 +1352,47 @@ class Voxes_controller extends Controller
 						{
 							$_POST['assigned_users'] = $this->model->get_assigned_users($_POST['assigned_users'], $_POST['opportunity_area']);
 
-							$mail = new Mailer(true);
+							// $mail = new Mailer(true);
 
-							try
-							{
-								$mail->setFrom('noreply@guestvox.com', 'Guestvox');
+							// try
+							// {
+							// 	$mail->setFrom('noreply@guestvox.com', 'Guestvox');
 
-								foreach ($_POST['assigned_users'] as $value)
-									$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
+							// 	foreach ($_POST['assigned_users'] as $value)
+							// 		$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
 
-								$mail->Subject = Languages::email('edited_vox')[$this->lang];
-								$mail->Body =
-								'<html>
-								    <head>
-								        <title>' . $mail->Subject . '</title>
-								    </head>
-								    <body>
-								        <table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
-											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-													<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-														<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
-													</figure>
-												</td>
-											</tr>
-											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
-													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['token'] . '">' . Languages::email('view_details')[$this->lang] . '</a>
-								                </td>
-								            </tr>
-											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
-												<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-													<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
-												</td>
-											</tr>
-								        </table>
-								    </body>
-								</html>';
-								$mail->send();
-							}
-							catch (Exception $e) { }
+							// 	$mail->Subject = Languages::email('edited_vox')[$this->lang];
+							// 	$mail->Body =
+							// 	'<html>
+							// 	    <head>
+							// 	        <title>' . $mail->Subject . '</title>
+							// 	    </head>
+							// 	    <body>
+							// 	        <table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+							// 				<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+							// 					<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+							// 						<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+							// 							<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
+							// 						</figure>
+							// 					</td>
+							// 				</tr>
+							// 				<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+							// 					<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+							// 						<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
+							// 						<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['token'] . '">' . Languages::email('view_details')[$this->lang] . '</a>
+							// 	                </td>
+							// 	            </tr>
+							// 				<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+							// 					<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+							// 						<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
+							// 					</td>
+							// 				</tr>
+							// 	        </table>
+							// 	    </body>
+							// 	</html>';
+							// 	$mail->send();
+							// }
+							// catch (Exception $e) { }
 
 							$sms = $this->model->get_sms();
 
