@@ -786,7 +786,7 @@ class Voxes_model extends Model
 			'opportunity_type' => $data['opportunity_type'],
 			'started_date' => ((isset($data['automatic_start']) ? null : Functions::get_formatted_date($data['started_date']))),
 			'started_hour' => ((isset($data['automatic_start']) ? null : Functions::get_formatted_hour($data['started_hour']))),
-			'location' => $data['location'],
+			'location' => (!empty($data['location']) ? $data['location'] : null),
 			'address' => null,
 			'cost' => (($data['type'] == 'incident' OR $data['type'] == 'workorder') AND !empty($data['cost'])) ? $data['cost'] : null,
 			'urgency' => $data['urgency'],
@@ -1598,11 +1598,11 @@ class Voxes_model extends Model
 					if ($break == false)
 					{
 						if ($chart == 'v_oa_chart')
-							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . " Total: " . $count . "',";
 						else if ($chart == 'v_o_chart')
-							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
+							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . " Total: " . $count . (!empty($value['number']) ? " #" . $value['number'] : '') . "',";
 						else if ($chart == 'v_l_chart')
-							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . "',";
+							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . " Total: " . $count . "',";
 
 						$data['datasets']['data'] .= $count . ',';
 						$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";

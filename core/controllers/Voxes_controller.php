@@ -142,79 +142,13 @@ class Voxes_controller extends Controller
 				$temporal = Session::get_value('temporal');
 
 				$ambit = Functions::api('ambit', Session::get_value('account')['ambit'], 'get', '');
-				$temporal['token_ambit'] = $ambit['token'];
 
-				Session::set_value('temporal', $temporal);
+				if(!isset($ambit['message']))
+				{
+					$temporal['token_ambit'] = $ambit['token'];
+					Session::set_value('temporal', $temporal);
+				}
 			}
-
-			// $array_payload = array (
-			// 	'store_id' => 101,
-			// 	'client' => 
-			// 	array (
-			// 	  'name' => 'Jorge',
-			// 	  'phone' => '+525581053825',
-			// 	  'email' => 'jxochihua@hotmail.com',
-			// 	  'address' => 
-			// 	  array (
-			// 		'client_address' => 'Ayuntamiento 153, 14250, Depto B204, Col. Miguel Hidalgo , Cdmx ',
-			// 		'client_address_parts' => 
-			// 		array (
-			// 		  'city' => 'Cdmx ',
-			// 		  'street' => 'Ayuntamiento 153',
-			// 		  'more_address' => '14250, Depto B204, Col. Miguel Hidalgo ',
-			// 		),
-			// 	  ),
-			// 	),
-			// 	'order' => 
-			// 	array (
-			// 	  'id' => 158350180,
-			// 	  'type' => 'delivery',
-			// 	  'date' => '2020-09-13T19:56:12.000Z',
-			// 	  'note' => '',
-			// 	  'total' => 413,
-			// 	  'store' => '0',
-			// 	  'origen' => 'eRest',
-			// 	  'formaPago' => '04',
-			// 	  'idFormaPago' => 'CARD',
-			// 	),
-			// 	'Items' => 
-			// 	array (
-			// 	  0 => 
-			// 	  array (
-			// 		'price' => 297,
-			// 		'type' => '2',
-			// 		'note' => '',
-			// 		'code' => 'GRI-004',
-			// 		'descrip' => 'Bife de lomo',
-			// 		'cant' => 1,
-			// 		'modifiers' => 
-			// 		array (
-			// 		  0 => 
-			// 		  array (
-			// 			'price' => 0,
-			// 			'type' => '2',
-			// 			'code' => 'MDPLA-056',
-			// 			'descrip' => 'Termino 3/4',
-			// 			'cant' => 1,
-			// 		  ),
-			// 		),
-			// 	  ),
-			// 	  1 => 
-			// 	  array (
-			// 		'price' => 81,
-			// 		'type' => '2',
-			// 		'note' => '',
-			// 		'code' => 'ENS-005',
-			// 		'descrip' => 'Ensalada Mixta',
-			// 		'cant' => 1,
-			// 		'modifiers' => 
-			// 		array (
-			// 		),
-			// 	  ),
-			// 	),
-			//   );
-
-			// $post_order = Functions::api('ambit', $array_payload, 'post', '');
 			// $post_order = Functions::api('ambit', Session::get_value('temporal'), 'get_orders', '');
 
 			$tbl_voxes = '';
@@ -307,7 +241,7 @@ class Voxes_controller extends Controller
 							</div>
 							<div>
 								<i class="fas fa-map-marker-alt"></i>
-								<p>' . ((Session::get_value('account')['type'] == 'restaurant' AND !empty($value['menu_order'])) ? (($value['menu_order']['type_service'] == 'delivery' AND $value['menu_order']['delivery'] == 'home') ? $value['address'] : '{$lang.not_apply}') : $value['location']['name'][$this->lang]) . '</p>
+								<p>' . ((Session::get_value('account')['type'] == 'restaurant' AND !empty($value['menu_order'])) ? (($value['menu_order']['type_service'] == 'delivery' AND $value['menu_order']['delivery'] == 'home') ? $value['address'] : '{$lang.not_apply}') : (!empty($value['location']) ? $value['location']['name'][$this->lang] : '{$lang.not_location}')) . '</p>
 							</div>
 	                    </div>
 	                    <div class="itm_4">
@@ -483,8 +417,11 @@ class Voxes_controller extends Controller
 				if (!isset($_POST['started_hour']) OR empty($_POST['started_hour']))
 					array_push($labels, ['started_hour','']);
 
-				if (!isset($_POST['location']) OR empty($_POST['location']))
+				if ($_POST['type'] == 'incident' || $_POST['type'] == 'request')
+				{
+					if (!isset($_POST['location']) OR empty($_POST['location']))
 					array_push($labels, ['location','']);
+				}
 
 				if (!isset($_POST['urgency']) OR empty($_POST['urgency']))
 					array_push($labels, ['urgency','']);
@@ -502,7 +439,10 @@ class Voxes_controller extends Controller
 						$_POST['owner'] = $this->model->get_owner($_POST['owner']);
 						$_POST['opportunity_area'] = $this->model->get_opportunity_area($_POST['opportunity_area']);
 						$_POST['opportunity_type'] = $this->model->get_opportunity_type($_POST['opportunity_type']);
-						$_POST['location'] = $this->model->get_location($_POST['location']);
+					
+						if (!empty($_POST['location']))
+							$_POST['location'] = $this->model->get_location($_POST['location']);
+
 						$_POST['assigned_users'] = $this->model->get_assigned_users($_POST['assigned_users'], $_POST['opportunity_area']['id']);
 
 						$mail = new Mailer(true);
@@ -538,7 +478,7 @@ class Voxes_controller extends Controller
 						    					<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('opportunity_type')[$this->lang] . ': ' . $_POST['opportunity_type']['name'][$this->lang] . '</h6>
 												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('started_date')[$this->lang] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd.m.Y') . '</h6>
 												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('started_hour')[$this->lang] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '</h6>
-												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('location')[$this->lang] . ': ' . $_POST['location']['name'][$this->lang] . '</h6>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('location')[$this->lang] . ': ' . (!empty($_POST['location']) ? $_POST['location']['name'][$this->lang] : '') . '</h6>
 												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('urgency')[$this->lang] . ': ' . Languages::email($_POST['urgency'])[$this->lang] . '</h6>';
 
 							if ($_POST['type'] == 'request' OR $_POST['type'] == 'workorder')
@@ -1400,7 +1340,7 @@ class Voxes_controller extends Controller
 					'{$owner}' => (Session::get_value('account')['type'] == 'restaurant' AND !empty($vox['menu_order']) AND $vox['menu_order']['type_service'] == 'delivery') ? (($vox['menu_order']['delivery'] == 'home') ? '{$lang.home_service}' : '{$lang.pick_up_restaurant}') : $vox['owner']['name'][$this->lang] . (!empty($vox['owner']['number']) ? ' #' . $vox['owner']['number'] : ''),
 					'{$opportunity_area}' => $vox['opportunity_area']['name'][$this->lang],
 					'{$opportunity_type}' => $vox['opportunity_type']['name'][$this->lang],
-					'{$location}' => (Session::get_value('account')['type'] == 'restaurant' AND !empty($vox['menu_order'])) ? (($vox['menu_order']['type_service'] == 'delivery' AND $vox['menu_order']['delivery'] == 'home') ? $vox['address'] : '{$lang.not_apply}') : $vox['location']['name'][$this->lang],
+					'{$location}' => (Session::get_value('account')['type'] == 'restaurant' AND !empty($vox['menu_order'])) ? (($vox['menu_order']['type_service'] == 'delivery' AND $vox['menu_order']['delivery'] == 'home') ? $vox['address'] : '{$lang.not_apply}') : (!empty($vox['location']) ? $vox['location']['name'][$this->lang] : '{$lang.not_location}'),
 					'{$references}' => (Session::get_value('account')['type'] == 'restaurant' AND !empty($vox['menu_order'])) ? (($vox['menu_order']['type_service'] == 'delivery' AND $vox['menu_order']['delivery'] == 'home') ? '<span><i class="fas fa-map-marker-alt"></i>' . (!empty($vox['references']) ? $vox['references'] : '{$lang.not_references}') . '</span>' : '') : '',
 					'{$started_date}' => ($vox['started_date'] == null ? 'Inicio de manera manual' : Functions::get_formatted_date($vox['started_date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($vox['started_hour'], '+ hrs')),
 					'{$spn_cost}' => ($vox['type'] == 'incident' OR $vox['type'] == 'workorder') ? '<span><i class="fas fa-dollar-sign"></i>' . Functions::get_formatted_currency((!empty($vox['cost']) ? $vox['cost'] : '0'), Session::get_value('account')['currency']) . '</span>' : '',
@@ -2082,6 +2022,9 @@ class Voxes_controller extends Controller
 				legend: {
 					display: true,
 					position: 'left'
+				},
+				tooltips: {
+					mode: 'index'
 				},
 	            responsive: true
             }

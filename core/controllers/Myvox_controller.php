@@ -1485,19 +1485,19 @@ class Myvox_controller extends Controller
 
 						if (!empty($query))
 						{
-							$options = array(
-								'cluster' => 'us2',
-								'useTLS' => true
-							);
+							// $options = array(
+							// 	'cluster' => 'us2',
+							// 	'useTLS' => true
+							// );
 
-							$pusher = new Pusher\Pusher(
-								'1907b80d942422da0b8e',
-								'e565c25c10f7f68fc3fc',
-								'1065298',
-								$options
-							);
+							// $pusher = new Pusher\Pusher(
+							// 	'1907b80d942422da0b8e',
+							// 	'e565c25c10f7f68fc3fc',
+							// 	'1065298',
+							// 	$options
+							// );
 
-							$pusher->trigger('menu-orders', 'new-order', 'Pedido enviado');
+							// $pusher->trigger('menu-orders', 'new-order', 'Pedido enviado');
 
 							$_POST['type'] = 'request';
 							$_POST['menu_order'] = $query;
@@ -1506,6 +1506,90 @@ class Myvox_controller extends Controller
 
 							if (!empty($query))
 							{
+								// $array_payload = [
+								// 	'store_id' => 101,
+								// 	'client' => [
+								// 	  'name' => 'Jorge',
+								// 	  'phone' => '+525581053825',
+								// 	  'email' => 'jxochihua@hotmail.com',
+								// 	  'address' => [
+								// 		'client_address' => 'Ayuntamiento 153, 14250, Depto B204, Col. Miguel Hidalgo , Cdmx ',
+								// 		'client_address_parts' => [
+								// 			'city' => 'Cdmx ',
+								// 			'street' => 'Ayuntamiento 153',
+								// 			'more_address' => '14250, Depto B204, Col. Miguel Hidalgo ',
+								// 	  		],
+								// 		],
+								// 	],
+								// 	'order' => [
+								// 	  'id' => 158350180,
+								// 	  'type' => 'delivery',
+								// 	  'date' => '2020-09-13T19:56:12.000Z',
+								// 	  'note' => '',
+								// 	  'total' => 413,
+								// 	  'store' => '0',
+								// 	  'origen' => 'eRest',
+								// 	  'formaPago' => '04',
+								// 	  'idFormaPago' => 'CARD',
+								// 	],
+								// 	'Items' => [
+								// 	  0 => [
+								// 		'price' => 297,
+								// 		'type' => '2',
+								// 		'note' => '',
+								// 		'code' => 'GRI-004',
+								// 		'descrip' => 'Bife de lomo',
+								// 		'cant' => 1,
+								// 		'modifiers' => [
+								// 		  0 => [
+								// 				'price' => 0,
+								// 				'type' => '2',
+								// 				'code' => 'MDPLA-056',
+								// 				'descrip' => 'Termino 3/4',
+								// 				'cant' => 1,
+								// 				],
+								// 	  		],
+								// 		],
+								// 	  1 => [
+								// 		'price' => 81,
+								// 		'type' => '2',
+								// 		'note' => '',
+								// 		'code' => 'ENS-005',
+								// 		'descrip' => 'Ensalada Mixta',
+								// 		'cant' => 1,
+								// 		'modifiers' => [],
+								// 		],
+								// 	],
+								// ];
+
+								// $post_order = Functions::api('ambit', $array_payload, 'post', '');
+
+								$ch = curl_init();
+
+								$headers = array(
+									'Cache-Control: no-cache',
+									'Content-Type: application/x-www-form-urlencoded',
+									'Accept: text/plain',
+									'Apikey: 77dd9c6421874faacfe1c815e9faf0ca'
+								);
+		
+								$message = urlencode(Session::get_value('myvox')['account']['name'] . '. ' . Languages::email('thanks_received_menu_order')[$this->lang1] . '. https://' . Configuration::$domain . '/' . $params[0] . '/menu/' . $_POST['token'] . '. 
+								*Powered by Guestvox*');
+		
+								curl_setopt($ch, CURLOPT_URL, 'https://api.gupshup.io/sm/api/v1/msg');
+								curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+								curl_setopt($ch, CURLOPT_POST, 1);
+								curl_setopt($ch, CURLOPT_POSTFIELDS, "channel=whatsapp&source=917834811114&destination=5219988452843&message=" . $message ."");
+								curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+		
+								$result = curl_exec($ch);
+
+								if (curl_errno($ch)) {
+									echo 'Error:' . curl_error($ch);
+								}
+		
+								curl_close($ch);
+
 								if (Session::get_value('myvox')['account']['type'] == 'restaurant')
 								{
 									if (Session::get_value('myvox')['url'] == 'delivery')

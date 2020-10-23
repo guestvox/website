@@ -470,8 +470,7 @@ class Functions
                 curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($api, CURLOPT_HTTPHEADER, array(
                     'Content-Type: application/json',
-                    'Signature-Webhook: 241ba5ad558d2b4e4e6e7df7b754159fca5d8710a8bca5b72996601e2001d087',
-                    'SECRET: ' . $secret)
+                    'Signature-Webhook: ' . $secret)
                 );
 
                 $data = Functions::get_json_decoded_query(curl_exec($api));
