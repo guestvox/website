@@ -1506,63 +1506,66 @@ class Myvox_controller extends Controller
 
 							if (!empty($query))
 							{
-								// $array_payload = [
-								// 	'store_id' => 101,
-								// 	'client' => [
-								// 	  'name' => 'Jorge',
-								// 	  'phone' => '+525581053825',
-								// 	  'email' => 'jxochihua@hotmail.com',
-								// 	  'address' => [
-								// 		'client_address' => 'Ayuntamiento 153, 14250, Depto B204, Col. Miguel Hidalgo , Cdmx ',
-								// 		'client_address_parts' => [
-								// 			'city' => 'Cdmx ',
-								// 			'street' => 'Ayuntamiento 153',
-								// 			'more_address' => '14250, Depto B204, Col. Miguel Hidalgo ',
-								// 	  		],
-								// 		],
-								// 	],
-								// 	'order' => [
-								// 	  'id' => 158350180,
-								// 	  'type' => 'delivery',
-								// 	  'date' => '2020-09-13T19:56:12.000Z',
-								// 	  'note' => '',
-								// 	  'total' => 413,
-								// 	  'store' => '0',
-								// 	  'origen' => 'eRest',
-								// 	  'formaPago' => '04',
-								// 	  'idFormaPago' => 'CARD',
-								// 	],
-								// 	'Items' => [
-								// 	  0 => [
-								// 		'price' => 297,
-								// 		'type' => '2',
-								// 		'note' => '',
-								// 		'code' => 'GRI-004',
-								// 		'descrip' => 'Bife de lomo',
-								// 		'cant' => 1,
-								// 		'modifiers' => [
-								// 		  0 => [
-								// 				'price' => 0,
-								// 				'type' => '2',
-								// 				'code' => 'MDPLA-056',
-								// 				'descrip' => 'Termino 3/4',
-								// 				'cant' => 1,
-								// 				],
-								// 	  		],
-								// 		],
-								// 	  1 => [
-								// 		'price' => 81,
-								// 		'type' => '2',
-								// 		'note' => '',
-								// 		'code' => 'ENS-005',
-								// 		'descrip' => 'Ensalada Mixta',
-								// 		'cant' => 1,
-								// 		'modifiers' => [],
-								// 		],
-								// 	],
-								// ];
+								if (Session::get_value('myvox')['account']['ambit']['status'] == true)
+								{
+									$array_payload = [
+										'store_id' => 101,
+										'client' => [
+										  'name' => 'Jorge',
+										  'phone' => '+525581053825',
+										  'email' => 'jxochihua@hotmail.com',
+										  'address' => [
+											'client_address' => 'Ayuntamiento 153, 14250, Depto B204, Col. Miguel Hidalgo , Cdmx ',
+											'client_address_parts' => [
+												'city' => 'Cdmx ',
+												'street' => 'Ayuntamiento 153',
+												'more_address' => '14250, Depto B204, Col. Miguel Hidalgo ',
+										  		],
+											],
+										],
+										'order' => [
+										  'id' => 158350180,
+										  'type' => 'delivery',
+										  'date' => '2020-09-13T19:56:12.000Z',
+										  'note' => '',
+										  'total' => 413,
+										  'store' => '0',
+										  'origen' => 'eRest',
+										  'formaPago' => '04',
+										  'idFormaPago' => 'CARD',
+										],
+										'Items' => [
+										  0 => [
+											'price' => 297,
+											'type' => '2',
+											'note' => '',
+											'code' => 'GRI-004',
+											'descrip' => 'Bife de lomo',
+											'cant' => 1,
+											'modifiers' => [
+											  0 => [
+													'price' => 0,
+													'type' => '2',
+													'code' => 'MDPLA-056',
+													'descrip' => 'Termino 3/4',
+													'cant' => 1,
+													],
+										  		],
+											],
+										  1 => [
+											'price' => 81,
+											'type' => '2',
+											'note' => '',
+											'code' => 'ENS-005',
+											'descrip' => 'Ensalada Mixta',
+											'cant' => 1,
+											'modifiers' => [],
+											],
+										],
+									];
 
-								// $post_order = Functions::api('ambit', $array_payload, 'post', '');
+									$post_order = Functions::api('ambit', $array_payload, 'post', '');
+								}
 
 								$ch = curl_init();
 

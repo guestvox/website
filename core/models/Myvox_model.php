@@ -20,6 +20,7 @@ class Myvox_model extends Model
 			'operation',
 			'reputation',
 			'zaviapms',
+			'ambit',
 			'settings'
 		], [
 			'AND' => [
