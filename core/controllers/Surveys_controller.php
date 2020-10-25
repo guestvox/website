@@ -819,6 +819,7 @@ class Surveys_controller extends Controller
 						</div>
 						<div class="buttons">
 							<a class="big" data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-ghost"></i><span>{$lang.survey}</span></a>
+							<a data-action="print_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-print"></i></a>
 						</div>
 					</div>';
 				}
