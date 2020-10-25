@@ -572,6 +572,166 @@ class Surveys_controller extends Controller
 				}
 			}
 
+			if ($_POST['action'] == 'print_survey_answer')
+			{
+				$query = $this->model->get_survey_answer($_POST['id']);
+
+				if (!empty($query))
+				{
+					$html .= '<div>';
+
+					foreach ($this->model->get_surveys_questions() as $value)
+					{
+						$html .=
+						'<div style="margin-bottom:20px;padding:20px;border: 1px dashed #000;box-sizing:border-box;">
+							<div>
+								<h2 style="font-family:arial;font-size:16px;font-weight;600;color:#000;">' . $value['name'][$this->lang] . '</h2>
+								<div>';
+
+						if ($value['type'] == 'nps')
+						{
+							$html .=
+							'<div style="display:flex;align-items:center;justify-content:flex-start;">
+								<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '1') ? 'border:1px dashed #000;' : '') . '">1</h4>
+							   	<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '2') ? 'border:1px dashed #000;' : '') . '">2</h4>
+							   	<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '3') ? 'border:1px dashed #000;' : '') . '">3</h4>
+							   	<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '4') ? 'border:1px dashed #000;' : '') . '">4</h4>
+							   	<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '5') ? 'border:1px dashed #000;' : '') . '">5</h4>
+								<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '6') ? 'border:1px dashed #000;' : '') . '">6</h4>
+								<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '7') ? 'border:1px dashed #000;' : '') . '">7</h4>
+								<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '8') ? 'border:1px dashed #000;' : '') . '">8</h4>
+								<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '9') ? 'border:1px dashed #000;' : '') . '">9</h4>
+								<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '10') ? 'border:1px dashed #000;' : '') . '">10</h4>
+							</div>';
+						}
+						else if ($value['type'] == 'open')
+							$html .= '<h4 style="font-family:arial;font-size:14px;font-weight;400;color:#000;">' . (array_key_exists($value['id'], $query['values']) ? $query['values'][$value['id']] : '') . '</h4>';
+						else if ($value['type'] == 'rate')
+						{
+							$html .=
+							'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '1') ? 'border:1px dashed #000;' : '') . '">1</h4>
+							<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '2') ? 'border:1px dashed #000;' : '') . '">2</h4>
+							<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '3') ? 'border:1px dashed #000;' : '') . '">3</h4>
+							<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '4') ? 'border:1px dashed #000;' : '') . '">4</h4>
+							<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == '5') ? 'border:1px dashed #000;' : '') . '">5</h4>';
+						}
+						else if ($value['type'] == 'twin')
+						{
+							$html .=
+							'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == 'yes') ? 'border:1px dashed #000;' : '') . '">Si</h4>
+							<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND $query['values'][$value['id']] == 'not') ? 'border:1px dashed #000;' : '') . '">No</h4>';
+						}
+						else if ($value['type'] == 'check')
+						{
+							$html .= '<div style="display:flex;align-items:center;justify-content:flex-start;">';
+
+							foreach ($value['values'] as $subvalue)
+								$html .= '<h4 style="width:auto;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;padding:0px 10px;border-radius:30px;box-sizing:border-box;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($value['id'], $query['values']) AND in_array($subvalue['token'], $query['values'][$value['id']])) ? 'border:1px dashed #000;' : '') . '">' . $subvalue[$this->lang] . '</h4>';
+
+							$html .= '</div>';
+						}
+
+						$html .=
+						'	</div>
+						</div>';
+
+						foreach ($this->model->get_surveys_questions('all', $value['id']) as $subvalue)
+						{
+							$html .=
+							'<div style="margin-bottom:20px;padding:20px;border: 1px dashed #000;box-sizing:border-box;">
+								<h2 style="font-family:arial;font-size:16px;font-weight;600;color:#000;">' . $subvalue['name'][$this->lang] . '</h2>
+								<div>';
+
+							if ($subvalue['type'] == 'open')
+								$html .= '<h4 style="font-family:arial;font-size:14px;font-weight;400;color:#000;">' . (array_key_exists($subvalue['id'], $query['values']) ? $query['values'][$subvalue['id']] : '') . '</h4>';
+							else if ($subvalue['type'] == 'rate')
+							{
+								$html .=
+								'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '1') ? 'border:1px dashed #000;' : '') . '">1</h4>
+								<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '2') ? 'border:1px dashed #000;' : '') . '">2</h4>
+								<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '3') ? 'border:1px dashed #000;' : '') . '">3</h4>
+								<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '4') ? 'border:1px dashed #000;' : '') . '">4</h4>
+								<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '5') ? 'border:1px dashed #000;' : '') . '">5</h4>';
+							}
+							else if ($subvalue['type'] == 'twin')
+							{
+								$html .=
+								'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'yes') ? 'border:1px dashed #000;' : '') . '">Si</h4>
+								<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'not') ? 'border:1px dashed #000;' : '') . '">No</h4>';
+							}
+							else if ($subvalue['type'] == 'check')
+							{
+								$html .= '<div style="display:flex;align-items:center;justify-content:flex-start;">';
+
+								foreach ($subvalue['values'] as $parentvalue)
+									$html .= '<h4 style="width:auto;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;padding:0px 10px;border-radius:30px;box-sizing:border-box;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND in_array($parentvalue['token'], $query['values'][$subvalue['id']])) ? 'border:1px dashed #000;' : '') . '">' . $parentvalue[$this->lang] . '</h4>';
+
+								$html .= '</div>';
+							}
+
+							$html .=
+							'	</div>
+							</div>';
+
+							foreach ($this->model->get_surveys_questions('all', $subvalue['id']) as $parentvalue)
+							{
+								$html .=
+								'<div style="margin-bottom:20px;padding:20px;border: 1px dashed #000;box-sizing:border-box;">
+									<h2 style="font-family:arial;font-size:16px;font-weight;600;color:#000;">' . $parentvalue['name'][$this->lang] . '</h2>
+									<div>';
+
+								if ($parentvalue['type'] == 'open')
+									$html .= '<h4 style="font-family:arial;font-size:14px;font-weight;400;color:#000;">' . (array_key_exists($parentvalue['id'], $query['values']) ? $query['values'][$parentvalue['id']] : '') . '</h4>';
+								else if ($parentvalue['type'] == 'rate')
+								{
+									$html .=
+									'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '1') ? 'border:1px dashed #000;' : '') . '">1</h4>
+									<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '2') ? 'border:1px dashed #000;' : '') . '">2</h4>
+									<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '3') ? 'border:1px dashed #000;' : '') . '">3</h4>
+									<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '4') ? 'border:1px dashed #000;' : '') . '">4</h4>
+									<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '5') ? 'border:1px dashed #000;' : '') . '">5</h4>';
+								}
+								else if ($parentvalue['type'] == 'twin')
+								{
+									$html .=
+									'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'yes') ? 'border:1px dashed #000;' : '') . '">Si</h4>
+									<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'not') ? 'border:1px dashed #000;' : '') . '">No</h4>';
+								}
+								else if ($parentvalue['type'] == 'check')
+								{
+									$html .= '<div style="display:flex;align-items:center;justify-content:flex-start;">';
+
+									foreach ($parentvalue['values'] as $childvalue)
+										$html .= '<h4 style="width:auto;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;padding:0px 10px;border-radius:30px;box-sizing:border-box;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND in_array($childvalue['token'], $query['values'][$parentvalue['id']])) ? 'border:1px dashed #000;' : '') . '">' . $childvalue[$this->lang] . '</h4>';
+
+									$html .= '</div>';
+								}
+
+								$html .=
+								'	</div>
+								</div>';
+							}
+						}
+
+						$html .= '</div>';
+					}
+
+					$html .= '</div>';
+
+					Functions::environment([
+						'status' => 'success',
+						'html' => $html
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+
 			if ($_POST['action'] == 'public_survey_comment' OR $_POST['action'] == 'unpublic_survey_comment')
 			{
 				if ($_POST['action'] == 'public_survey_comment')
