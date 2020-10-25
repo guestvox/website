@@ -491,12 +491,12 @@ class Surveys_controller extends Controller
 							{
 								$html .= '<div class="checkboxes stl_3">';
 
-								foreach ($subvalue['values'] as $subvalue)
+								foreach ($subvalue['values'] as $parentvalue)
 								{
 									$html .=
 									'<div>
-										<input type="checkbox" ' . ((array_key_exists($subvalue['id'], $query['values']) AND in_array($subvalue['token'], $query['values'][$subvalue['id']])) ? 'checked' : '') . ' disabled>
-										<span>' . $subvalue[$this->lang] . '</span>
+										<input type="checkbox" ' . ((array_key_exists($parentvalue['id'], $query['values']) AND in_array($parentvalue['token'], $query['values'][$parentvalue['id']])) ? 'checked' : '') . ' disabled>
+										<span>' . $parentvalue[$this->lang] . '</span>
 									</div>';
 								}
 
@@ -535,12 +535,12 @@ class Surveys_controller extends Controller
 								{
 									$html .= '<div class="checkboxes stl_3">';
 
-									foreach ($parentvalue['values'] as $parentvalue)
+									foreach ($parentvalue['values'] as $childvalue)
 									{
 										$html .=
 										'<div>
-											<input type="checkbox" ' . ((array_key_exists($parentvalue['id'], $query['values']) AND in_array($parentvalue['token'], $query['values'][$parentvalue['id']])) ? 'checked' : '') . ' disabled>
-											<span>' . $parentvalue[$this->lang] . '</span>
+											<input type="checkbox" ' . ((array_key_exists($childvalue['id'], $query['values']) AND in_array($childvalue['token'], $query['values'][$childvalue['id']])) ? 'checked' : '') . ' disabled>
+											<span>' . $childvalue[$this->lang] . '</span>
 										</div>';
 									}
 
