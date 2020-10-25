@@ -495,7 +495,7 @@ class Surveys_controller extends Controller
 								{
 									$html .=
 									'<div>
-										<input type="checkbox" ' . ((array_key_exists($parentvalue['id'], $query['values']) AND in_array($parentvalue['token'], $query['values'][$parentvalue['id']])) ? 'checked' : '') . ' disabled>
+										<input type="checkbox" ' . ((array_key_exists($subvalue['id'], $query['values']) AND in_array($parentvalue['token'], $query['values'][$subvalue['id']])) ? 'checked' : '') . ' disabled>
 										<span>' . $parentvalue[$this->lang] . '</span>
 									</div>';
 								}
@@ -539,7 +539,7 @@ class Surveys_controller extends Controller
 									{
 										$html .=
 										'<div>
-											<input type="checkbox" ' . ((array_key_exists($childvalue['id'], $query['values']) AND in_array($childvalue['token'], $query['values'][$childvalue['id']])) ? 'checked' : '') . ' disabled>
+											<input type="checkbox" ' . ((array_key_exists($parentvalue['id'], $query['values']) AND in_array($childvalue['token'], $query['values'][$parentvalue['id']])) ? 'checked' : '') . ' disabled>
 											<span>' . $childvalue[$this->lang] . '</span>
 										</div>';
 									}
