@@ -54,6 +54,34 @@ $(document).ready(function()
         });
     });
 
+    $('[data-action="print_survey_answer"]').on('click', function()
+    {
+        id = $(this).data('id');
+
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + id + '&action=print_survey_answer',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    var print = window.open(' ', 'popimpr');
+
+                    print.document.write(response.html);
+                    print.document.close();
+
+                    print.print();
+                    print.close();
+                }
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
+            }
+        });
+    });
+
     $('[data-action="public_survey_comment"]').on('click', function()
     {
         id = $(this).data('id');
