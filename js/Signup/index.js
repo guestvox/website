@@ -22,7 +22,7 @@ $(document).ready(function()
             $('[name="path"]').parent().find('span').find('strong').html('micuenta');
     });
 
-    $(document).on('keyup', '[name="username"], [name="username"]', function()
+    $('[name="username"]').on('keyup', function()
     {
         var string = $(this).val().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
         var filter = 'abcdefghijklmnñopqrstuvwxyz0123456789';

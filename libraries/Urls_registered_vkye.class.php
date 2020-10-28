@@ -37,6 +37,10 @@ class Urls_registered_vkye
                 'controller' => 'Hi',
                 'method' => 'restaurants'
             ],
+            '/restaurantes' => [
+                'controller' => 'Hi',
+                'method' => 'restaurants'
+            ],
             '/hola/hospitales' => [
                 'controller' => 'Hi',
                 'method' => 'hospitals'
@@ -58,6 +62,10 @@ class Urls_registered_vkye
                 'method' => 'privacy'
             ],
             '/signup' => [
+                'controller' => 'Signup',
+                'method' => 'index'
+            ],
+            '/signup/%param%' => [
                 'controller' => 'Signup',
                 'method' => 'index'
             ],

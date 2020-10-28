@@ -2,49 +2,24 @@
 
 $(document).ready(function()
 {
-    $('[name="type"]').on('change', function()
+    $('a[data-target]').on('click', function()
     {
-        $('[name="rooms"]').val('');
+        $('a[data-target]').removeClass('active');
+        $(this).addClass('active');
 
-        if ($(this).val() == 'hotel')
-        {
-            $(this).parent().parent().parent().removeClass('span12').addClass('span8');
-            $('[name="rooms"]').parent().parent().parent().removeClass('hidden');
-        }
-        else
-        {
-            $(this).parent().parent().parent().removeClass('span8').addClass('span12');
-            $('[name="rooms"]').parent().parent().parent().addClass('hidden');
-        }
+        $('main').addClass('hidden');
+        $('main[data-target="' + $(this).data('target') + '"]').removeClass('hidden');
     });
 
-    $('[data-modal="contact"]').modal().onCancel(function()
+    $('[data-action="lpr_opn_mnu"]').on('click', function(event)
     {
-        $('[name="type"]').parent().parent().parent().removeClass('span8').addClass('span12');
-        $('[name="rooms"]').parent().parent().parent().addClass('hidden');
+        event.stopPropagation();
 
-        clean_form($('form[name="contact"]'));
+        $(this).parent().find('nav').toggleClass('open');
     });
 
-    $('form[name="contact"]').on('submit', function(e)
+    $('header.landing_page_restaurants').find('nav').on('click', function()
     {
-        e.preventDefault();
-
-        var form = $(this);
-
-        $.ajax({
-            type: 'POST',
-            data: form.serialize(),
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    show_modal_success(response.message, 8000);
-                else if (response.status == 'error')
-                    how_form_errors(form, response);
-            }
-        });
+        $(this).parent().find('nav').removeClass('open');
     });
 });

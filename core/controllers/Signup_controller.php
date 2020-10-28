@@ -58,43 +58,43 @@ class Signup_controller extends Controller
 					$labels = [];
 
 					if (!isset($_FILES['logotype']['name']) OR empty($_FILES['logotype']['name']))
-				        array_push($labels, ['logotype','']);
+						array_push($labels, ['logotype','']);
 
 					if (!isset($_POST['name']) OR empty($_POST['name']) OR $this->model->check_exist_account('name', $_POST['name']) == true)
-				        array_push($labels, ['name','']);
+						array_push($labels, ['name','']);
 
 					if (!isset($_POST['path']) OR empty($_POST['path']) OR $this->model->check_exist_account('path', $_POST['path']) == true)
-				        array_push($labels, ['path','']);
+						array_push($labels, ['path','']);
 
 					if (!isset($_POST['type']) OR empty($_POST['type']))
-				        array_push($labels, ['type','']);
+						array_push($labels, ['type','']);
 
 					if ($_POST['type'] == 'hotel')
 					{
 						if (!isset($_POST['rooms_number']) OR empty($_POST['rooms_number']) OR !is_numeric($_POST['rooms_number']) OR $_POST['rooms_number'] < 1)
-					        array_push($labels, ['rooms_number','']);
+							array_push($labels, ['rooms_number','']);
 					}
 
 					if (!isset($_POST['country']) OR empty($_POST['country']))
-				        array_push($labels, ['country','']);
+						array_push($labels, ['country','']);
 
 					if (!isset($_POST['city']) OR empty($_POST['city']))
-				        array_push($labels, ['city','']);
+						array_push($labels, ['city','']);
 
 					if (!isset($_POST['zip_code']) OR empty($_POST['zip_code']))
-				        array_push($labels, ['zip_code','']);
+						array_push($labels, ['zip_code','']);
 
 					if (!isset($_POST['address']) OR empty($_POST['address']))
-				        array_push($labels, ['address','']);
+						array_push($labels, ['address','']);
 
 					if (!isset($_POST['time_zone']) OR empty($_POST['time_zone']))
-				        array_push($labels, ['time_zone','']);
+						array_push($labels, ['time_zone','']);
 
 					if (!isset($_POST['currency']) OR empty($_POST['currency']))
-				        array_push($labels, ['currency','']);
+						array_push($labels, ['currency','']);
 
 					if (!isset($_POST['language']) OR empty($_POST['language']))
-				        array_push($labels, ['language','']);
+						array_push($labels, ['language','']);
 
 					if (empty($labels))
 					{
@@ -116,7 +116,7 @@ class Signup_controller extends Controller
 					$labels = [];
 
 					if ((!isset($_POST['operation']) OR empty($_POST['operation'])) AND (!isset($_POST['reputation']) OR empty($_POST['reputation'])))
-				    {
+					{
 						array_push($labels, ['operation','']);
 						array_push($labels, ['reputation','']);
 					}
@@ -141,25 +141,25 @@ class Signup_controller extends Controller
 					$labels = [];
 
 					if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
-				        array_push($labels, ['firstname','']);
+						array_push($labels, ['firstname','']);
 
 					if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
-				        array_push($labels, ['lastname','']);
+						array_push($labels, ['lastname','']);
 
 					if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
-				        array_push($labels, ['email','']);
+						array_push($labels, ['email','']);
 
 					if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
-				        array_push($labels, ['phone_lada','']);
+						array_push($labels, ['phone_lada','']);
 
 					if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
-				        array_push($labels, ['phone_number','']);
+						array_push($labels, ['phone_number','']);
 
 					if (!isset($_POST['username']) OR empty($_POST['username']) OR $this->model->check_exist_user('username', $_POST['username']) == true)
-				        array_push($labels, ['username','']);
+						array_push($labels, ['username','']);
 
 					if (!isset($_POST['password']) OR empty($_POST['password']))
-				        array_push($labels, ['password','']);
+						array_push($labels, ['password','']);
 
 					if (empty($labels))
 					{
@@ -168,7 +168,7 @@ class Signup_controller extends Controller
 						$query = $this->model->new_signup($_POST);
 
 						if (!empty($query))
-				        {
+						{
 							$mail1 = new Mailer(true);
 
 							try
@@ -200,7 +200,7 @@ class Signup_controller extends Controller
 												</td>
 											</tr>
 											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-								                <td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 													<figure style="width:100%;margin:0px;padding:40px 0px;border:0px;box-sizing:border-box;text-align:center;">
 														<img style="width:150px;height:150px;border-radius:50%;" src="https://' . Configuration::$domain . '/images/index/stl_6_image_1.png">
 														<span style="display:block;color:#757575;font-size:18px;">Daniel Basurto</span>
@@ -208,8 +208,8 @@ class Signup_controller extends Controller
 														<span style="display:block;color:#757575;font-size:18px;">daniel@guestvox.com</span>
 														<span style="display:block;color:#757575;font-size:18px;">+52 (998) 845 28 43</span>
 													</figure>
-								                </td>
-								            </tr>
+												</td>
+											</tr>
 											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
 												<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
 													<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
@@ -240,18 +240,18 @@ class Signup_controller extends Controller
 							catch (Exception $e) { }
 
 							Functions::environment([
-	                            'status' => 'success',
+								'status' => 'success',
 								'path' => '/',
-	                            'message' => '{$lang.thanks_signup_guestvox_1} <strong>' . $_POST['email'] . '</strong> {$lang.thanks_signup_guestvox_2}'
-	                        ]);
-				        }
-				        else
-				        {
-	                        Functions::environment([
-	                            'status' => 'error',
-	                            'message' => '{$lang.operation_error}'
-	                        ]);
-				        }
+								'message' => '{$lang.thanks_signup_guestvox_1} <strong>' . $_POST['email'] . '</strong> {$lang.thanks_signup_guestvox_2}'
+							]);
+						}
+						else
+						{
+							Functions::environment([
+								'status' => 'error',
+								'message' => '{$lang.operation_error}'
+							]);
+						}
 					}
 					else
 					{

@@ -8,194 +8,206 @@ $this->dependencies->add(['js', '{$path.js}Hi/restaurants.js']);
 ?>
 
 <header class="landing_page_restaurants">
-    <a href="https://guestvox.com/hotrestaurant/myvox"><i class="fas fa-qrcode"></i></a>
-    <a data-button-modal="contact"><i class="fas fa-paper-plane"></i></a>
-    <a href="/signup"><i class="fas fa-gift"></i></a>
-    <figure>
-        <img src="{$path.images}imagotype_white.png" alt="Guestvox">
-    </figure>
+    <div class="container">
+        <figure>
+            <img src="{$path.images}logotype_color.png" alt="Guestvox">
+        </figure>
+        <nav>
+            <a href="" class="active" data-target="1">{$lang.lpr_txt_1}</a>
+            <a href="" data-target="2">{$lang.lpr_txt_2}</a>
+            <a href="" data-target="3">{$lang.lpr_txt_3}</a>
+            <a href="" class="focus" data-target="4">{$lang.lpr_txt_4}</a>
+        </nav>
+        <a data-action="lpr_opn_mnu"><i class="fas fa-bars"></i></a>
+    </div>
 </header>
-<main class="landing_page_restaurants">
-    <section id="section_one" class="gradient hand_background">
-        <div class="container">
-            <figure class="logotype">
-                <img src="{$path.images}hi/restaurants/logotype_color.png" alt="Guestvox">
-            </figure>
-            <div class="content">
-                <h3>{$lang.landing_page_hi_restaurants_text_1}</h3>
-                <p>{$lang.landing_page_hi_restaurants_text_2}</p>
-            </div>
-        </div>
-    </section>
-    <section id="section_two" class="gradient_t">
-        <div class="container">
-            <div class="space50"></div>
-            <div class="content">
-                <div>
-                    <span class="st_2_img_1"></span>
-                    <div class="box">
-                        <p>{$lang.landing_page_hi_restaurants_text_3}</p>
-                    </div>
-                </div>
-                <div>
-                    <span class="st_2_img_2"></span>
-                    <div class="box">
-                        <p>{$lang.landing_page_hi_restaurants_text_4}</p>
-                    </div>
-                </div>
-                <div>
-                    <span class="st_2_img_3"></span>
-                    <div class="box">
-                        <p>{$lang.landing_page_hi_restaurants_text_5}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="space50"></div>
-            <a data-button-modal="contact" class="btn">{$lang.request_your_demo}</a>
-            <div class="space50"></div>
-        </div>
-    </section>
-    <section id="section_three">
-        <div class="container">
-            <h3>{$lang.landing_page_hi_restaurants_text_6}</h3>
+<main class="landing_page_restaurants" data-target="1">
+    <section class="stn_1">
+        <div>
             <figure>
-                <img src="{$path.images}hi/restaurants/st_3_img_1.png" alt="Background">
+                <img src="{$path.images}hi/restaurants/img_1.png" alt="Background">
             </figure>
-        </div>
-        <span class="st_2_img_1"></span>
-    </section>
-    <section id="section_four">
-        <div class="container">
-            <h3>{$lang.landing_page_hi_restaurants_text_7}</h3>
-        </div>
-        <span>{$lang.landing_page_hi_restaurants_text_8}<span class="st_2_img_1"></span></span>
-    </section>
-    <section id="section_five">
-        <div class="container">
-            <h5>{$lang.landing_page_hi_restaurants_text_9}</h5>
             <div>
-                <img src="{$path.images}hi/restaurants/pantalla_movil.png" alt="Background">
-                <div class="content">
-                    <h3>{$lang.landing_page_hi_restaurants_text_10}</h3>
-                    <a data-button-modal="contact" class="btn">{$lang.request_your_demo}</a>
+                <h1>{$lang.lpr_txt_5}</h1>
+                <h2>{$lang.lpr_txt_6}</h2>
+                <p>{$lang.lpr_txt_7}</p>
+                <a href="">{$lang.lpr_txt_8}</a>
+            </div>
+        </div>
+    </section>
+    <section class="stn_2">
+        <div>
+            <div>
+                <figure>
+                    <img src="{$path.images}hi/restaurants/img_2.png" alt="Background">
+                </figure>
+                <div>
+                    <h2>{$lang.lpr_txt_9}</h2>
+                    <ul>
+                        <li>{$lang.lpr_txt_10}</li>
+                        <li>{$lang.lpr_txt_11}</li>
+                        <li>{$lang.lpr_txt_12}</li>
+                        <li>{$lang.lpr_txt_13}</li>
+                        <li>{$lang.lpr_txt_14}</li>
+                    </ul>
+                    <div>
+                        <a href=""><i class="fas fa-star"></i></a>
+                        <a href=""><i class="fas fa-star"></i></a>
+                        <a href=""><i class="fas fa-heart"></i></a>
+                        <a href=""><i class="fas fa-bullhorn"></i></a>
+                        <a href=""><i class="fas fa-grin"></i></a>
+                    </div>
+                    <a href="">{$lang.lpr_txt_15}</a>
                 </div>
             </div>
         </div>
     </section>
-    <section id="section_six">
-        <div class="container">
-            <h3>{$lang.landing_page_hi_restaurants_text_11}</h3>
-        </div>
-    </section>
-    <section id="section_seven">
-        <div class="container">
-            <h3>{$lang.landing_page_hi_restaurants_text_12}</h3>
-            <img src="{$path.images}hi/restaurants/graficas.png" alt="Background">
-        </div>
-    </section>
-    <section id="section_eight">
-        <div class="container">
-            <!-- <h3>{$lang.landing_page_hi_restaurants_text_13}</h3> -->
-            <p>{$lang.landing_page_hi_restaurants_text_14}</p>
-        </div>
-    </section>
-    <section id="section_nine" class="gradient_c_r">
-        <div class="container">
-            <div class="content">
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://guestvox.com/hotrestaurant/survey" alt="QR">
-                <h4>{$lang.landing_page_hi_restaurants_text_15}</h4>
-                <p>{$lang.landing_page_hi_restaurants_text_16}</p>
-            </div>
-            <h3>{$lang.landing_page_hi_restaurants_text_17}</h3>
-        </div>
-    </section>
-    <section id="section_ten" class="gradient_c_l">
-        <div class="container">
-            <div class="content">
-                <a data-button-modal="contact" class="btn">{$lang.request_your_demo}</a>
-            </div>
-            <div class="content">
-                <figure class="logotype">
-                    <img src="{$path.images}hi/restaurants/logotype_color.png" alt="Guestvox">
+    <section class="stn_3">
+        <div>
+            <div>
+                <figure>
+                    <img src="{$path.images}hi/restaurants/img_3.png" alt="Background">
                 </figure>
-                <a href="https://facebook.com/guestvox" class="social_media fb_logo" target="_blank">Facebook</a>
-                <a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" class="social_media yt_logo" target="_blank">YouTube</a>
-                <a href="https://instagram.com/guestvox" class="social_media ig_logo" target="_blank">Instagram</a>
-                <a href="https://linkedin.com/guestvox" class="social_media in_logo" target="_blank">LinkedIn</a>
+                <div>
+                    <div>
+                        <span>1</span>
+                        <h2>{$lang.lpr_txt_16}</h2>
+                    </div>
+                    <div>
+                        <span>2</span>
+                        <h2>{$lang.lpr_txt_17}<span>{$lang.lpr_txt_18}</span></h2>
+                    </div>
+                    <div>
+                        <span>3</span>
+                        <h2>{$lang.lpr_txt_19}<span>{$lang.lpr_txt_20}</span></h2>
+                    </div>
+                    <div>
+                        <span>4</span>
+                        <h2>{$lang.lpr_txt_21}<span>{$lang.lpr_txt_22}</span></h2>
+                    </div>
+                    <div>
+                        <span>5</span>
+                        <h2>{$lang.lpr_txt_23}<span>{$lang.lpr_txt_24}</span></h2>
+                    </div>
+                    <a href="">{$lang.lpr_txt_25}</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="stn_4">
+        <div>
+            <figure>
+                <img src="{$path.images}hi/restaurants/img_4.png" alt="Background">
+            </figure>
+            <div>
+                <h2>{$lang.lpr_txt_26}</h2>
+                <a href="">{$lang.lpr_txt_27}</a>
+                <span><i class="fas fa-headset"></i>{$lang.lpr_txt_28}</span>
             </div>
         </div>
     </section>
 </main>
-<section class="modal" data-modal="contact">
-    <div class="content">
-        <main>
-            <form name="contact">
-                <div class="row">
-                    <div class="span12">
-                        <div class="label">
-                            <label required>
-                                <p>{$lang.business}</p>
-                                <input type="text" name="business">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span12">
-                        <div class="label">
-                            <label required>
-                                <p>{$lang.type}</p>
-                                <select name="type">
-                                    <option value="" hidden>{$lang.choose}</option>
-                                    <option value="hotel">{$lang.hotel}</option>
-                                    <option value="restaurant">{$lang.restaurant}</option>
-                                    <option value="hospital">{$lang.hospital}</option>
-                                    <option value="others">{$lang.others}</option>
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span4 hidden">
-                        <div class="label">
-                            <label required>
-                                <p>{$lang.n_rooms}</p>
-                                <input type="number" name="rooms">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span12">
-                        <div class="label">
-                            <label required>
-                                <p>{$lang.name}</p>
-                                <input type="text" name="name">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span6">
-                        <div class="label">
-                            <label required>
-                                <p>{$lang.email}</p>
-                                <input type="text" name="email">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span6">
-                        <div class="label">
-                            <label required>
-                                <p>{$lang.phone}</p>
-                                <input type="text" name="phone">
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span12">
-                        <p>{$lang.to_send_form}</p>
-                    </div>
-                    <div class="span12">
-                        <div class="buttons">
-                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
-                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
-                        </div>
-                    </div>
+<main class="landing_page_restaurants hidden" data-target="3">
+    <section class="stn_5">
+        <div>
+            <div>
+                <div>
+                    <span>{$lang.lpr_txt_29}</span>
+                    <p>{$lang.lpr_txt_30}</p>
+                    <figure>
+                        <img src="{$path.images}hi/restaurants/img_5.png" alt="Background">
+                    </figure>
                 </div>
-            </form>
-        </main>
+                <div>
+                    <span>{$lang.lpr_txt_31}</span>
+                    <p>{$lang.lpr_txt_32}</p>
+                    <figure>
+                        <img src="{$path.images}hi/restaurants/img_6.png" alt="Background">
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="stn_6">
+        <div>
+            <div>
+                <div>
+                    <h6>{$lang.lpr_txt_33}</h6>
+                    <h6>{$lang.lpr_txt_34}</h6>
+                </div>
+                <div>
+                    <h2>{$lang.lpr_txt_35}</h2>
+                    <span><i class="far fa-grin-stars"></i></span>
+                    <span><i class="far fa-grin-stars"></i></span>
+                </div>
+                <div>
+                    <h2>{$lang.lpr_txt_36}</h2>
+                    <span><i class="far fa-grin-stars"></i></span>
+                    <span><i class="far fa-grin-stars"></i></span>
+                </div>
+                <div>
+                    <h2>{$lang.lpr_txt_37}</h2>
+                    <span><i class="far fa-grin-stars"></i></span>
+                    <span><i class="far fa-grin-stars"></i></span>
+                </div>
+                <div>
+                    <h2>{$lang.lpr_txt_38}</h2>
+                    <span><i class="far fa-grin-stars"></i></span>
+                    <span><i class="far fa-grin-stars"></i></span>
+                </div>
+                <div>
+                    <h2>{$lang.lpr_txt_39}</h2>
+                    <span><i class="far fa-grin-stars"></i></span>
+                    <span><i class="far fa-grin-stars"></i></span>
+                </div>
+                <div>
+                    <h2>{$lang.lpr_txt_40}</h2>
+                    <span><i class="far fa-grin-stars"></i></span>
+                    <span class="focus"><i class="far fa-sad-cry"></i></span>
+                </div>
+                <div>
+                    <h2>{$lang.lpr_txt_41}</h2>
+                    <span><i class="far fa-grin-stars"></i></span>
+                    <span class="focus"><i class="far fa-sad-cry"></i></span>
+                </div>
+                <div>
+                    <h2>{$lang.lpr_txt_42}</h2>
+                    <span><i class="far fa-grin-stars"></i></span>
+                    <span class="focus"><i class="far fa-sad-cry"></i></span>
+                </div>
+                <div>
+                    <h2>{$lang.lpr_txt_43}</h2>
+                    <span><i class="far fa-grin-stars"></i></span>
+                    <span class="focus"><i class="far fa-sad-cry"></i></span>
+                </div>
+                <div>
+                    <h2>{$lang.lpr_txt_44}</h2>
+                    <span><i class="far fa-grin-stars"></i></span>
+                    <span class="focus"><i class="far fa-sad-cry"></i></span>
+                </div>
+                <div>
+                    <h2>{$lang.lpr_txt_45}</h2>
+                    <span><i class="far fa-grin-stars"></i></span>
+                    <span class="focus"><i class="far fa-sad-cry"></i></span>
+                </div>
+                <div>
+                    <h6>{$lang.lpr_txt_46}</h6>
+                    <h6>{$lang.lpr_txt_47}</h6>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer class="landing_page_restaurants">
+    <div>
+        <a href="" target="_blank"><i class="fab fa-facebook-square"></i></a>
+        <a href="" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="" target="_blank"><i class="fab fa-youtube"></i></a>
     </div>
-</section>
+    <div>
+        <a href="">{$lang.terms_and_conditions}</a>
+        <a href="">{$lang.privacy_policies}</a>
+    </div>
+    <span>Copyright (C) {$lang.all_right_reserved}</span>
+</footer>
