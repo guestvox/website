@@ -600,6 +600,11 @@ main.landing_page_restaurants > section.stn_6 > div > div > div > h6 {
         padding-top: 100px;
     }
 
+    main.landing_page_restaurants > section.stn_2,
+    main.landing_page_restaurants > section.stn_3 {
+        height: 720px;
+    }
+
     main.landing_page_restaurants > section.stn_4 {
         padding-bottom: 100px;
     }
@@ -673,7 +678,6 @@ main.landing_page_restaurants > section.stn_6 > div > div > div > h6 {
 
     main.landing_page_restaurants > section.stn_2 > div > div > div,
     main.landing_page_restaurants > section.stn_3 > div > div > div {
-        justify-content: flex-end;
         padding: 0px 30px 30px 30px;
     }
 
@@ -698,6 +702,10 @@ main.landing_page_restaurants > section.stn_6 > div > div > div > h6 {
 
     main.landing_page_restaurants > section.stn_6 > div > div > div > h2 {
         font-size: 14px;
+    }
+
+    main.landing_page_restaurants > section.stn_5 > div > div > div > p {
+        padding: 0px 10px;
     }
 }
 
@@ -800,7 +808,6 @@ main.landing_page_restaurants > section.stn_6 > div > div > div > h6 {
 
     main.landing_page_restaurants > section.stn_5 > div > div > div > p {
         color: #fff;
-        padding: 0px 10px;
         box-sizing: border-box;
     }
 
