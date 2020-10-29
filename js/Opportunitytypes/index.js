@@ -5,7 +5,7 @@ $(document).ready(function()
     var id = null;
     var edit = false;
 
-    $('[name="opportunity_area"]').on('change', function()
+    $('[name="search_opportunity_area"]').on('change', function()
     {
         $.ajax({
             type: 'POST',
@@ -52,6 +52,8 @@ $(document).ready(function()
                     show_modal_success(response.message, 600);
                 else if (response.status == 'error')
                     show_form_errors(form, response);
+                else if (response.status == 'error_checks')
+                    show_modal_error(response.message);
             }
         });
     });

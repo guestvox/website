@@ -3086,7 +3086,7 @@ class Voxes_controller extends Controller
 					$btn_filter_vox_report .= '<a class="big new" data-button-modal="filter_vox_report"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>';
 					$btn_print_vox_report .= '<a class="big new hidden" data-action="print_vox_report"><i class="fas fa-print"></i><span>{$lang.print}</span></a>';
 					$mdl_filter_vox_report .=
-					'<section class="modal fullscreen" data-modal="filter_vox_report">
+					'<section class="modal fullscreen view" data-modal="filter_vox_report">
 						<div class="content">
 							<main>
 								<form name="filter_vox_report">

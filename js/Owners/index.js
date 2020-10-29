@@ -57,6 +57,8 @@ $(document).ready(function()
                     show_modal_success(response.message, 600);
                 else if (response.status == 'error')
                     show_form_errors(form, response);
+                else if (response.status == 'error_checks')
+                    show_modal_error(response.message);
             }
         });
     });

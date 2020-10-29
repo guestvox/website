@@ -16,7 +16,7 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_types");</sc
                     <div class="label">
                         <label required>
                             <p>{$lang.opportunity_area}</p>
-                            <select name="opportunity_area">
+                            <select name="search_opportunity_area">
                                 <option value="all"<?php echo ((Session::get_value('settings')['voxes']['opportunity_areas']['filter']['id'] == 'all') ? 'selected' : '')?>>{$lang.all}</option>
                                 {$opt_opportunity_areas}
                             </select>

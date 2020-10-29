@@ -40,6 +40,7 @@ class Locations_controller extends Controller
 			if ($_POST['action'] == 'new_location' OR $_POST['action'] == 'edit_location')
 			{
 				$labels = [];
+				$checks = [];
 
 				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
 					array_push($labels, ['name_es','']);
@@ -47,25 +48,47 @@ class Locations_controller extends Controller
 				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
 					array_push($labels, ['name_en','']);
 
+				if (isset($_POST['request']))
+					array_push($checks, ['request','']);	
+					
+				if (isset($_POST['incident']))
+					array_push($checks, ['incident','']);	
+					
+				if (isset($_POST['workorder']))
+					array_push($checks, ['workorder','']);	
+					
+				if (isset($_POST['public']))
+					array_push($checks, ['public','']);	
+
 				if (empty($labels))
 				{
-					if ($_POST['action'] == 'new_location')
-						$query = $this->model->new_location($_POST);
-					else if ($_POST['action'] == 'edit_location')
-						$query = $this->model->edit_location($_POST);
-
-					if (!empty($query))
+					if (!empty($checks))
 					{
-						Functions::environment([
-							'status' => 'success',
-							'message' => '{$lang.operation_success}'
-						]);
+						if ($_POST['action'] == 'new_location')
+							$query = $this->model->new_location($_POST);
+						else if ($_POST['action'] == 'edit_location')
+							$query = $this->model->edit_location($_POST);
+
+						if (!empty($query))
+						{
+							Functions::environment([
+								'status' => 'success',
+								'message' => '{$lang.operation_success}'
+							]);
+						}
+						else
+						{
+							Functions::environment([
+								'status' => 'error',
+								'message' => '{$lang.operation_error}'
+							]);
+						}
 					}
 					else
 					{
 						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.operation_error}'
+							'status' => 'error_checks',
+							'message' => 'Active una opción para guardar.'
 						]);
 					}
 				}

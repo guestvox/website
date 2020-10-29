@@ -53,6 +53,7 @@ class Opportunitytypes_controller extends Controller
 			if ($_POST['action'] == 'new_opportunity_type' OR $_POST['action'] == 'edit_opportunity_type')
 			{
 				$labels = [];
+				$checks = [];
 
 				if (!isset($_POST['opportunity_area']) OR empty($_POST['opportunity_area']))
 					array_push($labels, ['opportunity_area','']);
@@ -63,25 +64,47 @@ class Opportunitytypes_controller extends Controller
 				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
 					array_push($labels, ['name_en','']);
 
+				if (isset($_POST['request']))
+					array_push($checks, ['request','']);	
+					
+				if (isset($_POST['incident']))
+					array_push($checks, ['incident','']);	
+					
+				if (isset($_POST['workorder']))
+					array_push($checks, ['workorder','']);	
+					
+				if (isset($_POST['public']))
+					array_push($checks, ['public','']);	
+
 				if (empty($labels))
 				{
-					if ($_POST['action'] == 'new_opportunity_type')
-						$query = $this->model->new_opportunity_type($_POST);
-					else if ($_POST['action'] == 'edit_opportunity_type')
-						$query = $this->model->edit_opportunity_type($_POST);
+					if (!empty($checks))
+					{
+						if ($_POST['action'] == 'new_opportunity_type')
+							$query = $this->model->new_opportunity_type($_POST);
+						else if ($_POST['action'] == 'edit_opportunity_type')
+							$query = $this->model->edit_opportunity_type($_POST);
 
-					if (!empty($query))
-					{
-						Functions::environment([
-							'status' => 'success',
-							'message' => '{$lang.operation_success}'
-						]);
+						if (!empty($query))
+						{
+							Functions::environment([
+								'status' => 'success',
+								'message' => '{$lang.operation_success}'
+							]);
+						}
+						else
+						{
+							Functions::environment([
+								'status' => 'error',
+								'message' => '{$lang.operation_error}'
+							]);
+						}
 					}
-					else
+					else 
 					{
 						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.operation_error}'
+							'status' => 'error_checks',
+							'message' => 'Active una opción para guardar.'
 						]);
 					}
 				}
