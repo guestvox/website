@@ -141,15 +141,16 @@ class Voxes_controller extends Controller
 			{
 				$temporal = Session::get_value('temporal');
 
-				$ambit = Functions::api('ambit', Session::get_value('account')['ambit'], 'get', '');
+				$ambit = Functions::api('ambit', Session::get_value('account')['ambit'], 'get_login', '');
 
 				if(!isset($ambit['message']))
 				{
 					$temporal['token_ambit'] = $ambit['token'];
 					Session::set_value('temporal', $temporal);
 				}
-			}
-			// $post_order = Functions::api('ambit', Session::get_value('temporal'), 'get_orders', '');
+			} 
+
+			$post_order = Functions::api('ambit', Session::get_value('temporal'), 'get_orders', '');
 
 			$tbl_voxes = '';
 

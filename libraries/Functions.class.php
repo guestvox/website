@@ -418,18 +418,16 @@ class Functions
         }
         else if ($connection == 'ambit')
         {
-            if ($method == 'get')
+            if ($method == 'get_login')
             {
-                $credentials = [
-                    'email' => $access['username'],
-                    'password' => $access['password']
-                ];
-
                 $api = curl_init();
 
                 curl_setopt($api, CURLOPT_URL, 'https://deliveryapp.ambit.com.mx/api/login');
                 curl_setopt($api, CURLOPT_POST, true);
-                curl_setopt($api, CURLOPT_POSTFIELDS, $credentials);
+                curl_setopt($api, CURLOPT_POSTFIELDS, [
+                    'email' => $access['username'],
+                    'password' => $access['password']
+                ]);
                 curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
 
                 $data = Functions::get_json_decoded_query(curl_exec($api));

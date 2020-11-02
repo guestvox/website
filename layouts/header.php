@@ -145,6 +145,9 @@
             <?php if (Functions::check_user_access(['{account_update}']) == true) : ?>
             <li target="account"><a href="/account">{$lang.account}<i class="fas fa-igloo"></i></a></li>
             <?php endif; ?>
+            <?php if (Session::get_value('user')['master'] == true) : ?>
+            <li target="account"><a href="/master">Master<i class="fas fa-user-secret"></i></a></li>
+            <?php endif; ?>
         </ul>
     </nav>
     <nav>

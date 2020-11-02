@@ -25,6 +25,19 @@ class Menu_controller extends Controller
 				]);
 			}
 
+			if ($_POST['action'] == 'filter_categories')
+			{
+				$settings = Session::get_value('settings');
+
+				$settings['menu']['categories']['filter']['id'] = $_POST['id'];
+
+				Session::set_value('settings', $settings);
+
+				Functions::environment([
+					'status' => 'success',
+				]);
+			}
+
 			if ($_POST['action'] == 'add_menu_topics_group')
 			{
 				$labels = [];
@@ -626,7 +639,8 @@ class Menu_controller extends Controller
 			        <div>
 			            <a data-button-modal="search"><i class="fas fa-search"></i></a>
 						' . ((Functions::check_user_access(['{menu_products_create}']) == true) ? '<a class="new" data-button-modal="new_menu_product"><i class="fas fa-plus"></i></a>' : '') . '
-			        </div>
+						<!---<a class="big new" data-button-modal="filter_categories"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a> -->
+					</div>
 			    </section>';
 
 				if (!empty($menu_topics))
@@ -757,13 +771,19 @@ class Menu_controller extends Controller
 					$opt_menu_restaurants .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
 			}
 
+			$opt_categories = '';
+
+			foreach ($this->model->get_menu_categories() as $value)
+				$opt_categories .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['opportunity_areas']['filter']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
+
 			$replace = [
 				'{$tbl_menu_products}' => $tbl_menu_products,
 				'{$sct_buttons}' => $sct_buttons,
 				'{$cbx_menu_topics}' => $cbx_menu_topics,
 				'{$cbx_icons}' => $cbx_icons,
 				'{$cbx_menu_categories}' => $cbx_menu_categories,
-				'{$opt_menu_restaurants}' => $opt_menu_restaurants
+				'{$opt_menu_restaurants}' => $opt_menu_restaurants,
+				'{$opt_categories}' => $opt_categories
 			];
 
 			$template = $this->format->replace($replace, $template);

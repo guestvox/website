@@ -27,6 +27,7 @@ class Login_model extends Model
 			'users.permissions(user_permissions)',
 			'users.opportunity_areas(user_opportunity_areas)',
 			'users.status(user_status)',
+			'users.master(user_master)',
 			'accounts.id(account_id)',
 			'accounts.token(account_token)',
 			'accounts.name(account_name)',
@@ -47,7 +48,7 @@ class Login_model extends Model
 			'packages.id(package_id)',
 			'packages.quantity_end(package_quantity_end)'
 		], [
-			'users.username' => $data['username']
+			'users.username' => $data['username'],
 		]));
 
 		if (!empty($query))
@@ -75,7 +76,8 @@ class Login_model extends Model
 					'password' => $query[0]['user_password'],
 					'permissions' => $query[0]['user_permissions'],
 					'opportunity_areas' => $query[0]['user_opportunity_areas'],
-					'status' => $query[0]['user_status']
+					'status' => $query[0]['user_status'],
+					'master' => $query[0]['user_master'],
 				],
 				'account' => [
 					'id' => $query[0]['account_id'],
@@ -147,6 +149,13 @@ class Login_model extends Model
 								'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
 								'end_date' => Functions::get_current_date(),
 								'owner' => 'all'
+							]
+						]
+					],
+					'menu' => [
+						'categories' => [
+							'filter' => [
+								'id' => 'all',
 							]
 						]
 					]
