@@ -393,7 +393,7 @@ class Functions
         echo json_encode($return, JSON_PRETTY_PRINT);
     }
 
-    static public function api($connection, $access, $method, $option, $params = null)
+    static public function api($connection, $access, $method, $option = '', $params = null)
     {
         if ($connection == 'zaviapms')
         {
@@ -418,7 +418,7 @@ class Functions
         }
         else if ($connection == 'ambit')
         {
-            if ($method == 'get_login')
+            if ($method == 'get_token')
             {
                 $api = curl_init();
 
@@ -434,30 +434,50 @@ class Functions
 
                 curl_close($api);
 
-                return $data;
+                if (!isset($data['message']))
+                {
+                    return [
+                        'status' => 'success',
+                        'data' => $data['token']
+                    ];
+                }
+                else
+                {
+                    return [
+                        'status' => 'error',
+                        'data' => $data['message']
+                    ];
+                }
             }
             else if ($method == 'get_orders')
             {
-                $api = curl_init();
+                $token = Functions::api('ambit', $access, 'get_token');
 
-                curl_setopt($api, CURLOPT_URL, 'https://deliveryapp.ambit.com.mx/api/orders/101');
-                curl_setopt($api, CURLOPT_HTTPHEADER, array(
-                    'Content-Type: application/json',
-                    'Authorization: Bearer ' . $access['token_ambit']));
-                curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
+                if ($token['status'] == 'success')
+                {
+                    $api = curl_init();
 
-                $data = Functions::get_json_decoded_query(curl_exec($api));
+                    curl_setopt($api, CURLOPT_URL, 'https://deliveryapp.ambit.com.mx/api/orders/101');
+                    curl_setopt($api, CURLOPT_HTTPHEADER, array(
+                        'Content-Type: application/json',
+                        'Authorization: Bearer ' . $token['data']));
+                    curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
 
-                curl_close($api);
+                    $data = Functions::get_json_decoded_query(curl_exec($api));
 
-                return $data;
+                    curl_close($api);
+
+                    return $data;
+                }
+                else if ($token['status'] == 'error')
+                    return $token['data'];
             }
             else if ($method == 'post')
             {
                 $payload = json_encode($access);
 
                 $key_secret = '083917f2d27dd39e0671d014f011531a831d223a';
-                
+
                 $secret  = hash_hmac('sha256', $payload, $key_secret); // e47531f0235f1df15ad8c70eaa3fa8443a565019dcef65dde8e4753d94517da2
 
                 $api = curl_init();

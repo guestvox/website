@@ -22,9 +22,9 @@ class Voxes_controller extends Controller
 			if ($_POST['action'] == 'notification')
 			{
 				$end_point = 'https://api.webpushr.com/v1/notification/send/all';
-				$http_header = array( 
-					"Content-Type: Application/Json", 
-					"webpushrKey: T6GsOhzKszICnxJI1D6pbazDxNrq-k9hKBWiuHxdme8", 
+				$http_header = array(
+					"Content-Type: Application/Json",
+					"webpushrKey: T6GsOhzKszICnxJI1D6pbazDxNrq-k9hKBWiuHxdme8",
 					"webpushrAuthToken: 13576"
 				);
 				$req_data = array(
@@ -35,7 +35,7 @@ class Voxes_controller extends Controller
 					'icon'			=> 'https://www.webpushr.com/logo.png',
 					'auto_hide'		=> 1,
 					'expire_push'	=> '5m',
-					'action_buttons'=> array(	
+					'action_buttons'=> array(
 						array('title'=> 'Demo', 'url' => 'https://www.webpushr.com/demo'),
 						array('title'=> 'Rates', 'url' => 'https://www.webpushr.com/pricing')
 					)
@@ -52,7 +52,7 @@ class Voxes_controller extends Controller
 				Functions::environment([
 					'status' => 'success'
 				]);
-			
+
 			}
 
 			if ($_POST['action'] == 'get_opt_owners')
@@ -137,20 +137,63 @@ class Voxes_controller extends Controller
 
 			define('_title', 'Guestvox | {$lang.voxes}');
 
-			if (Session::get_value('account')['ambit']['status'] == true AND empty(Session::get_value('temporal')['token_ambit']))
-			{
-				$temporal = Session::get_value('temporal');
+			// print_r(Functions::api('ambit', [
+			// 	'store_id' => 101,
+			// 	'client' => [
+			// 	  'name' => 'Jorge',
+			// 	  'phone' => '+525581053825',
+			// 	  'email' => 'jxochihua@hotmail.com',
+			// 	  'address' => [
+			// 		'client_address' => 'Ayuntamiento 153, 14250, Depto B204, Col. Miguel Hidalgo , Cdmx ',
+			// 		'client_address_parts' => [
+			// 			'city' => 'Cdmx ',
+			// 			'street' => 'Ayuntamiento 153',
+			// 			'more_address' => '14250, Depto B204, Col. Miguel Hidalgo ',
+			// 			],
+			// 		],
+			// 	],
+			// 	'order' => [
+			// 	  'id' => 158750180,
+			// 	  'type' => 'delivery',
+			// 	  'date' => '2020-09-13T19:56:12.000Z',
+			// 	  'note' => '',
+			// 	  'total' => 413,
+			// 	  'store' => '0',
+			// 	  'origen' => 'eRest',
+			// 	  'formaPago' => '04',
+			// 	  'idFormaPago' => 'CARD',
+			// 	],
+			// 	'Items' => [
+			// 	  0 => [
+			// 		'price' => 297,
+			// 		'type' => '2',
+			// 		'note' => '',
+			// 		'code' => 'GRI-004',
+			// 		'descrip' => 'Bife de lomo',
+			// 		'cant' => 1,
+			// 		'modifiers' => [
+			// 		  0 => [
+			// 				'price' => 0,
+			// 				'type' => '2',
+			// 				'code' => 'MDPLA-056',
+			// 				'descrip' => 'Termino 3/4',
+			// 				'cant' => 1,
+			// 				],
+			// 			],
+			// 		],
+			// 	  1 => [
+			// 		'price' => 81,
+			// 		'type' => '2',
+			// 		'note' => '',
+			// 		'code' => 'ENS-005',
+			// 		'descrip' => 'Ensalada Mixta',
+			// 		'cant' => 1,
+			// 		'modifiers' => [],
+			// 		],
+			// 	],
+			// ], 'post'));
 
-				$ambit = Functions::api('ambit', Session::get_value('account')['ambit'], 'get_login', '');
-
-				if(!isset($ambit['message']))
-				{
-					$temporal['token_ambit'] = $ambit['token'];
-					Session::set_value('temporal', $temporal);
-				}
-			} 
-
-			$post_order = Functions::api('ambit', Session::get_value('temporal'), 'get_orders', '');
+			// print_r(Functions::api('ambit', Session::get_value('account')['ambit'], 'get_orders'));
 
 			$tbl_voxes = '';
 
@@ -213,7 +256,7 @@ class Voxes_controller extends Controller
 					data-status="' . $value['status'] . '"
 					data-elapsed-time><i class="fas fa-play-circle""></i><strong></strong></span>';
 				}
-				else 
+				else
 				{
 					$tbl_voxes .= '<span
 					data-date-1="' . Functions::get_formatted_date_hour($value['started_date'], $value['started_hour']) . '"
@@ -224,7 +267,7 @@ class Voxes_controller extends Controller
 				}
 
 				$tbl_voxes .=
-				'			
+				'
 							</div>
 	                    </div>
 	                    <div class="itm_3">
@@ -440,7 +483,7 @@ class Voxes_controller extends Controller
 						$_POST['owner'] = $this->model->get_owner($_POST['owner']);
 						$_POST['opportunity_area'] = $this->model->get_opportunity_area($_POST['opportunity_area']);
 						$_POST['opportunity_type'] = $this->model->get_opportunity_type($_POST['opportunity_type']);
-					
+
 						if (!empty($_POST['location']))
 							$_POST['location'] = $this->model->get_location($_POST['location']);
 
