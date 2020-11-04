@@ -903,7 +903,7 @@ main.landing_page_restaurants > section.stn_10 > div > div > a {
 
 /*  */
 
-main.contacts {
+section.contacts {
     width: auto;
     position: fixed;
     right: 20px;
@@ -915,7 +915,7 @@ main.contacts {
     z-index: 99;
 }
 
-main.contacts > a {
+section.contacts > a {
     width: 50px;
     height: 50px;
     display: flex;
@@ -927,15 +927,15 @@ main.contacts > a {
     color: #fff;
 }
 
-main.contacts > a[data-email] {
+section.contacts > a[data-email] {
     background-color: #9c27b0;
 }
 
-main.contacts > a[data-phone] {
+section.contacts > a[data-phone] {
     background-color: #673ab7;
 }
 
-main.contacts > a[data-whatsapp] {
+section.contacts > a[data-whatsapp] {
     background-color: #009688;
 }
 

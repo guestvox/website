@@ -285,11 +285,11 @@ $this->dependencies->add(['others',
 <main class="landing_page_restaurants <?php echo ((Session::get_value('hi')['restaurant']['target'] == '4') ? '' : 'hidden') ?>" data-target="4">
 
 </main>
-<main class="contacts">
+<section class="contacts">
     <a href="mailto:contacto@guestvox.com" data-email><i class="fas fa-envelope"></i></a>
     <a href="tel:+520987654321" data-phone><i class="fas fa-phone"></i></a>
     <a href="https://api.whatsapp.com/send?phone=+520987654321" data-whatsapp target="_blank"><i class="fab fa-whatsapp"></i></a>
-</main>
+</section>
 <div id="fb-root"></div>
 <script>
     window.fbAsyncInit = function() {
