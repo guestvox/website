@@ -89,7 +89,8 @@ header.landing_page_restaurants > .container > a {
 
 footer.landing_page_restaurants {
     width: 100%;
-    height: 100px;
+    height: auto;
+    padding: 50px 0px;
     background-color: #fff;
 }
 
@@ -252,6 +253,12 @@ main.landing_page_restaurants > section.stn_9 {
     background: #00a2a9;
     background: -webkit-linear-gradient(to bottom, #104a5b, #00a2a9);
     background: linear-gradient(to bottom, #104a5b, #00a2a9);
+}
+
+main.landing_page_restaurants > section.stn_10 {
+    background: #104a5b;
+    background: -webkit-linear-gradient(to bottom, #00a2a9, #104a5b);
+    background: linear-gradient(to bottom, #00a2a9, #104a5b);
 }
 
 main.landing_page_restaurants > section.stn_10 {
