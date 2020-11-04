@@ -283,7 +283,12 @@ $this->dependencies->add(['others',
     </section>
 </main>
 <main class="landing_page_restaurants <?php echo ((Session::get_value('hi')['restaurant']['target'] == '4') ? '' : 'hidden') ?>" data-target="4">
-
+    <section data-step="1">
+        <p>{$lang.lpr_txt_60}</p>
+        <h2>{$lang.lpr_txt_61}</h2>
+        <input type="text" name="name" placeholder="{$lang.typing}">
+        <a data-action="next">{$lang.next}</a>
+    </section>
 </main>
 <section class="contacts">
     <a href="mailto:contacto@guestvox.com" data-email><i class="fas fa-envelope"></i></a>
