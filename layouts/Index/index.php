@@ -32,8 +32,8 @@ $this->dependencies->add(['others',
         <nav class="desktop">
             <ul>
                 <li><a href="/blog">{$lang.blog}</a></li>
-                <li class="focus"><a href="/signup">¡{$lang.signup_free}!</a></li>
                 <li><a href="/login">{$lang.login}</a></li>
+                <li class="focus"><a href="/signup">¡{$lang.signup_free}!</a></li>
             </ul>
         </nav>
         <nav class="mobile">
@@ -74,7 +74,7 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_2_text_4}</p>
                 </div>
             </div>
-            <a href="/hola/voxes">{$lang.know_more}</a>
+            <!-- <a href="/hola/voxes">{$lang.know_more}</a> -->
         </div>
     </section>
     <section class="stl_3">
@@ -85,7 +85,7 @@ $this->dependencies->add(['others',
             <h2>{$lang.landing_page_index_stl_2_text_5}</h2>
             <div>
                 <div>
-                    <i class="fas fa-concierge-bell"></i>
+                    <i class="fas fa-tablet-alt"></i>
                     <p>{$lang.landing_page_index_stl_2_text_6}</p>
                 </div>
                 <div>
@@ -97,7 +97,7 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_2_text_8}</p>
                 </div>
             </div>
-            <a href="/hola/menu">{$lang.know_more}</a>
+            <!-- <a href="/hola/menu">{$lang.know_more}</a> -->
         </div>
     </section>
     <section class="stl_2">
@@ -120,10 +120,30 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_2_text_12}</p>
                 </div>
             </div>
-            <a href="/hola/encuestas">{$lang.know_more}</a>
+            <!-- <a href="/hola/encuestas">{$lang.know_more}</a> -->
         </div>
     </section>
-    <section class="stl_3">
+    <section class="stl_7">
+        <div>
+            <figure>
+                <img src="{$path.images}index/stl_7_image_1.png" alt="Background">
+            </figure>
+            <div>
+                <h2>{$lang.landing_page_index_stl_7_text_1}</h2>
+                <a href="/hola/hoteles">{$lang.discover_now}</a>
+            </div>
+        </div>
+        <div>
+            <figure>
+                <img src="{$path.images}index/stl_7_image_2.png" alt="Background">
+            </figure>
+            <div>
+                <h2>{$lang.landing_page_index_stl_7_text_2}</h2>
+                <a href="/restaurantes">{$lang.discover_now}</a>
+            </div>
+        </div>
+    </section>
+    <!-- <section class="stl_3">
         <figure>
             <img src="{$path.images}index/stl_2_image_4.png" alt="Background">
         </figure>
@@ -135,19 +155,19 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_2_text_14}</p>
                 </div>
                 <div>
-                    <i class="fas fa-comment"></i>
+                    <i class="fas fa-window-maximize"></i>
                     <p>{$lang.landing_page_index_stl_2_text_15}</p>
                 </div>
                 <div>
-                    <i class="fas fa-qrcode"></i>
+                    <i class="fas fa-globe-americas"></i>
                     <p>{$lang.landing_page_index_stl_2_text_16}</p>
                 </div>
             </div>
-            <!-- <a href="/hola/resenas">{$lang.know_more}</a> -->
+            <a href="/hola/resenas">{$lang.know_more}</a>
         </div>
-    </section>
+    </section> -->
     <section class="stl_4">
-        <div>
+        <!-- <div>
             <div>
                 <i class="fas fa-bed"></i>
                 <p>{$lang.landing_page_index_stl_4_text_1}</p>
@@ -156,7 +176,7 @@ $this->dependencies->add(['others',
             <div>
                 <i class="fas fa-utensils"></i>
                 <p>{$lang.landing_page_index_stl_4_text_2}</p>
-                <a href="/hola/restaurantes">{$lang.know_more}</a>
+                <a href="/restaurantes">{$lang.know_more}</a>
             </div>
             <div>
                 <i class="fas fa-stethoscope"></i>
@@ -177,7 +197,7 @@ $this->dependencies->add(['others',
                 <i class="fas fa-lock"></i>
                 <p>{$lang.landing_page_index_stl_4_text_6}</p>
             </div>
-        </div>
+        </div> -->
         <figure>
             <img src="{$path.images}index/stl_4_image_1.png" alt="Background">
         </figure>
@@ -210,7 +230,6 @@ $this->dependencies->add(['others',
                 <img src="https://www.comparasoftware.com/wp-content/uploads/2019/05/comparasoftware_verificado.png" alt="Partner">
             </figure> -->
         </div>
-        <a href="/signup">¡{$lang.signup_free}!</a>
     </section>
     <section class="stl_6">
         <h2>{$lang.landing_page_index_stl_6_text_1}<i class="fas fa-heart"></i>{$lang.landing_page_index_stl_6_text_2}</h2>
@@ -254,6 +273,11 @@ $this->dependencies->add(['others',
                 <h4>{$lang.chief_programmer_mobile}</h4>
             </div>
         </div>
+    </section>
+    <section class="contacts">
+        <a href="mailto:contacto@guestvox.com" data-email><i class="fas fa-envelope"></i></a>
+        <a href="tel:+520987654321" data-phone><i class="fas fa-phone"></i></a>
+        <a href="https://api.whatsapp.com/send?phone=+520987654321" data-whatsapp target="_blank"><i class="fab fa-whatsapp"></i></a>
     </section>
     <div id="fb-root"></div>
     <script>

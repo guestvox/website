@@ -4,11 +4,32 @@ $(document).ready(function()
 {
     $('a[data-target]').on('click', function()
     {
-        $('a[data-target]').removeClass('active');
-        $(this).addClass('active');
+        var target = $(this).data('target');
 
-        $('main').addClass('hidden');
-        $('main[data-target="' + $(this).data('target') + '"]').removeClass('hidden');
+        $.ajax({
+            type: 'POST',
+            data: 'target=' + target + '&action=change_target',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('header').find('a[data-target]').removeClass('active');
+                    $('header').find('a[data-target="' + target + '"]').addClass('active');
+
+                    $('main').addClass('hidden');
+                    $('main[data-target="' + target + '"]').removeClass('hidden');
+
+                    $('body, html').animate({
+            			scrollTop: '0px'
+            		}, 800);
+                }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
     });
 
     $('[data-action="lpr_opn_mnu"]').on('click', function(event)

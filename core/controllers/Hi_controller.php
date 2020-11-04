@@ -560,9 +560,38 @@ class Hi_controller extends Controller
 
 	public function restaurants()
 	{
+		if (Session::exists_var('hi') == true)
+		{
+			$hi = Session::get_value('hi');
+
+			if (!isset(Session::get_value('hi')['restaurant']['target']) OR empty(Session::get_value('hi')['restaurant']['target']))
+				$hi['restaurant']['target'] = '1';
+
+			Session::set_value('hi', $hi);
+		}
+		else
+		{
+			Session::set_value('hi', [
+				'restaurant' => [
+					'target' => '1'
+				]
+			]);
+		}
+
 		if (Format::exist_ajax_request() == true)
 		{
-			
+			if ($_POST['action'] == 'change_target')
+			{
+				$hi = Session::get_value('hi');
+
+				$hi['restaurant']['target'] = $_POST['target'];
+
+				Session::set_value('hi', $hi);
+
+				Functions::environment([
+					'status' => 'success'
+				]);
+			}
 		}
 		else
 		{

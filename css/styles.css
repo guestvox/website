@@ -14,7 +14,7 @@ select { appearance: none; -webkit-appearance: none; cursor: pointer; }
 
 form [class*="span"] { margin-bottom: 0px !important; padding: 10px 5px 10px; }
 
-::-webkit-scrollbar { display: none; }
+/* ::-webkit-scrollbar { display: none; } */
 
 /* Body
 ------------------------------------------------------------------------------ */
