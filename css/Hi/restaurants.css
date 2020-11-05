@@ -910,25 +910,28 @@ main.landing_page_restaurants > section.stn_10 > div > div > a {
 
 /*  */
 
-main.landing_page_restaurants > section[data-step="1"] {
+main.landing_page_restaurants > form[data-step] {
     width: 100%;
-    height: 100vh;
+    height: auto;
+    min-height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
+    padding-top: 150px;
+    box-sizing: border-box;
 }
 
-main.landing_page_restaurants > section[data-step="1"] > p {
+main.landing_page_restaurants > form[data-step] > p {
     max-width: 600px;
     margin-bottom: 20px;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 400;
     text-align: center;
     color: #757575;
 }
 
-main.landing_page_restaurants > section[data-step="1"] > p > span {
+main.landing_page_restaurants > form[data-step] > p > span {
     display: block;
     font-size: 80px;
     font-weight: 600;
@@ -936,26 +939,32 @@ main.landing_page_restaurants > section[data-step="1"] > p > span {
     color: #212121;
 }
 
-main.landing_page_restaurants > section[data-step="1"] > h2 {
+main.landing_page_restaurants > form[data-step] > h2 {
     margin-bottom: 20px;
     font-size: 40px;
     font-weight: 600;
     color: #757575;
 }
 
-main.landing_page_restaurants > section[data-step="1"] > input {
+main.landing_page_restaurants > form[data-step] > input {
     width: 100%;
     max-width: 600px;
     height: 60px;
     background-color: #eee;
     margin-bottom: 20px;
-    padding: 0px 20px;
+    padding: 0px 40px;
     border: 0px;
     border-radius: 50px;
     box-sizing: border-box;
 }
 
-main.landing_page_restaurants > section[data-step="1"] > a {
+main.landing_page_restaurants > form[data-step] > input.error {
+    border: 1px solid #f44336;
+}
+
+main.landing_page_restaurants > form[data-step] > button {
+    margin-top: 20px;
+    border-radius: 50px;
     font-size: 16px;
     font-weight: 400;
     color: #212121;

@@ -567,13 +567,33 @@ class Hi_controller extends Controller
 			if (!isset(Session::get_value('hi')['restaurant']['target']) OR empty(Session::get_value('hi')['restaurant']['target']))
 				$hi['restaurant']['target'] = '1';
 
+			if (!isset(Session::get_value('hi')['restaurant']['demo']) OR empty(Session::get_value('hi')['restaurant']['demo']))
+			{
+				$hi['restaurant']['demo'] = [
+					'step' => '1',
+					'name' => '',
+					'logotype' => '',
+					'topics' => [],
+					'categories' => [],
+					'products' => []
+				];
+			}
+
 			Session::set_value('hi', $hi);
 		}
 		else
 		{
 			Session::set_value('hi', [
 				'restaurant' => [
-					'target' => '1'
+					'target' => '1',
+					'demo' => [
+						'step' => '1',
+						'name' => '',
+						'logotype' => '',
+						'topics' => [],
+						'categories' => [],
+						'products' => []
+					]
 				]
 			]);
 		}
@@ -585,6 +605,80 @@ class Hi_controller extends Controller
 				$hi = Session::get_value('hi');
 
 				$hi['restaurant']['target'] = $_POST['target'];
+
+				Session::set_value('hi', $hi);
+
+				Functions::environment([
+					'status' => 'success'
+				]);
+			}
+
+			if ($_POST['action'] == 'go_to_next_step')
+			{
+				$hi = Session::get_value('hi');
+
+				if ($_POST['current_step'] == '1')
+				{
+					$labels = [];
+
+					if (!isset($_POST['name']) OR empty($_POST['name']))
+						array_push($labels, ['name','']);
+
+					if (empty($labels))
+					{
+						$hi['restaurant']['demo']['step'] = $_POST['next_step'];
+
+						Functions::environment([
+							'status' => 'success'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'labels' => $labels
+						]);
+					}
+				}
+				else if ($_POST['current_step'] == '2')
+				{
+					$labels = [];
+
+					if (!isset($_FILES['logotype']['name']) OR empty($_FILES['logotype']['name']))
+						array_push($labels, ['logotype','']);
+
+					if (empty($labels))
+					{
+						$hi['restaurant']['demo']['step'] = $_POST['next_step'];
+
+						Functions::environment([
+							'status' => 'success'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'labels' => $labels
+						]);
+					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+
+				Session::set_value('hi', $hi);
+			}
+
+			if ($_POST['action'] == 'return_to_back_step')
+			{
+				$hi = Session::get_value('hi');
+
+				$hi['restaurant']['demo']['step'] = $_POST['back_step'];
 
 				Session::set_value('hi', $hi);
 

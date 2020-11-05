@@ -283,12 +283,24 @@ $this->dependencies->add(['others',
     </section>
 </main>
 <main class="landing_page_restaurants <?php echo ((Session::get_value('hi')['restaurant']['target'] == '4') ? '' : 'hidden') ?>" data-target="4">
-    <section data-step="1">
+    <form name="go_to_next_step" class="<?php echo ((Session::get_value('hi')['restaurant']['demo']['step'] == '1') ? '' : 'hidden') ?>" data-step="1">
         <p>{$lang.lpr_txt_60}</p>
         <h2>{$lang.lpr_txt_61}</h2>
         <input type="text" name="name" placeholder="{$lang.typing}">
-        <a data-action="next">{$lang.next}</a>
-    </section>
+        <button type="submit">{$lang.next}</button>
+    </form>
+    <form name="go_to_next_step" class="<?php echo ((Session::get_value('hi')['restaurant']['demo']['step'] == '2') ? '' : 'hidden') ?>" data-step="2">
+        <p>{$lang.lpr_txt_62}</p>
+        <div class="stl_1" data-uploader="low">
+            <figure data-preview>
+                <img src="{$path.images}account.png" alt="Account">
+                <a data-select><i class="fas fa-upload"></i></a>
+                <input type="file" name="logotype" accept="image/*" data-upload>
+            </figure>
+        </div>
+        <button type="submit">{$lang.next}</button>
+        <a data-action="return_to_back_step">{$lang.back}</a>
+    </form>
 </main>
 <section class="contacts">
     <a href="mailto:contacto@guestvox.com" data-email><i class="fas fa-envelope"></i></a>

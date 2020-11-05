@@ -104,8 +104,6 @@ $(document).ready(function()
                 {
                     if (response.labels)
                     {
-                        console.log(response.labels);
-
                         form.find('.error').removeClass('error');
 
                         $.each(response.labels, function(i, label)
