@@ -1129,14 +1129,14 @@ class Account_controller extends Controller
 											</figure>
 										</div>
 									</div>
-									<div class="span12">
+									<!--<div class="span12">
 										<div class="label">
 											<label unrequired>
 												<p>{$lang.widget} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<textarea name="widget"></textarea>
 											</label>
 										</div>
-									</div>
+									</div>-->
 									<div class="span12">
 										<div class="buttons">
 											<a class="delete" button-cancel><i class="fas fa-times"></i></a>

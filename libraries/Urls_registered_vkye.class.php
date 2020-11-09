@@ -225,6 +225,10 @@ class Urls_registered_vkye
                 'controller' => 'Account',
                 'method' => 'index'
             ],
+            '/master' => [
+                'controller' => 'Master',
+                'method' => 'index'
+            ],
             '/translate' => [
                 'controller' => 'System',
                 'method' => 'translate'

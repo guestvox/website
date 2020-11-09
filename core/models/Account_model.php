@@ -344,7 +344,6 @@ class Account_model extends Model
 				if (!empty($data['mail_attachment']['name']))
 					$edited1[0]['settings']['myvox']['survey']['mail']['attachment'] = Functions::uploader($data['mail_attachment'], Session::get_value('account')['path'] . '_settings_myvox_survey_mail_attachment_');
 
-				$edited1[0]['settings']['myvox']['survey']['widget'] = $data['widget'];
 			}
 			else
 				$edited1[0]['settings']['myvox']['survey']['status'] = false;
