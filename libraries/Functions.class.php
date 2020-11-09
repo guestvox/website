@@ -12,7 +12,7 @@ class Functions
         if (!empty($string))
         {
             $translate = new GoogleTranslate();
-            $translate =  $translate->translate('es', $language, $string);
+            $translate = $translate->translate('es', $language, $string);
 
             return $translate;
         }
