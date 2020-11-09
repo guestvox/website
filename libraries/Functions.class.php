@@ -13,7 +13,6 @@ class Functions
         {
             $translate = new GoogleTranslate();
             $translate =  $translate->translate('es', $language, $string);
-            $translate = ucfirst($translate);
 
             return $translate;
         }
