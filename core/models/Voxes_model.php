@@ -670,7 +670,8 @@ class Voxes_model extends Model
 			'id',
 			'firstname',
 			'lastname',
-			'avatar'
+			'avatar',
+			'master'
 		], [
 			'AND' => [
 				'account' => Session::get_value('account')['id'],

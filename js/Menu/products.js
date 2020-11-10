@@ -147,7 +147,21 @@ $(document).ready(function()
                         show_modal_success(response.message, 600);
                 }
                 else if (response.status == 'error')
-                    show_form_errors(form, response);
+                {
+                    if (response.labels)
+                    {
+                        form.find('.error').removeClass('error');
+
+                        $.each(response.labels, function(i, label)
+                        {
+                            form.find('[name="' + label[0] + '"]').parent().addClass('error');
+                        });
+
+                        form.find('.error [name]')[0].focus();
+                    }
+                    else if (response.message)
+                        show_modal_error(response.message);
+                }
             }
         });
     });
