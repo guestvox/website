@@ -329,6 +329,174 @@ class Account_controller extends Controller
 							if (!isset($_POST['schedule_sunday_closing']) OR empty($_POST['schedule_sunday_closing']) OR $_POST['schedule_sunday_closing'] <= $_POST['schedule_sunday_opening'])
 								array_push($labels, ['schedule_sunday_closing','']);
 						}
+
+						if (!empty($_POST['payment_status']) AND $account['settings']['myvox']['menu']['payment']['contract']['status'] == 'deactivated')
+						{
+							if (!isset($_POST['payment_contract_titular_fiscal_person']) OR empty($_POST['payment_contract_titular_fiscal_person']))
+								array_push($labels, ['payment_contract_titular_fiscal_person','']);
+
+							if (!isset($_POST['payment_contract_titular_fiscal_id']) OR empty($_POST['payment_contract_titular_fiscal_id']))
+								array_push($labels, ['payment_contract_titular_fiscal_id','']);
+
+							if (!isset($_POST['payment_contract_titular_fiscal_name']) OR empty($_POST['payment_contract_titular_fiscal_name']))
+								array_push($labels, ['payment_contract_titular_fiscal_name','']);
+
+							if (!isset($_POST['payment_contract_titular_fiscal_activity']) OR empty($_POST['payment_contract_titular_fiscal_activity']))
+								array_push($labels, ['payment_contract_titular_fiscal_activity','']);
+
+							if (!isset($_POST['payment_contract_titular_address_street']) OR empty($_POST['payment_contract_titular_address_street']))
+								array_push($labels, ['payment_contract_titular_address_street','']);
+
+							if (!isset($_POST['payment_contract_titular_address_external_number']) OR empty($_POST['payment_contract_titular_address_external_number']))
+								array_push($labels, ['payment_contract_titular_address_external_number','']);
+
+							if (!isset($_POST['payment_contract_titular_address_cp']) OR empty($_POST['payment_contract_titular_address_cp']))
+								array_push($labels, ['payment_contract_titular_address_cp','']);
+
+							if (!isset($_POST['payment_contract_titular_address_colony']) OR empty($_POST['payment_contract_titular_address_colony']))
+								array_push($labels, ['payment_contract_titular_address_colony','']);
+
+							if (!isset($_POST['payment_contract_titular_address_delegation']) OR empty($_POST['payment_contract_titular_address_delegation']))
+								array_push($labels, ['payment_contract_titular_address_delegation','']);
+
+							if (!isset($_POST['payment_contract_titular_address_city']) OR empty($_POST['payment_contract_titular_address_city']))
+								array_push($labels, ['payment_contract_titular_address_city','']);
+
+							if (!isset($_POST['payment_contract_titular_address_state']) OR empty($_POST['payment_contract_titular_address_state']))
+								array_push($labels, ['payment_contract_titular_address_state','']);
+
+							if (!isset($_POST['payment_contract_titular_address_country']) OR empty($_POST['payment_contract_titular_address_country']))
+								array_push($labels, ['payment_contract_titular_address_country','']);
+
+							if (!isset($_POST['payment_contract_titular_bank_name']) OR empty($_POST['payment_contract_titular_bank_name']))
+								array_push($labels, ['payment_contract_titular_bank_name','']);
+
+							if (!isset($_POST['payment_contract_titular_bank_branch']) OR empty($_POST['payment_contract_titular_bank_branch']))
+								array_push($labels, ['payment_contract_titular_bank_branch','']);
+
+							if (!isset($_POST['payment_contract_titular_bank_checkbook']) OR empty($_POST['payment_contract_titular_bank_checkbook']))
+								array_push($labels, ['payment_contract_titular_bank_checkbook','']);
+
+							if (!isset($_POST['payment_contract_titular_bank_clabe']) OR empty($_POST['payment_contract_titular_bank_clabe']))
+								array_push($labels, ['payment_contract_titular_bank_clabe','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_first_name']) OR empty($_POST['payment_contract_titular_personal_references_first_name']))
+								array_push($labels, ['payment_contract_titular_personal_references_first_name','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_first_email']) OR empty($_POST['payment_contract_titular_personal_references_first_email']))
+								array_push($labels, ['payment_contract_titular_personal_references_first_email','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_first_phone_lada']) OR empty($_POST['payment_contract_titular_personal_references_first_phone_lada']))
+								array_push($labels, ['payment_contract_titular_personal_references_first_phone_lada','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_first_phone_number']) OR empty($_POST['payment_contract_titular_personal_references_first_phone_number']))
+								array_push($labels, ['payment_contract_titular_personal_references_first_phone_number','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_second_name']) OR empty($_POST['payment_contract_titular_personal_references_second_name']))
+								array_push($labels, ['payment_contract_titular_personal_references_second_name','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_second_email']) OR empty($_POST['payment_contract_titular_personal_references_second_email']))
+								array_push($labels, ['payment_contract_titular_personal_references_second_email','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_second_phone_lada']) OR empty($_POST['payment_contract_titular_personal_references_second_phone_lada']))
+								array_push($labels, ['payment_contract_titular_personal_references_second_phone_lada','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_second_phone_number']) OR empty($_POST['payment_contract_titular_personal_references_second_phone_number']))
+								array_push($labels, ['payment_contract_titular_personal_references_second_phone_number','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_third_name']) OR empty($_POST['payment_contract_titular_personal_references_third_name']))
+								array_push($labels, ['payment_contract_titular_personal_references_third_name','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_third_email']) OR empty($_POST['payment_contract_titular_personal_references_third_email']))
+								array_push($labels, ['payment_contract_titular_personal_references_third_email','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_third_phone_lada']) OR empty($_POST['payment_contract_titular_personal_references_third_phone_lada']))
+								array_push($labels, ['payment_contract_titular_personal_references_third_phone_lada','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_third_phone_number']) OR empty($_POST['payment_contract_titular_personal_references_third_phone_number']))
+								array_push($labels, ['payment_contract_titular_personal_references_third_phone_number','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_fourth_name']) OR empty($_POST['payment_contract_titular_personal_references_fourth_name']))
+								array_push($labels, ['payment_contract_titular_personal_references_fourth_name','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_fourth_email']) OR empty($_POST['payment_contract_titular_personal_references_fourth_email']))
+								array_push($labels, ['payment_contract_titular_personal_references_fourth_email','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_fourth_phone_lada']) OR empty($_POST['payment_contract_titular_personal_references_fourth_phone_lada']))
+								array_push($labels, ['payment_contract_titular_personal_references_fourth_phone_lada','']);
+
+							if (!isset($_POST['payment_contract_titular_personal_references_fourth_phone_number']) OR empty($_POST['payment_contract_titular_personal_references_fourth_phone_number']))
+								array_push($labels, ['payment_contract_titular_personal_references_fourth_phone_number','']);
+
+							if (!isset($_POST['payment_contract_titular_email']) OR empty($_POST['payment_contract_titular_email']))
+								array_push($labels, ['payment_contract_titular_email','']);
+
+							if (!isset($_POST['payment_contract_titular_phone_lada']) OR empty($_POST['payment_contract_titular_phone_lada']))
+								array_push($labels, ['payment_contract_titular_phone_lada','']);
+
+							if (!isset($_POST['payment_contract_titular_phone_number']) OR empty($_POST['payment_contract_titular_phone_number']))
+								array_push($labels, ['payment_contract_titular_phone_number','']);
+
+							if (!isset($_POST['payment_contract_titular_tpv']) OR empty($_POST['payment_contract_titular_tpv']))
+								array_push($labels, ['payment_contract_titular_tpv','']);
+
+							if (!isset($_POST['payment_contract_company_writing_number']) OR empty($_POST['payment_contract_company_writing_number']))
+								array_push($labels, ['payment_contract_company_writing_number','']);
+
+							if (!isset($_POST['payment_contract_company_writing_date']) OR empty($_POST['payment_contract_company_writing_date']))
+								array_push($labels, ['payment_contract_company_writing_date','']);
+
+							if (!isset($_POST['payment_contract_company_public_record_folio']) OR empty($_POST['payment_contract_company_public_record_folio']))
+								array_push($labels, ['payment_contract_company_public_record_folio','']);
+
+							if (!isset($_POST['payment_contract_company_public_record_date']) OR empty($_POST['payment_contract_company_public_record_date']))
+								array_push($labels, ['payment_contract_company_public_record_date','']);
+
+							if (!isset($_POST['payment_contract_company_notary_name']) OR empty($_POST['payment_contract_company_notary_name']))
+								array_push($labels, ['payment_contract_company_notary_name','']);
+
+							if (!isset($_POST['payment_contract_company_notary_number']) OR empty($_POST['payment_contract_company_notary_number']))
+								array_push($labels, ['payment_contract_company_notary_number','']);
+
+							if (!isset($_POST['payment_contract_company_city']) OR empty($_POST['payment_contract_company_city']))
+								array_push($labels, ['payment_contract_company_city','']);
+
+							if (!isset($_POST['payment_contract_company_legal_representative_name']) OR empty($_POST['payment_contract_company_legal_representative_name']))
+								array_push($labels, ['payment_contract_company_legal_representative_name','']);
+
+							if (!isset($_POST['payment_contract_company_legal_representative_writing_number']) OR empty($_POST['payment_contract_company_legal_representative_writing_number']))
+								array_push($labels, ['payment_contract_company_legal_representative_writing_number','']);
+
+							if (!isset($_POST['payment_contract_company_legal_representative_writing_date']) OR empty($_POST['payment_contract_company_legal_representative_writing_date']))
+								array_push($labels, ['payment_contract_company_legal_representative_writing_date','']);
+
+							if (!isset($_POST['payment_contract_company_legal_representative_notary_name']) OR empty($_POST['payment_contract_company_legal_representative_notary_name']))
+								array_push($labels, ['payment_contract_company_legal_representative_notary_name','']);
+
+							if (!isset($_POST['payment_contract_company_legal_representative_notary_number']) OR empty($_POST['payment_contract_company_legal_representative_notary_number']))
+								array_push($labels, ['payment_contract_company_legal_representative_notary_number','']);
+
+							if (!isset($_POST['payment_contract_company_legal_representative_city']) OR empty($_POST['payment_contract_company_legal_representative_city']))
+								array_push($labels, ['payment_contract_company_legal_representative_city','']);
+
+							if (!isset($_POST['payment_contract_company_legal_representative_card_type']) OR empty($_POST['payment_contract_company_legal_representative_card_type']))
+								array_push($labels, ['payment_contract_company_legal_representative_card_type','']);
+
+							if (!isset($_POST['payment_contract_company_legal_representative_card_number']) OR empty($_POST['payment_contract_company_legal_representative_card_number']))
+								array_push($labels, ['payment_contract_company_legal_representative_card_number','']);
+
+							if (!isset($_POST['payment_contract_company_legal_representative_card_expedition_date']) OR empty($_POST['payment_contract_company_legal_representative_card_expedition_date']))
+								array_push($labels, ['payment_contract_company_legal_representative_card_expedition_date','']);
+
+							if (!isset($_POST['payment_contract_company_legal_representative_card_validity']) OR empty($_POST['payment_contract_company_legal_representative_card_validity']))
+								array_push($labels, ['payment_contract_company_legal_representative_card_validity','']);
+
+							if (!isset($_POST['payment_contract_place']) OR empty($_POST['payment_contract_place']))
+								array_push($labels, ['payment_contract_place','']);
+
+							if (!isset($_POST['payment_contract_signature']) OR empty($_POST['payment_contract_signature']))
+								array_push($labels, ['payment_contract_signature','']);
+						}
 					}
 				}
 				else if ($_POST['action'] == 'edit_myvox_survey_settings')
@@ -417,7 +585,11 @@ class Account_controller extends Controller
 					else if ($_POST['action'] == 'edit_myvox_incident_settings')
 						$query = $this->model->edit_settings('myvox_incident', $_POST);
 					else if ($_POST['action'] == 'edit_myvox_menu_settings')
+					{
+						$_POST['payment_contract_status'] = $account['settings']['myvox']['menu']['payment']['contract']['status'];
+
 						$query = $this->model->edit_settings('myvox_menu', $_POST);
+					}
 					else if ($_POST['action'] == 'edit_myvox_survey_settings')
 					{
 						if (!empty($_POST['status']))
@@ -437,6 +609,23 @@ class Account_controller extends Controller
 					{
 						if ($_POST['action'] == 'edit_myvox_menu_settings')
 						{
+							if (!empty($_POST['payment_status']) AND $account['settings']['myvox']['menu']['payment']['contract']['status'] == 'deactivated')
+							{
+								$mail = new Mailer(true);
+
+								try
+								{
+									$mail->setFrom('noreply@guestvox.com', 'Guestvox');
+									$mail->addAddress('contacto@guestvox.com', 'Guestvox');
+									$mail->Subject = 'Pagos online | Nueva solicitud de contrato';
+									$mail->Body =
+									'Cuenta: ' . Session::get_value('account')['name'] . '<br>
+									Fecha: ' . Functions::get_current_date();
+									$mail->send();
+								}
+								catch (Exception $e) {}
+							}
+
 							$account = Session::get_value('account');
 
 							if (isset($_POST['currency']))
@@ -588,7 +777,7 @@ class Account_controller extends Controller
 					<h2>Ambit</h2>
 					<span>' . (($account['ambit']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
 				</div>';
-					
+
 				if ($account['type'] == 'hotel')
 				{
 					$div_siteminder .=
@@ -745,16 +934,16 @@ class Account_controller extends Controller
 						$mdl_edit_myvox_menu_settings .= '<option value="' . $value['code'] . '">' . $value['name'][$this->lang] . ' (' . $value['code'] . ')</option>';
 
 					$mdl_edit_myvox_menu_settings .=
-					'								</select>
-												</label>
-											</div>
-										</div>
-										<div class="span4">
-											<div class="label">
-												<label required>
-													<p>{$lang.opportunity_area} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<select name="opportunity_area">
-														<option value="" hidden>{$lang.choose}</option>';
+					'			</select>
+							</label>
+						</div>
+					</div>
+					<div class="span4">
+						<div class="label">
+							<label required>
+								<p>{$lang.opportunity_area} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+								<select name="opportunity_area">
+									<option value="" hidden>{$lang.choose}</option>';
 
 					foreach ($this->model->get_opportunity_areas('request') as $value)
 						$mdl_edit_myvox_menu_settings .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
@@ -773,12 +962,233 @@ class Account_controller extends Controller
 								</select>
 							</label>
 						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label class="success">
+								<p>{$lang.schedule} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+								<input type="text" value="{$lang.monday}" disabled>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<p></p>
+								<select name="schedule_monday_status">
+									<option value="open">{$lang.open}</option>
+									<option value="close">{$lang.close}</option>
+								</select>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<p>{$lang.opening} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+								<input type="time" name="schedule_monday_opening">
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<p>{$lang.closing} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+								<input type="time" name="schedule_monday_closing">
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label class="success">
+								<input type="text" value="{$lang.tuesday}" disabled>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<select name="schedule_tuesday_status">
+									<option value="open">{$lang.open}</option>
+									<option value="close">{$lang.close}</option>
+								</select>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<input type="time" name="schedule_tuesday_opening">
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<input type="time" name="schedule_tuesday_closing">
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label class="success">
+								<input type="text" value="{$lang.wednesday}" disabled>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<select name="schedule_wednesday_status">
+									<option value="open">{$lang.open}</option>
+									<option value="close">{$lang.close}</option>
+								</select>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<input type="time" name="schedule_wednesday_opening">
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<input type="time" name="schedule_wednesday_closing">
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label class="success">
+								<input type="text" value="{$lang.thursday}" disabled>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<select name="schedule_thursday_status">
+									<option value="open">{$lang.open}</option>
+									<option value="close">{$lang.close}</option>
+								</select>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<input type="time" name="schedule_thursday_opening">
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<input type="time" name="schedule_thursday_closing">
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label class="success">
+								<input type="text" value="{$lang.friday}" disabled>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<select name="schedule_friday_status">
+									<option value="open">{$lang.open}</option>
+									<option value="close">{$lang.close}</option>
+								</select>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<input type="time" name="schedule_friday_opening">
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<input type="time" name="schedule_friday_closing">
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label class="success">
+								<input type="text" value="{$lang.saturday}" disabled>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<select name="schedule_saturday_status">
+									<option value="open">{$lang.open}</option>
+									<option value="close">{$lang.close}</option>
+								</select>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<input type="time" name="schedule_saturday_opening">
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<input type="time" name="schedule_saturday_closing">
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label class="success">
+								<input type="text" value="{$lang.sunday}" disabled>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<select name="schedule_sunday_status">
+									<option value="open">{$lang.open}</option>
+									<option value="close">{$lang.close}</option>
+								</select>
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<input type="time" name="schedule_sunday_opening">
+							</label>
+						</div>
+					</div>
+					<div class="span3">
+						<div class="label">
+							<label required>
+								<input type="time" name="schedule_sunday_closing">
+							</label>
+						</div>
 					</div>';
 
 					if ($account['type'] == 'restaurant')
 					{
 						$mdl_edit_myvox_menu_settings .=
-						'<div class="span3">
+						'<div class="span4">
 							<div class="label">
 								<label unrequired>
 									<p>{$lang.receive_delivery} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
@@ -792,246 +1202,586 @@ class Account_controller extends Controller
 					}
 
 					$mdl_edit_myvox_menu_settings .=
-					'					<div class="span3">
-											<div class="label">
-												<label unrequired>
-													<p>' . Languages::account('receive_requests')[$this->lang] . ' <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<div class="switch">
-														<input id="rrsw" type="checkbox" name="requests" data-switcher>
-														<label for="rrsw"></label>
-													</div>
-												</label>
-											</div>
-										</div>
-										<div class="clear"></div>
-										<div class="span3">
-											<div class="label">
-												<label class="success">
-													<p>{$lang.schedule} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<input type="text" value="{$lang.monday}" disabled>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<p></p>
-													<select name="schedule_monday_status">
-														<option value="open">{$lang.open}</option>
-														<option value="close">{$lang.close}</option>
-													</select>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<p>{$lang.opening} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<input type="time" name="schedule_monday_opening">
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<p>{$lang.closing} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<input type="time" name="schedule_monday_closing">
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label class="success">
-													<input type="text" value="{$lang.tuesday}" disabled>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<select name="schedule_tuesday_status">
-														<option value="open">{$lang.open}</option>
-														<option value="close">{$lang.close}</option>
-													</select>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<input type="time" name="schedule_tuesday_opening">
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<input type="time" name="schedule_tuesday_closing">
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label class="success">
-													<input type="text" value="{$lang.wednesday}" disabled>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<select name="schedule_wednesday_status">
-														<option value="open">{$lang.open}</option>
-														<option value="close">{$lang.close}</option>
-													</select>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<input type="time" name="schedule_wednesday_opening">
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<input type="time" name="schedule_wednesday_closing">
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label class="success">
-													<input type="text" value="{$lang.thursday}" disabled>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<select name="schedule_thursday_status">
-														<option value="open">{$lang.open}</option>
-														<option value="close">{$lang.close}</option>
-													</select>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<input type="time" name="schedule_thursday_opening">
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<input type="time" name="schedule_thursday_closing">
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label class="success">
-													<input type="text" value="{$lang.friday}" disabled>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<select name="schedule_friday_status">
-														<option value="open">{$lang.open}</option>
-														<option value="close">{$lang.close}</option>
-													</select>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<input type="time" name="schedule_friday_opening">
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<input type="time" name="schedule_friday_closing">
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label class="success">
-													<input type="text" value="{$lang.saturday}" disabled>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<select name="schedule_saturday_status">
-														<option value="open">{$lang.open}</option>
-														<option value="close">{$lang.close}</option>
-													</select>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<input type="time" name="schedule_saturday_opening">
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<input type="time" name="schedule_saturday_closing">
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label class="success">
-													<input type="text" value="{$lang.sunday}" disabled>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<select name="schedule_sunday_status">
-														<option value="open">{$lang.open}</option>
-														<option value="close">{$lang.close}</option>
-													</select>
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<input type="time" name="schedule_sunday_opening">
-												</label>
-											</div>
-										</div>
-										<div class="span3">
-											<div class="label">
-												<label required>
-													<input type="time" name="schedule_sunday_closing">
-												</label>
-											</div>
-										</div>
+					'<div class="span4">
+						<div class="label">
+							<label unrequired>
+								<p>{$lang.receive_requests} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+								<div class="switch">
+									<input id="rrsw" type="checkbox" name="requests" data-switcher>
+									<label for="rrsw"></label>
+								</div>
+							</label>
+						</div>
+					</div>
+					<div class="span4">
+						<div class="label">
+							<label unrequired>
+								<p>{$lang.receive_payment} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+								<div class="switch">
+									<input id="rpsw" type="checkbox" name="payment_status" data-switcher>
+									<label for="rpsw"></label>
+								</div>
+							</label>
+						</div>
+					</div>
+					<div class="contract ' . (($account['settings']['myvox']['menu']['payment']['status'] == true) ? 'show' : '') . '">';
+
+					if ($account['settings']['myvox']['menu']['payment']['contract']['status'] == 'activated')
+					{
+						$mdl_edit_myvox_menu_settings .=
+						'<div class="span6">
+							<div class="label">
+								<label unrequired>
+									<p>MIT</p>
+									<input type="text" value="' . $account['settings']['myvox']['menu']['payment']['mit'] . '" disabled>
+								</label>
+							</div>
+						</div>
+						<div class="span6">
+							<div class="label">
+								<label required>
+									<p>{$lang.contract}</p>
+									<a data-action="download_contract">{$lang.download}</a>
+								</label>
+							</div>
+						</div>';
+					}
+					else if ($account['settings']['myvox']['menu']['payment']['contract']['status'] == 'pending')
+					{
+						$mdl_edit_myvox_menu_settings .=
+						'<div class="span12">
+							<div class="message">
+								<p>{$lang.contract_pending}</p>
+							</div>
+						</div>';
+					}
+					else if ($account['settings']['myvox']['menu']['payment']['contract']['status'] == 'deactivated')
+					{
+						$mdl_edit_myvox_menu_settings .=
+						'<h2>{$lang.transaction_processing_contract}</h2>
+						<h4>{$lang.titular_general_data}</h4>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.person} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<select name="payment_contract_titular_fiscal_person">
+										<option value="" hidden>{$lang.choose}</option>
+										<option value="physical">{$lang.physical_person}</option>
+										<option value="moral">{$lang.moral_person}</option>
+									</select>
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.rfc} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<input type="text" name="payment_contract_titular_fiscal_id">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.name} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<input type="text" name="payment_contract_titular_fiscal_name">
+								</label>
+							</div>
+						</div>
+						<div class="span12">
+							<div class="label">
+								<label required>
+									<p>{$lang.activity} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<input type="text" name="payment_contract_titular_fiscal_activity">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.street} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<input type="text" name="payment_contract_titular_address_street">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.external_number} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<input type="text" name="payment_contract_titular_address_external_number">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label unrequired>
+									<p>{$lang.internal_number} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<input type="text" name="payment_contract_titular_address_internal_number">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.cp} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<input type="text" name="payment_contract_titular_address_cp">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.colony} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<input type="text" name="payment_contract_titular_address_colony">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.delegation} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<input type="text" name="payment_contract_titular_address_delegation">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.city} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<input type="text" name="payment_contract_titular_address_city">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.state} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<input type="text" name="payment_contract_titular_address_state">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.country} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+									<input type="text" name="payment_contract_titular_address_country">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.bank}</p>
+									<input type="text" name="payment_contract_titular_bank_name">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.branch}</p>
+									<input type="text" name="payment_contract_titular_bank_branch">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.checkbook}</p>
+									<input type="text" name="payment_contract_titular_bank_checkbook">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.clabe}</p>
+									<input type="text" name="payment_contract_titular_bank_clabe">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.personal_reference} 1</p>
+									<input type="text" name="payment_contract_titular_personal_references_first_name">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.personal_reference} 1</p>
+									<input type="text" name="payment_contract_titular_personal_references_first_email">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.lada}</p>
+									<select name="payment_contract_titular_personal_references_first_phone_lada">
+										<option value="" hidden>{$lang.choose}</option>';
+
+						foreach ($this->model->get_countries() as $value)
+							$mdl_edit_myvox_menu_settings .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
+
+						$mdl_edit_myvox_menu_settings .=
+						'			</select>
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.phone}</p>
+									<input type="text" name="payment_contract_titular_personal_references_first_phone_number">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.personal_reference} 2</p>
+									<input type="text" name="payment_contract_titular_personal_references_second_name">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.personal_reference} 2</p>
+									<input type="text" name="payment_contract_titular_personal_references_second_email">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.lada}</p>
+									<select name="payment_contract_titular_personal_references_second_phone_lada">
+										<option value="" hidden>{$lang.choose}</option>';
+
+						foreach ($this->model->get_countries() as $value)
+							$mdl_edit_myvox_menu_settings .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
+
+						$mdl_edit_myvox_menu_settings .=
+						'			</select>
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.phone}</p>
+									<input type="text" name="payment_contract_titular_personal_references_second_phone_number">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.personal_reference} 3</p>
+									<input type="text" name="payment_contract_titular_personal_references_third_name">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.personal_reference} 3</p>
+									<input type="text" name="payment_contract_titular_personal_references_third_email">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.lada}</p>
+									<select name="payment_contract_titular_personal_references_third_phone_lada">
+										<option value="" hidden>{$lang.choose}</option>';
+
+						foreach ($this->model->get_countries() as $value)
+							$mdl_edit_myvox_menu_settings .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
+
+						$mdl_edit_myvox_menu_settings .=
+						'			</select>
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.phone}</p>
+									<input type="text" name="payment_contract_titular_personal_references_third_phone_number">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.personal_reference} 4</p>
+									<input type="text" name="payment_contract_titular_personal_references_fourth_name">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.personal_reference} 4</p>
+									<input type="text" name="payment_contract_titular_personal_references_fourth_email">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.lada}</p>
+									<select name="payment_contract_titular_personal_references_fourth_phone_lada">
+										<option value="" hidden>{$lang.choose}</option>';
+
+						foreach ($this->model->get_countries() as $value)
+							$mdl_edit_myvox_menu_settings .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
+
+						$mdl_edit_myvox_menu_settings .=
+						'			</select>
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.phone}</p>
+									<input type="text" name="payment_contract_titular_personal_references_fourth_phone_number">
+								</label>
+							</div>
+						</div>
+						<div class="span6">
+							<div class="label">
+								<label required>
+									<p>{$lang.email}</p>
+									<input type="text" name="payment_contract_titular_email">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.lada}</p>
+									<select name="payment_contract_titular_phone_lada">
+										<option value="" hidden>{$lang.choose}</option>';
+
+						foreach ($this->model->get_countries() as $value)
+							$mdl_edit_myvox_menu_settings .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
+
+						$mdl_edit_myvox_menu_settings .=
+						'			</select>
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.phone}</p>
+									<input type="text" name="payment_contract_titular_phone_number">
+								</label>
+							</div>
+						</div>
+						<div class="span12">
+							<div class="label">
+								<label required>
+									<p>{$lang.tpv}</p>
+									<select name="payment_contract_titular_tpv">
+										<option value="" hidden>{$lang.choose}</option>
+										<option value="yes">{$lang.yes}</option>
+										<option value="not">{$lang.not}</option>
+									</select>
+								</label>
+							</div>
+						</div>
+						<h4>{$lang.company_data}</h4>
+						<div class="span6">
+							<div class="label">
+								<label required>
+									<p>{$lang.writing_number}</p>
+									<input type="text" name="payment_contract_company_writing_number">
+								</label>
+							</div>
+						</div>
+						<div class="span6">
+							<div class="label">
+								<label required>
+									<p>{$lang.writing_date}</p>
+									<input type="date" name="payment_contract_company_writing_date">
+								</label>
+							</div>
+						</div>
+						<div class="span6">
+							<div class="label">
+								<label required>
+									<p>{$lang.public_record_folio}</p>
+									<input type="text" name="payment_contract_company_public_record_folio">
+								</label>
+							</div>
+						</div>
+						<div class="span6">
+							<div class="label">
+								<label required>
+									<p>{$lang.public_record_date}</p>
+									<input type="date" name="payment_contract_company_public_record_date">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.notary}</p>
+									<input type="text" name="payment_contract_company_notary_name">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.number}</p>
+									<input type="text" name="payment_contract_company_notary_number">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.city}</p>
+									<input type="text" name="payment_contract_company_city">
+								</label>
+							</div>
+						</div>
+						<h4>{$lang.legal_representative_data}</h4>
+						<div class="span12">
+							<div class="label">
+								<label required>
+									<p>{$lang.name}</p>
+									<input type="text" name="payment_contract_company_legal_representative_name">
+								</label>
+							</div>
+						</div>
+						<div class="span6">
+							<div class="label">
+								<label required>
+									<p>{$lang.writing_number}</p>
+									<input type="text" name="payment_contract_company_legal_representative_writing_number">
+								</label>
+							</div>
+						</div>
+						<div class="span6">
+							<div class="label">
+								<label required>
+									<p>{$lang.writing_date}</p>
+									<input type="date" name="payment_contract_company_legal_representative_writing_date">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.notary}</p>
+									<input type="text" name="payment_contract_company_legal_representative_notary_name">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.number}</p>
+									<input type="text" name="payment_contract_company_legal_representative_notary_number">
+								</label>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="label">
+								<label required>
+									<p>{$lang.city}</p>
+									<input type="text" name="payment_contract_company_legal_representative_city">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.card}</p>
+									<select name="payment_contract_company_legal_representative_card_type">
+										<option value="" hidden>{$lang.choose}</option>
+										<option value="ine">{$lang.ine}</option>
+									</select>
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.number}</p>
+									<input type="text" name="payment_contract_company_legal_representative_card_number">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.expedition_date}</p>
+									<input type="date" name="payment_contract_company_legal_representative_card_expedition_date">
+								</label>
+							</div>
+						</div>
+						<div class="span3">
+							<div class="label">
+								<label required>
+									<p>{$lang.validity}</p>
+									<input type="date" name="payment_contract_company_legal_representative_card_validity">
+								</label>
+							</div>
+						</div>
+						<h2>{$lang.transaction_processing_contract}</h2>
+						<p>{$lang.contract_text}</p>
+						<div class="span6">
+							<div class="label">
+								<label required>
+									<p>{$lang.signature_place}</p>
+									<input type="text" name="payment_contract_place">
+								</label>
+							</div>
+						</div>
+						<div class="span6">
+							<div class="label">
+								<label unrequired>
+									<p>{$lang.signature_date}</p>
+									<input type="date" value="' . Functions::get_current_date() . '" disabled>
+								</label>
+							</div>
+						</div>
+						<div class="span12">
+							<div class="label">
+								<label required>
+									<p>{$lang.signature}</p>
+									<div class="signature" id="payment_contract_signature">
+				                        <canvas></canvas>
+				                        <div>
+				                            <a data-action="clean_payment_contract_signature"><i class="fas fa-trash"></i></a>
+				                        </div>
+				                    </div>
+								</label>
+							</div>
+						</div>';
+					}
+
+					$mdl_edit_myvox_menu_settings .=
+					'					</div>
 										<!-- <div class="span4">
 											<div class="label">
 												<label unrequired>
 													<p>{$lang.multi} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 													<div class="switch">
-													    <input id="mlsw" type="checkbox" name="multi" data-switcher>
-													    <label for="mlsw"></label>
+														<input id="mlsw" type="checkbox" name="multi" data-switcher>
+														<label for="mlsw"></label>
 													</div>
 												</label>
 											</div>

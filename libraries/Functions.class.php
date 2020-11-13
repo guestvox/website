@@ -353,6 +353,20 @@ class Functions
             return null;
 	}
 
+    public static function base_64($file, $upload_directory = PATH_UPLOADS, $extension = 'png')
+    {
+        $security = new Security();
+
+        $file = explode(',', $file);
+        $file = base64_decode($file[1]);
+        $name = Session::get_value('account')['path'] . '_' . $security->random_string(16) . '.' . $extension;
+        $path = $upload_directory . $name;
+
+        file_put_contents($path, $file);
+
+        return $name;
+    }
+
     public static function undoloader($file = null, $upload_directory = PATH_UPLOADS)
     {
         if (!empty($file))
@@ -392,7 +406,7 @@ class Functions
         echo json_encode($return, JSON_PRETTY_PRINT);
     }
 
-    static public function api($connection, $access, $method, $option = '', $params = null)
+    static public function api($connection, $access, $method, $option = null, $params = null)
     {
         if ($connection == 'zaviapms')
         {
@@ -501,32 +515,51 @@ class Functions
         {
             if ($method == 'get')
             {
-                // {
-                //   "ammount": 1900,
-                //   "businessId": 1,
-                //   "currency": "MXN",
-                //   "id": "0123456789",
-                //   "reference": "Pago de servicios",
-                //   "station": "CAJA 1",
-                //   "userCode": "1",
-                //   "valuePairs": [
-                //     {
-                //       "label": "string",
-                //       "value": "string"
-                //     }
-                //   ]
-                // }
-
-                $api = curl_init();
-
-                curl_setopt($api, CURLOPT_URL, '');
-                curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
-
-                $data = Functions::get_json_decoded_query(curl_exec($api));
-
-                curl_close($api);
-
-                return $data;
+                // $params = json_encode([
+                //     'amount' => $params['amount'],
+                //     'businessId' => $params['mit'],
+                //     'currency' => $params['currency'],
+                //     'effectiveDate' => Functions::get_future_date(Functions::get_current_date(), '10', 'days'),
+                //     'id' => Functions::get_random(8),
+                //     'paymentTypes' => $params['types'],
+                //     'reference' => $params['reference'],
+                //     'station' => 'Menú digital',
+                //     'userCode' => '1603992976334',
+                //     'valuePairs' => [
+                //         [
+                //             'label' => '',
+                //             'value' => ''
+                //         ]
+                //     ]
+                // ]);
+                //
+                // $api = curl_init();
+                //
+                // curl_setopt($api, CURLOPT_URL, 'https://qaag.mitec.com.mx/praga-ws/url/generateUrlV3');
+                // curl_setopt($api, CURLOPT_CUSTOMREQUEST, 'POST');
+                // curl_setopt($api, CURLOPT_POSTFIELDS, $params);
+                // curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
+                // curl_setopt($api, CURLOPT_HTTPHEADER, array(
+                //     'Content-Type: application/json',
+                //     'Authorization: FDGFNGFHBDHFHSDFBDHBFH',
+                //     'api-key: YjE0Njc1Y2ItYmZmMi00Mjc0LWEwZGUtNDc5NTUzNzA4MGMz',
+                //     'Content-Length: ' . strlen($params))
+                // );
+                //
+                // $data = curl_exec($api);
+                //
+                // curl_close($api);
+                //
+                // $api = curl_init();
+                //
+                // curl_setopt($api, CURLOPT_URL, $data['url']);
+                // curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
+                //
+                // $data = curl_exec($api);
+                //
+                // curl_close($api);
+                //
+                // return $data;
             }
         }
     }

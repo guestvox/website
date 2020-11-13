@@ -4986,3 +4986,50 @@ div.more_info_steps > div > a {
         position: relative;
     }
 }
+
+div.label div.signature {
+    width: 100%;
+    position: relative;
+}
+
+div.label div.signature > canvas {
+    width: 100%;
+    height: 200px;
+    border: 2px dashed #e0e0e0;
+    box-sizing: border-box;
+}
+
+div.label div.signature > div {
+    right: 5px;
+    bottom: 10px;
+    left: 5px;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+div.label div.signature > div > a {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 5px;
+    border-radius: 5px;
+    background-color: #e0e0e0;
+    font-size: 14px;
+    color: #757575;
+}
+
+div.contract {
+    width: 100%;
+    height: 1px !important;
+    overflow: hidden;
+}
+
+div.contract.show {
+    height: auto !important;
+}

@@ -298,8 +298,6 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['menu']['currency'] = $data['currency'];
 				$edited1[0]['settings']['myvox']['menu']['opportunity_area'] = $data['opportunity_area'];
 				$edited1[0]['settings']['myvox']['menu']['opportunity_type'] = $data['opportunity_type'];
-				$edited1[0]['settings']['myvox']['menu']['delivery'] = (Session::get_value('account')['type'] == 'restaurant' AND !empty($data['delivery'])) ? true : false;
-				$edited1[0]['settings']['myvox']['menu']['requests'] = !empty($data['requests']) ? true : false;
 				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['status'] = $data['schedule_monday_status'];
 				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['opening'] = ($data['schedule_monday_status'] == 'open') ? $data['schedule_monday_opening'] : '';
 				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['closing'] = ($data['schedule_monday_status'] == 'open') ? $data['schedule_monday_closing'] : '';
@@ -321,6 +319,72 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['status'] = $data['schedule_sunday_status'];
 				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['opening'] = ($data['schedule_sunday_status'] == 'open') ? $data['schedule_sunday_opening'] : '';
 				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['closing'] = ($data['schedule_sunday_status'] == 'open') ? $data['schedule_sunday_closing'] : '';
+				$edited1[0]['settings']['myvox']['menu']['delivery'] = (Session::get_value('account')['type'] == 'restaurant' AND !empty($data['delivery'])) ? true : false;
+				$edited1[0]['settings']['myvox']['menu']['requests'] = !empty($data['requests']) ? true : false;
+				$edited1[0]['settings']['myvox']['menu']['payment']['status'] = !empty($data['payment_status']) ? true : false;
+
+				if ($data['payment_contract_status'] == 'deactivated')
+				{
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['status'] = 'pending';
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['place'] = $data['payment_contract_place'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['date'] = Functions::get_current_date();
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['signature'] = Functions::base_64($data['payment_contract_signature']);
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['fiscal']['person'] = $data['payment_contract_titular_fiscal_person'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['fiscal']['id'] = $data['payment_contract_titular_fiscal_id'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['fiscal']['name'] = $data['payment_contract_titular_fiscal_name'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['fiscal']['activity'] = $data['payment_contract_titular_fiscal_activity'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['address']['street'] = $data['payment_contract_titular_address_street'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['address']['external_number'] = $data['payment_contract_titular_address_external_number'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['address']['internal_number'] = !empty($data['payment_contract_titular_address_internal_number']) ? $data['payment_contract_titular_address_internal_number'] : '';
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['address']['cp'] = $data['payment_contract_titular_address_cp'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['address']['colony'] = $data['payment_contract_titular_address_colony'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['address']['delegation'] = $data['payment_contract_titular_address_delegation'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['address']['city'] = $data['payment_contract_titular_address_city'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['address']['state'] = $data['payment_contract_titular_address_state'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['address']['country'] = $data['payment_contract_titular_address_country'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['bank']['name'] = $data['payment_contract_titular_bank_name'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['bank']['branch'] = $data['payment_contract_titular_bank_branch'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['bank']['checkbook'] = $data['payment_contract_titular_bank_checkbook'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['bank']['clabe'] = $data['payment_contract_titular_bank_clabe'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['first']['name'] = $data['payment_contract_titular_personal_references_first_name'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['first']['email'] = $data['payment_contract_titular_personal_references_first_email'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['first']['phone']['country'] = $data['payment_contract_titular_personal_references_first_phone_lada'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['first']['phone']['number'] = $data['payment_contract_titular_personal_references_first_phone_number'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['second']['name'] = $data['payment_contract_titular_personal_references_second_name'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['second']['email'] = $data['payment_contract_titular_personal_references_second_email'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['second']['phone']['country'] = $data['payment_contract_titular_personal_references_second_phone_lada'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['second']['phone']['number'] = $data['payment_contract_titular_personal_references_second_phone_number'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['third']['name'] = $data['payment_contract_titular_personal_references_third_name'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['third']['email'] = $data['payment_contract_titular_personal_references_third_email'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['third']['phone']['country'] = $data['payment_contract_titular_personal_references_third_phone_lada'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['third']['phone']['number'] = $data['payment_contract_titular_personal_references_third_phone_number'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['fourth']['name'] = $data['payment_contract_titular_personal_references_fourth_name'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['fourth']['email'] = $data['payment_contract_titular_personal_references_fourth_email'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['fourth']['phone']['country'] = $data['payment_contract_titular_personal_references_fourth_phone_lada'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['personal_references']['fourth']['phone']['number'] = $data['payment_contract_titular_personal_references_fourth_phone_number'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['email'] = $data['payment_contract_titular_email'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['phone']['country'] = $data['payment_contract_titular_phone_lada'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['phone']['number'] = $data['payment_contract_titular_phone_number'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['titular']['tpv'] = $data['payment_contract_titular_tpv'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['writing_number'] = $data['payment_contract_company_writing_number'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['writing_date'] = $data['payment_contract_company_writing_date'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['public_record_folio'] = $data['payment_contract_company_public_record_folio'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['public_record_date'] = $data['payment_contract_company_public_record_date'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['notary_name'] = $data['payment_contract_company_notary_name'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['notary_number'] = $data['payment_contract_company_notary_number'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['city'] = $data['payment_contract_company_city'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['legal_representative']['name'] = $data['payment_contract_company_legal_representative_name'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['legal_representative']['writing_number'] = $data['payment_contract_company_legal_representative_writing_number'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['legal_representative']['writing_date'] = $data['payment_contract_company_legal_representative_writing_date'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['legal_representative']['notary_name'] = $data['payment_contract_company_legal_representative_notary_name'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['legal_representative']['notary_number'] = $data['payment_contract_company_legal_representative_notary_number'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['legal_representative']['city'] = $data['payment_contract_company_legal_representative_city'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['legal_representative']['card']['type'] = $data['payment_contract_company_legal_representative_card_type'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['legal_representative']['card']['number'] = $data['payment_contract_company_legal_representative_card_number'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['legal_representative']['card']['expedition_date'] = $data['payment_contract_company_legal_representative_card_expedition_date'];
+					$edited1[0]['settings']['myvox']['menu']['payment']['contract']['company']['legal_representative']['card']['validity'] = $data['payment_contract_company_legal_representative_card_validity'];
+				}
+
 				$edited1[0]['settings']['myvox']['menu']['multi'] = !empty($data['multi']) ? true : false;
 			}
 			else

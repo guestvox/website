@@ -580,3 +580,117 @@ public function sql()
 // 		])
 // 	]);
 // }
+
+$query = Functions::get_json_decoded_query($this->database->select('accounts', [
+    'id',
+    'settings'
+]));
+
+foreach ($query as $value)
+{
+    $value['settings']['myvox']['menu']['payment'] = [
+        'status' => false,
+        'mit' => '',
+        'types' => '',
+        'contract' => [
+            'status' => 'deactivated',
+            'place' => '',
+            'date' => '',
+            'signature' => '',
+            'titular' => [
+                'fiscal' => [
+                    'person' => '',
+                    'id' => '',
+                    'name' => '',
+                    'activity' => ''
+                ],
+                'address' => [
+                    'street' => '',
+                    'external_number' => '',
+                    'internal_number' => '',
+                    'cp' => '',
+                    'colony' => '',
+                    'delegation' => '',
+                    'city' => '',
+                    'state' => '',
+                    'country' => ''
+                ],
+                'bank' => [
+                    'name' => '',
+                    'branch' => '',
+                    'checkbook' => '',
+                    'clabe' => ''
+                ],
+                'personal_references' => [
+                    'first' => [
+                        'name' => '',
+                        'email' => '',
+                        'phone' => [
+                            'country' => '',
+                            'number' => ''
+                        ]
+                    ],
+                    'second' => [
+                        'name' => '',
+                        'email' => '',
+                        'phone' => [
+                            'country' => '',
+                            'number' => ''
+                        ]
+                    ],
+                    'third' => [
+                        'name' => '',
+                        'email' => '',
+                        'phone' => [
+                            'country' => '',
+                            'number' => ''
+                        ]
+                    ],
+                    'fourth' => [
+                        'name' => '',
+                        'email' => '',
+                        'phone' => [
+                            'country' => '',
+                            'number' => ''
+                        ]
+                    ]
+                ],
+                'email' => '',
+                'phone' => [
+                    'country' => '',
+                    'number' => ''
+                ],
+                'tpv' => ''
+            ],
+            'company' => [
+                'writing_number' => '',
+                'writing_date' => '',
+                'public_record_folio' => '',
+                'public_record_date' => '',
+                'notary_name' => '',
+                'notary_number' => '',
+                'city' => '',
+                'legal_representative' => [
+                    'name' => '',
+                    'writing_number' => '',
+                    'writing_date' => '',
+                    'notary_name' => '',
+                    'notary_number' => '',
+                    'city' => '',
+                    'card' => [
+                        'type' => '',
+                        'number' => '',
+                        'expedition_date' => '',
+                        'validity' => ''
+                    ]
+                ]
+            ]
+        ]
+    ];
+
+    $this->database->update('accounts', [
+        'settings' => json_encode($value['settings'])
+    ], [
+        'id' => $value['id']
+    ]);
+}
