@@ -40,6 +40,7 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
             {$div_answer_surveys}
             {$div_reviews_page}
             <!-- {$div_attention_times} -->
+            {$div_payment}
             <div class="stl_5">
                 <i class="fas fa-space-shuttle"></i>
                 <h2>{$lang.operation_package}</h2>
@@ -249,3 +250,4 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
 {$mdl_edit_myvox_survey_settings}
 {$mdl_edit_reviews_settings}
 <!-- {$mdl_edit_voxes_attention_times_settings} -->
+{$mdl_edit_payment}

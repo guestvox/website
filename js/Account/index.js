@@ -543,7 +543,6 @@ $(document).ready(function()
                         $('[data-modal="edit_myvox_menu_settings"]').find('[name="delivery"]').prop('checked', ((response1.data.settings.myvox.menu.delivery == true) ? true : false));
 
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="requests"]').prop('checked', ((response1.data.settings.myvox.menu.requests == true) ? true : false));
-                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="payment_status"]').prop('checked', ((response1.data.settings.myvox.menu.payment.status == true) ? true : false));
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="multi"]').prop('checked', ((response1.data.settings.myvox.menu.multi == true) ? true : false));
 
                     required_focus('form', $('form[name="edit_myvox_menu_settings"]'), null);
@@ -932,31 +931,6 @@ $(document).ready(function()
         required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]'), null);
     });
 
-    $('[name="payment_status"]').on('change', function()
-    {
-        if ($(this).is(':checked'))
-            $('div.contract').addClass('show');
-        else
-            $('div.contract').removeClass('show');
-    });
-
-    var payment_contract_signature = document.getElementById('payment_contract_signature');
-
-    if (payment_contract_signature)
-    {
-        var payment_contract_canvas = payment_contract_signature.querySelector('canvas');
-        var payment_contract_pad = new SignaturePad(payment_contract_canvas, {
-            backgroundColor: 'rgb(255, 255, 255)'
-        });
-
-        resize_canvas(payment_contract_canvas);
-
-        $('[data-action="clean_payment_contract_signature"]').on('click', function()
-        {
-            payment_contract_pad.clear();
-        });
-    }
-
     $('[data-modal="edit_myvox_menu_settings"]').modal().onCancel(function()
     {
         if (edit == false)
@@ -976,21 +950,10 @@ $(document).ready(function()
         e.preventDefault();
 
         var form = $(this);
-        var data = new FormData(form[0]);
-
-        if (payment_contract_signature)
-        {
-            payment_contract_pad.fromData(payment_contract_pad.toData());
-            data.append('payment_contract_signature', ((payment_contract_pad.isEmpty()) ? '' : payment_contract_pad.toDataURL('image/jpeg')));
-        }
-
-        data.append('status', status);
-        data.append('action', 'edit_myvox_menu_settings');
 
         $.ajax({
             type: 'POST',
-            data: data,
-            contentType: false,
+            data: form.serialize() + '&status=' + status + '&action=edit_myvox_menu_settings',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -1278,6 +1241,109 @@ $(document).ready(function()
         $.ajax({
             type: 'POST',
             data: form.serialize() + '&action=edit_voxes_attention_times_settings',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
+            }
+        });
+    });
+
+    $('#pysw').on('change', function()
+    {
+        if ($(this).is(':checked'))
+            get_payment();
+        else
+        {
+            $.ajax({
+                type: 'POST',
+                data: 'status=' + status + '&action=edit_payment',
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
+                {
+                    if (response.status == 'success')
+                        location.reload();
+                    else if (response.status == 'error')
+                        show_modal_error(response.message);
+                }
+            });
+        }
+    });
+
+    $('[data-action="edit_payment"]').on('click', function()
+    {
+        edit = true;
+
+        get_payment();
+    });
+
+    function get_payment()
+    {
+        status = true;
+
+        required_focus('form', $('form[name="edit_payment"]'), null);
+
+        $('[data-modal="edit_payment"]').addClass('view');
+    }
+
+    var contract_signature = document.getElementById('contract_signature');
+
+    if (contract_signature)
+    {
+        var contract_canvas = contract_signature.querySelector('canvas');
+        var contract_pad = new SignaturePad(contract_canvas, {
+            backgroundColor: 'rgb(255, 255, 255)'
+        });
+
+        resize_canvas(contract_canvas);
+
+        $('[data-action="clean_contract_signature"]').on('click', function()
+        {
+            contract_pad.clear();
+        });
+    }
+
+    $('[data-modal="edit_payment"]').modal().onCancel(function()
+    {
+        if (edit == false)
+        {
+            $('#pysw').prop('checked', false);
+            $('#pysw').parent().removeClass('checked');
+        }
+
+        status = '';
+        edit = false;
+
+        clean_form($('form[name="edit_payment"]'));
+    });
+
+    $('form[name="edit_payment"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+        var data = new FormData(form[0]);
+
+        if (contract_signature)
+        {
+            contract_pad.fromData(contract_pad.toData());
+            data.append('contract_signature', ((contract_pad.isEmpty()) ? '' : contract_pad.toDataURL('image/jpeg')));
+        }
+
+        data.append('status', status);
+        data.append('action', 'edit_payment');
+
+        $.ajax({
+            type: 'POST',
+            data: data,
+            contentType: false,
             processData: false,
             cache: false,
             dataType: 'json',

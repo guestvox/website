@@ -295,105 +295,6 @@ class Signup_model extends Model
 						],
 						'delivery' => false,
 						'requests' => false,
-						'payment' => [
-							'status' => false,
-							'mit' => '',
-							'types' => '',
-							'contract' => [
-								'status' => 'deactivated',
-								'place' => '',
-								'date' => '',
-								'signature' => '',
-								'titular' => [
-									'fiscal' => [
-										'person' => '',
-										'id' => '',
-										'name' => '',
-										'activity' => ''
-									],
-									'address' => [
-										'street' => '',
-										'external_number' => '',
-										'internal_number' => '',
-										'cp' => '',
-										'colony' => '',
-										'delegation' => '',
-										'city' => '',
-										'state' => '',
-										'country' => ''
-									],
-									'bank' => [
-										'name' => '',
-										'branch' => '',
-										'checkbook' => '',
-										'clabe' => ''
-									],
-									'personal_references' => [
-										'first' => [
-											'name' => '',
-											'email' => '',
-											'phone' => [
-												'country' => '',
-												'number' => ''
-											]
-										],
-										'second' => [
-											'name' => '',
-											'email' => '',
-											'phone' => [
-												'country' => '',
-												'number' => ''
-											]
-										],
-										'third' => [
-											'name' => '',
-											'email' => '',
-											'phone' => [
-												'country' => '',
-												'number' => ''
-											]
-										],
-										'fourth' => [
-											'name' => '',
-											'email' => '',
-											'phone' => [
-												'country' => '',
-												'number' => ''
-											]
-										]
-									],
-									'email' => '',
-									'phone' => [
-										'country' => '',
-										'number' => ''
-									],
-									'tpv' => ''
-								],
-								'company' => [
-									'writing_number' => '',
-									'writing_date' => '',
-									'public_record_folio' => '',
-									'public_record_date' => '',
-									'notary_name' => '',
-									'notary_number' => '',
-									'city' => '',
-									'legal_representative' => [
-										'name' => '',
-										'writing_number' => '',
-										'writing_date' => '',
-										'notary_name' => '',
-										'notary_number' => '',
-										'city' => '',
-										'card' => [
-											'type' => '',
-											'number' => '',
-											'expedition_date' => '',
-											'validity' => ''
-										]
-									]
-								]
-							]
-						],
 						'multi' => false
 					],
 					'survey' => [
@@ -465,7 +366,102 @@ class Signup_model extends Model
 				]
 			]),
 			'payment' => json_encode([
-				'type' => ''
+				'status' => false,
+				'type' => 'mit',
+				'mit' => [
+					'code' => '',
+					'types' => ''
+				],
+				'contract' => [
+					'status' => 'deactivated',
+					'place' => '',
+					'date' => '',
+					'signature' => '',
+					'titular' => [
+						'fiscal' => [
+							'person' => '',
+							'id' => '',
+							'name' => '',
+							'activity' => ''
+						],
+						'address' => [
+							'street' => '',
+							'external_number' => '',
+							'internal_number' => '',
+							'cp' => '',
+							'colony' => '',
+							'delegation' => '',
+							'city' => '',
+							'state' => '',
+							'country' => ''
+						],
+						'bank' => [
+							'name' => '',
+							'branch' => '',
+							'checkbook' => '',
+							'clabe' => ''
+						],
+						'personal_references' => [
+							'first' => [
+								'name' => '',
+								'phone' => [
+									'country' => '',
+									'number' => ''
+								]
+							],
+							'second' => [
+								'name' => '',
+								'phone' => [
+									'country' => '',
+									'number' => ''
+								]
+							],
+							'third' => [
+								'name' => '',
+								'phone' => [
+									'country' => '',
+									'number' => ''
+								]
+							],
+							'fourth' => [
+								'name' => '',
+								'phone' => [
+									'country' => '',
+									'number' => ''
+								]
+							]
+						],
+						'email' => '',
+						'phone' => [
+							'country' => '',
+							'number' => ''
+						],
+						'tpv' => ''
+					],
+					'company' => [
+						'writing_number' => '',
+						'writing_date' => '',
+						'public_record_folio' => '',
+						'public_record_date' => '',
+						'notary_name' => '',
+						'notary_number' => '',
+						'city' => '',
+						'legal_representative' => [
+							'name' => '',
+							'writing_number' => '',
+							'writing_date' => '',
+							'notary_name' => '',
+							'notary_number' => '',
+							'city' => '',
+							'card' => [
+								'type' => '',
+								'number' => '',
+								'expedition_date' => '',
+								'validity' => ''
+							]
+						]
+					]
+				]
 			]),
 			'signup_date' => Functions::get_current_date(),
 			'status' => true
