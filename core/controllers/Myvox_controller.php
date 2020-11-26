@@ -1168,7 +1168,7 @@ class Myvox_controller extends Controller
 						<h2>' . $query['name'][$this->lang1] . '</h2>
 						<p>' . (!empty($query['description'][$this->lang1]) ? $query['description'][$this->lang1] : '') . '</p>
 						' . (!empty($query['price']) ? '<span>' . Functions::get_formatted_currency($query['price'], Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency']) . (!empty($query['topics']) ? ' (+ {$lang.topics})' : '') . '</span>' : '');
-						
+
 						if (Session::get_value('myvox')['account']['settings']['myvox']['menu']['schedule'][Functions::get_current_day()]['status'] == 'open' AND Functions::get_current_hour() >= Session::get_value('myvox')['account']['settings']['myvox']['menu']['schedule'][Functions::get_current_day()]['opening'] AND Functions::get_current_hour() <= Session::get_value('myvox')['account']['settings']['myvox']['menu']['schedule'][Functions::get_current_day()]['closing'])
 						{
 							$html .= '<form name="add_to_menu_order">';
@@ -1575,22 +1575,22 @@ class Myvox_controller extends Controller
 									'Accept: text/plain',
 									'Apikey: 77dd9c6421874faacfe1c815e9faf0ca'
 								);
-		
-								$message = urlencode(Session::get_value('myvox')['account']['name'] . '. ' . Languages::email('thanks_received_menu_order')[$this->lang1] . '. https://' . Configuration::$domain . '/' . $params[0] . '/menu/' . $_POST['token'] . '. 
+
+								$message = urlencode(Session::get_value('myvox')['account']['name'] . '. ' . Languages::email('thanks_received_menu_order')[$this->lang1] . '. https://' . Configuration::$domain . '/' . $params[0] . '/menu/' . $_POST['token'] . '.
 								*Powered by Guestvox*');
-		
+
 								curl_setopt($ch, CURLOPT_URL, 'https://api.gupshup.io/sm/api/v1/msg');
 								curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 								curl_setopt($ch, CURLOPT_POST, 1);
 								curl_setopt($ch, CURLOPT_POSTFIELDS, "channel=whatsapp&source=917834811114&destination=5219988452843&message=" . $message ."");
 								curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-		
+
 								$result = curl_exec($ch);
 
 								if (curl_errno($ch)) {
 									echo 'Error:' . curl_error($ch);
 								}
-		
+
 								curl_close($ch);
 
 								if (Session::get_value('myvox')['account']['type'] == 'restaurant')
@@ -1878,6 +1878,8 @@ class Myvox_controller extends Controller
 				$template = $this->view->render($this, 'menu');
 
 				define('_title', Session::get_value('myvox')['account']['name'] . ' | {$lang.menu}');
+
+				Functions::api('mit', '', 'get');
 
 				$html = '';
 

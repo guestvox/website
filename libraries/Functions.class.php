@@ -532,7 +532,29 @@ class Functions
                 //         ]
                 //     ]
                 // ]);
-                //
+
+                $params = json_encode([
+                    'amount' => 1.00,
+                    'businessId' => 12691,
+                    'currency' => 'MXN',
+                    'effectiveDate' => '30/11/2020',
+                    'id' => '0123456789',
+                    'paymentTypes' => '401,402',
+                    'reference' => 'Pago de servicios',
+                    'station' => 'Caja 1',
+                    'userCode' => '1603992976334',
+                    'valuePairs' => [
+                        [
+                            'label' => '',
+                            'value' => ''
+                        ]
+                    ]
+                ]);
+
+                $params = AESCrypto::encrypt('AC1D8AC2C3F14F713B13A82A91D806C3', $params);
+
+                print_r($params);
+
                 // $api = curl_init();
                 //
                 // curl_setopt($api, CURLOPT_URL, 'https://qaag.mitec.com.mx/praga-ws/url/generateUrlV3');
@@ -541,8 +563,7 @@ class Functions
                 // curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
                 // curl_setopt($api, CURLOPT_HTTPHEADER, array(
                 //     'Content-Type: application/json',
-                //     'Authorization: FDGFNGFHBDHFHSDFBDHBFH',
-                //     'api-key: YjE0Njc1Y2ItYmZmMi00Mjc0LWEwZGUtNDc5NTUzNzA4MGMz',
+                //     'Authorization: Bearer YjE0Njc1Y2ItYmZmMi00Mjc0LWEwZGUtNDc5NTUzNzA4MGMz',
                 //     'Content-Length: ' . strlen($params))
                 // );
                 //
@@ -550,16 +571,7 @@ class Functions
                 //
                 // curl_close($api);
                 //
-                // $api = curl_init();
-                //
-                // curl_setopt($api, CURLOPT_URL, $data['url']);
-                // curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
-                //
-                // $data = curl_exec($api);
-                //
-                // curl_close($api);
-                //
-                // return $data;
+                // print_r($data);
             }
         }
     }
