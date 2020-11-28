@@ -1567,32 +1567,6 @@ class Myvox_controller extends Controller
 									$post_order = Functions::api('ambit', $array_payload, 'post', '');
 								}
 
-								$ch = curl_init();
-
-								$headers = array(
-									'Cache-Control: no-cache',
-									'Content-Type: application/x-www-form-urlencoded',
-									'Accept: text/plain',
-									'Apikey: 77dd9c6421874faacfe1c815e9faf0ca'
-								);
-
-								$message = urlencode(Session::get_value('myvox')['account']['name'] . '. ' . Languages::email('thanks_received_menu_order')[$this->lang1] . '. https://' . Configuration::$domain . '/' . $params[0] . '/menu/' . $_POST['token'] . '.
-								*Powered by Guestvox*');
-
-								curl_setopt($ch, CURLOPT_URL, 'https://api.gupshup.io/sm/api/v1/msg');
-								curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-								curl_setopt($ch, CURLOPT_POST, 1);
-								curl_setopt($ch, CURLOPT_POSTFIELDS, "channel=whatsapp&source=917834811114&destination=5219988452843&message=" . $message ."");
-								curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-
-								$result = curl_exec($ch);
-
-								if (curl_errno($ch)) {
-									echo 'Error:' . curl_error($ch);
-								}
-
-								curl_close($ch);
-
 								if (Session::get_value('myvox')['account']['type'] == 'restaurant')
 								{
 									if (Session::get_value('myvox')['url'] == 'delivery')
@@ -1767,6 +1741,78 @@ class Myvox_controller extends Controller
 									$mail2->send();
 								}
 								catch (Exception $e) { }
+
+								$whatsapp = $this->model->get_whatsapp();
+
+								if ($whatsapp > 0)
+								{
+									$whats_text = 'Guestvox. ' . Languages::email('new', 'request')[$this->lang2] . '. ';
+									$whats_text .= Languages::email('token')[$this->lang2] . ': ' . $_POST['token'] . '. ';
+									$whats_text .= Languages::email('owner')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel' OR (Session::get_value('myvox')['account']['type'] == 'restaurant' AND (Session::get_value('myvox')['url'] == 'account' OR Session::get_value('myvox')['url'] == 'owner'))) ? Session::get_value('myvox')['owner']['name'][$this->lang2] . (!empty(Session::get_value('myvox')['owner']['number']) ? ' #' . Session::get_value('myvox')['owner']['number'] : '') : Languages::email('not_owner')[$this->lang2]) . '. ';
+									$whats_text .= Languages::email('opportunity_area')[$this->lang2] . ': ' . $_POST['opportunity_area']['name'][$this->lang2] . '. ';
+									$whats_text .= Languages::email('opportunity_type')[$this->lang2] . ': ' . $_POST['opportunity_type']['name'][$this->lang2] . '. ';
+									$whats_text .= Languages::email('started_date')[$this->lang2] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
+									$whats_text .= Languages::email('started_hour')[$this->lang2] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
+									$whats_text .= Languages::email('location')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel') ? $_POST['location']['name'][$this->lang2] : ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? $_POST['address'] : Languages::email('not_location')[$this->lang2])) . '. ';
+									$whats_text .= (Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? Languages::email('references')[$this->lang2] . ': ' . (!empty($_POST['references']) ? $_POST['references'] : Languages::email('not_references')[$this->lang2]) . '. ' : '';
+									$whats_text .= Languages::email('urgency')[$this->lang2] . ': ' . Languages::email('medium')[$this->lang2] . '. ';
+									$whats_text .= Languages::email('observations')[$this->lang2] . ': ' . Languages::email('not_observations')[$this->lang2] . '. ';
+
+									foreach (Session::get_value('myvox')['menu_order']['shopping_cart'] as $value)
+									{
+										foreach ($value as $subvalue)
+										{
+											$whats_text .= 'x' . $subvalue['quantity'] . ' ' . $subvalue['name'][$this->lang2] . '. ';
+
+											if (!empty($subvalue['topics']))
+											{
+												$whats_text .= '(';
+
+												foreach ($subvalue['topics'] as $parentvalue)
+													$whats_text .= $parentvalue['name'][$this->lang2] . ', ';
+
+												$whats_text .= '). ';
+											}
+										}
+									}
+
+									$whats_text .= 'https://' . Configuration::$domain . '/voxes/details/' . $_POST['token'];
+
+									foreach ($_POST['assigned_users'] as $value)
+									{
+										if ($whatsapp > 0 AND $value['whatsapp'] == true)
+										{
+											try
+											{
+												$ch = curl_init();
+
+												$headers = array(
+													'Cache-Control: no-cache',
+													'Content-Type: application/x-www-form-urlencoded',
+													'Accept: text/plain',
+													'Apikey: b70ed8d3c58248a6c8581923e3df00fa'
+												);
+						
+												$message = urlencode($whats_text);
+						
+												curl_setopt($ch, CURLOPT_URL, 'https://api.gupshup.io/sm/api/v1/msg');
+												curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+												curl_setopt($ch, CURLOPT_POST, 1);
+												curl_setopt($ch, CURLOPT_POSTFIELDS, 'channel=whatsapp&source=525532012511&destination=' . $value['phone']['lada'] . '1' . $value['phone']['number'] .'&message=' . $message);
+												curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+												$result = curl_exec($ch);
+
+												curl_close($ch);
+
+												$whatsapp = $whatsapp - 1;
+											}
+											catch (Exception $e) { }
+										}
+									}
+
+									$this->model->edit_whatsapp($whatsapp);
+								}
 
 								$sms2 = $this->model->get_sms();
 

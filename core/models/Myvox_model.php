@@ -21,6 +21,7 @@ class Myvox_model extends Model
 			'reputation',
 			'zaviapms',
 			'ambit',
+			'whatsapp',
 			'settings'
 		], [
 			'AND' => [
@@ -216,7 +217,8 @@ class Myvox_model extends Model
             'lastname',
             'email',
             'phone',
-            'opportunity_areas'
+            'opportunity_areas',
+            'whatsapp'
         ], [
             'AND' => [
 				'account' => Session::get_value('myvox')['account']['id'],
@@ -682,10 +684,32 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0]['sms'] : null;
 	}
 
+	public function get_whatsapp()
+	{
+		$query = $this->database->select('accounts', [
+			'whatsapp'
+		], [
+			'id' => Session::get_value('myvox')['account']['id']
+		]);
+
+		return !empty($query) ? $query[0]['whatsapp'] : null;
+	}
+
 	public function edit_sms($sms)
 	{
 		$query = $this->database->update('accounts', [
 			'sms' => $sms
+		], [
+			'id' => Session::get_value('myvox')['account']['id']
+		]);
+
+		return $query;
+	}
+
+	public function edit_whatsapp($whatsapp)
+	{
+		$query = $this->database->update('accounts', [
+			'whatsapp' => $whatsapp
 		], [
 			'id' => Session::get_value('myvox')['account']['id']
 		]);

@@ -95,6 +95,18 @@ class Languages
                 'es' => 'Hemos activado tu usuario correctamente. Ahora ya puedes iniciar sesión y empezar a trabajar con tu equipo ¡Bienvenido a Guestvox!',
                 'en' => 'We have activated your user correctly. Now you can log in and start working with your team ¡Welcome to Guestvox!'
             ],
+            'receive_notifications_on_whatsapp' => [
+                'es' => 'Recibe notificaciones en Whatsapp',
+                'en' => 'Receive notifications on WhatsApp'
+            ],
+            'notifications_on_whatsapp' => [
+                'es' => 'Notificaciones en WhatsApp',
+                'en' => 'Notifications on WhatsApp'
+            ],
+            'join' => [
+                'es' => 'Unirse',
+                'en' => 'Join'
+            ],
             'login' => [
                 'es' => 'Iniciar sesión',
                 'en' => 'Login'
