@@ -693,6 +693,99 @@ class Hi_controller extends Controller
 
 			define('_title', 'Guestvox | {$lang.restaurants} | {$lang.we_are_guestvox}');
 
+			$lst_menu_categories = '';
+
+			foreach ($this->model->get_menu_categories() as $value)
+			{
+				$lst_menu_categories .=
+				'<div>
+					<figure>
+						<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '">
+					</figure>
+					<span>' . $value['name'][$this->lang] . '</span>
+				</div>';
+			}
+
+			$lst_menu_products = '';
+
+			foreach ($this->model->get_menu_products() as $value)
+			{
+				$lst_menu_products .=
+				'<div>
+					<figure class="' . $value['avatar'] . '" ' . (($value['avatar'] == 'icon') ? 'style="background-color:' . $value['icon_color'] . ';"' : '') . '>';
+
+				if ($value['avatar'] == 'image')
+					$lst_menu_products .= '<img src="{$path.uploads}' . $value['image'] . '">';
+				else if ($value['avatar'] == 'icon')
+					$lst_menu_products .= '<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '"></figure>';
+
+				$lst_menu_products .=
+				'	</figure>
+					<div>
+						<h2>' . $value['name'][$this->lang] . '</h2>
+						' . (!empty($value['price']) ? '<span>' . Functions::get_formatted_currency($value['price'], 'MXN') . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>' : '') . '
+						<a data-action="open_menu_preview" data-id="' . $value['id'] . '"></a>
+					</div>
+				</div>';
+			}
+
+			$lst_menu_previews = '';
+
+			foreach ($this->model->get_menu_products() as $value)
+			{
+				$lst_menu_previews .=
+				'<div class="modal" data-id="' . $value['id'] . '">
+					<figure class="' . $value['avatar'] . '" ' . (($value['avatar'] == 'icon') ? 'style="background-color:' . $value['icon_color'] . ';"' : '') . '>';
+
+					if ($value['avatar'] == 'image')
+						$lst_menu_previews .= '<img src="{$path.uploads}' . $value['image'] . '">';
+					else if ($value['avatar'] == 'icon')
+						$lst_menu_previews .= '<img src="{$path.images}icons/' . $value['icon_type'] . '/' . $value['icon_url'] . '">';
+
+					$lst_menu_previews .=
+					'</figure>
+					<h2>' . $value['name'][$this->lang] . '</h2>
+					<p>' . (!empty($value['description'][$this->lang]) ? $value['description'][$this->lang] : '') . '</p>
+					' . (!empty($value['price']) ? '<span>' . Functions::get_formatted_currency($value['price'], 'MXN') . (!empty($value['topics']) ? ' (+ {$lang.topics})' : '') . '</span>' : '') . '
+					<form>';
+
+					foreach ($value['topics'] as $subvalue)
+					{
+						$lst_menu_previews .= '<div>';
+
+						foreach ($subvalue as $parentvalue)
+						{
+							$lst_menu_previews .=
+							'<label>
+								<input type="' . $parentvalue['selection'] . '" disabled>
+								<p>' . $parentvalue['name'][$this->lang] . '</p>
+								<span>' . (!empty($parentvalue['price']) ? Functions::get_formatted_currency($parentvalue['price'], 'MXN') . ' +' : '') . '</span>
+							</label>';
+						}
+
+						$lst_menu_previews .= '</div>';
+					}
+
+					$lst_menu_previews .=
+					'	<div class="buttons">
+							<a class="delete" data-action="close_menu_preview"><i class="fas fa-times"></i></a>
+							<a><i class="fas fa-minus"></i></a>
+							<input type="text" value="1">
+							<a><i class="fas fa-plus"></i></a>
+							<a class="new" data-action="close_menu_preview"><i class="fas fa-check"></i></a>
+						</div>
+					</form>
+				</div>';
+			}
+
+			$replace = [
+				'{$lst_menu_categories}' => $lst_menu_categories,
+				'{$lst_menu_products}' => $lst_menu_products,
+				'{$lst_menu_previews}' => $lst_menu_previews
+			];
+
+			$template = $this->format->replace($replace, $template);
+
 			echo $template;
 		}
 	}

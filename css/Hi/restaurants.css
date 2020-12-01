@@ -152,24 +152,23 @@ main.landing_page_restaurants > section.stn_1 > div {
     background: linear-gradient(to bottom, #104a5b, #00a2a9);
 }
 
-main.landing_page_restaurants > section.stn_1 > div > figure {
+main.landing_page_restaurants > section.stn_1 > div > #home {
     width: calc(50% - 50px);
     height: 100%;
     position: absolute;
     top: -50px;
     left: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 20px;
     overflow: hidden;
 }
 
-main.landing_page_restaurants > section.stn_1 > div > figure > img {
-    width: auto;
-    height: 100%;
+main.landing_page_restaurants > section.stn_1 > div > #home div.item {
+    width: 100%;
+    height: calc(100vh - 100px);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     border-radius: 20px;
-    object-fit: cover;
 }
 
 main.landing_page_restaurants > section.stn_1 > div > div {
@@ -330,21 +329,25 @@ main.landing_page_restaurants > section.stn_10 > div > div {
     background-color: #24383f;
 }
 
-main.landing_page_restaurants > section.stn_2 > div > div > figure,
+main.landing_page_restaurants > section.stn_2 > div > div > article,
 main.landing_page_restaurants > section.stn_3 > div > div > figure,
 main.landing_page_restaurants > section.stn_9 > div > div > figure {
     width: auto;
     position: absolute;
     top: -50px;
     bottom: -50px;
+}
+
+main.landing_page_restaurants > section.stn_2 > div > div > article {
+    right: 10%;
+}
+
+main.landing_page_restaurants > section.stn_3 > div > div > figure,
+main.landing_page_restaurants > section.stn_9 > div > div > figure {
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
-}
-
-main.landing_page_restaurants > section.stn_2 > div > div > figure {
-    right: 10%;
 }
 
 main.landing_page_restaurants > section.stn_3 > div > div > figure,
@@ -361,7 +364,6 @@ main.landing_page_restaurants > section.stn_10 > div > div > figure {
     overflow: hidden;
 }
 
-main.landing_page_restaurants > section.stn_2 > div > div > figure > img,
 main.landing_page_restaurants > section.stn_3 > div > div > figure > img,
 main.landing_page_restaurants > section.stn_9 > div > div > figure > img {
     width: auto;
@@ -1075,21 +1077,21 @@ section.contacts > a[data-whatsapp] {
         left: 20px;
     }
 
-    main.landing_page_restaurants > section.stn_2 > div > div > figure,
+    /* main.landing_page_restaurants > section.stn_2 > div > div > figure, */
     main.landing_page_restaurants > section.stn_3 > div > div > figure {
         max-width: 300px;
         bottom: initial;
     }
 
-    main.landing_page_restaurants > section.stn_2 > div > div > figure {
+    /* main.landing_page_restaurants > section.stn_2 > div > div > figure {
         right: 20px;
-    }
+    } */
 
     main.landing_page_restaurants > section.stn_3 > div > div > figure {
         left: 20px;
     }
 
-    main.landing_page_restaurants > section.stn_2 > div > div > figure > img,
+    /* main.landing_page_restaurants > section.stn_2 > div > div > figure > img, */
     main.landing_page_restaurants > section.stn_3 > div > div > figure > img {
         width: 100%;
         height: auto;
@@ -1177,7 +1179,7 @@ section.contacts > a[data-whatsapp] {
         min-height: 1150px;
     }
 
-    main.landing_page_restaurants > section.stn_2 > div > div > figure,
+    /* main.landing_page_restaurants > section.stn_2 > div > div > figure, */
     main.landing_page_restaurants > section.stn_3 > div > div > figure {
         max-width: 100%;
         right: 30px;
@@ -1237,4 +1239,429 @@ section.contacts > a[data-whatsapp] {
     main.landing_page_restaurants > section.stn_5 > div > div > div:first-child {
         margin-bottom: 50px;
     }
+}
+
+/*  */
+
+article.phone {
+    padding: 10px !important;
+    border-radius: 40px !important;
+    box-sizing: border-box !important;
+    background-color: #fff !important;
+}
+
+/*  */
+
+article.phone > header {
+    width: 100%;
+    height: 100px;
+    position: relative;
+    background-color: #fff;
+}
+
+article.phone > header::before {
+    content: '';
+    width: 50px;
+    height: 100%;
+    position: absolute;
+    right: 0px;
+    background-color: #00a5ab;
+}
+
+article.phone > header::after {
+    content: '';
+    width: 100%;
+    height: 10px;
+    position: absolute;
+    bottom: 0px;
+    border-radius: 20px 20px 0px 0px;
+    background-color: #eee;
+}
+
+article.phone > header > figure {
+    width: calc(100% - 50px);
+    height: calc(100% - 10px);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px 0px 5px 10px;
+    box-sizing: border-box;
+}
+
+article.phone > header > figure > img {
+    width: auto;
+    height: 100%;
+}
+
+/*  */
+
+article.phone > main {
+    width: 100%;
+    height: calc(100% - 100px);
+    overflow: hidden;
+    overflow-y: scroll;
+    background-color: #eee;
+}
+
+article.phone > main::-webkit-scrollbar {
+    display: none;
+}
+
+/*  */
+
+article.phone > main > div.categories {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-x: scroll;
+}
+
+article.phone > main > div.categories::-webkit-scrollbar {
+    display: none;
+}
+
+article.phone > main > div.categories > div {
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding-left: 10px;
+    box-sizing: border-box;
+}
+
+article.phone > main > div.categories > div > figure {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+article.phone > main > div.categories > div > figure > img {
+    width: 100%;
+}
+
+article.phone > main > div.categories > div > span {
+    width: 50px;
+    font-size: 10px;
+    font-weight: 400;
+    white-space: nowrap;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    color: #757575;
+}
+
+/*  */
+
+article.phone > main > div.products {
+    width: 100%;
+    padding: 5px 10px 70px 10px;
+    box-sizing: border-box;
+}
+
+article.phone > main > div.products > div {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+article.phone > main > div.products > div:last-child {
+    margin-bottom: 0px;
+}
+
+article.phone > main > div.products > div > figure {
+    width: 60px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px 0px 0px 5px;
+    overflow: hidden;
+}
+
+article.phone > main > div.products > div > figure.icon {
+    padding: 10px;
+    box-sizing: border-box;
+    background-color: #eee;
+}
+
+article.phone > main > div.products > div > figure.image > img {
+    width: auto;
+    height: 100%;
+}
+
+article.phone > main > div.products > div > figure.icon > img {
+    width: 100%;
+}
+
+article.phone > main > div.products > div > div {
+    width: calc(100% - 60px);
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+article.phone > main > div.products > div > div > h2 {
+    width: 100%;
+    font-size: 12px;
+    font-weight: 600;
+    color: #212121;
+}
+
+article.phone > main > div.products > div > div > span {
+    width: auto;
+    height: 30px;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 10px;
+    border-radius: 30px;
+    box-sizing: border-box;
+    background-color: #eee;
+    font-size: 10px;
+    font-weight: 400;
+    color: #757575;
+}
+
+article.phone > main > div.products > div > div > a {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: -100px;
+    border-radius: 10px;
+    z-index: 5;
+}
+
+/*  */
+
+article.phone > footer {
+    position: absolute;
+    right: 15px;
+    bottom: 20px;
+    left: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    background-color: #24383f;
+}
+
+article.phone > footer > a {
+    width: calc(100% / 3);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+article.phone > footer > a.active {
+    color: #fff;
+}
+
+article.phone > footer > a > i {
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+article.phone > footer > a > span {
+    font-size: 10px;
+    line-height: 10px;
+    white-space: nowrap;
+}
+
+/*  */
+
+article.phone > div.modal {
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    left: 10px;
+    bottom: 15px;
+    display: none;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    overflow-y: scroll;
+    background-color: #fff;
+    z-index: 98;
+}
+
+article.phone > div.modal.view {
+    display: flex;
+}
+
+article.phone > div.modal::-webkit-scrollbar {
+    display: none;
+}
+
+article.phone > div.modal > figure {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+article.phone > div.modal > figure.icon {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    background-color: #eee;
+}
+
+article.phone > div.modal > figure.image > img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+article.phone > div.modal > figure.icon > img {
+    width: auto;
+    height: 100%;
+}
+
+article.phone > div.modal > h2 {
+    margin-bottom: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #212121;
+}
+
+article.phone > div.modal > p {
+    margin-bottom: 15px;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    line-height: 18px;
+    color: #757575;
+}
+
+article.phone > div.modal > span {
+    width: auto;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    padding: 0px 10px;
+    border-radius: 30px;
+    box-sizing: border-box;
+    background-color: #eee;
+    font-size: 12px;
+    font-weight: 400;
+    color: #757575;
+}
+
+article.phone > div.modal > form {
+    width: 100%;
+}
+
+article.phone > div.modal > form > div {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px dashed #e0e0e0;
+    box-sizing: border-box;
+}
+
+article.phone > div.modal > form > div > label {
+    width: 100%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+article.phone > div.modal > form > div > label:last-child {
+    margin-bottom: 0px;
+}
+
+article.phone > div.modal > form > div > label > input {
+    width: 15px;
+    height: 15px;
+    margin: 0px;
+}
+
+article.phone > div.modal > form > div > label > p {
+    width: calc(100% - 115px);
+    padding: 0px 5px;
+    box-sizing: border-box;
+    font-size: 10px;
+    font-weight: 400;
+    color: #757575;
+}
+
+article.phone > div.modal > form > div > label > span {
+    width: 100px;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: right;
+    color: #212121;
+}
+
+article.phone > div.modal > form > div.buttons {
+    padding: 5px;
+}
+
+article.phone > div.modal > form > div.buttons > a,
+article.phone > div.modal > form > div.buttons > input {
+    width: 30px;
+    height: 30px;
+}
+
+article.phone > div.modal > form > div.buttons > input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px 5px;
+    padding: 0px 14px;
+    border: 1px dashed #e0e0e0;
+    border-radius: 50%;
+    box-sizing: border-box;
+    color: #212121;
+}
+
+/*  */
+
+article.phone > figure {
+    width: auto !important;
+    height: 100% !important;
+    position: absolute !important;
+    top: 0px !important;
+    left: -5px !important;
+    right: -5px !important;
+}
+
+article.phone > figure > img {
+    width: auto !important;
+    height: 100% !important;
 }

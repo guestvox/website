@@ -2,6 +2,9 @@
 
 defined('_EXEC') or die;
 
+$this->dependencies->add(['js', '{$path.plugins}owl_carousel/owl.carousel.min.js']);
+$this->dependencies->add(['css', '{$path.plugins}owl_carousel/assets/owl.carousel.min.css']);
+$this->dependencies->add(['css', '{$path.plugins}owl_carousel/assets/owl.theme.default.min.css']);
 $this->dependencies->add(['css', '{$path.css}Hi/restaurants.css']);
 $this->dependencies->add(['js', '{$path.js}Hi/restaurants.js']);
 $this->dependencies->add(['others',
@@ -41,9 +44,9 @@ $this->dependencies->add(['others',
 <main class="landing_page_restaurants <?php echo ((Session::get_value('hi')['restaurant']['target'] == '1') ? '' : 'hidden') ?>" data-target="1">
     <section class="stn_1">
         <div>
-            <figure>
-                <img src="{$path.images}hi/restaurants/img_1.png" alt="Background">
-            </figure>
+            <div id="home" class="owl-carousel owl-theme">
+                <div class="item" style="background-image: url('{$path.images}hi/restaurants/img_1.png')"></div>
+            </div>
             <div>
                 <h1>{$lang.lpr_txt_5}</h1>
                 <h2>{$lang.lpr_txt_6}</h2>
@@ -55,9 +58,30 @@ $this->dependencies->add(['others',
     <section class="stn_2">
         <div>
             <div>
-                <figure>
-                    <img src="{$path.images}hi/restaurants/img_2.png" alt="Background">
-                </figure>
+                <article class="phone">
+                    <header>
+                        <figure>
+                            <img src="{$path.images}hi/restaurants/logotype.png" alt="Logotype">
+                        </figure>
+                    </header>
+                    <main>
+                        <div class="categories">
+                            {$lst_menu_categories}
+                        </div>
+                        <div class="products">
+                            {$lst_menu_products}
+                        </div>
+                    </main>
+                    <footer>
+                        <a class="active"><i class="fas fa-igloo"></i><span>{$lang.home}</span></a>
+                        <a><i class="fas fa-search"></i><span>{$lang.search}</span></a>
+                        <a><i class="fas fa-shopping-cart"></i><span>$ 0.00 MXN</span></a>
+    				</footer>
+                    {$lst_menu_previews}
+                    <figure>
+                        <img src="{$path.images}hi/restaurants/phone.png" alt="Background">
+                    </figure>
+                </article>
                 <div>
                     <h2>{$lang.lpr_txt_9}</h2>
                     <ul>
