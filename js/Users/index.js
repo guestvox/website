@@ -104,6 +104,7 @@ $(document).ready(function()
                     $('[name="phone_lada"]').val(response.data.phone.lada);
                     $('[name="phone_number"]').val(response.data.phone.number);
                     $('[name="username"]').val(response.data.username);
+                    $('[name="whatsapp"]').prop('checked', ((response.data.whatsapp == true) ? true : false));
 
                     $.each(response.data.permissions, function (key, value)
                     {

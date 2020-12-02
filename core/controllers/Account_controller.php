@@ -798,18 +798,10 @@ class Account_controller extends Controller
 
 			$div_siteminder = '';
 			$div_zaviapms = '';
+			$div_ambit = '';
 
 			if ($account['operation'] == true)
 			{
-				$div_siteminder .=
-				'<div class="stl_5 last">
-					<figure>
-						<img src="{$path.images}ambit.png">
-					</figure>
-					<h2>Ambit</h2>
-					<span>' . (($account['ambit']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-				</div>';
-
 				if ($account['type'] == 'hotel')
 				{
 					$div_siteminder .=
@@ -830,6 +822,15 @@ class Account_controller extends Controller
 						<span>' . (($account['zaviapms']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
 	                </div>';
 				}
+
+				$div_ambit .=
+				'<div class="stl_5 last">
+					<figure>
+						<img src="{$path.images}ambit.png">
+					</figure>
+					<h2>Ambit</h2>
+					<span>' . (($account['ambit']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+				</div>';
 			}
 
 			$opt_countries = '';
@@ -2175,8 +2176,10 @@ class Account_controller extends Controller
 				'{$reputation}' => ($account['reputation'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
 				'{$package}' => $account['package'],
 				'{$sms}' => $account['sms'],
+				'{$whatsapp}' => $account['whatsapp'],
 				'{$div_siteminder}' => $div_siteminder,
 				'{$div_zaviapms}' => $div_zaviapms,
+				'{$div_ambit}' => $div_ambit,
 				'{$opt_countries}' => $opt_countries,
 				'{$opt_times_zones}' => $opt_times_zones,
 				'{$opt_currencies}' => $opt_currencies,

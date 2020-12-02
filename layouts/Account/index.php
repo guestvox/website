@@ -61,8 +61,14 @@ $this->dependencies->add(['other', '<script>menu_focus("account");</script>']);
                 <h2>{$lang.sms_credit}</h2>
                 <span>{$sms} {$lang.sms}</span>
             </div>
+            <div class="stl_5">
+                <i class="fab fa-whatsapp"></i>
+                <h2>{$lang.whatsapp_credit}</h2>
+                <span>{$whatsapp} {$lang.sms}</span>
+            </div>
             {$div_siteminder}
             {$div_zaviapms}
+            {$div_ambit}
         </div>
     </section>
 </main>

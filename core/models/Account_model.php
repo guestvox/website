@@ -37,6 +37,7 @@ class Account_model extends Model
 			'accounts.zaviapms',
 			'accounts.ambit',
 			'accounts.sms',
+			'accounts.whatsapp',
 			'accounts.settings',
 			'accounts.payment'
 		], [
