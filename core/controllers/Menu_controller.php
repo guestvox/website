@@ -17,6 +17,26 @@ class Menu_controller extends Controller
 	{
         if (Format::exist_ajax_request() == true)
 		{
+			// if ($_POST['action'] == 'image_crop')
+			// {
+			// 	$data = $_POST['image'];
+
+			// 	$exploded_uri = preg_split("/[,;]+/",$data);
+
+			// 	$encoded_data = array_pop($exploded_uri);
+
+			// 	$data = base64_decode($encoded_data);
+				
+			// 	$imageName = time() . '.png';
+				
+			// 	file_put_contents('uploads/' . $imageName, $data);
+
+			// 	Functions::environment([
+			// 		'status' => 'success',
+			// 		'data' => $imageName
+			// 	]);
+			// }
+			
 			if ($_POST['action'] == 'get_menu_product_position')
 			{
 				Functions::environment([

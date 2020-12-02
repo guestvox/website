@@ -2,6 +2,63 @@
 
 $(document).ready(function()
 {
+    // var image_crop;
+    // var name_image = '';
+
+    // image_crop = $('#upload-image').croppie({
+    //     enableExif: true,
+    //     viewport: {
+    //       width:200,
+    //       height:200,
+    //       type:'circle' //circle
+    //     },
+    //     boundary:{
+    //       width:300,
+    //       height:300
+    //     }
+    // });
+
+    // $('#image').on('change', function(){
+    //     var reader = new FileReader();
+    //     reader.onload = function (event) {
+    //       image_crop.croppie('bind', {
+    //         url: event.target.result
+    //       }).then(function(){
+    //         console.log('jQuery bind complete');
+    //       });
+    //     }
+
+    //     name_image = this.files[0]['name'];
+    //     reader.readAsDataURL(this.files[0]);
+    //     $('[data-modal="image_crop"]').addClass('view');
+    // });
+
+    // $('form[name="image_crop"]').on('submit', function(e)
+    // {
+    //     e.preventDefault();
+
+    //     image_crop.croppie('result', {
+    //         type: 'canvas',
+    //         size: 'viewport'
+    //       }).then(function(data_image){
+    //         $.ajax({
+    //             type: 'POST',
+    //             data: 'name=' + name_image + '&image=' + data_image + '&action=image_crop',
+    //             processData: false,
+    //             cache: false,
+    //             dataType: 'json',
+    //             success: function(response)
+    //             {
+    //                 if (response.status == 'success')
+    //                     $('[name="image"]').parents('[data-uploader]').find('[data-preview] > img').attr('src', '../uploads/' + response.data);
+    //                 else if (response.status == 'error')
+    //                     show_form_errors(form, response);
+    //             }
+    //         });
+            
+    //       })
+    // });
+    
     $('.chosen-select').chosen();
 
     change_height_menu_preview();
