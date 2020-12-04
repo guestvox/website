@@ -1,2 +1,0 @@
-// $xml = simplexml_load_file('http://local.guestvox.com/soap_test.xml', null, null, 'http://schemas.xmlsoap.org/soap/envelope/');
-// $body = $xml->xpath('/soap-env:Envelope/soap-env:Body');
