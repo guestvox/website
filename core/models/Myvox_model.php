@@ -22,7 +22,8 @@ class Myvox_model extends Model
 			'zaviapms',
 			'ambit',
 			'whatsapp',
-			'settings'
+			'settings',
+			'payment'
 		], [
 			'AND' => [
 				'path' => $path,

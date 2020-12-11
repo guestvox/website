@@ -1792,9 +1792,9 @@ class Myvox_controller extends Controller
 													'Accept: text/plain',
 													'Apikey: b70ed8d3c58248a6c8581923e3df00fa'
 												);
-						
+
 												$message = urlencode($whats_text);
-						
+
 												curl_setopt($ch, CURLOPT_URL, 'https://api.gupshup.io/sm/api/v1/msg');
 												curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 												curl_setopt($ch, CURLOPT_POST, 1);
@@ -1924,8 +1924,6 @@ class Myvox_controller extends Controller
 				$template = $this->view->render($this, 'menu');
 
 				define('_title', Session::get_value('myvox')['account']['name'] . ' | {$lang.menu}');
-
-				Functions::api('mit', '', 'get');
 
 				$html = '';
 
@@ -2191,13 +2189,42 @@ class Myvox_controller extends Controller
 								}
 							}
 
-							$html .=
-							'		<div class="span12">
-										<div class="buttons">
-											<button class="new" type="submit">{$lang.generate_order}</button>
-										</div>
+							if (Session::get_value('myvox')['account']['payment']['status'] == true)
+							{
+								if (Session::get_value('myvox')['account']['payment']['type'] == 'mit')
+								{
+									if (Session::get_value('myvox')['menu_order']['total'] > 0)
+									{
+										$mit = Functions::api('mit', null, 'get', null, [
+											'amount' => Session::get_value('myvox')['menu_order']['total'],
+											'mit' => Session::get_value('myvox')['account']['payment']['mit']['code'],
+											'currency' => Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency'],
+											'types' => Session::get_value('myvox')['account']['payment']['mit']['types']
+										]);
+
+										$html .= '<div class="span12">';
+
+										if (!empty($mit['code']) AND $mit['code'] == 'success')
+											$html .= '<iframe src="' . $mit['url'] . '" width="100%" height="600px"></iframe>';
+										else
+											$html .= '<p>' . $mit['message'] . '</p>';
+
+										$html .= '</div>';
+									}
+								}
+							}
+							else
+							{
+								$html .=
+								'<div class="span12">
+									<div class="buttons">
+										<button class="new" type="submit">{$lang.generate_order}</button>
 									</div>
-								</div>
+								</div>';
+							}
+
+							$html .=
+							'	</div>
 							</form>';
 						}
 					}

@@ -18,7 +18,8 @@ class Api_vkye
 
             $users = [
                 'zaviapms' => 'y329-gfc=7mq}qy(',
-                'siteminder' => 'V97+pf=:z4?Hm|0i'
+                'siteminder' => 'V97+pf=:z4?Hm|0i',
+                'mit' => 'qrB3svqybxLrMas6',
             ];
 
             if ($params[0] == 'siteminder')
