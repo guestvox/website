@@ -515,45 +515,26 @@ class Functions
         {
             if ($method == 'get')
             {
-                // $params = json_encode([
-                //     'amount' => 1.00,
-                //     'businessId' => 12691,
-                //     'currency' => 'MXN',
-                //     'effectiveDate' => '30/12/2020',
-                //     'id' => '0123456789',
-                //     'paymentTypes' => '401,402',
-                //     'reference' => 'Pago de servicios',
-                //     'station' => 'CAJA 1',
-                //     'userCode' => '1603992976334',
-                //     'valuePairs' => [
-                //         [
-                //             'label' => '',
-                //             'value' => ''
-                //         ]
-                //     ]
-                // ]);
+                $params =
+                '{
+                  "ammount": ' . $params['amount'] . ',
+                  "businessId": ' . $params['mit'] . ',
+                  "currency": "' . $params['currency'] . '",
+                  "effectiveDate": "' . Functions::get_current_date('d/m/Y') . '",
+                  "id": "' . Functions::get_random(8) . '",
+                  "paymentTypes": "' . $params['types'] . '",
+                  "reference": "' . Functions::get_random(8) . '",
+                  "station": "Menu digital",
+                  "userCode": "1603992976334",
+                  "valuePairs": [
+                    {
+                      "label": "",
+                      "value": ""
+                    }
+                  ]
+                }';
 
-                $params = 'S+wbhQjNXi0DhVBLmlSuB19dcZiTYZkudTCOKBC2Eyqpaa927c+QSYa2aXm9jJ1xjNq1xVbaeIRyxWB0A/zZIFFv9xyqZBZtz1u9HYYq+5n/PUl2HmpRGuVkdyXbqb9FSe8rgAv+pv+65GP9pbdcUO5DQkAmyAXbtGCmu82KSCQLp+KVWxtMz2at3UilnEggklK2qMQjU1cQ/S7GTSCwRQp80gz1oqJhVDOOBBJ4LpB3iuXrU8NHjrLdJY7o1udwDydYyzKfSDObCgxq5IevMw9W/MimLBXaxHSZ+XHMUzAkxqH1QoYCCXPOCKptB2RvXUINLj/xSJmScrZM9qqpNVe1bvHjzue/2RrN48mp9ihDVwSvOdWm6jUqPWh1JMvKB+DXb8Xa7d0m9zF3Erk1xY5hgZY/hBc1XnnOoEJdo2A91HtcVoCheN21bQHZIymE';
-
-                // $params = json_encode([
-                //     'amount' => $params['amount'],
-                //     'businessId' => $params['mit'],
-                //     'currency' => $params['currency'],
-                //     'effectiveDate' => Functions::get_future_date(Functions::get_current_date(), '10', 'days'),
-                //     'id' => Functions::get_random(8),
-                //     'paymentTypes' => $params['types'],
-                //     'reference' => 'Menú digital',
-                //     'station' => 'Menú digital',
-                //     'userCode' => '1603992976334',
-                //     'valuePairs' => [
-                //         [
-                //             'label' => '',
-                //             'value' => ''
-                //         ]
-                //     ]
-                // ]);
-                //
-                // $params = AESCrypto::encrypt('AC1D8AC2C3F14F713B13A82A91D806C3', $params);
+                $params = AESCrypto::encrypt($params, 'AC1D8AC2C3F14F713B13A82A91D806C3');
 
                 $api = curl_init();
 
@@ -563,8 +544,7 @@ class Functions
                 curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($api, CURLOPT_HTTPHEADER, array(
                     'Content-Type: application/json',
-                    'Authorization: Bearer YjE0Njc1Y2ItYmZmMi00Mjc0LWEwZGUtNDc5NTUzNzA4MGMz')
-                );
+                    'Authorization: Bearer YjE0Njc1Y2ItYmZmMi00Mjc0LWEwZGUtNDc5NTUzNzA4MGMz'));
 
                 $data = curl_exec($api);
                 $data = json_decode($data, true);
