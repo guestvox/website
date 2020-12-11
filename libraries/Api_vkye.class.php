@@ -19,7 +19,7 @@ class Api_vkye
             $users = [
                 'zaviapms' => 'y329-gfc=7mq}qy(',
                 'siteminder' => 'V97+pf=:z4?Hm|0i',
-                'mit' => 'qrB3svqybxLrMas6',
+                'mit' => 'qrB3svqybxLrMas6'
             ];
 
             if ($params[0] == 'siteminder')
@@ -52,6 +52,9 @@ class Api_vkye
             else
             {
                 $headers = getallheaders();
+
+                print_r($headers);
+
                 $username = !empty($headers['username']) ? $headers['username'] : '';
                 $password = !empty($headers['password']) ? $headers['password'] : '';
             }
