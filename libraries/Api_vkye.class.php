@@ -51,7 +51,10 @@ class Api_vkye
             }
             else
             {
-                $headers = getallheaders();
+                $headers = get_headers();
+
+                print_r($headers);
+
                 $username = !empty($headers['username']) ? $headers['username'] : '';
                 $password = !empty($headers['password']) ? $headers['password'] : '';
             }
