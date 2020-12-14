@@ -13,7 +13,10 @@ class Mit_api extends Model
 			'code' => json_encode($_POST['strResponse'])
 		]);
 
-        return 'Ok';
+        if (!empty($query))
+            return 'Ok';
+        else
+            return 'Error';
     }
 
     public function put($params)
