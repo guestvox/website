@@ -51,12 +51,8 @@ class Api_vkye
             }
             else
             {
-                $headers = get_headers();
-
-                print_r($headers);
-
-                $username = !empty($headers['username']) ? $headers['username'] : '';
-                $password = !empty($headers['password']) ? $headers['password'] : '';
+                $username = !empty($_SERVER['HTTP_USERNAME']) ? $_SERVER['HTTP_USERNAME'] : '';
+                $password = !empty($_SERVER['HTTP_PASSWORD']) ? $_SERVER['HTTP_PASSWORD'] : '';
             }
 
             if (array_key_exists($username, $users))
