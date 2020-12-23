@@ -1278,6 +1278,7 @@ class Myvox_controller extends Controller
 					{
 						$myvox = Session::get_value('myvox');
 
+						$_POST['code'] = (!empty($query['code']) ? $query['code'] : '');
 						$_POST['topics'] = [];
 
 						foreach ($_POST as $key => $value)
@@ -1300,6 +1301,7 @@ class Myvox_controller extends Controller
 							array_push($myvox['menu_order']['shopping_cart'][$_POST['id']], [
 								'quantity' => $_POST['quantity'],
 								'id' => $_POST['id'],
+								'code' => '',
 								'name' => $query['name'],
 								'topics' => $_POST['topics'],
 								'price' => $query['price'],
@@ -1312,6 +1314,7 @@ class Myvox_controller extends Controller
 								[
 									'quantity' => $_POST['quantity'],
 									'id' => $_POST['id'],
+									'code' => '',
 									'name' => $query['name'],
 									'topics' => $_POST['topics'],
 									'price' => $query['price'],
@@ -1508,63 +1511,68 @@ class Myvox_controller extends Controller
 							{
 								if (Session::get_value('myvox')['account']['ambit']['status'] == true)
 								{
-									$array_payload = [
+									$ambit = [
 										'store_id' => 101,
 										'client' => [
-										  'name' => 'Jorge',
-										  'phone' => '+525581053825',
-										  'email' => 'jxochihua@hotmail.com',
-										  'address' => [
+											'name' => 'Jorge',
+											'phone' => '+525581053825',
+											'email' => 'jxochihua@hotmail.com',
+											'address' => [
 											'client_address' => 'Ayuntamiento 153, 14250, Depto B204, Col. Miguel Hidalgo , Cdmx ',
 											'client_address_parts' => [
 												'city' => 'Cdmx ',
 												'street' => 'Ayuntamiento 153',
 												'more_address' => '14250, Depto B204, Col. Miguel Hidalgo ',
-										  		],
+												],
 											],
 										],
 										'order' => [
-										  'id' => 158350180,
-										  'type' => 'delivery',
-										  'date' => '2020-09-13T19:56:12.000Z',
-										  'note' => '',
-										  'total' => 413,
-										  'store' => '0',
-										  'origen' => 'eRest',
-										  'formaPago' => '04',
-										  'idFormaPago' => 'CARD',
-										],
-										'Items' => [
-										  0 => [
-											'price' => 297,
-											'type' => '2',
+											'id' => $_POST['token'],
+											'type' => 'delivery',
+											'date' => Functions::get_current_date() . ' ' . Functions::get_current_hour(),
 											'note' => '',
-											'code' => 'GRI-004',
-											'descrip' => 'Bife de lomo',
-											'cant' => 1,
-											'modifiers' => [
-											  0 => [
-													'price' => 0,
+											'total' => Session::get_value('myvox')['menu_order']['total'],
+											'store' => '0',
+											'origen' => 'Guestvox',
+											'formaPago' => '04',
+											'idFormaPago' => 'CARD',
+											'table' => '',
+										],
+										'Items' => [],
+									];
+			
+									foreach (Session::get_value('myvox')['menu_order']['shopping_cart'] as $value)
+									{
+										foreach($value as $subvalue)
+										{
+											$temp = [
+												'price' => $subvalue['price'],
+												'type' => '2',
+												'note' => '',
+												'code' => 'GRI-004',
+												'descrip' => $subvalue['name'][$this->lang2],
+												'cant' => $subvalue['quantity'],
+												'modifiers' => []
+											];
+			
+											foreach ($subvalue['topics'] as $subvalue2)
+											{
+												$topics = [
+													'price' => $subvalue2['price'],
 													'type' => '2',
 													'code' => 'MDPLA-056',
-													'descrip' => 'Termino 3/4',
+													'descrip' => $subvalue2['name'][$this->lang2],
 													'cant' => 1,
-													],
-										  		],
-											],
-										  1 => [
-											'price' => 81,
-											'type' => '2',
-											'note' => '',
-											'code' => 'ENS-005',
-											'descrip' => 'Ensalada Mixta',
-											'cant' => 1,
-											'modifiers' => [],
-											],
-										],
-									];
+												];
+												
+												array_push($temp['modifiers'], $topics);
+											}
+			
+											array_push($ambit['Items'], $temp);
+										}
+									}
 
-									$post_order = Functions::api('ambit', $array_payload, 'post', '');
+									// $post_order = Functions::api('ambit', $array_payload, 'post', '');
 								}
 
 								if (Session::get_value('myvox')['account']['type'] == 'restaurant')
@@ -1746,32 +1754,31 @@ class Myvox_controller extends Controller
 
 								if ($whatsapp > 0)
 								{
-									$whats_text = 'Guestvox. ' . Languages::email('new', 'request')[$this->lang2] . '. ';
-									$whats_text .= Languages::email('token')[$this->lang2] . ': ' . $_POST['token'] . '. ';
-									$whats_text .= Languages::email('owner')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel' OR (Session::get_value('myvox')['account']['type'] == 'restaurant' AND (Session::get_value('myvox')['url'] == 'account' OR Session::get_value('myvox')['url'] == 'owner'))) ? Session::get_value('myvox')['owner']['name'][$this->lang2] . (!empty(Session::get_value('myvox')['owner']['number']) ? ' #' . Session::get_value('myvox')['owner']['number'] : '') : Languages::email('not_owner')[$this->lang2]) . '. ';
-									$whats_text .= Languages::email('opportunity_area')[$this->lang2] . ': ' . $_POST['opportunity_area']['name'][$this->lang2] . '. ';
-									$whats_text .= Languages::email('opportunity_type')[$this->lang2] . ': ' . $_POST['opportunity_type']['name'][$this->lang2] . '. ';
-									$whats_text .= Languages::email('started_date')[$this->lang2] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M y') . '. ';
-									$whats_text .= Languages::email('started_hour')[$this->lang2] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . '. ';
-									$whats_text .= Languages::email('location')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel') ? $_POST['location']['name'][$this->lang2] : ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? $_POST['address'] : Languages::email('not_location')[$this->lang2])) . '. ';
-									$whats_text .= (Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? Languages::email('references')[$this->lang2] . ': ' . (!empty($_POST['references']) ? $_POST['references'] : Languages::email('not_references')[$this->lang2]) . '. ' : '';
-									$whats_text .= Languages::email('urgency')[$this->lang2] . ': ' . Languages::email('medium')[$this->lang2] . '. ';
-									$whats_text .= Languages::email('observations')[$this->lang2] . ': ' . Languages::email('not_observations')[$this->lang2] . '. ';
+									$whats_text = "🗣️ *Vox* " . Languages::email('new', 'request')[$this->lang2] ."  \r\n";
+									$whats_text .= "📌 *". $_POST['token'] . "* \r\n";
+									$whats_text .= "💲 *" . Session::get_value('myvox')['menu_order']['total'] . "* \r\n \r\n";
+									$whats_text .= "📅 " . Functions::get_formatted_date($_POST['started_date'], 'd M y') . "      ⏰ " . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . "\r\n \r\n";
+									// $whats_text .= Languages::email('owner')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel' OR (Session::get_value('myvox')['account']['type'] == 'restaurant' AND (Session::get_value('myvox')['url'] == 'account' OR Session::get_value('myvox')['url'] == 'owner'))) ? Session::get_value('myvox')['owner']['name'][$this->lang2] . (!empty(Session::get_value('myvox')['owner']['number']) ? ' #' . Session::get_value('myvox')['owner']['number'] : '') : Languages::email('not_owner')[$this->lang2]) . '. ';
+									// $whats_text .= Languages::email('opportunity_area')[$this->lang2] . ': ' . $_POST['opportunity_area']['name'][$this->lang2] . '. ';
+									// $whats_text .= Languages::email('opportunity_type')[$this->lang2] . ': ' . $_POST['opportunity_type']['name'][$this->lang2] . '. ';
+									// $whats_text .= Languages::email('location')[$this->lang2] . ': ' . ((Session::get_value('myvox')['account']['type'] == 'hotel') ? $_POST['location']['name'][$this->lang2] : ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? $_POST['address'] : Languages::email('not_location')[$this->lang2])) . '. ';
+									// $whats_text .= (Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? Languages::email('references')[$this->lang2] . ': ' . (!empty($_POST['references']) ? $_POST['references'] : Languages::email('not_references')[$this->lang2]) . '. ' : '';
+									// $whats_text .= Languages::email('observations')[$this->lang2] . ': ' . Languages::email('not_observations')[$this->lang2] . '. ';
 
 									foreach (Session::get_value('myvox')['menu_order']['shopping_cart'] as $value)
 									{
 										foreach ($value as $subvalue)
 										{
-											$whats_text .= 'x' . $subvalue['quantity'] . ' ' . $subvalue['name'][$this->lang2] . '. ';
+											$whats_text .= "🛍️ x" . $subvalue['quantity'] . " " . $subvalue['name'][$this->lang2] . ".  \r\n";
 
 											if (!empty($subvalue['topics']))
 											{
-												$whats_text .= '(';
+												$whats_text .= "_(";
 
 												foreach ($subvalue['topics'] as $parentvalue)
 													$whats_text .= $parentvalue['name'][$this->lang2] . ', ';
 
-												$whats_text .= '). ';
+												$whats_text .= ")._  \r\n \r\n";
 											}
 										}
 									}

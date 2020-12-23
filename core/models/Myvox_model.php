@@ -364,6 +364,7 @@ class Myvox_model extends Model
 			'menu_products.available',
 			'menu_products.avatar',
 			'menu_products.image',
+			'menu_products.code',
 			'icons.url(icon_url)',
 			'icons.type(icon_type)',
 			'icons.color(icon_color)',
@@ -408,6 +409,7 @@ class Myvox_model extends Model
 			'menu_products.price',
 			'menu_products.avatar',
 			'menu_products.image',
+			'menu_products.code',
 			'icons.type(icon_type)',
 			'icons.url(icon_url)',
 			'icons.color(icon_color)'
