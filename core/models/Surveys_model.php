@@ -307,6 +307,7 @@ class Surveys_model extends Model
 			]
 		], [
 			'surveys_answers.token',
+			'owners.id(owner_id)',
 			'owners.name(owner_name)',
 			'owners.number(owner_number)',
 			'surveys_answers.values',
@@ -356,6 +357,76 @@ class Surveys_model extends Model
 		}
 		else
 			return null;
+	}
+
+	public function edit_survey_reservation($data)
+	{
+		$edit = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
+			'[>]owners' => [
+				'owner' => 'id'
+			]
+		], [
+			'surveys_answers.token',
+			'owners.id(owner_id)',
+			'owners.name(owner_name)',
+			'owners.number(owner_number)',
+			'surveys_answers.reservation',
+		], [
+			'surveys_answers.id' => $data['id']
+		]));
+
+		if (!empty($edit))
+		{
+			$query = $this->database->update('surveys_answers', [
+				'reservation' => json_encode([
+					'status' => $edit[0]['reservation']['status'],
+					'firstname' => $data['firstname'],
+					'lastname' => $data['lastname'],
+					'guest_id' => $data['guest_id'],
+					'reservation_number' => $data['reservation_number'],
+					'check_in' => $data['check_in'],
+					'check_out' => $data['check_out'],
+					'nationality' => $data['nationality'],
+					'input_channel' => $data['input_channel'],
+					'traveler_type' => $data['traveler_type'],
+					'age_group' => $data['age_group'],
+				])
+			], [
+				'id' => $data['id']
+			]);
+
+			return $query;
+		}
+		else
+			return null;
+
+	}
+
+	public function get_countries()
+	{
+		$query1 = Functions::get_json_decoded_query($this->database->select('countries', [
+			'name',
+			'lada'
+		], [
+			'priority[>=]' => 1,
+			'ORDER' => [
+				'priority' => 'ASC'
+			]
+		]));
+
+		$query2 = Functions::get_json_decoded_query($this->database->select('countries', [
+			'name',
+			'lada'
+		], [
+			'priority[=]' => null,
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		$query = array_merge($query1, $query2);
+
+		return $query;
 	}
 
 	public function public_survey_comment($id)

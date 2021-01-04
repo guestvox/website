@@ -177,11 +177,37 @@ $(document).ready(function()
         });
     });
 
+    var zip_name = '';
+
     $('[data-action="download_qrs"]').on('click', function()
     {
         $.ajax({
             type: 'POST',
             data: 'action=download_qrs',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="download_zip"]').addClass('view');
+                    $('[data-modal="download_zip"]').find('main > form > div > div > div > label').html(response.html);
+                    zip_name = response.zip_name;
+                }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('form[name="undoloader_zip"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            data: 'zip_name=' + zip_name + '&action=undoloader_zip',
             processData: false,
             cache: false,
             dataType: 'json',

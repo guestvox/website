@@ -17,7 +17,7 @@ $this->dependencies->add(['other', '<script>menu_focus("owners");</script>']);
     <section class="buttons">
         <div>
             <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <!-- <a data-action="download_qrs"><i class="fas fa-qrcode"></i></a> -->
+            <a data-action="download_qrs"><i class="far fa-file-archive"></i></a>
             <?php if (Functions::check_user_access(['{owners_create}']) == true) : ?>
             <a class="new" data-button-modal="new_owner"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
@@ -55,3 +55,24 @@ $this->dependencies->add(['other', '<script>menu_focus("owners");</script>']);
     </div>
 </section>
 <?php endif; ?>
+<section class="modal fullscreen" data-modal="download_zip">
+    <div class="content">
+        <main>
+            <form name="undoloader_zip">
+                <div class="row">
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="buttons">
+                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+</section>

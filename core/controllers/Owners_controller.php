@@ -173,36 +173,23 @@ class Owners_controller extends Controller
 					$zip_archive = new ZipArchive();
 					$zip_name = Session::get_value('account')['path'] . '_owners_export_' . Functions::get_current_date() . '.zip';
 
-					$zip_archive->open($zip_name, ZipArchive::CREATE);
+					$zip_archive->open(PATH_UPLOADS . $zip_name, ZipArchive::CREATE);
 
 					foreach ($query as $value)
 						$zip_archive->addFile(PATH_UPLOADS . $value['qr'], $value['qr']);
 
 					$zip_archive->close();
 
-					$file_name = 'temp/' . $zip_name;
+					$download_name = PATH_UPLOADS . $zip_name;
 
-					if (file_exists($file_name))
-					{
-						header('Content-type: application/octet-stream');
-						header('Content-Description: File Transfer');
-						header('Content-Disposition: attachment; filename="' . basename($file_name) . '"');
-						header('Expires: 0');
-						header('Cache-Control: must-revalidate');
-						header('Pragma: public');
-						header('Content-Length: ' . filesize($file_name));
+					if (file_exists($download_name))
+						$html = '<a href="{$path.uploads}' . $zip_name . '" download="' . $zip_name . '" data-zip="' . $zip_name . '">{$lang.download}</a>';
 
-						readfile($file_name);
-						exit;
-						// unlink($zip_name);
-					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.operation_error}'
-						]);
-					}
+					Functions::environment([
+						'status' => 'success',
+						'zip_name' => $zip_name,
+						'html' => $html
+					]);
                 }
                 else
                 {
@@ -211,6 +198,15 @@ class Owners_controller extends Controller
     					'message' => '{$lang.operation_error}'
     				]);
                 }
+			}
+			
+			if ($_POST['action'] == 'undoloader_zip')
+			{
+				Functions::undoloader($_POST['zip_name']);
+
+				Functions::environment([
+					'status' => 'success'
+				]);
 			}
 		}
 		else

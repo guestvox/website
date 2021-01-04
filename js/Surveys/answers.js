@@ -53,6 +53,70 @@ $(document).ready(function()
             }
         });
     });
+    
+    $('[data-action="edit_reservation"]').on('click', function()
+    {
+        id = $(this).data('id');
+
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + id + '&action=get_survey_reservation',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    console.log(response.data);
+                    $('[data-modal="edit_reservation"]').addClass('view');
+                    $('[name="firstname"]').val(response.data.reservation.firstname);
+                    $('[name="lastname"]').val(response.data.reservation.lastname);
+                    $('[name="guest_id"]').val(response.data.reservation.guest_id);
+                    $('[name="reservation_number"]').val(response.data.reservation.reservation_number);
+                    $('[name="check_in"]').val(response.data.reservation.check_in);
+                    $('[name="check_out"]').val(response.data.reservation.check_out);
+                    $('[name="nationality"]').val(response.data.reservation.nationality);
+                    $('[name="input_channel"]').val(response.data.reservation.input_channel);
+                    $('[name="traveler_type"]').val(response.data.reservation.traveler_type);
+                    $('[name="age_group"]').val(response.data.reservation.age_group);
+                }
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
+            }
+        });
+    });
+
+    $('[data-modal="edit_reservation"]').modal().onCancel(function()
+    {
+        id = null;
+        
+        clean_form($('form[name="edit_reservation"]'));
+    });
+
+    $('form[name="edit_reservation"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        var data = '&id=' + id + '&action=edit_reservation';
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + data,
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
+            }
+        });
+    });
 
     $('[data-action="print_survey_answer"]').on('click', function()
     {

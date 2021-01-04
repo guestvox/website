@@ -92,5 +92,101 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_{$menu_focus}");
         </main>
     </div>
 </section>
+<section class="modal fullscreen" data-modal="edit_reservation">
+    <div class="content">
+        <main>
+            <form name="edit_reservation">
+                <div class="row">
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.name}</p>
+                                <input type="text" name="firstname">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.lastname}</p>
+                                <input type="text" name="lastname">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.guest}</p>
+                                <input type="number" name="guest_id">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.reservation_number}</p>
+                                <input type="number" name="reservation_number">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.check_in}</p>
+                                <input type="date" name="check_in">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.check_out}</p>
+                                <input type="date" name="check_out">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.nationality}</p>
+                                <input type="text" name="nationality">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.input_channel}</p>
+                                <input type="text" name="input_channel">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.traveler_type}</p>
+                                <input type="text" name="traveler_type">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label>
+                                <p>{$lang.age_group}</p>
+                                <input type="text" name="age_group">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="buttons">
+                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+</section>
 {$mdl_public_survey_comment}
 {$mdl_unpublic_survey_comment}

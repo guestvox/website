@@ -572,6 +572,46 @@ class Surveys_controller extends Controller
 				}
 			}
 
+			if ($_POST['action'] == 'get_survey_reservation')
+			{
+				$query = $this->model->get_survey_answer($_POST['id']);
+
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'data' => $query
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'edit_reservation')
+			{
+				$query = $this->model->edit_survey_reservation($_POST);
+
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+
 			if ($_POST['action'] == 'print_survey_answer')
 			{
 				$query = $this->model->get_survey_answer($_POST['id']);
@@ -820,6 +860,7 @@ class Surveys_controller extends Controller
 						<div class="buttons">
 							<a class="big" data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-ghost"></i><span>{$lang.survey}</span></a>
 							<a data-action="print_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-print"></i></a>
+							<a class="edit" data-action="edit_reservation" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>
 						</div>
 					</div>';
 				}
@@ -905,6 +946,11 @@ class Surveys_controller extends Controller
 
 			foreach ($this->model->get_owners('survey') as $value)
 				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+			
+			$opt_ladas = '';
+
+			foreach ($this->model->get_countries() as $value)
+				$opt_ladas .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
 
 			$replace = [
 				'{$menu_focus}' => $params[0],
@@ -914,7 +960,8 @@ class Surveys_controller extends Controller
 				'{$mdl_public_survey_comment}' => $mdl_public_survey_comment,
 				'{$mdl_unpublic_survey_comment}' => $mdl_unpublic_survey_comment,
 				'{$tbl_surveys_contacts}' => $tbl_surveys_contacts,
-				'{$opt_owners}' => $opt_owners
+				'{$opt_owners}' => $opt_owners,
+				'{$opt_ladas}' => $opt_ladas
 			];
 
 			$template = $this->format->replace($replace, $template);
