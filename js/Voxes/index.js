@@ -24,6 +24,9 @@ $(document).ready(function()
         });
         // alert(JSON.stringify(data));
       });
+
+    var token = null;
+    var id = null;
       
     $('[name="type"]').on('change', function()
     {
@@ -134,6 +137,74 @@ $(document).ready(function()
                     location.reload();
                 else if (response.status == 'error')
                     show_form_errors(form, response);
+            }
+        });
+    });
+
+    $('[data-action="preview_vox"]').on('click', function()
+    {
+        token = $(this).data('token');
+
+        $.ajax({
+            type: 'POST',
+            data: 'token=' + token + '&action=preview_vox',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="preview_vox"]').addClass('view');
+                    $('[data-modal="preview_vox"]').find('main > .stl_11').html(response.html)
+                }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-button-modal="start_vox_now"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=start_vox',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-action="complete_vox"]').on('click', function()
+    {
+        id = $(this).data('id');
+        token = $(this).data('token');
+
+        $('[data-modal="complete_vox"]').addClass('view');
+              
+    });
+
+    $('[data-modal="complete_vox"]').modal().onSuccess(function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + id + '&token=' + token + '&action=complete_vox',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
             }
         });
     });

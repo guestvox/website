@@ -41,6 +41,7 @@ class Users_model extends Model
 			'username',
 			'permissions',
 			'opportunity_areas',
+			'whatsapp',
 			'status'
 		], [
 			'id' => $id
@@ -177,6 +178,7 @@ class Users_model extends Model
 			'password' => $this->security->create_password($data['password']),
 			'permissions' => json_encode($data['permissions']),
 			'opportunity_areas' => json_encode((!empty($data['opportunity_areas']) ? $data['opportunity_areas'] : [])),
+			'whatsapp' => ((!isset($data['whatsapp']) ? false : true)),
 			'status' => true
 		]);
 
@@ -195,7 +197,8 @@ class Users_model extends Model
 			]),
 			'username' => $data['username'],
 			'permissions' => json_encode($data['permissions']),
-			'opportunity_areas' => json_encode((!empty($data['opportunity_areas']) ? $data['opportunity_areas'] : []))
+			'opportunity_areas' => json_encode((!empty($data['opportunity_areas']) ? $data['opportunity_areas'] : [])),
+			'whatsapp' => ((!isset($data['whatsapp']) ? false : true)),
 		], [
 			'id' => $data['id']
 		]);

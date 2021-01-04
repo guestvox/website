@@ -97,6 +97,7 @@ class Voxes_model extends Model
 		}
 
 		$query = Functions::get_json_decoded_query($this->database->select('voxes', [
+			'id',
 			'type',
 			'token',
 			'owner',
@@ -236,6 +237,7 @@ class Voxes_model extends Model
 			'opportunity_type',
 			'started_date',
 			'started_hour',
+			'death_line',
 			'location',
 			'address',
 			'references',
@@ -787,6 +789,7 @@ class Voxes_model extends Model
 			'opportunity_type' => $data['opportunity_type'],
 			'started_date' => ((isset($data['automatic_start']) ? null : Functions::get_formatted_date($data['started_date']))),
 			'started_hour' => ((isset($data['automatic_start']) ? null : Functions::get_formatted_hour($data['started_hour']))),
+			'death_line' => $data['death_line'],
 			'location' => (!empty($data['location']) ? $data['location'] : null),
 			'address' => null,
 			'cost' => (($data['type'] == 'incident' OR $data['type'] == 'workorder') AND !empty($data['cost'])) ? $data['cost'] : null,

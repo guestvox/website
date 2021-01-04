@@ -721,7 +721,7 @@ div.tbl_stl_1 > div > div > a {
     position: absolute;
     top: 0px;
     right: 0px;
-    bottom: 0px;
+    bottom: 50px;
     left: 0px;
     border-radius: 10px;
 }

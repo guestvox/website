@@ -1301,7 +1301,7 @@ class Myvox_controller extends Controller
 							array_push($myvox['menu_order']['shopping_cart'][$_POST['id']], [
 								'quantity' => $_POST['quantity'],
 								'id' => $_POST['id'],
-								'code' => '',
+								'code' => $_POST['code'],
 								'name' => $query['name'],
 								'topics' => $_POST['topics'],
 								'price' => $query['price'],
@@ -1314,7 +1314,7 @@ class Myvox_controller extends Controller
 								[
 									'quantity' => $_POST['quantity'],
 									'id' => $_POST['id'],
-									'code' => '',
+									'code' => $_POST['code'],
 									'name' => $query['name'],
 									'topics' => $_POST['topics'],
 									'price' => $query['price'],
@@ -1484,7 +1484,7 @@ class Myvox_controller extends Controller
 						$_POST['started_date'] = Functions::get_current_date();
 						$_POST['started_hour'] = Functions::get_current_hour();
 
-						$query = $this->model->new_menu_order($_POST);
+						// $query = $this->model->new_menu_order($_POST);
 
 						if (!empty($query))
 						{
@@ -1504,77 +1504,81 @@ class Myvox_controller extends Controller
 
 							$_POST['type'] = 'request';
 							$_POST['menu_order'] = $query;
+							$break = true;
 
 							$query = $this->model->new_vox($_POST, true);
 
-							if (!empty($query))
+							if (Session::get_value('myvox')['account']['ambit']['status'] == true)
 							{
-								if (Session::get_value('myvox')['account']['ambit']['status'] == true)
-								{
-									$ambit = [
-										'store_id' => 101,
-										'client' => [
-											'name' => 'Jorge',
-											'phone' => '+525581053825',
-											'email' => 'jxochihua@hotmail.com',
-											'address' => [
-											'client_address' => 'Ayuntamiento 153, 14250, Depto B204, Col. Miguel Hidalgo , Cdmx ',
+								$ambit = [
+									'store_id' => 101,
+									'client' => [
+										'name' => (isset($_POST['firstname']) AND !empty($_POST['firstname'])? $_POST['firstname'] : ''),
+										'phone' => (isset($_POST['phone_number']) AND !empty($_POST['phone_number']) ? $_POST['phone_lada'] . '' . $_POST['phone_number'] : ''),
+										'email' => '',
+										'address' => [
+											'client_address' => '',
 											'client_address_parts' => [
-												'city' => 'Cdmx ',
-												'street' => 'Ayuntamiento 153',
-												'more_address' => '14250, Depto B204, Col. Miguel Hidalgo ',
+												'city' => '',
+												'street' => '',
+												'more_address' => '',
 												],
-											],
 										],
-										'order' => [
-											'id' => $_POST['token'],
-											'type' => 'delivery',
-											'date' => Functions::get_current_date() . ' ' . Functions::get_current_hour(),
-											'note' => '',
-											'total' => Session::get_value('myvox')['menu_order']['total'],
-											'store' => '0',
-											'origen' => 'Guestvox',
-											'formaPago' => '04',
-											'idFormaPago' => 'CARD',
-											'table' => '',
-										],
-										'Items' => [],
-									];
-			
-									foreach (Session::get_value('myvox')['menu_order']['shopping_cart'] as $value)
+									],
+									'order' => [
+										'id' =>  $_POST['token'],
+										'type' => 'delivery',
+										'date' => Functions::get_current_date() . ' ' . Functions::get_current_hour(),
+										'note' => '',
+										'total' => Session::get_value('myvox')['menu_order']['total'],
+										'store' => '0',
+										'origen' => 'Guestvox',
+										'formaPago' => '01',
+										'idFormaPago' => 'Efectivo',
+										'table' => Session::get_value('myvox')['owner']['name'][$this->lang2],
+									],
+									'Items' => [],
+								];
+		
+								foreach (Session::get_value('myvox')['menu_order']['shopping_cart'] as $value)
+								{
+									foreach($value as $subvalue)
 									{
-										foreach($value as $subvalue)
+										$temp = [
+											'price' => $subvalue['price'],
+											'type' => $subvalue['code']['categorie'],
+											'note' => '',
+											'code' => $subvalue['code']['id'],
+											'descrip' => $subvalue['name'][$this->lang2],
+											'cant' => $subvalue['quantity'],
+											'modifiers' => []
+										];
+		
+										foreach ($subvalue['topics'] as $subvalue2)
 										{
-											$temp = [
-												'price' => $subvalue['price'],
+											$topics = [
+												'price' => $subvalue2['price'],
 												'type' => '2',
-												'note' => '',
-												'code' => 'GRI-004',
-												'descrip' => $subvalue['name'][$this->lang2],
-												'cant' => $subvalue['quantity'],
-												'modifiers' => []
+												'code' => '',
+												'descrip' => $subvalue2['name'][$this->lang2],
+												'cant' => 1,
 											];
-			
-											foreach ($subvalue['topics'] as $subvalue2)
-											{
-												$topics = [
-													'price' => $subvalue2['price'],
-													'type' => '2',
-													'code' => 'MDPLA-056',
-													'descrip' => $subvalue2['name'][$this->lang2],
-													'cant' => 1,
-												];
-												
-												array_push($temp['modifiers'], $topics);
-											}
-			
-											array_push($ambit['Items'], $temp);
+											
+											array_push($temp['modifiers'], $topics);
 										}
+		
+										array_push($ambit['Items'], $temp);
 									}
-
-									// $post_order = Functions::api('ambit', $array_payload, 'post', '');
 								}
+		
+								$ambit_order = Functions::api('ambit', $ambit, 'post', '');
 
+								if (empty($ambit_order))
+									$break = false;
+							}
+
+							if (!empty($query) AND $break == true)
+							{
 								if (Session::get_value('myvox')['account']['type'] == 'restaurant')
 								{
 									if (Session::get_value('myvox')['url'] == 'delivery')

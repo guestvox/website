@@ -101,6 +101,14 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 <div class="span3">
                     <div class="label">
                         <label required>
+                            <p>{$lang.death_line}</p>
+                            <input type="date" name="death_line" value="<?php echo Functions::get_current_date('Y-m-d'); ?>">
+                        </label>
+                    </div>
+                </div>
+                <div class="span3">
+                    <div class="label">
+                        <label required>
                             <p>{$lang.location}</p>
                             <select name="location">
                                 <option value="" hidden>{$lang.choose}</option>

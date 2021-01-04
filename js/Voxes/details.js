@@ -82,7 +82,7 @@ $(document).ready(function()
         });
     });
 
-      $('[data-button-modal="start_vox_now"]').on('click', function()
+    $('[data-button-modal="start_vox_now"]').on('click', function()
     {
         $.ajax({
             type: 'POST',

@@ -72,7 +72,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span8">
+                    <div class="span5">
                         <div class="label">
                             <label required>
                                 <p>{$lang.username}</p>
@@ -88,6 +88,17 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                                     <option value="">{$lang.empty} ({$lang.choose})</option>
                                     {$opt_users_levels}
                                 </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span3">
+                        <div class="label">
+                            <label unrequired>
+                                <p>{$lang.whatsapp} <a data-action="get_help" data-text="{$lang.the_user_will_receive_notifications_on_wahtsapp}"><i class="fas fa-question-circle"></i></a></p>
+                                <div class="switch">
+                                    <input id="wasw" type="checkbox" name="whatsapp" data-switcher>
+                                    <label for="wasw"></label>
+                                </div>
                             </label>
                         </div>
                     </div>

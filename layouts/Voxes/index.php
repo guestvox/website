@@ -154,3 +154,22 @@ $this->dependencies->add(['other', '<!-- start webpushr code -->
         </main>
     </div>
 </section>
+<section class="modal fullscreen" data-modal="preview_vox">
+    <div class="content">
+        <main class="vox_details">
+            <div class="stl_11">
+            </div>
+            <div class="buttons">
+                <a class="new" button-close><i class="fas fa-check"></i></a>
+            </div>
+        </main>
+    </div>
+</section>
+<section class="modal edit" data-modal="complete_vox">
+    <div class="content">
+        <footer>
+            <a button-close><i class="fas fa-times"></i></a>
+            <a button-success><i class="fas fa-check"></i></a>
+        </footer>
+    </div>
+</section>

@@ -55,6 +55,145 @@ class Voxes_controller extends Controller
 
 			}
 
+			if ($_POST['action'] == 'preview_vox')
+			{
+				$query = $this->model->get_vox($_POST['token']);
+
+				if (!empty($query))
+				{
+					$html = '';
+
+					$html .= '
+					<div>
+						<span><i class="fas fa-mask"></i></span>
+						<div>
+							<h2>{$lang.opportunity_area}</h2>
+							<span>' . $query['opportunity_area']['name'][$this->lang] . '</span>
+						</div>
+                	</div>';
+
+					foreach ($query['assigned_users'] as $value)
+					{
+						$html .=
+						'<div>
+							<figure>
+								<img src="' . (!empty($value['avatar']) ? '{$path.uploads}' . $value['avatar'] : '{$path.images}avatar.png') . '">
+							</figure>
+							<div>
+								<h2>' . $value['firstname'] . ' ' . $value['lastname'] . '</h2>
+								<span>@' . $value['username'] . '</span>
+							</div>
+						</div>';
+					}
+
+					Functions::environment([
+						'status' => 'success',
+						'html' => $html
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'complete_vox')
+				{
+					if ($_POST['action'] == 'complete_vox')
+						$query = $this->model->complete_vox($_POST['id']);
+
+					if (!empty($query))
+					{
+						$vox = $this->model->get_vox($_POST['token']);
+
+						$vox['assigned_users'] = $this->model->get_assigned_users($vox['assigned_users'], $vox['opportunity_area']['id']);
+
+						$mail = new Mailer(true);
+
+						if ($_POST['action'] == 'complete_vox')
+							$mail_subject = Languages::email('completed_vox')[$this->lang];
+						else if ($_POST['action'] == 'reopen_vox')
+							$mail_subject = Languages::email('reopened_vox')[$this->lang];
+
+						try
+						{
+							$mail->setFrom('noreply@guestvox.com', 'Guestvox');
+
+							foreach ($vox['assigned_users'] as $value)
+								$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
+
+							$mail->Subject = $mail_subject;
+							$mail->Body =
+							'<html>
+								<head>
+									<title>' . $mail_subject . '</title>
+								</head>
+								<body>
+									<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+												<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+													<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
+												</figure>
+											</td>
+										</tr>
+										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail_subject . '</h4>
+												<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $vox['token'] . '">' . Languages::email('view_details')[$this->lang] . '</a>
+											</td>
+										</tr>
+										<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+											<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+												<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
+											</td>
+										</tr>
+									</table>
+								</body>
+							</html>';
+							$mail->send();
+						}
+						catch (Exception $e) { }
+
+						$sms = $this->model->get_sms();
+
+						if ($sms > 0)
+						{
+							$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
+							$sms_client = new \Nexmo\Client($sms_basic);
+							$sms_text = $mail_subject . '. https://' . Configuration::$domain . '/voxes/details/' . $vox['token'];
+
+							foreach ($vox['assigned_users'] as $value)
+							{
+								if ($sms > 0)
+								{
+									try
+									{
+										$sms_client->message()->send([
+											'to' => $value['phone']['lada'] . $value['phone']['number'],
+											'from' => 'Guestvox',
+											'text' => $sms_text
+										]);
+
+										$sms = $sms - 1;
+									}
+									catch (Exception $e) { }
+								}
+							}
+
+							$this->model->edit_sms($sms);
+						}
+
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+
 			if ($_POST['action'] == 'get_opt_owners')
 			{
 				$html = '<option value="all" ' . ((Session::get_value('settings')['voxes']['voxes']['filter']['owner'] == 'all') ? 'selected' : '') . '>{$lang.all}</option>';
@@ -193,6 +332,63 @@ class Voxes_controller extends Controller
 			// 	],
 			// ], 'post'));
 
+			// Functions::api('ambit', [
+			// 		'store_id' => 101,
+			// 		'client' => [
+			// 		  'name' => 'Jorge',
+			// 		  'phone' => '+525581053825',
+			// 		  'email' => 'jxochihua@hotmail.com',
+			// 		  'address' => [
+			// 			'client_address' => 'Ayuntamiento 153, 14250, Depto B204, Col. Miguel Hidalgo , Cdmx ',
+			// 			'client_address_parts' => [
+			// 				'city' => 'Cdmx ',
+			// 				'street' => 'Ayuntamiento 153',
+			// 				'more_address' => '14250, Depto B204, Col. Miguel Hidalgo ',
+			// 				],
+			// 			],
+			// 		],
+			// 		'order' => [
+			// 		  'id' => 158750185,
+			// 		  'type' => 'delivery',
+			// 		  'date' => '2020-09-13T19:56:12.000Z',
+			// 		  'note' => '',
+			// 		  'total' => 413,
+			// 		  'store' => '0',
+			// 		  'origen' => 'eRest',
+			// 		  'formaPago' => '04',
+			// 		  'idFormaPago' => 'CARD',
+			// 		  'table' => 'M01',
+			// 		],
+			// 		'Items' => [
+			// 		  0 => [
+			// 			'price' => 297,
+			// 			'type' => '2',
+			// 			'note' => '',
+			// 			'code' => 'GRI-004',
+			// 			'descrip' => 'Bife de lomo',
+			// 			'cant' => 1,
+			// 			'modifiers' => [
+			// 			  0 => [
+			// 					'price' => 0,
+			// 					'type' => '2',
+			// 					'code' => 'MDPLA-056',
+			// 					'descrip' => 'Termino 3/4',
+			// 					'cant' => 1,
+			// 					],
+			// 				],
+			// 			],
+			// 		  1 => [
+			// 			'price' => 81,
+			// 			'type' => '2',
+			// 			'note' => '',
+			// 			'code' => 'ENS-005',
+			// 			'descrip' => 'Ensalada Mixta',
+			// 			'cant' => 1,
+			// 			'modifiers' => [],
+			// 			],
+			// 		],
+			// 	], 'post');
+
 			// print_r(Functions::api('ambit', Session::get_value('account')['ambit'], 'get_orders'));
 
 			$tbl_voxes = '';
@@ -288,7 +484,9 @@ class Voxes_controller extends Controller
 								<p>' . ((Session::get_value('account')['type'] == 'restaurant' AND !empty($value['menu_order'])) ? (($value['menu_order']['type_service'] == 'delivery' AND $value['menu_order']['delivery'] == 'home') ? $value['address'] : '{$lang.not_apply}') : (!empty($value['location']) ? $value['location']['name'][$this->lang] : '{$lang.not_location}')) . '</p>
 							</div>
 	                    </div>
-	                    <div class="itm_4">
+						<div class="itm_4">
+							' . (($value['status'] == true AND !empty($value['started_date'])) ? '<a class="new" data-action="complete_vox" data-id="' . $value['id'] . '" data-token="' . $value['token'] . '"><span><i class="fas fa-stop-circle"></i></span></a>' : '') . '
+							<a data-action="preview_vox" data-token="' . $value['token'] . '"><span><i class="fas fa-list"></i></span></a>
 							' . (!empty($value['assigned_users']) ? '<span><i class="fas fa-users"></i></span>' : '') . '
 							' . (!empty($value['comments']) ? '<span><i class="fas fa-comment"></i></span>' : '') . '
 							' . (!empty($value['attachments']) ? '<span><i class="fas fa-paperclip"></i></span>' : '') . '
@@ -296,7 +494,7 @@ class Voxes_controller extends Controller
 						</div>
 						<a href="/voxes/details/' . $value['token'] . '"></a>
 	                </div>
-	            </div>';
+				</div>';
 			}
 
 			$opt_owners = '';
@@ -457,6 +655,9 @@ class Voxes_controller extends Controller
 
 				if (!isset($_POST['started_date']) OR empty($_POST['started_date']))
 					array_push($labels, ['started_date','']);
+					
+				if (!isset($_POST['death_line']) OR empty($_POST['death_line']))
+					array_push($labels, ['death_line','']);
 
 				if (!isset($_POST['started_hour']) OR empty($_POST['started_hour']))
 					array_push($labels, ['started_hour','']);
@@ -1390,6 +1591,7 @@ class Voxes_controller extends Controller
 					'{$location}' => (Session::get_value('account')['type'] == 'restaurant' AND !empty($vox['menu_order'])) ? (($vox['menu_order']['type_service'] == 'delivery' AND $vox['menu_order']['delivery'] == 'home') ? $vox['address'] : '{$lang.not_apply}') : (!empty($vox['location']) ? $vox['location']['name'][$this->lang] : '{$lang.not_location}'),
 					'{$references}' => (Session::get_value('account')['type'] == 'restaurant' AND !empty($vox['menu_order'])) ? (($vox['menu_order']['type_service'] == 'delivery' AND $vox['menu_order']['delivery'] == 'home') ? '<span><i class="fas fa-map-marker-alt"></i>' . (!empty($vox['references']) ? $vox['references'] : '{$lang.not_references}') . '</span>' : '') : '',
 					'{$started_date}' => ($vox['started_date'] == null ? 'Inicio de manera manual' : Functions::get_formatted_date($vox['started_date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($vox['started_hour'], '+ hrs')),
+					'{$death_line}' => ($vox['death_line'] == null ? '' : '<span><i class="fas fa-calendar-alt"></i> {$lang.death_line} ' . Functions::get_formatted_date($vox['death_line'], 'd.m.Y') . '</span>'),
 					'{$spn_cost}' => ($vox['type'] == 'incident' OR $vox['type'] == 'workorder') ? '<span><i class="fas fa-dollar-sign"></i>' . Functions::get_formatted_currency((!empty($vox['cost']) ? $vox['cost'] : '0'), Session::get_value('account')['currency']) . '</span>' : '',
 					'{$p_observations}' => $p_observations,
 					'{$p_subject}' => ($vox['type'] == 'incident') ? '<p><i class="fas fa-quote-right"></i>' . (!empty($vox['subject']) ? $vox['subject'] : '{$lang.not_subject}') . '</p>' : '',

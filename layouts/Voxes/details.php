@@ -51,6 +51,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 <h4>{$created_user_name}</h4>
                 <span>{$created_user_username}</span>
                 <span>{$lang.created_at} {$created_date}</span>
+                {$death_line}
             </div>
             {$div_actions}
             <div class="stl_9">
