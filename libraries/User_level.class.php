@@ -361,18 +361,6 @@ class User_level
 
     static public function redirection()
     {
-        if (Functions::check_account_access(['operation']) == true)
-            return '/voxes';
-        else if (Functions::check_account_access(['reputation']) == true)
-        {
-            if (Functions::check_user_access(['{survey_answers_view}']) == true)
-    			return '/surveys/answers/raters';
-    		else if (Functions::check_user_access(['{survey_stats_view}']) == true)
-    			return '/surveys/stats';
-    		else if (Functions::check_user_access(['{survey_questions_create}','{survey_questions_update}','{survey_questions_deactivate}','{survey_questions_activate}','{survey_questions_delete}']) == true)
-    			return '/surveys/questions';
-        }
-        else
-            return '/dashboard';
+        return '/dashboard';
     }
 }

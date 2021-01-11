@@ -27,16 +27,6 @@ $xml =
         <loc>' . $https . '/webinar</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/terms-and-conditions</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.60</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/privacy-policies</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.60</priority>
     </url>';
 
 if (!$database->connect_error)

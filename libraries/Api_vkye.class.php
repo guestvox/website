@@ -49,11 +49,6 @@ class Api_vkye
                 $password = !empty($password[0]) ? json_decode(json_encode($password[0]), 1) : '';
                 $password = !empty($password[0]) ? $password[0] : '';
             }
-            else if ($params[0] == 'mit')
-            {
-                $username = 'mit';
-                $password = 'qrB3svqybxLrMas6';
-            }
             else
             {
                 $username = !empty($_SERVER['HTTP_USERNAME']) ? $_SERVER['HTTP_USERNAME'] : '';
