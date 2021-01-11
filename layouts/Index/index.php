@@ -207,21 +207,12 @@ $this->dependencies->add(['others',
                 <h3>Gersón Gómez</h3>
                 <h4>{$lang.cto}</h4>
             </div>
-        </div>
-        <div>
             <div>
                 <figure>
                     <img src="{$path.images}index/stl_6_image_4.png" alt="Work team">
                 </figure>
                 <h3>Saúl Poot</h3>
-                <h4>{$lang.chief_programmer_web}</h4>
-            </div>
-            <div>
-                <figure>
-                    <img src="{$path.images}index/stl_6_image_5.png" alt="Work team">
-                </figure>
-                <h3>David Gómez</h3>
-                <h4>{$lang.chief_programmer_mobile}</h4>
+                <h4>{$lang.chief_programmer}</h4>
             </div>
         </div>
     </section>

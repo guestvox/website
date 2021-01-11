@@ -685,22 +685,22 @@ main.landing_page_index > section.stl_6 > div:last-child > div {
 }
 
 main.landing_page_index > section.stl_6 > div > div > figure {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
     padding: 3px;
     box-sizing: border-box;
-    border-radius: 50%;
+    border-radius: 5px;
     overflow: hidden;
     background-color: #fff;
 }
 
 main.landing_page_index > section.stl_6 > div > div > figure > img {
     width: 100%;
-    border-radius: 50%;
+    border-radius: 5px;
 }
 
 main.landing_page_index > section.stl_6 > div > div > h3 {
