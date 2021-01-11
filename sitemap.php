@@ -14,37 +14,12 @@ $xml =
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/hola/voxes</loc>
+        <loc>' . $https . '/hoteles</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/hola/menu</loc>
-        <changefreq>yearly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/hola/encuestas</loc>
-        <changefreq>yearly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/hola/reseñas</loc>
-        <changefreq>yearly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/hola/hoteles</loc>
-        <changefreq>yearly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/hola/restaurantes</loc>
-        <changefreq>yearly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/hola/hospitales</loc>
+        <loc>' . $https . '/restaurantes</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
     </url>

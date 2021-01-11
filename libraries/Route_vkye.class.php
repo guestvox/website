@@ -20,14 +20,8 @@ class Route_vkye
 
         $redirection_paths = [
             '/Index/index',
-            '/Hi/voxes',
-            '/Hi/menu',
-            '/Hi/surveys',
-            '/Hi/reviews',
             '/Hi/hotels',
             '/Hi/restaurants',
-            '/Hi/hospitals',
-            '/Hi/enlace',
             '/Hi/webinar',
             '/Policies/terms',
             '/Policies/privacy',
