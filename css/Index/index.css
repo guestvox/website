@@ -377,6 +377,14 @@ main.landing_page_index > section.stl_4 {
     background-color: #fff;
 }
 
+@media (max-width: 768px) {
+
+    main.landing_page_index > section.stl_4 {
+        flex-direction: column;
+        padding-top: 50px;
+    }
+}
+
 main.landing_page_index > section.stl_4 > div {
     width: 400px;
     padding: 0px 10px;
@@ -385,6 +393,15 @@ main.landing_page_index > section.stl_4 > div {
 
 main.landing_page_index > section.stl_4 > div:last-child {
     width: 600px;
+}
+
+@media (max-width: 768px) {
+
+    main.landing_page_index > section.stl_4 > div,
+    main.landing_page_index > section.stl_4 > div:last-child {
+        width: 100%;
+        padding: 0px;
+    }
 }
 
 main.landing_page_index > section.stl_4 > div > div {
@@ -401,6 +418,16 @@ main.landing_page_index > section.stl_4 > div > div {
     border: 1px solid #e0e0e0;
 }
 
+@media (max-width: 768px) {
+
+    main.landing_page_index > section.stl_4 > div > div {
+        min-height: auto;
+        border-radius: 0px;
+        border: 0px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+}
+
 main.landing_page_index > section.stl_4 > div > div > i {
     margin-bottom: 20px;
     font-size: 70px;
@@ -409,6 +436,13 @@ main.landing_page_index > section.stl_4 > div > div > i {
 
 main.landing_page_index > section.stl_4 > div:last-child > div > i {
     font-size: 140px;
+}
+
+@media (max-width: 768px) {
+
+    main.landing_page_index > section.stl_4 > div:last-child > div > i {
+        font-size: 70px;
+    }
 }
 
 main.landing_page_index > section.stl_4 > div > div > h2 {

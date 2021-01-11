@@ -11,6 +11,22 @@ $(document).ready(function()
         $('main.landing_page_index > header > nav.desktop').toggleClass('open');
     });
 
+    $("[data-smooth-scroll]").click(function()
+    {
+        if (location.pathname.replace(/^\//, "") === this.pathname.replace(/^\//, "") && location.hostname === this.hostname)
+        {
+            var a = $(this.hash);
+
+            a = a.length ? a : $("[name=" + this.hash.slice(1) + "]");
+
+            if (a.length)
+            {
+                $("html,body").animate({scrollTop: a.offset().top}, 1000);
+                return false;
+            }
+        }
+    });
+
     $('[data-modal="quote_hotel"]').modal().onCancel(function()
     {
         clean_form($('form[name="quote_hotel"]'));

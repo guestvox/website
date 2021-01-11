@@ -31,9 +31,9 @@ $this->dependencies->add(['others',
         </figure>
         <nav class="desktop">
             <ul>
-                <li><a href="#solutions">{$lang.solutions}</a></li>
-                <li><a href="#prices">{$lang.specialized_packages}</a></li>
-                <li><a href="#prices">{$lang.prices}</a></li>
+                <li><a href="#solutions" data-smooth-scroll>{$lang.solutions}</a></li>
+                <li><a href="#prices" data-smooth-scroll>{$lang.specialized_packages}</a></li>
+                <li><a href="#prices" data-smooth-scroll>{$lang.prices}</a></li>
                 <li class="focus"><a href="/login">{$lang.login}</a></li>
                 <li><a href="/blog">{$lang.blog}</a></li>
             </ul>
