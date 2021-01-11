@@ -407,9 +407,10 @@ main.landing_page_index > section.stl_4 > div:last-child {
 main.landing_page_index > section.stl_4 > div > div {
     width: 100%;
     min-height: 470px;
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
     padding: 40px 20px;
     box-sizing: border-box;
@@ -432,17 +433,6 @@ main.landing_page_index > section.stl_4 > div > div > i {
     margin-bottom: 20px;
     font-size: 70px;
     color: #757575;
-}
-
-main.landing_page_index > section.stl_4 > div:last-child > div > i {
-    font-size: 140px;
-}
-
-@media (max-width: 768px) {
-
-    main.landing_page_index > section.stl_4 > div:last-child > div > i {
-        font-size: 70px;
-    }
 }
 
 main.landing_page_index > section.stl_4 > div > div > h2 {
@@ -484,6 +474,8 @@ main.landing_page_index > section.stl_4 > div > div > a {
 }
 
 main.landing_page_index > section.stl_4 > div > div > a:last-child {
+    position: absolute;
+    bottom: 40px;
     margin-bottom: 0px;
     background-color: #fff;
     font-weight: 600;

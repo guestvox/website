@@ -25,25 +25,13 @@ class Urls_registered_vkye
                 'controller' => 'Hi',
                 'method' => 'webinar'
             ],
-            '/terms-and-conditions' => [
-                'controller' => 'Policies',
-                'method' => 'terms'
-            ],
-            '/privacy-policies' => [
-                'controller' => 'Policies',
-                'method' => 'privacy'
-            ],
-            '/signup' => [
-                'controller' => 'Signup',
+            '/personaliza' => [
+                'controller' => 'Personalize',
                 'method' => 'index'
             ],
-            '/signup/%param%' => [
-                'controller' => 'Signup',
+            '/activar/%param%' => [
+                'controller' => 'Activate',
                 'method' => 'index'
-            ],
-            '/activate/%param%' => [
-                'controller' => 'Signup',
-                'method' => 'activate'
             ],
             '/%param%/myvox' => [
                 'controller' => 'Myvox', // - Rediseño
@@ -208,6 +196,14 @@ class Urls_registered_vkye
             '/logout' => [
                 'controller' => 'System',
                 'method' => 'logout'
+            ],
+            '/terms-and-conditions' => [
+                'controller' => 'Policies',
+                'method' => 'terms'
+            ],
+            '/privacy-policies' => [
+                'controller' => 'Policies',
+                'method' => 'privacy'
             ]
         ];
     }

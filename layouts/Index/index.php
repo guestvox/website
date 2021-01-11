@@ -145,7 +145,7 @@ $this->dependencies->add(['others',
             <div>
                 <i class="fas fa-grin-stars"></i>
                 <h2>{$lang.guestvox_personalize}</h2>
-                <a href="/signup">¡{$lang.signup_now}!</a>
+                <a href="/personaliza">¡{$lang.personalize_now}!</a>
                 <p>{$lang.guestvox_personalize_text}</p>
                 <a data-button-modal="quote_personalize">¡{$lang.quote_now}!</a>
             </div>
