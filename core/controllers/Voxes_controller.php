@@ -19,41 +19,41 @@ class Voxes_controller extends Controller
 	{
 		if (Format::exist_ajax_request() == true)
 		{
-			if ($_POST['action'] == 'notification')
-			{
-				$end_point = 'https://api.webpushr.com/v1/notification/send/all';
-				$http_header = array(
-					"Content-Type: Application/Json",
-					"webpushrKey: T6GsOhzKszICnxJI1D6pbazDxNrq-k9hKBWiuHxdme8",
-					"webpushrAuthToken: 13576"
-				);
-				$req_data = array(
-					'title' 			=> "Pedido desde Menú digital", //required
-					'message' 		=> "Hay un nuevo pedido", //required
-					'target_url'	=> 'https://www.webpushr.com', //required
-					'name'			=> 'Ceviche',
-					'icon'			=> 'https://www.webpushr.com/logo.png',
-					'auto_hide'		=> 1,
-					'expire_push'	=> '5m',
-					'action_buttons'=> array(
-						array('title'=> 'Demo', 'url' => 'https://www.webpushr.com/demo'),
-						array('title'=> 'Rates', 'url' => 'https://www.webpushr.com/pricing')
-					)
-				);
-				$ch = curl_init();
-				curl_setopt($ch, CURLOPT_HTTPHEADER, $http_header);
-				curl_setopt($ch, CURLOPT_URL, $end_point );
-				curl_setopt($ch, CURLOPT_POST, 1);
-				curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($req_data) );
-				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-				$response = curl_exec($ch);
-				echo $response;
+			// if ($_POST['action'] == 'notification')
+			// {
+			// 	$end_point = 'https://api.webpushr.com/v1/notification/send/all';
+			// 	$http_header = array(
+			// 		"Content-Type: Application/Json",
+			// 		"webpushrKey: T6GsOhzKszICnxJI1D6pbazDxNrq-k9hKBWiuHxdme8",
+			// 		"webpushrAuthToken: 13576"
+			// 	);
+			// 	$req_data = array(
+			// 		'title' 			=> "Pedido desde Menú digital", //required
+			// 		'message' 		=> "Hay un nuevo pedido", //required
+			// 		'target_url'	=> 'https://www.webpushr.com', //required
+			// 		'name'			=> 'Ceviche',
+			// 		'icon'			=> 'https://www.webpushr.com/logo.png',
+			// 		'auto_hide'		=> 1,
+			// 		'expire_push'	=> '5m',
+			// 		'action_buttons'=> array(
+			// 			array('title'=> 'Demo', 'url' => 'https://www.webpushr.com/demo'),
+			// 			array('title'=> 'Rates', 'url' => 'https://www.webpushr.com/pricing')
+			// 		)
+			// 	);
+			// 	$ch = curl_init();
+			// 	curl_setopt($ch, CURLOPT_HTTPHEADER, $http_header);
+			// 	curl_setopt($ch, CURLOPT_URL, $end_point );
+			// 	curl_setopt($ch, CURLOPT_POST, 1);
+			// 	curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($req_data) );
+			// 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			// 	$response = curl_exec($ch);
+			// 	echo $response;
 
-				Functions::environment([
-					'status' => 'success'
-				]);
+			// 	Functions::environment([
+			// 		'status' => 'success'
+			// 	]);
 
-			}
+			// }
 
 			if ($_POST['action'] == 'preview_vox')
 			{
@@ -276,62 +276,6 @@ class Voxes_controller extends Controller
 
 			define('_title', 'Guestvox | {$lang.voxes}');
 
-			// print_r(Functions::api('ambit', [
-			// 	'store_id' => 101,
-			// 	'client' => [
-			// 	  'name' => 'Jorge',
-			// 	  'phone' => '+525581053825',
-			// 	  'email' => 'jxochihua@hotmail.com',
-			// 	  'address' => [
-			// 		'client_address' => 'Ayuntamiento 153, 14250, Depto B204, Col. Miguel Hidalgo , Cdmx ',
-			// 		'client_address_parts' => [
-			// 			'city' => 'Cdmx ',
-			// 			'street' => 'Ayuntamiento 153',
-			// 			'more_address' => '14250, Depto B204, Col. Miguel Hidalgo ',
-			// 			],
-			// 		],
-			// 	],
-			// 	'order' => [
-			// 	  'id' => 158750180,
-			// 	  'type' => 'delivery',
-			// 	  'date' => '2020-09-13T19:56:12.000Z',
-			// 	  'note' => '',
-			// 	  'total' => 413,
-			// 	  'store' => '0',
-			// 	  'origen' => 'eRest',
-			// 	  'formaPago' => '04',
-			// 	  'idFormaPago' => 'CARD',
-			// 	],
-			// 	'Items' => [
-			// 	  0 => [
-			// 		'price' => 297,
-			// 		'type' => '2',
-			// 		'note' => '',
-			// 		'code' => 'GRI-004',
-			// 		'descrip' => 'Bife de lomo',
-			// 		'cant' => 1,
-			// 		'modifiers' => [
-			// 		  0 => [
-			// 				'price' => 0,
-			// 				'type' => '2',
-			// 				'code' => 'MDPLA-056',
-			// 				'descrip' => 'Termino 3/4',
-			// 				'cant' => 1,
-			// 				],
-			// 			],
-			// 		],
-			// 	  1 => [
-			// 		'price' => 81,
-			// 		'type' => '2',
-			// 		'note' => '',
-			// 		'code' => 'ENS-005',
-			// 		'descrip' => 'Ensalada Mixta',
-			// 		'cant' => 1,
-			// 		'modifiers' => [],
-			// 		],
-			// 	],
-			// ], 'post'));
-
 			// Functions::api('ambit', [
 			// 		'store_id' => 101,
 			// 		'client' => [
@@ -388,8 +332,6 @@ class Voxes_controller extends Controller
 			// 			],
 			// 		],
 			// 	], 'post');
-
-			// print_r(Functions::api('ambit', Session::get_value('account')['ambit'], 'get_orders'));
 
 			$tbl_voxes = '';
 

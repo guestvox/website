@@ -1484,7 +1484,7 @@ class Myvox_controller extends Controller
 						$_POST['started_date'] = Functions::get_current_date();
 						$_POST['started_hour'] = Functions::get_current_hour();
 
-						// $query = $this->model->new_menu_order($_POST);
+						$query = $this->model->new_menu_order($_POST);
 
 						if (!empty($query))
 						{
@@ -1527,7 +1527,7 @@ class Myvox_controller extends Controller
 									],
 									'order' => [
 										'id' =>  $_POST['token'],
-										'type' => 'delivery',
+										'type' => 'Guestvox',
 										'date' => Functions::get_current_date() . ' ' . Functions::get_current_hour(),
 										'note' => '',
 										'total' => Session::get_value('myvox')['menu_order']['total'],
@@ -1553,19 +1553,6 @@ class Myvox_controller extends Controller
 											'cant' => $subvalue['quantity'],
 											'modifiers' => []
 										];
-		
-										foreach ($subvalue['topics'] as $subvalue2)
-										{
-											$topics = [
-												'price' => $subvalue2['price'],
-												'type' => '2',
-												'code' => '',
-												'descrip' => $subvalue2['name'][$this->lang2],
-												'cant' => 1,
-											];
-											
-											array_push($temp['modifiers'], $topics);
-										}
 		
 										array_push($ambit['Items'], $temp);
 									}
