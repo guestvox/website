@@ -36,7 +36,7 @@
             <div class="content">
                 <main>
                     <i class="fas fa-check-circle"></i>
-                    <!-- <p></p> -->
+                    <p></p>
                 </main>
             </div>
         </section>
@@ -93,6 +93,5 @@
             </script>
             <?php endif; ?>
         <?php endif; ?> -->
-        <!--  -->
     </body>
 </html>

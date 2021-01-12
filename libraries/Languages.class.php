@@ -31,6 +31,10 @@ class Languages
                 'es' => '¡Gracias por solicitar tu demo!',
                 'en' => '¡Thanks for requesting your demo!'
             ],
+            'thanks_request_quote' => [
+                'es' => '¡Gracias por solicitar tu cotización!',
+                'en' => '¡Thanks for requesting your quote!'
+            ],
             'representative_contact_you' => [
                 'es' => 'En estos días, uno de nuestros representantes se pondrá en contacto contigo para agendar una cita.',
                 'en' => 'These days, one of our representatives will contact you to schedule an appointment.'

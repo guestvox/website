@@ -64,11 +64,9 @@
         <noscript><img height="1" width="1" style="display:none"
         src="https://www.facebook.com/tr?id=359062025275113&ev=PageView&noscript=1"
         /></noscript>
-        <!-- End Facebook Pixel Code -->
 
 		<!-- Google site verification -->
 		<meta name="google-site-verification" content="nt4G0mNfZWU_U4U8bMwlnOi2P-bwTyTjoY0HmhaZs2M">
-		<!--  -->
 
 		<!-- Google analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-153525856-1"></script>
@@ -78,6 +76,5 @@
 			gtag('js', new Date());
 			gtag('config', 'UA-153525856-1');
 		</script>
-		<!--  -->
 	</head>
 	<body>

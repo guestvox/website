@@ -138,7 +138,7 @@ class Configuration
 	 *
      * @var string $db_host
      */
-	public static $db_host = 'guestvox.com';
+	public static $db_host = 'codemonkey.com.mx';
 	// public static $db_host = 'localhost';
 
 	/**
@@ -243,7 +243,7 @@ class Configuration
 	 *
      * @var string $smtp_user
      */
-	public static $smtp_user = 'noreply@guestvox.com';
+	public static $smtp_user = 'noreply@codemonkey.com.mx';
 
 	/**
      * Contraseña de la cuenta smtp.
@@ -252,7 +252,7 @@ class Configuration
 	 *
      * @var string $smtp_pass
      */
-	public static $smtp_pass = '5xb2r1@W';
+	public static $smtp_pass = 'Xxk71#g7';
 
 	/**
      * Seguridad de la encriptacion para el envio de SMTP.

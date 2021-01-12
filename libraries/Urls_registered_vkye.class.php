@@ -13,65 +13,25 @@ class Urls_registered_vkye
                 'controller' => 'Index',
                 'method' => 'index'
             ],
-            '/hola/voxes' => [
-                'controller' => 'Hi',
-                'method' => 'voxes'
-            ],
-            '/hola/menu' => [
-                'controller' => 'Hi',
-                'method' => 'menu'
-            ],
-            '/hola/encuestas' => [
-                'controller' => 'Hi',
-                'method' => 'surveys'
-            ],
-            '/hola/resenas' => [
-                'controller' => 'Hi',
-                'method' => 'reviews'
-            ],
-            '/hola/hoteles' => [
+            '/hoteles' => [
                 'controller' => 'Hi',
                 'method' => 'hotels'
-            ],
-            '/hola/restaurantes' => [
-                'controller' => 'Hi',
-                'method' => 'restaurants'
             ],
             '/restaurantes' => [
                 'controller' => 'Hi',
                 'method' => 'restaurants'
             ],
-            '/hola/hospitales' => [
-                'controller' => 'Hi',
-                'method' => 'hospitals'
-            ],
-            '/enlace' => [
-                'controller' => 'Hi',
-                'method' => 'enlace'
-            ],
             '/webinar' => [
                 'controller' => 'Hi',
                 'method' => 'webinar'
             ],
-            '/terms-and-conditions' => [
-                'controller' => 'Policies',
-                'method' => 'terms'
-            ],
-            '/privacy-policies' => [
-                'controller' => 'Policies',
-                'method' => 'privacy'
-            ],
-            '/signup' => [
-                'controller' => 'Signup',
+            '/personaliza' => [
+                'controller' => 'Personalize',
                 'method' => 'index'
             ],
-            '/signup/%param%' => [
-                'controller' => 'Signup',
+            '/activar/%param%' => [
+                'controller' => 'Activate',
                 'method' => 'index'
-            ],
-            '/activate/%param%' => [
-                'controller' => 'Signup',
-                'method' => 'activate'
             ],
             '/%param%/myvox' => [
                 'controller' => 'Myvox', // - Rediseño
@@ -109,10 +69,10 @@ class Urls_registered_vkye
                 'controller' => 'Login',
                 'method' => 'index'
             ],
-            // '/dashboard' => [
-            //     'controller' => 'Dashboard', // - Rediseño
-            //     'method' => 'index'
-            // ],
+            '/dashboard' => [
+                'controller' => 'Dashboard', // - Rediseño
+                'method' => 'index'
+            ],
             '/my-profile' => [
                 'controller' => 'Profile',
                 'method' => 'index'
@@ -169,10 +129,10 @@ class Urls_registered_vkye
                 'controller' => 'Menu',
                 'method' => 'products'
             ],
-            // '/menu/restaurants' => [
-            //     'controller' => 'Menu',
-            //     'method' => 'restaurants'
-            // ],
+            '/menu/restaurants' => [
+                'controller' => 'Menu',
+                'method' => 'restaurants'
+            ],
             '/menu/categories' => [
                 'controller' => 'Menu',
                 'method' => 'categories'
@@ -236,6 +196,14 @@ class Urls_registered_vkye
             '/logout' => [
                 'controller' => 'System',
                 'method' => 'logout'
+            ],
+            '/terminos-y-condiciones' => [
+                'controller' => 'Policies',
+                'method' => 'terms'
+            ],
+            '/politicas-de-privacidad' => [
+                'controller' => 'Policies',
+                'method' => 'privacy'
             ]
         ];
     }
