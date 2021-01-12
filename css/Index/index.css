@@ -391,14 +391,9 @@ main.landing_page_index > section.stl_4 > div {
     box-sizing: border-box;
 }
 
-main.landing_page_index > section.stl_4 > div:last-child {
-    width: 600px;
-}
-
 @media (max-width: 768px) {
 
-    main.landing_page_index > section.stl_4 > div,
-    main.landing_page_index > section.stl_4 > div:last-child {
+    main.landing_page_index > section.stl_4 > div {
         width: 100%;
         padding: 0px;
     }
@@ -456,10 +451,6 @@ main.landing_page_index > section.stl_4 > div > div > p {
 
 main.landing_page_index > section.stl_4 > div > div > p:last-child {
     margin-bottom: 0px;
-}
-
-main.landing_page_index > section.stl_4 > div:last-child > div > p {
-    max-width: 340px;
 }
 
 main.landing_page_index > section.stl_4 > div > div > a {
