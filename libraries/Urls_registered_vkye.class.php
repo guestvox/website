@@ -197,11 +197,11 @@ class Urls_registered_vkye
                 'controller' => 'System',
                 'method' => 'logout'
             ],
-            '/terms-and-conditions' => [
+            '/terminos-y-condiciones' => [
                 'controller' => 'Policies',
                 'method' => 'terms'
             ],
-            '/privacy-policies' => [
+            '/politicas-de-privacidad' => [
                 'controller' => 'Policies',
                 'method' => 'privacy'
             ]

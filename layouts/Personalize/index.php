@@ -9,7 +9,7 @@ $this->dependencies->add(['js', '{$path.js}Personalize/index.js']);
 
 <main class="personalize">
     <form name="personalize">
-        <h2>¡{$lang.guestvox_personalize}!</h2>
+        <h2>{$lang.guestvox_personalize_now}</h2>
         <div class="steps">
             <div class="step_buttons">
                 <a class="view" data-step="1">1</a>
@@ -184,7 +184,7 @@ $this->dependencies->add(['js', '{$path.js}Personalize/index.js']);
                         </div>
                     </div>
                 </div>
-                <p>{$lang.signup_accept_1} <a href="/terms-and-conditions" target="_blank">{$lang.terms_and_conditions}</a> {$lang.signup_accept_2} <a href="/privacy-policies" target="_blank">{$lang.privacy_policies}</a></p>
+                <p>{$lang.signup_accept_1} <a href="/terminos-y-condiciones" target="_blank">{$lang.terms_and_conditions}</a> {$lang.signup_accept_2} <a href="/politicas-de-privacidad" target="_blank">{$lang.privacy_policies}</a></p>
                 <a data-action="next">{$lang.start_demo}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>

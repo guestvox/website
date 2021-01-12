@@ -33,7 +33,7 @@ $this->dependencies->add(['others',
             <ul>
                 <li><a href="#solutions" data-smooth-scroll>{$lang.solutions}</a></li>
                 <li><a href="#prices" data-smooth-scroll>{$lang.specialized_packages}</a></li>
-                <li><a href="#prices" data-smooth-scroll>{$lang.prices}</a></li>
+                <!-- <li><a href="#prices" data-smooth-scroll>{$lang.prices}</a></li> -->
                 <li class="focus"><a href="/login">{$lang.login}</a></li>
                 <li><a href="/blog">{$lang.blog}</a></li>
             </ul>
@@ -129,7 +129,7 @@ $this->dependencies->add(['others',
                 <h2>{$lang.guestvox_hotels}</h2>
                 <a href="/hoteles">{$lang.discover_more}</a>
                 <p>{$lang.guestvox_hotels_text}</p>
-                <a data-button-modal="quote_hotel">¡{$lang.quote_now}!</a>
+                <a data-button-modal="quote_hotel">{$lang.quote_now}</a>
             </div>
         </div>
         <div>
@@ -138,7 +138,7 @@ $this->dependencies->add(['others',
                 <h2>{$lang.guestvox_restaurants}</h2>
                 <a href="/restaurantes">{$lang.discover_more}</a>
                 <p>{$lang.guestvox_restaurants_text}</p>
-                <a data-button-modal="quote_restaurant">¡{$lang.quote_now}!</a>
+                <a data-button-modal="quote_restaurant">{$lang.quote_now}</a>
             </div>
         </div>
         <div>
@@ -147,11 +147,11 @@ $this->dependencies->add(['others',
                 <h2>{$lang.guestvox_personalize}</h2>
                 <a href="/personaliza">¡{$lang.personalize_now}!</a>
                 <p>{$lang.guestvox_personalize_text}</p>
-                <a data-button-modal="quote_personalize">¡{$lang.quote_now}!</a>
+                <a data-button-modal="quote_personalize">{$lang.quote_now}</a>
             </div>
         </div>
     </section>
-    <section class="stl_5">
+    <!-- <section class="stl_5">
         <h2>{$lang.landing_page_index_stl_5_text_1}</h2>
         <h3>{$lang.landing_page_index_stl_5_text_2}</h3>
         <div>
@@ -176,13 +176,13 @@ $this->dependencies->add(['others',
                 <a href="https://zaviaerp.com/"><img src="{$path.images}index/stl_5_image_6.png" alt="Partner"></a>
             </figure>
         </div>
-        <!-- <div>
+        <div>
             <figure>
                 <img src="https://www.comparasoftware.com/wp-content/uploads/2019/05/comparasoftware_verificado.png" alt="Partner">
             </figure>
-        </div> -->
-    </section>
-    <section class="stl_6">
+        </div>
+    </section> -->
+    <!-- <section class="stl_6">
         <h2>{$lang.landing_page_index_stl_6_text_1}<i class="fas fa-heart"></i>{$lang.landing_page_index_stl_6_text_2}</h2>
         <h3>{$lang.landing_page_index_stl_6_text_3}</h3>
         <div>
@@ -215,9 +215,9 @@ $this->dependencies->add(['others',
                 <h4>{$lang.chief_programmer}</h4>
             </div>
         </div>
-    </section>
+    </section> -->
     <section class="contacts">
-        <a href="mailto:contacto@guestvox.com" data-email><i class="fas fa-envelope"></i></a>
+        <a data-button-modal="quote_personalize" data-email><i class="fas fa-envelope"></i></a>
         <a href="tel:+520987654321" data-phone><i class="fas fa-phone"></i></a>
         <a href="https://api.whatsapp.com/send?phone=+520987654321" data-whatsapp target="_blank"><i class="fab fa-whatsapp"></i></a>
     </section>
@@ -250,11 +250,13 @@ $this->dependencies->add(['others',
             <a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" target="_blank"><i class="fab fa-youtube"></i></a>
         </div>
         <div>
-            <a href="/terms-and-conditions" target="_blank">{$lang.terms_and_conditions}</a>
+            <a href="/acerca-de-nosotros">{$lang.about_us}</a>
             <i class="fas fa-circle"></i>
-            <a href="/privacy-policies" target="_blank">{$lang.privacy_policies}</a>
+            <a href="/terminos-y-condiciones">{$lang.terms_and_conditions}</a>
+            <i class="fas fa-circle"></i>
+            <a href="/politicas-de-privacidad">{$lang.privacy_policies}</a>
         </div>
-        <p>Copyright<i class="far fa-copyright"></i>2021 | {$lang.all_right_reserved} | Guestvox S.A.P.I. de C.V.</p>
+        <p>Copyright<i class="far fa-copyright"></i>2021 | Guestvox S.A.P.I. de C.V.</p>
     </footer>
 </main>
 <section class="modal" data-modal="quote_hotel">
