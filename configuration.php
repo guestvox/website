@@ -148,7 +148,7 @@ class Configuration
 	 *
      * @var string $db_name
      */
-	public static $db_name = 'gv_website_dev';
+	public static $db_name = 'guestvox_dev';
 
 	/**
      * Usuario de la base de datos
