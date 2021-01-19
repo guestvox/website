@@ -18,7 +18,7 @@ class Configuration
 	 *
      * @var string $domain
      */
-	public static $domain = 'dev.guestvox.com';
+	public static $domain = 'guestvox.com';
 
 	/**
      * Nombre del sitio web.
@@ -148,7 +148,7 @@ class Configuration
 	 *
      * @var string $db_name
      */
-	public static $db_name = 'guestvox_dev';
+	public static $db_name = 'guestvox_stays_2021';
 
 	/**
      * Usuario de la base de datos
