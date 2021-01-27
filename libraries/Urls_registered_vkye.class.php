@@ -208,6 +208,10 @@ class Urls_registered_vkye
             '/politicas-de-privacidad' => [
                 'controller' => 'Policies',
                 'method' => 'privacy'
+            ],
+            '/surveys/newsurvey' => [
+                'controller' => 'Surveys',
+                'method' => 'newsurvey'
             ]
         ];
     }

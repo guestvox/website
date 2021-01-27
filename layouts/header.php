@@ -101,6 +101,7 @@
             <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
             <li target="surveys_stats"><a href="/surveys/stats">{$lang.stats}<i class="fas fa-chart-pie"></i></a></li>
             <?php endif; ?>
+            <li target="surveys_questions"><a href="/surveys/newsurvey">{$lang.questions}<i class="fas fa-plus"></i></a></li>
         </ul>
     </nav>
     <?php endif; ?>
