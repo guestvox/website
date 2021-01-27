@@ -137,6 +137,10 @@ class Urls_registered_vkye
                 'controller' => 'Menu',
                 'method' => 'categories'
             ],
+            '/menu/orders' => [
+                'controller' => 'Menu',
+                'method' => 'orders'
+            ],
             '/menu/topics' => [
                 'controller' => 'Menu',
                 'method' => 'topics'

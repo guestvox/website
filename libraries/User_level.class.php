@@ -19,6 +19,8 @@ class User_level
         array_push($paths, '/Support/index');
         array_push($paths, '/System/translate');
         array_push($paths, '/System/logout');
+        array_push($paths, '/Menu/orders');
+        
 
         foreach (Session::get_value('user')['permissions'] as $key => $value)
         {

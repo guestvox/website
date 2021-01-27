@@ -75,6 +75,7 @@
                 <?php if (Functions::check_user_access(['{menu_categories_create}','{menu_categories_update}','{menu_categories_deactivate}','{menu_categories_activate}','{menu_categories_delete}']) == true) : ?>
                 <li target="menu_categories"><a href="/menu/categories">{$lang.categories}<i class="fas fa-tag"></i></a></li>
                 <?php endif; ?>
+                <li target="menu_orders"><a href="/menu/orders">{$lang.orders}<i class="fas fa-bars"></i></a></li>
                 <?php if (Functions::check_user_access(['{menu_topics_create}','{menu_topics_update}','{menu_topics_deactivate}','{menu_topics_activate}','{menu_topics_delete}']) == true) : ?>
                 <li target="menu_topics"><a href="/menu/topics">{$lang.topics}<i class="fas fa-bookmark"></i></a></li>
                 <?php endif; ?>
