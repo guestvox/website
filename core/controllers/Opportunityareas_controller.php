@@ -49,16 +49,16 @@ class Opportunityareas_controller extends Controller
 					array_push($labels, ['name_en','']);
 
 				if (isset($_POST['request']))
-					array_push($checks, ['request','']);	
-					
+					array_push($checks, ['request','']);
+
 				if (isset($_POST['incident']))
-					array_push($checks, ['incident','']);	
-					
+					array_push($checks, ['incident','']);
+
 				if (isset($_POST['workorder']))
-					array_push($checks, ['workorder','']);	
-					
+					array_push($checks, ['workorder','']);
+
 				if (isset($_POST['public']))
-					array_push($checks, ['public','']);	
+					array_push($checks, ['public','']);
 
 				if (empty($labels))
 				{
@@ -91,7 +91,7 @@ class Opportunityareas_controller extends Controller
 							'message' => 'Active una opción para guardar.'
 						]);
 					}
-					
+
 				}
 				else
 				{

@@ -64,7 +64,7 @@ $this->dependencies->add(['others',
             <h2>{$lang.landing_page_index_stl_2_text_5}</h2>
             <div>
                 <div>
-                    <i class="fas fa-tablet-alt"></i>
+                    <i class="fas fa-mobile"></i>
                     <p>{$lang.landing_page_index_stl_2_text_6}</p>
                 </div>
                 <div>

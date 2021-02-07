@@ -10,7 +10,7 @@ $this->dependencies->add(['js', '{$path.js}Hi/hotels.js']);
 <header class="landing_page_hotels">
     <a href="https://guestvox.com/hotrestaurant/myvox"><i class="fas fa-qrcode"></i></a>
     <a data-button-modal="contact"><i class="fas fa-paper-plane"></i></a>
-    <a href="/signup"><i class="fas fa-gift"></i></a>
+    <a href="/personaliza"><i class="fas fa-gift"></i></a>
     <figure>
         <img src="{$path.images}imagotype_white.png" alt="Guestvox">
     </figure>

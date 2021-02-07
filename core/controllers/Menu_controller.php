@@ -26,9 +26,9 @@ class Menu_controller extends Controller
 			// 	$encoded_data = array_pop($exploded_uri);
 
 			// 	$data = base64_decode($encoded_data);
-				
+
 			// 	$imageName = time() . '.png';
-				
+
 			// 	file_put_contents('uploads/' . $imageName, $data);
 
 			// 	Functions::environment([
@@ -36,7 +36,7 @@ class Menu_controller extends Controller
 			// 		'data' => $imageName
 			// 	]);
 			// }
-			
+
 			if ($_POST['action'] == 'get_menu_product_position')
 			{
 				Functions::environment([

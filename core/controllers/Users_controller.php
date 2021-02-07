@@ -113,7 +113,7 @@ class Users_controller extends Controller
 											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . Languages::email('receive_notifications_on_whatsapp')[$this->lang] . '</h4>
-													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://signupforservices.com/whatsapp/optin/?bId=f543c489-ad53-406c-8642-739023556e45&bName=GuestVoxBot&s=URL&lang=en_US">' . Languages::email('join')[$this->lang] . '</a>
+													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://personalizaforservices.com/whatsapp/optin/?bId=f543c489-ad53-406c-8642-739023556e45&bName=GuestVoxBot&s=URL&lang=en_US">' . Languages::email('join')[$this->lang] . '</a>
 												</td>
 											</tr>' : '') . '
 											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
@@ -154,7 +154,7 @@ class Users_controller extends Controller
 											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . Languages::email('receive_notifications_on_whatsapp')[$this->lang] . '</h4>
-													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://signupforservices.com/whatsapp/optin/?bId=f543c489-ad53-406c-8642-739023556e45&bName=GuestVoxBot&s=URL&lang=en_US">' . Languages::email('join')[$this->lang] . '</a>
+													<a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://personalizaforservices.com/whatsapp/optin/?bId=f543c489-ad53-406c-8642-739023556e45&bName=GuestVoxBot&s=URL&lang=en_US">' . Languages::email('join')[$this->lang] . '</a>
 												</td>
 											</tr>
 											<tr style="width:100%;margin:0px;padding:0px;border:0px;">

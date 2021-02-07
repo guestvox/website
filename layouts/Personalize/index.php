@@ -9,7 +9,7 @@ $this->dependencies->add(['js', '{$path.js}Personalize/index.js']);
 
 <main class="personalize">
     <form name="personalize">
-        <h2>{$lang.guestvox_personalize_now}</h2>
+        <h2>{$lang.guestvox_personalize}</h2>
         <div class="steps">
             <div class="step_buttons">
                 <a class="view" data-step="1">1</a>
@@ -27,7 +27,7 @@ $this->dependencies->add(['js', '{$path.js}Personalize/index.js']);
                                 <a data-select><i class="fas fa-upload"></i></a>
                                 <input type="file" name="logotype" accept="image/*" data-upload>
                             </figure>
-                            <span>200 x 200 Pixeles</span>
+                            <span>{$lang.upload_your_logotype} (200 x 200 Pixeles)</span>
                         </div>
                     </div>
                     <div class="span8">
@@ -48,7 +48,6 @@ $this->dependencies->add(['js', '{$path.js}Personalize/index.js']);
                                     <option value="" hidden>{$lang.business_type}</option>
                                     <option value="hotel">{$lang.hotel}</option>
                                     <option value="restaurant">{$lang.restaurant}</option>
-                                    <option value="hospital">{$lang.hospital}</option>
                                     <option value="others">{$lang.others}</option>
                                 </select>
                             </fieldset>
@@ -111,32 +110,42 @@ $this->dependencies->add(['js', '{$path.js}Personalize/index.js']);
                 <a href="/">{$lang.cancel}</a>
             </div>
             <div class="step_container" data-step="2">
-                <h2>{$lang.step_2}: {$lang.select_your_package}</h2>
+                <h2>{$lang.step_2}: {$lang.select_your_solutions}</h2>
                 <div class="row">
-                    <div class="span4">
+                    <div class="span3">
+                        <label>
+                            <div class="package" id="digital_menu">
+                                <span><i class="fas fa-mobile"></i></span>
+                                <h3><span>{$lang.digital_menu}</span></h3>
+                                <!-- <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> {$lang.per_month}</h4> -->
+                                <p>{$lang.digital_menu_text}</p>
+                                <input type="checkbox" name="digital_menu">
+                            </div>
+                        </label>
+                    </div>
+                    <div class="span3">
                         <label>
                             <div class="package" id="operation">
-                                <span><i class="fas fa-fighter-jet"></i></span>
-                                <h3>{$lang.package_of} <span>{$lang.voxes_menu}</span></h3>
-                                <h4>{$lang.operation}</h4>
+                                <span><i class="fas fa-desktop"></i></span>
+                                <h3><span>{$lang.operation}</span></h3>
                                 <!-- <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> {$lang.per_month}</h4> -->
+                                <p>{$lang.operation_text}</p>
                                 <input type="checkbox" name="operation">
                             </div>
                         </label>
                     </div>
-                    <div class="span4">
+                    <div class="span3">
                         <label>
-                            <div class="package" id="reputation">
-                                <span><i class="fas fa-smile"></i></span>
-                                <h3>{$lang.package_of} <span>{$lang.survey_reviews}</span></h3>
-                                <h4>{$lang.reputation}</h4>
+                            <div class="package" id="surveys">
+                                <span><i class="fas fa-clipboard-list"></i></span>
+                                <h3><span>{$lang.surveys}</span></h3>
                                 <!-- <h4><span><?php echo Functions::get_formatted_currency(0, 'MXN'); ?></span> {$lang.per_month}</h4> -->
-                                <input type="checkbox" name="reputation">
+                                <p>{$lang.surveys_text}</p>
+                                <input type="checkbox" name="surveys">
                             </div>
                         </label>
                     </div>
                 </div>
-                <!-- <p>{$lang.no_charge_generated_demo}</p> -->
                 <a data-action="next">{$lang.next}</a>
                 <a href="/">{$lang.cancel}</a>
             </div>

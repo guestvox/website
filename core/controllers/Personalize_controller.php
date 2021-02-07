@@ -21,8 +21,9 @@ class Personalize_controller extends Controller
 			{
 				$data = [
 					'price' => [
+						'digital_menu' => 0,
 						'operation' => 0,
-						'reputation' => 0
+						'surveys' => 0
 					],
 					'total' => 0
 				];
@@ -31,18 +32,23 @@ class Personalize_controller extends Controller
 
 				if (!empty($query))
 				{
+					$data['price']['digital_menu'] = $query['price']['digital_menu'];
 					$data['price']['operation'] = $query['price']['operation'];
-					$data['price']['reputation'] = $query['price']['reputation'];
+					$data['price']['surveys'] = $query['price']['surveys'];
+
+					if (!empty($_POST['digital_menu']))
+						$data['total'] = $data['total'] + $query['price']['digital_menu'];
 
 					if (!empty($_POST['operation']))
 						$data['total'] = $data['total'] + $query['price']['operation'];
 
-					if (!empty($_POST['reputation']))
-						$data['total'] = $data['total'] + $query['price']['reputation'];
+					if (!empty($_POST['surveys']))
+						$data['total'] = $data['total'] + $query['price']['surveys'];
 				}
 
+				$data['price']['digital_menu'] = Functions::get_formatted_currency($data['price']['digital_menu'], 'MXN');
 				$data['price']['operation'] = Functions::get_formatted_currency($data['price']['operation'], 'MXN');
-				$data['price']['reputation'] = Functions::get_formatted_currency($data['price']['reputation'], 'MXN');
+				$data['price']['surveys'] = Functions::get_formatted_currency($data['price']['surveys'], 'MXN');
 				$data['total'] = Functions::get_formatted_currency($data['total'], 'MXN');
 
 				Functions::environment([
@@ -115,10 +121,11 @@ class Personalize_controller extends Controller
 				{
 					$labels = [];
 
-					if ((!isset($_POST['operation']) OR empty($_POST['operation'])) AND (!isset($_POST['reputation']) OR empty($_POST['reputation'])))
+					if ((!isset($_POST['digital_menu']) OR empty($_POST['digital_menu'])) AND (!isset($_POST['operation']) OR empty($_POST['operation'])) AND (!isset($_POST['surveys']) OR empty($_POST['surveys'])))
 					{
+						array_push($labels, ['digital_menu','']);
 						array_push($labels, ['operation','']);
-						array_push($labels, ['reputation','']);
+						array_push($labels, ['surveys','']);
 					}
 
 					if (empty($labels))
@@ -194,7 +201,7 @@ class Personalize_controller extends Controller
 												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
 													<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('validate_signup_user')[$_POST['language']] . '</p>
-													<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activate/' . $_POST['username'] . '">' . Languages::email('active_user')[$_POST['language']] . '</a>
+													<a style="width:100%;display:block;margin:5px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/activar/' . $_POST['username'] . '">' . Languages::email('active_user')[$_POST['language']] . '</a>
 													<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/terminos-y-condiciones">' . Languages::email('terms_and_conditions')[$_POST['language']] . '</a>
 													<a style="width:100%;display:block;margin:0px;padding:0px;box-sizing:border-box;background:none;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '/politicas-de-privacidad">' . Languages::email('privacy_policies')[$_POST['language']] . '</a>
 												</td>

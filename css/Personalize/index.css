@@ -20,10 +20,22 @@ main.personalize > form {
 main.personalize > form > h2,
 main.personalize > form > h3 {
     width: 100%;
-    font-size: 24px;
     font-weight: 600;
     text-align: center;
     margin: 0px;
+}
+
+main.personalize > form > h2 {
+    font-size: 30px;
+}
+
+main.personalize > form > h3 {
+    font-size: 24px;
+}
+
+main.personalize > form > h2 > strong,
+main.personalize > form > h3 > strong {
+    color: #00a5ab;
 }
 
 @media (max-width: 768px) {
@@ -114,7 +126,7 @@ main.personalize > form > div.steps > div.step_buttons > a > img {
 
 main.personalize > form > div.steps > div.step_container {
     width: 100%;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -310,9 +322,9 @@ main.personalize > form > div.steps > div.step_container > div.row div.package >
 
 main.personalize > form > div.steps > div.step_container > div.row div.package > p {
     margin-top: 15px;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 400;
-    line-height: 10px;
+    line-height: 16px;
 }
 
 main.personalize > form > div.steps > div.step_container > div.row div[data-uploader] > figure {

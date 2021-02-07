@@ -53,7 +53,7 @@ $(document).ready(function()
         }
     });
 
-    $(document).on('change', '[name="type"], [name="rooms_number"], [name="operation"], [name="reputation"]', function()
+    $(document).on('change', '[name="type"], [name="rooms_number"], [name="digital_menu"], [name="operation"], [name="surveys"]', function()
     {
         get_total();
     });
@@ -138,8 +138,9 @@ function get_total()
         {
             if (response.status == 'success')
             {
+                $('#digital_menu').find('h4 > span').html(response.data.price.digital_menu);
                 $('#operation').find('h4 > span').html(response.data.price.operation);
-                $('#reputation').find('h4 > span').html(response.data.price.reputation);
+                $('#surveys').find('h4 > span').html(response.data.price.surveys);
                 $('#total').find('h4 > span').html(response.data.total);
             }
             else if (response.status == 'error')
