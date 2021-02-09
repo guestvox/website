@@ -18,8 +18,7 @@ class Users_model extends Model
 			'email',
 			'phone',
 			'avatar',
-			'status',
-			'master'
+			'status'
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [

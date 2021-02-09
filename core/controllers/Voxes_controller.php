@@ -597,7 +597,7 @@ class Voxes_controller extends Controller
 
 				if (!isset($_POST['started_date']) OR empty($_POST['started_date']))
 					array_push($labels, ['started_date','']);
-					
+
 				if (!isset($_POST['death_line']) OR empty($_POST['death_line']))
 					array_push($labels, ['death_line','']);
 
@@ -803,10 +803,7 @@ class Voxes_controller extends Controller
 			$opt_users = '';
 
 			foreach ($this->model->get_users() as $value)
-			{
-				if ($value['master'] != true)
-					$opt_users .= '<option value="' . $value['id'] . '">' . $value['firstname'] . ' ' . $value['lastname'] . '</option>';
-			}
+				$opt_users .= '<option value="' . $value['id'] . '">' . $value['firstname'] . ' ' . $value['lastname'] . '</option>';
 
 			$replace = [
 				'{$opt_owners}' => $opt_owners,

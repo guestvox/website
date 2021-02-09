@@ -672,8 +672,7 @@ class Voxes_model extends Model
 			'id',
 			'firstname',
 			'lastname',
-			'avatar',
-			'master'
+			'avatar'
 		], [
 			'AND' => [
 				'account' => Session::get_value('account')['id'],
@@ -1282,7 +1281,7 @@ class Voxes_model extends Model
 
 	public function start_vox($data)
 	{
-		$query = null; 
+		$query = null;
 
 		$editer = Functions::get_json_decoded_query($this->database->select('voxes', [
 			'changes_history'
@@ -1307,7 +1306,7 @@ class Voxes_model extends Model
 					'changes_history' => json_encode($editer[0]['changes_history'])
 				], [
 					'id' => $data['id']
-				]);	
+				]);
 			}
 		}
 		else
@@ -1327,7 +1326,7 @@ class Voxes_model extends Model
 					'changes_history' => json_encode($editer[0]['changes_history'])
 				], [
 					'id' => $data['id']
-				]);	
+				]);
 			}
 		}
 

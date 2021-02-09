@@ -66,11 +66,11 @@ main.login > form > fieldset > button:hover {
     align-items: center;
     justify-content: center;
     border-radius: 5px;
-    background-color: #24383f;
+    background-color: #fff;
     font-size: 14px;
     font-weight: 400;
     cursor: pointer;
-    color: #fff;
+    color: #24383f;
 }
 
 main.login > form > fieldset > a {
