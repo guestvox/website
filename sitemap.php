@@ -3,7 +3,7 @@
 header('Content-Type: text/xml');
 
 $https = 'https://dev.guestvox.com';
-$database = new mysqli('guestvox.com', 'guestvox', 'Jsw90w&6', 'gv_website_dev');
+$database = new mysqli('guestvox.com', 'guestvox', 'Jsw90w&6', 'guestvox_dev');
 
 $xml =
 '<?xml version="1.0" encoding="iso-8859-1"?>

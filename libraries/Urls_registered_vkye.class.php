@@ -34,15 +34,15 @@ class Urls_registered_vkye
                 'method' => 'index'
             ],
             '/%param%/myvox' => [
-                'controller' => 'Myvox', // - Rediseño
+                'controller' => 'Myvox',
                 'method' => 'index'
             ],
             '/%param%/myvox/%param%' => [
-                'controller' => 'Myvox', // - Rediseño
+                'controller' => 'Myvox',
                 'method' => 'index'
             ],
             '/%param%/myvox/%param%/%param%' => [
-                'controller' => 'Myvox', // - Rediseño
+                'controller' => 'Myvox',
                 'method' => 'index'
             ],
             '/%param%/request' => [
@@ -62,7 +62,7 @@ class Urls_registered_vkye
                 'method' => 'survey'
             ],
             '/%param%/reviews' => [
-                'controller' => 'Reviews', // - Rediseño
+                'controller' => 'Reviews',
                 'method' => 'index'
             ],
             '/login' => [
@@ -70,7 +70,7 @@ class Urls_registered_vkye
                 'method' => 'index'
             ],
             '/dashboard' => [
-                'controller' => 'Dashboard', // - Rediseño
+                'controller' => 'Dashboard',
                 'method' => 'index'
             ],
             '/my-profile' => [
@@ -183,10 +183,6 @@ class Urls_registered_vkye
             ],
             '/account' => [
                 'controller' => 'Account',
-                'method' => 'index'
-            ],
-            '/master' => [
-                'controller' => 'Master',
                 'method' => 'index'
             ],
             '/translate' => [

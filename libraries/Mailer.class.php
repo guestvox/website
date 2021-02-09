@@ -2,10 +2,10 @@
 
 defined('_EXEC') or die;
 
-require PATH_COMPONENTS . 'phpmailer/Exception.php';
-require PATH_COMPONENTS . 'phpmailer/PHPMailer.php';
-require PATH_COMPONENTS . 'phpmailer/SMTP.php';
-require PATH_COMPONENTS . 'phpmailer/OAuth.php';
+require Security::DS(PATH_MY_LIBRARIES . 'PHPMailer/src/Exception.php');
+require Security::DS(PATH_MY_LIBRARIES . 'PHPMailer/src/PHPMailer.php');
+require Security::DS(PATH_MY_LIBRARIES . 'PHPMailer/src/SMTP.php');
+require Security::DS(PATH_MY_LIBRARIES . 'PHPMailer/src/OAuth.php');
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
