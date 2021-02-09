@@ -34,7 +34,7 @@ $this->dependencies->add(['others',
                 <li><a href="#solutions" data-smooth-scroll>{$lang.solutions}</a></li>
                 <li><a href="#prices" data-smooth-scroll>{$lang.specialized_packages}</a></li>
                 <li class="focus"><a href="/login">{$lang.login}</a></li>
-                <li><a href="/blog">{$lang.blog}</a></li>
+                <li><a href="https://blog.guestvox.com">{$lang.blog}</a></li>
             </ul>
         </nav>
         <nav class="mobile">
