@@ -20,7 +20,7 @@ $this->dependencies->add(['js', '{$path.js}Login/index.js']);
         </fieldset>
         <fieldset>
             <button type="submit">{$lang.login}</button>
+            <a href="/">{$lang.return_to} <?php echo Configuration::$domain; ?></a>
         </fieldset>
-        <a href="/">{$lang.return_to} <?php echo Configuration::$domain; ?></a>
     </form>
 </main>
