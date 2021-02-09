@@ -18,7 +18,9 @@ $this->dependencies->add(['js', '{$path.js}Login/index.js']);
         <fieldset>
             <input type="password" name="password" placeholder="{$lang.password}">
         </fieldset>
-        <button type="submit">{$lang.login}</button>
-        <a href="/">{$lang.cancel}</a>
+        <fieldset>
+            <button type="submit">{$lang.login}</button>
+        </fieldset>
+        <a href="/">{$lang.return_to} <?php echo Configuration::$domain; ?></a>
     </form>
 </main>
