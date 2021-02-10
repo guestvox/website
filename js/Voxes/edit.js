@@ -77,6 +77,8 @@ $(document).ready(function()
 
         if ($(this).val() == 'request')
         {
+            $('[name="automatic_start"]').parent().parent().parent().parent().addClass('hidden');
+            $('[name="location"]').parent().attr('required', true);
             $('[name="cost"]').parent().parent().parent().addClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().addClass('hidden');
             $('[name="observations"]').parent().parent().parent().removeClass('hidden');
@@ -95,6 +97,8 @@ $(document).ready(function()
         }
         else if ($(this).val() == 'incident')
         {
+            $('[name="automatic_start"]').parent().parent().parent().parent().addClass('hidden');
+            $('[name="location"]').parent().attr('required', true);
             $('[name="cost"]').parent().parent().parent().removeClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().removeClass('hidden');
             $('[name="observations"]').parent().parent().parent().addClass('hidden');
@@ -113,6 +117,8 @@ $(document).ready(function()
         }
         else if ($(this).val() == 'workorder')
         {
+            $('[name="automatic_start"]').parent().parent().parent().parent().removeClass('hidden');
+            $('[name="location"]').parent().attr('required', false);
             $('[name="cost"]').parent().parent().parent().removeClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().addClass('hidden');
             $('[name="observations"]').parent().parent().parent().removeClass('hidden');
@@ -131,13 +137,27 @@ $(document).ready(function()
         }
     });
 
+    $('[name="automatic_start"]').on('click', function()
+    {
+        if( $(this).is(':checked'))
+        {
+            $('[name="started_date"]').parent().parent().parent().addClass('hidden');
+            $('[name="started_hour"]').parent().parent().parent().addClass('hidden');
+        }
+        else
+        {
+            $('[name="started_date"]').parent().parent().parent().removeClass('hidden');
+            $('[name="started_hour"]').parent().parent().parent().removeClass('hidden');
+        }
+    });
+
     $('[name="owner"]').on('change', function()
     {
         if ($('[name="type"]:checked').val() == 'request' || $('[name="type"]:checked').val() == 'incident')
         {
             $.ajax({
                 type: 'POST',
-                data: 'owner=' + $(this).val() + '&action=get_owner',
+                data: 'owner=' + $(this).val() + '&action=get_reservation',
                 processData: false,
                 cache: false,
                 dataType: 'json',

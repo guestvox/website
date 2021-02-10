@@ -16,7 +16,6 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes_reports_{$menu_foc
     </section>
     <section class="buttons">
         <div>
-            <a data-button-modal="search"><i class="fas fa-search"></i></a>
             {$btn_new_vox_report}
             {$btn_filter_vox_report}
             {$btn_print_vox_report}

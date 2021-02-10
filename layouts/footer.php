@@ -1,28 +1,5 @@
 <?php defined('_EXEC') or die; ?>
 
-        <section class="modal fullscreen" data-modal="search">
-            <div class="content">
-                <main>
-                    <form>
-                        <div class="row">
-                            <div class="span12">
-                                <div class="label">
-                                    <label required>
-                                        <p>{$lang.search}</p>
-                                        <input type="text" name="search">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="span12">
-                                <div class="buttons">
-                                    <a class="new" button-close><i class="fas fa-check"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </main>
-            </div>
-        </section>
         <section class="modal fullscreen" data-modal="get_help">
             <div class="content">
                 <main>

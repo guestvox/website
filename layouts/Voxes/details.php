@@ -24,7 +24,6 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 <span><i class="fas fa-mask"></i>{$opportunity_area}</span>
                 <span><i class="fas fa-feather-alt"></i>{$opportunity_type}</span>
                 <span><i class="fas fa-map-marker-alt"></i>{$location}</span>
-                {$references}
                 <span><i class="fas fa-calendar-alt"></i>{$started_date}</span>
                 {$spn_cost}
             </div>
@@ -61,13 +60,12 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
     </section>
     <section class="buttons">
         <div>
-            <a href="/voxes" class="big delete"><i class="fas fa-reply"></i><span>{$lang.return}</span></a>
+            <a href="/voxes" class="big delete"><i class="fas fa-times"></i></a>
             {$btn_comment_vox}
             {$btn_edit_vox}
-            {$btn_complete_vox}
             {$btn_start_vox}
             {$btn_start_vox_now}
-            {$btn_finish_vox}
+            {$btn_complete_vox}
             {$btn_reopen_vox}
         </div>
     </section>

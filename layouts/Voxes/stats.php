@@ -84,7 +84,9 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes_stats");</script>'
     </section>
     <section class="buttons">
         <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
-        <a class="big new" data-button-modal="filter_voxes_stats"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
+        <div>
+            <a class="big new" data-button-modal="filter_voxes_stats"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
+        </div>
         <?php endif; ?>
     </section>
 </main>

@@ -11,6 +11,12 @@
             <li><a data-action="open_rightbar"><i class="fas fa-bars"></i></a></li>
         </ul>
     </nav>
+    <fieldset>
+        <div>
+            <i class="fas fa-search"></i>
+            <input type="text" name="search">
+        </div>
+    </fieldset>
 </header>
 <header class="rightbar">
     <div>

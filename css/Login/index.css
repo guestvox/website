@@ -61,16 +61,18 @@ main.login > form > fieldset.error > input {
 main.login > form > fieldset > button,
 main.login > form > fieldset > button:hover {
     width: 100%;
-    height: 60px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1px dashed #fff;
     border-radius: 5px;
-    background-color: #fff;
+    box-sizing: border-box;
+    background-color: #00a5ab;
     font-size: 14px;
     font-weight: 400;
     cursor: pointer;
-    color: #24383f;
+    color: #fff;
 }
 
 main.login > form > fieldset > a {

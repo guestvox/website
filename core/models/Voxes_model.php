@@ -139,7 +139,6 @@ class Voxes_model extends Model
 			'reopened_user',
 			'reopened_date',
 			'reopened_hour',
-			'menu_order',
 			'automatic_start',
 			'status',
 			'origin'
@@ -215,9 +214,6 @@ class Voxes_model extends Model
 				}
 
 				$query[$key]['created_user'] = $this->get_user($value['created_user']);
-
-				if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
-					$query[$key]['menu_order'] = $this->get_menu_order($query[$key]['menu_order']);
 			}
 			else
 				unset($query[$key]);
@@ -276,7 +272,6 @@ class Voxes_model extends Model
 			'reopened_user',
 			'reopened_date',
 			'reopened_hour',
-			'menu_order',
 			'automatic_start',
 			'status',
 			'origin'
@@ -386,9 +381,6 @@ class Voxes_model extends Model
 				$query[0]['edited_user'] = $this->get_user($query[0]['edited_user']);
 				$query[0]['completed_user'] = $this->get_user($query[0]['completed_user']);
 				$query[0]['reopened_user'] = $this->get_user($query[0]['reopened_user']);
-
-				if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'restaurant')
-					$query[0]['menu_order'] = $this->get_menu_order($query[0]['menu_order']);
 			}
 
 			return $query[0];
@@ -727,21 +719,6 @@ class Voxes_model extends Model
 		return $query;
 	}
 
-	public function get_menu_order($id)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('menu_orders', [
-			'type_service',
-			'delivery',
-			'total',
-			'currency',
-			'shopping_cart'
-		], [
-			'id' => $id
-		]));
-
-		return !empty($query) ? $query[0] : null;
-	}
-
 	public function new_vox($data)
 	{
 		if (!empty($data['attachments']))
@@ -786,11 +763,10 @@ class Voxes_model extends Model
 			'owner' => $data['owner'],
 			'opportunity_area' => $data['opportunity_area'],
 			'opportunity_type' => $data['opportunity_type'],
-			'started_date' => ((isset($data['automatic_start']) ? null : Functions::get_formatted_date($data['started_date']))),
-			'started_hour' => ((isset($data['automatic_start']) ? null : Functions::get_formatted_hour($data['started_hour']))),
+			'started_date' => !empty($data['automatic_start']) ? null : Functions::get_formatted_date($data['started_date']),
+			'started_hour' => !empty($data['automatic_start']) ? null : Functions::get_formatted_hour($data['started_hour']),
 			'death_line' => $data['death_line'],
-			'location' => (!empty($data['location']) ? $data['location'] : null),
-			'address' => null,
+			'location' => !empty($data['location']) ? $data['location'] : null,
 			'cost' => (($data['type'] == 'incident' OR $data['type'] == 'workorder') AND !empty($data['cost'])) ? $data['cost'] : null,
 			'urgency' => $data['urgency'],
 			'confidentiality' => ($data['type'] == 'incident' AND !empty($data['confidentiality'])) ? true : false,
@@ -836,8 +812,7 @@ class Voxes_model extends Model
 			'reopened_user' => null,
 			'reopened_date' => null,
 			'reopened_hour' => null,
-			'menu_order' => null,
-			'automatic_start' => (isset($data['automatic_start']) ? true : false),
+			'automatic_start' => !empty($data['automatic_start']) ? true : false,
 			'status' => true,
 			'origin' => 'internal'
 		]);
@@ -1171,9 +1146,10 @@ class Voxes_model extends Model
 				'owner' => $data['owner'],
 				'opportunity_area' => $data['opportunity_area'],
 				'opportunity_type' => $data['opportunity_type'],
-				'started_date' => Functions::get_formatted_date($data['started_date']),
-				'started_hour' => Functions::get_formatted_hour($data['started_hour']),
-				'location' => $data['location'],
+				'started_date' => !empty($data['automatic_start']) ? null : Functions::get_formatted_date($data['started_date']),
+				'started_hour' => !empty($data['automatic_start']) ? null : Functions::get_formatted_hour($data['started_hour']),
+				'death_line' => $data['death_line'],
+				'location' => !empty($data['location']) ? $data['location'] : null,
 				'cost' => (($data['type'] == 'incident' OR $data['type'] == 'workorder') AND !empty($data['cost'])) ? $data['cost'] : null,
 				'urgency' => $data['urgency'],
 				'confidentiality' => ($data['type'] == 'incident' AND !empty($data['confidentiality'])) ? true : false,
@@ -1195,7 +1171,8 @@ class Voxes_model extends Model
 				'changes_history' => json_encode($data['changes_history']),
 				'edited_user' => Session::get_value('user')['id'],
 				'edited_date' => Functions::get_current_date(),
-				'edited_hour' => Functions::get_current_hour()
+				'edited_hour' => Functions::get_current_hour(),
+				'automatic_start' => !empty($data['automatic_start']) ? true : false
 			], [
 				'id' => $data['id']
 			]);

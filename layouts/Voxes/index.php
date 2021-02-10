@@ -8,7 +8,7 @@ $this->dependencies->add(['js', '{$path.js}Voxes/index.js']);
 $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
 // $this->dependencies->add(['other', '<script src="https://js.pusher.com/7.0/pusher.min.js"></script>']);
 // $this->dependencies->add(['other', '/webpushr-sw.js']);
-// $this->dependencies->add(['other', '<!-- start webpushr code --> 
+// $this->dependencies->add(['other', '<!-- start webpushr code -->
 // <script>(function(w,d, s, id) {if(typeof(w.webpushr)!=="undefined") return;w.webpushr=w.webpushr||function(){(w.webpushr.q=w.webpushr.q||[]).push(arguments)};var js, fjs = d.getElementsByTagName(s)[0];js = d.createElement(s); js.id = id;js.src = "https://cdn.webpushr.com/app.min.js";fjs.parentNode.appendChild(js);}(window,document, "script", "webpushr-jssdk"));webpushr("setup",{"key":"BIcwQVszHXtzTGChI3oIkDIsXB8BwIG9jjPr4EVUhXGYPCKMS-ISacL3T79P9o-1l920bOVzyyiF5KWrwCc1KCM" });
 // </script><!-- end webpushr code -->']);
 
@@ -23,7 +23,6 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
     </section>
     <section class="buttons">
         <div>
-            <a data-button-modal="search"><i class="fas fa-search"></i></a>
             <a href="/voxes/create" class="new"><i class="fas fa-plus"></i></a>
             <a class="big new" data-button-modal="filter_voxes"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
         </div>
@@ -152,24 +151,5 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                 </div>
             </form>
         </main>
-    </div>
-</section>
-<section class="modal fullscreen" data-modal="preview_vox">
-    <div class="content">
-        <main class="vox_details">
-            <div class="stl_11">
-            </div>
-            <div class="buttons">
-                <a class="new" button-close><i class="fas fa-check"></i></a>
-            </div>
-        </main>
-    </div>
-</section>
-<section class="modal edit" data-modal="complete_vox">
-    <div class="content">
-        <footer>
-            <a button-close><i class="fas fa-times"></i></a>
-            <a button-success><i class="fas fa-check"></i></a>
-        </footer>
     </div>
 </section>
