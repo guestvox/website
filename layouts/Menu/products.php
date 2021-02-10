@@ -212,33 +212,6 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
     </div>
 </section>
 <?php endif; ?>
-<section class="modal fullscreen" data-modal="filter_categories">
-    <div class="content">
-        <main>
-            <form name="filter_categories">
-                <div class="row">
-                    <div class="span12">
-                        <div class="label">
-                            <label required>
-                                <p>{$lang.categories}</p>
-                                <select name="search_categories">
-                                    <option value="all"<?php echo ((Session::get_value('settings')['menu']['categories']['filter']['id'] == 'all') ? 'selected' : '')?>>{$lang.all}</option>
-                                    {$opt_categories}
-                                </select>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span12">
-                        <div class="buttons">
-                            <a class="delete" button-close><i class="fas fa-times"></i></a>
-                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </main>
-    </div>
-</section>
 <section class="modal fullscreen" data-modal="image_crop">
     <div class="content">
         <main>

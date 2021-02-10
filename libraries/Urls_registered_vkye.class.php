@@ -125,13 +125,13 @@ class Urls_registered_vkye
                 'controller' => 'Surveys',
                 'method' => 'charts'
             ],
+            '/menu/orders' => [
+                'controller' => 'Menu',
+                'method' => 'orders'
+            ],
             '/menu/products' => [
                 'controller' => 'Menu',
                 'method' => 'products'
-            ],
-            '/menu/restaurants' => [
-                'controller' => 'Menu',
-                'method' => 'restaurants'
             ],
             '/menu/categories' => [
                 'controller' => 'Menu',
@@ -140,6 +140,10 @@ class Urls_registered_vkye
             '/menu/topics' => [
                 'controller' => 'Menu',
                 'method' => 'topics'
+            ],
+            '/menu/restaurants' => [
+                'controller' => 'Menu',
+                'method' => 'restaurants'
             ],
             '/owners' => [
                 'controller' => 'Owners',

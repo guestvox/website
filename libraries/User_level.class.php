@@ -15,6 +15,7 @@ class User_level
         array_push($paths, '/Voxes/create');
         array_push($paths, '/Voxes/details');
         array_push($paths, '/Voxes/edit');
+        array_push($paths, '/Menu/orders');
         array_push($paths, '/Support/index');
         array_push($paths, '/System/translate');
         array_push($paths, '/System/logout');
@@ -101,26 +102,6 @@ class User_level
                     array_push($paths, '/Menu/products');
                 break;
 
-                case '{menu_restaurants_create}' :
-                    array_push($paths, '/Menu/restaurants');
-                break;
-
-                case '{menu_restaurants_update}' :
-                    array_push($paths, '/Menu/restaurants');
-                break;
-
-                case '{menu_restaurants_deactivate}' :
-                    array_push($paths, '/Menu/restaurants');
-                break;
-
-                case '{menu_restaurants_activate}' :
-                    array_push($paths, '/Menu/restaurants');
-                break;
-
-                case '{menu_restaurants_delete}' :
-                    array_push($paths, '/Menu/restaurants');
-                break;
-
                 case '{menu_categories_create}' :
                     array_push($paths, '/Menu/categories');
                 break;
@@ -159,6 +140,26 @@ class User_level
 
                 case '{menu_topics_delete}' :
                     array_push($paths, '/Menu/topics');
+                break;
+
+                case '{menu_restaurants_create}' :
+                    array_push($paths, '/Menu/restaurants');
+                break;
+
+                case '{menu_restaurants_update}' :
+                    array_push($paths, '/Menu/restaurants');
+                break;
+
+                case '{menu_restaurants_deactivate}' :
+                    array_push($paths, '/Menu/restaurants');
+                break;
+
+                case '{menu_restaurants_activate}' :
+                    array_push($paths, '/Menu/restaurants');
+                break;
+
+                case '{menu_restaurants_delete}' :
+                    array_push($paths, '/Menu/restaurants');
                 break;
 
                 case '{owners_create}' :
@@ -363,16 +364,7 @@ class User_level
         if (Session::exists_var('session') == true)
         {
             if (Functions::check_account_access(['digital_menu']) == true)
-            {
-                if (Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}']) == true)
-                    return '/menu/products';
-                else if (Functions::check_user_access(['{menu_categories_create}','{menu_categories_update}','{menu_categories_deactivate}','{menu_categories_activate}','{menu_categories_delete}']) == true)
-                    return '/menu/categories';
-                else if (Functions::check_user_access(['{menu_topics_create}','{menu_topics_update}','{menu_topics_deactivate}','{menu_topics_activate}','{menu_topics_delete}']) == true)
-                    return '/menu/topics';
-                else if (Functions::check_user_access(['{menu_restaurants_create}','{menu_restaurants_update}','{menu_restaurants_deactivate}','{menu_restaurants_activate}','{menu_restaurants_delete}']) == true)
-                    return '/menu/restaurants';
-            }
+                return '/menu/orders';
             else if (Functions::check_account_access(['operation']) == true)
                 return '/voxes';
             else if (Functions::check_account_access(['surveys']) == true)

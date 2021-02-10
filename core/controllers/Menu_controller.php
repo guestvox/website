@@ -13,48 +13,167 @@ class Menu_controller extends Controller
 		$this->lang = Session::get_value('account')['language'];
 	}
 
+	public function orders()
+	{
+        if (Format::exist_ajax_request() == true)
+		{
+			if ($_POST['action'] == 'view_map_menu_order')
+			{
+				$query = $this->model->get_menu_order($_POST['id']);
+
+                if (!empty($query))
+                {
+					$html = '';
+
+                    Functions::environment([
+    					'status' => 'success',
+    					'html' => $html
+    				]);
+                }
+                else
+                {
+                    Functions::environment([
+    					'status' => 'error',
+    					'message' => '{$lang.operation_error}'
+    				]);
+                }
+			}
+
+			if ($_POST['action'] == 'accept_menu_order' OR $_POST['action'] == 'deliver_menu_order')
+			{
+				if ($_POST['action'] == 'accept_menu_order')
+					$query = $this->model->accept_menu_order($_POST['id']);
+				else if ($_POST['action'] == 'deliver_menu_order')
+					$query = $this->model->deliver_menu_order($_POST['id']);
+
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'filter_menu_orders')
+			{
+				$settings = Session::get_value('settings');
+
+				$settings['menu']['orders']['filter']['type_service'] = $_POST['type_service'];
+				$settings['menu']['orders']['filter']['delivery'] = $_POST['delivery'];
+				$settings['menu']['orders']['filter']['accepted'] = $_POST['accepted'];
+				$settings['menu']['orders']['filter']['delivered'] = $_POST['delivered'];
+
+				Session::set_value('settings', $settings);
+
+				Functions::environment([
+					'status' => 'success'
+				]);
+			}
+		}
+		else
+		{
+			$template = $this->view->render($this, 'orders');
+
+			define('_title', 'Guestvox | {$lang.menu_orders}');
+
+			$menu_products = $this->model->get_menu_products();
+			$menu_categories = $this->model->get_menu_categories('actives');
+
+			$tbl_menu_orders = '';
+
+			if (!empty($menu_products) AND !empty($menu_categories))
+			{
+				foreach ($this->model->get_menu_orders() as $value)
+				{
+					$tbl_menu_orders .=
+					'<div>
+						<div class="datas">
+							<h2>' . $value['token'] . ' | ';
+
+					if ($value['type_service'] == 'restaurant')
+						$tbl_menu_orders .= $value['owner_name'] . (!empty($value['owner_number']) ? '#' . $value['owner_number'] : '');
+					else if ($value['type_service'] == 'delivery')
+						$tbl_menu_orders .= $value['contact']['name'] . ' | ' . $value['contact']['phone'] . ' | ' . $value['contact']['email'];
+
+					$tbl_menu_orders .=
+					'</h2>
+					<p>{$lang.service_' . $value['type_service'] . '}' . (($value['type_service'] == 'delivery') ? ' | ' . (($value['delivery'] == 'home') ? '{$lang.take_home}' : '{$lang.pick_up_restaurant}') : '') . '</p>';
+
+					if ($value['type_service'] == 'delivery' AND $value['delivery'] == 'home')
+						$tbl_menu_orders .= '<p>' . $value['address'] . '</p>';
+
+					$tbl_menu_orders .=
+					'	<p>' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</p>
+						<p>$ ' . $value['total'] . ' ' . $value['currency'] . '</p>
+					</div>
+					<div class="buttons flex_right">
+						<a class="big" data-action="view_map_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-map-marked-alt"></i><span>{$lang.view_map}</span></a>';
+
+					if ($value['delivered'] == false)
+					{
+						if ($value['accepted'] == false)
+							$tbl_menu_orders .= '<a class="new big" data-action="accept_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-check"></i><span>{$lang.accept}</span></a>';
+						else if ($value['accepted'] == true)
+							$tbl_menu_orders .= '<a class="new big" data-action="deliver_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-check"></i><span>{$lang.deliver}</span></a>';
+					}
+
+					$tbl_menu_orders .=
+					'	</div>
+					</div>';
+				}
+			}
+			else
+			{
+				$tbl_menu_orders .=
+				'<div class="more_info_steps">
+					<div>
+						<i class="fas fa-tag"></i>
+						<h4>{$lang.step_1}</h4>
+						<p>' . (!empty($menu_categories) ? '{$lang.menu_products_description_step_1_1}' : '{$lang.menu_products_description_step_1_2}') . '</p>
+						<a href="/menu/categories">' . (!empty($menu_categories) ? '{$lang.create_more_categories}' : '{$lang.create_categories}') . '</a>
+					</div>
+					<div>
+						<i class="fas fa-bookmark"></i>
+						<h4>{$lang.step_2} ({$lang.optional})</h4>
+						<p>' . (!empty($menu_topics) ? '{$lang.menu_products_description_step_2_1}' : '{$lang.menu_products_description_step_2_2}') . '</p>
+						<a href="/menu/topics">' . (!empty($menu_topics) ? '{$lang.create_more_topics}' : '{$lang.create_topics}') . '</a>
+					</div>
+					<div>
+						<i class="fas fa-cocktail"></i>
+						<h4>{$lang.step_3}</h4>
+						<p>{$lang.menu_products_description_step_3_b}</p>
+						<a href="/menu/products">{$lang.create_products}</a>
+					</div>
+				</div>';
+			}
+
+			$replace = [
+				'{$tbl_menu_orders}' => $tbl_menu_orders
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
 	public function products()
 	{
         if (Format::exist_ajax_request() == true)
 		{
-			// if ($_POST['action'] == 'image_crop')
-			// {
-			// 	$data = $_POST['image'];
-
-			// 	$exploded_uri = preg_split("/[,;]+/",$data);
-
-			// 	$encoded_data = array_pop($exploded_uri);
-
-			// 	$data = base64_decode($encoded_data);
-
-			// 	$imageName = time() . '.png';
-
-			// 	file_put_contents('uploads/' . $imageName, $data);
-
-			// 	Functions::environment([
-			// 		'status' => 'success',
-			// 		'data' => $imageName
-			// 	]);
-			// }
-
 			if ($_POST['action'] == 'get_menu_product_position')
 			{
 				Functions::environment([
 					'status' => 'success',
 					'data' => $this->model->get_menu_product_position()
-				]);
-			}
-
-			if ($_POST['action'] == 'filter_categories')
-			{
-				$settings = Session::get_value('settings');
-
-				$settings['menu']['categories']['filter']['id'] = $_POST['id'];
-
-				Session::set_value('settings', $settings);
-
-				Functions::environment([
-					'status' => 'success',
 				]);
 			}
 
@@ -657,9 +776,7 @@ class Menu_controller extends Controller
 				$sct_buttons .=
 				'<section class="buttons">
 			        <div>
-			            <a data-button-modal="search"><i class="fas fa-search"></i></a>
 						' . ((Functions::check_user_access(['{menu_products_create}']) == true) ? '<a class="new" data-button-modal="new_menu_product"><i class="fas fa-plus"></i></a>' : '') . '
-						<!---<a class="big new" data-button-modal="filter_categories"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a> -->
 					</div>
 			    </section>';
 

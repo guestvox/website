@@ -55,10 +55,10 @@ $(document).ready(function()
     //                     show_form_errors(form, response);
     //             }
     //         });
-            
+
     //       })
     // });
-    
+
     $('.chosen-select').chosen();
 
     change_height_menu_preview();
@@ -391,28 +391,6 @@ $(document).ready(function()
                     show_modal_success(response.message, 600);
                 else if (response.status == 'error')
                     show_modal_error(response.message);
-            }
-        });
-    });
-
-    $('form[name="filter_categories"]').on('submit', function(e)
-    {
-        e.preventDefault();
-
-        var form = $(this);
-
-        $.ajax({
-            type: 'POST',
-            data: form.serialize() + '&action=filter_categories',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    location.reload();
-                else if (response.status == 'error')
-                    show_form_errors(form, response);
             }
         });
     });

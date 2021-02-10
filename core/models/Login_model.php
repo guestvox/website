@@ -153,6 +153,14 @@ class Login_model extends Model
 						]
 					],
 					'menu' => [
+						'orders' => [
+							'filter' => [
+								'type_service' => 'all',
+								'delivery' => 'all',
+								'accepted' => 'all',
+								'delivered' => 'all'
+							]
+						],
 						'categories' => [
 							'filter' => [
 								'id' => 'all',

@@ -11,6 +11,72 @@ class Menu_model extends Model
 		parent::__construct();
 	}
 
+	public function get_menu_orders()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('menu_orders', [
+			'[>]owners' => [
+				'owner' => 'id'
+			]
+		], [
+			'menu_orders.id',
+			'menu_orders.token',
+			'menu_orders.type_service',
+			'menu_orders.delivery',
+			'owners.name(owner_name)',
+			'owners.number(owner_number)',
+			'menu_orders.contact',
+			'menu_orders.address',
+			'menu_orders.date',
+			'menu_orders.hour',
+			'menu_orders.total',
+			'menu_orders.currency',
+			'menu_orders.shopping_cart',
+			'menu_orders.accepted',
+			'menu_orders.delivered'
+		], [
+			'menu_orders.account' => Session::get_value('account')['id'],
+			'ORDER' => [
+				'menu_orders.date' => 'ASC',
+				'menu_orders.hour' => 'ASC'
+			]
+		]));
+
+		return $query;
+	}
+
+	public function get_menu_order($id)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('menu_orders', [
+			'location'
+		], [
+			'id' => $id
+		]));
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function accept_menu_order($id)
+	{
+		$query = $this->database->update('menu_orders', [
+			'accepted' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function deliver_menu_order($id)
+	{
+		$query = $this->database->update('menu_orders', [
+			'delivered' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
     public function get_menu_products($option = 'all')
 	{
 		$where = [

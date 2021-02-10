@@ -52,6 +52,7 @@
     <nav>
         <ul>
             <li><h4>{$lang.menu}</h4></li>
+            <li target="menu_orders"><a href="/menu/orders">{$lang.menu_orders}<i class="fas fa-tasks"></i></a></li>
             <?php if (Functions::check_user_access(['{menu_products_create}','{menu_products_update}','{menu_products_deactivate}','{menu_products_activate}','{menu_products_delete}']) == true) : ?>
             <li target="menu_products"><a href="/menu/products">{$lang.products}<i class="fas fa-cocktail"></i></a></li>
             <?php endif; ?>
