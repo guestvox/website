@@ -17,7 +17,7 @@ $this->dependencies->add(['other', '<script>menu_focus("support");</script>']);
                         <div class="label">
                             <label unrequired>
                                 <p>{$lang.for}</p>
-                                <input type="text" value="contacto@guestvox.com" disabled>
+                                <input type="text" value="soporte@guestvox.com" disabled>
                             </label>
                         </div>
                     </div>

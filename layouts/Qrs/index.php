@@ -13,7 +13,7 @@ $this->dependencies->add(['other', '<script>menu_focus("qrs");</script>']);
         <div class="qrs">
             <div>
                 <figure>
-                    <h2>{$lang.generic}</h2>
+                    <h2>Myvox</h2>
                     <img src="{$path.uploads}<?php echo Session::get_value('account')['qrs']['account']; ?>">
                 </figure>
                 {$fgr_qr_menu_delivery}
@@ -21,7 +21,7 @@ $this->dependencies->add(['other', '<script>menu_focus("qrs");</script>']);
             </div>
             <div>
     			<div>
-    				<p><strong>{$lang.generic}:</strong><span><?php echo 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox'; ?></span></p>
+    				<p><strong>Myvox:</strong><span><?php echo 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox'; ?></span></p>
                     <a data-action="copy_to_clipboard"><i class="fas fa-copy"></i></a>
                     <a href="{$path.uploads}<?php echo Session::get_value('account')['qrs']['account']; ?>" download="<?php echo Session::get_value('account')['qrs']['account']; ?>"><i class="fas fa-download"></i></a>
                     <a href="<?php echo 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/myvox'; ?>" target="_blank"><i class="fas fa-share"></i></a>
