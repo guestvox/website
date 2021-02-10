@@ -30,12 +30,11 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_types");</sc
         </div>
     </section>
     <section class="buttons">
+        <?php if (Functions::check_user_access(['{opportunity_types_create}']) == true) : ?>
         <div>
-            <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <?php if (Functions::check_user_access(['{opportunity_types_create}']) == true) : ?>
             <a class="new" data-button-modal="new_opportunity_type"><i class="fas fa-plus"></i></a>
-            <?php endif; ?>
         </div>
+        <?php endif; ?>
     </section>
 </main>
 <?php if (Functions::check_user_access(['{opportunity_types_create}','{opportunity_types_update}']) == true) : ?>

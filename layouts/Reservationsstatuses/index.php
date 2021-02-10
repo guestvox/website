@@ -15,12 +15,11 @@ $this->dependencies->add(['other', '<script>menu_focus("reservations_statuses");
         </div>
     </section>
     <section class="buttons">
+        <?php if (Functions::check_user_access(['{reservations_statuses_create}']) == true) : ?>
         <div>
-            <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <?php if (Functions::check_user_access(['{reservations_statuses_create}']) == true) : ?>
             <a class="new" data-button-modal="new_reservation_status"><i class="fas fa-plus"></i></a>
-            <?php endif; ?>
         </div>
+        <?php endif; ?>
     </section>
 </main>
 <?php if (Functions::check_user_access(['{reservations_statuses_create}','{reservations_statuses_update}']) == true) : ?>
