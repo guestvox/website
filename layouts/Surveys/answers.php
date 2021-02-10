@@ -16,12 +16,11 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_{$menu_focus}");
         {$tbl_surveys_contacts}
     </section>
     <section class="buttons">
+        <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
         <div>
-            <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
             <a class="big new" data-button-modal="filter_surveys_answers"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
-            <?php endif; ?>
         </div>
+        <?php endif; ?>
     </section>
 </main>
 <section class="modal fullscreen" data-modal="preview_survey_answer">
