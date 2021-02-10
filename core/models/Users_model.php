@@ -103,8 +103,9 @@ class Users_model extends Model
 		$and = [
 			'type' => $type,
 			'OR' => [
+				'digital_menu' => Functions::check_account_access(['digital_menu']),
 				'operation' => Functions::check_account_access(['operation']),
-				'reputation' => Functions::check_account_access(['reputation'])
+				'surveys' => Functions::check_account_access(['surveys'])
 			],
 			Session::get_value('account')['type'] => true
 		];
@@ -177,7 +178,7 @@ class Users_model extends Model
 			'password' => $this->security->create_password($data['password']),
 			'permissions' => json_encode($data['permissions']),
 			'opportunity_areas' => json_encode((!empty($data['opportunity_areas']) ? $data['opportunity_areas'] : [])),
-			'whatsapp' => ((!isset($data['whatsapp']) ? false : true)),
+			'whatsapp' => !empty($data['whatsapp']) ? false : true,
 			'status' => true
 		]);
 
@@ -197,7 +198,7 @@ class Users_model extends Model
 			'username' => $data['username'],
 			'permissions' => json_encode($data['permissions']),
 			'opportunity_areas' => json_encode((!empty($data['opportunity_areas']) ? $data['opportunity_areas'] : [])),
-			'whatsapp' => ((!isset($data['whatsapp']) ? false : true)),
+			'whatsapp' => !empty($data['whatsapp']) ? false : true,
 		], [
 			'id' => $data['id']
 		]);
