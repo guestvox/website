@@ -1374,16 +1374,46 @@ var menu_map_radius;
 
 function map()
 {
-    location_map_coords =  {
-        lat: $('#location_map').data('lat'),
-        lng: $('#location_map').data('lng')
-    };
+    if ($('#location_map').data('lat').length <= 0 || $('#location_map').data('lng').length <= 0)
+    {
+        location_map_coords =  {
+            lat: 21.1213285,
+            lng: -86.9192739
+        };
 
-    menu_map_coords =  {
-        lat: $('#menu_map').data('lat'),
-        lng: $('#menu_map').data('lng'),
-        rad: $('#menu_map').data('rad')
-    };
+        menu_map_coords =  {
+            lat: 21.1213285,
+            lng: -86.9192739,
+            rad: $('#menu_map').data('rad')
+        };
+
+        // navigator.geolocation.getCurrentPosition(function(position) {
+        //
+        //     location_map_coords =  {
+        //         lat: position.coords.latitude,
+        //         lng: position.coords.longitude
+        //     };
+        //
+        //     menu_map_coords =  {
+        //         lat: position.coords.latitude,
+        //         lng: position.coords.longitude,
+        //         rad: $('#menu_map').data('rad')
+        //     };
+        // }, function(error) { });
+    }
+    else
+    {
+        location_map_coords =  {
+            lat: $('#location_map').data('lat'),
+            lng: $('#location_map').data('lng')
+        };
+
+        menu_map_coords =  {
+            lat: $('#menu_map').data('lat'),
+            lng: $('#menu_map').data('lng'),
+            rad: $('#menu_map').data('rad')
+        };
+    }
 
     set_map(location_map_coords, menu_map_coords);
 
