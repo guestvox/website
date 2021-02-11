@@ -1390,7 +1390,6 @@ function map()
     document.getElementById("location_lat").value = location_map_coords["lat"];
     document.getElementById("location_lng").value = location_map_coords["lng"];
     document.getElementById("menu_rad").value = menu_map_coords["rad"];
-
     document.getElementById("menu_rad").onkeyup = function()
     {
         var rewrite_menu_map_coords =  {
