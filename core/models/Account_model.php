@@ -24,6 +24,7 @@ class Account_model extends Model
 			'accounts.city',
 			'accounts.zip_code',
 			'accounts.address',
+			'accounts.location',
 			'accounts.time_zone',
 			'accounts.currency',
 			'accounts.language',
@@ -31,8 +32,9 @@ class Account_model extends Model
 			'accounts.contact',
 			'accounts.logotype',
 			'packages.quantity_end(package)',
+			'accounts.digital_menu',
 			'accounts.operation',
-			'accounts.reputation',
+			'accounts.surveys',
 			'accounts.siteminder',
 			'accounts.zaviapms',
 			'accounts.ambit',
@@ -258,6 +260,20 @@ class Account_model extends Model
 		return $query;
 	}
 
+	public function edit_location($data)
+	{
+		$query = $this->database->update('accounts', [
+			'location' => json_encode([
+				'lat' => $data['lat'],
+				'lng' => $data['lng']
+			])
+		], [
+			'id' => Session::get_value('account')['id']
+		]);
+
+		return $query;
+	}
+
 	public function edit_settings($field, $data)
 	{
 		$edited1 = Functions::get_json_decoded_query($this->database->select('accounts', [
@@ -268,29 +284,7 @@ class Account_model extends Model
 
 		$edited2 = $edited1[0]['settings'];
 
-		if ($field == 'myvox_request')
-		{
-			if (!empty($data['status']))
-			{
-				$edited1[0]['settings']['myvox']['request']['status'] = true;
-				$edited1[0]['settings']['myvox']['request']['title']['es'] = $data['title_es'];
-				$edited1[0]['settings']['myvox']['request']['title']['en'] = $data['title_en'];
-			}
-			else
-				$edited1[0]['settings']['myvox']['request']['status'] = false;
-		}
-		else if ($field == 'myvox_incident')
-		{
-			if (!empty($data['status']))
-			{
-				$edited1[0]['settings']['myvox']['incident']['status'] = true;
-				$edited1[0]['settings']['myvox']['incident']['title']['es'] = $data['title_es'];
-				$edited1[0]['settings']['myvox']['incident']['title']['en'] = $data['title_en'];
-			}
-			else
-				$edited1[0]['settings']['myvox']['incident']['status'] = false;
-		}
-		else if ($field == 'myvox_menu')
+		if ($field == 'myvox_menu')
 		{
 			if (!empty($data['status']))
 			{
@@ -298,8 +292,6 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['menu']['title']['es'] = $data['title_es'];
 				$edited1[0]['settings']['myvox']['menu']['title']['en'] = $data['title_en'];
 				$edited1[0]['settings']['myvox']['menu']['currency'] = $data['currency'];
-				$edited1[0]['settings']['myvox']['menu']['opportunity_area'] = $data['opportunity_area'];
-				$edited1[0]['settings']['myvox']['menu']['opportunity_type'] = $data['opportunity_type'];
 				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['status'] = $data['schedule_monday_status'];
 				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['opening'] = ($data['schedule_monday_status'] == 'open') ? $data['schedule_monday_opening'] : '';
 				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['closing'] = ($data['schedule_monday_status'] == 'open') ? $data['schedule_monday_closing'] : '';
@@ -321,12 +313,44 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['status'] = $data['schedule_sunday_status'];
 				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['opening'] = ($data['schedule_sunday_status'] == 'open') ? $data['schedule_sunday_opening'] : '';
 				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['closing'] = ($data['schedule_sunday_status'] == 'open') ? $data['schedule_sunday_closing'] : '';
-				$edited1[0]['settings']['myvox']['menu']['delivery'] = (Session::get_value('account')['type'] == 'restaurant' AND !empty($data['delivery'])) ? true : false;
+				$edited1[0]['settings']['myvox']['menu']['delivery'] = !empty($data['delivery']) ? true : false;
 				$edited1[0]['settings']['myvox']['menu']['requests'] = !empty($data['requests']) ? true : false;
 				$edited1[0]['settings']['myvox']['menu']['multi'] = !empty($data['multi']) ? true : false;
+				$edited1[0]['settings']['myvox']['menu']['sell_radius'] = $data['sell_radius'];
 			}
 			else
 				$edited1[0]['settings']['myvox']['menu']['status'] = false;
+		}
+		else if ($field == 'myvox_request')
+		{
+			if (!empty($data['status']))
+			{
+				$edited1[0]['settings']['myvox']['request']['status'] = true;
+				$edited1[0]['settings']['myvox']['request']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['request']['title']['en'] = $data['title_en'];
+			}
+			else
+				$edited1[0]['settings']['myvox']['request']['status'] = false;
+		}
+		else if ($field == 'myvox_incident')
+		{
+			if (!empty($data['status']))
+			{
+				$edited1[0]['settings']['myvox']['incident']['status'] = true;
+				$edited1[0]['settings']['myvox']['incident']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['incident']['title']['en'] = $data['title_en'];
+			}
+			else
+				$edited1[0]['settings']['myvox']['incident']['status'] = false;
+		}
+		else if ($field == 'voxes_attention_times')
+		{
+			$edited1[0]['settings']['voxes']['attention_times']['request']['low'] = $data['request_low'];
+			$edited1[0]['settings']['voxes']['attention_times']['request']['medium'] = $data['request_medium'];
+			$edited1[0]['settings']['voxes']['attention_times']['request']['high'] = $data['request_high'];
+			$edited1[0]['settings']['voxes']['attention_times']['incident']['low'] = $data['incident_low'];
+			$edited1[0]['settings']['voxes']['attention_times']['incident']['medium'] = $data['incident_medium'];
+			$edited1[0]['settings']['voxes']['attention_times']['incident']['high'] = $data['incident_high'];
 		}
 		else if ($field == 'myvox_survey')
 		{
@@ -345,7 +369,6 @@ class Account_model extends Model
 
 				if (!empty($data['mail_attachment']['name']))
 					$edited1[0]['settings']['myvox']['survey']['mail']['attachment'] = Functions::uploader($data['mail_attachment'], Session::get_value('account')['path'] . '_settings_myvox_survey_mail_attachment_');
-
 			}
 			else
 				$edited1[0]['settings']['myvox']['survey']['status'] = false;
@@ -375,15 +398,6 @@ class Account_model extends Model
 			}
 			else
 				$edited1[0]['settings']['reviews']['status'] = false;
-		}
-		else if ($field == 'voxes_attention_times')
-		{
-			$edited1[0]['settings']['voxes']['attention_times']['request']['low'] = $data['request_low'];
-			$edited1[0]['settings']['voxes']['attention_times']['request']['medium'] = $data['request_medium'];
-			$edited1[0]['settings']['voxes']['attention_times']['request']['high'] = $data['request_high'];
-			$edited1[0]['settings']['voxes']['attention_times']['incident']['low'] = $data['incident_low'];
-			$edited1[0]['settings']['voxes']['attention_times']['incident']['medium'] = $data['incident_medium'];
-			$edited1[0]['settings']['voxes']['attention_times']['incident']['high'] = $data['incident_high'];
 		}
 
 		$query = $this->database->update('accounts', [

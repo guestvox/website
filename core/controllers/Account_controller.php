@@ -19,6 +19,14 @@ class Account_controller extends Controller
 
 		if (Format::exist_ajax_request() == true)
 		{
+			if ($_POST['action'] == 'get_account')
+			{
+				Functions::environment([
+					'status' => 'success',
+					'data' => $account
+				]);
+			}
+
 			if ($_POST['action'] == 'edit_logotype')
 			{
 				$labels = [];
@@ -58,14 +66,6 @@ class Account_controller extends Controller
 						'labels' => $labels
 					]);
 				}
-			}
-
-			if ($_POST['action'] == 'get_account')
-			{
-				Functions::environment([
-					'status' => 'success',
-					'data' => $account
-				]);
 			}
 
 			if ($_POST['action'] == 'edit_account')
@@ -192,6 +192,44 @@ class Account_controller extends Controller
 				}
 			}
 
+			if ($_POST['action'] == 'edit_location')
+			{
+				$labels = [];
+
+				if (!isset($_POST['lat']) OR empty($_POST['lat']))
+					array_push($labels, ['lat','']);
+
+				if (!isset($_POST['lng']) OR empty($_POST['lng']))
+					array_push($labels, ['lng','']);
+
+				if (empty($labels))
+				{
+					$query = $this->model->edit_location($_POST);
+
+					if (!empty($query))
+					{
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
+
 			if ($_POST['action'] == 'get_opt_opportunity_types')
 			{
 				$html = '<option value="" hidden>{$lang.choose}</option>';
@@ -208,33 +246,11 @@ class Account_controller extends Controller
 				]);
 			}
 
-			if ($_POST['action'] == 'edit_myvox_request_settings' OR $_POST['action'] == 'edit_myvox_incident_settings' OR $_POST['action'] == 'edit_myvox_menu_settings' OR $_POST['action'] == 'edit_myvox_survey_settings' OR $_POST['action'] == 'edit_reviews_settings' OR $_POST['action'] == 'edit_voxes_attention_times_settings')
+			if ($_POST['action'] == 'edit_myvox_menu_settings' OR $_POST['action'] == 'edit_myvox_request_settings' OR $_POST['action'] == 'edit_myvox_incident_settings' OR $_POST['action'] == 'edit_voxes_attention_times_settings' OR $_POST['action'] == 'edit_myvox_survey_settings' OR $_POST['action'] == 'edit_reviews_settings')
 			{
 				$labels = [];
 
-				if ($_POST['action'] == 'edit_myvox_request_settings')
-				{
-					if (!empty($_POST['status']))
-					{
-						if (!isset($_POST['title_es']) OR empty($_POST['title_es']))
-							array_push($labels, ['title_es','']);
-
-						if (!isset($_POST['title_en']) OR empty($_POST['title_en']))
-							array_push($labels, ['title_en','']);
-					}
-				}
-				else if ($_POST['action'] == 'edit_myvox_incident_settings')
-				{
-					if (!empty($_POST['status']))
-					{
-						if (!isset($_POST['title_es']) OR empty($_POST['title_es']))
-							array_push($labels, ['title_es','']);
-
-						if (!isset($_POST['title_en']) OR empty($_POST['title_en']))
-							array_push($labels, ['title_en','']);
-					}
-				}
-				else if ($_POST['action'] == 'edit_myvox_menu_settings')
+				if ($_POST['action'] == 'edit_myvox_menu_settings')
 				{
 					if (!empty($_POST['status']))
 					{
@@ -246,12 +262,6 @@ class Account_controller extends Controller
 
 						if (!isset($_POST['currency']) OR empty($_POST['currency']))
 							array_push($labels, ['currency','']);
-
-						if (!isset($_POST['opportunity_area']) OR empty($_POST['opportunity_area']))
-							array_push($labels, ['opportunity_area','']);
-
-						if (!isset($_POST['opportunity_type']) OR empty($_POST['opportunity_type']))
-							array_push($labels, ['opportunity_type','']);
 
 						if (!isset($_POST['schedule_monday_status']) OR empty($_POST['schedule_monday_status']))
 							array_push($labels, ['schedule_monday_status','']);
@@ -329,7 +339,52 @@ class Account_controller extends Controller
 							if (!isset($_POST['schedule_sunday_closing']) OR empty($_POST['schedule_sunday_closing']) OR $_POST['schedule_sunday_closing'] <= $_POST['schedule_sunday_opening'])
 								array_push($labels, ['schedule_sunday_closing','']);
 						}
+
+						if (!isset($_POST['sell_radius']) OR empty($_POST['sell_radius']))
+							array_push($labels, ['sell_radius','']);
 					}
+				}
+				else if ($_POST['action'] == 'edit_myvox_request_settings')
+				{
+					if (!empty($_POST['status']))
+					{
+						if (!isset($_POST['title_es']) OR empty($_POST['title_es']))
+							array_push($labels, ['title_es','']);
+
+						if (!isset($_POST['title_en']) OR empty($_POST['title_en']))
+							array_push($labels, ['title_en','']);
+					}
+				}
+				else if ($_POST['action'] == 'edit_myvox_incident_settings')
+				{
+					if (!empty($_POST['status']))
+					{
+						if (!isset($_POST['title_es']) OR empty($_POST['title_es']))
+							array_push($labels, ['title_es','']);
+
+						if (!isset($_POST['title_en']) OR empty($_POST['title_en']))
+							array_push($labels, ['title_en','']);
+					}
+				}
+				else if ($_POST['action'] == 'edit_voxes_attention_times_settings')
+				{
+					if (!isset($_POST['request_low']) OR empty($_POST['request_low']))
+						array_push($labels, ['request_low','']);
+
+					if (!isset($_POST['request_medium']) OR empty($_POST['request_medium']))
+						array_push($labels, ['request_medium','']);
+
+					if (!isset($_POST['request_high']) OR empty($_POST['request_high']))
+						array_push($labels, ['request_high','']);
+
+					if (!isset($_POST['incident_low']) OR empty($_POST['incident_low']))
+						array_push($labels, ['incident_low','']);
+
+					if (!isset($_POST['incident_medium']) OR empty($_POST['incident_medium']))
+						array_push($labels, ['incident_medium','']);
+
+					if (!isset($_POST['incident_high']) OR empty($_POST['incident_high']))
+						array_push($labels, ['incident_high','']);
 				}
 				else if ($_POST['action'] == 'edit_myvox_survey_settings')
 				{
@@ -389,35 +444,17 @@ class Account_controller extends Controller
 							array_push($labels, ['seo_description_en','']);
 					}
 				}
-				else if ($_POST['action'] == 'edit_voxes_attention_times_settings')
-				{
-					if (!isset($_POST['request_low']) OR empty($_POST['request_low']))
-						array_push($labels, ['request_low','']);
-
-					if (!isset($_POST['request_medium']) OR empty($_POST['request_medium']))
-						array_push($labels, ['request_medium','']);
-
-					if (!isset($_POST['request_high']) OR empty($_POST['request_high']))
-						array_push($labels, ['request_high','']);
-
-					if (!isset($_POST['incident_low']) OR empty($_POST['incident_low']))
-						array_push($labels, ['incident_low','']);
-
-					if (!isset($_POST['incident_medium']) OR empty($_POST['incident_medium']))
-						array_push($labels, ['incident_medium','']);
-
-					if (!isset($_POST['incident_high']) OR empty($_POST['incident_high']))
-						array_push($labels, ['incident_high','']);
-				}
 
 				if (empty($labels))
 				{
-					if ($_POST['action'] == 'edit_myvox_request_settings')
+					if ($_POST['action'] == 'edit_myvox_menu_settings')
+						$query = $this->model->edit_settings('myvox_menu', $_POST);
+					else if ($_POST['action'] == 'edit_myvox_request_settings')
 						$query = $this->model->edit_settings('myvox_request', $_POST);
 					else if ($_POST['action'] == 'edit_myvox_incident_settings')
 						$query = $this->model->edit_settings('myvox_incident', $_POST);
-					else if ($_POST['action'] == 'edit_myvox_menu_settings')
-						$query = $this->model->edit_settings('myvox_menu', $_POST);
+					else if ($_POST['action'] == 'edit_voxes_attention_times_settings')
+						$query = $this->model->edit_settings('voxes_attention_times', $_POST);
 					else if ($_POST['action'] == 'edit_myvox_survey_settings')
 					{
 						if (!empty($_POST['status']))
@@ -430,8 +467,6 @@ class Account_controller extends Controller
 					}
 					else if ($_POST['action'] == 'edit_reviews_settings')
 						$query = $this->model->edit_settings('reviews', $_POST);
-					else if ($_POST['action'] == 'edit_voxes_attention_times_settings')
-						$query = $this->model->edit_settings('voxes_attention_times', $_POST);
 
 					if (!empty($query))
 					{
@@ -638,23 +673,6 @@ class Account_controller extends Controller
 
 					if (!empty($query))
 					{
-						if (!empty($_POST['status']) AND $account['payment']['contract']['status'] == 'deactivated')
-						{
-							$mail = new Mailer(true);
-
-							try
-							{
-								$mail->setFrom('noreply@guestvox.com', 'Guestvox');
-								$mail->addAddress('contacto@guestvox.com', 'Guestvox');
-								$mail->Subject = 'Pagos online | Nueva solicitud de contrato';
-								$mail->Body =
-								'Cuenta: ' . Session::get_value('account')['name'] . '<br>
-								Fecha: ' . Functions::get_current_date();
-								$mail->send();
-							}
-							catch (Exception $e) {}
-						}
-
 						Functions::environment([
 							'status' => 'success',
 							'message' => '{$lang.operation_success}'
@@ -683,9 +701,31 @@ class Account_controller extends Controller
 
 			define('_title', 'Guestvox | {$lang.account}');
 
+			$div_menu = '';
+
+			if ($account['digital_menu'] == true)
+			{
+				$div_menu .=
+				'<div class="stl_5">
+					<i class="fas fa-fire-alt"></i>
+					<h2>{$lang.menu}</h2>
+					<span>' . (($account['settings']['myvox']['menu']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+					<div class="switch_group">
+						<div class="switch">
+							<input id="mnsw" type="checkbox" ' . (($account['settings']['myvox']['menu']['status'] == true) ? 'checked' : '') . ' data-switcher>
+							<label for="mnsw"></label>
+						</div>
+						' . (($account['settings']['myvox']['menu']['status'] == true) ? '<a class="edit" data-action="edit_myvox_menu_settings"><i class="fas fa-pen" aria-hidden="true"></i></a>' : '') . '
+					</div>
+				</div>';
+			}
+
 			$div_public_requests = '';
 			$div_public_incidents = '';
-			$div_menu = '';
+			$div_attention_times = '';
+			$div_siteminder = '';
+			$div_zaviapms = '';
+			$div_ambit = '';
 
 			if ($account['operation'] == true)
 			{
@@ -717,28 +757,52 @@ class Account_controller extends Controller
 					</div>
 	            </div>';
 
-				if ($account['type'] == 'hotel' OR $account['type'] == 'restaurant')
+				$div_attention_times .=
+				'<div class="stl_5">
+	                <i class="fas fa-clock"></i>
+	                <h2>{$lang.attention_times}</h2>
+	                <span>{$lang.activated}</span>
+					<a class="edit" data-action="edit_voxes_attention_times_settings"><i class="fas fa-pen"></i></a>
+	            </div>';
+
+				if ($account['type'] == 'hotel')
 				{
-					$div_menu .=
+					$div_siteminder .=
 					'<div class="stl_5">
-		                <i class="fas fa-fire-alt"></i>
-		                <h2>{$lang.menu}</h2>
-		                <span>' . (($account['settings']['myvox']['menu']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-						<div class="switch_group">
-							<div class="switch">
-							    <input id="mnsw" type="checkbox" ' . (($account['settings']['myvox']['menu']['status'] == true) ? 'checked' : '') . ' data-switcher>
-							    <label for="mnsw"></label>
-							</div>
-							' . (($account['settings']['myvox']['menu']['status'] == true) ? '<a class="edit" data-action="edit_myvox_menu_settings"><i class="fas fa-pen" aria-hidden="true"></i></a>' : '') . '
-						</div>
-		            </div>';
+						<figure>
+							<img src="{$path.images}siteminder.png">
+						</figure>
+						<h2>Siteminder</h2>
+						<span>' . (($account['siteminder']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+	                </div>';
+
+					$div_zaviapms .=
+					'<div class="stl_5">
+						<figure>
+							<img src="{$path.images}zaviapms.png">
+						</figure>
+						<h2>Zavia PMS</h2>
+						<span>' . (($account['zaviapms']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+	                </div>';
+				}
+
+				if ($account['type'] == 'restaurant')
+				{
+					$div_ambit .=
+					'<div class="stl_5">
+						<figure>
+							<img src="{$path.images}ambit.png">
+						</figure>
+						<h2>Ambit</h2>
+						<span>' . (($account['ambit']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
+					</div>';
 				}
 			}
 
 			$div_answer_surveys = '';
 			$div_reviews_page = '';
 
-			if ($account['reputation'] == true)
+			if ($account['surveys'] == true)
 			{
 				$div_answer_surveys .=
 				'<div class="stl_5">
@@ -769,19 +833,6 @@ class Account_controller extends Controller
 	            </div>';
 			}
 
-			$div_attention_times = '';
-
-			if ($account['operation'] == true)
-			{
-				$div_attention_times .=
-				'<div class="stl_5">
-	                <i class="fas fa-clock"></i>
-	                <h2>{$lang.attention_times}</h2>
-	                <span>{$lang.activated}</span>
-					<a class="edit" data-action="edit_voxes_attention_times_settings"><i class="fas fa-pen"></i></a>
-	            </div>';
-			}
-
 			$div_payment =
 			'<div class="stl_5">
 				<i class="fas fa-credit-card"></i>
@@ -795,43 +846,6 @@ class Account_controller extends Controller
 					' . (($account['payment']['status'] == true) ? '<a class="edit" data-action="edit_payment"><i class="fas fa-pen" aria-hidden="true"></i></a>' : '') . '
 				</div>
 			</div>';
-
-			$div_siteminder = '';
-			$div_zaviapms = '';
-			$div_ambit = '';
-
-			if ($account['operation'] == true)
-			{
-				if ($account['type'] == 'hotel')
-				{
-					$div_siteminder .=
-					'<div class="stl_5 last">
-						<figure>
-							<img src="{$path.images}siteminder.png">
-						</figure>
-						<h2>Siteminder</h2>
-						<span>' . (($account['siteminder']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-	                </div>';
-
-					$div_zaviapms .=
-					'<div class="stl_5 last">
-						<figure>
-							<img src="{$path.images}zaviapms.png">
-						</figure>
-						<h2>Zavia PMS</h2>
-						<span>' . (($account['zaviapms']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-	                </div>';
-				}
-
-				$div_ambit .=
-				'<div class="stl_5 last">
-					<figure>
-						<img src="{$path.images}ambit.png">
-					</figure>
-					<h2>Ambit</h2>
-					<span>' . (($account['ambit']['status'] == true) ? '{$lang.activated}' : '{$lang.deactivated}') . '</span>
-				</div>';
-			}
 
 			$opt_countries = '';
 
@@ -858,9 +872,326 @@ class Account_controller extends Controller
 			foreach ($this->model->get_countries() as $value)
 				$opt_ladas .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
 
+			$mdl_edit_myvox_menu_settings = '';
+
+			if ($account['digital_menu'] == true)
+			{
+				$mdl_edit_myvox_menu_settings .=
+				'<section class="modal fullscreen" data-modal="edit_myvox_menu_settings">
+					<div class="content">
+						<main>
+							<form name="edit_myvox_menu_settings">
+								<div class="row">
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>(ES) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="title_es" data-translates="menu_title">
+											</label>
+										</div>
+									</div>
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>(EN) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="title_en" data-translaten="menu_title">
+											</label>
+										</div>
+									</div>
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>{$lang.currency} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<select name="currency">
+													<option value="" hidden>{$lang.choose}</option>';
+
+				foreach ($this->model->get_currencies() as $value)
+					$mdl_edit_myvox_menu_settings .= '<option value="' . $value['code'] . '">' . $value['name'][$this->lang] . ' (' . $value['code'] . ')</option>';
+
+				$mdl_edit_myvox_menu_settings .=
+				'								</select>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label class="success">
+												<p>{$lang.schedule} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" value="{$lang.monday}" disabled>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<p></p>
+												<select name="schedule_monday_status">
+													<option value="open">{$lang.open}</option>
+													<option value="close">{$lang.close}</option>
+												</select>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<p>{$lang.opening} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<input type="time" name="schedule_monday_opening">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<p>{$lang.closing} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<input type="time" name="schedule_monday_closing">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label class="success">
+												<input type="text" value="{$lang.tuesday}" disabled>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<select name="schedule_tuesday_status">
+													<option value="open">{$lang.open}</option>
+													<option value="close">{$lang.close}</option>
+												</select>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<input type="time" name="schedule_tuesday_opening">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<input type="time" name="schedule_tuesday_closing">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label class="success">
+												<input type="text" value="{$lang.wednesday}" disabled>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<select name="schedule_wednesday_status">
+													<option value="open">{$lang.open}</option>
+													<option value="close">{$lang.close}</option>
+												</select>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<input type="time" name="schedule_wednesday_opening">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<input type="time" name="schedule_wednesday_closing">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label class="success">
+												<input type="text" value="{$lang.thursday}" disabled>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<select name="schedule_thursday_status">
+													<option value="open">{$lang.open}</option>
+													<option value="close">{$lang.close}</option>
+												</select>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<input type="time" name="schedule_thursday_opening">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<input type="time" name="schedule_thursday_closing">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label class="success">
+												<input type="text" value="{$lang.friday}" disabled>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<select name="schedule_friday_status">
+													<option value="open">{$lang.open}</option>
+													<option value="close">{$lang.close}</option>
+												</select>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<input type="time" name="schedule_friday_opening">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<input type="time" name="schedule_friday_closing">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label class="success">
+												<input type="text" value="{$lang.saturday}" disabled>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<select name="schedule_saturday_status">
+													<option value="open">{$lang.open}</option>
+													<option value="close">{$lang.close}</option>
+												</select>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<input type="time" name="schedule_saturday_opening">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<input type="time" name="schedule_saturday_closing">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label class="success">
+												<input type="text" value="{$lang.sunday}" disabled>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<select name="schedule_sunday_status">
+													<option value="open">{$lang.open}</option>
+													<option value="close">{$lang.close}</option>
+												</select>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<input type="time" name="schedule_sunday_opening">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<input type="time" name="schedule_sunday_closing">
+											</label>
+										</div>
+									</div>
+									<div class="span4">
+										<div class="label">
+											<label unrequired>
+												<p>{$lang.receive_delivery} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<div class="switch">
+													<input id="rdsw" type="checkbox" name="delivery" data-switcher>
+													<label for="rdsw"></label>
+												</div>
+											</label>
+										</div>
+									</div>
+									<div class="span4">
+										<div class="label">
+											<label unrequired>
+												<p>{$lang.receive_requests} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<div class="switch">
+													<input id="rrsw" type="checkbox" name="requests" data-switcher>
+													<label for="rrsw"></label>
+												</div>
+											</label>
+										</div>
+									</div>
+									<!-- <div class="span4">
+										<div class="label">
+											<label unrequired>
+												<p>{$lang.multi} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<div class="switch">
+													<input id="mlsw" type="checkbox" name="multi" data-switcher>
+													<label for="mlsw"></label>
+												</div>
+											</label>
+										</div>
+									</div> -->
+									<div class="span12">
+										<div id="menu_map" data-lat="' . $account['location']['lat'] . '" data-lng="' . $account['location']['lng'] . '" data-rad="' . $account['settings']['myvox']['menu']['sell_radius'] . '"></div>
+										<div class="label">
+											<label required>
+												<p>{$lang.sell_radius} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<input id="menu_rad" type="number" name="sell_radius">
+											</label>
+										</div>
+									</div>
+									<div class="span12">
+										<div class="buttons">
+											<a class="delete" button-cancel><i class="fas fa-times"></i></a>
+											<button type="submit" class="new"><i class="fas fa-check"></i></button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</main>
+					</div>
+				</section>';
+			}
+
 			$mdl_edit_myvox_request_settings = '';
 			$mdl_edit_myvox_incident_settings = '';
-			$mdl_edit_myvox_menu_settings = '';
+			$mdl_edit_voxes_attention_times_settings = '';
 
 			if ($account['operation'] == true)
 			{
@@ -932,349 +1263,83 @@ class Account_controller extends Controller
 					</div>
 				</section>';
 
-				if ($account['type'] == 'hotel' OR $account['type'] == 'restaurant')
-				{
-					$mdl_edit_myvox_menu_settings .=
-					'<section class="modal fullscreen" data-modal="edit_myvox_menu_settings">
-						<div class="content">
-							<main>
-								<form name="edit_myvox_menu_settings">
-									<div class="row">
-										<div class="span6">
-											<div class="label">
-												<label required>
-													<p>(ES) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<input type="text" name="title_es" data-translates="menu_title">
-												</label>
-											</div>
-										</div>
-										<div class="span6">
-											<div class="label">
-												<label required>
-													<p>(EN) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<input type="text" name="title_en" data-translaten="menu_title">
-												</label>
-											</div>
-										</div>
-										<div class="span4">
-											<div class="label">
-												<label required>
-													<p>{$lang.currency} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<select name="currency">
-														<option value="" hidden>{$lang.choose}</option>';
-
-					foreach ($this->model->get_currencies() as $value)
-						$mdl_edit_myvox_menu_settings .= '<option value="' . $value['code'] . '">' . $value['name'][$this->lang] . ' (' . $value['code'] . ')</option>';
-
-					$mdl_edit_myvox_menu_settings .=
-					'			</select>
-							</label>
-						</div>
-					</div>
-					<div class="span4">
-						<div class="label">
-							<label required>
-								<p>{$lang.opportunity_area} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-								<select name="opportunity_area">
-									<option value="" hidden>{$lang.choose}</option>';
-
-					foreach ($this->model->get_opportunity_areas('request') as $value)
-						$mdl_edit_myvox_menu_settings .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
-
-					$mdl_edit_myvox_menu_settings .=
-					'			</select>
-							</label>
-						</div>
-					</div>
-					<div class="span4">
-						<div class="label">
-							<label required>
-								<p>{$lang.opportunity_type} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-								<select name="opportunity_type" disabled>
-									<option value="" hidden>{$lang.choose}</option>
-								</select>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label class="success">
-								<p>{$lang.schedule} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-								<input type="text" value="{$lang.monday}" disabled>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<p></p>
-								<select name="schedule_monday_status">
-									<option value="open">{$lang.open}</option>
-									<option value="close">{$lang.close}</option>
-								</select>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<p>{$lang.opening} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-								<input type="time" name="schedule_monday_opening">
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<p>{$lang.closing} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-								<input type="time" name="schedule_monday_closing">
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label class="success">
-								<input type="text" value="{$lang.tuesday}" disabled>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<select name="schedule_tuesday_status">
-									<option value="open">{$lang.open}</option>
-									<option value="close">{$lang.close}</option>
-								</select>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<input type="time" name="schedule_tuesday_opening">
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<input type="time" name="schedule_tuesday_closing">
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label class="success">
-								<input type="text" value="{$lang.wednesday}" disabled>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<select name="schedule_wednesday_status">
-									<option value="open">{$lang.open}</option>
-									<option value="close">{$lang.close}</option>
-								</select>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<input type="time" name="schedule_wednesday_opening">
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<input type="time" name="schedule_wednesday_closing">
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label class="success">
-								<input type="text" value="{$lang.thursday}" disabled>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<select name="schedule_thursday_status">
-									<option value="open">{$lang.open}</option>
-									<option value="close">{$lang.close}</option>
-								</select>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<input type="time" name="schedule_thursday_opening">
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<input type="time" name="schedule_thursday_closing">
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label class="success">
-								<input type="text" value="{$lang.friday}" disabled>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<select name="schedule_friday_status">
-									<option value="open">{$lang.open}</option>
-									<option value="close">{$lang.close}</option>
-								</select>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<input type="time" name="schedule_friday_opening">
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<input type="time" name="schedule_friday_closing">
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label class="success">
-								<input type="text" value="{$lang.saturday}" disabled>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<select name="schedule_saturday_status">
-									<option value="open">{$lang.open}</option>
-									<option value="close">{$lang.close}</option>
-								</select>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<input type="time" name="schedule_saturday_opening">
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<input type="time" name="schedule_saturday_closing">
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label class="success">
-								<input type="text" value="{$lang.sunday}" disabled>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<select name="schedule_sunday_status">
-									<option value="open">{$lang.open}</option>
-									<option value="close">{$lang.close}</option>
-								</select>
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<input type="time" name="schedule_sunday_opening">
-							</label>
-						</div>
-					</div>
-					<div class="span3">
-						<div class="label">
-							<label required>
-								<input type="time" name="schedule_sunday_closing">
-							</label>
-						</div>
-					</div>';
-
-					if ($account['type'] == 'restaurant')
-					{
-						$mdl_edit_myvox_menu_settings .=
-						'<div class="span4">
-							<div class="label">
-								<label unrequired>
-									<p>{$lang.receive_delivery} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-									<div class="switch">
-										<input id="rdsw" type="checkbox" name="delivery" data-switcher>
-										<label for="rdsw"></label>
-									</div>
-								</label>
-							</div>
-						</div>';
-					}
-
-					$mdl_edit_myvox_menu_settings .=
-					'					<div class="span4">
-											<div class="label">
-												<label unrequired>
-													<p>{$lang.receive_requests} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<div class="switch">
-														<input id="rrsw" type="checkbox" name="requests" data-switcher>
-														<label for="rrsw"></label>
-													</div>
-												</label>
-											</div>
-										</div>
-										<!-- <div class="span4">
-											<div class="label">
-												<label unrequired>
-													<p>{$lang.multi} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-													<div class="switch">
-														<input id="mlsw" type="checkbox" name="multi" data-switcher>
-														<label for="mlsw"></label>
-													</div>
-												</label>
-											</div>
-										</div> -->
-										<div class="span12">
-											<div class="buttons">
-												<a class="delete" button-cancel><i class="fas fa-times"></i></a>
-												<button type="submit" class="new"><i class="fas fa-check"></i></button>
-											</div>
+				$mdl_edit_voxes_attention_times_settings .=
+				'<section class="modal fullscreen" data-modal="edit_voxes_attention_times_settings">
+					<div class="content">
+						<main>
+							<form name="edit_voxes_attention_times_settings">
+								<div class="row">
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>{$lang.request}</p>
+												<p>{$lang.urgency_low} ({$lang.minutes})</p>
+												<input type="number" name="request_low">
+											</label>
 										</div>
 									</div>
-								</form>
-							</main>
-						</div>
-					</section>';
-				}
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>{$lang.request}</p>
+												<p>{$lang.urgency_medium} ({$lang.minutes})</p>
+												<input type="number" name="request_medium">
+											</label>
+										</div>
+									</div>
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>{$lang.request}</p>
+												<p>{$lang.urgency_high} ({$lang.minutes})</p>
+												<input type="number" name="request_high">
+											</label>
+										</div>
+									</div>
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>{$lang.incident}</p>
+												<p>{$lang.urgency_low} ({$lang.minutes})</p>
+												<input type="number" name="incident_low">
+											</label>
+										</div>
+									</div>
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>{$lang.incident}</p>
+												<p>{$lang.urgency_medium} ({$lang.minutes})</p>
+												<input type="number" name="incident_medium">
+											</label>
+										</div>
+									</div>
+									<div class="span4">
+										<div class="label">
+											<label required>
+												<p>{$lang.incident}</p>
+												<p>{$lang.urgency_high} ({$lang.minutes})</p>
+												<input type="number" name="incident_high">
+											</label>
+										</div>
+									</div>
+									<div class="span12">
+										<div class="buttons">
+											<a class="delete" button-cancel><i class="fas fa-times"></i></a>
+											<button type="submit" class="new"><i class="fas fa-check"></i></button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</main>
+					</div>
+				</section>';
 			}
 
 			$mdl_edit_myvox_survey_settings = '';
 			$mdl_edit_reviews_settings = '';
 
-			if ($account['reputation'] == true)
+			if ($account['surveys'] == true)
 			{
 				$mdl_edit_myvox_survey_settings .=
 				'<section class="modal fullscreen" data-modal="edit_myvox_survey_settings">
@@ -1350,14 +1415,14 @@ class Account_controller extends Controller
 											</figure>
 										</div>
 									</div>
-									<!--<div class="span12">
+									<!-- <div class="span12">
 										<div class="label">
 											<label unrequired>
 												<p>{$lang.widget} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
 												<textarea name="widget"></textarea>
 											</label>
 										</div>
-									</div>-->
+									</div> -->
 									<div class="span12">
 										<div class="buttons">
 											<a class="delete" button-cancel><i class="fas fa-times"></i></a>
@@ -1529,83 +1594,6 @@ class Account_controller extends Controller
 				            </form>
 				        </main>
 				    </div>
-				</section>';
-			}
-
-			$mdl_edit_voxes_attention_times_settings = '';
-
-			if ($account['operation'] == true)
-			{
-				$mdl_edit_voxes_attention_times_settings .=
-				'<section class="modal fullscreen" data-modal="edit_voxes_attention_times_settings">
-					<div class="content">
-						<main>
-							<form name="edit_voxes_attention_times_settings">
-								<div class="row">
-									<div class="span4">
-										<div class="label">
-											<label required>
-												<p>{$lang.request}</p>
-												<p>{$lang.urgency_low} ({$lang.minutes})</p>
-												<input type="number" name="request_low">
-											</label>
-										</div>
-									</div>
-									<div class="span4">
-										<div class="label">
-											<label required>
-												<p>{$lang.request}</p>
-												<p>{$lang.urgency_medium} ({$lang.minutes})</p>
-												<input type="number" name="request_medium">
-											</label>
-										</div>
-									</div>
-									<div class="span4">
-										<div class="label">
-											<label required>
-												<p>{$lang.request}</p>
-												<p>{$lang.urgency_high} ({$lang.minutes})</p>
-												<input type="number" name="request_high">
-											</label>
-										</div>
-									</div>
-									<div class="span4">
-										<div class="label">
-											<label required>
-												<p>{$lang.incident}</p>
-												<p>{$lang.urgency_low} ({$lang.minutes})</p>
-												<input type="number" name="incident_low">
-											</label>
-										</div>
-									</div>
-									<div class="span4">
-										<div class="label">
-											<label required>
-												<p>{$lang.incident}</p>
-												<p>{$lang.urgency_medium} ({$lang.minutes})</p>
-												<input type="number" name="incident_medium">
-											</label>
-										</div>
-									</div>
-									<div class="span4">
-										<div class="label">
-											<label required>
-												<p>{$lang.incident}</p>
-												<p>{$lang.urgency_high} ({$lang.minutes})</p>
-												<input type="number" name="incident_high">
-											</label>
-										</div>
-									</div>
-									<div class="span12">
-										<div class="buttons">
-											<a class="delete" button-cancel><i class="fas fa-times"></i></a>
-											<button type="submit" class="new"><i class="fas fa-check"></i></button>
-										</div>
-									</div>
-								</div>
-							</form>
-						</main>
-					</div>
 				</section>';
 			}
 
@@ -2165,32 +2153,33 @@ class Account_controller extends Controller
 				'{$token}' => strtoupper($account['token']),
 				'{$fiscal_name}' => !empty($account['fiscal']['name']) ? $account['fiscal']['name'] : '{$lang.not_fiscal_name}',
 				'{$fiscal_id}' => !empty($account['fiscal']['id']) ? $account['fiscal']['id'] : '{$lang.not_fiscal_id}',
+				'{$location}' => (!empty($account['location']['lat']) AND !empty($account['location']['lng'])) ? '{$lang.activated}' : '{$lang.deactivated}',
+				'{$lat_lng}' => (!empty($account['location']['lat']) AND !empty($account['location']['lng'])) ? $account['location']['lat'] . ' ' . $account['location']['lng'] : '{$lang.not_location}',
+				'{$lat}' => !empty($account['location']['lat']) ? $account['location']['lat'] : '',
+				'{$lng}' => !empty($account['location']['lng']) ? $account['location']['lng'] : '',
+				'{$div_menu}' => $div_menu,
 				'{$div_public_requests}' => $div_public_requests,
 				'{$div_public_incidents}' => $div_public_incidents,
-				'{$div_menu}' => $div_menu,
-				'{$div_answer_surveys}' => $div_answer_surveys,
-				'{$div_reviews_page}' => $div_reviews_page,
 				'{$div_attention_times}' => $div_attention_times,
-				'{$div_payment}' => $div_payment,
-				'{$operation}' => ($account['operation'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
-				'{$reputation}' => ($account['reputation'] == true) ? '{$lang.activated}' : '{$lang.deactivated}',
-				'{$package}' => $account['package'],
-				'{$sms}' => $account['sms'],
-				'{$whatsapp}' => $account['whatsapp'],
 				'{$div_siteminder}' => $div_siteminder,
 				'{$div_zaviapms}' => $div_zaviapms,
 				'{$div_ambit}' => $div_ambit,
+				'{$div_answer_surveys}' => $div_answer_surveys,
+				'{$div_reviews_page}' => $div_reviews_page,
+				'{$div_payment}' => $div_payment,
+				'{$sms}' => $account['sms'],
+				'{$whatsapp}' => $account['whatsapp'],
 				'{$opt_countries}' => $opt_countries,
 				'{$opt_times_zones}' => $opt_times_zones,
 				'{$opt_currencies}' => $opt_currencies,
 				'{$opt_languages}' => $opt_languages,
 				'{$opt_ladas}' => $opt_ladas,
+				'{$mdl_edit_myvox_menu_settings}' => $mdl_edit_myvox_menu_settings,
 				'{$mdl_edit_myvox_request_settings}' => $mdl_edit_myvox_request_settings,
 				'{$mdl_edit_myvox_incident_settings}' => $mdl_edit_myvox_incident_settings,
-				'{$mdl_edit_myvox_menu_settings}' => $mdl_edit_myvox_menu_settings,
+				'{$mdl_edit_voxes_attention_times_settings}' => $mdl_edit_voxes_attention_times_settings,
 				'{$mdl_edit_myvox_survey_settings}' => $mdl_edit_myvox_survey_settings,
 				'{$mdl_edit_reviews_settings}' => $mdl_edit_reviews_settings,
-				'{$mdl_edit_voxes_attention_times_settings}' => $mdl_edit_voxes_attention_times_settings,
 				'{$mdl_edit_payment}' => $mdl_edit_payment
 			];
 

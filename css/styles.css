@@ -5068,3 +5068,20 @@ div.contract {
 div.contract.show {
     height: auto !important;
 }
+
+#location_map,
+#menu_map {
+    width: calc(100% - 5px);
+    margin: 0px 2.5px 20px 2.5px;
+    padding: 10px;
+    border: 1px dashed #000;
+    box-sizing: border-box;
+}
+
+#location_map {
+    height: 400px;
+}
+
+#menu_map {
+    height: 200px;
+}
