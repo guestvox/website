@@ -1133,6 +1133,11 @@ class Myvox_controller extends Controller
 									</label>
 								</div>
 							</div>
+							<div class="span12">
+								<div id="delivery_map"></div>
+								<input type="text" class="hidden" name="delivery_lat">
+								<input type="text" class="hidden" name="delivery_lng">
+							</div>
 							<div class="span6">
 								<div class="label">
 									<label required>

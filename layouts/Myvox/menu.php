@@ -4,6 +4,7 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.css}Myvox/menu.css']);
 $this->dependencies->add(['js', '{$path.js}Myvox/menu.js']);
+$this->dependencies->add(['other', '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLCea8Q6BtcTHwY3YFCiB0EoHE5KnsMUE&callback=map"></script>']);
 
 ?>
 

@@ -222,3 +222,73 @@ function load_preview_menu_product_actions()
         $('[data-modal="preview_menu_product"]').find('main').html('');
     });
 }
+
+// var delivery_map_coords = {};
+// var delivery_map_marker;
+
+function map()
+{
+    // delivery_map_coords =  {
+    //     lat: 21.1213285,
+    //     lng: -86.9192739
+    // };
+
+    // var delivery_map = new google.maps.Map(document.getElementById("delivery_map"),
+    // {
+    //     zoom: 13,
+    //     center: {
+    //         lat: 21.1213285,
+    //         lng: -86.9192739
+    //     }
+    // });
+
+    if (navigator.geolocation)
+    {
+        navigator.geolocation.getCurrentPosition(function(position) {
+
+            console.log('Succcess');
+
+        }, function(errors) {
+
+            console.log('Error');
+
+        });
+    }
+
+    // set_map(delivery_map_coords);
+    //
+    // document.getElementById("location_lat").value = delivery_map_coords["lat"];
+    // document.getElementById("location_lng").value = delivery_map_coords["lng"];
+}
+
+// function set_map(delivery_map_coords)
+// {
+//     var delivery_map = new google.maps.Map(document.getElementById("delivery_map"),
+//     {
+//         zoom: 13,
+//         center:new google.maps.LatLng(delivery_map_coords.lat,delivery_map_coords.lng)
+//     });
+//
+//     delivery_map_marker = new google.maps.Marker({
+//         map: delivery_map,
+//         title: "Tú",
+//         draggable: true,
+//         animation: google.maps.Animation.DROP,
+//         position: new google.maps.LatLng(delivery_map_coords.lat,delivery_map_coords.lng)
+//     });
+//
+//     delivery_map_marker.addListener("click", delivery_map_toggle_bounce);
+//     delivery_map_marker.addListener("dragend", function (event)
+//     {
+//         document.getElementById("location_lat").value = this.getPosition().lat();
+//         document.getElementById("location_lng").value = this.getPosition().lng();
+//     });
+// }
+//
+// function delivery_map_toggle_bounce()
+// {
+//     if (delivery_map_marker.getAnimation() !== null)
+//         delivery_map_marker.setAnimation(null);
+//     else
+//         delivery_map_marker.setAnimation(google.maps.Animation.BOUNCE);
+// }
