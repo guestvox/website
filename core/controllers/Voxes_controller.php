@@ -2628,7 +2628,7 @@ class Voxes_controller extends Controller
 					$html .=
 					'<div style="width:100%;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:40px 40px 0px 40px;border-bottom:0px;box-sizing:border-box;">
 						<p style="display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:400;text-align:center;color:#757575;"><strong style="color:#212121;">Power by</strong> <img style="width:auto;height:20px;margin:0px 5px;" src="images/logotype_color.png"></p>
-						<p style="display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:400;text-align:center;color:#757575;">Copyright <i style="margin:0px 5px;" class="far fa-copyright" aria-hidden="true"></i> {$lang.all_right_reserved}</p>
+						<p style="display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:400;text-align:center;color:#757575;">Copyright <i style="margin:0px 5px;" class="far fa-copyright" aria-hidden="true"></i> 2021 | Guestvox S.A.P.I. de C.V.</p>
 					</div>';
 
 					Functions::environment([

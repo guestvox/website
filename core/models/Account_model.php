@@ -274,7 +274,7 @@ class Account_model extends Model
 		return $query;
 	}
 
-	public function edit_settings($field, $data)
+	public function edit_settings($field, $data, $account = null)
 	{
 		$edited1 = Functions::get_json_decoded_query($this->database->select('accounts', [
 			'settings'
@@ -313,10 +313,10 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['status'] = $data['schedule_sunday_status'];
 				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['opening'] = ($data['schedule_sunday_status'] == 'open') ? $data['schedule_sunday_opening'] : '';
 				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['closing'] = ($data['schedule_sunday_status'] == 'open') ? $data['schedule_sunday_closing'] : '';
-				$edited1[0]['settings']['myvox']['menu']['delivery'] = !empty($data['delivery']) ? true : false;
-				$edited1[0]['settings']['myvox']['menu']['requests'] = !empty($data['requests']) ? true : false;
+				$edited1[0]['settings']['myvox']['menu']['requests'] = (($account['type'] == 'hotel' OR $account['type'] == 'restaurant') AND !empty($data['requests'])) ? true : false;
+				$edited1[0]['settings']['myvox']['menu']['delivery'] = (($account['type'] == 'restaurant' OR $account['type'] == 'others') AND !empty($data['delivery'])) ? true : false;
 				$edited1[0]['settings']['myvox']['menu']['multi'] = !empty($data['multi']) ? true : false;
-				$edited1[0]['settings']['myvox']['menu']['sell_radius'] = $data['sell_radius'];
+				$edited1[0]['settings']['myvox']['menu']['sell_radius'] = (($account['type'] == 'restaurant' OR $account['type'] == 'others') AND !empty($data['sell_radius'])) ? $data['sell_radius'] : '';
 			}
 			else
 				$edited1[0]['settings']['myvox']['menu']['status'] = false;

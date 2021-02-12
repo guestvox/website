@@ -234,7 +234,6 @@ class Voxes_model extends Model
 			'started_hour',
 			'death_line',
 			'location',
-			'references',
 			'cost',
 			'urgency',
 			'confidentiality',

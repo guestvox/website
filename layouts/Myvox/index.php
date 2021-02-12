@@ -17,12 +17,12 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
     </div>
 </header>
 <main class="myvox">
+    {$btn_new_menu_order}
     {$btn_new_request}
     {$btn_new_incident}
-    {$btn_new_menu_order}
     {$btn_new_survey_answer}
 </main>
 <footer class="myvox">
     <a href="/">Powered by <img src="{$path.images}logotype_color.png" alt="Guestvox"></a>
-    <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved}</p>
+    <p>Copyright<i class="far fa-copyright"></i>2021 | Guestvox S.A.P.I. de C.V.</p>
 </footer>

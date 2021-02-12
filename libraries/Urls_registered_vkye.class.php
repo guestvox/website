@@ -33,7 +33,7 @@ class Urls_registered_vkye
                 'controller' => 'Activate',
                 'method' => 'index'
             ],
-            '/%param%/myvox' => [
+            '/%param%/myvox/%param%/%param%' => [
                 'controller' => 'Myvox',
                 'method' => 'index'
             ],
@@ -41,9 +41,9 @@ class Urls_registered_vkye
                 'controller' => 'Myvox',
                 'method' => 'index'
             ],
-            '/%param%/myvox/%param%/%param%' => [
+            '/%param%/menu/%param%' => [
                 'controller' => 'Myvox',
-                'method' => 'index'
+                'method' => 'menu'
             ],
             '/%param%/request' => [
                 'controller' => 'Myvox',
@@ -52,10 +52,6 @@ class Urls_registered_vkye
             '/%param%/incident' => [
                 'controller' => 'Myvox',
                 'method' => 'incident'
-            ],
-            '/%param%/menu/%param%' => [
-                'controller' => 'Myvox',
-                'method' => 'menu'
             ],
             '/%param%/survey' => [
                 'controller' => 'Myvox',
@@ -73,13 +69,25 @@ class Urls_registered_vkye
                 'controller' => 'Dashboard',
                 'method' => 'index'
             ],
-            '/my-profile' => [
-                'controller' => 'Profile',
-                'method' => 'index'
+            '/menu/orders' => [
+                'controller' => 'Menu',
+                'method' => 'orders'
             ],
-            '/qrs' => [
-                'controller' => 'Qrs',
-                'method' => 'index'
+            '/menu/products' => [
+                'controller' => 'Menu',
+                'method' => 'products'
+            ],
+            '/menu/categories' => [
+                'controller' => 'Menu',
+                'method' => 'categories'
+            ],
+            '/menu/topics' => [
+                'controller' => 'Menu',
+                'method' => 'topics'
+            ],
+            '/menu/restaurants' => [
+                'controller' => 'Menu',
+                'method' => 'restaurants'
             ],
             '/voxes' => [
                 'controller' => 'Voxes',
@@ -125,26 +133,6 @@ class Urls_registered_vkye
                 'controller' => 'Surveys',
                 'method' => 'charts'
             ],
-            '/menu/orders' => [
-                'controller' => 'Menu',
-                'method' => 'orders'
-            ],
-            '/menu/products' => [
-                'controller' => 'Menu',
-                'method' => 'products'
-            ],
-            '/menu/categories' => [
-                'controller' => 'Menu',
-                'method' => 'categories'
-            ],
-            '/menu/topics' => [
-                'controller' => 'Menu',
-                'method' => 'topics'
-            ],
-            '/menu/restaurants' => [
-                'controller' => 'Menu',
-                'method' => 'restaurants'
-            ],
             '/owners' => [
                 'controller' => 'Owners',
                 'method' => 'index'
@@ -179,6 +167,14 @@ class Urls_registered_vkye
             ],
             '/users-levels' => [
                 'controller' => 'Userslevels',
+                'method' => 'index'
+            ],
+            '/my-profile' => [
+                'controller' => 'Profile',
+                'method' => 'index'
+            ],
+            '/qrs' => [
+                'controller' => 'Qrs',
                 'method' => 'index'
             ],
             '/technical-support' => [

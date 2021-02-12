@@ -359,7 +359,7 @@ $this->dependencies->add(['others',
         <a target="_blank"><i class="fab fa-linkedin"></i></a>
         <a target="_blank"><i class="fab fa-youtube"></i></a>
     </div>
-    <span>Copyright (C) Guestvox S.A.P.I. de C.V. | {$lang.all_right_reserved}</span>
+    <span>Copyright (C) Guestvox S.A.P.I. de C.V. | 2021 | Guestvox S.A.P.I. de C.V.</span>
     <!-- <div>
         <a>{$lang.terms_and_conditions}</a>
         <a>{$lang.privacy_policies}</a>

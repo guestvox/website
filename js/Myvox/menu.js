@@ -106,30 +106,12 @@ $(document).ready(function()
         });
     });
 
-    $('[name="owner"]').on('change', function()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'owner=' + $(this).val() + '&action=get_owner',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response) { }
-        });
-    });
-
     $('[name="delivery"]').on('change', function()
     {
-        if ($(this).val() == 'home')
-        {
+        if ($(this).val() == 'bring')
             $('[name="address"]').parent().parent().parent().removeClass('hidden');
-            $('[name="references"]').parent().parent().parent().removeClass('hidden');
-        }
-        else if ($(this).val() == 'restaurant')
-        {
+        else if ($(this).val() == 'collect')
             $('[name="address"]').parent().parent().parent().addClass('hidden');
-            $('[name="references"]').parent().parent().parent().addClass('hidden');
-        }
     });
 
     $('form[name="new_menu_order"]').on('submit', function(e)

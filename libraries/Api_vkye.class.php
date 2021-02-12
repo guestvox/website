@@ -18,11 +18,16 @@ class Api_vkye
 
             $users = [
                 'zaviapms' => 'y329-gfc=7mq}qy(',
-                'siteminder' => 'V97+pf=:z4?Hm|0i',
-                'mit' => 'qrB3svqybxLrMas6'
+                'mit' => 'qrB3svqybxLrMas6',
+                'siteminder' => 'V97+pf=:z4?Hm|0i'
             ];
 
-            if ($params[0] == 'siteminder')
+            if ($params[0] == 'mit')
+            {
+                $username = 'mit'
+                $password = 'qrB3svqybxLrMas6'
+            }
+            else if ($params[0] == 'siteminder')
             {
                 // $_POST['message'] =
                 // '<soap-env:Envelope xmlns:soap-env="http://schemas.xmlsoap.org/soap/envelope/">

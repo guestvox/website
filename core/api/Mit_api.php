@@ -9,26 +9,35 @@ class Mit_api extends Model
 
     public function post($params)
     {
-        $archivo = fopen("log.txt","a") or die("Error al crear");
-        fwrite($archivo,"----------------------\n");
-        fwrite($archivo,$_REQUEST['strResponse']);
-        fwrite($archivo,"----------------------\n");
-        fwrite($archivo,"Respuesta en claro ----------------------\n\n");
-        $respuesta = AESCrypto::decrypt($_REQUEST['strResponse'], 'AC1D8AC2C3F14F713B13A82A91D806C3');
-        fwrite($archivo,$respuesta);
-        fwrite($archivo,"----------------------\n");
+        $file = fopen("log.txt","a") or die("ERROR");
 
-        echo("Se creo correctamente el log");
-        fclose($archivo);
+        fwrite($file, "----------------------\n");
+        fwrite($file, $_REQUEST["strResponse"]);
+        fwrite($file, "----------------------\n");
+        fwrite($file, "Response ----------------------\n\n");
 
-        $query = $this->database->insert('mit', [
-			'code' => json_encode($respuesta)
+        $response = AESCrypto::decrypt($_REQUEST['strResponse'], '22F31F5ECCDD4D29D378FB71B13641EC');
+
+        fwrite($file, $response);
+        fwrite($file, "----------------------\n");
+
+        echo("SUCCESS");
+
+        fclose($file);
+
+        $query = $this->database->insert('payments', [
+            'account' => Session::get_value('myvox')['account']['id'],
+			'token' => Session::get_value('myvox')['payment_token'],
+			'code' => 'mit',
+			'response' => json_encode($response),
+            'date' => Functions::get_current_date(),
+            'hour' => Functions::get_current_hour()
 		]);
 
         if (!empty($query))
             return 'Ok';
         else
-            return 'Error';
+            return 'ERROR';
     }
 
     public function put($params)

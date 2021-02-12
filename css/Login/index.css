@@ -11,7 +11,8 @@ main.login {
 
 /*  */
 main.login > figure {
-    width: 500px;
+    width: 100%;
+    max-width: 500px;
     padding: 20px;
     box-sizing: border-box;
 }

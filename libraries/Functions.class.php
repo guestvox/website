@@ -521,11 +521,11 @@ class Functions
                   "businessId": ' . $params['mit'] . ',
                   "currency": "' . $params['currency'] . '",
                   "effectiveDate": "' . Functions::get_current_date('d/m/Y') . '",
-                  "id": "' . Functions::get_random(8) . '",
+                  "id": "' . Session::get_value('myvox')['payment_token'] . '",
                   "paymentTypes": "' . $params['types'] . '",
-                  "reference": "' . Functions::get_random(8) . '",
+                  "reference": "' . Session::get_value('myvox')['payment_token'] . '",
                   "station": "Menu digital",
-                  "userCode": "1603992976334",
+                  "userCode": "1597160518333",
                   "valuePairs": [
                     {
                       "label": "",
@@ -534,17 +534,17 @@ class Functions
                   ]
                 }';
 
-                $params = AESCrypto::encrypt($params, 'AC1D8AC2C3F14F713B13A82A91D806C3');
+                $params = AESCrypto::encrypt($params, '22F31F5ECCDD4D29D378FB71B13641EC');
 
                 $api = curl_init();
 
-                curl_setopt($api, CURLOPT_URL, 'https://qaag.mitec.com.mx/praga-ws/url/generateUrlV3');
+                curl_setopt($api, CURLOPT_URL, 'https://www.praga.io/praga-ws/url/generateUrlV3');
                 curl_setopt($api, CURLOPT_CUSTOMREQUEST, 'POST');
                 curl_setopt($api, CURLOPT_POSTFIELDS, $params);
                 curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt($api, CURLOPT_HTTPHEADER, array(
                     'Content-Type: application/json',
-                    'Authorization: Bearer YjE0Njc1Y2ItYmZmMi00Mjc0LWEwZGUtNDc5NTUzNzA4MGMz'));
+                    'Authorization: Bearer MDc0Mjk5OWItODg4OC00N2IxLWIxNzctMjUzY2E0ZWU5ZmJk'));
 
                 $data = curl_exec($api);
                 $data = json_decode($data, true);

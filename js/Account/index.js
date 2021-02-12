@@ -383,9 +383,15 @@ $(document).ready(function()
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]').val(response1.data.settings.myvox.menu.schedule.sunday.opening);
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]').val(response1.data.settings.myvox.menu.schedule.sunday.closing);
 
-                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="delivery"]').prop('checked', ((response1.data.settings.myvox.menu.delivery == true) ? true : false));
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="requests"]').prop('checked', ((response1.data.settings.myvox.menu.requests == true) ? true : false));
+                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="delivery"]').prop('checked', ((response1.data.settings.myvox.menu.delivery == true) ? true : false));
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="multi"]').prop('checked', ((response1.data.settings.myvox.menu.multi == true) ? true : false));
+
+                    if (response1.data.settings.myvox.menu.delivery == true)
+                        $('#menu_rad').parent().parent().parent().removeClass('hidden');
+                    else
+                        $('#menu_rad').parent().parent().parent().addClass('hidden');
+
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="sell_radius"]').val(response1.data.settings.myvox.menu.sell_radius);
 
                     required_focus('form', $('form[name="edit_myvox_menu_settings"]'), null);
@@ -751,6 +757,14 @@ $(document).ready(function()
 
         required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]'), null);
         required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]'), null);
+    });
+
+    $('[name="delivery"]').on('change', function()
+    {
+        if ($(this).is(':checked'))
+            $('#menu_rad').parent().parent().parent().removeClass('hidden');
+        else
+            $('#menu_rad').parent().parent().parent().addClass('hidden');
     });
 
     $('[data-modal="edit_myvox_menu_settings"]').modal().onCancel(function()
@@ -1455,9 +1469,20 @@ function set_map(location_map_coords, menu_map_coords)
         document.getElementById("location_lng").value = this.getPosition().lng();
     });
 
+    var menu_map_zoom;
+
+    if (menu_map_coords.rad <= 999)
+        menu_map_zoom = 13;
+    else if (menu_map_coords.rad > 999 && menu_map_coords.rad <= 5000)
+        menu_map_zoom = 11;
+    else if (menu_map_coords.rad > 5000 || menu_map_coords.rad <= 10000)
+        menu_map_zoom = 10;
+    else if (menu_map_coords.rad > 10000)
+        menu_map_zoom = 9;
+
     var menu_map = new google.maps.Map(document.getElementById("menu_map"),
     {
-        zoom: 13,
+        zoom: menu_map_zoom,
         center:new google.maps.LatLng(menu_map_coords.lat,menu_map_coords.lng)
     });
 

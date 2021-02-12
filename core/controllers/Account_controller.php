@@ -340,7 +340,7 @@ class Account_controller extends Controller
 								array_push($labels, ['schedule_sunday_closing','']);
 						}
 
-						if (!isset($_POST['sell_radius']) OR empty($_POST['sell_radius']))
+						if (($account['type'] == 'restaurant' OR $account['type'] == 'others') AND !empty($_POST['delivery']) AND (!isset($_POST['sell_radius']) OR empty($_POST['sell_radius'])))
 							array_push($labels, ['sell_radius','']);
 					}
 				}
@@ -448,7 +448,7 @@ class Account_controller extends Controller
 				if (empty($labels))
 				{
 					if ($_POST['action'] == 'edit_myvox_menu_settings')
-						$query = $this->model->edit_settings('myvox_menu', $_POST);
+						$query = $this->model->edit_settings('myvox_menu', $_POST, $account);
 					else if ($_POST['action'] == 'edit_myvox_request_settings')
 						$query = $this->model->edit_settings('myvox_request', $_POST);
 					else if ($_POST['action'] == 'edit_myvox_incident_settings')
@@ -909,254 +909,275 @@ class Account_controller extends Controller
 					$mdl_edit_myvox_menu_settings .= '<option value="' . $value['code'] . '">' . $value['name'][$this->lang] . ' (' . $value['code'] . ')</option>';
 
 				$mdl_edit_myvox_menu_settings .=
-				'								</select>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label class="success">
-												<p>{$lang.schedule} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input type="text" value="{$lang.monday}" disabled>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<p></p>
-												<select name="schedule_monday_status">
-													<option value="open">{$lang.open}</option>
-													<option value="close">{$lang.close}</option>
-												</select>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<p>{$lang.opening} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input type="time" name="schedule_monday_opening">
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<p>{$lang.closing} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input type="time" name="schedule_monday_closing">
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label class="success">
-												<input type="text" value="{$lang.tuesday}" disabled>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<select name="schedule_tuesday_status">
-													<option value="open">{$lang.open}</option>
-													<option value="close">{$lang.close}</option>
-												</select>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<input type="time" name="schedule_tuesday_opening">
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<input type="time" name="schedule_tuesday_closing">
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label class="success">
-												<input type="text" value="{$lang.wednesday}" disabled>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<select name="schedule_wednesday_status">
-													<option value="open">{$lang.open}</option>
-													<option value="close">{$lang.close}</option>
-												</select>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<input type="time" name="schedule_wednesday_opening">
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<input type="time" name="schedule_wednesday_closing">
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label class="success">
-												<input type="text" value="{$lang.thursday}" disabled>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<select name="schedule_thursday_status">
-													<option value="open">{$lang.open}</option>
-													<option value="close">{$lang.close}</option>
-												</select>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<input type="time" name="schedule_thursday_opening">
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<input type="time" name="schedule_thursday_closing">
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label class="success">
-												<input type="text" value="{$lang.friday}" disabled>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<select name="schedule_friday_status">
-													<option value="open">{$lang.open}</option>
-													<option value="close">{$lang.close}</option>
-												</select>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<input type="time" name="schedule_friday_opening">
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<input type="time" name="schedule_friday_closing">
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label class="success">
-												<input type="text" value="{$lang.saturday}" disabled>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<select name="schedule_saturday_status">
-													<option value="open">{$lang.open}</option>
-													<option value="close">{$lang.close}</option>
-												</select>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<input type="time" name="schedule_saturday_opening">
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<input type="time" name="schedule_saturday_closing">
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label class="success">
-												<input type="text" value="{$lang.sunday}" disabled>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<select name="schedule_sunday_status">
-													<option value="open">{$lang.open}</option>
-													<option value="close">{$lang.close}</option>
-												</select>
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<input type="time" name="schedule_sunday_opening">
-											</label>
-										</div>
-									</div>
-									<div class="span3">
-										<div class="label">
-											<label required>
-												<input type="time" name="schedule_sunday_closing">
-											</label>
-										</div>
-									</div>
-									<div class="span4">
-										<div class="label">
-											<label unrequired>
-												<p>{$lang.receive_delivery} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<div class="switch">
-													<input id="rdsw" type="checkbox" name="delivery" data-switcher>
-													<label for="rdsw"></label>
-												</div>
-											</label>
-										</div>
-									</div>
-									<div class="span4">
-										<div class="label">
-											<label unrequired>
-												<p>{$lang.receive_requests} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<div class="switch">
-													<input id="rrsw" type="checkbox" name="requests" data-switcher>
-													<label for="rrsw"></label>
-												</div>
-											</label>
-										</div>
-									</div>
-									<!-- <div class="span4">
+				'			</select>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label class="success">
+							<p>{$lang.schedule} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+							<input type="text" value="{$lang.monday}" disabled>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<p></p>
+							<select name="schedule_monday_status">
+								<option value="open">{$lang.open}</option>
+								<option value="close">{$lang.close}</option>
+							</select>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<p>{$lang.opening} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+							<input type="time" name="schedule_monday_opening">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<p>{$lang.closing} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+							<input type="time" name="schedule_monday_closing">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label class="success">
+							<input type="text" value="{$lang.tuesday}" disabled>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<select name="schedule_tuesday_status">
+								<option value="open">{$lang.open}</option>
+								<option value="close">{$lang.close}</option>
+							</select>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<input type="time" name="schedule_tuesday_opening">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<input type="time" name="schedule_tuesday_closing">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label class="success">
+							<input type="text" value="{$lang.wednesday}" disabled>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<select name="schedule_wednesday_status">
+								<option value="open">{$lang.open}</option>
+								<option value="close">{$lang.close}</option>
+							</select>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<input type="time" name="schedule_wednesday_opening">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<input type="time" name="schedule_wednesday_closing">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label class="success">
+							<input type="text" value="{$lang.thursday}" disabled>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<select name="schedule_thursday_status">
+								<option value="open">{$lang.open}</option>
+								<option value="close">{$lang.close}</option>
+							</select>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<input type="time" name="schedule_thursday_opening">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<input type="time" name="schedule_thursday_closing">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label class="success">
+							<input type="text" value="{$lang.friday}" disabled>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<select name="schedule_friday_status">
+								<option value="open">{$lang.open}</option>
+								<option value="close">{$lang.close}</option>
+							</select>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<input type="time" name="schedule_friday_opening">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<input type="time" name="schedule_friday_closing">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label class="success">
+							<input type="text" value="{$lang.saturday}" disabled>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<select name="schedule_saturday_status">
+								<option value="open">{$lang.open}</option>
+								<option value="close">{$lang.close}</option>
+							</select>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<input type="time" name="schedule_saturday_opening">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<input type="time" name="schedule_saturday_closing">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label class="success">
+							<input type="text" value="{$lang.sunday}" disabled>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<select name="schedule_sunday_status">
+								<option value="open">{$lang.open}</option>
+								<option value="close">{$lang.close}</option>
+							</select>
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<input type="time" name="schedule_sunday_opening">
+						</label>
+					</div>
+				</div>
+				<div class="span3">
+					<div class="label">
+						<label required>
+							<input type="time" name="schedule_sunday_closing">
+						</label>
+					</div>
+				</div>';
+
+				if ($account['type'] == 'hotel' OR $account['type'] == 'restaurant')
+				{
+					$mdl_edit_myvox_menu_settings .=
+					'<div class="' . (($account['type'] == 'hotel') ? 'span12' : 'span6') . '">
+						<div class="label">
+							<label unrequired>
+								<p>{$lang.receive_requests_' . $account['type'] . '} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+								<div class="switch">
+									<input id="rrsw" type="checkbox" name="requests" data-switcher>
+									<label for="rrsw"></label>
+								</div>
+							</label>
+						</div>
+					</div>';
+				}
+
+				if ($account['type'] == 'restaurant' OR $account['type'] == 'others')
+				{
+					$mdl_edit_myvox_menu_settings .=
+					'<div class="' . (($account['type'] == 'others') ? 'span12' : 'span6') . '">
+						<div class="label">
+							<label unrequired>
+								<p>{$lang.receive_delivery_from_home} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+								<div class="switch">
+									<input id="rdsw" type="checkbox" name="delivery" data-switcher>
+									<label for="rdsw"></label>
+								</div>
+							</label>
+						</div>
+					</div>
+					<div class="span12">
+						<div id="menu_map" data-lat="' . $account['location']['lat'] . '" data-lng="' . $account['location']['lng'] . '" data-rad="' . $account['settings']['myvox']['menu']['sell_radius'] . '"></div>
+						<div class="label">
+							<label required>
+								<p>{$lang.sell_radius} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+								<input id="menu_rad" type="number" name="sell_radius">
+							</label>
+						</div>
+					</div>';
+				}
+
+				$mdl_edit_myvox_menu_settings .=
+				'					<!-- <div class="span4">
 										<div class="label">
 											<label unrequired>
 												<p>{$lang.multi} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
@@ -1167,15 +1188,6 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div> -->
-									<div class="span12">
-										<div id="menu_map" data-lat="' . $account['location']['lat'] . '" data-lng="' . $account['location']['lng'] . '" data-rad="' . $account['settings']['myvox']['menu']['sell_radius'] . '"></div>
-										<div class="label">
-											<label required>
-												<p>{$lang.sell_radius} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-												<input id="menu_rad" type="number" name="sell_radius">
-											</label>
-										</div>
-									</div>
 									<div class="span12">
 										<div class="buttons">
 											<a class="delete" button-cancel><i class="fas fa-times"></i></a>
@@ -1609,7 +1621,7 @@ class Account_controller extends Controller
 				if ($account['payment']['type'] == 'mit')
 				{
 					$mdl_edit_payment .=
-					'<div class="span3">
+					'<div class="span6">
 						<div class="label">
 							<label unrequired>
 								<p>Código de transacción</p>
@@ -1617,19 +1629,11 @@ class Account_controller extends Controller
 							</label>
 						</div>
 					</div>
-					<div class="span3">
+					<div class="span6">
 						<div class="label">
 							<label unrequired>
 								<p>Tipos de transacción</p>
 								<input type="text" value="' . $account['payment']['mit']['types'] . '" disabled>
-							</label>
-						</div>
-					</div>
-					<div class="span6">
-						<div class="label">
-							<label unrequired>
-								<p>{$lang.contract}</p>
-								<a data-action="download_contract">{$lang.download}</a>
 							</label>
 						</div>
 					</div>';
