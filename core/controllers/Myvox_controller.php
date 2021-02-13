@@ -159,11 +159,11 @@ class Myvox_controller extends Controller
 				Session::set_value('myvox', $myvox);
 			}
 
-			if (!isset(Session::get_value('myvox')['payment_token']) OR empty(Session::get_value('myvox')['payment_token']))
+			if (!isset(Session::get_value('myvox')['menu_payment_token']) OR empty(Session::get_value('myvox')['menu_payment_token']))
 			{
 				$myvox = Session::get_value('myvox');
 
-				$myvox['payment_token'] = strtolower(Functions::get_random(8));
+				$myvox['menu_payment_token'] = strtolower(Functions::get_random(8));
 
 				Session::set_value('myvox', $myvox);
 			}
@@ -446,9 +446,9 @@ class Myvox_controller extends Controller
 
 				if ($_POST['action'] == 'new_menu_order')
 				{
-					$payment_status = $this->model->get_payment_status();
+					$menu_order_payment = $this->model->get_menu_order_payment();
 
-					if ($payment_status == true)
+					if (!empty($menu_order_payment))
 					{
 						$labels = [];
 
@@ -621,7 +621,7 @@ class Myvox_controller extends Controller
 									try
 									{
 										$mail1->setFrom('noreply@guestvox.com', 'Guestvox');
-										$mail1->addAddress($_POST['email'], ((!empty($_POST['firstname']) AND !empty($_POST['lastname'])) ? $_POST['firstname'] . ' ' . $_POST['lastname'] : Languages::email('not_name')[$this->lang1]));
+										$mail1->addAddress($_POST['email'], $_POST['firstname'] . ' ' . $_POST['lastname']);
 										$mail1->Subject = Languages::email('thanks_received_menu_order')[$this->lang1];
 										$mail1->Body =
 										'<html>
@@ -640,7 +640,7 @@ class Myvox_controller extends Controller
 													<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
 														<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
 															<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail1->Subject . '</h4>
-															<h6 style="width:100%;margin:0px 0px 10px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('token')[$this->lang1] . ': ' . Session::get_value('myvox')['payment_token'] . '</h6>';
+															<h6 style="width:100%;margin:0px 0px 10px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('token')[$this->lang1] . ': ' . Session::get_value('myvox')['menu_payment_token'] . '</h6>';
 
 										foreach (Session::get_value('myvox')['menu_order']['shopping_cart'] as $value)
 										{
@@ -683,7 +683,7 @@ class Myvox_controller extends Controller
 									{
 										$sms1_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 										$sms1_client = new \Nexmo\Client($sms1_basic);
-										$sms1_text = Session::get_value('myvox')['account']['name'] . '. ' . Languages::email('thanks_received_menu_order')[$this->lang1] . '. https://' . Configuration::$domain . '/' . $params[0] . '/menu/' . Session::get_value('myvox')['payment_token'] . '. Power by Guestvox.';
+										$sms1_text = Session::get_value('myvox')['account']['name'] . '. ' . Languages::email('thanks_received_menu_order')[$this->lang1] . '. https://' . Configuration::$domain . '/' . $params[0] . '/menu/' . Session::get_value('myvox')['menu_payment_token'] . '. Power by Guestvox.';
 
 										try
 										{
@@ -930,7 +930,7 @@ class Myvox_controller extends Controller
 								$myvox = Session::get_value('myvox');
 
 								$myvox['menu_order'] = null;
-								$myvox['payment_token'] = null;
+								$myvox['menu_payment_token'] = null;
 
 								Session::set_value('myvox', $myvox);
 
@@ -1134,9 +1134,9 @@ class Myvox_controller extends Controller
 								</div>
 							</div>
 							<div class="span12">
-								<div id="delivery_map"></div>
-								<input type="text" class="hidden" name="delivery_lat">
-								<input type="text" class="hidden" name="delivery_lng">
+								<div id="delivery_map" data-lat="' . Session::get_value('myvox')['account']['location']['lat'] . '" data-lng="' . Session::get_value('myvox')['account']['location']['lng'] . '"></div>
+								<input id="delivery_lat" type="text" class="hidden" name="delivery_lat">
+								<input id="delivery_lng" type="text" class="hidden" name="delivery_lng">
 							</div>
 							<div class="span6">
 								<div class="label">

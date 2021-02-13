@@ -521,9 +521,9 @@ class Functions
                   "businessId": ' . $params['mit'] . ',
                   "currency": "' . $params['currency'] . '",
                   "effectiveDate": "' . Functions::get_current_date('d/m/Y') . '",
-                  "id": "' . Session::get_value('myvox')['payment_token'] . '",
+                  "id": "' . Session::get_value('myvox')['menu_payment_token'] . '",
                   "paymentTypes": "' . $params['types'] . '",
-                  "reference": "' . Session::get_value('myvox')['payment_token'] . '",
+                  "reference": "' . Session::get_value('myvox')['menu_payment_token'] . '",
                   "station": "Menu digital",
                   "userCode": "1597160518333",
                   "valuePairs": [

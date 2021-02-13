@@ -167,7 +167,7 @@ class Configuration
 	 *
      * @var string $db_pass
      */
-	// public static $db_pass = 'Jsw90w&6';
+	// public static $db_pass = 'Jsw90w&6'; gKqm14@3
 	public static $db_pass = '';
 
 	/**

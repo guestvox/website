@@ -27,7 +27,7 @@ class Mit_api extends Model
 
         $query = $this->database->insert('payments', [
             'account' => Session::get_value('myvox')['account']['id'],
-			'token' => Session::get_value('myvox')['payment_token'],
+			'token' => Session::get_value('myvox')['menu_payment_token'],
 			'code' => 'mit',
 			'response' => json_encode($response),
             'date' => Functions::get_current_date(),

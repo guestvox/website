@@ -470,20 +470,26 @@ class Myvox_model extends Model
 		return $total;
 	}
 
-	public function get_payment_status()
+	public function get_menu_order_payment()
 	{
-		$query = $this->database->count('payments', [
-			'token' => Session::get_value('myvox')['payment_token']
-		]);
+		// $query = $this->database->select('payments', [
+		// 	'token',
+		// 	'code',
+		// 	'response'
+		// ], [
+		// 	'token' => Session::get_value('myvox')['menu_payment_token']
+		// ]);
+		//
+		// return !empty($query) ? $query[0] : null;
 
-		return ($query > 0) ? true : false;
+		return 'Ok';
 	}
 
 	public function new_menu_order($data)
 	{
 		$query = $this->database->insert('menu_orders', [
 			'account' => Session::get_value('myvox')['account']['id'],
-			'token' => Session::get_value('myvox')['payment_token'],
+			'token' => Session::get_value('myvox')['menu_payment_token'],
 			'type_service' => Session::get_value('myvox')['url'],
 			'owner' => (Session::get_value('myvox')['url'] == 'owner') ? Session::get_value('myvox')['owner']['id'] : null,
 			'delivery' => (Session::get_value('myvox')['url'] == 'delivery') ? $data['delivery'] : null,
@@ -510,7 +516,7 @@ class Myvox_model extends Model
 			'delivered' => false
 		]);
 
-		return !empty($query) ? $this->database->id() : null;
+		return $query;
 	}
 
     public function new_vox($data)
