@@ -237,22 +237,26 @@ function map()
     {
         navigator.geolocation.getCurrentPosition(function(position) {
 
-            delivery_map_coords =  {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude
-            };
+            delivery_map_coords.lat = position.coords.latitude;
+			delivery_map_coords.lng = position.coords.longitude;
 
-        }, function(errors) { });
+            set_map(delivery_map_coords);
+
+        }, function(errors) {
+
+            set_map(delivery_map_coords);
+
+        });
     }
-
-    set_map(delivery_map_coords);
-
-    document.getElementById("delivery_lat").value = delivery_map_coords["lat"];
-    document.getElementById("delivery_lng").value = delivery_map_coords["lng"];
+    else
+        set_map(delivery_map_coords);
 }
 
 function set_map(delivery_map_coords)
 {
+    document.getElementById("delivery_lat").value = delivery_map_coords["lat"];
+    document.getElementById("delivery_lng").value = delivery_map_coords["lng"];
+
     var delivery_map = new google.maps.Map(document.getElementById("delivery_map"),
     {
         zoom: 13,
