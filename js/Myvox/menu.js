@@ -109,9 +109,15 @@ $(document).ready(function()
     $('[name="delivery"]').on('change', function()
     {
         if ($(this).val() == 'bring')
+        {
             $('[name="address"]').parent().parent().parent().removeClass('hidden');
+            $('#delivery_map').parent().removeClass('hidden');
+        }
         else if ($(this).val() == 'collect')
+        {
             $('[name="address"]').parent().parent().parent().addClass('hidden');
+            $('#delivery_map').parent().addClass('hidden');
+        }
     });
 
     $('form[name="new_menu_order"]').on('submit', function(e)

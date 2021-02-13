@@ -504,8 +504,8 @@ class Myvox_model extends Model
 			]) : null,
 			'address' => (Session::get_value('myvox')['url'] == 'delivery') ? $data['address'] : null,
 			'location' => (Session::get_value('myvox')['url'] == 'delivery') ? json_encode([
-				'lat' => '21.1815415',
-				'lng' => '-86.8148773'
+				'lat' => $data['delivery_lat'],
+				'lng' => $data['delivery_lng']
 			]) : null,
 			'date' => Functions::get_formatted_date($data['started_date']),
 			'hour' => Functions::get_formatted_hour($data['started_hour']),
