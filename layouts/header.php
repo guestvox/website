@@ -78,7 +78,6 @@
             <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
             <li target="surveys_raters"><a href="/surveys/answers/raters">{$lang.answers}<i class="fas fa-star"></i></a></li>
             <li target="surveys_comments"><a href="/surveys/answers/comments">{$lang.comments}<i class="fas fa-comment-alt"></i></a></li>
-            <li target="surveys_contacts"><a href="/surveys/answers/contacts">{$lang.contacts}<i class="fas fa-address-book"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
             <li target="surveys_stats"><a href="/surveys/stats">{$lang.stats}<i class="fas fa-chart-pie"></i></a></li>

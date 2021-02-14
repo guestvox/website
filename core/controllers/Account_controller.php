@@ -1167,6 +1167,8 @@ class Account_controller extends Controller
 					</div>
 					<div class="span12">
 						<div id="menu_map" data-lat="' . $account['location']['lat'] . '" data-lng="' . $account['location']['lng'] . '" data-rad="' . $account['settings']['myvox']['menu']['sell_radius'] . '"></div>
+					</div>
+					<div class="span12">
 						<div class="label">
 							<label required>
 								<p>{$lang.sell_radius} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>

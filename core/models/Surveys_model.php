@@ -235,10 +235,6 @@ class Surveys_model extends Model
 			'owners.number(owner_number)',
 			'surveys_answers.values',
 			'surveys_answers.comment',
-			'surveys_answers.firstname',
-			'surveys_answers.lastname',
-			'surveys_answers.email',
-			'surveys_answers.phone',
 			'surveys_answers.reservation',
 			'surveys_answers.date',
 			'surveys_answers.hour',
@@ -312,10 +308,6 @@ class Surveys_model extends Model
 			'owners.number(owner_number)',
 			'surveys_answers.values',
 			'surveys_answers.comment',
-			'surveys_answers.firstname',
-			'surveys_answers.lastname',
-			'surveys_answers.email',
-			'surveys_answers.phone',
 			'surveys_answers.reservation',
 			'surveys_answers.date',
 			'surveys_answers.hour'
@@ -399,7 +391,6 @@ class Surveys_model extends Model
 		}
 		else
 			return null;
-
 	}
 
 	public function get_countries()

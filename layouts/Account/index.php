@@ -245,9 +245,11 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
 <section class="modal fullscreen" data-modal="edit_location">
     <div class="content">
         <main>
-            <div id="location_map" data-lat="{$lat}" data-lng="{$lng}"></div>
             <form name="edit_location">
                 <div class="row">
+                    <div class="span12">
+                        <div id="location_map" data-lat="{$lat}" data-lng="{$lng}"></div>
+                    </div>
                     <div class="span6">
                         <div class="label">
                             <label required>

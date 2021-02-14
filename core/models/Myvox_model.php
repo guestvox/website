@@ -518,6 +518,8 @@ class Myvox_model extends Model
 			'subject' => null,
 			'description' => ($data['type'] == 'incident' AND !empty($data['description'])) ? $data['description'] : null,
 			'action_taken' => null,
+			'firstname' => null,
+			'lastname' => null,
 			'guest_treatment' => null,
 			'guest_id' => null,
 			'guest_type' => null,

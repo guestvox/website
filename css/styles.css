@@ -5071,9 +5071,7 @@ div.contract.show {
 
 #location_map,
 #menu_map {
-    width: calc(100% - 5px);
-    margin: 0px 2.5px 20px 2.5px;
-    padding: 10px;
+    width: 100%;
     border: 1px dashed #000;
     box-sizing: border-box;
 }

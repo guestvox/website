@@ -382,7 +382,6 @@ $(document).ready(function()
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_status"]').val(response1.data.settings.myvox.menu.schedule.sunday.status);
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]').val(response1.data.settings.myvox.menu.schedule.sunday.opening);
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]').val(response1.data.settings.myvox.menu.schedule.sunday.closing);
-
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="requests"]').prop('checked', ((response1.data.settings.myvox.menu.requests == true) ? true : false));
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="delivery"]').prop('checked', ((response1.data.settings.myvox.menu.delivery == true) ? true : false));
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="multi"]').prop('checked', ((response1.data.settings.myvox.menu.multi == true) ? true : false));
@@ -1388,52 +1387,53 @@ var menu_map_radius;
 
 function map()
 {
+    location_map_coords =  {
+        lat: $('#location_map').data('lat'),
+        lng: $('#location_map').data('lng')
+    };
+
+    menu_map_coords =  {
+        lat: $('#menu_map').data('lat'),
+        lng: $('#menu_map').data('lng'),
+        rad: $('#menu_map').data('rad')
+    };
+
     if ($('#location_map').data('lat').length <= 0 || $('#location_map').data('lng').length <= 0)
     {
-        location_map_coords =  {
-            lat: 21.1213285,
-            lng: -86.9192739
-        };
+        if (navigator.geolocation)
+        {
+            navigator.geolocation.getCurrentPosition(function(position) {
 
-        menu_map_coords =  {
-            lat: 21.1213285,
-            lng: -86.9192739,
-            rad: $('#menu_map').data('rad')
-        };
+                location_map_coords.lat = position.coords.latitude;
+    			location_map_coords.lng = position.coords.longitude;
+                menu_map_coords.lat = position.coords.latitude;
+    			menu_map_coords.lng = position.coords.longitude;
 
-        // navigator.geolocation.getCurrentPosition(function(position) {
-        //
-        //     location_map_coords =  {
-        //         lat: position.coords.latitude,
-        //         lng: position.coords.longitude
-        //     };
-        //
-        //     menu_map_coords =  {
-        //         lat: position.coords.latitude,
-        //         lng: position.coords.longitude,
-        //         rad: $('#menu_map').data('rad')
-        //     };
-        // }, function(error) { });
+                set_map(location_map_coords, menu_map_coords);
+
+            }, function(error) {
+
+                alert('Porfavor, activa tu ubicación y posteriormente haz click en aceptar.');
+
+                location.reload();
+
+            });
+        }
+        else
+        {
+            alert('Tu navegador no soporta la ubicación a tiempo real');
+
+            location_map_coords.lat = 21.1213285;
+            location_map_coords.lng = -86.9192739;
+            menu_map_coords.lat = 21.1213285;
+            menu_map_coords.lng = -86.9192739;
+
+            set_map(location_map_coords, menu_map_coords);
+        }
     }
     else
-    {
-        location_map_coords =  {
-            lat: $('#location_map').data('lat'),
-            lng: $('#location_map').data('lng')
-        };
+        set_map(location_map_coords, menu_map_coords);
 
-        menu_map_coords =  {
-            lat: $('#menu_map').data('lat'),
-            lng: $('#menu_map').data('lng'),
-            rad: $('#menu_map').data('rad')
-        };
-    }
-
-    set_map(location_map_coords, menu_map_coords);
-
-    document.getElementById("location_lat").value = location_map_coords["lat"];
-    document.getElementById("location_lng").value = location_map_coords["lng"];
-    document.getElementById("menu_rad").value = menu_map_coords["rad"];
     document.getElementById("menu_rad").onkeyup = function()
     {
         var rewrite_menu_map_coords =  {
@@ -1448,6 +1448,10 @@ function map()
 
 function set_map(location_map_coords, menu_map_coords)
 {
+    document.getElementById("location_lat").value = location_map_coords["lat"];
+    document.getElementById("location_lng").value = location_map_coords["lng"];
+    document.getElementById("menu_rad").value = menu_map_coords["rad"];
+
     var location_map = new google.maps.Map(document.getElementById("location_map"),
     {
         zoom: 13,

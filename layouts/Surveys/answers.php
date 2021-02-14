@@ -13,7 +13,6 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_{$menu_focus}");
         {$div_options}
         {$tbl_surveys_raters}
         {$tbl_surveys_comments}
-        {$tbl_surveys_contacts}
     </section>
     <section class="buttons">
         <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
