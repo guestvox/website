@@ -36,28 +36,6 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_owners($type)
-	{
-		$query = Functions::get_json_decoded_query($this->database->select('owners', [
-			'id',
-			'name',
-			'number'
-		], [
-			'AND' => [
-				'account' => Session::get_value('myvox')['account']['id'],
-				$type => true,
-				'public' => true,
-				'status' => true
-			],
-			'ORDER' => [
-				'number' => 'ASC',
-				'name' => 'ASC'
-			]
-		]));
-
-		return $query;
-	}
-
     public function get_owner($id, $token = false)
 	{
 		$where = [];
@@ -541,13 +519,6 @@ class Myvox_model extends Model
 			'description' => ($data['type'] == 'incident' AND !empty($data['description'])) ? $data['description'] : null,
 			'action_taken' => null,
 			'guest_treatment' => null,
-			'firstname' => !empty($data['firstname']) ? $data['firstname'] : null,
-			'lastname' => !empty($data['lastname']) ? $data['lastname'] : null,
-			'email' => !empty($data['email']) ? $data['email'] : null,
-			'phone' => json_encode([
-				'lada' => !empty($data['phone_lada']) ? $data['phone_lada'] : '',
-				'number' => !empty($data['phone_number']) ? $data['phone_number'] : ''
-			]),
 			'guest_id' => null,
 			'guest_type' => null,
 			'reservation_number' => (Session::get_value('myvox')['account']['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty(Session::get_value('myvox')['owner']['reservation']['reservation_number'])) ? Session::get_value('myvox')['owner']['reservation']['reservation_number'] : null,
@@ -652,13 +623,6 @@ class Myvox_model extends Model
 			'owner' => Session::get_value('myvox')['owner']['id'],
 			'values' => json_encode($data['values']),
 			'comment' => !empty($data['comment']) ? $data['comment'] : null,
-			'firstname' => !empty($data['firstname']) ? $data['firstname'] : null,
-			'lastname' => !empty($data['lastname']) ? $data['lastname'] : null,
-			'email' => !empty($data['email']) ? $data['email'] : null,
-			'phone' => json_encode([
-				'lada' => !empty($data['phone_lada']) ? $data['phone_lada'] : '',
-				'number' => !empty($data['phone_number']) ? $data['phone_number'] : ''
-			]),
 			'reservation' => (Session::get_value('myvox')['account']['type'] == 'hotel') ? json_encode(Session::get_value('myvox')['owner']['reservation']) : null,
 			'date' => Functions::get_current_date(),
 			'hour' => Functions::get_current_hour(),

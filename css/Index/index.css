@@ -93,7 +93,7 @@ main.landing_page_index > header.down > nav.desktop > ul > li.focus {
 
 main.landing_page_index > header > nav.desktop > ul > li.focus,
 main.landing_page_index > header > nav.desktop > ul > li.focus > a {
-    border-radius: 40px;
+    border-radius: 5px;
     background-color: #00a5ab;
     color: #fff;
     transition: 400ms;
@@ -457,7 +457,7 @@ main.landing_page_index > section.stl_4 > div > div > a {
     margin-bottom: 20px;
     padding: 10px 20px;
     box-sizing: border-box;
-    border-radius: 20px;
+    border-radius: 5px;
     background-color: #eee;
     font-size: 14px;
     font-weight: 400;

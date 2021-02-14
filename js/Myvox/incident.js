@@ -2,18 +2,6 @@
 
 $(document).ready(function()
 {
-    $('[name="owner"]').on('change', function()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'owner=' + $(this).val() + '&action=get_owner',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response) { }
-        });
-    });
-
     $('[name="opportunity_area"]').on('change', function()
     {
         $.ajax({
@@ -50,7 +38,7 @@ $(document).ready(function()
             success: function(response)
             {
                 if (response.status == 'success')
-                    show_modal_success(response.message, 8000, response.path);
+                    show_modal_success(response.message, 1500, response.path);
                 else if (response.status == 'error')
                     show_form_errors(form, response);
             }

@@ -7,18 +7,6 @@ $(document).ready(function()
         e.stopPropagation();
     });
 
-    $('[name="owner"]').on('change', function()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'owner=' + $(this).val() + '&action=get_owner',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response) { }
-        });
-    });
-
     $('.tbl_stl_5').find('[data-level]').find('input[type="radio"]').on('change', function()
     {
         var label = $(this).parent();
@@ -72,11 +60,11 @@ $(document).ready(function()
                 {
                     if (response.widget == true)
                     {
-                        show_modal_success(response.message, 2000, 'fast');
+                        show_modal_success(response.message, 1500, 'fast');
                         $('[data-modal="widget"]').addClass('view');
                     }
                     else if (response.widget == false)
-                        show_modal_success(response.message, 8000, response.path);
+                        show_modal_success(response.message, 1500, response.path);
                 }
                 else if (response.status == 'error')
                     show_form_errors(form, response);
