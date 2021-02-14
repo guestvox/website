@@ -25,7 +25,61 @@ $(document).ready(function()
             {
                 if (response.status == 'success')
                 {
-                    $('#view_map_menu_order').html(response.html);
+                    var menu_order_map = new google.maps.Map(document.getElementById("menu_order_map"), {
+                        zoom: 11,
+                        center:new google.maps.LatLng(response.data.menu_order.lat,response.data.menu_order.lng)
+                    });
+
+                    var menu_order_map_marker = new google.maps.Marker({
+                        map: menu_order_map,
+                        title: "Orden",
+                        draggable: true,
+                        position: new google.maps.LatLng(response.data.menu_order.lat,response.data.menu_order.lng)
+                    });
+
+                    var account_map_marker = new google.maps.Marker({
+                        map: menu_order_map,
+                        title: "Tu",
+                        draggable: true,
+                        position: new google.maps.LatLng(response.data.account.lat,response.data.account.lng)
+                    });
+
+                    var account_map_radius = new google.maps.Circle({
+                        strokeColor: "#fa7268",
+                        strokeOpacity: 0.8,
+                        strokeWeight: 2,
+                        fillColor: "#fa7268",
+                        fillOpacity: 0.2,
+                        map: menu_order_map,
+                        center: {
+                            lat: parseFloat(response.data.account.lat),
+                            lng: parseFloat(response.data.account.lng)
+                        },
+                        radius: parseInt(response.data.account.rad)
+                    });
+
+                    var dr = new google.maps.DirectionsRenderer;
+
+                    dr.setMap(menu_order_map);
+
+                    var ds = new google.maps.DirectionsService;
+
+                    ds.route({
+                       origin: {
+                           lat: parseFloat(response.data.account.lat),
+                           lng: parseFloat(response.data.account.lng)
+                       },
+                       destination: {
+                           lat: parseFloat(response.data.menu_order.lat),
+                           lng: parseFloat(response.data.menu_order.lng)
+                       },
+                       travelMode: google.maps.TravelMode.DRIVING
+                    }, function (response, status) {
+                       if (status === google.maps.DirectionsStatus.OK)
+                           dr.setDirections(response);
+                       else
+                           window.alert('ERROR (' + status + ')');
+                    });
 
                     $('[data-modal="view_map_menu_order"]').addClass('view');
                 }

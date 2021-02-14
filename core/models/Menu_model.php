@@ -44,15 +44,34 @@ class Menu_model extends Model
 		return $query;
 	}
 
-	public function get_menu_order($id)
+	public function get_map_menu_order($id)
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('menu_orders', [
+		$menu_order = Functions::get_json_decoded_query($this->database->select('menu_orders', [
 			'location'
 		], [
 			'id' => $id
 		]));
 
-		return !empty($query) ? $query[0] : null;
+		if (!empty($menu_order))
+		{
+			$account = Functions::get_json_decoded_query($this->database->select('accounts', [
+				'location',
+				'settings'
+			], [
+				'id' => Session::get_value('account')['id']
+			]));
+
+			return [
+				'menu_order' => $menu_order[0]['location'],
+				'account' => [
+					'lat' => $account[0]['location']['lat'],
+					'lng' => $account[0]['location']['lng'],
+					'rad' => $account[0]['settings']['myvox']['menu']['sell_radius']
+				]
+			];
+		}
+		else
+			return null;
 	}
 
 	public function accept_menu_order($id)

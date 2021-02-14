@@ -19,15 +19,13 @@ class Menu_controller extends Controller
 		{
 			if ($_POST['action'] == 'view_map_menu_order')
 			{
-				$query = $this->model->get_menu_order($_POST['id']);
+				$query = $this->model->get_map_menu_order($_POST['id']);
 
                 if (!empty($query))
                 {
-					$html = '';
-
-                    Functions::environment([
+					Functions::environment([
     					'status' => 'success',
-    					'html' => $html
+    					'data' => $query
     				]);
                 }
                 else
@@ -62,21 +60,21 @@ class Menu_controller extends Controller
 				}
 			}
 
-			if ($_POST['action'] == 'filter_menu_orders')
-			{
-				$settings = Session::get_value('settings');
-
-				$settings['menu']['orders']['filter']['type_service'] = $_POST['type_service'];
-				$settings['menu']['orders']['filter']['delivery'] = $_POST['delivery'];
-				$settings['menu']['orders']['filter']['accepted'] = $_POST['accepted'];
-				$settings['menu']['orders']['filter']['delivered'] = $_POST['delivered'];
-
-				Session::set_value('settings', $settings);
-
-				Functions::environment([
-					'status' => 'success'
-				]);
-			}
+			// if ($_POST['action'] == 'filter_menu_orders')
+			// {
+			// 	$settings = Session::get_value('settings');
+			//
+			// 	$settings['menu']['orders']['filter']['type_service'] = $_POST['type_service'];
+			// 	$settings['menu']['orders']['filter']['delivery'] = $_POST['delivery'];
+			// 	$settings['menu']['orders']['filter']['accepted'] = $_POST['accepted'];
+			// 	$settings['menu']['orders']['filter']['delivered'] = $_POST['delivered'];
+			//
+			// 	Session::set_value('settings', $settings);
+			//
+			// 	Functions::environment([
+			// 		'status' => 'success'
+			// 	]);
+			// }
 		}
 		else
 		{
@@ -98,32 +96,57 @@ class Menu_controller extends Controller
 						<div class="datas">
 							<h2>' . $value['token'] . ' | ';
 
-					if ($value['type_service'] == 'restaurant')
+					if ($value['type_service'] == 'owner')
 						$tbl_menu_orders .= $value['owner_name'] . (!empty($value['owner_number']) ? '#' . $value['owner_number'] : '');
 					else if ($value['type_service'] == 'delivery')
-						$tbl_menu_orders .= $value['contact']['name'] . ' | ' . $value['contact']['phone'] . ' | ' . $value['contact']['email'];
+						$tbl_menu_orders .= $value['contact']['firstname'] . ' ' . $value['contact']['lastname'] . ' | +' . $value['contact']['phone']['lada'] . ' ' . $value['contact']['phone']['number'] . ' | ' . $value['contact']['email'];
 
 					$tbl_menu_orders .=
 					'</h2>
-					<p>{$lang.service_' . $value['type_service'] . '}' . (($value['type_service'] == 'delivery') ? ' | ' . (($value['delivery'] == 'home') ? '{$lang.take_home}' : '{$lang.pick_up_restaurant}') : '') . '</p>';
+					<p>{$lang.service_' . $value['type_service'] . '}' . (($value['type_service'] == 'delivery') ? ' | ' . (($value['delivery'] == 'bring') ? '{$lang.take_home}' : '{$lang.pick_up_restaurant}') : '') . '</p>';
 
-					if ($value['type_service'] == 'delivery' AND $value['delivery'] == 'home')
+					if ($value['type_service'] == 'delivery' AND $value['delivery'] == 'bring')
 						$tbl_menu_orders .= '<p>' . $value['address'] . '</p>';
 
+					$tbl_menu_orders .= '<p>' . Functions::get_formatted_date($value['date'], 'd/m/Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</p>';
+
+					foreach ($value['shopping_cart'] as $subvalue)
+					{
+						foreach ($subvalue as $intvalue)
+						{
+							$tbl_menu_orders .= '<p><strong>x' . $intvalue['quantity'] . ' ' . $intvalue['name'][$this->lang];
+
+							if (!empty($intvalue['topics']))
+							{
+								$tbl_menu_orders .= ' (';
+
+								foreach ($intvalue['topics'] as $parentvalue)
+									$tbl_menu_orders .= $parentvalue['name'][$this->lang] . ', ';
+
+								$tbl_menu_orders .= ')';
+							}
+
+							$tbl_menu_orders .= '</strong></p>';
+						}
+					}
+
 					$tbl_menu_orders .=
-					'	<p>' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</p>
-						<p>$ ' . $value['total'] . ' ' . $value['currency'] . '</p>
+					'	<p>$ ' . $value['total'] . ' ' . $value['currency'] . '</p>
 					</div>
-					<div class="buttons flex_right">
-						<a class="big" data-action="view_map_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-map-marked-alt"></i><span>{$lang.view_map}</span></a>';
+					<div class="buttons flex_right">';
+
+					if ($value['type_service'] == 'delivery')
+						$tbl_menu_orders .= '<a class="big" data-action="view_map_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-map-marked-alt"></i><span>{$lang.view_map}</span></a>';
 
 					if ($value['delivered'] == false)
 					{
 						if ($value['accepted'] == false)
-							$tbl_menu_orders .= '<a class="new big" data-action="accept_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-check"></i><span>{$lang.accept}</span></a>';
+							$tbl_menu_orders .= '<a class="edit big" data-action="accept_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-check"></i><span>{$lang.accept}</span></a>';
 						else if ($value['accepted'] == true)
-							$tbl_menu_orders .= '<a class="new big" data-action="deliver_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-check"></i><span>{$lang.deliver}</span></a>';
+							$tbl_menu_orders .= '<a class="edit big" data-action="deliver_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-check"></i><span>{$lang.deliver}</span></a>';
 					}
+					else
+						$tbl_menu_orders .= '<a class="new big"><i class="fas fa-check"></i><span>{$lang.order_delivered}</span></a>';
 
 					$tbl_menu_orders .=
 					'	</div>

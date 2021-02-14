@@ -5070,13 +5070,15 @@ div.contract.show {
 }
 
 #location_map,
-#menu_map {
+#menu_map,
+#menu_order_map {
     width: 100%;
     border: 1px dashed #000;
     box-sizing: border-box;
 }
 
-#location_map {
+#location_map,
+#menu_order_map {
     height: 400px;
 }
 

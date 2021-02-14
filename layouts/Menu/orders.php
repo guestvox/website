@@ -4,6 +4,7 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['js', '{$path.js}Menu/orders.js']);
 $this->dependencies->add(['other', '<script>menu_focus("menu_orders");</script>']);
+$this->dependencies->add(['other', '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLCea8Q6BtcTHwY3YFCiB0EoHE5KnsMUE"></script>']);
 
 ?>
 
@@ -18,11 +19,14 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_orders");</script>'
 <section class="modal fullscreen" data-modal="view_map_menu_order">
     <div class="content">
         <main>
-            <div id="view_map_menu_order"></div>
+            <div id="menu_order_map"></div>
+            <div class="buttons">
+                <a class="success" button-close><i class="fas fa-check"></i></a>
+            </div>
         </main>
     </div>
 </section>
-<section class="modal new" data-modal="accept_menu_order">
+<section class="modal edit" data-modal="accept_menu_order">
     <div class="content">
         <footer>
             <a button-close><i class="fas fa-times"></i></a>
@@ -30,7 +34,7 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_orders");</script>'
         </footer>
     </div>
 </section>
-<section class="modal new" data-modal="deliver_menu_order">
+<section class="modal edit" data-modal="deliver_menu_order">
     <div class="content">
         <footer>
             <a button-close><i class="fas fa-times"></i></a>
