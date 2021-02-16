@@ -24,7 +24,7 @@ $(document).ready(function()
     //     });
     //     // alert(JSON.stringify(data));
     // });
-    
+
     $('.chosen-select').chosen();
 
     $('[name="type"]').on('change', function()

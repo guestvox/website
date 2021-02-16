@@ -363,21 +363,42 @@ class User_level
     {
         if (Session::exists_var('session') == true)
         {
-            if (Functions::check_account_access(['digital_menu']) == true)
-                return '/menu/orders';
-            else if (Functions::check_account_access(['operation']) == true)
-                return '/voxes';
-            else if (Functions::check_account_access(['surveys']) == true)
+            if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'others')
             {
-                if (Functions::check_user_access(['{surveys_answers_view}']) == true)
-                    return '/surveys/answers/raters';
-                else if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true)
-                    return '/surveys/questions';
-                else if (Functions::check_user_access(['{surveys_stats_view}']) == true)
-                    return '/surveys/stats';
+                if (Functions::check_account_access(['operation']) == true)
+                    return '/voxes';
+                else if (Functions::check_account_access(['digital_menu']) == true)
+                    return '/menu/orders';
+                else if (Functions::check_account_access(['surveys']) == true)
+                {
+                    if (Functions::check_user_access(['{surveys_answers_view}']) == true)
+                        return '/surveys/answers/raters';
+                    else if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true)
+                        return '/surveys/questions';
+                    else if (Functions::check_user_access(['{surveys_stats_view}']) == true)
+                        return '/surveys/stats';
+                }
+                else
+                    return '/dashboard';
             }
-            else
-                return '/dashboard';
+            else if (Session::get_value('account')['type'] == 'restaurant')
+            {
+                if (Functions::check_account_access(['digital_menu']) == true)
+                    return '/menu/orders';
+                else if (Functions::check_account_access(['operation']) == true)
+                    return '/voxes';
+                else if (Functions::check_account_access(['surveys']) == true)
+                {
+                    if (Functions::check_user_access(['{surveys_answers_view}']) == true)
+                        return '/surveys/answers/raters';
+                    else if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true)
+                        return '/surveys/questions';
+                    else if (Functions::check_user_access(['{surveys_stats_view}']) == true)
+                        return '/surveys/stats';
+                }
+                else
+                    return '/dashboard';
+            }
         }
         else
             return '/';

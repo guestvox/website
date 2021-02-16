@@ -8,7 +8,7 @@ header.myvox {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-bottom: 2px solid #fff;
+    border-bottom: 4px solid #00a5ab;
     box-sizing: border-box;
     background-color: #24383f;
 }
@@ -63,7 +63,7 @@ main.myvox {
     flex-direction: column;
     padding: 70px 20px 0px 20px;
     box-sizing: border-box;
-    background-color: #00a5ab;
+    background-color: #fff;
 }
 
 /*  */
@@ -79,7 +79,6 @@ main.myvox > a {
     border-radius: 60px;
     box-sizing: border-box;
     background-color: #00a5ab;
-    border: 1px dashed #fff;
     font-size: 16px;
     font-weight: 600;
     text-decoration: none;
@@ -98,7 +97,7 @@ footer.myvox {
     flex-direction: column;
     padding: 20px;
     box-sizing: border-box;
-    background-color: #00a5ab;
+    background-color: #fff;
 }
 
 footer.myvox > a {
@@ -107,7 +106,7 @@ footer.myvox > a {
     justify-content: center;
     font-size: 14px;
     font-weight: 600;
-    color: #fff;
+    color: #000;
 }
 
 footer.myvox > a > img {
@@ -119,7 +118,7 @@ footer.myvox > a > img {
 footer.myvox > p {
     font-size: 12px;
     font-weight: 400;
-    color: #fff;
+    color: #000;
 }
 
 footer.myvox > p > i {

@@ -23,6 +23,6 @@ $this->dependencies->add(['js', '{$path.js}Myvox/index.js']);
     {$btn_new_survey_answer}
 </main>
 <footer class="myvox">
-    <a href="/">Powered by <img src="{$path.images}logotype_white.png" alt="Guestvox"></a>
+    <a href="/">Powered by <img src="{$path.images}logotype_color.png" alt="Guestvox"></a>
     <p>Copyright<i class="far fa-copyright"></i>2021 | Guestvox S.A.P.I. de C.V.</p>
 </footer>

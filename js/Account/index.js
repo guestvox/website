@@ -1413,9 +1413,9 @@ function map()
 
             }, function(error) {
 
-                alert('Porfavor, activa tu ubicación y posteriormente haz click en aceptar.');
+                // alert('Porfavor, activa tu ubicación y posteriormente haz click en aceptar.');
 
-                location.reload();
+                // location.reload();
 
             });
         }

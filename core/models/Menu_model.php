@@ -36,8 +36,8 @@ class Menu_model extends Model
 		], [
 			'menu_orders.account' => Session::get_value('account')['id'],
 			'ORDER' => [
-				'menu_orders.date' => 'ASC',
-				'menu_orders.hour' => 'ASC'
+				'menu_orders.date' => 'DESC',
+				'menu_orders.hour' => 'DESC'
 			]
 		]));
 
