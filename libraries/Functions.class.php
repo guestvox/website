@@ -491,7 +491,7 @@ class Functions
 
                 $key_secret = '083917f2d27dd39e0671d014f011531a831d223a';
 
-                $secret  = hash_hmac('sha256', $payload, $key_secret); // e47531f0235f1df15ad8c70eaa3fa8443a565019dcef65dde8e4753d94517da2
+                $secret  = hash_hmac('sha256', $payload, $key_secret);
 
                 $api = curl_init();
 

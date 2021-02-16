@@ -273,6 +273,7 @@ class Menu_model extends Model
 			'icon' => ($data['avatar'] == 'icon') ? $data['icon'] : null,
 			'categories' => json_encode((!empty($data['categories']) ? $data['categories'] : [])),
 			'restaurant' => (Session::get_value('account')['settings']['menu']['multi'] == true) ? (!empty($data['restaurant']) ? $data['restaurant'] : null) : null,
+			'map' => null,
 			'status' => true
 		]);
 
@@ -617,6 +618,7 @@ class Menu_model extends Model
 			]),
 			'position' => $data['position'],
 			'icon' => $data['icon'],
+			'map' => null,
 			'status' => true
 		]);
 

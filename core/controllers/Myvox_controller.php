@@ -314,7 +314,6 @@ class Myvox_controller extends Controller
 					{
 						$myvox = Session::get_value('myvox');
 
-						$_POST['code'] = (!empty($query['code']) ? $query['code'] : '');
 						$_POST['topics'] = [];
 
 						foreach ($_POST as $key => $value)
@@ -332,16 +331,18 @@ class Myvox_controller extends Controller
 							}
 						}
 
+						$_POST['map'] = (!empty($query['map']) ? $query['map'] : '');
+
 						if (array_key_exists($_POST['id'], $myvox['menu_order']['shopping_cart']))
 						{
 							array_push($myvox['menu_order']['shopping_cart'][$_POST['id']], [
 								'quantity' => $_POST['quantity'],
 								'id' => $_POST['id'],
-								'code' => $_POST['code'],
 								'name' => $query['name'],
 								'topics' => $_POST['topics'],
 								'price' => $query['price'],
-								'total' => $this->model->get_menu_order_total($query['price'], $_POST['topics'], $_POST['quantity'])
+								'total' => $this->model->get_menu_order_total($query['price'], $_POST['topics'], $_POST['quantity']),
+								'map' => $_POST['map']
 							]);
 						}
 						else
@@ -350,11 +351,11 @@ class Myvox_controller extends Controller
 								[
 									'quantity' => $_POST['quantity'],
 									'id' => $_POST['id'],
-									'code' => $_POST['code'],
 									'name' => $query['name'],
 									'topics' => $_POST['topics'],
 									'price' => $query['price'],
-									'total' => $this->model->get_menu_order_total($query['price'], $_POST['topics'], $_POST['quantity'])
+									'total' => $this->model->get_menu_order_total($query['price'], $_POST['topics'], $_POST['quantity']),
+									'map' => $_POST['map']
 								]
 							];
 						}
@@ -552,10 +553,10 @@ class Myvox_controller extends Controller
 								// ];
 								//
 								// $ambit = [
-								// 	'store_id' => 101,
+								// 	'store_id' => 'ca4017acfd33f4ec69d508783327df0c',
 								// 	'client' => [
-								// 		'name' => ((isset($_POST['firstname']) AND !empty($_POST['firstname'])) ? $_POST['firstname'] : ''),
-								// 		'phone' => ((isset($_POST['phone_number']) AND !empty($_POST['phone_number'])) ? $_POST['phone_lada'] . '' . $_POST['phone_number'] : ''),
+								// 		'name' => '',
+								// 		'phone' => '',
 								// 		'email' => '',
 								// 		'address' => [
 								// 			'client_address' => '',
@@ -567,7 +568,7 @@ class Myvox_controller extends Controller
 								// 		]
 								// 	],
 								// 	'order' => [
-								// 		'id' => '0006',
+								// 		'id' => Functions::get_random(16),
 								// 		'type' => 'Guestvox',
 								// 		'date' => Functions::get_current_date() . ' ' . Functions::get_current_hour(),
 								// 		'note' => '',
@@ -583,32 +584,30 @@ class Myvox_controller extends Controller
 								//
 								// foreach (Session::get_value('myvox')['menu_order']['shopping_cart'] as $value)
 								// {
-								// 	foreach($value as $subvalue)
+								// 	foreach ($value as $subvalue)
 								// 	{
-								// 		$temp = [
+								// 		array_push($ambit['Items'], [
 								// 			'price' => floatval($subvalue['price']),
-								// 			'type' => !empty($subvalue['code']) ? $subvalue['code']['categorie'] : '',
+								// 			'type' => !empty($subvalue['map']['type']) ? $subvalue['map']['type'] : '',
 								// 			'note' => '',
-								// 			'code' => !empty($subvalue['code']) ? $subvalue['code']['id'] : '',
+								// 			'code' => !empty($subvalue['map']['code']) ? $subvalue['map']['code'] : '',
 								// 			'descrip' => $subvalue['name'][$this->lang2],
 								// 			'cant' => floatval($subvalue['quantity']),
 								// 			'modifiers' => []
-								// 		];
+								// 		]);
 								//
-								// 		if (!empty($subvalue['topics']))
-								// 		{
-								// 			$note = 'Topics: ';
-								//
-								// 			foreach($subvalue['topics'] as $chilkey => $childvalue)
-								// 			{
-								// 				$note .= $childvalue['name'][$this->lang2] . '' . (!empty($childvalue['price']) ? ' $' . $childvalue['price'] . '; ' : '; ');
-								// 				$temp['note'] = $note;
-								// 			}
-								// 		}
-								// 		else
-								// 			$temp['note'] = ';';
-								//
-								// 		array_push($ambit['Items'], $temp);
+								// 		// if (!empty($subvalue['topics']))
+								// 		// {
+								// 		// 	$note = 'Topics: ';
+								// 		//
+								// 		// 	foreach($subvalue['topics'] as $chilkey => $childvalue)
+								// 		// 	{
+								// 		// 		$note .= $childvalue['name'][$this->lang2] . '' . (!empty($childvalue['price']) ? ' $' . $childvalue['price'] . '; ' : '; ');
+								// 		// 		$temp['note'] = $note;
+								// 		// 	}
+								// 		// }
+								// 		// else
+								// 		// 	$temp['note'] = ';';
 								// 	}
 								// }
 								//
