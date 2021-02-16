@@ -568,16 +568,16 @@ class Myvox_controller extends Controller
 								// 		]
 								// 	],
 								// 	'order' => [
-								// 		'id' => Functions::get_random(16),
-								// 		'type' => 'Guestvox',
+								// 		'id' => $_POST['menu_order'],
+								// 		'type' => Session::get_value('myvox')['account']['name'],
 								// 		'date' => Functions::get_current_date() . ' ' . Functions::get_current_hour(),
 								// 		'note' => '',
 								// 		'total' => floatval(Session::get_value('myvox')['menu_order']['total']),
 								// 		'store' => '0',
-								// 		'origen' => 'Guestvox',
+								// 		'origen' => Session::get_value('myvox')['account']['name'],
 								// 		'formaPago' => '01',
 								// 		'idFormaPago' => 'Efectivo',
-								// 		'table' => 'B01'
+								// 		'table' => Session::get_value('myvox')['owner']['name'][$this->lang2]
 								// 	],
 								// 	'Items' => []
 								// ];
