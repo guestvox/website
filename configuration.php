@@ -234,7 +234,7 @@ class Configuration
 	 *
      * @var string $smtp_host
      */
-	public static $smtp_host = 'guestvox.com';
+	public static $smtp_host = 'smtp.gmail.com';
 
 	/**
      * Usuario de la cuenta smtp.
@@ -244,7 +244,7 @@ class Configuration
 	 *
      * @var string $smtp_user
      */
-	public static $smtp_user = 'noreply@guestvox.com';
+	public static $smtp_user = 'guestvoxnoreply@gmail.com';
 
 	/**
      * Contraseña de la cuenta smtp.
