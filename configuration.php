@@ -47,7 +47,7 @@ class Configuration
 	 *
      * @var string $error_reporting
      */
-	public static $error_reporting = 'none';
+	public static $error_reporting = 'development';
 
 	/**
      * Modo para debuggear errores.
