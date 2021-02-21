@@ -47,7 +47,7 @@ class Configuration
 	 *
      * @var string $error_reporting
      */
-	public static $error_reporting = 'development';
+	public static $error_reporting = '';
 
 	/**
      * Modo para debuggear errores.
@@ -230,7 +230,7 @@ class Configuration
 	 *
      * @var string $smtp_host
      */
-	public static $smtp_host = 'smpt.gmail.com';
+	public static $smtp_host = 'smtp.gmail.com';
 
 	/**
      * Usuario de la cuenta smtp.
