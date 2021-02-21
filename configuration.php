@@ -147,7 +147,7 @@ class Configuration
 	 *
      * @var string $db_name
      */
-	public static $db_name = 'guestvox';
+	public static $db_name = 'production';
 
 	/**
      * Usuario de la base de datos
@@ -230,7 +230,7 @@ class Configuration
 	 *
      * @var string $smtp_host
      */
-	public static $smtp_host = 'mail.guestvox.com';
+	public static $smtp_host = 'mail.codemonkey.com.mx';
 
 	/**
      * Usuario de la cuenta smtp.
@@ -240,7 +240,7 @@ class Configuration
 	 *
      * @var string $smtp_user
      */
-	public static $smtp_user = 'noreply@guestvox.com';
+	public static $smtp_user = 'noreply@codemonkey.com.mx';
 
 	/**
      * Contraseña de la cuenta smtp.
@@ -249,7 +249,7 @@ class Configuration
 	 *
      * @var string $smtp_pass
      */
-	public static $smtp_pass = 'Hsi63p6@';
+	public static $smtp_pass = 'Tk1@f7a6';
 
 	/**
      * Seguridad de la encriptacion para el envio de SMTP.
