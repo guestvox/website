@@ -233,7 +233,7 @@ class Configuration
 	 *
      * @var string $smtp_host
      */
-	public static $smtp_host = 'mail.codemonkey.com.mx';
+	public static $smtp_host = 'mail.guestvox.com';
 
 	/**
      * Usuario de la cuenta smtp.
