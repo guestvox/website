@@ -230,7 +230,7 @@ class Configuration
 	 *
      * @var string $smtp_host
      */
-	public static $smtp_host = 'mail.codemonkey.com.mx';
+	public static $smtp_host = 'smpt.gmail.com';
 
 	/**
      * Usuario de la cuenta smtp.
@@ -240,7 +240,7 @@ class Configuration
 	 *
      * @var string $smtp_user
      */
-	public static $smtp_user = 'noreply@codemonkey.com.mx';
+	public static $smtp_user = 'guestvoxnoreply@gmail.com';
 
 	/**
      * Contraseña de la cuenta smtp.
@@ -249,7 +249,7 @@ class Configuration
 	 *
      * @var string $smtp_pass
      */
-	public static $smtp_pass = 'Tk1@f7a6';
+	public static $smtp_pass = 'Hsi63p6@';
 
 	/**
      * Seguridad de la encriptacion para el envio de SMTP.
@@ -259,7 +259,7 @@ class Configuration
 	 *
      * @var string $smtp_secure
      */
-	public static $smtp_secure = 'ssl';
+	public static $smtp_secure = 'tls';
 
 	/**
      * Puerto de conexion al servidor SMTP.
@@ -268,5 +268,5 @@ class Configuration
 	 *
      * @var integer $smtp_port
      */
-	public static $smtp_port = 465;
+	public static $smtp_port = 578;
 }
