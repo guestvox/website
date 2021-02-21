@@ -36,21 +36,16 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-    public function get_owner($id, $token = false)
+    public function get_owner($token)
 	{
-		$where = [];
-
-		if ($token == true)
-			$where['token'] = $id;
-		else if ($token == false)
-			$where['id'] = $id;
-
 		$query = Functions::get_json_decoded_query($this->database->select('owners', [
 			'id',
 			'token',
 			'name',
 			'number'
-		], $where));
+		], [
+			'token' => $token
+		]));
 
 		return !empty($query) ? $query[0] : null;
 	}
@@ -450,17 +445,15 @@ class Myvox_model extends Model
 
 	public function get_menu_order_payment()
 	{
-		// $query = $this->database->select('payments', [
-		// 	'token',
-		// 	'code',
-		// 	'response'
-		// ], [
-		// 	'token' => Session::get_value('myvox')['menu_payment_token']
-		// ]);
-		//
-		// return !empty($query) ? $query[0] : null;
+		$query = $this->database->select('payments', [
+			'token',
+			'code',
+			'response'
+		], [
+			'token' => Session::get_value('myvox')['menu_payment_token']
+		]);
 
-		return 'Ok';
+		return !empty($query) ? $query[0] : null;
 	}
 
 	public function new_menu_order($data)
@@ -488,13 +481,15 @@ class Myvox_model extends Model
 			'date' => Functions::get_formatted_date($data['started_date']),
 			'hour' => Functions::get_formatted_hour($data['started_hour']),
 			'total' => Session::get_value('myvox')['menu_order']['total'],
+			'payment_method' => $data['payment_method'],
 			'currency' => Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency'],
 			'shopping_cart' => json_encode(Session::get_value('myvox')['menu_order']['shopping_cart']),
+			'declined' => false,
 			'accepted' => false,
 			'delivered' => false
 		]);
 
-		return $query;
+		return !empty($query) ? $this->database->id() : null;
 	}
 
     public function new_vox($data)

@@ -31,7 +31,7 @@ class Myvox_controller extends Controller
 				$owner = null;
 
 				if (($account['type'] == 'hotel' OR $account['type'] == 'restaurant') AND $params[1] == 'owner' AND !empty($params[2]))
-					$owner = $this->model->get_owner($params[2], true);
+					$owner = $this->model->get_owner($params[2]);
 
 				if ((($account['type'] == 'hotel' OR $account['type'] == 'restaurant') AND $params[1] == 'owner' AND !empty($owner)) OR (($account['type'] == 'restaurant' OR $account['type'] == 'others') AND $params[1] == 'delivery'))
 				{
@@ -447,9 +447,15 @@ class Myvox_controller extends Controller
 
 				if ($_POST['action'] == 'new_menu_order')
 				{
-					$menu_order_payment = $this->model->get_menu_order_payment();
+					$menu_order_payment_access = true;
 
-					if (!empty($menu_order_payment))
+					if ($_POST['payment_method'] == 'credit_card' OR $_POST['payment_method'] == 'debit_card')
+					{
+						$menu_order_payment = $this->model->get_menu_order_payment();
+						$menu_order_payment_access = !empty($menu_order_payment) ? true : false;
+					}
+
+					if ($menu_order_payment_access == true)
 					{
 						$labels = [];
 
@@ -477,6 +483,9 @@ class Myvox_controller extends Controller
 								array_push($labels, ['phone_number','']);
 						}
 
+						if (!isset($_POST['payment_method']) OR empty($_POST['payment_method']))
+							array_push($labels, ['payment_method','']);
+
 						if (empty($labels))
 						{
 							$_POST['started_date'] = Functions::get_current_date();
@@ -486,132 +495,71 @@ class Myvox_controller extends Controller
 
 							if (!empty($query))
 							{
-								// $ambit = [
-								// 	'store_id' => 101,
-								// 	'client' => [
-								// 		'name' => '',
-								// 		'phone' => '',
-								// 		'email' => '',
-								// 		'address' => [
-								// 			'client_address' => '',
-								// 			'client_address_parts' => [
-								// 				'city' => '',
-								// 				'street' => '',
-								// 				'more_address' => ''
-								// 			]
-								// 		]
-								// 	],
-								// 	'order' => [
-								// 		'id' =>  '0011',
-								// 		'type' => 'Guestvox',
-								// 		'date' => Functions::get_current_date() . ' ' . Functions::get_current_hour(),
-								// 		'note' => '',
-								// 		'total' => 600,
-								// 		'store' => '0',
-								// 		'origen' => 'Guestvox',
-								// 		'formaPago' => '01',
-								// 		'idFormaPago' => 'Efectivo',
-								// 		'table' => 'B01'
-								// 	],
-								// 	'Items' => [
-								// 		0 => [
-								// 			'price' => 110,
-								// 			'type' => '2',
-								// 			'note' => '',
-								// 			'code' => 'BRS-006',
-								// 			'descrip' => 'Wrap veggie a las brasas',
-								// 			'cant' => 1,
-								// 			'modifiers' => []
-								// 		],
-								// 		1 => [
-								// 			'price' => 20,
-								// 			'type' => '1',
-								// 			'note' => '',
-								// 			'code' => 'REF-010',
-								// 			'descrip' => 'Water Santa Maria 355ml',
-								// 			'cant' => 1,
-								// 			'modifiers' => []
-								// 		],
-								// 		2 => [
-								// 			'price' => 100,
-								// 			'type' => '1',
-								// 			'note' => '',
-								// 			'code' => 'CTL-001',
-								// 			'descrip' => 'Doroteo con Don Julio Blanco',
-								// 			'cant' => 1,
-								// 			'modifiers' => [
-								// 				0 => [
-								// 					'price' => 30,
-								// 					'type' => '1',
-								// 					'code' => 'REF-001',
-								// 					'descrip' => 'Coca Cola',
-								// 					'cant' => 1
-								// 				]
-								// 			]
-								// 		]
-								// 	]
-								// ];
-								//
-								// $ambit = [
-								// 	'store_id' => 'ca4017acfd33f4ec69d508783327df0c',
-								// 	'client' => [
-								// 		'name' => '',
-								// 		'phone' => '',
-								// 		'email' => '',
-								// 		'address' => [
-								// 			'client_address' => '',
-								// 			'client_address_parts' => [
-								// 				'city' => '',
-								// 				'street' => '',
-								// 				'more_address' => ''
-								// 			]
-								// 		]
-								// 	],
-								// 	'order' => [
-								// 		'id' => $_POST['menu_order'],
-								// 		'type' => Session::get_value('myvox')['account']['name'],
-								// 		'date' => Functions::get_current_date() . ' ' . Functions::get_current_hour(),
-								// 		'note' => '',
-								// 		'total' => floatval(Session::get_value('myvox')['menu_order']['total']),
-								// 		'store' => '0',
-								// 		'origen' => Session::get_value('myvox')['account']['name'],
-								// 		'formaPago' => '01',
-								// 		'idFormaPago' => 'Efectivo',
-								// 		'table' => Session::get_value('myvox')['owner']['name'][$this->lang2]
-								// 	],
-								// 	'Items' => []
-								// ];
-								//
-								// foreach (Session::get_value('myvox')['menu_order']['shopping_cart'] as $value)
-								// {
-								// 	foreach ($value as $subvalue)
-								// 	{
-								// 		array_push($ambit['Items'], [
-								// 			'price' => floatval($subvalue['price']),
-								// 			'type' => !empty($subvalue['map']['type']) ? $subvalue['map']['type'] : '',
-								// 			'note' => '',
-								// 			'code' => !empty($subvalue['map']['code']) ? $subvalue['map']['code'] : '',
-								// 			'descrip' => $subvalue['name'][$this->lang2],
-								// 			'cant' => floatval($subvalue['quantity']),
-								// 			'modifiers' => []
-								// 		]);
-								//
-								// 		// if (!empty($subvalue['topics']))
-								// 		// {
-								// 		// 	$note = 'Topics: ';
-								// 		//
-								// 		// 	foreach($subvalue['topics'] as $chilkey => $childvalue)
-								// 		// 	{
-								// 		// 		$note .= $childvalue['name'][$this->lang2] . '' . (!empty($childvalue['price']) ? ' $' . $childvalue['price'] . '; ' : '; ');
-								// 		// 		$temp['note'] = $note;
-								// 		// 	}
-								// 		// }
-								// 		// else
-								// 		// 	$temp['note'] = ';';
-								// 	}
-								// }
-								//
-								// $ambit_order = Functions::api('ambit', $ambit, 'post', '');
+								if (Session::get_value('myvox')['url'] == 'owner' AND Session::get_value('myvox')['account']['ambit']['status'] == true)
+								{
+									$ambit_order = $query;
+
+									$ambit = [
+										'store_id' => Session::get_value('myvox')['account']['ambit']['store_id'],
+										'client' => [
+											'name' => '',
+											'phone' => '',
+											'email' => '',
+											'address' => [
+												'client_address' => '',
+												'client_address_parts' => [
+													'city' => '',
+													'street' => '',
+													'more_address' => ''
+												]
+											]
+										],
+										'order' => [
+											'id' => $ambit_order,
+											'type' => 'Pickup',
+											'date' => Functions::get_current_date() . ' ' . Functions::get_current_hour(),
+											'note' => '',
+											'total' => floatval(Session::get_value('myvox')['menu_order']['total']),
+											'store' => '0',
+											'origen' => Session::get_value('myvox')['account']['name'],
+											'formaPago' => '01',
+											'idFormaPago' => 'Efectivo',
+											'table' => Session::get_value('myvox')['owner']['name'][$this->lang2]
+										],
+										'Items' => []
+									];
+
+									foreach (Session::get_value('myvox')['menu_order']['shopping_cart'] as $value)
+									{
+										foreach ($value as $subvalue)
+										{
+											array_push($ambit['Items'], [
+												'price' => floatval($subvalue['price']),
+												'type' => !empty($subvalue['map']['type']) ? $subvalue['map']['type'] : '',
+												'note' => '',
+												'code' => !empty($subvalue['map']['code']) ? $subvalue['map']['code'] : '',
+												'descrip' => $subvalue['name'][$this->lang2],
+												'cant' => floatval($subvalue['quantity']),
+												'modifiers' => []
+											]);
+
+											// if (!empty($subvalue['topics']))
+											// {
+											// 	$note = 'Topics: ';
+											//
+											// 	foreach($subvalue['topics'] as $chilkey => $childvalue)
+											// 	{
+											// 		$note .= $childvalue['name'][$this->lang2] . '' . (!empty($childvalue['price']) ? ' $' . $childvalue['price'] . '; ' : '; ');
+											// 		$temp['note'] = $note;
+											// 	}
+											// }
+											// else
+											// 	$temp['note'] = ';';
+										}
+									}
+
+									$ambit_order = Functions::api('ambit', $ambit, 'post', '');
+								}
 
 								if (Session::get_value('myvox')['url'] == 'delivery')
 								{
@@ -682,7 +630,7 @@ class Myvox_controller extends Controller
 									{
 										$sms1_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
 										$sms1_client = new \Nexmo\Client($sms1_basic);
-										$sms1_text = Session::get_value('myvox')['account']['name'] . '. ' . Languages::email('thanks_received_menu_order')[$this->lang1] . '. https://' . Configuration::$domain . '/' . $params[0] . '/menu/' . Session::get_value('myvox')['menu_payment_token'] . '. Power by Guestvox.';
+										$sms1_text = Session::get_value('myvox')['account']['name'] . '. ' . Languages::email('thanks_received_menu_order')[$this->lang1] . '. Power by Guestvox.';
 
 										try
 										{
@@ -1166,7 +1114,7 @@ class Myvox_controller extends Controller
 									<label required>
 										<p>{$lang.lada}</p>
 										<select name="phone_lada">
-											<option value="">{$lang.empty} ({$lang.choose})</option>';
+											<option value="" hidden>{$lang.choose}</option>';
 
 							foreach ($this->model->get_countries() as $value)
 								$html .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang1] . ' (+' . $value['lada'] . ')</option>';
@@ -1186,6 +1134,20 @@ class Myvox_controller extends Controller
 							</div>';
 						}
 
+						$html .=
+						'<div class="span12">
+							<div class="label">
+								<label required>
+									<p>{$lang.payment_method}</p>
+									<select name="payment_method">
+										' . ((Session::get_value('myvox')['account']['payment']['status'] == true) ? '<option value="credit_card">{$lang.credit_card}</option>' : '') . '
+										' . ((Session::get_value('myvox')['account']['payment']['status'] == true) ? '<option value="debit_card">{$lang.debit_card}</option>' : '') . '
+										<option value="cash">{$lang.cash}</option>
+									</select>
+								</label>
+							</div>
+						</div>';
+
 						if (Session::get_value('myvox')['account']['payment']['status'] == true)
 						{
 							if (Session::get_value('myvox')['account']['payment']['type'] == 'mit')
@@ -1199,7 +1161,7 @@ class Myvox_controller extends Controller
 										'types' => Session::get_value('myvox')['account']['payment']['mit']['types']
 									]);
 
-									$html .= '<div class="span12">';
+									$html .= '<div id="payment_with_card" class="span12">';
 
 									if (!empty($mit['code']) AND $mit['code'] == 'success')
 										$html .= '<iframe src="' . $mit['url'] . '" width="100%" height="645px"></iframe>';

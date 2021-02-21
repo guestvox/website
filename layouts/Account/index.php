@@ -56,7 +56,7 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
                 <h2>{$lang.sms_credit}</h2>
                 <span>{$sms} {$lang.sms}</span>
             </div>
-            <div class="stl_5 last">
+            <div class="stl_5">
                 <i class="fab fa-whatsapp"></i>
                 <h2>{$lang.whatsapp_credit}</h2>
                 <span>{$whatsapp} {$lang.sms}</span>

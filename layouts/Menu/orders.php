@@ -26,6 +26,14 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
         </main>
     </div>
 </section>
+<section class="modal delete" data-modal="decline_menu_order">
+    <div class="content">
+        <footer>
+            <a button-close><i class="fas fa-times"></i></a>
+            <a button-success><i class="fas fa-check"></i></a>
+        </footer>
+    </div>
+</section>
 <section class="modal edit" data-modal="accept_menu_order">
     <div class="content">
         <footer>
@@ -34,7 +42,7 @@ $this->dependencies->add(['other', '<script async defer src="https://maps.google
         </footer>
     </div>
 </section>
-<section class="modal edit" data-modal="deliver_menu_order">
+<section class="modal new" data-modal="deliver_menu_order">
     <div class="content">
         <footer>
             <a button-close><i class="fas fa-times"></i></a>

@@ -89,6 +89,31 @@ $(document).ready(function()
         });
     });
 
+    $('[data-action="decline_menu_order"]').on('click', function()
+    {
+        id = $(this).data('id');
+
+        $('[data-modal="decline_menu_order"]').addClass('view');
+    });
+
+    $('[data-modal="decline_menu_order"]').modal().onSuccess(function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + id + '&action=decline_menu_order',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
     $('[data-action="accept_menu_order"]').on('click', function()
     {
         id = $(this).data('id');

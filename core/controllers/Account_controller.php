@@ -786,7 +786,7 @@ class Account_controller extends Controller
 	                </div>';
 				}
 
-				if ($account['type'] == 'restaurant')
+				if ($account['type'] == 'hotel' OR $account['type'] == 'restaurant')
 				{
 					$div_ambit .=
 					'<div class="stl_5">

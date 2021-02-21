@@ -120,6 +120,14 @@ $(document).ready(function()
         }
     });
 
+    $('[name="payment_method"]').on('change', function()
+    {
+        if ($(this).val() == 'credit_card' || $(this).val() == 'debit_card')
+            $('#payment_with_card').removeClass('hidden');
+        else if ($(this).val() == 'cash')
+            $('#payment_with_card').addClass('hidden');
+    });
+
     $('form[name="new_menu_order"]').on('submit', function(e)
     {
         e.preventDefault();

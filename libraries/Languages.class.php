@@ -280,6 +280,30 @@ class Languages
             'view_my_order' => [
                 'es' => 'Ver mi pedido',
                 'en' => 'View my order'
+            ],
+            'decline_menu_order' => [
+                'es' => 'Pedido declinado',
+                'en' => 'Declined order'
+            ],
+            'accept_menu_order' => [
+                'es' => 'Pedido aceptado',
+                'en' => 'Accepted order'
+            ],
+            'deliver_menu_order' => [
+                'es' => 'Pedido entregado',
+                'en' => 'Delivered order'
+            ],
+            'decline_menu_order_error' => [
+                'es' => 'Lo sentimos. Tu pedido ha sido rechazado por el establecimiento.',
+                'en' => 'We are sorry. Your order has been rejected by the establishment.'
+            ],
+            'accept_menu_order_success' => [
+                'es' => 'Felicidades. Tu pedido ha sido aceptado. Ya se está preparando.',
+                'en' => 'Congratulations. Your order has been accepted. It is already preparing.'
+            ],
+            'deliver_menu_order_success' => [
+                'es' => 'Muchas gracias. Tu pedido ha sido entregado exitosamente.',
+                'en' => 'Thanks a lot. Your order has been successfully delivered.'
             ]
         ];
 

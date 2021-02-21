@@ -2547,11 +2547,14 @@ section.modal[data-modal="error"] main > a {
 
 /* Edit & delete */
 
+section.modal.new > .content,
 section.modal.edit > .content,
 section.modal.delete > .content {
     top: calc(100% - 220px) !important;
 }
 
+section.modal.new > .content,
+section.modal.new > .content > footer,
 section.modal.edit > .content,
 section.modal.edit > .content > footer,
 section.modal.delete > .content,
@@ -2559,12 +2562,17 @@ section.modal.delete > .content > footer {
     border-radius: 100px;
 }
 
+section.modal.new footer,
 section.modal.edit footer,
 section.modal.delete footer {
     display: flex;
     align-items: center;
     justify-content: center;
     border-top: none !important;
+}
+
+section.modal.new footer {
+    background-color: #00a5ab;
 }
 
 section.modal.edit footer {
@@ -2575,8 +2583,10 @@ section.modal.delete footer {
     background-color: #f44336;
 }
 
+section.modal.new footer > button,
 section.modal.edit footer > button,
 section.modal.delete footer > button,
+section.modal.new footer > a,
 section.modal.edit footer > a,
 section.modal.delete footer > a {
     width: 40px;
@@ -2588,6 +2598,11 @@ section.modal.delete footer > a {
     border-radius: 50%;
     background-color: #fff;
     font-size: 18px;
+}
+
+section.modal.new footer > button,
+section.modal.new footer > a {
+    color: #00a5ab;
 }
 
 section.modal.edit footer > button,
@@ -4772,6 +4787,10 @@ div.account > div {
     box-sizing: border-box;
 }
 
+div.account > div:last-child {
+    border-bottom: 0px;
+}
+
 @media (min-width: 1200px) {
 
     div.account > div {
@@ -4779,6 +4798,7 @@ div.account > div {
         height: 400px;
         float: left;
         display: inline-flex;
+        border-bottom: 0px;
     }
 }
 
