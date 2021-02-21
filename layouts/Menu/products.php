@@ -5,6 +5,8 @@ defined('_EXEC') or die;
 $this->dependencies->add(['css', '{$path.plugins}chosen_select/chosen.css']);
 $this->dependencies->add(['js', '{$path.plugins}chosen_select/chosen.jquery.js']);
 $this->dependencies->add(['js', '{$path.js}Menu/products.js']);
+$this->dependencies->add(['css', '{$path.plugins}croppie/croppie.css']);
+$this->dependencies->add(['js', '{$path.plugins}croppie/croppie.js']);
 $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script>']);
 
 ?>
@@ -130,6 +132,15 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
                             </figure>
                         </div>
                     </div>
+                    <!-- <div class="span12">
+                        <div class="stl_2" data-uploader="low">
+                            <figure data-preview>
+                                <img src="{$path.images}empty.png">
+                                <a data-select><i class="fas fa-upload"></i></a>
+                                <input type="file" name="image" id="image" data-upload>
+                            </figure>
+                        </div>
+                    </div> -->
                     <div class="span12 hidden">
                         <div class="checkboxes stl_4">
                             {$cbx_icons}
@@ -201,3 +212,20 @@ $this->dependencies->add(['other', '<script>menu_focus("menu_products");</script
     </div>
 </section>
 <?php endif; ?>
+<section class="modal fullscreen" data-modal="image_crop">
+    <div class="content">
+        <main>
+            <form name="image_crop">
+                <div class="row">
+                    <div id="upload-image"></div>
+                    <div class="span12">
+                        <div class="buttons">
+                            <a class="delete" button-close><i class="fas fa-times"></i></a>
+                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+</section>

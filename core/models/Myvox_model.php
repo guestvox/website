@@ -15,12 +15,17 @@ class Myvox_model extends Model
 			'id',
 			'name',
 			'type',
+			'location',
 			'language',
 			'logotype',
+			'digital_menu',
 			'operation',
-			'reputation',
+			'surveys',
 			'zaviapms',
-			'settings'
+			'ambit',
+			'whatsapp',
+			'settings',
+			'payment'
 		], [
 			'AND' => [
 				'path' => $path,
@@ -31,43 +36,16 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_owners($type)
+    public function get_owner($token)
 	{
-		$query = Functions::get_json_decoded_query($this->database->select('owners', [
-			'id',
-			'name',
-			'number'
-		], [
-			'AND' => [
-				'account' => Session::get_value('myvox')['account']['id'],
-				$type => true,
-				'public' => true,
-				'status' => true
-			],
-			'ORDER' => [
-				'number' => 'ASC',
-				'name' => 'ASC'
-			]
-		]));
-
-		return $query;
-	}
-
-    public function get_owner($id, $token = false)
-	{
-		$where = [];
-
-		if ($token == true)
-			$where['token'] = $id;
-		else if ($token == false)
-			$where['id'] = $id;
-
 		$query = Functions::get_json_decoded_query($this->database->select('owners', [
 			'id',
 			'token',
 			'name',
 			'number'
-		], $where));
+		], [
+			'token' => $token
+		]));
 
 		return !empty($query) ? $query[0] : null;
 	}
@@ -215,7 +193,8 @@ class Myvox_model extends Model
             'lastname',
             'email',
             'phone',
-            'opportunity_areas'
+            'opportunity_areas',
+            'whatsapp'
         ], [
             'AND' => [
 				'account' => Session::get_value('myvox')['account']['id'],
@@ -363,7 +342,8 @@ class Myvox_model extends Model
 			'icons.url(icon_url)',
 			'icons.type(icon_type)',
 			'icons.color(icon_color)',
-			'menu_products.categories'
+			'menu_products.categories',
+			'menu_products.map'
 		], [
 			'AND' => $AND,
 			'ORDER' => [
@@ -406,7 +386,8 @@ class Myvox_model extends Model
 			'menu_products.image',
 			'icons.type(icon_type)',
 			'icons.url(icon_url)',
-			'icons.color(icon_color)'
+			'icons.color(icon_color)',
+			'menu_products.map'
 		], [
 			'menu_products.id' => $id
 		]));
@@ -462,59 +443,85 @@ class Myvox_model extends Model
 		return $total;
 	}
 
+	public function get_menu_order_payment()
+	{
+		$query = $this->database->select('payments', [
+			'token',
+			'code',
+			'response'
+		], [
+			'token' => Session::get_value('myvox')['menu_payment_token']
+		]);
+
+		return !empty($query) ? $query[0] : null;
+	}
+
 	public function new_menu_order($data)
 	{
 		$query = $this->database->insert('menu_orders', [
 			'account' => Session::get_value('myvox')['account']['id'],
-			'token' => $data['token'],
-			'type_service' => (Session::get_value('myvox')['account']['type'] == 'restaurant') ? ((Session::get_value('myvox')['url'] == 'delivery') ? 'delivery' : 'restaurant') : null,
-			'delivery' => (Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? $data['delivery'] : null,
+			'token' => Session::get_value('myvox')['menu_payment_token'],
+			'type_service' => Session::get_value('myvox')['url'],
+			'owner' => (Session::get_value('myvox')['url'] == 'owner') ? Session::get_value('myvox')['owner']['id'] : null,
+			'delivery' => (Session::get_value('myvox')['url'] == 'delivery') ? $data['delivery'] : null,
+			'contact' => (Session::get_value('myvox')['url'] == 'delivery') ? json_encode([
+				'firstname' => $data['firstname'],
+				'lastname' => $data['lastname'],
+				'email' => $data['email'],
+				'phone' => [
+					'lada' => $data['phone_lada'],
+					'number' => $data['phone_number']
+				]
+			]) : null,
+			'address' => (Session::get_value('myvox')['url'] == 'delivery') ? $data['address'] : null,
+			'location' => (Session::get_value('myvox')['url'] == 'delivery') ? json_encode([
+				'lat' => $data['delivery_lat'],
+				'lng' => $data['delivery_lng']
+			]) : null,
 			'date' => Functions::get_formatted_date($data['started_date']),
 			'hour' => Functions::get_formatted_hour($data['started_hour']),
 			'total' => Session::get_value('myvox')['menu_order']['total'],
+			'payment_method' => $data['payment_method'],
 			'currency' => Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency'],
-			'shopping_cart' => json_encode(Session::get_value('myvox')['menu_order']['shopping_cart'])
+			'shopping_cart' => json_encode(Session::get_value('myvox')['menu_order']['shopping_cart']),
+			'declined' => false,
+			'accepted' => false,
+			'delivered' => false
 		]);
 
 		return !empty($query) ? $this->database->id() : null;
 	}
 
-    public function new_vox($data, $from_menu_order = false)
+    public function new_vox($data)
 	{
 		$query = $this->database->insert('voxes', [
 			'account' => Session::get_value('myvox')['account']['id'],
 			'type' => $data['type'],
 			'token' => $data['token'],
-			'owner' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'hotel' OR (Session::get_value('myvox')['account']['type'] == 'restaurant' AND (Session::get_value('myvox')['url'] == 'account' OR Session::get_value('myvox')['url'] == 'owner'))) ? Session::get_value('myvox')['owner']['id'] : null) : Session::get_value('myvox')['owner']['id'],
-			'opportunity_area' => ($from_menu_order == true) ? Session::get_value('myvox')['account']['settings']['myvox']['menu']['opportunity_area'] : $data['opportunity_area'],
-			'opportunity_type' => ($from_menu_order == true) ? Session::get_value('myvox')['account']['settings']['myvox']['menu']['opportunity_type'] : $data['opportunity_type'],
+			'owner' => Session::get_value('myvox')['owner']['id'],
+			'opportunity_area' => $data['opportunity_area'],
+			'opportunity_type' => $data['opportunity_type'],
 			'started_date' => Functions::get_formatted_date($data['started_date']),
 			'started_hour' => Functions::get_formatted_hour($data['started_hour']),
-			'location' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'hotel') ? $data['location'] : null) : $data['location'],
-			'address' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery' AND $data['delivery'] == 'home') ? $data['address'] : null) : null,
-			'references' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery' AND $data['delivery'] == 'home') ? $data['references'] : null) : null,
+			'death_line' => null,
+			'location' => $data['location'],
 			'cost' => null,
 			'urgency' => 'medium',
 			'confidentiality' => false,
 			'assigned_users' => json_encode([]),
-			'observations' => ($from_menu_order == true) ? null : (($data['type'] == 'request' AND !empty($data['observations'])) ? $data['observations'] : null),
+			'observations' => ($data['type'] == 'request' AND !empty($data['observations'])) ? $data['observations'] : null,
 			'subject' => null,
-			'description' => ($from_menu_order == true) ? null : (($data['type'] == 'incident' AND !empty($data['description'])) ? $data['description'] : null),
+			'description' => ($data['type'] == 'incident' AND !empty($data['description'])) ? $data['description'] : null,
 			'action_taken' => null,
+			'firstname' => null,
+			'lastname' => null,
 			'guest_treatment' => null,
-			'firstname' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? $data['firstname'] : null) : (!empty($data['firstname']) ? $data['firstname'] : ((Session::get_value('myvox')['account']['type'] == 'hotel' AND !empty(Session::get_value('myvox')['owner']['reservation']['firstname'])) ? Session::get_value('myvox')['owner']['reservation']['firstname'] : null)),
-			'lastname' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? $data['lastname'] : null) : (!empty($data['lastname']) ? $data['lastname'] : ((Session::get_value('myvox')['account']['type'] == 'hotel' AND !empty(Session::get_value('myvox')['owner']['reservation']['lastname'])) ? Session::get_value('myvox')['owner']['reservation']['lastname'] : null)),
-			'email' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? (!empty($data['email']) ? $data['email'] : null) : null) : (!empty($data['email']) ? $data['email'] : null),
-			'phone' => json_encode([
-				'lada' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? $data['phone_lada'] : '') : (!empty($data['phone_lada']) ? $data['phone_lada'] : ''),
-				'number' => ($from_menu_order == true) ? ((Session::get_value('myvox')['account']['type'] == 'restaurant' AND Session::get_value('myvox')['url'] == 'delivery') ? $data['phone_number'] : '') : (!empty($data['phone_number']) ? $data['phone_number'] : '')
-			]),
 			'guest_id' => null,
 			'guest_type' => null,
-			'reservation_number' => ($from_menu_order == true) ? null : ((Session::get_value('myvox')['account']['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty(Session::get_value('myvox')['owner']['reservation']['reservation_number'])) ? Session::get_value('myvox')['owner']['reservation']['reservation_number'] : null),
+			'reservation_number' => (Session::get_value('myvox')['account']['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty(Session::get_value('myvox')['owner']['reservation']['reservation_number'])) ? Session::get_value('myvox')['owner']['reservation']['reservation_number'] : null,
 			'reservation_status' => null,
-			'check_in' => ($from_menu_order == true) ? null : ((Session::get_value('myvox')['account']['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty(Session::get_value('myvox')['owner']['reservation']['check_in'])) ? Session::get_value('myvox')['owner']['reservation']['check_in'] : null),
-			'check_out' => ($from_menu_order == true) ? null : ((Session::get_value('myvox')['account']['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty(Session::get_value('myvox')['owner']['reservation']['check_out'])) ? Session::get_value('myvox')['owner']['reservation']['check_out'] : null),
+			'check_in' => (Session::get_value('myvox')['account']['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty(Session::get_value('myvox')['owner']['reservation']['check_in'])) ? Session::get_value('myvox')['owner']['reservation']['check_in'] : null,
+			'check_out' => (Session::get_value('myvox')['account']['type'] == 'hotel' AND $data['type'] == 'incident' AND !empty(Session::get_value('myvox')['owner']['reservation']['check_out'])) ? Session::get_value('myvox')['owner']['reservation']['check_out'] : null,
 			'attachments' => json_encode([]),
 			'viewed_by' => json_encode([]),
 			'comments' => json_encode([]),
@@ -527,18 +534,18 @@ class Myvox_model extends Model
 				]
 			]),
 			'created_user' => null,
-			'edited_user' => null,
-			'completed_user' => null,
-			'reopened_user' => null,
 			'created_date' => Functions::get_current_date(),
 			'created_hour' => Functions::get_current_hour(),
+			'edited_user' => null,
 			'edited_date' => null,
 			'edited_hour' => null,
+			'completed_user' => null,
 			'completed_date' => null,
 			'completed_hour' => null,
+			'reopened_user' => null,
 			'reopened_date' => null,
 			'reopened_hour' => null,
-			'menu_order' => ($from_menu_order == true) ? $data['menu_order'] : null,
+			'automatic_start' => false,
 			'status' => true,
 			'origin' => 'myvox'
 		]);
@@ -613,13 +620,6 @@ class Myvox_model extends Model
 			'owner' => Session::get_value('myvox')['owner']['id'],
 			'values' => json_encode($data['values']),
 			'comment' => !empty($data['comment']) ? $data['comment'] : null,
-			'firstname' => !empty($data['firstname']) ? $data['firstname'] : null,
-			'lastname' => !empty($data['lastname']) ? $data['lastname'] : null,
-			'email' => !empty($data['email']) ? $data['email'] : null,
-			'phone' => json_encode([
-				'lada' => !empty($data['phone_lada']) ? $data['phone_lada'] : '',
-				'number' => !empty($data['phone_number']) ? $data['phone_number'] : ''
-			]),
 			'reservation' => (Session::get_value('myvox')['account']['type'] == 'hotel') ? json_encode(Session::get_value('myvox')['owner']['reservation']) : null,
 			'date' => Functions::get_current_date(),
 			'hour' => Functions::get_current_hour(),
@@ -685,6 +685,28 @@ class Myvox_model extends Model
 	{
 		$query = $this->database->update('accounts', [
 			'sms' => $sms
+		], [
+			'id' => Session::get_value('myvox')['account']['id']
+		]);
+
+		return $query;
+	}
+
+	public function get_whatsapp()
+	{
+		$query = $this->database->select('accounts', [
+			'whatsapp'
+		], [
+			'id' => Session::get_value('myvox')['account']['id']
+		]);
+
+		return !empty($query) ? $query[0]['whatsapp'] : null;
+	}
+
+	public function edit_whatsapp($whatsapp)
+	{
+		$query = $this->database->update('accounts', [
+			'whatsapp' => $whatsapp
 		], [
 			'id' => Session::get_value('myvox')['account']['id']
 		]);

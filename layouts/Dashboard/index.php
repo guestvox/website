@@ -9,5 +9,7 @@ $this->dependencies->add(['other', '<script>menu_focus("dashboard");</script>'])
 
 %{header}%
 <main class="dashboard">
-    
+    <section class="workspace">
+        
+    </section>
 </main>

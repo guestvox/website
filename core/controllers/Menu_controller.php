@@ -13,6 +13,281 @@ class Menu_controller extends Controller
 		$this->lang = Session::get_value('account')['language'];
 	}
 
+	public function orders()
+	{
+        if (Format::exist_ajax_request() == true)
+		{
+			if ($_POST['action'] == 'view_map_menu_order')
+			{
+				$query = $this->model->get_menu_order($_POST['id'], 'map');
+
+                if (!empty($query))
+                {
+					Functions::environment([
+    					'status' => 'success',
+    					'data' => $query
+    				]);
+                }
+                else
+                {
+                    Functions::environment([
+    					'status' => 'error',
+    					'message' => '{$lang.operation_error}'
+    				]);
+                }
+			}
+
+			if ($_POST['action'] == 'decline_menu_order' OR $_POST['action'] == 'accept_menu_order' OR $_POST['action'] == 'deliver_menu_order')
+			{
+				$menu_order = $this->model->get_menu_order($_POST['id']);
+
+				if (!empty($menu_order))
+				{
+					if ($_POST['action'] == 'decline_menu_order')
+						$query = $this->model->decline_menu_order($_POST['id']);
+					else if ($_POST['action'] == 'accept_menu_order')
+						$query = $this->model->accept_menu_order($_POST['id']);
+					else if ($_POST['action'] == 'deliver_menu_order')
+						$query = $this->model->deliver_menu_order($_POST['id']);
+
+					if (!empty($query))
+					{
+						if ($menu_order['type_service'] == 'delivery')
+						{
+							$mail = new Mailer(true);
+
+							try
+							{
+								$mail->setFrom('noreply@guestvox.com', 'Guestvox');
+								$mail->addAddress($menu_order['contact']['email'], $menu_order['contact']['firstname'] . ' ' . $menu_order['contact']['lastname']);
+								$mail->Subject = Languages::email($_POST['action'])[$this->lang];
+								$mail->Body =
+								'<html>
+									<head>
+										<title>' . $mail->Subject . '</title>
+									</head>
+									<body>
+										<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+														<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('myvox')['account']['logotype'] . '">
+													</figure>
+												</td>
+											</tr>
+											<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>';
+
+								if ($_POST['action'] == 'decline_menu_order')
+									$mail->Body .= '<h6 style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('decline_menu_order_error')[$this->lang] . '</h6>';
+								else if ($_POST['action'] == 'accept_menu_order')
+									$mail->Body .= '<h6 style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('accept_menu_order_success')[$this->lang] . '</h6>';
+								else if ($_POST['action'] == 'deliver_menu_order')
+									$mail->Body .= '<h6 style="width:100%;margin:0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('deliver_menu_order_success')[$this->lang] . '</h6>';
+
+								$mail->Body .=
+								'				</td>
+											</tr>
+											<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+												<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+													<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">Power by Guestvox</a>
+												</td>
+											</tr>
+										</table>
+									</body>
+								</html>';
+								$mail->send();
+							}
+							catch (Exception $e) { }
+
+							$sms = $this->model->get_sms();
+
+							if ($sms > 0)
+							{
+								$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
+								$sms_client = new \Nexmo\Client($sms_basic);
+								$sms_text = Session::get_value('myvox')['account']['name'] . '. ' . Languages::email($_POST['action'])[$this->lang];
+
+								if ($_POST['action'] == 'decline_menu_order')
+									$sms_text .= Languages::email('decline_menu_order_error')[$this->lang];
+								else if ($_POST['action'] == 'accept_menu_order')
+									$sms_text .= Languages::email('accept_menu_order_success')[$this->lang];
+								else if ($_POST['action'] == 'deliver_menu_order')
+									$sms_text .= Languages::email('deliver_menu_order_success')[$this->lang];
+
+								$sms_text = '. Power by Guestvox.';
+
+								try
+								{
+									$sms_client->message()->send([
+										'to' => $_POST['phone_lada'] . $_POST['phone_number'],
+										'from' => 'Guestvox',
+										'text' => $sms_text
+									]);
+
+									$sms = $sms - 1;
+								}
+								catch (Exception $e) { }
+
+								$this->model->edit_sms($sms);
+							}
+						}
+
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+
+			// if ($_POST['action'] == 'filter_menu_orders')
+			// {
+			// 	$settings = Session::get_value('settings');
+			//
+			// 	$settings['menu']['orders']['filter']['type_service'] = $_POST['type_service'];
+			// 	$settings['menu']['orders']['filter']['delivery'] = $_POST['delivery'];
+			// 	$settings['menu']['orders']['filter']['accepted'] = $_POST['accepted'];
+			// 	$settings['menu']['orders']['filter']['delivered'] = $_POST['delivered'];
+			//
+			// 	Session::set_value('settings', $settings);
+			//
+			// 	Functions::environment([
+			// 		'status' => 'success'
+			// 	]);
+			// }
+		}
+		else
+		{
+			$template = $this->view->render($this, 'orders');
+
+			define('_title', 'Guestvox | {$lang.menu_orders}');
+
+			$menu_products = $this->model->get_menu_products();
+			$menu_categories = $this->model->get_menu_categories('actives');
+
+			$tbl_menu_orders = '';
+
+			if (!empty($menu_products) AND !empty($menu_categories))
+			{
+				foreach ($this->model->get_menu_orders() as $value)
+				{
+					$tbl_menu_orders .=
+					'<div>
+						<div class="datas">
+							<h2>' . $value['token'] . ' | ';
+
+					if ($value['type_service'] == 'owner')
+						$tbl_menu_orders .= $value['owner_name'] . (!empty($value['owner_number']) ? '#' . $value['owner_number'] : '');
+					else if ($value['type_service'] == 'delivery')
+						$tbl_menu_orders .= $value['contact']['firstname'] . ' ' . $value['contact']['lastname'] . ' | +' . $value['contact']['phone']['lada'] . ' ' . $value['contact']['phone']['number'] . ' | ' . $value['contact']['email'];
+
+					$tbl_menu_orders .=
+					'</h2>
+					<p>' . Functions::get_formatted_date($value['date'], 'd/m/Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . ' | {$lang.service_' . $value['type_service'] . '}' . (($value['type_service'] == 'delivery') ? ' | ' . (($value['delivery'] == 'bring') ? '{$lang.take_home}' : '{$lang.pick_up_restaurant}') : '') . ' | $ ' . $value['total'] . ' ' . $value['currency'] . ' | {$lang.' . $value['payment_method'] . '}</p>';
+
+					if ($value['type_service'] == 'delivery' AND $value['delivery'] == 'bring')
+						$tbl_menu_orders .= '<p>' . $value['address'] . '</p>';
+
+					foreach ($value['shopping_cart'] as $subvalue)
+					{
+						foreach ($subvalue as $intvalue)
+						{
+							$tbl_menu_orders .= '<p><strong>x' . $intvalue['quantity'] . ' ' . $intvalue['name'][$this->lang];
+
+							if (!empty($intvalue['topics']))
+							{
+								$tbl_menu_orders .= ' (';
+
+								foreach ($intvalue['topics'] as $parentvalue)
+									$tbl_menu_orders .= $parentvalue['name'][$this->lang] . ', ';
+
+								$tbl_menu_orders .= ')';
+							}
+
+							$tbl_menu_orders .= '</strong></p>';
+						}
+					}
+
+					$tbl_menu_orders .=
+					'</div>
+					<div class="buttons flex_right">';
+
+					if ($value['delivered'] == false)
+					{
+						if ($value['declined'] == false)
+						{
+							if ($value['type_service'] == 'delivery')
+								$tbl_menu_orders .= '<a class="big" data-action="view_map_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-map-marked-alt"></i><span>{$lang.view_map}</span></a>';
+
+							$tbl_menu_orders .= '<a class="delete big" data-action="decline_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-times"></i><span>{$lang.decline}</span></a>';
+
+							if ($value['accepted'] == false)
+								$tbl_menu_orders .= '<a class="edit big" data-action="accept_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-check"></i><span>{$lang.accept}</span></a>';
+							else if ($value['accepted'] == true)
+								$tbl_menu_orders .= '<a class="new big" data-action="deliver_menu_order" data-id="' . $value['id'] . '"><i class="fas fa-check"></i><span>{$lang.deliver}</span></a>';
+						}
+						else if ($value['declined'] == true)
+							$tbl_menu_orders .= '<a class="delete big"><i class="fas fa-times"></i><span>{$lang.order_declined}</span></a>';
+					}
+					else if ($value['delivered'] == true)
+						$tbl_menu_orders .= '<a class="new big"><i class="fas fa-check"></i><span>{$lang.order_delivered}</span></a>';
+
+					$tbl_menu_orders .=
+					'	</div>
+					</div>';
+				}
+			}
+			else
+			{
+				$tbl_menu_orders .=
+				'<div class="more_info_steps">
+					<div>
+						<i class="fas fa-tag"></i>
+						<h4>{$lang.step_1}</h4>
+						<p>' . (!empty($menu_categories) ? '{$lang.menu_products_description_step_1_1}' : '{$lang.menu_products_description_step_1_2}') . '</p>
+						<a href="/menu/categories">' . (!empty($menu_categories) ? '{$lang.create_more_categories}' : '{$lang.create_categories}') . '</a>
+					</div>
+					<div>
+						<i class="fas fa-bookmark"></i>
+						<h4>{$lang.step_2} ({$lang.optional})</h4>
+						<p>' . (!empty($menu_topics) ? '{$lang.menu_products_description_step_2_1}' : '{$lang.menu_products_description_step_2_2}') . '</p>
+						<a href="/menu/topics">' . (!empty($menu_topics) ? '{$lang.create_more_topics}' : '{$lang.create_topics}') . '</a>
+					</div>
+					<div>
+						<i class="fas fa-cocktail"></i>
+						<h4>{$lang.step_3}</h4>
+						<p>{$lang.menu_products_description_step_3_b}</p>
+						<a href="/menu/products">{$lang.create_products}</a>
+					</div>
+				</div>';
+			}
+
+			$replace = [
+				'{$tbl_menu_orders}' => $tbl_menu_orders
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
 	public function products()
 	{
         if (Format::exist_ajax_request() == true)
@@ -624,9 +899,8 @@ class Menu_controller extends Controller
 				$sct_buttons .=
 				'<section class="buttons">
 			        <div>
-			            <a data-button-modal="search"><i class="fas fa-search"></i></a>
 						' . ((Functions::check_user_access(['{menu_products_create}']) == true) ? '<a class="new" data-button-modal="new_menu_product"><i class="fas fa-plus"></i></a>' : '') . '
-			        </div>
+					</div>
 			    </section>';
 
 				if (!empty($menu_topics))
@@ -757,13 +1031,19 @@ class Menu_controller extends Controller
 					$opt_menu_restaurants .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
 			}
 
+			$opt_categories = '';
+
+			foreach ($this->model->get_menu_categories() as $value)
+				$opt_categories .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['voxes']['opportunity_areas']['filter']['id'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . '</option>';
+
 			$replace = [
 				'{$tbl_menu_products}' => $tbl_menu_products,
 				'{$sct_buttons}' => $sct_buttons,
 				'{$cbx_menu_topics}' => $cbx_menu_topics,
 				'{$cbx_icons}' => $cbx_icons,
 				'{$cbx_menu_categories}' => $cbx_menu_categories,
-				'{$opt_menu_restaurants}' => $opt_menu_restaurants
+				'{$opt_menu_restaurants}' => $opt_menu_restaurants,
+				'{$opt_categories}' => $opt_categories
 			];
 
 			$template = $this->format->replace($replace, $template);

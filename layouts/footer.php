@@ -1,28 +1,5 @@
 <?php defined('_EXEC') or die; ?>
 
-        <section class="modal fullscreen" data-modal="search">
-            <div class="content">
-                <main>
-                    <form>
-                        <div class="row">
-                            <div class="span12">
-                                <div class="label">
-                                    <label required>
-                                        <p>{$lang.search}</p>
-                                        <input type="text" name="search">
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="span12">
-                                <div class="buttons">
-                                    <a class="new" button-close><i class="fas fa-check"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </main>
-            </div>
-        </section>
         <section class="modal fullscreen" data-modal="get_help">
             <div class="content">
                 <main>
@@ -36,7 +13,7 @@
             <div class="content">
                 <main>
                     <i class="fas fa-check-circle"></i>
-                    <!-- <p></p> -->
+                    <p></p>
                 </main>
             </div>
         </section>
@@ -54,7 +31,7 @@
         </div>
         <script src="{$path.js}jquery-3.3.1.min.js"></script>
         <script src="{$path.js}valkyrie.min.js"></script>
-        <script src="{$path.js}scripts.js"></script>
+        <script src="{$path.js}scripts.js?v=2.1"></script>
         <script src="https://kit.fontawesome.com/743152b0c5.js"></script>
         {$dependencies.js}
         {$dependencies.other}
@@ -93,6 +70,5 @@
             </script>
             <?php endif; ?>
         <?php endif; ?> -->
-        <!--  -->
     </body>
 </html>

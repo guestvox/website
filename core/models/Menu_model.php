@@ -11,6 +11,111 @@ class Menu_model extends Model
 		parent::__construct();
 	}
 
+	public function get_menu_orders()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('menu_orders', [
+			'[>]owners' => [
+				'owner' => 'id'
+			]
+		], [
+			'menu_orders.id',
+			'menu_orders.token',
+			'menu_orders.type_service',
+			'menu_orders.delivery',
+			'owners.name(owner_name)',
+			'owners.number(owner_number)',
+			'menu_orders.contact',
+			'menu_orders.address',
+			'menu_orders.date',
+			'menu_orders.hour',
+			'menu_orders.total',
+			'menu_orders.currency',
+			'menu_orders.payment_method',
+			'menu_orders.shopping_cart',
+			'menu_orders.declined',
+			'menu_orders.accepted',
+			'menu_orders.delivered'
+		], [
+			'menu_orders.account' => Session::get_value('account')['id'],
+			'ORDER' => [
+				'menu_orders.date' => 'DESC',
+				'menu_orders.hour' => 'DESC'
+			]
+		]));
+
+		return $query;
+	}
+
+	public function get_menu_order($id, $type = null)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('menu_orders', [
+			'type_service',
+			'contact',
+			'location'
+		], [
+			'id' => $id
+		]));
+
+		if (!empty($query))
+		{
+			if ($type == 'map')
+			{
+				$account = Functions::get_json_decoded_query($this->database->select('accounts', [
+					'location',
+					'settings'
+				], [
+					'id' => Session::get_value('account')['id']
+				]));
+
+				return [
+					'menu_order' => $query[0]['location'],
+					'account' => [
+						'lat' => $account[0]['location']['lat'],
+						'lng' => $account[0]['location']['lng'],
+						'rad' => $account[0]['settings']['myvox']['menu']['sell_radius']
+					]
+				];
+			}
+			else
+				return $query[0];
+		}
+		else
+			return null;
+	}
+
+	public function decline_menu_order($id)
+	{
+		$query = $this->database->update('menu_orders', [
+			'declined' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function accept_menu_order($id)
+	{
+		$query = $this->database->update('menu_orders', [
+			'accepted' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function deliver_menu_order($id)
+	{
+		$query = $this->database->update('menu_orders', [
+			'delivered' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
     public function get_menu_products($option = 'all')
 	{
 		$where = [
@@ -188,6 +293,7 @@ class Menu_model extends Model
 			'icon' => ($data['avatar'] == 'icon') ? $data['icon'] : null,
 			'categories' => json_encode((!empty($data['categories']) ? $data['categories'] : [])),
 			'restaurant' => (Session::get_value('account')['settings']['menu']['multi'] == true) ? (!empty($data['restaurant']) ? $data['restaurant'] : null) : null,
+			'map' => null,
 			'status' => true
 		]);
 
@@ -532,6 +638,7 @@ class Menu_model extends Model
 			]),
 			'position' => $data['position'],
 			'icon' => $data['icon'],
+			'map' => null,
 			'status' => true
 		]);
 
@@ -1196,6 +1303,28 @@ class Menu_model extends Model
 			if (!empty($query))
 				Functions::undoloader($deleted[0]['qr']);
 		}
+
+		return $query;
+	}
+
+	public function get_sms()
+	{
+		$query = $this->database->select('accounts', [
+			'sms'
+		], [
+			'id' => Session::get_value('myvox')['account']['id']
+		]);
+
+		return !empty($query) ? $query[0]['sms'] : null;
+	}
+
+	public function edit_sms($sms)
+	{
+		$query = $this->database->update('accounts', [
+			'sms' => $sms
+		], [
+			'id' => Session::get_value('myvox')['account']['id']
+		]);
 
 		return $query;
 	}

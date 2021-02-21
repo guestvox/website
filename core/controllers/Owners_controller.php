@@ -40,6 +40,7 @@ class Owners_controller extends Controller
 			if ($_POST['action'] == 'new_owner' OR $_POST['action'] == 'edit_owner')
 			{
 				$labels = [];
+				$checks = [];
 
 				if ($_POST['action'] == 'new_owner')
 				{
@@ -62,6 +63,18 @@ class Owners_controller extends Controller
 						if (!isset($_POST['to']) OR empty($_POST['to']))
 							array_push($labels, ['to','']);
 					}
+
+					if (isset($_POST['request']))
+						array_push($checks, ['request','']);	
+						
+					if (isset($_POST['incident']))
+						array_push($checks, ['incident','']);	
+						
+					if (isset($_POST['workorder']))
+						array_push($checks, ['workorder','']);	
+						
+					if (isset($_POST['public']))
+						array_push($checks, ['public','']);	
 				}
 				else if ($_POST['action'] == 'edit_owner')
 				{
@@ -70,29 +83,52 @@ class Owners_controller extends Controller
 
 					if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
 						array_push($labels, ['name_en','']);
+
+					if (isset($_POST['request']))
+						array_push($checks, ['request','']);	
+						
+					if (isset($_POST['incident']))
+						array_push($checks, ['incident','']);	
+						
+					if (isset($_POST['workorder']))
+						array_push($checks, ['workorder','']);	
+						
+					if (isset($_POST['public']))
+						array_push($checks, ['public','']);	
 				}
 
 				if (empty($labels))
 				{
-					if ($_POST['action'] == 'new_owner')
-						$query = $this->model->new_owner($_POST);
-					else if ($_POST['action'] == 'edit_owner')
-						$query = $this->model->edit_owner($_POST);
-
-					if (!empty($query))
+					if (!empty($checks))
 					{
-						Functions::environment([
-							'status' => 'success',
-							'message' => '{$lang.operation_success}'
-						]);
+						if ($_POST['action'] == 'new_owner')
+							$query = $this->model->new_owner($_POST);
+						else if ($_POST['action'] == 'edit_owner')
+							$query = $this->model->edit_owner($_POST);
+
+						if (!empty($query))
+						{
+							Functions::environment([
+								'status' => 'success',
+								'message' => '{$lang.operation_success}'
+							]);
+						}
+						else
+						{
+							Functions::environment([
+								'status' => 'error',
+								'message' => '{$lang.operation_error}'
+							]);
+						}
 					}
 					else
 					{
 						Functions::environment([
-							'status' => 'error',
-							'message' => '{$lang.operation_error}'
+							'status' => 'error_checks',
+							'message' => 'Active una opción para guardar.'
 						]);
 					}
+					
 				}
 				else
 				{
@@ -137,19 +173,23 @@ class Owners_controller extends Controller
 					$zip_archive = new ZipArchive();
 					$zip_name = Session::get_value('account')['path'] . '_owners_export_' . Functions::get_current_date() . '.zip';
 
-					$zip_archive->open($zip_name, ZipArchive::CREATE);
+					$zip_archive->open(PATH_UPLOADS . $zip_name, ZipArchive::CREATE);
 
 					foreach ($query as $value)
 						$zip_archive->addFile(PATH_UPLOADS . $value['qr'], $value['qr']);
 
 					$zip_archive->close();
 
-					header('Content-type: application/zip');
-					header('Content-Transfer-Encoding: Binary');
-					header('Content-Disposition: attachment; filename="' . $zip_name . '"');
-					@set_time_limit(0);
-					readfile($zip_name);
-					// unlink($zip_name);
+					$download_name = PATH_UPLOADS . $zip_name;
+
+					if (file_exists($download_name))
+						$html = '<a href="{$path.uploads}' . $zip_name . '" download="' . $zip_name . '" data-zip="' . $zip_name . '">{$lang.download}</a>';
+
+					Functions::environment([
+						'status' => 'success',
+						'zip_name' => $zip_name,
+						'html' => $html
+					]);
                 }
                 else
                 {
@@ -158,6 +198,15 @@ class Owners_controller extends Controller
     					'message' => '{$lang.operation_error}'
     				]);
                 }
+			}
+			
+			if ($_POST['action'] == 'undoloader_zip')
+			{
+				Functions::undoloader($_POST['zip_name']);
+
+				Functions::environment([
+					'status' => 'success'
+				]);
 			}
 		}
 		else

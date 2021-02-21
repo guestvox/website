@@ -22,7 +22,7 @@ class Qrs_controller extends Controller
 		$fgr_qr_menu_delivery = '';
 		$div_url_menu_delivery = '';
 
-		if (Session::get_value('account')['operation'] == true AND Session::get_value('account')['type'] == 'restaurant')
+		if (Session::get_value('account')['digital_menu'] == true)
 		{
 			$fgr_qr_menu_delivery .=
 			'<figure>
@@ -42,7 +42,7 @@ class Qrs_controller extends Controller
 		$fgr_qr_reviews = '';
 		$div_url_reviews = '';
 
-		if (Session::get_value('account')['reputation'] == true)
+		if (Session::get_value('account')['surveys'] == true)
 		{
 			$fgr_qr_reviews .=
 			'<figure>

@@ -1,6 +1,7 @@
 
 main.landing_page_index {
     width: 100%;
+    position: relative;
 }
 
 /*  */
@@ -81,15 +82,27 @@ main.landing_page_index > header > nav > ul > li > a {
     color: #000;
 }
 
-main.landing_page_index > header > nav.desktop > ul > li.focus,
-main.landing_page_index > header > nav.desktop > ul > li.focus > a {
-    background-color: #00a5ab;
-    color: #fff;
+main.landing_page_index > header > nav.desktop > ul > li.focus {
+    margin: 0px 20px;
+    transition: 400ms;
+}
+
+main.landing_page_index > header.down > nav.desktop > ul > li.focus {
+    margin: 0px;
 }
 
 main.landing_page_index > header > nav.desktop > ul > li.focus,
 main.landing_page_index > header > nav.desktop > ul > li.focus > a {
-    border-radius: 40px;
+    border-radius: 5px;
+    background-color: #00a5ab;
+    color: #fff;
+    transition: 400ms;
+}
+
+main.landing_page_index > header.down > nav.desktop > ul > li.focus,
+main.landing_page_index > header.down > nav.desktop > ul > li.focus > a {
+    background-color: #fff;
+    color: #00a5ab;
 }
 
 /*  */
@@ -356,83 +369,107 @@ main.landing_page_index > section.stl_3 > div > a {
 /*  */
 main.landing_page_index > section.stl_4 {
     width: 100%;
-    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 100px 0px;
     box-sizing: border-box;
-    background-color: #eee;
+    background-color: #fff;
 }
 
 @media (max-width: 768px) {
 
     main.landing_page_index > section.stl_4 {
-        padding: 50px 20px;
+        flex-direction: column;
+        padding-top: 50px;
     }
 }
 
 main.landing_page_index > section.stl_4 > div {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 400px;
+    padding: 0px 10px;
+    box-sizing: border-box;
 }
 
 @media (max-width: 768px) {
 
     main.landing_page_index > section.stl_4 > div {
-        flex-direction: column;
+        width: 100%;
+        padding: 0px;
     }
 }
 
 main.landing_page_index > section.stl_4 > div > div {
-    width: 300px;
-    height: 300px;
+    width: 100%;
+    min-height: 470px;
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
-    margin: 50px;
-    padding: 20px;
-    border: 3px solid #fff;
-    border-radius: 50%;
+    padding: 40px 20px;
     box-sizing: border-box;
-    background-color: #00a5ab;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid #e0e0e0;
+}
+
+@media (max-width: 768px) {
+
+    main.landing_page_index > section.stl_4 > div > div {
+        min-height: auto;
+        border-radius: 0px;
+        border: 0px;
+        border-bottom: 1px solid #e0e0e0;
+    }
 }
 
 main.landing_page_index > section.stl_4 > div > div > i {
-    margin-bottom: 10px;
-    font-size: 80px;
-    color: #fff;
+    margin-bottom: 20px;
+    font-size: 70px;
+    color: #757575;
+}
+
+main.landing_page_index > section.stl_4 > div > div > h2 {
+    margin-bottom: 20px;
+    font-weight: 600;
+    font-size: 24px;
+    color: #212121;
+}
+
+main.landing_page_index > section.stl_4 > div > div > h2 > strong {
+    color: #00a5ab;
 }
 
 main.landing_page_index > section.stl_4 > div > div > p {
-    padding: 10px;
-    box-sizing: border-box;
-    font-size: 16px;
-    font-weight: 400;
-    text-align: center;
-    color: #fff;
-}
-
-main.landing_page_index > section.stl_4 > div > div a {
-    width: auto;
-    padding: 10px 15px;
-    box-sizing: border-box;
-    border-radius: 20px;
-    background-color: #fff;
+    margin-bottom: 20px;
     font-size: 14px;
     font-weight: 400;
-    color: #24383f;
+    text-align: center;
+    color: #757575;
 }
 
-main.landing_page_index > section.stl_4 > figure {
+main.landing_page_index > section.stl_4 > div > div > p:last-child {
+    margin-bottom: 0px;
+}
+
+main.landing_page_index > section.stl_4 > div > div > a {
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background-color: #eee;
+    font-size: 14px;
+    font-weight: 400;
+    color: #757575;
+}
+
+main.landing_page_index > section.stl_4 > div > div > a:last-child {
     position: absolute;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-}
-
-main.landing_page_index > section.stl_4 > figure > img {
-    width: 100%;
+    bottom: 40px;
+    margin-bottom: 0px;
+    background-color: #fff;
+    font-weight: 600;
 }
 
 /*  */
@@ -612,7 +649,7 @@ main.landing_page_index > section.stl_6 > div {
 }
 
 main.landing_page_index > section.stl_6 > div > div {
-    width: calc(100% / 5);
+    width: calc(100% / 6);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -639,22 +676,22 @@ main.landing_page_index > section.stl_6 > div:last-child > div {
 }
 
 main.landing_page_index > section.stl_6 > div > div > figure {
-    width: 200px;
-    height: 200px;
+    width: 180px;
+    height: 180px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
     padding: 3px;
     box-sizing: border-box;
-    border-radius: 50%;
+    border-radius: 5px;
     overflow: hidden;
     background-color: #fff;
 }
 
 main.landing_page_index > section.stl_6 > div > div > figure > img {
     width: 100%;
-    border-radius: 50%;
+    border-radius: 5px;
 }
 
 main.landing_page_index > section.stl_6 > div > div > h3 {
@@ -667,6 +704,48 @@ main.landing_page_index > section.stl_6 > div > div > h4 {
     font-size: 16px;
     font-weight: 400;
     color: #757575;
+}
+
+/*  */
+main.landing_page_index > section.stl_7 {
+
+}
+
+/*  */
+main.landing_page_index > section.contacts {
+    width: auto;
+    position: fixed;
+    right: 20px;
+    bottom: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    z-index: 99;
+}
+
+main.landing_page_index > section.contacts > a {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    font-size: 30px;
+    color: #fff;
+}
+
+main.landing_page_index > section.contacts > a[data-email] {
+    background-color: #9c27b0;
+}
+
+main.landing_page_index > section.contacts > a[data-phone] {
+    background-color: #673ab7;
+}
+
+main.landing_page_index > section.contacts > a[data-whatsapp] {
+    background-color: #009688;
 }
 
 /*  */

@@ -24,6 +24,7 @@ class Account_model extends Model
 			'accounts.city',
 			'accounts.zip_code',
 			'accounts.address',
+			'accounts.location',
 			'accounts.time_zone',
 			'accounts.currency',
 			'accounts.language',
@@ -31,12 +32,16 @@ class Account_model extends Model
 			'accounts.contact',
 			'accounts.logotype',
 			'packages.quantity_end(package)',
+			'accounts.digital_menu',
 			'accounts.operation',
-			'accounts.reputation',
+			'accounts.surveys',
 			'accounts.siteminder',
 			'accounts.zaviapms',
+			'accounts.ambit',
 			'accounts.sms',
-			'accounts.settings'
+			'accounts.whatsapp',
+			'accounts.settings',
+			'accounts.payment'
 		], [
 			'accounts.id' => Session::get_value('account')['id']
 		]));
@@ -255,7 +260,21 @@ class Account_model extends Model
 		return $query;
 	}
 
-	public function edit_settings($field, $data)
+	public function edit_location($data)
+	{
+		$query = $this->database->update('accounts', [
+			'location' => json_encode([
+				'lat' => $data['lat'],
+				'lng' => $data['lng']
+			])
+		], [
+			'id' => Session::get_value('account')['id']
+		]);
+
+		return $query;
+	}
+
+	public function edit_settings($field, $data, $account = null)
 	{
 		$edited1 = Functions::get_json_decoded_query($this->database->select('accounts', [
 			'settings'
@@ -265,29 +284,7 @@ class Account_model extends Model
 
 		$edited2 = $edited1[0]['settings'];
 
-		if ($field == 'myvox_request')
-		{
-			if (!empty($data['status']))
-			{
-				$edited1[0]['settings']['myvox']['request']['status'] = true;
-				$edited1[0]['settings']['myvox']['request']['title']['es'] = $data['title_es'];
-				$edited1[0]['settings']['myvox']['request']['title']['en'] = $data['title_en'];
-			}
-			else
-				$edited1[0]['settings']['myvox']['request']['status'] = false;
-		}
-		else if ($field == 'myvox_incident')
-		{
-			if (!empty($data['status']))
-			{
-				$edited1[0]['settings']['myvox']['incident']['status'] = true;
-				$edited1[0]['settings']['myvox']['incident']['title']['es'] = $data['title_es'];
-				$edited1[0]['settings']['myvox']['incident']['title']['en'] = $data['title_en'];
-			}
-			else
-				$edited1[0]['settings']['myvox']['incident']['status'] = false;
-		}
-		else if ($field == 'myvox_menu')
+		if ($field == 'myvox_menu')
 		{
 			if (!empty($data['status']))
 			{
@@ -295,10 +292,6 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['menu']['title']['es'] = $data['title_es'];
 				$edited1[0]['settings']['myvox']['menu']['title']['en'] = $data['title_en'];
 				$edited1[0]['settings']['myvox']['menu']['currency'] = $data['currency'];
-				$edited1[0]['settings']['myvox']['menu']['opportunity_area'] = $data['opportunity_area'];
-				$edited1[0]['settings']['myvox']['menu']['opportunity_type'] = $data['opportunity_type'];
-				$edited1[0]['settings']['myvox']['menu']['delivery'] = (Session::get_value('account')['type'] == 'restaurant' AND !empty($data['delivery'])) ? true : false;
-				$edited1[0]['settings']['myvox']['menu']['requests'] = !empty($data['requests']) ? true : false;
 				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['status'] = $data['schedule_monday_status'];
 				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['opening'] = ($data['schedule_monday_status'] == 'open') ? $data['schedule_monday_opening'] : '';
 				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['closing'] = ($data['schedule_monday_status'] == 'open') ? $data['schedule_monday_closing'] : '';
@@ -320,10 +313,44 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['status'] = $data['schedule_sunday_status'];
 				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['opening'] = ($data['schedule_sunday_status'] == 'open') ? $data['schedule_sunday_opening'] : '';
 				$edited1[0]['settings']['myvox']['menu']['schedule']['sunday']['closing'] = ($data['schedule_sunday_status'] == 'open') ? $data['schedule_sunday_closing'] : '';
+				$edited1[0]['settings']['myvox']['menu']['requests'] = (($account['type'] == 'hotel' OR $account['type'] == 'restaurant') AND !empty($data['requests'])) ? true : false;
+				$edited1[0]['settings']['myvox']['menu']['delivery'] = (($account['type'] == 'restaurant' OR $account['type'] == 'others') AND !empty($data['delivery'])) ? true : false;
 				$edited1[0]['settings']['myvox']['menu']['multi'] = !empty($data['multi']) ? true : false;
+				$edited1[0]['settings']['myvox']['menu']['sell_radius'] = (($account['type'] == 'restaurant' OR $account['type'] == 'others') AND !empty($data['sell_radius'])) ? $data['sell_radius'] : '';
 			}
 			else
 				$edited1[0]['settings']['myvox']['menu']['status'] = false;
+		}
+		else if ($field == 'myvox_request')
+		{
+			if (!empty($data['status']))
+			{
+				$edited1[0]['settings']['myvox']['request']['status'] = true;
+				$edited1[0]['settings']['myvox']['request']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['request']['title']['en'] = $data['title_en'];
+			}
+			else
+				$edited1[0]['settings']['myvox']['request']['status'] = false;
+		}
+		else if ($field == 'myvox_incident')
+		{
+			if (!empty($data['status']))
+			{
+				$edited1[0]['settings']['myvox']['incident']['status'] = true;
+				$edited1[0]['settings']['myvox']['incident']['title']['es'] = $data['title_es'];
+				$edited1[0]['settings']['myvox']['incident']['title']['en'] = $data['title_en'];
+			}
+			else
+				$edited1[0]['settings']['myvox']['incident']['status'] = false;
+		}
+		else if ($field == 'voxes_attention_times')
+		{
+			$edited1[0]['settings']['voxes']['attention_times']['request']['low'] = $data['request_low'];
+			$edited1[0]['settings']['voxes']['attention_times']['request']['medium'] = $data['request_medium'];
+			$edited1[0]['settings']['voxes']['attention_times']['request']['high'] = $data['request_high'];
+			$edited1[0]['settings']['voxes']['attention_times']['incident']['low'] = $data['incident_low'];
+			$edited1[0]['settings']['voxes']['attention_times']['incident']['medium'] = $data['incident_medium'];
+			$edited1[0]['settings']['voxes']['attention_times']['incident']['high'] = $data['incident_high'];
 		}
 		else if ($field == 'myvox_survey')
 		{
@@ -342,8 +369,6 @@ class Account_model extends Model
 
 				if (!empty($data['mail_attachment']['name']))
 					$edited1[0]['settings']['myvox']['survey']['mail']['attachment'] = Functions::uploader($data['mail_attachment'], Session::get_value('account')['path'] . '_settings_myvox_survey_mail_attachment_');
-
-				$edited1[0]['settings']['myvox']['survey']['widget'] = $data['widget'];
 			}
 			else
 				$edited1[0]['settings']['myvox']['survey']['status'] = false;
@@ -374,15 +399,6 @@ class Account_model extends Model
 			else
 				$edited1[0]['settings']['reviews']['status'] = false;
 		}
-		else if ($field == 'voxes_attention_times')
-		{
-			$edited1[0]['settings']['voxes']['attention_times']['request']['low'] = $data['request_low'];
-			$edited1[0]['settings']['voxes']['attention_times']['request']['medium'] = $data['request_medium'];
-			$edited1[0]['settings']['voxes']['attention_times']['request']['high'] = $data['request_high'];
-			$edited1[0]['settings']['voxes']['attention_times']['incident']['low'] = $data['incident_low'];
-			$edited1[0]['settings']['voxes']['attention_times']['incident']['medium'] = $data['incident_medium'];
-			$edited1[0]['settings']['voxes']['attention_times']['incident']['high'] = $data['incident_high'];
-		}
 
 		$query = $this->database->update('accounts', [
 			'settings' => json_encode($edited1[0]['settings'])
@@ -401,6 +417,88 @@ class Account_model extends Model
 					Functions::undoloader($edited2[0]['settings']['myvox']['survey']['mail']['attachment']);
 			}
 		}
+
+		return $query;
+	}
+
+	public function edit_payment($data)
+	{
+		$edited = Functions::get_json_decoded_query($this->database->select('accounts', [
+			'payment'
+		], [
+			'id' => Session::get_value('account')['id']
+		]));
+
+		if (!empty($data['status']))
+		{
+			$edited[0]['payment']['status'] = true;
+
+			if ($data['contract_status'] == 'deactivated')
+			{
+				$edited[0]['payment']['contract']['status'] = 'pending';
+				$edited[0]['payment']['contract']['place'] = $data['contract_place'];
+				$edited[0]['payment']['contract']['date'] = Functions::get_current_date();
+				$edited[0]['payment']['contract']['signature'] = Functions::base_64($data['contract_signature']);
+				$edited[0]['payment']['contract']['titular']['fiscal']['person'] = $data['contract_titular_fiscal_person'];
+				$edited[0]['payment']['contract']['titular']['fiscal']['id'] = $data['contract_titular_fiscal_id'];
+				$edited[0]['payment']['contract']['titular']['fiscal']['name'] = $data['contract_titular_fiscal_name'];
+				$edited[0]['payment']['contract']['titular']['fiscal']['activity'] = $data['contract_titular_fiscal_activity'];
+				$edited[0]['payment']['contract']['titular']['address']['street'] = $data['contract_titular_address_street'];
+				$edited[0]['payment']['contract']['titular']['address']['external_number'] = $data['contract_titular_address_external_number'];
+				$edited[0]['payment']['contract']['titular']['address']['internal_number'] = !empty($data['contract_titular_address_internal_number']) ? $data['contract_titular_address_internal_number'] : '';
+				$edited[0]['payment']['contract']['titular']['address']['cp'] = $data['contract_titular_address_cp'];
+				$edited[0]['payment']['contract']['titular']['address']['colony'] = $data['contract_titular_address_colony'];
+				$edited[0]['payment']['contract']['titular']['address']['delegation'] = $data['contract_titular_address_delegation'];
+				$edited[0]['payment']['contract']['titular']['address']['city'] = $data['contract_titular_address_city'];
+				$edited[0]['payment']['contract']['titular']['address']['state'] = $data['contract_titular_address_state'];
+				$edited[0]['payment']['contract']['titular']['address']['country'] = $data['contract_titular_address_country'];
+				$edited[0]['payment']['contract']['titular']['bank']['name'] = $data['contract_titular_bank_name'];
+				$edited[0]['payment']['contract']['titular']['bank']['branch'] = $data['contract_titular_bank_branch'];
+				$edited[0]['payment']['contract']['titular']['bank']['checkbook'] = $data['contract_titular_bank_checkbook'];
+				$edited[0]['payment']['contract']['titular']['bank']['clabe'] = $data['contract_titular_bank_clabe'];
+				$edited[0]['payment']['contract']['titular']['personal_references']['first']['name'] = $data['contract_titular_personal_references_first_name'];
+				$edited[0]['payment']['contract']['titular']['personal_references']['first']['phone']['country'] = $data['contract_titular_personal_references_first_phone_lada'];
+				$edited[0]['payment']['contract']['titular']['personal_references']['first']['phone']['number'] = $data['contract_titular_personal_references_first_phone_number'];
+				$edited[0]['payment']['contract']['titular']['personal_references']['second']['name'] = $data['contract_titular_personal_references_second_name'];
+				$edited[0]['payment']['contract']['titular']['personal_references']['second']['phone']['country'] = $data['contract_titular_personal_references_second_phone_lada'];
+				$edited[0]['payment']['contract']['titular']['personal_references']['second']['phone']['number'] = $data['contract_titular_personal_references_second_phone_number'];
+				$edited[0]['payment']['contract']['titular']['personal_references']['third']['name'] = $data['contract_titular_personal_references_third_name'];
+				$edited[0]['payment']['contract']['titular']['personal_references']['third']['phone']['country'] = $data['contract_titular_personal_references_third_phone_lada'];
+				$edited[0]['payment']['contract']['titular']['personal_references']['third']['phone']['number'] = $data['contract_titular_personal_references_third_phone_number'];
+				$edited[0]['payment']['contract']['titular']['personal_references']['fourth']['name'] = $data['contract_titular_personal_references_fourth_name'];
+				$edited[0]['payment']['contract']['titular']['personal_references']['fourth']['phone']['country'] = $data['contract_titular_personal_references_fourth_phone_lada'];
+				$edited[0]['payment']['contract']['titular']['personal_references']['fourth']['phone']['number'] = $data['contract_titular_personal_references_fourth_phone_number'];
+				$edited[0]['payment']['contract']['titular']['email'] = $data['contract_titular_email'];
+				$edited[0]['payment']['contract']['titular']['phone']['country'] = $data['contract_titular_phone_lada'];
+				$edited[0]['payment']['contract']['titular']['phone']['number'] = $data['contract_titular_phone_number'];
+				$edited[0]['payment']['contract']['titular']['tpv'] = $data['contract_titular_tpv'];
+				$edited[0]['payment']['contract']['company']['writing_number'] = $data['contract_company_writing_number'];
+				$edited[0]['payment']['contract']['company']['writing_date'] = $data['contract_company_writing_date'];
+				$edited[0]['payment']['contract']['company']['public_record_folio'] = $data['contract_company_public_record_folio'];
+				$edited[0]['payment']['contract']['company']['public_record_date'] = $data['contract_company_public_record_date'];
+				$edited[0]['payment']['contract']['company']['notary_name'] = $data['contract_company_notary_name'];
+				$edited[0]['payment']['contract']['company']['notary_number'] = $data['contract_company_notary_number'];
+				$edited[0]['payment']['contract']['company']['city'] = $data['contract_company_city'];
+				$edited[0]['payment']['contract']['company']['legal_representative']['name'] = $data['contract_company_legal_representative_name'];
+				$edited[0]['payment']['contract']['company']['legal_representative']['writing_number'] = $data['contract_company_legal_representative_writing_number'];
+				$edited[0]['payment']['contract']['company']['legal_representative']['writing_date'] = $data['contract_company_legal_representative_writing_date'];
+				$edited[0]['payment']['contract']['company']['legal_representative']['notary_name'] = $data['contract_company_legal_representative_notary_name'];
+				$edited[0]['payment']['contract']['company']['legal_representative']['notary_number'] = $data['contract_company_legal_representative_notary_number'];
+				$edited[0]['payment']['contract']['company']['legal_representative']['city'] = $data['contract_company_legal_representative_city'];
+				$edited[0]['payment']['contract']['company']['legal_representative']['card']['type'] = $data['contract_company_legal_representative_card_type'];
+				$edited[0]['payment']['contract']['company']['legal_representative']['card']['number'] = $data['contract_company_legal_representative_card_number'];
+				$edited[0]['payment']['contract']['company']['legal_representative']['card']['expedition_date'] = $data['contract_company_legal_representative_card_expedition_date'];
+				$edited[0]['payment']['contract']['company']['legal_representative']['card']['validity'] = $data['contract_company_legal_representative_card_validity'];
+			}
+		}
+		else
+			$edited[0]['payment']['status'] = false;
+
+		$query = $this->database->update('accounts', [
+			'payment' => json_encode($edited[0]['payment'])
+		], [
+			'id' => Session::get_value('account')['id']
+		]);
 
 		return $query;
 	}

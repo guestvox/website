@@ -25,5 +25,5 @@ $this->dependencies->add(['js', '{$path.js}Myvox/survey.js']);
 {$mdl_widget}
 <footer class="survey">
     <a href="/">Powered by <img src="{$path.images}logotype_color.png" alt="Guestvox"></a>
-    <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved}</p>
+    <p>Copyright<i class="far fa-copyright"></i>2021 | Guestvox S.A.P.I. de C.V.</p>
 </footer>

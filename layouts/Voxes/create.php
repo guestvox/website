@@ -71,6 +71,17 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         </label>
                     </div>
                 </div>
+                <div class="span3 hidden">
+                    <div class="label">
+                        <label unrequired>
+                            <p>No iniciar</p>
+                            <div class="switch">
+                                <input id="cfsw" type="checkbox" name="automatic_start" data-switcher>
+                                <label for="cfsw"></label>
+                            </div>
+                        </label>
+                    </div>
+                </div>
                 <div class="span3">
                     <div class="label">
                         <label required>
@@ -84,6 +95,14 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         <label required>
                             <p>{$lang.hour}</p>
                             <input type="time" name="started_hour" value="<?php echo Functions::get_current_hour(); ?>">
+                        </label>
+                    </div>
+                </div>
+                <div class="span3">
+                    <div class="label">
+                        <label required>
+                            <p>{$lang.death_line}</p>
+                            <input type="date" name="death_line" value="<?php echo Functions::get_current_date('Y-m-d'); ?>">
                         </label>
                     </div>
                 </div>
@@ -147,7 +166,7 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
                         </label>
                     </div>
                 </div>
-                <div class="span6 hidden">
+                <div class="span3 hidden">
                     <div class="label">
                         <label unrequired>
                             <p>{$lang.subject}</p>

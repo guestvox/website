@@ -31,6 +31,10 @@ class Languages
                 'es' => '¡Gracias por solicitar tu demo!',
                 'en' => '¡Thanks for requesting your demo!'
             ],
+            'thanks_request_quote' => [
+                'es' => '¡Gracias por solicitar tu cotización!',
+                'en' => '¡Thanks for requesting your quote!'
+            ],
             'representative_contact_you' => [
                 'es' => 'En estos días, uno de nuestros representantes se pondrá en contacto contigo para agendar una cita.',
                 'en' => 'These days, one of our representatives will contact you to schedule an appointment.'
@@ -94,6 +98,18 @@ class Languages
             'activated_user_text' => [
                 'es' => 'Hemos activado tu usuario correctamente. Ahora ya puedes iniciar sesión y empezar a trabajar con tu equipo ¡Bienvenido a Guestvox!',
                 'en' => 'We have activated your user correctly. Now you can log in and start working with your team ¡Welcome to Guestvox!'
+            ],
+            'receive_notifications_on_whatsapp' => [
+                'es' => 'Recibe notificaciones en Whatsapp',
+                'en' => 'Receive notifications on WhatsApp'
+            ],
+            'notifications_on_whatsapp' => [
+                'es' => 'Notificaciones en WhatsApp',
+                'en' => 'Notifications on WhatsApp'
+            ],
+            'join' => [
+                'es' => 'Unirse',
+                'en' => 'Join'
             ],
             'login' => [
                 'es' => 'Iniciar sesión',
@@ -176,10 +192,6 @@ class Languages
             'not_location' => [
                 'es' => 'Sin ubicación',
                 'en' => 'Not location'
-            ],
-            'references' => [
-                'es' => 'Referencias',
-                'en' => 'References'
             ],
             'not_references' => [
                 'es' => 'Sin referencias',
@@ -268,6 +280,30 @@ class Languages
             'view_my_order' => [
                 'es' => 'Ver mi pedido',
                 'en' => 'View my order'
+            ],
+            'decline_menu_order' => [
+                'es' => 'Pedido declinado',
+                'en' => 'Declined order'
+            ],
+            'accept_menu_order' => [
+                'es' => 'Pedido aceptado',
+                'en' => 'Accepted order'
+            ],
+            'deliver_menu_order' => [
+                'es' => 'Pedido entregado',
+                'en' => 'Delivered order'
+            ],
+            'decline_menu_order_error' => [
+                'es' => 'Lo sentimos. Tu pedido ha sido rechazado por el establecimiento.',
+                'en' => 'We are sorry. Your order has been rejected by the establishment.'
+            ],
+            'accept_menu_order_success' => [
+                'es' => 'Felicidades. Tu pedido ha sido aceptado. Ya se está preparando.',
+                'en' => 'Congratulations. Your order has been accepted. It is already preparing.'
+            ],
+            'deliver_menu_order_success' => [
+                'es' => 'Muchas gracias. Tu pedido ha sido entregado exitosamente.',
+                'en' => 'Thanks a lot. Your order has been successfully delivered.'
             ]
         ];
 

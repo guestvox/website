@@ -5,7 +5,7 @@ header.request {
     width: 100%;
     height: 120px;
     position: fixed;
-    background-color: #fff;
+    background-color: #00a5ab;
     z-index: 99;
 }
 
@@ -14,7 +14,7 @@ header.request::before {
     width: 100%;
     height: 20px;
     position: absolute;
-    bottom: 0px;
+    bottom: -1px;
     border-radius: 10px 10px 0px 0px;
     background-color: #f5f5f5;
 }
@@ -39,7 +39,7 @@ header.request > figure {
 header.request > figure > img {
     width: auto;
     height: 100%;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 header.request > nav {
@@ -48,7 +48,7 @@ header.request > nav {
     float: right;
     padding: 5px 5px 25px 5px;
     box-sizing: border-box;
-    background-color: #00a5ab;
+    background-color: #24383f;
 }
 
 header.request > nav > ul {

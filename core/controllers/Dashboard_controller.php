@@ -4,21 +4,30 @@ defined('_EXEC') or die;
 
 class Dashboard_controller extends Controller
 {
-	private $lang;
-
 	public function __construct()
 	{
 		parent::__construct();
-
-		$this->lang = Session::get_value('account')['language'];
 	}
 
 	public function index()
 	{
-		$template = $this->view->render($this, 'index');
+		if (Format::exist_ajax_request() == true)
+		{
 
-		define('_title', 'Guestvox | {$lang.dashboard}');
+		}
+		else
+		{
+			$template = $this->view->render($this, 'index');
 
-		echo $template;
+			define('_title', 'Guestvox | {$lang.dashboard}');
+
+			$replace = [
+
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
 	}
 }

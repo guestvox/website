@@ -15,12 +15,11 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
         </div>
     </section>
     <section class="buttons">
+        <?php if (Functions::check_user_access(['{users_create}']) == true) : ?>
         <div>
-            <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <?php if (Functions::check_user_access(['{users_create}']) == true) : ?>
             <a class="new" data-button-modal="new_user"><i class="fas fa-plus"></i></a>
-            <?php endif; ?>
         </div>
+        <?php endif; ?>
     </section>
 </main>
 <?php if (Functions::check_user_access(['{users_create}','{users_update}']) == true) : ?>
@@ -53,7 +52,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span3">
+                    <div class="span2">
                         <div class="label">
                             <label required>
                                 <p>{$lang.lada}</p>
@@ -64,7 +63,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span3">
+                    <div class="span2">
                         <div class="label">
                             <label required>
                                 <p>{$lang.phone}</p>
@@ -72,7 +71,18 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span8">
+                    <div class="span2">
+                        <div class="label">
+                            <label unrequired>
+                                <p>{$lang.whatsapp} <a data-action="get_help" data-text="{$lang.the_user_will_receive_notifications_on_wahtsapp}"><i class="fas fa-question-circle"></i></a></p>
+                                <div class="switch">
+                                    <input id="wasw" type="checkbox" name="whatsapp" data-switcher>
+                                    <label for="wasw"></label>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
                         <div class="label">
                             <label required>
                                 <p>{$lang.username}</p>
@@ -80,7 +90,7 @@ $this->dependencies->add(['other', '<script>menu_focus("users");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span4">
+                    <div class="span6">
                         <div class="label">
                             <label unrequired>
                                 <p>{$lang.user_level}</p>

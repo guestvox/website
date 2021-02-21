@@ -11,6 +11,17 @@ class Opportunitytypes_model extends Model
 
     public function get_opportunity_types()
 	{
+		$where = [
+			'opportunity_types.account' => Session::get_value('account')['id'],
+			'ORDER' => [
+				'opportunity_types.opportunity_area' => 'ASC',
+				'opportunity_types.name' => 'ASC'
+			]
+		];
+
+		if(Session::get_value('settings')['voxes']['opportunity_areas']['filter']['id'] != 'all')
+			$where['opportunity_area'] = Session::get_value('settings')['voxes']['opportunity_areas']['filter']['id'];
+			
 		$query = Functions::get_json_decoded_query($this->database->select('opportunity_types', [
 			'[>]opportunity_areas' => [
 				'opportunity_area' => 'id'
@@ -24,13 +35,7 @@ class Opportunitytypes_model extends Model
 			'opportunity_types.workorder',
 			'opportunity_types.public',
 			'opportunity_types.status'
-		], [
-			'opportunity_types.account' => Session::get_value('account')['id'],
-			'ORDER' => [
-				'opportunity_types.opportunity_area' => 'ASC',
-				'opportunity_types.name' => 'ASC'
-			]
-		]));
+		], $where));
 
 		return $query;
 	}

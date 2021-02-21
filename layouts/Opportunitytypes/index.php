@@ -10,17 +10,31 @@ $this->dependencies->add(['other', '<script>menu_focus("opportunity_types");</sc
 %{header}%
 <main class="dashboard">
     <section class="workspace">
+        <form action="">
+            <div class="row">
+                <div class="span12">
+                    <div class="label">
+                        <label required>
+                            <p>{$lang.opportunity_area}</p>
+                            <select name="search_opportunity_area">
+                                <option value="all"<?php echo ((Session::get_value('settings')['voxes']['opportunity_areas']['filter']['id'] == 'all') ? 'selected' : '')?>>{$lang.all}</option>
+                                {$opt_opportunity_areas}
+                            </select>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
         <div class="tbl_stl_2" data-table>
             {$tbl_opportunity_types}
         </div>
     </section>
     <section class="buttons">
+        <?php if (Functions::check_user_access(['{opportunity_types_create}']) == true) : ?>
         <div>
-            <a data-button-modal="search"><i class="fas fa-search"></i></a>
-            <?php if (Functions::check_user_access(['{opportunity_types_create}']) == true) : ?>
             <a class="new" data-button-modal="new_opportunity_type"><i class="fas fa-plus"></i></a>
-            <?php endif; ?>
         </div>
+        <?php endif; ?>
     </section>
 </main>
 <?php if (Functions::check_user_access(['{opportunity_types_create}','{opportunity_types_update}']) == true) : ?>

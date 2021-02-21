@@ -23,7 +23,6 @@ $this->dependencies->add(['other', '<script>menu_focus("voxes");</script>']);
     </section>
     <section class="buttons">
         <div>
-            <a data-button-modal="search"><i class="fas fa-search"></i></a>
             <a href="/voxes/create" class="new"><i class="fas fa-plus"></i></a>
             <a class="big new" data-button-modal="filter_voxes"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
         </div>

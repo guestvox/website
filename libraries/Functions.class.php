@@ -12,8 +12,7 @@ class Functions
         if (!empty($string))
         {
             $translate = new GoogleTranslate();
-            $translate =  $translate->translate('es', $language, $string);
-            $translate = ucfirst($translate);
+            $translate = $translate->translate('es', $language, $string);
 
             return $translate;
         }
@@ -105,7 +104,7 @@ class Functions
             Functions::set_default_timezone();
 
             if ($format == '+ hrs')
-                return $hour . ' {$lang.hours}';
+                return $hour . ' hrs';
             else
         	    return date($format, strtotime($hour));
         }
@@ -127,7 +126,7 @@ class Functions
             Functions::set_default_timezone();
 
             if ($format == '+ hrs')
-                return $date . ' ' . $hour . ' {$lang.hours}';
+                return $date . ' ' . $hour . ' hrs';
             else
                 return date($format, strtotime($date . ' ' . $hour));
         }
@@ -354,6 +353,20 @@ class Functions
             return null;
 	}
 
+    public static function base_64($file, $upload_directory = PATH_UPLOADS, $extension = 'png')
+    {
+        $security = new Security();
+
+        $file = explode(',', $file);
+        $file = base64_decode($file[1]);
+        $name = Session::get_value('account')['path'] . '_' . $security->random_string(16) . '.' . $extension;
+        $path = $upload_directory . $name;
+
+        file_put_contents($path, $file);
+
+        return $name;
+    }
+
     public static function undoloader($file = null, $upload_directory = PATH_UPLOADS)
     {
         if (!empty($file))
@@ -393,7 +406,7 @@ class Functions
         echo json_encode($return, JSON_PRETTY_PRINT);
     }
 
-    static public function api($connection, $access, $method, $option, $params = null)
+    static public function api($connection, $access, $method, $option = null, $params = null)
     {
         if ($connection == 'zaviapms')
         {
@@ -410,6 +423,131 @@ class Functions
                 curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
 
                 $data = Functions::get_json_decoded_query(curl_exec($api));
+
+                curl_close($api);
+
+                return $data;
+            }
+        }
+        else if ($connection == 'ambit')
+        {
+            if ($method == 'get_token')
+            {
+                $api = curl_init();
+
+                curl_setopt($api, CURLOPT_URL, 'https://deliveryapp.ambit.com.mx/api/login');
+                curl_setopt($api, CURLOPT_POST, true);
+                curl_setopt($api, CURLOPT_POSTFIELDS, [
+                    'email' => $access['username'],
+                    'password' => $access['password']
+                ]);
+                curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
+
+                $data = Functions::get_json_decoded_query(curl_exec($api));
+
+                curl_close($api);
+
+                if (!isset($data['message']))
+                {
+                    return [
+                        'status' => 'success',
+                        'data' => $data['token']
+                    ];
+                }
+                else
+                {
+                    return [
+                        'status' => 'error',
+                        'data' => $data['message']
+                    ];
+                }
+            }
+            else if ($method == 'get_orders')
+            {
+                $token = Functions::api('ambit', $access, 'get_token');
+
+                if ($token['status'] == 'success')
+                {
+                    $api = curl_init();
+
+                    curl_setopt($api, CURLOPT_URL, 'https://deliveryapp.ambit.com.mx/api/orders/101');
+                    curl_setopt($api, CURLOPT_HTTPHEADER, array(
+                        'Content-Type: application/json',
+                        'Authorization: Bearer ' . $token['data']));
+                    curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
+
+                    $data = Functions::get_json_decoded_query(curl_exec($api));
+
+                    curl_close($api);
+
+                    return $data;
+                }
+                else if ($token['status'] == 'error')
+                    return $token['data'];
+            }
+            else if ($method == 'post')
+            {
+                $payload = json_encode($access);
+
+                $key_secret = '083917f2d27dd39e0671d014f011531a831d223a';
+
+                $secret  = hash_hmac('sha256', $payload, $key_secret);
+
+                $api = curl_init();
+
+                curl_setopt($api, CURLOPT_URL, 'https://deliveryapp.ambit.com.mx/notification');
+                curl_setopt($api, CURLOPT_POST, true);
+                curl_setopt($api, CURLOPT_POSTFIELDS, $payload);
+                curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($api, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/json',
+                    'Signature-Webhook: ' . $secret)
+                );
+
+                $data = Functions::get_json_decoded_query(curl_exec($api));
+
+                curl_close($api);
+
+                return $data;
+            }
+        }
+        else if ($connection == 'mit')
+        {
+            if ($method == 'get')
+            {
+                $params =
+                '{
+                  "ammount": ' . $params['amount'] . ',
+                  "businessId": ' . $params['mit'] . ',
+                  "currency": "' . $params['currency'] . '",
+                  "effectiveDate": "' . Functions::get_current_date('d/m/Y') . '",
+                  "id": "' . Session::get_value('myvox')['menu_payment_token'] . '",
+                  "paymentTypes": "' . $params['types'] . '",
+                  "reference": "' . Session::get_value('myvox')['menu_payment_token'] . '",
+                  "station": "Menu digital",
+                  "userCode": "1597160518333",
+                  "valuePairs": [
+                    {
+                      "label": "",
+                      "value": ""
+                    }
+                  ]
+                }';
+
+                $params = AESCrypto::encrypt($params, '22F31F5ECCDD4D29D378FB71B13641EC');
+
+                $api = curl_init();
+
+                curl_setopt($api, CURLOPT_URL, 'https://www.praga.io/praga-ws/url/generateUrlV3');
+                curl_setopt($api, CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($api, CURLOPT_POSTFIELDS, $params);
+                curl_setopt($api, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($api, CURLOPT_HTTPHEADER, array(
+                    'Content-Type: application/json',
+                    'Authorization: Bearer MDc0Mjk5OWItODg4OC00N2IxLWIxNzctMjUzY2E0ZWU5ZmJk'));
+
+                $data = curl_exec($api);
+                $data = json_decode($data, true);
 
                 curl_close($api);
 

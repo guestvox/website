@@ -2,8 +2,8 @@
 
 header('Content-Type: text/xml');
 
-$https = 'https://dev.guestvox.com';
-$database = new mysqli('guestvox.com', 'guestvox', 'Jsw90w&6', 'gv_website_dev');
+$https = 'https://guestvox.com';
+$database = new mysqli('guestvox.com', 'guestvox', 'Jsw90w&6', 'guestvox');
 
 $xml =
 '<?xml version="1.0" encoding="iso-8859-1"?>
@@ -14,37 +14,12 @@ $xml =
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/hola/voxes</loc>
+        <loc>' . $https . '/hoteles</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
     </url>
     <url>
-        <loc>' . $https . '/hola/menu</loc>
-        <changefreq>yearly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/hola/encuestas</loc>
-        <changefreq>yearly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/hola/reseñas</loc>
-        <changefreq>yearly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/hola/hoteles</loc>
-        <changefreq>yearly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/hola/restaurantes</loc>
-        <changefreq>yearly</changefreq>
-        <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/hola/hospitales</loc>
+        <loc>' . $https . '/restaurantes</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
     </url>
@@ -52,16 +27,6 @@ $xml =
         <loc>' . $https . '/webinar</loc>
         <changefreq>yearly</changefreq>
         <priority>1.00</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/terms-and-conditions</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.60</priority>
-    </url>
-    <url>
-        <loc>' . $https . '/privacy-policies</loc>
-        <changefreq>yearly</changefreq>
-        <priority>0.60</priority>
     </url>';
 
 if (!$database->connect_error)

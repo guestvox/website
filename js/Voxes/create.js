@@ -2,6 +2,29 @@
 
 $(document).ready(function()
 {
+    // var pusher = new Pusher('1907b80d942422da0b8e', {
+    //     cluster: 'us2'
+    //   });
+    //
+    // var channel = pusher.subscribe('menu-orders');
+    // channel.bind('new-order', function(data) {
+    //     $.ajax({
+    //         type: 'POST',
+    //         data: 'data=' + data + '&action=notification',
+    //         processData: false,
+    //         cache: false,
+    //         dataType: 'json',
+    //         success: function(response)
+    //         {
+    //             if (response.status == 'success')
+    //                 console.log('Correcto');
+    //             elses (response.status == 'error')
+    //                 console.log('Error');
+    //         }
+    //     });
+    //     // alert(JSON.stringify(data));
+    // });
+
     $('.chosen-select').chosen();
 
     $('[name="type"]').on('change', function()
@@ -77,6 +100,8 @@ $(document).ready(function()
 
         if ($(this).val() == 'request')
         {
+            $('[name="automatic_start"]').parent().parent().parent().parent().addClass('hidden');
+            $('[name="location"]').parent().attr('required', true);
             $('[name="cost"]').parent().parent().parent().addClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().addClass('hidden');
             $('[name="observations"]').parent().parent().parent().removeClass('hidden');
@@ -95,6 +120,8 @@ $(document).ready(function()
         }
         else if ($(this).val() == 'incident')
         {
+            $('[name="automatic_start"]').parent().parent().parent().parent().addClass('hidden');
+            $('[name="location"]').parent().attr('required', true);
             $('[name="cost"]').parent().parent().parent().removeClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().removeClass('hidden');
             $('[name="observations"]').parent().parent().parent().addClass('hidden');
@@ -113,6 +140,8 @@ $(document).ready(function()
         }
         else if ($(this).val() == 'workorder')
         {
+            $('[name="automatic_start"]').parent().parent().parent().parent().removeClass('hidden');
+            $('[name="location"]').parent().attr('required', false);
             $('[name="cost"]').parent().parent().parent().removeClass('hidden');
             $('[name="confidentiality"]').parent().parent().parent().parent().addClass('hidden');
             $('[name="observations"]').parent().parent().parent().removeClass('hidden');
@@ -128,6 +157,20 @@ $(document).ready(function()
             $('[name="reservation_status"]').parent().parent().parent().addClass('hidden');
             $('[name="check_in"]').parent().parent().parent().addClass('hidden');
             $('[name="check_out"]').parent().parent().parent().addClass('hidden');
+        }
+    });
+
+    $('[name="automatic_start"]').on('click', function()
+    {
+        if( $(this).is(':checked'))
+        {
+            $('[name="started_date"]').parent().parent().parent().addClass('hidden');
+            $('[name="started_hour"]').parent().parent().parent().addClass('hidden');
+        }
+        else
+        {
+            $('[name="started_date"]').parent().parent().parent().removeClass('hidden');
+            $('[name="started_hour"]').parent().parent().parent().removeClass('hidden');
         }
     });
 

@@ -37,16 +37,18 @@ class Login_model extends Model
 			'accounts.language(account_language)',
 			'accounts.logotype(account_logotype)',
 			'accounts.qrs(account_qrs)',
+			'accounts.digital_menu(account_digital_menu)',
 			'accounts.operation(account_operation)',
-			'accounts.reputation(account_reputation)',
+			'accounts.surveys(account_surveys)',
 			'accounts.siteminder(account_siteminder)',
 			'accounts.zaviapms(account_zaviapms)',
+			'accounts.ambit(account_ambit)',
 			'accounts.settings(account_settings)',
 			'accounts.status(account_status)',
 			'packages.id(package_id)',
 			'packages.quantity_end(package_quantity_end)'
 		], [
-			'users.username' => $data['username']
+			'users.username' => $data['username'],
 		]));
 
 		if (!empty($query))
@@ -91,10 +93,12 @@ class Login_model extends Model
 						'id' => $query[0]['package_id'],
 						'quantity_end' => $query[0]['package_quantity_end']
 					],
+					'digital_menu' => $query[0]['account_digital_menu'],
 					'operation' => $query[0]['account_operation'],
-					'reputation' => $query[0]['account_reputation'],
+					'surveys' => $query[0]['account_surveys'],
 					'siteminder' => $query[0]['account_siteminder'],
 					'zaviapms' => $query[0]['account_zaviapms'],
+					'ambit' => $query[0]['account_ambit'],
 					'settings' => [
 						'menu' => [
 							'currency' => $query[0]['account_settings']['myvox']['menu']['currency'],
@@ -124,6 +128,11 @@ class Login_model extends Model
 								'end_date' => Functions::get_current_date(),
 								'type' => 'all'
 							]
+						],
+						'opportunity_areas' => [
+							'filter' => [
+								'id' => 'all',
+							]
 						]
 					],
 					'surveys' => [
@@ -142,10 +151,26 @@ class Login_model extends Model
 								'owner' => 'all'
 							]
 						]
+					],
+					'menu' => [
+						'orders' => [
+							'filter' => [
+								'type_service' => 'all',
+								'delivery' => 'all',
+								'accepted' => 'all',
+								'delivered' => 'all'
+							]
+						],
+						'categories' => [
+							'filter' => [
+								'id' => 'all',
+							]
+						]
 					]
 				],
 				'temporal' => [
-					'menu_topics_groups' => []
+					'menu_topics_groups' => [],
+					'token_ambit' => ''
 				]
 			];
 

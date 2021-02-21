@@ -2,8 +2,6 @@
 
 $(document).ready(function()
 {
-    $('.chosen-select').chosen();
-
     $('[data-action="edit_account"]').on('click', function()
     {
         $.ajax({
@@ -121,194 +119,60 @@ $(document).ready(function()
         });
     });
 
+    $('[data-action="edit_location"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=get_account',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="edit_location"]').find('[name="lat"]').val(response.data.location.lat);
+                    $('[data-modal="edit_location"]').find('[name="lng"]').val(response.data.location.lng);
+
+                    required_focus('form', $('form[name="edit_location"]'), null);
+
+                    $('[data-modal="edit_location"]').addClass('view');
+                }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-modal="edit_location"]').modal().onCancel(function()
+    {
+        clean_form($('form[name="edit_location"]'));
+    });
+
+    $('form[name="edit_location"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&action=edit_location',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
+            }
+        });
+    });
+
     var status = '';
     var edit = false;
-
-    $('#rqsw').on('change', function()
-    {
-        if ($(this).is(':checked'))
-            get_myvox_request_settings();
-        else
-        {
-            $.ajax({
-                type: 'POST',
-                data: 'status=' + status + '&action=edit_myvox_request_settings',
-                processData: false,
-                cache: false,
-                dataType: 'json',
-                success: function(response)
-                {
-                    if (response.status == 'success')
-                        location.reload();
-                    else if (response.status == 'error')
-                        show_modal_error(response.message);
-                }
-            });
-        }
-    });
-
-    $('[data-action="edit_myvox_request_settings"]').on('click', function()
-    {
-        edit = true;
-
-        get_myvox_request_settings();
-    });
-
-    function get_myvox_request_settings()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'action=get_account',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    status = true;
-
-                    $('[data-modal="edit_myvox_request_settings"]').find('[name="title_es"]').val(response.data.settings.myvox.request.title.es);
-                    $('[data-modal="edit_myvox_request_settings"]').find('[name="title_en"]').val(response.data.settings.myvox.request.title.en);
-
-                    required_focus('form', $('form[name="edit_myvox_request_settings"]'), null);
-
-                    $('[data-modal="edit_myvox_request_settings"]').addClass('view');
-                }
-                else if (response.status == 'error')
-                    show_modal_error(response.message);
-            }
-        });
-    }
-
-    $('[data-modal="edit_myvox_request_settings"]').modal().onCancel(function()
-    {
-        if (edit == false)
-        {
-            $('#rqsw').prop('checked', false);
-            $('#rqsw').parent().removeClass('checked');
-        }
-
-        status = '';
-        edit = false;
-
-        clean_form($('form[name="edit_myvox_request_settings"]'));
-    });
-
-    $('form[name="edit_myvox_request_settings"]').on('submit', function(e)
-    {
-        e.preventDefault();
-
-        var form = $(this);
-
-        $.ajax({
-            type: 'POST',
-            data: form.serialize() + '&status=' + status + '&action=edit_myvox_request_settings',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    show_modal_success(response.message, 600);
-                else if (response.status == 'error')
-                    show_form_errors(form, response);
-            }
-        });
-    });
-
-    $('#insw').on('change', function()
-    {
-        if ($(this).is(':checked'))
-            get_myvox_incident_settings();
-        else
-        {
-            $.ajax({
-                type: 'POST',
-                data: 'status=' + status + '&action=edit_myvox_incident_settings',
-                processData: false,
-                cache: false,
-                dataType: 'json',
-                success: function(response)
-                {
-                    if (response.status == 'success')
-                        location.reload();
-                    else if (response.status == 'error')
-                        show_modal_error(response.message);
-                }
-            });
-        }
-    });
-
-    $('[data-action="edit_myvox_incident_settings"]').on('click', function()
-    {
-        edit = true;
-
-        get_myvox_incident_settings();
-    });
-
-    function get_myvox_incident_settings()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'action=get_account',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    status = true;
-
-                    $('[data-modal="edit_myvox_incident_settings"]').find('[name="title_es"]').val(response.data.settings.myvox.incident.title.es);
-                    $('[data-modal="edit_myvox_incident_settings"]').find('[name="title_en"]').val(response.data.settings.myvox.incident.title.en);
-
-                    required_focus('form', $('form[name="edit_myvox_incident_settings"]'), null);
-
-                    $('[data-modal="edit_myvox_incident_settings"]').addClass('view');
-                }
-                else if (response.status == 'error')
-                    show_modal_error(response.message);
-            }
-        });
-    }
-
-    $('[data-modal="edit_myvox_incident_settings"]').modal().onCancel(function()
-    {
-        if (edit == false)
-        {
-            $('#insw').prop('checked', false);
-            $('#insw').parent().removeClass('checked');
-        }
-
-        status = '';
-        edit = false;
-
-        clean_form($('form[name="edit_myvox_incident_settings"]'));
-    });
-
-    $('form[name="edit_myvox_incident_settings"]').on('submit', function(e)
-    {
-        e.preventDefault();
-
-        var form = $(this);
-
-        $.ajax({
-            type: 'POST',
-            data: form.serialize() + '&status=' + status + '&action=edit_myvox_incident_settings',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                    show_modal_success(response.message, 600);
-                else if (response.status == 'error')
-                    show_form_errors(form, response);
-            }
-        });
-    });
 
     $('#mnsw').on('change', function()
     {
@@ -357,33 +221,6 @@ $(document).ready(function()
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="title_es"]').val(response1.data.settings.myvox.menu.title.es);
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="title_en"]').val(response1.data.settings.myvox.menu.title.en);
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="currency"]').val(response1.data.settings.myvox.menu.currency);
-                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_area"]').val(response1.data.settings.myvox.menu.opportunity_area);
-
-                    $.ajax({
-                        type: 'POST',
-                        data: 'opportunity_area=' + response1.data.settings.myvox.menu.opportunity_area + '&action=get_opt_opportunity_types',
-                        processData: false,
-                        cache: false,
-                        dataType: 'json',
-                        success: function(response2)
-                        {
-                            if (response2.status == 'success')
-                            {
-                                $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').html(response2.html);
-                                $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').attr('disabled', ((response1.data.settings.myvox.menu.opportunity_type != '') ? false : true));
-                                $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').val(response1.data.settings.myvox.menu.opportunity_type);
-
-                                required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]'), null);
-                            }
-                            else if (response2.status == 'error')
-                                show_modal_error(response2.message);
-                        }
-                    });
-
-                    if (response1.data.type == 'restaurant')
-                        $('[data-modal="edit_myvox_menu_settings"]').find('[name="delivery"]').prop('checked', ((response1.data.settings.myvox.menu.delivery == true) ? true : false));
-
-                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="requests"]').prop('checked', ((response1.data.settings.myvox.menu.requests == true) ? true : false));
 
                     if (response1.data.settings.myvox.menu.schedule.monday.status == 'open')
                     {
@@ -545,7 +382,16 @@ $(document).ready(function()
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_status"]').val(response1.data.settings.myvox.menu.schedule.sunday.status);
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_opening"]').val(response1.data.settings.myvox.menu.schedule.sunday.opening);
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]').val(response1.data.settings.myvox.menu.schedule.sunday.closing);
+                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="requests"]').prop('checked', ((response1.data.settings.myvox.menu.requests == true) ? true : false));
+                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="delivery"]').prop('checked', ((response1.data.settings.myvox.menu.delivery == true) ? true : false));
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="multi"]').prop('checked', ((response1.data.settings.myvox.menu.multi == true) ? true : false));
+
+                    if (response1.data.settings.myvox.menu.delivery == true)
+                        $('#menu_rad').parent().parent().parent().removeClass('hidden');
+                    else
+                        $('#menu_rad').parent().parent().parent().addClass('hidden');
+
+                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="sell_radius"]').val(response1.data.settings.myvox.menu.sell_radius);
 
                     required_focus('form', $('form[name="edit_myvox_menu_settings"]'), null);
 
@@ -556,27 +402,6 @@ $(document).ready(function()
             }
         });
     }
-
-    $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_area"]').on('change', function()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'opportunity_area=' + $(this).val() + '&action=get_opt_opportunity_types',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
-                {
-                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').html(response.html);
-                    $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]').attr('disabled', false);
-
-                    required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="opportunity_type"]'), null);
-                }
-            }
-        });
-    });
 
     $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_monday_status"]').on('change', function()
     {
@@ -933,6 +758,14 @@ $(document).ready(function()
         required_focus('input', $('[data-modal="edit_myvox_menu_settings"]').find('[name="schedule_sunday_closing"]'), null);
     });
 
+    $('[name="delivery"]').on('change', function()
+    {
+        if ($(this).is(':checked'))
+            $('#menu_rad').parent().parent().parent().removeClass('hidden');
+        else
+            $('#menu_rad').parent().parent().parent().addClass('hidden');
+    });
+
     $('[data-modal="edit_myvox_menu_settings"]').modal().onCancel(function()
     {
         if (edit == false)
@@ -956,6 +789,248 @@ $(document).ready(function()
         $.ajax({
             type: 'POST',
             data: form.serialize() + '&status=' + status + '&action=edit_myvox_menu_settings',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
+            }
+        });
+    });
+
+    $('#rqsw').on('change', function()
+    {
+        if ($(this).is(':checked'))
+            get_myvox_request_settings();
+        else
+        {
+            $.ajax({
+                type: 'POST',
+                data: 'status=' + status + '&action=edit_myvox_request_settings',
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
+                {
+                    if (response.status == 'success')
+                        location.reload();
+                    else if (response.status == 'error')
+                        show_modal_error(response.message);
+                }
+            });
+        }
+    });
+
+    $('[data-action="edit_myvox_request_settings"]').on('click', function()
+    {
+        edit = true;
+
+        get_myvox_request_settings();
+    });
+
+    function get_myvox_request_settings()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=get_account',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    status = true;
+
+                    $('[data-modal="edit_myvox_request_settings"]').find('[name="title_es"]').val(response.data.settings.myvox.request.title.es);
+                    $('[data-modal="edit_myvox_request_settings"]').find('[name="title_en"]').val(response.data.settings.myvox.request.title.en);
+
+                    required_focus('form', $('form[name="edit_myvox_request_settings"]'), null);
+
+                    $('[data-modal="edit_myvox_request_settings"]').addClass('view');
+                }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    }
+
+    $('[data-modal="edit_myvox_request_settings"]').modal().onCancel(function()
+    {
+        if (edit == false)
+        {
+            $('#rqsw').prop('checked', false);
+            $('#rqsw').parent().removeClass('checked');
+        }
+
+        status = '';
+        edit = false;
+
+        clean_form($('form[name="edit_myvox_request_settings"]'));
+    });
+
+    $('form[name="edit_myvox_request_settings"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&status=' + status + '&action=edit_myvox_request_settings',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
+            }
+        });
+    });
+
+    $('#insw').on('change', function()
+    {
+        if ($(this).is(':checked'))
+            get_myvox_incident_settings();
+        else
+        {
+            $.ajax({
+                type: 'POST',
+                data: 'status=' + status + '&action=edit_myvox_incident_settings',
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
+                {
+                    if (response.status == 'success')
+                        location.reload();
+                    else if (response.status == 'error')
+                        show_modal_error(response.message);
+                }
+            });
+        }
+    });
+
+    $('[data-action="edit_myvox_incident_settings"]').on('click', function()
+    {
+        edit = true;
+
+        get_myvox_incident_settings();
+    });
+
+    function get_myvox_incident_settings()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=get_account',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    status = true;
+
+                    $('[data-modal="edit_myvox_incident_settings"]').find('[name="title_es"]').val(response.data.settings.myvox.incident.title.es);
+                    $('[data-modal="edit_myvox_incident_settings"]').find('[name="title_en"]').val(response.data.settings.myvox.incident.title.en);
+
+                    required_focus('form', $('form[name="edit_myvox_incident_settings"]'), null);
+
+                    $('[data-modal="edit_myvox_incident_settings"]').addClass('view');
+                }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    }
+
+    $('[data-modal="edit_myvox_incident_settings"]').modal().onCancel(function()
+    {
+        if (edit == false)
+        {
+            $('#insw').prop('checked', false);
+            $('#insw').parent().removeClass('checked');
+        }
+
+        status = '';
+        edit = false;
+
+        clean_form($('form[name="edit_myvox_incident_settings"]'));
+    });
+
+    $('form[name="edit_myvox_incident_settings"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&status=' + status + '&action=edit_myvox_incident_settings',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    show_modal_success(response.message, 600);
+                else if (response.status == 'error')
+                    show_form_errors(form, response);
+            }
+        });
+    });
+
+    $('[data-action="edit_voxes_attention_times_settings"]').on('click', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'action=get_account',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                {
+                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="request_low"]').val(response.data.settings.voxes.attention_times.request.low);
+                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="request_medium"]').val(response.data.settings.voxes.attention_times.request.medium);
+                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="request_high"]').val(response.data.settings.voxes.attention_times.request.high);
+                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="incident_low"]').val(response.data.settings.voxes.attention_times.incident.low);
+                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="incident_medium"]').val(response.data.settings.voxes.attention_times.incident.medium);
+                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="incident_high"]').val(response.data.settings.voxes.attention_times.incident.high);
+
+                    required_focus('form', $('form[name="edit_voxes_attention_times_settings"]'), null);
+
+                    $('[data-modal="edit_voxes_attention_times_settings"]').addClass('view');
+                }
+                else if (response.status == 'error')
+                    show_modal_error(response.message);
+            }
+        });
+    });
+
+    $('[data-modal="edit_voxes_attention_times_settings"]').modal().onCancel(function()
+    {
+        clean_form($('form[name="edit_voxes_attention_times_settings"]'));
+    });
+
+    $('form[name="edit_voxes_attention_times_settings"]').on('submit', function(e)
+    {
+        e.preventDefault();
+
+        var form = $(this);
+
+        $.ajax({
+            type: 'POST',
+            data: form.serialize() + '&action=edit_voxes_attention_times_settings',
             processData: false,
             cache: false,
             dataType: 'json',
@@ -1200,49 +1275,96 @@ $(document).ready(function()
         });
     });
 
-    $('[data-action="edit_voxes_attention_times_settings"]').on('click', function()
+    $('#pysw').on('change', function()
     {
-        $.ajax({
-            type: 'POST',
-            data: 'action=get_account',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response)
-            {
-                if (response.status == 'success')
+        if ($(this).is(':checked'))
+            get_payment();
+        else
+        {
+            $.ajax({
+                type: 'POST',
+                data: 'status=' + status + '&action=edit_payment',
+                processData: false,
+                cache: false,
+                dataType: 'json',
+                success: function(response)
                 {
-                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="request_low"]').val(response.data.settings.voxes.attention_times.request.low);
-                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="request_medium"]').val(response.data.settings.voxes.attention_times.request.medium);
-                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="request_high"]').val(response.data.settings.voxes.attention_times.request.high);
-                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="incident_low"]').val(response.data.settings.voxes.attention_times.incident.low);
-                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="incident_medium"]').val(response.data.settings.voxes.attention_times.incident.medium);
-                    $('[data-modal="edit_voxes_attention_times_settings"]').find('[name="incident_high"]').val(response.data.settings.voxes.attention_times.incident.high);
-
-                    required_focus('form', $('form[name="edit_voxes_attention_times_settings"]'), null);
-
-                    $('[data-modal="edit_voxes_attention_times_settings"]').addClass('view');
+                    if (response.status == 'success')
+                        location.reload();
+                    else if (response.status == 'error')
+                        show_modal_error(response.message);
                 }
-                else if (response.status == 'error')
-                    show_modal_error(response.message);
-            }
-        });
+            });
+        }
     });
 
-    $('[data-modal="edit_voxes_attention_times_settings"]').modal().onCancel(function()
+    $('[data-action="edit_payment"]').on('click', function()
     {
-        clean_form($('form[name="edit_voxes_attention_times_settings"]'));
+        edit = true;
+
+        get_payment();
     });
 
-    $('form[name="edit_voxes_attention_times_settings"]').on('submit', function(e)
+    function get_payment()
+    {
+        status = true;
+
+        required_focus('form', $('form[name="edit_payment"]'), null);
+
+        $('[data-modal="edit_payment"]').addClass('view');
+    }
+
+    var contract_signature = document.getElementById('contract_signature');
+
+    if (contract_signature)
+    {
+        var contract_canvas = contract_signature.querySelector('canvas');
+        var contract_pad = new SignaturePad(contract_canvas, {
+            backgroundColor: 'rgb(255, 255, 255)'
+        });
+
+        resize_canvas(contract_canvas);
+
+        $('[data-action="clean_contract_signature"]').on('click', function()
+        {
+            contract_pad.clear();
+        });
+    }
+
+    $('[data-modal="edit_payment"]').modal().onCancel(function()
+    {
+        if (edit == false)
+        {
+            $('#pysw').prop('checked', false);
+            $('#pysw').parent().removeClass('checked');
+        }
+
+        status = '';
+        edit = false;
+
+        clean_form($('form[name="edit_payment"]'));
+    });
+
+    $('form[name="edit_payment"]').on('submit', function(e)
     {
         e.preventDefault();
 
         var form = $(this);
+        var data = new FormData(form[0]);
+
+        if (contract_signature)
+        {
+            contract_pad.fromData(contract_pad.toData());
+            data.append('contract_signature', ((contract_pad.isEmpty()) ? '' : contract_pad.toDataURL('image/jpeg')));
+        }
+
+        data.append('status', status);
+        data.append('action', 'edit_payment');
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=edit_voxes_attention_times_settings',
+            data: data,
+            contentType: false,
             processData: false,
             cache: false,
             dataType: 'json',
@@ -1256,3 +1378,143 @@ $(document).ready(function()
         });
     });
 });
+
+var location_map_coords = {};
+var location_map_marker;
+var menu_map_coords = {};
+var menu_map_marker;
+var menu_map_radius;
+
+function map()
+{
+    location_map_coords =  {
+        lat: $('#location_map').data('lat'),
+        lng: $('#location_map').data('lng')
+    };
+
+    menu_map_coords =  {
+        lat: $('#menu_map').data('lat'),
+        lng: $('#menu_map').data('lng'),
+        rad: $('#menu_map').data('rad')
+    };
+
+    if ($('#location_map').data('lat').length <= 0 || $('#location_map').data('lng').length <= 0)
+    {
+        if (navigator.geolocation)
+        {
+            navigator.geolocation.getCurrentPosition(function(position) {
+
+                location_map_coords.lat = position.coords.latitude;
+    			location_map_coords.lng = position.coords.longitude;
+                menu_map_coords.lat = position.coords.latitude;
+    			menu_map_coords.lng = position.coords.longitude;
+
+                set_map(location_map_coords, menu_map_coords);
+
+            }, function(error) {
+
+                // alert('Porfavor, activa tu ubicación y posteriormente haz click en aceptar.');
+
+                // location.reload();
+
+            });
+        }
+        else
+        {
+            alert('Tu navegador no soporta la ubicación a tiempo real');
+
+            location_map_coords.lat = 21.1213285;
+            location_map_coords.lng = -86.9192739;
+            menu_map_coords.lat = 21.1213285;
+            menu_map_coords.lng = -86.9192739;
+
+            set_map(location_map_coords, menu_map_coords);
+        }
+    }
+    else
+        set_map(location_map_coords, menu_map_coords);
+
+    document.getElementById("menu_rad").onkeyup = function()
+    {
+        var rewrite_menu_map_coords =  {
+            lat: menu_map_coords.lat,
+            lng: menu_map_coords.lng,
+            rad: parseInt(document.getElementById("menu_rad").value)
+        };
+
+        set_map(location_map_coords, rewrite_menu_map_coords);
+    };
+}
+
+function set_map(location_map_coords, menu_map_coords)
+{
+    document.getElementById("location_lat").value = location_map_coords["lat"];
+    document.getElementById("location_lng").value = location_map_coords["lng"];
+    document.getElementById("menu_rad").value = menu_map_coords["rad"];
+
+    var location_map = new google.maps.Map(document.getElementById("location_map"),
+    {
+        zoom: 13,
+        center:new google.maps.LatLng(location_map_coords.lat,location_map_coords.lng)
+    });
+
+    location_map_marker = new google.maps.Marker({
+        map: location_map,
+        title: "Tú",
+        draggable: true,
+        animation: google.maps.Animation.DROP,
+        position: new google.maps.LatLng(location_map_coords.lat,location_map_coords.lng)
+    });
+
+    location_map_marker.addListener("click", location_map_toggle_bounce);
+    location_map_marker.addListener("dragend", function (event)
+    {
+        document.getElementById("location_lat").value = this.getPosition().lat();
+        document.getElementById("location_lng").value = this.getPosition().lng();
+    });
+
+    var menu_map_zoom;
+
+    if (menu_map_coords.rad <= 999)
+        menu_map_zoom = 13;
+    else if (menu_map_coords.rad > 999 && menu_map_coords.rad <= 5000)
+        menu_map_zoom = 11;
+    else if (menu_map_coords.rad > 5000 || menu_map_coords.rad <= 10000)
+        menu_map_zoom = 10;
+    else if (menu_map_coords.rad > 10000)
+        menu_map_zoom = 9;
+
+    var menu_map = new google.maps.Map(document.getElementById("menu_map"),
+    {
+        zoom: menu_map_zoom,
+        center:new google.maps.LatLng(menu_map_coords.lat,menu_map_coords.lng)
+    });
+
+    menu_map_marker = new google.maps.Marker({
+        map: menu_map,
+        title: "Tú",
+        position: new google.maps.LatLng(menu_map_coords.lat,menu_map_coords.lng)
+    });
+
+    var menu_map_radius = new google.maps.Circle({
+        strokeColor: "#fa7268",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "#fa7268",
+        fillOpacity: 0.2,
+        map: menu_map,
+        center: {
+            lat: menu_map_coords.lat,
+            lng: menu_map_coords.lng
+        },
+        radius: menu_map_coords.rad
+    });
+}
+
+function location_map_toggle_bounce()
+{
+    if (location_map_marker.getAnimation() !== null)
+        location_map_marker.setAnimation(null);
+    else
+        location_map_marker.setAnimation(google.maps.Animation.BOUNCE);
+}

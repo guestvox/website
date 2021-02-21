@@ -4,23 +4,6 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.css}Index/index.css']);
 $this->dependencies->add(['js', '{$path.js}Index/index.js']);
-$this->dependencies->add(['others', '<!-- Facebook Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version="2.0";
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,"script",
-"https://connect.facebook.net/en_US/fbevents.js");
-fbq("init", "359062025275113");
-fbq("track", "PageView");
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=359062025275113&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Facebook Pixel Code -->']);
 $this->dependencies->add(['others',
 '<div id="fb-root"></div>
 <script>
@@ -48,9 +31,10 @@ $this->dependencies->add(['others',
         </figure>
         <nav class="desktop">
             <ul>
-                <li><a href="/blog">{$lang.blog}</a></li>
-                <li class="focus"><a href="/signup">¡{$lang.signup_free}!</a></li>
-                <li><a href="/login">{$lang.login}</a></li>
+                <li><a href="#solutions" data-smooth-scroll>{$lang.solutions}</a></li>
+                <li><a href="#prices" data-smooth-scroll>{$lang.specialized_packages}</a></li>
+                <li class="focus"><a href="/login">{$lang.login}</a></li>
+                <li><a href="https://blog.guestvox.com">{$lang.blog}</a></li>
             </ul>
         </nav>
         <nav class="mobile">
@@ -71,7 +55,29 @@ $this->dependencies->add(['others',
             <p>{$lang.landing_page_index_stl_1_text_2}</p>
         </div>
     </section>
-    <section class="stl_2">
+    <section id="solutions" class="stl_2">
+        <figure>
+            <img src="{$path.images}index/stl_2_image_2.png" alt="Background">
+        </figure>
+        <div>
+            <h2>{$lang.landing_page_index_stl_2_text_5}</h2>
+            <div>
+                <div>
+                    <i class="fas fa-mobile"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_6}</p>
+                </div>
+                <div>
+                    <i class="fas fa-user-ninja"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_7}</p>
+                </div>
+                <div>
+                    <i class="fas fa-qrcode"></i>
+                    <p>{$lang.landing_page_index_stl_2_text_8}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="stl_3">
         <figure>
             <img src="{$path.images}index/stl_2_image_1.png" alt="Background">
         </figure>
@@ -91,30 +97,6 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_2_text_4}</p>
                 </div>
             </div>
-            <a href="/hola/voxes">{$lang.know_more}</a>
-        </div>
-    </section>
-    <section class="stl_3">
-        <figure>
-            <img src="{$path.images}index/stl_2_image_2.png" alt="Background">
-        </figure>
-        <div>
-            <h2>{$lang.landing_page_index_stl_2_text_5}</h2>
-            <div>
-                <div>
-                    <i class="fas fa-concierge-bell"></i>
-                    <p>{$lang.landing_page_index_stl_2_text_6}</p>
-                </div>
-                <div>
-                    <i class="fas fa-user-ninja"></i>
-                    <p>{$lang.landing_page_index_stl_2_text_7}</p>
-                </div>
-                <div>
-                    <i class="fas fa-qrcode"></i>
-                    <p>{$lang.landing_page_index_stl_2_text_8}</p>
-                </div>
-            </div>
-            <a href="/hola/menu">{$lang.know_more}</a>
         </div>
     </section>
     <section class="stl_2">
@@ -137,69 +119,41 @@ $this->dependencies->add(['others',
                     <p>{$lang.landing_page_index_stl_2_text_12}</p>
                 </div>
             </div>
-            <a href="/hola/encuestas">{$lang.know_more}</a>
         </div>
     </section>
-    <section class="stl_3">
-        <figure>
-            <img src="{$path.images}index/stl_2_image_4.png" alt="Background">
-        </figure>
+    <section id="prices" class="stl_4">
         <div>
-            <h2>{$lang.landing_page_index_stl_2_text_13}</h2>
             <div>
-                <div>
-                    <i class="fas fa-star"></i>
-                    <p>{$lang.landing_page_index_stl_2_text_14}</p>
-                </div>
-                <div>
-                    <i class="fas fa-comment"></i>
-                    <p>{$lang.landing_page_index_stl_2_text_15}</p>
-                </div>
-                <div>
-                    <i class="fas fa-qrcode"></i>
-                    <p>{$lang.landing_page_index_stl_2_text_16}</p>
-                </div>
+                <i class="fas fa-hotel"></i>
+                <h2>{$lang.guestvox_hotels}</h2>
+                <!-- <a href="/hoteles">{$lang.discover_more}</a> -->
+                <a href="/404">{$lang.discover_more}</a>
+                <p>{$lang.guestvox_hotels_text}</p>
+                <a data-button-modal="quote_hotel">{$lang.quote_now}</a>
             </div>
-            <!-- <a href="/hola/resenas">{$lang.know_more}</a> -->
         </div>
-    </section>
-    <section class="stl_4">
         <div>
-            <div>
-                <i class="fas fa-bed"></i>
-                <p>{$lang.landing_page_index_stl_4_text_1}</p>
-                <a href="/hola/hoteles">{$lang.know_more}</a>
-            </div>
             <div>
                 <i class="fas fa-utensils"></i>
-                <p>{$lang.landing_page_index_stl_4_text_2}</p>
-                <a href="/hola/restaurantes">{$lang.know_more}</a>
-            </div>
-            <div>
-                <i class="fas fa-stethoscope"></i>
-                <p>{$lang.landing_page_index_stl_4_text_3}</p>
-                <a href="/hola/hospitales">{$lang.know_more}</a>
+                <h2>{$lang.guestvox_restaurants}</h2>
+                <!-- <a href="/restaurantes">{$lang.discover_more}</a> -->
+                <a href="/404">{$lang.discover_more}</a>
+                <p>{$lang.guestvox_restaurants_text}</p>
+                <a data-button-modal="quote_restaurant">{$lang.quote_now}</a>
             </div>
         </div>
         <div>
             <div>
-                <i class="fas fa-tablet-alt"></i>
-                <p>{$lang.landing_page_index_stl_4_text_4}</p>
-            </div>
-            <div>
-                <i class="fas fa-cloud"></i>
-                <p>{$lang.landing_page_index_stl_4_text_5}</p>
-            </div>
-            <div>
-                <i class="fas fa-lock"></i>
-                <p>{$lang.landing_page_index_stl_4_text_6}</p>
+                <i class="fas fa-grin-stars"></i>
+                <h2>{$lang.guestvox_personalize}</h2>
+                <!-- <a href="/personaliza">¡{$lang.personalize_now}!</a> -->
+                <a href="/404">¡{$lang.personalize_now}!</a>
+                <p>{$lang.guestvox_personalize_text}</p>
+                <a data-button-modal="quote_personalize">{$lang.quote_now}</a>
             </div>
         </div>
-        <figure>
-            <img src="{$path.images}index/stl_4_image_1.png" alt="Background">
-        </figure>
     </section>
-    <section class="stl_5">
+    <!-- <section class="stl_5">
         <h2>{$lang.landing_page_index_stl_5_text_1}</h2>
         <h3>{$lang.landing_page_index_stl_5_text_2}</h3>
         <div>
@@ -223,11 +177,12 @@ $this->dependencies->add(['others',
             <figure>
                 <a href="https://zaviaerp.com/"><img src="{$path.images}index/stl_5_image_6.png" alt="Partner"></a>
             </figure>
-            <!-- <figure>
-                <img src="https://www.comparasoftware.com/wp-content/uploads/2019/05/comparasoftware_verificado.png" alt="Partner">
-            </figure> -->
         </div>
-        <a href="/signup">¡{$lang.signup_free}!</a>
+        <div>
+            <figure>
+                <img src="https://www.comparasoftware.com/wp-content/uploads/2019/05/comparasoftware_verificado.png" alt="Partner">
+            </figure>
+        </div>
     </section>
     <section class="stl_6">
         <h2>{$lang.landing_page_index_stl_6_text_1}<i class="fas fa-heart"></i>{$lang.landing_page_index_stl_6_text_2}</h2>
@@ -254,23 +209,19 @@ $this->dependencies->add(['others',
                 <h3>Gersón Gómez</h3>
                 <h4>{$lang.cto}</h4>
             </div>
-        </div>
-        <div>
             <div>
                 <figure>
                     <img src="{$path.images}index/stl_6_image_4.png" alt="Work team">
                 </figure>
                 <h3>Saúl Poot</h3>
-                <h4>{$lang.chief_programmer_web}</h4>
-            </div>
-            <div>
-                <figure>
-                    <img src="{$path.images}index/stl_6_image_5.png" alt="Work team">
-                </figure>
-                <h3>David Gómez</h3>
-                <h4>{$lang.chief_programmer_mobile}</h4>
+                <h4>{$lang.chief_programmer}</h4>
             </div>
         </div>
+    </section> -->
+    <section class="contacts">
+        <a data-button-modal="quote_personalize" data-email><i class="fas fa-envelope"></i></a>
+        <a href="tel:+520987654321" data-phone><i class="fas fa-phone"></i></a>
+        <a href="https://api.whatsapp.com/send?phone=+520987654321" data-whatsapp target="_blank"><i class="fab fa-whatsapp"></i></a>
     </section>
     <div id="fb-root"></div>
     <script>
@@ -301,10 +252,182 @@ $this->dependencies->add(['others',
             <a href="https://www.youtube.com/channel/UCKSAce4n1NqahbL5RQ8QN9Q" target="_blank"><i class="fab fa-youtube"></i></a>
         </div>
         <div>
-            <a href="/terms-and-conditions" target="_blank">{$lang.terms_and_conditions}</a>
+            <!-- <a href="/acerca-de-nosotros">{$lang.about_us}</a> -->
+            <a href="/404">{$lang.about_us}</a>
             <i class="fas fa-circle"></i>
-            <a href="/privacy-policies" target="_blank">{$lang.privacy_policies}</a>
+            <a href="/terminos-y-condiciones" target="_blank">{$lang.terms_and_conditions}</a>
+            <i class="fas fa-circle"></i>
+            <a href="/politicas-de-privacidad" target="_blank">{$lang.privacy_policies}</a>
         </div>
-        <p>Copyright<i class="far fa-copyright"></i>{$lang.all_right_reserved}</p>
+        <p>Copyright<i class="far fa-copyright"></i>2021 | Guestvox S.A.P.I. de C.V.</p>
     </footer>
 </main>
+<section class="modal" data-modal="quote_hotel">
+    <div class="content">
+        <main>
+            <form name="quote_hotel">
+                <div class="row">
+                    <div class="span8">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.hotel_name}</p>
+                                <input type="text" name="business">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.hotel_rooms}</p>
+                                <input type="number" name="quantity">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.contact_name}</p>
+                                <input type="text" name="name">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.contact_email}</p>
+                                <input type="text" name="email">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.contact_phone}</p>
+                                <input type="text" name="phone">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <p>{$lang.to_send_form}</p>
+                    </div>
+                    <div class="span12">
+                        <div class="buttons">
+                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+</section>
+<section class="modal" data-modal="quote_restaurant">
+    <div class="content">
+        <main>
+            <form name="quote_restaurant">
+                <div class="row">
+                    <div class="span8">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.restaurant_name}</p>
+                                <input type="text" name="business">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.restaurant_tables}</p>
+                                <input type="number" name="quantity">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.contact_name}</p>
+                                <input type="text" name="name">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.contact_email}</p>
+                                <input type="text" name="email">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.contact_phone}</p>
+                                <input type="text" name="phone">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <p>{$lang.to_send_form}</p>
+                    </div>
+                    <div class="span12">
+                        <div class="buttons">
+                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+</section>
+<section class="modal" data-modal="quote_personalize">
+    <div class="content">
+        <main>
+            <form name="quote_personalize">
+                <div class="row">
+                    <div class="span12">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.business_name}</p>
+                                <input type="text" name="business">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.contact_name}</p>
+                                <input type="text" name="name">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.contact_email}</p>
+                                <input type="text" name="email">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>{$lang.contact_phone}</p>
+                                <input type="text" name="phone">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12">
+                        <p>{$lang.to_send_form}</p>
+                    </div>
+                    <div class="span12">
+                        <div class="buttons">
+                            <a class="delete" button-cancel><i class="fas fa-times"></i></a>
+                            <button type="submit" class="new"><i class="fas fa-check"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+</section>

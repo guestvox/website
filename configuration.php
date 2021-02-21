@@ -47,7 +47,7 @@ class Configuration
 	 *
      * @var string $error_reporting
      */
-	public static $error_reporting = 'none';
+	public static $error_reporting = 'development';
 
 	/**
      * Modo para debuggear errores.
@@ -147,7 +147,7 @@ class Configuration
 	 *
      * @var string $db_name
      */
-	public static $db_name = 'gv_website';
+	public static $db_name = 'guestvox';
 
 	/**
      * Usuario de la base de datos
@@ -249,7 +249,7 @@ class Configuration
 	 *
      * @var string $smtp_pass
      */
-	public static $smtp_pass = '5xb2r1@W';
+	public static $smtp_pass = 'Hsi63p6@';
 
 	/**
      * Seguridad de la encriptacion para el envio de SMTP.

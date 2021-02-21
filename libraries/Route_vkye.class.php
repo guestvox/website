@@ -20,21 +20,12 @@ class Route_vkye
 
         $redirection_paths = [
             '/Index/index',
-            '/Hi/voxes',
-            '/Hi/menu',
-            '/Hi/surveys',
-            '/Hi/reviews',
             '/Hi/hotels',
             '/Hi/restaurants',
-            '/Hi/hospitals',
-            '/Hi/enlace',
             '/Hi/webinar',
-            '/Policies/terms',
-            '/Policies/privacy',
-            '/Signup/index',
-            '/Signup/activate',
-            '/Login/index',
-            '/Api/execute'
+            '/Personalize/index',
+            '/Activate/index',
+            '/Login/index'
         ];
 
         $not_redirection_paths = [
@@ -43,7 +34,10 @@ class Route_vkye
             '/Myvox/incident',
             '/Myvox/menu',
             '/Myvox/survey',
-            '/Reviews/index'
+            '/Reviews/index',
+            '/Policies/terms',
+            '/Policies/privacy',
+            '/Api/execute'
         ];
 
         if (in_array($this->path, $redirection_paths) OR in_array($this->path, $not_redirection_paths))

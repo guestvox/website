@@ -185,6 +185,8 @@ $(document).ready(function ()
             }
         });
     });
+
+    window.onresize = resize_canvas;
 });
 
 function menu_focus(target)
@@ -515,4 +517,13 @@ function get_time_elapsed(date_1, date_2, time_zone, status, target)
     target.html(time_elapsed);
 
     setTimeout(function() { get_time_elapsed(date_1, date_2, time_zone, status, target); }, 600);
+}
+
+function resize_canvas(target)
+{
+    var ratio = Math.max(window.devicePixelRatio || 1, 1);
+
+    target.width = target.offsetWidth * ratio;
+    target.height = target.offsetHeight * ratio;
+    target.getContext('2d').scale(ratio, ratio);
 }

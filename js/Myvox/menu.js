@@ -106,30 +106,26 @@ $(document).ready(function()
         });
     });
 
-    $('[name="owner"]').on('change', function()
-    {
-        $.ajax({
-            type: 'POST',
-            data: 'owner=' + $(this).val() + '&action=get_owner',
-            processData: false,
-            cache: false,
-            dataType: 'json',
-            success: function(response) { }
-        });
-    });
-
     $('[name="delivery"]').on('change', function()
     {
-        if ($(this).val() == 'home')
+        if ($(this).val() == 'bring')
         {
             $('[name="address"]').parent().parent().parent().removeClass('hidden');
-            $('[name="references"]').parent().parent().parent().removeClass('hidden');
+            $('#delivery_map').parent().removeClass('hidden');
         }
-        else if ($(this).val() == 'restaurant')
+        else if ($(this).val() == 'collect')
         {
             $('[name="address"]').parent().parent().parent().addClass('hidden');
-            $('[name="references"]').parent().parent().parent().addClass('hidden');
+            $('#delivery_map').parent().addClass('hidden');
         }
+    });
+
+    $('[name="payment_method"]').on('change', function()
+    {
+        if ($(this).val() == 'credit_card' || $(this).val() == 'debit_card')
+            $('#payment_with_card').removeClass('hidden');
+        else if ($(this).val() == 'cash')
+            $('#payment_with_card').addClass('hidden');
     });
 
     $('form[name="new_menu_order"]').on('submit', function(e)
@@ -239,4 +235,68 @@ function load_preview_menu_product_actions()
 
         $('[data-modal="preview_menu_product"]').find('main').html('');
     });
+}
+
+var delivery_map_coords = {};
+var delivery_map_marker;
+
+function map()
+{
+    delivery_map_coords =  {
+        lat: $('#delivery_map').data('lat'),
+        lng: $('#delivery_map').data('lng')
+    };
+
+    if (navigator.geolocation)
+    {
+        navigator.geolocation.getCurrentPosition(function(position) {
+
+            delivery_map_coords.lat = position.coords.latitude;
+			delivery_map_coords.lng = position.coords.longitude;
+
+            set_map(delivery_map_coords);
+
+        }, function(errors) {
+
+            set_map(delivery_map_coords);
+
+        });
+    }
+    else
+        set_map(delivery_map_coords);
+}
+
+function set_map(delivery_map_coords)
+{
+    document.getElementById("delivery_lat").value = delivery_map_coords["lat"];
+    document.getElementById("delivery_lng").value = delivery_map_coords["lng"];
+
+    var delivery_map = new google.maps.Map(document.getElementById("delivery_map"),
+    {
+        zoom: 13,
+        center:new google.maps.LatLng(delivery_map_coords.lat,delivery_map_coords.lng)
+    });
+
+    delivery_map_marker = new google.maps.Marker({
+        map: delivery_map,
+        title: "Tú",
+        draggable: true,
+        animation: google.maps.Animation.DROP,
+        position: new google.maps.LatLng(delivery_map_coords.lat,delivery_map_coords.lng)
+    });
+
+    delivery_map_marker.addListener("click", delivery_map_toggle_bounce);
+    delivery_map_marker.addListener("dragend", function (event)
+    {
+        document.getElementById("delivery_lat").value = this.getPosition().lat();
+        document.getElementById("delivery_lng").value = this.getPosition().lng();
+    });
+}
+
+function delivery_map_toggle_bounce()
+{
+    if (delivery_map_marker.getAnimation() !== null)
+        delivery_map_marker.setAnimation(null);
+    else
+        delivery_map_marker.setAnimation(google.maps.Animation.BOUNCE);
 }

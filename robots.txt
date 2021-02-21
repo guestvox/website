@@ -20,4 +20,4 @@ Disallow: /index.php
 Disallow: /manifest.json
 Disallow: /phpinfo.php
 Disallow: /sw.js
-Sitemap: https://dev.guestvox.com/sitemap.xml
+Sitemap: https://guestvox.com/sitemap.xml

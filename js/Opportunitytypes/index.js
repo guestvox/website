@@ -5,6 +5,22 @@ $(document).ready(function()
     var id = null;
     var edit = false;
 
+    $('[name="search_opportunity_area"]').on('change', function()
+    {
+        $.ajax({
+            type: 'POST',
+            data: 'id=' + $(this).val() + '&action=get_opt_opportunity_areas',
+            processData: false,
+            cache: false,
+            dataType: 'json',
+            success: function(response)
+            {
+                if (response.status == 'success')
+                    location.reload();
+            }
+        });
+    });
+
     $('[data-modal="new_opportunity_type"]').modal().onCancel(function()
     {
         id = null;
@@ -36,6 +52,8 @@ $(document).ready(function()
                     show_modal_success(response.message, 600);
                 else if (response.status == 'error')
                     show_form_errors(form, response);
+                else if (response.status == 'error_checks')
+                    show_modal_error(response.message);
             }
         });
     });
