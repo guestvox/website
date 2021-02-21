@@ -8,13 +8,6 @@
  * Released under the MIT license
  */
 
-// namespace Medoo;
-//
-// use PDO;
-// use Exception;
-// use PDOException;
-// use InvalidArgumentException;
-
 class Raw {
 	public $map;
 	public $value;
