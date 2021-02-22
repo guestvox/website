@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.4
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 22-02-2021 a las 04:44:13
--- Versión del servidor: 10.4.17-MariaDB
--- Versión de PHP: 7.4.14
+-- Servidor: localhost:3306
+-- Tiempo de generación: 22-02-2021 a las 04:08:38
+-- Versión del servidor: 10.0.38-MariaDB-0+deb8u1
+-- Versión de PHP: 7.3.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `guestvox_production`
+-- Base de datos: `guestvox_backup`
 --
 
 -- --------------------------------------------------------
@@ -933,7 +933,7 @@ CREATE TABLE `menu_categories` (
   `name` text NOT NULL,
   `position` int(11) NOT NULL,
   `icon` bigint(20) NOT NULL,
-  `map` text DEFAULT NULL,
+  `map` text,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1044,9 +1044,9 @@ CREATE TABLE `menu_orders` (
   `type_service` enum('owner','delivery') DEFAULT NULL,
   `owner` bigint(20) DEFAULT NULL,
   `delivery` enum('bring','collect') DEFAULT NULL,
-  `contact` text DEFAULT NULL,
-  `address` text DEFAULT NULL,
-  `location` text DEFAULT NULL,
+  `contact` text,
+  `address` text,
+  `location` text,
   `date` date NOT NULL,
   `hour` time NOT NULL,
   `total` double NOT NULL,
@@ -1068,17 +1068,17 @@ CREATE TABLE `menu_products` (
   `id` int(11) NOT NULL,
   `account` bigint(20) NOT NULL,
   `name` text NOT NULL,
-  `description` text DEFAULT NULL,
-  `topics` text DEFAULT NULL,
+  `description` text,
+  `topics` text,
   `price` double NOT NULL,
   `position` int(11) DEFAULT NULL,
   `available` text NOT NULL,
   `avatar` enum('image','icon') NOT NULL,
-  `image` text DEFAULT NULL,
+  `image` text,
   `icon` bigint(20) DEFAULT NULL,
-  `categories` text DEFAULT NULL,
+  `categories` text,
   `restaurant` bigint(20) DEFAULT NULL,
-  `map` text DEFAULT NULL,
+  `map` text,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -2976,9 +2976,9 @@ CREATE TABLE `surveys_answers` (
   `account` bigint(20) NOT NULL,
   `token` char(8) DEFAULT NULL,
   `owner` bigint(20) DEFAULT NULL,
-  `values` longtext DEFAULT NULL,
-  `comment` text DEFAULT NULL,
-  `reservation` text DEFAULT NULL,
+  `values` longtext,
+  `comment` text,
+  `reservation` text,
   `date` date DEFAULT NULL,
   `hour` time DEFAULT NULL,
   `public` tinyint(1) DEFAULT NULL
@@ -3321,7 +3321,7 @@ CREATE TABLE `surveys_questions` (
   `account` bigint(20) DEFAULT NULL,
   `name` text NOT NULL,
   `type` enum('nps','open','rate','twin','check') NOT NULL,
-  `values` text DEFAULT NULL,
+  `values` text,
   `parent` int(11) DEFAULT NULL,
   `system` tinyint(1) NOT NULL,
   `status` tinyint(1) NOT NULL
@@ -3875,11 +3875,11 @@ CREATE TABLE `users` (
   `lastname` text NOT NULL,
   `email` text NOT NULL,
   `phone` text NOT NULL,
-  `avatar` text DEFAULT NULL,
+  `avatar` text,
   `username` text NOT NULL,
   `password` varchar(120) NOT NULL,
   `permissions` longtext NOT NULL,
-  `opportunity_areas` longtext DEFAULT NULL,
+  `opportunity_areas` longtext,
   `whatsapp` tinyint(1) NOT NULL,
   `status` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -4179,16 +4179,16 @@ CREATE TABLE `voxes` (
   `urgency` enum('low','medium','high') NOT NULL,
   `confidentiality` tinyint(1) NOT NULL,
   `assigned_users` text NOT NULL,
-  `observations` text DEFAULT NULL,
-  `subject` text DEFAULT NULL,
-  `description` text DEFAULT NULL,
-  `action_taken` text DEFAULT NULL,
-  `firstname` text DEFAULT NULL,
-  `lastname` text DEFAULT NULL,
+  `observations` text,
+  `subject` text,
+  `description` text,
+  `action_taken` text,
+  `firstname` text,
+  `lastname` text,
   `guest_treatment` bigint(20) DEFAULT NULL,
-  `guest_id` text DEFAULT NULL,
+  `guest_id` text,
   `guest_type` bigint(20) DEFAULT NULL,
-  `reservation_number` text DEFAULT NULL,
+  `reservation_number` text,
   `reservation_status` bigint(20) DEFAULT NULL,
   `check_in` date DEFAULT NULL,
   `check_out` date DEFAULT NULL,
@@ -5604,7 +5604,10 @@ INSERT INTO `voxes` (`id`, `account`, `type`, `token`, `owner`, `opportunity_are
 (1501, 20, 'request', 'c3bqqqgb', 273, 43, 275, '2021-02-20', '11:48:42', NULL, 64, NULL, 'high', 0, '[]', 'Favor de avisarle al huésped que su tour a Teotihuacan es para el lunes, ya que va a haber mañana domingo. Bloqueé su llave. Favior de cambiarles los tickets', NULL, NULL, NULL, 'James ', 'Williamson', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[\"93\"]', '[]', '[{\"type\":\"created\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"11:49:49\"},{\"type\":\"edited\",\"fields\":[{\"field\":\"observations\",\"before\":\"Favor de avisarle al hu\\u00e9sped que su tour a Teotihuacan es para el lunes, ya que va a haber ma\\u00f1ana domingo.\",\"after\":\"Favor de avisarle al hu\\u00e9sped que su tour a Teotihuacan es para el lunes, ya que va a haber ma\\u00f1ana domingo. Bloque\\u00e9 su llave\"}],\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"11:50:14\"},{\"type\":\"edited\",\"fields\":[{\"field\":\"observations\",\"before\":\"Favor de avisarle al hu\\u00e9sped que su tour a Teotihuacan es para el lunes, ya que va a haber ma\\u00f1ana domingo. Bloque\\u00e9 su llave\",\"after\":\"Favor de avisarle al hu\\u00e9sped que su tour a Teotihuacan es para el lunes, ya que va a haber ma\\u00f1ana domingo. Bloque\\u00e9 su llave. Favior de cambiarles los tickets\"}],\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"15:26:18\"},{\"type\":\"viewed\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"21:12:03\"},{\"type\":\"completed\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"21:12:03\"}]', 93, '2021-02-20', '11:49:49', 93, '2021-02-20', '15:26:18', 93, '2021-02-20', '21:12:03', NULL, NULL, NULL, 0, 0, 'internal'),
 (1502, 20, 'request', 'ikkkmdfq', 103, 43, 278, '2021-02-20', '15:04:20', NULL, 62, NULL, 'medium', 0, '[\"92\"]', '123 y 127 huespedes no han hecho check out. Llaves bloqueadas', NULL, NULL, NULL, 'Rufus ', 'Beck', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[\"93\"]', '[]', '[{\"type\":\"created\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"15:08:53\"},{\"type\":\"edited\",\"fields\":[{\"field\":\"observations\",\"before\":\"huespedes no han hecho check out. Llaves bloqueadas\",\"after\":\"123 y 127 huespedes no han hecho check out. Llaves bloqueadas\"}],\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"15:22:14\"},{\"type\":\"completed\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"20:59:22\"},{\"type\":\"reopened\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"21:00:25\"},{\"type\":\"viewed\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"21:00:39\"},{\"type\":\"completed\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"21:00:39\"}]', 93, '2021-02-20', '15:08:53', 93, '2021-02-20', '15:22:14', 93, '2021-02-20', '21:00:39', 93, '2021-02-20', '21:00:25', 0, 0, 'internal'),
 (1503, 20, 'request', 'muzcq55x', 156, 43, 278, '2021-02-20', '15:15:03', NULL, 62, NULL, 'medium', 0, '[\"92\"]', 'Huesped no hizo check out. Llave bloqueada.', NULL, NULL, NULL, 'Alexander ', 'Markland', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[\"93\"]', '[]', '[{\"type\":\"created\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"15:18:23\"},{\"type\":\"viewed\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"20:58:40\"},{\"type\":\"completed\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"20:58:40\"}]', 93, '2021-02-20', '15:18:23', NULL, NULL, NULL, 93, '2021-02-20', '20:58:40', NULL, NULL, NULL, 0, 0, 'internal'),
-(1504, 20, 'request', 'ejlv4ti9', 164, 43, 280, '2021-02-20', '21:17:27', NULL, 62, NULL, 'medium', 0, '[]', 'entregar llave y toalla llegara aprox 11:30 pm ya esta pagado ', NULL, NULL, NULL, '121 Viktor ', 'Reiter', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[\"93\"]', '[]', '[{\"type\":\"created\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"21:19:03\"},{\"type\":\"viewed\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"21:19:04\"}]', 93, '2021-02-20', '21:19:03', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 'internal');
+(1504, 20, 'request', 'ejlv4ti9', 164, 43, 280, '2021-02-20', '21:17:27', NULL, 62, NULL, 'medium', 0, '[]', 'entregar llave y toalla llegara aprox 11:30 pm ya esta pagado ', NULL, NULL, NULL, '121 Viktor ', 'Reiter', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[\"93\"]', '[]', '[{\"type\":\"created\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"21:19:03\"},{\"type\":\"viewed\",\"user\":\"93\",\"date\":\"2021-02-20\",\"hour\":\"21:19:04\"}]', 93, '2021-02-20', '21:19:03', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 'internal'),
+(1506, 20, 'request', '7okdccbd', 201, 43, 280, '2021-02-21', '17:55:48', NULL, 64, NULL, 'medium', 0, '[]', 'Se le prestó varios convertidores al huésped. Favor de pedirselo al momento de check out el dia 28/02', NULL, NULL, NULL, 'Lucio', 'Almeid', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[\"93\"]', '[]', '[{\"type\":\"created\",\"user\":\"93\",\"date\":\"2021-02-21\",\"hour\":\"18:02:48\"},{\"type\":\"viewed\",\"user\":\"93\",\"date\":\"2021-02-21\",\"hour\":\"22:56:22\"},{\"type\":\"completed\",\"user\":\"93\",\"date\":\"2021-02-21\",\"hour\":\"22:56:23\"}]', 93, '2021-02-21', '18:02:48', NULL, NULL, NULL, 93, '2021-02-21', '22:56:23', NULL, NULL, NULL, 0, 0, 'internal'),
+(1507, 20, 'request', '1lu6tmnv', 273, 43, 273, '2021-02-21', '23:05:26', NULL, 64, NULL, 'medium', 0, '[]', 'Huesped deja lavnderia para hacer.', NULL, NULL, NULL, 'James ', 'Williamson', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[\"93\"]', '[]', '[{\"type\":\"created\",\"user\":\"93\",\"date\":\"2021-02-21\",\"hour\":\"23:07:37\"},{\"type\":\"viewed\",\"user\":\"93\",\"date\":\"2021-02-21\",\"hour\":\"23:17:59\"}]', 93, '2021-02-21', '23:07:37', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 'internal'),
+(1508, 20, 'request', 'b762clgf', 273, 43, 275, '2021-02-21', '23:07:48', NULL, 64, NULL, 'medium', 0, '[]', 'Huesped se va de tour a Teo el 22/02 a las 9am', NULL, NULL, NULL, 'James ', 'Williamson', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[\"93\"]', '[]', '[{\"type\":\"created\",\"user\":\"93\",\"date\":\"2021-02-21\",\"hour\":\"23:08:29\"},{\"type\":\"viewed\",\"user\":\"93\",\"date\":\"2021-02-21\",\"hour\":\"23:17:33\"}]', 93, '2021-02-21', '23:08:29', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 'internal');
 
 -- --------------------------------------------------------
 
@@ -5624,7 +5627,7 @@ CREATE TABLE `voxes_reports` (
   `order` enum('owner','name') NOT NULL,
   `time_period` text NOT NULL,
   `addressed_to` enum('alls','opportunity_areas','me') NOT NULL,
-  `opportunity_areas` longtext DEFAULT NULL,
+  `opportunity_areas` longtext,
   `user` bigint(20) DEFAULT NULL,
   `fields` longtext NOT NULL,
   `status` tinyint(1) NOT NULL
@@ -6797,7 +6800,7 @@ ALTER TABLE `users_levels`
 -- AUTO_INCREMENT de la tabla `voxes`
 --
 ALTER TABLE `voxes`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1505;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1509;
 
 --
 -- AUTO_INCREMENT de la tabla `voxes_reports`
