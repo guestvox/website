@@ -2,8 +2,11 @@
 
 <header class="topbar">
     <figure>
-        <a href="/dashboard">
+        <a href="/dashboard" data-desktop>
             <img src="{$path.images}logotype_white.png">
+        </a>
+        <a href="/dashboard" data-mobile>
+            <img src="{$path.images}imagotype_white.png">
         </a>
     </figure>
     <nav>
