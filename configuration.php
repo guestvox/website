@@ -138,7 +138,7 @@ class Configuration
 	 *
      * @var string $db_host
      */
-	public static $db_host = 'guestvox.com';
+	public static $db_host = 'codemonkey.com.mx';
 
 	/**
      * Nombre de la base de datos
@@ -147,7 +147,7 @@ class Configuration
 	 *
      * @var string $db_name
      */
-	public static $db_name = 'production';
+	public static $db_name = 'guestvox_backup';
 
 	/**
      * Usuario de la base de datos
