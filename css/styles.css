@@ -77,9 +77,27 @@ body > header.topbar > fieldset {
     width: auto;
     height: 100%;
     float: right;
-    padding: 0px 10px 20px 10px;
     box-sizing: border-box;
     background-color: #24383f;
+}
+
+body > header.topbar > nav {
+    padding: 0px 10px 20px 0px;
+}
+
+body > header.topbar > fieldset {
+    padding: 0px 0px 20px 20px;
+}
+
+@media (min-width: 1024px) {
+
+    body > header.topbar > nav {
+        padding-left: 10px;
+    }
+
+    body > header.topbar > fieldset {
+        padding-left: 30px;
+    }
 }
 
 body > header.topbar > nav > ul {
@@ -118,8 +136,6 @@ body > header.topbar > fieldset {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-left: 40px;
-    box-sizing: border-box;
 }
 
 body > header.topbar > fieldset > div {
@@ -128,7 +144,7 @@ body > header.topbar > fieldset > div {
 }
 
 body > header.topbar > fieldset > div > input {
-    width: 400px;
+    width: 200px;
     height: 40px;
     padding: 0px 20px 0px 50px;
     border: 0px;
@@ -136,6 +152,13 @@ body > header.topbar > fieldset > div > input {
     box-sizing: border-box;
     background-color: rgba(255, 255, 255, 0.2);
     color: #fff;
+}
+
+@media (min-width: 1024px) {
+
+    body > header.topbar > fieldset > div > input {
+        width: 400px;
+    }
 }
 
 body > header.topbar > fieldset > div > i {
@@ -5104,4 +5127,19 @@ div.contract.show {
 
 #menu_map {
     height: 200px;
+}
+
+[data-mobile] {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    [data-mobile] {
+        display: block;
+    }
+
+    [data-desktop] {
+        display: none;
+    }
 }
