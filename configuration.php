@@ -138,8 +138,8 @@ class Configuration
 	 *
      * @var string $db_host
      */
-	public static $db_host = 'guestvox.com';
-	// public static $db_host = 'localhost';
+	// public static $db_host = 'guestvox.com';
+	public static $db_host = 'localhost';
 
 	/**
      * Nombre de la base de datos
@@ -148,8 +148,8 @@ class Configuration
 	 *
      * @var string $db_name
      */
-	public static $db_name = 'development';
-	// public static $db_name = 'guestvox_development';
+	// public static $db_name = 'development';
+	public static $db_name = 'guestvox_development';
 
 	/**
      * Usuario de la base de datos
@@ -158,8 +158,8 @@ class Configuration
 	 *
      * @var string $db_user
      */
-	public static $db_user = 'guestvox';
-	// public static $db_user = 'root';
+	// public static $db_user = 'guestvox';
+	public static $db_user = 'root';
 
 	/**
      * Contraseña de la base de datos.
@@ -168,8 +168,8 @@ class Configuration
 	 *
      * @var string $db_pass
      */
-	public static $db_pass = 'Jsw90w&6';
-	// public static $db_pass = '';
+	// public static $db_pass = 'Jsw90w&6';
+	public static $db_pass = '';
 
 	/**
      * Tipo de caracteres para la base de datos. Opcional.
