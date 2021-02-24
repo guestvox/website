@@ -273,6 +273,8 @@ function map()
 
         }, function(errors) {
 
+            alert('Para poder encontrar donde está usted, active su ubicación y recarge esta página. Gracias.');
+
             set_map(delivery_map_coords);
 
         });
