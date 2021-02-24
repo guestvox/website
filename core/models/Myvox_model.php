@@ -482,6 +482,7 @@ class Myvox_model extends Model
 			'hour' => Functions::get_formatted_hour($data['started_hour']),
 			'total' => Session::get_value('myvox')['menu_order']['total'],
 			'payment_method' => $data['payment_method'],
+			'payment_cash' => ($data['payment_method'] == 'cash') ? $data['payment_cash'] : null,
 			'currency' => Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency'],
 			'shopping_cart' => json_encode(Session::get_value('myvox')['menu_order']['shopping_cart']),
 			'declined' => false,

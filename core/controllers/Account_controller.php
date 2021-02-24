@@ -260,6 +260,15 @@ class Account_controller extends Controller
 						if (!isset($_POST['title_en']) OR empty($_POST['title_en']))
 							array_push($labels, ['title_en','']);
 
+						if (!isset($_POST['email']) OR empty($_POST['email']))
+							array_push($labels, ['email','']);
+
+						if (!isset($_POST['phone_lada']) OR empty($_POST['phone_lada']))
+							array_push($labels, ['phone_lada','']);
+
+						if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
+							array_push($labels, ['phone_number','']);
+
 						if (!isset($_POST['currency']) OR empty($_POST['currency']))
 							array_push($labels, ['currency','']);
 
@@ -882,7 +891,7 @@ class Account_controller extends Controller
 						<main>
 							<form name="edit_myvox_menu_settings">
 								<div class="row">
-									<div class="span4">
+									<div class="span6">
 										<div class="label">
 											<label required>
 												<p>(ES) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
@@ -890,7 +899,7 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span4">
+									<div class="span6">
 										<div class="label">
 											<label required>
 												<p>(EN) {$lang.title} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
@@ -898,7 +907,38 @@ class Account_controller extends Controller
 											</label>
 										</div>
 									</div>
-									<div class="span4">
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<p>{$lang.email} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<input type="email" name="email">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<p>{$lang.lada} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<select name="phone_lada">
+													<option value="" hidden>{$lang.choose}</option>';
+
+				foreach ($this->model->get_countries() as $value)
+					$mdl_edit_myvox_menu_settings .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
+
+				$mdl_edit_myvox_menu_settings .=
+				'								</select>
+											</label>
+										</div>
+									</div>
+									<div class="span3">
+										<div class="label">
+											<label required>
+												<p>{$lang.phone} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
+												<input type="text" name="phone_number">
+											</label>
+										</div>
+									</div>
+									<div class="span3">
 										<div class="label">
 											<label required>
 												<p>{$lang.currency} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>

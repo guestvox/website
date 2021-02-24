@@ -31,6 +31,7 @@ class Menu_model extends Model
 			'menu_orders.total',
 			'menu_orders.currency',
 			'menu_orders.payment_method',
+			'menu_orders.payment_cash',
 			'menu_orders.shopping_cart',
 			'menu_orders.declined',
 			'menu_orders.accepted',

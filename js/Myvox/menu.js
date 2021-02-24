@@ -5,6 +5,15 @@ var action;
 
 $(document).ready(function()
 {
+    $('[data-action="share"]').on('click', function()
+    {
+        navigator.share({
+            title: $(this).data('title'),
+            text: $(this).data('text'),
+            url: $(this).data('url')
+        });
+    });
+
     $('[data-action="filter_menu_products_by_categories"]').on('click', function()
     {
         $.ajax({
@@ -123,9 +132,15 @@ $(document).ready(function()
     $('[name="payment_method"]').on('change', function()
     {
         if ($(this).val() == 'credit_card' || $(this).val() == 'debit_card')
+        {
+            $('[name="payment_cash"]').parent().parent().parent().addClass('hidden');
             $('#payment_with_card').removeClass('hidden');
+        }
         else if ($(this).val() == 'cash')
+        {
+            $('[name="payment_cash"]').parent().parent().parent().removeClass('hidden');
             $('#payment_with_card').addClass('hidden');
+        }
     });
 
     $('form[name="new_menu_order"]').on('submit', function(e)
