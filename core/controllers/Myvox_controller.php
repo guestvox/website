@@ -654,92 +654,98 @@ class Myvox_controller extends Controller
 										$this->model->edit_sms($sms1);
 									}
 
-									$mail2 = new Mailer(true);
-
-									try
+									if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['menu']['email']))
 									{
-										$mail2->setFrom('noreply@guestvox.com', 'Guestvox');
-										$mail2->addAddress(Session::get_value('myvox')['account']['settings']['myvox']['menu']['email'], Session::get_value('myvox')['account']['name']);
-										$mail2->Subject = Languages::email('new_menu_order')[$this->lang1] . '. ' . Languages::email('token')[$this->lang1] . ': ' . Session::get_value('myvox')['menu_payment_token'];
-										$mail2->Body =
-										'<html>
-											<head>
-												<title>' . $mail2->Subject . '</title>
-											</head>
-											<body>
-												<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
-													<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-														<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-															<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-																<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('myvox')['account']['logotype'] . '">
-															</figure>
-														</td>
-													</tr>
-													<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-														<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-															<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail2->Subject . '</h4>
-															<h6 style="width:100%;margin:0px 0px 10px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('name')[$this->lang1] . ': ' . $_POST['firstname'] . ' ' . $_POST['lastname'] . '</h6>
-															<h6 style="width:100%;margin:0px 0px 10px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('email')[$this->lang1] . ': ' . $_POST['email'] . '</h6>
-															<h6 style="width:100%;margin:0px 0px 10px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('phone')[$this->lang1] . ': +' . $_POST['phone_lada'] . ' ' . $_POST['phone_number'] . '</h6>
-															<h6 style="width:100%;margin:0px 0px 10px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('total')[$this->lang1] . ': $ ' . Session::get_value('myvox')['menu_order']['total'] . ' ' . Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency'] . '</h6>';
-
-										foreach (Session::get_value('myvox')['menu_order']['shopping_cart'] as $value)
-										{
-											foreach ($value as $subvalue)
-											{
-												$mail2->Body .= '<p style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">x' . $subvalue['quantity'] . ' ' . $subvalue['name'][$this->lang2];
-
-												if (!empty($subvalue['topics']))
-												{
-													$mail2->Body .= ' (';
-
-													foreach ($subvalue['topics'] as $parentvalue)
-														$mail2->Body .= $parentvalue['name'][$this->lang2] . ', ';
-
-													$mail2->Body .= ')';
-												}
-
-												$mail2->Body .= '</p>';
-											}
-										}
-
-										$mail2->Body .=
-										'					<a style="width:100%;display:block;margin:20px 0px 0px 0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/menu/orders">' . Languages::email('give_follow_up')[$this->lang2] . '</a>
-														</td>
-													</tr>
-													<tr style="width:100%;margin:0px;padding:0px;border:0px;">
-														<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-															<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">Power by Guestvox</a>
-														</td>
-													</tr>
-												</table>
-											</body>
-										</html>';
-										$mail2->send();
-									}
-									catch (Exception $e) { }
-
-									$sms2 = $this->model->get_sms();
-
-									if ($sms2 > 0)
-									{
-										$sms2_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
-										$sms2_client = new \Nexmo\Client($sms2_basic);
-										$sms2_text = Session::get_value('myvox')['account']['name'] . '. ' . Languages::email('new_menu_order')[$this->lang1] . '. https://' . Configuration::$domain . '/menu/orders. Power by Guestvox.';
+										$mail2 = new Mailer(true);
 
 										try
 										{
-											$sms2_client->message()->send([
-												'to' => Session::get_value('myvox')['account']['settings']['myvox']['menu']['phone']['lada'] . Session::get_value('myvox')['account']['settings']['myvox']['menu']['phone']['number'],
-												'from' => 'Guestvox',
-												'text' => $sms2_text
-											]);
+											$mail2->setFrom('noreply@guestvox.com', 'Guestvox');
+											$mail2->addAddress(Session::get_value('myvox')['account']['settings']['myvox']['menu']['email'], Session::get_value('myvox')['account']['name']);
+											$mail2->Subject = Languages::email('new_menu_order')[$this->lang1] . '. ' . Languages::email('token')[$this->lang1] . ': ' . Session::get_value('myvox')['menu_payment_token'];
+											$mail2->Body =
+											'<html>
+												<head>
+													<title>' . $mail2->Subject . '</title>
+												</head>
+												<body>
+													<table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+														<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+															<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+																<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+																	<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('myvox')['account']['logotype'] . '">
+																</figure>
+															</td>
+														</tr>
+														<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+															<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+																<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail2->Subject . '</h4>
+																<h6 style="width:100%;margin:0px 0px 10px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('name')[$this->lang1] . ': ' . $_POST['firstname'] . ' ' . $_POST['lastname'] . '</h6>
+																<h6 style="width:100%;margin:0px 0px 10px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('email')[$this->lang1] . ': ' . $_POST['email'] . '</h6>
+																<h6 style="width:100%;margin:0px 0px 10px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('phone')[$this->lang1] . ': +' . $_POST['phone_lada'] . ' ' . $_POST['phone_number'] . '</h6>
+																<h6 style="width:100%;margin:0px 0px 10px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('total')[$this->lang1] . ': $ ' . Session::get_value('myvox')['menu_order']['total'] . ' ' . Session::get_value('myvox')['account']['settings']['myvox']['menu']['currency'] . '</h6>';
 
-											$sms2 = $sms2 - 1;
+											foreach (Session::get_value('myvox')['menu_order']['shopping_cart'] as $value)
+											{
+												foreach ($value as $subvalue)
+												{
+													$mail2->Body .= '<p style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">x' . $subvalue['quantity'] . ' ' . $subvalue['name'][$this->lang2];
+
+													if (!empty($subvalue['topics']))
+													{
+														$mail2->Body .= ' (';
+
+														foreach ($subvalue['topics'] as $parentvalue)
+															$mail2->Body .= $parentvalue['name'][$this->lang2] . ', ';
+
+														$mail2->Body .= ')';
+													}
+
+													$mail2->Body .= '</p>';
+												}
+											}
+
+											$mail2->Body .=
+											'					<a style="width:100%;display:block;margin:20px 0px 0px 0px;padding:20px 0px;border-radius:40px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/menu/orders">' . Languages::email('give_follow_up')[$this->lang2] . '</a>
+															</td>
+														</tr>
+														<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+															<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+																<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">Power by Guestvox</a>
+															</td>
+														</tr>
+													</table>
+												</body>
+											</html>';
+											$mail2->send();
 										}
 										catch (Exception $e) { }
+									}
 
-										$this->model->edit_sms($sms2);
+									if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['menu']['phone']['lada']) AND !empty(Session::get_value('myvox')['account']['settings']['myvox']['menu']['phone']['number']))
+									{
+										$sms2 = $this->model->get_sms();
+
+										if ($sms2 > 0)
+										{
+											$sms2_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
+											$sms2_client = new \Nexmo\Client($sms2_basic);
+											$sms2_text = Session::get_value('myvox')['account']['name'] . '. ' . Languages::email('new_menu_order')[$this->lang1] . '. https://' . Configuration::$domain . '/menu/orders. Power by Guestvox.';
+
+											try
+											{
+												$sms2_client->message()->send([
+													'to' => Session::get_value('myvox')['account']['settings']['myvox']['menu']['phone']['lada'] . Session::get_value('myvox')['account']['settings']['myvox']['menu']['phone']['number'],
+													'from' => 'Guestvox',
+													'text' => $sms2_text
+												]);
+
+												$sms2 = $sms2 - 1;
+											}
+											catch (Exception $e) { }
+
+											$this->model->edit_sms($sms2);
+										}
 									}
 								}
 
