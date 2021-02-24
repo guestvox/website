@@ -59,9 +59,17 @@ class Languages
                 'es' => '¡Gracias por registrarte a nuestro Webinar!',
                 'en' => '¡Thanks for sign up for our Webinar!'
             ],
+            'new_menu_order' => [
+                'es' => 'Haz recibido una nueva orden',
+                'en' => 'You have received a new order'
+            ],
             'go_to_webinar' => [
                 'es' => 'Ir a nuestro Webinar',
                 'en' => 'Go to our Webinar'
+            ],
+            'name' => [
+                'es' => 'Nombre',
+                'en' => 'Name'
             ],
             'not_name' => [
                 'es' => 'Sin nombre',
@@ -158,8 +166,12 @@ class Languages
                 'en' => 'Edited vox'
             ],
             'token' => [
-                'es' => 'Token',
-                'en' => 'Token'
+                'es' => 'Folio',
+                'en' => 'Folio'
+            ],
+            'total' => [
+                'es' => 'Total',
+                'en' => 'Total'
             ],
             'owner' => [
                 'es' => 'Propietario',
@@ -268,6 +280,10 @@ class Languages
             'email' => [
                 'es' => 'Correo electrónico',
                 'en' => 'Email'
+            ],
+            'phone' => [
+                'es' => 'Teléfono',
+                'en' => 'Phone'
             ],
             'username' => [
                 'es' => 'Nombre de usuario',

@@ -220,6 +220,16 @@ $(document).ready(function()
 
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="title_es"]').val(response1.data.settings.myvox.menu.title.es);
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="title_en"]').val(response1.data.settings.myvox.menu.title.en);
+
+                    if (response1.data.settings.myvox.menu.email)
+                        $('[data-modal="edit_myvox_menu_settings"]').find('[name="email"]').val(response1.data.settings.myvox.menu.email);
+
+                    if (response1.data.settings.myvox.menu.phone)
+                    {
+                        $('[data-modal="edit_myvox_menu_settings"]').find('[name="phone_lada"]').val(response1.data.settings.myvox.menu.phone.lada);
+                        $('[data-modal="edit_myvox_menu_settings"]').find('[name="phone_number"]').val(response1.data.settings.myvox.menu.phone.number);
+                    }
+
                     $('[data-modal="edit_myvox_menu_settings"]').find('[name="currency"]').val(response1.data.settings.myvox.menu.currency);
 
                     if (response1.data.settings.myvox.menu.schedule.monday.status == 'open')

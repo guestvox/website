@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 22-02-2021 a las 04:42:23
+-- Tiempo de generación: 24-02-2021 a las 10:21:08
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.14
 
@@ -719,6 +719,14 @@ CREATE TABLE `menu_orders` (
   `accepted` tinyint(1) NOT NULL,
   `delivered` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `menu_orders`
+--
+
+INSERT INTO `menu_orders` (`id`, `account`, `token`, `type_service`, `owner`, `delivery`, `contact`, `address`, `location`, `date`, `hour`, `total`, `currency`, `payment_method`, `shopping_cart`, `declined`, `accepted`, `delivered`) VALUES
+(1, 2, 'cgu92acn', 'delivery', NULL, 'collect', '{\"firstname\":\"Gers\\u00f3n Aar\\u00f3n\",\"lastname\":\"G\\u00f3mez Mac\\u00edas (Prueba)\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"52\",\"number\":\"0987654321\"}}', '', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', '2021-02-23', '17:35:51', 210, 'MXN', 'cash', '{\"12\":[{\"quantity\":\"1\",\"id\":\"12\",\"name\":{\"es\":\"Producto 1\",\"en\":\"Product 1\"},\"topics\":[],\"price\":\"100\",\"total\":100,\"map\":\"\"}],\"13\":[{\"quantity\":\"1\",\"id\":\"13\",\"name\":{\"es\":\"Producto 2\",\"en\":\"Product 2\"},\"topics\":[{\"id\":\"16\",\"price\":\"10\",\"selection\":\"radio\",\"name\":{\"es\":\"Tortilla\",\"en\":\"Tortilla\"}}],\"price\":\"100\",\"total\":110,\"map\":\"\"}]}', 0, 0, 0),
+(2, 2, 'tqfiqju5', 'delivery', NULL, 'collect', '{\"firstname\":\"Gers\\u00f3n Aar\\u00f3n\",\"lastname\":\"G\\u00f3mez Mac\\u00edas (Prueba)\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"52\",\"number\":\"0987654321\"}}', '', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', '2021-02-23', '17:36:24', 100, 'MXN', 'cash', '{\"14\":[{\"quantity\":\"1\",\"id\":\"14\",\"name\":{\"es\":\"Producto 3\",\"en\":\"Product 3\"},\"topics\":[],\"price\":\"100\",\"total\":100,\"map\":\"\"}]}', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -2057,7 +2065,7 @@ ALTER TABLE `menu_categories`
 -- AUTO_INCREMENT de la tabla `menu_orders`
 --
 ALTER TABLE `menu_orders`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `menu_products`

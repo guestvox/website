@@ -291,6 +291,9 @@ class Account_model extends Model
 				$edited1[0]['settings']['myvox']['menu']['status'] = true;
 				$edited1[0]['settings']['myvox']['menu']['title']['es'] = $data['title_es'];
 				$edited1[0]['settings']['myvox']['menu']['title']['en'] = $data['title_en'];
+				$edited1[0]['settings']['myvox']['menu']['email'] = $data['email'];
+				$edited1[0]['settings']['myvox']['menu']['phone']['lada'] = $data['phone_lada'];
+				$edited1[0]['settings']['myvox']['menu']['phone']['number'] = $data['phone_number'];
 				$edited1[0]['settings']['myvox']['menu']['currency'] = $data['currency'];
 				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['status'] = $data['schedule_monday_status'];
 				$edited1[0]['settings']['myvox']['menu']['schedule']['monday']['opening'] = ($data['schedule_monday_status'] == 'open') ? $data['schedule_monday_opening'] : '';

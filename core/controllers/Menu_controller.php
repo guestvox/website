@@ -199,7 +199,8 @@ class Menu_controller extends Controller
 
 					$tbl_menu_orders .=
 					'</h2>
-					<p>' . Functions::get_formatted_date($value['date'], 'd/m/Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . ' | {$lang.service_' . $value['type_service'] . '}' . (($value['type_service'] == 'delivery') ? ' | ' . (($value['delivery'] == 'bring') ? '{$lang.take_home}' : '{$lang.pick_up_restaurant}') : '') . ' | $ ' . $value['total'] . ' ' . $value['currency'] . ' | {$lang.' . $value['payment_method'] . '}</p>';
+					<p>' . Functions::get_formatted_date($value['date'], 'd/m/Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . ' | {$lang.service_' . $value['type_service'] . '}' . (($value['type_service'] == 'delivery') ? ' | ' . (($value['delivery'] == 'bring') ? '{$lang.take_home}' : '{$lang.pick_up_restaurant}') : '') . '</p>
+					<p>{$lang.total}: ' . '$ ' . $value['total'] . ' ' . $value['currency'] . ' | {$lang.payment_method}: {$lang.' . $value['payment_method'] . '} ' . (($value['payment_method'] == 'cash') ? '($ ' . $value['payment_cash'] . ' ' . $value['currency'] . ') | Cambio: $ ' . ($value['payment_cash'] - $value['total']) . ' ' . $value['currency'] : '') . '</p>';
 
 					if ($value['type_service'] == 'delivery' AND $value['delivery'] == 'bring')
 						$tbl_menu_orders .= '<p>' . $value['address'] . '</p>';
