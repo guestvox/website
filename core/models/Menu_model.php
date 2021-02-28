@@ -119,22 +119,16 @@ class Menu_model extends Model
 
     public function get_menu_products($option = 'all')
 	{
-		$where = [
-			'menu_products.account' => Session::get_value('account')['id'],
-			'menu_products.position[>=]' => 1
-		];
-
-		if ($option == 'actives')
-			$where['menu_products.status'] = true;
-
-		$query = Functions::get_json_decoded_query($this->database->select('menu_products', [
+		$inner_join = [
 			'[>]icons' => [
 				'icon' => 'id'
 			],
 			'[>]menu_restaurants' => [
 				'restaurant' => 'id'
 			]
-		], [
+		];
+
+		$fields = [
 			'menu_products.id',
 			'menu_products.name',
 			'menu_products.description',
@@ -148,12 +142,39 @@ class Menu_model extends Model
 			'menu_products.categories',
 			'menu_restaurants.name(restaurant)',
 			'menu_products.status'
-		], [
-			'AND' => $where,
+		];
+
+		$where_1 = [
+			'menu_products.account' => Session::get_value('account')['id'],
+			'menu_products.position[>=]' => 1
+		];
+
+		$where_2 = [
+			'menu_products.account' => Session::get_value('account')['id'],
+			'menu_products.position[=]' => null
+		];
+
+		if ($option == 'actives')
+		{
+			$where_1['menu_products.status'] = true;
+			$where_2['menu_products.status'] = true;
+		}
+
+		$query_1 = Functions::get_json_decoded_query($this->database->select('menu_products', $inner_join, $fields, [
+			'AND' => $where_1,
 			'ORDER' => [
 				'menu_products.position' => 'ASC'
 			]
 		]));
+
+		$query_2 = Functions::get_json_decoded_query($this->database->select('menu_products', $inner_join, $fields, [
+			'AND' => $where_2,
+			'ORDER' => [
+				'menu_products.name' => 'ASC'
+			]
+		]));
+
+		$query = array_merge($query_1, $query_2);
 
 		foreach ($query as $key => $value)
 		{
@@ -571,32 +592,51 @@ class Menu_model extends Model
 
 	public function get_menu_categories($option = 'all')
 	{
-		$where = [
-			'menu_categories.account' => Session::get_value('account')['id'],
-			'menu_categories.position[>=]' => 1
-		];
-
-		if ($option == 'actives')
-			$where['menu_categories.status'] = true;
-
-		$query = Functions::get_json_decoded_query($this->database->select('menu_categories', [
+		$inner_join = [
 			'[>]icons' => [
 				'icon' => 'id'
 			]
-		], [
+		];
+
+		$fields = [
 			'menu_categories.id',
 			'menu_categories.name',
 			'icons.url(icon_url)',
 			'icons.type(icon_type)',
 			'menu_categories.status'
-		], [
-			'AND' => $where,
+		];
+
+		$where_1 = [
+			'menu_categories.account' => Session::get_value('account')['id'],
+			'menu_categories.position[>=]' => 1
+		];
+
+		$where_2 = [
+			'menu_categories.account' => Session::get_value('account')['id'],
+			'menu_categories.position[=]' => null
+		];
+
+		if ($option == 'actives')
+		{
+			$where_1['menu_categories.status'] = true;
+			$where_2['menu_categories.status'] = true;
+		}
+
+		$query_1 = Functions::get_json_decoded_query($this->database->select('menu_categories', $inner_join, $fields, [
+			'AND' => $where_1,
 			'ORDER' => [
 				'menu_categories.position' => 'ASC'
 			]
 		]));
 
-		return $query;
+		$query_2 = Functions::get_json_decoded_query($this->database->select('menu_categories', $inner_join, $fields, [
+			'AND' => $where_2,
+			'ORDER' => [
+				'menu_categories.name' => 'ASC'
+			]
+		]));
+
+		return array_merge($query_1, $query_2);
 	}
 
 	public function get_menu_category($id)
