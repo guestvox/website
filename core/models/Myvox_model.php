@@ -240,6 +240,8 @@ class Myvox_model extends Model
 
 	public function get_menu_categories()
 	{
+		$categories = [];
+
 		$inner_join = [
 			'[>]icons' => [
 				'icon' => 'id'
@@ -264,6 +266,12 @@ class Myvox_model extends Model
 			]
 		]));
 
+		if (!empty($query_1))
+		{
+			foreach ($query_1 as $value)
+				array_push($categories, $value);
+		}
+
 		$query_2 = Functions::get_json_decoded_query($this->database->select('menu_categories', $inner_join, $fields, [
 			'AND' => [
 				'menu_categories.id' => Session::get_value('myvox')['menu_categories'],
@@ -274,6 +282,12 @@ class Myvox_model extends Model
 				'menu_categories.name' => 'ASC'
 			]
 		]));
+
+		if (!empty($query_2))
+		{
+			foreach ($query_2 as $value)
+				array_push($categories, $value);
+		}
 
 		$query_3 = Functions::get_json_decoded_query($this->database->select('menu_categories', $inner_join, $fields, [
 			'AND' => [
@@ -286,6 +300,12 @@ class Myvox_model extends Model
 			]
 		]));
 
+		if (!empty($query_3))
+		{
+			foreach ($query_3 as $value)
+				array_push($categories, $value);
+		}
+
 		$query_4 = Functions::get_json_decoded_query($this->database->select('menu_categories', $inner_join, $fields, [
 			'AND' => [
 				'menu_categories.account' => Session::get_value('myvox')['account']['id'],
@@ -297,7 +317,12 @@ class Myvox_model extends Model
 			]
 		]));
 
-		$categories = array_merge($query_1, $query_2, $query_3, $query_4);
+		if (!empty($query_4))
+		{
+			foreach ($query_4 as $value)
+				array_push($categories, $value);
+		}
+
 		$categories = array_unique($categories);
         $categories = array_values($categories);
 
