@@ -144,7 +144,7 @@ body > header.topbar > fieldset > div {
 }
 
 body > header.topbar > fieldset > div > input {
-    width: 200px;
+    width: 160px;
     height: 40px;
     padding: 0px 20px 0px 50px;
     border: 0px;
@@ -5130,16 +5130,16 @@ div.contract.show {
 }
 
 [data-mobile] {
-    display: none;
+    display: none !important;
 }
 
 @media (max-width: 768px) {
 
     [data-mobile] {
-        display: block;
+        display: flex !important;
     }
 
     [data-desktop] {
-        display: none;
+        display: none !important;
     }
 }

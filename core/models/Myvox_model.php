@@ -269,7 +269,7 @@ class Myvox_model extends Model
 		if (!empty($query_1))
 		{
 			foreach ($query_1 as $value)
-				array_push($categories, $value);
+				$categories[$value['id']] = $value;
 		}
 
 		$query_2 = Functions::get_json_decoded_query($this->database->select('menu_categories', $inner_join, $fields, [
@@ -286,7 +286,7 @@ class Myvox_model extends Model
 		if (!empty($query_2))
 		{
 			foreach ($query_2 as $value)
-				array_push($categories, $value);
+				$categories[$value['id']] = $value;
 		}
 
 		$query_3 = Functions::get_json_decoded_query($this->database->select('menu_categories', $inner_join, $fields, [
@@ -303,7 +303,10 @@ class Myvox_model extends Model
 		if (!empty($query_3))
 		{
 			foreach ($query_3 as $value)
-				array_push($categories, $value);
+			{
+				if (!array_key_exists($value['id'], $categories))
+					$categories[$value['id']] = $value;
+			}
 		}
 
 		$query_4 = Functions::get_json_decoded_query($this->database->select('menu_categories', $inner_join, $fields, [
@@ -320,11 +323,11 @@ class Myvox_model extends Model
 		if (!empty($query_4))
 		{
 			foreach ($query_4 as $value)
-				array_push($categories, $value);
+			{
+				if (!array_key_exists($value['id'], $categories))
+					$categories[$value['id']] = $value;
+			}
 		}
-
-		$categories = array_unique($categories);
-        $categories = array_values($categories);
 
 		return $categories;
 	}

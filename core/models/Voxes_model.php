@@ -1388,6 +1388,28 @@ class Voxes_model extends Model
 		return $query;
 	}
 
+	public function get_whatsapp()
+	{
+		$query = $this->database->select('accounts', [
+			'whatsapp'
+		], [
+			'id' => Session::get_value('account')['id']
+		]);
+
+		return !empty($query) ? $query[0]['whatsapp'] : null;
+	}
+
+	public function edit_whatsapp($whatsapp)
+	{
+		$query = $this->database->update('accounts', [
+			'whatsapp' => $whatsapp
+		], [
+			'id' => Session::get_value('account')['id']
+		]);
+
+		return $query;
+	}
+
 	public function get_voxes_average()
 	{
 		$query = $this->database->select('voxes', [
