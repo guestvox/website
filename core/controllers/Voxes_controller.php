@@ -415,122 +415,180 @@ class Voxes_controller extends Controller
 
 					if (!empty($query))
 					{
-						// $_POST['owner'] = $this->model->get_owner($_POST['owner']);
-						// $_POST['opportunity_area'] = $this->model->get_opportunity_area($_POST['opportunity_area']);
-						// $_POST['opportunity_type'] = $this->model->get_opportunity_type($_POST['opportunity_type']);
-						//
-						// if (!empty($_POST['location']))
-						// 	$_POST['location'] = $this->model->get_location($_POST['location']);
-						//
-						// $_POST['assigned_users'] = $this->model->get_assigned_users($_POST['assigned_users'], $_POST['opportunity_area']['id']);
-						//
-						// $mail = new Mailer(true);
-						//
-						// try
-						// {
-						// 	$mail->setFrom('noreply@guestvox.com', 'Guestvox');
-						//
-						// 	foreach ($_POST['assigned_users'] as $value)
-						// 		$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
-						//
-						// 	$mail->Subject = Languages::email('new', $_POST['type'])[$this->lang];
-						// 	$mail->Body =
-						// 	'<html>
-						// 	    <head>
-						// 	        <title>' . $mail->Subject . '</title>
-						// 	    </head>
-						// 	    <body>
-						// 	        <table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
-						// 				<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-						// 					<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-						// 						<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
-						// 							<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
-						// 						</figure>
-						// 					</td>
-						// 				</tr>
-						// 				<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
-						// 					<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-						// 						<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
-						// 						<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('token')[$this->lang] . ': ' . $_POST['token'] . '</h6>
-						// 						<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('owner')[$this->lang] . ': ' . $_POST['owner']['name'][$this->lang] . (!empty($_POST['owner']['number']) ? ' #' . $_POST['owner']['number'] : '') . '</h6>
-						// 						<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('opportunity_area')[$this->lang] . ': ' . $_POST['opportunity_area']['name'][$this->lang] . '</h6>
-						//     					<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('opportunity_type')[$this->lang] . ': ' . $_POST['opportunity_type']['name'][$this->lang] . '</h6>
-						// 						<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('started_date')[$this->lang] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd.m.Y') . '</h6>
-						// 						<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('started_hour')[$this->lang] . ': ' . Functions::get_formatted_hour($_POST['started_hour']) . ' hrs' . '</h6>
-						// 						<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('location')[$this->lang] . ': ' . (!empty($_POST['location']) ? $_POST['location']['name'][$this->lang] : '') . '</h6>
-						// 						<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('urgency')[$this->lang] . ': ' . Languages::email($_POST['urgency'])[$this->lang] . '</h6>';
-						//
-						// 	if ($_POST['type'] == 'request' OR $_POST['type'] == 'workorder')
-						// 		$mail->Body .= '<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('observations')[$this->lang] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Languages::email('not_observations')[$this->lang]) . '</p>';
-						// 	else if ($_POST['type'] == 'incident')
-						// 	{
-						// 		$mail->Body .=
-						// 		'<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('confidentiality')[$this->lang] . ': ' . Languages::email((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[$this->lang] . '</h6>
-						// 		<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('subject')[$this->lang] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Languages::email('not_subject')[$this->lang]) . '</p>';
-						// 	}
-						//
-						// 	$mail->Body .=
-						// 	'                   <a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $_POST['token'] . '">' . Languages::email('give_follow_up')[$this->lang] . '</a>
-						// 	                </td>
-						// 	            </tr>
-						// 				<tr style="width:100%;margin:0px;padding:0px;border:0px;">
-						// 					<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
-						// 						<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
-						// 					</td>
-						// 				</tr>
-						// 	        </table>
-						// 	    </body>
-						// 	</html>';
-						// 	$mail->send();
-						// }
-						// catch (Exception $e) { }
-						//
-						// $sms = $this->model->get_sms();
-						//
-						// if ($sms > 0)
-						// {
-						// 	$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
-						// 	$sms_client = new \Nexmo\Client($sms_basic);
-						// 	$sms_text = 'Guestvox. ' . Languages::email('new', $_POST['type'])[$this->lang] . ' . ';
-						// 	$sms_text .= Languages::email('token')[$this->lang] . ': ' . $_POST['token'] . ' . ';
-						// 	$sms_text .= Languages::email('owner')[$this->lang] . ': ' . $_POST['owner']['name'][$this->lang] . (!empty($_POST['owner']['number']) ? ' #' . $_POST['owner']['number'] : '') . ' . ';
-						// 	$sms_text .= Languages::email('opportunity_area')[$this->lang] . ': ' . $_POST['opportunity_area']['name'][$this->lang] . ' . ';
-						// 	$sms_text .= Languages::email('opportunity_type')[$this->lang] . ': ' . $_POST['opportunity_type']['name'][$this->lang] . ' . ';
-						// 	$sms_text .= Languages::email('started_date')[$this->lang] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' . ';
-						// 	$sms_text .= Languages::email('started_hour')[$this->lang] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' . ';
-						// 	$sms_text .= Languages::email('location')[$this->lang] . ': ' . $_POST['location']['name'][$this->lang] . ' . ';
-						// 	$sms_text .= Languages::email('urgency')[$this->lang] . ': ' . Languages::email($_POST['urgency'])[$this->lang] . ' . ';
-						//
-						// 	if ($_POST['type'] == 'request' OR $_POST['type'] == 'workorder')
-						// 		$sms_text .= Languages::email('observations')[$this->lang] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Languages::email('not_observations')[$this->lang]) . ' . ';
-						// 	else if ($_POST['type'] == 'incident')
-						// 	{
-						// 		$sms_text .= Languages::email('confidentiality')[$this->lang] . ': ' . Languages::email((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[$this->lang] . ' . ';
-						// 		$sms_text .= Languages::email('subject')[$this->lang] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Languages::email('not_subject')[$this->lang]) . ' . ';
-						// 	}
-						//
-						// 	$sms_text .= 'https://' . Configuration::$domain . '/voxes/details/' . $_POST['token'];
-						//
-						// 	foreach ($_POST['assigned_users'] as $value)
-						// 	{
-						// 		if ($sms > 0)
-						// 		{
-						// 			try
-						// 			{
-						// 				$sms_client->message()->send([
-						// 					'to' => $value['phone']['lada'] . $value['phone']['number'],
-						// 					'from' => 'Guestvox',
-						// 					'text' => $sms_text
-						// 				]);
-						//
-						// 				$sms = $sms - 1;
-						// 			}
-						// 			catch (Exception $e) { }
-						// 		}
-						// 	}
-						//
-						// 	$this->model->edit_sms($sms);
-						// }
+						$_POST['owner'] = $this->model->get_owner($_POST['owner']);
+						$_POST['opportunity_area'] = $this->model->get_opportunity_area($_POST['opportunity_area']);
+						$_POST['opportunity_type'] = $this->model->get_opportunity_type($_POST['opportunity_type']);
+
+						if (!empty($_POST['location']))
+							$_POST['location'] = $this->model->get_location($_POST['location']);
+
+						$_POST['assigned_users'] = $this->model->get_assigned_users($_POST['assigned_users'], $_POST['opportunity_area']['id']);
+
+						$mail = new Mailer(true);
+
+						try
+						{
+							$mail->setFrom('noreply@guestvox.com', 'Guestvox');
+
+							foreach ($_POST['assigned_users'] as $value)
+								$mail->addAddress($value['email'], $value['firstname'] . ' ' . $value['lastname']);
+
+							$mail->Subject = Languages::email('new', $_POST['type'])[$this->lang];
+							$mail->Body =
+							'<html>
+							    <head>
+							        <title>' . $mail->Subject . '</title>
+							    </head>
+							    <body>
+							        <table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+												<figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+													<img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/images/logotype_color.png">
+												</figure>
+											</td>
+										</tr>
+										<tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+											<td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+												<h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:24px;font-weight:600;text-align:center;color:#212121;">' . $mail->Subject . '</h4>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('token')[$this->lang] . ': ' . $_POST['token'] . '</h6>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('owner')[$this->lang] . ': ' . $_POST['owner']['name'][$this->lang] . (!empty($_POST['owner']['number']) ? ' #' . $_POST['owner']['number'] : '') . '</h6>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('opportunity_area')[$this->lang] . ': ' . $_POST['opportunity_area']['name'][$this->lang] . '</h6>
+						    					<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('opportunity_type')[$this->lang] . ': ' . $_POST['opportunity_type']['name'][$this->lang] . '</h6>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('started_date')[$this->lang] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd.m.Y') . '</h6>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('started_hour')[$this->lang] . ': ' . Functions::get_formatted_hour($_POST['started_hour']) . ' hrs' . '</h6>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('location')[$this->lang] . ': ' . (!empty($_POST['location']) ? $_POST['location']['name'][$this->lang] : '') . '</h6>
+												<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('urgency')[$this->lang] . ': ' . Languages::email($_POST['urgency'])[$this->lang] . '</h6>';
+
+							if ($_POST['type'] == 'request' OR $_POST['type'] == 'workorder')
+								$mail->Body .= '<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('observations')[$this->lang] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Languages::email('not_observations')[$this->lang]) . '</p>';
+							else if ($_POST['type'] == 'incident')
+							{
+								$mail->Body .=
+								'<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('confidentiality')[$this->lang] . ': ' . Languages::email((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[$this->lang] . '</h6>
+								<p style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:14px;font-weight:400;text-align:left;color:#757575;">' . Languages::email('subject')[$this->lang] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Languages::email('not_subject')[$this->lang]) . '</p>';
+							}
+
+							$mail->Body .=
+							'                   <a style="width:100%;display:block;margin:0px;padding:20px 0px;border-radius:50px;box-sizing:border-box;background-color:#00a5ab;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#fff;" href="https://' . Configuration::$domain . '/voxes/details/' . $_POST['token'] . '">' . Languages::email('give_follow_up')[$this->lang] . '</a>
+							                </td>
+							            </tr>
+										<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+											<td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+												<a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
+											</td>
+										</tr>
+							        </table>
+							    </body>
+							</html>';
+							$mail->send();
+						}
+						catch (Exception $e) { }
+
+						$sms = $this->model->get_sms();
+
+						if ($sms > 0)
+						{
+							$sms_basic  = new \Nexmo\Client\Credentials\Basic('45669cce', 'CR1Vg1bpkviV8Jzc');
+							$sms_client = new \Nexmo\Client($sms_basic);
+							$sms_text = 'Guestvox. ' . Languages::email('new', $_POST['type'])[$this->lang] . ' . ';
+							$sms_text .= Languages::email('token')[$this->lang] . ': ' . $_POST['token'] . ' . ';
+							$sms_text .= Languages::email('owner')[$this->lang] . ': ' . $_POST['owner']['name'][$this->lang] . (!empty($_POST['owner']['number']) ? ' #' . $_POST['owner']['number'] : '') . ' . ';
+							$sms_text .= Languages::email('opportunity_area')[$this->lang] . ': ' . $_POST['opportunity_area']['name'][$this->lang] . ' . ';
+							$sms_text .= Languages::email('opportunity_type')[$this->lang] . ': ' . $_POST['opportunity_type']['name'][$this->lang] . ' . ';
+							$sms_text .= Languages::email('started_date')[$this->lang] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' . ';
+							$sms_text .= Languages::email('started_hour')[$this->lang] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' . ';
+							$sms_text .= Languages::email('location')[$this->lang] . ': ' . $_POST['location']['name'][$this->lang] . ' . ';
+							$sms_text .= Languages::email('urgency')[$this->lang] . ': ' . Languages::email($_POST['urgency'])[$this->lang] . ' . ';
+
+							if ($_POST['type'] == 'request' OR $_POST['type'] == 'workorder')
+								$sms_text .= Languages::email('observations')[$this->lang] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Languages::email('not_observations')[$this->lang]) . ' . ';
+							else if ($_POST['type'] == 'incident')
+							{
+								$sms_text .= Languages::email('confidentiality')[$this->lang] . ': ' . Languages::email((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[$this->lang] . ' . ';
+								$sms_text .= Languages::email('subject')[$this->lang] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Languages::email('not_subject')[$this->lang]) . ' . ';
+							}
+
+							$sms_text .= 'https://' . Configuration::$domain . '/voxes/details/' . $_POST['token'];
+
+							foreach ($_POST['assigned_users'] as $value)
+							{
+								if ($sms > 0)
+								{
+									try
+									{
+										$sms_client->message()->send([
+											'to' => $value['phone']['lada'] . $value['phone']['number'],
+											'from' => 'Guestvox',
+											'text' => $sms_text
+										]);
+
+										$sms = $sms - 1;
+									}
+									catch (Exception $e) { }
+								}
+							}
+
+							$this->model->edit_sms($sms);
+						}
+
+						$whatsapp = $this->model->get_whatsapp();
+
+						if ($whatsapp > 0)
+						{
+							$whatsapp_headers = array(
+								'Cache-Control: no-cache',
+								'Content-Type: application/x-www-form-urlencoded',
+								'Accept: text/plain',
+								'Apikey: b70ed8d3c58248a6c8581923e3df00fa'
+							);
+
+							$whatsapp_text = 'Guestvox. ' . Languages::email('new', $_POST['type'])[$this->lang] . ' . ';
+							$whatsapp_text .= Languages::email('token')[$this->lang] . ': ' . $_POST['token'] . ' . ';
+							$whatsapp_text .= Languages::email('owner')[$this->lang] . ': ' . $_POST['owner']['name'][$this->lang] . (!empty($_POST['owner']['number']) ? ' #' . $_POST['owner']['number'] : '') . ' . ';
+							$whatsapp_text .= Languages::email('opportunity_area')[$this->lang] . ': ' . $_POST['opportunity_area']['name'][$this->lang] . ' . ';
+							$whatsapp_text .= Languages::email('opportunity_type')[$this->lang] . ': ' . $_POST['opportunity_type']['name'][$this->lang] . ' . ';
+							$whatsapp_text .= Languages::email('started_date')[$this->lang] . ': ' . Functions::get_formatted_date($_POST['started_date'], 'd M y') . ' . ';
+							$whatsapp_text .= Languages::email('started_hour')[$this->lang] . ': ' . Functions::get_formatted_hour($_POST['started_hour'], '+ hrs') . ' . ';
+							$whatsapp_text .= Languages::email('location')[$this->lang] . ': ' . $_POST['location']['name'][$this->lang] . ' . ';
+							$whatsapp_text .= Languages::email('urgency')[$this->lang] . ': ' . Languages::email($_POST['urgency'])[$this->lang] . ' . ';
+
+							if ($_POST['type'] == 'request' OR $_POST['type'] == 'workorder')
+								$whatsapp_text .= Languages::email('observations')[$this->lang] . ': ' . (!empty($_POST['observations']) ? $_POST['observations'] : Languages::email('not_observations')[$this->lang]) . ' . ';
+							else if ($_POST['type'] == 'incident')
+							{
+								$whatsapp_text .= Languages::email('confidentiality')[$this->lang] . ': ' . Languages::email((!empty($_POST['confidentiality']) ? 'yes' : 'not'))[$this->lang] . ' . ';
+								$whatsapp_text .= Languages::email('subject')[$this->lang] . ': ' . (!empty($_POST['subject']) ? $_POST['subject'] : Languages::email('not_subject')[$this->lang]) . ' . ';
+							}
+
+							$whatsapp_text .= 'https://' . Configuration::$domain . '/voxes/details/' . $_POST['token'];
+
+							foreach ($_POST['assigned_users'] as $value)
+							{
+								if ($whatsapp > 0)
+								{
+									try
+									{
+										$whatsapp_ch = curl_init();
+
+										curl_setopt($whatsapp_ch, CURLOPT_URL, 'https://api.gupshup.io/sm/api/v1/msg');
+										curl_setopt($whatsapp_ch, CURLOPT_RETURNTRANSFER, 1);
+										curl_setopt($whatsapp_ch, CURLOPT_POST, 1);
+										curl_setopt($whatsapp_ch, CURLOPT_POSTFIELDS, 'channel=whatsapp&source=525532012511&destination=' . $value['phone']['lada'] . $value['phone']['number'] . '&message=' . urlencode($whatsapp_text));
+										curl_setopt($whatsapp_ch, CURLOPT_HTTPHEADER, $whatsapp_headers);
+
+										$whatsapp_result = curl_exec($whatsapp_ch);
+
+										curl_close($whatsapp_ch);
+
+										$whatsapp = $whatsapp - 1;
+									}
+									catch (Exception $e) { }
+								}
+							}
+
+							$this->model->edit_whatsapp($whatsapp);
+						}
 
 						Functions::environment([
 							'status' => 'success',
@@ -1175,6 +1233,12 @@ class Voxes_controller extends Controller
 					                        </div>
 					                    </div>
 										<div class="span12">
+									        <select name="listaDeDispositivos" id="listaDeDispositivos" class="hidden"></select>
+									        <p id="duracion"></p>
+									        <a class="btn" id="btnComenzarGrabacion">Grabar</a>
+									        <a class="btn" id="btnDetenerGrabacion">Detener</a>
+									    </div>
+										<div class="span12">
 					                        <div class="label">
 					                            <label unrequired>
 					                                <p>(' . Session::get_value('account')['currency'] . ') {$lang.cost}</p>
@@ -1311,6 +1375,7 @@ class Voxes_controller extends Controller
 					'{$btn_start_vox_now}' => ($vox['status'] == true AND $vox['automatic_start'] == true) ? ($vox['started_date'] == null) ? '<a class="big new" data-button-modal="start_vox_now"><i class="fas fa-play-circle"></i><span>Iniciar</span></a>' : '' : '',
 					'{$btn_complete_vox}' => ($vox['status'] == true) ? '<a class="new" data-button-modal="complete_vox"><i class="fas fa-check"></i></a>' : '',
 					'{$btn_reopen_vox}' => ($vox['status'] == false) ? '<a class="new" data-button-modal="reopen_vox"><i class="fas fa-reply"></i></a>' : '',
+					'{$btn_share_vox}' => '<a class="new" data-action="share" data-title="' . Session::get_value('account')['name'] . '" data-text="{$lang.share_vox}" data-url="https://' . Configuration::$domain . '/voxes/details/' . $vox['token'] . '" data-mobile><i class="fas fa-share-alt"></i></a>',
 					'{$mdl_get_attachments}' => $mdl_get_attachments,
 					'{$div_assigned_users}' => $div_assigned_users,
 					'{$div_viewed_by}' => $div_viewed_by,

@@ -2,6 +2,15 @@
 
 $(document).ready(function()
 {
+    $('[data-action="share"]').on('click', function()
+    {
+        navigator.share({
+            title: $(this).data('title'),
+            text: $(this).data('text'),
+            url: $(this).data('url')
+        });
+    });
+    
     $('[data-modal="comment_vox"]').modal().onCancel(function()
     {
         clean_form($('form[name="comment_vox"]'));
@@ -50,7 +59,7 @@ $(document).ready(function()
             }
         });
     });
-    
+
     $('[data-modal="start_vox"]').modal().onCancel(function()
     {
         clean_form($('form[name="start_vox"]'));
