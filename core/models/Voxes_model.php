@@ -1225,6 +1225,7 @@ class Voxes_model extends Model
 				'hour' => Functions::get_current_hour(),
 				'cost' => $data['cost'],
 				'comment' => $data['comment'],
+				'voice' => (Session::exists_var('vox_voice_comment') == true AND !empty(Session::get_value('vox_voice_comment'))) ? Session::get_value('vox_voice_comment') : '',
 				'attachments' => !empty($data['attachments']) ? $data['attachments'] : []
 			]);
 

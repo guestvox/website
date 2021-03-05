@@ -768,6 +768,8 @@ class Voxes_controller extends Controller
 							// 	$this->model->edit_sms($sms);
 							// }
 
+							Session::set_value('vox_voice_comment', null);
+
 							Functions::environment([
 								'status' => 'success',
 								'message' => '{$lang.operation_success}'
