@@ -126,8 +126,7 @@ $this->dependencies->add(['others',
             <div>
                 <i class="fas fa-hotel"></i>
                 <h2>{$lang.guestvox_hotels}</h2>
-                <!-- <a href="/hoteles">{$lang.discover_more}</a> -->
-                <a href="/404">{$lang.discover_more}</a>
+                <a href="/hoteles">{$lang.discover_more}</a>
                 <p>{$lang.guestvox_hotels_text}</p>
                 <a data-button-modal="quote_hotel">{$lang.quote_now}</a>
             </div>
@@ -136,7 +135,6 @@ $this->dependencies->add(['others',
             <div>
                 <i class="fas fa-utensils"></i>
                 <h2>{$lang.guestvox_restaurants}</h2>
-                <!-- <a href="/restaurantes">{$lang.discover_more}</a> -->
                 <a href="/404">{$lang.discover_more}</a>
                 <p>{$lang.guestvox_restaurants_text}</p>
                 <a data-button-modal="quote_restaurant">{$lang.quote_now}</a>
@@ -146,8 +144,7 @@ $this->dependencies->add(['others',
             <div>
                 <i class="fas fa-grin-stars"></i>
                 <h2>{$lang.guestvox_personalize}</h2>
-                <!-- <a href="/personaliza">¡{$lang.personalize_now}!</a> -->
-                <a href="/404">¡{$lang.personalize_now}!</a>
+                <a href="/personaliza">¡{$lang.personalize_now}!</a>
                 <p>{$lang.guestvox_personalize_text}</p>
                 <a data-button-modal="quote_personalize">{$lang.quote_now}</a>
             </div>
