@@ -13,28 +13,17 @@ class Personalize_model extends Model
 
 	public function get_package($type, $rooms_number)
 	{
-		$AND = [
-			'type' => $type,
-			'status' => true
-		];
-
-		if ($type == 'hotel')
-		{
-			$AND['quantity_start[<=]'] = $rooms_number;
-			$AND['quantity_end[>=]'] = $rooms_number;
-		}
-		else
-		{
-			$AND['quantity_start[<=]'] = 40;
-			$AND['quantity_end[>=]'] = 40;
-		}
-
 		$query = Functions::get_json_decoded_query($this->database->select('packages', [
 			'id',
 			'quantity_end',
 			'price'
 		], [
-			'AND' => $AND
+			'AND' => [
+				'type' => $type,
+				'quantity_start[<=]' => ($type == 'hotel') ? $rooms_number : 100,
+				'quantity_end[>=]' => ($type == 'hotel') ? $rooms_number : 100,
+				'status' => true
+			]
 		]));
 
 		return !empty($query) ? $query[0] : null;
@@ -163,13 +152,6 @@ class Personalize_model extends Model
 		$data['token'] = strtolower(Functions::get_random(8));
 		$data['path'] = str_replace(' ', '', strtolower($data['path']));
 
-		$data['account_qr']['filename'] = $data['path'] . '_account_qr_' . $data['token'] . '.png';
-		$data['account_qr']['content'] = 'https://' . Configuration::$domain . '/' . $data['path'] . '/myvox';
-		$data['account_qr']['dir'] = PATH_UPLOADS . $data['account_qr']['filename'];
-		$data['account_qr']['level'] = 'H';
-		$data['account_qr']['size'] = 5;
-		$data['account_qr']['frame'] = 3;
-
 		$data['menu_delivery_qr']['filename'] = $data['path'] . '_menu_delivery_qr_' . $data['token'] . '.png';
 		$data['menu_delivery_qr']['content'] = 'https://' . Configuration::$domain . '/' . $data['path'] . '/myvox/delivery';
 		$data['menu_delivery_qr']['dir'] = PATH_UPLOADS . $data['menu_delivery_qr']['filename'];
@@ -193,6 +175,10 @@ class Personalize_model extends Model
 			'city' => $data['city'],
 			'zip_code' => $data['zip_code'],
 			'address' => $data['address'],
+			'location' => json_encode([
+				'lat' => '',
+				'lng' => ''
+			]),
 			'time_zone' => $data['time_zone'],
 			'currency' => $data['currency'],
 			'language' => $data['language'],
@@ -213,24 +199,31 @@ class Personalize_model extends Model
 			]),
 			'logotype' => Functions::uploader($data['logotype'], $data['path'] . '_account_logotype_'),
 			'qrs' => json_encode([
-				'account' => $data['account_qr']['filename'],
 				'menu_delivery' => $data['menu_delivery_qr']['filename'],
 				'reviews' => $data['reviews_qr']['filename']
 			]),
 			'package' => $this->get_package($data['type'], $data['rooms_number'])['id'],
+			'digital_menu' => !empty($data['digital_menu']) ? true : false,
 			'operation' => !empty($data['operation']) ? true : false,
-			'reputation' => !empty($data['reputation']) ? true : false,
-			'siteminder' => json_encode([
-				'status' => false,
-				'username' => '',
-				'password' => ''
-			]),
+			'surveys' => !empty($data['surveys']) ? true : false,
 			'zaviapms' => json_encode([
 				'status' => false,
 				'username' => '',
 				'password' => ''
 			]),
+			'ambit' => json_encode([
+				'status' => false,
+				'username' => '',
+				'password' => '',
+				'store_id' => ''
+			]),
+			'siteminder' => json_encode([
+				'status' => false,
+				'username' => '',
+				'password' => ''
+			]),
 			'sms' => 0,
+			'whatsapp' => 0,
 			'settings' => json_encode([
 				'myvox' => [
 					'request' => [
@@ -254,8 +247,8 @@ class Personalize_model extends Model
 							'en' => ''
 						],
 						'currency' => '',
-						'opportunity_area' => '',
-						'opportunity_type' => '',
+						'delivery' => false,
+						'requests' => false,
 						'schedule' => [
 							'monday' => [
 								'status' => 'close',
@@ -293,8 +286,7 @@ class Personalize_model extends Model
 								'closing' => ''
 							]
 						],
-						'delivery' => false,
-						'requests' => false,
+						'sell_radius' => '',
 						'multi' => false
 					],
 					'survey' => [
@@ -467,41 +459,10 @@ class Personalize_model extends Model
 			'status' => true
 		]);
 
-		QRcode::png($data['account_qr']['content'], $data['account_qr']['dir'], $data['account_qr']['level'], $data['account_qr']['size'], $data['account_qr']['frame']);
 		QRcode::png($data['menu_delivery_qr']['content'], $data['menu_delivery_qr']['dir'], $data['menu_delivery_qr']['level'], $data['menu_delivery_qr']['size'], $data['menu_delivery_qr']['frame']);
 		QRcode::png($data['reviews_qr']['content'], $data['reviews_qr']['dir'], $data['reviews_qr']['level'], $data['reviews_qr']['size'], $data['reviews_qr']['frame']);
 
 		$account = $this->database->id();
-
-		if (!empty($data['operation']))
-		{
-			$this->database->insert('opportunity_areas', [
-				'account' => $account,
-				'name' => json_encode([
-					'es' => 'Menú digital',
-					'en' => 'Digital menu'
-				]),
-				'request' => true,
-				'incident' => false,
-				'workorder' => false,
-				'public' => false,
-				'status' => true
-			]);
-
-			$this->database->insert('opportunity_types', [
-				'account' => $account,
-				'opportunity_area' => $this->database->id(),
-				'name' => json_encode([
-					'es' => 'Menú digital',
-					'en' => 'Digital menu'
-				]),
-				'request' => true,
-				'incident' => false,
-				'workorder' => false,
-				'public' => false,
-				'status' => true
-			]);
-		}
 
 		if ($data['type'] == 'hotel')
 		{
@@ -681,30 +642,30 @@ class Personalize_model extends Model
 				'permissions' => $data['users_levels']['permissions'][0],
 				'status' => true
 			],
-			[
-				'account' => $account,
-				'name' => $data['users_levels'][$data['language']][1],
-				'permissions' => $data['users_levels']['permissions'][1],
-				'status' => true
-			],
-			[
-				'account' => $account,
-				'name' => $data['users_levels'][$data['language']][2],
-				'permissions' => $data['users_levels']['permissions'][2],
-				'status' => true
-			],
-			[
-				'account' => $account,
-				'name' => $data['users_levels'][$data['language']][3],
-				'permissions' => $data['users_levels']['permissions'][3],
-				'status' => true
-			],
-			[
-				'account' => $account,
-				'name' => $data['users_levels'][$data['language']][4],
-				'permissions' => $data['users_levels']['permissions'][4],
-				'status' => true
-			]
+			// [
+			// 	'account' => $account,
+			// 	'name' => $data['users_levels'][$data['language']][1],
+			// 	'permissions' => $data['users_levels']['permissions'][1],
+			// 	'status' => true
+			// ],
+			// [
+			// 	'account' => $account,
+			// 	'name' => $data['users_levels'][$data['language']][2],
+			// 	'permissions' => $data['users_levels']['permissions'][2],
+			// 	'status' => true
+			// ],
+			// [
+			// 	'account' => $account,
+			// 	'name' => $data['users_levels'][$data['language']][3],
+			// 	'permissions' => $data['users_levels']['permissions'][3],
+			// 	'status' => true
+			// ],
+			// [
+			// 	'account' => $account,
+			// 	'name' => $data['users_levels'][$data['language']][4],
+			// 	'permissions' => $data['users_levels']['permissions'][4],
+			// 	'status' => true
+			// ]
 		]);
 
 		$this->database->insert('users', [

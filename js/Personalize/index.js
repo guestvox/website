@@ -22,21 +22,6 @@ $(document).ready(function()
             $('[name="path"]').parent().find('span').find('strong').html('micuenta');
     });
 
-    $('[name="username"]').on('keyup', function()
-    {
-        var string = $(this).val().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-        var filter = 'abcdefghijklmnñopqrstuvwxyz0123456789';
-        var out = '';
-
-        for (var i = 0; i < string.length; i++)
-        {
-            if (filter.indexOf(string.charAt(i)) != -1)
-                out += string.charAt(i);
-        }
-
-        $('[name="username"]').val(out);
-    });
-
     $('[name="type"]').on('change', function()
     {
         $('[name="rooms_number"]').val('');
@@ -56,6 +41,21 @@ $(document).ready(function()
     $(document).on('change', '[name="type"], [name="rooms_number"], [name="digital_menu"], [name="operation"], [name="surveys"]', function()
     {
         get_total();
+    });
+
+    $('[name="username"]').on('keyup', function()
+    {
+        var string = $(this).val().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        var filter = 'abcdefghijklmnñopqrstuvwxyz0123456789';
+        var out = '';
+
+        for (var i = 0; i < string.length; i++)
+        {
+            if (filter.indexOf(string.charAt(i)) != -1)
+                out += string.charAt(i);
+        }
+
+        $('[name="username"]').val(out);
     });
 
     var step;
