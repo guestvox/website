@@ -246,9 +246,12 @@ class Personalize_model extends Model
 							'es' => '',
 							'en' => ''
 						],
+						'email' => '',
+						'phone' => [
+							'lada' => '',
+							'number' => ''
+						],
 						'currency' => '',
-						'delivery' => false,
-						'requests' => false,
 						'schedule' => [
 							'monday' => [
 								'status' => 'close',
@@ -286,6 +289,8 @@ class Personalize_model extends Model
 								'closing' => ''
 							]
 						],
+						'delivery' => false,
+						'requests' => false,
 						'sell_radius' => '',
 						'multi' => false
 					],
