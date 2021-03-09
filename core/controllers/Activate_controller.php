@@ -15,7 +15,7 @@ class Activate_controller extends Controller
 
 	public function index($params)
 	{
-		$template = $this->view->render($this, 'activate');
+		$template = $this->view->render($this, 'index');
 
 		define('_title', 'Guestvox | {$lang.activate_user}');
 

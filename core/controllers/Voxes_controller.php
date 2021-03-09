@@ -1234,12 +1234,12 @@ class Voxes_controller extends Controller
 					                            </label>
 					                        </div>
 					                    </div>
-										<div class="span12">
+										<!-- <div class="span12">
 									        <select name="listaDeDispositivos" id="listaDeDispositivos" class="hidden"></select>
 									        <p id="duracion"></p>
 									        <a class="btn" id="btnComenzarGrabacion">Grabar</a>
 									        <a class="btn" id="btnDetenerGrabacion">Detener</a>
-									    </div>
+									    </div> -->
 										<div class="span12">
 					                        <div class="label">
 					                            <label unrequired>
