@@ -50,7 +50,7 @@ class Myvox_model extends Model
 		return !empty($query) ? $query[0] : null;
 	}
 
-	public function get_reservation($number)
+	public function get_reservation($number, $zaviapms)
 	{
 		$reservation = [
 			'status' => 'success',
@@ -66,9 +66,9 @@ class Myvox_model extends Model
 			'age_group' => ''
 		];
 
-		if (!empty($number) AND Session::get_value('myvox')['account']['zaviapms']['status'] == true)
+		if (!empty($number) AND $zaviapms['status'] == true)
 		{
-			$query = Functions::api('zaviapms', Session::get_value('myvox')['account']['zaviapms'], 'get', 'room', $number);
+			$query = Functions::api('zaviapms', $zaviapms, 'get', 'room', $number);
 
 			$reservation['status'] = $query['Status'];
 
