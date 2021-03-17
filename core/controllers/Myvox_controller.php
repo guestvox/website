@@ -36,7 +36,7 @@ class Myvox_controller extends Controller
 				if ((($account['type'] == 'hotel' OR $account['type'] == 'restaurant') AND $params[1] == 'owner' AND !empty($owner)) OR (($account['type'] == 'restaurant' OR $account['type'] == 'others') AND $params[1] == 'delivery'))
 				{
 					if ($account['type'] == 'hotel' AND $params[1] == 'owner')
-						$owner['reservation'] = $this->model->get_reservation($owner['number']);
+						$owner['reservation'] = $this->model->get_reservation($owner['number'], $account['zaviapms']);
 
 					$myvox = [
 						'account' => $account,

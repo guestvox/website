@@ -568,105 +568,6 @@ class Account_controller extends Controller
 					if (!isset($_POST['contract_titular_bank_clabe']) OR empty($_POST['contract_titular_bank_clabe']))
 						array_push($labels, ['contract_titular_bank_clabe','']);
 
-					if (!isset($_POST['contract_titular_personal_references_first_name']) OR empty($_POST['contract_titular_personal_references_first_name']))
-						array_push($labels, ['contract_titular_personal_references_first_name','']);
-
-					if (!isset($_POST['contract_titular_personal_references_first_phone_lada']) OR empty($_POST['contract_titular_personal_references_first_phone_lada']))
-						array_push($labels, ['contract_titular_personal_references_first_phone_lada','']);
-
-					if (!isset($_POST['contract_titular_personal_references_first_phone_number']) OR empty($_POST['contract_titular_personal_references_first_phone_number']))
-						array_push($labels, ['contract_titular_personal_references_first_phone_number','']);
-
-					if (!isset($_POST['contract_titular_personal_references_second_name']) OR empty($_POST['contract_titular_personal_references_second_name']))
-						array_push($labels, ['contract_titular_personal_references_second_name','']);
-
-					if (!isset($_POST['contract_titular_personal_references_second_phone_lada']) OR empty($_POST['contract_titular_personal_references_second_phone_lada']))
-						array_push($labels, ['contract_titular_personal_references_second_phone_lada','']);
-
-					if (!isset($_POST['contract_titular_personal_references_second_phone_number']) OR empty($_POST['contract_titular_personal_references_second_phone_number']))
-						array_push($labels, ['contract_titular_personal_references_second_phone_number','']);
-
-					if (!isset($_POST['contract_titular_personal_references_third_name']) OR empty($_POST['contract_titular_personal_references_third_name']))
-						array_push($labels, ['contract_titular_personal_references_third_name','']);
-
-					if (!isset($_POST['contract_titular_personal_references_third_phone_lada']) OR empty($_POST['contract_titular_personal_references_third_phone_lada']))
-						array_push($labels, ['contract_titular_personal_references_third_phone_lada','']);
-
-					if (!isset($_POST['contract_titular_personal_references_third_phone_number']) OR empty($_POST['contract_titular_personal_references_third_phone_number']))
-						array_push($labels, ['contract_titular_personal_references_third_phone_number','']);
-
-					if (!isset($_POST['contract_titular_personal_references_fourth_name']) OR empty($_POST['contract_titular_personal_references_fourth_name']))
-						array_push($labels, ['contract_titular_personal_references_fourth_name','']);
-
-					if (!isset($_POST['contract_titular_personal_references_fourth_phone_lada']) OR empty($_POST['contract_titular_personal_references_fourth_phone_lada']))
-						array_push($labels, ['contract_titular_personal_references_fourth_phone_lada','']);
-
-					if (!isset($_POST['contract_titular_personal_references_fourth_phone_number']) OR empty($_POST['contract_titular_personal_references_fourth_phone_number']))
-						array_push($labels, ['contract_titular_personal_references_fourth_phone_number','']);
-
-					if (!isset($_POST['contract_titular_email']) OR empty($_POST['contract_titular_email']))
-						array_push($labels, ['contract_titular_email','']);
-
-					if (!isset($_POST['contract_titular_phone_lada']) OR empty($_POST['contract_titular_phone_lada']))
-						array_push($labels, ['contract_titular_phone_lada','']);
-
-					if (!isset($_POST['contract_titular_phone_number']) OR empty($_POST['contract_titular_phone_number']))
-						array_push($labels, ['contract_titular_phone_number','']);
-
-					if (!isset($_POST['contract_titular_tpv']) OR empty($_POST['contract_titular_tpv']))
-						array_push($labels, ['contract_titular_tpv','']);
-
-					if (!isset($_POST['contract_company_writing_number']) OR empty($_POST['contract_company_writing_number']))
-						array_push($labels, ['contract_company_writing_number','']);
-
-					if (!isset($_POST['contract_company_writing_date']) OR empty($_POST['contract_company_writing_date']))
-						array_push($labels, ['contract_company_writing_date','']);
-
-					if (!isset($_POST['contract_company_public_record_folio']) OR empty($_POST['contract_company_public_record_folio']))
-						array_push($labels, ['contract_company_public_record_folio','']);
-
-					if (!isset($_POST['contract_company_public_record_date']) OR empty($_POST['contract_company_public_record_date']))
-						array_push($labels, ['contract_company_public_record_date','']);
-
-					if (!isset($_POST['contract_company_notary_name']) OR empty($_POST['contract_company_notary_name']))
-						array_push($labels, ['contract_company_notary_name','']);
-
-					if (!isset($_POST['contract_company_notary_number']) OR empty($_POST['contract_company_notary_number']))
-						array_push($labels, ['contract_company_notary_number','']);
-
-					if (!isset($_POST['contract_company_city']) OR empty($_POST['contract_company_city']))
-						array_push($labels, ['contract_company_city','']);
-
-					if (!isset($_POST['contract_company_legal_representative_name']) OR empty($_POST['contract_company_legal_representative_name']))
-						array_push($labels, ['contract_company_legal_representative_name','']);
-
-					if (!isset($_POST['contract_company_legal_representative_writing_number']) OR empty($_POST['contract_company_legal_representative_writing_number']))
-						array_push($labels, ['contract_company_legal_representative_writing_number','']);
-
-					if (!isset($_POST['contract_company_legal_representative_writing_date']) OR empty($_POST['contract_company_legal_representative_writing_date']))
-						array_push($labels, ['contract_company_legal_representative_writing_date','']);
-
-					if (!isset($_POST['contract_company_legal_representative_notary_name']) OR empty($_POST['contract_company_legal_representative_notary_name']))
-						array_push($labels, ['contract_company_legal_representative_notary_name','']);
-
-					if (!isset($_POST['contract_company_legal_representative_notary_number']) OR empty($_POST['contract_company_legal_representative_notary_number']))
-						array_push($labels, ['contract_company_legal_representative_notary_number','']);
-
-					if (!isset($_POST['contract_company_legal_representative_city']) OR empty($_POST['contract_company_legal_representative_city']))
-						array_push($labels, ['contract_company_legal_representative_city','']);
-
-					if (!isset($_POST['contract_company_legal_representative_card_type']) OR empty($_POST['contract_company_legal_representative_card_type']))
-						array_push($labels, ['contract_company_legal_representative_card_type','']);
-
-					if (!isset($_POST['contract_company_legal_representative_card_number']) OR empty($_POST['contract_company_legal_representative_card_number']))
-						array_push($labels, ['contract_company_legal_representative_card_number','']);
-
-					if (!isset($_POST['contract_company_legal_representative_card_expedition_date']) OR empty($_POST['contract_company_legal_representative_card_expedition_date']))
-						array_push($labels, ['contract_company_legal_representative_card_expedition_date','']);
-
-					if (!isset($_POST['contract_company_legal_representative_card_validity']) OR empty($_POST['contract_company_legal_representative_card_validity']))
-						array_push($labels, ['contract_company_legal_representative_card_validity','']);
-
 					if (!isset($_POST['contract_place']) OR empty($_POST['contract_place']))
 						array_push($labels, ['contract_place','']);
 
@@ -1693,8 +1594,8 @@ class Account_controller extends Controller
 			else if ($account['payment']['contract']['status'] == 'deactivated')
 			{
 				$mdl_edit_payment .=
-				'<h2>{$lang.transaction_processing_contract}</h2>
-				<h4>{$lang.titular_data}</h4>
+				'<h6><strong>{$lang.transaction_processing_contract}</strong></h6>
+				<h6>{$lang.titular_data}</h6>
 				<div class="span4">
 					<div class="label">
 						<label required>
@@ -1835,177 +1736,10 @@ class Account_controller extends Controller
 						</label>
 					</div>
 				</div>
+				<h6>{$lang.company_data}</h6>
 				<div class="span6">
 					<div class="label">
-						<label required>
-							<p>{$lang.personal_reference} 1</p>
-							<input type="text" name="contract_titular_personal_references_first_name">
-						</label>
-					</div>
-				</div>
-				<div class="span3">
-					<div class="label">
-						<label required>
-							<p>{$lang.lada}</p>
-							<select name="contract_titular_personal_references_first_phone_lada">
-								<option value="" hidden>{$lang.choose}</option>';
-
-				foreach ($this->model->get_countries() as $value)
-					$mdl_edit_payment .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
-
-				$mdl_edit_payment .=
-				'			</select>
-						</label>
-					</div>
-				</div>
-				<div class="span3">
-					<div class="label">
-						<label required>
-							<p>{$lang.phone}</p>
-							<input type="text" name="contract_titular_personal_references_first_phone_number">
-						</label>
-					</div>
-				</div>
-				<div class="span6">
-					<div class="label">
-						<label required>
-							<p>{$lang.personal_reference} 2</p>
-							<input type="text" name="contract_titular_personal_references_second_name">
-						</label>
-					</div>
-				</div>
-				<div class="span3">
-					<div class="label">
-						<label required>
-							<p>{$lang.lada}</p>
-							<select name="contract_titular_personal_references_second_phone_lada">
-								<option value="" hidden>{$lang.choose}</option>';
-
-				foreach ($this->model->get_countries() as $value)
-					$mdl_edit_payment .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
-
-				$mdl_edit_payment .=
-				'			</select>
-						</label>
-					</div>
-				</div>
-				<div class="span3">
-					<div class="label">
-						<label required>
-							<p>{$lang.phone}</p>
-							<input type="text" name="contract_titular_personal_references_second_phone_number">
-						</label>
-					</div>
-				</div>
-				<div class="span6">
-					<div class="label">
-						<label required>
-							<p>{$lang.personal_reference} 3</p>
-							<input type="text" name="contract_titular_personal_references_third_name">
-						</label>
-					</div>
-				</div>
-				<div class="span3">
-					<div class="label">
-						<label required>
-							<p>{$lang.lada}</p>
-							<select name="contract_titular_personal_references_third_phone_lada">
-								<option value="" hidden>{$lang.choose}</option>';
-
-				foreach ($this->model->get_countries() as $value)
-					$mdl_edit_payment .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
-
-				$mdl_edit_payment .=
-				'			</select>
-						</label>
-					</div>
-				</div>
-				<div class="span3">
-					<div class="label">
-						<label required>
-							<p>{$lang.phone}</p>
-							<input type="text" name="contract_titular_personal_references_third_phone_number">
-						</label>
-					</div>
-				</div>
-				<div class="span6">
-					<div class="label">
-						<label required>
-							<p>{$lang.personal_reference} 4</p>
-							<input type="text" name="contract_titular_personal_references_fourth_name">
-						</label>
-					</div>
-				</div>
-				<div class="span3">
-					<div class="label">
-						<label required>
-							<p>{$lang.lada}</p>
-							<select name="contract_titular_personal_references_fourth_phone_lada">
-								<option value="" hidden>{$lang.choose}</option>';
-
-				foreach ($this->model->get_countries() as $value)
-					$mdl_edit_payment .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
-
-				$mdl_edit_payment .=
-				'			</select>
-						</label>
-					</div>
-				</div>
-				<div class="span3">
-					<div class="label">
-						<label required>
-							<p>{$lang.phone}</p>
-							<input type="text" name="contract_titular_personal_references_fourth_phone_number">
-						</label>
-					</div>
-				</div>
-				<div class="span6">
-					<div class="label">
-						<label required>
-							<p>{$lang.email}</p>
-							<input type="text" name="contract_titular_email">
-						</label>
-					</div>
-				</div>
-				<div class="span3">
-					<div class="label">
-						<label required>
-							<p>{$lang.lada}</p>
-							<select name="contract_titular_phone_lada">
-								<option value="" hidden>{$lang.choose}</option>';
-
-				foreach ($this->model->get_countries() as $value)
-					$mdl_edit_payment .= '<option value="' . $value['lada'] . '">' . $value['name'][$this->lang] . ' (+' . $value['lada'] . ')</option>';
-
-				$mdl_edit_payment .=
-				'			</select>
-						</label>
-					</div>
-				</div>
-				<div class="span3">
-					<div class="label">
-						<label required>
-							<p>{$lang.phone}</p>
-							<input type="text" name="contract_titular_phone_number">
-						</label>
-					</div>
-				</div>
-				<div class="span12">
-					<div class="label">
-						<label required>
-							<p>{$lang.tpv} <a data-action="get_help" data-text=""><i class="fas fa-question-circle"></i></a></p>
-							<select name="contract_titular_tpv">
-								<option value="" hidden>{$lang.choose}</option>
-								<option value="yes">{$lang.to_yes}</option>
-								<option value="not">{$lang.to_not}</option>
-							</select>
-						</label>
-					</div>
-				</div>
-				<h4>{$lang.company_data}</h4>
-				<div class="span6">
-					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.writing_number}</p>
 							<input type="text" name="contract_company_writing_number">
 						</label>
@@ -2013,7 +1747,7 @@ class Account_controller extends Controller
 				</div>
 				<div class="span6">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.writing_date}</p>
 							<input type="date" name="contract_company_writing_date">
 						</label>
@@ -2021,7 +1755,7 @@ class Account_controller extends Controller
 				</div>
 				<div class="span6">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.public_record_folio}</p>
 							<input type="text" name="contract_company_public_record_folio">
 						</label>
@@ -2029,7 +1763,7 @@ class Account_controller extends Controller
 				</div>
 				<div class="span6">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.public_record_date}</p>
 							<input type="date" name="contract_company_public_record_date">
 						</label>
@@ -2037,7 +1771,7 @@ class Account_controller extends Controller
 				</div>
 				<div class="span4">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.notary}</p>
 							<input type="text" name="contract_company_notary_name">
 						</label>
@@ -2045,7 +1779,7 @@ class Account_controller extends Controller
 				</div>
 				<div class="span4">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.number}</p>
 							<input type="text" name="contract_company_notary_number">
 						</label>
@@ -2053,16 +1787,16 @@ class Account_controller extends Controller
 				</div>
 				<div class="span4">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.city}</p>
 							<input type="text" name="contract_company_city">
 						</label>
 					</div>
 				</div>
-				<h4>{$lang.legal_representative_data}</h4>
+				<h6>{$lang.legal_representative_data}</h6>
 				<div class="span12">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.name}</p>
 							<input type="text" name="contract_company_legal_representative_name">
 						</label>
@@ -2070,7 +1804,7 @@ class Account_controller extends Controller
 				</div>
 				<div class="span6">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.writing_number}</p>
 							<input type="text" name="contract_company_legal_representative_writing_number">
 						</label>
@@ -2078,7 +1812,7 @@ class Account_controller extends Controller
 				</div>
 				<div class="span6">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.writing_date}</p>
 							<input type="date" name="contract_company_legal_representative_writing_date">
 						</label>
@@ -2086,7 +1820,7 @@ class Account_controller extends Controller
 				</div>
 				<div class="span4">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.notary}</p>
 							<input type="text" name="contract_company_legal_representative_notary_name">
 						</label>
@@ -2094,7 +1828,7 @@ class Account_controller extends Controller
 				</div>
 				<div class="span4">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.number}</p>
 							<input type="text" name="contract_company_legal_representative_notary_number">
 						</label>
@@ -2102,7 +1836,7 @@ class Account_controller extends Controller
 				</div>
 				<div class="span4">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.city}</p>
 							<input type="text" name="contract_company_legal_representative_city">
 						</label>
@@ -2110,7 +1844,7 @@ class Account_controller extends Controller
 				</div>
 				<div class="span3">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.card}</p>
 							<select name="contract_company_legal_representative_card_type">
 								<option value="" hidden>{$lang.choose}</option>
@@ -2121,7 +1855,7 @@ class Account_controller extends Controller
 				</div>
 				<div class="span3">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.number}</p>
 							<input type="text" name="contract_company_legal_representative_card_number">
 						</label>
@@ -2129,7 +1863,7 @@ class Account_controller extends Controller
 				</div>
 				<div class="span3">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.expedition_date}</p>
 							<input type="date" name="contract_company_legal_representative_card_expedition_date">
 						</label>
@@ -2137,16 +1871,16 @@ class Account_controller extends Controller
 				</div>
 				<div class="span3">
 					<div class="label">
-						<label required>
+						<label unrequired>
 							<p>{$lang.validity}</p>
 							<input type="date" name="contract_company_legal_representative_card_validity">
 						</label>
 					</div>
 				</div>
-				<h4>{$lang.contract}</h4>
+				<h6>{$lang.contract}</h6>
 				<div class="span12">
 					<div class="contract">
-						{$lang.contract_text}
+						<iframe width="100%" height="600px" src="https://docs.google.com/viewer?url=https://' . Configuration::$domain . '/files/spug.pdf&embedded=true"></iframe>
 					</div>
 				</div>
 				<div class="span6">
