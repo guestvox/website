@@ -1092,7 +1092,7 @@ class Myvox_controller extends Controller
 										'types' => Session::get_value('myvox')['account']['payment']['mit']['types']
 									]);
 
-									$html .= '<div id="payment_with_card" class="span12">';
+									$html .= '<div id="payment_with_card" class="span12 hidden">';
 
 									if (!empty($mit['code']) AND $mit['code'] == 'success')
 										$html .= '<iframe src="' . $mit['url'] . '" width="100%" height="645px"></iframe>';
