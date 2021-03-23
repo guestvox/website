@@ -3,10 +3,19 @@
 $(document).ready(function()
 {
     var id = null;
+    var reload = true;
+
+    setTimeout(function() {
+
+        if (reload == true)
+            location.reload();
+
+    }, 60000);
 
     $('[data-modal="view_map_menu_order"]').modal().onCancel(function()
     {
         id = null;
+        reload = true;
 
         $('#view_map_menu_order').html('');
     });
@@ -14,6 +23,7 @@ $(document).ready(function()
     $('[data-action="view_map_menu_order"]').on('click', function()
     {
         id = $(this).data('id');
+        reload = false;
 
         $.ajax({
             type: 'POST',
