@@ -135,7 +135,7 @@ $this->dependencies->add(['others',
             <div>
                 <i class="fas fa-utensils"></i>
                 <h2>{$lang.guestvox_restaurants}</h2>
-                <a href="/404">{$lang.discover_more}</a>
+                <a href="/restaurantes">{$lang.discover_more}</a>
                 <p>{$lang.guestvox_restaurants_text}</p>
                 <a data-button-modal="quote_restaurant">{$lang.quote_now}</a>
             </div>
