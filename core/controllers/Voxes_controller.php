@@ -151,7 +151,7 @@ class Voxes_controller extends Controller
 				else if ($value['type'] == 'workorder')
 					$tbl_voxes .= '<h2><i class="fas fa-user-circle"></i>{$lang.workorder}</h2>';
 
-				$tbl_voxes .= '<span><i class="fas fa-shapes"></i>' . $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') . '</span>';
+				$tbl_voxes .= '<span><i class="fas fa-shapes"></i>' . (!empty($value['owner']) ? $value['owner']['name'][$this->lang] . (!empty($value['owner']['number']) ? ' #' . $value['owner']['number'] : '') : '') . '</span>';
 
 				if ($value['type'] == 'request' OR $value['type'] == 'workorder')
 					$tbl_voxes .= '<span><i class="fas fa-quote-right"></i>' . (!empty($value['observations']) ? $value['observations'] : '{$lang.not_observations}') . '</span>';
