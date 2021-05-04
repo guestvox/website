@@ -117,6 +117,10 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'reports'
             ],
+            '/surveys' => [
+                'controller' => 'Surveys',
+                'method' => 'index'
+            ],
             '/surveys/questions' => [
                 'controller' => 'Surveys',
                 'method' => 'questions'

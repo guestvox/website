@@ -2,11 +2,151 @@
 
 defined('_EXEC') or die;
 
+require 'plugins/php_qr_code/qrlib.php';
+
 class Surveys_model extends Model
 {
 	public function __construct()
 	{
 		parent::__construct();
+	}
+
+	public function get_surveys()
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('surveys', [
+			'id',
+			'token',
+			'name',
+			'qr',
+			'status'
+		], [
+			'account' => Session::get_value('account')['id'],
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
+
+		return $query;
+	}
+
+	public function get_survey($id)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('surveys', [
+			'name',
+			'signature',
+			'main'
+		], [
+			'id' => $id
+		]));
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function new_survey($data)
+	{
+		$data['token'] = strtolower(Functions::get_random(8));
+		$data['qr']['filename'] = Session::get_value('account')['path'] . '_survey_qr_' . $data['token'] . '.png';
+		$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/survey/' . $data['token'];
+		$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
+		$data['qr']['level'] = 'H';
+		$data['qr']['size'] = 5;
+		$data['qr']['frame'] = 3;
+
+		$query = $this->database->insert('surveys', [
+			'account' => Session::get_value('account')['id'],
+			'token' => $data['token'],
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'signature' => !empty($data['signature']) ? true : false,
+			'main' => !empty($data['main']) ? true : false,
+			'qr' => $data['qr']['filename'],
+			'status' => true
+		]);
+
+		if (!empty($query) AND !empty($data['main']))
+		{
+			$this->database->update('surveys', [
+				'main' => false
+			], [
+				'AND' => [
+					'id[!]' => $this->database->id(),
+					'account' => Session::get_value('account')['id']
+				]
+			]);
+		}
+
+		QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
+
+		return $query;
+	}
+
+	public function edit_survey($data)
+	{
+		$query = $this->database->update('surveys', [
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'signature' => !empty($data['signature']) ? true : false,
+			'main' => !empty($data['main']) ? true : false
+		], [
+			'id' => $data['id']
+		]);
+
+		if (!empty($query) AND !empty($data['main']))
+		{
+			$this->database->update('surveys', [
+				'main' => false
+			], [
+				'AND' => [
+					'id[!]' => $data['id'],
+					'account' => Session::get_value('account')['id']
+				]
+			]);
+		}
+
+		return $query;
+	}
+
+	public function deactivate_survey($id)
+	{
+		$query = $this->database->update('surveys', [
+			'status' => false
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function activate_survey($id)
+	{
+		$query = $this->database->update('surveys', [
+			'status' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function delete_survey($id)
+	{
+		$this->database->delete('surveys_answers', [
+			'survey' => $id
+		]);
+
+		$this->database->delete('surveys_questions', [
+			'survey' => $id
+		]);
+
+		$query = $this->database->delete('surveys', [
+			'id' => $id
+		]);
+
+		return $query;
 	}
 
 	public function get_surveys_questions($option = 'all', $parent = false)

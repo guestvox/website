@@ -13,6 +13,137 @@ class Surveys_controller extends Controller
 		$this->lang = Session::get_value('account')['language'];
 	}
 
+	public function index()
+	{
+        if (Format::exist_ajax_request() == true)
+		{
+			if ($_POST['action'] == 'get_survey')
+			{
+				$query = $this->model->get_survey($_POST['id']);
+
+                if (!empty($query))
+                {
+                    Functions::environment([
+    					'status' => 'success',
+    					'data' => $query
+    				]);
+                }
+                else
+                {
+                    Functions::environment([
+    					'status' => 'error',
+    					'message' => '{$lang.operation_error}'
+    				]);
+                }
+			}
+
+			if ($_POST['action'] == 'new_survey' OR $_POST['action'] == 'edit_survey')
+			{
+				$labels = [];
+
+				if (!isset($_POST['name_es']) OR empty($_POST['name_es']))
+					array_push($labels, ['name_es','']);
+
+				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
+					array_push($labels, ['name_en','']);
+
+				if (empty($labels))
+				{
+					if ($_POST['action'] == 'new_survey')
+						$query = $this->model->new_survey($_POST);
+					else if ($_POST['action'] == 'edit_survey')
+						$query = $this->model->edit_survey($_POST);
+
+					if (!empty($query))
+					{
+						Functions::environment([
+							'status' => 'success',
+							'message' => '{$lang.operation_success}'
+						]);
+					}
+					else
+					{
+						Functions::environment([
+							'status' => 'error',
+							'message' => '{$lang.operation_error}'
+						]);
+					}
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
+
+			if ($_POST['action'] == 'deactivate_survey' OR $_POST['action'] == 'activate_survey' OR $_POST['action'] == 'delete_survey')
+			{
+				if ($_POST['action'] == 'deactivate_survey')
+					$query = $this->model->deactivate_survey($_POST['id']);
+				else if ($_POST['action'] == 'activate_survey')
+					$query = $this->model->activate_survey($_POST['id']);
+				else if ($_POST['action'] == 'delete_survey')
+					$query = $this->model->delete_survey($_POST['id']);
+
+				if (!empty($query))
+				{
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'message' => '{$lang.operation_error}'
+					]);
+				}
+			}
+		}
+		else
+		{
+			$template = $this->view->render($this, 'index');
+
+			define('_title', 'Guestvox | {$lang.surveys}');
+
+			$tbl_surveys = '';
+
+			foreach ($this->model->get_surveys() as $value)
+			{
+				$tbl_surveys .=
+				'<div>
+					<div class="datas">
+						<div class="itm_1">
+							<h2>' . $value['name'][$this->lang] . '</h2>
+							<span>' . $value['token'] . '</span>
+						</div>
+						<div class="itm_2">
+							<figure>
+								<a href="{$path.uploads}' . $value['qr'] . '" download="' . $value['qr'] . '"><img src="{$path.uploads}' . $value['qr'] . '"></a>
+							</figure>
+						</div>
+					</div>
+					<div class="buttons">
+						' . ((Functions::check_user_access(['{surveys_questions_deactivate}','{surveys_questions_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_survey' : 'activate_survey') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
+						' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+					</div>
+				</div>';
+			}
+
+			$replace = [
+				'{$tbl_surveys}' => $tbl_surveys
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
 	public function questions()
 	{
 		if (Format::exist_ajax_request() == true)

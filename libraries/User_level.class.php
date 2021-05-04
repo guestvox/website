@@ -54,22 +54,27 @@ class User_level
                 break;
 
                 case '{surveys_questions_create}' :
+                    array_push($paths, '/Surveys/index');
                     array_push($paths, '/Surveys/questions');
                 break;
 
                 case '{surveys_questions_update}' :
+                    array_push($paths, '/Surveys/index');
                     array_push($paths, '/Surveys/questions');
                 break;
 
                 case '{surveys_questions_deactivate}' :
+                    array_push($paths, '/Surveys/index');
                     array_push($paths, '/Surveys/questions');
                 break;
 
                 case '{surveys_questions_activate}' :
+                    array_push($paths, '/Surveys/index');
                     array_push($paths, '/Surveys/questions');
                 break;
 
                 case '{surveys_questions_delete}' :
+                    array_push($paths, '/Surveys/index');
                     array_push($paths, '/Surveys/questions');
                 break;
 
