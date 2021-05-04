@@ -376,10 +376,8 @@ class User_level
                     return '/menu/orders';
                 else if (Functions::check_account_access(['surveys']) == true)
                 {
-                    if (Functions::check_user_access(['{surveys_answers_view}']) == true)
-                        return '/surveys/answers/raters';
-                    else if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true)
-                        return '/surveys/questions';
+                    if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true)
+                        return '/surveys';
                     else if (Functions::check_user_access(['{surveys_stats_view}']) == true)
                         return '/surveys/stats';
                 }
@@ -394,10 +392,8 @@ class User_level
                     return '/voxes';
                 else if (Functions::check_account_access(['surveys']) == true)
                 {
-                    if (Functions::check_user_access(['{surveys_answers_view}']) == true)
-                        return '/surveys/answers/raters';
-                    else if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true)
-                        return '/surveys/questions';
+                    if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true)
+                        return '/surveys';
                     else if (Functions::check_user_access(['{surveys_stats_view}']) == true)
                         return '/surveys/stats';
                 }

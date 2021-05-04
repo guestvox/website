@@ -121,15 +121,19 @@ class Urls_registered_vkye
                 'controller' => 'Surveys',
                 'method' => 'index'
             ],
-            '/surveys/questions' => [
+            '/surveys/questions/%param%' => [
                 'controller' => 'Surveys',
                 'method' => 'questions'
             ],
-            '/surveys/answers/%param%' => [
+            '/surveys/answers/%param%/%param%' => [
                 'controller' => 'Surveys',
                 'method' => 'answers'
             ],
             '/surveys/stats' => [
+                'controller' => 'Surveys',
+                'method' => 'stats'
+            ],
+            '/surveys/stats/%param%' => [
                 'controller' => 'Surveys',
                 'method' => 'stats'
             ],

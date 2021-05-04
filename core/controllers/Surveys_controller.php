@@ -127,6 +127,10 @@ class Surveys_controller extends Controller
 						</div>
 					</div>
 					<div class="buttons">
+						' . ((Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) ? '<a class="big" href="/surveys/questions/' . $value['token'] . '"><i class="fas fa-ghost"></i><span>{$lang.questions}</span></a>' : '') . '
+						' . ((Functions::check_user_access(['{surveys_answers_view}']) == true) ? '<a href="/surveys/answers/raters/' . $value['token'] . '"><i class="fas fa-star"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{surveys_answers_view}']) == true) ? '<a href="/surveys/answers/comments/' . $value['token'] . '"><i class="fas fa-comment-alt"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{surveys_stats_view}']) == true) ? '<a href="/surveys/stats/' . $value['token'] . '"><i class="fas fa-chart-pie"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_questions_deactivate}','{surveys_questions_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_survey' : 'activate_survey') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
