@@ -669,6 +669,7 @@ class Myvox_model extends Model
 		unset($data['values']['phone_number']);
 		unset($data['values']['action']);
 		unset($data['values']['token']);
+		unset($data['values']['survey']);
 
 		foreach($data['values'] as $key => $value)
 		{
