@@ -57,6 +57,10 @@ class Urls_registered_vkye
                 'controller' => 'Myvox',
                 'method' => 'survey'
             ],
+            '/%param%/survey/%param%' => [
+                'controller' => 'Myvox',
+                'method' => 'survey'
+            ],
             '/%param%/reviews' => [
                 'controller' => 'Reviews',
                 'method' => 'index'

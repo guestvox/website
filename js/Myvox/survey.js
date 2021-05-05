@@ -42,15 +42,35 @@ $(document).ready(function()
         label.addClass('focus');
     });
 
+    var signature = document.getElementById('signature');
+
+    if (signature)
+    {
+        var signature_canvas = signature.querySelector('canvas');
+        var signature_pad = new SignaturePad(signature_canvas, {
+            backgroundColor: 'rgb(255, 255, 255)'
+        });
+
+        resize_canvas(signature_canvas);
+
+        $('[data-action="clean_signature"]').on('click', function()
+        {
+            signature_pad.clear();
+        });
+    }
+
     $('form[name="new_survey_answer"]').on('submit', function(e)
     {
         e.preventDefault();
 
         var form = $(this);
 
+        if (signature)
+            signature_pad.fromData(signature_pad.toData());
+
         $.ajax({
             type: 'POST',
-            data: form.serialize() + '&action=new_survey_answer',
+            data: form.serialize() + ((signature) ? '&signature=' + ((signature_pad.isEmpty()) ? '' : signature_pad.toDataURL('image/jpeg')) : '') + '&action=new_survey_answer',
             processData: false,
             cache: false,
             dataType: 'json',
