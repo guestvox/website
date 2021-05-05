@@ -605,24 +605,34 @@ class Myvox_model extends Model
 		return $query;
 	}
 
-	public function get_surveys_questions($parent = null)
+	public function get_survey($id)
 	{
-		$query1 = [];
+		$AND = [
+			'account' => Session::get_value('myvox')['account']['id'],
+			'status' => true
+		];
 
-		if (!isset($parent) OR empty($parent))
-		{
-			$query1 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
-				'id',
-				'name',
-				'type',
-				'values'
-			], [
-				'system' => true
-			]));
-		}
+		if ($id == 'main')
+			$AND['main'] = true;
+		else
+			$AND['main'] = $id;
 
+		$query = $this->database->select('surveys', [
+			'id',
+			'name',
+			'signature'
+		], [
+			'AND' => $AND
+		]);
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_surveys_questions($survey, $parent = null)
+	{
 		$and = [
 			'account' => Session::get_value('myvox')['account']['id'],
+			'survey' => $survey,
 			'status' => true
 		];
 
@@ -631,7 +641,7 @@ class Myvox_model extends Model
 		else
 			$and['parent'] = $parent;
 
-		$query2 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+		$query = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
 			'id',
 			'name',
 			'type',
@@ -643,7 +653,7 @@ class Myvox_model extends Model
 			]
 		]));
 
-		return array_merge($query1, $query2);
+		return $query;
 	}
 
 	public function new_survey_answer($data)
@@ -668,6 +678,7 @@ class Myvox_model extends Model
 
 		$query = $this->database->insert('surveys_answers', [
 			'account' => Session::get_value('myvox')['account']['id'],
+			'survey' => $data['survey'],
 			'token' => $data['token'],
 			'owner' => Session::get_value('myvox')['owner']['id'],
 			'values' => json_encode($data['values']),

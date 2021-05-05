@@ -76,9 +76,11 @@ class Myvox_controller extends Controller
 						$btn_new_incident .= '<a href="/' . $params[0] . '/incident">' . $account['settings']['myvox']['incident']['title'][$this->lang1] . '</a>';
 				}
 
+				$main_survey = $this->model->get_survey('main');
+
 				$btn_new_survey_answer = '';
 
-				if ($account['surveys'] == true AND $account['settings']['myvox']['survey']['status'] == true)
+				if ($account['surveys'] == true AND $account['settings']['myvox']['survey']['status'] == true AND !empty($main_survey))
 					$btn_new_survey_answer .= '<a href="/' . $params[0] . '/survey">' . $account['settings']['myvox']['survey']['title'][$this->lang1] . '</a>';
 
 				$replace = [
@@ -1711,165 +1713,124 @@ class Myvox_controller extends Controller
 
 		if ($break == false)
 		{
-			if (Format::exist_ajax_request() == true)
+			$main_survey = $this->model->get_survey('main');
+
+			if (!empty($main_survey))
 			{
-				if ($_POST['action'] == 'new_survey_answer')
+				if (Format::exist_ajax_request() == true)
 				{
-					$labels = [];
-
-					if (empty($labels))
+					if ($_POST['action'] == 'new_survey_answer')
 					{
-						$_POST['token'] = strtolower(Functions::get_random(8));
+						$labels = [];
 
-						$query = $this->model->new_survey_answer($_POST);
-
-						if (!empty($query))
+						if (empty($labels))
 						{
-							$widget = false;
+							$_POST['survey'] = $main_survey['id'];
+							$_POST['token'] = strtolower(Functions::get_random(8));
 
-							if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget']))
+							$query = $this->model->new_survey_answer($_POST);
+
+							if (!empty($query))
 							{
-								$average = $this->model->get_survey_average($query);
+								$widget = false;
 
-								if ($average >= 4)
-									$widget = true;
+								if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget']))
+								{
+									$average = $this->model->get_survey_average($query);
+
+									if ($average >= 4)
+										$widget = true;
+								}
+
+								Functions::environment([
+									'status' => 'success',
+									'message' => '{$lang.thanks_answering_survey}',
+									'widget' => $widget,
+									'path' => '/' . $params[0] . '/myvox/owner/' . Session::get_value('myvox')['owner']['token']
+								]);
 							}
-
-							Functions::environment([
-								'status' => 'success',
-								'message' => '{$lang.thanks_answering_survey}',
-								'widget' => $widget,
-								'path' => '/' . $params[0] . '/myvox/owner/' . Session::get_value('myvox')['owner']['token']
-							]);
+							else
+							{
+								Functions::environment([
+									'status' => 'error',
+									'message' => '{$lang.operation_error}'
+								]);
+							}
 						}
 						else
 						{
 							Functions::environment([
 								'status' => 'error',
-								'message' => '{$lang.operation_error}'
+								'labels' => $labels
 							]);
 						}
 					}
-					else
-					{
-						Functions::environment([
-							'status' => 'error',
-							'labels' => $labels
-						]);
-					}
 				}
-			}
-			else
-			{
-				$template = $this->view->render($this, 'survey');
-
-				define('_title', Session::get_value('myvox')['account']['name'] . ' | {$lang.survey}');
-
-				$this->model->get_survey_average(1);
-
-				$html =
-				'<form name="new_survey_answer">
-					<div class="row">
-						<div class="span12">
-							<div class="tbl_stl_5" data-table>';
-
-				foreach ($this->model->get_surveys_questions() as $value)
+				else
 				{
-					$html .=
-					'<div>
-						<div data-level="1">
-							<h2>' . $value['name'][$this->lang1] . '</h2>
-							<div class="' . $value['type'] . '">';
+					$template = $this->view->render($this, 'survey');
 
-					if ($value['type'] == 'nps')
+					define('_title', Session::get_value('myvox')['account']['name'] . ' | {$lang.survey}');
+
+					$html =
+					'<form name="new_survey_answer">
+						<div class="row">
+							<div class="span12">
+								<div class="tbl_stl_5" data-table>';
+
+					foreach ($this->model->get_surveys_questions($main_survey['id']) as $value)
 					{
 						$html .=
 						'<div>
-							<label><i>1</i><input type="radio" name="' . $value['id'] . '" value="1"></label>
-							<label><i>2</i><input type="radio" name="' . $value['id'] . '" value="2"></label>
-							<label><i>3</i><input type="radio" name="' . $value['id'] . '" value="3"></label>
-							<label><i>4</i><input type="radio" name="' . $value['id'] . '" value="4"></label>
-							<label><i>5</i><input type="radio" name="' . $value['id'] . '" value="5"></label>
-						</div>
-					   	<div>
-							<label><i>6</i><input type="radio" name="' . $value['id'] . '" value="6"></label>
-							<label><i>7</i><input type="radio" name="' . $value['id'] . '" value="7"></label>
-							<label><i>8</i><input type="radio" name="' . $value['id'] . '" value="8"></label>
-							<label><i>9</i><input type="radio" name="' . $value['id'] . '" value="9"></label>
-							<label><i>10</i><input type="radio" name="' . $value['id'] . '" value="10"></label>
-						</div>';
-					}
-					else if ($value['type'] == 'open')
-						$html .= '<input type="text" name="' . $value['id'] . '">';
-					else if ($value['type'] == 'rate')
-					{
-						$html .=
-						'<label><i class="fas fa-sad-cry"></i><input type="radio" name="' . $value['id'] . '" value="1"></label>
-						<label><i class="fas fa-frown"></i><input type="radio" name="' . $value['id'] . '" value="2"></label>
-						<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" name="' . $value['id'] . '" value="3"></label>
-						<label><i class="fas fa-smile"></i><input type="radio" name="' . $value['id'] . '" value="4"></label>
-						<label><i class="fas fa-grin-stars"></i><input type="radio" name="' . $value['id'] . '" value="5"></label>';
-					}
-					else if ($value['type'] == 'twin')
-					{
-						$html .=
-						'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $value['id'] . '" value="yes"></label>
-						<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $value['id'] . '" value="not"></label>';
-					}
-					else if ($value['type'] == 'check')
-					{
-						$html .= '<div class="checkboxes stl_3">';
+							<div data-level="1">
+								<h2>' . $value['name'][$this->lang1] . '</h2>
+								<div class="' . $value['type'] . '">';
 
-						foreach ($value['values'] as $subvalue)
+						if ($value['type'] == 'nps')
 						{
 							$html .=
 							'<div>
-								<input type="checkbox" name="' . $value['id'] . '[]" value="' . $subvalue['token'] . '">
-								<span>' . $subvalue[$this->lang1] . '</span>
+								<label><i>1</i><input type="radio" name="' . $value['id'] . '" value="1"></label>
+								<label><i>2</i><input type="radio" name="' . $value['id'] . '" value="2"></label>
+								<label><i>3</i><input type="radio" name="' . $value['id'] . '" value="3"></label>
+								<label><i>4</i><input type="radio" name="' . $value['id'] . '" value="4"></label>
+								<label><i>5</i><input type="radio" name="' . $value['id'] . '" value="5"></label>
+							</div>
+						   	<div>
+								<label><i>6</i><input type="radio" name="' . $value['id'] . '" value="6"></label>
+								<label><i>7</i><input type="radio" name="' . $value['id'] . '" value="7"></label>
+								<label><i>8</i><input type="radio" name="' . $value['id'] . '" value="8"></label>
+								<label><i>9</i><input type="radio" name="' . $value['id'] . '" value="9"></label>
+								<label><i>10</i><input type="radio" name="' . $value['id'] . '" value="10"></label>
 							</div>';
 						}
-
-						$html .= '</div>';
-					}
-
-					$html .=
-					'	</div>
-					</div>';
-
-					foreach ($this->model->get_surveys_questions($value['id']) as $subvalue)
-					{
-						$html .=
-						'<div data-level="2">
-							<h2>' . $subvalue['name'][$this->lang1] . '</h2>
-							<div class="' . $subvalue['type'] . '">';
-
-						if ($subvalue['type'] == 'open')
-							$html .= '<input type="text" name="' . $subvalue['id'] . '" data-parent="' . $value['id'] . '">';
-						else if ($subvalue['type'] == 'rate')
+						else if ($value['type'] == 'open')
+							$html .= '<input type="text" name="' . $value['id'] . '">';
+						else if ($value['type'] == 'rate')
 						{
 							$html .=
-							'<label><i class="fas fa-sad-cry"></i><input type="radio" name="' . $subvalue['id'] . '" value="1" data-parent="' . $value['id'] . '"></label>
-							<label><i class="fas fa-frown"></i><input type="radio" name="' . $subvalue['id'] . '" value="2" data-parent="' . $value['id'] . '"></label>
-							<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" name="' . $subvalue['id'] . '" value="3" data-parent="' . $value['id'] . '"></label>
-							<label><i class="fas fa-smile"></i><input type="radio" name="' . $subvalue['id'] . '" value="4" data-parent="' . $value['id'] . '"></label>
-							<label><i class="fas fa-grin-stars"></i><input type="radio" name="' . $subvalue['id'] . '" value="5" data-parent="' . $value['id'] . '"></label>';
+							'<label><i class="fas fa-sad-cry"></i><input type="radio" name="' . $value['id'] . '" value="1"></label>
+							<label><i class="fas fa-frown"></i><input type="radio" name="' . $value['id'] . '" value="2"></label>
+							<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" name="' . $value['id'] . '" value="3"></label>
+							<label><i class="fas fa-smile"></i><input type="radio" name="' . $value['id'] . '" value="4"></label>
+							<label><i class="fas fa-grin-stars"></i><input type="radio" name="' . $value['id'] . '" value="5"></label>';
 						}
-						else if ($subvalue['type'] == 'twin')
+						else if ($value['type'] == 'twin')
 						{
 							$html .=
-							'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $subvalue['id'] . '" value="yes" data-parent="' . $value['id'] . '"></label>
-							<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $subvalue['id'] . '" value="not" data-parent="' . $value['id'] . '"></label>';
+							'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $value['id'] . '" value="yes"></label>
+							<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $value['id'] . '" value="not"></label>';
 						}
-						else if ($subvalue['type'] == 'check')
+						else if ($value['type'] == 'check')
 						{
 							$html .= '<div class="checkboxes stl_3">';
 
-							foreach ($subvalue['values'] as $parentvalue)
+							foreach ($value['values'] as $subvalue)
 							{
 								$html .=
 								'<div>
-									<input type="checkbox" name="' . $subvalue['id'] . '[]" value="' . $parentvalue['token'] . '" data-parent="' . $value['id'] . '">
-									<span>' . $parentvalue[$this->lang1] . '</span>
+									<input type="checkbox" name="' . $value['id'] . '[]" value="' . $subvalue['token'] . '">
+									<span>' . $subvalue[$this->lang1] . '</span>
 								</div>';
 							}
 
@@ -1880,40 +1841,40 @@ class Myvox_controller extends Controller
 						'	</div>
 						</div>';
 
-						foreach ($this->model->get_surveys_questions($subvalue['id']) as $parentvalue)
+						foreach ($this->model->get_surveys_questions($main_survey['id'], $value['id']) as $subvalue)
 						{
 							$html .=
-							'<div data-level="3">
-								<h2>' . $parentvalue['name'][$this->lang1] . '</h2>
-								<div class="' . $parentvalue['type'] . '">';
+							'<div data-level="2">
+								<h2>' . $subvalue['name'][$this->lang1] . '</h2>
+								<div class="' . $subvalue['type'] . '">';
 
-							if ($parentvalue['type'] == 'open')
-								$html .= '<input type="text" name="' . $parentvalue['id'] . '" data-parent="' . $subvalue['id'] . '">';
-							else if ($parentvalue['type'] == 'rate')
+							if ($subvalue['type'] == 'open')
+								$html .= '<input type="text" name="' . $subvalue['id'] . '" data-parent="' . $value['id'] . '">';
+							else if ($subvalue['type'] == 'rate')
 							{
 								$html .=
-								'<label><i class="fas fa-sad-cry"></i><input type="radio" name="' . $parentvalue['id'] . '" value="1" data-parent="' . $subvalue['id'] . '"></label>
-								<label><i class="fas fa-frown"></i><input type="radio" name="' . $parentvalue['id'] . '" value="2" data-parent="' . $subvalue['id'] . '"></label>
-								<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" name="' . $parentvalue['id'] . '" value="3" data-parent="' . $subvalue['id'] . '"></label>
-								<label><i class="fas fa-smile"></i><input type="radio" name="' . $parentvalue['id'] . '" value="4" data-parent="' . $subvalue['id'] . '"></label>
-								<label><i class="fas fa-grin-stars"></i><input type="radio" name="' . $parentvalue['id'] . '" value="5" data-parent="' . $subvalue['id'] . '"></label>';
+								'<label><i class="fas fa-sad-cry"></i><input type="radio" name="' . $subvalue['id'] . '" value="1" data-parent="' . $value['id'] . '"></label>
+								<label><i class="fas fa-frown"></i><input type="radio" name="' . $subvalue['id'] . '" value="2" data-parent="' . $value['id'] . '"></label>
+								<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" name="' . $subvalue['id'] . '" value="3" data-parent="' . $value['id'] . '"></label>
+								<label><i class="fas fa-smile"></i><input type="radio" name="' . $subvalue['id'] . '" value="4" data-parent="' . $value['id'] . '"></label>
+								<label><i class="fas fa-grin-stars"></i><input type="radio" name="' . $subvalue['id'] . '" value="5" data-parent="' . $value['id'] . '"></label>';
 							}
-							else if ($parentvalue['type'] == 'twin')
+							else if ($subvalue['type'] == 'twin')
 							{
 								$html .=
-								'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $parentvalue['id'] . '" value="yes" data-parent="' . $subvalue['id'] . '"></label>
-								<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $parentvalue['id'] . '" value="not" data-parent="' . $subvalue['id'] . '"></label>';
+								'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $subvalue['id'] . '" value="yes" data-parent="' . $value['id'] . '"></label>
+								<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $subvalue['id'] . '" value="not" data-parent="' . $value['id'] . '"></label>';
 							}
-							else if ($parentvalue['type'] == 'check')
+							else if ($subvalue['type'] == 'check')
 							{
 								$html .= '<div class="checkboxes stl_3">';
 
-								foreach ($parentvalue['values'] as $childvalue)
+								foreach ($subvalue['values'] as $parentvalue)
 								{
 									$html .=
 									'<div>
-										<input type="checkbox" name="' . $parentvalue['id'] . '[]" value="' . $childvalue['token'] . '" data-parent="' . $subvalue['id'] . '">
-										<span>' . $childvalue[$this->lang1] . '</span>
+										<input type="checkbox" name="' . $subvalue['id'] . '[]" value="' . $parentvalue['token'] . '" data-parent="' . $value['id'] . '">
+										<span>' . $parentvalue[$this->lang1] . '</span>
 									</div>';
 								}
 
@@ -1923,60 +1884,107 @@ class Myvox_controller extends Controller
 							$html .=
 							'	</div>
 							</div>';
+
+							foreach ($this->model->get_surveys_questions($main_survey['id'], $subvalue['id']) as $parentvalue)
+							{
+								$html .=
+								'<div data-level="3">
+									<h2>' . $parentvalue['name'][$this->lang1] . '</h2>
+									<div class="' . $parentvalue['type'] . '">';
+
+								if ($parentvalue['type'] == 'open')
+									$html .= '<input type="text" name="' . $parentvalue['id'] . '" data-parent="' . $subvalue['id'] . '">';
+								else if ($parentvalue['type'] == 'rate')
+								{
+									$html .=
+									'<label><i class="fas fa-sad-cry"></i><input type="radio" name="' . $parentvalue['id'] . '" value="1" data-parent="' . $subvalue['id'] . '"></label>
+									<label><i class="fas fa-frown"></i><input type="radio" name="' . $parentvalue['id'] . '" value="2" data-parent="' . $subvalue['id'] . '"></label>
+									<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" name="' . $parentvalue['id'] . '" value="3" data-parent="' . $subvalue['id'] . '"></label>
+									<label><i class="fas fa-smile"></i><input type="radio" name="' . $parentvalue['id'] . '" value="4" data-parent="' . $subvalue['id'] . '"></label>
+									<label><i class="fas fa-grin-stars"></i><input type="radio" name="' . $parentvalue['id'] . '" value="5" data-parent="' . $subvalue['id'] . '"></label>';
+								}
+								else if ($parentvalue['type'] == 'twin')
+								{
+									$html .=
+									'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $parentvalue['id'] . '" value="yes" data-parent="' . $subvalue['id'] . '"></label>
+									<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $parentvalue['id'] . '" value="not" data-parent="' . $subvalue['id'] . '"></label>';
+								}
+								else if ($parentvalue['type'] == 'check')
+								{
+									$html .= '<div class="checkboxes stl_3">';
+
+									foreach ($parentvalue['values'] as $childvalue)
+									{
+										$html .=
+										'<div>
+											<input type="checkbox" name="' . $parentvalue['id'] . '[]" value="' . $childvalue['token'] . '" data-parent="' . $subvalue['id'] . '">
+											<span>' . $childvalue[$this->lang1] . '</span>
+										</div>';
+									}
+
+									$html .= '</div>';
+								}
+
+								$html .=
+								'	</div>
+								</div>';
+							}
 						}
+
+						$html .= '</div>';
 					}
 
-					$html .= '</div>';
-				}
-
-				$html .=
-				'			</div>
-						</div>
-						<div class="span12">
-							<div class="label">
-								<label unrequired>
-									<p>{$lang.commentary}</p>
-									<textarea name="comment"></textarea>
-								</label>
+					$html .=
+					'			</div>
 							</div>
-						</div>
-						<div class="span12">
-							<div class="buttons">
-								<a href="/' . $params[0] . '/myvox/owner/' . Session::get_value('myvox')['owner']['token'] . '" class="delete"><i class="fas fa-times"></i></a>
-								<button type="submit" class="new"><i class="fas fa-check"></i></button>
-							</div>
-						</div>
-					</div>
-				</form>';
-
-				$mdl_widget = '';
-
-				if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget']))
-				{
-					$mdl_widget .=
-					'<section class="modal" data-modal="widget">
-						<div class="content">
-							<main>
-								<div>' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget'] . '</div>
-								<div class="buttons">
-									<a class="new" button-close><i class="fas fa-check"></i></a>
+							<div class="span12">
+								<div class="label">
+									<label unrequired>
+										<p>{$lang.commentary}</p>
+										<textarea name="comment"></textarea>
+									</label>
 								</div>
-							</main>
+							</div>
+							<div class="span12">
+								<div class="buttons">
+									<a href="/' . $params[0] . '/myvox/owner/' . Session::get_value('myvox')['owner']['token'] . '" class="delete"><i class="fas fa-times"></i></a>
+									<button type="submit" class="new"><i class="fas fa-check"></i></button>
+								</div>
+							</div>
 						</div>
-					</section>';
+					</form>';
+
+					$mdl_widget = '';
+
+					if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget']))
+					{
+						$mdl_widget .=
+						'<section class="modal" data-modal="widget">
+							<div class="content">
+								<main>
+									<div>' . Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget'] . '</div>
+									<div class="buttons">
+										<a class="new" button-close><i class="fas fa-check"></i></a>
+									</div>
+								</main>
+							</div>
+						</section>';
+					}
+
+					$replace = [
+						'{$logotype}' => '{$path.uploads}' . Session::get_value('myvox')['account']['logotype'],
+						'{$btn_home}' => '<a href="/' . $params[0] . '/myvox/owner/' . Session::get_value('myvox')['owner']['token'] . '"><i class="fas fa-house-user"></i></a>',
+						'{$html}' => $html,
+						'{$mdl_widget}' => $mdl_widget
+					];
+
+					$template = $this->format->replace($replace, $template);
+
+					echo $template;
 				}
-
-				$replace = [
-					'{$logotype}' => '{$path.uploads}' . Session::get_value('myvox')['account']['logotype'],
-					'{$btn_home}' => '<a href="/' . $params[0] . '/myvox/owner/' . Session::get_value('myvox')['owner']['token'] . '"><i class="fas fa-house-user"></i></a>',
-					'{$html}' => $html,
-					'{$mdl_widget}' => $mdl_widget
-				];
-
-				$template = $this->format->replace($replace, $template);
-
-				echo $template;
 			}
+			else
+				header('Location: /');
 		}
 		else
 			header('Location: /');
