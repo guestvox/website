@@ -10,13 +10,13 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_{$menu_focus}");
 %{header}%
 <main class="dashboard">
     <section class="workspace">
-        {$div_options}
         {$tbl_surveys_raters}
         {$tbl_surveys_comments}
     </section>
     <section class="buttons">
         <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
         <div>
+            <a href="/surveys" class="big delete"><i class="fas fa-times"></i></a>
             <a class="big new" data-button-modal="filter_surveys_answers"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
         </div>
         <?php endif; ?>

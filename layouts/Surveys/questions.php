@@ -17,6 +17,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_questions");</sc
     <section class="buttons">
         <?php if (Functions::check_user_access(['{surveys_questions_create}']) == true) : ?>
         <div>
+            <a href="/surveys" class="big delete"><i class="fas fa-times"></i></a>
             <a class="new" data-button-modal="new_survey_question"><i class="fas fa-plus"></i></a>
         </div>
         <?php endif; ?>

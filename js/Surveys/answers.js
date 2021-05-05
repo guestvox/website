@@ -2,11 +2,6 @@
 
 $(document).ready(function()
 {
-    $(document).on('click', '#rtsw, #cmsw, #ctsw', function()
-    {
-        window.location.href = '/surveys/answers/' + $(this).val();
-    });
-
     $('form[name="filter_surveys_answers"]').on('submit', function(e)
     {
         e.preventDefault();

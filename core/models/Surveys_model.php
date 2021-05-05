@@ -149,27 +149,11 @@ class Surveys_model extends Model
 		return $query;
 	}
 
-	public function get_surveys_questions($option = 'all', $parent = false)
+	public function get_surveys_questions($survey, $option = 'all', $parent = false)
 	{
-		$query1 = [];
-
-		if ($option == 'all' AND $parent == false)
-		{
-			$query1 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
-				'id',
-				'name',
-				'type',
-				'values',
-				'parent',
-				'system',
-				'status'
-			], [
-				'system' => true
-			]));
-		}
-
 		$AND = [
-			'account' => Session::get_value('account')['id']
+			'account' => Session::get_value('account')['id'],
+			'survey' => $survey
 		];
 
 		if ($option == 'actives')
@@ -183,7 +167,7 @@ class Surveys_model extends Model
 		else
 			$AND['parent'] = $parent;
 
-		$query2 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+		$query = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
 			'id',
 			'name',
 			'type',
@@ -198,7 +182,7 @@ class Surveys_model extends Model
 			]
 		]));
 
-		return array_merge($query1, $query2);
+		return $query;
 	}
 
 	public function get_survey_question($id)
@@ -220,6 +204,7 @@ class Surveys_model extends Model
 	{
 		$query = $this->database->insert('surveys_questions', [
 			'account' => Session::get_value('account')['id'],
+			'survey' => $data['survey'],
 			'name' => json_encode([
 				'es' => $data['name_es'],
 				'en' => $data['name_en']
@@ -354,10 +339,11 @@ class Surveys_model extends Model
 		return $query;
 	}
 
-	public function get_surveys_answers($option)
+	public function get_surveys_answers($survey, $option)
 	{
 		$AND = [
 			'surveys_answers.account' => Session::get_value('account')['id'],
+			'surveys_answers.survey' => $survey,
 			'surveys_answers.date[<>]' => [Session::get_value('settings')['surveys']['answers']['filter']['started_date'],Session::get_value('settings')['surveys']['answers']['filter']['end_date']]
 		];
 
