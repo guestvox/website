@@ -17,6 +17,7 @@ class Surveys_model extends Model
 			'id',
 			'token',
 			'name',
+			'main',
 			'qr',
 			'status'
 		], [

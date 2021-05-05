@@ -77,7 +77,7 @@
         <ul>
             <li><h4>{$lang.surveys}</h4></li>
             <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) : ?>
-            <li target="surveys"><a href="/surveys">{$lang.questions}<i class="fas fa-ghost"></i></a></li>
+            <li target="surveys"><a href="/surveys">Q&A<i class="fas fa-ghost"></i></a></li>
             <?php endif; ?>
             <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
             <li target="surveys_stats"><a href="/surveys/stats">{$lang.stats}<i class="fas fa-chart-pie"></i></a></li>

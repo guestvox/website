@@ -117,7 +117,7 @@ class Surveys_controller extends Controller
 				'<div>
 					<div class="datas">
 						<div class="itm_1">
-							<h2>' . $value['name'][$this->lang] . '</h2>
+							<h2>' . $value['name'][$this->lang] . (($value['main'] == true) ? ' | {$lang.main_survey}' : '') . '</h2>
 							<span>' . $value['token'] . '</span>
 						</div>
 						<div class="itm_2">
