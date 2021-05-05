@@ -57,6 +57,10 @@ class Urls_registered_vkye
                 'controller' => 'Myvox',
                 'method' => 'survey'
             ],
+            '/%param%/survey/%param%' => [
+                'controller' => 'Myvox',
+                'method' => 'survey'
+            ],
             '/%param%/reviews' => [
                 'controller' => 'Reviews',
                 'method' => 'index'
@@ -117,15 +121,23 @@ class Urls_registered_vkye
                 'controller' => 'Voxes',
                 'method' => 'reports'
             ],
-            '/surveys/questions' => [
+            '/surveys' => [
+                'controller' => 'Surveys',
+                'method' => 'index'
+            ],
+            '/surveys/questions/%param%' => [
                 'controller' => 'Surveys',
                 'method' => 'questions'
             ],
-            '/surveys/answers/%param%' => [
+            '/surveys/answers/%param%/%param%' => [
                 'controller' => 'Surveys',
                 'method' => 'answers'
             ],
             '/surveys/stats' => [
+                'controller' => 'Surveys',
+                'method' => 'stats'
+            ],
+            '/surveys/stats/%param%' => [
                 'controller' => 'Surveys',
                 'method' => 'stats'
             ],

@@ -2,6 +2,8 @@
 
 defined('_EXEC') or die;
 
+require 'plugins/php_qr_code/qrlib.php';
+
 class Surveys_model extends Model
 {
 	public function __construct()
@@ -9,27 +11,161 @@ class Surveys_model extends Model
 		parent::__construct();
 	}
 
-	public function get_surveys_questions($option = 'all', $parent = false)
+	public function get_surveys()
 	{
-		$query1 = [];
+		$query = Functions::get_json_decoded_query($this->database->select('surveys', [
+			'id',
+			'token',
+			'name',
+			'text',
+			'signature',
+			'main',
+			'qr',
+			'status'
+		], [
+			'account' => Session::get_value('account')['id'],
+			'ORDER' => [
+				'name' => 'ASC'
+			]
+		]));
 
-		if ($option == 'all' AND $parent == false)
+		return $query;
+	}
+
+	public function get_survey($id)
+	{
+		$query = Functions::get_json_decoded_query($this->database->select('surveys', [
+			'name',
+			'text',
+			'signature',
+			'main'
+		], [
+			'id' => $id
+		]));
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function new_survey($data)
+	{
+		$data['token'] = strtolower(Functions::get_random(8));
+		$data['qr']['filename'] = Session::get_value('account')['path'] . '_survey_qr_' . $data['token'] . '.png';
+		$data['qr']['content'] = 'https://' . Configuration::$domain . '/' . Session::get_value('account')['path'] . '/survey/' . $data['token'];
+		$data['qr']['dir'] = PATH_UPLOADS . $data['qr']['filename'];
+		$data['qr']['level'] = 'H';
+		$data['qr']['size'] = 5;
+		$data['qr']['frame'] = 3;
+
+		$query = $this->database->insert('surveys', [
+			'account' => Session::get_value('account')['id'],
+			'token' => $data['token'],
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'text' => json_encode([
+				'es' => !empty($data['text_es']) ? $data['text_es'] : '',
+				'en' => !empty($data['text_en']) ? $data['text_en'] : ''
+			]),
+			'signature' => !empty($data['signature']) ? true : false,
+			'main' => !empty($data['main']) ? true : false,
+			'qr' => $data['qr']['filename'],
+			'status' => true
+		]);
+
+		if (!empty($query) AND !empty($data['main']))
 		{
-			$query1 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
-				'id',
-				'name',
-				'type',
-				'values',
-				'parent',
-				'system',
-				'status'
+			$this->database->update('surveys', [
+				'main' => false
 			], [
-				'system' => true
-			]));
+				'AND' => [
+					'id[!]' => $this->database->id(),
+					'account' => Session::get_value('account')['id']
+				]
+			]);
 		}
 
+		QRcode::png($data['qr']['content'], $data['qr']['dir'], $data['qr']['level'], $data['qr']['size'], $data['qr']['frame']);
+
+		return $query;
+	}
+
+	public function edit_survey($data)
+	{
+		$query = $this->database->update('surveys', [
+			'name' => json_encode([
+				'es' => $data['name_es'],
+				'en' => $data['name_en']
+			]),
+			'text' => json_encode([
+				'es' => !empty($data['text_es']) ? $data['text_es'] : '',
+				'en' => !empty($data['text_en']) ? $data['text_en'] : ''
+			]),
+			'signature' => !empty($data['signature']) ? true : false,
+			'main' => !empty($data['main']) ? true : false
+		], [
+			'id' => $data['id']
+		]);
+
+		if (!empty($query) AND !empty($data['main']))
+		{
+			$this->database->update('surveys', [
+				'main' => false
+			], [
+				'AND' => [
+					'id[!]' => $data['id'],
+					'account' => Session::get_value('account')['id']
+				]
+			]);
+		}
+
+		return $query;
+	}
+
+	public function deactivate_survey($id)
+	{
+		$query = $this->database->update('surveys', [
+			'status' => false
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function activate_survey($id)
+	{
+		$query = $this->database->update('surveys', [
+			'status' => true
+		], [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function delete_survey($id)
+	{
+		$this->database->delete('surveys_answers', [
+			'survey' => $id
+		]);
+
+		$this->database->delete('surveys_questions', [
+			'survey' => $id
+		]);
+
+		$query = $this->database->delete('surveys', [
+			'id' => $id
+		]);
+
+		return $query;
+	}
+
+	public function get_surveys_questions($survey, $option = 'all', $parent = false)
+	{
 		$AND = [
-			'account' => Session::get_value('account')['id']
+			'account' => Session::get_value('account')['id'],
+			'survey' => $survey
 		];
 
 		if ($option == 'actives')
@@ -43,7 +179,7 @@ class Surveys_model extends Model
 		else
 			$AND['parent'] = $parent;
 
-		$query2 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+		$query = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
 			'id',
 			'name',
 			'type',
@@ -58,7 +194,7 @@ class Surveys_model extends Model
 			]
 		]));
 
-		return array_merge($query1, $query2);
+		return $query;
 	}
 
 	public function get_survey_question($id)
@@ -80,6 +216,7 @@ class Surveys_model extends Model
 	{
 		$query = $this->database->insert('surveys_questions', [
 			'account' => Session::get_value('account')['id'],
+			'survey' => $data['survey'],
 			'name' => json_encode([
 				'es' => $data['name_es'],
 				'en' => $data['name_en']
@@ -214,14 +351,17 @@ class Surveys_model extends Model
 		return $query;
 	}
 
-	public function get_surveys_answers($option)
+	public function get_surveys_answers($survey, $option)
 	{
 		$AND = [
 			'surveys_answers.account' => Session::get_value('account')['id'],
+			'surveys_answers.survey' => $survey,
 			'surveys_answers.date[<>]' => [Session::get_value('settings')['surveys']['answers']['filter']['started_date'],Session::get_value('settings')['surveys']['answers']['filter']['end_date']]
 		];
 
-		if (Session::get_value('settings')['surveys']['answers']['filter']['owner'] != 'all')
+		if (Session::get_value('settings')['surveys']['answers']['filter']['owner'] == 'not_owner')
+			$AND['owners.id'] = NULL;
+		else if (Session::get_value('settings')['surveys']['answers']['filter']['owner'] != 'all')
 			$AND['owners.id'] = Session::get_value('settings')['surveys']['answers']['filter']['owner'];
 
 		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
@@ -231,9 +371,12 @@ class Surveys_model extends Model
 		], [
 			'surveys_answers.id',
 			'surveys_answers.token',
+			'surveys_answers.owner',
 			'owners.name(owner_name)',
 			'owners.number(owner_number)',
 			'surveys_answers.values',
+			'surveys_answers.firstname',
+			'surveys_answers.lastname',
 			'surveys_answers.comment',
 			'surveys_answers.reservation',
 			'surveys_answers.date',
@@ -303,14 +446,19 @@ class Surveys_model extends Model
 			]
 		], [
 			'surveys_answers.token',
+			'surveys_answers.owner',
 			'owners.id(owner_id)',
 			'owners.name(owner_name)',
 			'owners.number(owner_number)',
 			'surveys_answers.values',
+			'surveys_answers.firstname',
+			'surveys_answers.lastname',
+			'surveys_answers.email',
 			'surveys_answers.comment',
 			'surveys_answers.reservation',
 			'surveys_answers.date',
-			'surveys_answers.hour'
+			'surveys_answers.hour',
+			'surveys_answers.signature'
 		], [
 			'surveys_answers.id' => $id
 		]));

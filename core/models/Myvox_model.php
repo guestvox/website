@@ -605,24 +605,36 @@ class Myvox_model extends Model
 		return $query;
 	}
 
-	public function get_surveys_questions($parent = null)
+	public function get_survey($token)
 	{
-		$query1 = [];
+		$AND = [
+			'account' => Session::get_value('myvox')['account']['id'],
+			'status' => true
+		];
 
-		if (!isset($parent) OR empty($parent))
-		{
-			$query1 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
-				'id',
-				'name',
-				'type',
-				'values'
-			], [
-				'system' => true
-			]));
-		}
+		if ($token == 'main')
+			$AND['main'] = true;
+		else
+			$AND['token'] = $token;
 
+		$query = Functions::get_json_decoded_query($this->database->select('surveys', [
+			'id',
+			'token',
+			'name',
+			'text',
+			'signature'
+		], [
+			'AND' => $AND
+		]));
+
+		return !empty($query) ? $query[0] : null;
+	}
+
+	public function get_surveys_questions($survey, $parent = null)
+	{
 		$and = [
 			'account' => Session::get_value('myvox')['account']['id'],
+			'survey' => $survey,
 			'status' => true
 		];
 
@@ -631,7 +643,7 @@ class Myvox_model extends Model
 		else
 			$and['parent'] = $parent;
 
-		$query2 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+		$query = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
 			'id',
 			'name',
 			'type',
@@ -643,7 +655,7 @@ class Myvox_model extends Model
 			]
 		]));
 
-		return array_merge($query1, $query2);
+		return $query;
 	}
 
 	public function new_survey_answer($data)
@@ -651,14 +663,14 @@ class Myvox_model extends Model
 		$data['values'] = $data;
 
 		unset($data['values']['owner']);
-		unset($data['values']['comment']);
 		unset($data['values']['firstname']);
 		unset($data['values']['lastname']);
 		unset($data['values']['email']);
-		unset($data['values']['phone_lada']);
-		unset($data['values']['phone_number']);
+		unset($data['values']['comment']);
+		unset($data['values']['signature']);
 		unset($data['values']['action']);
 		unset($data['values']['token']);
+		unset($data['values']['survey']);
 
 		foreach($data['values'] as $key => $value)
 		{
@@ -668,13 +680,18 @@ class Myvox_model extends Model
 
 		$query = $this->database->insert('surveys_answers', [
 			'account' => Session::get_value('myvox')['account']['id'],
+			'survey' => Session::get_value('myvox')['survey']['id'],
 			'token' => $data['token'],
-			'owner' => Session::get_value('myvox')['owner']['id'],
+			'owner' => (Session::get_value('myvox')['url'] == 'survey') ? null : Session::get_value('myvox')['owner']['id'],
 			'values' => json_encode($data['values']),
+			'firstname' => (Session::get_value('myvox')['url'] == 'survey') ? $data['firstname'] : null,
+			'lastname' => (Session::get_value('myvox')['url'] == 'survey') ? $data['lastname'] : null,
+			'email' => (Session::get_value('myvox')['url'] == 'survey') ? $data['email'] : null,
 			'comment' => !empty($data['comment']) ? $data['comment'] : null,
-			'reservation' => (Session::get_value('myvox')['account']['type'] == 'hotel') ? json_encode(Session::get_value('myvox')['owner']['reservation']) : null,
+			'reservation' => (Session::get_value('myvox')['url'] == 'survey') ? null : ((Session::get_value('myvox')['account']['type'] == 'hotel') ? json_encode(Session::get_value('myvox')['owner']['reservation']) : null),
 			'date' => Functions::get_current_date(),
 			'hour' => Functions::get_current_hour(),
+			'signature' => (Session::get_value('myvox')['survey']['signature'] == true) ? Functions::base_64($data['signature']) : null,
 			'public' => false
 		]);
 

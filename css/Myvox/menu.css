@@ -5,7 +5,7 @@ header.menu {
     width: 100%;
     height: 120px;
     position: fixed;
-    background-color: #fff;
+    background-color: #00a5ab;
     z-index: 99;
 }
 
@@ -48,7 +48,7 @@ header.menu > nav {
     float: right;
     padding: 5px 5px 25px 5px;
     box-sizing: border-box;
-    background-color: #00a5ab;
+    background-color: #24383f;
 }
 
 header.menu > nav > ul {

@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['js', '{$path.js}Menu/orders.js']);
+$this->dependencies->add(['js', '{$path.js}Menu/orders.js?v=1.0']);
 $this->dependencies->add(['other', '<script>menu_focus("menu_orders");</script>']);
 $this->dependencies->add(['other', '<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBLCea8Q6BtcTHwY3YFCiB0EoHE5KnsMUE"></script>']);
 

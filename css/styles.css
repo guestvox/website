@@ -5104,6 +5104,7 @@ div.label div.signature > div > a {
 
 div.contract {
     width: 100%;
+    height: 1px !important;
     overflow: hidden;
 }
 

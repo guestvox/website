@@ -76,9 +76,11 @@ class Myvox_controller extends Controller
 						$btn_new_incident .= '<a href="/' . $params[0] . '/incident">' . $account['settings']['myvox']['incident']['title'][$this->lang1] . '</a>';
 				}
 
+				$main_survey = $this->model->get_survey('main');
+
 				$btn_new_survey_answer = '';
 
-				if ($account['surveys'] == true AND $account['settings']['myvox']['survey']['status'] == true)
+				if ($account['surveys'] == true AND $account['settings']['myvox']['survey']['status'] == true AND !empty($main_survey))
 					$btn_new_survey_answer .= '<a href="/' . $params[0] . '/survey">' . $account['settings']['myvox']['survey']['title'][$this->lang1] . '</a>';
 
 				$replace = [
@@ -1697,14 +1699,52 @@ class Myvox_controller extends Controller
     {
 		$break = true;
 
-		if (Session::exists_var('myvox') == true AND !empty(Session::get_value('myvox')['account']))
+		if (!empty($params[1]))
 		{
-			if (Session::get_value('myvox')['account']['surveys'] == true AND Session::get_value('myvox')['account']['settings']['myvox']['survey']['status'] == true)
+			$survey = $this->model->get_survey($params[1]);
+
+			if (!empty($survey))
 			{
-				if (!empty(Session::get_value('myvox')['url']))
+				$account = $this->model->get_account($params[0]);
+
+				if (!empty($account))
 				{
-					if (Session::get_value('myvox')['url'] == 'owner' AND !empty(Session::get_value('myvox')['owner']))
+					if ($account['surveys'] == true AND $account['settings']['myvox']['survey']['status'] == true)
+					{
+						Session::set_value('myvox', [
+							'account' => $account,
+							'owner' => null,
+							'url' => 'survey',
+							'survey' => $survey
+						]);
+
 						$break = false;
+					}
+				}
+			}
+		}
+		else
+		{
+			$survey = $this->model->get_survey('main');
+
+			if (!empty($survey))
+			{
+				if (Session::exists_var('myvox') == true AND !empty(Session::get_value('myvox')['account']))
+				{
+					if (Session::get_value('myvox')['account']['surveys'] == true AND Session::get_value('myvox')['account']['settings']['myvox']['survey']['status'] == true)
+					{
+						$myvox = Session::get_value('myvox');
+
+						$myvox['survey'] = $survey;
+
+						Session::set_value('myvox', $myvox);
+
+						if (!empty(Session::get_value('myvox')['url']))
+						{
+							if (Session::get_value('myvox')['url'] == 'owner' AND !empty(Session::get_value('myvox')['owner']))
+								$break = false;
+						}
+					}
 				}
 			}
 		}
@@ -1717,37 +1757,59 @@ class Myvox_controller extends Controller
 				{
 					$labels = [];
 
+					if (Session::get_value('myvox')['url'] == 'survey')
+					{
+						if (!isset($_POST['firstname']) OR empty($_POST['firstname']))
+							array_push($labels, ['firstname','']);
+
+						if (!isset($_POST['lastname']) OR empty($_POST['lastname']))
+							array_push($labels, ['lastname','']);
+
+						if (!isset($_POST['email']) OR empty($_POST['email']) OR Functions::check_email($_POST['email']) == false)
+							array_push($labels, ['email','']);
+					}
+
 					if (empty($labels))
 					{
-						$_POST['token'] = strtolower(Functions::get_random(8));
-
-						$query = $this->model->new_survey_answer($_POST);
-
-						if (!empty($query))
-						{
-							$widget = false;
-
-							if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget']))
-							{
-								$average = $this->model->get_survey_average($query);
-
-								if ($average >= 4)
-									$widget = true;
-							}
-
-							Functions::environment([
-								'status' => 'success',
-								'message' => '{$lang.thanks_answering_survey}',
-								'widget' => $widget,
-								'path' => '/' . $params[0] . '/myvox/owner/' . Session::get_value('myvox')['owner']['token']
-							]);
-						}
-						else
+						if (Session::get_value('myvox')['survey']['signature'] == true AND (!isset($_POST['signature']) OR empty($_POST['signature'])))
 						{
 							Functions::environment([
 								'status' => 'error',
-								'message' => '{$lang.operation_error}'
+								'message' => 'Porfavor ingrese su firma'
 							]);
+						}
+						else if ((Session::get_value('myvox')['survey']['signature'] == true AND !empty($_POST['signature'])) OR Session::get_value('myvox')['survey']['signature'] == false)
+						{
+							$_POST['token'] = strtolower(Functions::get_random(8));
+
+							$query = $this->model->new_survey_answer($_POST);
+
+							if (!empty($query))
+							{
+								$widget = false;
+
+								if (!empty(Session::get_value('myvox')['account']['settings']['myvox']['survey']['widget']))
+								{
+									$average = $this->model->get_survey_average($query);
+
+									if ($average >= 4)
+										$widget = true;
+								}
+
+								Functions::environment([
+									'status' => 'success',
+									'message' => '{$lang.thanks_answering_survey}',
+									'widget' => $widget,
+									'path' => '/' . $params[0] . '/' . ((Session::get_value('myvox')['url'] == 'survey') ? 'survey/' . Session::get_value('myvox')['survey']['token'] : 'myvox/owner/' . Session::get_value('myvox')['owner']['token'])
+								]);
+							}
+							else
+							{
+								Functions::environment([
+									'status' => 'error',
+									'message' => '{$lang.operation_error}'
+								]);
+							}
 						}
 					}
 					else
@@ -1765,15 +1827,13 @@ class Myvox_controller extends Controller
 
 				define('_title', Session::get_value('myvox')['account']['name'] . ' | {$lang.survey}');
 
-				$this->model->get_survey_average(1);
-
 				$html =
 				'<form name="new_survey_answer">
 					<div class="row">
 						<div class="span12">
 							<div class="tbl_stl_5" data-table>';
 
-				foreach ($this->model->get_surveys_questions() as $value)
+				foreach ($this->model->get_surveys_questions(Session::get_value('myvox')['survey']['id']) as $value)
 				{
 					$html .=
 					'<div>
@@ -1791,7 +1851,7 @@ class Myvox_controller extends Controller
 							<label><i>4</i><input type="radio" name="' . $value['id'] . '" value="4"></label>
 							<label><i>5</i><input type="radio" name="' . $value['id'] . '" value="5"></label>
 						</div>
-					   	<div>
+						<div>
 							<label><i>6</i><input type="radio" name="' . $value['id'] . '" value="6"></label>
 							<label><i>7</i><input type="radio" name="' . $value['id'] . '" value="7"></label>
 							<label><i>8</i><input type="radio" name="' . $value['id'] . '" value="8"></label>
@@ -1836,7 +1896,7 @@ class Myvox_controller extends Controller
 					'	</div>
 					</div>';
 
-					foreach ($this->model->get_surveys_questions($value['id']) as $subvalue)
+					foreach ($this->model->get_surveys_questions(Session::get_value('myvox')['survey']['id'], $value['id']) as $subvalue)
 					{
 						$html .=
 						'<div data-level="2">
@@ -1880,7 +1940,7 @@ class Myvox_controller extends Controller
 						'	</div>
 						</div>';
 
-						foreach ($this->model->get_surveys_questions($subvalue['id']) as $parentvalue)
+						foreach ($this->model->get_surveys_questions(Session::get_value('myvox')['survey']['id'], $subvalue['id']) as $parentvalue)
 						{
 							$html .=
 							'<div data-level="3">
@@ -1930,19 +1990,78 @@ class Myvox_controller extends Controller
 				}
 
 				$html .=
-				'			</div>
+				'	</div>
+				</div>';
+
+				if (Session::get_value('myvox')['url'] == 'survey')
+				{
+					$html .=
+					'<div class="span6">
+						<div class="label">
+							<label required>
+								<p>{$lang.firstname}</p>
+								<input type="text" name="firstname" />
+							</label>
 						</div>
-						<div class="span12">
-							<div class="label">
-								<label unrequired>
-									<p>{$lang.commentary}</p>
-									<textarea name="comment"></textarea>
-								</label>
-							</div>
+					</div>
+					<div class="span6">
+						<div class="label">
+							<label required>
+								<p>{$lang.lastname}</p>
+								<input type="text" name="lastname" />
+							</label>
 						</div>
-						<div class="span12">
+					</div>
+					<div class="span12">
+						<div class="label">
+							<label required>
+								<p>{$lang.email}</p>
+								<input type="email" name="email" />
+							</label>
+						</div>
+					</div>';
+				}
+
+				$html .=
+				'<div class="span12">
+					<div class="label">
+						<label unrequired>
+							<p>{$lang.commentary}</p>
+							<textarea name="comment"></textarea>
+						</label>
+					</div>
+				</div>';
+
+				if (!empty(Session::get_value('myvox')['survey']['text'][$this->lang1]))
+				{
+					$html .=
+					'<div class="span12">
+						<p style="padding:20px;box-sizing:border-box;text-align:justify;background-color:#eee;">' . Session::get_value('myvox')['survey']['text'][$this->lang1] . '</p>
+					</div>';
+				}
+
+				if (Session::get_value('myvox')['survey']['signature'] == true)
+				{
+					$html .=
+					'<div class="span12">
+						<div class="label">
+							<label required>
+								<p>{$lang.signature}</p>
+								<div class="signature" id="signature">
+									<canvas></canvas>
+									<div>
+										<a data-action="clean_signature"><i class="fas fa-trash"></i></a>
+									</div>
+								</div>
+							</label>
+						</div>
+					</div>';
+				}
+
+				$html .=
+				'		<div class="span12">
 							<div class="buttons">
-								<a href="/' . $params[0] . '/myvox/owner/' . Session::get_value('myvox')['owner']['token'] . '" class="delete"><i class="fas fa-times"></i></a>
+								' . ((Session::get_value('myvox')['url'] == 'survey') ? '' : '<a href="/' . $params[0] . '/myvox/owner/' . Session::get_value('myvox')['owner']['token'] . '" class="delete"><i class="fas fa-times"></i></a>') . '
 								<button type="submit" class="new"><i class="fas fa-check"></i></button>
 							</div>
 						</div>
@@ -1968,7 +2087,7 @@ class Myvox_controller extends Controller
 
 				$replace = [
 					'{$logotype}' => '{$path.uploads}' . Session::get_value('myvox')['account']['logotype'],
-					'{$btn_home}' => '<a href="/' . $params[0] . '/myvox/owner/' . Session::get_value('myvox')['owner']['token'] . '"><i class="fas fa-house-user"></i></a>',
+					'{$btn_home}' => (Session::get_value('myvox')['url'] == 'survey') ? '' : '<a href="/' . $params[0] . '/myvox/owner/' . Session::get_value('myvox')['owner']['token'] . '"><i class="fas fa-house-user"></i></a>',
 					'{$html}' => $html,
 					'{$mdl_widget}' => $mdl_widget
 				];
