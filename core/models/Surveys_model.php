@@ -17,6 +17,8 @@ class Surveys_model extends Model
 			'id',
 			'token',
 			'name',
+			'text',
+			'signature',
 			'main',
 			'qr',
 			'status'
@@ -34,6 +36,7 @@ class Surveys_model extends Model
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('surveys', [
 			'name',
+			'text',
 			'signature',
 			'main'
 		], [
@@ -59,6 +62,10 @@ class Surveys_model extends Model
 			'name' => json_encode([
 				'es' => $data['name_es'],
 				'en' => $data['name_en']
+			]),
+			'text' => json_encode([
+				'es' => !empty($data['text_es']) ? $data['text_es'] : '',
+				'en' => !empty($data['text_en']) ? $data['text_en'] : ''
 			]),
 			'signature' => !empty($data['signature']) ? true : false,
 			'main' => !empty($data['main']) ? true : false,
@@ -89,6 +96,10 @@ class Surveys_model extends Model
 			'name' => json_encode([
 				'es' => $data['name_es'],
 				'en' => $data['name_en']
+			]),
+			'text' => json_encode([
+				'es' => !empty($data['text_es']) ? $data['text_es'] : '',
+				'en' => !empty($data['text_en']) ? $data['text_en'] : ''
 			]),
 			'signature' => !empty($data['signature']) ? true : false,
 			'main' => !empty($data['main']) ? true : false

@@ -57,6 +57,8 @@ $(document).ready(function()
                 {
                     $('[name="name_es"]').val(response.data.name.es);
                     $('[name="name_en"]').val(response.data.name.en);
+                    $('[name="text_es"]').val(response.data.text.es);
+                    $('[name="text_en"]').val(response.data.text.en);
                     $('[name="signature"]').prop('checked', ((response.data.signature == true) ? true : false));
                     $('[name="main"]').prop('checked', ((response.data.main == true) ? true : false));
 

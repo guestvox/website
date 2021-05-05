@@ -46,6 +46,22 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     </div>
                     <div class="span6">
                         <div class="label">
+                            <label required>
+                                <p>(ES) Texto</p>
+                                <textarea name="text_es" data-translates="text_es"></textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
+                            <label required>
+                                <p>(EN) Texto</p>
+                                <textarea name="text_en" data-translates="text_en"></textarea>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <div class="label">
                             <label unrequired>
                                 <p>{$lang.signature}</p>
                                 <div class="switch">
@@ -58,7 +74,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     <div class="span6">
                         <div class="label">
                             <label unrequired>
-                                <p>{$lang.main}</p>
+                                <p>Encuesta predeterminada</p>
                                 <div class="switch">
                                     <input id="masw" type="checkbox" name="main" data-switcher>
                                     <label for="masw"></label>
