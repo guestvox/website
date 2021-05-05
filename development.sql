@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-02-2021 a las 10:21:08
+-- Tiempo de generación: 05-05-2021 a las 21:31:46
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.4.14
 
@@ -66,7 +66,7 @@ CREATE TABLE `accounts` (
 
 INSERT INTO `accounts` (`id`, `token`, `name`, `path`, `type`, `country`, `city`, `zip_code`, `address`, `location`, `time_zone`, `currency`, `language`, `fiscal`, `contact`, `logotype`, `qrs`, `package`, `digital_menu`, `operation`, `surveys`, `zaviapms`, `ambit`, `siteminder`, `sms`, `whatsapp`, `settings`, `payment`, `signup_date`, `status`) VALUES
 (1, 'mdger168', 'Royal Hotel', 'royalhotel', 'hotel', 'MEX', 'Cancún', '77500', 'Zona hotelera', '{\"lat\":\"21.145545306338878\",\"lng\":\"-86.78020330266114\"}', 'America/Cancun', 'MXN', 'es', '{\"id\":\"ABDC123456789\",\"name\":\"Royal Hotel SA de CV\",\"address\":\"Zona hotelera\"}', '{\"firstname\":\"Gerardo\",\"lastname\":\"Suarez\",\"department\":\"Direcci\\u00f3n general\",\"email\":\"demo@guestvox.com\",\"phone\":{\"lada\":\"52\",\"number\":\"0987654321\"}}', 'royalhotel_account_logotype_wR6w0RTGZyxaegrG.jpeg', '{\"menu_delivery\":\"royalhotel_menu_delivery_qr_mdger168.png\",\"reviews\":\"royalhotel_reviews_qr_mdger168.png\"}', 8, 1, 1, 1, '{\"status\":true,\"username\":\"guestbox\",\"password\":\"guestbox\"}', '{\"status\":true,\"username\":\"\",\"password\":\"\",\"store_id\":\"101\"}', '{\"status\":false,\"username\":\"\",\"password\":\"\"}', 0, 0, '{\"myvox\":{\"request\":{\"status\":true,\"title\":{\"es\":\"Alguna petici\\u00f3n\",\"en\":\"Any request\"}},\"incident\":{\"status\":true,\"title\":{\"es\":\"Quejas\",\"en\":\"Complaints\"}},\"menu\":{\"status\":true,\"title\":{\"es\":\"Men\\u00fa digital\",\"en\":\"Digital menu\"},\"currency\":\"MXN\",\"delivery\":false,\"requests\":true,\"schedule\":{\"monday\":{\"status\":\"open\",\"opening\":\"09:00\",\"closing\":\"23:59\"},\"tuesday\":{\"status\":\"open\",\"opening\":\"09:00\",\"closing\":\"23:59\"},\"wednesday\":{\"status\":\"open\",\"opening\":\"09:00\",\"closing\":\"23:59\"},\"thursday\":{\"status\":\"open\",\"opening\":\"09:00\",\"closing\":\"23:59\"},\"friday\":{\"status\":\"open\",\"opening\":\"09:00\",\"closing\":\"23:59\"},\"saturday\":{\"status\":\"open\",\"opening\":\"09:00\",\"closing\":\"23:59\"},\"sunday\":{\"status\":\"open\",\"opening\":\"09:00\",\"closing\":\"23:59\"}},\"multi\":false,\"sell_radius\":\"\"},\"survey\":{\"status\":true,\"title\":{\"es\":\"Responde nuestra encuesta\",\"en\":\"Take our survey\"},\"mail\":{\"subject\":{\"es\":\"\\u00a1Gracias por responder nuestra encuesta!\",\"en\":\"Thanks for taking our survey!\"},\"description\":{\"es\":\"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et.\",\"en\":\"Lorem ipsum pain sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget pain. Aenean massa. Cum sociis natoque penatibus et.\"},\"image\":\"royalhotel_settings_myvox_survey_mail_image_alF1wPiaJvXmHdmE.png\",\"attachment\":\"royalhotel_settings_myvox_survey_mail_attachment_3Yzg14fJnz1Rvawe.pdf\"},\"widget\":\"\"}},\"reviews\":{\"status\":true,\"email\":\"contacto@royalhotel.com\",\"phone\":{\"lada\":\"52\",\"number\":\"0123456789\"},\"website\":\"www.royalhotel.com\",\"description\":{\"es\":\"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a.\",\"en\":\"Lorem ipsum pain sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget pain. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede fair, fringilla vel, aliquet nec, vulputate eget, arcu. In enim fair, rhoncus ut, imperdiet a, venenatis vitae, fair. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a.\"},\"seo\":{\"keywords\":{\"es\":\"Lorem, ipsum, dolor, sit, amet.\",\"en\":\"Lorem, ipsum, pain, sit, amet.\"},\"description\":{\"es\":\"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.\",\"en\":\"Lorem ipsum pain sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget pain.\"}},\"social_media\":{\"facebook\":\"https:\\/\\/www.facebook.com\\/\",\"instagram\":\"https:\\/\\/www.instagram.com\\/\",\"twitter\":\"https:\\/\\/www.twitter.com\\/\",\"linkedin\":\"https:\\/\\/www.linkedin.com\\/\",\"youtube\":\"https:\\/\\/www.youtube.com\\/\",\"google\":\"https:\\/\\/www.google.com\\/\",\"tripadvisor\":\"https:\\/\\/www.tripadvisor.com\\/\"}},\"voxes\":{\"attention_times\":{\"request\":{\"low\":\"40\",\"medium\":\"20\",\"high\":\"10\"},\"incident\":{\"low\":\"40\",\"medium\":\"20\",\"high\":\"10\"}}}}', '{\"status\":true,\"type\":\"mit\",\"mit\":{\"code\":\"12691\",\"types\":\"401,402\"},\"contract\":{\"status\":\"activated\",\"place\":\"Canc\\u00fan Quintana Roo\",\"date\":\"2021-02-11\",\"signature\":\"royalhotel_tA3KYeZDLQacDo0n.png\",\"titular\":{\"fiscal\":{\"person\":\"moral\",\"id\":\"ABCD123456789\",\"name\":\"Royal Hotel SA de CV\",\"activity\":\"Actividad empresarial\"},\"address\":{\"street\":\"Boulevard ZH\",\"external_number\":\"Lote 13\",\"internal_number\":\"\",\"cp\":\"77500\",\"colony\":\"Zona Hotelera\",\"delegation\":\"Benito Ju\\u00e1rez\",\"city\":\"Canc\\u00fan\",\"state\":\"Quintana Roo\",\"country\":\"M\\u00e9xico\"},\"bank\":{\"name\":\"BBVA\",\"branch\":\"002\",\"checkbook\":\"0987654321\",\"clabe\":\"0987654321\"},\"personal_references\":{\"first\":{\"name\":\"Mi referencia 1\",\"phone\":{\"country\":\"52\",\"number\":\"0987654321\"}},\"second\":{\"name\":\"Mi referencia 2\",\"phone\":{\"country\":\"52\",\"number\":\"0987654321\"}},\"third\":{\"name\":\"Mi referencia 3\",\"phone\":{\"country\":\"52\",\"number\":\"0987654321\"}},\"fourth\":{\"name\":\"Mi referencia 4\",\"phone\":{\"country\":\"52\",\"number\":\"0987654321\"}}},\"email\":\"demo@guestvox.com\",\"phone\":{\"country\":\"52\",\"number\":\"0987654321\"},\"tpv\":\"not\"},\"company\":{\"writing_number\":\"0987654321\",\"writing_date\":\"2010-01-01\",\"public_record_folio\":\"0987654321\",\"public_record_date\":\"2010-01-01\",\"notary_name\":\"Notar\\u00eda 9\",\"notary_number\":\"0987654321\",\"city\":\"Canc\\u00fan\",\"legal_representative\":{\"name\":\"Jos\\u00e9 Hern\\u00e1ndez Ram\\u00edrez\",\"writing_number\":\"0987654321\",\"writing_date\":\"2010-01-01\",\"notary_name\":\"Notar\\u00eda 9\",\"notary_number\":\"0987654321\",\"city\":\"Canc\\u00fan\",\"card\":{\"type\":\"ine\",\"number\":\"0987654321\",\"expedition_date\":\"2010-01-01\",\"validity\":\"2010-01-01\"}}}}}', '2020-07-31', 1),
-(2, 'fyiyeznp', 'Hot Restaurant', 'hotrestaurant', 'restaurant', 'MEX', 'Cancún', '77500', 'Zona Hotelera', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', 'America/Cancun', 'MXN', 'es', '{\"id\":\"ABCD123456789\",\"name\":\"Hot Restaurant SA de CV\",\"address\":\"Canc\\u00fan centro\"}', '{\"firstname\":\"Marcos\",\"lastname\":\"Ram\\u00edrez\",\"department\":\"Direcci\\u00f3n general\",\"email\":\"desarrollo@guestvox.com\",\"phone\":{\"lada\":\"52\",\"number\":\"9981579343\"}}', 'hotrestaurant_account_logotype_VVVZ5o8ttJ6hLGDH.jpeg', '{\"menu_delivery\":\"hotrestaurant_menu_delivery_qr_fyiyeznp.png\",\"reviews\":\"hotrestaurant_reviews_qr_fyiyeznp.png\"}', 21, 1, 1, 1, '{\"status\":false,\"username\":\"\",\"password\":\"\"}', '{\"status\":false,\"username\":\"\",\"password\":\"\", \"store_id\":\"\"}', '{\"status\":false,\"username\":\"\",\"password\":\"\"}', 0, 0, '{\"myvox\":{\"request\":{\"status\":true,\"title\":{\"es\":\"\\u00bfEn que te podemos apoyar?\",\"en\":\"How can we support you?\"}},\"incident\":{\"status\":true,\"title\":{\"es\":\"D\\u00e9janos tus comentarios o quejas\",\"en\":\"Leave us your comments or complaints\"}},\"menu\":{\"status\":true,\"title\":{\"es\":\"Men\\u00fa digital\",\"en\":\"Digital menu\"},\"currency\":\"MXN\",\"delivery\":true,\"requests\":true,\"schedule\":{\"monday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"},\"tuesday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"},\"wednesday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"},\"thursday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"},\"friday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"},\"saturday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"},\"sunday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"}},\"multi\":false,\"sell_radius\":\"10000\"},\"survey\":{\"status\":true,\"title\":{\"es\":\"\\u00a1Responde nuestra encuesta!\",\"en\":\"Take our survey!\"},\"mail\":{\"subject\":{\"es\":\"\\u00a1Gracias por responder nuestra encuesrta!\",\"en\":\"Thanks for taking our survey!\"},\"description\":{\"es\":\"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.\",\"en\":\"Lorem ipsum pain sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget pain. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.\"},\"image\":\"hotrestaurant_settings_myvox_survey_mail_image_oOsg3zTp1KkX2G6Y.png\",\"attachment\":\"hotrestaurant_settings_myvox_survey_mail_attachment_i6Lqrp7ppcBOR2CP.pdf\"},\"widget\":\"\"}},\"reviews\":{\"status\":true,\"email\":\"contacto@hotrestaurant.com\",\"phone\":{\"lada\":\"52\",\"number\":\"0123456789\"},\"website\":\"www.hotrestaurant.com\",\"description\":{\"es\":\"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a.\",\"en\":\"Lorem ipsum pain sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget pain. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede fair, fringilla vel, aliquet nec, vulputate eget, arcu. In enim fair, rhoncus ut, imperdiet a, venenatis vitae, fair. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a.\"},\"seo\":{\"keywords\":{\"es\":\"Lorem ipsum dolor sit amet\",\"en\":\"Lorem ipsum pain sit amet\"},\"description\":{\"es\":\"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.\",\"en\":\"Lorem ipsum pain sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget pain.\"}},\"social_media\":{\"facebook\":\"https:\\/\\/www.facebook.com\\/\",\"instagram\":\"https:\\/\\/www.instagram.com\\/\",\"twitter\":\"https:\\/\\/www.twitter.com\\/\",\"linkedin\":\"https:\\/\\/www.linkedin.com\\/\",\"youtube\":\"https:\\/\\/www.youtube.com\\/\",\"google\":\"https:\\/\\/www.google.com\\/\",\"tripadvisor\":\"https:\\/\\/www.tripadvisor.com\\/\"}},\"voxes\":{\"attention_times\":{\"request\":{\"low\":\"40\",\"medium\":\"20\",\"high\":\"10\"},\"incident\":{\"low\":\"40\",\"medium\":\"20\",\"high\":\"10\"}}}}', '{\"status\":false,\"type\":\"mit\",\"mit\":{\"code\":\"\",\"types\":\"\"},\"contract\":{\"status\":\"deactivated\",\"place\":\"\",\"date\":\"\",\"signature\":\"\",\"titular\":{\"fiscal\":{\"person\":\"\",\"id\":\"\",\"name\":\"\",\"activity\":\"\"},\"address\":{\"street\":\"\",\"external_number\":\"\",\"internal_number\":\"\",\"cp\":\"\",\"colony\":\"\",\"delegation\":\"\",\"city\":\"\",\"state\":\"\",\"country\":\"\"},\"bank\":{\"name\":\"\",\"branch\":\"\",\"checkbook\":\"\",\"clabe\":\"\"},\"personal_references\":{\"first\":{\"name\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"}},\"second\":{\"name\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"}},\"third\":{\"name\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"}},\"fourth\":{\"name\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"}}},\"email\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"},\"tpv\":\"\"},\"company\":{\"writing_number\":\"\",\"writing_date\":\"\",\"public_record_folio\":\"\",\"public_record_date\":\"\",\"notary_name\":\"\",\"notary_number\":\"\",\"city\":\"\",\"legal_representative\":{\"name\":\"\",\"writing_number\":\"\",\"writing_date\":\"\",\"notary_name\":\"\",\"notary_number\":\"\",\"city\":\"\",\"card\":{\"type\":\"\",\"number\":\"\",\"expedition_date\":\"\",\"validity\":\"\"}}}}}', '2020-07-31', 1),
+(2, 'fyiyeznp', 'Hot Restaurant', 'hotrestaurant', 'restaurant', 'MEX', 'Cancún', '77500', 'Zona Hotelera', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', 'America/Cancun', 'MXN', 'es', '{\"id\":\"ABCD123456789\",\"name\":\"Hot Restaurant SA de CV\",\"address\":\"Canc\\u00fan centro\"}', '{\"firstname\":\"Marcos\",\"lastname\":\"Ram\\u00edrez\",\"department\":\"Direcci\\u00f3n general\",\"email\":\"desarrollo@guestvox.com\",\"phone\":{\"lada\":\"52\",\"number\":\"9981579343\"}}', 'hotrestaurant_account_logotype_VVVZ5o8ttJ6hLGDH.jpeg', '{\"menu_delivery\":\"hotrestaurant_menu_delivery_qr_fyiyeznp.png\",\"reviews\":\"hotrestaurant_reviews_qr_fyiyeznp.png\"}', 21, 1, 1, 1, '{\"status\":false,\"username\":\"\",\"password\":\"\"}', '{\"status\":false,\"username\":\"\",\"password\":\"\", \"store_id\":\"\"}', '{\"status\":false,\"username\":\"\",\"password\":\"\"}', 0, 99, '{\"myvox\":{\"request\":{\"status\":true,\"title\":{\"es\":\"\\u00bfEn que te podemos apoyar?\",\"en\":\"How can we support you?\"}},\"incident\":{\"status\":true,\"title\":{\"es\":\"D\\u00e9janos tus comentarios o quejas\",\"en\":\"Leave us your comments or complaints\"}},\"menu\":{\"status\":true,\"title\":{\"es\":\"Men\\u00fa digital\",\"en\":\"Digital menu\"},\"currency\":\"MXN\",\"delivery\":true,\"requests\":true,\"schedule\":{\"monday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"},\"tuesday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"},\"wednesday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"},\"thursday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"},\"friday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"},\"saturday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"},\"sunday\":{\"status\":\"open\",\"opening\":\"02:00\",\"closing\":\"23:59\"}},\"multi\":false,\"sell_radius\":\"10000\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"52\",\"number\":\"9981579343\"}},\"survey\":{\"status\":true,\"title\":{\"es\":\"\\u00a1Responde nuestra encuesta!\",\"en\":\"Take our survey!\"},\"mail\":{\"subject\":{\"es\":\"\\u00a1Gracias por responder nuestra encuesrta!\",\"en\":\"Thanks for taking our survey!\"},\"description\":{\"es\":\"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.\",\"en\":\"Lorem ipsum pain sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget pain. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis.\"},\"image\":\"hotrestaurant_settings_myvox_survey_mail_image_oOsg3zTp1KkX2G6Y.png\",\"attachment\":\"hotrestaurant_settings_myvox_survey_mail_attachment_i6Lqrp7ppcBOR2CP.pdf\"},\"widget\":\"\"}},\"reviews\":{\"status\":true,\"email\":\"contacto@hotrestaurant.com\",\"phone\":{\"lada\":\"52\",\"number\":\"0123456789\"},\"website\":\"www.hotrestaurant.com\",\"description\":{\"es\":\"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a.\",\"en\":\"Lorem ipsum pain sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget pain. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede fair, fringilla vel, aliquet nec, vulputate eget, arcu. In enim fair, rhoncus ut, imperdiet a, venenatis vitae, fair. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a.\"},\"seo\":{\"keywords\":{\"es\":\"Lorem ipsum dolor sit amet\",\"en\":\"Lorem ipsum pain sit amet\"},\"description\":{\"es\":\"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.\",\"en\":\"Lorem ipsum pain sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget pain.\"}},\"social_media\":{\"facebook\":\"https:\\/\\/www.facebook.com\\/\",\"instagram\":\"https:\\/\\/www.instagram.com\\/\",\"twitter\":\"https:\\/\\/www.twitter.com\\/\",\"linkedin\":\"https:\\/\\/www.linkedin.com\\/\",\"youtube\":\"https:\\/\\/www.youtube.com\\/\",\"google\":\"https:\\/\\/www.google.com\\/\",\"tripadvisor\":\"https:\\/\\/www.tripadvisor.com\\/\"}},\"voxes\":{\"attention_times\":{\"request\":{\"low\":\"40\",\"medium\":\"20\",\"high\":\"10\"},\"incident\":{\"low\":\"40\",\"medium\":\"20\",\"high\":\"10\"}}}}', '{\"status\":true,\"type\":\"mit\",\"mit\":{\"code\":\"116539\",\"types\":\"41\"},\"contract\":{\"status\":\"activated\",\"place\":\"\",\"date\":\"\",\"signature\":\"\",\"titular\":{\"fiscal\":{\"person\":\"\",\"id\":\"\",\"name\":\"\",\"activity\":\"\"},\"address\":{\"street\":\"\",\"external_number\":\"\",\"internal_number\":\"\",\"cp\":\"\",\"colony\":\"\",\"delegation\":\"\",\"city\":\"\",\"state\":\"\",\"country\":\"\"},\"bank\":{\"name\":\"\",\"branch\":\"\",\"checkbook\":\"\",\"clabe\":\"\"},\"personal_references\":{\"first\":{\"name\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"}},\"second\":{\"name\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"}},\"third\":{\"name\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"}},\"fourth\":{\"name\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"}}},\"email\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"},\"tpv\":\"\"},\"company\":{\"writing_number\":\"\",\"writing_date\":\"\",\"public_record_folio\":\"\",\"public_record_date\":\"\",\"notary_name\":\"\",\"notary_number\":\"\",\"city\":\"\",\"legal_representative\":{\"name\":\"\",\"writing_number\":\"\",\"writing_date\":\"\",\"notary_name\":\"\",\"notary_number\":\"\",\"city\":\"\",\"card\":{\"type\":\"\",\"number\":\"\",\"expedition_date\":\"\",\"validity\":\"\"}}}}}', '2020-07-31', 1),
 (4, 'xmvduxcj', 'Foxmedia', 'foxmedia', 'others', 'MEX', 'Cancún', '77500', 'Zona Hotelera', '{\"lat\":\"\",\"lng\":\"\"}', 'America/Cancun', 'MXN', 'es', '{\"id\":\"\",\"name\":\"\",\"address\":\"\"}', '{\"firstname\":\"\",\"lastname\":\"\",\"department\":\"\",\"email\":\"\",\"phone\":{\"lada\":\"\",\"number\":\"\"}}', 'foxmedia_account_logotype_0fxM2DEgdSHRqd01.jpeg', '{\"menu_delivery\":\"foxmedia_menu_delivery_qr_xmvduxcj.png\",\"reviews\":\"foxmedia_reviews_qr_xmvduxcj.png\"}', 23, 1, 1, 1, '{\"status\":false,\"username\":\"\",\"password\":\"\"}', '{\"status\":false,\"username\":\"\",\"password\":\"\", \"store_id\":\"\"}', '{\"status\":false,\"username\":\"\",\"password\":\"\"}', 0, 0, '{\"myvox\":{\"request\":{\"status\":false,\"title\":{\"es\":\"\",\"en\":\"\"}},\"incident\":{\"status\":false,\"title\":{\"es\":\"\",\"en\":\"\"}},\"menu\":{\"status\":true,\"title\":{\"es\":\"Men\\u00fa digital\",\"en\":\"Digital menu\"},\"currency\":\"MXN\",\"delivery\":true,\"requests\":false,\"schedule\":{\"monday\":{\"status\":\"open\",\"opening\":\"10:00\",\"closing\":\"23:59\"},\"tuesday\":{\"status\":\"open\",\"opening\":\"10:00\",\"closing\":\"23:59\"},\"wednesday\":{\"status\":\"open\",\"opening\":\"10:00\",\"closing\":\"23:59\"},\"thursday\":{\"status\":\"open\",\"opening\":\"10:00\",\"closing\":\"23:59\"},\"friday\":{\"status\":\"open\",\"opening\":\"10:00\",\"closing\":\"23:59\"},\"saturday\":{\"status\":\"open\",\"opening\":\"10:00\",\"closing\":\"23:59\"},\"sunday\":{\"status\":\"open\",\"opening\":\"10:00\",\"closing\":\"23:59\"}},\"multi\":false,\"sell_radius\":\"10000\"},\"survey\":{\"status\":false,\"title\":{\"es\":\"\",\"en\":\"\"},\"mail\":{\"subject\":{\"es\":\"\",\"en\":\"\"},\"description\":{\"es\":\"\",\"en\":\"\"},\"image\":\"\",\"attachment\":\"\"},\"widget\":\"\"}},\"reviews\":{\"status\":false,\"email\":\"\",\"phone\":{\"lada\":\"\",\"number\":\"\"},\"website\":\"\",\"description\":{\"es\":\"\",\"en\":\"\"},\"seo\":{\"keywords\":{\"es\":\"\",\"en\":\"\"},\"description\":{\"es\":\"\",\"en\":\"\"}},\"social_media\":{\"facebook\":\"\",\"instagram\":\"\",\"twitter\":\"\",\"linkedin\":\"\",\"youtube\":\"\",\"google\":\"\",\"tripadvisor\":\"\"}},\"voxes\":{\"attention_times\":{\"request\":{\"low\":\"40\",\"medium\":\"20\",\"high\":\"10\"},\"incident\":{\"low\":\"40\",\"medium\":\"20\",\"high\":\"10\"}}}}', '{\"status\":false,\"type\":\"mit\",\"mit\":{\"code\":\"\",\"types\":\"\"},\"contract\":{\"status\":\"deactivated\",\"place\":\"\",\"date\":\"\",\"signature\":\"\",\"titular\":{\"fiscal\":{\"person\":\"\",\"id\":\"\",\"name\":\"\",\"activity\":\"\"},\"address\":{\"street\":\"\",\"external_number\":\"\",\"internal_number\":\"\",\"cp\":\"\",\"colony\":\"\",\"delegation\":\"\",\"city\":\"\",\"state\":\"\",\"country\":\"\"},\"bank\":{\"name\":\"\",\"branch\":\"\",\"checkbook\":\"\",\"clabe\":\"\"},\"personal_references\":{\"first\":{\"name\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"}},\"second\":{\"name\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"}},\"third\":{\"name\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"}},\"fourth\":{\"name\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"}}},\"email\":\"\",\"phone\":{\"country\":\"\",\"number\":\"\"},\"tpv\":\"\"},\"company\":{\"writing_number\":\"\",\"writing_date\":\"\",\"public_record_folio\":\"\",\"public_record_date\":\"\",\"notary_name\":\"\",\"notary_number\":\"\",\"city\":\"\",\"legal_representative\":{\"name\":\"\",\"writing_number\":\"\",\"writing_date\":\"\",\"notary_name\":\"\",\"notary_number\":\"\",\"city\":\"\",\"card\":{\"type\":\"\",\"number\":\"\",\"expedition_date\":\"\",\"validity\":\"\"}}}}}', '2020-07-31', 1);
 
 -- --------------------------------------------------------
@@ -714,6 +714,7 @@ CREATE TABLE `menu_orders` (
   `total` double NOT NULL,
   `currency` text NOT NULL,
   `payment_method` enum('credit_card','debit_card','cash') NOT NULL,
+  `payment_cash` double DEFAULT NULL,
   `shopping_cart` longtext NOT NULL,
   `declined` tinyint(1) NOT NULL,
   `accepted` tinyint(1) NOT NULL,
@@ -724,9 +725,16 @@ CREATE TABLE `menu_orders` (
 -- Volcado de datos para la tabla `menu_orders`
 --
 
-INSERT INTO `menu_orders` (`id`, `account`, `token`, `type_service`, `owner`, `delivery`, `contact`, `address`, `location`, `date`, `hour`, `total`, `currency`, `payment_method`, `shopping_cart`, `declined`, `accepted`, `delivered`) VALUES
-(1, 2, 'cgu92acn', 'delivery', NULL, 'collect', '{\"firstname\":\"Gers\\u00f3n Aar\\u00f3n\",\"lastname\":\"G\\u00f3mez Mac\\u00edas (Prueba)\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"52\",\"number\":\"0987654321\"}}', '', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', '2021-02-23', '17:35:51', 210, 'MXN', 'cash', '{\"12\":[{\"quantity\":\"1\",\"id\":\"12\",\"name\":{\"es\":\"Producto 1\",\"en\":\"Product 1\"},\"topics\":[],\"price\":\"100\",\"total\":100,\"map\":\"\"}],\"13\":[{\"quantity\":\"1\",\"id\":\"13\",\"name\":{\"es\":\"Producto 2\",\"en\":\"Product 2\"},\"topics\":[{\"id\":\"16\",\"price\":\"10\",\"selection\":\"radio\",\"name\":{\"es\":\"Tortilla\",\"en\":\"Tortilla\"}}],\"price\":\"100\",\"total\":110,\"map\":\"\"}]}', 0, 0, 0),
-(2, 2, 'tqfiqju5', 'delivery', NULL, 'collect', '{\"firstname\":\"Gers\\u00f3n Aar\\u00f3n\",\"lastname\":\"G\\u00f3mez Mac\\u00edas (Prueba)\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"52\",\"number\":\"0987654321\"}}', '', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', '2021-02-23', '17:36:24', 100, 'MXN', 'cash', '{\"14\":[{\"quantity\":\"1\",\"id\":\"14\",\"name\":{\"es\":\"Producto 3\",\"en\":\"Product 3\"},\"topics\":[],\"price\":\"100\",\"total\":100,\"map\":\"\"}]}', 0, 0, 0);
+INSERT INTO `menu_orders` (`id`, `account`, `token`, `type_service`, `owner`, `delivery`, `contact`, `address`, `location`, `date`, `hour`, `total`, `currency`, `payment_method`, `payment_cash`, `shopping_cart`, `declined`, `accepted`, `delivered`) VALUES
+(1, 2, 'cgu92acn', 'delivery', NULL, 'collect', '{\"firstname\":\"Gers\\u00f3n Aar\\u00f3n\",\"lastname\":\"G\\u00f3mez Mac\\u00edas (Prueba)\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"52\",\"number\":\"0987654321\"}}', '', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', '2021-02-23', '17:35:51', 210, 'MXN', 'cash', 400, '{\"12\":[{\"quantity\":\"1\",\"id\":\"12\",\"name\":{\"es\":\"Producto 1\",\"en\":\"Product 1\"},\"topics\":[],\"price\":\"100\",\"total\":100,\"map\":\"\"}],\"13\":[{\"quantity\":\"1\",\"id\":\"13\",\"name\":{\"es\":\"Producto 2\",\"en\":\"Product 2\"},\"topics\":[{\"id\":\"16\",\"price\":\"10\",\"selection\":\"radio\",\"name\":{\"es\":\"Tortilla\",\"en\":\"Tortilla\"}}],\"price\":\"100\",\"total\":110,\"map\":\"\"}]}', 0, 0, 0),
+(2, 2, 'tqfiqju5', 'delivery', NULL, 'collect', '{\"firstname\":\"Gers\\u00f3n Aar\\u00f3n\",\"lastname\":\"G\\u00f3mez Mac\\u00edas (Prueba)\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"52\",\"number\":\"0987654321\"}}', '', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', '2021-02-23', '17:36:24', 100, 'MXN', 'cash', 100, '{\"14\":[{\"quantity\":\"1\",\"id\":\"14\",\"name\":{\"es\":\"Producto 3\",\"en\":\"Product 3\"},\"topics\":[],\"price\":\"100\",\"total\":100,\"map\":\"\"}]}', 0, 0, 0),
+(3, 2, 'sovlgiw4', 'delivery', NULL, 'collect', '{\"firstname\":\"Gers\\u00f3n Aar\\u00f3n\",\"lastname\":\"G\\u00f3mez Mac\\u00edas (Prueba)\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"52\",\"number\":\"9981579343\"}}', '', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', '2021-02-24', '04:37:42', 100, 'MXN', 'cash', 100, '{\"12\":[{\"quantity\":\"1\",\"id\":\"12\",\"name\":{\"es\":\"Producto 1\",\"en\":\"Product 1\"},\"topics\":[],\"price\":\"100\",\"total\":100,\"map\":\"\"}]}', 0, 1, 1),
+(4, 2, 'i49fmrbs', 'delivery', NULL, 'collect', '{\"firstname\":\"Gers\\u00f3n Aar\\u00f3n\",\"lastname\":\"G\\u00f3mez Mac\\u00edas (Prueba)\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"264\",\"number\":\"0987654321\"}}', '', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', '2021-02-24', '04:41:27', 210, 'MXN', 'cash', 500, '{\"12\":[{\"quantity\":\"1\",\"id\":\"12\",\"name\":{\"es\":\"Producto 1\",\"en\":\"Product 1\"},\"topics\":[],\"price\":\"100\",\"total\":100,\"map\":\"\"}],\"13\":[{\"quantity\":\"1\",\"id\":\"13\",\"name\":{\"es\":\"Producto 2\",\"en\":\"Product 2\"},\"topics\":[{\"id\":\"16\",\"price\":\"10\",\"selection\":\"radio\",\"name\":{\"es\":\"Tortilla\",\"en\":\"Tortilla\"}}],\"price\":\"100\",\"total\":110,\"map\":\"\"}]}', 0, 0, 0),
+(5, 2, 'znwdytdl', 'delivery', NULL, 'collect', '{\"firstname\":\"Gers\\u00f3n Aar\\u00f3n\",\"lastname\":\"G\\u00f3mez Mac\\u00edas (Prueba)\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"34\",\"number\":\"0987654321\"}}', '', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', '2021-02-24', '05:53:41', 100, 'MXN', 'cash', 400, '{\"12\":[{\"quantity\":\"1\",\"id\":\"12\",\"name\":{\"es\":\"Producto 1\",\"en\":\"Product 1\"},\"topics\":[],\"price\":\"100\",\"total\":100,\"map\":\"\"}]}', 0, 0, 0),
+(6, 2, 'nzgwaqiu', 'delivery', NULL, 'collect', '{\"firstname\":\"Gers\\u00f3n Aar\\u00f3n\",\"lastname\":\"G\\u00f3mez Mac\\u00edas (Prueba)\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"34\",\"number\":\"0987654321\"}}', '', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', '2021-02-24', '05:53:53', 0, 'MXN', 'cash', 400, '[]', 0, 0, 0),
+(7, 2, 'cxp5ok3z', 'delivery', NULL, 'collect', '{\"firstname\":\"Gers\\u00f3n Aar\\u00f3n\",\"lastname\":\"G\\u00f3mez Mac\\u00edas (Prueba)\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"52\",\"number\":\"0987654321\"}}', '', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', '2021-02-24', '05:55:23', 100, 'MXN', 'cash', 400, '{\"12\":[{\"quantity\":\"1\",\"id\":\"12\",\"name\":{\"es\":\"Producto 1\",\"en\":\"Product 1\"},\"topics\":[],\"price\":\"100\",\"total\":100,\"map\":\"\"}]}', 0, 0, 0),
+(8, 2, 'hhemqhfm', 'delivery', NULL, 'collect', '{\"firstname\":\"Gers\\u00f3n Aar\\u00f3n\",\"lastname\":\"G\\u00f3mez Mac\\u00edas (Prueba)\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"1\",\"number\":\"0987654321\"}}', '', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', '2021-02-24', '05:56:48', 110, 'MXN', 'cash', 400, '{\"13\":[{\"quantity\":\"1\",\"id\":\"13\",\"name\":{\"es\":\"Producto 2\",\"en\":\"Product 2\"},\"topics\":[{\"id\":\"16\",\"price\":\"10\",\"selection\":\"radio\",\"name\":{\"es\":\"Tortilla\",\"en\":\"Tortilla\"}}],\"price\":\"100\",\"total\":110,\"map\":\"\"}]}', 0, 0, 0),
+(9, 2, 'id7krar2', 'delivery', NULL, 'collect', '{\"firstname\":\"Gers\\u00f3n\",\"lastname\":\"G\\u00f3mez\",\"email\":\"gergomez18@gmail.com\",\"phone\":{\"lada\":\"52\",\"number\":\"9981579343\"}}', '', '{\"lat\":\"21.159198566133863\",\"lng\":\"-86.82573387226238\"}', '2021-03-04', '17:26:44', 70, 'MXN', 'cash', 499, '{\"658\":[{\"quantity\":\"1\",\"id\":\"658\",\"name\":{\"es\":\"Puntas de res a la mexicana\",\"en\":\"Mexican beef tips\"},\"topics\":[],\"price\":\"70\",\"total\":70,\"map\":\"\"}]}', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1088,19 +1096,51 @@ INSERT INTO `reservations_statuses` (`id`, `account`, `name`, `status`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `surveys`
+--
+
+CREATE TABLE `surveys` (
+  `id` bigint(20) NOT NULL,
+  `account` bigint(20) NOT NULL,
+  `token` varchar(8) NOT NULL,
+  `name` text NOT NULL,
+  `text` text NOT NULL,
+  `signature` tinyint(1) NOT NULL,
+  `main` tinyint(1) NOT NULL,
+  `qr` text NOT NULL,
+  `status` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `surveys`
+--
+
+INSERT INTO `surveys` (`id`, `account`, `token`, `name`, `text`, `signature`, `main`, `qr`, `status`) VALUES
+(1, 1, 'giqeccxm', '{\"es\":\"Encuesta 1\",\"en\":\"Survey 1\"}', '{\"es\":\"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa.\",\"en\":\"Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa.\"}', 1, 1, 'royalhotel_survey_qr_giqeccxm.png', 1),
+(2, 1, '6u7unsjw', '{\"es\":\"Encuesta 2\",\"en\":\"Survey 2\"}', '{\"es\":\"\",\"en\":\"\"}', 0, 0, 'royalhotel_survey_qr_6u7unsjw.png', 1),
+(3, 1, 'd6shqvas', '{\"es\":\"Encuesta 3\",\"en\":\"Survey 3\"}', '{\"es\":\"\",\"en\":\"\"}', 0, 0, 'royalhotel_survey_qr_d6shqvas.png', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `surveys_answers`
 --
 
 CREATE TABLE `surveys_answers` (
   `id` int(11) NOT NULL,
   `account` bigint(20) NOT NULL,
+  `survey` bigint(20) NOT NULL,
   `token` char(8) NOT NULL,
-  `owner` bigint(20) NOT NULL,
+  `owner` bigint(20) DEFAULT NULL,
   `values` text NOT NULL,
+  `firstname` text DEFAULT NULL,
+  `lastname` text DEFAULT NULL,
+  `email` text DEFAULT NULL,
   `comment` text DEFAULT NULL,
   `reservation` text DEFAULT NULL,
   `date` date NOT NULL,
   `hour` time NOT NULL,
+  `signature` text DEFAULT NULL,
   `public` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1108,10 +1148,17 @@ CREATE TABLE `surveys_answers` (
 -- Volcado de datos para la tabla `surveys_answers`
 --
 
-INSERT INTO `surveys_answers` (`id`, `account`, `token`, `owner`, `values`, `comment`, `reservation`, `date`, `hour`, `public`) VALUES
-(3, 1, '6aupgjs1', 6, '{\"8\":\"5\",\"9\":\"yes\",\"10\":[\"kU6m9O\\u00d16\",\"3kkf1Ix5\",\"EB3t1Q07\",\"\\u00d1z4AAkYp\"],\"11\":\"Mi respuesta\"}', ' Mis comentarios', '{\"status\":\"success\",\"firstname\":\"\",\"lastname\":\"\",\"guest_id\":\"\",\"reservation_number\":\"\",\"check_in\":\"\",\"check_out\":\"\",\"nationality\":\"\",\"input_channel\":\"\",\"traveler_type\":\"\",\"age_group\":\"\"}', '2021-02-11', '11:11:03', 0),
-(4, 2, 'rnwmfjhj', 1, '{\"12\":\"5\",\"13\":\"yes\",\"14\":[\"ncu9d7XF\",\"LC8ljj\\u00d1q\"],\"15\":\"Mi respuesta\"}', 'Mis comentarios', NULL, '2021-02-13', '17:55:18', 0),
-(5, 2, 'jaakm5n9', 1, '{\"12\":\"5\",\"13\":\"yes\",\"14\":[\"ncu9d7XF\",\"LC8ljj\\u00d1q\"],\"15\":\"Mi respuesta\"}', 'Mis comentarios', NULL, '2021-02-13', '17:59:29', 0);
+INSERT INTO `surveys_answers` (`id`, `account`, `survey`, `token`, `owner`, `values`, `firstname`, `lastname`, `email`, `comment`, `reservation`, `date`, `hour`, `signature`, `public`) VALUES
+(3, 1, 1, '6aupgjs1', 6, '{\"8\":\"5\",\"9\":\"yes\",\"10\":[\"kU6m9O\\u00d16\",\"3kkf1Ix5\",\"EB3t1Q07\",\"\\u00d1z4AAkYp\"],\"11\":\"Mi respuesta\"}', NULL, NULL, NULL, ' Mis comentarios', '{\"status\":\"success\",\"firstname\":\"\",\"lastname\":\"\",\"guest_id\":\"\",\"reservation_number\":\"\",\"check_in\":\"\",\"check_out\":\"\",\"nationality\":\"\",\"input_channel\":\"\",\"traveler_type\":\"\",\"age_group\":\"\"}', '2021-05-04', '11:11:03', NULL, 0),
+(4, 2, 1, 'rnwmfjhj', 1, '{\"12\":\"5\",\"13\":\"yes\",\"14\":[\"ncu9d7XF\",\"LC8ljj\\u00d1q\"],\"15\":\"Mi respuesta\"}', NULL, NULL, NULL, 'Mis comentarios', NULL, '2021-05-03', '17:55:18', NULL, 0),
+(5, 2, 1, 'jaakm5n9', 1, '{\"12\":\"5\",\"13\":\"yes\",\"14\":[\"ncu9d7XF\",\"LC8ljj\\u00d1q\"],\"15\":\"Mi respuesta\"}', NULL, NULL, NULL, 'Mis comentarios', NULL, '2021-05-03', '17:59:29', NULL, 0),
+(7, 1, 1, 'rl3xqc6d', 6, '{\"8\":\"5\",\"9\":\"yes\",\"10\":[\"kU6m9O\\u00d16\",\"3kkf1Ix5\",\"EB3t1Q07\",\"\\u00d1z4AAkYp\"],\"11\":\"Respuesta\"}', NULL, NULL, NULL, 'Comentario', '{\"status\":\"success\",\"firstname\":\"\",\"lastname\":\"\",\"guest_id\":\"\",\"reservation_number\":\"\",\"check_in\":\"\",\"check_out\":\"\",\"nationality\":\"\",\"input_channel\":\"\",\"traveler_type\":\"\",\"age_group\":\"\"}', '2021-05-04', '20:45:13', NULL, 0),
+(8, 1, 1, 'ru5bbg2v', 6, '{\"8\":\"1\",\"9\":\"not\",\"10\":[\"kU6m9O\\u00d16\"],\"11\":\"Respuesta\"}', NULL, NULL, NULL, NULL, '{\"status\":\"success\",\"firstname\":\"\",\"lastname\":\"\",\"guest_id\":\"\",\"reservation_number\":\"\",\"check_in\":\"\",\"check_out\":\"\",\"nationality\":\"\",\"input_channel\":\"\",\"traveler_type\":\"\",\"age_group\":\"\"}', '2021-05-04', '20:49:39', NULL, 0),
+(9, 1, 3, '5bs3v0ow', 6, '{\"18\":\"5\",\"19\":\"5\",\"20\":\"5\",\"21\":\"5\"}', NULL, NULL, NULL, NULL, '{\"status\":\"success\",\"firstname\":\"\",\"lastname\":\"\",\"guest_id\":\"\",\"reservation_number\":\"\",\"check_in\":\"\",\"check_out\":\"\",\"nationality\":\"\",\"input_channel\":\"\",\"traveler_type\":\"\",\"age_group\":\"\"}', '2021-05-05', '09:21:23', NULL, 0),
+(10, 1, 1, 'xo5yu2aw', 6, '{\"8\":\"5\",\"9\":\"yes\",\"10\":[\"kU6m9O\\u00d16\"],\"11\":\"sdafasdf\"}', NULL, NULL, NULL, 'dasfdasf', '{\"status\":\"success\",\"firstname\":\"\",\"lastname\":\"\",\"guest_id\":\"\",\"reservation_number\":\"\",\"check_in\":\"\",\"check_out\":\"\",\"nationality\":\"\",\"input_channel\":\"\",\"traveler_type\":\"\",\"age_group\":\"\"}', '2021-05-05', '09:22:35', NULL, 0),
+(11, 1, 3, 'rglhj3y4', 6, '{\"18\":\"5\",\"19\":\"5\",\"20\":\"5\",\"21\":\"5\"}', NULL, NULL, NULL, NULL, '{\"status\":\"success\",\"firstname\":\"\",\"lastname\":\"\",\"guest_id\":\"\",\"reservation_number\":\"\",\"check_in\":\"\",\"check_out\":\"\",\"nationality\":\"\",\"input_channel\":\"\",\"traveler_type\":\"\",\"age_group\":\"\"}', '2021-05-05', '09:24:28', NULL, 0),
+(12, 1, 1, '9jgindce', 6, '{\"8\":\"5\",\"9\":\"yes\",\"10\":[\"kU6m9O\\u00d16\",\"3kkf1Ix5\",\"EB3t1Q07\",\"\\u00d1z4AAkYp\"],\"11\":\"Respuesta\"}', NULL, NULL, NULL, NULL, '{\"status\":\"success\",\"firstname\":\"\",\"lastname\":\"\",\"guest_id\":\"\",\"reservation_number\":\"\",\"check_in\":\"\",\"check_out\":\"\",\"nationality\":\"\",\"input_channel\":\"\",\"traveler_type\":\"\",\"age_group\":\"\"}', '2021-05-05', '13:19:05', 'royalhotel_mYs3suNnMvMKqGH6.png', 0),
+(13, 1, 3, '5rfs4seu', NULL, '{\"18\":\"1\",\"19\":\"1\",\"20\":\"1\",\"21\":\"1\"}', 'Gersón', 'Gómez', 'gergomez18@gmail.com', 'Mi comentario', NULL, '2021-05-05', '13:33:39', NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1122,6 +1169,7 @@ INSERT INTO `surveys_answers` (`id`, `account`, `token`, `owner`, `values`, `com
 CREATE TABLE `surveys_questions` (
   `id` bigint(20) NOT NULL,
   `account` bigint(20) DEFAULT NULL,
+  `survey` bigint(20) NOT NULL,
   `name` text NOT NULL,
   `type` enum('nps','open','rate','twin','check') NOT NULL,
   `values` text DEFAULT NULL,
@@ -1134,15 +1182,19 @@ CREATE TABLE `surveys_questions` (
 -- Volcado de datos para la tabla `surveys_questions`
 --
 
-INSERT INTO `surveys_questions` (`id`, `account`, `name`, `type`, `values`, `parent`, `system`, `status`) VALUES
-(8, 1, '{\"es\":\"Pregunta 1\",\"en\":\"Question 1\"}', 'rate', NULL, NULL, 0, 1),
-(9, 1, '{\"es\":\"Pregunta 2\",\"en\":\"Question 2\"}', 'twin', NULL, NULL, 0, 1),
-(10, 1, '{\"es\":\"Pregunta 3\",\"en\":\"Question 3\"}', 'check', '[{\"token\":\"kU6m9O\\u00d16\",\"es\":\"Valor 1\",\"en\":\"Value 1\"},{\"token\":\"3kkf1Ix5\",\"es\":\"Valor 2\",\"en\":\"Value 2\"},{\"token\":\"EB3t1Q07\",\"es\":\"Valor 3\",\"en\":\"Value 3\"},{\"token\":\"\\u00d1z4AAkYp\",\"es\":\"Valor 4\",\"en\":\"Value 4\"}]', NULL, 0, 1),
-(11, 1, '{\"es\":\"Pregunta 4\",\"en\":\"Question 4\"}', 'open', NULL, NULL, 0, 1),
-(12, 2, '{\"es\":\"Pregunta 1\",\"en\":\"Question 1\"}', 'rate', NULL, NULL, 0, 1),
-(13, 2, '{\"es\":\"Pregunta 2\",\"en\":\"Question 2\"}', 'twin', NULL, NULL, 0, 1),
-(14, 2, '{\"es\":\"Pregunta 3\",\"en\":\"Question 3\"}', 'check', '[{\"token\":\"ncu9d7XF\",\"es\":\"Valor 1\",\"en\":\"Value 1\"},{\"token\":\"LC8ljj\\u00d1q\",\"es\":\"Valor 2\",\"en\":\"Value 2\"}]', NULL, 0, 1),
-(15, 2, '{\"es\":\"Pregunta 4\",\"en\":\"Question 4\"}', 'open', NULL, NULL, 0, 1);
+INSERT INTO `surveys_questions` (`id`, `account`, `survey`, `name`, `type`, `values`, `parent`, `system`, `status`) VALUES
+(8, 1, 1, '{\"es\":\"Pregunta 1\",\"en\":\"Question 1\"}', 'rate', NULL, NULL, 0, 1),
+(9, 1, 1, '{\"es\":\"Pregunta 2\",\"en\":\"Question 2\"}', 'twin', NULL, NULL, 0, 1),
+(10, 1, 1, '{\"es\":\"Pregunta 3\",\"en\":\"Question 3\"}', 'check', '[{\"token\":\"kU6m9O\\u00d16\",\"es\":\"Valor 1\",\"en\":\"Value 1\"},{\"token\":\"3kkf1Ix5\",\"es\":\"Valor 2\",\"en\":\"Value 2\"},{\"token\":\"EB3t1Q07\",\"es\":\"Valor 3\",\"en\":\"Value 3\"},{\"token\":\"\\u00d1z4AAkYp\",\"es\":\"Valor 4\",\"en\":\"Value 4\"}]', NULL, 0, 1),
+(11, 1, 1, '{\"es\":\"Pregunta 4\",\"en\":\"Question 4\"}', 'open', NULL, NULL, 0, 1),
+(12, 2, 1, '{\"es\":\"Pregunta 1\",\"en\":\"Question 1\"}', 'rate', NULL, NULL, 0, 1),
+(13, 2, 1, '{\"es\":\"Pregunta 2\",\"en\":\"Question 2\"}', 'twin', NULL, NULL, 0, 1),
+(14, 2, 1, '{\"es\":\"Pregunta 3\",\"en\":\"Question 3\"}', 'check', '[{\"token\":\"ncu9d7XF\",\"es\":\"Valor 1\",\"en\":\"Value 1\"},{\"token\":\"LC8ljj\\u00d1q\",\"es\":\"Valor 2\",\"en\":\"Value 2\"}]', NULL, 0, 1),
+(15, 2, 1, '{\"es\":\"Pregunta 4\",\"en\":\"Question 4\"}', 'open', NULL, NULL, 0, 1),
+(18, 1, 3, '{\"es\":\"Pregunta 1\",\"en\":\"Question 1\"}', 'rate', NULL, NULL, 0, 1),
+(19, 1, 3, '{\"es\":\"Pregunta 2\",\"en\":\"Question 2\"}', 'rate', NULL, NULL, 0, 1),
+(20, 1, 3, '{\"es\":\"Pregunta 3\",\"en\":\"Question 3\"}', 'rate', NULL, NULL, 0, 1),
+(21, 1, 3, '{\"es\":\"Pregunta 4\",\"en\":\"Question 4\"}', 'rate', NULL, NULL, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1718,12 +1770,12 @@ INSERT INTO `voxes` (`id`, `account`, `type`, `token`, `owner`, `opportunity_are
 (31, 1, 'workorder', 'ryjyrsvw', 6, 7, 7, '2021-02-10', '11:00:24', '2021-02-15', 3, 100, 'medium', 0, '[\"1\"]', 'Mis observaciones', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[{\"status\":\"success\",\"file\":\"royalhotel_vox_attachment_ljY1XPTENBZqNOLU.docx\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\royalhotel_vox_attachment_ljY1XPTENBZqNOLU.docx\"},{\"status\":\"success\",\"file\":\"royalhotel_vox_attachment_DRbhlp1enJ748JXO.pdf\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\royalhotel_vox_attachment_DRbhlp1enJ748JXO.pdf\"},{\"status\":\"success\",\"file\":\"royalhotel_vox_attachment_noVWYOF8kFSFiJp9.png\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\royalhotel_vox_attachment_noVWYOF8kFSFiJp9.png\"},{\"status\":\"success\",\"file\":\"royalhotel_vox_attachment_66GhkhQozqUyyqXn.xlsx\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\royalhotel_vox_attachment_66GhkhQozqUyyqXn.xlsx\"}]', '[\"1\"]', '[]', '[{\"type\":\"created\",\"user\":\"1\",\"date\":\"2021-02-10\",\"hour\":\"09:09:07\"},{\"type\":\"commented\",\"user\":\"1\",\"date\":\"2021-02-10\",\"hour\":\"11:00:24\"},{\"type\":\"completed\",\"user\":\"1\",\"date\":\"2021-02-10\",\"hour\":\"11:00:27\"},{\"type\":\"reopened\",\"user\":\"1\",\"date\":\"2021-02-10\",\"hour\":\"11:00:45\"},{\"type\":\"viewed\",\"user\":\"1\",\"date\":\"2021-02-10\",\"hour\":\"11:28:26\"}]', 1, '2021-02-10', '09:09:07', NULL, NULL, NULL, 1, '2021-02-10', '11:00:27', 1, '2021-02-10', '11:00:45', 1, 1, 'internal'),
 (32, 1, 'workorder', 'ax3p7z8o', 6, 7, 7, '2021-02-10', '11:07:30', '2021-02-10', 3, NULL, 'medium', 0, '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[\"1\"]', '[]', '[{\"type\":\"created\",\"user\":\"1\",\"date\":\"2021-02-10\",\"hour\":\"11:04:37\"},{\"type\":\"completed\",\"user\":\"1\",\"date\":\"2021-02-10\",\"hour\":\"11:07:18\"},{\"type\":\"reopened\",\"user\":\"1\",\"date\":\"2021-02-10\",\"hour\":\"11:07:28\"},{\"type\":\"commented\",\"user\":\"1\",\"date\":\"2021-02-10\",\"hour\":\"11:07:30\"},{\"type\":\"completed\",\"user\":\"1\",\"date\":\"2021-02-10\",\"hour\":\"11:07:36\"},{\"type\":\"reopened\",\"user\":\"1\",\"date\":\"2021-02-10\",\"hour\":\"11:07:40\"},{\"type\":\"viewed\",\"user\":\"1\",\"date\":\"2021-02-10\",\"hour\":\"11:28:28\"}]', 1, '2021-02-10', '11:04:37', NULL, NULL, NULL, 1, '2021-02-10', '11:07:36', 1, '2021-02-10', '11:07:40', 1, 1, 'internal'),
 (33, 1, 'request', 'rvbwzvld', 6, 7, 7, '2021-02-11', '11:04:54', NULL, 3, NULL, 'medium', 0, '[]', 'Mis observaciones', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[]', '[]', '[{\"type\":\"created\",\"user\":null,\"date\":\"2021-02-11\",\"hour\":\"11:05:22\"}]', NULL, '2021-02-11', '11:05:22', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 'myvox'),
-(34, 1, 'incident', 'fkftit8g', 6, 7, 7, '2021-02-11', '11:06:54', NULL, 3, NULL, 'medium', 0, '[]', NULL, NULL, 'Mi descripción', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[]', '[]', '[{\"type\":\"created\",\"user\":null,\"date\":\"2021-02-11\",\"hour\":\"11:07:18\"}]', NULL, '2021-02-11', '11:07:18', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 'myvox'),
+(34, 1, 'incident', 'fkftit8g', 6, 7, 7, '2021-02-11', '11:06:54', NULL, 3, NULL, 'medium', 0, '[]', NULL, NULL, 'Mi descripción', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[\"1\"]', '[]', '[{\"type\":\"created\",\"user\":null,\"date\":\"2021-02-11\",\"hour\":\"11:07:18\"},{\"type\":\"viewed\",\"user\":\"1\",\"date\":\"2021-03-05\",\"hour\":\"12:05:56\"}]', NULL, '2021-02-11', '11:07:18', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 'myvox'),
 (35, 2, 'request', 'ycyuqxxd', 1, 5, 5, '2021-02-13', '17:51:34', NULL, 1, NULL, 'medium', 0, '[]', 'Mis observaciones', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[\"2\"]', '[]', '[{\"type\":\"created\",\"user\":null,\"date\":\"2021-02-13\",\"hour\":\"17:52:11\"},{\"type\":\"viewed\",\"user\":\"2\",\"date\":\"2021-02-13\",\"hour\":\"19:57:14\"}]', NULL, '2021-02-13', '17:52:11', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 'myvox'),
 (36, 2, 'incident', '5ceuvvhz', 1, 5, 5, '2021-02-13', '17:52:49', NULL, 1, NULL, 'medium', 0, '[]', NULL, NULL, 'Mi descripción', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[]', '[\"2\"]', '[]', '[{\"type\":\"created\",\"user\":null,\"date\":\"2021-02-13\",\"hour\":\"17:53:02\"},{\"type\":\"viewed\",\"user\":\"2\",\"date\":\"2021-02-13\",\"hour\":\"19:57:17\"}]', NULL, '2021-02-13', '17:53:02', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 'myvox'),
 (37, 2, 'request', 'iqupenkl', 1, 5, 5, '2021-02-13', '19:54:37', '2021-02-13', 1, NULL, 'medium', 0, '[\"2\"]', 'Mis observaciones', NULL, NULL, NULL, 'Gersón Aarón', 'Gómez Macías', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_ziTvBrhv2axaCQZS.docx\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_ziTvBrhv2axaCQZS.docx\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_2DbOKAaOfiMlwrTj.pdf\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_2DbOKAaOfiMlwrTj.pdf\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_VwhFhwVlHJG8uQeX.png\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_VwhFhwVlHJG8uQeX.png\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_otBsHLXYvq88OW3V.xlsx\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_otBsHLXYvq88OW3V.xlsx\"}]', '[\"2\"]', '[]', '[{\"type\":\"created\",\"user\":\"2\",\"date\":\"2021-02-13\",\"hour\":\"19:55:13\"},{\"type\":\"viewed\",\"user\":\"2\",\"date\":\"2021-02-13\",\"hour\":\"19:57:23\"}]', 2, '2021-02-13', '19:55:13', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 'internal'),
 (38, 2, 'incident', 'dwoqw58i', 1, 5, 5, '2021-02-13', '19:55:17', '2021-02-13', 1, 100, 'medium', 1, '[\"2\"]', NULL, 'Mi asunto', 'Mi descripción', 'Mi acción tomada', 'Gersón Aarón', 'Gómez Macías', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_4O1Mk8zr0KUdglru.docx\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_4O1Mk8zr0KUdglru.docx\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_lihfRSv3yqSIOCeZ.pdf\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_lihfRSv3yqSIOCeZ.pdf\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_ySBIBQmMHcdrzAvp.png\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_ySBIBQmMHcdrzAvp.png\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_HmvczEIxAybvGWF1.xlsx\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_HmvczEIxAybvGWF1.xlsx\"}]', '[\"2\"]', '[]', '[{\"type\":\"created\",\"user\":\"2\",\"date\":\"2021-02-13\",\"hour\":\"19:56:00\"},{\"type\":\"viewed\",\"user\":\"2\",\"date\":\"2021-02-13\",\"hour\":\"19:56:01\"}]', 2, '2021-02-13', '19:56:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 'internal'),
-(39, 2, 'workorder', 'niyofk8v', 1, 5, 5, '2021-02-13', '19:56:08', '2021-02-13', 1, 100, 'medium', 0, '[\"2\"]', 'Mis observaciones', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_5ZBDzPT7xKDddgns.docx\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_5ZBDzPT7xKDddgns.docx\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_WZJeqscdWSi90na8.pdf\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_WZJeqscdWSi90na8.pdf\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_QhTkuZuY4EqMqKZ3.png\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_QhTkuZuY4EqMqKZ3.png\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_36UqRijpS8QGKSJn.xlsx\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_36UqRijpS8QGKSJn.xlsx\"}]', '[\"2\"]', '[]', '[{\"type\":\"created\",\"user\":\"2\",\"date\":\"2021-02-13\",\"hour\":\"19:56:28\"},{\"type\":\"viewed\",\"user\":\"2\",\"date\":\"2021-02-13\",\"hour\":\"19:57:25\"}]', 2, '2021-02-13', '19:56:28', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 'internal'),
+(39, 2, 'workorder', 'niyofk8v', 1, 5, 5, '2021-02-13', '19:56:08', '2021-02-13', 1, 100, 'medium', 0, '[\"2\"]', 'Mis observaciones', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_5ZBDzPT7xKDddgns.docx\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_5ZBDzPT7xKDddgns.docx\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_WZJeqscdWSi90na8.pdf\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_WZJeqscdWSi90na8.pdf\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_QhTkuZuY4EqMqKZ3.png\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_QhTkuZuY4EqMqKZ3.png\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_36UqRijpS8QGKSJn.xlsx\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_36UqRijpS8QGKSJn.xlsx\"}]', '[\"2\"]', '[]', '[{\"type\":\"created\",\"user\":\"2\",\"date\":\"2021-02-13\",\"hour\":\"19:56:28\"},{\"type\":\"viewed\",\"user\":\"2\",\"date\":\"2021-03-04\",\"hour\":\"18:41:05\"}]', 2, '2021-02-13', '19:56:28', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, 'internal'),
 (40, 2, 'workorder', '4mfxeuzk', 1, 5, 5, NULL, NULL, '2021-02-13', 1, 100, 'medium', 0, '[\"2\"]', 'Mis observaciones', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '[{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_oUlTnmtlGbWCXE3v.docx\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_oUlTnmtlGbWCXE3v.docx\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_J07hnq27CdqUiazR.pdf\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_J07hnq27CdqUiazR.pdf\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_kAVV4wDZUl1naLPa.png\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_kAVV4wDZUl1naLPa.png\"},{\"status\":\"success\",\"file\":\"hotrestaurant_vox_attachment_BYJZ53YEfMiHss7P.xlsx\",\"route\":\"C:\\\\xampp\\\\htdocs\\\\guestvox\\\\uploads\\\\hotrestaurant_vox_attachment_BYJZ53YEfMiHss7P.xlsx\"}]', '[\"2\"]', '[]', '[{\"type\":\"created\",\"user\":\"2\",\"date\":\"2021-02-13\",\"hour\":\"19:57:08\"},{\"type\":\"viewed\",\"user\":\"2\",\"date\":\"2021-02-13\",\"hour\":\"19:57:20\"}]', 2, '2021-02-13', '19:57:08', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, 1, 'internal');
 
 -- --------------------------------------------------------
@@ -1926,19 +1978,28 @@ ALTER TABLE `reservations_statuses`
   ADD KEY `account` (`account`) USING BTREE;
 
 --
+-- Indices de la tabla `surveys`
+--
+ALTER TABLE `surveys`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `account` (`account`);
+
+--
 -- Indices de la tabla `surveys_answers`
 --
 ALTER TABLE `surveys_answers`
   ADD PRIMARY KEY (`id`),
   ADD KEY `account` (`account`),
-  ADD KEY `owner` (`owner`);
+  ADD KEY `owner` (`owner`),
+  ADD KEY `survey` (`survey`);
 
 --
 -- Indices de la tabla `surveys_questions`
 --
 ALTER TABLE `surveys_questions`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `account` (`account`);
+  ADD KEY `account` (`account`),
+  ADD KEY `survey` (`survey`);
 
 --
 -- Indices de la tabla `times_zones`
@@ -2011,7 +2072,7 @@ ALTER TABLE `webinars_records`
 -- AUTO_INCREMENT de la tabla `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `countries`
@@ -2065,7 +2126,7 @@ ALTER TABLE `menu_categories`
 -- AUTO_INCREMENT de la tabla `menu_orders`
 --
 ALTER TABLE `menu_orders`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `menu_products`
@@ -2128,16 +2189,22 @@ ALTER TABLE `reservations_statuses`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT de la tabla `surveys`
+--
+ALTER TABLE `surveys`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de la tabla `surveys_answers`
 --
 ALTER TABLE `surveys_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `surveys_questions`
 --
 ALTER TABLE `surveys_questions`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `times_zones`
@@ -2149,13 +2216,13 @@ ALTER TABLE `times_zones`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `users_levels`
 --
 ALTER TABLE `users_levels`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `voxes`
@@ -2275,17 +2342,25 @@ ALTER TABLE `reservations_statuses`
   ADD CONSTRAINT `reservations_statuses_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`);
 
 --
+-- Filtros para la tabla `surveys`
+--
+ALTER TABLE `surveys`
+  ADD CONSTRAINT `surveys_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`);
+
+--
 -- Filtros para la tabla `surveys_answers`
 --
 ALTER TABLE `surveys_answers`
   ADD CONSTRAINT `surveys_answers_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`),
-  ADD CONSTRAINT `surveys_answers_ibfk_2` FOREIGN KEY (`owner`) REFERENCES `owners` (`id`);
+  ADD CONSTRAINT `surveys_answers_ibfk_2` FOREIGN KEY (`owner`) REFERENCES `owners` (`id`),
+  ADD CONSTRAINT `surveys_answers_ibfk_3` FOREIGN KEY (`survey`) REFERENCES `surveys` (`id`);
 
 --
 -- Filtros para la tabla `surveys_questions`
 --
 ALTER TABLE `surveys_questions`
-  ADD CONSTRAINT `surveys_questions_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`);
+  ADD CONSTRAINT `surveys_questions_ibfk_1` FOREIGN KEY (`account`) REFERENCES `accounts` (`id`),
+  ADD CONSTRAINT `surveys_questions_ibfk_2` FOREIGN KEY (`survey`) REFERENCES `surveys` (`id`);
 
 --
 -- Filtros para la tabla `users`
