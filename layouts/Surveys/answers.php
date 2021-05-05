@@ -59,6 +59,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_{$menu_focus}");
                                 <p>{$lang.owner}</p>
                                 <select name="owner">
                                     <option value="all" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
+                                    <option value="not_owner" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == 'not_owner') ? 'selected' : ''); ?>>Sin propietarios</option>
                                     {$opt_owners}
                                 </select>
                             </label>

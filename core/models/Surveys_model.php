@@ -359,7 +359,9 @@ class Surveys_model extends Model
 			'surveys_answers.date[<>]' => [Session::get_value('settings')['surveys']['answers']['filter']['started_date'],Session::get_value('settings')['surveys']['answers']['filter']['end_date']]
 		];
 
-		if (Session::get_value('settings')['surveys']['answers']['filter']['owner'] != 'all')
+		if (Session::get_value('settings')['surveys']['answers']['filter']['owner'] == 'not_owner')
+			$AND['owners.id'] = NULL;
+		else if (Session::get_value('settings')['surveys']['answers']['filter']['owner'] != 'all')
 			$AND['owners.id'] = Session::get_value('settings')['surveys']['answers']['filter']['owner'];
 
 		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
@@ -369,9 +371,12 @@ class Surveys_model extends Model
 		], [
 			'surveys_answers.id',
 			'surveys_answers.token',
+			'surveys_answers.owner',
 			'owners.name(owner_name)',
 			'owners.number(owner_number)',
 			'surveys_answers.values',
+			'surveys_answers.firstname',
+			'surveys_answers.lastname',
 			'surveys_answers.comment',
 			'surveys_answers.reservation',
 			'surveys_answers.date',
@@ -441,14 +446,19 @@ class Surveys_model extends Model
 			]
 		], [
 			'surveys_answers.token',
+			'surveys_answers.owner',
 			'owners.id(owner_id)',
 			'owners.name(owner_name)',
 			'owners.number(owner_number)',
 			'surveys_answers.values',
+			'surveys_answers.firstname',
+			'surveys_answers.lastname',
+			'surveys_answers.email',
 			'surveys_answers.comment',
 			'surveys_answers.reservation',
 			'surveys_answers.date',
-			'surveys_answers.hour'
+			'surveys_answers.hour',
+			'surveys_answers.signature'
 		], [
 			'surveys_answers.id' => $id
 		]));

@@ -524,12 +524,12 @@ class Surveys_controller extends Controller
 						'</div>
 						<div class="datas">
 							<span>' . $query['token'] . '</span>
-							<h2>' . ((Session::get_value('account')['type'] == 'hotel' AND !empty($query['reservation']['firstname']) AND !empty($query['reservation']['lastname'])) ? $query['reservation']['firstname'] . ' ' . $query['reservation']['lastname'] : '{$lang.not_name}') . '</h2>
-							<span><i class="fas fa-shapes"></i>' . $query['owner_name'][$this->lang] . (!empty($query['owner_number']) ? ' #' . $query['owner_number'] : '') . '</span>
+							<h2>' . (!empty($query['owner']) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($query['reservation']['firstname']) AND !empty($query['reservation']['lastname'])) ? $query['reservation']['firstname'] . ' ' . $query['reservation']['lastname'] : '{$lang.not_name}') : $query['firstname'] . ' ' . $query['lastname']) . '</h2>
+							<span><i class="fas fa-shapes"></i>' . (!empty($query['owner']) ? $query['owner_name'][$this->lang] . (!empty($query['owner_number']) ? ' #' . $query['owner_number'] : '') : 'Sin propietario') . '</span>
 							<span><i class="fas fa-calendar-alt"></i>' . Functions::get_formatted_date($query['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($query['hour'], '+ hrs') . '</span>
 						</div>';
 
-						if (Session::get_value('account')['type'] == 'hotel')
+						if (Session::get_value('account')['type'] == 'hotel' AND !empty($query['owner']))
 						{
 							$html .=
 							'<div class="reservation">
@@ -705,6 +705,14 @@ class Surveys_controller extends Controller
 							}
 
 							$html .= '</div>';
+						}
+
+						if (!empty($query['signature']))
+						{
+							$html .=
+							'<figure style="width:100%;">
+								<img src="{$path.uploads}' . $query['signature'] . '" style="width:100%;" />
+							</figure>';
 						}
 
 						$html .= '</div>';
@@ -978,9 +986,9 @@ class Surveys_controller extends Controller
 						'	</div>
 							<div class="datas">
 								<span>' . $value['token'] . '</span>
-								<h2>' . ((Session::get_value('account')['type'] == 'hotel' AND !empty($query['reservation']['firstname']) AND !empty($query['reservation']['lastname'])) ? $query['reservation']['firstname'] . ' ' . $query['reservation']['lastname'] : '{$lang.not_name}') . '</h2>
+								<h2>' . (!empty($value['owner']) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($query['reservation']['firstname']) AND !empty($query['reservation']['lastname'])) ? $query['reservation']['firstname'] . ' ' . $query['reservation']['lastname'] : '{$lang.not_name}') : $value['firstname'] . ' ' . $value['lastname']) . '</h2>
 								<span><i class="fas fa-calendar-alt"></i>' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>
-								<span><i class="fas fa-shapes"></i>' . $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') . '</span>
+								<span><i class="fas fa-shapes"></i>' . (!empty($value['owner']) ? $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') : 'Sin propietario') . '</span>
 							</div>
 							<div class="buttons">
 								<a class="big" data-action="preview_survey_answer" data-id="' . $value['id'] . '"><i class="fas fa-ghost"></i><span>{$lang.survey}</span></a>
@@ -1003,10 +1011,10 @@ class Surveys_controller extends Controller
 							$tbl_surveys_comments .=
 							'<div>
 								<div class="datas">
-									<h2>' . ((Session::get_value('account')['type'] == 'hotel' AND !empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') . '</h2>
+									<h2>' . (!empty($value['owner']) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($value['reservation']['firstname']) AND !empty($value['reservation']['lastname'])) ? $value['reservation']['firstname'] . ' ' . $value['reservation']['lastname'] : '{$lang.not_name}') : $value['firstname'] . ' ' . $value['lastname']) . '</h2>
 									<span><i class="fas fa-star"></i>' . $value['token'] . '</span>
 									<span><i class="fas fa-calendar-alt"></i>' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</span>
-									<span><i class="fas fa-shapes"></i>' . $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') . '</span>
+									<span><i class="fas fa-shapes"></i>' . (!empty($value['owner']) ? $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') : 'Sin propietario') . '</span>
 									<p><i class="fas fa-comment-alt"></i>' . $value['comment'] . '</p>
 								</div>
 								<div class="buttons flex_right">
