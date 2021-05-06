@@ -1353,7 +1353,7 @@ class Menu_model extends Model
 		$query = $this->database->select('accounts', [
 			'sms'
 		], [
-			'id' => Session::get_value('myvox')['account']['id']
+			'id' => Session::get_value('account')['id']
 		]);
 
 		return !empty($query) ? $query[0]['sms'] : null;
