@@ -25,6 +25,7 @@ class Surveys_model extends Model
 		], [
 			'account' => Session::get_value('account')['id'],
 			'ORDER' => [
+				'main' => 'DESC',
 				'name' => 'ASC'
 			]
 		]));

@@ -193,7 +193,7 @@ class Menu_controller extends Controller
 							<h2>' . $value['token'] . ' | ';
 
 					if ($value['type_service'] == 'owner')
-						$tbl_menu_orders .= $value['owner_name'] . (!empty($value['owner_number']) ? '#' . $value['owner_number'] : '');
+						$tbl_menu_orders .= $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? '#' . $value['owner_number'] : '');
 					else if ($value['type_service'] == 'delivery')
 						$tbl_menu_orders .= $value['contact']['firstname'] . ' ' . $value['contact']['lastname'] . ' | +' . $value['contact']['phone']['lada'] . ' ' . $value['contact']['phone']['number'] . ' | ' . $value['contact']['email'];
 
