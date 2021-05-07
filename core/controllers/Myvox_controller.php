@@ -30,10 +30,10 @@ class Myvox_controller extends Controller
 			{
 				$owner = null;
 
-				if (($account['type'] == 'hotel' OR $account['type'] == 'restaurant') AND $params[1] == 'owner' AND !empty($params[2]))
+				if (($account['type'] == 'hotel' OR $account['type'] == 'restaurant' OR $account['type'] == 'others') AND $params[1] == 'owner' AND !empty($params[2]))
 					$owner = $this->model->get_owner($params[2]);
 
-				if ((($account['type'] == 'hotel' OR $account['type'] == 'restaurant') AND $params[1] == 'owner' AND !empty($owner)) OR (($account['type'] == 'restaurant' OR $account['type'] == 'others') AND $params[1] == 'delivery'))
+				if ((($account['type'] == 'hotel' OR $account['type'] == 'restaurant' OR $account['type'] == 'others') AND $params[1] == 'owner' AND !empty($owner)) OR (($account['type'] == 'restaurant' OR $account['type'] == 'others') AND $params[1] == 'delivery'))
 				{
 					if ($account['type'] == 'hotel' AND $params[1] == 'owner')
 						$owner['reservation'] = $this->model->get_reservation($owner['number'], $account['zaviapms']);
@@ -53,7 +53,7 @@ class Myvox_controller extends Controller
 
 		if ($break == false)
 		{
-			if (($account['type'] == 'hotel' OR $account['type'] == 'restaurant') AND $params[1] == 'owner')
+			if (($account['type'] == 'hotel' OR $account['type'] == 'restaurant' OR $account['type'] == 'others') AND $params[1] == 'owner')
 			{
 				$template = $this->view->render($this, 'index');
 
@@ -76,9 +76,9 @@ class Myvox_controller extends Controller
 						$btn_new_incident .= '<a href="/' . $params[0] . '/incident">' . $account['settings']['myvox']['incident']['title'][$this->lang1] . '</a>';
 				}
 
-				$main_survey = $this->model->get_survey('main');
-
 				$btn_new_survey_answer = '';
+
+				$main_survey = $this->model->get_survey('main');
 
 				if ($account['surveys'] == true AND $account['settings']['myvox']['survey']['status'] == true AND !empty($main_survey))
 					$btn_new_survey_answer .= '<a href="/' . $params[0] . '/survey">' . $account['settings']['myvox']['survey']['title'][$this->lang1] . '</a>';
@@ -112,7 +112,7 @@ class Myvox_controller extends Controller
 			{
 				if (!empty(Session::get_value('myvox')['url']))
 				{
-					if ((Session::get_value('myvox')['account']['type'] == 'hotel' OR Session::get_value('myvox')['account']['type'] == 'restaurant') AND Session::get_value('myvox')['url'] == 'owner' AND !empty(Session::get_value('myvox')['owner']))
+					if ((Session::get_value('myvox')['account']['type'] == 'hotel' OR Session::get_value('myvox')['account']['type'] == 'restaurant' OR Session::get_value('myvox')['account']['type'] == 'others') AND Session::get_value('myvox')['url'] == 'owner' AND !empty(Session::get_value('myvox')['owner']))
 						$break = false;
 					else if ((Session::get_value('myvox')['account']['type'] == 'restaurant' OR Session::get_value('myvox')['account']['type'] == 'others') AND Session::get_value('myvox')['url'] == 'delivery')
 						$break = false;
