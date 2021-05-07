@@ -59,7 +59,7 @@ class Users_controller extends Controller
 				if (!isset($_POST['phone_number']) OR empty($_POST['phone_number']))
 					array_push($labels, ['phone_number','']);
 
-				if (!isset($_POST['username']) OR empty($_POST['username']))
+				if (!isset($_POST['username']) OR empty($_POST['username']) OR $this->model->check_exist_user('username', $_POST['username']) == true)
 					array_push($labels, ['username','']);
 
 				if (!isset($_POST['permissions']) OR empty($_POST['permissions']))
