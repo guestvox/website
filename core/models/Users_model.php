@@ -162,6 +162,15 @@ class Users_model extends Model
 		return $query;
 	}
 
+	public function check_exist_user($field, $value)
+	{
+		$count = $this->database->count('users', [
+			$field => $value
+		]);
+
+		return ($count > 0) ? true : false;
+	}
+
 	public function new_user($data)
 	{
 		$query = $this->database->insert('users', [
