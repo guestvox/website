@@ -3,7 +3,7 @@
 defined('_EXEC') or die;
 
 $this->dependencies->add(['js', '{$path.plugins}charts/Chart.js']);
-$this->dependencies->add(['js', '{$vkye_base}Surveys/charts']);
+$this->dependencies->add(['js', '{$vkye_base}Surveys/charts{$chart_params}']);
 $this->dependencies->add(['js', '{$path.js}Surveys/stats.js']);
 $this->dependencies->add(['other', '<script>menu_focus("surveys_stats");</script>']);
 
@@ -93,6 +93,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_stats");</script
     <section class="buttons">
         <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
         <div>
+            {$return_btn}
             <a class="big new" data-button-modal="filter_surveys_stats"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
         </div>
         <?php endif; ?>
@@ -125,6 +126,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_stats");</script
                                 <p>{$lang.owner}</p>
                                 <select name="owner">
                                     <option value="all" <?php echo ((Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
+                                    <option value="not_owner" <?php echo ((Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'not_owner') ? 'selected' : ''); ?>>Sin propietario</option>
                                     {$opt_owners}
                                 </select>
                             </label>

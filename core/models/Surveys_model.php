@@ -386,8 +386,7 @@ class Surveys_model extends Model
 		], [
 			'AND' => $AND,
 			'ORDER' => [
-				'surveys_answers.date' => 'DESC',
-				'surveys_answers.hour' => 'ASC'
+				'surveys_answers.id' => 'DESC'
 			]
 		]));
 
@@ -591,14 +590,19 @@ class Surveys_model extends Model
 		return $query;
 	}
 
-	public function get_surveys_average()
+	public function get_surveys_average($survey)
 	{
 		$AND = [
 			'account' => Session::get_value('account')['id'],
 			'date[<>]' => [Session::get_value('settings')['surveys']['stats']['filter']['started_date'],Session::get_value('settings')['surveys']['stats']['filter']['end_date']]
 		];
 
-		if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] != 'all')
+		if (!empty($survey))
+			$AND['survey'] = $survey;
+
+		if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'not_owner')
+			$AND['id'] = NULL;
+		else if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] != 'all')
 			$AND['id'] = Session::get_value('settings')['surveys']['stats']['filter']['owner'];
 
 		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
@@ -639,14 +643,19 @@ class Surveys_model extends Model
 		return $average;
 	}
 
-    public function get_surveys_percentage($option)
+    public function get_surveys_percentage($survey, $option)
 	{
 		$AND = [
 			'account' => Session::get_value('account')['id'],
 			'date[<>]' => [Session::get_value('settings')['surveys']['stats']['filter']['started_date'],Session::get_value('settings')['surveys']['stats']['filter']['end_date']]
 		];
 
-		if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] != 'all')
+		if (!empty($survey))
+			$AND['survey'] = $survey;
+
+		if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'not_owner')
+			$AND['id'] = NULL;
+		else if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] != 'all')
 			$AND['id'] = Session::get_value('settings')['surveys']['stats']['filter']['owner'];
 
 		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
@@ -706,25 +715,30 @@ class Surveys_model extends Model
 		return $percentage;
 	}
 
-	public function get_chart_data($option)
+	public function get_chart_data($survey, $option)
 	{
 		$data = null;
 
 		if ($option == 's1_chart' OR $option == 's2_chart')
 		{
-			$AND1 = [
+			$query1_AND = [
 				'account' => Session::get_value('account')['id'],
 				'date[<>]' => [Session::get_value('settings')['surveys']['stats']['filter']['started_date'],Session::get_value('settings')['surveys']['stats']['filter']['end_date']]
 			];
 
-			if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] != 'all')
-				$AND1['id'] = Session::get_value('settings')['surveys']['stats']['filter']['owner'];
+			if (!empty($survey))
+				$query1_AND['survey'] = $survey;
+
+			if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'not_owner')
+				$query1_AND['id'] = NULL;
+			else if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] != 'all')
+				$query1_AND['id'] = Session::get_value('settings')['surveys']['stats']['filter']['owner'];
 
 			$query1 = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 				'owner',
 				'values'
 			], [
-				'AND' => $AND1
+				'AND' => $query1_AND
 			]));
 
 			if ($option == 's1_chart')
@@ -739,11 +753,16 @@ class Surveys_model extends Model
 			}
 			else if ($option == 's2_chart')
 			{
+				$query2_where = [
+					'type' => 'nps'
+				];
+
+				if (!empty($survey))
+					$query2_where['survey'] = $survey;
+
 				$query2 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
 					'id'
-				], [
-					'type' => 'nps'
-				]));
+				], $query2_where));
 			}
 
 			$data = [
@@ -1188,13 +1207,18 @@ class Surveys_model extends Model
 		// }
 		else if ($option == 's4_chart' OR $option == 's5_chart' OR $option == 's6_chart' OR $option == 's7_chart')
 		{
+			$AND = [
+				'account' => Session::get_value('account')['id'],
+				'date[<>]' => [Session::get_value('settings')['surveys']['stats']['filter']['started_date'],Session::get_value('settings')['surveys']['stats']['filter']['end_date']]
+			];
+
+			if (!empty($survey))
+				$AND['survey'] = $survey;
+
 			$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 				'reservation'
 			], [
-				'AND' => [
-					'account' => Session::get_value('account')['id'],
-					'date[<>]' => [Session::get_value('settings')['surveys']['stats']['filter']['started_date'],Session::get_value('settings')['surveys']['stats']['filter']['end_date']]
-				]
+				'AND' => $AND
 			]));
 
 			$data = [
@@ -1271,7 +1295,7 @@ class Surveys_model extends Model
 		return $data;
 	}
 
-	public function get_surveys_count($option)
+	public function get_surveys_count($survey, $option)
 	{
 		$where = [];
 
@@ -1282,6 +1306,9 @@ class Surveys_model extends Model
 					'account' => Session::get_value('account')['id']
 				]
 			];
+
+			if (!empty($survey))
+				$where['AND']['survey'] = $survey;
 
 			if ($option == 'today')
 				$where['AND']['date'] = Functions::get_current_date();

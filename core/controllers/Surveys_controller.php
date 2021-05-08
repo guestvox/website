@@ -967,12 +967,15 @@ class Surveys_controller extends Controller
 
 				if ($params[0] == 'raters')
 				{
-					$tbl_surveys_raters .= '<div class="tbl_stl_7" data-table>';
+					$tbl_surveys_raters .= '<div class="tbl_stl_8" data-table>';
 
 					foreach ($this->model->get_surveys_answers($params[1], 'raters') as $value)
 					{
 						$tbl_surveys_raters .=
 						'<div>
+							<div class="counter">
+								<h6>' . $value['id'] . '</h6>
+							</div>
 							<div class="rating">';
 
 						if ($value['average'] < 2)
@@ -1077,7 +1080,7 @@ class Surveys_controller extends Controller
 			header('Location: /surveys');
 	}
 
-	public function stats()
+	public function stats($params)
 	{
 		if (Format::exist_ajax_request() == true)
 		{
@@ -1102,7 +1105,7 @@ class Surveys_controller extends Controller
 
 			$template = $this->view->render($this, 'stats');
 
-			$surveys_average = $this->model->get_surveys_average();
+			$surveys_average = $this->model->get_surveys_average((!empty($params) ? $params[0] : null));
 
 			$h2_surveys_average = '';
 
@@ -1134,17 +1137,19 @@ class Surveys_controller extends Controller
 			$replace = [
 				'{$h2_surveys_average}' => $h2_surveys_average,
 				'{$spn_surveys_average}' => $spn_surveys_average,
-				'{$surveys_porcentage_one}' => $this->model->get_surveys_percentage('one'),
-				'{$surveys_porcentage_two}' => $this->model->get_surveys_percentage('two'),
-				'{$surveys_porcentage_tree}' => $this->model->get_surveys_percentage('tree'),
-				'{$surveys_porcentage_four}' => $this->model->get_surveys_percentage('four'),
-				'{$surveys_porcentage_five}' => $this->model->get_surveys_percentage('five'),
-				'{$surveys_count_total}' => $this->model->get_surveys_count('total'),
-				'{$surveys_count_today}' => $this->model->get_surveys_count('today'),
-				'{$surveys_count_week}' => $this->model->get_surveys_count('week'),
-				'{$surveys_count_month}' => $this->model->get_surveys_count('month'),
-				'{$surveys_count_year}' => $this->model->get_surveys_count('year'),
-				'{$opt_owners}' => $opt_owners
+				'{$surveys_porcentage_one}' => $this->model->get_surveys_percentage((!empty($params) ? $params[0] : null), 'one'),
+				'{$surveys_porcentage_two}' => $this->model->get_surveys_percentage((!empty($params) ? $params[0] : null), 'two'),
+				'{$surveys_porcentage_tree}' => $this->model->get_surveys_percentage((!empty($params) ? $params[0] : null), 'tree'),
+				'{$surveys_porcentage_four}' => $this->model->get_surveys_percentage((!empty($params) ? $params[0] : null), 'four'),
+				'{$surveys_porcentage_five}' => $this->model->get_surveys_percentage((!empty($params) ? $params[0] : null), 'five'),
+				'{$surveys_count_total}' => $this->model->get_surveys_count((!empty($params) ? $params[0] : null), 'total'),
+				'{$surveys_count_today}' => $this->model->get_surveys_count((!empty($params) ? $params[0] : null), 'today'),
+				'{$surveys_count_week}' => $this->model->get_surveys_count((!empty($params) ? $params[0] : null), 'week'),
+				'{$surveys_count_month}' => $this->model->get_surveys_count((!empty($params) ? $params[0] : null), 'month'),
+				'{$surveys_count_year}' => $this->model->get_surveys_count((!empty($params) ? $params[0] : null), 'year'),
+				'{$opt_owners}' => $opt_owners,
+				'{$return_btn}' => !empty($params) ? '<a href="/surveys" class="big delete"><i class="fas fa-times"></i></a>' : '',
+				'{$chart_params}' => !empty($params) ? '/' . $params[0] : ''
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -1153,19 +1158,19 @@ class Surveys_controller extends Controller
 		}
 	}
 
-	public function charts()
+	public function charts($params)
 	{
 		header('Content-Type: application/javascript');
 
-		$s1_chart_data = $this->model->get_chart_data('s1_chart');
-		$s2_chart_data = $this->model->get_chart_data('s2_chart');
+		$s1_chart_data = $this->model->get_chart_data((!empty($params) ? $params[0] : null), 's1_chart');
+		$s2_chart_data = $this->model->get_chart_data((!empty($params) ? $params[0] : null), 's2_chart');
 
 		if (Session::get_value('account')['type'] == 'hotel' AND Session::get_value('account')['zaviapms']['status'] == true)
 		{
-			$s4_chart_data = $this->model->get_chart_data('s4_chart');
-			$s5_chart_data = $this->model->get_chart_data('s5_chart');
-			$s6_chart_data = $this->model->get_chart_data('s6_chart');
-			$s7_chart_data = $this->model->get_chart_data('s7_chart');
+			$s4_chart_data = $this->model->get_chart_data((!empty($params) ? $params[0] : null), 's4_chart');
+			$s5_chart_data = $this->model->get_chart_data((!empty($params) ? $params[0] : null), 's5_chart');
+			$s6_chart_data = $this->model->get_chart_data((!empty($params) ? $params[0] : null), 's6_chart');
+			$s7_chart_data = $this->model->get_chart_data((!empty($params) ? $params[0] : null), 's7_chart');
 		}
 
 		$js =
