@@ -145,6 +145,10 @@ class Urls_registered_vkye
                 'controller' => 'Surveys',
                 'method' => 'charts'
             ],
+            '/surveys/charts/%param%' => [
+                'controller' => 'Surveys',
+                'method' => 'charts'
+            ],
             '/owners' => [
                 'controller' => 'Owners',
                 'method' => 'index'

@@ -64,13 +64,20 @@ $(document).ready(function()
         e.preventDefault();
 
         var form = $(this);
+        var data = new FormData(form[0]);
 
         if (signature)
+        {
             signature_pad.fromData(signature_pad.toData());
+            data.append('signature', ((signature_pad.isEmpty()) ? '' : signature_pad.toDataURL('image/jpeg')));
+        }
+
+        data.append('action', 'new_survey_answer');
 
         $.ajax({
             type: 'POST',
-            data: form.serialize() + ((signature) ? '&signature=' + ((signature_pad.isEmpty()) ? '' : signature_pad.toDataURL('image/jpeg')) : '') + '&action=new_survey_answer',
+            data: data,
+            contentType: false,
             processData: false,
             cache: false,
             dataType: 'json',
