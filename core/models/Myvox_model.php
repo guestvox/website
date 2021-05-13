@@ -605,17 +605,22 @@ class Myvox_model extends Model
 		return $query;
 	}
 
-	public function get_survey($token)
+	public function get_survey($token, $account = null)
 	{
-		$AND = [
-			'account' => Session::get_value('myvox')['account']['id'],
-			'status' => true
-		];
+		$AND = [];
 
 		if ($token == 'main')
+		{
+			$AND['account'] = Session::get_value('myvox')['account']['id'];
 			$AND['main'] = true;
+		}
 		else
+		{
+			$AND['account'] = $account;
 			$AND['token'] = $token;
+		}
+
+		$AND['status'] = true;
 
 		$query = Functions::get_json_decoded_query($this->database->select('surveys', [
 			'id',
