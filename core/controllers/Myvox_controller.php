@@ -1701,13 +1701,13 @@ class Myvox_controller extends Controller
 
 		if (!empty($params[1]))
 		{
-			$survey = $this->model->get_survey($params[1]);
+			$account = $this->model->get_account($params[0]);
 
-			if (!empty($survey))
+			if (!empty($account))
 			{
-				$account = $this->model->get_account($params[0]);
+				$survey = $this->model->get_survey($params[1], $account['id']);
 
-				if (!empty($account))
+				if (!empty($survey))
 				{
 					if ($account['surveys'] == true AND $account['settings']['myvox']['survey']['status'] == true)
 					{
