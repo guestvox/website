@@ -320,7 +320,11 @@ class Languages
             'deliver_menu_order_success' => [
                 'es' => 'Muchas gracias. Tu pedido ha sido entregado exitosamente.',
                 'en' => 'Thanks a lot. Your order has been successfully delivered.'
-            ]
+            ],
+            'check_out_todays_survey_stats' => [
+                'es' => 'Revisa las estadísticas de tu encuesta de hoy',
+                'en' => 'Check out todays survey statistics'
+            ],
         ];
 
         return !empty($subkey) ? $langs[$key][$subkey] : $langs[$key];
