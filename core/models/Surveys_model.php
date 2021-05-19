@@ -18,6 +18,7 @@ class Surveys_model extends Model
 			'token',
 			'name',
 			'text',
+			'nps',
 			'signature',
 			'main',
 			'report',
@@ -39,6 +40,7 @@ class Surveys_model extends Model
 		$query = Functions::get_json_decoded_query($this->database->select('surveys', [
 			'name',
 			'text',
+			'nps',
 			'signature',
 			'main',
 			'report'
@@ -70,6 +72,7 @@ class Surveys_model extends Model
 				'es' => !empty($data['text_es']) ? $data['text_es'] : '',
 				'en' => !empty($data['text_en']) ? $data['text_en'] : ''
 			]),
+			'nps' => !empty($data['nps']) ? true : false,
 			'signature' => !empty($data['signature']) ? true : false,
 			'main' => !empty($data['main']) ? true : false,
 			'report' => json_encode([
@@ -110,6 +113,7 @@ class Surveys_model extends Model
 				'es' => !empty($data['text_es']) ? $data['text_es'] : '',
 				'en' => !empty($data['text_en']) ? $data['text_en'] : ''
 			]),
+			'nps' => !empty($data['nps']) ? true : false,
 			'signature' => !empty($data['signature']) ? true : false,
 			'main' => !empty($data['main']) ? true : false,
 			'report' => json_encode([
@@ -161,17 +165,31 @@ class Surveys_model extends Model
 
 	public function delete_survey($id)
 	{
-		$this->database->delete('surveys_answers', [
-			'survey' => $id
-		]);
+		$query = null;
 
-		$this->database->delete('surveys_questions', [
-			'survey' => $id
-		]);
-
-		$query = $this->database->delete('surveys', [
+		$deleted = $this->database->select('surveys', [
+			'qr'
+		], [
 			'id' => $id
 		]);
+
+		if (!empty($deleted))
+		{
+			$this->database->delete('surveys_answers', [
+				'survey' => $id
+			]);
+
+			$this->database->delete('surveys_questions', [
+				'survey' => $id
+			]);
+
+			$query = $this->database->delete('surveys', [
+				'id' => $id
+			]);
+
+			if (!empty($query))
+				Functions::undoloader($deleted[0]['qr']);
+		}
 
 		return $query;
 	}
