@@ -2,6 +2,8 @@
 
 $(document).ready(function()
 {
+    $('.chosen-select').chosen();
+
     var id = null;
     var edit = false;
 
@@ -11,6 +13,22 @@ $(document).ready(function()
         edit = false;
 
         clean_form($('form[name="new_survey"]'));
+    });
+
+    $('[name="report_status"]').on('change', function()
+    {
+        if ($(this).is(':checked'))
+        {
+            $('[name="report_days[]"]').parent().parent().parent().removeClass('hidden');
+            $('[name="report_time"]').parent().parent().parent().removeClass('hidden');
+            $('[name="report_email"]').parent().parent().parent().removeClass('hidden');
+        }
+        else
+        {
+            $('[name="report_days[]"]').parent().parent().parent().addClass('hidden');
+            $('[name="report_time"]').parent().parent().parent().addClass('hidden');
+            $('[name="report_email"]').parent().parent().parent().addClass('hidden');
+        }
     });
 
     $('form[name="new_survey"]').on('submit', function(e)
@@ -59,8 +77,25 @@ $(document).ready(function()
                     $('[name="name_en"]').val(response.data.name.en);
                     $('[name="text_es"]').val(response.data.text.es);
                     $('[name="text_en"]').val(response.data.text.en);
-                    $('[name="signature"]').prop('checked', ((response.data.signature == true) ? true : false));
                     $('[name="main"]').prop('checked', ((response.data.main == true) ? true : false));
+                    $('[name="signature"]').prop('checked', ((response.data.signature == true) ? true : false));
+                    $('[name="report_status"]').prop('checked', ((response.data.report.status == true) ? true : false));
+                    $('[name="report_days[]"]').val(response.data.report.days).trigger("chosen:updated");
+                    $('[name="report_time"]').val(response.data.report.time);
+                    $('[name="report_email"]').val(response.data.report.email);
+
+                    if (response.data.report.status == true)
+                    {
+                        $('[name="report_days[]"]').parent().parent().parent().removeClass('hidden');
+                        $('[name="report_time"]').parent().parent().parent().removeClass('hidden');
+                        $('[name="report_email"]').parent().parent().parent().removeClass('hidden');
+                    }
+                    else
+                    {
+                        $('[name="report_days[]"]').parent().parent().parent().addClass('hidden');
+                        $('[name="report_time"]').parent().parent().parent().addClass('hidden');
+                        $('[name="report_email"]').parent().parent().parent().addClass('hidden');
+                    }
 
                     required_focus('form', $('form[name="new_survey"]'), null);
 

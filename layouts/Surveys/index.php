@@ -2,7 +2,9 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['js', '{$path.js}Surveys/index.js']);
+$this->dependencies->add(['css', '{$path.plugins}chosen_select/chosen.css']);
+$this->dependencies->add(['js', '{$path.plugins}chosen_select/chosen.jquery.js']);
+$this->dependencies->add(['js', '{$path.js}Surveys/index.js?v=1.1']);
 $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 
 ?>
@@ -27,7 +29,8 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
     <div class="content">
         <main>
             <form name="new_survey">
-                <div class="row">
+                <div class="row" style="border:1px solid #e0e0e0;box-sizing:border-box;padding:20px;margin-bottom:20px;">
+                    <h6 style="font-size:12px;font-weight:600;text-transform:uppercase;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #e0e0e0;">Configuración general</h6>
                     <div class="span6">
                         <div class="label">
                             <label required>
@@ -46,35 +49,26 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label required>
-                                <p>(ES) Texto</p>
+                            <label>
+                                <p>(ES) Texto aleatorio</p>
                                 <textarea name="text_es" data-translates="text_es"></textarea>
                             </label>
                         </div>
                     </div>
                     <div class="span6">
                         <div class="label">
-                            <label required>
-                                <p>(EN) Texto</p>
+                            <label>
+                                <p>(EN) Texto aleatorio</p>
                                 <textarea name="text_en" data-translates="text_en"></textarea>
                             </label>
                         </div>
                     </div>
+                </div>
+                <div class="row" style="border:1px solid #e0e0e0;box-sizing:border-box;padding:20px;margin-bottom:20px;">
+                    <h6 style="font-size:12px;font-weight:600;text-transform:uppercase;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #e0e0e0;">¿Establecer esta encuesta como predeterminada?</h6>
                     <div class="span6">
                         <div class="label">
                             <label unrequired>
-                                <p>{$lang.signature}</p>
-                                <div class="switch">
-                                    <input id="sgsw" type="checkbox" name="signature" data-switcher>
-                                    <label for="sgsw"></label>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-                    <div class="span6">
-                        <div class="label">
-                            <label unrequired>
-                                <p>Encuesta predeterminada</p>
                                 <div class="switch">
                                     <input id="masw" type="checkbox" name="main" data-switcher>
                                     <label for="masw"></label>
@@ -82,6 +76,66 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                             </label>
                         </div>
                     </div>
+                </div>
+                <div class="row" style="border:1px solid #e0e0e0;box-sizing:border-box;padding:20px;margin-bottom:20px;">
+                    <h6 style="font-size:12px;font-weight:600;text-transform:uppercase;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #e0e0e0;">¿Activar solicitud de firma digital?</h6>
+                    <div class="span6">
+                        <div class="label">
+                            <label unrequired>
+                                <div class="switch">
+                                    <input id="sgsw" type="checkbox" name="signature" data-switcher>
+                                    <label for="sgsw"></label>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="border:1px solid #e0e0e0;box-sizing:border-box;padding:20px;">
+                    <h6 style="font-size:12px;font-weight:600;text-transform:uppercase;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #bdbdbd;">¿Configurar envío automático de reporte?</h6>
+                    <div class="span6">
+                        <div class="label">
+                            <label unrequired>
+                                <div class="switch">
+                                    <input id="rssw" type="checkbox" name="report_status" data-switcher>
+                                    <label for="rssw"></label>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12 hidden">
+                        <div class="label">
+                            <label required>
+                                <p>Envíar reporte en los días:</p>
+                                <select name="report_days[]" class="chosen-select" multiple>
+                                    <option value="monday" selected>{$lang.monday}</option>
+                                    <option value="tuesday" selected>{$lang.tuesday}</option>
+                                    <option value="wednesday" selected>{$lang.wednesday}</option>
+                                    <option value="thursday" selected>{$lang.thursday}</option>
+                                    <option value="friday" selected>{$lang.friday}</option>
+                                    <option value="saturday" selected>{$lang.saturday}</option>
+                                    <option value="sunday" selected>{$lang.sunday}</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6 hidden">
+                        <div class="label">
+                            <label required>
+                                <p>Envíar reporte a las:</p>
+                                <input type="time" name="report_time" value="21:00:00">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span6 hidden">
+                        <div class="label">
+                            <label required>
+                                <p>Notificar envío al correo electrónico:</p>
+                                <input type="email" name="report_email" value="">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="span12">
                         <div class="buttons">
                             <a class="delete" button-cancel><i class="fas fa-times"></i></a>

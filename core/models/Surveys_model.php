@@ -20,6 +20,7 @@ class Surveys_model extends Model
 			'text',
 			'signature',
 			'main',
+			'report',
 			'qr',
 			'status'
 		], [
@@ -39,7 +40,8 @@ class Surveys_model extends Model
 			'name',
 			'text',
 			'signature',
-			'main'
+			'main',
+			'report'
 		], [
 			'id' => $id
 		]));
@@ -70,6 +72,12 @@ class Surveys_model extends Model
 			]),
 			'signature' => !empty($data['signature']) ? true : false,
 			'main' => !empty($data['main']) ? true : false,
+			'report' => json_encode([
+				'status' => !empty($data['report_status']) ? true : false,
+				'days' => !empty($data['report_status']) ? $data['report_days'] : '',
+				'time' => !empty($data['report_status']) ? $data['report_time'] : '',
+				'email' => !empty($data['report_status']) ? $data['report_email'] : ''
+			]),
 			'qr' => $data['qr']['filename'],
 			'status' => true
 		]);
@@ -103,7 +111,13 @@ class Surveys_model extends Model
 				'en' => !empty($data['text_en']) ? $data['text_en'] : ''
 			]),
 			'signature' => !empty($data['signature']) ? true : false,
-			'main' => !empty($data['main']) ? true : false
+			'main' => !empty($data['main']) ? true : false,
+			'report' => json_encode([
+				'status' => !empty($data['report_status']) ? true : false,
+				'days' => !empty($data['report_status']) ? $data['report_days'] : '',
+				'time' => !empty($data['report_status']) ? $data['report_time'] : '',
+				'email' => !empty($data['report_status']) ? $data['report_email'] : ''
+			])
 		], [
 			'id' => $data['id']
 		]);
