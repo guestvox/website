@@ -47,6 +47,18 @@ class Surveys_controller extends Controller
 				if (!isset($_POST['name_en']) OR empty($_POST['name_en']))
 					array_push($labels, ['name_en','']);
 
+				if (!empty($_POST['report_status']))
+				{
+					if (!isset($_POST['report_days']) OR empty($_POST['report_days']))
+						array_push($labels, ['report_days','']);
+
+					if (!isset($_POST['report_time']) OR empty($_POST['report_time']))
+						array_push($labels, ['report_time','']);
+
+					if (!isset($_POST['report_email']) OR empty($_POST['report_email']))
+						array_push($labels, ['report_email','']);
+				}
+
 				if (empty($labels))
 				{
 					if ($_POST['action'] == 'new_survey')
@@ -121,6 +133,7 @@ class Surveys_controller extends Controller
 							<span>' . $value['token'] . '</span>
 							<span>Firma: ' . (($value['signature'] == true) ? 'Si' : 'No') . '</span>
 							<span>Predeterminada: ' . (($value['main'] == true) ? 'Si' : 'No') . '</span>
+							<span>Reporte: ' . (($value['report']['status'] == true) ? 'Envío atomático' : 'No') . '</span>
 							<p>' . (!empty($value['text'][$this->lang]) ? $value['text'][$this->lang] : 'Sin texto') . '</p>
 						</div>
 						<div class="itm_2">
