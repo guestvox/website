@@ -29,6 +29,7 @@
 
     foreach ($query as $value)
     {
+        $value['name'] = json_decode($value['name'], true);
         $value['report'] = json_decode($value['report'], true);
 
         if ($value['report']['status'] == true)
