@@ -56,7 +56,7 @@
                             </tr>
                             <tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
                                 <td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
-                                    <h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $value['name'] . '</h4>
+                                    <h4 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $value['name'][$value['account_language']] . '</h4>
                                 </td>
                             </tr>
                             <tr style="width:100%;margin:0px;padding:0px;border:0px;">
