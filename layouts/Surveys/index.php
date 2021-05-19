@@ -78,6 +78,19 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     </div>
                 </div>
                 <div class="row" style="border:1px solid #e0e0e0;box-sizing:border-box;padding:20px;margin-bottom:20px;">
+                    <h6 style="font-size:12px;font-weight:600;text-transform:uppercase;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #e0e0e0;">¿Activar métrica NPS?</h6>
+                    <div class="span6">
+                        <div class="label">
+                            <label unrequired>
+                                <div class="switch">
+                                    <input id="npsw" type="checkbox" name="nps" data-switcher>
+                                    <label for="npsw"></label>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="border:1px solid #e0e0e0;box-sizing:border-box;padding:20px;margin-bottom:20px;">
                     <h6 style="font-size:12px;font-weight:600;text-transform:uppercase;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #e0e0e0;">¿Activar solicitud de firma digital?</h6>
                     <div class="span6">
                         <div class="label">
@@ -91,7 +104,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                     </div>
                 </div>
                 <div class="row" style="border:1px solid #e0e0e0;box-sizing:border-box;padding:20px;">
-                    <h6 style="font-size:12px;font-weight:600;text-transform:uppercase;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #bdbdbd;">¿Configurar envío automático de reporte?</h6>
+                    <h6 style="font-size:12px;font-weight:600;text-transform:uppercase;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #e0e0e0;">¿Configurar envío automático de reporte?</h6>
                     <div class="span6">
                         <div class="label">
                             <label unrequired>

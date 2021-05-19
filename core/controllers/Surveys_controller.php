@@ -129,12 +129,11 @@ class Surveys_controller extends Controller
 				'<div>
 					<div class="datas">
 						<div class="itm_1">
-							<h2>' . $value['name'][$this->lang] . '</h2>
-							<span>' . $value['token'] . '</span>
-							<span>Firma: ' . (($value['signature'] == true) ? 'Si' : 'No') . '</span>
-							<span>Predeterminada: ' . (($value['main'] == true) ? 'Si' : 'No') . '</span>
-							<span>Reporte: ' . (($value['report']['status'] == true) ? 'Envío atomático' : 'No') . '</span>
-							<p>' . (!empty($value['text'][$this->lang]) ? $value['text'][$this->lang] : 'Sin texto') . '</p>
+							' . (($value['main'] == true) ? '<h2>Encuesta predeterminada</h2>' : '') . '
+							<h2>' . $value['token'] . ' | ' . $value['name'][$this->lang] . '</h2>
+							<span>Solicitud de NPS: ' . (($value['nps'] == true) ? 'Si' : 'No') . '</span>
+							<span>Solicitud de firma: ' . (($value['signature'] == true) ? 'Si' : 'No') . '</span>
+							<span>Envío de reporte: ' . (($value['report']['status'] == true) ? 'Automático' : 'No') . '</span>
 						</div>
 						<div class="itm_2">
 							<figure>

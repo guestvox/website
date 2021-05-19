@@ -78,6 +78,7 @@ $(document).ready(function()
                     $('[name="text_es"]').val(response.data.text.es);
                     $('[name="text_en"]').val(response.data.text.en);
                     $('[name="main"]').prop('checked', ((response.data.main == true) ? true : false));
+                    $('[name="nps"]').prop('checked', ((response.data.nps == true) ? true : false));
                     $('[name="signature"]').prop('checked', ((response.data.signature == true) ? true : false));
                     $('[name="report_status"]').prop('checked', ((response.data.report.status == true) ? true : false));
                     $('[name="report_days[]"]').val(response.data.report.days).trigger("chosen:updated");
