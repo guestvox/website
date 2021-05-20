@@ -325,6 +325,38 @@ class Languages
                 'es' => 'Revisa las estadísticas de tu encuesta de hoy',
                 'en' => 'Check out todays survey statistics'
             ],
+            'average_day' => [
+                'es' => 'Promedio',
+                'en' => 'Average'
+            ],
+            'day_total_answers' => [
+                'es' => 'Respuestas totales',
+                'en' => 'Total answers'
+            ],
+            'date' => [
+                'es' => 'Fecha',
+                'en' => 'Date'
+            ],
+            'day_report' => [
+                'es' => 'Reporte del día',
+                'en' => 'Day report'
+            ],
+            'not_available' => [
+                'es' => 'No disponible',
+                'en' => 'Not available'
+            ],
+            'day_nps' => [
+                'es' => 'NPS',
+                'en' => 'NPS'
+            ],
+            'comments' => [
+                'es' => 'Comentarios',
+                'en' => 'Comments'
+            ],
+            'not_comments' => [
+                'es' => 'Sin comentarios',
+                'en' => 'Not comments'
+            ]
         ];
 
         return !empty($subkey) ? $langs[$key][$subkey] : $langs[$key];
