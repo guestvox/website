@@ -38,12 +38,23 @@
         {
             date_default_timezone_set($value['account_time_zone']);
 
+            $days = [
+                '1' => 'monday',
+                '2' => 'tuesday',
+                '3' => 'wednesday',
+                '4' => 'thursday',
+                '5' => 'friday',
+                '6' => 'saturday',
+                '7' => 'sunday'
+            ];
+
             $date = date('Y-m-d');
+            $day = date("w");
             $start_time = date('H:i:s', strtotime($value['report']['time']));
             $end_time = date('H:i:s', strtotime('+ 59 minute', strtotime(date('H:i:s', strtotime($start_time)))));
             $current_time = date('H:i:s', time());
 
-            if ($current_time >= $start_time AND $current_time <= $end_time)
+            if (in_array($days[$day], $value['report']['days']) AND $current_time >= $start_time AND $current_time <= $end_time)
             {
                 $answers = $database->select('surveys_answers', [
                     'values',
