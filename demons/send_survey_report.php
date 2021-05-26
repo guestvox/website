@@ -161,7 +161,17 @@
                 try
                 {
                     $mail->setFrom('noreply@guestvox.com', 'Guestvox');
-                    $mail->addAddress($value['report']['email'], $value['account_name']);
+                    $mail->addAddress($value['report']['emails']['one'], $value['account_name']);
+
+                    if (!empty($value['report']['emails']['two']))
+                        $mail->addAddress($value['report']['emails']['two'], $value['account_name']);
+
+                    if (!empty($value['report']['emails']['three']))
+                        $mail->addAddress($value['report']['emails']['three'], $value['account_name']);
+
+                    if (!empty($value['report']['emails']['four']))
+                        $mail->addAddress($value['report']['emails']['four'], $value['account_name']);
+
                     $mail->Subject = date('d-m-Y') . ' | ' . Languages::email('day_report')[$value['account_language']] . ' | Encuestas';
                     $mail->Body =
                     '<html>
