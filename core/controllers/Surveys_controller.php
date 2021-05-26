@@ -55,8 +55,8 @@ class Surveys_controller extends Controller
 					if (!isset($_POST['report_time']) OR empty($_POST['report_time']))
 						array_push($labels, ['report_time','']);
 
-					if (!isset($_POST['report_email']) OR empty($_POST['report_email']))
-						array_push($labels, ['report_email','']);
+					if (!isset($_POST['report_email_1']) OR empty($_POST['report_email_1']))
+						array_push($labels, ['report_email_1','']);
 				}
 
 				if (empty($labels))

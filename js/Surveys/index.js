@@ -21,13 +21,19 @@ $(document).ready(function()
         {
             $('[name="report_days[]"]').parent().parent().parent().removeClass('hidden');
             $('[name="report_time"]').parent().parent().parent().removeClass('hidden');
-            $('[name="report_email"]').parent().parent().parent().removeClass('hidden');
+            $('[name="report_email_1"]').parent().parent().parent().removeClass('hidden');
+            $('[name="report_email_2"]').parent().parent().parent().removeClass('hidden');
+            $('[name="report_email_3"]').parent().parent().parent().removeClass('hidden');
+            $('[name="report_email_4"]').parent().parent().parent().removeClass('hidden');
         }
         else
         {
             $('[name="report_days[]"]').parent().parent().parent().addClass('hidden');
             $('[name="report_time"]').parent().parent().parent().addClass('hidden');
-            $('[name="report_email"]').parent().parent().parent().addClass('hidden');
+            $('[name="report_email_1"]').parent().parent().parent().addClass('hidden');
+            $('[name="report_email_2"]').parent().parent().parent().addClass('hidden');
+            $('[name="report_email_3"]').parent().parent().parent().addClass('hidden');
+            $('[name="report_email_4"]').parent().parent().parent().addClass('hidden');
         }
     });
 
@@ -83,19 +89,28 @@ $(document).ready(function()
                     $('[name="report_status"]').prop('checked', ((response.data.report.status == true) ? true : false));
                     $('[name="report_days[]"]').val(response.data.report.days).trigger("chosen:updated");
                     $('[name="report_time"]').val(response.data.report.time);
-                    $('[name="report_email"]').val(response.data.report.email);
+                    $('[name="report_email_1"]').val(response.data.report.emails.one);
+                    $('[name="report_email_2"]').val(response.data.report.emails.two);
+                    $('[name="report_email_3"]').val(response.data.report.emails.three);
+                    $('[name="report_email_4"]').val(response.data.report.emails.four);
 
                     if (response.data.report.status == true)
                     {
                         $('[name="report_days[]"]').parent().parent().parent().removeClass('hidden');
                         $('[name="report_time"]').parent().parent().parent().removeClass('hidden');
-                        $('[name="report_email"]').parent().parent().parent().removeClass('hidden');
+                        $('[name="report_email_1"]').parent().parent().parent().removeClass('hidden');
+                        $('[name="report_email_2"]').parent().parent().parent().removeClass('hidden');
+                        $('[name="report_email_3"]').parent().parent().parent().removeClass('hidden');
+                        $('[name="report_email_4"]').parent().parent().parent().removeClass('hidden');
                     }
                     else
                     {
                         $('[name="report_days[]"]').parent().parent().parent().addClass('hidden');
                         $('[name="report_time"]').parent().parent().parent().addClass('hidden');
-                        $('[name="report_email"]').parent().parent().parent().addClass('hidden');
+                        $('[name="report_email_1"]').parent().parent().parent().addClass('hidden');
+                        $('[name="report_email_2"]').parent().parent().parent().addClass('hidden');
+                        $('[name="report_email_3"]').parent().parent().parent().addClass('hidden');
+                        $('[name="report_email_4"]').parent().parent().parent().addClass('hidden');
                     }
 
                     required_focus('form', $('form[name="new_survey"]'), null);

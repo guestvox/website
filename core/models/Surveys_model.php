@@ -79,7 +79,12 @@ class Surveys_model extends Model
 				'status' => !empty($data['report_status']) ? true : false,
 				'days' => !empty($data['report_status']) ? $data['report_days'] : '',
 				'time' => !empty($data['report_status']) ? $data['report_time'] : '',
-				'email' => !empty($data['report_status']) ? $data['report_email'] : ''
+				'emails' => [
+					'one' => !empty($data['report_status']) ? $data['report_email_1'] : '',
+					'two' => (!empty($data['report_status']) AND !empty($data['report_email_2'])) ? $data['report_email_2'] : '',
+					'three' => (!empty($data['report_status']) AND !empty($data['report_email_3'])) ? $data['report_email_3'] : '',
+					'four' => (!empty($data['report_status']) AND !empty($data['report_email_4'])) ? $data['report_email_4'] : ''
+				]
 			]),
 			'qr' => $data['qr']['filename'],
 			'status' => true
@@ -120,7 +125,12 @@ class Surveys_model extends Model
 				'status' => !empty($data['report_status']) ? true : false,
 				'days' => !empty($data['report_status']) ? $data['report_days'] : '',
 				'time' => !empty($data['report_status']) ? $data['report_time'] : '',
-				'email' => !empty($data['report_status']) ? $data['report_email'] : ''
+				'emails' => [
+					'one' => !empty($data['report_status']) ? $data['report_email_1'] : '',
+					'two' => (!empty($data['report_status']) AND !empty($data['report_email_2'])) ? $data['report_email_2'] : '',
+					'three' => (!empty($data['report_status']) AND !empty($data['report_email_3'])) ? $data['report_email_3'] : '',
+					'four' => (!empty($data['report_status']) AND !empty($data['report_email_4'])) ? $data['report_email_4'] : ''
+				]
 			])
 		], [
 			'id' => $data['id']
