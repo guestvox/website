@@ -105,7 +105,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                 </div>
                 <div class="row" style="border:1px solid #e0e0e0;box-sizing:border-box;padding:20px;">
                     <h6 style="font-size:12px;font-weight:600;text-transform:uppercase;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid #e0e0e0;">¿Configurar envío automático de reporte?</h6>
-                    <div class="span6">
+                    <div class="span12">
                         <div class="label">
                             <label unrequired>
                                 <div class="switch">
@@ -115,7 +115,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                             </label>
                         </div>
                     </div>
-                    <div class="span12 hidden">
+                    <div class="span6 hidden">
                         <div class="label">
                             <label required>
                                 <p>Envíar reporte en los días:</p>
@@ -136,38 +136,62 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
                             <label required>
                                 <p>Envíar reporte a las:</p>
                                 <select name="report_time">
-                                    <option value="01:00:00" selected>01:00 AM</option>
-                                    <option value="02:00:00" selected>02:00 AM</option>
-                                    <option value="03:00:00" selected>03:00 AM</option>
-                                    <option value="04:00:00" selected>04:00 AM</option>
-                                    <option value="05:00:00" selected>05:00 AM</option>
-                                    <option value="06:00:00" selected>06:00 AM</option>
-                                    <option value="07:00:00" selected>07:00 AM</option>
-                                    <option value="08:00:00" selected>08:00 AM</option>
-                                    <option value="09:00:00" selected>09:00 AM</option>
-                                    <option value="10:00:00" selected>10:00 AM</option>
-                                    <option value="11:00:00" selected>11:00 AM</option>
-                                    <option value="12:00:00" selected>12:00 PM</option>
-                                    <option value="13:00:00" selected>01:00 PM</option>
-                                    <option value="14:00:00" selected>02:00 PM</option>
-                                    <option value="15:00:00" selected>03:00 PM</option>
-                                    <option value="16:00:00" selected>04:00 PM</option>
-                                    <option value="17:00:00" selected>05:00 PM</option>
-                                    <option value="18:00:00" selected>06:00 PM</option>
-                                    <option value="19:00:00" selected>07:00 PM</option>
-                                    <option value="20:00:00" selected>08:00 PM</option>
-                                    <option value="21:00:00" selected>09:00 PM</option>
+                                    <option value="01:00:00">01:00 AM</option>
+                                    <option value="02:00:00">02:00 AM</option>
+                                    <option value="03:00:00">03:00 AM</option>
+                                    <option value="04:00:00">04:00 AM</option>
+                                    <option value="05:00:00">05:00 AM</option>
+                                    <option value="06:00:00">06:00 AM</option>
+                                    <option value="07:00:00">07:00 AM</option>
+                                    <option value="08:00:00">08:00 AM</option>
+                                    <option value="09:00:00">09:00 AM</option>
+                                    <option value="10:00:00">10:00 AM</option>
+                                    <option value="11:00:00">11:00 AM</option>
+                                    <option value="12:00:00">12:00 PM</option>
+                                    <option value="13:00:00">01:00 PM</option>
+                                    <option value="14:00:00">02:00 PM</option>
+                                    <option value="15:00:00">03:00 PM</option>
+                                    <option value="16:00:00">04:00 PM</option>
+                                    <option value="17:00:00">05:00 PM</option>
+                                    <option value="18:00:00">06:00 PM</option>
+                                    <option value="19:00:00">07:00 PM</option>
+                                    <option value="20:00:00">08:00 PM</option>
+                                    <option value="21:00:00">09:00 PM</option>
                                     <option value="22:00:00" selected>10:00 PM</option>
-                                    <option value="23:00:00" selected>11:00 PM</option>
+                                    <option value="23:00:00">11:00 PM</option>
                                 </select>
                             </label>
                         </div>
                     </div>
-                    <div class="span6 hidden">
+                    <div class="span12 hidden">
                         <div class="label">
                             <label required>
                                 <p>Notificar envío al correo electrónico:</p>
-                                <input type="email" name="report_email" value="">
+                                <input type="email" name="report_email_1" value="">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12 hidden">
+                        <div class="label">
+                            <label unrequired>
+                                <p>Notificar envío al correo electrónico:</p>
+                                <input type="email" name="report_email_2" value="">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12 hidden">
+                        <div class="label">
+                            <label unrequired>
+                                <p>Notificar envío al correo electrónico:</p>
+                                <input type="email" name="report_email_3" value="">
+                            </label>
+                        </div>
+                    </div>
+                    <div class="span12 hidden">
+                        <div class="label">
+                            <label unrequired>
+                                <p>Notificar envío al correo electrónico:</p>
+                                <input type="email" name="report_email_4" value="">
                             </label>
                         </div>
                     </div>
