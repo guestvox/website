@@ -1833,7 +1833,7 @@ class Myvox_controller extends Controller
 						<div class="span12">
 							<div class="tbl_stl_5" data-table>';
 
-				foreach ($this->model->get_surveys_questions(Session::get_value('myvox')['survey']['id']) as $value)
+				foreach ($this->model->get_surveys_questions(Session::get_value('myvox')['survey']) as $value)
 				{
 					$html .=
 					'<div>
@@ -1896,7 +1896,7 @@ class Myvox_controller extends Controller
 					'	</div>
 					</div>';
 
-					foreach ($this->model->get_surveys_questions(Session::get_value('myvox')['survey']['id'], $value['id']) as $subvalue)
+					foreach ($this->model->get_surveys_questions(Session::get_value('myvox')['survey'], $value['id']) as $subvalue)
 					{
 						$html .=
 						'<div data-level="2">
@@ -1940,7 +1940,7 @@ class Myvox_controller extends Controller
 						'	</div>
 						</div>';
 
-						foreach ($this->model->get_surveys_questions(Session::get_value('myvox')['survey']['id'], $subvalue['id']) as $parentvalue)
+						foreach ($this->model->get_surveys_questions(Session::get_value('myvox')['survey'], $subvalue['id']) as $parentvalue)
 						{
 							$html .=
 							'<div data-level="3">

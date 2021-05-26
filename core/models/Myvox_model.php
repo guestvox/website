@@ -627,6 +627,7 @@ class Myvox_model extends Model
 			'token',
 			'name',
 			'text',
+			'nps',
 			'signature'
 		], [
 			'AND' => $AND
@@ -637,9 +638,26 @@ class Myvox_model extends Model
 
 	public function get_surveys_questions($survey, $parent = null)
 	{
+		$nps = [];
+
+		if ($survey['nps'] == true)
+		{
+			$nps = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+				'id',
+				'name',
+				'type',
+				'values'
+			], [
+				'AND' => [
+					'type' => 'nps',
+					'system' => true
+				]
+			]));
+		}
+
 		$and = [
 			'account' => Session::get_value('myvox')['account']['id'],
-			'survey' => $survey,
+			'survey' => $survey['id'],
 			'status' => true
 		];
 
@@ -660,7 +678,7 @@ class Myvox_model extends Model
 			]
 		]));
 
-		return $query;
+		return !empty($query) ? array_merge($nps, $query) : $query;
 	}
 
 	public function new_survey_answer($data)

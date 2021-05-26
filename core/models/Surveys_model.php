@@ -196,38 +196,70 @@ class Surveys_model extends Model
 
 	public function get_surveys_questions($survey, $option = 'all', $parent = false)
 	{
-		$AND = [
-			'account' => Session::get_value('account')['id'],
-			'survey' => $survey
-		];
-
-		if ($option == 'actives')
-		{
-			$AND['type'] = ['rate','twin'];
-			$AND['status'] = true;
-		}
-
-		if ($parent == false)
-			$AND['parent[=]'] = null;
-		else
-			$AND['parent'] = $parent;
-
-		$query = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+		$survey = Functions::get_json_decoded_query($this->database->select('surveys', [
 			'id',
-			'name',
-			'type',
-			'values',
-			'parent',
-			'system',
-			'status'
+			'nps'
 		], [
-			'AND' => $AND,
-			'ORDER' => [
-				'id' => 'ASC'
-			]
+			'id' => $survey
 		]));
 
-		return $query;
+		if (!empty($survey))
+		{
+			$nps = [];
+
+			if ($survey[0]['nps'] == true)
+			{
+				$nps = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+					'id',
+					'name',
+					'type',
+					'values',
+					'parent',
+					'system',
+					'status'
+				], [
+					'AND' => [
+						'type' => 'nps',
+						'system' => true
+					]
+				]));
+			}
+
+			$AND = [
+				'account' => Session::get_value('account')['id'],
+				'survey' => $survey[0]['id']
+			];
+
+			if ($option == 'actives')
+			{
+				$AND['type'] = ['rate','twin'];
+				$AND['status'] = true;
+			}
+
+			if ($parent == false)
+				$AND['parent[=]'] = null;
+			else
+				$AND['parent'] = $parent;
+
+			$query = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
+				'id',
+				'name',
+				'type',
+				'values',
+				'parent',
+				'system',
+				'status'
+			], [
+				'AND' => $AND,
+				'ORDER' => [
+					'id' => 'ASC'
+				]
+			]));
+
+			return !empty($query) ? array_merge($nps, $query) : $query;
+		}
+		else
+			return null;
 	}
 
 	public function get_survey_question($id)
@@ -427,7 +459,7 @@ class Surveys_model extends Model
 			if ($option == 'raters')
 			{
 				$average = 0;
-				$count = 0;
+				$count_1 = 0;
 
 				foreach ($value['values'] as $subkey => $subvalue)
 				{
@@ -445,12 +477,12 @@ class Surveys_model extends Model
 					if ($subvalue['question'] == 'rate')
 					{
 						$average = $average + $subvalue['answer'];
-						$count = $count + 1;
+						$count_1 = $count_1 + 1;
 					}
 				}
 
-				if ($average > 0 AND $count > 0)
-					$average = round(($average / $count), 1);
+				if ($average > 0 AND $count_1 > 0)
+					$average = round(($average / $count_1), 1);
 
 				$query[$key]['average'] = $average;
 
@@ -498,7 +530,7 @@ class Surveys_model extends Model
 		if (!empty($query))
 		{
 			$average = 0;
-			$count = 0;
+			$count_1 = 0;
 
 			foreach ($query[0]['values'] as $key => $value)
 			{
@@ -516,12 +548,12 @@ class Surveys_model extends Model
 				if ($value['question'] == 'rate')
 				{
 					$average = $average + $value['answer'];
-					$count = $count + 1;
+					$count_1 = $count_1 + 1;
 				}
 			}
 
-			if ($average > 0 AND $count > 0)
-				$average = round(($average / $count), 1);
+			if ($average > 0 AND $count_1 > 0)
+				$average = round(($average / $count_1), 1);
 
 			$query[0]['average'] = $average;
 
@@ -626,11 +658,9 @@ class Surveys_model extends Model
 	{
 		$AND = [
 			'account' => Session::get_value('account')['id'],
+			'survey' => $survey,
 			'date[<>]' => [Session::get_value('settings')['surveys']['stats']['filter']['started_date'],Session::get_value('settings')['surveys']['stats']['filter']['end_date']]
 		];
-
-		if (!empty($survey))
-			$AND['survey'] = $survey;
 
 		if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'not_owner')
 			$AND['id'] = NULL;
@@ -644,7 +674,7 @@ class Surveys_model extends Model
 		]));
 
 		$average = 0;
-		$count = 0;
+		$count_1 = 0;
 
 		foreach ($query as $value)
 		{
@@ -664,13 +694,13 @@ class Surveys_model extends Model
 				if ($subvalue['question'] == 'rate')
 				{
 					$average = $average + $subvalue['answer'];
-					$count = $count + 1;
+					$count_1 = $count_1 + 1;
 				}
 			}
 		}
 
-		if ($average > 0 AND $count > 0)
-			$average = round(($average / $count), 1);
+		if ($average > 0 AND $count_1 > 0)
+			$average = round(($average / $count_1), 1);
 
 		return $average;
 	}
@@ -679,11 +709,9 @@ class Surveys_model extends Model
 	{
 		$AND = [
 			'account' => Session::get_value('account')['id'],
+			'survey' => $survey,
 			'date[<>]' => [Session::get_value('settings')['surveys']['stats']['filter']['started_date'],Session::get_value('settings')['surveys']['stats']['filter']['end_date']]
 		];
-
-		if (!empty($survey))
-			$AND['survey'] = $survey;
 
 		if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'not_owner')
 			$AND['id'] = NULL;
@@ -702,7 +730,7 @@ class Surveys_model extends Model
 		foreach ($query as $value)
 		{
 			$average = 0;
-			$count = 0;
+			$count_1 = 0;
 
 			foreach ($value['values'] as $subkey => $subvalue)
 			{
@@ -720,12 +748,12 @@ class Surveys_model extends Model
 				if ($subvalue['question'] == 'rate')
 				{
 					$average = $average + $subvalue['answer'];
-					$count = $count + 1;
+					$count_1 = $count_1 + 1;
 				}
 			}
 
-			if ($average > 0 AND $count > 0)
-				$average = round(($average / $count), 1);
+			if ($average > 0 AND $count_1 > 0)
+				$average = round(($average / $count_1), 2);
 
 			if ($option == 'one' AND $average >= 1 AND $average < 1.8)
 				$percentage = $percentage + 1;
@@ -755,11 +783,9 @@ class Surveys_model extends Model
 		{
 			$query1_AND = [
 				'account' => Session::get_value('account')['id'],
+				'survey' => $survey,
 				'date[<>]' => [Session::get_value('settings')['surveys']['stats']['filter']['started_date'],Session::get_value('settings')['surveys']['stats']['filter']['end_date']]
 			];
-
-			if (!empty($survey))
-				$query1_AND['survey'] = $survey;
 
 			if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'not_owner')
 				$query1_AND['id'] = NULL;
@@ -783,19 +809,6 @@ class Surveys_model extends Model
 					'account' => Session::get_value('account')['id']
 				]));
 			}
-			else if ($option == 's2_chart')
-			{
-				$query2_where = [
-					'type' => 'nps'
-				];
-
-				if (!empty($survey))
-					$query2_where['survey'] = $survey;
-
-				$query2 = Functions::get_json_decoded_query($this->database->select('surveys_questions', [
-					'id'
-				], $query2_where));
-			}
 
 			$data = [
 				'labels' => '',
@@ -805,74 +818,116 @@ class Surveys_model extends Model
 				]
 			];
 
-			if (!empty($query1) AND !empty($query2))
+			if (($option == 's1_chart' AND !empty($query1) AND !empty($query2)) OR ($option == 's2_chart' AND !empty($query1)))
 			{
-				foreach ($query2 as $value)
+				if ($option == 's1_chart')
 				{
-					if ($option == 's1_chart')
+					foreach ($query2 as $value)
 					{
-						$count = 0;
+						$count_1 = 0;
+						$count_2 = 0;
+						$prom = 0;
 
 						foreach ($query1 as $subvalue)
 						{
 							if ($value['id'] == $subvalue['owner'])
-								$count = $count + 1;
+								$count_1 = $count_1 + 1;
+
+							$count_2 = $count_2 + 1;
 						}
 
-						if ($count > 0)
+						if ($count_1 > 0)
 						{
-							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . " " . (!empty($value['number']) ? '#' . $value['number'] : '') . "',";
-							$data['datasets']['data'] .= $count . ',';
+							$prom = round((($count_1 / $count_2) * 100), 2);
+
+							$data['labels'] .= "'" . $value['name'][Session::get_value('account')['language']] . " " . (!empty($value['number']) ? '#' . $value['number'] : '') . " (" . $prom . "%)',";
+							$data['datasets']['data'] .= "'" . $count_1 . "',";
 							$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "',";
 						}
 					}
-					else if ($option == 's2_chart')
-					{
-						$count_level_1 = 0;
-						$count_level_2 = 0;
-						$count_level_3 = 0;
-						$count_level_4 = 0;
-						$count_level_5 = 0;
-						$count_level_6 = 0;
-						$count_level_7 = 0;
-						$count_level_8 = 0;
-						$count_level_9 = 0;
-						$count_level_10 = 0;
 
-						foreach ($query1 as $subvalue)
+					$count_1 = 0;
+					$count_2 = 0;
+					$prom = 0;
+
+					foreach ($query1 as $subvalue)
+					{
+						if (!isset($subvalue['owner']) OR empty($subvalue['owner']))
+							$count_1 = $count_1 + 1;
+
+						$count_2 = $count_2 + 1;
+					}
+
+					if ($count_1 > 0)
+					{
+						$prom = round((($count_1 / $count_2) * 100), 2);
+
+						$data['labels'] .= "'Sin propietario (" . $prom . "%)'";
+						$data['datasets']['data'] .= "'" . $count_1 . "'";
+						$data['datasets']['colors'] .= "'#" . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . str_pad(dechex(mt_rand(0, 255)), 2, '0', STR_PAD_LEFT) . "'";
+					}
+				}
+				else if ($option == 's2_chart')
+				{
+					$nps_1 = 0;
+					$nps_2 = 0;
+					$nps_3 = 0;
+					$nps_4 = 0;
+					$detractores = 0;
+					$pasivos = 0;
+					$promotores = 0;
+					$answers = 0;
+
+					foreach ($query1 as $key => $value)
+					{
+						$average = 0;
+						$count_1 = 0;
+						$go_to_nps = false;
+
+						foreach ($value['values'] as $subkey => $subvalue)
 						{
-							foreach ($subvalue['values'] as $parentkey => $parentvalue)
+							$subvalue =  $this->database->select('surveys_questions', [
+								'type'
+							], [
+								'id' => $subkey
+							]);
+
+							if (!empty($subvalue))
 							{
-								if ($parentkey == $value['id'])
+								if ($subvalue[0]['type'] == 'nps')
 								{
-									if ($parentvalue == '1')
-										$count_level_1 = $count_level_1 + 1;
-									else if ($parentvalue == '2')
-										$count_level_2 = $count_level_2 + 1;
-									else if ($parentvalue == '3')
-										$count_level_3 = $count_level_3 + 1;
-									else if ($parentvalue == '4')
-										$count_level_4 = $count_level_4 + 1;
-									else if ($parentvalue == '5')
-										$count_level_5 = $count_level_5 + 1;
-									else if ($parentvalue == '6')
-										$count_level_6 = $count_level_6 + 1;
-									else if ($parentvalue == '7')
-										$count_level_7 = $count_level_7 + 1;
-									else if ($parentvalue == '8')
-										$count_level_8 = $count_level_8 + 1;
-									else if ($parentvalue == '9')
-										$count_level_9 = $count_level_9 + 1;
-									else if ($parentvalue == '10')
-										$count_level_10 = $count_level_10 + 1;
+									$average = $average + $value['values'][$subkey];
+									$count_1 = $count_1 + 1;
+									$go_to_nps = true;
 								}
 							}
 						}
 
-						$data['labels'] .= "'NPS 1','NPS 2','NPS 3','NPS 4','NPS 5','NPS 6','NPS 7','NPS 8','NPS 9','NPS 10'";
-						$data['datasets']['data'] .= $count_level_1 . ',' . $count_level_2 . ',' . $count_level_3 . ',' . $count_level_4 . ',' . $count_level_5 . ',' . $count_level_6 . ',' . $count_level_7 . ',' . $count_level_8 . ',' . $count_level_9 . ',' . $count_level_10;
-						$data['datasets']['colors'] .= "'#f44336','#ff5722','#ff9800','#ffc107','#ffeb3b','#cddc39','#8bc34a','#4caf50','#009688','#00a5ab'";
+						if ($average > 0 AND $count_1 > 0)
+						{
+							$average = round(($average / $count_1), 2);
+
+							if ($average <= 6)
+								$detractores = $detractores + 1;
+							else if ($average > 6 AND $average <= 8)
+								$pasivos = $pasivos + 1;
+							else if ($average > 8)
+								$promotores = $promotores + 1;
+						}
+
+						if ($go_to_nps == true)
+							$answers = $answers + 1;
 					}
+
+					$nps_1 = round((($detractores / $answers) * 100), 2);
+					$nps_2 = round((($pasivos / $answers) * 100), 2);
+					$nps_3 = round((($promotores / $answers) * 100), 2);
+					$nps_4 = round(($nps_3 - $nps_1));
+
+					$data['labels'] .= "'Detractores (" . $nps_1 . "%)','Pasivos (" . $nps_2 . "%)','Promotores (" . $nps_3 . "%)'";
+					$data['datasets']['data'] .= $detractores . ',' . $pasivos . ',' . $promotores;
+					$data['datasets']['colors'] .= "'#f44336','#ff5722','#ff9800'";
+					$data['nps'] = $nps_4;
 				}
 			}
 			else
@@ -938,7 +993,7 @@ class Surveys_model extends Model
 		//
 		// 				$average = 0;
 		// 				$rate = 0;
-		// 				$count = 0;
+		// 				$count_1 = 0;
 		//
 		// 				foreach ($query2 as $subvalue)
 		// 				{
@@ -949,7 +1004,7 @@ class Surveys_model extends Model
 		// 							if ($parentvalue['type'] == 'rate')
 		// 							{
 		// 								$rate = $rate + $parentvalue['answer'];
-		// 								$count = $count + 1;
+		// 								$count_1 = $count_1 + 1;
 		// 							}
 		//
 		// 							foreach ($parentvalue['subanswers'] as $childvalue)
@@ -957,7 +1012,7 @@ class Surveys_model extends Model
 		// 								if ($childvalue['type'] == 'rate')
 		// 								{
 		// 									$rate = $rate + $childvalue['answer'];
-		// 									$count = $count + 1;
+		// 									$count_1 = $count_1 + 1;
 		// 								}
 		//
 		// 								foreach ($childvalue['subanswers'] as $slavevalue)
@@ -965,7 +1020,7 @@ class Surveys_model extends Model
 		// 									if ($slavevalue['type'] == 'rate')
 		// 									{
 		// 										$rate = $rate + $slavevalue['answer'];
-		// 										$count = $count + 1;
+		// 										$count_1 = $count_1 + 1;
 		// 									}
 		// 								}
 		// 							}
@@ -973,8 +1028,8 @@ class Surveys_model extends Model
 		// 					}
 		// 				}
 		//
-		// 				if ($rate > 0 AND $count > 0)
-		// 					$average = round(($rate / $count), 2);
+		// 				if ($rate > 0 AND $count_1 > 0)
+		// 					$average = round(($rate / $count_1), 2);
 		//
 		// 				if ($average <= 0 AND $tmp > 0)
 		// 					$average = $tmp;
@@ -1034,7 +1089,7 @@ class Surveys_model extends Model
 		//
 		// 			$average_level_1 = 0;
 		// 			$rate_level_1 = 0;
-		// 			$count_level_1 = 0;
+		// 			$count_1_level_1 = 0;
 		//
 		// 			foreach ($query2 as $subvalue)
 		// 			{
@@ -1045,7 +1100,7 @@ class Surveys_model extends Model
 		// 						if ($parentvalue['type'] == 'rate')
 		// 						{
 		// 							$rate_level_1 = $rate_level_1 + $parentvalue['answer'];
-		// 							$count_level_1 = $count_level_1 + 1;
+		// 							$count_1_level_1 = $count_1_level_1 + 1;
 		// 						}
 		//
 		// 						foreach ($parentvalue['subanswers'] as $childvalue)
@@ -1053,7 +1108,7 @@ class Surveys_model extends Model
 		// 							if ($childvalue['type'] == 'rate')
 		// 							{
 		// 								$rate_level_1 = $rate_level_1 + $childvalue['answer'];
-		// 								$count_level_1 = $count_level_1 + 1;
+		// 								$count_1_level_1 = $count_1_level_1 + 1;
 		// 							}
 		//
 		// 							foreach ($childvalue['subanswers'] as $slavevalue)
@@ -1061,7 +1116,7 @@ class Surveys_model extends Model
 		// 								if ($slavevalue['type'] == 'rate')
 		// 								{
 		// 									$rate_level_1 = $rate_level_1 + $slavevalue['answer'];
-		// 									$count_level_1 = $count_level_1 + 1;
+		// 									$count_1_level_1 = $count_1_level_1 + 1;
 		// 								}
 		// 							}
 		// 						}
@@ -1069,8 +1124,8 @@ class Surveys_model extends Model
 		// 				}
 		// 			}
 		//
-		// 			if ($rate_level_1 > 0 AND $count_level_1 > 0)
-		// 				$average_level_1 = round(($rate_level_1 / $count_level_1), 2);
+		// 			if ($rate_level_1 > 0 AND $count_1_level_1 > 0)
+		// 				$average_level_1 = round(($rate_level_1 / $count_1_level_1), 2);
 		//
 		// 			if ($average_level_1 <= 0 AND $tmp_level_1 > 0)
 		// 				$average_level_1 = $tmp_level_1;
@@ -1111,7 +1166,7 @@ class Surveys_model extends Model
 		//
 		// 				$average_level_2 = 0;
 		// 				$rate_level_2 = 0;
-		// 				$count_level_2 = 0;
+		// 				$count_1_level_2 = 0;
 		//
 		// 				foreach ($query2 as $subvalue)
 		// 				{
@@ -1126,7 +1181,7 @@ class Surveys_model extends Model
 		// 									if ($childvalue['type'] == 'rate')
 		// 									{
 		// 										$rate_level_2 = $rate_level_2 + $childvalue['answer'];
-		// 										$count_level_2 = $count_level_2 + 1;
+		// 										$count_1_level_2 = $count_1_level_2 + 1;
 		// 									}
 		//
 		// 									foreach ($childvalue['subanswers'] as $slavevalue)
@@ -1134,7 +1189,7 @@ class Surveys_model extends Model
 		// 										if ($slavevalue['type'] == 'rate')
 		// 										{
 		// 											$rate_level_2 = $rate_level_2 + $slavevalue['answer'];
-		// 											$count_level_2 = $count_level_2 + 1;
+		// 											$count_1_level_2 = $count_1_level_2 + 1;
 		// 										}
 		// 									}
 		// 								}
@@ -1143,8 +1198,8 @@ class Surveys_model extends Model
 		// 					}
 		// 				}
 		//
-		// 				if ($rate_level_2 > 0 AND $count_level_2 > 0)
-		// 					$average_level_2 = round(($rate_level_2 / $count_level_2), 2);
+		// 				if ($rate_level_2 > 0 AND $count_1_level_2 > 0)
+		// 					$average_level_2 = round(($rate_level_2 / $count_1_level_2), 2);
 		//
 		// 				if ($average_level_2 <= 0 AND $tmp_level_2 > 0)
 		// 					$average_level_2 = $tmp_level_2;
@@ -1185,7 +1240,7 @@ class Surveys_model extends Model
 		//
 		// 					$average_level_3 = 0;
 		// 					$rate_level_3 = 0;
-		// 					$count_level_3 = 0;
+		// 					$count_1_level_3 = 0;
 		//
 		// 					foreach ($query2 as $parentvalue)
 		// 					{
@@ -1202,7 +1257,7 @@ class Surveys_model extends Model
 		// 											if ($intvalue['type'] == 'rate')
 		// 											{
 		// 												$rate_level_3 = $rate_level_3 + $intvalue['answer'];
-		// 												$count_level_3 = $count_level_3 + 1;
+		// 												$count_1_level_3 = $count_1_level_3 + 1;
 		// 											}
 		// 										}
 		// 									}
@@ -1211,8 +1266,8 @@ class Surveys_model extends Model
 		// 						}
 		// 					}
 		//
-		// 					if ($rate_level_3 > 0 AND $count_level_3 > 0)
-		// 						$average_level_3 = round(($rate_level_3 / $count_level_3), 2);
+		// 					if ($rate_level_3 > 0 AND $count_1_level_3 > 0)
+		// 						$average_level_3 = round(($rate_level_3 / $count_1_level_3), 2);
 		//
 		// 					if ($average_level_3 <= 0 AND $tmp_level_3 > 0)
 		// 						$average_level_3 = $tmp_level_3;
@@ -1241,11 +1296,9 @@ class Surveys_model extends Model
 		{
 			$AND = [
 				'account' => Session::get_value('account')['id'],
+				'survey' => $survey,
 				'date[<>]' => [Session::get_value('settings')['surveys']['stats']['filter']['started_date'],Session::get_value('settings')['surveys']['stats']['filter']['end_date']]
 			];
-
-			if (!empty($survey))
-				$AND['survey'] = $survey;
 
 			$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 				'reservation'
@@ -1329,32 +1382,26 @@ class Surveys_model extends Model
 
 	public function get_surveys_count($survey, $option)
 	{
-		$where = [];
+		$AND = [
+			'account' => Session::get_value('account')['id'],
+			'survey' => $survey
+		];
 
 		if ($option == 'today' OR $option == 'week' OR $option == 'month' OR $option == 'year')
 		{
-			$where = [
-				'AND' => [
-					'account' => Session::get_value('account')['id']
-				]
-			];
-
-			if (!empty($survey))
-				$where['AND']['survey'] = $survey;
-
 			if ($option == 'today')
-				$where['AND']['date'] = Functions::get_current_date();
+				$AND['date'] = Functions::get_current_date();
 			else if ($option == 'week')
-				$where['AND']['date[<>]'] = [Functions::get_current_week()[0],Functions::get_current_week()[1]];
+				$AND['date[<>]'] = [Functions::get_current_week()[0],Functions::get_current_week()[1]];
 			else if ($option == 'month')
-				$where['AND']['date[<>]'] = [Functions::get_current_month()[0],Functions::get_current_month()[1]];
+				$AND['date[<>]'] = [Functions::get_current_month()[0],Functions::get_current_month()[1]];
 			else if ($option == 'year')
-				$where['AND']['date[<>]'] = [Functions::get_current_year()[0],Functions::get_current_year()[1]];
+				$AND['date[<>]'] = [Functions::get_current_year()[0],Functions::get_current_year()[1]];
 		}
-		else if ($option == 'total')
-			$where['account'] = Session::get_value('account')['id'];
 
-		$query = $this->database->count('surveys_answers', $where);
+		$query = $this->database->count('surveys_answers', [
+			'AND' => $AND
+		]);
 
 		return $query;
 	}

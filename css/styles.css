@@ -5197,3 +5197,16 @@ div.contract.show {
         display: none !important;
     }
 }
+
+.surveys_charts > div {
+    position: relative;
+}
+
+.surveys_charts > div > h1 {
+    position: absolute;
+    left: 60px;
+    bottom: 60px;
+    font-size: 80px;
+    font-weight: 600;
+    color: #000;
+}

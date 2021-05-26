@@ -321,10 +321,6 @@ class Languages
                 'es' => 'Muchas gracias. Tu pedido ha sido entregado exitosamente.',
                 'en' => 'Thanks a lot. Your order has been successfully delivered.'
             ],
-            'check_out_todays_survey_stats' => [
-                'es' => 'Revisa las estadísticas de tu encuesta de hoy',
-                'en' => 'Check out todays survey statistics'
-            ],
             'average_day' => [
                 'es' => 'Promedio',
                 'en' => 'Average'
@@ -402,32 +398,32 @@ class Languages
                 'en' => 'Costs by location'
             ],
             's1_chart' => [
-                'es' => 'Encuestas respondidas por propietario',
-                'en' => 'Answered surveys by owner'
+                'es' => 'ENCUESTAS RESPONDIDAS',
+                'en' => 'ANSWERED SURVEYS'
             ],
             's2_chart' => [
-                'es' => '¿Qué tan probable es que nos recomiende a un amigo?',
-                'en' => 'How likely are you to refer us to a friend?'
+                'es' => 'NPS',
+                'en' => 'NPS'
             ],
             's3_chart' => [
                 'es' => '',
                 'en' => ''
             ],
             's4_chart' => [
-                'es' => 'Nacionalidad',
-                'en' => 'Nationality'
+                'es' => 'NACIONALIDAD',
+                'en' => 'NATIONALITY'
             ],
             's5_chart' => [
-                'es' => 'Canal de entrada',
-                'en' => 'Input channel'
+                'es' => 'CANAL DE ENTRADA',
+                'en' => 'INPUT CHANNEL'
             ],
             's6_chart' => [
-                'es' => 'Tipo de viajero',
-                'en' => 'Traveler type'
+                'es' => 'TIPO DE VIAJERO',
+                'en' => 'TRAVELER TYPE'
             ],
             's7_chart' => [
-                'es' => 'Grupo de edad',
-                'en' => 'Age group'
+                'es' => 'GRUPO DE EDAD',
+                'en' => 'AGE GROUP'
             ],
             'not_owner' => [
                 'es' => 'Sin propietario',
