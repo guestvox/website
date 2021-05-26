@@ -49,6 +49,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_stats");</script
             </div>
             <div>
                 <canvas id="s2_chart"></canvas>
+                <h1 id="nps"></h1>
             </div>
             <?php if (Session::get_value('account')['type'] == 'hotel' AND Session::get_value('account')['zaviapms']['status'] == true) : ?>
             <div class="small">

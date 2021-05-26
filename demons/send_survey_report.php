@@ -72,13 +72,23 @@
 
                 $average = 0;
                 $count = 0;
-                $nps = 0;
+                $nps_1 = 0;
+                $nps_2 = 0;
+                $nps_3 = 0;
+                $nps_4 = 0;
+                $nps_detractores = 0;
+                $nps_pasivos = 0;
+                $nps_promotores = 0;
+                $nps_answers = 0;
                 $comments = '';
 
                 foreach ($answers as $subkey => $subvalue)
                 {
                     $subvalue['values'] = json_decode($subvalue['values'], true);
                     $subvalue['reservation'] = json_decode($subvalue['reservation'], true);
+                    $nps_average = 0;
+                    $nps_count = 0;
+                    $nps_status = false;
 
                 	foreach ($subvalue['values'] as $intkey => $intvalue)
                 	{
@@ -88,12 +98,37 @@
                 			'id' => $intkey
                 		]);
 
-                		if ($intvalue[0]['type'] == 'rate')
-                		{
-                			$average = $average + $subvalue['values'][$intkey];
-                			$count = $count + 1;
-                		}
+                		if (!empty($intvalue))
+                        {
+                            if ($intvalue[0]['type'] == 'rate')
+                    		{
+                    			$average = $average + $subvalue['values'][$intkey];
+                    			$count = $count + 1;
+                    		}
+
+                            if ($intvalue[0]['type'] == 'nps')
+                    		{
+                    			$nps_average = $nps_average + $subvalue['values'][$intkey];
+                    			$nps_count = $nps_count + 1;
+                                $nps_status = true;
+                    		}
+                        }
                 	}
+
+                    if ($nps_average > 0 AND $nps_count > 0)
+                    {
+                        $nps_average = round(($nps_average / $nps_count), 2);
+
+                        if ($nps_average <= 6)
+                            $nps_detractores = $nps_detractores + 1;
+                        else if ($nps_average > 6 AND $nps_average <= 8)
+                            $nps_pasivos = $nps_pasivos + 1;
+                        else if ($nps_average > 8)
+                            $nps_promotores = $nps_promotores + 1;
+                    }
+
+                    if ($nps_status == true)
+                        $nps_answers = $nps_answers + 1;
 
                     if (!empty($subvalue['comment']))
                     {
@@ -111,7 +146,15 @@
                 }
 
                 if ($average > 0 AND $count > 0)
-            	   $average = round(($average / $count), 1);
+            	   $average = round(($average / $count), 2);
+
+               if ($nps_answers > 0)
+               {
+                   $nps_1 = round((($nps_detractores / $nps_answers) * 100), 2);
+                   $nps_2 = round((($nps_pasivos / $nps_answers) * 100), 2);
+                   $nps_3 = round((($nps_promotores / $nps_answers) * 100), 2);
+                   $nps_4 = round(($nps_3 - $nps_1), 2);
+               }
 
                 $mail = new Mailer(true);
 
@@ -119,7 +162,7 @@
                 {
                     $mail->setFrom('noreply@guestvox.com', 'Guestvox');
                     $mail->addAddress($value['report']['email'], $value['account_name']);
-                    $mail->Subject = Languages::email('check_out_todays_survey_stats')[$value['account_language']];
+                    $mail->Subject = date('d-m-Y') . ' | ' . Languages::email('day_report')[$value['account_language']] . ' | Encuestas';
                     $mail->Body =
                     '<html>
                         <head>
@@ -137,9 +180,9 @@
                                 <tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
                                     <td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
                                         <h4 style="width:100%;margin:0px 0px 10px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $value['name'][$value['account_language']] . '</h4>
-                                        <h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('day_report')[$value['account_language']] . ' ' . $date . '</h6>
-                                        <h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:18px;font-weight:400;color:#757575;">' . Languages::email('average_day')[$value['account_language']] . ': ' . (($average > 0 AND $count > 0) ? $average : Languages::email('not_available')[$value['account_language']]) . '</h6>
-                                        ' . (($value['nps'] == true) ? '<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:18px;font-weight:400;color:#757575;">' . Languages::email('day_nps')[$value['account_language']] . ': ' . $nps . '</h6>' : '') . '
+                                        <h6 style="width:100%;margin:0px 0px 20px 0px;padding:0px;font-size:18px;font-weight:400;text-align:center;color:#757575;">' . Languages::email('day_report')[$value['account_language']] . ' ' . date('d-m-Y') . '</h6>
+                                        <h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:18px;font-weight:400;color:#757575;">' . Languages::email('average_day')[$value['account_language']] . ': ' . (($average > 0 AND $count > 0) ? $average . ' Estrellas' : Languages::email('not_available')[$value['account_language']]) . '</h6>
+                                        ' . (($value['nps'] == true) ? '<h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:18px;font-weight:400;color:#757575;">' . Languages::email('day_nps')[$value['account_language']] . ': ' . (($nps_answers > 0) ? $nps_4 . '% (Detractores: ' . $nps_1 . '%, Pasivos: ' . $nps_2 . '%, Promotores: ' . $nps_3 . '%)' : Languages::email('not_available')[$value['account_language']]) . '</h6>' : '') . '
                                         <h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:18px;font-weight:400;color:#757575;">' . Languages::email('day_total_answers')[$value['account_language']] . ': ' . count($answers) . '</h6>
                                         <h6 style="width:100%;margin:0px 0px 5px 0px;padding:0px;font-size:18px;font-weight:400;color:#757575;">' . (!empty($comments) ? Languages::email('comments')[$value['account_language']] . ': ' : Languages::email('not_comments')[$value['account_language']]) . '</h6>
                                         ' . (!empty($comments) ? $comments : '') . '
