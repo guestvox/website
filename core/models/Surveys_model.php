@@ -479,15 +479,18 @@ class Surveys_model extends Model
 						'id' => $subkey
 					]);
 
-					$subvalue = [
-						'question' => $subvalue[0]['type'],
-						'answer' => $value['values'][$subkey]
-					];
-
-					if ($subvalue['question'] == 'rate')
+					if (!empty($subvalue))
 					{
-						$average = $average + $subvalue['answer'];
-						$count_1 = $count_1 + 1;
+						$subvalue = [
+							'question' => $subvalue[0]['type'],
+							'answer' => $value['values'][$subkey]
+						];
+
+						if ($subvalue['question'] == 'rate')
+						{
+							$average = $average + $subvalue['answer'];
+							$count_1 = $count_1 + 1;
+						}
 					}
 				}
 
