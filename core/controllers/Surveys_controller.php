@@ -228,7 +228,7 @@ class Surveys_controller extends Controller
 				{
 					set_time_limit(100000000);
 
-					$_POST['pdf'] = Session::get_value('account')['name'] . '_report_' . Functions::get_random(8) . '.pdf';
+					$_POST['pdf'] = Session::get_value('account')['path'] . '_report_' . Functions::get_random(8) . '.pdf';
 
 					$html2pdf = new Html2Pdf('P', 'A4', 'es', true, 'UTF-8', [0,0,0,0]);
 					$writing =
@@ -425,7 +425,7 @@ class Surveys_controller extends Controller
 					<table style="width:100%;margin:0px;padding:0px 40px;border:0px;box-sizing:border-box;background-color:#fff;">
 						<tr style="width:100%;margin:0px;padding:0px;border:0px;">
 							<td style="width:100%;margin:0px;padding:0px;border:0px;vertical-align:middle;font-size:12px;text-align:center;">
-								Power by <img style="height:13px;" src="' . PATH_IMAGES . '/logotype_color.png">
+								Powered by <img style="height:13px;" src="' . PATH_IMAGES . '/logotype_color.png">
 							</td>
 						</tr>
 					</table>';
