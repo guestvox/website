@@ -944,9 +944,18 @@ class Surveys_model extends Model
 					}
 
 					$data['labels'] .= "'Detractores (" . $nps_1 . "%)','Pasivos (" . $nps_2 . "%)','Promotores (" . $nps_3 . "%)'";
-					$data['datasets']['data'] .= $detractores . ',' . $pasivos . ',' . $promotores;
-					$data['datasets']['colors'] .= "'#f44336','#ff5722','#ff9800'";
 					$data['nps'] = $nps_4;
+
+					if ($nps_4 > 0)
+					{
+						$data['datasets']['data'] .= $detractores . ',' . $pasivos . ',' . $promotores;
+						$data['datasets']['colors'] .= "'#f44336','#ff5722','#ff9800'";
+					}
+					else
+					{
+						$data['datasets']['data'] .= '1,1,1';
+						$data['datasets']['colors'] .= "'#eee','#eee','#eee'";
+					}
 				}
 			}
 			else
