@@ -935,10 +935,13 @@ class Surveys_model extends Model
 							$answers = $answers + 1;
 					}
 
-					$nps_1 = round((($detractores / $answers) * 100), 2);
-					$nps_2 = round((($pasivos / $answers) * 100), 2);
-					$nps_3 = round((($promotores / $answers) * 100), 2);
-					$nps_4 = round(($nps_3 - $nps_1));
+					if ($nps_1 > 0 AND $nps_2 > 0 AND $nps_3 > 0)
+					{
+						$nps_1 = round((($detractores / $answers) * 100), 2);
+						$nps_2 = round((($pasivos / $answers) * 100), 2);
+						$nps_3 = round((($promotores / $answers) * 100), 2);
+						$nps_4 = round(($nps_3 - $nps_1));
+					}
 
 					$data['labels'] .= "'Detractores (" . $nps_1 . "%)','Pasivos (" . $nps_2 . "%)','Promotores (" . $nps_3 . "%)'";
 					$data['datasets']['data'] .= $detractores . ',' . $pasivos . ',' . $promotores;
