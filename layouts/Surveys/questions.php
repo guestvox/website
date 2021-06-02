@@ -15,12 +15,12 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_questions");</sc
         </div>
     </section>
     <section class="buttons">
-        <?php if (Functions::check_user_access(['{surveys_questions_create}']) == true) : ?>
         <div>
             <a href="/surveys" class="big delete"><i class="fas fa-times"></i></a>
+            <?php if (Functions::check_user_access(['{surveys_questions_create}']) == true) : ?>
             <a class="new" data-button-modal="new_survey_question"><i class="fas fa-plus"></i></a>
+            <?php endif; ?>
         </div>
-        <?php endif; ?>
     </section>
 </main>
 <?php if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}']) == true) : ?>

@@ -136,6 +136,20 @@ class Login_model extends Model
 						]
 					],
 					'surveys' => [
+						'reports' => [
+							'filter' => [
+								'search' => 'period',
+								'period_type' => 'days',
+								'period_number' => '7',
+								'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),
+								'end_date' => Functions::get_current_date(),
+								'owner' => 'all',
+								'rating' => 'all',
+								'general' => true,
+								'channels' => true,
+								'comments' => true
+							]
+						],
 						'answers' => [
 							'filter' => [
 								'started_date' => Functions::get_past_date(Functions::get_current_date(), '7', 'days'),

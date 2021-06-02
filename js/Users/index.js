@@ -8,7 +8,7 @@ $(document).ready(function()
     $(document).on('keyup', '[name="username"], [name="username"]', function()
     {
         var string = $(this).val().normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-        var filter = 'abcdefghijklmnñopqrstuvwxyz0123456789';
+        var filter = 'abcdefghijklmnñopqrstuvwxyz0123456789_';
         var out = '';
 
         for (var i = 0; i < string.length; i++)

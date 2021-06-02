@@ -14,12 +14,12 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_{$menu_focus}");
         {$tbl_surveys_comments}
     </section>
     <section class="buttons">
-        <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
         <div>
             <a href="/surveys" class="big delete"><i class="fas fa-times"></i></a>
+            <?php if (Functions::check_user_access(['{surveys_answers_view}']) == true) : ?>
             <a class="big new" data-button-modal="filter_surveys_answers"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
+            <?php endif; ?>
         </div>
-        <?php endif; ?>
     </section>
 </main>
 <section class="modal fullscreen" data-modal="preview_survey_answer">
@@ -41,7 +41,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_{$menu_focus}");
                         <div class="label">
                             <label required>
                                 <p>{$lang.started_date}</p>
-                                <input type="date" name="started_date" value="<?php echo Session::get_value('settings')['surveys']['answers']['filter']['started_date']; ?>">
+                                <input type="date" name="started_date" value="<?php echo Session::get_value('settings')['surveys']['reports']['filter']['started_date']; ?>">
                             </label>
                         </div>
                     </div>
@@ -49,7 +49,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_{$menu_focus}");
                         <div class="label">
                             <label required>
                                 <p>{$lang.end_date}</p>
-                                <input type="date" name="end_date" value="<?php echo Session::get_value('settings')['surveys']['answers']['filter']['end_date']; ?>">
+                                <input type="date" name="end_date" value="<?php echo Session::get_value('settings')['surveys']['reports']['filter']['end_date']; ?>">
                             </label>
                         </div>
                     </div>
@@ -58,8 +58,8 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_{$menu_focus}");
                             <label required>
                                 <p>{$lang.owner}</p>
                                 <select name="owner">
-                                    <option value="all" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
-                                    <option value="not_owner" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == 'not_owner') ? 'selected' : ''); ?>>Sin propietarios</option>
+                                    <option value="all" <?php echo ((Session::get_value('settings')['surveys']['reports']['filter']['owner'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
+                                    <option value="not_owner" <?php echo ((Session::get_value('settings')['surveys']['reports']['filter']['owner'] == 'not_owner') ? 'selected' : ''); ?>>Sin propietarios</option>
                                     {$opt_owners}
                                 </select>
                             </label>
@@ -70,12 +70,12 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_{$menu_focus}");
                             <label required>
                                 <p>{$lang.rating}</p>
                                 <select name="rating">
-                                    <option value="all" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['rating'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
-                                    <option value="1" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '1') ? 'selected' : ''); ?>>1</option>
-                                    <option value="2" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '2') ? 'selected' : ''); ?>>2</option>
-                                    <option value="3" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '3') ? 'selected' : ''); ?>>3</option>
-                                    <option value="4" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '4') ? 'selected' : ''); ?>>4</option>
-                                    <option value="5" <?php echo ((Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '5') ? 'selected' : ''); ?>>5</option>
+                                    <option value="all" <?php echo ((Session::get_value('settings')['surveys']['reports']['filter']['rating'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
+                                    <option value="1" <?php echo ((Session::get_value('settings')['surveys']['reports']['filter']['rating'] == '1') ? 'selected' : ''); ?>>1</option>
+                                    <option value="2" <?php echo ((Session::get_value('settings')['surveys']['reports']['filter']['rating'] == '2') ? 'selected' : ''); ?>>2</option>
+                                    <option value="3" <?php echo ((Session::get_value('settings')['surveys']['reports']['filter']['rating'] == '3') ? 'selected' : ''); ?>>3</option>
+                                    <option value="4" <?php echo ((Session::get_value('settings')['surveys']['reports']['filter']['rating'] == '4') ? 'selected' : ''); ?>>4</option>
+                                    <option value="5" <?php echo ((Session::get_value('settings')['surveys']['reports']['filter']['rating'] == '5') ? 'selected' : ''); ?>>5</option>
                                 </select>
                             </label>
                         </div>

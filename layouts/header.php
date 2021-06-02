@@ -43,11 +43,11 @@
             <?php if (Functions::check_user_access(['{voxes_stats_view}']) == true) : ?>
             <li target="voxes_stats"><a href="/voxes/stats">{$lang.stats}<i class="fas fa-chart-pie"></i></a></li>
             <?php endif; ?>
+            <?php if (Functions::check_user_access(['{voxes_reports_print}']) == true) : ?>
+            <li target="voxes_reports_generate"><a href="/voxes/reports/generate">Reporteo<i class="fas fa-bug"></i></a></li>
+            <?php endif; ?>
             <?php if (Functions::check_user_access(['{voxes_reports_create}','{voxes_reports_update}','{voxes_reports_deactivate}','{voxes_reports_activate}','{voxes_reports_delete}']) == true) : ?>
             <li target="voxes_reports_saved"><a href="/voxes/reports/saved">{$lang.reports_saved}<i class="fas fa-save"></i></a></li>
-            <?php endif; ?>
-            <?php if (Functions::check_user_access(['{voxes_reports_print}']) == true) : ?>
-            <li target="voxes_reports_generate"><a href="/voxes/reports/generate">{$lang.generate_reports}<i class="fas fa-bug"></i></a></li>
             <?php endif; ?>
         </ul>
     </nav>

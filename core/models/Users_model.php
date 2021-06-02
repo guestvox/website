@@ -162,11 +162,25 @@ class Users_model extends Model
 		return $query;
 	}
 
-	public function check_exist_user($field, $value)
+	public function check_exist_user($data, $field)
 	{
-		$count = $this->database->count('users', [
-			$field => $value
-		]);
+		if ($data['action'] == 'new_user')
+		{
+			$where = [
+				$field => $data[$field]
+			];
+		}
+		else if ($data['action'] == 'edit_user')
+		{
+			$where = [
+				'AND' => [
+					'id[!]' => $data['id'],
+					$field => $data[$field]
+				]
+			];
+		}
+
+		$count = $this->database->count('users', $where);
 
 		return ($count > 0) ? true : false;
 	}

@@ -2,6 +2,9 @@
 
 defined('_EXEC') or die;
 
+require 'vendor/autoload.php';
+use Spipu\Html2Pdf\Html2Pdf;
+
 class Surveys_controller extends Controller
 {
 	private $lang;
@@ -141,20 +144,545 @@ class Surveys_controller extends Controller
 							</figure>
 						</div>
 					</div>
-					<div class="buttons">
+					<div class="buttons flex_left">
+						' . ((Functions::check_user_access(['{surveys_reports_print}']) == true) ? '<a class="big" href="/surveys/reports/print/' . $value['id'] . '"><i class="fas fa-bug"></i><span>Reportes</span></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_stats_view}']) == true) ? '<a class="big" href="/surveys/stats/' . $value['id'] . '"><i class="fas fa-chart-pie"></i><span>{$lang.stats}</span></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_answers_view}']) == true) ? '<a class="big" href="/surveys/answers/raters/' . $value['id'] . '"><i class="fas fa-star"></i><span>{$lang.answers}</span></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_answers_view}']) == true) ? '<a class="big" href="/surveys/answers/comments/' . $value['id'] . '"><i class="fas fa-comment-alt"></i><span>{$lang.comments}</span></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) ? '<a class="big" href="/surveys/questions/' . $value['id'] . '"><i class="fas fa-ghost"></i><span>{$lang.questions}</span></a>' : '') . '
-						' . ((Functions::check_user_access(['{surveys_questions_deactivate}','{surveys_questions_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_survey' : 'activate_survey') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+						' . ((Functions::check_user_access(['{surveys_questions_deactivate}','{surveys_questions_activate}']) == true) ? '<a data-action="' . (($value['status'] == true) ? 'deactivate_survey' : 'activate_survey') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
 					</div>
 				</div>';
 			}
 
 			$replace = [
 				'{$tbl_surveys}' => $tbl_surveys
+			];
+
+			$template = $this->format->replace($replace, $template);
+
+			echo $template;
+		}
+	}
+
+	public function reports($params)
+	{
+		$survey = $this->model->get_survey($params[1]);
+		$average = $this->model->get_surveys_average($params[1]);
+		$nps = $this->model->get_chart_data($params[1], 's2_chart');
+		$answers = $this->model->get_surveys_answers($params[1], 'raters');
+
+		if (Session::get_value('settings')['surveys']['reports']['filter']['channels'] == true AND Session::get_value('account')['type'] == 'hotel' AND Session::get_value('account')['zaviapms']['status'] == true)
+		{
+			$nationalities = $this->model->get_chart_data($params[1], 's4_chart');
+			$nationalities_labels = explode(',', $nationalities['labels']);
+			$nationalities_data = explode(',', $nationalities['datasets']['data']);
+
+			$input_channels = $this->model->get_chart_data($params[1], 's5_chart');
+			$input_channels_labels = explode(',', $input_channels['labels']);
+			$input_channels_data = explode(',', $input_channels['datasets']['data']);
+
+			$traveler_types = $this->model->get_chart_data($params[1], 's6_chart');
+			$traveler_types_labels = explode(',', $traveler_types['labels']);
+			$traveler_types_data = explode(',', $traveler_types['datasets']['data']);
+
+			$age_groups = $this->model->get_chart_data($params[1], 's7_chart');
+			$age_groups_labels = explode(',', $age_groups['labels']);
+			$age_groups_data = explode(',', $age_groups['datasets']['data']);
+		}
+
+		if (Format::exist_ajax_request() == true)
+		{
+			if ($_POST['action'] == 'filter_surveys_reports')
+			{
+				$settings = Session::get_value('settings');
+
+				$settings['surveys']['reports']['filter']['search'] = $_POST['search'];
+				$settings['surveys']['reports']['filter']['period_type'] = $_POST['period_type'];
+				$settings['surveys']['reports']['filter']['period_number'] = $_POST['period_number'];
+				$settings['surveys']['reports']['filter']['started_date'] = ($_POST['search'] == 'period') ? Functions::get_past_date(Functions::get_current_date(), $_POST['period_number'], $_POST['period_type']) : $_POST['started_date'];
+				$settings['surveys']['reports']['filter']['end_date'] = ($_POST['search'] == 'period') ? Functions::get_current_date() : $_POST['end_date'];
+				$settings['surveys']['reports']['filter']['owner'] = $_POST['owner'];
+				$settings['surveys']['reports']['filter']['rating'] = $_POST['rating'];
+				$settings['surveys']['reports']['filter']['general'] = !empty($_POST['general']) ? true : false;
+				$settings['surveys']['reports']['filter']['channels'] = !empty($_POST['channels']) ? true : false;
+				$settings['surveys']['reports']['filter']['comments'] = !empty($_POST['comments']) ? true : false;
+
+				Session::set_value('settings', $settings);
+
+				Functions::environment([
+					'status' => 'success'
+				]);
+			}
+
+			if ($_POST['action'] == 'send_survey_report')
+			{
+				$labels = [];
+
+				if (!isset($_POST['emails']) OR empty($_POST['emails']))
+					array_push($labels, ['emails','']);
+
+				if (empty($labels))
+				{
+					set_time_limit(100000000);
+
+					$_POST['pdf'] = Session::get_value('account')['name'] . '_report_' . Functions::get_random(8) . '.pdf';
+
+					$html2pdf = new Html2Pdf('P', 'A4', 'es', true, 'UTF-8', [0,0,0,0]);
+					$writing =
+					'<table style="width:100%;margin:0px;padding:20px 40px;border:0px;border-top:20px;border-color:#00a5ab;box-sizing:border-box;background-color:#fff;">
+						<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+							<td style="width:20%;margin:0px;padding:0px;border:0px;vertical-align:middle;">
+								<img style="width:100%;" src="' . PATH_UPLOADS .  Session::get_value('account')['logotype'] . '">
+							</td>
+							<td style="width:80%;margin:0px;padding:0px;border:0px;vertical-align:middle;">
+								<table style="width:100%;margin:0px;padding:0px;border:0px;">
+									<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+										<td style="width:100%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:24px;font-weight:600;text-transform:uppercase;text-align:right;color:#00a5ab;">' . Session::get_value('account')['name'] . '</td>
+									</tr>
+									<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+										<td style="width:100%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:18px;font-weight:400;text-transform:uppercase;text-align:right;color:#00a5ab;">Periodo del reporte: ' .  Session::get_value('settings')['surveys']['reports']['filter']['started_date'] . ' ' . Session::get_value('settings')['surveys']['reports']['filter']['end_date'] . '</td>
+									</tr>
+									<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+										<td style="width:100%;margin:0px;padding:0px 0px 5px 0px;border:0px;font-size:14px;font-weight:400;text-align:right;color:#00a5ab;">Reporte generado el ' . Functions::get_current_date()  . '</td>
+									</tr>
+									<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+										<td style="width:100%;margin:0px;padding:0px;border:0px;vertical-align:middle;text-align:right;">
+											<img style="height:60px;" src="' . PATH_UPLOADS .  $survey['qr'] . '">
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					</table>';
+
+					if (Session::get_value('settings')['surveys']['reports']['filter']['general'] == true)
+					{
+						$writing .=
+						'<table style="width:100%;margin:0px;padding:0px 40px 5px 40px;border:0px;box-sizing:border-box;background-color:#fff;">
+							<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<td style="width:100%;margin:0px;padding:0px 0px 0px 10px;border:0px;border-left:5px;border-color:#00a5ab;box-sizing:border-box;font-size:18px;font-weight:600;text-transform:uppercase;text-align:left;color:#24383f;">Información general</td>
+							</tr>
+						</table>
+						<table style="width:100%;margin:0px;padding:0px 40px 20px 40px;border:0px;box-sizing:border-box;background-color:#fff;">
+							<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<td style="width:5%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">ID</td>
+								<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Folio</td>
+								<td style="width:40%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Nombre</td>
+								<td style="width:15%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Tipo</td>
+								<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Promedio</td>
+								<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Respuestas</td>
+								<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">NPS</td>
+							</tr>
+							<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<td style="width:5%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . $survey['id'] . '</td>
+								<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . $survey['token'] . '</td>
+								<td style="width:40%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . $survey['name']['es'] . '</td>
+								<td style="width:15%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . (($survey['main'] == true) ? 'Predeterminada' : 'Independiente') . '</td>
+								<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . $average . ' pts</td>
+								<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . count($answers) . '</td>
+								<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . (($survey['nps'] == true AND isset($nps['nps']) AND !empty($nps['nps'])) ? $nps['nps'] . '%' : 'No aplica') . '</td>
+							</tr>
+						</table>';
+					}
+
+					if (Session::get_value('settings')['surveys']['reports']['filter']['channels'] == true AND Session::get_value('account')['type'] == 'hotel' AND Session::get_value('account')['zaviapms']['status'] == true)
+					{
+						$writing .=
+						'<table style="width:100%;margin:0px;padding:0px 40px 5px 40px;border:0px;box-sizing:border-box;background-color:#fff;">
+							<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<td style="width:100%;margin:0px;padding:0px 0px 0px 10px;border:0px;border-left:5px;border-color:#00a5ab;box-sizing:border-box;font-size:18px;font-weight:600;text-transform:uppercase;text-align:left;color:#24383f;">Canales</td>
+							</tr>
+						</table>
+						<table style="width:100%;margin:0px;padding:0px 40px 20px 40px;border:0px;box-sizing:border-box;background-color:#fff;">
+							<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<td style="width:25%;margin:0px;padding:0px;border:0px;vertical-align:middle;">
+									<table style="width:100%;margin:0px;padding:0px;border:0px;background-color:#fff;">
+										<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+											<td style="width:60%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Nacionalidades</td>
+											<td style="width:40%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;"></td>
+										</tr>';
+
+						foreach ($nationalities_labels as $key => $value)
+						{
+							$writing .=
+							'<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<td style="width:60%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . str_replace("'", "", trim($value)) . '</td>
+								<td style="width:40%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . $nationalities_data[$key] . ' Registros</td>
+							</tr>';
+						}
+
+						$writing .=
+						'			</table>
+								</td>
+								<td style="width:25%;margin:0px;padding:0px;border:0px;vertical-align:middle;">
+									<table style="width:100%;margin:0px;padding:0px;border:0px;background-color:#fff;">
+										<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+											<td style="width:60%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Canales de entrada</td>
+											<td style="width:40%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;"></td>
+										</tr>';
+
+						foreach ($input_channels_labels as $key => $value)
+						{
+							$writing .=
+							'<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<td style="width:60%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . str_replace("'", "", trim($value)) . '</td>
+								<td style="width:40%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . $input_channels_data[$key] . ' Registros</td>
+							</tr>';
+						}
+
+						$writing .=
+						'			</table>
+								</td>
+								<td style="width:25%;margin:0px;padding:0px;border:0px;vertical-align:middle;">
+									<table style="width:100%;margin:0px;padding:0px;border:0px;background-color:#fff;">
+										<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+											<td style="width:60%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Tipos de viajero</td>
+											<td style="width:40%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;"></td>
+										</tr>';
+
+						foreach ($traveler_types_labels as $key => $value)
+						{
+							$writing .=
+							'<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<td style="width:60%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . str_replace("'", "", trim($value)) . '</td>
+								<td style="width:40%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . $traveler_types_data[$key] . ' Registros</td>
+							</tr>';
+						}
+
+						$writing .=
+						'			</table>
+								</td>
+								<td style="width:25%;margin:0px;padding:0px;border:0px;vertical-align:middle;">
+									<table style="width:100%;margin:0px;padding:0px;border:0px;background-color:#fff;">
+										<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+											<td style="width:60%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Grupos de edad</td>
+											<td style="width:40%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;"></td>
+										</tr>';
+
+						foreach ($age_groups_labels as $key => $value)
+						{
+							$writing .=
+							'<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<td style="width:60%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . str_replace("'", "", trim($value)) . '</td>
+								<td style="width:40%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . $age_groups_data[$key] . ' Registros</td>
+							</tr>';
+						}
+
+						$writing .=
+						'			</table>
+								</td>
+							</tr>
+						</table>';
+					}
+
+					$writing .=
+					'<table style="width:100%;margin:0px;padding:0px 40px 5px 40px;border:0px;box-sizing:border-box;background-color:#fff;">
+						<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+							<td style="width:100%;margin:0px;padding:0px 0px 0px 10px;border:0px;border-left:5px;border-color:#00a5ab;box-sizing:border-box;font-size:18px;font-weight:600;text-transform:uppercase;text-align:left;color:#24383f;">Respuestas</td>
+						</tr>
+					</table>
+					<table style="width:100%;margin:0px;padding:0px 40px 20px 40px;border:0px;box-sizing:border-box;background-color:#fff;">
+						<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+							<td style="width:5%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">ID</td>
+							<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Folio</td>
+							<td style="width:35%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Nombre</td>
+							<td style="width:20%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Fecha</td>
+							<td style="width:20%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Propietario</td>
+							<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">Promedio</td>
+						</tr>';
+
+					foreach ($answers as $value)
+					{
+						$writing .=
+						'<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+							<td style="width:5%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . $value['id'] . '</td>
+							<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . $value['token'] . '</td>
+							<td style="width:35%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . (!empty($value['owner']) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($query['reservation']['firstname']) AND !empty($query['reservation']['lastname'])) ? $query['reservation']['firstname'] . ' ' . $query['reservation']['lastname'] : 'Anónimo') : $value['firstname'] . ' ' . $value['lastname']) . '</td>
+							<td style="width:20%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</td>
+							<td style="width:20%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . (!empty($value['owner']) ? $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') : 'Sin propietario') . '</td>
+							<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . $value['average'] . ' pts</td>
+						</tr>';
+
+						if (Session::get_value('settings')['surveys']['reports']['filter']['comments'] == true AND !empty($value['comment']))
+						{
+							$writing .=
+							'<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+								<td style="width:5%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;"></td>
+								<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;"></td>
+								<td style="width:35%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;">' . $value['comment'] . '</td>
+								<td style="width:20%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;"></td>
+								<td style="width:20%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;"></td>
+								<td style="width:10%;margin:0px;padding:0px 0px 5px 0px;border:0px;box-sizing:border-box;font-size:10px;font-weight:400;text-align:left;color:#757575;"></td>
+							</tr>';
+						}
+					}
+
+					$writing .=
+					'</table>
+					<table style="width:100%;margin:0px;padding:0px 40px;border:0px;box-sizing:border-box;background-color:#fff;">
+						<tr style="width:100%;margin:0px;padding:0px;border:0px;">
+							<td style="width:100%;margin:0px;padding:0px;border:0px;vertical-align:middle;font-size:12px;text-align:center;">
+								Power by <img style="height:13px;" src="' . PATH_IMAGES . '/logotype_color.png">
+							</td>
+						</tr>
+					</table>';
+					$html2pdf->writeHTML($writing);
+					$html2pdf->output(PATH_UPLOADS . $_POST['pdf'], 'F');
+
+					$mail = new Mailer(true);
+
+	                try
+	                {
+	                    $mail->setFrom('noreply@guestvox.com', 'Guestvox');
+
+						$_POST['emails'] = explode(',', $_POST['emails']);
+
+						foreach ($_POST['emails'] as $value)
+							$mail->addAddress(trim($value), Session::get_value('account')['name']);
+
+						$mail->addAttachment(PATH_UPLOADS . $_POST['pdf']);
+	                    $mail->Subject = 'Reporte de encuesta | ' . $survey['name']['es'] . ' | ' . Functions::get_current_date();
+	                    $mail->Body =
+	                    '<html>
+	                        <head>
+	                            <title>' . $mail->Subject . '</title>
+	                        </head>
+	                        <body>
+	                            <table style="width:600px;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#eee">
+	                                <tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+	                                    <td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+	                                        <figure style="width:100%;margin:0px;padding:0px;text-align:center;">
+	                                            <img style="width:100%;max-width:300px;" src="https://' . Configuration::$domain . '/uploads/' . Session::get_value('account')['logotype'] . '">
+	                                        </figure>
+	                                    </td>
+	                                </tr>
+	                                <tr style="width:100%;margin:0px 0px 10px 0px;padding:0px;border:0px;">
+	                                    <td style="width:100%;margin:0px;padding:40px 20px;border:0px;box-sizing:border-box;background-color:#fff;">
+	                                        <h4 style="width:100%;margin:0px 0px 10px 0px;padding:0px;font-size:18px;font-weight:600;text-align:center;color:#212121;">' . $survey['name']['es'] . '</h4>
+	                                        <h6 style="width:100%;margin:0px;padding:0px;font-size:18px;font-weight:400;text-align:center;color:#757575;">Periodo del reporte: ' . Session::get_value('settings')['surveys']['reports']['filter']['started_date'] . ' al ' . Session::get_value('settings')['surveys']['reports']['filter']['end_date'] . '</h6>
+	                                    </td>
+	                                </tr>
+	                                <tr style="width:100%;margin:0px;padding:0px;border:0px;">
+	                                    <td style="width:100%;margin:0px;padding:20px;border:0px;box-sizing:border-box;background-color:#fff;">
+	                                        <a style="width:100%;display:block;padding:20px 0px;box-sizing:border-box;font-size:14px;font-weight:400;text-align:center;text-decoration:none;color:#757575;" href="https://' . Configuration::$domain . '">' . Configuration::$domain . '</a>
+	                                    </td>
+	                                </tr>
+	                            </table>
+	                        </body>
+	                    </html>';
+	                    $mail->send();
+	                }
+	                catch (Exception $e) { }
+
+					Functions::environment([
+						'status' => 'success',
+						'message' => '{$lang.operation_success}'
+					]);
+				}
+				else
+				{
+					Functions::environment([
+						'status' => 'error',
+						'labels' => $labels
+					]);
+				}
+			}
+		}
+		else
+		{
+			$template = $this->view->render($this, 'reports');
+
+			define('_title', 'Guestvox | Encuestas | Reportes');
+
+			$tbl_report = '';
+
+			if (Session::get_value('settings')['surveys']['reports']['filter']['general'] == true)
+			{
+				$tbl_report .=
+				'<table style="width:100%;margin-bottom:60px;">
+					<thead>
+						<tr>
+							<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">ID</th>
+							<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Folio</th>
+							<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Nombre</th>
+							<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Tipo</th>
+							<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Promedio general</th>
+							<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Respuestas</th>
+							<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">NPS</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . $survey['id'] . '</td>
+							<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . $survey['token'] . '</td>
+							<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . $survey['name']['es'] . '</td>
+							<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . (($survey['main'] == true) ? 'Predeterminada' : 'Independiente') . '</td>
+							<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . $average . ' pts</td>
+							<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . count($answers) . ' respuestas</td>
+							<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . (($survey['nps'] == true AND isset($nps['nps']) AND !empty($nps['nps'])) ? $nps['nps'] . '%' : 'No aplica') . '</td>
+						<tr>
+					</tbody>
+				</table>';
+			}
+
+			if (Session::get_value('settings')['surveys']['reports']['filter']['channels'] == true AND Session::get_value('account')['type'] == 'hotel' AND Session::get_value('account')['zaviapms']['status'] == true)
+			{
+				$tbl_report .=
+				'<div class="row">
+					<div class="span3" style="padding-right:20px;">
+						<table style="width:100%;margin-bottom:60px;">
+							<thead>
+								<tr>
+									<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Nacionalidades</th>
+									<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;"></th>
+								</tr>
+							</thead>
+							<tbody>';
+
+				foreach ($nationalities_labels as $key => $value)
+				{
+					$tbl_report .=
+					'<tr>
+						<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . str_replace("'", "", trim($value)) . '</td>
+						<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . $nationalities_data[$key] . ' registros</td>
+					<tr>';
+				}
+
+				$tbl_report .=
+				'			</tbody>
+						</table>
+					</div>
+					<div class="span3" style="padding-right:20px;">
+						<table style="width:100%;margin-bottom:60px;">
+							<thead>
+								<tr>
+									<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Canales de entrada</th>
+									<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;"></th>
+								</tr>
+							</thead>
+							<tbody>';
+
+				foreach ($input_channels_labels as $key => $value)
+				{
+					$tbl_report .=
+					'<tr>
+						<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . str_replace("'", "", trim($value)) . '</td>
+						<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . $input_channels_data[$key] . ' registros</td>
+					<tr>';
+				}
+
+				$tbl_report .=
+				'			</tbody>
+						</table>
+					</div>
+					<div class="span3" style="padding-right:20px;">
+						<table style="width:100%;margin-bottom:60px;">
+							<thead>
+								<tr>
+									<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Tipos de viajero</th>
+									<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;"></th>
+								</tr>
+							</thead>
+							<tbody>';
+
+				foreach ($traveler_types_labels as $key => $value)
+				{
+					$tbl_report .=
+					'<tr>
+						<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . str_replace("'", "", trim($value)) . '</td>
+						<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . $traveler_types_data[$key] . ' registros</td>
+					<tr>';
+				}
+
+				$tbl_report .=
+				'			</tbody>
+						</table>
+					</div>
+					<div class="span3" style="padding-right:20px;">
+						<table style="width:100%;margin-bottom:60px;">
+							<thead>
+								<tr>
+									<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Grupos de edad</th>
+									<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;"></th>
+								</tr>
+							</thead>
+							<tbody>';
+
+				foreach ($age_groups_labels as $key => $value)
+				{
+					$tbl_report .=
+					'<tr>
+						<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . str_replace("'", "", trim($value)) . '</td>
+						<td style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#757575;">' . $age_groups_data[$key] . ' registros</td>
+					<tr>';
+				}
+
+				$tbl_report .=
+				'			</tbody>
+						</table>
+					</div>
+				</div>';
+			}
+
+			$tbl_report .=
+			'<table style="width:100%;">
+				<thead>
+					<tr>
+						<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">ID</th>
+						<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Folio</th>
+						<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Nombre</th>
+						<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Fecha</th>
+						<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Propietario</th>
+						<th style="padding:10px;border-bottom:1px dashed #e0e0e0;text-align:left;color:#212121;">Promedio</th>
+					</tr>
+				</thead>
+	            <tbody>';
+
+			foreach ($answers as $value)
+			{
+				$tbl_report .=
+				'<tr>
+					<td style="padding:10px;' . (empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#757575;">' . $value['id'] . '</td>
+					<td style="padding:10px;' . (empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#757575;">' . $value['token'] . '</td>
+					<td style="padding:10px;' . (empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#757575;">' . (!empty($value['owner']) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($query['reservation']['firstname']) AND !empty($query['reservation']['lastname'])) ? $query['reservation']['firstname'] . ' ' . $query['reservation']['lastname'] : '{$lang.not_name}') : $value['firstname'] . ' ' . $value['lastname']) . '</td>
+					<td style="padding:10px;' . (empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#757575;">' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</td>
+					<td style="padding:10px;' . (empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#757575;">' . (!empty($value['owner']) ? $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') : 'Sin propietario') . '</td>
+					<td style="padding:10px;' . (empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#757575;">' . $value['average'] . ' pts</td>
+				<tr>';
+
+				if (Session::get_value('settings')['surveys']['reports']['filter']['comments'] == true AND !empty($value['comment']))
+				{
+					$tbl_report .=
+					'<tr>
+						<td style="padding:0px 10px 10px 10px;' . (!empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#bdbdbd;"></td>
+						<td style="padding:0px 10px 10px 10px;' . (!empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#bdbdbd;"></td>
+						<td style="padding:0px 10px 10px 10px;' . (!empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#bdbdbd;">' . $value['comment'] . '</td>
+						<td style="padding:0px 10px 10px 10px;' . (!empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#bdbdbd;"></td>
+						<td style="padding:0px 10px 10px 10px;' . (!empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#bdbdbd;"></td>
+						<td style="padding:0px 10px 10px 10px;' . (!empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#bdbdbd;"></td>
+					<tr>';
+				}
+			}
+
+			$tbl_report .=
+	        '    </tbody>
+	        </table>';
+
+			$opt_owners = '';
+
+			foreach ($this->model->get_owners('survey') as $value)
+				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['reports']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+
+			$replace = [
+				'{$menu_focus}' => $params[0],
+				'{$started_date}' => Session::get_value('settings')['surveys']['reports']['filter']['started_date'],
+				'{$end_date}' => Session::get_value('settings')['surveys']['reports']['filter']['end_date'],
+				'{$qr}' => $survey['qr'],
+				'{$tbl_report}' => $tbl_report,
+				'{$opt_owners}' => $opt_owners
 			];
 
 			$template = $this->format->replace($replace, $template);
@@ -171,9 +699,9 @@ class Surveys_controller extends Controller
 			{
 				$settings = Session::get_value('settings');
 
-				$settings['surveys']['stats']['filter']['started_date'] = $_POST['started_date'];
-				$settings['surveys']['stats']['filter']['end_date'] = $_POST['end_date'];
-				$settings['surveys']['stats']['filter']['owner'] = $_POST['owner'];
+				$settings['surveys']['reports']['filter']['started_date'] = $_POST['started_date'];
+				$settings['surveys']['reports']['filter']['end_date'] = $_POST['end_date'];
+				$settings['surveys']['reports']['filter']['owner'] = $_POST['owner'];
 
 				Session::set_value('settings', $settings);
 
@@ -215,7 +743,7 @@ class Surveys_controller extends Controller
 			$opt_owners = '';
 
 			foreach ($this->model->get_owners('survey') as $value)
-				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['stats']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+				$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['reports']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 
 			$replace = [
 				'{$h2_surveys_average}' => $h2_surveys_average,
@@ -467,10 +995,10 @@ class Surveys_controller extends Controller
 				{
 					$settings = Session::get_value('settings');
 
-					$settings['surveys']['answers']['filter']['started_date'] = $_POST['started_date'];
-					$settings['surveys']['answers']['filter']['end_date'] = $_POST['end_date'];
-					$settings['surveys']['answers']['filter']['owner'] = $_POST['owner'];
-					$settings['surveys']['answers']['filter']['rating'] = $_POST['rating'];
+					$settings['surveys']['reports']['filter']['started_date'] = $_POST['started_date'];
+					$settings['surveys']['reports']['filter']['end_date'] = $_POST['end_date'];
+					$settings['surveys']['reports']['filter']['owner'] = $_POST['owner'];
+					$settings['surveys']['reports']['filter']['rating'] = $_POST['rating'];
 
 					Session::set_value('settings', $settings);
 
@@ -1028,7 +1556,7 @@ class Surveys_controller extends Controller
 				$opt_owners = '';
 
 				foreach ($this->model->get_owners('survey') as $value)
-					$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['answers']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
+					$opt_owners .= '<option value="' . $value['id'] . '" ' . ((Session::get_value('settings')['surveys']['reports']['filter']['owner'] == $value['id']) ? 'selected' : '') . '>' . $value['name'][$this->lang] . (!empty($value['number']) ? ' #' . $value['number'] : '') . '</option>';
 
 				$opt_ladas = '';
 
