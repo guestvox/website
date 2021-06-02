@@ -804,11 +804,11 @@ class Surveys_controller extends Controller
 	        },
 	        options: {
 				title: {
-					display: false,
+					display: true,
 					text: '" . Languages::charts('s1_chart')[$this->lang] . "'
 				},
 				legend: {
-					display: true,
+					display: false,
 					position: 'left'
 				},
 	            responsive: true
