@@ -647,7 +647,7 @@ class Surveys_controller extends Controller
 				'<tr>
 					<td style="padding:10px;' . (empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#757575;">' . $value['id'] . '</td>
 					<td style="padding:10px;' . (empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#757575;">' . $value['token'] . '</td>
-					<td style="padding:10px;' . (empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#757575;">' . (!empty($value['owner']) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($query['reservation']['firstname']) AND !empty($query['reservation']['lastname'])) ? $query['reservation']['firstname'] . ' ' . $query['reservation']['lastname'] : '{$lang.not_name}') : $value['firstname'] . ' ' . $value['lastname']) . '</td>
+					<td style="max-width:200px;padding:10px;' . (empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#757575;">' . (!empty($value['owner']) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($query['reservation']['firstname']) AND !empty($query['reservation']['lastname'])) ? $query['reservation']['firstname'] . ' ' . $query['reservation']['lastname'] : '{$lang.not_name}') : $value['firstname'] . ' ' . $value['lastname']) . '</td>
 					<td style="padding:10px;' . (empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#757575;">' . Functions::get_formatted_date($value['date'], 'd.m.Y') . ' ' . Functions::get_formatted_hour($value['hour'], '+ hrs') . '</td>
 					<td style="padding:10px;' . (empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#757575;">' . (!empty($value['owner']) ? $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') : 'Sin propietario') . '</td>
 					<td style="padding:10px;' . (empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#757575;">' . $value['average'] . ' pts</td>
@@ -659,7 +659,7 @@ class Surveys_controller extends Controller
 					'<tr>
 						<td style="padding:0px 10px 10px 10px;' . (!empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#bdbdbd;"></td>
 						<td style="padding:0px 10px 10px 10px;' . (!empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#bdbdbd;"></td>
-						<td style="padding:0px 10px 10px 10px;' . (!empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#bdbdbd;">' . $value['comment'] . '</td>
+						<td style="max-width:200px;padding:0px 10px 10px 10px;' . (!empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#bdbdbd;">' . $value['comment'] . '</td>
 						<td style="padding:0px 10px 10px 10px;' . (!empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#bdbdbd;"></td>
 						<td style="padding:0px 10px 10px 10px;' . (!empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#bdbdbd;"></td>
 						<td style="padding:0px 10px 10px 10px;' . (!empty($value['comment']) ? 'border-bottom:1px dashed #e0e0e0;' : '') . 'text-align:left;color:#bdbdbd;"></td>
