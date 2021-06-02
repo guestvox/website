@@ -92,12 +92,12 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_stats");</script
         </div>
     </section>
     <section class="buttons">
-        <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
         <div>
             {$return_btn}
+            <?php if (Functions::check_user_access(['{surveys_stats_view}']) == true) : ?>
             <a class="big new" data-button-modal="filter_surveys_stats"><i class="fas fa-stream"></i><span>{$lang.filter}</span></a>
+            <?php endif; ?>
         </div>
-        <?php endif; ?>
     </section>
 </main>
 <section class="modal fullscreen" data-modal="filter_surveys_stats">
@@ -109,7 +109,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_stats");</script
                         <div class="label">
                             <label required>
                                 <p>{$lang.started_date}</p>
-                                <input type="date" name="started_date" value="<?php echo Session::get_value('settings')['surveys']['stats']['filter']['started_date']; ?>">
+                                <input type="date" name="started_date" value="<?php echo Session::get_value('settings')['surveys']['reports']['filter']['started_date']; ?>">
                             </label>
                         </div>
                     </div>
@@ -117,7 +117,7 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_stats");</script
                         <div class="label">
                             <label required>
                                 <p>{$lang.end_date}</p>
-                                <input type="date" name="end_date" value="<?php echo Session::get_value('settings')['surveys']['stats']['filter']['end_date']; ?>">
+                                <input type="date" name="end_date" value="<?php echo Session::get_value('settings')['surveys']['reports']['filter']['end_date']; ?>">
                             </label>
                         </div>
                     </div>
@@ -126,8 +126,8 @@ $this->dependencies->add(['other', '<script>menu_focus("surveys_stats");</script
                             <label required>
                                 <p>{$lang.owner}</p>
                                 <select name="owner">
-                                    <option value="all" <?php echo ((Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
-                                    <option value="not_owner" <?php echo ((Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'not_owner') ? 'selected' : ''); ?>>Sin propietario</option>
+                                    <option value="all" <?php echo ((Session::get_value('settings')['surveys']['reports']['filter']['owner'] == 'all') ? 'selected' : ''); ?>>{$lang.all}</option>
+                                    <option value="not_owner" <?php echo ((Session::get_value('settings')['surveys']['reports']['filter']['owner'] == 'not_owner') ? 'selected' : ''); ?>>Sin propietario</option>
                                     {$opt_owners}
                                 </select>
                             </label>

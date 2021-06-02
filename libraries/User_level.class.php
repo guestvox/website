@@ -29,6 +29,10 @@ class User_level
                     array_push($paths, '/Voxes/charts');
                 break;
 
+                case '{voxes_reports_print}' :
+                    array_push($paths, '/Voxes/reports');
+                break;
+
                 case '{voxes_reports_create}' :
                     array_push($paths, '/Voxes/reports');
                 break;
@@ -46,10 +50,6 @@ class User_level
                 break;
 
                 case '{voxes_reports_delete}' :
-                    array_push($paths, '/Voxes/reports');
-                break;
-
-                case '{voxes_reports_print}' :
                     array_push($paths, '/Voxes/reports');
                 break;
 
@@ -85,6 +85,30 @@ class User_level
                 case '{surveys_stats_view}' :
                     array_push($paths, '/Surveys/stats');
                     array_push($paths, '/Surveys/charts');
+                break;
+
+                case '{surveys_reports_print}' :
+                    array_push($paths, '/Surveys/reports');
+                break;
+
+                case '{surveys_reports_create}' :
+                    array_push($paths, '/Surveys/reports');
+                break;
+
+                case '{surveys_reports_update}' :
+                    array_push($paths, '/Surveys/reports');
+                break;
+
+                case '{surveys_reports_deactivate}' :
+                    array_push($paths, '/Surveys/reports');
+                break;
+
+                case '{surveys_reports_activate}' :
+                    array_push($paths, '/Surveys/reports');
+                break;
+
+                case '{surveys_reports_delete}' :
+                    array_push($paths, '/Surveys/reports');
                 break;
 
                 case '{menu_products_create}' :

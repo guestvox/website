@@ -38,12 +38,15 @@ class Surveys_model extends Model
 	public function get_survey($id)
 	{
 		$query = Functions::get_json_decoded_query($this->database->select('surveys', [
+			'id',
+			'token',
 			'name',
 			'text',
 			'nps',
 			'signature',
 			'main',
-			'report'
+			'report',
+			'qr'
 		], [
 			'id' => $id
 		]));
@@ -431,13 +434,13 @@ class Surveys_model extends Model
 		$AND = [
 			'surveys_answers.account' => Session::get_value('account')['id'],
 			'surveys_answers.survey' => $survey,
-			'surveys_answers.date[<>]' => [Session::get_value('settings')['surveys']['answers']['filter']['started_date'],Session::get_value('settings')['surveys']['answers']['filter']['end_date']]
+			'surveys_answers.date[<>]' => [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']]
 		];
 
-		if (Session::get_value('settings')['surveys']['answers']['filter']['owner'] == 'not_owner')
+		if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] == 'not_owner')
 			$AND['owners.id'] = NULL;
-		else if (Session::get_value('settings')['surveys']['answers']['filter']['owner'] != 'all')
-			$AND['owners.id'] = Session::get_value('settings')['surveys']['answers']['filter']['owner'];
+		else if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] != 'all')
+			$AND['owners.id'] = Session::get_value('settings')['surveys']['reports']['filter']['owner'];
 
 		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 			'[>]owners' => [
@@ -499,15 +502,15 @@ class Surveys_model extends Model
 
 				$query[$key]['average'] = $average;
 
-				if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '1' AND $average >= 2)
+				if (Session::get_value('settings')['surveys']['reports']['filter']['rating'] == '1' AND $average >= 2)
 					unset($query[$key]);
-				else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '2' AND ($average < 2 OR $average >= 3))
+				else if (Session::get_value('settings')['surveys']['reports']['filter']['rating'] == '2' AND ($average < 2 OR $average >= 3))
 					unset($query[$key]);
-				else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '3' AND ($average < 3 OR $average >= 4))
+				else if (Session::get_value('settings')['surveys']['reports']['filter']['rating'] == '3' AND ($average < 3 OR $average >= 4))
 					unset($query[$key]);
-				else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '4' AND ($average < 4 OR $average >= 5))
+				else if (Session::get_value('settings')['surveys']['reports']['filter']['rating'] == '4' AND ($average < 4 OR $average >= 5))
 					unset($query[$key]);
-				else if (Session::get_value('settings')['surveys']['answers']['filter']['rating'] == '5' AND $average < 5)
+				else if (Session::get_value('settings')['surveys']['reports']['filter']['rating'] == '5' AND $average < 5)
 					unset($query[$key]);
 			}
 		}
@@ -672,13 +675,13 @@ class Surveys_model extends Model
 		$AND = [
 			'account' => Session::get_value('account')['id'],
 			'survey' => $survey,
-			'date[<>]' => [Session::get_value('settings')['surveys']['stats']['filter']['started_date'],Session::get_value('settings')['surveys']['stats']['filter']['end_date']]
+			'date[<>]' => [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']]
 		];
 
-		if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'not_owner')
+		if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] == 'not_owner')
 			$AND['id'] = NULL;
-		else if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] != 'all')
-			$AND['id'] = Session::get_value('settings')['surveys']['stats']['filter']['owner'];
+		else if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] != 'all')
+			$AND['id'] = Session::get_value('settings')['surveys']['reports']['filter']['owner'];
 
 		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 			'values'
@@ -723,13 +726,13 @@ class Surveys_model extends Model
 		$AND = [
 			'account' => Session::get_value('account')['id'],
 			'survey' => $survey,
-			'date[<>]' => [Session::get_value('settings')['surveys']['stats']['filter']['started_date'],Session::get_value('settings')['surveys']['stats']['filter']['end_date']]
+			'date[<>]' => [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']]
 		];
 
-		if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'not_owner')
+		if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] == 'not_owner')
 			$AND['id'] = NULL;
-		else if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] != 'all')
-			$AND['id'] = Session::get_value('settings')['surveys']['stats']['filter']['owner'];
+		else if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] != 'all')
+			$AND['id'] = Session::get_value('settings')['surveys']['reports']['filter']['owner'];
 
 		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 			'values'
@@ -797,13 +800,13 @@ class Surveys_model extends Model
 			$query1_AND = [
 				'account' => Session::get_value('account')['id'],
 				'survey' => $survey,
-				'date[<>]' => [Session::get_value('settings')['surveys']['stats']['filter']['started_date'],Session::get_value('settings')['surveys']['stats']['filter']['end_date']]
+				'date[<>]' => [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']]
 			];
 
-			if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] == 'not_owner')
+			if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] == 'not_owner')
 				$query1_AND['id'] = NULL;
-			else if (Session::get_value('settings')['surveys']['stats']['filter']['owner'] != 'all')
-				$query1_AND['id'] = Session::get_value('settings')['surveys']['stats']['filter']['owner'];
+			else if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] != 'all')
+				$query1_AND['id'] = Session::get_value('settings')['surveys']['reports']['filter']['owner'];
 
 			$query1 = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 				'owner',
@@ -976,10 +979,10 @@ class Surveys_model extends Model
 		// 		'datasets' => ''
 		// 	];
 		//
-		// 	$diff = Functions::get_diff_date(Session::get_value('settings')['surveys']['stats']['filter']['started_date'], Session::get_value('settings')['surveys']['stats']['filter']['end_date'], 'days', true);
+		// 	$diff = Functions::get_diff_date(Session::get_value('settings')['surveys']['reports']['filter']['started_date'], Session::get_value('settings')['surveys']['reports']['filter']['end_date'], 'days', true);
 		//
 		// 	for ($i = 0; $i < $diff; $i++)
-		// 		$data['labels'] .= "'" . Functions::get_future_date(Session::get_value('settings')['surveys']['stats']['filter']['started_date'], $i, 'days') . "',";
+		// 		$data['labels'] .= "'" . Functions::get_future_date(Session::get_value('settings')['surveys']['reports']['filter']['started_date'], $i, 'days') . "',";
 		//
 		// 	if ($parameters[2] == 'all')
 		// 	{
@@ -1310,7 +1313,7 @@ class Surveys_model extends Model
 			$AND = [
 				'account' => Session::get_value('account')['id'],
 				'survey' => $survey,
-				'date[<>]' => [Session::get_value('settings')['surveys']['stats']['filter']['started_date'],Session::get_value('settings')['surveys']['stats']['filter']['end_date']]
+				'date[<>]' => [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']]
 			];
 
 			$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
