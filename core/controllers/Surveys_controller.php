@@ -808,7 +808,7 @@ class Surveys_controller extends Controller
 					text: '" . Languages::charts('s1_chart')[$this->lang] . "'
 				},
 				legend: {
-					display: true,
+					display: false,
 					position: 'left'
 				},
 	            responsive: true
