@@ -935,7 +935,7 @@ class Surveys_model extends Model
 							$answers = $answers + 1;
 					}
 
-					if ($nps_1 > 0 AND $nps_2 > 0 AND $nps_3 > 0)
+					if ($answers > 0)
 					{
 						$nps_1 = round((($detractores / $answers) * 100), 2);
 						$nps_2 = round((($pasivos / $answers) * 100), 2);
