@@ -954,7 +954,7 @@ class Surveys_model extends Model
 					else
 					{
 						$data['datasets']['data'] .= '1,1,1';
-						$data['datasets']['colors'] .= "'#eee,#eee,#eee'";
+						$data['datasets']['colors'] .= "'#eee','#eee','#eee'";
 					}
 				}
 			}
