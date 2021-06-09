@@ -573,7 +573,7 @@ class Html2Pdf
 
         // call the output of TCPDF
         $output = $this->pdf->Output($name, $dest);
-
+        
         // close the pdf and clean up
         $this->clean();
 
