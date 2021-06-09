@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-require 'vendor/autoload.php';
+require_once 'vendor/autoload.php';
 
 use Spipu\Html2Pdf\Html2Pdf;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -148,7 +148,7 @@ class Surveys_controller extends Controller
 							</figure>
 						</div>
 					</div>
-					<div class="buttons flex_left">
+					<div class="buttons">
 						' . ((Functions::check_user_access(['{surveys_reports_print}']) == true) ? '<a class="big" href="/surveys/reports/print/' . $value['id'] . '"><i class="fas fa-bug"></i><span>Reportes</span></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_stats_view}']) == true) ? '<a class="big" href="/surveys/stats/' . $value['id'] . '"><i class="fas fa-chart-pie"></i><span>{$lang.stats}</span></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_answers_view}']) == true) ? '<a class="big" href="/surveys/answers/raters/' . $value['id'] . '"><i class="fas fa-star"></i><span>{$lang.answers}</span></a>' : '') . '

@@ -73,6 +73,10 @@ class Urls_registered_vkye
                 'controller' => 'Dashboard',
                 'method' => 'index'
             ],
+            '/dashboard/charts' => [
+                'controller' => 'Dashboard',
+                'method' => 'charts'
+            ],
             '/menu/orders' => [
                 'controller' => 'Menu',
                 'method' => 'orders'

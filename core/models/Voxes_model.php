@@ -20,9 +20,15 @@ class Voxes_model extends Model
 		if (Functions::check_user_access(['{view_confidentiality}']) == false)
 			$where['AND']['confidentiality'] = false;
 
-		if ($option == 'all')
+		if ($option == 'all' OR $option == 'not_complete_all' OR $option == 'not_complete_request' OR $option == 'not_complete_incident' OR $option == 'not_complete_workorder' OR $option == 'not_complete_high' OR $option == 'not_complete_medium' OR $option == 'not_complete_low')
 		{
-			if (Session::get_value('settings')['voxes']['voxes']['filter']['type'] != 'all')
+			if ($option == 'not_complete_request')
+				$where['AND']['type'] = 'request';
+			else if ($option == 'not_complete_incident')
+				$where['AND']['type'] = 'incident';
+			else if ($option == 'not_complete_workorder')
+				$where['AND']['type'] = 'workorder';
+			else if (Session::get_value('settings')['voxes']['voxes']['filter']['type'] != 'all')
 				$where['AND']['type'] = Session::get_value('settings')['voxes']['voxes']['filter']['type'];
 
 			if (Session::get_value('settings')['voxes']['voxes']['filter']['owner'] != 'all')
@@ -37,7 +43,13 @@ class Voxes_model extends Model
 			if (Session::get_value('settings')['voxes']['voxes']['filter']['location'] != 'all')
 				$where['AND']['location'] = Session::get_value('settings')['voxes']['voxes']['filter']['location'];
 
-			if (Session::get_value('settings')['voxes']['voxes']['filter']['urgency'] != 'all')
+			if ($option == 'not_complete_high')
+				$where['AND']['urgency'] = 'high';
+			else if ($option == 'not_complete_medium')
+				$where['AND']['urgency'] = 'medium';
+			else if ($option == 'not_complete_low')
+				$where['AND']['urgency'] = 'low';
+			else if (Session::get_value('settings')['voxes']['voxes']['filter']['urgency'] != 'all')
 				$where['AND']['urgency'] = Session::get_value('settings')['voxes']['voxes']['filter']['urgency'];
 
 			if (Session::get_value('settings')['voxes']['voxes']['filter']['order'] == 'date_old')
@@ -55,7 +67,7 @@ class Voxes_model extends Model
 				];
 			}
 
-			if (Session::get_value('settings')['voxes']['voxes']['filter']['status'] == 'open')
+			if ($option == 'not_complete_all' OR $option == 'not_complete_request' OR $option == 'not_complete_incident' OR $option == 'not_complete_workorder' OR $option == 'not_complete_high' OR $option == 'not_complete_medium' OR $option == 'not_complete_low' OR Session::get_value('settings')['voxes']['voxes']['filter']['status'] == 'open')
 				$where['AND']['status'] = true;
 			else if (Session::get_value('settings')['voxes']['voxes']['filter']['status'] == 'close')
 				$where['AND']['status'] = false;

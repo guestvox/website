@@ -674,9 +674,13 @@ class Surveys_model extends Model
 	{
 		$AND = [
 			'account' => Session::get_value('account')['id'],
-			'survey' => $survey,
-			'date[<>]' => [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']]
 		];
+
+		if ($survey != 'all')
+		{
+			$AND['survey'] = $survey;
+			$AND['date[<>]'] = [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']];
+		}
 
 		if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] == 'not_owner')
 			$AND['id'] = NULL;
@@ -725,9 +729,13 @@ class Surveys_model extends Model
 	{
 		$AND = [
 			'account' => Session::get_value('account')['id'],
-			'survey' => $survey,
-			'date[<>]' => [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']]
 		];
+
+		if ($survey != 'all')
+		{
+			$AND['survey'] = $survey;
+			$AND['date[<>]'] = [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']];
+		}
 
 		if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] == 'not_owner')
 			$AND['id'] = NULL;
@@ -798,15 +806,19 @@ class Surveys_model extends Model
 		if ($option == 's1_chart' OR $option == 's2_chart')
 		{
 			$query1_AND = [
-				'account' => Session::get_value('account')['id'],
-				'survey' => $survey,
-				'date[<>]' => [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']]
+				'account' => Session::get_value('account')['id']
 			];
 
 			if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] == 'not_owner')
 				$query1_AND['id'] = NULL;
 			else if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] != 'all')
 				$query1_AND['id'] = Session::get_value('settings')['surveys']['reports']['filter']['owner'];
+
+			if ($survey != 'all')
+			{
+				$query1_AND['survey'] = $survey;
+				$query1_AND['date[<>]'] = [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']];
+			}
 
 			$query1 = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 				'owner',
