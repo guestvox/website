@@ -3,7 +3,11 @@
 defined('_EXEC') or die;
 
 require 'vendor/autoload.php';
+
 use Spipu\Html2Pdf\Html2Pdf;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class Surveys_controller extends Controller
 {
@@ -229,6 +233,7 @@ class Surveys_controller extends Controller
 					set_time_limit(100000000);
 
 					$_POST['pdf'] = Session::get_value('account')['path'] . '_report_' . Functions::get_random(8) . '.pdf';
+					$_POST['xlsx'] = Session::get_value('account')['path'] . '_report_' . Functions::get_random(8) . '.xlsx';
 
 					$html2pdf = new Html2Pdf('P', 'A4', 'es', true, 'UTF-8', [0,0,0,0]);
 					$writing =
@@ -432,6 +437,179 @@ class Surveys_controller extends Controller
 					$html2pdf->writeHTML($writing);
 					$html2pdf->output(PATH_UPLOADS . $_POST['pdf'], 'F');
 
+					$spreadsheet = new Spreadsheet();
+
+					$sheet_1 = $spreadsheet->getActiveSheet();
+
+					$sheet_1->setTitle('Respuestas');
+
+					$sheet_1->getColumnDimension('A')->setAutoSize(true);
+					$sheet_1->getColumnDimension('B')->setAutoSize(true);
+					$sheet_1->getColumnDimension('C')->setAutoSize(true);
+					$sheet_1->getColumnDimension('D')->setAutoSize(true);
+					$sheet_1->getColumnDimension('E')->setAutoSize(true);
+					$sheet_1->getColumnDimension('F')->setAutoSize(true);
+					$sheet_1->getColumnDimension('G')->setAutoSize(true);
+					$sheet_1->getColumnDimension('H')->setAutoSize(true);
+
+					$sheet_1->setCellValue('A1', 'ID');
+					$sheet_1->setCellValue('B1', 'Folio');
+					$sheet_1->setCellValue('C1', 'Nombre');
+					$sheet_1->setCellValue('D1', 'Fecha');
+					$sheet_1->setCellValue('E1', 'Hora');
+					$sheet_1->setCellValue('F1', 'Propietario');
+					$sheet_1->setCellValue('G1', 'Promedio');
+					$sheet_1->setCellValue('H1', 'Comentarios');
+
+					$sheet_1_count = 2;
+
+					foreach ($answers as $key => $value)
+					{
+						$sheet_1->setCellValue('A' . $sheet_1_count, $value['id']);
+						$sheet_1->setCellValue('B' . $sheet_1_count, $value['token']);
+						$sheet_1->setCellValue('C' . $sheet_1_count, (!empty($value['owner']) ? ((Session::get_value('account')['type'] == 'hotel' AND !empty($query['reservation']['firstname']) AND !empty($query['reservation']['lastname'])) ? $query['reservation']['firstname'] . ' ' . $query['reservation']['lastname'] : 'Anónimo') : $value['firstname'] . ' ' . $value['lastname']));
+						$sheet_1->setCellValue('D' . $sheet_1_count, Functions::get_formatted_date($value['date'], 'd.m.Y'));
+						$sheet_1->setCellValue('E' . $sheet_1_count, Functions::get_formatted_hour($value['hour'], '+ hrs'));
+						$sheet_1->setCellValue('F' . $sheet_1_count, (!empty($value['owner']) ? $value['owner_name'][$this->lang] . (!empty($value['owner_number']) ? ' #' . $value['owner_number'] : '') : 'Sin propietario'));
+						$sheet_1->setCellValue('G' . $sheet_1_count, $value['average']);
+						$sheet_1->setCellValue('H' . $sheet_1_count, ((Session::get_value('settings')['surveys']['reports']['filter']['comments'] == true AND !empty($value['comment'])) ? $value['comment'] : ''));
+
+						$sheet_1_count = $sheet_1_count + 1;
+					}
+
+					if (Session::get_value('settings')['surveys']['reports']['filter']['general'] == true)
+					{
+						$sheet_2 = $spreadsheet->createSheet();
+
+						$sheet_2->setTitle('Información general');
+
+						$sheet_2->getColumnDimension('A')->setAutoSize(true);
+						$sheet_2->getColumnDimension('B')->setAutoSize(true);
+						$sheet_2->getColumnDimension('C')->setAutoSize(true);
+						$sheet_2->getColumnDimension('D')->setAutoSize(true);
+						$sheet_2->getColumnDimension('E')->setAutoSize(true);
+						$sheet_2->getColumnDimension('F')->setAutoSize(true);
+						$sheet_2->getColumnDimension('G')->setAutoSize(true);
+
+						$sheet_2->setCellValue('A1', 'ID');
+						$sheet_2->setCellValue('B1', 'Folio');
+						$sheet_2->setCellValue('C1', 'Nombre');
+						$sheet_2->setCellValue('D1', 'Tipo');
+						$sheet_2->setCellValue('E1', 'Promedio');
+						$sheet_2->setCellValue('F1', 'Respuestas');
+						$sheet_2->setCellValue('G1', 'NPS');
+
+						$sheet_2->setCellValue('A2', $survey['id']);
+						$sheet_2->setCellValue('B2', $survey['token']);
+						$sheet_2->setCellValue('C2', $survey['name']['es']);
+						$sheet_2->setCellValue('D2', (($survey['main'] == true) ? 'Predeterminada' : 'Independiente'));
+						$sheet_2->setCellValue('E2', $average . ' pts');
+						$sheet_2->setCellValue('F2', count($answers));
+						$sheet_2->setCellValue('G2', (($survey['nps'] == true AND isset($nps['nps']) AND !empty($nps['nps'])) ? $nps['nps'] . '%' : 'No aplica'));
+					}
+
+					if (Session::get_value('settings')['surveys']['reports']['filter']['channels'] == true AND Session::get_value('account')['type'] == 'hotel' AND Session::get_value('account')['zaviapms']['status'] == true)
+					{
+						$sheet_3 = $spreadsheet->createSheet();
+
+						$sheet_3->setTitle('Nacionalidades');
+
+						$sheet_3->getColumnDimension('A')->setAutoSize(true);
+						$sheet_3->getColumnDimension('B')->setAutoSize(true);
+
+						$sheet_3->setCellValue('A1', 'Nacionalidades');
+						$sheet_3->setCellValue('B1', '');
+
+						$sheet_3_count = 2;
+
+						foreach ($nationalities_labels as $key => $value)
+						{
+							$sheet_3->setCellValue('A' . $sheet_3_count, str_replace("'", "", trim($value)));
+							$sheet_3->setCellValue('B' . $sheet_3_count, $nationalities_data[$key] . ' Registros');
+
+							$sheet_3_count = $sheet_3_count + 1;
+						}
+
+						// ---
+
+						$sheet_4 = $spreadsheet->createSheet();
+
+						$sheet_4->setTitle('Canales de entrada');
+
+						$sheet_4->getColumnDimension('A')->setAutoSize(true);
+						$sheet_4->getColumnDimension('B')->setAutoSize(true);
+
+						$sheet_4->setCellValue('A1', 'Canales de entrada');
+						$sheet_4->setCellValue('B1', '');
+
+						$sheet_4_count = 2;
+
+						foreach ($input_channels_labels as $key => $value)
+						{
+							$sheet_4->setCellValue('A' . $sheet_4_count, str_replace("'", "", trim($value)));
+							$sheet_4->setCellValue('B' . $sheet_4_count, $input_channels_data[$key] . ' Registros');
+
+							$sheet_4_count = $sheet_4_count + 1;
+						}
+
+						// ---
+
+						$sheet_5 = $spreadsheet->createSheet();
+
+						$sheet_5->setTitle('Tipos de viajero');
+
+						$sheet_5->getColumnDimension('A')->setAutoSize(true);
+						$sheet_5->getColumnDimension('B')->setAutoSize(true);
+
+						$sheet_5->setCellValue('A1', 'Tipos de viajero');
+						$sheet_5->setCellValue('B1', '');
+
+						$sheet_5_count = 2;
+
+						foreach ($traveler_types_labels as $key => $value)
+						{
+							$sheet_5->setCellValue('A' . $sheet_5_count, str_replace("'", "", trim($value)));
+							$sheet_5->setCellValue('B' . $sheet_5_count, $traveler_types_data[$key] . ' Registros');
+
+							$sheet_5_count = $sheet_5_count + 1;
+						}
+
+						// ---
+
+						$sheet_6 = $spreadsheet->createSheet();
+
+						$sheet_6->setTitle('Grupos de edad');
+
+						$sheet_6->getColumnDimension('A')->setAutoSize(true);
+						$sheet_6->getColumnDimension('B')->setAutoSize(true);
+
+						$sheet_6->setCellValue('A1', 'Grupos de edad');
+						$sheet_6->setCellValue('B1', '');
+
+						$sheet_6_count = 2;
+
+						foreach ($age_groups_labels as $key => $value)
+						{
+							$sheet_6->setCellValue('A' . $sheet_6_count, str_replace("'", "", trim($value)));
+							$sheet_6->setCellValue('B' . $sheet_6_count, $age_groups_data[$key] . ' Registros');
+
+							$sheet_6_count = $sheet_6_count + 1;
+						}
+					}
+
+					// header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+					// header('Content-Disposition: attachment; filename="' . $_POST['xlsx'] . '"');
+					// header('Cache-Control: max-age=0');
+					// header('Cache-Control: max-age=1');
+					// header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+					// header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+					// header('Cache-Control: cache, must-revalidate');
+					// header('Pragma: public');
+
+					$writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
+					$writer->save('uploads/' . $_POST['xlsx']);
+					// $writer->save('php://output');
+
 					$mail = new Mailer(true);
 
 	                try
@@ -444,6 +622,7 @@ class Surveys_controller extends Controller
 							$mail->addAddress(trim($value), Session::get_value('account')['name']);
 
 						$mail->addAttachment(PATH_UPLOADS . $_POST['pdf']);
+						$mail->addAttachment(PATH_UPLOADS . $_POST['xlsx']);
 	                    $mail->Subject = 'Reporte de encuesta | ' . $survey['name']['es'] . ' | ' . Functions::get_current_date();
 	                    $mail->Body =
 	                    '<html>
@@ -476,6 +655,9 @@ class Surveys_controller extends Controller
 	                    $mail->send();
 	                }
 	                catch (Exception $e) { }
+
+					Functions::undoloader($_POST['pdf']);
+					Functions::undoloader($_POST['xlsx']);
 
 					Functions::environment([
 						'status' => 'success',
