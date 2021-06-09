@@ -9,6 +9,7 @@ class User_level
         $paths = [];
 
         array_push($paths, '/Dashboard/index');
+        array_push($paths, '/Dashboard/charts');
         array_push($paths, '/Profile/index');
         array_push($paths, '/Qrs/index');
         array_push($paths, '/Voxes/index');
@@ -391,40 +392,7 @@ class User_level
     static public function redirection()
     {
         if (Session::exists_var('session') == true)
-        {
-            if (Session::get_value('account')['type'] == 'hotel' OR Session::get_value('account')['type'] == 'others')
-            {
-                if (Functions::check_account_access(['operation']) == true)
-                    return '/voxes';
-                else if (Functions::check_account_access(['digital_menu']) == true)
-                    return '/menu/orders';
-                else if (Functions::check_account_access(['surveys']) == true)
-                {
-                    if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true)
-                        return '/surveys';
-                    else if (Functions::check_user_access(['{surveys_stats_view}']) == true)
-                        return '/surveys/stats';
-                }
-                else
-                    return '/dashboard';
-            }
-            else if (Session::get_value('account')['type'] == 'restaurant')
-            {
-                if (Functions::check_account_access(['digital_menu']) == true)
-                    return '/menu/orders';
-                else if (Functions::check_account_access(['operation']) == true)
-                    return '/voxes';
-                else if (Functions::check_account_access(['surveys']) == true)
-                {
-                    if (Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true)
-                        return '/surveys';
-                    else if (Functions::check_user_access(['{surveys_stats_view}']) == true)
-                        return '/surveys/stats';
-                }
-                else
-                    return '/dashboard';
-            }
-        }
+            return '/dashboard';
         else
             return '/';
     }
