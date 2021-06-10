@@ -3683,7 +3683,7 @@ div.surveys_charts > div:last-child {
         border-bottom: 1px solid #eee;
     }
 
-    main.dashboard div.surveys_charts > div {
+    div.surveys_charts.full > div {
         width: 100%;
         border-bottom: 0px;
     }
@@ -4701,7 +4701,7 @@ div.surveys_chart_rate {
         padding: 40px 100px;
     }
 
-    main.dashboard div.surveys_chart_rate {
+    div.surveys_chart_rate.full {
         width: 100%;
         border-bottom: 0px;
     }

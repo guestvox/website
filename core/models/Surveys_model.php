@@ -207,7 +207,7 @@ class Surveys_model extends Model
 		return $query;
 	}
 
-	public function get_surveys_questions($survey, $option = 'all', $parent = false)
+	public function get_surveys_questions($survey, $parent = null)
 	{
 		$survey = Functions::get_json_decoded_query($this->database->select('surveys', [
 			'id',
@@ -240,16 +240,11 @@ class Surveys_model extends Model
 
 			$AND = [
 				'account' => Session::get_value('account')['id'],
-				'survey' => $survey[0]['id']
+				'survey' => $survey[0]['id'],
+				'status' => true
 			];
 
-			if ($option == 'actives')
-			{
-				$AND['type'] = ['rate','twin'];
-				$AND['status'] = true;
-			}
-
-			if ($parent == false)
+			if (!isset($parent) OR empty($parent))
 				$AND['parent[=]'] = null;
 			else
 				$AND['parent'] = $parent;
@@ -676,16 +671,18 @@ class Surveys_model extends Model
 			'account' => Session::get_value('account')['id'],
 		];
 
-		if ($survey != 'all')
-		{
-			$AND['survey'] = $survey;
-			$AND['date[<>]'] = [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']];
-		}
-
 		if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] == 'not_owner')
 			$AND['id'] = NULL;
 		else if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] != 'all')
 			$AND['id'] = Session::get_value('settings')['surveys']['reports']['filter']['owner'];
+
+		if ($survey == 'all')
+			$AND['date[<>]'] = [Functions::get_past_date(Functions::get_current_date(), '30', 'days'),Functions::get_current_date()];
+		else
+		{
+			$AND['survey'] = $survey;
+			$AND['date[<>]'] = [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']];
+		}
 
 		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 			'values'
@@ -706,15 +703,18 @@ class Surveys_model extends Model
 					'id' => $subkey
 				]);
 
-				$subvalue = [
-					'question' => $subvalue[0]['type'],
-					'answer' => $value['values'][$subkey]
-				];
-
-				if ($subvalue['question'] == 'rate')
+				if (!empty($subvalue))
 				{
-					$average = $average + $subvalue['answer'];
-					$count_1 = $count_1 + 1;
+					$subvalue = [
+						'question' => $subvalue[0]['type'],
+						'answer' => $value['values'][$subkey]
+					];
+
+					if ($subvalue['question'] == 'rate')
+					{
+						$average = $average + $subvalue['answer'];
+						$count_1 = $count_1 + 1;
+					}
 				}
 			}
 		}
@@ -731,16 +731,18 @@ class Surveys_model extends Model
 			'account' => Session::get_value('account')['id'],
 		];
 
-		if ($survey != 'all')
-		{
-			$AND['survey'] = $survey;
-			$AND['date[<>]'] = [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']];
-		}
-
 		if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] == 'not_owner')
 			$AND['id'] = NULL;
 		else if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] != 'all')
 			$AND['id'] = Session::get_value('settings')['surveys']['reports']['filter']['owner'];
+
+		if ($survey == 'all')
+			$AND['date[<>]'] = [Functions::get_past_date(Functions::get_current_date(), '30', 'days'),Functions::get_current_date()];
+		else
+		{
+			$AND['survey'] = $survey;
+			$AND['date[<>]'] = [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']];
+		}
 
 		$query = Functions::get_json_decoded_query($this->database->select('surveys_answers', [
 			'values'
@@ -764,15 +766,18 @@ class Surveys_model extends Model
 					'id' => $subkey
 				]);
 
-				$subvalue = [
-					'question' => $subvalue[0]['type'],
-					'answer' => $value['values'][$subkey]
-				];
-
-				if ($subvalue['question'] == 'rate')
+				if (!empty($subvalue))
 				{
-					$average = $average + $subvalue['answer'];
-					$count_1 = $count_1 + 1;
+					$subvalue = [
+						'question' => $subvalue[0]['type'],
+						'answer' => $value['values'][$subkey]
+					];
+
+					if ($subvalue['question'] == 'rate')
+					{
+						$average = $average + $subvalue['answer'];
+						$count_1 = $count_1 + 1;
+					}
 				}
 			}
 
@@ -814,10 +819,12 @@ class Surveys_model extends Model
 			else if (Session::get_value('settings')['surveys']['reports']['filter']['owner'] != 'all')
 				$query1_AND['id'] = Session::get_value('settings')['surveys']['reports']['filter']['owner'];
 
-			if ($survey != 'all')
+			if ($survey == 'all')
+				$AND['date[<>]'] = [Functions::get_past_date(Functions::get_current_date(), '30', 'days'),Functions::get_current_date()];
+			else
 			{
-				$query1_AND['survey'] = $survey;
-				$query1_AND['date[<>]'] = [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']];
+				$AND['survey'] = $survey;
+				$AND['date[<>]'] = [Session::get_value('settings')['surveys']['reports']['filter']['started_date'],Session::get_value('settings')['surveys']['reports']['filter']['end_date']];
 			}
 
 			$query1 = Functions::get_json_decoded_query($this->database->select('surveys_answers', [

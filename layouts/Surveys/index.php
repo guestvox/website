@@ -4,7 +4,7 @@ defined('_EXEC') or die;
 
 $this->dependencies->add(['css', '{$path.plugins}chosen_select/chosen.css']);
 $this->dependencies->add(['js', '{$path.plugins}chosen_select/chosen.jquery.js']);
-$this->dependencies->add(['js', '{$path.js}Surveys/index.js?v=1.1']);
+$this->dependencies->add(['js', '{$path.js}Surveys/index.js?v=1.2']);
 $this->dependencies->add(['other', '<script>menu_focus("surveys");</script>']);
 
 ?>

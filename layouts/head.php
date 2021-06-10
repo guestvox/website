@@ -14,7 +14,7 @@
 		{$dependencies.meta}
 		<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 		<link rel="stylesheet" href="{$path.css}valkyrie.min.css" type="text/css" media="all">
-		<link rel="stylesheet" href="{$path.css}styles.css?v=2.5" type="text/css" media="all">
+		<link rel="stylesheet" href="{$path.css}styles.css?v=2.6" type="text/css" media="all">
 		{$dependencies.css}
 
         <!-- PWA -->

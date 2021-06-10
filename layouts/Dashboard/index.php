@@ -26,7 +26,7 @@ $this->dependencies->add(['other', '<script>menu_focus("dashboard");</script>'])
                 <a href="/voxes" class="btn">Ver todo</a>
             </div>
             <div class="span4">
-                <div class="surveys_chart_rate">
+                <div class="surveys_chart_rate full">
                     <div class="average">
                         {$h2_surveys_average}
                         {$spn_surveys_average}
@@ -60,7 +60,7 @@ $this->dependencies->add(['other', '<script>menu_focus("dashboard");</script>'])
                 <a href="/surveys" class="btn">Ver todo</a>
             </div>
             <div class="span4">
-                <div class="surveys_charts">
+                <div class="surveys_charts full">
                     <div>
                         <canvas id="s2_chart"></canvas>
                         <h1 id="nps"></h1>
