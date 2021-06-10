@@ -65,16 +65,16 @@ class Owners_controller extends Controller
 					}
 
 					if (isset($_POST['request']))
-						array_push($checks, ['request','']);	
-						
+						array_push($checks, ['request','']);
+
 					if (isset($_POST['incident']))
-						array_push($checks, ['incident','']);	
-						
+						array_push($checks, ['incident','']);
+
 					if (isset($_POST['workorder']))
-						array_push($checks, ['workorder','']);	
-						
+						array_push($checks, ['workorder','']);
+
 					if (isset($_POST['public']))
-						array_push($checks, ['public','']);	
+						array_push($checks, ['public','']);
 				}
 				else if ($_POST['action'] == 'edit_owner')
 				{
@@ -85,16 +85,16 @@ class Owners_controller extends Controller
 						array_push($labels, ['name_en','']);
 
 					if (isset($_POST['request']))
-						array_push($checks, ['request','']);	
-						
+						array_push($checks, ['request','']);
+
 					if (isset($_POST['incident']))
-						array_push($checks, ['incident','']);	
-						
+						array_push($checks, ['incident','']);
+
 					if (isset($_POST['workorder']))
-						array_push($checks, ['workorder','']);	
-						
+						array_push($checks, ['workorder','']);
+
 					if (isset($_POST['public']))
-						array_push($checks, ['public','']);	
+						array_push($checks, ['public','']);
 				}
 
 				if (empty($labels))
@@ -128,7 +128,7 @@ class Owners_controller extends Controller
 							'message' => 'Active una opción para guardar.'
 						]);
 					}
-					
+
 				}
 				else
 				{
@@ -199,7 +199,7 @@ class Owners_controller extends Controller
     				]);
                 }
 			}
-			
+
 			if ($_POST['action'] == 'undoloader_zip')
 			{
 				Functions::undoloader($_POST['zip_name']);
@@ -240,6 +240,7 @@ class Owners_controller extends Controller
 						</div>
 					</div>
 					<div class="buttons">
+						<a class="big" data-action="copy_to_clipboard" data-copy="https://guestvox.com/' . Session::get_value('account')['path'] . '/myvox/owner/' . $value['token'] . '"><i class="fas fa-copy"></i><span>Copiar QR</span></a>
 						' . ((Functions::check_user_access(['{owners_deactivate}','{owners_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_owner' : 'activate_owner') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
 						' . ((Functions::check_user_access(['{owners_update}']) == true) ? '<a class="edit" data-action="edit_owner" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{owners_delete}']) == true) ? '<a class="delete" data-action="delete_owner" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '

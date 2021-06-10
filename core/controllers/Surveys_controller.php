@@ -153,6 +153,7 @@ class Surveys_controller extends Controller
 						' . ((Functions::check_user_access(['{surveys_stats_view}']) == true) ? '<a class="big" href="/surveys/stats/' . $value['id'] . '"><i class="fas fa-chart-pie"></i><span>{$lang.stats}</span></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_answers_view}']) == true) ? '<a class="big" href="/surveys/answers/raters/' . $value['id'] . '"><i class="fas fa-star"></i><span>{$lang.answers}</span></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_answers_view}']) == true) ? '<a class="big" href="/surveys/answers/comments/' . $value['id'] . '"><i class="fas fa-comment-alt"></i><span>{$lang.comments}</span></a>' : '') . '
+						<a class="big" data-action="copy_to_clipboard" data-copy="https://guestvox.com/' . Session::get_value('account')['path'] . '/survey/' . $value['token'] . '"><i class="fas fa-copy"></i><span>Copiar QR</span></a>
 						' . ((Functions::check_user_access(['{surveys_questions_create}','{surveys_questions_update}','{surveys_questions_deactivate}','{surveys_questions_activate}','{surveys_questions_delete}']) == true) ? '<a class="big" href="/surveys/questions/' . $value['id'] . '"><i class="fas fa-ghost"></i><span>{$lang.questions}</span></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
 						' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
@@ -1298,84 +1299,42 @@ class Surveys_controller extends Controller
 							'	</div>
 							</div>';
 
-							foreach ($this->model->get_surveys_questions($params[1], 'all', $value['id']) as $subvalue)
+							foreach ($this->model->get_surveys_questions($params[1], $value['id']) as $subvalue)
 							{
-								$html .=
-								'<div data-level="2">
-									<h2>' . $subvalue['name'][$this->lang] . '</h2>
-									<div class="' . $subvalue['type'] . '">';
-
-								if ($subvalue['type'] == 'open')
-									$html .= '<input type="text" value="' . (array_key_exists($subvalue['id'], $query['values']) ? $query['values'][$subvalue['id']] : '') . '" disabled>';
-								else if ($subvalue['type'] == 'rate')
+								if ($subvalue['type'] == 'open' OR $subvalue['type'] == 'rate' OR $subvalue['type'] == 'twin' OR $subvalue['type'] == 'check')
 								{
 									$html .=
-									'<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '1') ? 'focus' : '') . '"><i class="fas fa-sad-cry"></i><input type="radio" disabled></label>
-									<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '2') ? 'focus' : '') . '"><i class="fas fa-frown"></i><input type="radio" disabled></label>
-									<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '3') ? 'focus' : '') . '"><i class="fas fa-meh-rolling-eyes"></i><input type="radio" disabled></label>
-									<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '4') ? 'focus' : '') . '"><i class="fas fa-smile"></i><input type="radio" disabled></label>
-									<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '5') ? 'focus' : '') . '"><i class="fas fa-grin-stars"></i><input type="radio" disabled></label>';
-								}
-								else if ($subvalue['type'] == 'twin')
-								{
-									$html .=
-									'<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
-									<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
-								}
-								else if ($subvalue['type'] == 'check')
-								{
-									$html .= '<div class="checkboxes stl_3">';
+									'<div data-level="2">
+										<h2>' . $subvalue['name'][$this->lang] . '</h2>
+										<div class="' . $subvalue['type'] . '">';
 
-									foreach ($subvalue['values'] as $parentvalue)
+									if ($subvalue['type'] == 'open')
+										$html .= '<input type="text" value="' . (array_key_exists($subvalue['id'], $query['values']) ? $query['values'][$subvalue['id']] : '') . '" disabled>';
+									else if ($subvalue['type'] == 'rate')
 									{
 										$html .=
-										'<div>
-											<input type="checkbox" ' . ((array_key_exists($subvalue['id'], $query['values']) AND in_array($parentvalue['token'], $query['values'][$subvalue['id']])) ? 'checked' : '') . ' disabled>
-											<span>' . $parentvalue[$this->lang] . '</span>
-										</div>';
+										'<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '1') ? 'focus' : '') . '"><i class="fas fa-sad-cry"></i><input type="radio" disabled></label>
+										<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '2') ? 'focus' : '') . '"><i class="fas fa-frown"></i><input type="radio" disabled></label>
+										<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '3') ? 'focus' : '') . '"><i class="fas fa-meh-rolling-eyes"></i><input type="radio" disabled></label>
+										<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '4') ? 'focus' : '') . '"><i class="fas fa-smile"></i><input type="radio" disabled></label>
+										<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '5') ? 'focus' : '') . '"><i class="fas fa-grin-stars"></i><input type="radio" disabled></label>';
 									}
-
-									$html .= '</div>';
-								}
-
-								$html .=
-								'	</div>
-								</div>';
-
-								foreach ($this->model->get_surveys_questions($params[1], 'all', $subvalue['id']) as $parentvalue)
-								{
-									$html .=
-									'<div data-level="3">
-										<h2>' . $parentvalue['name'][$this->lang] . '</h2>
-										<div class="' . $parentvalue['type'] . '">';
-
-									if ($parentvalue['type'] == 'open')
-										$html .= '<input type="text" value="' . (array_key_exists($parentvalue['id'], $query['values']) ? $query['values'][$parentvalue['id']] : '') . '" disabled>';
-									else if ($parentvalue['type'] == 'rate')
+									else if ($subvalue['type'] == 'twin')
 									{
 										$html .=
-										'<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '1') ? 'focus' : '') . '"><i class="fas fa-sad-cry"></i><input type="radio" disabled></label>
-										<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '2') ? 'focus' : '') . '"><i class="fas fa-frown"></i><input type="radio" disabled></label>
-										<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '3') ? 'focus' : '') . '"><i class="fas fa-meh-rolling-eyes"></i><input type="radio" disabled></label>
-										<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '4') ? 'focus' : '') . '"><i class="fas fa-smile"></i><input type="radio" disabled></label>
-										<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '5') ? 'focus' : '') . '"><i class="fas fa-grin-stars"></i><input type="radio" disabled></label>';
+										'<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+										<label class="' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
 									}
-									else if ($parentvalue['type'] == 'twin')
-									{
-										$html .=
-										'<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
-										<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
-									}
-									else if ($parentvalue['type'] == 'check')
+									else if ($subvalue['type'] == 'check')
 									{
 										$html .= '<div class="checkboxes stl_3">';
 
-										foreach ($parentvalue['values'] as $childvalue)
+										foreach ($subvalue['values'] as $parentvalue)
 										{
 											$html .=
 											'<div>
-												<input type="checkbox" ' . ((array_key_exists($parentvalue['id'], $query['values']) AND in_array($childvalue['token'], $query['values'][$parentvalue['id']])) ? 'checked' : '') . ' disabled>
-												<span>' . $childvalue[$this->lang] . '</span>
+												<input type="checkbox" ' . ((array_key_exists($subvalue['id'], $query['values']) AND in_array($parentvalue['token'], $query['values'][$subvalue['id']])) ? 'checked' : '') . ' disabled>
+												<span>' . $parentvalue[$this->lang] . '</span>
 											</div>';
 										}
 
@@ -1385,6 +1344,54 @@ class Surveys_controller extends Controller
 									$html .=
 									'	</div>
 									</div>';
+
+									foreach ($this->model->get_surveys_questions($params[1], $subvalue['id']) as $parentvalue)
+									{
+										if ($parentvalue['type'] == 'open' OR $parentvalue['type'] == 'rate' OR $parentvalue['type'] == 'twin' OR $parentvalue['type'] == 'check')
+										{
+											$html .=
+											'<div data-level="3">
+												<h2>' . $parentvalue['name'][$this->lang] . '</h2>
+												<div class="' . $parentvalue['type'] . '">';
+
+											if ($parentvalue['type'] == 'open')
+												$html .= '<input type="text" value="' . (array_key_exists($parentvalue['id'], $query['values']) ? $query['values'][$parentvalue['id']] : '') . '" disabled>';
+											else if ($parentvalue['type'] == 'rate')
+											{
+												$html .=
+												'<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '1') ? 'focus' : '') . '"><i class="fas fa-sad-cry"></i><input type="radio" disabled></label>
+												<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '2') ? 'focus' : '') . '"><i class="fas fa-frown"></i><input type="radio" disabled></label>
+												<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '3') ? 'focus' : '') . '"><i class="fas fa-meh-rolling-eyes"></i><input type="radio" disabled></label>
+												<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '4') ? 'focus' : '') . '"><i class="fas fa-smile"></i><input type="radio" disabled></label>
+												<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '5') ? 'focus' : '') . '"><i class="fas fa-grin-stars"></i><input type="radio" disabled></label>';
+											}
+											else if ($parentvalue['type'] == 'twin')
+											{
+												$html .=
+												'<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'yes') ? 'focus' : '') . '"><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+												<label class="' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'not') ? 'focus' : '') . '"><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
+											}
+											else if ($parentvalue['type'] == 'check')
+											{
+												$html .= '<div class="checkboxes stl_3">';
+
+												foreach ($parentvalue['values'] as $childvalue)
+												{
+													$html .=
+													'<div>
+														<input type="checkbox" ' . ((array_key_exists($parentvalue['id'], $query['values']) AND in_array($childvalue['token'], $query['values'][$parentvalue['id']])) ? 'checked' : '') . ' disabled>
+														<span>' . $childvalue[$this->lang] . '</span>
+													</div>';
+												}
+
+												$html .= '</div>';
+											}
+
+											$html .=
+											'	</div>
+											</div>';
+										}
+									}
 								}
 							}
 
@@ -1518,74 +1525,38 @@ class Surveys_controller extends Controller
 							'	</div>
 							</div>';
 
-							foreach ($this->model->get_surveys_questions($params[1], 'all', $value['id']) as $subvalue)
+							foreach ($this->model->get_surveys_questions($params[1], $value['id']) as $subvalue)
 							{
-								$html .=
-								'<div style="margin-bottom:20px;padding:20px;border: 1px dashed #000;box-sizing:border-box;">
-									<h2 style="font-family:arial;font-size:16px;font-weight;600;color:#000;">' . $subvalue['name'][$this->lang] . '</h2>
-									<div>';
-
-								if ($subvalue['type'] == 'open')
-									$html .= '<h4 style="font-family:arial;font-size:14px;font-weight;400;color:#000;">' . (array_key_exists($subvalue['id'], $query['values']) ? $query['values'][$subvalue['id']] : '') . '</h4>';
-								else if ($subvalue['type'] == 'rate')
-								{
-									$html .=
-									'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '1') ? 'border:1px dashed #000;' : '') . '">1</h4>
-									<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '2') ? 'border:1px dashed #000;' : '') . '">2</h4>
-									<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '3') ? 'border:1px dashed #000;' : '') . '">3</h4>
-									<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '4') ? 'border:1px dashed #000;' : '') . '">4</h4>
-									<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '5') ? 'border:1px dashed #000;' : '') . '">5</h4>';
-								}
-								else if ($subvalue['type'] == 'twin')
-								{
-									$html .=
-									'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'yes') ? 'border:1px dashed #000;' : '') . '">Si</h4>
-									<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'not') ? 'border:1px dashed #000;' : '') . '">No</h4>';
-								}
-								else if ($subvalue['type'] == 'check')
-								{
-									$html .= '<div style="display:flex;align-items:center;justify-content:flex-start;">';
-
-									foreach ($subvalue['values'] as $parentvalue)
-										$html .= '<h4 style="width:auto;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;padding:0px 10px;border-radius:30px;box-sizing:border-box;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND in_array($parentvalue['token'], $query['values'][$subvalue['id']])) ? 'border:1px dashed #000;' : '') . '">' . $parentvalue[$this->lang] . '</h4>';
-
-									$html .= '</div>';
-								}
-
-								$html .=
-								'	</div>
-								</div>';
-
-								foreach ($this->model->get_surveys_questions($params[1], 'all', $subvalue['id']) as $parentvalue)
+								if ($subvalue['type'] == 'open' OR $subvalue['type'] == 'rate' OR $subvalue['type'] == 'twin' OR $subvalue['type'] == 'check')
 								{
 									$html .=
 									'<div style="margin-bottom:20px;padding:20px;border: 1px dashed #000;box-sizing:border-box;">
-										<h2 style="font-family:arial;font-size:16px;font-weight;600;color:#000;">' . $parentvalue['name'][$this->lang] . '</h2>
+										<h2 style="font-family:arial;font-size:16px;font-weight;600;color:#000;">' . $subvalue['name'][$this->lang] . '</h2>
 										<div>';
 
-									if ($parentvalue['type'] == 'open')
-										$html .= '<h4 style="font-family:arial;font-size:14px;font-weight;400;color:#000;">' . (array_key_exists($parentvalue['id'], $query['values']) ? $query['values'][$parentvalue['id']] : '') . '</h4>';
-									else if ($parentvalue['type'] == 'rate')
+									if ($subvalue['type'] == 'open')
+										$html .= '<h4 style="font-family:arial;font-size:14px;font-weight;400;color:#000;">' . (array_key_exists($subvalue['id'], $query['values']) ? $query['values'][$subvalue['id']] : '') . '</h4>';
+									else if ($subvalue['type'] == 'rate')
 									{
 										$html .=
-										'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '1') ? 'border:1px dashed #000;' : '') . '">1</h4>
-										<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '2') ? 'border:1px dashed #000;' : '') . '">2</h4>
-										<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '3') ? 'border:1px dashed #000;' : '') . '">3</h4>
-										<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '4') ? 'border:1px dashed #000;' : '') . '">4</h4>
-										<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '5') ? 'border:1px dashed #000;' : '') . '">5</h4>';
+										'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '1') ? 'border:1px dashed #000;' : '') . '">1</h4>
+										<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '2') ? 'border:1px dashed #000;' : '') . '">2</h4>
+										<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '3') ? 'border:1px dashed #000;' : '') . '">3</h4>
+										<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '4') ? 'border:1px dashed #000;' : '') . '">4</h4>
+										<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == '5') ? 'border:1px dashed #000;' : '') . '">5</h4>';
 									}
-									else if ($parentvalue['type'] == 'twin')
+									else if ($subvalue['type'] == 'twin')
 									{
 										$html .=
-										'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'yes') ? 'border:1px dashed #000;' : '') . '">Si</h4>
-										<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'not') ? 'border:1px dashed #000;' : '') . '">No</h4>';
+										'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'yes') ? 'border:1px dashed #000;' : '') . '">Si</h4>
+										<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND $query['values'][$subvalue['id']] == 'not') ? 'border:1px dashed #000;' : '') . '">No</h4>';
 									}
-									else if ($parentvalue['type'] == 'check')
+									else if ($subvalue['type'] == 'check')
 									{
 										$html .= '<div style="display:flex;align-items:center;justify-content:flex-start;">';
 
-										foreach ($parentvalue['values'] as $childvalue)
-											$html .= '<h4 style="width:auto;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;padding:0px 10px;border-radius:30px;box-sizing:border-box;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND in_array($childvalue['token'], $query['values'][$parentvalue['id']])) ? 'border:1px dashed #000;' : '') . '">' . $childvalue[$this->lang] . '</h4>';
+										foreach ($subvalue['values'] as $parentvalue)
+											$html .= '<h4 style="width:auto;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;padding:0px 10px;border-radius:30px;box-sizing:border-box;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($subvalue['id'], $query['values']) AND in_array($parentvalue['token'], $query['values'][$subvalue['id']])) ? 'border:1px dashed #000;' : '') . '">' . $parentvalue[$this->lang] . '</h4>';
 
 										$html .= '</div>';
 									}
@@ -1593,6 +1564,48 @@ class Surveys_controller extends Controller
 									$html .=
 									'	</div>
 									</div>';
+
+									foreach ($this->model->get_surveys_questions($params[1], $subvalue['id']) as $parentvalue)
+									{
+										if ($parentvalue['type'] == 'open' OR $parentvalue['type'] == 'rate' OR $parentvalue['type'] == 'twin' OR $parentvalue['type'] == 'check')
+										{
+											$html .=
+											'<div style="margin-bottom:20px;padding:20px;border: 1px dashed #000;box-sizing:border-box;">
+												<h2 style="font-family:arial;font-size:16px;font-weight;600;color:#000;">' . $parentvalue['name'][$this->lang] . '</h2>
+												<div>';
+
+											if ($parentvalue['type'] == 'open')
+												$html .= '<h4 style="font-family:arial;font-size:14px;font-weight;400;color:#000;">' . (array_key_exists($parentvalue['id'], $query['values']) ? $query['values'][$parentvalue['id']] : '') . '</h4>';
+											else if ($parentvalue['type'] == 'rate')
+											{
+												$html .=
+												'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '1') ? 'border:1px dashed #000;' : '') . '">1</h4>
+												<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '2') ? 'border:1px dashed #000;' : '') . '">2</h4>
+												<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '3') ? 'border:1px dashed #000;' : '') . '">3</h4>
+												<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '4') ? 'border:1px dashed #000;' : '') . '">4</h4>
+												<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == '5') ? 'border:1px dashed #000;' : '') . '">5</h4>';
+											}
+											else if ($parentvalue['type'] == 'twin')
+											{
+												$html .=
+												'<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'yes') ? 'border:1px dashed #000;' : '') . '">Si</h4>
+												<h4 style="width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;border-radius:50%;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND $query['values'][$parentvalue['id']] == 'not') ? 'border:1px dashed #000;' : '') . '">No</h4>';
+											}
+											else if ($parentvalue['type'] == 'check')
+											{
+												$html .= '<div style="display:flex;align-items:center;justify-content:flex-start;">';
+
+												foreach ($parentvalue['values'] as $childvalue)
+													$html .= '<h4 style="width:auto;height:30px;display:flex;align-items:center;justify-content:center;margin-right:5px;padding:0px 10px;border-radius:30px;box-sizing:border-box;font-family:arial;font-size:14px;font-weight;400;color:#000;' . ((array_key_exists($parentvalue['id'], $query['values']) AND in_array($childvalue['token'], $query['values'][$parentvalue['id']])) ? 'border:1px dashed #000;' : '') . '">' . $childvalue[$this->lang] . '</h4>';
+
+												$html .= '</div>';
+											}
+
+											$html .=
+											'	</div>
+											</div>';
+										}
+									}
 								}
 							}
 
@@ -1886,62 +1899,80 @@ class Surveys_controller extends Controller
 
 				foreach ($this->model->get_surveys_questions($params[0]) as $value)
 				{
-					if ($value['system'] == false)
+					$tbl_surveys_questions .=
+					'<div>
+						<div data-level="1">
+							<h2>' . $value['name'][$this->lang] . '</h2>
+							<div class="' . $value['type'] . '">';
+
+					if ($value['type'] == 'nps')
 					{
 						$tbl_surveys_questions .=
 						'<div>
-							<div data-level="1">
-								<h2>' . $value['name'][$this->lang] . '</h2>
-								<div class="' . $value['type'] . '">';
+							<label><i>1</i><input type="radio" name="' . $value['id'] . '" value="1"></label>
+							<label><i>2</i><input type="radio" name="' . $value['id'] . '" value="2"></label>
+							<label><i>3</i><input type="radio" name="' . $value['id'] . '" value="3"></label>
+							<label><i>4</i><input type="radio" name="' . $value['id'] . '" value="4"></label>
+							<label><i>5</i><input type="radio" name="' . $value['id'] . '" value="5"></label>
+						</div>
+						<div>
+							<label><i>6</i><input type="radio" name="' . $value['id'] . '" value="6"></label>
+							<label><i>7</i><input type="radio" name="' . $value['id'] . '" value="7"></label>
+							<label><i>8</i><input type="radio" name="' . $value['id'] . '" value="8"></label>
+							<label><i>9</i><input type="radio" name="' . $value['id'] . '" value="9"></label>
+							<label><i>10</i><input type="radio" name="' . $value['id'] . '" value="10"></label>
+						</div>';
+					}
+					else if ($value['type'] == 'open')
+						$tbl_surveys_questions .= '<input type="text" disabled>';
+					else if ($value['type'] == 'rate')
+					{
+						$tbl_surveys_questions .=
+						'<label><i class="fas fa-sad-cry"></i><input type="radio" disabled></label>
+						<label><i class="fas fa-frown"></i><input type="radio" disabled></label>
+						<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" disabled></label>
+						<label><i class="fas fa-smile"></i><input type="radio" disabled></label>
+						<label><i class="fas fa-grin-stars"></i><input type="radio" disabled></label>';
+					}
+					else if ($value['type'] == 'twin')
+					{
+						$tbl_surveys_questions .=
+						'<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+						<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
+					}
+					else if ($value['type'] == 'check')
+					{
+						$tbl_surveys_questions .= '<div class="checkboxes stl_3">';
 
-						if ($value['type'] == 'open')
-							$tbl_surveys_questions .= '<input type="text" disabled>';
-						else if ($value['type'] == 'rate')
+						foreach ($value['values'] as $subvalue)
 						{
 							$tbl_surveys_questions .=
-							'<label><i class="fas fa-sad-cry"></i><input type="radio" disabled></label>
-							<label><i class="fas fa-frown"></i><input type="radio" disabled></label>
-							<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" disabled></label>
-							<label><i class="fas fa-smile"></i><input type="radio" disabled></label>
-							<label><i class="fas fa-grin-stars"></i><input type="radio" disabled></label>';
-						}
-						else if ($value['type'] == 'twin')
-						{
-							$tbl_surveys_questions .=
-							'<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
-							<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
-						}
-						else if ($value['type'] == 'check')
-						{
-							$tbl_surveys_questions .= '<div class="checkboxes stl_3">';
-
-							foreach ($value['values'] as $subvalue)
-							{
-								$tbl_surveys_questions .=
-								'<div>
-									<input type="checkbox" disabled>
-									<span>' . $subvalue[$this->lang] . '</span>
-								</div>';
-							}
-
-							$tbl_surveys_questions .= '</div>';
-						}
-
-						$tbl_surveys_questions .= '</div>';
-
-						if ($value['system'] == false)
-						{
-							$tbl_surveys_questions .=
-							'<div class="buttons">
-								' . ((Functions::check_user_access(['{surveys_questions_deactivate}','{surveys_questions_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_survey_question' : 'activate_survey_question') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
-								' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
-								' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+							'<div>
+								<input type="checkbox" disabled>
+								<span>' . $subvalue[$this->lang] . '</span>
 							</div>';
 						}
 
 						$tbl_surveys_questions .= '</div>';
+					}
 
-						foreach ($this->model->get_surveys_questions($params[0], 'all', $value['id']) as $subvalue)
+					$tbl_surveys_questions .= '</div>';
+
+					if ($value['system'] == false)
+					{
+						$tbl_surveys_questions .=
+						'<div class="buttons">
+							' . ((Functions::check_user_access(['{surveys_questions_deactivate}','{surveys_questions_activate}']) == true) ? '<a class="big" data-action="' . (($value['status'] == true) ? 'deactivate_survey_question' : 'activate_survey_question') . '" data-id="' . $value['id'] . '">' . (($value['status'] == true) ? '<i class="fas fa-ban"></i><span>{$lang.deactivate}</span>' : '<i class="fas fa-check"></i><span>{$lang.activate}</span>') . '</a>' : '') . '
+							' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+							' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey_question" data-id="' . $value['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
+						</div>';
+					}
+
+					$tbl_surveys_questions .= '</div>';
+
+					foreach ($this->model->get_surveys_questions($params[0], $value['id']) as $subvalue)
+					{
+						if ($subvalue['type'] == 'open' OR $subvalue['type'] == 'rate' OR $subvalue['type'] == 'twin' OR $subvalue['type'] == 'check')
 						{
 							$tbl_surveys_questions .=
 							'<div data-level="2">
@@ -1995,74 +2026,83 @@ class Surveys_controller extends Controller
 
 							$tbl_surveys_questions .= '</div>';
 
-							foreach ($this->model->get_surveys_questions($params[0], 'all', $subvalue['id']) as $parentvalue)
+							foreach ($this->model->get_surveys_questions($params[0], $subvalue['id']) as $parentvalue)
 							{
-								$tbl_surveys_questions .=
-								'<div data-level="3">
-									<h2>' . $parentvalue['name'][$this->lang] . '</h2>
-									<div class="' . $parentvalue['type'] . '">';
-
-								if ($parentvalue['type'] == 'open')
-									$tbl_surveys_questions .= '<input type="text" disabled>';
-								else if ($parentvalue['type'] == 'rate')
+								if ($parentvalue['type'] == 'open' OR $parentvalue['type'] == 'rate' OR $parentvalue['type'] == 'twin' OR $parentvalue['type'] == 'check')
 								{
 									$tbl_surveys_questions .=
-									'<label><i class="fas fa-sad-cry"></i><input type="radio" disabled></label>
-									<label><i class="fas fa-frown"></i><input type="radio" disabled></label>
-									<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" disabled></label>
-									<label><i class="fas fa-smile"></i><input type="radio" disabled></label>
-									<label><i class="fas fa-grin-stars"></i><input type="radio" disabled></label>';
-								}
-								else if ($parentvalue['type'] == 'twin')
-								{
-									$tbl_surveys_questions .=
-									'<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
-									<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
-								}
-								else if ($parentvalue['type'] == 'check')
-								{
-									$tbl_surveys_questions .= '<div class="checkboxes stl_3">';
+									'<div data-level="3">
+										<h2>' . $parentvalue['name'][$this->lang] . '</h2>
+										<div class="' . $parentvalue['type'] . '">';
 
-									foreach ($parentvalue['values'] as $childvalue)
+									if ($parentvalue['type'] == 'open')
+										$tbl_surveys_questions .= '<input type="text" disabled>';
+									else if ($parentvalue['type'] == 'rate')
 									{
 										$tbl_surveys_questions .=
-										'<div>
-											<input type="checkbox" disabled>
-											<span>' . $childvalue[$this->lang] . '</span>
+										'<label><i class="fas fa-sad-cry"></i><input type="radio" disabled></label>
+										<label><i class="fas fa-frown"></i><input type="radio" disabled></label>
+										<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" disabled></label>
+										<label><i class="fas fa-smile"></i><input type="radio" disabled></label>
+										<label><i class="fas fa-grin-stars"></i><input type="radio" disabled></label>';
+									}
+									else if ($parentvalue['type'] == 'twin')
+									{
+										$tbl_surveys_questions .=
+										'<label><i class="fas fa-thumbs-up"></i><input type="radio" disabled></label>
+										<label><i class="fas fa-thumbs-down"></i><input type="radio" disabled></label>';
+									}
+									else if ($parentvalue['type'] == 'check')
+									{
+										$tbl_surveys_questions .= '<div class="checkboxes stl_3">';
+
+										foreach ($parentvalue['values'] as $childvalue)
+										{
+											$tbl_surveys_questions .=
+											'<div>
+												<input type="checkbox" disabled>
+												<span>' . $childvalue[$this->lang] . '</span>
+											</div>';
+										}
+
+										$tbl_surveys_questions .= '</div>';
+									}
+
+									$tbl_surveys_questions .= '</div>';
+
+									if ($parentvalue['system'] == false)
+									{
+										$tbl_surveys_questions .=
+										'<div class="buttons">
+											' . ((Functions::check_user_access(['{surveys_questions_deactivate}','{surveys_questions_activate}']) == true) ? '<a data-action="' . (($parentvalue['status'] == true) ? 'deactivate_survey_question' : 'activate_survey_question') . '" data-id="' . $parentvalue['id'] . '">' . (($parentvalue['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
+											' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey_question" data-id="' . $parentvalue['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
+											' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey_question" data-id="' . $parentvalue['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
 										</div>';
 									}
 
 									$tbl_surveys_questions .= '</div>';
 								}
-
-								$tbl_surveys_questions .= '</div>';
-
-								if ($parentvalue['system'] == false)
-								{
-									$tbl_surveys_questions .=
-									'<div class="buttons">
-										' . ((Functions::check_user_access(['{surveys_questions_deactivate}','{surveys_questions_activate}']) == true) ? '<a data-action="' . (($parentvalue['status'] == true) ? 'deactivate_survey_question' : 'activate_survey_question') . '" data-id="' . $parentvalue['id'] . '">' . (($parentvalue['status'] == true) ? '<i class="fas fa-ban"></i>' : '<i class="fas fa-check"></i>') . '</a>' : '') . '
-										' . ((Functions::check_user_access(['{surveys_questions_update}']) == true) ? '<a class="edit" data-action="edit_survey_question" data-id="' . $parentvalue['id'] . '"><i class="fas fa-pen"></i></a>' : '') . '
-										' . ((Functions::check_user_access(['{surveys_questions_delete}']) == true) ? '<a class="delete" data-action="delete_survey_question" data-id="' . $parentvalue['id'] . '"><i class="fas fa-trash"></i></a>' : '') . '
-									</div>';
-								}
-
-								$tbl_surveys_questions .= '</div>';
 							}
 						}
-
-						$tbl_surveys_questions .= '</div>';
 					}
+
+					$tbl_surveys_questions .= '</div>';
 				}
 
 				$opt_surveys_questions = '';
 
-				foreach ($this->model->get_surveys_questions($params[0], 'actives') as $value)
+				foreach ($this->model->get_surveys_questions($params[0]) as $value)
 				{
-					$opt_surveys_questions .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
+					if ($value['type'] == 'open' OR $value['type'] == 'rate' OR $value['type'] == 'twin' OR $value['type'] == 'check')
+					{
+						$opt_surveys_questions .= '<option value="' . $value['id'] . '">' . $value['name'][$this->lang] . '</option>';
 
-					foreach ($this->model->get_surveys_questions($params[0], 'actives', $value['id']) as $subvalue)
-						$opt_surveys_questions .= '<option value="' . $subvalue['id'] . '">- ' . $subvalue['name'][$this->lang] . '</option>';
+						foreach ($this->model->get_surveys_questions($params[0], $value['id']) as $subvalue)
+						{
+							if ($subvalue['type'] == 'open' OR $subvalue['type'] == 'rate' OR $subvalue['type'] == 'twin' OR $subvalue['type'] == 'check')
+								$opt_surveys_questions .= '<option value="' . $subvalue['id'] . '">- ' . $subvalue['name'][$this->lang] . '</option>';
+						}
+					}
 				}
 
 				$replace = [

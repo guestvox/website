@@ -2,7 +2,7 @@
 
 defined('_EXEC') or die;
 
-$this->dependencies->add(['js', '{$path.js}Owners/index.js']);
+$this->dependencies->add(['js', '{$path.js}Owners/index.js?v=1.1']);
 $this->dependencies->add(['other', '<script>menu_focus("owners");</script>']);
 
 ?>
@@ -19,7 +19,7 @@ $this->dependencies->add(['other', '<script>menu_focus("owners");</script>']);
             <?php if (Functions::check_user_access(['{owners_create}']) == true) : ?>
             <a class="new" data-button-modal="new_owner"><i class="fas fa-plus"></i></a>
             <?php endif; ?>
-            <a data-action="download_qrs"><i class="far fa-file-archive"></i></a>
+            <!-- <a data-action="download_qrs"><i class="far fa-file-archive"></i></a> -->
         </div>
     </section>
 </main>

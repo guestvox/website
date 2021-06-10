@@ -1898,82 +1898,40 @@ class Myvox_controller extends Controller
 
 					foreach ($this->model->get_surveys_questions(Session::get_value('myvox')['survey'], $value['id']) as $subvalue)
 					{
-						$html .=
-						'<div data-level="2">
-							<h2>' . $subvalue['name'][$this->lang1] . '</h2>
-							<div class="' . $subvalue['type'] . '">';
-
-						if ($subvalue['type'] == 'open')
-							$html .= '<input type="text" name="' . $subvalue['id'] . '" data-parent="' . $value['id'] . '">';
-						else if ($subvalue['type'] == 'rate')
+						if ($subvalue['type'] == 'open' OR $subvalue['type'] == 'rate' OR $subvalue['type'] == 'twin' OR $subvalue['type'] == 'check')
 						{
 							$html .=
-							'<label><i class="fas fa-sad-cry"></i><input type="radio" name="' . $subvalue['id'] . '" value="1" data-parent="' . $value['id'] . '"></label>
-							<label><i class="fas fa-frown"></i><input type="radio" name="' . $subvalue['id'] . '" value="2" data-parent="' . $value['id'] . '"></label>
-							<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" name="' . $subvalue['id'] . '" value="3" data-parent="' . $value['id'] . '"></label>
-							<label><i class="fas fa-smile"></i><input type="radio" name="' . $subvalue['id'] . '" value="4" data-parent="' . $value['id'] . '"></label>
-							<label><i class="fas fa-grin-stars"></i><input type="radio" name="' . $subvalue['id'] . '" value="5" data-parent="' . $value['id'] . '"></label>';
-						}
-						else if ($subvalue['type'] == 'twin')
-						{
-							$html .=
-							'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $subvalue['id'] . '" value="yes" data-parent="' . $value['id'] . '"></label>
-							<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $subvalue['id'] . '" value="not" data-parent="' . $value['id'] . '"></label>';
-						}
-						else if ($subvalue['type'] == 'check')
-						{
-							$html .= '<div class="checkboxes stl_3">';
+							'<div data-level="2">
+								<h2>' . $subvalue['name'][$this->lang1] . '</h2>
+								<div class="' . $subvalue['type'] . '">';
 
-							foreach ($subvalue['values'] as $parentvalue)
+							if ($subvalue['type'] == 'open')
+								$html .= '<input type="text" name="' . $subvalue['id'] . '" data-parent="' . $value['id'] . '">';
+							else if ($subvalue['type'] == 'rate')
 							{
 								$html .=
-								'<div>
-									<input type="checkbox" name="' . $subvalue['id'] . '[]" value="' . $parentvalue['token'] . '" data-parent="' . $value['id'] . '">
-									<span>' . $parentvalue[$this->lang1] . '</span>
-								</div>';
+								'<label><i class="fas fa-sad-cry"></i><input type="radio" name="' . $subvalue['id'] . '" value="1" data-parent="' . $value['id'] . '"></label>
+								<label><i class="fas fa-frown"></i><input type="radio" name="' . $subvalue['id'] . '" value="2" data-parent="' . $value['id'] . '"></label>
+								<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" name="' . $subvalue['id'] . '" value="3" data-parent="' . $value['id'] . '"></label>
+								<label><i class="fas fa-smile"></i><input type="radio" name="' . $subvalue['id'] . '" value="4" data-parent="' . $value['id'] . '"></label>
+								<label><i class="fas fa-grin-stars"></i><input type="radio" name="' . $subvalue['id'] . '" value="5" data-parent="' . $value['id'] . '"></label>';
 							}
-
-							$html .= '</div>';
-						}
-
-						$html .=
-						'	</div>
-						</div>';
-
-						foreach ($this->model->get_surveys_questions(Session::get_value('myvox')['survey'], $subvalue['id']) as $parentvalue)
-						{
-							$html .=
-							'<div data-level="3">
-								<h2>' . $parentvalue['name'][$this->lang1] . '</h2>
-								<div class="' . $parentvalue['type'] . '">';
-
-							if ($parentvalue['type'] == 'open')
-								$html .= '<input type="text" name="' . $parentvalue['id'] . '" data-parent="' . $subvalue['id'] . '">';
-							else if ($parentvalue['type'] == 'rate')
+							else if ($subvalue['type'] == 'twin')
 							{
 								$html .=
-								'<label><i class="fas fa-sad-cry"></i><input type="radio" name="' . $parentvalue['id'] . '" value="1" data-parent="' . $subvalue['id'] . '"></label>
-								<label><i class="fas fa-frown"></i><input type="radio" name="' . $parentvalue['id'] . '" value="2" data-parent="' . $subvalue['id'] . '"></label>
-								<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" name="' . $parentvalue['id'] . '" value="3" data-parent="' . $subvalue['id'] . '"></label>
-								<label><i class="fas fa-smile"></i><input type="radio" name="' . $parentvalue['id'] . '" value="4" data-parent="' . $subvalue['id'] . '"></label>
-								<label><i class="fas fa-grin-stars"></i><input type="radio" name="' . $parentvalue['id'] . '" value="5" data-parent="' . $subvalue['id'] . '"></label>';
+								'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $subvalue['id'] . '" value="yes" data-parent="' . $value['id'] . '"></label>
+								<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $subvalue['id'] . '" value="not" data-parent="' . $value['id'] . '"></label>';
 							}
-							else if ($parentvalue['type'] == 'twin')
-							{
-								$html .=
-								'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $parentvalue['id'] . '" value="yes" data-parent="' . $subvalue['id'] . '"></label>
-								<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $parentvalue['id'] . '" value="not" data-parent="' . $subvalue['id'] . '"></label>';
-							}
-							else if ($parentvalue['type'] == 'check')
+							else if ($subvalue['type'] == 'check')
 							{
 								$html .= '<div class="checkboxes stl_3">';
 
-								foreach ($parentvalue['values'] as $childvalue)
+								foreach ($subvalue['values'] as $parentvalue)
 								{
 									$html .=
 									'<div>
-										<input type="checkbox" name="' . $parentvalue['id'] . '[]" value="' . $childvalue['token'] . '" data-parent="' . $subvalue['id'] . '">
-										<span>' . $childvalue[$this->lang1] . '</span>
+										<input type="checkbox" name="' . $subvalue['id'] . '[]" value="' . $parentvalue['token'] . '" data-parent="' . $value['id'] . '">
+										<span>' . $parentvalue[$this->lang1] . '</span>
 									</div>';
 								}
 
@@ -1983,6 +1941,54 @@ class Myvox_controller extends Controller
 							$html .=
 							'	</div>
 							</div>';
+
+							foreach ($this->model->get_surveys_questions(Session::get_value('myvox')['survey'], $subvalue['id']) as $parentvalue)
+							{
+								if ($parentvalue['type'] == 'open' OR $parentvalue['type'] == 'rate' OR $parentvalue['type'] == 'twin' OR $parentvalue['type'] == 'check')
+								{
+									$html .=
+									'<div data-level="3">
+										<h2>' . $parentvalue['name'][$this->lang1] . '</h2>
+										<div class="' . $parentvalue['type'] . '">';
+
+									if ($parentvalue['type'] == 'open')
+										$html .= '<input type="text" name="' . $parentvalue['id'] . '" data-parent="' . $subvalue['id'] . '">';
+									else if ($parentvalue['type'] == 'rate')
+									{
+										$html .=
+										'<label><i class="fas fa-sad-cry"></i><input type="radio" name="' . $parentvalue['id'] . '" value="1" data-parent="' . $subvalue['id'] . '"></label>
+										<label><i class="fas fa-frown"></i><input type="radio" name="' . $parentvalue['id'] . '" value="2" data-parent="' . $subvalue['id'] . '"></label>
+										<label><i class="fas fa-meh-rolling-eyes"></i><input type="radio" name="' . $parentvalue['id'] . '" value="3" data-parent="' . $subvalue['id'] . '"></label>
+										<label><i class="fas fa-smile"></i><input type="radio" name="' . $parentvalue['id'] . '" value="4" data-parent="' . $subvalue['id'] . '"></label>
+										<label><i class="fas fa-grin-stars"></i><input type="radio" name="' . $parentvalue['id'] . '" value="5" data-parent="' . $subvalue['id'] . '"></label>';
+									}
+									else if ($parentvalue['type'] == 'twin')
+									{
+										$html .=
+										'<label><i class="fas fa-thumbs-up"></i><input type="radio" name="' . $parentvalue['id'] . '" value="yes" data-parent="' . $subvalue['id'] . '"></label>
+										<label><i class="fas fa-thumbs-down"></i><input type="radio" name="' . $parentvalue['id'] . '" value="not" data-parent="' . $subvalue['id'] . '"></label>';
+									}
+									else if ($parentvalue['type'] == 'check')
+									{
+										$html .= '<div class="checkboxes stl_3">';
+
+										foreach ($parentvalue['values'] as $childvalue)
+										{
+											$html .=
+											'<div>
+												<input type="checkbox" name="' . $parentvalue['id'] . '[]" value="' . $childvalue['token'] . '" data-parent="' . $subvalue['id'] . '">
+												<span>' . $childvalue[$this->lang1] . '</span>
+											</div>';
+										}
+
+										$html .= '</div>';
+									}
+
+									$html .=
+									'	</div>
+									</div>';
+								}
+							}
 						}
 					}
 

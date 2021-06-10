@@ -4,6 +4,18 @@ $(document).ready(function()
 {
     $('.chosen-select').chosen();
 
+    $('[data-action="copy_to_clipboard"]').on('click', function()
+    {
+        var string = $(this).data('copy');
+        var input = $('<input>').val(string).appendTo('body').select();
+
+        document.execCommand('copy');
+
+        input.remove();
+
+        show_modal_success('Copiado', 600, 'fast');
+    });
+
     var id = null;
     var edit = false;
 
